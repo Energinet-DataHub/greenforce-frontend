@@ -18,102 +18,82 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
-  Injector,
   Input,
-  Type,
   ViewEncapsulation,
 } from '@angular/core';
+import { WattIcon } from '../../foundations/icon';
 
-import { disabledAttributeToken } from './disabled-attribute-token';
-import { typeAttributeToken } from './type-attribute-token';
-import { WattButtonSize } from './watt-button-size';
-import { WattButtonType } from './watt-button-type';
-import { WattButtonVariant } from './watt-button-variant';
-import { WattIcon } from './../../foundations/icon';
-import { WattPrimaryButtonComponent } from './primary-button/watt-primary-button.component';
-import { WattSecondaryButtonComponent } from './secondary-button/watt-secondary-button.component';
-import { WattTextButtonComponent } from './text-button/watt-text-button.component';
+export const WattButtonTypes = [
+  'primary',
+  'secondary',
+  'text',
+  'icon',
+] as const;
+export type WattButtonVariant = typeof WattButtonTypes[number];
+export type WattButtonSize = 'normal' | 'large';
+export type WattButtonType = 'button' | 'reset' | 'submit';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
   selector: 'watt-button',
+  template: `
+    <button
+      mat-button
+      class="watt-button--{{ variant }} watt-button--{{ size }}"
+      [disabled]="disabled"
+      [type]="type"
+    >
+      <watt-spinner *ngIf="loading" [diameter]="18"></watt-spinner>
+      <div
+        [ngClass]="{
+          'content-wrapper--loading': loading,
+          'content-wrapper': !loading
+        }"
+      >
+        <watt-icon *ngIf="hasIcon()" [name]="icon"></watt-icon>
+        <ng-content *ngIf="variant !== 'icon'"></ng-content>
+      </div>
+    </button>
+  `,
   styleUrls: ['./watt-button.component.scss'],
-  templateUrl: './watt-button.component.html',
+  encapsulation: ViewEncapsulation.None,
 })
 export class WattButtonComponent {
+  @Input() icon?: WattIcon;
+  @Input() variant: WattButtonVariant = 'primary';
+  @Input() size: WattButtonSize = 'normal';
+  @Input() type: WattButtonType = 'button';
+  @Input() disabled = false;
+  @Input() loading = false;
+
   /**
    * @ignore
    */
-  private _variant: WattButtonVariant = 'text';
-
-  @HostBinding('class')
-  get buttonSize() {
-    return `watt-button-size-${this.size}`;
-  }
-
-  @HostBinding('class.watt-button-loading')
-  get buttonLoadingState() {
-    return this.loading;
-  }
-
-  @HostBinding('class.watt-button-disabled')
+  @HostBinding('class.watt-button--disabled')
   get buttonDisabledState() {
     return this.disabled;
   }
 
-  @Input() icon?: WattIcon;
-  @Input() type: WattButtonType = 'button';
-
-  @Input()
-  get variant(): WattButtonVariant {
-    return this._variant;
-  }
-  set variant(value: WattButtonVariant) {
-    if (value == null || (value as unknown) === '') {
-      value = 'text';
+  /**
+   * @ignore
+   */
+  @HostBinding('style.pointer-events')
+  get pointerEvents() {
+    if (this.disabled) {
+      // Prevents emitting a click event in Chrome/Edge/Safari when a disabled button is clicked
+      // WebKit bug: https://bugs.webkit.org/show_bug.cgi?id=89041
+      // Note: This solution is preferred (in this particular case) over adding styling to the Scss file
+      // because the presence of inline styles can be tested with Jest.
+      return 'none';
     }
 
-    this._variant = value;
+    return 'auto';
   }
 
-  @Input() size: WattButtonSize = 'normal';
-
-  @Input() disabled = false;
-
-  @Input() loading = false;
-
-  get buttonComponentInjector(): Injector {
-    return Injector.create({
-      providers: [
-        {
-          provide: disabledAttributeToken,
-          useValue: this.disabled,
-        },
-        {
-          provide: typeAttributeToken,
-          useValue: this.type,
-        },
-      ],
-      parent: this.injector,
-    });
-  }
-
-  get buttonComponentVariant(): Type<unknown> {
-    switch (this.variant) {
-      case 'primary':
-        return WattPrimaryButtonComponent;
-      case 'secondary':
-        return WattSecondaryButtonComponent;
-      case 'text':
-      default:
-        return WattTextButtonComponent;
-    }
-  }
-
-  get hasIcon(): boolean {
+  /**
+   * @ignore
+   */
+  hasIcon(): boolean {
     return !!this.icon;
   }
-
-  constructor(private injector: Injector) {}
 }

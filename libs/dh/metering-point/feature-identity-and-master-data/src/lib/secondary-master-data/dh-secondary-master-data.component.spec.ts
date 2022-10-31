@@ -25,7 +25,7 @@ import {
   ProductId,
   Unit,
   MeteringPointType,
-} from '@energinet-datahub/dh/shared/data-access-api';
+} from '@energinet-datahub/dh/shared/domain';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
@@ -35,6 +35,12 @@ import {
   DhSecondaryMasterDataComponent,
   DhSecondaryMasterDataComponentScam,
 } from './dh-secondary-master-data.component';
+
+const meteringPointMock = {
+  meteringPointType: MeteringPointType.E17,
+  productId: ProductId.EnergyActive,
+  unit: Unit.KWH,
+} as MeteringPointCimDto;
 
 describe(DhSecondaryMasterDataComponent.name, () => {
   async function setup(secondaryMasterData: MeteringPointCimDto) {
@@ -63,8 +69,8 @@ describe(DhSecondaryMasterDataComponent.name, () => {
       'displays correct value',
       async ({ incommingValueObject, testId, expectedDisplayValue }) => {
         const secondaryMasterData: MeteringPointCimDto = {
+          ...meteringPointMock,
           ...incommingValueObject,
-          meteringPointType: MeteringPointType.E17,
         };
 
         await setup(secondaryMasterData);
@@ -88,8 +94,8 @@ describe(DhSecondaryMasterDataComponent.name, () => {
       'displays fallback value when undefined',
       async ({ incommingValueObject, testId }) => {
         const secondaryMasterData: MeteringPointCimDto = {
+          ...meteringPointMock,
           ...incommingValueObject,
-          meteringPointType: MeteringPointType.E17,
         };
 
         await setup(secondaryMasterData);

@@ -1,15 +1,16 @@
 {
+  "name": "dh-shared-data-access-api",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": ["api-dh"],
   "projectType": "library",
-  "root": "libs/dh/shared/data-access-api",
   "sourceRoot": "libs/dh/shared/data-access-api/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/shared/data-access-api"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/data-access-api"],
       "options": {
-        "jestConfig": "libs/dh/shared/data-access-api/jest.config.js",
+        "jestConfig": "libs/dh/shared/data-access-api/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -23,5 +24,5 @@
       }
     }
   },
-  "tags": ["product:dh", "scope:shared", "type:data-access", "type:open-api"]
+  "tags": ["product:dh", "scope:shared", "type:data-access"]
 }

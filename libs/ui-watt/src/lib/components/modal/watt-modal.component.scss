@@ -1,0 +1,64 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+.watt-modal-panel {
+  mat-dialog-container {
+    position: relative;
+    display: grid;
+    padding: var(--watt-space-s);
+    gap: var(--watt-space-s);
+    align-items: center;
+    grid-template-columns: 1fr auto;
+    // 44px = large line height + medium spacing
+    grid-template-rows: 44px 1fr auto;
+    grid-template-areas:
+      "title close"
+      "content content"
+      ". actions";
+  }
+
+  .watt-modal-close {
+    grid-area: close;
+    justify-self: end;
+    margin-right: 1px; // align with scrollbar and buttons
+    color: var(--watt-color-primary);
+  }
+
+  .watt-modal-title {
+    grid-area: title;
+    margin: 0 var(--watt-space-m);
+  }
+
+  .watt-modal-content {
+    align-self: stretch;
+    grid-area: content;
+    overflow: auto;
+    margin: 0 var(--watt-space-m);
+  }
+
+  .watt-modal-scrollable {
+    border: 1px solid var(--watt-color-neutral-grey-300);
+    border-left: none;
+    border-right: none;
+  }
+
+  watt-modal-actions {
+    grid-area: actions;
+    display: flex;
+    padding: var(--watt-space-m);
+    gap: var(--watt-space-m);
+  }
+}

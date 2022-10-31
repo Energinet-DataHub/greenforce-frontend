@@ -1,0 +1,29 @@
+{
+  "name": "dh-shared-data-access-top-bar",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/shared/data-access-top-bar/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/shared/data-access-top-bar"
+      ],
+      "options": {
+        "jestConfig": "libs/dh/shared/data-access-top-bar/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/shared/data-access-top-bar/**/*.ts",
+          "libs/dh/shared/data-access-top-bar/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:shared", "type:data-access"]
+}

@@ -1,0 +1,256 @@
+# Copyright 2020 Energinet DataHub A/S
+#
+# Licensed under the Apache License, Version 2.0 (the "License2");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+name: Energy Origin CD
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  app-name: app-eo
+  BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+  is-main-branch: ${{ github.ref == 'refs/heads/main' }}
+  is-pull-request: ${{ github.event_name == 'pull_request' }}
+  NODE_OPTIONS: --max-old-space-size=6144
+  node-version-file: .nvmrc
+  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
+  yarn-version: 1.22.19
+  NX_MAX_PARALLEL: 2
+
+  # Nx Cloud
+  NX_BRANCH: ${{ github.event.number }}
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_RUN_GROUP: ${{ github.run_id }}
+
+on:
+  push:
+    branches:
+      - main
+  pull_request: {}
+
+jobs:
+  affected:
+    name: Is affected?
+    runs-on: ubuntu-latest
+
+    outputs:
+      is-affected: ${{ steps.affected.outputs.is-affected }}
+
+    steps:
+      # needed for nx affected command
+      - name: Check out source code with current branch Git history
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      # needed for nx affected command
+      - name: 'PR: Fetch base branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: git fetch --no-tags origin $BASE_BRANCH
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ${{ env.node-version-file }}
+          cache: 'yarn'
+
+      - name: Disable workspace NGCC run
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
+
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
+
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Is affected?
+        id: affected
+        uses: ./.github/actions/affected
+        with:
+          base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+          project: ${{ env.app-name }}
+
+  app:
+    name: Build app
+    if: ${{ needs.affected.outputs.is-affected == 'true' }}
+    needs: affected
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ${{ env.node-version-file }}
+          cache: 'yarn'
+
+      - name: Disable workspace NGCC run
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
+
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
+
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Angular Compatibility Compiler
+        run: npm run ngcc:eo
+
+      - name: Production build
+        run: yarn nx build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL
+
+      - name: Upload web app build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.app-name }}
+          path: ./dist/apps/eo/${{ env.app-name }}/
+          if-no-files-found: error
+
+  define_build:
+    name: Define build matrix
+    needs: affected
+    runs-on: ubuntu-latest
+    outputs:
+      chart_version: ${{ steps.get_semver.outputs.semver }}
+      containers: >-
+        [
+          {
+            "deployment_name": "app",
+            "dockerfile": "build/infrastructure/eo/host/Dockerfile",
+            "image_name": "eo-frontend-app",
+            "image_tag": "${{ steps.get_container_version.outputs.semver }}"
+          }
+        ]
+    steps:
+      - name: Get chart version
+        id: get_semver
+        uses: Energinet-DataHub/energy-origin/.github/actions/get-semver@main
+        with:
+          yaml_file: build/infrastructure/eo/chart/Chart.yaml
+          yaml_path: version
+
+      - name: Get container version
+        id: get_container_version
+        uses: Energinet-DataHub/energy-origin/.github/actions/get-semver@main
+        with:
+          yaml_file: build/infrastructure/eo/chart/values.yaml
+          yaml_path: app.image.tag
+
+  sonarcloud:
+    name: SonarCloud
+    if: ${{ needs.affected.outputs.is-affected == 'true' }}
+    needs: affected
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.projectKey=energinet-datahub_energy-origin-frontend
+            -Dsonar.organization=energinet-datahub
+            -Dsonar.sources=apps/eo/app-eo,libs/eo
+            -Dsonar.exclusions=**/*.spec.ts,jest.config.ts,test-setup.ts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.EO_SONAR_TOKEN }}
+
+  helm_chart_version_increment_check:
+    runs-on: ubuntu-latest
+    name: Helm chart check version
+    if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
+    needs: affected
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: Energinet-DataHub/energy-origin/.github/actions/yaml-check-incremented-version@main
+        with:
+          yaml-file: build/infrastructure/eo/chart/Chart.yaml
+          yaml-path: version
+
+  app_version_increment_check:
+    runs-on: ubuntu-latest
+    name: App check version
+    if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
+    needs: affected
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: Energinet-DataHub/energy-origin/.github/actions/yaml-check-incremented-version@main
+        with:
+          yaml-file: build/infrastructure/eo/chart/values.yaml
+          yaml-path: app.image.tag
+
+  build_container_and_release_chart:
+    runs-on: ubuntu-latest
+    name: Build containers
+    needs:
+      - define_build
+      - app
+    strategy:
+      matrix:
+        containers: ${{fromJson(needs.define_build.outputs.containers)}}
+    outputs:
+      chart_name: ${{ steps.chart-info.outputs.chart-name }}
+      chart_version: ${{ needs.define_build.outputs.chart_version }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build and push container image
+        id: docker_build
+        uses: Energinet-DataHub/energy-origin/.github/actions/build-and-push-container@main
+        with:
+          dockerfile: ${{ matrix.containers.dockerfile }}
+          image-name: ${{ matrix.containers.image_name }}
+          image-tag: ${{ matrix.containers.image_tag }}
+
+      - name: Get info from Chart.yaml
+        id: chart-info
+        uses: Energinet-DataHub/energy-origin/.github/actions/chart-info@main
+        with:
+          chart-folder: build/infrastructure/eo/chart
+          chart-version: version
+
+      - name: Release helm chart
+        uses: Energinet-DataHub/energy-origin/.github/actions/helm-release-bundle-chart@main
+        with:
+          containers: ${{ needs.define_build.outputs.containers }}
+          deploy-key: ${{ secrets.DEPLOY_KEY_HELM_CHARTS }}
+          chart-folder: build/infrastructure/eo/chart
+          chart-repository: ${{ github.repository_owner }}/helm-charts
+          chart-version: ${{ needs.define_build.outputs.chart_version }}
+
+  update-environment:
+    name: Update preview environment
+    needs:
+      - build_container_and_release_chart
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref_name == 'main' || github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'preview/')
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Update environment
+        uses: Energinet-DataHub/energy-origin/.github/actions/update-base-environment@main
+        with:
+          env_branch: ${{ github.event_name == 'push' && github.ref_name == 'main' && 'main' || github.event.pull_request.head.ref }}
+          app_name: ${{ needs.build_container_and_release_chart.outputs.chart_name }}
+          chart_name: ${{ needs.build_container_and_release_chart.outputs.chart_name }}
+          chart_version: ${{ needs.build_container_and_release_chart.outputs.chart_version }}
+          deploy_key: ${{ secrets.DEPLOY_KEY_BASE_ENVIRONMENT }}

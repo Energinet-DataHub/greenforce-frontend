@@ -1,14 +1,15 @@
 {
+  "name": "dh-metering-point-routing",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/dh/metering-point/routing",
   "sourceRoot": "libs/dh/metering-point/routing/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/metering-point/routing"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/metering-point/routing"],
       "options": {
-        "jestConfig": "libs/dh/metering-point/routing/jest.config.js",
+        "jestConfig": "libs/dh/metering-point/routing/jest.config.ts",
         "passWithNoTests": true
       }
     },

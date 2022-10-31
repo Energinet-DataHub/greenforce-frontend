@@ -1,14 +1,15 @@
 {
+  "name": "dh-shared-environments",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/dh/shared/environments",
   "sourceRoot": "libs/dh/shared/environments/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/shared/environments"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/environments"],
       "options": {
-        "jestConfig": "libs/dh/shared/environments/jest.config.js",
+        "jestConfig": "libs/dh/shared/environments/jest.config.ts",
         "passWithNoTests": true
       }
     },

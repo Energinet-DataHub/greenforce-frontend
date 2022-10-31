@@ -1,0 +1,30 @@
+{
+  "name": "gf-configuration-danish-locale",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/gf/configuration-danish-locale/src",
+  "prefix": "gf",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/gf/configuration-danish-locale"
+      ],
+      "options": {
+        "jestConfig": "libs/gf/configuration-danish-locale/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/gf/configuration-danish-locale/src/**/*.ts",
+          "libs/gf/configuration-danish-locale/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:gf", "domain:shared", "type:configuration"]
+}

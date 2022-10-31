@@ -1,0 +1,134 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<ng-container *transloco="let t; read: 'marketParticipant.organization'">
+  <!-- Table -->
+  <mat-table [dataSource]="dataSource" aria-label="organizations">
+    <!-- Organization Name -->
+    <ng-container matColumnDef="org-name">
+      <mat-header-cell *matHeaderCellDef>
+        {{ t("columns.organization") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.organization.name }}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Actor GLN -->
+    <ng-container matColumnDef="actor-gln">
+      <mat-header-cell *matHeaderCellDef>
+        {{ t("columns.gln") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.actor?.actorNumber.value | dhEmDashFallback }}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Actor status -->
+    <ng-container matColumnDef="actor-status">
+      <mat-header-cell *matHeaderCellDef>
+        {{ t("columns.status") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <watt-badge *ngIf="element.actor !== undefined" type="info">{{
+          t("status." + element.actor.status)
+        }}</watt-badge>
+        <watt-badge *ngIf="element.actor === undefined" type="warning">{{
+          t("columns.noActors")
+        }}</watt-badge>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Actor market roles -->
+    <ng-container matColumnDef="actor-roles">
+      <mat-header-cell *matHeaderCellDef>
+        {{ t("columns.marketRoles") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <div class="market-roles-cell" *ngIf="element.actor !== undefined">
+          <div *ngFor="let marketRole of element.actor.marketRoles">
+            {{
+              "marketParticipant.marketRoles." + marketRole.eicFunction
+                | transloco
+            }}
+          </div>
+        </div>
+        <div class="list-cell-container" *ngIf="element.actor === undefined">
+          {{ null | dhEmDashFallback }}
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Actor grid areas -->
+    <ng-container matColumnDef="actor-grid-areas">
+      <mat-header-cell *matHeaderCellDef>
+        {{ t("columns.gridAreas") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <div class="market-roles-cell" *ngIf="element.actor !== undefined">
+          <div *ngFor="let marketRole of element.actor.marketRoles">
+            <dh-market-participant-organization-overview-grid-areas-list
+              [gridAreas]="gridAreas"
+              [marketRoleGridAreas]="marketRole.gridAreas"
+            >
+            </dh-market-participant-organization-overview-grid-areas-list>
+          </div>
+          <div class="list-cell-container" *ngIf="element.actor === undefined">
+            {{ null | dhEmDashFallback }}
+          </div>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Edit -->
+    <ng-container matColumnDef="row-edit">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <watt-button variant="icon" icon="edit" [mat-menu-trigger-for]="menu">
+        </watt-button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="onEditOrganization(element)">
+            {{ t("editOrganization") }}
+          </button>
+          <button mat-menu-item (click)="onCreateActor(element)">
+            {{ t("createActor") }}
+          </button>
+          <button
+            mat-menu-item
+            (click)="
+              onEditActor(
+                element.organization.organizationId,
+                element.actor.actorId
+              )
+            "
+            *ngIf="element.actor"
+          >
+            {{ t("editActor") }}
+          </button>
+        </mat-menu>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
+  </mat-table>
+
+  <dh-shared-ui-paginator
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 20, 50]"
+  ></dh-shared-ui-paginator>
+</ng-container>

@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
+@use "../typography.import" as typography;
+
+storybook-typography-overview {
   background: #e5e5e5;
   display: block;
   width: 100%;
@@ -24,4 +26,64 @@
 
 mat-card {
   margin-bottom: 8px;
+  max-width: 880px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+table caption {
+  text-align: left;
+}
+
+.font-size-xxl {
+  @include typography.font-size("xxl");
+}
+
+.font-size-xl {
+  @include typography.font-size("xl");
+}
+
+.font-size-l {
+  @include typography.font-size("l");
+}
+
+.font-size-m {
+  @include typography.font-size("m");
+}
+
+.font-size-s {
+  @include typography.font-size("s");
+}
+
+.font-weight-light {
+  @include typography.font-weight("light");
+}
+
+.font-weight-regular {
+  @include typography.font-weight("regular");
+}
+
+.font-weight-semi-bold {
+  @include typography.font-weight("semi-bold");
+}
+
+.font-weight-bold {
+  @include typography.font-weight("bold");
+}
+
+.small-screen {
+  h1 {
+    @include typography.font-size("xl");
+  }
+
+  h2 {
+    @include typography.font-size("l");
+  }
+
+  h3 {
+    @include typography.font-size("m");
+  }
 }

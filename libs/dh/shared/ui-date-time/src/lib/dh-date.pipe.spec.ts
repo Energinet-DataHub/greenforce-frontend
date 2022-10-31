@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { DhDatePipe, pipeName } from './dh-date.pipe';
+import { TValue } from './dh-format-danish-datetime';
 import {
   createPipeHarness,
   SpectacularPipeHarness,
 } from '@ngworker/spectacular';
-
-import { DhDatePipe, pipeName, TValue } from './dh-date.pipe';
 
 describe(DhDatePipe, () => {
   beforeEach(() => {
@@ -32,31 +32,19 @@ describe(DhDatePipe, () => {
 
   let harness: SpectacularPipeHarness<TValue>;
 
-  it('displays an empty string when value is `undefined`', () => {
-    harness.value = undefined;
+  describe('Validate date format', () => {
+    test.each([
+      [undefined, ''],
+      [null, ''],
+      ['2021-12-31T23:00:00Z', '01-01-2022'], // Standard / Winter time
+      ['2021-06-30T22:00:00Z', '01-07-2021'], // Summer time
+    ])(
+      '"%s" returns "%s" when formatted',
+      async (value: undefined | null | string, result: string) => {
+        harness.value = value;
 
-    expect(harness.text).toBe('');
-  });
-
-  it('displays an empty string when value is `null`', () => {
-    harness.value = null;
-
-    expect(harness.text).toBe('');
-  });
-
-  describe('Summer Time', () => {
-    it('displays a formatted date', () => {
-      harness.value = '2021-06-30T22:00:00Z';
-
-      expect(harness.text).toBe('01-07-2021');
-    });
-  });
-
-  describe('Standard Time', () => {
-    it('displays a formatted date', () => {
-      harness.value = '2021-12-31T23:00:00Z';
-
-      expect(harness.text).toBe('01-01-2022');
-    });
+        await expect(harness.text).toBe(result);
+      }
+    );
   });
 });

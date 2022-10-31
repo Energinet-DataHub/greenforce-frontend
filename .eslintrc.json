@@ -48,7 +48,6 @@
                 "sourceTag": "type:ui",
                 "onlyDependOnLibsWithTags": [
                   "type:ui",
-                  "type:open-api",
                   "type:util",
                   "type:test-util",
                   "type:domain",
@@ -68,13 +67,6 @@
                 ]
               },
               {
-                "sourceTag": "type:open-api",
-                "onlyDependOnLibsWithTags": [
-                  "type:environments",
-                  "type:test-util"
-                ]
-              },
-              {
                 "sourceTag": "type:routing",
                 "onlyDependOnLibsWithTags": [
                   "type:data-access",
@@ -87,7 +79,11 @@
               },
               {
                 "sourceTag": "type:util",
-                "onlyDependOnLibsWithTags": ["type:util", "type:test-util"]
+                "onlyDependOnLibsWithTags": [
+                  "type:util",
+                  "type:test-util",
+                  "type:environments"
+                ]
               },
               {
                 "sourceTag": "type:test-util",
@@ -175,16 +171,6 @@
                 "sourceTag": "product:eo",
                 "onlyDependOnLibsWithTags": [
                   "product:eo",
-                  "product:ett",
-                  "product:gf",
-                  "product:watt"
-                ]
-              },
-              {
-                "sourceTag": "product:ett",
-                "onlyDependOnLibsWithTags": [
-                  "product:eo",
-                  "product:ett",
                   "product:gf",
                   "product:watt"
                 ]
@@ -212,7 +198,7 @@
     },
     {
       "files": ["*.ts"],
-      "extends": ["plugin:ngrx/component-store-strict"]
+      "extends": ["plugin:@ngrx/component-store-strict"]
     },
     {
       "files": ["*.js", "*.ts"],

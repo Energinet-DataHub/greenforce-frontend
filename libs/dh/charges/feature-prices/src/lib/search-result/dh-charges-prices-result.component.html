@@ -1,0 +1,198 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let t; read: 'charges.prices'">
+  <div class="card-container">
+    <div class="header-container">
+      <h3>
+        <ng-container *ngIf="this.result">
+          {{ this.result.length }}
+          {{
+            this.result.length === 1 ? t("resultLength") : t("resultsLength")
+          }}
+        </ng-container>
+      </h3>
+
+      <div class="pagination-container">
+        <!-- Download -->
+        <watt-button
+          icon="openInNew"
+          variant="text"
+          (click)="downloadClicked()"
+        >
+          {{ t("Download") }}
+        </watt-button>
+
+        <!-- Pagination -->
+        <dh-shared-ui-paginator [pageSize]="100"></dh-shared-ui-paginator>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <table
+      aria-label="prices search results"
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      matSortDisableClear
+      matSortActive="chargeName"
+      matSortDirection="asc"
+    >
+      <!-- Charge id column -->
+      <ng-container matColumnDef="chargeId">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>
+          {{ t("chargeId") }}
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.chargeId }}</td>
+      </ng-container>
+
+      <!-- Charge name column -->
+      <ng-container matColumnDef="chargeName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("chargeName") }}
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.chargeName }}</td>
+      </ng-container>
+
+      <!-- Charge owner column -->
+      <ng-container matColumnDef="chargeOwnerName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("chargeOwnerName") }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.chargeOwnerName }} <br />
+          <span class="gln-number">{{ element.chargeOwner }}</span>
+        </td>
+      </ng-container>
+
+      <!-- icons column -->
+      <ng-container matColumnDef="icons">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <div class="icons">
+            <watt-icon
+              name="payments"
+              [ngClass]="{ active: element.taxIndicator }"
+              [wattTooltip]="element.taxIndicator ? t('taxIndicator') : null"
+              [label]="t('taxIndicator')"
+            ></watt-icon>
+            <watt-icon
+              name="redo"
+              [ngClass]="{ active: element.transparentInvoicing }"
+              [wattTooltip]="
+                element.transparentInvoicing ? t('transparentInvoicing') : null
+              "
+              [label]="t('transparentInvoicing')"
+            ></watt-icon>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- charge type column -->
+      <ng-container matColumnDef="chargeType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("chargeType") }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ "charges.chargeType." + element.chargeType | transloco }}
+        </td>
+      </ng-container>
+
+      <!-- charge resolution column -->
+      <ng-container matColumnDef="resolution">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("resolution") }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ "charges.resolutionType." + element.resolution | transloco }}
+        </td>
+      </ng-container>
+
+      <!-- valid from date column -->
+      <ng-container matColumnDef="validFromDateTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("validFromDateTime") }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.validFromDateTime | dhDate }}
+        </td>
+      </ng-container>
+
+      <!-- valid to date column -->
+      <ng-container matColumnDef="validToDateTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("validToDateTime") }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.validToDateTime | dhDate }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr
+        mat-row
+        (click)="rowClicked(row)"
+        [ngClass]="{ 'active-row': row.id === activeChargeId }"
+        *matRowDef="let row; columns: displayedColumns"
+      ></tr>
+    </table>
+
+    <!-- Spinner -->
+    <div *ngIf="isLoading" class="overview__spinner spinner-container">
+      <watt-spinner></watt-spinner>
+    </div>
+
+    <!-- Empty -->
+    <ng-container
+      *ngIf="!hasLoadingError && !isInit && result && result.length === 0"
+    >
+      <watt-empty-state
+        class="no-result-div"
+        icon="explore"
+        size="large"
+        title="{{ t('noResultsFound') }}"
+        message="{{ t('noResultsHelperText') }}"
+      >
+      </watt-empty-state>
+    </ng-container>
+
+    <!-- Init -->
+    <ng-container *ngIf="isInit">
+      <watt-empty-state
+        class="no-result-div"
+        icon="explore"
+        size="large"
+        title="{{ t('startSearch') }}"
+        message="{{ t('startSearchText') }}"
+      >
+      </watt-empty-state>
+    </ng-container>
+
+    <!-- Error -->
+    <ng-container *ngIf="hasLoadingError">
+      <watt-empty-state
+        class="loading-error"
+        icon="power"
+        title="{{ t('loadingErrorTitle') }}"
+        message="{{ t('loadingErrorMessage') }}"
+      ></watt-empty-state>
+    </ng-container>
+  </div>
+
+  <dh-charges-prices-drawer
+    (closed)="drawerClosed()"
+  ></dh-charges-prices-drawer>
+</ng-container>

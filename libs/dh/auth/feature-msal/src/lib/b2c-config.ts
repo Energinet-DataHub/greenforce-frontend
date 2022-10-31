@@ -15,7 +15,10 @@
  * limitations under the License.
  */
 
-import { MsalInterceptorConfiguration } from '@azure/msal-angular';
+import {
+  MsalGuardConfiguration,
+  MsalInterceptorConfiguration,
+} from '@azure/msal-angular';
 import {
   BrowserCacheLocation,
   InteractionType,
@@ -25,8 +28,6 @@ import {
 } from '@azure/msal-browser';
 
 import { DhB2CEnvironment } from '@energinet-datahub/dh/shared/environments';
-
-import { MsalGuardConfiguration } from './@azure/msal-angular/msal.guard.config';
 
 export function MSALInstanceFactory(
   config: DhB2CEnvironment

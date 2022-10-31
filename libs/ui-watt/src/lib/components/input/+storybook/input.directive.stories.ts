@@ -42,6 +42,7 @@ const Template: Story<StorybookInputWrapperComponent> = (args) => ({
 const overviewTemplate: Story = () => ({
   template: `<storybook-input-overview></storybook-input-overview>`,
 });
+
 export const overview = overviewTemplate.bind({});
 overview.argTypes = {
   disabled: {
@@ -90,6 +91,11 @@ overview.argTypes = {
     },
   },
   size: {
+    table: {
+      disable: true,
+    },
+  },
+  isTextArea: {
     table: {
       disable: true,
     },
@@ -217,6 +223,22 @@ exampleFormControl = new FormControl('', [
   Validators.required
 ]);
 `,
+    },
+  },
+};
+
+export const textArea = Template.bind({});
+textArea.args = {
+  isTextArea: true,
+};
+textArea.parameters = {
+  docs: {
+    source: {
+      code: `
+<watt-form-field>
+  <watt-label>label</watt-label>
+  <textarea wattInput [formControl]="exampleFormControl" />
+</watt-form-field>`,
     },
   },
 };

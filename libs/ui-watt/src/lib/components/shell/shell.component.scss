@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@energinet-datahub/watt/utils' as watt;
+@use "@energinet-datahub/watt/utils" as watt;
 
 :host {
   display: block;
@@ -25,9 +25,17 @@
 }
 
 .watt-sidenav-close-button {
-  left: calc(var(--watt-space-s) + 100%);
   position: absolute;
-  top: var(--watt-space-s);
+  top: 10px;
+  right: 0px;
+}
+
+.button-padding {
+  position: relative;
+
+  @include watt.media("<Large") {
+    padding-right: 44px; // Added closing button width
+  }
 }
 
 .mat-drawer {
@@ -37,6 +45,10 @@
 .watt-sidenav {
   width: 245px;
   background-color: var(--watt-color-primary-dark);
+
+  @include watt.media("<Large") {
+    width: calc(245px + 44px); // Added closing button width
+  }
 
   &.mat-drawer-over {
     &.mat-drawer-opened {
@@ -48,6 +60,10 @@
     .watt-sidenav-close-button {
       opacity: 0;
       transition: opacity 50ms linear;
+
+      ::ng-deep .watt-button--icon {
+        color: white;
+      }
     }
   }
 }
@@ -56,13 +72,13 @@
   background-color: var(--watt-color-neutral-white);
   border-bottom: 1px solid var(--watt-color-neutral-grey-300);
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
-  height: 3rem;
+  height: var(--watt-space-xl);
 }
 
 .watt-main-content {
   @include watt.space-inset-m;
 
-  @include watt.media('>Large') {
+  @include watt.media(">Large") {
     @include watt.space-inset-l;
   }
 }

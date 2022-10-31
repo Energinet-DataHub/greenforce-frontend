@@ -23,7 +23,7 @@ import {
   readTargetOptions,
   runExecutor,
 } from '@nrwl/devkit';
-import { default as runCommandsExecutor } from '@nrwl/workspace/src/executors/run-commands/run-commands.impl';
+import { default as runCommandsExecutor } from 'nx/src/executors/run-commands/run-commands.impl';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Json = { [k: string]: any };
@@ -136,6 +136,7 @@ async function runPlaywright(
     {
       commands: [playwrightCommand],
       parallel: true,
+      __unparsed__: [],
     },
     context
   );

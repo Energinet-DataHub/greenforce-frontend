@@ -13,75 +13,57 @@
 // limitations under the License.
 
 using System.Net;
-using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
-using AutoFixture;
+using Energinet.DataHub.Core.TestCommon.AutoFixture.Attributes;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions.Models;
+using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
-    public class MeteringPointControllerTests : IClassFixture<WebApplicationFactory<Startup>>
+    public class MeteringPointControllerTests : ControllerTestsBase<IMeteringPointClient>
     {
-        public MeteringPointControllerTests(WebApplicationFactory<Startup> factory)
+        public MeteringPointControllerTests(BffWebApiFixture bffWebApiFixture, WebApiFactory factory, ITestOutputHelper testOutputHelper)
+            : base(bffWebApiFixture, factory, testOutputHelper)
         {
-            Fixture = new Fixture();
-
-            ApiClientMock = new Mock<IMeteringPointClient>();
-            HttpClient = factory.WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureServices(services =>
-                {
-                    services.AddTransient(provider => ApiClientMock.Object);
-                });
-            })
-            .CreateClient();
         }
 
-        private Fixture Fixture { get; }
-
-        private Mock<IMeteringPointClient> ApiClientMock { get; }
-
-        private HttpClient HttpClient { get; }
-
-        [Fact(Skip = "Aquire token for B2C user must be added for test to work")]
-        public async Task When_MeteringPoint_Requested_And_Found_Then_StatusCode_IsOK()
+        [Theory]
+        [InlineAutoMoqData]
+        public async Task When_MeteringPoint_Requested_And_Found_Then_StatusCode_IsOK(MeteringPointCimDto meteringPointDto)
         {
             // Arrange
             const string gsrn = "574591757409421563";
             var requestUrl = $"/v1/MeteringPoint/GetByGsrn?gsrnNumber={gsrn}";
-            var meteringPointDto = Fixture.Create<MeteringPointCimDto>();
 
-            ApiClientMock
+            DomainClientMock
                 .Setup(mock => mock.GetMeteringPointByGsrnAsync(gsrn))
                 .ReturnsAsync(meteringPointDto);
 
             // Act
-            var actual = await HttpClient.GetAsync(requestUrl);
+            var actual = await BffClient.GetAsync(requestUrl);
 
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Fact(Skip = "Aquire token for B2C user must be added for test to work")]
+        [Fact]
         public async Task When_MeteringPoint_Requested_And_Not_Found_Then_StatusCode_IsNotFound()
         {
             // Arrange
             const string gsrn = "non-existing-gsrn-number";
             var requestUrl = $"/v1/meteringpoint/getbygsrn?gsrnNumber={gsrn}";
 
-            ApiClientMock
+            DomainClientMock
                 .Setup(mock => mock.GetMeteringPointByGsrnAsync(gsrn))
                 .Returns(Task.FromResult<MeteringPointCimDto?>(null));
 
             // Act
-            var actual = await HttpClient.GetAsync(requestUrl);
+            var actual = await BffClient.GetAsync(requestUrl);
 
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.NotFound);

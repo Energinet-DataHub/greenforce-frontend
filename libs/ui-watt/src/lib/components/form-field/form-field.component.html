@@ -24,20 +24,24 @@ limitations under the License.
   </ng-container>
 
   <ng-content select="[wattInput]"></ng-content>
+  <ng-content select="watt-dropdown"></ng-content>
+
+  <ng-content select="watt-datepicker"></ng-content>
+  <ng-content select="watt-timepicker"></ng-content>
 
   <ng-container matSuffix>
     <ng-content select="[wattSuffix]"></ng-content>
   </ng-container>
 
-  <mat-error class="watt-text-xs">
+  <mat-error class="watt-text-s">
     <ng-content select="watt-error"></ng-content>
   </mat-error>
 
-  <mat-hint class="watt-text-xs" align="start">
+  <mat-hint class="watt-text-s" align="start">
     <ng-content select="watt-hint:not(watt-hint[align='end'])"></ng-content>
   </mat-hint>
 
-  <mat-hint class="watt-text-xs" align="end">
+  <mat-hint class="watt-text-s" align="end">
     <ng-content select="watt-hint[align='end']"></ng-content>
   </mat-hint>
 

@@ -16,9 +16,9 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using Energinet.DataHub.Charges.Clients.Registration.ChargeLinks.ServiceCollectionExtensions;
+using Energinet.DataHub.Core.App.WebApp.Diagnostics.HealthChecks;
 using Energinet.DataHub.Core.App.WebApp.Middleware;
-using Energinet.DataHub.MeteringPoints.Client.Extensions;
+using Energinet.DataHub.WebApi.Registration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -45,12 +45,14 @@ namespace Energinet.DataHub.WebApi
         /// </summary>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApplicationInsightsTelemetry();
+
             services.AddControllers()
                 .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
             services.AddHealthChecks();
 
-            AddDomainClients(services);
+            services.AddHttpContextAccessor();
 
             // Register the Swagger generator, defining 1 or more Swagger documents.
             services.AddSwaggerGen(config =>
@@ -88,9 +90,7 @@ namespace Energinet.DataHub.WebApi
             });
 
             var openIdUrl = Configuration.GetValue<string>("FRONTEND_OPEN_ID_URL") ?? string.Empty;
-
             var audience = Configuration.GetValue<string>("FRONTEND_SERVICE_APP_ID") ?? string.Empty;
-
             services.AddJwtTokenSecurity(openIdUrl, audience);
 
             if (Environment.IsDevelopment())
@@ -103,14 +103,20 @@ namespace Energinet.DataHub.WebApi
                         .AllowAnyMethod());
                 });
             }
+
+            var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>()
+                                    ?? new ApiClientSettings();
+            services.AddDomainClients(apiClientSettings);
+
+            SetupHealthEndpoints(services, apiClientSettings);
         }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment environment)
+        public void Configure(IApplicationBuilder app)
         {
-            if (environment.IsDevelopment())
+            if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
 
@@ -128,43 +134,26 @@ namespace Energinet.DataHub.WebApi
 
             app.UseCors();
 
-            app.UseMiddleware<JwtTokenMiddleware>();
+            if (!Environment.IsDevelopment())
+            {
+                app.UseMiddleware<JwtTokenMiddleware>();
+            }
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health").AllowAnonymous();
+
+                // Health check
+                endpoints.MapLiveHealthChecks();
+                endpoints.MapReadyHealthChecks();
             });
         }
 
-        private void AddDomainClients(IServiceCollection services)
+        protected virtual void SetupHealthEndpoints(IServiceCollection services, ApiClientSettings apiClientSettingsService)
         {
-            var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>();
-
-            AddMeteringPointClient(services, apiClientSettings);
-            AddChargeLinksClient(services, apiClientSettings);
-        }
-
-        private static void AddChargeLinksClient(IServiceCollection services, ApiClientSettings apiClientSettings)
-        {
-            string emptyUrl = "https://empty";
-            Uri chargesBaseUrl = Uri.TryCreate(apiClientSettings?.ChargesBaseUrl, UriKind.Absolute, out var url)
-                ? url
-                : new Uri(emptyUrl);
-
-            services.AddChargeLinksClient(chargesBaseUrl);
-        }
-
-        private static void AddMeteringPointClient(IServiceCollection services, ApiClientSettings? apiClientSettings)
-        {
-            string emptyUrl = "https://empty";
-            Uri meteringPointBaseUrl = Uri.TryCreate(apiClientSettings?.MeteringPointBaseUrl, UriKind.Absolute, out var url)
-                ? url
-                : new Uri(emptyUrl);
-
-            services.AddMeteringPointClient(meteringPointBaseUrl);
+            services.SetupHealthEndpoints(apiClientSettingsService);
         }
     }
 }

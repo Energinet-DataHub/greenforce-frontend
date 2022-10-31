@@ -14,18 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { map, Subject, takeUntil } from 'rxjs';
+import { map } from 'rxjs';
 import { LetModule } from '@rx-angular/template';
 
-import { WattSpinnerModule } from '@energinet-datahub/watt';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { DhMeteringPointFeatureIdentityAndMasterDataModule } from '@energinet-datahub/dh/metering-point/feature-identity-and-master-data';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
@@ -42,9 +37,7 @@ import { DhMeteringPointGeneralErrorScam } from './general-error/dh-metering-poi
   templateUrl: './dh-metering-point-overview.component.html',
   providers: [DhMeteringPointDataAccessApiStore],
 })
-export class DhMeteringPointOverviewComponent implements OnDestroy {
-  private destroy$ = new Subject<void>();
-
+export class DhMeteringPointOverviewComponent {
   meteringPointId$ = this.route.params.pipe(
     map((params) => params[dhMeteringPointIdParam] as string)
   );
@@ -60,20 +53,8 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
     this.loadMeteringPointData();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
-
   loadMeteringPointData(): void {
-    this.meteringPointId$
-      .pipe(
-        takeUntil(this.destroy$),
-        map((meteringPointId) =>
-          this.store.loadMeteringPointData(meteringPointId)
-        )
-      )
-      .subscribe();
+    this.store.loadMeteringPointData(this.meteringPointId$);
   }
 }
 

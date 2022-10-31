@@ -11,64 +11,33 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-resource "azurerm_app_service" "bff" {
-  name                = "app-bff-${lower(var.domain_name_short)}-${lower(var.environment_short)}-${lower(var.environment_instance)}"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
-  app_service_plan_id = module.plan_bff.id
+module "bff" {
+  source                                    = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/app-service?ref=v9"
 
-  site_config {
-    linux_fx_version = "DOTNETCORE|5.0"
-    dotnet_framework_version = "v5.0"
-    cors {
-      allowed_origins = ["*"]
-    }
-  }
+  name                                          = "bff"
+  project_name                                  = var.domain_name_short
+  environment_short                             = var.environment_short
+  environment_instance                          = var.environment_instance
+  resource_group_name                           = azurerm_resource_group.this.name
+  location                                      = azurerm_resource_group.this.location
+  vnet_integration_subnet_id                    = data.azurerm_key_vault_secret.snet_vnet_integrations_id.value
+  private_endpoint_subnet_id                    = data.azurerm_key_vault_secret.snet_private_endpoints_id.value
+  app_service_plan_id                           = data.azurerm_key_vault_secret.plan_shared_id.value
+  application_insights_instrumentation_key      = data.azurerm_key_vault_secret.appi_shared_instrumentation_key.value
+  health_check_path                             = "/monitor/ready"
+  health_check_alert_action_group_id            = data.azurerm_key_vault_secret.primary_action_group_id.value
+  health_check_alert_enabled                    = var.enable_health_check_alerts
+  dotnet_framework_version                      = "v6.0"
 
   app_settings = {
-    ApiClientSettings__MeteringPointBaseUrl = data.azurerm_key_vault_secret.app_metering_point_webapi_base_url.value
-    ApiClientSettings__ChargesBaseUrl       = data.azurerm_key_vault_secret.app_charges_webapi_base_url.value
-    APPINSIGHTS_INSTRUMENTATIONKEY          = data.azurerm_key_vault_secret.appi_instrumentation_key.value
-    FRONTEND_OPEN_ID_URL                    = data.azurerm_key_vault_secret.frontend_open_id_url.value
-    FRONTEND_SERVICE_APP_ID                 = data.azurerm_key_vault_secret.frontend_service_app_id.value
+    ApiClientSettings__MessageArchiveBaseUrl    = "@Microsoft.KeyVault(VaultName=${var.shared_resources_keyvault_name};SecretName=app-message-archive-api-base-url)",
+    ApiClientSettings__MeteringPointBaseUrl     = "@Microsoft.KeyVault(VaultName=${var.shared_resources_keyvault_name};SecretName=app-metering-point-webapi-base-url)",
+    ApiClientSettings__ChargesBaseUrl           = "@Microsoft.KeyVault(VaultName=${var.shared_resources_keyvault_name};SecretName=app-charges-webapi-base-url)",
+    ApiClientSettings__MarketParticipantBaseUrl = "@Microsoft.KeyVault(VaultName=${var.shared_resources_keyvault_name};SecretName=app-markpart-webapi-base-url)",
+    ApiClientSettings__WholesaleBaseUrl         = "@Microsoft.KeyVault(VaultName=${var.shared_resources_keyvault_name};SecretName=app-wholesale-api-base-url)",
+    FRONTEND_OPEN_ID_URL                        = "@Microsoft.KeyVault(VaultName=${var.shared_resources_keyvault_name};SecretName=frontend-open-id-url)",
+    FRONTEND_SERVICE_APP_ID                     = "@Microsoft.KeyVault(VaultName=${var.shared_resources_keyvault_name};SecretName=frontend-service-app-id)",
   }
 
-  tags                = azurerm_resource_group.this.tags
-
-  lifecycle {
-    ignore_changes = [
-      # Ignore changes to tags, e.g. because a management agent
-      # updates these based on some ruleset managed elsewhere.
-      tags,
-    ]
-  }
-}
-
-module "plan_bff" {
-  source                = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/app-service-plan?ref=5.1.0"
-
-  name                  = "bff"
-  project_name          = var.domain_name_short
-  environment_short     = var.environment_short
-  environment_instance  = var.environment_instance
-  location              = azurerm_resource_group.this.location
-  resource_group_name   = azurerm_resource_group.this.name
-  kind                  = "Linux"
-  reserved              = true
-  sku                   = {
-    tier  = "Basic"
-    size  = "B1"
-  }
-
-  tags                = azurerm_resource_group.this.tags
-}
-
-module "kvs_app_bff_base_url" {
-  source        = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/key-vault-secret?ref=5.1.0"
-
-  name          = "app-bff-base-url"
-  value         = "https://${azurerm_app_service.bff.default_site_hostname}"
-  key_vault_id  = data.azurerm_key_vault.kv_shared_resources.id
-
-  tags          = azurerm_resource_group.this.tags
+  tags                                          = azurerm_resource_group.this.tags
 }

@@ -21,8 +21,9 @@ import { TranslocoModule } from '@ngneat/transloco';
 import {
   MeteringPointCimDto,
   NetSettlementGroup,
-} from '@energinet-datahub/dh/shared/data-access-api';
-import { WattExpansionModule, WattIconModule } from '@energinet-datahub/watt';
+} from '@energinet-datahub/dh/shared/domain';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattExpansionModule } from '@energinet-datahub/watt/expansion';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import {
   DhEmDashFallbackPipeScam,

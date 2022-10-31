@@ -21,8 +21,7 @@ import {
 } from '@azure/msal-browser';
 import { MockProvider } from 'ng-mocks';
 import { Observable, of } from 'rxjs';
-
-import { MsalService } from '@energinet-datahub/dh/auth/msal';
+import { MsalService } from '@azure/msal-angular';
 
 const accountMock = {
   environment: '',
@@ -63,6 +62,14 @@ function getLoggerMock(): Logger {
       console.log('error:', message);
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    info: (message: string, _correlationId?: string) => {
+      console.log('info:', message);
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    infoPii: (message: string, _correlationId?: string) => {
+      console.log('infoPii:', message);
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     errorPii: (message: string, _correlationId?: string) => {
       console.log('errorPii:', message);
     },
@@ -74,5 +81,6 @@ export const MsalServiceFake = MockProvider(MsalService, {
   getLogger: getLoggerMock,
   instance: {
     getAllAccounts: () => [accountMock],
+    getActiveAccount: () => accountMock,
   } as IPublicClientApplication,
 });

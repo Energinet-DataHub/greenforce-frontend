@@ -13,12 +13,18 @@
 # limitations under the License.
 name: GreenForce Frontend CI
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
-  is-pull-request: ${{ github.event_name  == 'pull_request' }}
+  is-pull-request: ${{ github.event_name == 'pull_request' }}
   NODE_OPTIONS: --max_old_space_size=6144
-  node-version: 14.x
+  node-version-file: .nvmrc
+  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
+  yarn-version: 1.22.19
   NX_MAX_PARALLEL: 2
 
   # Nx Cloud
@@ -46,65 +52,14 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  dh-affected:
-    if: ${{ github.event_name  == 'pull_request' }}
-    name: Is DataHub affected?
-    runs-on: ubuntu-latest
-
-    outputs:
-      is-affected: ${{ steps.affected.outputs.is-affected }}
-
-    steps:
-      # needed for nx affected command
-      - name: Check out source code with current branch Git history
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      # needed for nx affected command
-      - name: 'PR: Fetch base branch Git history'
-        if: ${{ env.is-pull-request == 'true' }}
-        run: git fetch --no-tags origin $BASE_BRANCH
-
-      - name: Use Node.js ${{ env.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ env.node-version }}
-
-      - name: Variable-Yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: Cache Yarn cache directory
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
-      - name: Disable workspace NGCC run
-        uses: ./.github/actions/setup-postinstall
-        with:
-          ngcc: false
-      - name: Install package dependencies
-        run: yarn install --frozen-lockfile --non-interactive
-
-      - name: Is affected?
-        id: affected
-        uses: ./.github/actions/affected
-        with:
-          base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
-          project: app-dh
-
   build:
     name: Build
     runs-on: ubuntu-latest
-
     steps:
       # needed for nx affected command
       - name: 'PR: Check out source code with current branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -114,25 +69,17 @@ jobs:
         run: git fetch --no-tags origin $BASE_BRANCH
       - name: 'Merge: Check out source code'
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js ${{ env.node-version }}
-        uses: actions/setup-node@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
+          cache: 'yarn'
 
-      - name: Variable-Yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: Cache Yarn cache directory
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
@@ -140,6 +87,7 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:build --base=origin/$BASE_BRANCH
           --max-parallel=$NX_MAX_PARALLEL
+
       - name: 'Merge: Production build of all products'
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn build --max-parallel=$NX_MAX_PARALLEL
@@ -148,7 +96,7 @@ jobs:
     name: SonarCloud
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: SonarCloud Scan
@@ -158,7 +106,7 @@ jobs:
             -Dsonar.projectKey=geh-frontend-app
             -Dsonar.organization=energinet-datahub
             -Dsonar.sources=apps/dh/app-dh,libs/dh,libs/ui-watt,libs/gf
-            -Dsonar.exclusions=**/*.spec.ts
+            -Dsonar.exclusions=**/*.spec.ts,libs/dh/shared/data-access-msw/src/assets/mockServiceWorker.js
             -Dsonar.coverage.exclusions=libs/ui-watt/**/+storybook/*,libs/ui-watt/**/*.stories.ts,
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
@@ -166,14 +114,13 @@ jobs:
 
   e2e:
     name: End-to-end test
-    needs: dh-affected
     runs-on: ubuntu-latest
 
     steps:
       # needed for nx affected command
       - name: 'PR: Check out source code with current branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -183,35 +130,22 @@ jobs:
         run: git fetch --no-tags origin $BASE_BRANCH
       - name: 'Merge: Check out source code'
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js ${{ env.node-version }}
-        uses: actions/setup-node@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
+          cache: 'yarn'
 
-      - name: Variable-Yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: Cache Yarn cache directory
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
+
       - name: Install Playwright
         run: npx playwright install --with-deps
-      - name: 'DH: Start API'
-        if: ${{ env.is-main-branch == 'true' || needs.dh-affected.outputs.is-affected == 'true' }}
-        run: |
-          yarn nx run api-dh:ci-configuration
-          yarn nx serve api-dh:serve:ci
-
       - name: 'PR: End-to-end test affected products'
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
@@ -222,44 +156,38 @@ jobs:
 
   format:
     name: 'PR: Format'
-    if: ${{ github.event_name  == 'pull_request' }}
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
     steps:
       # needed for nx affected command
       - name: Check out source code with current branch Git history
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
-          ssh-key: ${{ secrets.ACTIONS_BOT_SSH_KEY }}
+          token: ${{ secrets.PAT_TOKEN }}
       # needed for nx affected command
       - name: Fetch base branch Git history
         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: Set up Node.js ${{ env.node-version }}
-        uses: actions/setup-node@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
+          cache: 'yarn'
 
-      - name: Variable-Yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: Cache Yarn cache directory
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
       - name: Disable Angular Compatibility Compiler
         uses: ./.github/actions/setup-postinstall
         with:
           ngcc: false
+
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
+
       - name: Revert postinstall changes
         run: git reset --hard
 
@@ -284,42 +212,36 @@ jobs:
       # needed for nx affected command
       - name: 'PR: Check out source code with current branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
-          ssh-key: ${{ secrets.ACTIONS_BOT_SSH_KEY }}
+          token: ${{ secrets.PAT_TOKEN }}
       # needed for nx affected command
       - name: 'PR: Fetch base branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
       - name: 'Merge: Check out source code'
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js ${{ env.node-version }}
-        uses: actions/setup-node@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
+          cache: 'yarn'
 
-      - name: Variable-Yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: Cache Yarn cache directory
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
       - name: Disable Angular Compatibility Compiler
         uses: ./.github/actions/setup-postinstall
         with:
           ngcc: false
+
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
+
       - name: Revert postinstall changes
         run: git reset --hard
 
@@ -340,14 +262,13 @@ jobs:
 
   test:
     name: Unit and integration test
-    needs: dh-affected
     runs-on: ubuntu-latest
 
     steps:
       # needed for nx affected command
       - name: 'PR: Check out source code with current branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -357,38 +278,25 @@ jobs:
         run: git fetch --no-tags origin $BASE_BRANCH
       - name: 'Merge: Check out source code'
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js ${{ env.node-version }}
-        uses: actions/setup-node@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
+          cache: 'yarn'
 
-      - name: Variable-Yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: Cache Yarn cache directory
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
-
-      - name: 'DH: Start API'
-        if: ${{ env.is-main-branch == 'true' || needs.dh-affected.outputs.is-affected == 'true' }}
-        run: |
-          yarn nx run api-dh:ci-configuration
-          yarn nx serve api-dh:serve:ci
 
       - name: 'PR: Test affected projects'
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:test --base=origin/$BASE_BRANCH
           --max-parallel=$NX_MAX_PARALLEL
+
       - name: 'Merge: Test all projects'
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn test --max-parallel=$NX_MAX_PARALLEL

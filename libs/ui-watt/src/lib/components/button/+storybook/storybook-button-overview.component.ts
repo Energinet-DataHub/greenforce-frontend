@@ -14,10 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'storybook-button-overview',
   styleUrls: ['./storybook-button-overview.component.scss'],

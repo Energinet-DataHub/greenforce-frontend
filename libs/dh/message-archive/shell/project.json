@@ -1,0 +1,27 @@
+{
+  "name": "dh-message-archive-shell",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/message-archive/shell/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/message-archive/shell"],
+      "options": {
+        "jestConfig": "libs/dh/message-archive/shell/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/message-archive/shell/src/**/*.ts",
+          "libs/dh/message-archive/shell/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:message-archive", "type:shell"]
+}

@@ -1,0 +1,86 @@
+name: Production Dependencies
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  node-version-file: .nvmrc
+  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
+  yarn-version: 1.22.19
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+jobs:
+  license_check:
+    name: License Check
+    runs-on: ubuntu-latest
+
+    outputs:
+      dependencies-have-changed: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ${{ env.node-version-file }}
+
+      - name: Check if dependencies have changed
+        id: dependencies_have_changed
+        uses: ./.github/actions/dependencies-have-changed
+
+      # node_modules are needed for license-checker
+      - name: Get Yarn cache directory path
+        id: yarn-cache-dir-path
+        if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - name: Cache Yarn cache directory
+        if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Set yarn version ${{ env.yarn-version }}
+        if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
+        run: yarn set version ${{ env.yarn-version }}
+
+      - name: Install package dependencies
+        if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
+        run: yarn install --production --ignore-scripts --frozen-lockfile --non-interactive
+
+      - name: Read .allowed-licenses.json
+        id: allowed-licenses
+        if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
+        shell: bash
+        run: echo "FILE=$(jq -r .[] .allowed-licenses.json | tr '\n' ';')" >> $GITHUB_OUTPUT
+      - name: Run license-checker
+        id: licenseChecker
+        if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
+        run: echo DEPENDENCIES=$(npx license-checker-rseidelsohn --direct --production --onlyAllow="${{ steps.allowed-licenses.outputs.FILE }}" --json --excludePrivatePackages) >> $GITHUB_OUTPUT
+      - name: Update PRODUCTION_DEPENDENCIES.md
+        if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
+        uses: ./.github/actions/update-production-dependencies-list
+        with:
+          dependencies-from-license-checker: ${{ steps.licenseChecker.outputs.DEPENDENCIES }}
+
+      - name: Commit PRODUCTION_DEPENDENCIES.md
+        if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add PRODUCTION_DEPENDENCIES.md || cd .
+          git commit -m "chore: Update PRODUCTION_DEPENDENCIES.md" || cd .
+          git push origin --force-with-lease || cd .

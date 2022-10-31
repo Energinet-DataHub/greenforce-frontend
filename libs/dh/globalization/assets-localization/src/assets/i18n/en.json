@@ -5,6 +5,36 @@
   "shell": {
     "logout": "Sign out"
   },
+  "shared": {
+    "paginator": {
+      "itemsPerPageLabel": "Results per page",
+      "of": "of",
+      "first": "First page",
+      "last": "Last page",
+      "next": "Next page",
+      "previous": "Previous page",
+      "ariaLabel": "Select page"
+    }
+  },
+  "clipboard": {
+    "success": "Copied to clipboard",
+    "error": "Failed to copy"
+  },
+  "sidebar": {
+    "navigation": {
+      "meteringPoints": "Metering points",
+      "messageArchive": "Request/Response messages",
+      "marketParticipantOrganizations": "Organisations",
+      "marketParticipantGridAreas": "Grid areas",
+      "chargePrices": "Prices",
+      "wholesale": {
+        "menuGroupLabel": "Settlements",
+        "startBatch": "Start Batch",
+        "searchBatch": "Search Batch",
+        "overview": "Overview"
+      }
+    }
+  },
   "meteringPoint": {
     "search": {
       "title": "Search metering points",
@@ -49,6 +79,7 @@
         "meterNumber": "Meternumber"
       },
       "tabs": {
+        "processes": "Processes",
         "prices": "Prices",
         "childMeteringPoints": "Child metering points ({{ count }})"
       },
@@ -60,6 +91,23 @@
         },
         "noChildMeteringPointsTitle": "No child metering point(s)",
         "noChildMeteringPointsText": "We did not find any child metering point(s) on this metering point"
+      },
+      "processesTab": {
+        "headers": {
+          "name": "Description",
+          "createdDate": "Submitted",
+          "effectiveDate": "Validity date",
+          "status": "Status"
+        },
+        "sortDescription": {
+          "name": "Sort by description",
+          "createdDate": "Sort by submitted date",
+          "effectiveDate": "Sort by validity date",
+          "status": "Sort by status"
+        },
+        "noProcessesFound": "No processes",
+        "noProcessesText": "We did not find any processes on this metering point",
+        "processRejected": "Rejected"
       }
     },
     "secondaryMasterData": {
@@ -125,7 +173,8 @@
       "D18": "Regenerative demand facility",
       "D19": "Combustion engine – diesel",
       "D20": "Combustion engine - bio",
-      "D99": "Unknown tecnology"
+      "D98": "No technology",
+      "D99": "Unknown technology"
     },
     "productId": {
       "Tariff": "Tariff",
@@ -215,12 +264,32 @@
       "D02": "Fee",
       "D03": "Tariff"
     },
+    "resolutionType": {
+      "PT15M": "15 minutes",
+      "PT1H": "Hour",
+      "P1D": "Day",
+      "P1M": "Month"
+    },
+    "vatClassificationType": {
+      "Vat25": "Yes",
+      "NoVat": "No"
+    },
+    "transparentInvoicingType": {
+      "true": "Yes",
+      "false": "No"
+    },
+    "taxIndicatorType": {
+      "true": "Yes",
+      "false": "No"
+    },
     "chargeOwner": "Owner",
     "startDate": "Date",
-    "transparentInvoicing": "Transparent Invoicing",
     "quantity": "Quantity",
     "noActive": "No active {{title}}",
     "noActiveMessage": "We found no active {{title}} on this metering point",
+    "validityPeriod": "Validity period",
+    "transparentInvoicing": "Transparent Invoicing",
+    "vatClassification": "VAT",
     "taxIndicator": "Tax",
     "chargesNotFound": {
       "title": "Sorry, we did not find any charges for this metering point"
@@ -228,6 +297,426 @@
     "serverError": {
       "title": "Oops! There was an error",
       "message": "Unfortunately, an error occurred while retrieving the necessary information."
+    },
+    "prices": {
+      "topBarTitle": "Search price",
+      "prices": "Prices",
+      "price": "Price",
+      "priceTab": {
+        "fromDateTime": "Valid from",
+        "toDateTime": "Valid to",
+        "time": "Time"
+      },
+      "search": {
+        "idOrName": "Price ID/Name",
+        "enterIdOrName": "Enter part or whole id or name ",
+        "owner": "Owner",
+        "enterOwner": "Enter owner",
+        "selectChargeType": "Choose type",
+        "selectValidity": "Choose validity",
+        "chargeType": "Type",
+        "validity": "Validity",
+        "dateValidFrom": "Valid from",
+        "dateValidTo": "Valid to",
+        "clearSearch": "Clear",
+        "startSearch": "Search"
+      },
+      "chargeId": "Price ID",
+      "chargeName": "Name",
+      "chargeOwnerName": "Owner",
+      "chargeType": "Type",
+      "resolution": "Resolution",
+      "validFromDateTime": "Valid from",
+      "validToDateTime": "Valid to",
+      "resultLength": "Search result",
+      "resultsLength": "Search results",
+      "Download": "Download",
+      "noResultsFound": "No results",
+      "noResultsHelperText": "Try adjusting your search or filter to find what you are looking for.",
+      "startSearch": "Start Search",
+      "startSearchText": "Your results will appear here",
+      "noPricesForCharge": "No prices",
+      "noPricesForChargeText": "No price series exists for this price.",
+      "paginator": {
+        "itemsPerPageLabel": "Prices per page",
+        "of": "of",
+        "first": "First page",
+        "last": "Last page",
+        "next": "Next page",
+        "previous": "Previous page"
+      },
+      "chargeTypes": {
+        "Unknown": "Unknown",
+        "Subscription": "Subscription",
+        "Fee": "Fee",
+        "Tariff": "Tariff"
+      },
+      "validityOptions": {
+        "Now": "Valid now",
+        "Planned": "Future Prices",
+        "ThisWeek": "This week",
+        "ThisMonth": "This month",
+        "ThisQuarter": "This quarter",
+        "ThisYear": "This year"
+      },
+      "loadingErrorTitle": "An unexpected error occured",
+      "loadingErrorMessage": "Try again or contact your system administrator if you keep getting this error.",
+      "drawer": {
+        "prices": "Prices",
+        "messages": "Messages",
+        "dateChips": {
+          "day": "Day",
+          "week": "Week",
+          "month": "Month",
+          "quarter": "Quarter",
+          "year": "Year"
+        },
+        "history": "History",
+        "stop": "Stop",
+        "edit": "Edit",
+        "showDescriptionLabel": "Show description",
+        "hideDescriptionLabel": "Hide description",
+        "messageId": "Message Id",
+        "messageType": "Type",
+        "date": "Date"
+      },
+      "csvHeader": {
+        "id": "PRICE ID",
+        "name": "NAME",
+        "description": "DESCRIPTION",
+        "owner": "OWNER",
+        "ownerName": "OWNER NAME",
+        "taxIndicator": "TAX",
+        "vat": "VAT",
+        "transparentInvoicing": "TRANSPARENT INVOICING",
+        "type": "TYPE",
+        "resolution": "RESOLUTION",
+        "validFromDate": "VALID FROM",
+        "validToDate": "VALID TO"
+      },
+      "downloadFileName": "Chargeinformation"
+    }
+  },
+  "messageArchive": {
+    "unknowenError": "Unknown error",
+    "search": {
+      "topBarTitle": "Search in request and response messages",
+      "documenttype": "Document type",
+      "senderId": "Sender Id",
+      "messageId": "Message Id",
+      "traceId": "Trace Id",
+      "receiverId": "Receiver Id",
+      "businessReason": "Business reason",
+      "dateFrom": "Date from",
+      "dateTo": "Date to",
+      "startSearch": "Search",
+      "NoResultsFound": "No result",
+      "ChooseBusinessReason": "Choose business reason",
+      "ChooseDocumentType": "Choose document type",
+      "includeRelatedMessage": "Include related message",
+      "loadMore": "Load more",
+      "rsm": "RSM",
+      "sender": "Aktor",
+      "timeStamp": "Time",
+      "status": "Status",
+      "sent": "IN",
+      "received": "OUT",
+      "download": "Download",
+      "show": "Show",
+      "noResultsHelperText": "Try adjusting your search or filter to find what you are looking for.",
+      "clearSearch": "Clear form"
+    }
+  },
+  "marketParticipant": {
+    "actor": {
+      "create": {
+        "editHeader": "Edit actor",
+        "createHeader": "Create actor",
+        "errorToastLabel": "Error",
+        "masterDataTabHeader": "Master data",
+        "meteringPointTypesHeader": "Metering point types",
+        "gridAreasHeader": "Grid areas",
+        "marketRolesHeader": "Market roles",
+        "contactsHeader": "Contacts",
+        "cancelLabel": "Cancel",
+        "saveLabel": "Save",
+        "masterData": {
+          "labelActorNumber": "Actor Number",
+          "labelStatus": "Status",
+          "labelActorName": "Actor name",
+          "fieldRequiredErrorText": "Field is required.",
+          "statuses": {
+            "New": "New",
+            "Active": "Active",
+            "Inactive": "Inactive",
+            "Passive": "Passive",
+            "Deleted": "Deleted"
+          },
+          "statusChangeTitle": "Actor status change",
+          "statusChangeWarning": "Changing actor status to '{{ status }}' is final and it cannot be changed back to '{{ initialStatus }}'. Do you want to continue?"
+        },
+        "contacts": {
+          "invalidConfiguration": "Contacts are not correctly configured"
+        },
+        "marketRoles": {
+          "marketRole": "Market role",
+          "gridArea": "Grid area",
+          "meteringPointTypes": "Metering point types",
+          "invalidConfiguration": "Market roles are not correctly configured"
+        }
+      }
+    },
+    "marketRoles": {
+      "BalanceResponsibleParty": "Balance responsible party",
+      "BalancingServiceProvider": "Balancing service provider",
+      "BillingAgent": "Billing agent",
+      "CapacityTrader": "Capacity trader",
+      "Consumer": "Consumer",
+      "ConsumptionResponsibleParty": "Consumption responsible party",
+      "ConsentAdministrator": "Consent administrator",
+      "CoordinatedCapacityCalculator": "Coordinated capacity calculator",
+      "CoordinationCentreOperator": "Coordination centre operator",
+      "DataProvider": "Data provider",
+      "EnergyServiceCompany": "Energy service company",
+      "EnergySupplier": "Energy supplier",
+      "EnergyTrader": "Energy trader",
+      "GridAccessProvider": "Grid access provider",
+      "ImbalanceSettlementResponsible": "Imbalance settlement responsible",
+      "InterconnectionTradeResponsible": "Interconnection trade responsible",
+      "LfcOperator": "LFC operator",
+      "MarketInformationAggregator": "Market information aggregator",
+      "MarketOperator": "Market operator",
+      "MeritOrderListResponsible": "Merit order list responsible",
+      "MeterAdministrator": "Meter administrator",
+      "MeterOperator": "Meter operator",
+      "MeteredDataAdministrator": "Metered data administrator",
+      "MeteredDataAggregator": "Metered data aggregator",
+      "MeteredDataCollector": "Metered data collector",
+      "MeteredDataResponsible": "Metered data responsible",
+      "MeteringPointAdministrator": "Metering point administrator",
+      "ModelMergingAgent": "Model merging agent",
+      "ModellingAuthority": "Modelling authority",
+      "NominatedElectricityMarketOperator": "Nominated electricity market operator",
+      "NominationValidator": "Nomination validator",
+      "PartyAdministrator": "Party administrator",
+      "PartyConnectedToTheGrid": "Party connected to the grid",
+      "Producer": "Producer",
+      "ProductionResponsibleParty": "Production responsible party",
+      "ReconciliationAccountable": "Reconciliation accountable",
+      "ReconciliationResponsible": "Reconciliation responsible",
+      "ReserveAllocator": "Reserve allocator",
+      "ResourceAggregator": "Resource aggregator",
+      "ResourceCapacityMechanismOperator": "Resource capacity mechanism operator",
+      "ResourceProvider": "Resource provider",
+      "Scheduling": "Scheduling",
+      "Agent": "Agent",
+      "SchedulingAreaResponsible": "Scheduling area responsible",
+      "SystemOperator": "System operator",
+      "TradeResponsibleParty": "Trade responsible party",
+      "TransmissionCapacityAllocator": "Transmission capacity allocator",
+      "DanishEnergyAgency": "Danish energy agency"
+    },
+    "organization": {
+      "topBarTitle": "Organisations",
+      "columns": {
+        "organization": "Organisation",
+        "gln": "Actor Number",
+        "status": "Status",
+        "marketRoles": "Market roles",
+        "gridAreas": "Grid areas",
+        "noActors": "No actors"
+      },
+      "status": {
+        "New": "New",
+        "Active": "Active",
+        "Inactive": "Inactive",
+        "Passive": "Passive",
+        "Deleted": "Deleted"
+      },
+      "editOrganization": "Edit organisation",
+      "editActor": "Edit actor",
+      "createActor": "Create actor",
+      "createOrganization": "Create organisation",
+      "noOrganizations": "No organisations",
+      "paginator": {
+        "itemsPerPageLabel": "Organisations per page",
+        "of": "of",
+        "first": "First page",
+        "last": "Last page",
+        "next": "Next page",
+        "previous": "Previous page"
+      },
+      "create": {
+        "organizationCreateHeader": "Create organisation",
+        "organizationEditHeader": "Edit organisation",
+        "masterDataTabHeader": "Master data",
+        "cancelLabel": "Cancel",
+        "saveLabel": "Save",
+        "errorToastLabel": "Error",
+        "masterData": {
+          "organizationNameLabel": "Name",
+          "businessRegistrationIdetifierLabel": "Business registration identifier",
+          "streetNameLabel": "Street name",
+          "streetNumberLabel": "Street number",
+          "zipCodeLabel": "Zip code",
+          "cityLabel": "City",
+          "countryLabel": "Country",
+          "commentLabel": "Comment",
+          "fieldRequiredErrorText": "Field is required.",
+          "countries": {
+            "at": "Austria",
+            "be": "Belgium",
+            "bg": "Bulgaria",
+            "hr": "Croatia",
+            "cy": "Cyprus",
+            "cz": "Czech Republic",
+            "dk": "Denmark",
+            "ee": "Estonia",
+            "fi": "Finland",
+            "fr": "France",
+            "de": "Germany",
+            "gr": "Greece",
+            "hu": "Hungary",
+            "ie": "Ireland",
+            "it": "Italy",
+            "lv": "Latvia",
+            "lt": "Lithuania",
+            "lu": "Luxembourg",
+            "mt": "Malta",
+            "nl": "Netherlands",
+            "no": "Norway",
+            "pl": "Poland",
+            "pt": "Portugal",
+            "ro": "Romania",
+            "sk": "Slovakia",
+            "si": "Slovenia",
+            "es": "Spain",
+            "se": "Sweden",
+            "gb": "United Kingdom"
+          },
+          "labelStatus": "Status",
+          "statuses": {
+            "New": "New",
+            "Active": "Active",
+            "Blocked": "Blocked",
+            "Deleted": "Deleted"
+          }
+        }
+      }
+    },
+    "contacts": {
+      "category": "Category",
+      "name": "Name",
+      "namePlaceholder": "Name",
+      "email": "E-mail",
+      "emailPlaceholder": "E-mail",
+      "phone": "Phone",
+      "phonePlaceholder": "Phone (optional)",
+      "ariaLabelCategoryForExistingContact": "category field for existing contact",
+      "ariaLabelNameForExistingContact": "name field for existing contact",
+      "ariaLabelPhoneForExistingContact": "phone field for existing contact",
+      "ariaLabelMailForExistingContact": "mail field for existing contact",
+      "ariaLabelDeleteForExistingContact": "delete button for existing contact",
+      "ariaLabelCategoryForNewContact": "category field for new contact",
+      "ariaLabelNameForNewContact": "name field for new contact",
+      "ariaLabelPhoneForNewContact": "phone field for new contact",
+      "ariaLabelMailForNewContact": "mail field for new contact",
+      "ariaLabelDeleteForNewContact": "delete button for new contact"
+    },
+    "gridAreas": {
+      "topBarTitle": "Grid areas",
+      "createGridArea": "Create",
+      "editGridArea": "Edit",
+      "noGridAreas": "No gridareas found",
+      "columns": {
+        "name": "Grid area",
+        "code": "Code",
+        "actorName": "Grid operator actor name",
+        "actorNumber": "Grid operator actor ID",
+        "priceAreaCode": "Price area code",
+        "validFrom": "Valid from",
+        "validTo": "Valid to"
+      },
+      "detailsHeader": {
+        "code": "Grid area code",
+        "actorId": "Actor number",
+        "fullFlexDate": "Transition to Full flex",
+        "priceAreaCode": "Price area code",
+        "lossMeteringPoint": "Loss metering point",
+        "correctionMeteringPoint": "Correction metering point",
+        "validFrom": "Valid from",
+        "validTo": "Valid to"
+      },
+      "detailsAuditLog": {
+        "time": "Time",
+        "change": "Change",
+        "changes": "Changes",
+        "noResultsFound": "No results",
+        "fields": {
+          "name": "Grid area name"
+        },
+        "unknown": "Unknown",
+        "messageKey": "<strong>{{ userDisplayName }}</strong> changed <strong>{{ field }}</strong> to <strong>{{ newValue }}</strong>"
+      },
+      "changeGridArea": {
+        "gridAreaName": "Grid area name",
+        "cancel": "Cancel",
+        "saveChanges": "Save changes",
+        "editGridArea": "Edit",
+        "editGridAreaModalTitle": "Edit grid area",
+        "editGridAreaModalCloseLabel": "Close"
+      },
+      "priceAreaCodes": {
+        "Dk1": "DK1",
+        "Dk2": "DK2"
+      }
+    }
+  },
+  "wholesale": {
+    "startBatch": {
+      "topBarTitle": "Start Batch",
+      "startLabel": "Start",
+      "dateRangeRequired": "Date range is required",
+      "dateRangeLabel": "Period",
+      "gridAreaDropDownLabel": "Grid Areas"
+    },
+    "searchBatch": {
+      "topBarTitle": "Search Batch",
+      "headline": "Batch overview",
+      "filters": {
+        "executionTime": "Execution time",
+        "executionTimeRequired": "Execution time is required",
+        "searchButton": "Search"
+      },
+      "columns": {
+        "batchNumber": "Batch number",
+        "periodFrom": "Period from",
+        "periodTo": "Period to",
+        "executionTime": "Execution time",
+        "status": "Status",
+        "basisData": "Basis data"
+      },
+      "download": "Download",
+      "downloadFailed": "Download of basis data failed",
+      "Pending": "Pending",
+      "Executing": "Running",
+      "Completed": "Finished",
+      "Failed": "Failed",
+      "loadBatchesFailedTitle": "Oops! There was an error",
+      "loadBatchesFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
+      "noBatchesFound": "No batches found",
+      "noBatchesHelperText": "Try changing the search criteria",
+      "paginator": {
+        "itemsPerPageLabel": "Batches per page",
+        "nextPageLabel": "Next page",
+        "perviouspageLabel": "Previous page",
+        "firstPageLabel": "first page",
+        "lastPageLabel": "last page",
+        "of": "of"
+      }
+    },
+    "overview": {
+      "header": "Process Overview"
     }
   }
 }

@@ -15,29 +15,18 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { filter, map, Observable, switchMap, tap } from 'rxjs';
-
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import {
-  ChargeLinkDto,
-  ChargeLinksHttp,
-  ChargeType,
-} from '@energinet-datahub/dh/shared/data-access-api';
-
-export const enum LoadingState {
-  INIT = 'INIT',
-  LOADING = 'LOADING',
-  LOADED = 'LOADED',
-}
-
-export const enum ErrorState {
-  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
-  GENERAL_ERROR = 'GENERAL_ERROR',
-}
+  ChargeV1Dto,
+  ChargesHttp,
+  ChargeSearchCriteriaV1Dto,
+} from '@energinet-datahub/dh/shared/domain';
+import { Observable, switchMap, tap } from 'rxjs';
+import { ErrorState, LoadingState } from './states';
 
 interface ChargesState {
-  readonly charges?: Array<ChargeLinkDto>;
+  readonly charges?: Array<ChargeV1Dto>;
   readonly requestState: LoadingState | ErrorState;
 }
 
@@ -48,36 +37,9 @@ const initialState: ChargesState = {
 
 @Injectable()
 export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
-  tariffs$: Observable<Array<ChargeLinkDto>> = this.select(
-    (state) => state.charges
-  ).pipe(
-    filter((charges) => !!charges),
-    map((charges) => charges as Array<ChargeLinkDto>),
-    map((charges) =>
-      charges.filter((charge) => charge.chargeType === ChargeType.D03)
-    )
-  );
+  all$ = this.select((state) => state.charges);
 
-  subscriptions$: Observable<Array<ChargeLinkDto>> = this.select(
-    (state) => state.charges
-  ).pipe(
-    filter((charges) => !!charges),
-    map((charges) => charges as Array<ChargeLinkDto>),
-    map((charges) =>
-      charges.filter((charge) => charge.chargeType === ChargeType.D01)
-    )
-  );
-
-  fees$: Observable<Array<ChargeLinkDto>> = this.select(
-    (state) => state.charges
-  ).pipe(
-    filter((charges) => !!charges),
-    map((charges) => charges as Array<ChargeLinkDto>),
-    map((charges) =>
-      charges.filter((charge) => charge.chargeType === ChargeType.D02)
-    )
-  );
-
+  isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select(
     (state) => state.requestState === LoadingState.LOADING
   );
@@ -88,29 +50,28 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
     (state) => state.requestState === ErrorState.GENERAL_ERROR
   );
 
-  constructor(private httpClient: ChargeLinksHttp) {
+  constructor(private httpClient: ChargesHttp) {
     super(initialState);
   }
 
-  readonly loadChargesData = this.effect(
-    (meteringPointId: Observable<string>) => {
-      return meteringPointId.pipe(
+  readonly searchCharges = this.effect(
+    (searchCriteria: Observable<ChargeSearchCriteriaV1Dto>) => {
+      return searchCriteria.pipe(
         tap(() => {
           this.resetState();
 
-          this.setLoading(true);
+          this.setLoading(LoadingState.LOADING);
         }),
-        switchMap((id) =>
-          this.httpClient.v1ChargeLinksGet(id).pipe(
+        switchMap((searchCriteria) =>
+          this.httpClient.v1ChargesSearchAsyncPost(searchCriteria).pipe(
             tapResponse(
               (chargesData) => {
-                this.setLoading(false);
+                this.setLoading(LoadingState.LOADED);
 
                 this.updateChargesData(chargesData);
               },
               (error: HttpErrorResponse) => {
-                this.setLoading(false);
-
+                this.setLoading(LoadingState.LOADED);
                 this.handleError(error);
               }
             )
@@ -123,17 +84,17 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
   private updateChargesData = this.updater(
     (
       state: ChargesState,
-      chargesData: Array<ChargeLinkDto> | undefined
+      chargesData: Array<ChargeV1Dto> | undefined
     ): ChargesState => ({
       ...state,
-      charges: chargesData,
+      charges: chargesData || [],
     })
   );
 
   private setLoading = this.updater(
-    (state, isLoading: boolean): ChargesState => ({
+    (state, loadingState: LoadingState): ChargesState => ({
       ...state,
-      requestState: isLoading ? LoadingState.LOADING : LoadingState.LOADED,
+      requestState: loadingState,
     })
   );
 
@@ -149,5 +110,9 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
     this.patchState({ requestState: requestError });
   };
 
+  readonly clearCharges = () => {
+    this.setLoading(LoadingState.INIT);
+    this.updateChargesData([]);
+  };
   private resetState = () => this.setState(initialState);
 }

@@ -23,7 +23,7 @@ import {
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
+import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/domain';
 import { DhMeteringPointStatusBadgeScam } from '@energinet-datahub/dh/metering-point/ui-status-badge';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 

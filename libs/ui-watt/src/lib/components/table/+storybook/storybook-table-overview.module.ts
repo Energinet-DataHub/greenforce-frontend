@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { NgModule } from '@angular/core';
 
 import { WattIconModule } from '../../../foundations/icon';
 import { StorybookTableOverviewComponent } from './storybook-table-overview.component';
@@ -28,6 +29,7 @@ import { StorybookTableExpandableModule } from './expandable/storybook-table-exp
     MatTableModule,
     WattIconModule,
     MatSortModule,
+    MatPaginatorModule,
     BrowserAnimationsModule,
     StorybookTableExpandableModule
   ],

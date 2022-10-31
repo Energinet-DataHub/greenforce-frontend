@@ -1,0 +1,55 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let transloco; read: 'sidebar.navigation'">
+  <watt-nav-list>
+    <watt-nav-list-item link="/metering-point">{{
+      transloco("meteringPoints")
+    }}</watt-nav-list-item>
+    <watt-nav-list-item link="/message-archive">{{
+      transloco("messageArchive")
+    }}</watt-nav-list-item>
+    <ng-container
+      *dhPermissionRequired="['organization:view', 'organization:manage']"
+    >
+      <watt-nav-list-item link="/market-participant/organizations">{{
+        transloco("marketParticipantOrganizations")
+      }}</watt-nav-list-item>
+    </ng-container>
+    <ng-container *dhPermissionRequired="['gridareas:manage']">
+      <watt-nav-list-item link="/market-participant/gridareas">{{
+        transloco("marketParticipantGridAreas")
+      }}</watt-nav-list-item>
+    </ng-container>
+    <watt-nav-list-item link="/charges/prices">{{
+      transloco("chargePrices")
+    }}</watt-nav-list-item>
+  </watt-nav-list>
+
+  <ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
+    <watt-nav-list
+      [expandable]="true"
+      [title]="transloco('wholesale.menuGroupLabel')"
+    >
+      <watt-nav-list-item link="/wholesale/start-process">{{
+        transloco("wholesale.startBatch")
+      }}</watt-nav-list-item>
+      <watt-nav-list-item link="/wholesale/search-batch">{{
+        transloco("wholesale.searchBatch")
+      }}</watt-nav-list-item>
+    </watt-nav-list>
+  </ng-container>
+</ng-container>

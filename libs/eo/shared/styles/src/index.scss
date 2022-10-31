@@ -1,0 +1,38 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// Global stylesheet for the Energy Origin application
+// Uses the ITCSS architecture
+
+// GENERIC
+@use './lib/@energinet-datahub/eo/shared/styles/generic/generic-normalize';
+@use './lib/@energinet-datahub/eo/shared/styles/generic/generic-reset';
+@use './lib/@energinet-datahub/eo/shared/styles/generic/generic-spacing';
+
+// ELEMENTS
+@use './lib/@energinet-datahub/eo/shared/styles/elements/elements-page';
+@use './lib/@energinet-datahub/eo/shared/styles/elements/elements-links';
+@use './lib/@energinet-datahub/eo/shared/styles/elements/elements-images';
+@use './lib/@energinet-datahub/eo/shared/styles/elements/elements-lists';
+
+// THEMES
+@use './lib/@energinet-datahub/eo/shared/styles/themes/themes-watt';
+
+// UTILITIES
+@use './lib/@energinet-datahub/eo/shared/styles/utilities/utilities-text';
+@use './lib/@energinet-datahub/eo/shared/styles/utilities/utilities-spacing';
+@use './lib/@energinet-datahub/eo/shared/styles/utilities/utilities-layout';

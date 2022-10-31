@@ -15,10 +15,9 @@
  * limitations under the License.
  */
 
-export enum WattIconState {
-  Default = 'default',
-  Success = 'success',
-  Danger = 'danger',
-  Warning = 'warning',
-  Info = 'info',
-}
+export type WattIconState =
+  | 'default'
+  | 'success'
+  | 'danger'
+  | 'warning'
+  | 'info';

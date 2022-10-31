@@ -17,7 +17,7 @@
 import { Component, forwardRef, ViewEncapsulation } from '@angular/core';
 import {
   ControlValueAccessor,
-  FormControl,
+  UntypedFormControl,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -47,7 +47,7 @@ export class WattCheckboxComponent implements ControlValueAccessor {
   /**
    * @ignore
    */
-  internalControl = new FormControl(false);
+  internalControl = new UntypedFormControl(false);
 
   /**
    * @ignore

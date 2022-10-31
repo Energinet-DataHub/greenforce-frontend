@@ -1,22 +1,23 @@
 {
-  "root": "apps/dh/e2e-dh",
+  "name": "e2e-dh",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/dh/e2e-dh/src",
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "./tools/executors/playwright:playwright",
       "options": {
-        "playwrightConfig": "apps/dh/e2e-dh/playwright.ts",
+        "playwrightConfig": "apps/dh/e2e-dh/playwright.config.ts",
         "tsConfig": "apps/dh/e2e-dh/tsconfig.json",
         "devServerTarget": "app-dh:serve:development",
         "exclude": "[B2C Healthcheck]"
       },
       "configurations": {
         "ci": {
-          "playwrightConfig": "apps/dh/e2e-dh/playwright.ci.ts"
+          "playwrightConfig": "apps/dh/e2e-dh/playwright.ci.config.ts"
         },
         "ci:production": {
-          "playwrightConfig": "apps/dh/e2e-dh/playwright.ci.ts",
+          "playwrightConfig": "apps/dh/e2e-dh/playwright.ci.config.ts",
           "devServerTarget": "app-dh:serve:production"
         },
         "production": {
@@ -27,7 +28,7 @@
     "health": {
       "executor": "./tools/executors/playwright:playwright",
       "options": {
-        "playwrightConfig": "apps/dh/e2e-dh/playwright.health.ts",
+        "playwrightConfig": "apps/dh/e2e-dh/playwright.health.config.ts",
         "include": "[B2C Healthcheck]"
       }
     },

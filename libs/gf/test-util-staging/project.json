@@ -1,14 +1,15 @@
 {
+  "name": "gf-test-util-staging",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/gf/test-util-staging",
   "sourceRoot": "libs/gf/test-util-staging/src",
   "prefix": "gf-test",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/gf/test-util-staging"],
+      "outputs": ["{workspaceRoot}/coverage/libs/gf/test-util-staging"],
       "options": {
-        "jestConfig": "libs/gf/test-util-staging/jest.config.js",
+        "jestConfig": "libs/gf/test-util-staging/jest.config.ts",
         "passWithNoTests": true
       }
     },

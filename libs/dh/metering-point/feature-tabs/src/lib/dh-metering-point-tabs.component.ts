@@ -20,12 +20,13 @@ import { tap } from 'rxjs';
 import { LetModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattTabsModule } from '@energinet-datahub/watt';
+import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { DhIsParentPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
 import { DhChargesTabContentScam } from './charges-tab-content/dh-charges-tab-content.component';
 import { DhChildMeteringPointsTabContentScam } from './child-metering-points-tab-content/dh-child-metering-points-tab-content.component';
+import { DhProcessesTabContentScam } from './processes-tab-content/dh-processes-tab-content.component';
 
 @Component({
   selector: 'dh-metering-point-tabs',
@@ -54,6 +55,7 @@ export class DhMeteringPointTabsComponent {
     TranslocoModule,
     DhIsParentPipeScam,
     DhChargesTabContentScam,
+    DhProcessesTabContentScam,
     DhChildMeteringPointsTabContentScam,
   ],
 })

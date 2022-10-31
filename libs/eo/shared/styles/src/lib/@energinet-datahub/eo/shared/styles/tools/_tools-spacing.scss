@@ -1,0 +1,77 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+// INSET
+// Watt insets don't support an XXL size
+@mixin inset-xxl($important: true, $padding: false) {
+  $important-expression: '!important';
+
+  @if $important == false {
+    $important-expression: '';
+  }
+
+  @if $padding == true {
+    padding: var(--eo-space-xxl) #{$important-expression};
+  } @else {
+    margin: var(--eo-space-xxl) #{$important-expression};
+  }
+}
+
+// SQUISHED INSET
+// Watt insets don't support `!important`
+@mixin squished-inset-m($important: true, $padding: false) {
+  $important-expression: '!important';
+
+  @if $important == false {
+    $important-expression: '';
+  }
+
+  @if $padding == true {
+    padding: var(--watt-space-s) var(--watt-space-m) #{$important-expression};
+  } @else {
+    margin: var(--watt-space-s) var(--watt-space-m) #{$important-expression};
+  }
+}
+
+// Watt insets don't support an XXL size
+@mixin squished-inset-xxl($important: true, $padding: false) {
+  $important-expression: '!important';
+
+  @if $important == false {
+    $important-expression: '';
+  }
+
+  @if $padding == true {
+    padding: var(--watt-space-xl) var(--eo-space-xxl) #{$important-expression};
+  } @else {
+    margin: var(--watt-space-xl) var(--eo-space-xxl) #{$important-expression};
+  }
+}
+
+// STRETCHED INSET
+@mixin stretched-inset-l($important: true, $padding: false) {
+  $important-expression: '!important';
+
+  @if $important == false {
+    $important-expression: '';
+  }
+
+  @if $padding == true {
+    padding: var(--watt-space-l) var(--watt-space-m) #{$important-expression};
+  } @else {
+    margin: var(--watt-space-l) var(--watt-space-m) #{$important-expression};
+  }
+}

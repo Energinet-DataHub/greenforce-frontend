@@ -14,23 +14,91 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use './typography/typography.import' as typography;
+@use "./typography/typography.import" as typography;
 
-mat-table {
+.watt-table-row--highlighted {
+  background-color: var(--watt-color-secondary-light);
+}
+
+mat-table,
+.mat-table {
   .mat-header-row {
     min-height: 34px;
   }
 
   .mat-header-cell {
-    background-color: var(--watt-color-focus-selection);
+    background-color: var(--watt-color-primary-light);
     @include typography.watt-label;
   }
 
-  mat-row:hover {
+  mat-row.clickable {
     cursor: pointer;
   }
 
   .multi-line-cell {
     padding: 0.5rem 0;
+  }
+}
+
+mat-paginator {
+  &.mat-paginator,
+  .mat-paginator-page-size .mat-select-trigger {
+    @include typography.watt-text-s;
+  }
+
+  & .mat-paginator-container {
+    padding: var(--watt-space-s) 0;
+  }
+
+  & .mat-paginator-page-size-label {
+    margin: 0 var(--watt-space-m);
+  }
+
+  & .mat-icon-button {
+    line-height: 1;
+
+    // Decrease spacing between arrow buttons
+    width: 36px;
+    height: 36px;
+  }
+
+  & .mat-icon-button {
+    color: var(--watt-color-primary);
+  }
+
+  & .mat-icon-button.mat-button-disabled.mat-button-disabled {
+    color: var(--watt-color-neutral-grey-500);
+  }
+
+  & .mat-paginator-range-label {
+    margin: 0 var(--watt-space-l);
+  }
+
+  mat-form-field {
+    &.mat-paginator-page-size-select {
+      width: 80px; // Magic width
+      margin: 0;
+      padding: 0 var(--watt-space-s);
+      border: 1px solid var(--watt-color-neutral-grey-400);
+      border-radius: 3px;
+    }
+
+    & .mat-form-field-underline {
+      display: none;
+    }
+
+    &.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+      padding: 0 var(--watt-space-xs);
+    }
+
+    &.mat-form-field-appearance-legacy .mat-form-field-infix {
+      padding: 0;
+      border: 0;
+    }
+
+    & .mat-form-field-flex {
+      height: 42px; // Standard field height minus 1px border
+      align-items: center;
+    }
   }
 }

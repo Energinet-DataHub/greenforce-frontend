@@ -1,0 +1,29 @@
+{
+  "name": "dh-message-archive-feature-log-search",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/message-archive/feature-log-search/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/message-archive/feature-log-search"
+      ],
+      "options": {
+        "jestConfig": "libs/dh/message-archive/feature-log-search/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/message-archive/feature-log-search/src/**/*.ts",
+          "libs/dh/message-archive/feature-log-search/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:message-archive", "type:feature"]
+}

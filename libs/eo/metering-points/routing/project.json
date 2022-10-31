@@ -1,0 +1,27 @@
+{
+  "name": "eo-metering-points-routing",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/metering-points/routing/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/metering-points/routing"],
+      "options": {
+        "jestConfig": "libs/eo/metering-points/routing/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/metering-points/routing/src/**/*.ts",
+          "libs/eo/metering-points/routing/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:metering-points", "type:routing"]
+}

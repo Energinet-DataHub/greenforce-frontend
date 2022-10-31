@@ -1,14 +1,15 @@
 {
+  "name": "ui-watt",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/ui-watt",
   "sourceRoot": "libs/ui-watt/src",
   "prefix": "watt",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/ui-watt"],
+      "outputs": ["{workspaceRoot}/coverage/libs/ui-watt"],
       "options": {
-        "jestConfig": "libs/ui-watt/jest.config.js",
+        "jestConfig": "libs/ui-watt/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -23,14 +24,14 @@
       "outputs": ["{options.outputFile}"]
     },
     "storybook": {
-      "executor": "@nrwl/storybook:storybook",
+      "executor": "@storybook/angular:start-storybook",
       "options": {
         "port": 4400,
-        "projectBuildConfig": "ui-watt:build-storybook",
-        "uiFramework": "@storybook/angular",
-        "config": {
-          "configFolder": "libs/ui-watt/.storybook"
-        }
+        "host": "0.0.0.0",
+        "configDir": "libs/ui-watt/.storybook",
+        "browserTarget": "ui-watt:build-storybook",
+        "compodoc": true,
+        "compodocArgs": ["-e", "json", "-d", "./libs/ui-watt"]
       },
       "configurations": {
         "ci": {
@@ -39,26 +40,18 @@
       }
     },
     "build-storybook": {
-      "executor": "@nrwl/storybook:build",
+      "executor": "@storybook/angular:build-storybook",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/designsystem",
-        "projectBuildConfig": "ui-watt:build-storybook",
-        "uiFramework": "@storybook/angular",
-        "config": {
-          "configFolder": "libs/ui-watt/.storybook"
-        },
-        "assets": [
-          {
-            "input": "libs/ui-watt/src/assets",
-            "glob": "**/*",
-            "output": "assets/ui-watt"
-          }
-        ],
         "styles": ["libs/ui-watt/.storybook/styles.scss"],
         "stylePreprocessorOptions": {
           "includePaths": ["libs/ui-watt/src/lib/styles"]
-        }
+        },
+        "outputDir": "dist/designsystem",
+        "configDir": "libs/ui-watt/.storybook",
+        "browserTarget": "ui-watt:build-storybook",
+        "compodoc": true,
+        "compodocArgs": ["-e", "json", "-d", "./libs/ui-watt"]
       },
       "configurations": {
         "ci": {

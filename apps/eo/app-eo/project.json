@@ -1,0 +1,143 @@
+{
+  "name": "app-eo",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/eo/app-eo/src",
+  "prefix": "eo",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "assets": [
+          {
+            "glob": "favicon.ico",
+            "input": "libs/eo/shared/assets/src",
+            "output": ""
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/eo/shared/assets/src/assets",
+            "output": "assets"
+          },
+          {
+            "input": "libs/ui-watt/src/assets",
+            "glob": "**/*",
+            "output": "assets/ui-watt"
+          }
+        ],
+        "baseHref": "/",
+        "commonChunk": false,
+        "index": "apps/eo/app-eo/src/index.html",
+        "inlineStyleLanguage": "scss",
+        "main": "apps/eo/app-eo/src/main.ts",
+        "outputPath": "dist/apps/eo/app-eo",
+        "polyfills": "apps/eo/app-eo/src/polyfills.ts",
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "libs/eo/shared/styles/src/lib",
+            "libs/ui-watt/src/lib/styles"
+          ]
+        },
+        "styles": ["libs/eo/shared/styles/src/index.scss"],
+        "tsConfig": "apps/eo/app-eo/tsconfig.app.json"
+      },
+      "configurations": {
+        "development": {
+          "buildOptimizer": false,
+          "extractLicenses": false,
+          "namedChunks": true,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "budgets": [
+            {
+              "type": "allScript",
+              "maximumWarning": "500kb",
+              "maximumError": "1.35mb"
+            },
+            {
+              "type": "anyScript",
+              "maximumWarning": "500kb",
+              "maximumError": "1.15mb"
+            },
+            {
+              "type": "bundle",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1.3mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/eo/app-eo/src/configuration/load-eo-api-environment.ts",
+              "with": "apps/eo/app-eo/src/configuration/load-eo-api-environment.prod.ts"
+            },
+            {
+              "replace": "libs/eo/shared/environments/src/lib/environment.ts",
+              "with": "libs/eo/shared/environments/src/lib/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all",
+          "optimization": {
+            "scripts": true,
+            "styles": {
+              "minify": true,
+              "inlineCritical": false
+            },
+            "fonts": true
+          }
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "browserTarget": "app-eo:build:development"
+      },
+      "configurations": {
+        "development": {
+          "hmr": true
+        },
+        "e2e-development": {},
+        "production": {
+          "browserTarget": "app-eo:build:production"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/eo/app-eo/src/**/*.ts",
+          "apps/eo/app-eo/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/apps/eo/app-eo"],
+      "options": {
+        "jestConfig": "apps/eo/app-eo/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["product:eo", "type:app"],
+  "implicitDependencies": ["eo-shared-styles"]
+}

@@ -1,0 +1,122 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let t; read: 'charges.prices.search'">
+  <div class="header">
+    <form #searchForm name="price-search-form" (ngSubmit)="onSubmit()">
+      <div class="search-container">
+        <!-- ID or name -->
+        <watt-form-field>
+          <watt-label>{{ t("idOrName") }}</watt-label>
+          <input
+            [(ngModel)]="this.searchCriteria.chargeIdOrName"
+            name="idOrNAme"
+            wattInput
+            type="text"
+            [placeholder]="t('enterIdOrName')"
+          />
+        </watt-form-field>
+
+        <!-- Owner -->
+        <watt-form-field>
+          <watt-label>{{ t("owner") }}</watt-label>
+          <watt-dropdown
+            [(ngModel)]="this.searchCriteria.ownerIds"
+            name="owner"
+            [options]="marketParticipantsOptions"
+            [placeholder]="t('enterOwner')"
+            [multiple]="true"
+            [title]="this.searchCriteria.ownerIds"
+          >
+          </watt-dropdown>
+        </watt-form-field>
+
+        <!-- Type -->
+        <watt-form-field>
+          <watt-label>{{ t("chargeType") }}</watt-label>
+          <watt-dropdown
+            [(ngModel)]="this.searchCriteria.chargeTypes"
+            [options]="chargeTypeOptions"
+            name="chargeType"
+            [placeholder]="t('selectChargeType')"
+            [multiple]="true"
+            [title]="this.searchCriteria.chargeTypes"
+          >
+          </watt-dropdown>
+        </watt-form-field>
+
+        <!-- Validity -->
+        <watt-form-field>
+          <watt-label>{{ t("validity") }}</watt-label>
+          <watt-dropdown
+            disabled
+            [(ngModel)]="this.validityOption"
+            [options]="validityOptions"
+            name="validity"
+            [placeholder]="'charges.prices.validityOptions.Now' | transloco"
+            [multiple]="false"
+          >
+          </watt-dropdown>
+        </watt-form-field>
+
+        <!-- Date valid from -->
+        <watt-form-field>
+          <watt-label>{{ t("dateValidFrom") }}</watt-label>
+          <watt-datepicker disabled>
+            [(ngModel)]="this.searchCriteria.dateTimeValidFrom"
+          </watt-datepicker>
+        </watt-form-field>
+
+        <!-- Date to -->
+        <watt-form-field>
+          <watt-label>{{ t("dateValidTo") }}</watt-label>
+          <watt-datepicker disabled>
+            [(ngModel)]="this.searchCriteria.dateTimeValidTo"
+          </watt-datepicker>
+        </watt-form-field>
+      </div>
+      <div class="buttons-container">
+        <!-- Clear -->
+        <watt-button
+          title="{{ t('clearSearch') }}"
+          (click)="resetSearchCriteria()"
+          variant="secondary"
+          icon="remove"
+          type="reset"
+        >
+          {{ t("clearSearch") }}
+        </watt-button>
+
+        <!-- Search -->
+        <watt-button
+          title="{{ t('startSearch') }}"
+          variant="primary"
+          icon="search"
+          type="submit"
+        >
+          {{ t("startSearch") }}
+        </watt-button>
+      </div>
+    </form>
+  </div>
+
+  <dh-charges-prices-result
+    [result]="all$ | push"
+    [isLoading]="isLoading$ | push"
+    [isInit]="isInit$ | push"
+    [hasLoadingError]="hasLoadingError$ | push"
+  ></dh-charges-prices-result>
+</ng-container>

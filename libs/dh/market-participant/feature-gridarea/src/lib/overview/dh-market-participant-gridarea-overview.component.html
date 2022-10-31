@@ -1,0 +1,128 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<ng-container *transloco="let t; read: 'marketParticipant.gridAreas'">
+  <!-- drawer -->
+  <watt-drawer #drawer (closed)="drawerClosed()" size="normal">
+    <watt-drawer-topbar> </watt-drawer-topbar>
+
+    <watt-drawer-actions> </watt-drawer-actions>
+
+    <watt-drawer-content *ngIf="drawer.opened">
+      <div class="container">
+        <dh-market-participant-gridarea-edit
+          [gridArea]="activeRow"
+          [gridChanges]="gridChanges"
+          [gridChangesLoading]="gridChangesLoading"
+          [getGridAreaData]="getGridAreaData"
+        >
+        </dh-market-participant-gridarea-edit>
+        <dh-market-participant-gridarea-details-header [gridArea]="activeRow">
+        </dh-market-participant-gridarea-details-header>
+        <dh-market-participant-gridarea-details-auditlog
+          [isLoading]="isLoadingAuditLog"
+          [auditLogEntries]="activeGridAreaAuditLog"
+        ></dh-market-participant-gridarea-details-auditlog>
+      </div>
+    </watt-drawer-content>
+  </watt-drawer>
+
+  <!-- Table -->
+  <div class="card-container">
+    <mat-table [dataSource]="dataSource" aria-label="gridAreas">
+      <!-- Code -->
+      <ng-container matColumnDef="code">
+        <mat-header-cell *matHeaderCellDef>
+          {{ t("columns.code") }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <a (click)="open(element)">
+            {{ element.code | dhEmDashFallback }}
+          </a>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Name -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>
+          {{ t("columns.name") }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.name }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Actor name -->
+      <ng-container matColumnDef="actorName">
+        <mat-header-cell *matHeaderCellDef>
+          {{ t("columns.actorName") }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.actorName | dhEmDashFallback }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Actor number -->
+      <ng-container matColumnDef="actorNumber">
+        <mat-header-cell *matHeaderCellDef>
+          {{ t("columns.actorNumber") }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.actorNumber | dhEmDashFallback }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Price area code -->
+      <ng-container matColumnDef="priceAreaCode">
+        <mat-header-cell *matHeaderCellDef>
+          {{ t("columns.priceAreaCode") }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ t("priceAreaCodes." + element.priceAreaCode) }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Valid from -->
+      <ng-container matColumnDef="validFrom">
+        <mat-header-cell *matHeaderCellDef>
+          {{ t("columns.validFrom") }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.validFrom | dhDate }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Valid to -->
+      <ng-container matColumnDef="validTo">
+        <mat-header-cell *matHeaderCellDef>
+          {{ t("columns.validTo") }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.validTo | dhDate | dhEmDashFallback }}
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row
+        *matHeaderRowDef="columnIds; sticky: false"
+      ></mat-header-row>
+      <mat-row
+        *matRowDef="let row; columns: columnIds"
+        [class.watt-table-row--highlighted]="isSelected(row)"
+      ></mat-row>
+    </mat-table>
+  </div>
+</ng-container>

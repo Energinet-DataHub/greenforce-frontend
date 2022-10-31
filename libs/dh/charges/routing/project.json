@@ -1,0 +1,27 @@
+{
+  "name": "dh-charges-routing",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/charges/routing/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/charges/routing"],
+      "options": {
+        "jestConfig": "libs/dh/charges/routing/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/charges/routing/**/*.ts",
+          "libs/dh/charges/routing/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:charges", "type:routing"]
+}

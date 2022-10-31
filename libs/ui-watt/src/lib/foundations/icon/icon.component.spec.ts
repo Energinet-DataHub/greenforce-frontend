@@ -34,8 +34,9 @@ describe(WattIconComponent.name, () => {
     });
 
     const component = view.fixture.componentInstance;
+    const expected: WattIconSize = 'm';
 
-    expect(component.size).toBe(WattIconSize.Medium);
+    expect(component.size).toBe(expected);
   });
 
   it('has default `state`', async () => {
@@ -47,8 +48,9 @@ describe(WattIconComponent.name, () => {
     });
 
     const component = view.fixture.componentInstance;
+    const expected: WattIconState = 'default';
 
-    expect(component.state).toBe(WattIconState.Default);
+    expect(component.state).toBe(expected);
   });
 
   describe('host classes', () => {
@@ -70,7 +72,7 @@ describe(WattIconComponent.name, () => {
         const view = await render(WattIconComponent, {
           componentProperties: {
             name: 'search',
-            size: WattIconSize.Large,
+            size: 'l',
           },
           imports: [WattIconModule],
         });
@@ -99,7 +101,7 @@ describe(WattIconComponent.name, () => {
         const view = await render(WattIconComponent, {
           componentProperties: {
             name: 'search',
-            state: WattIconState.Success,
+            state: 'success',
           },
           imports: [WattIconModule],
         });
@@ -112,10 +114,10 @@ describe(WattIconComponent.name, () => {
   });
 
   describe.each([
-    ['success', WattIconState.Success, 'icon-state-success'],
-    ['danger', WattIconState.Danger, 'icon-state-danger'],
-    ['warning', WattIconState.Warning, 'icon-state-warning'],
-    ['info', WattIconState.Info, 'icon-state-info'],
+    ['success', 'success', 'icon-state-success'],
+    ['danger', 'danger', 'icon-state-danger'],
+    ['warning', 'warning', 'icon-state-warning'],
+    ['info', 'info', 'icon-state-info'],
   ])('%s icon', (icon, ownDefaultState, ownStateClass) => {
     it('has own default state', async () => {
       const view = await render(WattIconComponent, {
@@ -147,7 +149,7 @@ describe(WattIconComponent.name, () => {
       const view = await render(WattIconComponent, {
         componentProperties: {
           name: icon as WattIcon,
-          state: WattIconState.Default,
+          state: 'default',
         },
         imports: [WattIconModule],
       });

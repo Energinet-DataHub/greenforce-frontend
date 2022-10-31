@@ -1,14 +1,15 @@
 {
+  "name": "eo-landing-page-shell",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/eo/landing-page/shell",
   "sourceRoot": "libs/eo/landing-page/shell/src",
   "prefix": "eo",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/eo/landing-page/shell"],
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/landing-page/shell"],
       "options": {
-        "jestConfig": "libs/eo/landing-page/shell/jest.config.js",
+        "jestConfig": "libs/eo/landing-page/shell/jest.config.ts",
         "passWithNoTests": true
       }
     },

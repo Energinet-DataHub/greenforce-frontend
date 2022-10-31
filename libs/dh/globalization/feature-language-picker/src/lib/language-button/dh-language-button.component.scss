@@ -34,7 +34,11 @@ dh-language-button {
   }
 
   .mat-button-toggle {
-    width: 4rem;
+    width: var(--watt-space-xl);
+  }
+
+  .mat-button-toggle-button {
+    height: var(--watt-space-xl);
   }
 
   .mat-button-toggle-checked .mat-button-toggle-focus-overlay {

@@ -14,19 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 :root {
   // Primary
-  --watt-color-primary: #00847c;
+  --watt-color-primary: #00898a;
   --watt-color-primary-contrast: var(--watt-color-neutral-white);
-  --watt-color-primary-light: #4db4ab;
+  --watt-color-primary-light: #b2d0d2;
   --watt-color-primary-light-contrast: var(--watt-color-neutral-black);
-  --watt-color-primary-dark: #02525e;
+  --watt-color-primary-dark: #005d5c;
   --watt-color-primary-dark-contrast: var(--watt-color-neutral-white);
-  // Focus
-  --watt-color-focus-selection: #ebf5f5;
-  --watt-color-focus-selection-contrast: var(--watt-color-neutral-black);
-  --watt-color-focus: #ffd237;
-  --watt-color-focus-contrast: var(--watt-color-neutral-black);
+  // Secondary
+  --watt-color-secondary: #f8ad3c;
+  --watt-color-secondary-dark: #ee9331;
+  --watt-color-secondary-light: #f9dba7;
+  // Data Visualization
+  --watt-color-data-1: #9fcd91;
+  --watt-color-data-2: #a0c1c2;
+  --watt-color-data-3: #00a58d;
   // Neutrals
   --watt-color-neutral-black: #000;
   --watt-color-neutral-black-contrast: var(--watt-color-neutral-white);
@@ -53,20 +57,33 @@
   --watt-color-neutral-grey-900: #212121;
   --watt-color-neutral-grey-900-contrast: var(--watt-color-neutral-white);
   // States
-  --watt-color-state-danger: #cc493e;
+  --watt-color-state-danger: #d12923;
   --watt-color-state-danger-contrast: var(--watt-color-neutral-white);
-  --watt-color-state-danger-light: #f7e2e0;
+  --watt-color-state-danger-light: #f4c9c8;
   --watt-color-state-danger-light-contrast: var(--watt-color-neutral-black);
-  --watt-color-state-warning: #f8ae3c;
+  --watt-color-state-warning: #f9d557;
   --watt-color-state-warning-contrast: var(--watt-color-neutral-black);
-  --watt-color-state-warning-light: #fef2e0;
+  --watt-color-state-warning-light: #fef5d5;
   --watt-color-state-warning-light-contrast: var(--watt-color-neutral-black);
-  --watt-color-state-success: #36b37e;
+  --watt-color-state-success: #7fb069;
   --watt-color-state-success-contrast: var(--watt-color-neutral-black);
-  --watt-color-state-success-light: #dff3ea;
+  --watt-color-state-success-light: #dfebda;
   --watt-color-state-success-light-contrast: var(--watt-color-neutral-black);
   --watt-color-state-info: #00a6bc;
   --watt-color-state-info-contrast: var(--watt-color-neutral-black);
   --watt-color-state-info-light: #d6f1f4;
   --watt-color-state-info-light-contrast: var(--watt-color-neutral-black);
+  // Typography
+  --watt-typography-headline-color: var(--watt-color-primary-dark);
+  --watt-typography-text-color: var(--watt-on-light-high-emphasis);
+  --watt-typography-button-color: var(--watt-color-primary);
+  --watt-typography-label-color: var(--watt-color-primary-dark);
+  --watt-typography-link-color: var(--watt-color-primary-dark);
+  // Text Color Emphasis
+  --watt-on-light-high-emphasis: rgba(0, 0, 0, 1);
+  --watt-on-light-medium-emphasis: rgba(0, 0, 0, 0.74);
+  --watt-on-light-low-emphasis: rgba(0, 0, 0, 0.38);
+  --watt-on-dark-high-emphasis: rgba(255, 255, 255, 0.87);
+  --watt-on-dark-medium-emphasis: rgba(255, 255, 255, 0.62);
+  --watt-on-dark-low-emphasis: rgba(255, 255, 255, 0.38);
 }

@@ -1,0 +1,58 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<ng-container
+  *transloco="let t; read: 'marketParticipant.gridAreas.changeGridArea'"
+>
+  <div class="top-btns">
+    <watt-button (click)="openEditModal()">{{ t("editGridArea") }}</watt-button>
+  </div>
+  <ng-container>
+    <watt-modal
+      #nameChangeModal
+      [title]="t('editGridAreaModalTitle')"
+      [size]="'small'"
+      [disableClose]="gridChangesLoading"
+      [closeLabel]="t('editGridAreaModalCloseLabel')"
+    >
+      <br />
+      <watt-form-field>
+        <watt-label>{{ t("gridAreaName") }}</watt-label>
+        <input
+          #nameChangeInput
+          wattInput
+          [(ngModel)]="newGridName"
+          type="text"
+          required
+        />
+      </watt-form-field>
+      <watt-modal-actions>
+        <watt-button
+          variant="secondary"
+          [disabled]="gridChangesLoading"
+          (click)="closeEditModal()"
+          >{{ t("cancel") }}</watt-button
+        >
+        <watt-button
+          [loading]="gridChangesLoading"
+          (click)="saveGridChanges()"
+          >{{ t("saveChanges") }}</watt-button
+        >
+      </watt-modal-actions>
+    </watt-modal>
+  </ng-container>
+</ng-container>

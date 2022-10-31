@@ -1,0 +1,27 @@
+{
+  "name": "dh-charges-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/charges/domain/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/charges/domain"],
+      "options": {
+        "jestConfig": "libs/dh/charges/domain/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/charges/domain/**/*.ts",
+          "libs/dh/charges/domain/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:charges", "type:domain"]
+}

@@ -1,6 +1,7 @@
 {
+  "name": "app-dh",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "root": "apps/dh/app-dh",
   "sourceRoot": "apps/dh/app-dh/src",
   "prefix": "dh",
   "targets": {
@@ -14,11 +15,21 @@
         "polyfills": "apps/dh/app-dh/src/polyfills.ts",
         "tsConfig": "apps/dh/app-dh/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "allowedCommonJsDependencies": ["date-fns-tz"],
+        "allowedCommonJsDependencies": [
+          "date-fns",
+          "date-fns-tz",
+          "inputmask",
+          "flat"
+        ],
         "assets": [
           {
             "glob": "**/*",
             "input": "libs/dh/shared/assets/src/favicon",
+            "output": ""
+          },
+          {
+            "glob": "staticwebapp.config.json",
+            "input": "apps/dh/app-dh",
             "output": ""
           },
           {
@@ -35,6 +46,11 @@
             "input": "libs/ui-watt/src/assets",
             "glob": "**/*",
             "output": "assets/ui-watt"
+          },
+          {
+            "input": "libs/dh/shared/data-access-msw/src/assets",
+            "glob": "mockServiceWorker.js",
+            "output": ""
           }
         ],
         "styles": ["apps/dh/app-dh/src/styles.scss"],
@@ -49,7 +65,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1.2mb"
+              "maximumError": "1.33mb"
             },
             {
               "type": "anyComponentStyle",
@@ -67,11 +83,20 @@
               "with": "apps/dh/app-dh/src/configuration/load-dh-b2c-environment.prod.ts"
             },
             {
+              "replace": "apps/dh/app-dh/src/configuration/load-dh-app-environment.ts",
+              "with": "apps/dh/app-dh/src/configuration/load-dh-app-environment.prod.ts"
+            },
+            {
               "replace": "libs/dh/shared/environments/src/lib/environment.ts",
               "with": "libs/dh/shared/environments/src/lib/environment.prod.ts"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "sourceMap": {
+            "hidden": true,
+            "scripts": true,
+            "vendor": true
+          }
         },
         "development": {
           "buildOptimizer": false,
@@ -79,7 +104,36 @@
           "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
-          "namedChunks": true
+          "namedChunks": true,
+          "allowedCommonJsDependencies": [
+            "date-fns",
+            "date-fns-tz",
+            "inputmask",
+            "flat"
+          ]
+        },
+        "mocked": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "libs/dh/shared/environments/src/lib/environment.ts",
+              "with": "libs/dh/shared/environments/src/lib/environment.mocked.ts"
+            }
+          ],
+          "allowedCommonJsDependencies": [
+            "date-fns",
+            "date-fns-tz",
+            "@mswjs/cookies",
+            "@mswjs/interceptors",
+            "msw",
+            "inputmask",
+            "flat"
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -95,9 +149,14 @@
           "browserTarget": "app-dh:build:development",
           "hmr": true,
           "ssl": true
+        },
+        "mocked": {
+          "browserTarget": "app-dh:build:mocked",
+          "hmr": true,
+          "ssl": true
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "mocked"
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
@@ -111,9 +170,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/dh/app-dh"],
+      "outputs": ["{workspaceRoot}/coverage/apps/dh/app-dh"],
       "options": {
-        "jestConfig": "apps/dh/app-dh/jest.config.js",
+        "jestConfig": "apps/dh/app-dh/jest.config.ts",
         "passWithNoTests": true
       }
     }

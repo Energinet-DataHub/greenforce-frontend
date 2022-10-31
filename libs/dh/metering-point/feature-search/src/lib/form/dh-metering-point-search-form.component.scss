@@ -21,8 +21,10 @@
 
 form {
   display: flex;
+  align-items: center;
   width: 100%;
   justify-content: space-between;
+  gap: var(--watt-space-s);
   flex-wrap: wrap;
 }
 
@@ -41,10 +43,4 @@ watt-icon {
 
 watt-form-field {
   width: auto;
-  margin-right: var(--watt-space-s);
-  --label-margin-bottom: var(--watt-space-m);
-}
-
-watt-button {
-  margin-top: var(--watt-space-m);
 }

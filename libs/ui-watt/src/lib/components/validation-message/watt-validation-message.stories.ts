@@ -34,7 +34,7 @@ How to use
 
 1. Import ${WattValidationMessageModule.name} in a module
 
-import { ${WattValidationMessageModule.name} } from '@energinet-datahub/watt';
+import { ${WattValidationMessageModule.name} } from '@energinet-datahub/watt/validation-message';
 
 2. Use the component
 
@@ -53,7 +53,7 @@ validationMessage.parameters = {
   },
 };
 validationMessage.args = {
-  label: 'Info:',
+  label: 'Info',
   message: 'The metering point is not active',
   type: 'info',
 };

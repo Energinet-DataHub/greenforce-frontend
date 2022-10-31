@@ -1,0 +1,29 @@
+{
+  "name": "dh-market-participant-feature-edit-organization",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/market-participant/feature-edit-organization/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/market-participant/feature-edit-organization"
+      ],
+      "options": {
+        "jestConfig": "libs/dh/market-participant/feature-edit-organization/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/market-participant/feature-edit-organization/src/**/*.ts",
+          "libs/dh/market-participant/feature-edit-organization/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:market-participant", "type:feature"]
+}

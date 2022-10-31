@@ -28,6 +28,15 @@ limitations under the License.
   global styling to it as seen in the follwing example.
 </p>
 
+<mat-paginator
+  [length]="100"
+  [pageSize]="50"
+  [pageSizeOptions]="[50, 100, 150, 250]"
+  [showFirstLastButtons]="true"
+  aria-label="Select page"
+>
+</mat-paginator>
+
 <mat-table
   #matTable
   [dataSource]="sortedData"
@@ -51,7 +60,7 @@ limitations under the License.
         <div class="watt-text-s">
           {{ element.name }}
         </div>
-        <div class="watt-text-xs">Weight: {{ element.weight }}</div>
+        <div class="watt-text-s">Weight: {{ element.weight }}</div>
       </div>
     </mat-cell>
   </ng-container>
@@ -62,7 +71,7 @@ limitations under the License.
     <mat-cell *matCellDef="let element">
       <watt-icon
         name="date"
-        [size]="iconSize.Small"
+        [size]="'s'"
         class="date-icon watt-space-inline-s"
       ></watt-icon>
 

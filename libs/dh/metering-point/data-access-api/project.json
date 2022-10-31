@@ -1,14 +1,17 @@
 {
+  "name": "dh-metering-point-data-access-api",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/dh/metering-point/data-access-api",
   "sourceRoot": "libs/dh/metering-point/data-access-api/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/metering-point/data-access-api"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/metering-point/data-access-api"
+      ],
       "options": {
-        "jestConfig": "libs/dh/metering-point/data-access-api/jest.config.js",
+        "jestConfig": "libs/dh/metering-point/data-access-api/jest.config.ts",
         "passWithNoTests": true
       }
     },

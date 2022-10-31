@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/is-valid-metering-point-id';
+export * from './model/dh-process';

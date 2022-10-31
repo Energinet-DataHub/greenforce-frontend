@@ -1,0 +1,26 @@
+{
+  "name": "dh-wholesale-data-access-api",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/wholesale/data-access-api/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/wholesale/data-access-api"],
+      "options": {
+        "jestConfig": "libs/dh/wholesale/data-access-api/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/wholesale/data-access-api/**/*.ts",
+          "libs/dh/wholesale/data-access-api/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:wholesale", "type:data-access"]
+}

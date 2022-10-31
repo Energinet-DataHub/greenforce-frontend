@@ -31,7 +31,7 @@ limitations under the License.
         sortActionDescription="Sort by number"
         class="header-cell watt-label"
         >{{
-          'meteringPoint.overview.childMeteringPointsTab.headers.childMeteringPoint'
+          "meteringPoint.overview.childMeteringPointsTab.headers.childMeteringPoint"
             | transloco
         }}</mat-header-cell
       >
@@ -39,11 +39,11 @@ limitations under the License.
         <div class="multi-line-cell">
           <div class="watt-text-s">
             {{
-              'meteringPoint.meteringPointTypeCode.' + row.meteringPointType
+              "meteringPoint.meteringPointTypeCode." + row.meteringPointType
                 | transloco
             }}
           </div>
-          <div class="watt-text-xs grey-text" data-testid="gsrn">
+          <div class="watt-text-s grey-text" data-testid="gsrn">
             {{ row.gsrnNumber }}
           </div>
         </div>
@@ -58,16 +58,12 @@ limitations under the License.
         sortActionDescription="Sort by number"
         class="header-cell watt-label"
         >{{
-          'meteringPoint.overview.childMeteringPointsTab.headers.effectivePeriod'
+          "meteringPoint.overview.childMeteringPointsTab.headers.effectivePeriod"
             | transloco
         }}</mat-header-cell
       >
       <mat-cell *matCellDef="let row">
-        <watt-icon
-          name="date"
-          [size]="iconSize.Small"
-          class="date-icon"
-        ></watt-icon>
+        <watt-icon name="date" size="s" class="date-icon"></watt-icon>
 
         <span class="watt-text-s">{{ row.effectiveDate | dhDate }} - </span>
       </mat-cell>
@@ -81,7 +77,7 @@ limitations under the License.
         sortActionDescription="Sort by number"
         class="header-cell watt-label"
         >{{
-          'meteringPoint.overview.childMeteringPointsTab.headers.status'
+          "meteringPoint.overview.childMeteringPointsTab.headers.status"
             | transloco
         }}</mat-header-cell
       >
@@ -97,6 +93,7 @@ limitations under the License.
     <mat-row
       *matRowDef="let row; columns: displayedColumns"
       routerLink="/metering-point/{{ row.gsrnNumber }}"
+      class="clickable"
     >
     </mat-row>
   </mat-table>

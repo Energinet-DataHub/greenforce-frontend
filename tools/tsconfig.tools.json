@@ -6,8 +6,9 @@
     "module": "commonjs",
     "target": "es5",
     "types": ["node"],
-    "importHelpers": false
+    "importHelpers": false,
+    "strictNullChecks": true
   },
-  "exclude": ["**/*.spec.ts"],
+  "exclude": ["**/*.spec.ts", "jest.config.ts"],
   "include": ["**/*.ts"]
 }

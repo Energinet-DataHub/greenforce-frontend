@@ -18,31 +18,35 @@ import { BrowserUtils } from '@azure/msal-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {
+  MsalGuard,
+  MsalInterceptor,
+  MsalModule,
+  MsalService,
+  MSAL_GUARD_CONFIG,
+  MSAL_INSTANCE,
+  MSAL_INTERCEPTOR_CONFIG,
+} from '@azure/msal-angular';
 
-import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
-import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import {
   DhConfigurationLocalizationModule,
   DhTranslocoModule,
 } from '@energinet-datahub/dh/globalization/configuration-localization';
-import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/shell';
+import { DhGlobalizationUiWattTranslationModule } from '@energinet-datahub/dh/globalization/ui-watt-translation';
 import {
-  MSAL_GUARD_CONFIG,
-  MSAL_INSTANCE,
-  MSAL_INTERCEPTOR_CONFIG,
-  MsalGuard,
   MSALGuardConfigFactory,
   MSALInstanceFactory,
-  MsalInterceptor,
   MSALInterceptorConfigFactory,
-  MsalModule,
-  MsalService,
 } from '@energinet-datahub/dh/auth/msal';
-
-import {
-  DhCoreShellComponent,
-  DhCoreShellScam,
-} from './dh-core-shell.component';
+import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { dhMarketParticipantPath } from '@energinet-datahub/dh/market-participant/routing';
+import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
+import { dhChargesPath } from '@energinet-datahub/dh/charges/routing';
+import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
+import { WattToastModule } from '@energinet-datahub/watt/toast';
+import { DhCoreShellComponent } from './dh-core-shell.component';
+import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
 
 const routes: Routes = [
   {
@@ -62,6 +66,38 @@ const routes: Routes = [
           ),
         canActivate: [MsalGuard],
       },
+      {
+        path: 'message-archive',
+        loadChildren: () =>
+          import('@energinet-datahub/dh/message-archive/shell').then(
+            (esModule) => esModule.DhMessageArchiveShellModule
+          ),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: dhMarketParticipantPath,
+        loadChildren: () =>
+          import('@energinet-datahub/dh/market-participant/shell').then(
+            (esModule) => esModule.DhMarketParticipantShellModule
+          ),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: 'wholesale',
+        loadChildren: () =>
+          import('@energinet-datahub/dh/wholesale/shell').then(
+            (esModule) => esModule.DhWholesaleShellModule
+          ),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: dhChargesPath,
+        loadChildren: () =>
+          import('@energinet-datahub/dh/charges/shell').then(
+            (esModule) => esModule.DhChargesShellModule
+          ),
+        canActivate: [MsalGuard],
+      },
     ],
   },
   // Used by MSAL (B2C)
@@ -72,11 +108,13 @@ const routes: Routes = [
   exports: [RouterModule],
   imports: [
     DhApiModule.forRoot(),
-    DhCoreShellScam,
+    DhCoreShellComponent,
     DhTranslocoModule.forRoot(),
     HttpClientModule,
     MsalModule,
     DhConfigurationLocalizationModule.forRoot(),
+    WattDanishDatetimeModule.forRoot(),
+    DhSharedUtilApplicationInsightsModule.forRoot(),
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       // Don't perform initial navigation in iframes or popups
@@ -86,6 +124,8 @@ const routes: Routes = [
           : 'enabledNonBlocking',
       scrollPositionRestoration: 'enabled',
     }),
+    WattToastModule.forRoot(),
+    DhGlobalizationUiWattTranslationModule.forRoot(),
   ],
   providers: [
     MsalService,

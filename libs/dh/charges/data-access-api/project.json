@@ -1,14 +1,15 @@
 {
+  "name": "dh-charges-data-access-api",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/dh/charges/data-access-api",
   "sourceRoot": "libs/dh/charges/data-access-api/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/charges/data-access-api"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/charges/data-access-api"],
       "options": {
-        "jestConfig": "libs/dh/charges/data-access-api/jest.config.js",
+        "jestConfig": "libs/dh/charges/data-access-api/jest.config.ts",
         "passWithNoTests": true
       }
     },

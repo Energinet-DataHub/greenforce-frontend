@@ -1,14 +1,15 @@
 {
+  "name": "eo-shared-environments",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/eo/shared/environments",
   "sourceRoot": "libs/eo/shared/environments/src",
   "prefix": "eo",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/eo/shared/environments"],
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/shared/environments"],
       "options": {
-        "jestConfig": "libs/eo/shared/environments/jest.config.js",
+        "jestConfig": "libs/eo/shared/environments/jest.config.ts",
         "passWithNoTests": true
       }
     },

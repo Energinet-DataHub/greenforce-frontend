@@ -18,8 +18,6 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { WattIconSize } from '../../../foundations/icon';
-
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -41,7 +39,6 @@ export const periodicElements: PeriodicElement[] = [
 export class StorybookTableOverviewComponent implements AfterViewInit {
   displayedColumns: string[] = ['position', 'name', 'symbol'];
   sortedData = new MatTableDataSource(periodicElements);
-  iconSize = WattIconSize;
 
   @ViewChild(MatSort) matSort?: MatSort;
 

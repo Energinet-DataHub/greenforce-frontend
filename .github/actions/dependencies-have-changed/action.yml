@@ -1,0 +1,25 @@
+name: 'Dependencies have changed'
+description: 'Tell if dependencies have changed'
+outputs:
+  dependencies-have-changed:
+    description: 'Tells if dependencies have changed'
+    value: ${{ steps.dependenciesHasChanged.outputs.dependencies-have-changed }}
+
+runs:
+  using: composite
+  steps:
+    - run: mkdir tmp
+      shell: bash
+    - run: touch ./tmp/IS_AFFECTED
+      shell: bash
+    # we store the result in a temporary file to allow the Node.js process to
+    # fail the calling job
+    - run: node ${{ github.action_path }}/dependencies-have-changed.mjs >> ./tmp/DEPENDENCIES_HAVE_CHANGED
+      shell: bash
+    # if we inline the Node.js execution here, the calling job will not fail in
+    # case of process errors
+    - id: dependenciesHasChanged
+      run: echo "dependencies-have-changed=$(cat ./tmp/DEPENDENCIES_HAVE_CHANGED)" >> $GITHUB_OUTPUT
+      shell: bash
+    - run: rm ./tmp/DEPENDENCIES_HAVE_CHANGED
+      shell: bash

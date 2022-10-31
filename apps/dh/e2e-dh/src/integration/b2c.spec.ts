@@ -23,7 +23,7 @@ const environments = [
   },
   {
     name: 'U002',
-    url: 'https://ambitious-coast-027d0aa03.azurestaticapps.net',
+    url: 'https://wonderful-field-057109603.1.azurestaticapps.net',
   },
   {
     name: 'T001',
@@ -43,8 +43,28 @@ environments.forEach((env) => {
   test(`[B2C Healthcheck] ${env.name} should have correct redirect_uri, after redirected to B2C login page`, async ({
     page,
   }) => {
-    await page.goto(env.url);
+    await page.goto(env.url).then((resp) => expect(resp?.status()).toBe(200));
     await page.waitForNavigation();
     expect(page.url()).toContain(`redirect_uri=${encodeURIComponent(env.url)}`);
+  });
+
+  test(`[B2C Healthcheck] ${env.name} should have "sign up" link, and redirect to "signup" user flow`, async ({
+    page,
+  }) => {
+    await page.goto(env.url).then((resp) => expect(resp?.status()).toBe(200));
+    await page.waitForNavigation();
+    await page.locator('text=Sign up now').click();
+
+    expect(page.url()).toContain(`signup`);
+  });
+
+  test(`[B2C Healthcheck] ${env.name} should have "forgot password" link, and redirect to "reset_password" user flow`, async ({
+    page,
+  }) => {
+    await page.goto(env.url).then((resp) => expect(resp?.status()).toBe(200));
+    await page.waitForNavigation();
+    await page.locator('text=Reset password here').click();
+
+    expect(page.url()).toContain(`reset_password`);
   });
 });

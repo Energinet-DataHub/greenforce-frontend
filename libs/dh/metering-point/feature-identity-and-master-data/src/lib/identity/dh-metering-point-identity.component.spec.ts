@@ -18,13 +18,9 @@ import { render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
 
 import {
-  ConnectionState,
-  MeteringMethod,
   MeteringPointCimDto,
-  MeteringPointType,
-  ReadingOccurrence,
   SettlementMethod,
-} from '@energinet-datahub/dh/shared/data-access-api';
+} from '@energinet-datahub/dh/shared/domain';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
@@ -33,6 +29,14 @@ import {
   DhMeteringPointIdentityComponent,
   DhMeteringPointIdentityScam,
 } from './dh-metering-point-identity.component';
+
+const meteringPointMock = {
+  meteringPointType: 'E17',
+  readingOccurrence: 'PT1H',
+  connectionState: 'D03',
+  settlementMethod: 'D01',
+  meteringMethod: 'D01',
+} as MeteringPointCimDto;
 
 describe(DhMeteringPointIdentityComponent.name, () => {
   async function setup(meteringPoint: MeteringPointCimDto) {
@@ -49,13 +53,7 @@ describe(DhMeteringPointIdentityComponent.name, () => {
   describe('metering point type', () => {
     // eslint-disable-next-line sonarjs/no-duplicate-string
     it('is displayed when it has a valid value', async () => {
-      const meteringPointType: MeteringPointType = 'E17';
-
-      const meteringPoint: MeteringPointCimDto = {
-        meteringPointType,
-      } as MeteringPointCimDto;
-
-      await setup(meteringPoint);
+      await setup(meteringPointMock);
 
       const disableQuerySuggestions: MatcherOptions = { suggest: false };
       const actualMeteringPointType = screen.getByTitle(
@@ -64,7 +62,9 @@ describe(DhMeteringPointIdentityComponent.name, () => {
       );
 
       const expectedMeteringPointType =
-        enTranslations.meteringPoint.meteringPointTypeCode[meteringPointType];
+        enTranslations.meteringPoint.meteringPointTypeCode[
+          meteringPointMock.meteringPointType
+        ];
 
       expect(actualMeteringPointType.textContent).toContain(
         expectedMeteringPointType
@@ -74,13 +74,7 @@ describe(DhMeteringPointIdentityComponent.name, () => {
 
   describe('metering method', () => {
     it('is displayed when it has a valid value', async () => {
-      const meteringMethod: MeteringMethod = 'D01';
-
-      const meteringPoint: MeteringPointCimDto = {
-        meteringMethod,
-      } as MeteringPointCimDto;
-
-      await setup(meteringPoint);
+      await setup(meteringPointMock);
 
       const disableQuerySuggestions: MatcherOptions = { suggest: false };
       const actualMeteringMethod = screen.getByTitle(
@@ -89,7 +83,9 @@ describe(DhMeteringPointIdentityComponent.name, () => {
       );
 
       const expectedMeteringMethod =
-        enTranslations.meteringPoint.meteringPointSubTypeCode[meteringMethod];
+        enTranslations.meteringPoint.meteringPointSubTypeCode[
+          meteringPointMock.meteringMethod
+        ];
 
       expect(actualMeteringMethod.textContent).toContain(
         expectedMeteringMethod
@@ -99,20 +95,16 @@ describe(DhMeteringPointIdentityComponent.name, () => {
 
   describe('metering point status', () => {
     it('is displayed when it has a valid value', async () => {
-      const connectionState: ConnectionState = 'D03';
-
-      const meteringPoint: MeteringPointCimDto = {
-        connectionState,
-      } as MeteringPointCimDto;
-
-      await setup(meteringPoint);
+      await setup(meteringPointMock);
 
       const actualConnectionState = screen.getByTitle(
         enTranslations.meteringPoint.overview.connectionState
       );
 
       const expectedConnectionState =
-        enTranslations.meteringPoint.physicalStatusCode[connectionState];
+        enTranslations.meteringPoint.physicalStatusCode[
+          meteringPointMock.connectionState
+        ];
 
       expect(actualConnectionState.textContent).toContain(
         expectedConnectionState
@@ -122,13 +114,7 @@ describe(DhMeteringPointIdentityComponent.name, () => {
 
   describe('settlement method', () => {
     it('is displayed when it has a valid value', async () => {
-      const settlementMethod: SettlementMethod = 'D01';
-
-      const meteringPoint: MeteringPointCimDto = {
-        settlementMethod,
-      } as MeteringPointCimDto;
-
-      await setup(meteringPoint);
+      await setup(meteringPointMock);
 
       const disableQuerySuggestions: MatcherOptions = { suggest: false };
       const actualSettlementMethod = screen.getByTitle(
@@ -137,7 +123,9 @@ describe(DhMeteringPointIdentityComponent.name, () => {
       );
 
       const expectedSettlementMethod =
-        enTranslations.meteringPoint.settlementMethodCode[settlementMethod];
+        enTranslations.meteringPoint.settlementMethodCode[
+          meteringPointMock.settlementMethod as SettlementMethod
+        ];
 
       expect(actualSettlementMethod.textContent).toContain(
         expectedSettlementMethod
@@ -147,13 +135,7 @@ describe(DhMeteringPointIdentityComponent.name, () => {
 
   describe('reading occurrence', () => {
     it('is displayed when it has a valid value', async () => {
-      const readingOccurrence: ReadingOccurrence = 'PT1H';
-
-      const meteringPoint: MeteringPointCimDto = {
-        readingOccurrence,
-      } as MeteringPointCimDto;
-
-      await setup(meteringPoint);
+      await setup(meteringPointMock);
 
       const disableQuerySuggestions: MatcherOptions = { suggest: false };
       const actualReadingOccurrence = screen.getByTitle(
@@ -162,7 +144,9 @@ describe(DhMeteringPointIdentityComponent.name, () => {
       );
 
       const expectedReadingOccurrence =
-        enTranslations.meteringPoint.readingOccurrenceCode[readingOccurrence];
+        enTranslations.meteringPoint.readingOccurrenceCode[
+          meteringPointMock.readingOccurrence
+        ];
 
       expect(actualReadingOccurrence.textContent).toContain(
         expectedReadingOccurrence

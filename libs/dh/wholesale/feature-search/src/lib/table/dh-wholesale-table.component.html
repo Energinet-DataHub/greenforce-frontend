@@ -1,0 +1,112 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
+  <div class="header">
+    <h3 class="watt-on-light--high-emphasis">{{ transloco("headline") }}</h3>
+    <dh-shared-ui-paginator></dh-shared-ui-paginator>
+  </div>
+
+  <!-- Table -->
+  <mat-table
+    [dataSource]="_data"
+    aria-label="batches"
+    matSort
+    matSortActive="executionTimeStart"
+    matSortDirection="desc"
+  >
+    <!-- Batch Number -->
+    <ng-container matColumnDef="batchNumber">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ transloco("columns.batchNumber") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let batch">
+        {{ batch.batchNumber }}
+      </mat-cell>
+    </ng-container>
+    <!-- Period From -->
+    <ng-container matColumnDef="periodStart">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ transloco("columns.periodFrom") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let batch">
+        {{ batch.periodStart | dhDate }}
+      </mat-cell>
+    </ng-container>
+    <!-- Period To -->
+    <ng-container matColumnDef="periodEnd">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ transloco("columns.periodTo") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let batch">
+        {{ batch.periodEnd | dhDate }}
+      </mat-cell>
+    </ng-container>
+    <!-- Execution Time -->
+    <ng-container matColumnDef="executionTimeStart">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ transloco("columns.executionTime") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let batch">
+        <div>
+          <div>{{ batch.executionTimeStart | dhDateTime }}</div>
+          <div>{{ batch.executionTimeEnd | dhDateTime }}</div>
+        </div>
+      </mat-cell>
+    </ng-container>
+    <!-- Status -->
+    <ng-container matColumnDef="executionState">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ transloco("columns.status") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let batch">
+        <watt-badge [type]="batch.statusType">
+          {{ transloco(batch.executionState) }}
+        </watt-badge>
+      </mat-cell>
+    </ng-container>
+    <!-- Download basis data -->
+    <ng-container matColumnDef="basisData">
+      <mat-header-cell *matHeaderCellDef>
+        {{ transloco("columns.basisData") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let batch">
+        <watt-button
+          variant="icon"
+          title="{{ transloco('download') }}"
+          icon="download"
+          (click)="onDownload(batch)"
+          [disabled]="!batch.isBasisDataDownloadAvailable"
+        >
+        </watt-button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
+  </mat-table>
+
+  <!-- No Batches found -->
+  <watt-empty-state
+    *ngIf="_data.data.length === 0"
+    icon="cancel"
+    size="large"
+    [title]="transloco('noBatchesFound')"
+    [message]="transloco('noBatchesHelperText')"
+  >
+  </watt-empty-state>
+</ng-container>

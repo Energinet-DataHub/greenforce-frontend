@@ -27,17 +27,19 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import {
-  WattButtonModule,
-  WattFormFieldModule,
-  WattIconModule,
-  WattInputModule,
-} from '@energinet-datahub/watt';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 import { meteringPointIdValidator } from './dh-metering-point.validator';
 import { Subscription } from 'rxjs';
@@ -57,7 +59,7 @@ export class DhMeteringPointSearchFormComponent
 
   queryParamsSubscription?: Subscription;
 
-  searchControl = new FormControl('', [meteringPointIdValidator()]);
+  searchControl = new UntypedFormControl('', [meteringPointIdValidator()]);
 
   constructor(
     private router: Router,
@@ -72,6 +74,7 @@ export class DhMeteringPointSearchFormComponent
         this.focusSearchInput();
       }
     );
+
     this.focusSearchInput();
   }
 
@@ -88,18 +91,19 @@ export class DhMeteringPointSearchFormComponent
     this.updateQueryParam(this.searchControl.value);
 
     if (!this.searchControl.valid) {
-      this.focusSearchInput();
+      return this.focusSearchInput();
+    } else if (this.loading) {
       return;
-    } else if (this.loading) return;
+    }
 
     this.search.emit(this.searchControl.value);
   }
 
-  private updateQueryParam(q: string | null): void {
+  private updateQueryParam(q: string | null | undefined): void {
     this.router.navigate([], { queryParams: { q } });
   }
 
-  private setInitialValue(value: string): void {
+  private setInitialValue(value: string | undefined | null): void {
     this.searchControl.setValue(value);
 
     if (!value) {

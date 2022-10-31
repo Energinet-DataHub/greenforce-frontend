@@ -18,13 +18,15 @@ import { TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { render, RenderResult, screen } from '@testing-library/angular';
 import { HttpClientModule } from '@angular/common/http';
-import user from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
+import { waitFor } from '@testing-library/dom';
 import {
   SpectacularAppComponent,
   SpectacularFeatureTestingModule,
   SpectacularFeatureRouter,
   SpectacularFeatureLocation,
 } from '@ngworker/spectacular';
+
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
@@ -73,7 +75,7 @@ describe(DhMeteringPointOverviewComponent.name, () => {
   let featureRouter: SpectacularFeatureRouter;
   let featureLocation: SpectacularFeatureLocation;
 
-  xit('displays a link to the Metering point URL', async () => {
+  it('displays a link to the Metering point URL', async () => {
     await featureRouter.navigateByUrl(`~/${meteringPointId}`);
 
     await view.fixture.whenStable();
@@ -81,7 +83,7 @@ describe(DhMeteringPointOverviewComponent.name, () => {
     const [topLevelLink]: HTMLAnchorElement[] = await screen.findAllByRole(
       'link'
     );
-    user.click(topLevelLink);
+    userEvent.click(topLevelLink);
 
     await view.fixture.whenStable();
 
@@ -89,16 +91,14 @@ describe(DhMeteringPointOverviewComponent.name, () => {
   });
 
   describe('When a metering point exists', () => {
-    xit('Then the metering point id is displayed in a heading', async () => {
+    it('Then the metering point id is displayed in a heading', async () => {
       await featureRouter.navigateByUrl(`~/${meteringPointId}`);
-
-      await view.fixture.whenStable();
-
-      const heading = await screen.getByRole('heading', {
-        level: 1,
+      await waitFor(() => {
+        const heading = screen.getByRole('heading', {
+          level: 1,
+        });
+        expect(heading).toHaveTextContent(meteringPointId);
       });
-
-      expect(heading).toHaveTextContent(meteringPointId);
     });
   });
 

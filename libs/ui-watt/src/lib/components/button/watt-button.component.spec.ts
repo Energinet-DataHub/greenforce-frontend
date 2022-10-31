@@ -14,50 +14,117 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Type } from '@angular/core';
-import { render } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
 
-import { WattPrimaryButtonComponent } from './primary-button/watt-primary-button.component';
-import { WattSecondaryButtonComponent } from './secondary-button/watt-secondary-button.component';
-import { WattTextButtonComponent } from './text-button/watt-text-button.component';
-import { WattButtonVariant } from './watt-button-variant';
-import { WattButtonComponent } from './watt-button.component';
+import { WattIcon } from '../../foundations/icon';
+import {
+  WattButtonComponent,
+  WattButtonSize,
+  WattButtonType,
+  WattButtonTypes,
+  WattButtonVariant,
+} from './watt-button.component';
 import { WattButtonModule } from './watt-button.module';
 
+interface WattButtonOptionsType {
+  icon?: WattIcon;
+  loading?: boolean;
+  disabled?: boolean;
+  text?: string;
+  variant?: WattButtonVariant;
+  size?: WattButtonSize;
+  type?: WattButtonType;
+}
+
 describe(WattButtonComponent.name, () => {
-  test.each([
-    ['text', WattTextButtonComponent],
-    ['primary', WattPrimaryButtonComponent],
-    ['secondary', WattSecondaryButtonComponent],
-  ] as readonly [WattButtonVariant, Type<unknown>][])(
-    'renders a %s button',
-    async (buttonVariant, buttonComponentType) => {
-      const view = await render(WattButtonComponent, {
-        componentProperties: {
-          variant: buttonVariant,
-        },
+  const renderComponent = async ({ ...options }: WattButtonOptionsType) => {
+    return await render(
+      `<watt-button
+         variant="${options.variant}"
+         size="${options.size}"
+         icon="${options.icon}"
+         type="${options.type}"
+         [loading]="${options.loading}"
+         [disabled]="${options.disabled}">
+           ${options.text ?? 'Text'}
+       </watt-button>`,
+      {
         imports: [WattButtonModule],
-      });
+      }
+    );
+  };
 
-      const component = view.fixture.componentInstance;
-      expect(component.buttonComponentVariant).toBe(buttonComponentType);
+  it('renders default options', async () => {
+    await render('<watt-button>Default button</watt-button>', {
+      imports: [WattButtonModule],
+    });
+
+    expect(screen.getByRole('button')).toHaveTextContent('Default button');
+    expect(screen.getByRole('button')).toHaveClass('watt-button--normal');
+    expect(screen.getByRole('button')).toHaveClass('watt-button--primary');
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'button');
+    expect(screen.getByRole('button')).not.toHaveClass('mat-button-disabled');
+    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+    expect(screen.queryByRole('img')).not.toBeInTheDocument();
+  });
+
+  it('renders text content', async () => {
+    await renderComponent({ text: 'Text' });
+
+    expect(screen.getByRole('button')).toHaveTextContent('Text');
+  });
+
+  it('renders icon when icon is set', async () => {
+    await renderComponent({ icon: 'plus' });
+
+    expect(screen.getByRole('img')).toHaveClass('mat-icon');
+  });
+
+  test.each(WattButtonTypes)(
+    'renders variant "%s" as a class',
+    async (variant) => {
+      await renderComponent({ variant, text: 'Text' });
+
+      if (variant === 'icon') {
+        expect(screen.getByRole('button')).not.toHaveTextContent('Text');
+      }
+      expect(screen.getByRole('button')).toHaveClass('watt-button--' + variant);
     }
   );
 
-  test.each([undefined, null, ''])(
-    '`defaults to a text button (variant="$bottomValue")',
-    async (bottomValue) => {
-      const view = await render(WattButtonComponent, {
-        componentProperties: {
-          // intentionally pass bottom values
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          variant: bottomValue as any,
-        },
-        imports: [WattButtonModule],
-      });
+  it('renders size as a class', async () => {
+    await renderComponent({ size: 'large' });
 
-      const component = view.fixture.componentInstance;
-      expect(component.variant).toBe('text');
+    expect(screen.getByRole('button')).toHaveClass('watt-button--large');
+  });
+
+  it('renders type', async () => {
+    await renderComponent({ type: 'reset' });
+
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'reset');
+  });
+
+  it('can be disabled', async () => {
+    const wrapperComponent = await renderComponent({
+      disabled: true,
+    });
+    const wattButton = wrapperComponent.container.querySelector('watt-button');
+
+    expect(wattButton).toHaveClass('watt-button--disabled');
+    expect(wattButton).toHaveStyle({
+      'pointer-events': 'none',
+    });
+
+    if (wattButton) {
+      expect(() => userEvent.click(wattButton)).toThrow();
     }
-  );
+  });
+
+  it('renders loading spinner, but no text, when loading is true', async () => {
+    await renderComponent({ loading: true, text: 'Text' });
+
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+    expect(screen.getByText('Text')).toHaveClass('content-wrapper--loading');
+  });
 });

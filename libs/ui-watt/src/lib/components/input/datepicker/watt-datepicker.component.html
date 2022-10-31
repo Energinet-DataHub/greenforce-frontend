@@ -1,0 +1,84 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *ngIf="range; else singleInputTemplate">
+  <mat-date-range-input
+    [disabled]="disabled"
+    [rangePicker]="rangeDatepicker"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut($event)"
+  >
+    <input
+      aria-label="start-date-input"
+      matStartDate
+      #startDateInput
+      [placeholder]="placeholder"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <input
+      aria-label="end-date-input"
+      matEndDate
+      #endDateInput
+      [placeholder]="placeholder"
+      autocomplete="off"
+      spellcheck="false"
+    />
+  </mat-date-range-input>
+
+  <watt-button
+    variant="icon"
+    icon="date"
+    [disabled]="disabled"
+    [attr.aria-pressed]="false"
+    (click)="rangeDatepicker.open()"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut($event)"
+  ></watt-button>
+
+  <mat-date-range-picker
+    panelClass="watt-datepicker-range__panel"
+    #rangeDatepicker
+  ></mat-date-range-picker>
+</ng-container>
+
+<ng-template #singleInputTemplate>
+  <input
+    matInput
+    aria-label="date-input"
+    #dateInput
+    autocomplete="off"
+    spellcheck="false"
+    [disabled]="disabled"
+    [matDatepicker]="singleDatepicker"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut($event)"
+  />
+
+  <watt-button
+    variant="icon"
+    icon="date"
+    [disabled]="disabled"
+    (click)="singleDatepicker.open()"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut($event)"
+  ></watt-button>
+
+  <mat-datepicker
+    #singleDatepicker
+    panelClass="watt-datepicker-single__panel"
+  ></mat-datepicker>
+</ng-template>

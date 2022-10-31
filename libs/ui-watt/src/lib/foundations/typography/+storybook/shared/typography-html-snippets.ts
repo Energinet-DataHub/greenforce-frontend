@@ -22,56 +22,77 @@ function mixinSnippet(name: string) {
 
 export const typographyHtmlSnippets = {
   h1: {
-    tag: '<h1>Headline 1</h1>',
-    class: '<p class="watt-headline-1">Headline 1</p>',
+    tag: '<h1>headline-1</h1>',
+    class: '<p class="watt-headline-1">headline-1</p>',
     mixin: mixinSnippet('headline-1'),
   },
   h2: {
-    tag: '<h2>Headline 2</h2>',
-    class: '<p class="watt-headline-2">Headline 2</p>',
+    tag: '<h2>headline-2</h2>',
+    class: '<p class="watt-headline-2">headline-2</p>',
     mixin: mixinSnippet('headline-2'),
   },
   h3: {
-    tag: '<h3>Headline 3</h3>',
-    class: '<p class="watt-headline-3">Headline 3</p>',
+    tag: '<h3>headline-3</h3>',
+    class: '<p class="watt-headline-3">headline-3</p>',
     mixin: mixinSnippet('headline-3'),
   },
   h4: {
-    tag: '<h4>Headline 4</h4>',
-    class: '<p class="watt-headline-4">Headline 4</p>',
+    tag: '<h4>headline-4</h4>',
+    class: '<p class="watt-headline-4">headline-4</p>',
     mixin: mixinSnippet('headline-4'),
   },
   h5: {
-    tag: '<h5>Headline 5</h5>',
-    class: '<p class="watt-headline-5">Headline 5</p>',
+    tag: '<h5>headline-5</h5>',
+    class: '<p class="watt-headline-5">headline-5</p>',
     mixin: mixinSnippet('headline-5'),
   },
   textL: {
-    class: '<p class="watt-text-l">Lead (text-l)</p>',
+    class: '<p class="watt-text-l">large</p>',
     mixin: mixinSnippet('text-l'),
   },
   bodyTextM: {
-    tag: '<p>Body (text-m)</p>',
-    class: '<div class="watt-text-m">Body (text-m)</div>',
+    tag: '<p>normal</p>',
+    class: '<div class="watt-text-m">normal</div>',
     mixin: mixinSnippet('text-m'),
   },
   textS: {
-    tag: '<p><small>Body (text-s)</small></p>',
+    tag: '<p><small>small</small></p>',
+    class: '<p class="watt-text-s">small</p>',
     mixin: mixinSnippet('text-s'),
   },
-  textXs: {
-    class: '<p class="watt-text-xs">Extra small (text-xs)</p>',
-    mixin: mixinSnippet('text-xs'),
+  textLHighlighted: {
+    class: '<p class="watt-text-l-highlighted">large-highlighted</p>',
+    mixin: mixinSnippet('text-l-highlighted'),
+  },
+  bodyTextMHighlighted: {
+    tag: '<strong>normal-highlighted</strong>',
+    class: '<div class="watt-text-m-highlighted">normal-highlighted</div>',
+    mixin: mixinSnippet('text-m-highlighted'),
+  },
+  textSHighlighted: {
+    tag: '<p><small class="watt-text-s-highlighted">small-highlighted</small></p>',
+    class: '<p class="watt-text-s-highlighted">small-highlighted</p>',
+    mixin: mixinSnippet('text-s-highlighted'),
   },
   button: {
-    storybook: '<p class="watt-button">Button</p>',
-    tag: '<button type="button">Button</button>',
+    storybook: '<p class="watt-button">button</p>',
+    tag: '<button type="button">button</button>',
     class: '<a class="watt-button" href="#">Button</a>',
     mixin: mixinSnippet('button'),
   },
   label: {
-    tag: '<label>Label</label>',
-    class: '<p class="watt-label">Label</p>',
-    mixin: mixinSnippet('watt-label'),
+    tag: '<label>label</label>',
+    class: '<p class="watt-label">label</p>',
+    mixin: mixinSnippet('label'),
+  },
+  link: {
+    tag: '<a>normal link</a>',
+    class: '<p class="watt-link">normal link</p>',
+    mixin: mixinSnippet('link'),
+  },
+  linkS: {
+    tag: '<small><a>small link</a></small>',
+    class: '<p class="watt-link-s">small link</p>',
+    mixin: mixinSnippet('link-s'),
   },
 };

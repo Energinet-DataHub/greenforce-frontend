@@ -27,13 +27,9 @@ import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
+import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import {
-  WattIcon,
-  WattIconModule,
-  WattIconSize,
-} from '@energinet-datahub/watt';
+import { WattIcon, WattIconModule } from '@energinet-datahub/watt/icon';
 import {
   DhEmDashFallbackPipeScam,
   DhIsParentPipeScam,
@@ -67,7 +63,6 @@ export type PrimaryMasterData = Pick<
 export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
   @Input() primaryMasterData?: PrimaryMasterData;
   address?: string;
-  iconSizes = WattIconSize;
   isActualAddressIcon: WattIcon = 'success';
   actualAddressTranslationKey = 'actualAddress';
 

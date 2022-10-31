@@ -21,17 +21,21 @@ const materialIcons = {
   plus: 'add',
   minus: 'remove',
   edit: 'edit',
+  redo: 'redo',
   remove: 'delete',
   close: 'close',
+  cancel: 'cancel',
   checkmark: 'check',
   user: 'account_circle',
   settings: 'settings',
+  contentCopy: 'content_copy',
   date: 'calendar_today',
   time: 'schedule',
   email: 'email',
   link: 'link',
   openInNew: 'open_in_new',
   monetization: 'monetization_on',
+  payments: 'payments',
   forwardMessage: 'forward_to_inbox',
   menu: 'menu',
   logout: 'logout',
@@ -46,6 +50,7 @@ const materialIcons = {
   success: 'check_circle',
   info: 'info',
   // Files
+  save: 'save_alt',
   upload: 'cloud_upload',
   download: 'cloud_download',
   print: 'print',
@@ -60,6 +65,7 @@ export const customIcons = {
   explore: 'explore',
   meter: 'meter',
   map_marker: 'map_marker',
+  primary_info: 'primary_info',
 };
 
 export const allIcons = { ...materialIcons, ...customIcons };

@@ -1,6 +1,7 @@
 {
+  "name": "api-dh",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "root": "apps/dh/api-dh",
   "sourceRoot": "apps/dh/api-dh/source",
   "prefix": "dh",
   "targets": {
@@ -8,7 +9,7 @@
       "configurations": {
         "ci": {}
       },
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           "npm run check:dotnet",
@@ -16,30 +17,25 @@
         ],
         "parallel": false
       },
-      "outputs": ["apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net5.0"]
+      "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net6.0"]
     },
     "build-client": {
-      "dependsOn": [
-        {
-          "target": "build",
-          "projects": "self"
-        }
-      ],
-      "executor": "@nrwl/workspace:run-commands",
+      "dependsOn": ["build"],
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           "npm run check:java",
-          "openapi-generator-cli generate -o libs/dh/shared/data-access-api/src/lib/generated/v1 -i apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net5.0/swagger.json -g typescript-angular -p=fileNaming=kebab-case -p=serviceFileSuffix=-http.service -p=serviceSuffix=Http -p=supportsES6=true -p=taggedUnions=true -p=enumPropertyNaming=original",
-          "rimraf libs/dh/shared/data-access-api/src/lib/generated/v1/.openapi-generator/",
-          "rimraf libs/dh/shared/data-access-api/src/lib/generated/v1/.gitignore",
-          "rimraf libs/dh/shared/data-access-api/src/lib/generated/v1/git_push.sh"
+          "openapi-generator-cli generate -o libs/dh/shared/domain/src/lib/generated/v1 -i apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0/swagger.json -g typescript-angular -p=fileNaming=kebab-case -p=serviceFileSuffix=-http.service -p=serviceSuffix=Http -p=supportsES6=true -p=taggedUnions=true -p=enumPropertyNaming=original",
+          "rimraf libs/dh/shared/domain/src/lib/generated/v1/.openapi-generator/",
+          "rimraf libs/dh/shared/domain/src/lib/generated/v1/.gitignore",
+          "rimraf libs/dh/shared/domain/src/lib/generated/v1/git_push.sh"
         ],
         "parallel": false
       },
-      "outputs": ["libs/dh/shared/data-access-api/src/lib/generated/v1"]
+      "outputs": ["{workspaceRoot}/libs/dh/shared/domain/src/lib/generated/v1"]
     },
     "ci-configuration": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           "cp build/ci/dh/api-dh/ci.appsettings.Development.json apps/dh/api-dh/source/DataHub.WebApi/appsettings.Development.json"
@@ -56,7 +52,7 @@
           ]
         }
       },
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           "npm run check:dotnet",
@@ -69,12 +65,12 @@
       "configurations": {
         "ci": {}
       },
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": ["npx ts-node tools/dh/api-dh/ci/stop-api-dh.ts"],
         "parallel": false
       },
-      "outputs": ["apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net5.0"]
+      "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net6.0"]
     }
   },
   "tags": ["product:dh", "type:api"]

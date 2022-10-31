@@ -1,0 +1,27 @@
+{
+  "name": "eo-origin-of-energy-routing",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/origin-of-energy/routing/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/origin-of-energy/routing"],
+      "options": {
+        "jestConfig": "libs/eo/origin-of-energy/routing/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/origin-of-energy/routing/src/**/*.ts",
+          "libs/eo/origin-of-energy/routing/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:origin-of-energy", "type:routing"]
+}

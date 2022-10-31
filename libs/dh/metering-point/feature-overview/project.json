@@ -1,14 +1,17 @@
 {
+  "name": "dh-metering-point-feature-overview",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/dh/metering-point/feature-overview",
   "sourceRoot": "libs/dh/metering-point/feature-overview/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/metering-point/feature-overview"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/metering-point/feature-overview"
+      ],
       "options": {
-        "jestConfig": "libs/dh/metering-point/feature-overview/jest.config.js",
+        "jestConfig": "libs/dh/metering-point/feature-overview/jest.config.ts",
         "passWithNoTests": true
       }
     },

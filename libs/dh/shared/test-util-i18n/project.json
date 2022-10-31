@@ -1,14 +1,15 @@
 {
+  "name": "dh-shared-test-util-i18n",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/dh/shared/test-util-i18n",
   "sourceRoot": "libs/dh/shared/test-util-i18n/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/shared/test-util-i18n"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/test-util-i18n"],
       "options": {
-        "jestConfig": "libs/dh/shared/test-util-i18n/jest.config.js",
+        "jestConfig": "libs/dh/shared/test-util-i18n/jest.config.ts",
         "passWithNoTests": true
       }
     },

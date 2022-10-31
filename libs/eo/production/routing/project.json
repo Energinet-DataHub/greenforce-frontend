@@ -1,0 +1,26 @@
+{
+  "name": "eo-production-routing",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/production/routing/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/production/routing"],
+      "options": {
+        "jestConfig": "libs/eo/production/routing/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/production/routing/src/**/*.ts",
+          "libs/eo/production/routing/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:production", "type:routing"]
+}

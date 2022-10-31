@@ -14,28 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
 $palette: (
-  'primary': var(--watt-color-primary),
-  'primary-light': var(--watt-color-primary-light),
-  'primary-dark': var(--watt-color-primary-dark),
-  'contrast': (
-    'primary': var(--watt-color-primary-contrast),
-    'primary-light': var(--watt-color-primary-light-contrast),
-    'primary-dark': var(--watt-color-primary-dark-contrast),
+  "primary": var(--watt-color-primary),
+  "primary-light": var(--watt-color-primary-light),
+  "primary-dark": var(--watt-color-primary-dark),
+  "contrast": (
+    "primary": var(--watt-color-primary-contrast),
+    "primary-light": var(--watt-color-primary-light-contrast),
+    "primary-dark": var(--watt-color-primary-dark-contrast),
   ),
 );
 
 $watt-palette: mat.define-palette(
   $palette,
-  'primary',
-  'primary-light',
-  'primary-dark'
+  "primary",
+  "primary-light",
+  "primary-dark"
 );
 
 $watt-typography: mat.define-typography-config(
-  $font-family: 'Open Sans, sans-serif',
+  $font-family: "Open Sans, sans-serif",
 );
 
 $watt-theme: mat.define-light-theme(
@@ -55,14 +55,19 @@ $watt-theme: mat.define-light-theme(
 @include mat.button-toggle-theme($watt-theme);
 @include mat.card-theme($watt-theme);
 @include mat.checkbox-theme($watt-theme);
+@include mat.chips-theme($watt-theme);
 @include mat.core-theme($watt-theme);
+@include mat.datepicker-theme($watt-theme);
+@include mat.dialog-theme($watt-theme);
 @include mat.expansion-theme($watt-theme);
 @include mat.form-field-theme($watt-theme);
 @include mat.icon-theme($watt-theme);
 @include mat.input-theme($watt-theme);
+@include mat.menu-theme($watt-theme);
 @include mat.progress-spinner-theme($watt-theme);
 @include mat.select-theme($watt-theme);
 @include mat.sidenav-theme($watt-theme);
 @include mat.table-theme($watt-theme);
 @include mat.tabs-theme($watt-theme);
+@include mat.tooltip-theme($watt-theme);
 @include mat.toolbar-theme($watt-theme);

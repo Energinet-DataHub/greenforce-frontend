@@ -32,26 +32,7 @@ inputs:
   project:
     description: The name of the project to check.
     required: true
-outputs:
-  is-affected:
-    description: Whether or not the project is affected by changes.
-    value: ${{ steps.affected.outputs.is-affected }}
 
 runs:
-  using: composite
-  steps:
-    - run: mkdir tmp
-      shell: bash
-    - run: touch ./tmp/IS_AFFECTED
-      shell: bash
-    # we store the result in a temporary file to allow the Node.js process to
-    # fail the calling job
-    - run: node ${{ github.action_path }}/affected.mjs ${{ inputs.project }} ${{ inputs.base }} >> ./tmp/IS_AFFECTED
-      shell: bash
-    # if we inline the Node.js execution here, the calling job will not fail in
-    # case of process errors
-    - id: affected
-      run: echo "::set-output name=is-affected::$(cat ./tmp/IS_AFFECTED)"
-      shell: bash
-    - run: rm ./tmp/IS_AFFECTED
-      shell: bash
+  using: 'node16'
+  main: 'affected.mjs'

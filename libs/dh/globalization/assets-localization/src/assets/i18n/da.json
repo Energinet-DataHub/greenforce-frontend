@@ -5,6 +5,36 @@
   "shell": {
     "logout": "Log ud"
   },
+  "shared": {
+    "paginator": {
+      "itemsPerPageLabel": "Resultater pr. side",
+      "of": "af",
+      "first": "Første side",
+      "last": "Sidste side",
+      "next": "Næste side",
+      "previous": "Forrige side",
+      "ariaLabel": "Vælg side"
+    }
+  },
+  "clipboard": {
+    "success": "Kopieret til udklipsholder",
+    "error": "Kopiering mislykkedes"
+  },
+  "sidebar": {
+    "navigation": {
+      "meteringPoints": "Målepunkter",
+      "messageArchive": "Fremsøg forretningsbesked",
+      "marketParticipantOrganizations": "Organisationer",
+      "marketParticipantGridAreas": "Netområder",
+      "chargePrices": "Priser",
+      "wholesale": {
+        "menuGroupLabel": "Afregninger",
+        "startBatch": "Start batch",
+        "searchBatch": "Søg batch",
+        "overview": "Oversigt"
+      }
+    }
+  },
   "meteringPoint": {
     "search": {
       "title": "Søg målepunkter",
@@ -49,6 +79,7 @@
         "meterNumber": "Målernummer"
       },
       "tabs": {
+        "processes": "Processer",
         "prices": "Priser",
         "childMeteringPoints": "Child Målepunkter ({{ count }})"
       },
@@ -60,6 +91,23 @@
         },
         "noChildMeteringPointsTitle": "Ingen child målepunkter",
         "noChildMeteringPointsText": "Vi fandt ingen child målepunkter til dette målepunkt"
+      },
+      "processesTab": {
+        "headers": {
+          "name": "Beskrivelse",
+          "createdDate": "Indsendt",
+          "effectiveDate": "Skæringsdato",
+          "status": "Status"
+        },
+        "sortDescription": {
+          "name": "Sorter efter beskrivelse",
+          "createdDate": "Sorter efter indsendelsesdato",
+          "effectiveDate": "Sorter efter skæringsdato",
+          "status": "Sorter efter status"
+        },
+        "noProcessesFound": "Ingen processer.",
+        "noProcessesText": "Vi fandt ingen processer til dette målepunkt",
+        "processRejected": "Afvist"
       }
     },
     "secondaryMasterData": {
@@ -125,6 +173,7 @@
       "D18": "Regenerative forbrugsanlæg",
       "D19": "Forbrændingsmotor dieselmotor",
       "D20": "Bioforbrændingsmotor",
+      "D98": "Ingen teknologi",
       "D99": "Ukendt teknologi"
     },
     "productId": {
@@ -215,19 +264,461 @@
       "D02": "Gebyr",
       "D03": "Tarif"
     },
-    "chargeOwner": "Tarif ejer",
+    "resolutionType": {
+      "PT15M": "15 minutter",
+      "PT1H": "Time",
+      "P1D": "Dag",
+      "P1M": "Måned"
+    },
+    "vatClassificationType": {
+      "Vat25": "Ja",
+      "NoVat": "Nej"
+    },
+    "transparentInvoicingType": {
+      "true": "Ja",
+      "false": "Nej"
+    },
+    "taxIndicatorType": {
+      "true": "Ja",
+      "false": "Nej"
+    },
+    "chargeOwner": "Ejer",
     "startDate": "Dato",
-    "transparentInvoicing": "Viderefakturering",
     "quantity": "Antal",
     "noActive": "Ingen aktive {{title}}",
     "noActiveMessage": "Vi fandt ingen aktive {{title}} på dette målepunkt",
+    "validityPeriod": "Gyldighedsperiode",
+    "transparentInvoicing": "Viderefakturering",
     "taxIndicator": "Afgift",
+    "vatClassification": "Moms",
     "chargesNotFound": {
       "title": "Vi fandt desværre ingen priser tilknyttet dette målepunkt"
     },
     "serverError": {
       "title": "Ups! Der opstod en fejl",
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
+    },
+    "prices": {
+      "topBarTitle": "Søg pris",
+      "prices": "Priser",
+      "price": "Pris",
+      "priceTab": {
+        "fromDateTime": "Gyldig fra",
+        "toDateTime": "Gyldig til",
+        "time": "Tid"
+      },
+      "search": {
+        "idOrName": "Pris ID/Navn",
+        "enterIdOrName": "Indtast dele af eller hele id eller navn",
+        "owner": "Ejer",
+        "enterOwner": "Indtast ejer",
+        "selectChargeType": "Vælg type",
+        "selectValidity": "Vælg gyldighed",
+        "chargeType": "Type",
+        "validity": "Gyldighed",
+        "dateValidFrom": "Gyldig fra",
+        "dateValidTo": "Gyldig til",
+        "clearSearch": "Ryd",
+        "startSearch": "Søg"
+      },
+      "chargeId": "Pris ID",
+      "chargeName": "Navn",
+      "chargeOwnerName": "Ejer",
+      "chargeType": "Type",
+      "resolution": "Opløsning",
+      "validFromDateTime": "Gyldig fra",
+      "validToDateTime": "Gyldig til",
+      "resultLength": "Søgeresultat",
+      "resultsLength": "Søgeresultater",
+      "Download": "Download",
+      "noResultsFound": "Intet resultat",
+      "noResultsHelperText": "Prøv at ændre dine søgeindstillinger",
+      "taxIndicator": "Afgift",
+      "transparentInvoicing": "Viderefakturering",
+      "startSearch": "Start søgning",
+      "startSearchText": "Dine resultater vil fremgå her",
+      "noPricesForCharge": "Ingen priser",
+      "noPricesForChargeText": "Der findes ingen pris serier for denne pris.",
+      "paginator": {
+        "itemsPerPageLabel": "Priser pr. side",
+        "of": "af",
+        "first": "Første side",
+        "last": "Sidste side",
+        "next": "Næste side",
+        "previous": "Forrige side"
+      },
+      "chargeTypes": {
+        "Unknown": "Ukendt",
+        "Subscription": "Abonnement",
+        "Fee": "Gebyr",
+        "Tariff": "Tarif"
+      },
+      "validityOptions": {
+        "Now": "Gyldig nu",
+        "Planned": "Fremtidige priser",
+        "ThisWeek": "Denne uge",
+        "ThisMonth": "Denne måned",
+        "ThisQuarter": "Dette kvartal",
+        "ThisYear": "Dette år"
+      },
+      "loadingErrorTitle": "Der opstod en uventet fejl",
+      "loadingErrorMessage": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl.",
+      "drawer": {
+        "prices": "Priser",
+        "messages": "Beskeder",
+        "dateChips": {
+          "day": "Dag",
+          "week": "Uge",
+          "month": "Måned",
+          "quarter": "Kvartal",
+          "year": "År"
+        },
+        "history": "Historik",
+        "stop": "Stop",
+        "edit": "Rediger",
+        "showDescriptionLabel": "Se beskrivelse",
+        "hideDescriptionLabel": "Luk beskrivelse",
+        "messageId": "Besked Id",
+        "messageType": "Type",
+        "date": "Dato"
+      },
+      "csvHeader": {
+        "id": "PRIS ID",
+        "name": "NAVN",
+        "description": "BESKRIVELSE",
+        "owner": "EJER",
+        "ownerName": "EJER NAVN",
+        "taxIndicator": "AFGIFT",
+        "vat": "MOMS",
+        "transparentInvoicing": "VIDEREFAKTURERING",
+        "type": "TYPE",
+        "resolution": "OPLØSNING",
+        "validFromDate": "GYLDIG FRA",
+        "validToDate": "GYLDIG TIL"
+      },
+      "downloadFileName": "Prisinformationer"
+    }
+  },
+  "messageArchive": {
+    "unknowenError": "Ukendt fejl",
+    "search": {
+      "topBarTitle": "Fremsøg forretningsbesked",
+      "documenttype": "Dokumenttype",
+      "senderId": "Afsender Id",
+      "messageId": "Besked Id",
+      "traceId": "Trace Id",
+      "receiverId": "Modtager Id",
+      "businessReason": "Forretningsårsag",
+      "dateFrom": "Dato fra",
+      "dateTo": "Dato til",
+      "startSearch": "Fremsøg besked",
+      "NoResultsFound": "Intet resultat",
+      "ChooseBusinessReason": "Vælg forretningsårsag",
+      "ChooseDocumentType": "Vælg dokumenttype",
+      "includeRelatedMessage": "Inkluder relateret besked",
+      "loadMore": "Indlæs flere",
+      "rsm": "RSM",
+      "sender": "Aktør",
+      "timeStamp": "Tid",
+      "status": "Status",
+      "sent": "IND",
+      "received": "UD",
+      "download": "Download",
+      "show": "Vis",
+      "noResultsHelperText": "Prøv at ændring dine søge indstillinger",
+      "clearSearch": "Ryd form"
+    }
+  },
+  "marketParticipant": {
+    "actor": {
+      "create": {
+        "editHeader": "Redigér aktør",
+        "createHeader": "Opret aktør",
+        "errorToastLabel": "Fejl",
+        "masterDataTabHeader": "Stamdata",
+        "meteringPointTypesHeader": "Målepunktstyper",
+        "gridAreasHeader": "Netområder",
+        "marketRolesHeader": "Markedsroller",
+        "contactsHeader": "Kontakter",
+        "cancelLabel": "Annuller",
+        "saveLabel": "Gem",
+        "masterData": {
+          "labelActorNumber": "Aktørnummer",
+          "labelStatus": "Status",
+          "labelActorName": "Aktørnavn",
+          "fieldRequiredErrorText": "Feltet er påkrævet.",
+          "statuses": {
+            "New": "Ny",
+            "Active": "Aktiv",
+            "Inactive": "Inaktiv",
+            "Passive": "Passiv",
+            "Deleted": "Slettet"
+          },
+          "statusChangeTitle": "Ændring af aktørstatus",
+          "statusChangeWarning": "Ændring af aktørstatus til '{{ status }}' er endelig og vil ikke kunne ændres tilbage til '{{ initialStatus }}'. Vil du fortsætte?"
+        },
+        "contacts": {
+          "invalidConfiguration": "Kontakter er ikke korrekt konfigureret"
+        },
+        "marketRoles": {
+          "marketRole": "Markedsrolle",
+          "gridArea": "Netområde",
+          "meteringPointTypes": "Målepunktstyper",
+          "invalidConfiguration": "Markedsroller er ikke korrekt konfigureret"
+        }
+      }
+    },
+    "marketRoles": {
+      "BalanceResponsibleParty": "Balance responsible party",
+      "BalancingServiceProvider": "Balancing service provider",
+      "BillingAgent": "Billing agent",
+      "CapacityTrader": "Capacity trader",
+      "Consumer": "Consumer",
+      "ConsumptionResponsibleParty": "Consumption responsible party",
+      "ConsentAdministrator": "Consent administrator",
+      "CoordinatedCapacityCalculator": "Coordinated capacity calculator",
+      "CoordinationCentreOperator": "Coordination centre operator",
+      "DataProvider": "Data provider",
+      "EnergyServiceCompany": "Energy service company",
+      "EnergySupplier": "Energy supplier",
+      "EnergyTrader": "Energy trader",
+      "GridAccessProvider": "Grid access provider",
+      "ImbalanceSettlementResponsible": "Imbalance settlement responsible",
+      "InterconnectionTradeResponsible": "Interconnection trade responsible",
+      "LfcOperator": "LFC operator",
+      "MarketInformationAggregator": "Market information aggregator",
+      "MarketOperator": "Market operator",
+      "MeritOrderListResponsible": "Merit order list responsible",
+      "MeterAdministrator": "Meter administrator",
+      "MeterOperator": "Meter operator",
+      "MeteredDataAdministrator": "Metered data administrator",
+      "MeteredDataAggregator": "Metered data aggregator",
+      "MeteredDataCollector": "Metered data collector",
+      "MeteredDataResponsible": "Metered data responsible",
+      "MeteringPointAdministrator": "Metering point administrator",
+      "ModelMergingAgent": "Model merging agent",
+      "ModellingAuthority": "Modelling authority",
+      "NominatedElectricityMarketOperator": "Nominated electricity market operator",
+      "NominationValidator": "Nomination validator",
+      "PartyAdministrator": "Party administrator",
+      "PartyConnectedToTheGrid": "Party connected to the grid",
+      "Producer": "Producer",
+      "ProductionResponsibleParty": "Production responsible party",
+      "ReconciliationAccountable": "Reconciliation accountable",
+      "ReconciliationResponsible": "Reconciliation responsible",
+      "ReserveAllocator": "Reserve allocator",
+      "ResourceAggregator": "Resource aggregator",
+      "ResourceCapacityMechanismOperator": "Resource capacity mechanism operator",
+      "ResourceProvider": "Resource provider",
+      "Scheduling": "Scheduling",
+      "Agent": "Agent",
+      "SchedulingAreaResponsible": "Scheduling area responsible",
+      "SystemOperator": "System operator",
+      "TradeResponsibleParty": "Trade responsible party",
+      "TransmissionCapacityAllocator": "Transmission capacity allocator",
+      "DanishEnergyAgency": "Styrelsen"
+    },
+    "organization": {
+      "topBarTitle": "Organisationer",
+      "columns": {
+        "organization": "Organisation",
+        "gln": "Aktørnummer",
+        "status": "Aktørstatus",
+        "marketRoles": "Markedsroller",
+        "gridAreas": "Netområder",
+        "noActors": "Ingen aktører"
+      },
+      "status": {
+        "New": "Ny",
+        "Active": "Aktiv",
+        "Inactive": "Inaktiv",
+        "Passive": "Passiv",
+        "Deleted": "Slettet"
+      },
+      "editOrganization": "Redigér organisation",
+      "editActor": "Redigér aktør",
+      "createActor": "Opret aktør",
+      "createOrganization": "Opret organisation",
+      "noOrganizations": "Ingen organisationer",
+      "paginator": {
+        "itemsPerPageLabel": "Organisationer pr. side",
+        "of": "af",
+        "first": "Første side",
+        "last": "Sidste side",
+        "next": "Næste side",
+        "previous": "Forrige side"
+      },
+      "create": {
+        "organizationCreateHeader": "Opret organisation",
+        "organizationEditHeader": "Rediger organisation",
+        "masterDataTabHeader": "Stamdata",
+        "cancelLabel": "Annuller",
+        "saveLabel": "Gem",
+        "errorToastLabel": "Fejl",
+        "masterData": {
+          "organizationNameLabel": "Navn",
+          "businessRegistrationIdetifierLabel": "CVR-nr.",
+          "streetNameLabel": "Vejnavn",
+          "streetNumberLabel": "Vej nr.",
+          "zipCodeLabel": "Post nr.",
+          "cityLabel": "By",
+          "countryLabel": "Land",
+          "commentLabel": "Kommentar",
+          "fieldRequiredErrorText": "Feltet er påkrævet.",
+          "countries": {
+            "at": "Østrig",
+            "be": "Belgien",
+            "bg": "Bulgarien",
+            "hr": "Kroatien",
+            "cy": "Cypern",
+            "cz": "Tjekkiet",
+            "dk": "Danmark",
+            "ee": "Estland",
+            "fi": "Finland",
+            "fr": "Frankrig",
+            "de": "Tyskland",
+            "gr": "Grækenland",
+            "hu": "Ungarn",
+            "ie": "Irland",
+            "it": "Italien",
+            "lv": "Letland",
+            "lt": "Litauen",
+            "lu": "Luxembourg",
+            "mt": "Malta",
+            "nl": "Holland",
+            "no": "Norge",
+            "pl": "Polen",
+            "pt": "Portugal",
+            "ro": "Rumænien",
+            "sk": "Slovakiet",
+            "si": "Slovenien",
+            "es": "Spanien",
+            "se": "Sverige",
+            "gb": "England"
+          },
+          "labelStatus": "Status",
+          "statuses": {
+            "New": "Ny",
+            "Active": "Aktiv",
+            "Blocked": "Blokeret",
+            "Deleted": "Slettet"
+          }
+        }
+      }
+    },
+    "contacts": {
+      "category": "Kategori",
+      "name": "Navn",
+      "namePlaceholder": "Navn",
+      "email": "E-mail",
+      "emailPlaceholder": "E-mail",
+      "phone": "Telefon",
+      "phonePlaceholder": "Telefon (valgfri)",
+      "ariaLabelCategoryForExistingContact": "kategorifelt for eksisterende kontakt",
+      "ariaLabelNameForExistingContact": "navnefelt for eksisterende kontakt",
+      "ariaLabelPhoneForExistingContact": "telefonnummerfelt for eksisterende kontakt",
+      "ariaLabelMailForExistingContact": "mailfelt for eksisterende kontakt",
+      "ariaLabelDeleteForExistingContact": "sletkanp for eksisterende kontakt",
+      "ariaLabelCategoryForNewContact": "kategorifelt for ny kontakt",
+      "ariaLabelNameForNewContact": "navnefelt for ny kontakt",
+      "ariaLabelPhoneForNewContact": "telefonnummerfelt for ny kontakt",
+      "ariaLabelMailForNewContact": "mailfelt for ny kontakt",
+      "ariaLabelDeleteForNewContact": "sletknap for ny kontakt"
+    },
+    "gridAreas": {
+      "topBarTitle": "Netområder",
+      "createGridArea": "Opret",
+      "editGridArea": "Rediger",
+      "noGridAreas": "Ingen netområder fundet",
+      "columns": {
+        "name": "Netområde",
+        "code": "Kode",
+        "actorName": "Netvirksomhed",
+        "actorNumber": "Netvirksomhed nr.",
+        "priceAreaCode": "Prisområde",
+        "validFrom": "Gyldig fra",
+        "validTo": "Gyldig til"
+      },
+      "detailsHeader": {
+        "code": "Netområde ID",
+        "actorId": "Aktørnummer",
+        "fullFlexDate": "Overgang til fuld flex",
+        "priceAreaCode": "Prisområde",
+        "lossMeteringPoint": "Nettabsmålepunkt",
+        "correctionMeteringPoint": "Systemkorrek. målepunkt",
+        "validFrom": "Gyldig fra",
+        "validTo": "Gyldig til"
+      },
+      "detailsAuditLog": {
+        "time": "Tid",
+        "change": "Ændring",
+        "changes": "Ændringer",
+        "noResultsFound": "Ingen resultater",
+        "fields": {
+          "name": "Netområde navn"
+        },
+        "unknown": "Ukendt",
+        "messageKey": "<strong>{{ userDisplayName }}</strong> ændrede <strong>{{ field }}</strong> til <strong>{{ newValue }}</strong>"
+      },
+      "changeGridArea": {
+        "gridAreaName": "Netområde navn",
+        "cancel": "Fortryd",
+        "saveChanges": "Gem ændringer",
+        "editGridArea": "Rediger",
+        "editGridAreaModalTitle": "Rediger netområde",
+        "editGridAreaModalCloseLabel": "Luk"
+      },
+      "priceAreaCodes": {
+        "Dk1": "DK1",
+        "Dk2": "DK2"
+      }
+    }
+  },
+  "wholesale": {
+    "startBatch": {
+      "topBarTitle": "Start batch",
+      "startLabel": "Start",
+      "dateRangeRequired": "Dato-periode påkrævet",
+      "dateRangeLabel": "Periode",
+      "gridAreaDropDownLabel": "Netområder"
+    },
+    "searchBatch": {
+      "topBarTitle": "Søg batch",
+      "headline": "Batch overblik",
+      "filters": {
+        "executionTime": "Eksekveringstid",
+        "executionTimeRequired": "Eksekveringstid påkrævet",
+        "searchButton": "Søg"
+      },
+      "columns": {
+        "batchNumber": "Batch-nummer",
+        "periodFrom": "Periode fra",
+        "periodTo": "Periode til",
+        "executionTime": "Eksekveringstid",
+        "status": "Status",
+        "basisData": "Basis data"
+      },
+      "download": "Download",
+      "downloadFailed": "Download af basis data fejlede",
+      "Pending": "Afventer",
+      "Executing": "Kører",
+      "Completed": "Afsluttet",
+      "Failed": "Fejl",
+      "loadBatchesFailedTitle": "Ups! Der opstod en fejl",
+      "loadBatchesFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
+      "noBatchesFound": "Ingen batches fundet",
+      "noBatchesHelperText": "Prøv at ændre dine søgeindstillinger",
+      "paginator": {
+        "itemsPerPageLabel": "Batches pr. side",
+        "nextPageLabel": "Næste side",
+        "perviouspageLabel": "Forrige side",
+        "firstPageLabel": "Første side",
+        "lastPageLabel": "Sidste side",
+        "of": "af"
+      }
+    },
+    "overview": {
+      "header": "Proces oversigt"
     }
   }
 }

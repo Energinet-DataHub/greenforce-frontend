@@ -1,6 +1,7 @@
 {
+  "name": "workspace-tools",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
   "projectType": "tool",
-  "root": "tools",
   "sourceRoot": "tools",
   "targets": {
     "add-license": {
@@ -15,9 +16,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/tools"],
+      "outputs": ["{workspaceRoot}/coverage/tools"],
       "options": {
-        "jestConfig": "tools/jest.config.js",
+        "jestConfig": "tools/jest.config.ts",
         "passWithNoTests": true
       }
     }

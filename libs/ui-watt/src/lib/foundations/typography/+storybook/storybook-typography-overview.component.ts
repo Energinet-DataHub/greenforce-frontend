@@ -14,121 +14,147 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import { typographyHtmlSnippets } from './shared/typography-html-snippets';
 
 interface Typography {
-  name: string;
   html: string;
   size: string;
   weight: string;
   letterCase: string;
   letterSpacing: string;
-  lineHeight: string;
 }
 
-const typeScale: Typography[] = [
+const typeScaleSmall: Typography[] = [
   {
-    name: 'Headline 1',
     html: typographyHtmlSnippets.h1.tag,
-    size: '36px',
-    // eslint-disable-next-line sonarjs/no-duplicate-string
-    weight: 'Semibold (600)',
-    letterCase: 'All caps',
+    size: 'XL',
+    weight: 'Semi-bold',
+    letterCase: 'Sentence',
     letterSpacing: '0',
-    lineHeight: '54px*',
   },
   {
-    name: 'Headline 2',
     html: typographyHtmlSnippets.h2.tag,
-    size: '32px',
-    weight: 'Semibold (600)',
-    letterCase: 'All caps',
+    size: 'L',
+    weight: 'Semi-bold',
+    letterCase: 'Sentence',
     letterSpacing: '0',
-    lineHeight: '48px*',
   },
   {
-    name: 'Headline 3',
     html: typographyHtmlSnippets.h3.tag,
-    size: '28px',
-    weight: 'Semibold (600)',
-    letterCase: 'All caps',
+    size: 'M',
+    weight: 'Semi-bold',
+    letterCase: 'Sentence',
     letterSpacing: '0',
-    lineHeight: '42px*',
   },
   {
-    name: 'Headline 4',
     html: typographyHtmlSnippets.h4.tag,
-    size: '24px',
-    weight: 'Semibold (600)',
-    letterCase: 'All caps',
+    size: 'M',
+    weight: 'Semi-bold',
+    letterCase: 'Sentence',
     letterSpacing: '0',
-    lineHeight: '36px*',
   },
   {
-    name: 'Headline 5',
     html: typographyHtmlSnippets.h5.tag,
-    size: '20px',
-    weight: 'Semibold (600)',
-    letterCase: 'All caps',
+    size: 'M',
+    weight: 'Semi-bold',
+    letterCase: 'Sentence',
     letterSpacing: '0',
-    lineHeight: '30px*',
   },
   {
-    name: 'Lead (text-l)',
     html: typographyHtmlSnippets.textL.class,
-    size: '18px',
-    weight: 'Semibold (600)',
+    size: 'L',
+    weight: 'Regular',
     letterCase: 'Sentence',
     letterSpacing: '0',
-    lineHeight: '27px*',
   },
   {
-    name: 'Body (text-m)',
     html: typographyHtmlSnippets.bodyTextM.tag,
-    size: '16px',
-    // eslint-disable-next-line sonarjs/no-duplicate-string
-    weight: 'Regular (400)',
+    size: 'M',
+    weight: 'Regular',
     letterCase: 'Sentence',
     letterSpacing: '0',
-    lineHeight: '24px*',
   },
   {
-    name: 'Small (text-s)',
     html: typographyHtmlSnippets.textS.tag,
-    size: '14px',
-    weight: 'Regular (400)',
+    size: 'S',
+    weight: 'Regular',
     letterCase: 'Sentence',
     letterSpacing: '0',
-    lineHeight: '21px*',
   },
   {
-    name: 'Extra small (text-xs)',
-    html: typographyHtmlSnippets.textXs.class,
-    size: '12px',
-    weight: 'Regular (400)',
+    html: typographyHtmlSnippets.textLHighlighted.class,
+    size: 'L',
+    weight: 'Bold',
     letterCase: 'Sentence',
     letterSpacing: '0',
-    lineHeight: '18px*',
   },
   {
-    name: 'Button',
+    html: typographyHtmlSnippets.bodyTextMHighlighted.tag,
+    size: 'M',
+    weight: 'Bold',
+    letterCase: 'Sentence',
+    letterSpacing: '0',
+  },
+  {
+    html: typographyHtmlSnippets.textSHighlighted.tag,
+    size: 'S',
+    weight: 'Bold',
+    letterCase: 'Sentence',
+    letterSpacing: '0',
+  },
+  {
     html: typographyHtmlSnippets.button.storybook,
-    size: '14px',
-    weight: 'Semibold (600)',
+    size: 'M',
+    weight: 'Semi-bold',
+    letterCase: 'Sentence',
+    letterSpacing: '0',
+  },
+  {
+    html: typographyHtmlSnippets.label.class,
+    size: 'S',
+    weight: 'Semi-bold',
     letterCase: 'All caps',
     letterSpacing: '1.25px',
-    lineHeight: '16px',
   },
   {
-    name: 'Label',
-    html: typographyHtmlSnippets.label.class,
-    size: '12px',
-    weight: 'Semibold (600)',
-    letterCase: 'All caps',
-    letterSpacing: '1.5px',
-    lineHeight: '14.4px',
+    html: typographyHtmlSnippets.link.class,
+    size: 'M',
+    weight: 'Regular',
+    letterCase: 'Sentence',
+    letterSpacing: '0',
+  },
+  {
+    html: typographyHtmlSnippets.linkS.class,
+    size: 'S',
+    weight: 'Regular',
+    letterCase: 'Sentence',
+    letterSpacing: '0',
+  },
+];
+
+const typeScaleLarge: Typography[] = [
+  {
+    html: typographyHtmlSnippets.h1.tag,
+    size: 'XXL',
+    weight: 'Semi-bold',
+    letterCase: 'Sentence',
+    letterSpacing: '0',
+  },
+  {
+    html: typographyHtmlSnippets.h2.tag,
+    size: 'XL',
+    weight: 'Semi-bold',
+    letterCase: 'Sentence',
+    letterSpacing: '0',
+  },
+  {
+    html: typographyHtmlSnippets.h3.tag,
+    size: 'L',
+    weight: 'Semi-bold',
+    letterCase: 'Sentence',
+    letterSpacing: '0',
   },
 ];
 
@@ -137,6 +163,7 @@ const typeScale: Typography[] = [
   selector: 'storybook-typography-overview',
   templateUrl: './storybook-typography-overview.component.html',
   styleUrls: ['./storybook-typography-overview.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class StorybookTypographyOverviewComponent {
   /**
@@ -148,10 +175,13 @@ export class StorybookTypographyOverviewComponent {
     'weight',
     'letterCase',
     'letterSpacing',
-    'lineHeight',
   ];
   /**
    * @ignore
    */
-  dataSource = typeScale;
+  dataSourceLarge = typeScaleLarge;
+  /**
+   * @ignore
+   */
+  dataSourceSmall = typeScaleSmall;
 }

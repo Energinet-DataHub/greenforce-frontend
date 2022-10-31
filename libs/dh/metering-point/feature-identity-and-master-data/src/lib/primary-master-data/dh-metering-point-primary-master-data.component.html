@@ -21,12 +21,12 @@ limitations under the License.
     <watt-icon
       name="map_marker"
       label="map_marker"
-      [size]="iconSizes.XLarge"
+      size="xl"
       aria-hidden
     ></watt-icon>
     <section class="align-top">
       <dl>
-        <dt class="watt-label">{{ transloco('address') }}</dt>
+        <dt class="watt-label">{{ transloco("address") }}</dt>
         <dd [innerHTML]="address"></dd>
       </dl>
 
@@ -39,21 +39,21 @@ limitations under the License.
           <watt-icon
             [name]="isActualAddressIcon"
             [label]="isActualAddressIcon"
-            [size]="iconSizes.XSmall"
+            size="xs"
           ></watt-icon>
         </dt>
-        <dd class="watt-text-xs">
+        <dd class="watt-text-s">
           {{ transloco(actualAddressTranslationKey) }}
         </dd>
 
-        <dt class="watt-text-xs">{{ transloco('locationDescription') }}:</dt>
-        <dd class="watt-text-xs">
+        <dt class="watt-text-s">{{ transloco("locationDescription") }}:</dt>
+        <dd class="watt-text-s">
           {{ primaryMasterData?.locationDescription | dhEmDashFallback }}
         </dd>
-        <dt class="watt-text-xs text-dimmed">
-          {{ transloco('geoInfoReference') }}:
+        <dt class="watt-text-s text-dimmed">
+          {{ transloco("geoInfoReference") }}:
         </dt>
-        <dd class="watt-text-xs text-dimmed">
+        <dd class="watt-text-s text-dimmed">
           {{ primaryMasterData?.darReference | dhEmDashFallback }}
         </dd>
       </dl>
@@ -67,20 +67,15 @@ limitations under the License.
         property: 'electricitySupplier'
       "
     >
-      <watt-icon
-        name="power"
-        label="power"
-        [size]="iconSizes.XLarge"
-        aria-hidden
-      ></watt-icon>
+      <watt-icon name="power" label="power" size="xl" aria-hidden></watt-icon>
       <dl>
         <dt class="watt-label">
-          {{ transloco('hasElectricitySupplier') }}
+          {{ transloco("hasElectricitySupplier") }}
         </dt>
         <dd>
           {{ isSupplyStartSet | dhYesNo }}
         </dd>
-        <dd class="watt-text-xs text-dimmed full-width">
+        <dd class="watt-text-s text-dimmed full-width">
           {{
             electricitySupplierSinceTranslationKey
               | transloco: { date: primaryMasterData?.supplyStart | dhDate }
@@ -91,14 +86,9 @@ limitations under the License.
     </section>
 
     <section>
-      <watt-icon
-        name="meter"
-        label="meter"
-        [size]="iconSizes.XLarge"
-        aria-hidden
-      ></watt-icon>
+      <watt-icon name="meter" label="meter" size="xl" aria-hidden></watt-icon>
       <dl>
-        <dt class="watt-label">{{ transloco('meterNumber') }}</dt>
+        <dt class="watt-label">{{ transloco("meterNumber") }}</dt>
         <dd>
           <small>{{ primaryMasterData?.meterId | dhEmDashFallback }}</small>
         </dd>

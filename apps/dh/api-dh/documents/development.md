@@ -2,6 +2,35 @@
 
 Notes regarding the development of the DataHub Backend-for-frontend (BFF).
 
+## Setup of BFF
+
+Before you're able to run the BFF locally you need to copy
+`build/ci/dh/api-dh/ci.appsettings.Development.json` ->
+`apps/dh/api-dh/source/DataHub.WebApi/appsettings.Development.json`.
+If you're using PowerShell Core or another Terminal that supports `cp`,
+you can do it with:
+
+```sh
+yarn nx run api-dh:ci-configuration
+```
+
+Otherwise you need to do the copying manually. This should be done everytime a
+new client is added.
+
+## Generating HttpClient and DTOs
+
+After the BFF is built, a Swagger definition file is generated. This file is
+used to auto-generate any HttpClients and DTOs needed to communicate with the
+BFF. To do that run:
+
+```sh
+yarn nx run api-dh:build-client
+```
+
+*Note: The files are automatically placed in
+`libs/dh/shared/domain/src/lib/generated/v1/**`. You **must not** modify these
+files manually.*
+
 ## Workflows
 
 > Describe BFF relevant workflows here.
@@ -30,7 +59,12 @@ Add appsettings.Development.json with valid settings:
 
 `ApiClientSettings`  
 `> MeteringPointBaseUrl`  
-`> ChargesBaseUrl`
+`> ChargesBaseUrl`  
+`> MessageArchiveBaseUrl`  
+`> MarketParticipantBaseUrl`  
+`> WholesaleBaseUrl`  
+`FRONTEND_SERVICE_APP_ID`  
+`FRONTEND_OPEN_ID_URL`
 
 ## OpenAPI
 

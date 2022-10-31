@@ -1,0 +1,5 @@
+app:
+  replicaCount: 2
+  image:
+    name: ghcr.io/energinet-datahub/eo-frontend-app
+    tag: 0.3.103

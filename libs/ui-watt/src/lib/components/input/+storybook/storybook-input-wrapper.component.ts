@@ -36,6 +36,7 @@ import { FormControl } from '@angular/forms';
       label="some meaningful description"
     ></watt-icon>
     <input
+      *ngIf="!isTextArea"
       wattInput
       type="text"
       maxlength="256"
@@ -43,13 +44,21 @@ import { FormControl } from '@angular/forms';
       [placeholder]="placeholder"
       [required]="required"
     />
-    <watt-icon-button
+    <textarea
+      *ngIf="isTextArea"
+      wattInput
+      [formControl]="exampleFormControl"
+      [placeholder]="placeholder"
+      [required]="required"
+    ></textarea>
+    <watt-button
+      variant="icon"
       *ngIf="hasSuffix"
       wattSuffix
       icon="close"
       aria-label="some meaningful description"
     >
-    </watt-icon-button>
+    </watt-button>
 
     <watt-error *ngIf="exampleFormControl.hasError('required')">
       This field is required
@@ -70,12 +79,16 @@ export class StorybookInputWrapperComponent implements OnChanges {
   @Input() hasHint = false;
   @Input() required = false;
   @Input() hasError = false;
+  @Input() isTextArea = false;
   @Input() size: 'normal' | 'large' = 'normal';
 
   /**
    * @ignore
    */
-  exampleFormControl = new FormControl({ value: '', disabled: this.disabled });
+  exampleFormControl = new FormControl(
+    { value: '', disabled: this.disabled },
+    { nonNullable: true }
+  );
 
   /**
    * @ignore

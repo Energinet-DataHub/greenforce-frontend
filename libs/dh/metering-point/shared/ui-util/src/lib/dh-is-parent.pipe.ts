@@ -15,20 +15,18 @@
  * limitations under the License.
  */
 import { NgModule, Pipe, PipeTransform } from '@angular/core';
-import { MeteringPointType } from '@energinet-datahub/dh/shared/data-access-api';
+import { MeteringPointType } from '@energinet-datahub/dh/shared/domain';
 
 @Pipe({
   name: 'dhIsParent',
 })
 export class DhIsParentPipe implements PipeTransform {
   transform(value: MeteringPointType | undefined): boolean {
-    if (
+    return (
       value === MeteringPointType.E17 ||
       value === MeteringPointType.E18 ||
       value === MeteringPointType.E20
-    )
-      return true;
-    return false;
+    );
   }
 }
 

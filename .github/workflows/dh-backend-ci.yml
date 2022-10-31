@@ -11,15 +11,21 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: DH UI Backend CI
+name: DH Backend CI
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   app-name: app-dh
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
-  is-pull-request: ${{ github.event_name  == 'pull_request' }}
+  is-pull-request: ${{ github.event_name == 'pull_request' }}
   NODE_OPTIONS: --max-old-space-size=6144
-  node-version: 14.x
+  node-version-file: .nvmrc
+  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
+  yarn-version: 1.22.19
   NX_MAX_PARALLEL: 2
 
   # Nx Cloud
@@ -39,77 +45,61 @@ on:
 
 jobs:
   dotnet_solution_ci:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@4.0.0
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v8
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
-      DOTNET_VERSION: '5.0'
+      PREPARE_OUTPUTS: true
+      ENVIRONMENT: AzureAuth
     secrets:
-      AZURE_TENANT_ID: ${{ secrets.AZURE_TESTING_TENANT_ID }}
-      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_TESTING_SUBSCRIPTION_ID }}
-      AZURE_SPN_ID: ${{ secrets.AZURE_TESTING_SPN_ID }}
-      AZURE_SPN_SECRET: ${{ secrets.AZURE_TESTING_SPN_SECRET }}
-      AZURE_KEYVAULT_URL: ${{ secrets.AZURE_TESTING_KEYVAULT_URL }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      AZURE_SPN_ID: ${{ secrets.AZURE_SPN_ID_OIDC }}
+      AZURE_KEYVAULT_URL: ${{ secrets.AZURE_KEYVAULT_URL }}
+      AZURE_SECRETS_KEYVAULT_URL: ${{ secrets.AZURE_SECRETS_KEYVAULT_URL }}
 
   terraform_validate:
-    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@4.0.0
+    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@v8
     with:
       TERRAFORM_WORKING_DIR_PATH: 'build/infrastructure/dh/main'
-      TERRAFORM_VERSION: '1.1.2'
+      TERRAFORM_VERSION: '1.2.2'
 
   sonarcloud_analysis:
-    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@4.0.0
+    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@v8
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
-      DOTNET_VERSION: '5.0'
       SONAR_CLOUD_ORGANIZATION: 'energinet-datahub'
       SONAR_CLOUD_PROJECT: 'geh-frontend-api'
     secrets:
       SONAR_CLOUD_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  bff_ci:
-    needs: [dotnet_solution_ci, terraform_validate, sonarcloud_analysis]
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-create-webapi-artifact.yml@4.0.0
-    with:
-      CSPROJ_FILE_PATH: 'apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj'
-      DOTNET_VERSION: '5.0.202'
-      ARTIFACT_NAME: bff
-
   generate_client:
-    needs: bff_ci
+    needs: [dotnet_solution_ci, terraform_validate, sonarcloud_analysis]
     runs-on: ubuntu-latest
     env:
-      output-path: libs/dh/shared/data-access-api/src/lib/generated/v1/
+      output-path: libs/dh/shared/domain/src/lib/generated/v1/
 
     steps:
       # needed to push to origin
       - name: 'PR: Check out source code with current branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
-          ssh-key: ${{ secrets.ACTIONS_BOT_SSH_KEY }}
+          token: ${{ secrets.PAT_TOKEN }}
       - name: 'Merge: Check out source code'
         if: ${{ env.is-main-branch == 'true' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js ${{ env.node-version }}
-        uses: actions/setup-node@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
+          cache: 'yarn'
 
-      - name: Variable-Yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: Cache Yarn cache directory
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
@@ -131,9 +121,10 @@ jobs:
           git diff ${{ env.output-path }} --exit-code || (echo '❌ DataHub API v1 client is out-of-sync. Run the `build-client` Nx target and merge the changes.' && exit 1)
 
   create_prerelease:
-    needs: [bff_ci]
-    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@4.0.0
+    needs: [dotnet_solution_ci, terraform_validate, sonarcloud_analysis]
+    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@v8
     with:
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
+      RELEASE_NAME_PREFIX: dh_backend
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}

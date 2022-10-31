@@ -14,109 +14,173 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use './watt-button-variables' as buttonVariables;
+@use "@energinet-datahub/watt/utils" as watt;
+
+@mixin primary-hover {
+  background: var(--watt-color-primary-dark);
+}
+@mixin primary-focus {
+  @include primary-hover;
+  outline: 2px solid var(--watt-color-secondary);
+}
+
+@mixin secondary-hover {
+  background: var(--watt-color-primary-light);
+}
+
+@mixin secondary-focus {
+  @include secondary-hover;
+  outline: 1px solid var(--watt-color-primary);
+}
+
+@mixin text-hover {
+  color: var(--watt-color-primary-dark);
+}
+
+@mixin text-focus {
+  @include text-hover;
+  outline: 2px solid var(--watt-color-primary);
+}
+
+@mixin icon-hover {
+  color: var(--watt-color-primary-dark);
+}
+
+@mixin icon-focus {
+  @include icon-hover;
+  outline: 2px solid var(--watt-color-primary);
+}
 
 watt-button {
   display: inline-block;
+}
 
-  &.watt-button-size-normal {
-    button.watt-button {
-      height: buttonVariables.$watt-button-size-normal-height;
-      min-width: buttonVariables.$watt-button-min-width;
-    }
+.mat-button {
+  @include watt.typography-font-weight("semi-bold");
+  @include watt.typography-font-size("m");
+  @include watt.space-inset-squish-m;
+
+  &.mat-button {
+    min-width: 44px; // Magic UX width
   }
 
-  &.watt-button-size-large {
-    button.watt-button {
-      height: buttonVariables.$watt-button-size-large-height;
-      min-width: buttonVariables.$watt-button-min-width;
-    }
+  &.watt-button--normal {
+    height: 44px; // Magic UX normal height
   }
 
-  &.watt-button-loading {
-    .content-grid {
-      position: relative;
+  &.watt-button--large {
+    height: 56px; // Magic UX large height
+  }
+
+  watt-spinner {
+    position: absolute;
+  }
+
+  .mat-button-focus-overlay {
+    background: transparent; // Remove the overlay background color from Material Design
+  }
+
+  .mat-button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .content-wrapper {
+      display: flex;
+      gap: var(--watt-space-s);
     }
 
-    .content-grid-item-spinner {
-      position: absolute;
-    }
-
-    .content-grid-item:not(.content-grid-item-spinner) {
+    .content-wrapper--loading {
       visibility: hidden;
     }
 
-    watt-primary-button {
-      .mat-spinner circle {
-        stroke: var(--watt-color-neutral-white);
-      }
+    watt-icon {
+      margin: -5px; // to offset the icons inherent padding of 5px
     }
   }
 
-  &.watt-button-disabled {
-    // NOTE(xdzus)
-    // Prevents emitting a click event in Chrome/Edge/Safari when a disabled button is clicked
-    pointer-events: none;
-  }
+  &.watt-button--primary {
+    background-color: var(--watt-color-primary);
+    color: var(--watt-color-primary-contrast);
 
-  .content-grid {
-    align-items: center;
-    display: flex;
-    gap: var(--watt-space-xs);
-    justify-content: center;
-  }
-
-  watt-primary-button {
-    button.watt-button:focus {
-      outline: buttonVariables.$watt-button-primary-focus-outline;
-      background: buttonVariables.$watt-button-primary-focus-background;
+    &:focus-visible {
+      @include primary-focus;
     }
 
-    button.watt-button:hover {
-      background: buttonVariables.$watt-button-primary-hover-background;
+    &:hover,
+    &:focus-visible {
+      @include primary-hover;
     }
 
-    button.watt-button.mat-flat-button.mat-button-disabled {
+    &.mat-button.mat-button-disabled {
       background-color: transparent;
-      border: none;
+      color: var(--watt-color-neutral-grey-500);
+    }
+
+    .mat-spinner circle {
+      stroke: var(--watt-color-neutral-white);
+    }
+  }
+
+  &.watt-button--secondary {
+    border: 1px solid var(--watt-color-primary);
+    color: var(--watt-color-primary);
+
+    &:focus-visible {
+      @include secondary-focus;
+    }
+
+    &:hover,
+    &:focus-visible {
+      @include secondary-hover;
+    }
+
+    &.mat-button.mat-button-disabled {
+      background-color: transparent;
+      border-color: var(--watt-color-neutral-grey-300);
       color: var(--watt-color-neutral-grey-500);
     }
   }
 
-  watt-secondary-button {
-    button.watt-button:focus {
-      outline: buttonVariables.$watt-button-secondary-focus-state;
-      background: buttonVariables.$watt-button-secondary-focus-background;
+  &.watt-button--text {
+    color: var(--watt-color-primary);
+    outline: 2px solid transparent;
+
+    &:focus-visible {
+      @include text-focus;
     }
 
-    button.watt-button:hover:not(.mat-button-disabled) {
-      background: buttonVariables.$watt-button-secondary-hover-background;
+    &:hover,
+    &:focus-visible {
+      @include text-hover;
     }
 
-    button.watt-button.mat-stroked-button.mat-button-disabled {
-      border-color: var(--watt-color-neutral-grey-300);
+    &.mat-button.mat-button-disabled {
+      background-color: transparent;
+      color: var(--watt-color-neutral-grey-500);
     }
   }
 
-  watt-text-button {
-    button.watt-button:focus {
-      outline: buttonVariables.$watt-button-text-focus-state;
+  &.watt-button--icon {
+    color: var(--watt-color-primary);
+    @include watt.space-inset-s;
+
+    &:focus-visible {
+      @include icon-focus;
     }
 
-    button.watt-button:hover {
-      color: buttonVariables.$watt-button-text-hover-color;
-
-      .mat-button-focus-overlay {
-        background-color: transparent;
-      }
+    &:hover,
+    &:focus-visible {
+      @include icon-hover;
     }
 
-    button.watt-button:hover {
-      color: buttonVariables.$watt-button-text-hover-color;
+    &.mat-button {
+      min-width: 44px;
+    }
 
-      .mat-button-focus-overlay {
-        background-color: transparent;
-      }
+    &.mat-button.mat-button-disabled {
+      background-color: transparent;
+      color: var(--watt-color-neutral-grey-500);
     }
   }
 }

@@ -1,0 +1,27 @@
+{
+  "name": "dh-shared-feature-flags",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/shared/feature-flags/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/feature-flags"],
+      "options": {
+        "jestConfig": "libs/dh/shared/feature-flags/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/shared/feature-flags/src/**/*.ts",
+          "libs/dh/shared/feature-flags/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:shared", "type:feature"]
+}

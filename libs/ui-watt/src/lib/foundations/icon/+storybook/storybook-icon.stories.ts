@@ -21,6 +21,8 @@ import { WattIconComponent } from '../icon.component';
 import { WattIconSize } from '../watt-icon-size';
 import { StorybookIconOverviewModule } from './storybook-icon-overview.module';
 
+const defaultIconSize: WattIconSize = 'm';
+
 export default {
   title: 'Foundations/Icons',
   decorators: [
@@ -44,7 +46,7 @@ icons.parameters = {
   docs: {
     source: {
       code: `1. Import WattIconModule in a module
-import { WattIconModule } from '@energinet-datahub/watt';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
 
 2. Use <watt-icon name="<name>" label="<description>" size="<size>"><watt-icon> in the component's HTML template`,
     },
@@ -61,10 +63,10 @@ icons.argTypes = {
   },
   size: {
     description: 'Size of the icon `WattIconSize`',
-    defaultValue: WattIconSize.Medium,
+    defaultValue: defaultIconSize,
     table: {
       type: { summary: 'string' },
-      defaultValue: { summary: WattIconSize.Medium },
+      defaultValue: { summary: defaultIconSize },
     },
   },
 };

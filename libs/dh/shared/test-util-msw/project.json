@@ -1,0 +1,27 @@
+{
+  "name": "dh-shared-test-util-msw",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/shared/test-util-msw/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/test-util-msw"],
+      "options": {
+        "jestConfig": "libs/dh/shared/test-util-msw/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/shared/test-util-msw/src/**/*.ts",
+          "libs/dh/shared/test-util-msw/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "scope:shared", "type:test-util"]
+}

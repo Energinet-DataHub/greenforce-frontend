@@ -17,19 +17,47 @@ inputs:
     required: true
   REPO_FOLDER_PATH:
     required: true
+  RELEASE_VERSION:
+    required: true
 
 runs:
   using: composite
   steps:
-    - name: Publish Infrastructure to release folder
+    - name: Create release folders
       shell: bash
       run: |
-        mkdir ${{ inputs.RELEASE_FOLDER_PATH }}
-        mkdir ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure
-        cp -fR ${{ inputs.REPO_FOLDER_PATH }}/build/infrastructure/dh/* ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure 2>/dev/null || :
+        mkdir -p ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure
 
-    - name: Publish BFF to release folder
-      uses: actions/download-artifact@v2
+    ## Only DH App Release
+    - name: Publish Infrastructure to release folder
+      if: contains(inputs.RELEASE_VERSION, 'dh_backend')
+      shell: bash
+      run: |
+        cp -fR ${{ inputs.REPO_FOLDER_PATH }}/build/infrastructure/dh/* ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure
+
+    - name: Publish dotnet artifact to release folder
+      if: contains(inputs.RELEASE_VERSION, 'dh_backend')
+      uses: actions/download-artifact@v3
       with:
-        name: bff
-        path: ${{ inputs.RELEASE_FOLDER_PATH }}/functions/bff
+        name: dotnet
+        path: ${{ inputs.RELEASE_FOLDER_PATH }}
+
+    - name: Unzip/delete dotnet-outputs.zip
+      if: contains(inputs.RELEASE_VERSION, 'dh_backend')
+      shell: bash
+      run: |
+        zipFile=${{ inputs.RELEASE_FOLDER_PATH }}/dotnet-outputs.zip
+        if [ -f $zipFile ]; then
+          echo "Zip file exists"
+          unzip $zipFile -d ${{ inputs.RELEASE_FOLDER_PATH }}
+          rm $zipFile
+        else
+          echo "Zip file does not exist"
+        fi
+
+    ## Only UI Watt (Design System) Release
+    - name: Publish Infrastructure to release folder
+      if: contains(inputs.RELEASE_VERSION, 'watt_backend')
+      shell: bash
+      run: |
+        cp -fR ${{ inputs.REPO_FOLDER_PATH }}/build/infrastructure/watt/* ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure

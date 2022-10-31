@@ -20,7 +20,7 @@ import { StorybookColorsOverviewComponent } from './storybook-colors-overview.co
 import { StorybookColorsOverviewModule } from './storybook-colors-overview.module';
 
 export default {
-  title: 'Foundations/Color',
+  title: 'Foundations/Colors',
   component: StorybookColorsOverviewComponent,
   decorators: [
     moduleMetadata({
@@ -35,8 +35,8 @@ const Template: Story<StorybookColorsOverviewComponent> = (args) => ({
 });
 
 //👇 Each story then reuses that template
-export const Color = Template.bind({});
-Color.parameters = {
+export const Colors = Template.bind({});
+Colors.parameters = {
   docs: {
     source: {
       code: `// Usage from SCSS / CSS (tip: hover over the color sample, and click to copy to clipboard):
@@ -45,7 +45,7 @@ Color.parameters = {
 }
 
 // Usage from TypeScript:
-1. import { WattColor, WattColorHelperService } from '@energinet-datahub/watt';      
+1. import { WattColor, WattColorHelperService } from '@energinet-datahub/watt/color';
 2. Inject the WattColorHelperService
 3. Use WattColorHelperService.getColor(WattColor.<color-name>);
 `,

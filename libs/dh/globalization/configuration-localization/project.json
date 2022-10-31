@@ -1,14 +1,17 @@
 {
+  "name": "dh-globalization-configuration-localization",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/dh/globalization/configuration-localization",
   "sourceRoot": "libs/dh/globalization/configuration-localization/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/globalization/configuration-localization"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/globalization/configuration-localization"
+      ],
       "options": {
-        "jestConfig": "libs/dh/globalization/configuration-localization/jest.config.js",
+        "jestConfig": "libs/dh/globalization/configuration-localization/jest.config.ts",
         "passWithNoTests": true
       }
     },

@@ -14,8 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// Generated modules
-export * from './lib/generated/v1';
-
-// Our modules
 export * from './lib/dh-api.module';

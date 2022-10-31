@@ -1,0 +1,62 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+.watt-toast {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--watt-color-neutral-white);
+  border-left: 6px solid transparent;
+  box-shadow: 0px var(--watt-space-m) var(--watt-space-m) rgba(0, 0, 0, 0.2),
+    0px 32px 64px 3px rgba(46, 50, 52, 0.2);
+  border-radius: 4px;
+  padding: var(--watt-space-s) var(--watt-space-m);
+  max-width: 704px;
+
+  &--success {
+    border-color: var(--watt-color-state-success);
+  }
+
+  &--info {
+    border-color: var(--watt-color-state-info);
+  }
+
+  &--warning {
+    border-color: var(--watt-color-state-warning);
+  }
+
+  &--danger {
+    border-color: var(--watt-color-state-danger);
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+  }
+
+  watt-icon,
+  watt-spinner {
+    margin-right: var(--watt-space-m);
+  }
+
+  watt-button .watt-button--text {
+    text-transform: capitalize;
+  }
+
+  p {
+    margin: 0 var(--watt-space-s) 0 0;
+  }
+}

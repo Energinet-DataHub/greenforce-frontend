@@ -18,30 +18,34 @@ limitations under the License.
   <mat-sidenav
     #drawer
     class="watt-sidenav"
+    [disableClose]="(isHandset$ | async) === false"
     [autoFocus]="shouldAutoFocus"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false"
     role="navigation"
   >
-    <watt-icon-button
-      *ngIf="isHandset$ | async"
-      icon="close"
-      class="watt-sidenav-close-button"
-      (click)="drawer.toggle()"
-    >
-    </watt-icon-button>
-
-    <ng-content select="[watt-shell-sidenav]"></ng-content>
+    <div class="button-padding">
+      <watt-button
+        *ngIf="isHandset$ | async"
+        variant="icon"
+        icon="close"
+        class="watt-sidenav-close-button"
+        (click)="drawer.toggle()"
+      >
+      </watt-button>
+      <ng-content select="[watt-shell-sidenav]"></ng-content>
+    </div>
   </mat-sidenav>
 
   <mat-sidenav-content>
     <mat-toolbar class="watt-toolbar">
-      <watt-icon-button
+      <watt-button
         *ngIf="isHandset$ | async"
+        variant="icon"
         icon="menu"
         (click)="drawer.toggle()"
       >
-      </watt-icon-button>
+      </watt-button>
 
       <ng-content select="[watt-shell-toolbar]"></ng-content>
     </mat-toolbar>

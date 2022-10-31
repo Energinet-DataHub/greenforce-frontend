@@ -24,8 +24,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattIconModule } from '@energinet-datahub/watt';
-import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/domain';
 import { DhIsParentPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 

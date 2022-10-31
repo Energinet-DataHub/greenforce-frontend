@@ -27,19 +27,26 @@ import { execSync } from 'child_process';
 import { readFileSync } from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+import * as core from '@actions/core';
 
 function readAffectedApps(base) {
-  const affected = execSync(`npx nx affected:apps --plain --base=${base}`, {
-    encoding: 'utf-8',
-  });
+  const affected = execSync(
+    `npx nx print-affected --type=app --select=projects --base=${base} --head=HEAD`,
+    {
+      encoding: 'utf-8',
+    }
+  );
 
   return sanitizeAffectedOutput(affected);
 }
 
 function readAffectedLibs(base) {
-  const affected = execSync(`npx nx affected:libs --plain --base=${base}`, {
-    encoding: 'utf-8',
-  });
+  const affected = execSync(
+    `npx nx print-affected --type=lib --select=projects --base=${base} --head=HEAD`,
+    {
+      encoding: 'utf-8',
+    }
+  );
 
   return sanitizeAffectedOutput(affected);
 }
@@ -52,10 +59,7 @@ function readAffectedProjects(base) {
 }
 
 function sanitizeAffectedOutput(affectedOutput) {
-  return affectedOutput
-    .trim()
-    .split(' ')
-    .filter((project) => project !== '');
+  return affectedOutput.replaceAll(/\s/g, '').split(',');
 }
 
 function validateProjectParameter(projectName) {
@@ -80,11 +84,19 @@ function validateProjectParameter(projectName) {
 
 // Not available in an ES Module as of Node.js 12.x
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const [, , project, base] = process.argv;
+let project;
+let base;
+
+try {
+  project = core.getInput('project', { required: true });
+  base = core.getInput('base', { required: true });
+} catch (err) {
+  [, , project, base] = process.argv;
+}
 
 validateProjectParameter(project);
 
 const affectedProjects = readAffectedProjects(base);
 const isAffected = affectedProjects.includes(project);
 
-console.log(isAffected);
+core.setOutput('is-affected', isAffected);

@@ -16,5 +16,23 @@ export const parameters = {
   viewport: {
     viewports: INITIAL_VIEWPORTS,
   },
-  chromatic: { disableSnapshot: true }
+  chromatic: { disableSnapshot: true },
+  options: {
+    storySort: {
+      order: [
+        'Foundations',
+        [
+          'Colors',
+          'Typography',
+          'Icons',
+          'Spacing',
+          'Grids',
+          'Accessibility',
+          'Formats',
+        ],
+        'Components',
+        'Utils',
+      ],
+    },
+  },
 };

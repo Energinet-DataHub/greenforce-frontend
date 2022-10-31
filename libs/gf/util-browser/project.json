@@ -1,14 +1,15 @@
 {
+  "name": "gf-util-browser",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/gf/util-browser",
   "sourceRoot": "libs/gf/util-browser/src",
   "prefix": "gf",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/gf/util-browser"],
+      "outputs": ["{workspaceRoot}/coverage/libs/gf/util-browser"],
       "options": {
-        "jestConfig": "libs/gf/util-browser/jest.config.js",
+        "jestConfig": "libs/gf/util-browser/jest.config.ts",
         "passWithNoTests": true
       }
     },

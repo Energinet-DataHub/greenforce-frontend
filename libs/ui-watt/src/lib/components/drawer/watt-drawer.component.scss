@@ -1,0 +1,85 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+:host {
+  display: block;
+}
+
+.watt-drawer-container {
+  box-shadow: 0px 4px 64px 3px rgba(46, 50, 52, 0.25);
+  height: 100vh;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: auto;
+
+  // Most material components does not have a z-index exceeding 100,
+  // except for modals which has a value of 1000. Since the drawer
+  // needs to stay on top of all content except modals, the value
+  // of 500 was chosen here which hopefully will remain stable.
+  z-index: 500;
+}
+
+.watt-drawer {
+  padding: 0;
+
+  &__grid-container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100%;
+  }
+
+  &--small {
+    width: 460px;
+
+    .watt-drawer__actions {
+      margin-bottom: var(--watt-space-m);
+    }
+  }
+
+  &--normal,
+  &--large {
+    .watt-drawer__actions {
+      float: right;
+    }
+  }
+
+  &--normal {
+    width: 888px;
+  }
+
+  &--large {
+    width: 1174px;
+  }
+
+  &__content {
+    overflow-y: auto;
+    padding: calc(1.5 * var(--watt-space-m));
+  }
+}
+
+.watt-drawer__spinner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--watt-color-neutral-white);
+  opacity: 0.5;
+}

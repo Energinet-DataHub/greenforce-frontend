@@ -21,7 +21,9 @@ import {
   toDisplayLanguage,
 } from '@energinet-datahub/dh/globalization/domain';
 import { TranslocoService } from '@ngneat/transloco';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
+
+import { WattLocaleService } from '@energinet-datahub/watt/locale';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,10 +33,18 @@ import { map, Observable } from 'rxjs';
 })
 export class DhLanguagePickerComponent {
   activeLanguage$: Observable<DisplayLanguage> =
-    this.transloco.langChanges$.pipe(map(toDisplayLanguage));
+    this.transloco.langChanges$.pipe(
+      map(toDisplayLanguage),
+      tap((language) => {
+        this.localeService.setActiveLocale(language);
+      })
+    );
   displayLanguages = displayLanguages;
 
-  constructor(private transloco: TranslocoService) {}
+  constructor(
+    private transloco: TranslocoService,
+    private localeService: WattLocaleService
+  ) {}
 
   onLanguageSelect(language: DisplayLanguage): void {
     this.transloco.setActiveLang(language);

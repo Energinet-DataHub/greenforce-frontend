@@ -15,12 +15,18 @@
  * limitations under the License.
  */
 export enum WattColor {
+  // Primary
   primary = '--watt-color-primary',
   primaryLight = '--watt-color-primary-light',
   primaryDark = '--watt-color-primary-dark',
-  // Focus
-  selection = '--watt-color-focus-selection',
-  focus = '--watt-color-focus',
+  // Secondary
+  secondary = '--watt-color-secondary',
+  secondaryLight = '--watt-color-secondary-light',
+  secondaryDark = '--watt-color-secondary-dark',
+  // Data Visualization
+  data1 = '--watt-color-data-1',
+  data2 = '--watt-color-data-2',
+  data3 = '--watt-color-data-3',
   // Neutrals
   black = '--watt-color-neutral-black',
   white = '--watt-color-neutral-white',

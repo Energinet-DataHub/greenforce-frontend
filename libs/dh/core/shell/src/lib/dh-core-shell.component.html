@@ -23,17 +23,27 @@ limitations under the License.
         class="logo--sidenav"
       />
     </div>
+
+    <dh-primary-navigation></dh-primary-navigation>
   </ng-container>
 
   <ng-container watt-shell-toolbar>
-    <img src="/assets/logo-dark.svg" alt="DataHub logo" class="logo--toolbar" />
-    <div class="app-actions">
+    <h2 class="toolbar__heading">
+      {{ titleTranslationKey$ | push | transloco }}
+    </h2>
+
+    <div class="toolbar__actions">
       <dh-language-picker></dh-language-picker>
     </div>
+
     <ng-container *transloco="let transloco; read: 'shell'">
-      <watt-button (click)="logout()" icon="logout">{{
-        transloco('logout')
-      }}</watt-button>
+      <watt-button
+        class="toolbar__logout"
+        variant="text"
+        (click)="logout()"
+        icon="logout"
+        >{{ transloco("logout") }}</watt-button
+      >
     </ng-container>
   </ng-container>
 

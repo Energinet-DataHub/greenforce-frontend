@@ -26,7 +26,7 @@ import { WattIconSize } from '../../foundations/icon/watt-icon-size';
 
 /**
  * Usage:
- * `import { WattEmptyStateModule } from '@energinet-datahub/watt';`
+ * `import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';`
  */
 @Component({
   selector: 'watt-empty-state',
@@ -46,10 +46,10 @@ export class WattEmptyStateComponent {
 
   get iconSize(): WattIconSize {
     if (this.size === 'small') {
-      return WattIconSize.XLarge;
+      return 'xl';
     }
 
-    return WattIconSize.XXLarge;
+    return 'xxl';
   }
 
   get hasIcon(): boolean {

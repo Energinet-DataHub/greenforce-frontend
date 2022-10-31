@@ -1,0 +1,44 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<mat-drawer-container class="watt-drawer-container" [hasBackdrop]="false">
+  <mat-drawer
+    class="watt-drawer watt-space-inset-s watt-drawer--{{ size }}"
+    mode="side"
+    position="end"
+    [opened]="opened"
+    [disableClose]="true"
+    [autoFocus]="true"
+    [cdkTrapFocus]="true"
+  >
+    <div class="watt-drawer__grid-container">
+      <header>
+        <ng-content select="watt-drawer-topbar"></ng-content>
+      </header>
+
+      <article class="watt-drawer__content">
+        <div class="watt-drawer__actions">
+          <ng-content select="watt-drawer-actions"></ng-content>
+        </div>
+        <ng-content select="watt-drawer-content"></ng-content>
+      </article>
+    </div>
+
+    <div *ngIf="loading" class="watt-drawer__spinner">
+      <watt-spinner></watt-spinner>
+    </div>
+  </mat-drawer>
+</mat-drawer-container>

@@ -25,7 +25,7 @@ import { WattValidationMessageModule } from './watt-validation-message.module';
 
 describe(WattValidationMessageComponent.name, () => {
   it('exports shared Watt Design System validation message', async () => {
-    const label = 'Error:';
+    const label = 'Error';
     const message = 'The metering point is not active';
     const type: WattValidationMessageType = 'danger';
 
@@ -38,8 +38,9 @@ describe(WattValidationMessageComponent.name, () => {
         imports: [WattValidationMessageModule],
       }
     );
+    const expectedVariable = `${label}:`;
 
-    expect(view.queryByText(label)).not.toBeNull();
+    expect(view.queryByText(expectedVariable)).not.toBeNull();
     expect(view.queryByText(message)).not.toBeNull();
   });
 });

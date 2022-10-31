@@ -1,0 +1,64 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<ng-container *transloco="let t; read: 'marketParticipant.organization'">
+  <ng-container *rxLet="isLoading$ as isLoading">
+    <!-- Validation -->
+    <ng-container *rxLet="validationError$ as validationError">
+      <watt-validation-message
+        type="danger"
+        *ngIf="validationError"
+        [message]="validationError.errorMessage"
+      >
+      </watt-validation-message>
+    </ng-container>
+
+    <!-- Header -->
+    <div class="create-organization-block watt-space-stack-m">
+      <watt-button
+        variant="primary"
+        [disabled]="isLoading"
+        (click)="createOrganization()"
+        >{{ t("createOrganization") }}
+      </watt-button>
+    </div>
+
+    <!-- Table -->
+    <dh-market-participant-organization-overview
+      [rows]="overviewList$ | push"
+      [gridAreas]="gridAreas$ | push"
+      (editOrganization)="editOrganization($event)"
+      (createActor)="createActor($event)"
+      (editActor)="editActor($event.organizationId, $event.actorId)"
+    ></dh-market-participant-organization-overview>
+
+    <!-- Spinner -->
+    <div *ngIf="isLoading" class="overview__spinner spinner-container">
+      <watt-spinner></watt-spinner>
+    </div>
+
+    <!-- Empty -->
+    <ng-container *rxLet="overviewList$ as overviewList">
+      <watt-empty-state
+        *ngIf="!isLoading && overviewList.length === 0"
+        icon="power"
+        size="small"
+        [title]="t('noOrganizations')"
+      ></watt-empty-state>
+    </ng-container>
+  </ng-container>
+</ng-container>

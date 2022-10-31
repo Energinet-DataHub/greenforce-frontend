@@ -14,29 +14,59 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@energinet-datahub/watt/utils' as watt;
+@use "@energinet-datahub/watt/utils" as watt;
 
 watt-form-field {
   display: block;
   width: 100%;
+  margin-top: var(
+    --watt-space-m
+  ); // margin is added to take up space for the floating label
   --input-border-color: var(--watt-color-neutral-grey-400);
   --input-color: var(--watt-color-primary-dark);
   --input-background: var(--watt-color-neutral-white);
   --label-margin-bottom: 4px;
 
+  .mat-form-field-label-wrapper {
+    overflow: visible;
+  }
+
+  .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float
+    .mat-form-field-label {
+    transform: translateY(
+      calc(0px - 1.28125em - var(--watt-space-s))
+    ); // 1.28125em is space to top of the input (this number is from Angular material)
+    @include watt.typography-watt-label;
+    width: 100%;
+  }
+
   &.watt-form-field-large {
     .mat-input-element {
       @include watt.typography-watt-text-m;
     }
+
     .mat-form-field-flex {
-      height: 56px;
+      min-height: 56px;
+
+      & textarea:not([rows]) {
+        min-height: 72px; // equal to three lines
+      }
+    }
+
+    [wattPrefix],
+    [wattSuffix] {
+      .watt-button--icon {
+        height: 52px;
+      }
     }
   }
 
-  .mat-input-element {
+  .mat-input-element,
+  .mat-date-range-input-container {
     @include watt.typography-watt-text-s;
     color: var(--input-color);
     caret-color: var(--watt-color-neutral-grey-900) !important;
+    padding: 0 12px;
   }
 
   .mat-form-field-flex {
@@ -44,11 +74,17 @@ watt-form-field {
     margin-top: var(--label-margin-bottom);
     border-radius: 4px;
     background: var(--input-background);
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--input-border-color);
-    height: 44px;
-    padding: 0 12px;
+    border: 1px solid var(--input-border-color);
+    min-height: 44px;
+
+    & textarea {
+      margin: 12px; // material spacing
+      padding: 0;
+    }
+
+    & textarea:not([rows]) {
+      min-height: 60px; // equal to three lines
+    }
   }
 
   .mat-form-field {
@@ -57,13 +93,19 @@ watt-form-field {
 
   .mat-form-field-appearance-legacy {
     .mat-form-field-infix {
-      position: static;
       border: none;
+      display: flex;
       padding: 0;
+      position: static;
+    }
+
+    &.mat-form-field-type-mat-date-range-input {
+      .mat-form-field-infix {
+        display: inline-block;
+      }
     }
 
     .mat-form-field-subscript-wrapper {
-      position: relative;
       padding-left: 8px;
       margin-top: 4px;
     }
@@ -78,8 +120,15 @@ watt-form-field {
     display: none;
   }
 
+  [wattPrefix],
+  [wattSuffix] {
+    .watt-button--icon {
+      height: 40px;
+    }
+  }
+
   [wattPrefix] {
-    margin-right: 8px;
+    margin-left: 8px;
   }
 
   [wattSuffix] {

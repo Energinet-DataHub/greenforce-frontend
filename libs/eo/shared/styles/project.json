@@ -1,0 +1,10 @@
+{
+  "name": "eo-shared-styles",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/shared/styles/src",
+  "prefix": "eo",
+  "targets": {},
+  "tags": ["product:eo", "scope:shared", "type:styles"],
+  "implicitDependencies": ["ui-watt"]
+}

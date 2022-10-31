@@ -1,0 +1,29 @@
+{
+  "name": "dh-wholesale-feature-overview",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/wholesale/feature-overview/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/wholesale/feature-overview"
+      ],
+      "options": {
+        "jestConfig": "libs/dh/wholesale/feature-overview/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/wholesale/feature-overview/src/**/*.ts",
+          "libs/dh/wholesale/feature-overview/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:wholesale", "type:feature"]
+}

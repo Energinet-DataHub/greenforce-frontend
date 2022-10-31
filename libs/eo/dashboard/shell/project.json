@@ -1,0 +1,27 @@
+{
+  "name": "eo-dashboard-shell",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/dashboard/shell/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/dashboard/shell"],
+      "options": {
+        "jestConfig": "libs/eo/dashboard/shell/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/dashboard/shell/src/**/*.ts",
+          "libs/eo/dashboard/shell/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:dashboard", "type:shell"]
+}

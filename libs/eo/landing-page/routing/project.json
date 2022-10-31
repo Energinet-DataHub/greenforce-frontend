@@ -1,14 +1,15 @@
 {
+  "name": "eo-landing-page-routing",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/eo/landing-page/routing",
   "sourceRoot": "libs/eo/landing-page/routing/src",
   "prefix": "eo",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/eo/landing-page/routing"],
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/landing-page/routing"],
       "options": {
-        "jestConfig": "libs/eo/landing-page/routing/jest.config.js",
+        "jestConfig": "libs/eo/landing-page/routing/jest.config.ts",
         "passWithNoTests": true
       }
     },

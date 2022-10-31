@@ -21,7 +21,7 @@ import {
   ModuleWithProviders,
 } from '@angular/core';
 
-import { DanishLocaleModule } from './danish-locale/danish-locale.module';
+import { DanishLocaleModule } from '@energinet-datahub/gf/configuration-danish-locale';
 
 @NgModule({
   imports: [DanishLocaleModule],

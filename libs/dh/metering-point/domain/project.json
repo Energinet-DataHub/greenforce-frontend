@@ -1,14 +1,15 @@
 {
+  "name": "dh-metering-point-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/dh/metering-point/domain",
   "sourceRoot": "libs/dh/metering-point/domain/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/metering-point/domain"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/metering-point/domain"],
       "options": {
-        "jestConfig": "libs/dh/metering-point/domain/jest.config.js",
+        "jestConfig": "libs/dh/metering-point/domain/jest.config.ts",
         "passWithNoTests": true
       }
     },

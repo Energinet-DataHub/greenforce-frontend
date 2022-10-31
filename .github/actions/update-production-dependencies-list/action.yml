@@ -1,0 +1,11 @@
+name: 'Update PRODUCTION_DEPENDENCIES.md'
+description: 'Update list in PRODUCTION_DEPENDENCIES.md'
+inputs:
+  dependencies-from-license-checker:
+    description: 'Output from license-checker'
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: node ${{ github.action_path }}/update-production-dependencies-list.mjs '${{ inputs.dependencies-from-license-checker }}'
+      shell: bash
