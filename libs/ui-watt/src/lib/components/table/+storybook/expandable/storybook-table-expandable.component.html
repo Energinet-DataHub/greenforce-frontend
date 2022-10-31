@@ -1,0 +1,134 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<mat-table
+  #matTable
+  [dataSource]="sortedData"
+  matSort
+  multiTemplateDataRows
+  (matSortChange)="sortData($event)"
+>
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Expand control column -->
+  <ng-container matColumnDef="tableExpandControl">
+    <mat-header-cell
+      *matHeaderCellDef
+      class="control-cell-header"
+    ></mat-header-cell>
+    <mat-cell *matCellDef="let element" class="control-cell">
+      <watt-icon
+        name="right"
+        [ngClass]="{ expanded: element.expanded }"
+      ></watt-icon>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Beskrivelse column -->
+  <ng-container matColumnDef="beskrivelse">
+    <mat-header-cell *matHeaderCellDef mat-sort-header
+      >Beskrivelse</mat-header-cell
+    >
+    <mat-cell *matCellDef="let element">
+      {{ element.beskrivelse }}<br />
+      Id: {{ element.id }}<br />
+    </mat-cell>
+  </ng-container>
+
+  <!-- Indsendt column -->
+  <ng-container matColumnDef="indsendt">
+    <mat-header-cell *matHeaderCellDef mat-sort-header
+      >Indsendt</mat-header-cell
+    >
+    <mat-cell *matCellDef="let element">
+      {{ element.indsendt }}
+    </mat-cell>
+  </ng-container>
+
+  <!-- skaeringsdato column -->
+  <ng-container matColumnDef="skaeringsdato">
+    <mat-header-cell *matHeaderCellDef mat-sort-header
+      >Skæringsdato</mat-header-cell
+    >
+    <mat-cell *matCellDef="let element">
+      {{ element.skaeringsdato }}
+    </mat-cell>
+  </ng-container>
+
+  <!-- Status column -->
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      {{ element.status }}
+    </mat-cell>
+  </ng-container>
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <mat-cell
+      mat-cell
+      *matCellDef="let element"
+      [attr.colspan]="columnsToDisplay.length"
+      [@detailExpand]="element.expanded ? 'expanded' : 'collapsed'"
+    >
+      <div class="child-row" state="success">
+        <div class="child-cell">hej</div>
+        <div class="child-cell">med</div>
+        <div class="child-cell">dig</div>
+        <div class="child-cell">what</div>
+      </div>
+
+      <div class="child-row" state="danger">
+        <div class="child-cell">hej</div>
+        <div class="child-cell">med</div>
+        <div class="child-cell">dig</div>
+        <div class="child-cell">what</div>
+        <div class="child-cell full-width">
+          AFVIST: Landenavn SE for målepunkt har forkert værdi
+        </div>
+      </div>
+
+      <div class="child-row">
+        <div class="child-cell">hej</div>
+        <div class="child-cell">med</div>
+        <div class="child-cell">dig</div>
+        <div class="child-cell">what</div>
+      </div>
+
+      <div class="child-row">
+        <div class="child-cell">hej</div>
+        <div class="child-cell">med</div>
+        <div class="child-cell">dig</div>
+        <div class="child-cell">what</div>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+
+  <mat-row
+    *matRowDef="let element; columns: columnsToDisplay"
+    wattExpandOnClick
+    [class.expanded]="element.expanded"
+    (click)="element.expanded = !element.expanded"
+  ></mat-row>
+
+  <mat-row
+    *matRowDef="let row; columns: ['expandedDetail']"
+    class="expandable"
+  ></mat-row>
+</mat-table>
