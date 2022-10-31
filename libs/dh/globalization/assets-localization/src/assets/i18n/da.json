@@ -338,7 +338,8 @@
       "startSearch": "Start søgning",
       "startSearchText": "Dine resultater vil fremgå her",
       "noPricesForCharge": "Ingen priser",
-      "noPricesForChargeText": "Der findes ingen pris serier for denne pris.",
+      "noPricesForChargeText": "Der findes ingen prisserier for denne pris.",
+      "noChargePriceResultsHelperText": "Ingen priser er indsendt for denne periode.",
       "paginator": {
         "itemsPerPageLabel": "Priser pr. side",
         "of": "af",
