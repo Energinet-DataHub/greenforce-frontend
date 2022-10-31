@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { render, screen } from '@testing-library/angular';
+import { fireEvent, render, screen, waitFor } from '@testing-library/angular';
 import { MatNativeDateModule } from '@angular/material/core';
 import { HttpClientModule } from '@angular/common/http';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
@@ -33,8 +33,8 @@ import {
 import { DhChargesChargePricesTabScam } from './price-tab/dh-charges-charge-prices-tab.component';
 import { DhChargesChargeHistoryTabScam } from './history-tab/dh-charges-charge-history-tab.component';
 import { DhChargesChargeMessagesTabScam } from './message-tab/dh-charges-charge-messages-tab.component';
+import { DhDrawerDatepickerScam } from './drawer-datepicker/dh-drawer-datepicker.component';
 import userEvent from '@testing-library/user-event';
-import { start } from 'repl';
 
 const charge = {
   id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
@@ -67,6 +67,7 @@ describe('DhChargesPricesDrawerComponent', () => {
         DhChargesChargePricesTabScam,
         DhChargesChargeMessagesTabScam,
         DhChargesChargeHistoryTabScam,
+        DhDrawerDatepickerScam,
       ],
     });
 
@@ -108,20 +109,62 @@ describe('DhChargesPricesDrawerComponent', () => {
   it('when date range updated, should be same on all tabs', async () => {
     await setup();
 
-    // const startDateInput: HTMLInputElement = screen.getByRole('textbox', {
-    //   name: /start-date-input/i,
-    // });
+    const startDateInput: HTMLInputElement = screen.getByRole('textbox', {
+      name: /start-date-input/i,
+    });
 
-    // expect(startDateInput).toBeInTheDocument();
+    expect(startDateInput).toBeInTheDocument();
 
-    // const value = new Date(startDateInput.value);
-    // const tomorrow = value.setDate(value.getDate() + 1);
+    const today = new Date();
+    const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
 
-    // userEvent.type(startDateInput, tomorrow);
+    expect(actualDateInput).toEqual(today.toLocaleDateString());
 
-    // const expectedDate = tomorrow.toLocaleDateString();
-    // const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
 
-    // expect(actualDateInput).toEqual(expectedDate);
+    fireEvent.change(startDateInput, {
+      target: { value: tomorrow.toISOString() },
+    });
+
+    expect(startDateInput.value).toBe(tomorrow.toISOString());
+
+    // Change to Message Tab
+    const messageTab = screen.getByRole('tab', { name: /messages/i });
+    expect(messageTab).toBeInTheDocument();
+
+    userEvent.click(messageTab);
+    expect(messageTab).toHaveClass('mat-tab-label-active');
+
+    const startDateInput2 = await waitFor(() => {
+      expect(startDateInput).not.toBeInTheDocument();
+      const startDateInput2: HTMLInputElement = screen.getByRole('textbox', {
+        name: /start-date-input/i,
+      });
+      return startDateInput2;
+    });
+
+    setTimeout(() => {
+      expect(startDateInput2.value).toBe(tomorrow.toISOString());
+    }, 1000);
+
+    // Change to History Tab
+    const historyTab = screen.getByRole('tab', { name: /history/i });
+    expect(historyTab).toBeInTheDocument();
+
+    userEvent.click(historyTab);
+    expect(historyTab).toHaveClass('mat-tab-label-active');
+
+    const startDateInput3 = await waitFor(() => {
+      expect(startDateInput2).not.toBeInTheDocument();
+      const startDateInput: HTMLInputElement = screen.getByRole('textbox', {
+        name: /start-date-input/i,
+      });
+      return startDateInput;
+    });
+
+    setTimeout(() => {
+      expect(startDateInput3.value).toBe(tomorrow.toISOString());
+    }, 1000);
   });
 });
