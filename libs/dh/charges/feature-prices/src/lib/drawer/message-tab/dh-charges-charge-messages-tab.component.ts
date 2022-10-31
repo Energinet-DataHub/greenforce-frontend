@@ -23,7 +23,7 @@ import {
   OnDestroy,
   OnChanges,
   ViewChild,
-  Inject
+  Inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -47,12 +47,12 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import {
   DhFeatureFlagDirectiveModule,
-  DhFeatureFlagsService
- } from '@energinet-datahub/dh/shared/feature-flags';
+  DhFeatureFlagsService,
+} from '@energinet-datahub/dh/shared/feature-flags';
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 import {
   DhDrawerDatepickerComponent,
-  DhDrawerDatepickerScam
+  DhDrawerDatepickerScam,
 } from '../drawer-datepicker/dh-drawer-datepicker.component';
 import { zonedTimeToUtc } from 'date-fns-tz';
 
@@ -113,7 +113,8 @@ export class DhChargesChargeMessagesTabComponent
     this.chargeMessagesStore.all$
       .pipe(takeUntil(this.destroy$))
       .subscribe((chargeMessages) => {
-        this.dataSource.data = chargeMessages ?? new Array<ChargeMessageV1Dto>();
+        this.dataSource.data =
+          chargeMessages ?? new Array<ChargeMessageV1Dto>();
         this.result = chargeMessages;
         this.dataSource.sort = this.matSort;
       });
@@ -155,7 +156,8 @@ export class DhChargesChargeMessagesTabComponent
       this.chargeMessagesSearchCriteria.chargeId = charge.id;
       this.chargeMessagesSearchCriteria.take = this.paginator.instance.pageSize;
 
-      const dateTimeRange = this.drawerDatepickerComponent.formControlDateRange.value;
+      const dateTimeRange =
+        this.drawerDatepickerComponent.formControlDateRange.value;
 
       if (dateTimeRange) {
         this.setSearchCriteriaDateRange({
@@ -163,7 +165,9 @@ export class DhChargesChargeMessagesTabComponent
           endDate: dateTimeRange.end,
         });
       }
-      this.chargeMessagesStore.searchChargeMessages(this.chargeMessagesSearchCriteria);
+      this.chargeMessagesStore.searchChargeMessages(
+        this.chargeMessagesSearchCriteria
+      );
     }, 0);
   }
 
@@ -184,16 +188,21 @@ export class DhChargesChargeMessagesTabComponent
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sortData(event: any) {
-    this.chargeMessagesSearchCriteria.chargeMessageSortColumnName = event.active;
+    this.chargeMessagesSearchCriteria.chargeMessageSortColumnName =
+      event.active;
     this.chargeMessagesSearchCriteria.isDescending = event.direction === 'desc';
-    this.chargeMessagesStore.searchChargeMessages(this.chargeMessagesSearchCriteria);
+    this.chargeMessagesStore.searchChargeMessages(
+      this.chargeMessagesSearchCriteria
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handlePageEvent(event: any) {
     this.chargeMessagesSearchCriteria.skip = event.pageIndex * event.pageSize;
     this.chargeMessagesSearchCriteria.take = event.pageSize;
-    this.chargeMessagesStore.searchChargeMessages(this.chargeMessagesSearchCriteria);
+    this.chargeMessagesStore.searchChargeMessages(
+      this.chargeMessagesSearchCriteria
+    );
   }
 }
 

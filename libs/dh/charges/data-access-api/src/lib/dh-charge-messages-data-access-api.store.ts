@@ -87,7 +87,7 @@ export class DhChargeMessagesDataAccessApiStore extends ComponentStore<ChargeMes
       chargeMessages: Array<ChargeMessageV1Dto>
     ): ChargeMessagesState => ({
       ...state,
-      chargeMessages: chargeMessages ?? undefined
+      chargeMessages: chargeMessages ?? undefined,
     })
   );
 
