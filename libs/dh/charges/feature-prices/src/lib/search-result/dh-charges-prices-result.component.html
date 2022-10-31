@@ -19,7 +19,10 @@ limitations under the License.
     <div class="header-container">
       <h3>
         <ng-container *ngIf="this.result">
-          {{ this.result.length }} {{ t("resultLength") }}
+          {{ this.result.length }}
+          {{
+            this.result.length === 1 ? t("resultLength") : t("resultsLength")
+          }}
         </ng-container>
       </h3>
 
@@ -142,7 +145,7 @@ limitations under the License.
       <tr
         mat-row
         (click)="rowClicked(row)"
-        [ngClass]="{ 'active-row': row.chargeId === activeChargeId }"
+        [ngClass]="{ 'active-row': row.id === activeChargeId }"
         *matRowDef="let row; columns: displayedColumns"
       ></tr>
     </table>

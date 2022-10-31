@@ -67,6 +67,7 @@ export class StorybookIconOverviewComponent {
       icons: [
         { name: 'User', icon: 'user' },
         { name: 'Settings', icon: 'settings' },
+        { name: 'ContentCopy', icon: 'contentCopy' },
       ],
     },
     {

@@ -16,6 +16,10 @@
       "ariaLabel": "Vælg side"
     }
   },
+  "clipboard": {
+    "success": "Kopieret til udklipsholder",
+    "error": "Kopiering mislykkedes"
+  },
   "sidebar": {
     "navigation": {
       "meteringPoints": "Målepunkter",
@@ -297,6 +301,12 @@
     "prices": {
       "topBarTitle": "Søg pris",
       "prices": "Priser",
+      "price": "Pris",
+      "priceTab": {
+        "fromDateTime": "Gyldig fra",
+        "toDateTime": "Gyldig til",
+        "time": "Tid"
+      },
       "search": {
         "idOrName": "Pris ID/Navn",
         "enterIdOrName": "Indtast dele af eller hele id eller navn",
@@ -318,7 +328,8 @@
       "resolution": "Opløsning",
       "validFromDateTime": "Gyldig fra",
       "validToDateTime": "Gyldig til",
-      "resultLength": "Søgeresultater",
+      "resultLength": "Søgeresultat",
+      "resultsLength": "Søgeresultater",
       "Download": "Download",
       "noResultsFound": "Intet resultat",
       "noResultsHelperText": "Prøv at ændre dine søgeindstillinger",
@@ -326,6 +337,8 @@
       "transparentInvoicing": "Viderefakturering",
       "startSearch": "Start søgning",
       "startSearchText": "Dine resultater vil fremgå her",
+      "noPricesForCharge": "Ingen priser",
+      "noPricesForChargeText": "Der findes ingen pris serier for denne pris.",
       "paginator": {
         "itemsPerPageLabel": "Priser pr. side",
         "of": "af",
@@ -510,7 +523,7 @@
       "columns": {
         "organization": "Organisation",
         "gln": "Aktørnummer",
-        "status": "Status",
+        "status": "Aktørstatus",
         "marketRoles": "Markedsroller",
         "gridAreas": "Netområder",
         "noActors": "Ingen aktører"
