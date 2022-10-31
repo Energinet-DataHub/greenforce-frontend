@@ -19,6 +19,7 @@ export * from './charge-message-document-type';
 export * from './charge-message-sort-column-name';
 export * from './charge-message-v1-dto';
 export * from './charge-messages-search-criteria-v1-dto';
+export * from './charge-messages-v1-dto';
 export * from './charge-price-sort-column-name';
 export * from './charge-price-v1-dto';
 export * from './charge-prices-search-criteria-v1-dto';
