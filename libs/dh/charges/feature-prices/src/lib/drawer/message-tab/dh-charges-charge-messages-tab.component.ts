@@ -23,7 +23,6 @@ import {
   OnDestroy,
   OnChanges,
   ViewChild,
-  Inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
