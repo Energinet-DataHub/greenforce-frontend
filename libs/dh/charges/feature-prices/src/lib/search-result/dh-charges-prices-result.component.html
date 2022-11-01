@@ -37,7 +37,10 @@ limitations under the License.
         </watt-button>
 
         <!-- Pagination -->
-        <dh-shared-ui-paginator [pageSize]="100"></dh-shared-ui-paginator>
+        <dh-shared-ui-paginator
+          [length]="result?.length ?? 0"
+          [pageSize]="100"
+        ></dh-shared-ui-paginator>
       </div>
     </div>
 
