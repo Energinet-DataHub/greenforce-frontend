@@ -19,6 +19,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import {
   ChargeMessagesSearchCriteriaV1Dto,
+  ChargeMessagesV1Dto,
   ChargeMessageV1Dto,
   ChargesHttp,
 } from '@energinet-datahub/dh/shared/domain';
@@ -27,17 +28,20 @@ import { ErrorState, LoadingState } from './states';
 
 interface ChargeMessagesState {
   readonly chargeMessages?: Array<ChargeMessageV1Dto>;
+  readonly totalCount: number;
   readonly requestState: LoadingState | ErrorState;
 }
 
 const initialState: ChargeMessagesState = {
   chargeMessages: [],
+  totalCount: 0,
   requestState: LoadingState.INIT,
 };
 
 @Injectable()
 export class DhChargeMessagesDataAccessApiStore extends ComponentStore<ChargeMessagesState> {
   all$ = this.select((state) => state.chargeMessages);
+  totalCount$ = this.select((state) => state.totalCount);
 
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select(
@@ -84,10 +88,12 @@ export class DhChargeMessagesDataAccessApiStore extends ComponentStore<ChargeMes
   private update = this.updater(
     (
       state: ChargeMessagesState,
-      chargeMessages: Array<ChargeMessageV1Dto>
+      chargeMessages: ChargeMessagesV1Dto
     ): ChargeMessagesState => ({
       ...state,
-      chargeMessages: chargeMessages ?? undefined,
+      chargeMessages: chargeMessages.chargeMessages ?? undefined,
+      totalCount: chargeMessages.totalCount
+
     })
   );
 
@@ -98,10 +104,10 @@ export class DhChargeMessagesDataAccessApiStore extends ComponentStore<ChargeMes
     })
   );
 
-  private updateStates = (chargeMessages: Array<ChargeMessageV1Dto>) => {
+  private updateStates = (chargeMessages: ChargeMessagesV1Dto) => {
     this.update(chargeMessages);
 
-    if (chargeMessages.length == 0) {
+    if (chargeMessages.totalCount == 0) {
       this.patchState({ requestState: ErrorState.NOT_FOUND_ERROR });
     } else {
       this.patchState({ requestState: LoadingState.LOADED });
@@ -109,7 +115,11 @@ export class DhChargeMessagesDataAccessApiStore extends ComponentStore<ChargeMes
   };
 
   private handleError = (error: HttpErrorResponse) => {
-    this.update([]);
+    const chargesMessages = {
+      chargesMessages: undefined,
+      totalCount: 0,
+    };
+    this.update(chargesMessages);
 
     const requestError =
       error.status === HttpStatusCode.NotFound
@@ -121,7 +131,11 @@ export class DhChargeMessagesDataAccessApiStore extends ComponentStore<ChargeMes
 
   readonly clearChargeMessages = () => {
     this.setLoading(LoadingState.INIT);
-    this.update([]);
+    const chargesMessages = {
+      chargesMessages: undefined,
+      totalCount: 0,
+    };
+    this.update(chargesMessages);
   };
   private resetState = () => this.setState(initialState);
 }

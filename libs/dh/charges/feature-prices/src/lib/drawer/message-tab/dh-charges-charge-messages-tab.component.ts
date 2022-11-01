@@ -118,6 +118,12 @@ export class DhChargesChargeMessagesTabComponent
         this.result = chargeMessages;
         this.dataSource.sort = this.matSort;
       });
+
+      this.chargeMessagesStore.totalCount$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((totalCount) => {
+        if (this.paginator) this.paginator.length = totalCount;
+      });
   }
 
   ngOnChanges() {
