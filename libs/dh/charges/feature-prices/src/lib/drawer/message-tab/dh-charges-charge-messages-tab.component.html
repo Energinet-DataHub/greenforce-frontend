@@ -25,7 +25,7 @@ limitations under the License.
     <div class="header-container">
       <h3>
         <ng-container *ngIf="this.result">
-          {{ this.totalCount | push}}
+          {{ this.totalCount | push }}
           {{
             (this.totalCount | push) === 1
               ? t("drawer.message")
@@ -102,7 +102,7 @@ limitations under the License.
 
     <!-- Empty -->
     <ng-container
-      *ngIf="(!chargeMessagesNotFound| push) && result && result.length === 0"
+      *ngIf="(!chargeMessagesNotFound | push) && result && result.length === 0"
     >
       <watt-empty-state
         class="no-result-div"
