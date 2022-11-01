@@ -14,33 +14,69 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { DhChargesChargePricesTabComponent } from './dh-charges-charge-prices-tab.component';
 import { HttpClientModule } from '@angular/common/http';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+import { DhChargesChargePricesTabComponent } from './dh-charges-charge-prices-tab.component';
+import { render, screen } from '@testing-library/angular';
+import {
+  ChargeType,
+  Resolution,
+  VatClassification,
+} from '@energinet-datahub/dh/shared/domain';
+import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
-describe('DhChargesPricesPricetabComponent', () => {
-  let component: DhChargesChargePricesTabComponent;
-  let fixture: ComponentFixture<DhChargesChargePricesTabComponent>;
+const charge = {
+  id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
+  chargeType: ChargeType.D02,
+  resolution: Resolution.P1D,
+  taxIndicator: false,
+  transparentInvoicing: true,
+  vatClassification: VatClassification.NoVat,
+  validFromDateTime: '2021-09-29T22:00:00',
+  validToDateTime: '2021-10-29T22:00:00',
+  chargeId: 'chargeid01',
+  chargeName: 'Net abo A høj Forbrug 3',
+  chargeDescription: 'Net abo A høj Forbrug 2 beskrivelse',
+  chargeOwner: '5790000681074',
+  chargeOwnerName: 'Thy-Mors Energi Elnet A/S - 042',
+  hasAnyPrices: false,
+};
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+describe('DhChargesChargePricesTabComponent', () => {
+  async function setup() {
+    const { fixture } = await render(DhChargesChargePricesTabComponent, {
       imports: [
         getTranslocoTestingModule(),
-        HttpClientModule,
         DhApiModule.forRoot(),
+        HttpClientModule,
       ],
-      declarations: [DhChargesChargePricesTabComponent],
-    }).compileComponents();
+    });
 
-    fixture = TestBed.createComponent(DhChargesChargePricesTabComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    fixture.componentInstance.charge = charge;
+
+    return {
+      fixture,
+    };
+  }
+
+  it('should create', async () => {
+    const fixture = await setup();
+    expect(fixture.fixture.componentInstance).toBeTruthy();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('show messagen when charge has no prics at all', async () => {
+    await setup();
+
+    const titleMessage = screen.getByRole('heading', {
+      name: new RegExp(enTranslations.charges.prices.noPricesForCharge),
+    });
+
+    const message = screen.getByText(
+      enTranslations.charges.prices.noPricesForChargeText
+    );
+
+    expect(titleMessage).toBeInTheDocument();
+    expect(message).toBeInTheDocument();
   });
 });
