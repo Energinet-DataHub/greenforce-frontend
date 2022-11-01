@@ -16,14 +16,18 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
+import { differenceInDays } from 'date-fns';
 
 export type CalendarDateRange = {
   start: number;
   end: number;
 };
 
+export type Resolution = 'HOUR' | 'DAY' | 'WEEK' | 'MONTH' | 'YEAR';
+
 interface AppSettingsState {
   calendarDateRange: CalendarDateRange;
+  resolution: Resolution;
 }
 
 @Injectable({
@@ -36,19 +40,55 @@ export class AppSettingsStore extends ComponentStore<AppSettingsState> {
         start: 1609459200000, // 1/1-2021
         end: 1640995200000, // 1/1-2022
       },
+      resolution: 'MONTH',
     });
   }
 
   readonly calendarDateRange$ = this.select((state) => state.calendarDateRange);
+  readonly calenderDateRangeDates$ = this.select((state) => ({
+    start: new Date(state.calendarDateRange.start),
+    end: new Date(state.calendarDateRange.end),
+  }));
+
   readonly calendarDateRangeInSeconds$ = this.select((state) => ({
     start: state.calendarDateRange.start / 1000,
     end: state.calendarDateRange.end / 1000,
   }));
 
   readonly setCalendarDateRange = this.updater(
-    (state, calendarDateRange: CalendarDateRange): AppSettingsState => ({
+    (state, calendarDateRange: CalendarDateRange): AppSettingsState => {
+      const days = differenceInDays(
+        new Date(calendarDateRange.end),
+        new Date(calendarDateRange.start)
+      );
+
+      let defaultResolution: Resolution = 'MONTH';
+      switch (true) {
+        case days < 3:
+          defaultResolution = 'HOUR';
+          break;
+        case days < 30:
+          defaultResolution = 'DAY';
+          break;
+        case days < 180:
+          defaultResolution = 'WEEK';
+          break;
+        case days < 730:
+          defaultResolution = 'MONTH';
+          break;
+        case days > 730:
+          defaultResolution = 'YEAR';
+          break;
+      }
+      return { ...state, calendarDateRange, resolution: defaultResolution };
+    }
+  );
+
+  readonly resolution$ = this.select((state) => state.resolution);
+  readonly setResolution = this.updater(
+    (state, resolution: Resolution): AppSettingsState => ({
       ...state,
-      calendarDateRange,
+      resolution,
     })
   );
 }
