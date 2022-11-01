@@ -70,7 +70,7 @@ export class DhChargesChargeMessagesTabComponent
   @Input() charge: ChargeV1Dto | undefined;
 
   constructor(
-    private chargeMessagesStore: DhChargeMessagesDataAccessApiStore,
+    private chargeMessagesStore: DhChargeMessagesDataAccessApiStore
   ) {}
 
   localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
