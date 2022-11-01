@@ -107,6 +107,34 @@ describe('DhChargesPricesDrawerComponent', () => {
     expect(actualDateInput).toEqual(expectedDate);
   });
 
+  it('date range should default to today when closed', async () => {
+    const s = await setup();
+
+    const startDateInput: HTMLInputElement = screen.getByRole('textbox', {
+      name: /start-date-input/i,
+    });
+
+    expect(startDateInput).toBeInTheDocument();
+
+    const expectedDate = new Date().toLocaleDateString();
+    const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
+
+    expect(actualDateInput).toEqual(expectedDate);
+
+    const closeButton = screen.getByRole('button', { name: /close/i });
+    expect(closeButton).toBeInTheDocument();
+    userEvent.click(closeButton);
+    // s.fixture.componentInstance.drawerClosed();
+
+    s.fixture.componentInstance.openDrawer(charge);
+
+    const startDateInput2: HTMLInputElement = screen.getByRole('textbox', {
+      name: /start-date-input/i,
+    });
+
+    expect(startDateInput2).toBeInTheDocument();
+  });
+
   it('when date range updated, should be same on all tabs', async () => {
     await setup();
 
