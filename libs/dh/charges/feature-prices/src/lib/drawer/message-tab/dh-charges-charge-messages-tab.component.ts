@@ -113,7 +113,7 @@ export class DhChargesChargeMessagesTabComponent
         this.dataSource.sort = this.matSort;
       });
 
-      this.chargeMessagesStore.totalCount$
+    this.chargeMessagesStore.totalCount$
       .pipe(takeUntil(this.destroy$))
       .subscribe((totalCount) => {
         if (this.paginator) this.paginator.length = totalCount;

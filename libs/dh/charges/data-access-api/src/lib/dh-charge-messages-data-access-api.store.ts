@@ -92,8 +92,7 @@ export class DhChargeMessagesDataAccessApiStore extends ComponentStore<ChargeMes
     ): ChargeMessagesState => ({
       ...state,
       chargeMessages: chargeMessages.chargeMessages ?? undefined,
-      totalCount: chargeMessages.totalCount
-
+      totalCount: chargeMessages.totalCount,
     })
   );
 
