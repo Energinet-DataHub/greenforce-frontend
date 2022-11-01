@@ -45,10 +45,6 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
-import {
-  DhFeatureFlagDirectiveModule,
-  DhFeatureFlagsService,
-} from '@energinet-datahub/dh/shared/feature-flags';
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 import {
   DhDrawerDatepickerComponent,
@@ -76,8 +72,6 @@ export class DhChargesChargeMessagesTabComponent
 
   constructor(
     private chargeMessagesStore: DhChargeMessagesDataAccessApiStore,
-    @Inject(DhFeatureFlagsService)
-    private featureFlagsService: DhFeatureFlagsService
   ) {}
 
   localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -222,7 +216,6 @@ export class DhChargesChargeMessagesTabComponent
     DhSharedUiPaginatorComponent,
     DhSharedUiDateTimeModule,
     DhDrawerDatepickerScam,
-    DhFeatureFlagDirectiveModule,
   ],
 })
 export class DhChargesChargeMessagesTabScam {}
