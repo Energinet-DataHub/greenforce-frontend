@@ -19,6 +19,7 @@ import { Injectable } from '@angular/core';
 enum FeatureFlags {
   'test',
   'daterange',
+  'resolution',
 }
 export type allowedFeatureFlags = keyof typeof FeatureFlags;
 
