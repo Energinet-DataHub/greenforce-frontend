@@ -32,8 +32,8 @@ import {
   WattNavListComponent,
   WattNavListItemComponent,
 } from '@energinet-datahub/watt/shell';
-import { eoCertificatesRoutePath } from '@energinet-datahub/eo/certificates';
 import { EoFeatureFlagScam } from '@energinet-datahub/eo/shared/services';
+import { eoCertificatesRoutePath } from './eo-routes';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

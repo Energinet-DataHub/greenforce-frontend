@@ -14,34 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { EoCertificatesStore } from './eo-certificates.store';
 import { CommonModule } from '@angular/common';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatSort, MatSortable, Sort } from '@angular/material/sort';
+import { EoCertificate } from './eo-certificates.service';
+import { EoCertificatesStore } from './eo-certificates.store';
 
 @Component({
   selector: 'eo-certificates-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MatPaginatorModule, MatTableModule],
+  imports: [CommonModule, MatPaginatorModule, MatTableModule, MatSortModule],
   standalone: true,
   styles: [],
   template: `
     <mat-paginator
-      #paginator
       [pageSize]="10"
       [pageSizeOptions]="[10, 25, 50, 100, 250]"
       [showFirstLastButtons]="true"
       aria-label="Select page"
     ></mat-paginator>
-    <mat-table #matTable matSort [dataSource]="dataSource">
+    <mat-table matSort [dataSource]="dataSource">
       <!-- Time Column -->
-      <ng-container matColumnDef="time">
+      <ng-container matColumnDef="dateFrom">
         <mat-header-cell *matHeaderCellDef mat-sort-header
           >Time
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">{{ element.time }}</mat-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.dateFrom * 1000 | date: 'dd-MMM-y HH:mm' }}-{{
+            element.dateTo * 1000 | date: 'HH:mm'
+          }}
+        </mat-cell>
       </ng-container>
 
       <!-- GSRN Column -->
@@ -57,13 +66,9 @@ import { MatSort, MatSortable, Sort } from '@angular/material/sort';
         <mat-header-cell *matHeaderCellDef mat-sort-header
           >Amount
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">{{ element.quantity }}</mat-cell>
-      </ng-container>
-
-      <!-- View certificate Column -->
-      <ng-container matColumnDef="action">
-        <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
-        <mat-cell *matCellDef="let element">View certificate</mat-cell>
+        <mat-cell *matCellDef="let element"
+          >{{ element.quantity.toLocaleString() }} Wh</mat-cell
+        >
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -71,38 +76,21 @@ import { MatSort, MatSortable, Sort } from '@angular/material/sort';
     </mat-table>
   `,
 })
-export class EoCertificatesTableComponent {
+export class EoCertificatesTableComponent implements AfterViewInit {
   loadingDone$ = this.store.loadingDone$;
   data$ = this.store.certificates$;
-  dataSource: MatTableDataSource<{
-    time: number;
-    gsrn: string;
-    quantity: number;
-  }> = new MatTableDataSource();
-  displayedColumns: string[] = ['time', 'gsrn', 'quantity', 'action'];
+  dataSource: MatTableDataSource<EoCertificate> = new MatTableDataSource();
+  displayedColumns: string[] = ['dateFrom', 'gsrn', 'quantity'];
 
-  @ViewChild(MatSort) matSort?: MatSort;
-  @ViewChild('paginator') paginator?: MatPaginator;
+  @ViewChild(MatSort) matSort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private store: EoCertificatesStore) {
-    this.data$.subscribe((certs) => {
-      this.dataSource.data = certs.map((cert) => ({
-        time: cert.dateFrom,
-        gsrn: cert.gsrn,
-        quantity: cert.quantity,
-      }));
-
-      this.dataSource.paginator = <MatPaginator>this.paginator;
-    });
+    this.data$.subscribe((certs) => (this.dataSource.data = certs));
   }
 
-  sortData(sort: Sort) {
-    if (sort.direction === '') {
-      this.setDefaultSorting();
-    }
-  }
-
-  setDefaultSorting() {
-    this.matSort?.sort(this.matSort.sortables.get('position') as MatSortable);
+  ngAfterViewInit() {
+    this.dataSource.sort = this.matSort;
+    this.dataSource.paginator = this.paginator;
   }
 }

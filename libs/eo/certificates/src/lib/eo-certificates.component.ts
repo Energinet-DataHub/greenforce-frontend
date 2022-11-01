@@ -27,7 +27,7 @@ import { EoCertificatesTableComponent } from './eo-certificates-table.component'
   styles: [``],
   template: `
     <mat-card class="watt-space-stack-l">
-      <h4 class="watt-space-stack-m">This is the beginning</h4>
+      <h3 class="watt-space-stack-m">This is the beginning</h3>
       <p class="watt-space-stack-m">
         This page is based on real data and is working towards the coming
         solution regarding certificates. So it is not just a test, though these

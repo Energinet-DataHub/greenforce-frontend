@@ -14,5 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './eo-certificates-route-path';
-export * from './lib/eo-certificates.module';
+export * from './eo-certificates.module';
