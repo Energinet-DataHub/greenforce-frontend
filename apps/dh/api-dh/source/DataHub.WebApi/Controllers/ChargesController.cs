@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.Charges.Clients.Charges;
 using Energinet.DataHub.Charges.Contracts.Charge;
+using Energinet.DataHub.Charges.Contracts.ChargeMessage;
 using Energinet.DataHub.Charges.Contracts.ChargePrice;
 using Microsoft.AspNetCore.Mvc;
 
@@ -61,6 +62,14 @@ namespace Energinet.DataHub.WebApi.Controllers
         public async Task<ActionResult<ChargePricesV1Dto>> SearchChargePricesAsync([FromBody] ChargePricesSearchCriteriaV1Dto searchCriteria)
         {
             var result = await _chargesClient.SearchChargePricesAsync(searchCriteria);
+
+            return result;
+        }
+
+        [HttpPost("SearchChargeMessagesAsync")]
+        public async Task<ActionResult<ChargeMessagesV1Dto>> SearchChargeMessagesAsync([FromBody] ChargeMessagesSearchCriteriaV1Dto searchCriteria)
+        {
+            var result = await _chargesClient.SearchChargeMessagesAsync(searchCriteria);
 
             return result;
         }

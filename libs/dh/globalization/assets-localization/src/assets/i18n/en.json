@@ -16,6 +16,10 @@
       "ariaLabel": "Select page"
     }
   },
+  "clipboard": {
+    "success": "Copied to clipboard",
+    "error": "Failed to copy"
+  },
   "sidebar": {
     "navigation": {
       "meteringPoints": "Metering points",
@@ -255,6 +259,14 @@
     "tariffsTitle": "Tariffs",
     "subscriptionsTitle": "Subscriptions",
     "feesTitle": "Fees",
+    "messageType": {
+      "D05": "Request change of billing masterdata",
+      "D10": "Request change of price series"
+    },
+    "messageTypeAbbreviation": {
+      "D05": "RSM-33",
+      "D10": "RSM-33"
+    },
     "chargeType": {
       "D01": "Subscription",
       "D02": "Fee",
@@ -332,7 +344,7 @@
       "startSearch": "Start Search",
       "startSearchText": "Your results will appear here",
       "noPricesForCharge": "No prices",
-      "noPricesForChargeText": "No prices have been submitted for the period.",
+      "noPricesForChargeText": "No price series exists for this price.",
       "paginator": {
         "itemsPerPageLabel": "Prices per page",
         "of": "of",
@@ -360,6 +372,7 @@
       "drawer": {
         "prices": "Prices",
         "messages": "Messages",
+        "message": "Message",
         "dateChips": {
           "day": "Day",
           "week": "Week",
