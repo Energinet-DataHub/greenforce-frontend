@@ -25,9 +25,9 @@ limitations under the License.
     <div class="header-container">
       <h3>
         <ng-container *ngIf="this.result">
-          {{ this.result.length }}
+          {{ this.totalCount | push}}
           {{
-            this.result.length === 1
+            (this.totalCount | push) === 1
               ? t("drawer.message")
               : t("drawer.messages")
           }}
@@ -50,6 +50,8 @@ limitations under the License.
       matSort
       matSortActive="messageDateTime"
       matSortDirection="desc"
+      matSortDisableClear
+      (matSortChange)="sortData($event)"
     >
       <!-- Message id column -->
       <ng-container matColumnDef="messageId">
@@ -100,7 +102,7 @@ limitations under the License.
 
     <!-- Empty -->
     <ng-container
-      *ngIf="(!chargeMessageNotFound| push) && result && result.length === 0"
+      *ngIf="(!chargeMessagesNotFound| push) && result && result.length === 0"
     >
       <watt-empty-state
         class="no-result-div"

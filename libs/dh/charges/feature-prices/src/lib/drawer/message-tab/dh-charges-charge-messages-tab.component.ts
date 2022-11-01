@@ -94,7 +94,8 @@ export class DhChargesChargeMessagesTabComponent
   result: ChargeMessageV1Dto[] | undefined;
   isLoading = this.chargeMessagesStore.isLoading$;
   hasLoadingError = this.chargeMessagesStore.hasGeneralError$;
-  chargeMessageNotFound = this.chargeMessagesStore.chargeMessagesNotFound$;
+  chargeMessagesNotFound = this.chargeMessagesStore.chargeMessagesNotFound$;
+  totalCount = this.chargeMessagesStore.totalCount$;
   displayedColumns = ['messageId', 'messageDateTime', 'messageType'];
 
   private destroy$ = new Subject<void>();
