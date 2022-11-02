@@ -28,6 +28,7 @@ import { ScopeStorage, scopeStorageToken } from './scope-storage';
 
 export const actorScopesKey = 'actor-scopes';
 export const activeActorScopeKey = 'active-actor-scope';
+export const actorScopesClaimsKey = 'extn.actors';
 
 @Injectable({ providedIn: 'root' })
 export class ScopeService {
@@ -53,7 +54,7 @@ export class ScopeService {
         const userId = account.localAccountId;
         const actors =
           account.idTokenClaims &&
-          (account.idTokenClaims['extn.actors'] as string[]);
+          (account.idTokenClaims[actorScopesClaimsKey] as string[]);
         const scopes = this.getActorClaims(actors);
 
         this.scopeStorage.setItem(userId + actorScopesKey, scopes.join(' '));
@@ -104,7 +105,10 @@ export class ScopeService {
 
     for (let i = 0, l = this.scopeStorage.length; i < l; ++i) {
       const key = this.scopeStorage.key(i);
-      if (key && (key.endsWith(activeActorScopeKey) || key.endsWith(actorScopesKey))) {
+      if (
+        key &&
+        (key.endsWith(activeActorScopeKey) || key.endsWith(actorScopesKey))
+      ) {
         keys.push(key);
       }
     }
