@@ -83,7 +83,7 @@ export class DhChargesPricesDrawerComponent {
   }
 
   loadMessages() {
-    this.chargesMessageTabComponent.loadMessages();
+    if (this.charge) this.chargesMessageTabComponent.loadMessages(this.charge);
   }
 
   loadHistory() {

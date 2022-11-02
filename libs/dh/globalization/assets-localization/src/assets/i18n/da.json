@@ -259,6 +259,14 @@
     "tariffsTitle": "Tariffer",
     "subscriptionsTitle": "Abonnementer",
     "feesTitle": "Gebyrer",
+    "messageType": {
+      "D05": "Opdatering af pris stamdata",
+      "D10": "Opdatering af prisserie"
+    },
+    "messageTypeAbbreviation": {
+      "D05": "RSM-33",
+      "D10": "RSM-33"
+    },
     "chargeType": {
       "D01": "Abonnement",
       "D02": "Gebyr",
@@ -366,6 +374,7 @@
       "drawer": {
         "prices": "Priser",
         "messages": "Beskeder",
+        "message": "Besked",
         "dateChips": {
           "day": "Dag",
           "week": "Uge",
@@ -523,7 +532,7 @@
       "columns": {
         "organization": "Organisation",
         "gln": "Aktørnummer",
-        "status": "Status",
+        "status": "Aktørstatus",
         "marketRoles": "Markedsroller",
         "gridAreas": "Netområder",
         "noActors": "Ingen aktører"
