@@ -12,6 +12,8 @@ import { createPopper } from '@popperjs/core/lib/popper-lite.js';
 import { Platform } from '@angular/cdk/platform';
 
 import { wattTooltipPosition } from './watt-tooltip.directive';
+import { FocusMonitor } from '@angular/cdk/a11y';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   template: `
@@ -33,7 +35,10 @@ export class WattTooltipComponent implements OnInit, OnDestroy {
   private element: HTMLElement = inject(ElementRef).nativeElement;
   private platform = inject(Platform);
   private renderer: Renderer2 = inject(Renderer2);
+  private focusMonitor: FocusMonitor = inject(FocusMonitor);
 
+  /** Emits when the component is destroyed. */
+  private readonly destroyed = new Subject<void>();
   private listeners: { (): void }[] = [];
   private showClass = 'show';
 
@@ -41,11 +46,25 @@ export class WattTooltipComponent implements OnInit, OnDestroy {
     createPopper(this.target, this.element, {
       placement: this.position,
     });
+
     this.setupEventListeners();
+
+    this.focusMonitor
+    .monitor(this.target, true)
+    .pipe(takeUntil(this.destroyed))
+    .subscribe(origin => {
+      if (!origin) {
+        this.hide();
+      } else if (origin === 'keyboard') {
+        this.show();
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.listeners.forEach((listener) => listener());
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   private setupEventListeners(): void {

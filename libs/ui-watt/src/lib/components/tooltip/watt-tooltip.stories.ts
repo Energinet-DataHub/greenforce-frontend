@@ -14,15 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { WattTooltipModule } from './watt-tooltip.module';
 import { moduleMetadata, Story } from '@storybook/angular';
+
 import { WattButtonModule } from '../button';
+
+import { WattTooltipDirective } from './watt-tooltip.directive';
 
 export default {
   title: 'Components/Tooltip',
   decorators: [
     moduleMetadata({
-      imports: [WattButtonModule, WattTooltipModule],
+      imports: [WattButtonModule, WattTooltipDirective],
     }),
   ],
 };
