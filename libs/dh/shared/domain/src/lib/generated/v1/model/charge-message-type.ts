@@ -11,10 +11,10 @@
  */
 
 
-export type ChargeMessageDocumentType = 'D05' | 'D10';
+export type ChargeMessageType = 'D18' | 'D08';
 
-export const ChargeMessageDocumentType = {
-    D05: 'D05' as ChargeMessageDocumentType,
-    D10: 'D10' as ChargeMessageDocumentType
+export const ChargeMessageType = {
+    D18: 'D18' as ChargeMessageType,
+    D08: 'D08' as ChargeMessageType
 };
 
