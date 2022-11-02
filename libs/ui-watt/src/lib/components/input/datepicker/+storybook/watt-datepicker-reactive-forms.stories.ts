@@ -55,6 +55,10 @@ export default {
 } as Meta;
 
 const template = `
+<p>Value: <code>{{ exampleFormControlSingle.value | json }}</code></p>
+
+<p>Selected range: <code data-testid="rangeValue">{{ exampleFormControlRange.value | json }}</code></p>
+
 <watt-form-field>
   <watt-label>Single date</watt-label>
   <watt-datepicker [formControl]="exampleFormControlSingle"></watt-datepicker>
@@ -63,7 +67,6 @@ const template = `
   </watt-error>
 </watt-form-field>
 
-<p>Value: <code>{{ exampleFormControlSingle.value | json }}</code></p>
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlSingle?.errors | json }}</code></p>
 
 <br />
@@ -76,7 +79,7 @@ const template = `
   </watt-error>
 </watt-form-field>
 
-<p>Selected range: <code data-testid="rangeValue">{{ exampleFormControlRange.value | json }}</code></p>
+
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlRange?.errors | json }}</code></p>
 `;
 
