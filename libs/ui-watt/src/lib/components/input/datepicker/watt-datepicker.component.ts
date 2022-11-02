@@ -258,7 +258,9 @@ export class WattDatepickerComponent extends WattPickerBase {
         let end = '';
 
         if (value instanceof Date) {
-          end = this.formatDateFromViewToModel(value);
+          const endOfDay = this.setToEndOfDay(value);
+
+          end = this.formatDateFromViewToModel(endOfDay);
         }
 
         return end;
@@ -299,8 +301,10 @@ export class WattDatepickerComponent extends WattPickerBase {
         }
 
         if (isValid(parsedEndDate)) {
+          const endOfDay = this.setToEndOfDay(parsedEndDate);
+
           this.matEndDate.value = parsedEndDate;
-          end = this.formatDateFromViewToModel(parsedEndDate);
+          end = this.formatDateFromViewToModel(endOfDay);
         }
 
         this.changeParentValue({ start, end });
@@ -376,7 +380,13 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   private parseDate(value: string): Date {
-    return parse(value, dateTimeFormat, new Date());
+    const parsedDate = parse(value, dateTimeFormat, new Date());
+
+    if (isValid(parsedDate)) {
+      return parsedDate;
+    }
+
+    return new Date(value);
   }
 
   /**
@@ -397,7 +407,7 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    * Formats Date to full ISO 8601 format (e.g. `2022-08-31T22:00:00.000Z`)
    */
-  private formatDateFromViewToModel(value: Date): string {
+  private formatDateFromViewToModel(value: number | Date): string {
     return zonedTimeToUtc(value, danishTimeZoneIdentifier).toISOString();
   }
 
@@ -406,5 +416,12 @@ export class WattDatepickerComponent extends WattPickerBase {
    */
   private formatDateTimeFromModelToView(value: string): string {
     return formatInTimeZone(value, danishTimeZoneIdentifier, dateTimeFormat);
+  }
+
+  /**
+   * @ignore
+   */
+  private setToEndOfDay(value: Date): number {
+    return new Date(value).setHours(23, 59, 59, 999);
   }
 }
