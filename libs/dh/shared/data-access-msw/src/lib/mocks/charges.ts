@@ -17,11 +17,9 @@
 import { rest } from 'msw';
 import {
   ChargePricesV1Dto,
-  ChargePriceV1Dto,
   ChargeV1Dto,
   MarketParticipantV1Dto,
   VatClassification,
-  ChargePriceV1Dto,
   ChargeMessageV1Dto,
   ChargeMessageDocumentType,
 } from '@energinet-datahub/dh/shared/domain';
