@@ -26,7 +26,11 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 import { LocalStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
 import { of } from 'rxjs';
 import { ScopeStorage } from './scope-storage';
-import { activeActorScopeKey, ScopeService, actorScopesKey } from './scope.service';
+import {
+  activeActorScopeKey,
+  ScopeService,
+  actorScopesKey,
+} from './scope.service';
 
 describe(ScopeService.name, () => {
   const clientId = 'client_id';
@@ -147,7 +151,9 @@ describe(ScopeService.name, () => {
 
     // assert
     expect(actual).toEqual('actor1');
-    expect(storage.getItem(localAccountId + activeActorScopeKey)).toEqual('actor1');
+    expect(storage.getItem(localAccountId + activeActorScopeKey)).toEqual(
+      'actor1'
+    );
   });
 });
 

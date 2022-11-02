@@ -104,7 +104,10 @@ export class ScopeService {
 
     for (let i = 0, l = this.scopeStorage.length; i < l; ++i) {
       const key = this.scopeStorage.key(i);
-      if (key && (key.endsWith(activeActorScopeKey) || key.endsWith(actorScopesKey))) {
+      if (
+        key &&
+        (key.endsWith(activeActorScopeKey) || key.endsWith(actorScopesKey))
+      ) {
         keys.push(key);
       }
     }
