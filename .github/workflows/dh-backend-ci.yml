@@ -51,6 +51,16 @@ jobs:
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@v9
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
+
+  # Run all tests in 'Tests.dll'
+  unit_test:
+    needs: changes
+    if: ${{ needs.changes.outputs.dotnet == 'true' }}
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci-test.yml@v8
+    with:
+      TESTS_DLL_FILE_PATH: 'apps/dh/api-dh/source/DataHub.WebApi.Tests/DataHub.WebApi.Tests/bin/Release/net6.0/DataHub.WebApi.Tests.dll'
+      DOWNLOAD_ATTEMPT_LIMIT: 12
+
   #
   # Branch policy status check
   #
