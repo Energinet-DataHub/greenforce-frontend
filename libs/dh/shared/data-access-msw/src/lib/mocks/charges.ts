@@ -16,6 +16,7 @@
  */
 import { rest } from 'msw';
 import {
+  ChargePricesV1Dto,
   ChargePriceV1Dto,
   ChargeV1Dto,
   MarketParticipantV1Dto,
@@ -138,23 +139,26 @@ function searchChargePrices(apiBase: string) {
   return rest.post(
     `${apiBase}/v1/Charges/SearchChargePricesAsync`,
     (req, res, ctx) => {
-      const result: ChargePriceV1Dto[] = [
-        {
-          price: 100.908,
-          fromDateTime: '2022-09-01T22:00:00',
-          toDateTime: '2022-09-02T22:00:00',
-        },
-        {
-          price: 200.123456,
-          fromDateTime: '2022-09-02T22:00:00',
-          toDateTime: '2022-09-03T22:00:00',
-        },
-        {
-          price: 100,
-          fromDateTime: '2022-09-03T22:00:00',
-          toDateTime: '2022-09-04T22:00:00',
-        },
-      ];
+      const result: ChargePricesV1Dto = {
+        totalAmount: 3,
+        chargePrices: [
+          {
+            price: 100.908,
+            fromDateTime: '2022-09-01T22:00:00',
+            toDateTime: '2022-09-02T22:00:00',
+          },
+          {
+            price: 200.123456,
+            fromDateTime: '2022-09-02T22:00:00',
+            toDateTime: '2022-09-03T22:00:00',
+          },
+          {
+            price: 100,
+            fromDateTime: '2022-09-03T22:00:00',
+            toDateTime: '2022-09-04T22:00:00',
+          },
+        ],
+      };
       return res(ctx.status(200), ctx.json(result));
     }
   );
