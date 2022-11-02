@@ -345,6 +345,7 @@
       "startSearchText": "Your results will appear here",
       "noPricesForCharge": "No prices",
       "noPricesForChargeText": "No price series exists for this price.",
+      "noChargePriceResultsHelperText": "No prices have been submitted for the period.",
       "paginator": {
         "itemsPerPageLabel": "Prices per page",
         "of": "of",
