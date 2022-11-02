@@ -14,42 +14,66 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<div
-  class="overview__header"
-  *transloco="let t; read: 'meteringPoint.overview'"
->
-  <div class="watt-text-s">
-    <span [title]="t('meteringPointType')">{{
-      translationKeys?.meteringPointType | transloco | dhEmDashFallback
-    }}</span>
-
-    (<span [title]="t('meteringMethod')">{{
-      translationKeys?.meteringMethod | transloco | dhEmDashFallback
-    }}</span
-    >)
-  </div>
-
-  <h1 [title]="t('gsrnNumber')">{{ meteringPoint?.gsrnNumber }}</h1>
-
-  <div class="watt-text-s">
-    <span [title]="t('connectionState')">
+<div class="overview-header" *transloco="let t; read: 'meteringPoint.overview'">
+  <div class="watt-text-s overview-header__row">
+    <span [title]="t('connectionState')" class="watt-space-inline-xs">
       <dh-status-badge
-        [connectionState]="meteringPoint?.connectionState"
+        [connectionState]="identityDetails?.connectionState"
       ></dh-status-badge>
     </span>
 
-    <ng-container *ngIf="meteringPoint?.settlementMethod">
-      |
-      <span [title]="t('settlementMethod')">
-        {{ translationKeys?.settlementMethod | transloco }}
-      </span>
-    </ng-container>
+    <dh-metering-point-identity-text-field
+      text="
+      {{ translationKeys?.meteringPointType | transloco | dhEmDashFallback }}
+      ({{ translationKeys?.meteringMethod | transloco | dhEmDashFallback }}) | "
+    >
+    </dh-metering-point-identity-text-field>
 
-    <ng-container *ngIf="meteringPoint?.readingOccurrence">
-      |
-      <span [title]="t('readingOccurrence')">
-        {{ translationKeys?.readingOccurrence | transloco }}
-      </span>
-    </ng-container>
+    <dh-metering-point-identity-text-field
+      *ngIf="identityDetails?.settlementMethod"
+      text="{{ translationKeys?.settlementMethod | transloco }} | "
+    >
+    </dh-metering-point-identity-text-field>
+
+    <dh-metering-point-identity-text-field
+      *ngIf="identityDetails?.readingOccurrence"
+      text="{{ translationKeys?.readingOccurrence | transloco }} | "
+    >
+    </dh-metering-point-identity-text-field>
+
+    <dh-metering-point-identity-text-field
+      text="{{ translationKeys?.meteringPointId | transloco }}: {{
+        identityDetails?.meterId
+      }}"
+    >
+    </dh-metering-point-identity-text-field>
+  </div>
+
+  <h1 class="overview-header__row" [title]="t('gsrnNumber')">
+    {{ identityDetails?.gsrnNumber }}
+  </h1>
+
+  <div class="watt-text-s overview-header__row">
+    <dh-metering-point-identity-text-field
+      iconName="map_marker"
+      text="{{ address }}"
+    >
+    </dh-metering-point-identity-text-field>
+
+    <dh-metering-point-identity-text-field
+      *ngIf="identityDetails?.supplyStart"
+      iconName="power"
+      text="{{
+        translationKeys?.electricitySupplierSince
+          | transloco: { date: identityDetails?.supplyStart | dhDate }
+      }}"
+    >
+    </dh-metering-point-identity-text-field>
+
+    <dh-metering-point-identity-text-field
+      [iconName]="actualAddressIcon"
+      text="{{ translationKeys?.actualAddress | transloco }}"
+    >
+    </dh-metering-point-identity-text-field>
   </div>
 </div>
