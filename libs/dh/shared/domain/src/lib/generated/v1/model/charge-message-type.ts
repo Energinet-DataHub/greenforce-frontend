@@ -9,13 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ChargeMessageType } from './charge-message-type';
 
 
-export interface ChargeMessageV1Dto { 
-    messageId?: string | null;
-    messageType: ChargeMessageType;
-    messageDateTime: string;
-}
+export type ChargeMessageType = 'D18' | 'D08';
 
+export const ChargeMessageType = {
+    D18: 'D18' as ChargeMessageType,
+    D08: 'D08' as ChargeMessageType
+};
 
