@@ -46,8 +46,8 @@ jobs:
           filters: |
             dotnet:
               - '.github/workflows/dh-backend-ci.yml'
-              - 'build/infrastructure/dh/**'
               - '.github/actions/dotnet-*/**'
+              - 'apps/dh/api-dh/**'
             infrastructure:
               - '.github/workflows/dh-backend-ci.yml'
-              - 'apps/dh/api-dh/**'
+              - 'build/infrastructure/dh/**'
