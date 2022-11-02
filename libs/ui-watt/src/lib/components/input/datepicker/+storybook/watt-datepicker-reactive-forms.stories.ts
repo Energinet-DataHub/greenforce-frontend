@@ -27,7 +27,7 @@ import { WattRangeValidators } from '../../shared/validators';
 
 export const initialValueSingle = '2022-09-02T22:00:00.000Z';
 export const initialValueRangeStart = initialValueSingle;
-export const initialValueRangeEnd = '2022-09-14T22:00:00.000Z';
+export const initialValueRangeEnd = '2022-09-15T21:59:59.999Z';
 
 export interface WattDatepickerStoryConfig extends WattDatepickerComponent {
   disableAnimations?: boolean; // Used to disable animations for the tests
