@@ -26,7 +26,7 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 import { LocalStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
 import { of } from 'rxjs';
 import { ScopeStorage } from './scope-storage';
-import { scopeKey, ScopeService, scopesKey } from './scope.service';
+import { activeActorScopeKey, ScopeService, actorScopesKey } from './scope.service';
 
 describe(ScopeService.name, () => {
   const clientId = 'client_id';
@@ -36,8 +36,8 @@ describe(ScopeService.name, () => {
   test('should clear scopes from local storage, if no account is found', async () => {
     // arrange
     const remainingKey = 'other_key';
-    const scopesKeyToBeRemoved = 'random_prefix' + scopesKey;
-    const scopeKeyToBeRemoved = 'another_random_prefix' + scopeKey;
+    const scopesKeyToBeRemoved = 'random_prefix' + actorScopesKey;
+    const scopeKeyToBeRemoved = 'another_random_prefix' + activeActorScopeKey;
 
     const storage = new ScopeStorage(new LocalStorageFake());
 
@@ -62,7 +62,7 @@ describe(ScopeService.name, () => {
     createTarget(localAccountId, true, clientId, actorScopesClaim, storage);
 
     // assert
-    expect(storage.getItem(localAccountId + scopesKey)).toEqual(
+    expect(storage.getItem(localAccountId + actorScopesKey)).toEqual(
       actorScopesClaim
     );
   });
@@ -119,7 +119,7 @@ describe(ScopeService.name, () => {
       storage
     );
 
-    storage.setItem(localAccountId + scopeKey, 'actor2');
+    storage.setItem(localAccountId + activeActorScopeKey, 'actor2');
 
     // act
     const actual = target.getActiveScope();
@@ -140,14 +140,14 @@ describe(ScopeService.name, () => {
       storage
     );
 
-    storage.setItem(localAccountId + scopeKey, 'actor3');
+    storage.setItem(localAccountId + activeActorScopeKey, 'actor3');
 
     // act
     const actual = target.getActiveScope();
 
     // assert
     expect(actual).toEqual('actor1');
-    expect(storage.getItem(localAccountId + scopeKey)).toEqual('actor1');
+    expect(storage.getItem(localAccountId + activeActorScopeKey)).toEqual('actor1');
   });
 });
 

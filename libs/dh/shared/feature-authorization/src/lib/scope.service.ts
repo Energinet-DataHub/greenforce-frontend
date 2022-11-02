@@ -24,10 +24,10 @@ import {
 } from '@energinet-datahub/dh/shared/environments';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { filter } from 'rxjs';
-import { ScopeStorage, scopeStorageToken } from './scope-storage.service';
+import { ScopeStorage, scopeStorageToken } from './scope-storage';
 
-export const scopesKey = 'actor-scopes';
-export const scopeKey = 'active-actor-scope';
+export const actorScopesKey = 'actor-scopes';
+export const activeActorScopeKey = 'active-actor-scope';
 
 @Injectable({ providedIn: 'root' })
 export class ScopeService {
@@ -56,7 +56,7 @@ export class ScopeService {
           (account.idTokenClaims['extn.actors'] as string[]);
         const scopes = this.getActorClaims(actors);
 
-        this.scopeStorage.setItem(userId + scopesKey, scopes.join(' '));
+        this.scopeStorage.setItem(userId + actorScopesKey, scopes.join(' '));
       });
   }
 
@@ -69,17 +69,17 @@ export class ScopeService {
     const scopes = this.getScopes(userId);
     if (scopes.length === 0) return this.fallbackScope();
 
-    const stored = this.scopeStorage.getItem(userId + scopeKey);
+    const stored = this.scopeStorage.getItem(userId + activeActorScopeKey);
     if (stored && scopes.includes(stored)) return stored;
 
     const activeScope = scopes[0];
-    this.scopeStorage.setItem(userId + scopeKey, activeScope);
+    this.scopeStorage.setItem(userId + activeActorScopeKey, activeScope);
 
     return activeScope;
   }
 
   private getScopes(userId: string) {
-    const scopes = this.scopeStorage.getItem(userId + scopesKey);
+    const scopes = this.scopeStorage.getItem(userId + actorScopesKey);
     return (scopes && scopes.split(' ')) || [];
   }
 
@@ -104,7 +104,7 @@ export class ScopeService {
 
     for (let i = 0, l = this.scopeStorage.length; i < l; ++i) {
       const key = this.scopeStorage.key(i);
-      if (key && (key.endsWith(scopeKey) || key.endsWith(scopesKey))) {
+      if (key && (key.endsWith(activeActorScopeKey) || key.endsWith(actorScopesKey))) {
         keys.push(key);
       }
     }
