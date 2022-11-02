@@ -41,7 +41,7 @@ import { map } from 'rxjs';
   selector: 'eo-resolution-picker',
   styles: [
     `
-      eo-resolution-picker {
+      :host {
         display: block;
       }
 
@@ -78,11 +78,10 @@ import { map } from 'rxjs';
     <mat-button-toggle-group
       [value]="appSettingsResolution$ | async"
       name="resolution"
+      *rxLet="differenceIn$ as differenceIn"
     >
       <mat-button-toggle
-        [disabled]="
-          !(((appSettingsCalenderDateRangeInDays$ | async) ?? 0) <= 7)
-        "
+        [disabled]="!(differenceIn.days <= 7)"
         (change)="setResolution('HOUR')"
         value="HOUR"
         >Per Hour</mat-button-toggle
@@ -91,25 +90,19 @@ import { map } from 'rxjs';
         >Day</mat-button-toggle
       >
       <mat-button-toggle
-        [disabled]="
-          !(((appSettingsCalenderDateRangeInDays$ | async) ?? 0) >= 7)
-        "
+        [disabled]="!(differenceIn.days >= 7)"
         (change)="setResolution('WEEK')"
         value="WEEK"
         >Week</mat-button-toggle
       >
       <mat-button-toggle
-        [disabled]="
-          !(((appSettingsCalenderDateRangeInMonths$ | async) ?? 0) >= 1)
-        "
+        [disabled]="!(differenceIn.months >= 1)"
         (change)="setResolution('MONTH')"
         value="MONTH"
         >Month</mat-button-toggle
       >
       <mat-button-toggle
-        [disabled]="
-          !(((appSettingsCalenderDateRangeInYears$ | async) ?? 0) >= 1)
-        "
+        [disabled]="!(differenceIn.years >= 1)"
         (change)="setResolution('YEAR')"
         value="YEAR"
         >Year</mat-button-toggle
@@ -117,18 +110,13 @@ import { map } from 'rxjs';
     </mat-button-toggle-group>`,
 })
 export class EoResolutionPickerComponent {
-  appSettingsCalenderDateRangeInDays$ =
-    this.appSettingsStore.calenderDateRangeDates$.pipe(
-      map((x) => differenceInDays(x.end, x.start))
-    );
-  appSettingsCalenderDateRangeInMonths$ =
-    this.appSettingsStore.calenderDateRangeDates$.pipe(
-      map((x) => differenceInMonths(x.end, x.start))
-    );
-  appSettingsCalenderDateRangeInYears$ =
-    this.appSettingsStore.calenderDateRangeDates$.pipe(
-      map((x) => differenceInYears(x.end, x.start))
-    );
+  differenceIn$ = this.appSettingsStore.calenderDateRangeDates$.pipe(
+    map((dates) => ({
+      days: differenceInDays(dates.end, dates.start) ?? 0,
+      months: differenceInMonths(dates.end, dates.start) ?? 0,
+      years: differenceInYears(dates.end, dates.start) ?? 0,
+    }))
+  );
   appSettingsResolution$ = this.appSettingsStore.resolution$;
 
   constructor(private appSettingsStore: AppSettingsStore) {}
@@ -143,7 +131,7 @@ export class EoResolutionPickerComponent {
 
 @NgModule({
   declarations: [EoResolutionPickerComponent],
-  imports: [CommonModule, MatButtonToggleModule],
+  imports: [CommonModule, MatButtonToggleModule, LetModule],
   exports: [EoResolutionPickerComponent],
 })
 export class EoResolutionPickerScam {}
