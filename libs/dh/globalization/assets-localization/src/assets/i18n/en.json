@@ -260,12 +260,12 @@
     "subscriptionsTitle": "Subscriptions",
     "feesTitle": "Fees",
     "messageType": {
-      "D05": "Request change of billing masterdata",
-      "D10": "Request change of price series"
+      "D18": "Request change of billing masterdata",
+      "D08": "Request change of price series"
     },
     "messageTypeAbbreviation": {
-      "D05": "RSM-33",
-      "D10": "RSM-33"
+      "D18": "RSM-33",
+      "D08": "RSM-33"
     },
     "chargeType": {
       "D01": "Subscription",
@@ -345,6 +345,7 @@
       "startSearchText": "Your results will appear here",
       "noPricesForCharge": "No prices",
       "noPricesForChargeText": "No price series exists for this price.",
+      "noChargePriceResultsHelperText": "No prices have been submitted for the period.",
       "paginator": {
         "itemsPerPageLabel": "Prices per page",
         "of": "of",

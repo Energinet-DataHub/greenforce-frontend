@@ -16,12 +16,12 @@
  */
 import { rest } from 'msw';
 import {
+  ChargePricesV1Dto,
   ChargeV1Dto,
   MarketParticipantV1Dto,
   VatClassification,
-  ChargePriceV1Dto,
-  ChargeMessageV1Dto,
-  ChargeMessageDocumentType,
+  ChargeMessagesV1Dto,
+  ChargeMessageType,
 } from '@energinet-datahub/dh/shared/domain';
 
 export function chargesMocks(apiBase: string) {
@@ -88,7 +88,7 @@ function searchCharges(apiBase: string) {
         id: '774D75CB-B069-4A5A-A5EA-ED4FBAD67109',
         chargeType: 'D02',
         resolution: 'PT15M',
-        taxIndicator: false,
+        taxIndicator: true,
         transparentInvoicing: true,
         vatClassification: VatClassification.NoVat,
         validFromDateTime: '2022-09-29T22:00:00',
@@ -105,7 +105,7 @@ function searchCharges(apiBase: string) {
         chargeType: 'D02',
         resolution: 'PT15M',
         taxIndicator: false,
-        transparentInvoicing: true,
+        transparentInvoicing: false,
         vatClassification: VatClassification.NoVat,
         validFromDateTime: '2021-09-29T22:00:00',
         validToDateTime: '2021-10-29T22:00:00',
@@ -141,23 +141,26 @@ function searchChargePrices(apiBase: string) {
   return rest.post(
     `${apiBase}/v1/Charges/SearchChargePricesAsync`,
     (req, res, ctx) => {
-      const result: ChargePriceV1Dto[] = [
-        {
-          price: 100.908,
-          fromDateTime: '2022-09-01T22:00:00',
-          toDateTime: '2022-09-02T22:00:00',
-        },
-        {
-          price: 200.123456,
-          fromDateTime: '2022-09-02T22:00:00',
-          toDateTime: '2022-09-03T22:00:00',
-        },
-        {
-          price: 100,
-          fromDateTime: '2022-09-03T22:00:00',
-          toDateTime: '2022-09-04T22:00:00',
-        },
-      ];
+      const result: ChargePricesV1Dto = {
+        totalAmount: 3,
+        chargePrices: [
+          {
+            price: 100.908,
+            fromDateTime: '2022-09-01T22:00:00',
+            toDateTime: '2022-09-02T22:00:00',
+          },
+          {
+            price: 200.123456,
+            fromDateTime: '2022-09-02T22:00:00',
+            toDateTime: '2022-09-03T22:00:00',
+          },
+          {
+            price: 100,
+            fromDateTime: '2022-09-03T22:00:00',
+            toDateTime: '2022-09-04T22:00:00',
+          },
+        ],
+      };
       return res(ctx.status(200), ctx.json(result));
     }
   );
@@ -167,23 +170,26 @@ function searchChargeMessages(apiBase: string) {
   return rest.post(
     `${apiBase}/v1/Charges/SearchChargeMessagesAsync`,
     (req, res, ctx) => {
-      const result: ChargeMessageV1Dto[] = [
-        {
-          messageId: 'MessageId00001',
-          messageDateTime: '2022-08-01T22:00:00',
-          messageType: ChargeMessageDocumentType.D05,
-        },
-        {
-          messageId: 'MessageId00002',
-          messageDateTime: '2022-08-02T22:00:00',
-          messageType: ChargeMessageDocumentType.D05,
-        },
-        {
-          messageId: 'MessageId00003',
-          messageDateTime: '2022-08-03T22:00:00',
-          messageType: ChargeMessageDocumentType.D10,
-        },
-      ];
+      const result: ChargeMessagesV1Dto = {
+        totalCount: 3,
+        chargeMessages: [
+          {
+            messageId: 'MessageId00001',
+            messageDateTime: '2022-10-01T22:00:00',
+            messageType: ChargeMessageType.D18,
+          },
+          {
+            messageId: 'MessageId00002',
+            messageDateTime: '2022-10-02T22:00:00',
+            messageType: ChargeMessageType.D18,
+          },
+          {
+            messageId: 'MessageId00003',
+            messageDateTime: '2022-10-03T22:00:00',
+            messageType: ChargeMessageType.D08,
+          },
+        ],
+      };
       return res(ctx.status(200), ctx.json(result));
     }
   );
