@@ -53,7 +53,6 @@ export class StorybookColorsOverviewComponent {
         this.getColor('primary', WattColor.primary),
         this.getColor('primary-dark', WattColor.primaryDark),
         this.getColor('primary-light', WattColor.primaryLight),
-        this.getColor('primary-back', WattColor.primaryBack),
       ],
     },
     {
@@ -63,7 +62,6 @@ export class StorybookColorsOverviewComponent {
         this.getColor('secondary', WattColor.secondary),
         this.getColor('secondary-dark', WattColor.secondaryDark),
         this.getColor('secondary-light', WattColor.secondaryLight),
-        this.getColor('secondary-back', WattColor.secondaryBack),
       ],
     },
     {

@@ -25,7 +25,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
       @use '@energinet-datahub/watt/utils' as watt;
       :host {
         padding: var(--watt-space-xl);
-        background: var(--watt-color-primary-back);
+        background: #ebf5f5; /* Magic UX color */
         display: block;
 
         @include watt.media('<Large') {
