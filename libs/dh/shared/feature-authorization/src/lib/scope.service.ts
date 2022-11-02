@@ -102,7 +102,7 @@ export class ScopeService {
   private clearScopeRelatedItems() {
     const keys = [];
 
-    for (let i = 0, l = this.scopeStorage.getLength(); i < l; ++i) {
+    for (let i = 0, l = this.scopeStorage.length; i < l; ++i) {
       const key = this.scopeStorage.key(i);
       if (key && (key.endsWith(scopeKey) || key.endsWith(scopesKey))) {
         keys.push(key);

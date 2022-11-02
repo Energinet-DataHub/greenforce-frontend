@@ -15,35 +15,34 @@
  * limitations under the License.
  */
 
-import { InjectionToken } from '@angular/core';
+export class LocalStorageFake implements Storage {
+  [name: string]: any;
 
-export class ScopeStorage {
-  constructor(private localStorage: Storage) {}
+  private internalLength = 0;
 
-  public length = 0;
+  public get length() {
+    return this.internalLength;
+  }
 
   public readonly setItem = (key: string, value: string) => {
-    this.localStorage.setItem(key, value);
-    this.length = this.localStorage.length;
+    this[key] = value;
+    this.internalLength = Object.keys(this).length;
   };
 
   public readonly getItem = (key: string) => {
-    return this.localStorage.getItem(key);
+    return this[key];
   };
 
   public readonly removeItem = (key: string) => {
-    this.localStorage.removeItem(key);
-    this.length = this.localStorage.length;
+    delete this[key];
+    this.internalLength = Object.keys(this).length;
   };
 
   public readonly key = (index: number) => {
-    return this.localStorage.key(index);
+    return Object.keys(this).at(index) ?? null;
+  };
+
+  public readonly clear = () => {
+    throw new Error('Method not implemented.');
   };
 }
-
-export const scopeStorageToken = new InjectionToken<ScopeStorage>(
-  'scopeStorageToken',
-  {
-    factory: (): ScopeStorage => new ScopeStorage(localStorage),
-  }
-);

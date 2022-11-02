@@ -23,6 +23,7 @@ import {
   IPublicClientApplication,
 } from '@azure/msal-browser';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { LocalStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
 import { of } from 'rxjs';
 import { ScopeStorage } from './scope-storage.service';
 import { scopeKey, ScopeService, scopesKey } from './scope.service';
@@ -38,7 +39,7 @@ describe(ScopeService.name, () => {
     const scopesKeyToBeRemoved = 'random_prefix' + scopesKey;
     const scopeKeyToBeRemoved = 'another_random_prefix' + scopeKey;
 
-    const storage = new LocalStorageMock();
+    const storage = new ScopeStorage(new LocalStorageFake());
 
     storage.setItem(remainingKey, 'should not be cleared');
     storage.setItem(scopesKeyToBeRemoved, 'scopes');
@@ -55,7 +56,7 @@ describe(ScopeService.name, () => {
 
   test('should add actor scopes found in claims to local storage', async () => {
     // arrange
-    const storage = new LocalStorageMock();
+    const storage = new ScopeStorage(new LocalStorageFake());
 
     // act
     createTarget(localAccountId, true, clientId, actorScopesClaim, storage);
@@ -75,7 +76,7 @@ describe(ScopeService.name, () => {
         granFullAuthorizationEnabled,
         clientId,
         null,
-        new LocalStorageMock()
+        new ScopeStorage(new LocalStorageFake())
       );
 
       // act
@@ -95,7 +96,7 @@ describe(ScopeService.name, () => {
         granFullAuthorizationEnabled,
         clientId,
         null,
-        new LocalStorageMock()
+        new ScopeStorage(new LocalStorageFake())
       );
 
       // act
@@ -108,7 +109,7 @@ describe(ScopeService.name, () => {
 
   test('getActiveScope returns existing activeScope if contianed in actor scopes from claims', () => {
     // arrange
-    const storage = new LocalStorageMock();
+    const storage = new ScopeStorage(new LocalStorageFake());
 
     const target = createTarget(
       localAccountId,
@@ -129,7 +130,7 @@ describe(ScopeService.name, () => {
 
   test('getActiveScope sets first scope from claims if existing is no longer in claims', () => {
     // arrange
-    const storage = new LocalStorageMock();
+    const storage = new ScopeStorage(new LocalStorageFake());
 
     const target = createTarget(
       localAccountId,
@@ -150,38 +151,12 @@ describe(ScopeService.name, () => {
   });
 });
 
-class LocalStorageMock {
-  store: { [key: string]: string } = {};
-
-  private length = 0;
-
-  public readonly getLength = () => this.length;
-
-  public readonly setItem = (key: string, value: string) => {
-    this.store[key] = value;
-    this.length = Object.keys(this.store).length;
-  };
-
-  public readonly getItem = (key: string) => {
-    return this.store[key];
-  };
-
-  public readonly removeItem = (key: string) => {
-    delete this.store[key];
-    this.length = Object.keys(this.store).length;
-  };
-
-  public readonly key = (index: number) => {
-    return Object.keys(this.store).at(index) ?? null;
-  };
-}
-
 function createTarget(
   localAccountId: string | null,
   grantFullAuthorization: boolean,
   clientId: string,
   actorScopes: string | null,
-  store: LocalStorageMock
+  store: ScopeStorage
 ) {
   const message: Partial<EventMessage> = {
     eventType: EventType.LOGIN_SUCCESS,
@@ -219,6 +194,6 @@ function createTarget(
     msalBroadcastService as MsalBroadcastService,
     msalService as MsalService,
     featureFlagService as DhFeatureFlagsService,
-    store as unknown as ScopeStorage
+    store
   );
 }
