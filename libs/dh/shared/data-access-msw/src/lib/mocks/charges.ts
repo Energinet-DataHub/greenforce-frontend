@@ -16,10 +16,10 @@
  */
 import { rest } from 'msw';
 import {
+  ChargePricesV1Dto,
   ChargeV1Dto,
   MarketParticipantV1Dto,
   VatClassification,
-  ChargePriceV1Dto,
   ChargeMessageV1Dto,
   ChargeMessageDocumentType,
 } from '@energinet-datahub/dh/shared/domain';
@@ -88,7 +88,7 @@ function searchCharges(apiBase: string) {
         id: '774D75CB-B069-4A5A-A5EA-ED4FBAD67109',
         chargeType: 'D02',
         resolution: 'PT15M',
-        taxIndicator: false,
+        taxIndicator: true,
         transparentInvoicing: true,
         vatClassification: VatClassification.NoVat,
         validFromDateTime: '2022-09-29T22:00:00',
@@ -105,7 +105,7 @@ function searchCharges(apiBase: string) {
         chargeType: 'D02',
         resolution: 'PT15M',
         taxIndicator: false,
-        transparentInvoicing: true,
+        transparentInvoicing: false,
         vatClassification: VatClassification.NoVat,
         validFromDateTime: '2021-09-29T22:00:00',
         validToDateTime: '2021-10-29T22:00:00',
@@ -141,23 +141,26 @@ function searchChargePrices(apiBase: string) {
   return rest.post(
     `${apiBase}/v1/Charges/SearchChargePricesAsync`,
     (req, res, ctx) => {
-      const result: ChargePriceV1Dto[] = [
-        {
-          price: 100.908,
-          fromDateTime: '2022-09-01T22:00:00',
-          toDateTime: '2022-09-02T22:00:00',
-        },
-        {
-          price: 200.123456,
-          fromDateTime: '2022-09-02T22:00:00',
-          toDateTime: '2022-09-03T22:00:00',
-        },
-        {
-          price: 100,
-          fromDateTime: '2022-09-03T22:00:00',
-          toDateTime: '2022-09-04T22:00:00',
-        },
-      ];
+      const result: ChargePricesV1Dto = {
+        totalAmount: 3,
+        chargePrices: [
+          {
+            price: 100.908,
+            fromDateTime: '2022-09-01T22:00:00',
+            toDateTime: '2022-09-02T22:00:00',
+          },
+          {
+            price: 200.123456,
+            fromDateTime: '2022-09-02T22:00:00',
+            toDateTime: '2022-09-03T22:00:00',
+          },
+          {
+            price: 100,
+            fromDateTime: '2022-09-03T22:00:00',
+            toDateTime: '2022-09-04T22:00:00',
+          },
+        ],
+      };
       return res(ctx.status(200), ctx.json(result));
     }
   );
