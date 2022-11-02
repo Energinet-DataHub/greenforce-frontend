@@ -39,10 +39,10 @@ const meteringPointMock = {
 } as MeteringPointCimDto;
 
 describe(DhMeteringPointIdentityComponent.name, () => {
-  async function setup(meteringPoint: MeteringPointCimDto) {
+  async function setup(identityData: MeteringPointCimDto) {
     const { fixture } = await render(DhMeteringPointIdentityComponent, {
       componentProperties: {
-        meteringPoint,
+        identityData,
       },
       imports: [DhMeteringPointIdentityScam, getTranslocoTestingModule()],
     });
