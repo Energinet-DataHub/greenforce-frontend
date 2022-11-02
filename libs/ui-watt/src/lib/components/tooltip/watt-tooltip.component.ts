@@ -15,6 +15,8 @@ import { wattTooltipPosition } from './watt-tooltip.directive';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { Subject, takeUntil } from 'rxjs';
 
+type unlistenerFunction = () => void;
+
 @Component({
   template: `
     {{ text }}
@@ -39,7 +41,7 @@ export class WattTooltipComponent implements OnInit, OnDestroy {
 
   /** Emits when the component is destroyed. */
   private readonly destroyed = new Subject<void>();
-  private listeners: { (): void }[] = [];
+  private listeners: unlistenerFunction[] = [];
   private showClass = 'show';
 
   ngOnInit(): void {
