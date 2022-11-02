@@ -24,14 +24,20 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/domain';
+import { DhMeteringPointIdentityTextFieldScam } from './identity-text-field/dh-metering-point-identity-text-field.component';
 import { DhMeteringPointStatusBadgeScam } from '@energinet-datahub/dh/metering-point/ui-status-badge';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { WattIcon } from '@energinet-datahub/watt/icon';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 export interface MeteringPointIdentityTranslationKeys {
   meteringMethod: string;
   meteringPointType: string;
   readingOccurrence: string;
   settlementMethod?: string;
+  meteringPointId: string;
+  electricitySupplierSince?: string;
+  actualAddress: string;
 }
 
 @Component({
@@ -41,49 +47,71 @@ export interface MeteringPointIdentityTranslationKeys {
   templateUrl: './dh-metering-point-identity.component.html',
 })
 export class DhMeteringPointIdentityComponent {
-  #meteringPoint: MeteringPointCimDto | undefined;
-
-  translationKeys: MeteringPointIdentityTranslationKeys | undefined;
+  identityDetails?: MeteringPointCimDto;
+  translationKeys?: MeteringPointIdentityTranslationKeys;
+  address?: string;
+  actualAddressIcon?: WattIcon;
 
   @Input()
-  set meteringPoint(value: MeteringPointCimDto | undefined) {
-    if (value == undefined) {
+  set identityData(data: MeteringPointCimDto | undefined) {
+    if (data == undefined) {
       return;
     }
 
-    this.#meteringPoint = value;
-    this.translationKeys = this.buildTranslations(value);
-  }
-  get meteringPoint() {
-    return this.#meteringPoint;
+    this.identityDetails = data;
+    this.actualAddressIcon = data.isActualAddress ? 'success' : 'warning';
+    this.translationKeys = this.buildTranslations(data);
+    this.address = this.formatAddress(data);
   }
 
-  private buildTranslations(
-    meteringPoint: MeteringPointCimDto
-  ): MeteringPointIdentityTranslationKeys {
-    let translationKeys: MeteringPointIdentityTranslationKeys = {
-      meteringMethod: `meteringPoint.meteringPointSubTypeCode.${meteringPoint.meteringMethod}`,
-      meteringPointType: `meteringPoint.meteringPointTypeCode.${meteringPoint.meteringPointType}`,
-      readingOccurrence: `meteringPoint.readingOccurrenceCode.${meteringPoint.readingOccurrence}`,
-    };
-
-    if (meteringPoint?.settlementMethod) {
-      translationKeys = {
-        ...translationKeys,
-        settlementMethod: `meteringPoint.settlementMethodCode.${meteringPoint.settlementMethod}`,
-      };
+  private formatAddress = (data: MeteringPointCimDto): string => {
+    let address = `${data.streetName}`;
+    if (data.buildingNumber) {
+      address += ` ${data.buildingNumber}`;
     }
 
-    return translationKeys;
-  }
+    if (data.floorIdentification || data.suiteNumber) {
+      address += `,`;
+      if (data.floorIdentification) {
+        address += ` ${data.floorIdentification}.`;
+      }
+      if (data.suiteNumber) {
+        address += ` ${data.suiteNumber}`;
+      }
+    }
+
+    if (data.citySubDivisionName) {
+      address += ` ${data.citySubDivisionName}`;
+    }
+    return (address += ` ${data.postalCode} ${data.cityName}`);
+  };
+
+  private buildTranslations = (
+    data: MeteringPointCimDto,
+    nestedKey = 'meteringPoint.overview'
+  ): MeteringPointIdentityTranslationKeys => ({
+    actualAddress: `${nestedKey}.primaryMasterData.${
+      data.isActualAddress ? 'actualAddress' : 'notActualAddress'
+    }`,
+    electricitySupplierSince: `${nestedKey}.primaryMasterData.since`,
+    meteringPointId: `${nestedKey}.primaryMasterData.meterNumber`,
+    meteringMethod: `meteringPoint.meteringPointSubTypeCode.${data.meteringMethod}`,
+    meteringPointType: `meteringPoint.meteringPointTypeCode.${data.meteringPointType}`,
+    readingOccurrence: `meteringPoint.readingOccurrenceCode.${data.readingOccurrence}`,
+    ...(data?.settlementMethod && {
+      settlementMethod: `meteringPoint.settlementMethodCode.${data.settlementMethod}`,
+    }),
+  });
 }
 
 @NgModule({
   declarations: [DhMeteringPointIdentityComponent],
   exports: [DhMeteringPointIdentityComponent],
   imports: [
+    DhMeteringPointIdentityTextFieldScam,
     DhMeteringPointStatusBadgeScam,
     DhEmDashFallbackPipeScam,
+    DhSharedUiDateTimeModule,
     CommonModule,
     TranslocoModule,
   ],
