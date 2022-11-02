@@ -64,15 +64,15 @@ jobs:
   #
   # Branch policy status check
   #
-  
+
   allow_merge:
     runs-on: ubuntu-latest
     needs: [
-      # Infrastructure
-      infrastructure_ci_build,
-      # .NET
-      dotnet_ci_build,
-    ]
+        # Infrastructure
+        infrastructure_ci_build,
+        # .NET
+        dotnet_ci_build,
+      ]
     if: |
       always()
     steps:

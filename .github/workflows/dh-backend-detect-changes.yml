@@ -34,20 +34,20 @@ jobs:
     outputs:
       dotnet: ${{ steps.filter.outputs.dotnet }}
     steps:
-    # For pull requests it's not necessary to checkout the code because GitHub REST API is used to determine changes
-    - name: Checkout repository
-      if: ${{ github.event_name != 'pull_request' }}
-      uses: actions/checkout@v3
+      # For pull requests it's not necessary to checkout the code because GitHub REST API is used to determine changes
+      - name: Checkout repository
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: actions/checkout@v3
 
-    - name: Detect file changes
-      uses: dorny/paths-filter@v2
-      id: filter
-      with:
-        filters: |
-          dotnet:
-            - '.github/workflows/dh-backend-ci.yml'
-            - 'build/infrastructure/dh/**'
-            - '.github/actions/dotnet-*/**'
-          infrastructure:
-            - '.github/workflows/dh-backend-ci.yml'
-            - 'apps/dh/api-dh/**'
+      - name: Detect file changes
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            dotnet:
+              - '.github/workflows/dh-backend-ci.yml'
+              - 'build/infrastructure/dh/**'
+              - '.github/actions/dotnet-*/**'
+            infrastructure:
+              - '.github/workflows/dh-backend-ci.yml'
+              - 'apps/dh/api-dh/**'
