@@ -21,7 +21,7 @@ import {
   MarketParticipantV1Dto,
   VatClassification,
   ChargeMessageV1Dto,
-  ChargeMessageDocumentType,
+  ChargeMessageType,
 } from '@energinet-datahub/dh/shared/domain';
 
 export function chargesMocks(apiBase: string) {
@@ -174,17 +174,17 @@ function searchChargeMessages(apiBase: string) {
         {
           messageId: 'MessageId00001',
           messageDateTime: '2022-08-01T22:00:00',
-          messageType: ChargeMessageDocumentType.D05,
+          messageType: ChargeMessageType.D18,
         },
         {
           messageId: 'MessageId00002',
           messageDateTime: '2022-08-02T22:00:00',
-          messageType: ChargeMessageDocumentType.D05,
+          messageType: ChargeMessageType.D18,
         },
         {
           messageId: 'MessageId00003',
           messageDateTime: '2022-08-03T22:00:00',
-          messageType: ChargeMessageDocumentType.D10,
+          messageType: ChargeMessageType.D08,
         },
       ];
       return res(ctx.status(200), ctx.json(result));
