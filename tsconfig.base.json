@@ -360,6 +360,9 @@
       "@energinet-datahub/watt/spinner": [
         "libs/ui-watt/src/lib/components/spinner/index.ts"
       ],
+      "@energinet-datahub/watt/table": [
+        "libs/ui-watt/src/lib/components/table/index.ts"
+      ],
       "@energinet-datahub/watt/tabs": [
         "libs/ui-watt/src/lib/components/tabs/index.ts"
       ],

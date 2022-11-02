@@ -17,6 +17,7 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { WattTableDataSource } from '../watt-table-data-source';
 
 export interface PeriodicElement {
   name: string;
@@ -36,25 +37,25 @@ export const periodicElements: PeriodicElement[] = [
   selector: 'storybook-table-overview',
   templateUrl: 'storybook-table-overview.component.html',
 })
-export class StorybookTableOverviewComponent implements AfterViewInit {
-  displayedColumns: string[] = ['position', 'name', 'symbol'];
-  sortedData = new MatTableDataSource(periodicElements);
+export class StorybookTableOverviewComponent {
+  columns = ['position', 'name', 'symbol'];
+  sortedData = new WattTableDataSource(periodicElements);
 
-  @ViewChild(MatSort) matSort?: MatSort;
+  // @ViewChild(MatSort) matSort?: MatSort;
 
-  ngAfterViewInit(): void {
-    this.sortedData.sort = this.matSort ?? null;
+  // ngAfterViewInit(): void {
+  //   this.sortedData.sort = this.matSort ?? null;
 
-    this.setDefaultSorting();
-  }
+  //   this.setDefaultSorting();
+  // }
 
-  sortData(sort: Sort) {
-    if (sort.direction === '') {
-      this.setDefaultSorting();
-    }
-  }
+  // sortData(sort: Sort) {
+  //   if (sort.direction === '') {
+  //     this.setDefaultSorting();
+  //   }
+  // }
 
-  setDefaultSorting() {
-    this.matSort?.sort(this.matSort.sortables.get('position') as MatSortable);
-  }
+  // setDefaultSorting() {
+  //   this.matSort?.sort(this.matSort.sortables.get('position') as MatSortable);
+  // }
 }
