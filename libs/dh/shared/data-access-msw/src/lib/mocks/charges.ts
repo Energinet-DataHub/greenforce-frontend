@@ -188,8 +188,8 @@ function searchChargeMessages(apiBase: string) {
             messageDateTime: '2022-10-03T22:00:00',
             messageType: ChargeMessageType.D08,
           },
-        ]
-      }
+        ],
+      };
       return res(ctx.status(200), ctx.json(result));
     }
   );
