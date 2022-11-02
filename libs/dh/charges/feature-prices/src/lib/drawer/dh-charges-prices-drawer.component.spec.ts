@@ -35,6 +35,7 @@ import { DhChargesChargeHistoryTabScam } from './history-tab/dh-charges-charge-h
 import { DhChargesChargeMessagesTabScam } from './message-tab/dh-charges-charge-messages-tab.component';
 import { DhDrawerDatepickerScam } from './drawer-datepicker/dh-drawer-datepicker.component';
 import userEvent from '@testing-library/user-event';
+import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
 
 const charge = {
   id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
@@ -56,6 +57,7 @@ const charge = {
 describe('DhChargesPricesDrawerComponent', () => {
   async function setup() {
     const { fixture } = await render(DhChargesPricesDrawerComponent, {
+      providers: [DrawerDatepickerService],
       imports: [
         getTranslocoTestingModule(),
         MatNativeDateModule,
@@ -71,6 +73,7 @@ describe('DhChargesPricesDrawerComponent', () => {
       ],
     });
 
+    fixture.componentInstance.chargesMessageTabComponent;
     fixture.componentInstance.openDrawer(charge);
 
     return {
@@ -107,33 +110,52 @@ describe('DhChargesPricesDrawerComponent', () => {
     expect(actualDateInput).toEqual(expectedDate);
   });
 
-  it('date range should default to today when closed', async () => {
-    const s = await setup();
+  // it('date range should default to today when closed', async () => {
+  //   const s = await setup();
 
-    const startDateInput: HTMLInputElement = screen.getByRole('textbox', {
-      name: /start-date-input/i,
-    });
+  //   const startDateInput: HTMLInputElement = screen.getByRole('textbox', {
+  //     name: /start-date-input/i,
+  //   });
 
-    expect(startDateInput).toBeInTheDocument();
+  //   expect(startDateInput).toBeVisible();
 
-    const expectedDate = new Date().toLocaleDateString();
-    const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
+  //   const expectedDate = new Date().toLocaleDateString();
+  //   const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
 
-    expect(actualDateInput).toEqual(expectedDate);
+  //   expect(actualDateInput).toEqual(expectedDate);
+  //   const tomorrow = new Date();
+  //   tomorrow.setDate(tomorrow.getDate() + 1);
 
-    const closeButton = screen.getByRole('button', { name: /close/i });
-    expect(closeButton).toBeInTheDocument();
-    userEvent.click(closeButton);
-    // s.fixture.componentInstance.drawerClosed();
+  //   fireEvent.change(startDateInput, {
+  //     target: { value: tomorrow.toISOString() },
+  //   });
 
-    s.fixture.componentInstance.openDrawer(charge);
+  //   expect(startDateInput.value).toBe(tomorrow.toISOString());
 
-    const startDateInput2: HTMLInputElement = screen.getByRole('textbox', {
-      name: /start-date-input/i,
-    });
+  //   jest.spyOn(s.fixture.componentInstance.closed, 'emit');
 
-    expect(startDateInput2).toBeInTheDocument();
-  });
+  //   const closeButton = screen.getByRole('button', { name: /close/i });
+  //   expect(closeButton).toBeInTheDocument();
+  //   userEvent.click(closeButton);
+
+  //   // s.fixture.componentInstance.drawerClosed();
+
+  //   await waitFor(() => {
+  //     expect(s.fixture.componentInstance.closed.emit).toHaveBeenCalled();
+  //   });
+  //   await waitFor(() => {
+  //     expect(startDateInput).not.toBeVisible();
+  //   });
+
+  //   s.fixture.componentInstance.openDrawer(charge);
+
+  //   const startDateInput2: HTMLInputElement = screen.getByRole('textbox', {
+  //     name: /start-date-input/i,
+  //   });
+
+  //   expect(startDateInput2).toBeVisible();
+  //   expect(startDateInput2.value).toEqual('test');
+  // });
 
   it('when date range updated, should be same on all tabs', async () => {
     await setup();

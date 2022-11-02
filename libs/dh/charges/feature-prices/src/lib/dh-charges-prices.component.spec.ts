@@ -18,7 +18,7 @@ import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { MatNativeDateModule } from '@angular/material/core';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { HttpClientModule } from '@angular/common/http';
-import { render, screen, waitFor } from '@testing-library/angular';
+import { fireEvent, render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import {
   DhChargesPricesScam,
@@ -130,6 +130,75 @@ describe('DhChargesPricesComponent', () => {
     const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
 
     expect(actualDateInput).toEqual(expectedDate);
+  });
+
+  it('when date range in drawer is changed, it should be reset to today on close.', async () => {
+    await setup();
+
+    const searchButton = screen.getByRole('button', { name: /search/i });
+
+    userEvent.click(searchButton);
+
+    const tableCell = await waitFor(() =>
+      screen.getByRole('cell', { name: /0AA1F/i })
+    );
+
+    expect(tableCell).toBeInTheDocument();
+    userEvent.click(tableCell);
+
+    const drawer = screen.getByText(
+      (content, element) => element?.tagName.toLowerCase() === 'watt-drawer'
+    );
+
+    expect(drawer).toBeInTheDocument();
+
+    const startDateInput: HTMLInputElement = screen.getByRole('textbox', {
+      name: /start-date-input/i,
+    });
+
+    expect(startDateInput).toBeInTheDocument();
+
+    const expectedDate = new Date().toLocaleDateString();
+    const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
+
+    expect(actualDateInput).toEqual(expectedDate);
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    fireEvent.change(startDateInput, {
+      target: { value: tomorrow.toISOString() },
+    });
+
+    expect(startDateInput.value).toBe(tomorrow.toISOString());
+
+    const closeButton = screen.getByRole('button', { name: /close/i });
+    expect(closeButton).toBeInTheDocument();
+    userEvent.click(closeButton);
+
+    await waitFor(() => {
+      expect(startDateInput).not.toBeVisible();
+    });
+
+    expect(tableCell).toBeInTheDocument();
+    userEvent.click(tableCell);
+
+    const drawer2 = screen.getByText(
+      (content, element) => element?.tagName.toLowerCase() === 'watt-drawer'
+    );
+
+    expect(drawer2).toBeInTheDocument();
+
+    const startDateInput2: HTMLInputElement = screen.getByRole('textbox', {
+      name: /start-date-input/i,
+    });
+
+    expect(startDateInput2).toBeInTheDocument();
+    const actualDateInput2 = new Date(
+      startDateInput2.value
+    ).toLocaleDateString();
+
+    expect(actualDateInput2).toEqual(expectedDate);
   });
 
   it.todo('should clear valid from and valid to when selecting validity');
