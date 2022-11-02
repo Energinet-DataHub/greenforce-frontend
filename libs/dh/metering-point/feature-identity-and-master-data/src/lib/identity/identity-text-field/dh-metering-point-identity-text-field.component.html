@@ -1,16 +1,14 @@
-<ng-container>
-  <span
-    *ngIf="iconName"
-    [ngStyle]="{ display: 'inline-block' }"
-    class="watt-space-inline-xs"
-  >
-    <watt-icon
-      [name]="iconName"
-      [label]="iconName"
-      size="s"
-      aria-hidden
-    ></watt-icon>
-  </span>
+<span
+  *ngIf="iconName"
+  ngClass="watt-space-inline-xs"
+  [ngStyle]="{ display: 'inline-block' }"
+>
+  <watt-icon
+    [name]="iconName"
+    [label]="iconName"
+    size="s"
+    aria-hidden
+  ></watt-icon>
+</span>
 
-  <span [ngClass]="{ 'watt-space-inline-m': iconName }">{{ text }}</span>
-</ng-container>
+<span [ngClass]="{ 'watt-space-inline-m': iconName }">{{ text }}</span>
