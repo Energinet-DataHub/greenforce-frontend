@@ -38,7 +38,7 @@ export const periodicElements: PeriodicElement[] = [
   templateUrl: 'storybook-table-overview.component.html',
 })
 export class StorybookTableOverviewComponent {
-  columns = ['position', 'name', 'symbol', 'fu', 'waa'];
+  columns = ['position', 'name', 'symbol'];
   sortedData = new WattTableDataSource(periodicElements);
 
   // @ViewChild(MatSort) matSort?: MatSort;
