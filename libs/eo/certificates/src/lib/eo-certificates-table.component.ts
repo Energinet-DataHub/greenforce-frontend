@@ -77,7 +77,6 @@ import { EoCertificatesStore } from './eo-certificates.store';
   `,
 })
 export class EoCertificatesTableComponent implements AfterViewInit {
-  loadingDone$ = this.store.loadingDone$;
   data$ = this.store.certificates$;
   dataSource: MatTableDataSource<EoCertificate> = new MatTableDataSource();
   displayedColumns: string[] = ['dateFrom', 'gsrn', 'quantity'];

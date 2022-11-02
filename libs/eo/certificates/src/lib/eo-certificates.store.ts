@@ -23,7 +23,7 @@ import {
 } from './eo-certificates.service';
 
 interface EoCertificatesState {
-  loadingDone: boolean;
+  hasLoaded: boolean;
   certificates: EoCertificate[];
   error: HttpErrorResponse | null;
 }
@@ -32,21 +32,23 @@ interface EoCertificatesState {
   providedIn: 'root',
 })
 export class EoCertificatesStore extends ComponentStore<EoCertificatesState> {
-  readonly loadingDone$ = this.select((state) => state.loadingDone);
-  readonly certificates$ = this.select((state) => state.certificates);
-  readonly error$ = this.select((state) => state.error);
-  readonly setLoadingDone = this.updater(
-    (state, loadingDone: boolean): EoCertificatesState => ({
+  readonly hasLoaded$ = this.select((state) => state.hasLoaded);
+  readonly setHasLoaded = this.updater(
+    (state, hasLoaded: boolean): EoCertificatesState => ({
       ...state,
-      loadingDone,
+      hasLoaded: hasLoaded,
     })
   );
+
+  readonly certificates$ = this.select((state) => state.certificates);
   readonly setCertificates = this.updater(
     (state, certificates: EoCertificate[]): EoCertificatesState => ({
       ...state,
       certificates,
     })
   );
+
+  readonly error$ = this.select((state) => state.error);
   readonly setError = this.updater(
     (state, error: HttpErrorResponse | null): EoCertificatesState => ({
       ...state,
@@ -56,7 +58,7 @@ export class EoCertificatesStore extends ComponentStore<EoCertificatesState> {
 
   constructor(private service: EoCertificatesService) {
     super({
-      loadingDone: false,
+      hasLoaded: false,
       certificates: [],
       error: null,
     });
@@ -69,11 +71,11 @@ export class EoCertificatesStore extends ComponentStore<EoCertificatesState> {
       next: (response) => {
         this.setCertificates(response.result);
         this.setError(null);
-        this.setLoadingDone(true);
+        this.setHasLoaded(true);
       },
       error: (error) => {
         this.setError(error);
-        this.setLoadingDone(true);
+        this.setHasLoaded(true);
       },
     });
   }
