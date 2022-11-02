@@ -21,6 +21,9 @@ import {
   ChargeV1Dto,
   MarketParticipantV1Dto,
   VatClassification,
+  ChargePriceV1Dto,
+  ChargeMessageV1Dto,
+  ChargeMessageDocumentType,
 } from '@energinet-datahub/dh/shared/domain';
 
 export function chargesMocks(apiBase: string) {
@@ -30,6 +33,7 @@ export function chargesMocks(apiBase: string) {
     searchCharges(apiBase),
     getMarketParticipants(apiBase),
     searchChargePrices(apiBase),
+    searchChargeMessages(apiBase),
   ];
 }
 
@@ -159,6 +163,32 @@ function searchChargePrices(apiBase: string) {
           },
         ],
       };
+      return res(ctx.status(200), ctx.json(result));
+    }
+  );
+}
+
+function searchChargeMessages(apiBase: string) {
+  return rest.post(
+    `${apiBase}/v1/Charges/SearchChargeMessagesAsync`,
+    (req, res, ctx) => {
+      const result: ChargeMessageV1Dto[] = [
+        {
+          messageId: 'MessageId00001',
+          messageDateTime: '2022-08-01T22:00:00',
+          messageType: ChargeMessageDocumentType.D05,
+        },
+        {
+          messageId: 'MessageId00002',
+          messageDateTime: '2022-08-02T22:00:00',
+          messageType: ChargeMessageDocumentType.D05,
+        },
+        {
+          messageId: 'MessageId00003',
+          messageDateTime: '2022-08-03T22:00:00',
+          messageType: ChargeMessageDocumentType.D10,
+        },
+      ];
       return res(ctx.status(200), ctx.json(result));
     }
   );
