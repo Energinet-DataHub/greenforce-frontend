@@ -369,7 +369,7 @@ describe('Datepicker', () => {
         userEvent.click(dayButtonEnd);
 
         expect(screen.getByTestId('rangeValue')).toHaveTextContent(
-          `{ "start": "${initialValueRangeStart}", "end": "2022-09-27T22:00:00.000Z" }`
+          `{ "start": "${initialValueRangeStart}", "end": "2022-09-28T21:59:59.999Z" }`
         );
       });
     });
