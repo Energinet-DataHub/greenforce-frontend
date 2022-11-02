@@ -14,16 +14,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<table mat-table [dataSource]="dataSource">
-  <ng-template #defaultTemplate let-data>{{ data }}</ng-template>
+<table
+  mat-table
+  [dataSource]="dataSource"
+  wattResizeObserver
+  (resize)="updateStyle()"
+>
   <ng-container *ngFor="let column of columns" [matColumnDef]="column">
-    <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+    <th mat-header-cell *matHeaderCellDef>{{ formatHeader(column) }}</th>
     <td mat-cell *matCellDef="let row">
-      <ng-container
-        *ngTemplateOutlet="
-          getTemplate(column) || defaultTemplate;
-          context: { $implicit: row[column], row, column }
-        "
+      <ng-template #default>{{ row[column] }}</ng-template>
+      <ng-container *ngIf="getTemplate(column) as template; else default">
+        <ng-container
+          *ngTemplateOutlet="template; context: { $implicit: row }"
+        ></ng-container
       ></ng-container>
     </td>
   </ng-container>

@@ -14,6 +14,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-watt-table {
-  color: var(--watt-color-state-success);
+watt-table .mat-table {
+  display: block;
+  width: 100%;
+
+  thead,
+  .mat-row {
+    display: contents !important;
+  }
+
+  .mat-header-row {
+    height: var(--watt-space-l);
+    background: var(--watt-color-primary-light);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  .mat-header-cell {
+    line-height: var(--watt-space-l);
+    background-color: transparent;
+    border: 0;
+  }
+
+  .mat-header-row,
+  tbody {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), auto);
+  }
+
+  tbody {
+    max-height: 300px;
+    overflow: auto;
+  }
+
+  watt-icon {
+    display: inline-flex;
+  }
+
+  .mat-cell {
+    display: flex;
+    align-items: center;
+  }
 }

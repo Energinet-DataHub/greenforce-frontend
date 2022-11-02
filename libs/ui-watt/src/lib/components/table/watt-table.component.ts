@@ -20,56 +20,22 @@ import {
   Component,
   ContentChildren,
   Directive,
-  Host,
-  Inject,
+  ElementRef,
+  inject,
   Input,
+  OnChanges,
   QueryList,
+  SimpleChanges,
   TemplateRef,
-  ViewChild,
-  ViewContainerRef,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { WattIcon } from '../../foundations/icon/icons';
+import { MatTableModule } from '@angular/material/table';
+import { WattResizeObserverDirective } from '../../utils/resize-observer';
 import { WattTableDataSource } from './watt-table-data-source';
 
-export interface WattTableCell {
-  [key: string]: {
-    value: string | number | WattIcon;
-  };
-}
-
-// columns = [
-//   {
-//     columnDef: 'position',
-//     header: 'No.',
-//     cell: (element: PeriodicElement) => `${element.position}`,
-//   },
-//   {
-//     columnDef: 'name',
-//     header: 'Name',
-//     cell: (element: PeriodicElement) => `${element.name}`,
-//   },
-//   {
-//     columnDef: 'weight',
-//     header: 'Weight',
-//     cell: (element: PeriodicElement) => `${element.weight}`,
-//   },
-//   {
-//     columnDef: 'symbol',
-//     header: 'Symbol',
-//     cell: (element: PeriodicElement) => `${element.symbol}`,
-//   },
-// ];
-
-class Context<T> {
-  $implicit!: T;
-  subscribe!: T;
-
-  constructor(value: T) {
-    this.$implicit = value;
-    this.subscribe = value;
-  }
+export interface WattTableCellContext<T> {
+  $implicit: T;
+  column: string;
 }
 
 @Directive({
@@ -78,49 +44,66 @@ class Context<T> {
 })
 export class WattTableCellDirective<T> {
   @Input()
-  set wattTableCell(_table: WattTableComponent<T>) {
-    this.viewContainer.createEmbeddedView(this.templateRef);
-  }
+  wattTableCell!: WattTableComponent<T>;
 
   @Input('wattTableCellColumn')
   column?: string;
 
-  constructor(
-    public templateRef: TemplateRef<Context<T>>,
-    private viewContainer: ViewContainerRef
-  ) {}
+  templateRef = inject(TemplateRef<WattTableCellContext<T>>);
 
   static ngTemplateContextGuard<T>(
-    directive: WattTableCellDirective<T>,
+    _directive: WattTableCellDirective<T>,
     context: unknown
-  ): context is Context<T> {
+  ): context is WattTableCellContext<T> {
     return true;
   }
 }
 
 @Component({
   standalone: true,
-  imports: [CommonModule, MatTableModule],
+  imports: [CommonModule, MatTableModule, WattResizeObserverDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-table',
   styleUrls: ['./watt-table.component.scss'],
   templateUrl: './watt-table.component.html',
 })
-export class WattTableComponent<T> {
+export class WattTableComponent<T> implements OnChanges {
+  element = inject(ElementRef);
+
+  @ContentChildren(WattTableCellDirective)
+  cells = new QueryList<WattTableCellDirective<T>>();
+
   @Input()
   columns!: string[];
 
   @Input()
   dataSource!: WattTableDataSource<T>;
 
-  @ContentChildren(WattTableCellDirective)
-  cells = new QueryList<WattTableCellDirective<T>>();
+  @Input()
+  formatHeader = (id: string) => id;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.columns) {
+      this.element.nativeElement.style.setProperty(
+        '--columns',
+        this.columns.length
+      );
+    }
+  }
 
   getTemplate(column: string) {
-    //TODO fallback to template without id OR defaultTemplate
-    return (
-      this.cells.find((item) => item.column === column)?.templateRef ?? null
-    );
+    const cell = this.cells.find((item) => item.column === column);
+    return cell
+      ? cell.templateRef
+      : this.cells.find((item) => !item.column)?.templateRef;
+  }
+
+  updateStyle() {
+    const tbody = this.element.nativeElement.querySelector('tbody');
+    const thead = this.element.nativeElement.querySelector('.mat-header-row');
+
+    thead.style.gridTemplateColumns =
+      window.getComputedStyle(tbody).gridTemplateColumns;
   }
 }
