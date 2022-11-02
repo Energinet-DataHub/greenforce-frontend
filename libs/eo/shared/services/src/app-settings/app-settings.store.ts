@@ -77,7 +77,7 @@ export class AppSettingsStore extends ComponentStore<AppSettingsState> {
       resolution,
     })
   );
-  
+
   getResolutionFromDifference(differenceInDays: number): Resolution {
     switch (true) {
       case differenceInDays < 3:
