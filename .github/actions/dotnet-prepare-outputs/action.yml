@@ -36,7 +36,7 @@ runs:
       shell: bash
       run: |
         dotnet publish \
-          './apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi/DataHub.WebApi/DataHub.WebApi.csproj'
+          'apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi/DataHub.WebApi/DataHub.WebApi.csproj'
           --no-build \
           --no-restore \
           --configuration Release \
