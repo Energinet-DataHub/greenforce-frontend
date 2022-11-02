@@ -10,7 +10,7 @@ $arrow-size: 8px;
   line-height: 18px;
   border-radius: 6px;
   @include watt.space-inset-squish-s;
-  @include watt.typography-watt-text-s; // TODO: This should be watt-text-xs, but it doesn't exist yet according to figma
+  @include watt.typography-watt-text-s;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 
