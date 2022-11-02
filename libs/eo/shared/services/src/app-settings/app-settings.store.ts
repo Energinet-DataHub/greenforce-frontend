@@ -57,15 +57,10 @@ export class AppSettingsStore extends ComponentStore<AppSettingsState> {
 
   readonly setCalendarDateRange = this.updater(
     (state, calendarDateRange: CalendarDateRange): AppSettingsState => {
-      const difference = differenceInDays(
-        new Date(calendarDateRange.end),
-        new Date(calendarDateRange.start)
-      );
-
       return {
         ...state,
         calendarDateRange,
-        resolution: this.getResolutionFromDifference(difference),
+        resolution: this.getResolutionFromDateRange(calendarDateRange),
       };
     }
   );
@@ -77,18 +72,23 @@ export class AppSettingsStore extends ComponentStore<AppSettingsState> {
       resolution,
     })
   );
-  
-  getResolutionFromDifference(differenceInDays: number): Resolution {
+
+  getResolutionFromDateRange(dateRange: CalendarDateRange): Resolution {
+    const difference = differenceInDays(
+      new Date(dateRange.end),
+      new Date(dateRange.start)
+    );
+
     switch (true) {
-      case differenceInDays < 3:
+      case difference < 3:
         return 'HOUR';
-      case differenceInDays < 30:
+      case difference < 30:
         return 'DAY';
-      case differenceInDays < 180:
+      case difference < 180:
         return 'WEEK';
-      case differenceInDays < 730:
+      case difference < 730:
         return 'MONTH';
-      case differenceInDays > 730:
+      case difference > 730:
         return 'YEAR';
       default:
         return 'MONTH';
