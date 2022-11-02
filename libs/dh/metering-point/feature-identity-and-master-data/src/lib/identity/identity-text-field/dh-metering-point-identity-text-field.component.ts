@@ -15,23 +15,17 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { WattIcon, WattIconModule } from '@energinet-datahub/watt/icon';
 
 @Component({
+  standalone: true,
   selector: 'dh-metering-point-identity-text-field',
-  styleUrls: [],
   templateUrl: './dh-metering-point-identity-text-field.component.html',
+  imports: [CommonModule, WattIconModule],
 })
 export class DhMeteringPointIdentityTextFieldComponent {
   @Input() iconName?: WattIcon = undefined;
   @Input() text = '';
 }
-
-@NgModule({
-  declarations: [DhMeteringPointIdentityTextFieldComponent],
-  exports: [DhMeteringPointIdentityTextFieldComponent],
-  imports: [CommonModule, WattIconModule],
-})
-export class DhMeteringPointIdentityTextFieldScam {}
