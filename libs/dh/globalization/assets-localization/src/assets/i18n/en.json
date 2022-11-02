@@ -259,6 +259,14 @@
     "tariffsTitle": "Tariffs",
     "subscriptionsTitle": "Subscriptions",
     "feesTitle": "Fees",
+    "messageType": {
+      "D05": "Request change of billing masterdata",
+      "D10": "Request change of price series"
+    },
+    "messageTypeAbbreviation": {
+      "D05": "RSM-33",
+      "D10": "RSM-33"
+    },
     "chargeType": {
       "D01": "Subscription",
       "D02": "Fee",
@@ -364,6 +372,7 @@
       "drawer": {
         "prices": "Prices",
         "messages": "Messages",
+        "message": "Message",
         "dateChips": {
           "day": "Day",
           "week": "Week",
