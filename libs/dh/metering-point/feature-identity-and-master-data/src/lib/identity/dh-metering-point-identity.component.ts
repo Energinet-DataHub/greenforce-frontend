@@ -27,7 +27,6 @@ import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/domain';
 import { DhMeteringPointIdentityTextFieldComponent } from './identity-text-field/dh-metering-point-identity-text-field.component';
 import { DhMeteringPointStatusBadgeScam } from '@energinet-datahub/dh/metering-point/ui-status-badge';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
-import { WattIcon } from '@energinet-datahub/watt/icon';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 export interface MeteringPointIdentityTranslationKeys {
@@ -37,7 +36,6 @@ export interface MeteringPointIdentityTranslationKeys {
   settlementMethod?: string;
   meteringPointId: string;
   electricitySupplierSince?: string;
-  actualAddress: string;
 }
 
 @Component({
@@ -50,7 +48,6 @@ export class DhMeteringPointIdentityComponent {
   identityDetails?: MeteringPointCimDto;
   translationKeys?: MeteringPointIdentityTranslationKeys;
   address?: string;
-  actualAddressIcon?: WattIcon;
 
   @Input()
   set identityData(data: MeteringPointCimDto | undefined) {
@@ -59,7 +56,6 @@ export class DhMeteringPointIdentityComponent {
     }
 
     this.identityDetails = data;
-    this.actualAddressIcon = data.isActualAddress ? 'success' : 'warning';
     this.translationKeys = this.buildTranslations(data);
     this.address = this.formatAddress(data);
   }
@@ -90,9 +86,6 @@ export class DhMeteringPointIdentityComponent {
     data: MeteringPointCimDto,
     nestedKey = 'meteringPoint.overview'
   ): MeteringPointIdentityTranslationKeys => ({
-    actualAddress: `${nestedKey}.primaryMasterData.${
-      data.isActualAddress ? 'actualAddress' : 'notActualAddress'
-    }`,
     electricitySupplierSince: `${nestedKey}.primaryMasterData.since`,
     meteringPointId: `${nestedKey}.primaryMasterData.meterNumber`,
     meteringMethod: `meteringPoint.meteringPointSubTypeCode.${data.meteringMethod}`,

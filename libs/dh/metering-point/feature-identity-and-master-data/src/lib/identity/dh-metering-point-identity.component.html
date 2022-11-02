@@ -71,8 +71,9 @@ limitations under the License.
     </dh-metering-point-identity-text-field>
 
     <dh-metering-point-identity-text-field
-      [iconName]="actualAddressIcon"
-      text="{{ translationKeys?.actualAddress | transloco }}"
+      *ngIf="!identityDetails?.isActualAddress"
+      iconName="warning"
+      [text]="t('primaryMasterData.notActualAddress')"
     >
     </dh-metering-point-identity-text-field>
   </div>
