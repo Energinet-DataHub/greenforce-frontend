@@ -65,7 +65,7 @@ describe('DhChargesChargePricesTabComponent', () => {
     expect(fixture.fixture.componentInstance).toBeTruthy();
   });
 
-  it('show messagen when charge has no prics at all', async () => {
+  it('show message when charge has no prices at all', async () => {
     await setup();
 
     const titleMessage = screen.getByRole('heading', {
