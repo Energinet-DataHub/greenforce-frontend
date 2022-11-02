@@ -17,7 +17,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoPopupMessageScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { EoDatePickerScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import {
+  EoDatePickerScam,
+  EoResolutionPickerScam,
+} from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import {
   AppSettingsStore,
   CalendarDateRange,
@@ -56,11 +59,15 @@ import { EoConsumptionStore } from './eo-consumption.store';
           class="watt-space-stack-l"
         ></eo-consumption-line-chart>
         <eo-date-picker
+          class="watt-space-stack-l"
           [onFeatureFlag]="'daterange'"
           *rxLet="appSettingsDates$ as dates"
           [dateRangeInput]="dates"
           (newDates)="setNewAppDates($event)"
         ></eo-date-picker>
+        <eo-resolution-picker
+          [onFeatureFlag]="'resolution'"
+        ></eo-resolution-picker>
       </div>
 
       <div>
@@ -94,6 +101,7 @@ export class EoConsumptionPageShellComponent {
     EoPopupMessageScam,
     EoFeatureFlagScam,
     EoDatePickerScam,
+    EoResolutionPickerScam,
     EoConsumptionPageTipScam,
     EoConsumptionPageInfoScam,
     EoConsumptionPageEnergyConsumptionScam,
