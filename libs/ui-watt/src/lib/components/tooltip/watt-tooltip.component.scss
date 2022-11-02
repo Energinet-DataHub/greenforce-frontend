@@ -1,0 +1,68 @@
+@use '@energinet-datahub/watt/utils' as watt;
+
+$arrow-size: 8px;
+
+:host {
+  z-index: 500;
+  display: inline-block;
+  background: var(--watt-color-primary-dark);
+  color: var(--watt-color-primary-dark-contrast);
+  line-height: 18px;
+  border-radius: 6px;
+  @include watt.space-inset-squish-s;
+  @include watt.typography-watt-text-s; // TODO: This should be watt-text-xs, but it doesn't exist yet according to figma
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+
+  &.show {
+    opacity: 1;
+  }
+
+  &[data-popper-placement^='top'] > #arrow {
+    bottom: -4px;
+  }
+
+  &[data-popper-placement^='bottom'] > #arrow {
+    top: -4px;
+  }
+
+  &[data-popper-placement^='left'] > #arrow {
+    right: -4px;
+  }
+
+  &[data-popper-placement^='right'] > #arrow {
+    left: -4px;
+  }
+
+  &[data-popper-placement='top'],
+  &[data-popper-placement='bottom'] {
+    > #arrow {
+      left: 50%;
+    }
+  }
+
+  &[data-popper-placement='top-end'],
+  &[data-popper-placement='bottom-end'] {
+    > #arrow {
+      left: calc(100% - #{$arrow-size * 2});
+    }
+  }
+}
+
+#arrow,
+#arrow::before {
+  position: absolute;
+  width: $arrow-size;
+  height: $arrow-size;
+  background: inherit;
+}
+
+#arrow {
+  visibility: hidden;
+}
+
+#arrow::before {
+  visibility: visible;
+  content: '';
+  transform: rotate(45deg);
+}

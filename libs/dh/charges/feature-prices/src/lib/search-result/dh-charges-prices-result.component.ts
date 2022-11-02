@@ -31,7 +31,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { WattTooltipModule } from '@energinet-datahub/watt/tooltip';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
@@ -217,7 +217,7 @@ export class DhChargesPricesResultComponent
     WattButtonModule,
     WattEmptyStateModule,
     DhFeatureFlagDirectiveModule,
-    WattTooltipModule,
+    WattTooltipDirective,
     WattSpinnerModule,
     DhSharedUiDateTimeModule,
     MatSortModule,
