@@ -25,7 +25,7 @@ import {
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { LocalStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
 import { of } from 'rxjs';
-import { ScopeStorage } from './scope-storage.service';
+import { ScopeStorage } from './scope-storage';
 import { scopeKey, ScopeService, scopesKey } from './scope.service';
 
 describe(ScopeService.name, () => {
