@@ -53,7 +53,7 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class DhWholesaleFormComponent implements OnInit, OnDestroy {
   @Input() loading = false;
-  @Output() search: EventEmitter<BatchSearchDto> = new EventEmitter();
+  @Output() search = new EventEmitter<BatchSearchDto>();
 
   destroy$: Subject<void> = new Subject();
 
@@ -62,7 +62,7 @@ export class DhWholesaleFormComponent implements OnInit, OnDestroy {
       {
         start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
         end: zonedTimeToUtc(
-          new Date().setHours(0, 0, 0, 0),
+          new Date().setHours(23, 59, 59, 999),
           'Europe/Copenhagen'
         ).toISOString(),
       },
