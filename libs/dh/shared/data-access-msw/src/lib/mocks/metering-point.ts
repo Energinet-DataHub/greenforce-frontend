@@ -38,7 +38,7 @@ function getByGsrn(apiBase: string) {
   });
 }
 
-const getByGsrnResponse: MeteringPointCimDto = {
+export const getByGsrnResponse: MeteringPointCimDto = {
   meteringPointId: '10e01f8d-be5f-4253-80a2-37082baa950b',
   gsrnNumber: '573876630161457173',
   streetName: 'Nørre Lysgade',
