@@ -20,6 +20,7 @@ import { EoPopupMessageScam } from '@energinet-datahub/eo/shared/atomic-design/f
 import {
   EoDatePickerScam,
   EoResolutionPickerScam,
+  EoStackScam,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import {
   AppSettingsStore,
@@ -50,13 +51,10 @@ import { EoProductionStore } from './eo-production.store';
       </eo-popup-message>
     </ng-container>
     <div class="content">
-      <div>
-        <eo-production-info class="watt-space-stack-l"></eo-production-info>
-        <eo-production-line-chart
-          class="watt-space-stack-l"
-        ></eo-production-line-chart>
+      <eo-stack size="L">
+        <eo-production-info></eo-production-info>
+        <eo-production-line-chart></eo-production-line-chart>
         <eo-date-picker
-          class="watt-space-stack-l"
           [onFeatureFlag]="'daterange'"
           *rxLet="appSettingsDates$ as dates"
           [dateRangeInput]="dates"
@@ -65,10 +63,10 @@ import { EoProductionStore } from './eo-production.store';
         <eo-resolution-picker
           [onFeatureFlag]="'resolution'"
         ></eo-resolution-picker>
-      </div>
-      <div>
-        <eo-production-tip class="watt-space-stack-l"></eo-production-tip>
-      </div>
+      </eo-stack>
+      <eo-stack size="L">
+        <eo-production-tip></eo-production-tip>
+      </eo-stack>
     </div>
   `,
 })
@@ -95,6 +93,7 @@ export class EoProductionShellComponent {
     LetModule,
     EoDatePickerScam,
     EoResolutionPickerScam,
+    EoStackScam,
     EoProductionTipScam,
     EoProductionInfoScam,
     EoProductionLineChartScam,
