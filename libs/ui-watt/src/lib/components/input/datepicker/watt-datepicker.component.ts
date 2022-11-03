@@ -380,13 +380,7 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   private parseDate(value: string): Date {
-    const parsedDate = parse(value, dateTimeFormat, new Date());
-
-    if (isValid(parsedDate)) {
-      return parsedDate;
-    }
-
-    return new Date(value);
+    return parse(value, dateTimeFormat, new Date());
   }
 
   /**
