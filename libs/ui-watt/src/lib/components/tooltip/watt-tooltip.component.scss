@@ -1,6 +1,8 @@
+@use "sass:math";
 @use '@energinet-datahub/watt/utils' as watt;
 
 $arrow-size: 8px;
+$offset: 6px;
 
 :host {
   z-index: 500;
@@ -19,55 +21,55 @@ $arrow-size: 8px;
   }
 
   &[data-popper-placement^='top'] {
-    inset-block-end: 6px !important;
+    inset-block-end: $offset !important;
   }
 
   &[data-popper-placement^='bottom'] {
-    inset-block-start: 6px !important;
+    inset-block-start: $offset !important;
     > #arrow {
-      top: -4px;
+      top: -#{math.div($arrow-size, 2)};
     }
   }
 
   &[data-popper-placement^='left'] {
-    inset-inline-end: 6px !important;
+    inset-inline-end: $offset !important;
     > #arrow {
-      right: -4px;
+      right: -#{math.div($arrow-size, 2)};
     }
   }
 
   &[data-popper-placement^='right'] {
-    inset-inline-start: 6px !important;
+    inset-inline-start: $offset !important;
     > #arrow {
-      left: -4px;
+      left: -#{math.div($arrow-size, 2)};
     }
   }
 
   &[data-popper-placement='left'],
   &[data-popper-placement='right'] {
     > #arrow {
-      top: calc(50% - #{$arrow-size / 2});
+      top: calc(50% - math.div($arrow-size, 2));
     }
   }
 
   &[data-popper-placement='top'],
   &[data-popper-placement='bottom'] {
     > #arrow {
-      right: calc(50% - 4px);
+      right: calc(50% - math.div($arrow-size, 2));
     }
   }
 
   &[data-popper-placement='top-end'],
   &[data-popper-placement='bottom-end'] {
     > #arrow {
-      right: calc(100% - #{$arrow-size * 2} - 4px);
+      right: var(--watt-space-m);
     }
   }
 
   &[data-popper-placement='top-start'],
   &[data-popper-placement='bottom-start'] {
     > #arrow {
-      left: calc(100% - #{$arrow-size * 2} - 4px);
+      left: var(--watt-space-m);
     }
   }
 }
