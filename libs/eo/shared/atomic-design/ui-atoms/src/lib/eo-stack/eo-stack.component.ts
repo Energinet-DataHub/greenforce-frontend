@@ -17,7 +17,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
   Input,
   NgModule,
   ViewEncapsulation,
