@@ -27,7 +27,7 @@ import { WattRangeValidators } from '../../shared/validators';
 
 export const initialValueSingle = '2022-09-02T22:00:00.000Z';
 export const initialValueRangeStart = initialValueSingle;
-export const initialValueRangeEnd = '2022-09-14T22:00:00.000Z';
+export const initialValueRangeEnd = '2022-09-15T21:59:59.999Z';
 
 export interface WattDatepickerStoryConfig extends WattDatepickerComponent {
   disableAnimations?: boolean; // Used to disable animations for the tests
@@ -55,6 +55,10 @@ export default {
 } as Meta;
 
 const template = `
+<p>Value: <code>{{ exampleFormControlSingle.value | json }}</code></p>
+
+<p>Selected range: <code data-testid="rangeValue">{{ exampleFormControlRange.value | json }}</code></p>
+
 <watt-form-field>
   <watt-label>Single date</watt-label>
   <watt-datepicker [formControl]="exampleFormControlSingle"></watt-datepicker>
@@ -63,7 +67,6 @@ const template = `
   </watt-error>
 </watt-form-field>
 
-<p>Value: <code>{{ exampleFormControlSingle.value | json }}</code></p>
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlSingle?.errors | json }}</code></p>
 
 <br />
@@ -76,7 +79,7 @@ const template = `
   </watt-error>
 </watt-form-field>
 
-<p>Selected range: <code data-testid="rangeValue">{{ exampleFormControlRange.value | json }}</code></p>
+
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlRange?.errors | json }}</code></p>
 `;
 
