@@ -15,17 +15,17 @@
  * limitations under the License.
  */
 import {
-  HTTP_INTERCEPTORS,
   HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
   HttpStatusCode,
+  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
+import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/shared/utilities';
 import { catchError, from, Observable, switchMapTo, throwError } from 'rxjs';
 
 /**
