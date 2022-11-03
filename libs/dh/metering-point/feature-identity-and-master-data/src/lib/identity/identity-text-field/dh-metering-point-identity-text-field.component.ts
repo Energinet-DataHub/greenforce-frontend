@@ -26,6 +26,6 @@ import { WattIcon, WattIconModule } from '@energinet-datahub/watt/icon';
   imports: [CommonModule, WattIconModule],
 })
 export class DhMeteringPointIdentityTextFieldComponent {
-  @Input() iconName?: WattIcon = undefined;
+  @Input() iconName?: WattIcon;
   @Input() text = '';
 }
