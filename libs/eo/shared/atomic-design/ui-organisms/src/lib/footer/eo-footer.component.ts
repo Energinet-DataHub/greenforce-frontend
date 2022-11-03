@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/privacy-policy/routing';
 import { RouterModule } from '@angular/router';
+import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
