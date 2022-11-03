@@ -1,15 +1,15 @@
 {
-  "name": "eo-shared-util-browser",
+  "name": "eo-shared-utilities",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/eo/shared/util-browser/src",
+  "sourceRoot": "libs/eo/shared/utilities/src",
   "prefix": "eo",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/eo/shared/util-browser"],
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/shared/utilities"],
       "options": {
-        "jestConfig": "libs/eo/shared/util-browser/jest.config.ts",
+        "jestConfig": "libs/eo/shared/utilities/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -17,8 +17,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/eo/shared/util-browser/src/**/*.ts",
-          "libs/eo/shared/util-browser/src/**/*.html"
+          "libs/eo/shared/utilities/src/**/*.ts",
+          "libs/eo/shared/utilities/src/**/*.html"
         ]
       },
       "outputs": ["{options.outputFile}"]
