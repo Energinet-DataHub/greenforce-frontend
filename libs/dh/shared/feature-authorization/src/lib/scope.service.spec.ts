@@ -167,12 +167,14 @@ function createTarget(
   actorScopes: string | null,
   store: ScopeStorage
 ) {
-  const account: Partial<AccountInfo> | null = localAccountId ? {
-    localAccountId: localAccountId ?? '',
-    idTokenClaims: actorScopes
-      ? { [`${actorScopesClaimsKey}`]: [actorScopes] }
-      : {},
-  }: null;
+  const account: Partial<AccountInfo> | null = localAccountId
+    ? {
+        localAccountId: localAccountId ?? '',
+        idTokenClaims: actorScopes
+          ? { [`${actorScopesClaimsKey}`]: [actorScopes] }
+          : {},
+      }
+    : null;
 
   const authResult: Partial<AuthenticationResult> = {
     account: account as AccountInfo,
@@ -189,6 +191,7 @@ function createTarget(
 
   const publicClientApplication: Partial<IPublicClientApplication> = {
     getAllAccounts: () => (localAccountId ? [account as AccountInfo] : []),
+    setActiveAccount: () => ({}),
   };
 
   const msalService: Partial<MsalService> = {
