@@ -36,7 +36,6 @@ limitations under the License.
     </dh-metering-point-identity-text-field>
 
     <dh-metering-point-identity-text-field
-      *ngIf="identityDetails?.readingOccurrence"
       text="{{ translationKeys?.readingOccurrence | transloco }} | "
     >
     </dh-metering-point-identity-text-field>
@@ -62,6 +61,7 @@ limitations under the License.
 
     <dh-metering-point-identity-text-field
       *ngIf="identityDetails?.supplyStart"
+      data-testid="dh-metering-point-identity-text-field-supply-start"
       iconName="power"
       text="{{
         translationKeys?.electricitySupplierSince
@@ -72,6 +72,7 @@ limitations under the License.
 
     <dh-metering-point-identity-text-field
       *ngIf="!identityDetails?.isActualAddress"
+      data-testid="dh-metering-point-identity-text-field-isActualAddress"
       iconName="warning"
       [text]="t('primaryMasterData.notActualAddress')"
     >
