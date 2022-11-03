@@ -6,7 +6,6 @@ import {
   inject,
   Input,
   OnDestroy,
-  OnInit,
   Renderer2,
   ViewChild,
 } from '@angular/core';
@@ -51,17 +50,8 @@ export class WattTooltipComponent implements AfterViewInit, OnDestroy {
   private showClass = 'show';
 
   ngAfterViewInit(): void {
-    console.log(this.arrow);
     createPopper(this.target, this.element, {
-      placement: this.position,
-      modifiers: [
-        {
-          name: 'offset',
-          options: {
-            offset: [10, 20],
-          },
-        },
-      ],
+      placement: this.position
     });
 
     this.setupEventListeners();
