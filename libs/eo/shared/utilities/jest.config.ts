@@ -16,7 +16,7 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'eo-origin-of-energy-routing',
+  displayName: 'eo-shared-utilities',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -25,7 +25,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/eo/origin-of-energy/routing',
+  coverageDirectory: '../../../../coverage/libs/eo/shared/utilities',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
