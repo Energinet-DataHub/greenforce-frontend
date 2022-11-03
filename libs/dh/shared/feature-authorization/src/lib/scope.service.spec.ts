@@ -18,7 +18,9 @@
 import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import {
   AccountInfo,
+  AuthenticationResult,
   EventMessage,
+  EventPayload,
   EventType,
   IPublicClientApplication,
 } from '@azure/msal-browser';
@@ -165,19 +167,24 @@ function createTarget(
   actorScopes: string | null,
   store: ScopeStorage
 ) {
-  const message: Partial<EventMessage> = {
-    eventType: EventType.LOGIN_SUCCESS,
-  };
-
-  const msalBroadcastService: Partial<MsalBroadcastService> = {
-    msalSubject$: of(message as EventMessage),
-  };
-
-  const account: Partial<AccountInfo> = {
+  const account: Partial<AccountInfo> | null = localAccountId ? {
     localAccountId: localAccountId ?? '',
     idTokenClaims: actorScopes
       ? { [`${actorScopesClaimsKey}`]: [actorScopes] }
       : {},
+  }: null;
+
+  const authResult: Partial<AuthenticationResult> = {
+    account: account as AccountInfo,
+  };
+
+  const message: Partial<EventMessage> = {
+    eventType: EventType.ACQUIRE_TOKEN_SUCCESS,
+    payload: authResult as EventPayload,
+  };
+
+  const msalBroadcastService: Partial<MsalBroadcastService> = {
+    msalSubject$: of(message as EventMessage),
   };
 
   const publicClientApplication: Partial<IPublicClientApplication> = {

@@ -17,7 +17,11 @@
 
 import { Inject, Injectable } from '@angular/core';
 import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
-import { EventMessage, EventType } from '@azure/msal-browser';
+import {
+  AuthenticationResult,
+  EventMessage,
+  EventType,
+} from '@azure/msal-browser';
 import {
   DhB2CEnvironment,
   dhB2CEnvironmentToken,
@@ -32,6 +36,8 @@ export const actorScopesClaimsKey = 'extn.actors';
 
 @Injectable({ providedIn: 'root' })
 export class ScopeService {
+  localAccountId = '';
+
   constructor(
     @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment,
     private msalBroadcastService: MsalBroadcastService,
@@ -41,15 +47,22 @@ export class ScopeService {
   ) {
     this.msalBroadcastService.msalSubject$
       .pipe(
-        filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS)
+        filter(
+          (msg: EventMessage) =>
+            msg.eventType === EventType.ACQUIRE_TOKEN_SUCCESS
+        )
       )
-      .subscribe(() => {
-        const account = this.getAccount();
+      .subscribe((e: EventMessage) => {
+        const payload = e.payload as AuthenticationResult;
+        const account = payload.account;
 
         if (!account) {
           this.clearScopeRelatedItems();
           return;
         }
+
+        this.localAccountId = account.localAccountId;
+        this.authService.instance.setActiveAccount(account);
 
         const userId = account.localAccountId;
         const actors =
@@ -62,19 +75,21 @@ export class ScopeService {
   }
 
   public getActiveScope() {
-    const account = this.getAccount();
-    if (!account) return this.fallbackScope();
+    if (!this.localAccountId) return this.fallbackScope();
 
-    const userId = account.localAccountId;
-
-    const scopes = this.getScopes(userId);
+    const scopes = this.getScopes(this.localAccountId);
     if (scopes.length === 0) return this.fallbackScope();
 
-    const stored = this.scopeStorage.getItem(userId + activeActorScopeKey);
+    const stored = this.scopeStorage.getItem(
+      this.localAccountId + activeActorScopeKey
+    );
     if (stored && scopes.includes(stored)) return stored;
 
     const activeScope = scopes[0];
-    this.scopeStorage.setItem(userId + activeActorScopeKey, activeScope);
+    this.scopeStorage.setItem(
+      this.localAccountId + activeActorScopeKey,
+      activeScope
+    );
 
     return activeScope;
   }
@@ -88,16 +103,6 @@ export class ScopeService {
     return scopesString && scopesString.length > 0
       ? scopesString[0].split(' ')
       : [];
-  }
-
-  private getAccount() {
-    const accounts = this.authService.instance.getAllAccounts();
-
-    if (accounts.length !== 1) {
-      return undefined;
-    }
-
-    return accounts[0];
   }
 
   private clearScopeRelatedItems() {
