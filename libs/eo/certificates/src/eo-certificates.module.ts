@@ -14,8 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-charge-links-data-access-api.store';
-export * from './lib/dh-charges-data-access-api.store';
-export * from './lib/dh-market-participant-data-access-api.store';
-export * from './lib/dh-charge-prices-data-access-api.store';
-export * from './lib/dh-charge-messages-data-access-api.store';
+
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { EoCertificatesComponent } from './lib/eo-certificates.component';
+
+const routes: Routes = [{ path: '', component: EoCertificatesComponent }];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes), EoCertificatesComponent],
+})
+export class EoCertificatesModule {}

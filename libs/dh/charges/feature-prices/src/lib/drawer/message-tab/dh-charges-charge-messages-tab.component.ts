@@ -15,141 +15,114 @@
  * limitations under the License.
  */
 import {
+  ChangeDetectionStrategy,
   Component,
+  Input,
   NgModule,
-  AfterViewInit,
+  OnInit,
   OnDestroy,
   OnChanges,
   ViewChild,
-  Input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { LetModule } from '@rx-angular/template';
+import { TranslocoModule } from '@ngneat/transloco';
+import { LetModule, PushModule } from '@rx-angular/template';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { Subject, takeUntil } from 'rxjs';
+import { DhChargeMessagesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 import {
-  MessageArchiveSearchResultItemDto,
-  MessageArchiveSearchCriteria,
+  ChargeMessagesSearchCriteriaV1Dto,
+  ChargeMessageV1Dto,
+  ChargeV1Dto,
+  ChargeMessageSortColumnName,
 } from '@energinet-datahub/dh/shared/domain';
-import { DhMessageArchiveDataAccessApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import {
-  MatPaginator,
-  MatPaginatorIntl,
-  MatPaginatorModule,
-} from '@angular/material/paginator';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
-import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { Inject } from '@angular/core';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
-import { DhDrawerDatepickerScam } from '../drawer-datepicker/dh-drawer-datepicker.component';
+import {
+  DhDrawerDatepickerComponent,
+  DhDrawerDatepickerScam,
+} from '../drawer-datepicker/dh-drawer-datepicker.component';
+import { zonedTimeToUtc } from 'date-fns-tz';
 
 @Component({
   selector: 'dh-charges-charge-messages-tab',
   templateUrl: './dh-charges-charge-messages-tab.component.html',
   styleUrls: ['./dh-charges-charge-messages-tab.component.scss'],
-  providers: [DhMessageArchiveDataAccessApiStore],
+  providers: [DhChargeMessagesDataAccessApiStore],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhChargesChargeMessagesTabComponent
-  implements AfterViewInit, OnDestroy, OnChanges
+  implements OnInit, OnChanges, OnDestroy
 {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(DhSharedUiPaginatorComponent)
+  paginator!: DhSharedUiPaginatorComponent;
   @ViewChild(MatSort) matSort!: MatSort;
+  @ViewChild(DhDrawerDatepickerComponent)
+  drawerDatepickerComponent!: DhDrawerDatepickerComponent;
 
-  @Input() result?: Array<MessageArchiveSearchResultItemDto>;
-  @Input() isLoading = true;
-  @Input() isInit = true;
-  @Input() hasLoadingError = false;
+  @Input() charge: ChargeV1Dto | undefined;
+
+  constructor(
+    private chargeMessagesStore: DhChargeMessagesDataAccessApiStore
+  ) {}
+
+  localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  chargeMessagesSearchCriteria: ChargeMessagesSearchCriteriaV1Dto = {
+    chargeId: '',
+    fromDateTime: zonedTimeToUtc(
+      new Date(new Date().toDateString()),
+      this.localTimeZone
+    ).toISOString(),
+    toDateTime: zonedTimeToUtc(
+      new Date(new Date().toDateString()),
+      this.localTimeZone
+    ).toISOString(),
+    isDescending: false,
+    chargeMessageSortColumnName: ChargeMessageSortColumnName.MessageDateTime,
+    skip: 0,
+    take: 0,
+  };
+
+  result: ChargeMessageV1Dto[] | undefined;
+  isLoading = this.chargeMessagesStore.isLoading$;
+  hasLoadingError = this.chargeMessagesStore.hasGeneralError$;
+  chargeMessagesNotFound = this.chargeMessagesStore.chargeMessagesNotFound$;
+  totalCount = this.chargeMessagesStore.totalCount$;
+  displayedColumns = ['messageId', 'messageDateTime', 'messageType'];
 
   private destroy$ = new Subject<void>();
 
-  searchResult$ = this.messageArchiveStore.searchResult$;
+  readonly dataSource: MatTableDataSource<ChargeMessageV1Dto> =
+    new MatTableDataSource<ChargeMessageV1Dto>();
 
-  displayedColumns = ['messageId', 'createdDate', 'messageType'];
+  ngOnInit() {
+    this.chargeMessagesStore.all$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((chargeMessages) => {
+        this.dataSource.data =
+          chargeMessages ?? new Array<ChargeMessageV1Dto>();
+        this.result = chargeMessages;
+        this.dataSource.sort = this.matSort;
+      });
 
-  maxItemCount = 100;
-  searchCriteria: MessageArchiveSearchCriteria = {
-    maxItemCount: this.maxItemCount,
-    includeRelated: false,
-    includeResultsWithoutContent: false,
-  };
-
-  readonly dataSource: MatTableDataSource<MessageArchiveSearchResultItemDto> =
-    new MatTableDataSource<MessageArchiveSearchResultItemDto>();
-
-  loadMessages() {
-    const chargesMessagesTabFeatureIsEnabled =
-      this.featureFlagsService.isEnabled('charges_messages_tab_feature_flag');
-    if (chargesMessagesTabFeatureIsEnabled) {
-      this.loadMessagesFromMessageArchive();
-    }
-
-    //Insert dummy data for now
-    if (this.dataSource.data.length === 0) {
-      this.dataSource.data = [
-        {
-          messageId: 'dummy-message 1',
-          messageType: 'RSM - 33 RequestChangeOfPriceList',
-          blobContentUri: 'https://',
-          createdDate: '2022-10-29T22:00:00',
-        },
-        {
-          messageId: 'dummy-message 2',
-          messageType: 'RSM - 33 RequestChangeOfPriceList',
-          blobContentUri: 'https://',
-          createdDate: '2022-11-01T22:00:00',
-        },
-      ];
-    }
-
-    this.isLoading = false;
-    this.isInit = false;
-    this.dataSource.sortingDataAccessor = ToLowerSort();
-  }
-
-  loadMessagesFromMessageArchive() {
-    this.searchCriteria.dateTimeFrom =
-      this.initDateFrom().toISOString().split('.')[0] + 'Z';
-    this.searchCriteria.dateTimeTo =
-      this.initDateTo().toISOString().split('.')[0] + 'Z';
-
-    if (this.validateSearchParams()) {
-      this.searchCriteria.continuationToken = null;
-
-      if (!this.searchCriteria.messageId) {
-        this.searchCriteria.includeRelated = false;
-      }
-
-      this.messageArchiveStore.searchLogs(this.searchCriteria);
-      console.log(this.searchResult$);
-    }
-  }
-
-  constructor(
-    private messageArchiveStore: DhMessageArchiveDataAccessApiStore,
-    private translocoService: TranslocoService,
-    private matPaginatorIntl: MatPaginatorIntl,
-    @Inject(DhFeatureFlagsService)
-    private featureFlagsService: DhFeatureFlagsService
-  ) {}
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sortingDataAccessor = ToLowerSort();
-    this.setupPaginatorTranslation();
+    this.chargeMessagesStore.totalCount$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((totalCount) => {
+        if (this.paginator) this.paginator.length = totalCount;
+      });
   }
 
   ngOnChanges() {
     if (this.result) this.dataSource.data = this.result;
 
-    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.matSort;
   }
 
@@ -158,58 +131,70 @@ export class DhChargesChargeMessagesTabComponent
     this.destroy$.complete();
   }
 
-  validateSearchParams(): boolean {
-    return (
-      this.searchCriteria.dateTimeFrom != null &&
-      this.searchCriteria.dateTimeTo != null &&
-      this.searchCriteria.dateTimeFrom.length === 20 &&
-      this.searchCriteria.dateTimeTo.length === 20
-    );
-  }
-
   dateRangeChanged(dateRange: DatePickerData) {
-    console.log(dateRange);
+    this.setSearchCriteriaDateRange(dateRange);
+
+    if (this.charge) this.loadMessages(this.charge);
   }
-
-  private initDateFrom = (): Date => {
-    const from = new Date();
-    from.setUTCMonth(new Date().getMonth() - 1);
-    from.setUTCHours(0, 0, 0);
-    return from;
-  };
-  private initDateTo = (): Date => {
-    const to = new Date();
-    to.setUTCHours(23, 59, 59);
-    return to;
-  };
-
-  private readonly setupPaginatorTranslation = () => {
-    const temp = this.matPaginatorIntl.getRangeLabel;
-    this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) =>
-      temp(page, pageSize, length).replace(
-        'of',
-        this.translocoService.translate('charges.prices.paginator.of')
-      );
-
-    this.translocoService
-      .selectTranslateObject('charges.prices.paginator')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((value) => {
-        this.matPaginatorIntl.itemsPerPageLabel = value.itemsPerPageLabel;
-        this.matPaginatorIntl.nextPageLabel = value.next;
-        this.matPaginatorIntl.previousPageLabel = value.previous;
-        this.matPaginatorIntl.firstPageLabel = value.first;
-        this.matPaginatorIntl.lastPageLabel = value.last;
-        this.dataSource.paginator = this.paginator;
-      });
-  };
 
   rowClicked(message: string) {
     this.openMessage(message);
   }
 
+  loadMessages(charge: ChargeV1Dto) {
+    setTimeout(() => {
+      this.chargeMessagesSearchCriteria.chargeId = charge.id;
+      this.chargeMessagesSearchCriteria.take = this.paginator.instance.pageSize;
+
+      const dateTimeRange =
+        this.drawerDatepickerComponent.formControlDateRange.value;
+
+      if (dateTimeRange) {
+        this.setSearchCriteriaDateRange({
+          startDate: dateTimeRange.start,
+          endDate: dateTimeRange.end,
+        });
+      }
+      this.chargeMessagesStore.searchChargeMessages(
+        this.chargeMessagesSearchCriteria
+      );
+    }, 0);
+
+    this.dataSource.sortingDataAccessor = ToLowerSort();
+  }
+
+  setSearchCriteriaDateRange(dateRange: DatePickerData) {
+    this.chargeMessagesSearchCriteria.fromDateTime = zonedTimeToUtc(
+      dateRange.startDate,
+      this.localTimeZone
+    ).toISOString();
+    this.chargeMessagesSearchCriteria.toDateTime = zonedTimeToUtc(
+      dateRange.endDate,
+      this.localTimeZone
+    ).toISOString();
+  }
+
   openMessage(message: string) {
     console.log(message);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  sortData(event: any) {
+    this.chargeMessagesSearchCriteria.chargeMessageSortColumnName =
+      event.active;
+    this.chargeMessagesSearchCriteria.isDescending = event.direction === 'desc';
+    this.chargeMessagesStore.searchChargeMessages(
+      this.chargeMessagesSearchCriteria
+    );
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handlePageEvent(event: any) {
+    this.chargeMessagesSearchCriteria.skip = event.pageIndex * event.pageSize;
+    this.chargeMessagesSearchCriteria.take = event.pageSize;
+    this.chargeMessagesStore.searchChargeMessages(
+      this.chargeMessagesSearchCriteria
+    );
   }
 }
 
@@ -219,16 +204,17 @@ export class DhChargesChargeMessagesTabComponent
   imports: [
     CommonModule,
     MatTableModule,
+    MatSortModule,
     TranslocoModule,
     LetModule,
-    MatPaginatorModule,
+    PushModule,
     WattButtonModule,
     WattEmptyStateModule,
     WattTooltipDirective,
     WattSpinnerModule,
     DhSharedUiDateTimeModule,
-    MatSortModule,
-    DhFeatureFlagDirectiveModule,
+    DhSharedUiPaginatorComponent,
+    DhSharedUiDateTimeModule,
     DhDrawerDatepickerScam,
   ],
 })
