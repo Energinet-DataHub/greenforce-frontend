@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   HostBinding,
@@ -7,6 +8,7 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  ViewChild,
 } from '@angular/core';
 import { createPopper } from '@popperjs/core/lib/popper-lite.js';
 import { Platform } from '@angular/cdk/platform';
@@ -22,14 +24,18 @@ type unlistenerFunction = () => void;
     {{ text }}
     <div id="arrow" data-popper-arrow></div>
   `,
+  selector: 'watt-tooltip',
+  standalone: true,
   styleUrls: ['./watt-tooltip.component.scss'],
 })
-export class WattTooltipComponent implements OnInit, OnDestroy {
+export class WattTooltipComponent implements AfterViewInit, OnDestroy {
   static nextId = 0;
 
   @Input() text!: string;
   @Input() target!: HTMLElement;
   @Input() position!: wattTooltipPosition;
+
+  @ViewChild('arrow') arrow!: ElementRef<HTMLElement>;
 
   @HostBinding() id = `watt-tooltip-${WattTooltipComponent.nextId++}`; // used by aria-describedby
   @HostBinding('attr.role') role = 'tooltip';
@@ -44,9 +50,18 @@ export class WattTooltipComponent implements OnInit, OnDestroy {
   private listeners: unlistenerFunction[] = [];
   private showClass = 'show';
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    console.log(this.arrow);
     createPopper(this.target, this.element, {
       placement: this.position,
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [10, 20],
+          },
+        },
+      ],
     });
 
     this.setupEventListeners();
