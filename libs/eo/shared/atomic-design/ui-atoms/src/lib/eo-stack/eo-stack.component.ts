@@ -40,23 +40,23 @@ export type StackSize = 'XS' | 'S' | 'M' | 'L' | 'XL';
         margin-block-start: var(--_stack-size);
       }
 
-      eo-stack[data-size='xl'] > * {
+      eo-stack[size='XL'] > * {
         --_stack-size: var(--watt-space-xl);
       }
 
-      eo-stack[data-size='l'] > * {
+      eo-stack[size='L'] > * {
         --_stack-size: var(--watt-space-l);
       }
 
-      eo-stack[data-size='m'] > * {
+      eo-stack[size='M'] > * {
         --_stack-size: var(--watt-space-m);
       }
 
-      eo-stack[data-size='s'] > * {
+      eo-stack[size='S'] > * {
         --_stack-size: var(--watt-space-s);
       }
 
-      eo-stack[data-size='xs'] > * {
+      eo-stack[size='XS'] > * {
         --_stack-size: var(--watt-space-xs);
       }
     `,
@@ -65,9 +65,6 @@ export type StackSize = 'XS' | 'S' | 'M' | 'L' | 'XL';
 })
 export class EoStackComponent {
   @Input() size: StackSize = 'L';
-  @HostBinding('attr.data-size') get stackSize() {
-    return this.size.toLowerCase();
-  }
 }
 
 @NgModule({
