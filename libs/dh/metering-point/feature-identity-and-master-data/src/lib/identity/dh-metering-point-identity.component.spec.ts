@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 import { render, screen } from '@testing-library/angular';
-import { MatcherOptions } from '@testing-library/dom';
 
 import {
   MeteringPointCimDto,
+  ReadingOccurrence,
   SettlementMethod,
 } from '@energinet-datahub/dh/shared/domain';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
@@ -30,19 +30,27 @@ import {
   DhMeteringPointIdentityScam,
 } from './dh-metering-point-identity.component';
 
-const meteringPointMock = {
-  meteringPointType: 'E17',
-  readingOccurrence: 'PT1H',
-  connectionState: 'D03',
-  settlementMethod: 'D01',
-  meteringMethod: 'D01',
-} as MeteringPointCimDto;
+import { getByGsrnResponse as identityData } from 'libs/dh/shared/data-access-msw/src/lib/mocks/metering-point';
+
+const {
+  meteringPointTypeCode,
+  meteringPointSubTypeCode,
+  physicalStatusCode,
+  settlementMethodCode,
+  readingOccurrenceCode,
+} = enTranslations.meteringPoint;
+
+const testId = {
+  supplyStart: 'dh-metering-point-identity-text-field-supply-start',
+  actualAddress: 'dh-metering-point-identity-text-field-isActualAddress',
+};
 
 describe(DhMeteringPointIdentityComponent.name, () => {
-  async function setup(identityData: MeteringPointCimDto) {
+  async function setup(testData?: MeteringPointCimDto) {
     const { fixture } = await render(DhMeteringPointIdentityComponent, {
       componentProperties: {
         identityData,
+        ...testData,
       },
       imports: [DhMeteringPointIdentityScam, getTranslocoTestingModule()],
     });
@@ -50,107 +58,106 @@ describe(DhMeteringPointIdentityComponent.name, () => {
     runOnPushChangeDetection(fixture);
   }
 
-  describe('metering point type', () => {
-    // eslint-disable-next-line sonarjs/no-duplicate-string
-    it('is displayed when it has a valid value', async () => {
-      await setup(meteringPointMock);
+  describe('metering point connectionstate', () => {
+    test('connectionstate is displayed when it has a valid value', async () => {
+      await setup({ connectionState: 'D02' } as MeteringPointCimDto);
 
-      const disableQuerySuggestions: MatcherOptions = { suggest: false };
-      const actualMeteringPointType = screen.getByTitle(
-        enTranslations.meteringPoint.overview.meteringPointType,
-        disableQuerySuggestions
-      );
+      const connectionState = physicalStatusCode[identityData.connectionState];
 
-      const expectedMeteringPointType =
-        enTranslations.meteringPoint.meteringPointTypeCode[
-          meteringPointMock.meteringPointType
-        ];
-
-      expect(actualMeteringPointType.textContent).toContain(
-        expectedMeteringPointType
-      );
+      expect(connectionState).toBeVisible;
     });
   });
 
   describe('metering method', () => {
-    it('is displayed when it has a valid value', async () => {
-      await setup(meteringPointMock);
+    test('metering method is displayed when it has a valid value', async () => {
+      await setup({ meteringMethod: 'D02' } as MeteringPointCimDto);
 
-      const disableQuerySuggestions: MatcherOptions = { suggest: false };
-      const actualMeteringMethod = screen.getByTitle(
-        enTranslations.meteringPoint.overview.meteringMethod,
-        disableQuerySuggestions
-      );
+      const meteringMethod =
+        meteringPointSubTypeCode[identityData.meteringMethod];
 
-      const expectedMeteringMethod =
-        enTranslations.meteringPoint.meteringPointSubTypeCode[
-          meteringPointMock.meteringMethod
-        ];
-
-      expect(actualMeteringMethod.textContent).toContain(
-        expectedMeteringMethod
-      );
+      expect(meteringMethod).toBeVisible;
     });
   });
 
-  describe('metering point status', () => {
-    it('is displayed when it has a valid value', async () => {
-      await setup(meteringPointMock);
+  describe('metering point type', () => {
+    test('metering point type is displayed when it has a valid value', async () => {
+      await setup({ meteringPointType: 'D02' } as MeteringPointCimDto);
 
-      const actualConnectionState = screen.getByTitle(
-        enTranslations.meteringPoint.overview.connectionState
-      );
+      const meteringPointType =
+        meteringPointTypeCode[identityData.meteringPointType];
 
-      const expectedConnectionState =
-        enTranslations.meteringPoint.physicalStatusCode[
-          meteringPointMock.connectionState
-        ];
-
-      expect(actualConnectionState.textContent).toContain(
-        expectedConnectionState
-      );
+      expect(meteringPointType).toBeVisible;
     });
   });
 
   describe('settlement method', () => {
-    it('is displayed when it has a valid value', async () => {
-      await setup(meteringPointMock);
+    test('settlement method is displayed when it has a valid value', async () => {
+      await setup({ settlementMethod: 'D01' } as MeteringPointCimDto);
 
-      const disableQuerySuggestions: MatcherOptions = { suggest: false };
-      const actualSettlementMethod = screen.getByTitle(
-        enTranslations.meteringPoint.overview.settlementMethod,
-        disableQuerySuggestions
-      );
+      const settlementMethod =
+        settlementMethodCode[identityData.settlementMethod as SettlementMethod];
 
-      const expectedSettlementMethod =
-        enTranslations.meteringPoint.settlementMethodCode[
-          meteringPointMock.settlementMethod as SettlementMethod
-        ];
+      expect(settlementMethod).toBeVisible;
+    });
 
-      expect(actualSettlementMethod.textContent).toContain(
-        expectedSettlementMethod
-      );
+    test('settlement method is not displayed when the value is null', async () => {
+      await setup({ settlementMethod: null } as MeteringPointCimDto);
+
+      const settlementMethod =
+        settlementMethodCode[identityData.settlementMethod as SettlementMethod];
+
+      expect(settlementMethod).toNotBeVisible;
     });
   });
 
   describe('reading occurrence', () => {
-    it('is displayed when it has a valid value', async () => {
-      await setup(meteringPointMock);
+    test('reading occurrence is displayed when it has a valid value', async () => {
+      await setup();
 
-      const disableQuerySuggestions: MatcherOptions = { suggest: false };
-      const actualReadingOccurrence = screen.getByTitle(
-        enTranslations.meteringPoint.overview.readingOccurrence,
-        disableQuerySuggestions
-      );
-
-      const expectedReadingOccurrence =
-        enTranslations.meteringPoint.readingOccurrenceCode[
-          meteringPointMock.readingOccurrence
+      const readingOccurrence =
+        readingOccurrenceCode[
+          identityData.readingOccurrence as ReadingOccurrence
         ];
 
-      expect(actualReadingOccurrence.textContent).toContain(
-        expectedReadingOccurrence
-      );
+      expect(readingOccurrence).toBeVisible;
+    });
+  });
+
+  describe('supply start', () => {
+    test('supply start is displayed when it has a valid value', async () => {
+      await setup({
+        supplyStart: '2021-09-25T22:00:00Z',
+      } as MeteringPointCimDto);
+
+      const supplyStart = screen.getByTestId(testId.supplyStart);
+
+      expect(supplyStart).toBeVisible;
+    });
+
+    test('supply start is not displayed when the value is null', async () => {
+      await setup({ supplyStart: null } as MeteringPointCimDto);
+
+      const supplyStart = screen.getByTestId(testId.supplyStart);
+
+      expect(supplyStart).toNotBeVisible;
+    });
+  });
+
+  describe('is actual address', () => {
+    test('actual address is displayed when it vaule is false', async () => {
+      await setup({ isActualAddress: false } as MeteringPointCimDto);
+
+      const actualAddress = screen.getByTestId(testId.actualAddress);
+
+      expect(actualAddress).toBeVisible;
+    });
+
+    test('supply start is not displayed when the value is null', async () => {
+      await setup({ supplyStart: null } as MeteringPointCimDto);
+
+      const actualAddress = screen.getByTestId(testId.actualAddress);
+
+      expect(actualAddress).toNotBeVisible;
     });
   });
 });
