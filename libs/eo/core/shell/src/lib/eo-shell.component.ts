@@ -20,7 +20,7 @@ import { RouterModule } from '@angular/router';
 import { EoCookieBannerComponentScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoTitleStore } from '@energinet-datahub/eo/shared/util-browser';
+import { EoTitleStore } from '@energinet-datahub/eo/shared/utilities';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { PushModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';

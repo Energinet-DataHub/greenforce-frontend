@@ -1,1 +1,0 @@
-# Origin of Energy routing

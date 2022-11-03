@@ -88,3 +88,13 @@ tr:hover,
     }
   }
 }
+
+.tax-indicator,
+.transparent-invoicing {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  padding-right: 0.3rem;
+}
