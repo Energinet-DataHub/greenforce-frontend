@@ -167,12 +167,14 @@ function createTarget(
   actorScopes: string | null,
   store: ScopeStorage
 ) {
-  const account: Partial<AccountInfo> | null = localAccountId ? {
-    localAccountId: localAccountId ?? '',
-    idTokenClaims: actorScopes
-      ? { [`${actorScopesClaimsKey}`]: [actorScopes] }
-      : {},
-  }: null;
+  const account: Partial<AccountInfo> | null = localAccountId
+    ? {
+        localAccountId: localAccountId ?? '',
+        idTokenClaims: actorScopes
+          ? { [`${actorScopesClaimsKey}`]: [actorScopes] }
+          : {},
+      }
+    : null;
 
   const authResult: Partial<AuthenticationResult> = {
     account: account as AccountInfo,
