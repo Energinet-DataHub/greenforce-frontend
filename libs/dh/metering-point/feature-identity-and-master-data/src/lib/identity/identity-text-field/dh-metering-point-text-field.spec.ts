@@ -59,11 +59,7 @@ describe(DhMeteringPointIdentityTextFieldComponent.name, () => {
       text: 'show text',
     });
 
-    const icon = screen.getByTestId(
-      'dh-metering-point-identity-text-field-icon'
-    );
-
-    expect(icon).toBeVisible;
+    screen.getByRole('img', { name: 'warning' });
     expect(screen.getByText('show text')).toBeInTheDocument();
   });
 });
