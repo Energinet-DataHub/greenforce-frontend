@@ -67,21 +67,21 @@ export class WattTooltipComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     createPopper(this.target, this.element, {
-      placement: this.position
+      placement: this.position,
     });
 
     this.setupEventListeners();
 
     this.focusMonitor
-    .monitor(this.target, true)
-    .pipe(takeUntil(this.destroyed))
-    .subscribe(origin => {
-      if (!origin) {
-        this.hide();
-      } else if (origin === 'keyboard') {
-        this.show();
-      }
-    });
+      .monitor(this.target, true)
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((origin) => {
+        if (!origin) {
+          this.hide();
+        } else if (origin === 'keyboard') {
+          this.show();
+        }
+      });
   }
 
   ngOnDestroy(): void {

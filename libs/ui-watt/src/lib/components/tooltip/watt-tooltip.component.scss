@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 @use "sass:math";
-@use '@energinet-datahub/watt/utils' as watt;
+@use "@energinet-datahub/watt/utils" as watt;
 
 $arrow-size: 8px;
 $offset: 6px;
@@ -36,54 +36,54 @@ $offset: 6px;
     opacity: 1;
   }
 
-  &[data-popper-placement^='top'] {
+  &[data-popper-placement^="top"] {
     inset-block-end: $offset !important;
   }
 
-  &[data-popper-placement^='bottom'] {
+  &[data-popper-placement^="bottom"] {
     inset-block-start: $offset !important;
     > #arrow {
       top: -#{math.div($arrow-size, 2)};
     }
   }
 
-  &[data-popper-placement^='left'] {
+  &[data-popper-placement^="left"] {
     inset-inline-end: $offset !important;
     > #arrow {
       right: -#{math.div($arrow-size, 2)};
     }
   }
 
-  &[data-popper-placement^='right'] {
+  &[data-popper-placement^="right"] {
     inset-inline-start: $offset !important;
     > #arrow {
       left: -#{math.div($arrow-size, 2)};
     }
   }
 
-  &[data-popper-placement='left'],
-  &[data-popper-placement='right'] {
+  &[data-popper-placement="left"],
+  &[data-popper-placement="right"] {
     > #arrow {
       top: calc(50% - math.div($arrow-size, 2));
     }
   }
 
-  &[data-popper-placement='top'],
-  &[data-popper-placement='bottom'] {
+  &[data-popper-placement="top"],
+  &[data-popper-placement="bottom"] {
     > #arrow {
       right: calc(50% - math.div($arrow-size, 2));
     }
   }
 
-  &[data-popper-placement='top-end'],
-  &[data-popper-placement='bottom-end'] {
+  &[data-popper-placement="top-end"],
+  &[data-popper-placement="bottom-end"] {
     > #arrow {
       right: var(--watt-space-m);
     }
   }
 
-  &[data-popper-placement='top-start'],
-  &[data-popper-placement='bottom-start'] {
+  &[data-popper-placement="top-start"],
+  &[data-popper-placement="bottom-start"] {
     > #arrow {
       left: var(--watt-space-m);
     }
@@ -104,6 +104,6 @@ $offset: 6px;
 
 #arrow::before {
   visibility: visible;
-  content: '';
+  content: "";
   transform: rotate(45deg);
 }
