@@ -62,8 +62,7 @@ import { map } from 'rxjs';
       mat-button-toggle.mat-button-toggle-appearance-standard
         .mat-button-toggle-label-content {
         line-height: unset;
-        /* Magic UX number */
-        padding: 9px 14px;
+        padding: 9px 14px; /* Magic UX number */
       }
 
       mat-button-toggle:not(.mat-button-toggle-disabled, .mat-button-toggle-checked) {
