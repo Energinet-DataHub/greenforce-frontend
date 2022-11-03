@@ -37,7 +37,6 @@ export const Overview: Story = (args) => ({
     <watt-button
       wattTooltip="Click me"
       wattTooltipPosition="right"
-      #button
     >Button</watt-button>
 
     <h2>Positions</h2>
@@ -58,3 +57,14 @@ export const Overview: Story = (args) => ({
     <watt-tooltip text="left" position="left" style="opacity: 1;" [target]="positions"></watt-tooltip>
   `,
 });
+
+Overview.parameters = {
+  docs: {
+    source: {
+      code: `<watt-button
+      wattTooltip="Click me"
+      wattTooltipPosition="right"
+    >Button</watt-button>`,
+    },
+  },
+};
