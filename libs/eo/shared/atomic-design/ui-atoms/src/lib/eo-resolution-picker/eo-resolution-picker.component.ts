@@ -51,18 +51,19 @@ import { map } from 'rxjs';
         display: block;
       }
 
-      mat-button-toggle-group {
-        border-color: var(--watt-color-primary) !important;
+      mat-button-toggle-group.mat-button-toggle-group-appearance-standard {
+        border-color: var(--watt-color-primary);
       }
 
-      mat-button-toggle {
-        border-color: var(--watt-color-primary) !important;
+      mat-button-toggle.mat-button-toggle-appearance-standard {
+        border-color: var(--watt-color-primary);
       }
 
       mat-button-toggle.mat-button-toggle-appearance-standard
         .mat-button-toggle-label-content {
         line-height: unset;
-        padding: 10px 14px;
+        /* Magic UX number */
+        padding: 9px 14px;
       }
 
       mat-button-toggle:not(.mat-button-toggle-disabled, .mat-button-toggle-checked) {

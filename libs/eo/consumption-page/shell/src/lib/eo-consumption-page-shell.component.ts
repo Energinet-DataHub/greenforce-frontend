@@ -20,6 +20,7 @@ import { EoPopupMessageScam } from '@energinet-datahub/eo/shared/atomic-design/f
 import {
   EoDatePickerScam,
   EoResolutionPickerScam,
+  EoStackScam,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import {
   AppSettingsStore,
@@ -51,15 +52,10 @@ import { EoConsumptionStore } from './eo-consumption.store';
       </eo-popup-message>
     </ng-container>
     <div class="content">
-      <div>
-        <eo-consumption-page-info
-          class="watt-space-stack-l"
-        ></eo-consumption-page-info>
-        <eo-consumption-line-chart
-          class="watt-space-stack-l"
-        ></eo-consumption-line-chart>
+      <eo-stack [size]="'L'">
+        <eo-consumption-page-info></eo-consumption-page-info>
+        <eo-consumption-line-chart></eo-consumption-line-chart>
         <eo-date-picker
-          class="watt-space-stack-l"
           [onFeatureFlag]="'daterange'"
           *rxLet="appSettingsDates$ as dates"
           [dateRangeInput]="dates"
@@ -68,14 +64,11 @@ import { EoConsumptionStore } from './eo-consumption.store';
         <eo-resolution-picker
           [onFeatureFlag]="'resolution'"
         ></eo-resolution-picker>
-      </div>
-
-      <div>
-        <eo-consumption-page-tip
-          class="watt-space-stack-l"
-        ></eo-consumption-page-tip>
+      </eo-stack>
+      <eo-stack [size]="'L'">
+        <eo-consumption-page-tip></eo-consumption-page-tip>
         <eo-consumption-page-energy-consumption></eo-consumption-page-energy-consumption>
-      </div>
+      </eo-stack>
     </div>
   `,
 })
@@ -98,6 +91,7 @@ export class EoConsumptionPageShellComponent {
   imports: [
     LetModule,
     CommonModule,
+    EoStackScam,
     EoPopupMessageScam,
     EoFeatureFlagScam,
     EoDatePickerScam,
