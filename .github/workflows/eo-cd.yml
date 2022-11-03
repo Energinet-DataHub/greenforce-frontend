@@ -236,6 +236,7 @@ jobs:
           chart-folder: build/infrastructure/eo/chart
           chart-repository: ${{ github.repository_owner }}/helm-charts
           chart-version: ${{ needs.define_build.outputs.chart_version }}
+          version_yaml_path_prefix: ''
 
   update-environment:
     name: Update preview environment
