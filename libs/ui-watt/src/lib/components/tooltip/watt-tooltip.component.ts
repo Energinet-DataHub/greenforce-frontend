@@ -9,7 +9,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { createPopper } from '@popperjs/core/lib/popper-lite.js';
+import { createPopper } from '@popperjs/core';
 import { Platform } from '@angular/cdk/platform';
 
 import { wattTooltipPosition } from './watt-tooltip.directive';

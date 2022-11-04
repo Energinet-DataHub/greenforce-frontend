@@ -21,7 +21,7 @@ import {
 } from '@storybook/testing-angular';
 
 import { WattTooltipDirective } from './watt-tooltip.directive';
-import Meta, { Overview } from './watt-tooltip.stories';
+import Meta, { Overview } from './+storybook/watt-tooltip.stories';
 import userEvent from '@testing-library/user-event';
 
 const Story = composeStory(Overview, Meta);
