@@ -58,7 +58,7 @@ import { EoDatePickerDialogComponent } from './eo-date-picker-dialog.component';
       .dateSelector {
         color: rgba(0, 0, 0, 0.87);
         background-color: var(--watt-color-neutral-white);
-        padding: 7px; /* Magic UX number */
+        padding: 9px; /* Magic UX number */
         display: inline-flex;
         border: 1px solid var(--watt-color-primary);
         border-radius: var(--watt-space-xs);
