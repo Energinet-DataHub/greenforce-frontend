@@ -35,26 +35,25 @@ describe(ScopeService.name, () => {
   const localAccountId = 'local_account_id';
   const actorScopesClaim = 'actor1 actor2';
 
-  test('should clear scopes from local storage, if no account is found', async () => {
+  test('should clear scopes from local storage, on ACQUIRE_TOKEN_FAILURE', async () => {
     // arrange
     const remainingKey = 'other_key';
-    const scopesKeyToBeRemoved = 'random_prefix';
-    const scopeKeyToBeRemoved = 'another_random_prefix';
+    const accountId = 'account_id';
 
     const localStorage = new LocalStorageFake();
     const storage = new ScopeStorage(localStorage);
 
     localStorage.setItem(remainingKey, 'should not be cleared');
-    storage.setScopes(scopesKeyToBeRemoved, 'scopes');
-    storage.setActiveScope(scopeKeyToBeRemoved, 'scope');
+    storage.setScopes(accountId, 'scopes');
+    storage.setActiveScope(accountId, 'scope');
 
     // act
-    createTarget(null, true, 'clientId', null, storage);
+    createTarget(accountId, true, 'clientId', null, storage, false);
 
     // assert
     expect(localStorage.getItem(remainingKey)).toBeTruthy();
-    expect(storage.getScopes(scopesKeyToBeRemoved)).toBeFalsy();
-    expect(storage.getActiveScope(scopeKeyToBeRemoved)).toBeFalsy();
+    expect(storage.getScopes(accountId)).toBeFalsy();
+    expect(storage.getActiveScope(accountId)).toBeFalsy();
   });
 
   test('should add actor scopes found in claims to local storage', async () => {
@@ -157,7 +156,8 @@ function createTarget(
   grantFullAuthorization: boolean,
   clientId: string,
   actorScopes: string | null,
-  store: ScopeStorage
+  store: ScopeStorage,
+  acquireTokenFailure?: boolean
 ) {
   const account: Partial<AccountInfo> | null = localAccountId
     ? {
@@ -173,7 +173,10 @@ function createTarget(
   };
 
   const message: Partial<EventMessage> = {
-    eventType: EventType.ACQUIRE_TOKEN_SUCCESS,
+    eventType:
+      acquireTokenFailure === false
+        ? EventType.ACQUIRE_TOKEN_FAILURE
+        : EventType.ACQUIRE_TOKEN_SUCCESS,
     payload: authResult as EventPayload,
   };
 

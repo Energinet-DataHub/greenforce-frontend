@@ -55,7 +55,6 @@ export class ScopeService {
         const account = payload.account;
 
         if (!account) {
-          this.scopeStorage.clearAllScopes();
           return;
         }
 
@@ -69,6 +68,22 @@ export class ScopeService {
         const scopes = this.getActorClaims(actors);
 
         this.scopeStorage.setScopes(userId, scopes.join(' '));
+      });
+
+    this.msalBroadcastService.msalSubject$
+      .pipe(
+        filter(
+          (msg: EventMessage) =>
+            msg.eventType === EventType.ACQUIRE_TOKEN_FAILURE
+        )
+      )
+      .subscribe((e: EventMessage) => {
+        const payload = e.payload as AuthenticationResult;
+        const account = payload.account;
+
+        if (account) {
+          this.scopeStorage.clearScopes(account.localAccountId);
+        }
       });
   }
 

@@ -39,21 +39,9 @@ export class ScopeStorage {
     return this.localStorage.getItem(key + this.activeActorScopeKey);
   };
 
-  public readonly clearAllScopes = () => {
-    const keys = [];
-
-    for (let i = 0, l = this.localStorage.length; i < l; ++i) {
-      const key = this.localStorage.key(i);
-      if (
-        key &&
-        (key.endsWith(this.activeActorScopeKey) ||
-          key.endsWith(this.actorScopesKey))
-      ) {
-        keys.push(key);
-      }
-    }
-
-    keys.forEach(this.localStorage.removeItem);
+  public readonly clearScopes = (key: string) => {
+    this.localStorage.removeItem(key + this.actorScopesKey);
+    this.localStorage.removeItem(key + this.activeActorScopeKey);
   };
 }
 
