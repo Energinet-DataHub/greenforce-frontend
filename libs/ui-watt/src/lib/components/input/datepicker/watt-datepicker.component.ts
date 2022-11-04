@@ -215,17 +215,14 @@ export class WattDatepickerComponent extends WattPickerBase {
     });
 
     const getInitialValue = (initialValue: string) => {
-      let value: Date | string;
+      let value: Date | string = '';
 
       if (initialValue) {
-        return {
-          value: this.parseDateShortFormat(
-            this.formatDateTimeFromModelToView(initialValue)
-          ),
-        };
-      } else {
-        value = '';
+        value = this.parseDateShortFormat(
+          this.formatDateTimeFromModelToView(initialValue)
+        );
       }
+
       return { value };
     };
 
