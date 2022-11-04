@@ -30,8 +30,6 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 import { filter } from 'rxjs';
 import { ScopeStorage, scopeStorageToken } from './scope-storage';
 
-export const actorScopesKey = 'actor-scopes';
-export const activeActorScopeKey = 'active-actor-scope';
 export const actorScopesClaimsKey = 'extn.actors';
 
 @Injectable({ providedIn: 'root' })
@@ -57,7 +55,7 @@ export class ScopeService {
         const account = payload.account;
 
         if (!account) {
-          this.clearScopeRelatedItems();
+          this.scopeStorage.clearAllScopes();
           return;
         }
 
@@ -70,7 +68,7 @@ export class ScopeService {
           (account.idTokenClaims[actorScopesClaimsKey] as string[]);
         const scopes = this.getActorClaims(actors);
 
-        this.scopeStorage.setItem(userId + actorScopesKey, scopes.join(' '));
+        this.scopeStorage.setScopes(userId, scopes.join(' '));
       });
   }
 
@@ -80,22 +78,17 @@ export class ScopeService {
     const scopes = this.getScopes(this.localAccountId);
     if (scopes.length === 0) return this.fallbackScope();
 
-    const stored = this.scopeStorage.getItem(
-      this.localAccountId + activeActorScopeKey
-    );
+    const stored = this.scopeStorage.getActiveScope(this.localAccountId);
     if (stored && scopes.includes(stored)) return stored;
 
     const activeScope = scopes[0];
-    this.scopeStorage.setItem(
-      this.localAccountId + activeActorScopeKey,
-      activeScope
-    );
+    this.scopeStorage.setActiveScope(this.localAccountId, activeScope);
 
     return activeScope;
   }
 
   private getScopes(userId: string) {
-    const scopes = this.scopeStorage.getItem(userId + actorScopesKey);
+    const scopes = this.scopeStorage.getScopes(userId);
     return (scopes && scopes.split(' ')) || [];
   }
 
@@ -103,22 +96,6 @@ export class ScopeService {
     return scopesString && scopesString.length > 0
       ? scopesString[0].split(' ')
       : [];
-  }
-
-  private clearScopeRelatedItems() {
-    const keys = [];
-
-    for (let i = 0, l = this.scopeStorage.length; i < l; ++i) {
-      const key = this.scopeStorage.key(i);
-      if (
-        key &&
-        (key.endsWith(activeActorScopeKey) || key.endsWith(actorScopesKey))
-      ) {
-        keys.push(key);
-      }
-    }
-
-    keys.forEach(this.scopeStorage.removeItem);
   }
 
   private fallbackScope() {

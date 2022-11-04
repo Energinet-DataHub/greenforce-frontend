@@ -28,12 +28,7 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 import { LocalStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
 import { of } from 'rxjs';
 import { ScopeStorage } from './scope-storage';
-import {
-  activeActorScopeKey,
-  ScopeService,
-  actorScopesKey,
-  actorScopesClaimsKey,
-} from './scope.service';
+import { ScopeService, actorScopesClaimsKey } from './scope.service';
 
 describe(ScopeService.name, () => {
   const clientId = 'client_id';
@@ -43,22 +38,23 @@ describe(ScopeService.name, () => {
   test('should clear scopes from local storage, if no account is found', async () => {
     // arrange
     const remainingKey = 'other_key';
-    const scopesKeyToBeRemoved = 'random_prefix' + actorScopesKey;
-    const scopeKeyToBeRemoved = 'another_random_prefix' + activeActorScopeKey;
+    const scopesKeyToBeRemoved = 'random_prefix';
+    const scopeKeyToBeRemoved = 'another_random_prefix';
 
-    const storage = new ScopeStorage(new LocalStorageFake());
+    const localStorage = new LocalStorageFake();
+    const storage = new ScopeStorage(localStorage);
 
-    storage.setItem(remainingKey, 'should not be cleared');
-    storage.setItem(scopesKeyToBeRemoved, 'scopes');
-    storage.setItem(scopeKeyToBeRemoved, 'scope');
+    localStorage.setItem(remainingKey, 'should not be cleared');
+    storage.setScopes(scopesKeyToBeRemoved, 'scopes');
+    storage.setActiveScope(scopeKeyToBeRemoved, 'scope');
 
     // act
     createTarget(null, true, 'clientId', null, storage);
 
     // assert
-    expect(storage.getItem(remainingKey)).toBeTruthy();
-    expect(storage.getItem(scopesKeyToBeRemoved)).toBeFalsy();
-    expect(storage.getItem(scopeKeyToBeRemoved)).toBeFalsy();
+    expect(localStorage.getItem(remainingKey)).toBeTruthy();
+    expect(storage.getScopes(scopesKeyToBeRemoved)).toBeFalsy();
+    expect(storage.getActiveScope(scopeKeyToBeRemoved)).toBeFalsy();
   });
 
   test('should add actor scopes found in claims to local storage', async () => {
@@ -69,9 +65,7 @@ describe(ScopeService.name, () => {
     createTarget(localAccountId, true, clientId, actorScopesClaim, storage);
 
     // assert
-    expect(storage.getItem(localAccountId + actorScopesKey)).toEqual(
-      actorScopesClaim
-    );
+    expect(storage.getScopes(localAccountId)).toEqual(actorScopesClaim);
   });
 
   test.each([true, false])(
@@ -126,7 +120,7 @@ describe(ScopeService.name, () => {
       storage
     );
 
-    storage.setItem(localAccountId + activeActorScopeKey, 'actor2');
+    storage.setActiveScope(localAccountId, 'actor2');
 
     // act
     const actual = target.getActiveScope();
@@ -147,16 +141,14 @@ describe(ScopeService.name, () => {
       storage
     );
 
-    storage.setItem(localAccountId + activeActorScopeKey, 'actor3');
+    storage.setActiveScope(localAccountId, 'actor3');
 
     // act
     const actual = target.getActiveScope();
 
     // assert
     expect(actual).toEqual('actor1');
-    expect(storage.getItem(localAccountId + activeActorScopeKey)).toEqual(
-      'actor1'
-    );
+    expect(storage.getActiveScope(localAccountId)).toEqual('actor1');
   });
 });
 

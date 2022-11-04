@@ -18,26 +18,42 @@
 import { InjectionToken } from '@angular/core';
 
 export class ScopeStorage {
+  private readonly actorScopesKey = '_actor-scopes';
+  private readonly activeActorScopeKey = '_active-actor-scope';
+
   constructor(private localStorage: Storage) {}
 
-  public length = 0;
-
-  public readonly setItem = (key: string, value: string) => {
-    this.localStorage.setItem(key, value);
-    this.length = this.localStorage.length;
+  public readonly setScopes = (key: string, value: string) => {
+    this.localStorage.setItem(key + this.actorScopesKey, value);
   };
 
-  public readonly getItem = (key: string) => {
-    return this.localStorage.getItem(key);
+  public readonly setActiveScope = (key: string, value: string) => {
+    this.localStorage.setItem(key + this.activeActorScopeKey, value);
   };
 
-  public readonly removeItem = (key: string) => {
-    this.localStorage.removeItem(key);
-    this.length = this.localStorage.length;
+  public readonly getScopes = (key: string) => {
+    return this.localStorage.getItem(key + this.actorScopesKey);
   };
 
-  public readonly key = (index: number) => {
-    return this.localStorage.key(index);
+  public readonly getActiveScope = (key: string) => {
+    return this.localStorage.getItem(key + this.activeActorScopeKey);
+  };
+
+  public readonly clearAllScopes = () => {
+    const keys = [];
+
+    for (let i = 0, l = this.localStorage.length; i < l; ++i) {
+      const key = this.localStorage.key(i);
+      if (
+        key &&
+        (key.endsWith(this.activeActorScopeKey) ||
+          key.endsWith(this.actorScopesKey))
+      ) {
+        keys.push(key);
+      }
+    }
+
+    keys.forEach(this.localStorage.removeItem);
   };
 }
 
