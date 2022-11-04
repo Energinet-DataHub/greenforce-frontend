@@ -72,6 +72,22 @@ limitations under the License.
       </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="comment">
+      <mat-header-cell *matHeaderCellDef>{{
+        t("comment")
+      }}</mat-header-cell>
+      <mat-cell *matCellDef="let element" class="field">
+        <watt-form-field>
+          <input [attr.aria-label]="t('comment')"
+            [disabled]="isReadonly(element)"
+            wattInput
+            [(ngModel)]="element.comment"
+            (ngModelChange)="onCommentChanged()"
+            />
+        </watt-form-field>
+      </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="delete">
       <mat-header-cell mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let element">
