@@ -32,10 +32,10 @@ describe(PermissionService.name, () => {
   const fakeAccessToken =
     'ignored.eyJyb2xlcyI6WyJvcmdhbml6YXRpb246dmlldyJdfQ==';
 
-  test('should return false if now account is found', async () => {
+  test('should return false if no active account is found', async () => {
     // arrange
     const instance: Partial<IPublicClientApplication> = {
-      getAllAccounts: () => [],
+      getActiveAccount: () => null,
     };
 
     const target = new PermissionService(
@@ -60,7 +60,7 @@ describe(PermissionService.name, () => {
   test('should return true if grant_full_authorization is enabled', async () => {
     // arrange
     const instance: Partial<IPublicClientApplication> = {
-      getAllAccounts: () => [],
+      getActiveAccount: () => null,
     };
 
     const target = new PermissionService(
@@ -85,7 +85,7 @@ describe(PermissionService.name, () => {
   test('should return true if permission is found within access token roles', async () => {
     // arrange
     const instance: Partial<IPublicClientApplication> = {
-      getAllAccounts: () => [{} as AccountInfo],
+      getActiveAccount: () => ({} as AccountInfo),
     };
 
     const authService: DeepPartial<MsalService> = {
@@ -116,7 +116,7 @@ describe(PermissionService.name, () => {
   test('should return false if permission is not found within access token roles', async () => {
     // arrange
     const instance: Partial<IPublicClientApplication> = {
-      getAllAccounts: () => [{} as AccountInfo],
+      getActiveAccount: () => ({} as AccountInfo),
     };
 
     const authService: DeepPartial<MsalService> = {
