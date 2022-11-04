@@ -44,7 +44,7 @@ import { WattRange } from '../shared/watt-range';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
 
-const dateTimeFormat = 'dd-MM-yyyy';
+const dateShortFormat = 'dd-MM-yyyy';
 const danishLocaleCode = 'da';
 export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
@@ -145,10 +145,10 @@ export class WattDatepickerComponent extends WattPickerBase {
     const onInputOnChange$ = onChange$.pipe(
       // `value` can have one of three values:
       // 1. An empty string (usually when no initial value is set or input value is manually deleted)
-      // 2. A `dd-MM-yyyy` format (keep in sync with `dateTimeFormat`) (usually when date is manually typed)
+      // 2. A `dd-MM-yyyy` format (keep in sync with `dateShortFormat`) (usually when date is manually typed)
       // 3. Full ISO 8601 format (usually when initial value is set)
       map((value) => {
-        const parsedDate = this.parseDate(value);
+        const parsedDate = this.parseDateShortFormat(value);
 
         if (isValid(parsedDate)) {
           this.matDatepickerInput.value = parsedDate;
@@ -174,9 +174,11 @@ export class WattDatepickerComponent extends WattPickerBase {
       })
     );
 
-    merge(onInputOnChange$, matDatepickerChange$).subscribe((value: string) => {
-      this.changeParentValue(value);
-    });
+    merge(onInputOnChange$, matDatepickerChange$)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value: string) => {
+        this.changeParentValue(value);
+      });
   }
 
   /**
@@ -217,7 +219,7 @@ export class WattDatepickerComponent extends WattPickerBase {
 
       if (initialValue) {
         return {
-          value: this.parseDate(
+          value: this.parseDateShortFormat(
             this.formatDateTimeFromModelToView(initialValue)
           ),
         };
@@ -289,11 +291,11 @@ export class WattDatepickerComponent extends WattPickerBase {
       ?.pipe(takeUntil(this.destroy$))
       // `start` and `end` can have one of three values:
       // 1. An empty string (usually when no initial value is set or input value is manually deleted)
-      // 2. A `dd-MM-yyyy` format (keep in sync with `dateTimeFormat`) (usually when date is manually typed)
+      // 2. A `dd-MM-yyyy` format (keep in sync with `dateShortFormat`) (usually when date is manually typed)
       // 3. Full ISO 8601 format (usually when initial value is set)
       .subscribe(([start, end]) => {
-        const parsedStartDate = this.parseDate(start);
-        const parsedEndDate = this.parseDate(end);
+        const parsedStartDate = this.parseDateShortFormat(start);
+        const parsedEndDate = this.parseDateShortFormat(end);
 
         if (isValid(parsedStartDate)) {
           this.matStartDate.value = parsedStartDate;
@@ -379,8 +381,8 @@ export class WattDatepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  private parseDate(value: string): Date {
-    return parse(value, dateTimeFormat, new Date());
+  private parseDateShortFormat(value: string): Date {
+    return parse(value, dateShortFormat, new Date());
   }
 
   /**
@@ -409,7 +411,7 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   private formatDateTimeFromModelToView(value: string): string {
-    return formatInTimeZone(value, danishTimeZoneIdentifier, dateTimeFormat);
+    return formatInTimeZone(value, danishTimeZoneIdentifier, dateShortFormat);
   }
 
   /**
