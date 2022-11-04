@@ -474,6 +474,7 @@
           "marketRole": "Markedsrolle",
           "gridArea": "Netområde",
           "meteringPointTypes": "Målepunktstyper",
+          "comment": "Kommentar",
           "invalidConfiguration": "Markedsroller er ikke korrekt konfigureret"
         }
       }
