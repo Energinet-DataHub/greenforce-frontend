@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -22,24 +23,34 @@ import { EditableMarketRoleRow } from './dh-market-participant-actor-market-role
 @Injectable()
 export class MarketRoleGroupService {
   readonly groupRows = (rows: EditableMarketRoleRow[]) => {
-    const marketRolesMap = rows.reduce((map, row) => {
-      map.set(row.marketRole, [...(map.get(row.marketRole) || [])]);
-      if (row.gridArea)
-        map.set(row.marketRole, [
-          ...map.get(row.marketRole),
-          {
-            id: row.gridArea,
-            meteringPointTypes: row.meteringPointTypes,
-          },
-        ]);
-      return map;
-    }, new Map());
-
     const result: MarketRole[] = [];
 
-    marketRolesMap.forEach((v, k) =>
-      result.push({ marketRole: k, gridAreas: v })
-    );
+    for (let index = 0; index < rows.length; index++) {
+      const row = rows[index];
+      const gridAreaId = row.gridArea;
+
+      const gridArea = {
+        id: gridAreaId!,
+        meteringPointTypes: row.meteringPointTypes!,
+      };
+
+      const marketRoleExsits: MarketRole | undefined = result.find(
+        (x) => x.marketRole === row.marketRole!
+      );
+
+      if (marketRoleExsits) {
+        marketRoleExsits.gridAreas.push(gridArea);
+        continue;
+      }
+
+      const marketRole: MarketRole = {
+        comment: row.comment,
+        marketRole: row.marketRole!,
+        gridAreas: [gridArea],
+      };
+
+      result.push(marketRole);
+    }
 
     return result;
   };
