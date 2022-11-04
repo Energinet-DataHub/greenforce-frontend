@@ -18,8 +18,8 @@
 import { InjectionToken } from '@angular/core';
 
 export class ScopeStorage {
-  private readonly actorScopesKey = '_actor-scopes';
-  private readonly activeActorScopeKey = '_active-actor-scope';
+  private readonly actorScopesKey = '.actor-scopes';
+  private readonly activeActorScopeKey = '.active-actor-scope';
 
   constructor(private localStorage: Storage) {}
 
