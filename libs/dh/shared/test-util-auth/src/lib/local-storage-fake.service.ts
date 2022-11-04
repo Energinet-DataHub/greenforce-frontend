@@ -16,8 +16,7 @@
  */
 
 export class LocalStorageFake implements Storage {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [name: string]: any;
+  private store: { [key: string]: string } = {};
 
   private internalLength = 0;
 
@@ -26,21 +25,21 @@ export class LocalStorageFake implements Storage {
   }
 
   public readonly setItem = (key: string, value: string) => {
-    this[key] = value;
-    this.internalLength = Object.keys(this).length;
+    this.store[key] = value;
+    this.internalLength = Object.keys(this.store).length;
   };
 
   public readonly getItem = (key: string) => {
-    return this[key];
+    return this.store[key];
   };
 
   public readonly removeItem = (key: string) => {
-    delete this[key];
-    this.internalLength = Object.keys(this).length;
+    delete this.store[key];
+    this.internalLength = Object.keys(this.store).length;
   };
 
   public readonly key = (index: number) => {
-    return Object.keys(this).at(index) ?? null;
+    return Object.keys(this.store).at(index) ?? null;
   };
 
   public readonly clear = () => {
