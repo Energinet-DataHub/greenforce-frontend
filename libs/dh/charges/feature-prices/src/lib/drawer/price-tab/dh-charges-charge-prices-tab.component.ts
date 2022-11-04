@@ -52,7 +52,7 @@ import { getHours, getMinutes } from 'date-fns';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { WattTooltipModule } from '@energinet-datahub/watt/tooltip';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { zonedTimeToUtc } from 'date-fns-tz';
 
@@ -235,7 +235,7 @@ export class DhChargesChargePricesTabComponent
     WattIconModule,
     WattButtonModule,
     WattEmptyStateModule,
-    WattTooltipModule,
+    WattTooltipDirective,
     WattSpinnerModule,
     TranslocoModule,
     MatTableModule,
