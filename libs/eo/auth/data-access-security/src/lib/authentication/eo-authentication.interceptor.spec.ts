@@ -27,9 +27,8 @@ import {
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
+import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/shared/utilities';
 import { lastValueFrom } from 'rxjs';
-
 import {
   EoAuthenticationInterceptor,
   eoAuthenticationInterceptorProvider,

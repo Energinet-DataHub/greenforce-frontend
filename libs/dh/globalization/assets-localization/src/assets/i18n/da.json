@@ -260,12 +260,12 @@
     "subscriptionsTitle": "Abonnementer",
     "feesTitle": "Gebyrer",
     "messageType": {
-      "D05": "Opdatering af pris stamdata",
-      "D10": "Opdatering af prisserie"
+      "D18": "Opdatering af pris stamdata",
+      "D08": "Opdatering af prisserie"
     },
     "messageTypeAbbreviation": {
-      "D05": "RSM-33",
-      "D10": "RSM-33"
+      "D18": "RSM-33",
+      "D08": "RSM-33"
     },
     "chargeType": {
       "D01": "Abonnement",

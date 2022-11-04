@@ -15,4 +15,13 @@
  * limitations under the License.
  */
 
-export * from './lib/eo-core-shell.module';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { EoCertificatesComponent } from './lib/eo-certificates.component';
+
+const routes: Routes = [{ path: '', component: EoCertificatesComponent }];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes), EoCertificatesComponent],
+})
+export class EoCertificatesModule {}

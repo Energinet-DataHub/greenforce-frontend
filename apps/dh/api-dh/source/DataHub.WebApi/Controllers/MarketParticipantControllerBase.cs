@@ -28,9 +28,13 @@ namespace Energinet.DataHub.WebApi.Controllers
             {
                 return Ok(await func().ConfigureAwait(false));
             }
-            catch (MarketParticipantException e)
+            catch (MarketParticipantBadRequestException ex)
             {
-                return StatusCode(e.StatusCode, JsonSerializer.Deserialize<JsonElement>(e.Message));
+                return StatusCode(ex.StatusCode, ex.JsonError);
+            }
+            catch (MarketParticipantException ex)
+            {
+                return StatusCode(ex.StatusCode, ex.Message);
             }
         }
 
@@ -41,9 +45,13 @@ namespace Energinet.DataHub.WebApi.Controllers
                 await func().ConfigureAwait(false);
                 return Ok();
             }
-            catch (MarketParticipantException e)
+            catch (MarketParticipantBadRequestException ex)
             {
-                return StatusCode(e.StatusCode, JsonSerializer.Deserialize<JsonElement>(e.Message));
+                return StatusCode(ex.StatusCode, ex.JsonError);
+            }
+            catch (MarketParticipantException ex)
+            {
+                return StatusCode(ex.StatusCode, ex.Message);
             }
         }
     }
