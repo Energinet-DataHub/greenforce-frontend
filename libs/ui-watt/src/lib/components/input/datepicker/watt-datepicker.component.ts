@@ -44,7 +44,7 @@ import { WattRange } from '../shared/watt-range';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
 
-const dateTimeFormat = 'dd-MM-yyyy';
+const dateShortFormat = 'dd-MM-yyyy';
 const danishLocaleCode = 'da';
 export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
@@ -142,6 +142,23 @@ export class WattDatepickerComponent extends WattPickerBase {
       (value: string) => this.onBeforePaste(value)
     );
 
+    const onInputOnChange$ = onChange$.pipe(
+      // `value` can have one of three values:
+      // 1. An empty string (usually when no initial value is set or input value is manually deleted)
+      // 2. A `dd-MM-yyyy` format (keep in sync with `dateShortFormat`) (usually when date is manually typed)
+      // 3. Full ISO 8601 format (usually when initial value is set)
+      map((value) => {
+        const parsedDate = this.parseDateShortFormat(value);
+
+        if (isValid(parsedDate)) {
+          this.matDatepickerInput.value = parsedDate;
+          value = this.formatDateFromViewToModel(parsedDate);
+        }
+
+        return value;
+      })
+    );
+
     const matDatepickerChange$ = this.matDatepickerInput.dateInput.pipe(
       tap(() => {
         this.inputMaskService.setInputColor(pickerInputElement, inputMask);
@@ -157,16 +174,11 @@ export class WattDatepickerComponent extends WattPickerBase {
       })
     );
 
-    merge(onChange$, matDatepickerChange$).subscribe((value: string) => {
-      const parsedDate = this.parseDate(value);
-
-      if (isValid(parsedDate)) {
-        this.matDatepickerInput.value = parsedDate;
-        value = this.formatDateFromViewToModel(parsedDate);
-      }
-
-      this.changeParentValue(value);
-    });
+    merge(onInputOnChange$, matDatepickerChange$)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value: string) => {
+        this.changeParentValue(value);
+      });
   }
 
   /**
@@ -203,17 +215,14 @@ export class WattDatepickerComponent extends WattPickerBase {
     });
 
     const getInitialValue = (initialValue: string) => {
-      let value: Date | string;
+      let value: Date | string = '';
 
       if (initialValue) {
-        return {
-          value: this.parseDate(
-            this.formatDateTimeFromModelToView(initialValue)
-          ),
-        };
-      } else {
-        value = '';
+        value = this.parseDateShortFormat(
+          this.formatDateTimeFromModelToView(initialValue)
+        );
       }
+
       return { value };
     };
 
@@ -248,7 +257,9 @@ export class WattDatepickerComponent extends WattPickerBase {
         let end = '';
 
         if (value instanceof Date) {
-          end = this.formatDateFromViewToModel(value);
+          const endOfDay = this.setToEndOfDay(value);
+
+          end = this.formatDateFromViewToModel(endOfDay);
         }
 
         return end;
@@ -275,9 +286,13 @@ export class WattDatepickerComponent extends WattPickerBase {
     // Subscribe for input changes
     this.rangeInputService.onInputChanges$
       ?.pipe(takeUntil(this.destroy$))
+      // `start` and `end` can have one of three values:
+      // 1. An empty string (usually when no initial value is set or input value is manually deleted)
+      // 2. A `dd-MM-yyyy` format (keep in sync with `dateShortFormat`) (usually when date is manually typed)
+      // 3. Full ISO 8601 format (usually when initial value is set)
       .subscribe(([start, end]) => {
-        const parsedStartDate = this.parseDate(start);
-        const parsedEndDate = this.parseDate(end);
+        const parsedStartDate = this.parseDateShortFormat(start);
+        const parsedEndDate = this.parseDateShortFormat(end);
 
         if (isValid(parsedStartDate)) {
           this.matStartDate.value = parsedStartDate;
@@ -285,8 +300,10 @@ export class WattDatepickerComponent extends WattPickerBase {
         }
 
         if (isValid(parsedEndDate)) {
+          const endOfDay = this.setToEndOfDay(parsedEndDate);
+
           this.matEndDate.value = parsedEndDate;
-          end = this.formatDateFromViewToModel(parsedEndDate);
+          end = this.formatDateFromViewToModel(endOfDay);
         }
 
         this.changeParentValue({ start, end });
@@ -361,8 +378,8 @@ export class WattDatepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  private parseDate(value: string): Date {
-    return parse(value, dateTimeFormat, new Date());
+  private parseDateShortFormat(value: string): Date {
+    return parse(value, dateShortFormat, new Date());
   }
 
   /**
@@ -383,7 +400,7 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    * Formats Date to full ISO 8601 format (e.g. `2022-08-31T22:00:00.000Z`)
    */
-  private formatDateFromViewToModel(value: Date): string {
+  private formatDateFromViewToModel(value: number | Date): string {
     return zonedTimeToUtc(value, danishTimeZoneIdentifier).toISOString();
   }
 
@@ -391,6 +408,13 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   private formatDateTimeFromModelToView(value: string): string {
-    return formatInTimeZone(value, danishTimeZoneIdentifier, dateTimeFormat);
+    return formatInTimeZone(value, danishTimeZoneIdentifier, dateShortFormat);
+  }
+
+  /**
+   * @ignore
+   */
+  private setToEndOfDay(value: Date): number {
+    return new Date(value).setHours(23, 59, 59, 999);
   }
 }
