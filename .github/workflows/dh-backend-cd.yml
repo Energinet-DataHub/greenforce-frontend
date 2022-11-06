@@ -28,17 +28,6 @@ jobs:
     uses: ./.github/workflows/detect-changes.yml
 
   #
-  # CD Infrastructure
-  #
-  
-  infrastructure_promote_prerelease:
-    needs: changes
-    if: ${{ needs.changes.outputs.infrastructure == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v8
-    with:
-      RELEASE_NAME_PREFIX: infrastructure
-
-  #
   # CD .NET
   #
 
@@ -71,8 +60,6 @@ jobs:
     needs: [
       # Necessary to be able to use its outputs in the dispatch event
       changes,
-      # Infrastructure
-      infrastructure_promote_prerelease,
       # .NET
       dotnet_promote_prerelease,
     ]
@@ -81,7 +68,6 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       !(
-        needs.infrastructure_promote_prerelease.result == 'skipped' &&
         needs.dotnet_promote_prerelease.result == 'skipped'
       )
     steps:
@@ -97,4 +83,4 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }}
           repository: '${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}'
           event-type: 'geh-post-office-deployment-request-domain'
-          client-payload: '{"pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "infrastructure_deploy": "${{ needs.changes.outputs.infrastructure }}", "dotnet_deploy": "${{ needs.changes.outputs.dotnet }}"}'
+          client-payload: '{"pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet_deploy": "${{ needs.changes.outputs.dotnet }}"}'

@@ -48,6 +48,3 @@ jobs:
               - '.github/workflows/dh-backend-ci.yml'
               - '.github/actions/dotnet-*/**'
               - 'apps/dh/api-dh/**'
-            infrastructure:
-              - '.github/workflows/dh-backend-ci.yml'
-              - 'build/infrastructure/dh/**'

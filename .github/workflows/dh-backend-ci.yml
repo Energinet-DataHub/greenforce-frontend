@@ -49,18 +49,6 @@ jobs:
     uses: ./.github/workflows/dh-backend-detect-changes.yml
 
   #
-  # CI Infrastructure
-  #
-
-  infrastructure_ci_build:
-    needs: changes
-    if: ${{ needs.changes.outputs.infrastructure == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/infrastructure-build-prerelease.yml@v8
-    with:
-      TERRAFORM_WORKING_DIRECTORY: 'build/infrastructure/dh/main'
-      TERRAFORM_VERSION: '1.2.2'
-      INFRASTRUCTURE_PATH: 'build/infrastructure/dh'
-  #
   # CI .NET
   #
 
@@ -87,8 +75,6 @@ jobs:
 
   generate_client:
     needs: [
-        # Infrastructure
-        infrastructure_ci_build,
         # .NET
         dotnet_ci_build,
         dotnet_ci_test_unittests,
@@ -147,8 +133,6 @@ jobs:
   allow_merge:
     runs-on: ubuntu-latest
     needs: [
-        # Infrastructure
-        infrastructure_ci_build,
         # .NET
         dotnet_ci_build,
         dotnet_ci_test_unittests,
