@@ -1,3 +1,4 @@
+
 # Copyright 2020 Energinet DataHub A/S
 #
 # Licensed under the Apache License, Version 2.0 (the "License2");
@@ -11,45 +12,42 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: DH Backend CD
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+name: CD
 
 on:
   push:
     branches:
       - main
-    paths:
-      - 'build/infrastructure/dh/**'
-      - 'apps/dh/api-dh/**'
-      - '.github/workflows/dh-backend-ci.yml'
-      - '.github/actions/publish-release-contents/action.yml'
 
 jobs:
-  publish_release:
+  #
+  # Detect changes to start relevant jobs
+  #
+
+  changes:
+    uses: ./.github/workflows/detect-changes.yml
+
+  #
+  # CD Infrastructure
+  #
+  
+  infrastructure_promote_prerelease:
+    needs: changes
+    if: ${{ needs.changes.outputs.infrastructure == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v8
     with:
-      RELEASE_NAME_PREFIX: dh_backend
+      RELEASE_NAME_PREFIX: infrastructure
 
-  dispatch_deployment_request:
-    needs: publish_release
-    uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@v8
-    with:
-      CALLER_REPOSITORY_NAME: greenforce-frontend
-      CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
-      RELEASE_NAME_PREFIX: dh_backend
-      CUSTOM_EVENT_TYPE: dh-backend
-    secrets:
-      PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
-      ENVIRONMENT_REPOSITORY_PATH: ${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}
+  #
+  # CD .NET
+  #
 
-  update_coverage_report:
+  dotnet_update_coverage_report:
+    needs: changes
+    if: ${{ needs.changes.outputs.dotnet == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v8
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
-      PREPARE_OUTPUTS: false
       ENVIRONMENT: AzureAuth
     secrets:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
@@ -57,3 +55,46 @@ jobs:
       AZURE_SPN_ID: ${{ secrets.AZURE_SPN_ID_OIDC }}
       AZURE_KEYVAULT_URL: ${{ secrets.AZURE_KEYVAULT_URL }}
       AZURE_SECRETS_KEYVAULT_URL: ${{ secrets.AZURE_SECRETS_KEYVAULT_URL }}
+  
+  dotnet_promote_prerelease:
+    needs: changes
+    if: ${{ needs.changes.outputs.dotnet == 'true' }}
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v8
+    with:
+      RELEASE_NAME_PREFIX: dotnet
+  #
+  # Dispatch deployment request
+  #
+
+  dispatch_deploment_event:
+    runs-on: ubuntu-latest
+    needs: [
+      # Necessary to be able to use its outputs in the dispatch event
+      changes,
+      # Infrastructure
+      infrastructure_promote_prerelease,
+      # .NET
+      dotnet_promote_prerelease,
+    ]
+    if: |
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+      !(
+        needs.infrastructure_promote_prerelease.result == 'skipped' &&
+        needs.dotnet_promote_prerelease.result == 'skipped'
+      )
+    steps:
+      - run: echo "${{ toJSON(needs) }}"
+
+      - name: Find associated pull request
+        uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@v8
+        id: find_pull_request
+
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          repository: '${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}'
+          event-type: 'geh-post-office-deployment-request-domain'
+          client-payload: '{"pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "infrastructure_deploy": "${{ needs.changes.outputs.infrastructure }}", "dotnet_deploy": "${{ needs.changes.outputs.dotnet }}"}'

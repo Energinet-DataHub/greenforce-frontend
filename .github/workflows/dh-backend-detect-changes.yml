@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Detect changes
+name: DH Backend Detect changes
 
 # DESCRIPTION:
 # This workflow will determine which categories of jobs should be executed,
