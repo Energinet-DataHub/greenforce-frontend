@@ -87,12 +87,12 @@ jobs:
 
   generate_client:
     needs: [
-      # Infrastructure
-      infrastructure_ci_build,
-      # .NET
-      dotnet_ci_build,
-      dotnet_ci_test_unittests,
-    ]
+        # Infrastructure
+        infrastructure_ci_build,
+        # .NET
+        dotnet_ci_build,
+        dotnet_ci_test_unittests,
+      ]
     runs-on: ubuntu-latest
     env:
       output-path: libs/dh/shared/domain/src/lib/generated/v1/
