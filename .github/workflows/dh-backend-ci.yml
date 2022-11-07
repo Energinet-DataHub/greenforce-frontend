@@ -82,10 +82,10 @@ jobs:
 
   generate_client:
     needs: [
-      # .NET
-      dotnet_ci_build,
-      dotnet_ci_test_unittests,
-    ]
+        # .NET
+        dotnet_ci_build,
+        dotnet_ci_test_unittests,
+      ]
     runs-on: ubuntu-latest
     env:
       output-path: libs/dh/shared/domain/src/lib/generated/v1/
@@ -145,7 +145,7 @@ jobs:
         dotnet_ci_test_unittests,
 
         # Frontend Client
-        generate_client
+        generate_client,
       ]
     if: |
       always()
