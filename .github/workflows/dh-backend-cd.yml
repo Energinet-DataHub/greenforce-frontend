@@ -1,4 +1,3 @@
-
 # Copyright 2020 Energinet DataHub A/S
 #
 # Licensed under the Apache License, Version 2.0 (the "License2");
@@ -44,7 +43,7 @@ jobs:
       AZURE_SPN_ID: ${{ secrets.AZURE_SPN_ID_OIDC }}
       AZURE_KEYVAULT_URL: ${{ secrets.AZURE_KEYVAULT_URL }}
       AZURE_SECRETS_KEYVAULT_URL: ${{ secrets.AZURE_SECRETS_KEYVAULT_URL }}
-  
+
   dotnet_promote_prerelease:
     needs: changes
     if: ${{ needs.changes.outputs.dotnet == 'true' }}
@@ -58,11 +57,11 @@ jobs:
   dispatch_deploment_event:
     runs-on: ubuntu-latest
     needs: [
-      # Necessary to be able to use its outputs in the dispatch event
-      changes,
-      # .NET
-      dotnet_promote_prerelease,
-    ]
+        # Necessary to be able to use its outputs in the dispatch event
+        changes,
+        # .NET
+        dotnet_promote_prerelease,
+      ]
     if: |
       always() &&
       !contains(needs.*.result, 'failure') &&
