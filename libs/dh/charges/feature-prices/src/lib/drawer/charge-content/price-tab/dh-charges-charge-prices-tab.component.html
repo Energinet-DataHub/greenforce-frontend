@@ -27,8 +27,8 @@ limitations under the License.
       <div class="header-container">
         <h3>
           <ng-container>
-            {{ this.result?.length }}
-            {{ this.result?.length === 1 ? t("price") : t("prices") }}
+            {{ this.totalAmount | push }}
+            {{ (this.totalAmount | push) === 1 ? t("price") : t("prices") }}
           </ng-container>
         </h3>
 
