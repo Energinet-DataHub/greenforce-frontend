@@ -98,6 +98,9 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
                     mp.businessProcessRole == result.senderGlnMarketRoleType
                 );
               });
+
+            const logName = this.findLogName(result.blobContentUri);
+            this.blobStore.downloadLog(logName);
           }
         }, 0);
       });

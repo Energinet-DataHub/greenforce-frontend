@@ -37,10 +37,20 @@ limitations under the License.
     </small>
 
     <!-- Download -->
-    <watt-button class="download-button" icon="openInNew" variant="text" (click)="downloadLog()">
+    <watt-button
+      class="download-button"
+      icon="openInNew"
+      variant="text"
+      (click)="downloadLog()"
+    >
       {{ t("prices.Download") }}
     </watt-button>
   </div>
+
+  <!-- Show message -->
+  <ng-container *rxLet="blobContent$ as blobContent">
+    <pre>{{ blobContent }}</pre>
+  </ng-container>
 
   <div *ngIf="blobIsDownloading$ | push">
     <watt-spinner [diameter]="60"></watt-spinner>
