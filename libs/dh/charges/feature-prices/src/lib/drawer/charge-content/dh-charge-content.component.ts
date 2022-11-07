@@ -9,7 +9,7 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
+ * distributed under the License is distrib./details-header/dh-charge-details-header.component
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -18,14 +18,14 @@ import { Component, Input, NgModule, ViewChild } from '@angular/core';
 import {
   DhChargesChargePricesTabComponent,
   DhChargesChargePricesTabScam,
-} from '../price-tab/dh-charges-charge-prices-tab.component';
+} from '../charge-content/price-tab/dh-charges-charge-prices-tab.component';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   DhChargesChargeMessagesTabComponent,
   DhChargesChargeMessagesTabScam,
-} from '../message-tab/dh-charges-charge-messages-tab.component';
-import { DhChargesChargeHistoryTabScam } from '../history-tab/dh-charges-charge-history-tab.component';
-import { DhChargeDetailsHeaderScam } from '../../details-header/dh-charge-details-header.component';
+} from '../charge-content/message-tab/dh-charges-charge-messages-tab.component';
+import { DhChargesChargeHistoryTabScam } from '../charge-content/history-tab/dh-charges-charge-history-tab.component';
+import { DhChargeDetailsHeaderScam } from '../charge-content/details-header/dh-charge-details-header.component';
 import {
   WattTabsComponent,
   WattTabsModule,

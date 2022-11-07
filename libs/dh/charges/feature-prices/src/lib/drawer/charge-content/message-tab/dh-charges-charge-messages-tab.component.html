@@ -102,7 +102,7 @@ limitations under the License.
 
     <!-- Empty -->
     <ng-container
-      *ngIf="(!chargeMessagesNotFound | push) && result && result.length === 0"
+      *ngIf="(chargeMessagesNotFound | push) && result && result.length === 0"
     >
       <watt-empty-state
         class="no-result-div"

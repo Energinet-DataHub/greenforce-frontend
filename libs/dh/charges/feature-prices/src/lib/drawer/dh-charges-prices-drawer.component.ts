@@ -38,16 +38,15 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { DhChargesChargeHistoryTabScam } from './history-tab/dh-charges-charge-history-tab.component';
-import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
-import { DhChargeDetailsHeaderScam } from '../details-header/dh-charge-details-header.component';
+import { DrawerDatepickerService } from './charge-content/drawer-datepicker/drawer-datepicker.service';
+import { DhChargeDetailsHeaderScam } from './charge-content/details-header/dh-charge-details-header.component';
 import { DhChargesPricesDrawerService } from './dh-charges-prices-drawer.service';
 import { Subject, takeUntil } from 'rxjs';
 import {
   DhChargeContentComponent,
   DhChargeContentScam,
 } from './charge-content/dh-charge-content.component';
-import { DhChargePriceMessageScam } from './dh-charge-price-message/dh-charge-price-message.component';
+import { DhChargePriceMessageScam } from './charge-message/dh-charge-price-message.component';
 
 @Component({
   selector: 'dh-charges-prices-drawer',
@@ -114,7 +113,6 @@ export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
     WattFormFieldModule,
     DhChargeDetailsHeaderScam,
     DhChargeContentScam,
-    DhChargesChargeHistoryTabScam,
     DhChargePriceMessageScam,
     PushModule,
     WattIconModule,

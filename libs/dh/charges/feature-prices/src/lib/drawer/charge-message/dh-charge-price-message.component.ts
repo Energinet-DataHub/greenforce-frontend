@@ -24,7 +24,7 @@ import {
   MessageArchiveSearchCriteria,
   MessageArchiveSearchResultItemDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { PushModule } from '@rx-angular/template';
+import { LetModule, PushModule } from '@rx-angular/template';
 import { Subject, take, takeUntil } from 'rxjs';
 import { DhChargesPricesDrawerService } from '../dh-charges-prices-drawer.service';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
@@ -36,6 +36,7 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { CommonModule } from '@angular/common';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { MatDividerModule } from '@angular/material/divider';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 @Component({
   selector: 'dh-charge-price-message',
   templateUrl: './dh-charge-price-message.component.html',
@@ -63,6 +64,9 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   message?: MessageArchiveSearchResultItemDto;
   senderMarketParticipant?: MarketParticipantV1Dto;
+
+  messageHasGeneralError$ = this.chargeMessageArchiveStore.hasGeneralError$;
+  messageIsSearching$ = this.chargeMessageArchiveStore.isSearching$;
 
   blobContent$ = this.blobStore.blobContent$;
   blobIsDownloading$ = this.blobStore.isDownloading$;
@@ -140,6 +144,8 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   imports: [
     CommonModule,
     PushModule,
+    LetModule,
+    WattEmptyStateModule,
     DhSharedUiDateTimeModule,
     TranslocoModule,
     WattButtonModule,

@@ -63,8 +63,6 @@ export class DhChargeMessageArchiveDataAccessStore extends ComponentStore<Search
               tapResponse(
                 (searchResult) => {
                   this.setLoading(false);
-
-                  console.log(searchResult);
                   this.updateSearchResult(searchResult.result);
                 },
                 (error: HttpErrorResponse) => {

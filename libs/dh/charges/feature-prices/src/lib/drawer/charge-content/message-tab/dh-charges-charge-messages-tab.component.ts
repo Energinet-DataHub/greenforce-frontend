@@ -50,7 +50,7 @@ import {
   DhDrawerDatepickerScam,
 } from '../drawer-datepicker/dh-drawer-datepicker.component';
 import { zonedTimeToUtc } from 'date-fns-tz';
-import { DhChargesPricesDrawerService } from '../dh-charges-prices-drawer.service';
+import { DhChargesPricesDrawerService } from '../../dh-charges-prices-drawer.service';
 
 @Component({
   selector: 'dh-charges-charge-messages-tab',
