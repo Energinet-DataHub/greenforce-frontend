@@ -16,6 +16,7 @@
  */
 import { HttpClientModule } from '@angular/common/http';
 import { MatNativeDateModule } from '@angular/material/core';
+import { DhMarketParticipantDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { render } from '@testing-library/angular';
@@ -26,6 +27,7 @@ import { DhChargePriceMessageComponent } from './dh-charge-price-message.compone
 describe('DhChargePriceMessageComponent', () => {
   async function setup() {
     const { fixture } = await render(DhChargePriceMessageComponent, {
+      providers: [DhMarketParticipantDataAccessApiStore],
       imports: [
         getTranslocoTestingModule(),
         MatNativeDateModule,
