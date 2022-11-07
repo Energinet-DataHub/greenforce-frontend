@@ -24,6 +24,7 @@ name: Prepare dotnet outputs
 # All 'apps' must be output into the '\functions\' subfolder, to match
 # how they are later retrieved in the '<domain>-stage-deployment.yml' file.
 #
+
 inputs:
   OUTPUT_PATH:
     required: true
@@ -44,4 +45,5 @@ runs:
     - name: Publish Swagger
       shell: bash
       run: |
+        ls -ahl ${{ github.workspace }}\apps\dh\api-dh\source\DataHub.WebApi\bin\Release\net6.0\
         cp '${{ github.workspace }}\apps\dh\api-dh\source\DataHub.WebApi\bin\Release\net6.0\swagger.json' '${{ inputs.OUTPUT_PATH }}'
