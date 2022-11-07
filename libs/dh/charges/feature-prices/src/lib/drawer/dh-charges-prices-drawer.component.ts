@@ -34,7 +34,6 @@ import {
 } from '@energinet-datahub/watt/drawer';
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
-1;
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { TranslocoModule } from '@ngneat/transloco';
