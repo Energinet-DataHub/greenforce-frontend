@@ -29,6 +29,9 @@
       "@energinet-datahub/dh/charges/domain": [
         "libs/dh/charges/domain/src/index.ts"
       ],
+      "@energinet-datahub/dh/charges/feature-create-prices": [
+        "libs/dh/charges/feature-create-prices/src/index.ts"
+      ],
       "@energinet-datahub/dh/charges/feature-prices": [
         "libs/dh/charges/feature-prices/src/index.ts"
       ],

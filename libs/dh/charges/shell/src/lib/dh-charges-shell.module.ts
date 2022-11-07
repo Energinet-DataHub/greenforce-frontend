@@ -21,7 +21,11 @@ import {
   DhChargesPricesComponent,
   DhChargesPricesScam,
 } from '@energinet-datahub/dh/charges/feature-prices';
-import { dhChargesPricesPath } from '@energinet-datahub/dh/charges/routing';
+import {
+  dhChargesCreatePricesPath,
+  dhChargesPricesPath,
+} from '@energinet-datahub/dh/charges/routing';
+import { DhChargesCreatePricesComponent } from '@energinet-datahub/dh/charges/feature-create-prices';
 
 const routes: Routes = [
   {
@@ -34,7 +38,15 @@ const routes: Routes = [
     pathMatch: 'full',
     component: DhChargesPricesComponent,
     data: {
-      titleTranslationKey: 'charges.prices.topBarTitle',
+      titleTranslationKey: 'charges.topBarTitles.prices',
+    },
+  },
+  {
+    path: dhChargesCreatePricesPath,
+    pathMatch: 'full',
+    component: DhChargesCreatePricesComponent,
+    data: {
+      titleTranslationKey: 'charges.topBarTitles.createPrices',
     },
   },
 ];

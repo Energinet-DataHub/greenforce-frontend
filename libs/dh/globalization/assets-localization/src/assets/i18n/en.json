@@ -26,7 +26,11 @@
       "messageArchive": "Request/Response messages",
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid areas",
-      "chargePrices": "Prices",
+      "chargePrices": {
+        "menuGroupLabel": "Prices",
+        "search": "Search prices",
+        "create": "Create prices"
+      },
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "startBatch": "Start Batch",
@@ -259,6 +263,12 @@
     "tariffsTitle": "Tariffs",
     "subscriptionsTitle": "Subscriptions",
     "feesTitle": "Fees",
+    "resolution": "Resolution",
+    "effectiveDate": "Effectivedate",
+    "topBarTitles": {
+      "prices": "Search price",
+      "createPrices": "Create prices"
+    },
     "messageType": {
       "D18": "Request change of billing masterdata",
       "D08": "Request change of price series"
@@ -306,8 +316,14 @@
       "title": "Oops! There was an error",
       "message": "Unfortunately, an error occurred while retrieving the necessary information."
     },
+    "createPrices": {
+      "title": "Create price",
+      "priceId": "Price id",
+      "priceName": "Price name",
+      "priceDescription": "Description",
+      "priceOwner": "Price owner"
+    },
     "prices": {
-      "topBarTitle": "Search price",
       "prices": "Prices",
       "price": "Price",
       "priceTab": {

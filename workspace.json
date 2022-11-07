@@ -7,6 +7,7 @@
     "dh-auth-feature-msal": "libs/dh/auth/feature-msal",
     "dh-charges-data-access-api": "libs/dh/charges/data-access-api",
     "dh-charges-domain": "libs/dh/charges/domain",
+    "dh-charges-feature-create-prices": "libs/dh/charges/feature-create-prices",
     "dh-charges-feature-prices": "libs/dh/charges/feature-prices",
     "dh-charges-routing": "libs/dh/charges/routing",
     "dh-charges-shell": "libs/dh/charges/shell",
