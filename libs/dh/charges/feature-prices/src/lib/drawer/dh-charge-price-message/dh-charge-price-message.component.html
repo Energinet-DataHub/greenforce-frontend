@@ -12,7 +12,19 @@
 
   <mat-divider></mat-divider>
 
-  <label>{{ t("sender") }}</label> {{ message?.senderGln }}
+  <div class="test">
+    <label>{{ t("sender") }}</label>
+    <small>
+      {{ senderMarketParticipant?.name }} ({{
+        senderMarketParticipant?.marketParticipantId
+      }})
+    </small>
+
+    <!-- Download -->
+    <watt-button class="download-button" icon="openInNew" variant="text" (click)="downloadLog()">
+      {{ t("prices.Download") }}
+    </watt-button>
+  </div>
 
   <div *ngIf="blobIsDownloading$ | push">
     <watt-spinner [diameter]="60"></watt-spinner>

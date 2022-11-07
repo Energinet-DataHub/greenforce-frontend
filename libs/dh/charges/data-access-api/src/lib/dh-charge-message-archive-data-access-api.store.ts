@@ -52,7 +52,7 @@ export class DhChargeMessageArchiveDataAccessStore extends ComponentStore<Search
   readonly searchLogs = this.effect(
     (searchCriteria: Observable<MessageArchiveSearchCriteria>) => {
       return searchCriteria.pipe(
-        tap((e) => {
+        tap(() => {
           this.setLoading(true);
           this.updateSearchResult([]);
         }),

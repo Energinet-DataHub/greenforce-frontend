@@ -1,11 +1,15 @@
 import { Component, NgModule, OnDestroy, OnInit } from '@angular/core';
-import { DhChargeMessageArchiveDataAccessStore } from '@energinet-datahub/dh/charges/data-access-api';
 import {
+  DhChargeMessageArchiveDataAccessStore,
+  DhMarketParticipantDataAccessApiStore,
+} from '@energinet-datahub/dh/charges/data-access-api';
+import {
+  MarketParticipantV1Dto,
   MessageArchiveSearchCriteria,
   MessageArchiveSearchResultItemDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { PushModule } from '@rx-angular/template';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { DhChargesPricesDrawerService } from '../dh-charges-prices-drawer.service';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -28,7 +32,8 @@ import { MatDividerModule } from '@angular/material/divider';
 export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   constructor(
     private dhChargesPricesDrawerService: DhChargesPricesDrawerService,
-    private messageArchiveStore: DhChargeMessageArchiveDataAccessStore,
+    private chargeMessageArchiveStore: DhChargeMessageArchiveDataAccessStore,
+    private marketParticipantStore: DhMarketParticipantDataAccessApiStore,
     private blobStore: DhMessageArchiveDataAccessBlobApiStore
   ) {}
 
@@ -41,6 +46,7 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
   message?: MessageArchiveSearchResultItemDto;
+  senderMarketParticipant?: MarketParticipantV1Dto;
 
   blobContent$ = this.blobStore.blobContent$;
   blobIsDownloading$ = this.blobStore.isDownloading$;
@@ -57,17 +63,25 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((messageId) => {
         this.searchCriteria.messageId = messageId;
-        this.messageArchiveStore.searchLogs(this.searchCriteria);
+        this.chargeMessageArchiveStore.searchLogs(this.searchCriteria);
       });
 
-    this.messageArchiveStore.searchResult$
+    this.chargeMessageArchiveStore.searchResult$
       .pipe(takeUntil(this.destroy$))
       .subscribe((result) => {
         setTimeout(() => {
           if (result) {
             this.message = result;
-            const logName = this.findLogName(result.blobContentUri);
-            this.blobStore.downloadLog(logName);
+
+            this.marketParticipantStore.all$
+              .pipe(take(1))
+              .subscribe((marketParticipants) => {
+                this.senderMarketParticipant = marketParticipants?.find(
+                  (mp) =>
+                    mp.marketParticipantId == result.senderGln &&
+                    mp.businessProcessRole == result.senderGlnMarketRoleType
+                );
+              });
           }
         }, 0);
       });
@@ -82,8 +96,9 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
     this.dhChargesPricesDrawerService.removeMessageId();
   }
 
-  downloadLog(resultItem: MessageArchiveSearchResultItemDto) {
-    const logName = this.findLogName(resultItem.blobContentUri);
+  downloadLog() {
+    if (this.message == undefined) return;
+    const logName = this.findLogName(this.message.blobContentUri);
     this.blobStore.downloadLogFile(logName);
   }
 
