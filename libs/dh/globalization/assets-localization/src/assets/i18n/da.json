@@ -260,12 +260,12 @@
     "subscriptionsTitle": "Abonnementer",
     "feesTitle": "Gebyrer",
     "messageType": {
-      "D05": "Opdatering af pris stamdata",
-      "D10": "Opdatering af prisserie"
+      "D18": "Opdatering af pris stamdata",
+      "D08": "Opdatering af prisserie"
     },
     "messageTypeAbbreviation": {
-      "D05": "RSM-33",
-      "D10": "RSM-33"
+      "D18": "RSM-033",
+      "D08": "RSM-033"
     },
     "chargeType": {
       "D01": "Abonnement",
@@ -346,7 +346,8 @@
       "startSearch": "Start søgning",
       "startSearchText": "Dine resultater vil fremgå her",
       "noPricesForCharge": "Ingen priser",
-      "noPricesForChargeText": "Der findes ingen pris serier for denne pris.",
+      "noPricesForChargeText": "Der findes ingen prisserier for denne pris.",
+      "noChargePriceResultsHelperText": "Ingen priser er indsendt for denne periode.",
       "paginator": {
         "itemsPerPageLabel": "Priser pr. side",
         "of": "af",

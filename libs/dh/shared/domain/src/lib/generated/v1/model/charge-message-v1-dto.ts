@@ -9,12 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ChargeMessageDocumentType } from './charge-message-document-type';
+import { ChargeMessageType } from './charge-message-type';
 
 
 export interface ChargeMessageV1Dto { 
     messageId?: string | null;
-    messageType: ChargeMessageDocumentType;
+    messageType: ChargeMessageType;
     messageDateTime: string;
 }
 
