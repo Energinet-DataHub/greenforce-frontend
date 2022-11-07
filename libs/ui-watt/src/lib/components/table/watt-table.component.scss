@@ -14,9 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@use "@energinet-datahub/watt/utils" as watt;
+
 watt-table .mat-table {
-  display: block;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 
   thead,
   .mat-row {
@@ -24,34 +27,42 @@ watt-table .mat-table {
   }
 
   .mat-header-row {
-    height: var(--watt-space-l);
-    background: var(--watt-color-primary-light);
+    flex: 0 0 auto;
+    height: auto;
+    background: #ebf5f5; /* Magic UX color */
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    overflow: hidden;
   }
 
-  .mat-header-cell {
-    line-height: var(--watt-space-l);
+  th.mat-header-cell {
     background-color: transparent;
     border: 0;
+    padding: 0;
+  }
+
+  .watt-header-cell {
+    display: inline-block;
+    @include watt.space-inset-stretch-s;
   }
 
   .mat-header-row,
   tbody {
     display: grid;
-    grid-template-columns: repeat(var(--columns), auto);
+    grid-template-columns: var(--watt-table-grid-template-columns);
   }
 
   tbody {
-    max-height: 300px;
-    overflow: auto;
+    overflow-y: auto;
   }
 
   watt-icon {
     display: inline-flex;
   }
 
-  .mat-cell {
+  td.mat-cell {
     display: flex;
     align-items: center;
+    min-height: 56px; /* Magic UX number */
+    padding: var(--watt-space-s);
   }
 }

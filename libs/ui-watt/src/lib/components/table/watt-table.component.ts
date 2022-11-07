@@ -16,6 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ContentChildren,
@@ -37,6 +38,16 @@ export interface WattTableCellContext<T> {
   $implicit: T;
   column: string;
 }
+
+export type WattTableSizing =
+  | `auto`
+  | `min-content`
+  | `max-content`
+  | `${number}fr`
+  | `${number}%`
+  | `${number}px`
+  | `${number}em`
+  | `${number}rem`;
 
 @Directive({
   standalone: true,
@@ -68,14 +79,20 @@ export class WattTableCellDirective<T> {
   styleUrls: ['./watt-table.component.scss'],
   templateUrl: './watt-table.component.html',
 })
-export class WattTableComponent<T> implements OnChanges {
-  element = inject(ElementRef);
+export class WattTableComponent<T> implements OnChanges, AfterViewInit {
+  private thead: HTMLElement | null = null;
+  private tbody: HTMLElement | null = null;
+
+  element: ElementRef<HTMLElement> = inject(ElementRef);
 
   @ContentChildren(WattTableCellDirective)
   cells = new QueryList<WattTableCellDirective<T>>();
 
   @Input()
-  columns!: string[];
+  columns: string[] = [];
+
+  @Input()
+  columnSizing: WattTableSizing[] = [];
 
   @Input()
   dataSource!: WattTableDataSource<T>;
@@ -83,12 +100,39 @@ export class WattTableComponent<T> implements OnChanges {
   @Input()
   formatHeader = (id: string) => id;
 
+  private setGridTemplateStyle() {
+    const headerCells =
+      this.element.nativeElement.querySelectorAll('.watt-header-cell');
+
+    const sizing = this.columns.map((_, i) => this.columnSizing[i] ?? 'auto');
+    const computedSizing = !headerCells.length
+      ? sizing
+      : Array.from(headerCells)
+          .map((element) => element.getBoundingClientRect())
+          .map((rect) => Math.round(rect.width))
+          .map((width, i) => `minmax(min(${width}px, 100%), ${sizing[i]})`);
+
+    this.element.nativeElement.style.setProperty(
+      '--watt-table-grid-template-columns',
+      computedSizing.join(' ')
+    );
+  }
+
+  ngAfterViewInit() {
+    this.setGridTemplateStyle();
+    this.thead = this.element.nativeElement.querySelector('.mat-header-row');
+    this.tbody = this.element.nativeElement.querySelector('tbody');
+
+    this.tbody?.addEventListener('scroll', () => {
+      if (this.thead && this.tbody) {
+        this.thead.style.marginLeft = `-${this.tbody.scrollLeft}px`;
+      }
+    });
+  }
+
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.columns) {
-      this.element.nativeElement.style.setProperty(
-        '--columns',
-        this.columns.length
-      );
+    if (changes.columns || changes.columnSizing) {
+      this.setGridTemplateStyle();
     }
   }
 
@@ -100,10 +144,9 @@ export class WattTableComponent<T> implements OnChanges {
   }
 
   updateStyle() {
-    const tbody = this.element.nativeElement.querySelector('tbody');
-    const thead = this.element.nativeElement.querySelector('.mat-header-row');
-
-    thead.style.gridTemplateColumns =
-      window.getComputedStyle(tbody).gridTemplateColumns;
+    if (this.thead && this.tbody) {
+      const { gridTemplateColumns } = window.getComputedStyle(this.tbody);
+      this.thead.style.gridTemplateColumns = gridTemplateColumns;
+    }
   }
 }

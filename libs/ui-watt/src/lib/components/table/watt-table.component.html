@@ -21,7 +21,9 @@ limitations under the License.
   (resize)="updateStyle()"
 >
   <ng-container *ngFor="let column of columns" [matColumnDef]="column">
-    <th mat-header-cell *matHeaderCellDef>{{ formatHeader(column) }}</th>
+    <th mat-header-cell *matHeaderCellDef>
+      <span class="watt-header-cell">{{ formatHeader(column) }} </span>
+    </th>
     <td mat-cell *matCellDef="let row">
       <ng-template #default>{{ row[column] }}</ng-template>
       <ng-container *ngIf="getTemplate(column) as template; else default">

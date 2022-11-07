@@ -18,6 +18,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { WattTableDataSource } from '../watt-table-data-source';
+import { WattTableSizing } from '../watt-table.component';
 
 export interface PeriodicElement {
   name: string;
@@ -39,6 +40,7 @@ export const periodicElements: PeriodicElement[] = [
 })
 export class StorybookTableOverviewComponent {
   columns = ['position', 'name', 'symbol'];
+  columnSizing: WattTableSizing[] = ['min-content', 'auto', 'auto'];
   sortedData = new WattTableDataSource(periodicElements);
 
   // @ViewChild(MatSort) matSort?: MatSort;
