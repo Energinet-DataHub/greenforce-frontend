@@ -37,7 +37,7 @@ runs:
           --no-build \
           --no-restore \
           --configuration Release \
-          --output 'apps/dh/api-dh/source/DataHub.WebApi.Tests/DataHub.WebApi.Tests/bin/Release/net6.0'
+          --output '.\apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net6.0'
 
     # To ensure code coverage tooling is available in bin folder, we use publish on test assemblies
     # See https://github.com/coverlet-coverage/coverlet/issues/521#issuecomment-522429394
@@ -49,7 +49,7 @@ runs:
           --no-build \
           --no-restore \
           --configuration Release \
-          --output '.\apps\dh\api-dh\source\DataHub.WebApi\DataHub.WebApi.Tests\bin\Release\net6.0'
+          --output '.\apps\dh\api-dh\source\DataHub.WebApi\bin\Release\net6.0'
 
     - name: Copy all bin folders
       shell: bash
