@@ -265,6 +265,7 @@
     "feesTitle": "Fees",
     "resolution": "Resolution",
     "effectiveDate": "Effectivedate",
+    "fieldRequiredErrorText": "Field is required.",
     "topBarTitles": {
       "prices": "Search price",
       "createPrices": "Create prices"
@@ -321,7 +322,9 @@
       "priceId": "Price id",
       "priceName": "Price name",
       "priceDescription": "Description",
-      "priceOwner": "Price owner"
+      "priceOwner": "Price owner",
+      "selectResolution": "Select resolution",
+      "selectChargeType": "Select charge type"
     },
     "prices": {
       "prices": "Prices",

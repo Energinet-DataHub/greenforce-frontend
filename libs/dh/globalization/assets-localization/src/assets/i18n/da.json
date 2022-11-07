@@ -265,6 +265,7 @@
     "feesTitle": "Gebyrer",
     "resolution": "Opløsning",
     "effectiveDate": "Skæringsdato",
+    "fieldRequiredErrorText": "Feltet er påkrævet.",
     "topBarTitles": {
       "prices": "Søg pris",
       "createPrices": "Opret pris"
@@ -321,7 +322,9 @@
       "priceId": "Pris id",
       "priceName": "Pris navn",
       "priceDescription": "Beskrivelse",
-      "priceOwner": "Pris Ejer"
+      "priceOwner": "Pris Ejer",
+      "selectResolution": "Vælg opløsning",
+      "selectChargeType": "Vælg type"
     },
     "prices": {
       "prices": "Priser",

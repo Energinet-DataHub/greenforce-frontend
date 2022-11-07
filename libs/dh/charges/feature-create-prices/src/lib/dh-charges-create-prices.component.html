@@ -13,13 +13,14 @@
               formControlName="chargeType"
               [options]="chargeTypeOptions"
               name="chargeType"
-              [placeholder]="t('selectChargeType')"
+              [showResetOption]="false"
+              [placeholder]="t('createPrices.selectChargeType')"
             >
             </watt-dropdown>
             <watt-error
               *ngIf="charge.controls['chargeType'].hasError('required')"
             >
-              This field is required
+              {{ t("fieldRequiredErrorText") }}
             </watt-error>
           </watt-form-field>
 
@@ -28,7 +29,7 @@
             <watt-label>{{ t("createPrices.priceId") }}</watt-label>
             <input wattInput type="text" formControlName="priceId" required />
             <watt-error *ngIf="charge.controls['priceId'].hasError('required')">
-              This field is required
+              {{ t("fieldRequiredErrorText") }}
             </watt-error>
           </watt-form-field>
 
@@ -38,7 +39,7 @@
             <watt-error
               *ngIf="charge.controls['priceName'].hasError('required')"
             >
-              This field is required
+              {{ t("fieldRequiredErrorText") }}
             </watt-error>
           </watt-form-field>
 
@@ -49,7 +50,7 @@
             <watt-error
               *ngIf="charge.controls['priceDescription'].hasError('required')"
             >
-              This field is required
+              {{ t("fieldRequiredErrorText") }}
             </watt-error>
           </watt-form-field>
 
@@ -65,7 +66,7 @@
             <watt-error
               *ngIf="charge.controls['priceOwner'].hasError('required')"
             >
-              This field is required
+              {{ t("fieldRequiredErrorText") }}
             </watt-error>
           </watt-form-field>
 
@@ -76,13 +77,14 @@
               formControlName="resolution"
               [options]="resolutionOptions"
               name="validityOption"
-              [placeholder]="t('selectValidityOption')"
+              [showResetOption]="false"
+              [placeholder]="t('createPrices.selectResolution')"
             >
             </watt-dropdown>
             <watt-error
               *ngIf="charge.controls['resolution'].hasError('required')"
             >
-              This field is required
+              {{ t("fieldRequiredErrorText") }}
             </watt-error>
           </watt-form-field>
 
