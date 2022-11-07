@@ -44,6 +44,7 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
   providers: [
     DhChargeMessageArchiveDataAccessStore,
     DhMessageArchiveDataAccessBlobApiStore,
+    DhMarketParticipantDataAccessApiStore,
   ],
 })
 export class DhChargePriceMessageComponent implements OnInit, OnDestroy {

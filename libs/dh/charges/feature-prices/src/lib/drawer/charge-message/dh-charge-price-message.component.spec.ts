@@ -14,25 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { MatNativeDateModule } from '@angular/material/core';
+import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { render } from '@testing-library/angular';
+import { DhChargesPricesScam } from '../../dh-charges-prices.component';
 
 import { DhChargePriceMessageComponent } from './dh-charge-price-message.component';
 
 describe('DhChargePriceMessageComponent', () => {
-  let component: DhChargePriceMessageComponent;
-  let fixture: ComponentFixture<DhChargePriceMessageComponent>;
+  async function setup() {
+    const { fixture } = await render(DhChargePriceMessageComponent, {
+      imports: [
+        getTranslocoTestingModule(),
+        MatNativeDateModule,
+        DhApiModule.forRoot(),
+        HttpClientModule,
+        DhChargesPricesScam,
+      ],
+    });
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [DhChargePriceMessageComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(DhChargePriceMessageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    return {
+      fixture,
+    };
+  }
+  it('should create', async () => {
+    const { fixture } = await setup();
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });
