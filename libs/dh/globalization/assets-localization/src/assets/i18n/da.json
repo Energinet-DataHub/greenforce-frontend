@@ -259,6 +259,8 @@
     "tariffsTitle": "Tariffer",
     "subscriptionsTitle": "Abonnementer",
     "feesTitle": "Gebyrer",
+    "back": "Tilbage",
+    "sender": "Afsender",
     "messageType": {
       "D18": "Opdatering af pris stamdata",
       "D08": "Opdatering af prisserie"

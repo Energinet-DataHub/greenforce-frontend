@@ -259,6 +259,8 @@
     "tariffsTitle": "Tariffs",
     "subscriptionsTitle": "Subscriptions",
     "feesTitle": "Fees",
+    "back": "Back",
+    "sender": "Sender",
     "messageType": {
       "D18": "Request change of billing masterdata",
       "D08": "Request change of price series"
