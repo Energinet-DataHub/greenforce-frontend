@@ -45,5 +45,4 @@ runs:
     - name: Publish Swagger
       shell: bash
       run: |
-        ls -ahl "${{ github.workspace }}/apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0/"
         cp "${{ github.workspace }}/apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0/swagger.json" "${{ inputs.OUTPUT_PATH }}"
