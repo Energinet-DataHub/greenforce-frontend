@@ -69,6 +69,14 @@ function getWholesaleSearchBatch(apiBase: string) {
         executionTimeEnd: null,
         executionState: BatchState.Pending,
         isBasisDataDownloadAvailable: false,
+        batchGridAreas: [
+          {
+            gridAreaCode: '805'
+          },
+          {
+            gridAreaCode: '806'
+          }
+        ],
       },
       {
         batchNumber: '234',
@@ -78,6 +86,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         executionTimeEnd: null,
         executionState: BatchState.Executing,
         isBasisDataDownloadAvailable: false,
+        batchGridAreas: [],
       },
       {
         batchNumber: '345',
@@ -87,6 +96,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         executionTimeEnd,
         executionState: BatchState.Completed,
         isBasisDataDownloadAvailable: true,
+        batchGridAreas: [],
       },
       {
         batchNumber: '567',
@@ -96,6 +106,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         executionTimeEnd,
         executionState: BatchState.Failed,
         isBasisDataDownloadAvailable: false,
+        batchGridAreas: [],
       },
       {
         batchNumber: '123',
@@ -105,6 +116,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         executionTimeEnd: null,
         executionState: BatchState.Pending,
         isBasisDataDownloadAvailable: false,
+        batchGridAreas: [],
       },
       {
         batchNumber: '234',
@@ -114,6 +126,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         executionTimeEnd: null,
         executionState: BatchState.Executing,
         isBasisDataDownloadAvailable: false,
+        batchGridAreas: [],
       },
       {
         batchNumber: '345',
@@ -123,6 +136,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         executionTimeEnd,
         executionState: BatchState.Completed,
         isBasisDataDownloadAvailable: true,
+        batchGridAreas: [],
       },
       {
         batchNumber: '567',
@@ -132,6 +146,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         executionTimeEnd,
         executionState: BatchState.Failed,
         isBasisDataDownloadAvailable: false,
+        batchGridAreas: [],
       },
       {
         batchNumber: '123',
@@ -141,6 +156,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         executionTimeEnd: null,
         executionState: BatchState.Pending,
         isBasisDataDownloadAvailable: false,
+        batchGridAreas: [],
       },
       {
         batchNumber: '234',
@@ -150,6 +166,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         executionTimeEnd: null,
         executionState: BatchState.Executing,
         isBasisDataDownloadAvailable: false,
+        batchGridAreas: [],
       },
       {
         batchNumber: '345',
@@ -159,6 +176,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         executionTimeEnd,
         executionState: BatchState.Completed,
         isBasisDataDownloadAvailable: true,
+        batchGridAreas: [],
       },
       {
         batchNumber: '567',
@@ -168,6 +186,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         executionTimeEnd,
         executionState: BatchState.Failed,
         isBasisDataDownloadAvailable: false,
+        batchGridAreas: [],
       },
     ];
 
