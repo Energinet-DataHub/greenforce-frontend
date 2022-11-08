@@ -71,11 +71,11 @@ function getWholesaleSearchBatch(apiBase: string) {
         isBasisDataDownloadAvailable: false,
         batchGridAreas: [
           {
-            gridAreaCode: '805'
+            gridAreaCode: '805',
           },
           {
-            gridAreaCode: '806'
-          }
+            gridAreaCode: '806',
+          },
         ],
       },
       {
