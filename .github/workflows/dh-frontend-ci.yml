@@ -180,9 +180,9 @@ jobs:
   allow_merge:
     runs-on: ubuntu-latest
     needs: [
-      # Frontend
-      frontend_ci_build,
-    ]
+        # Frontend
+        frontend_ci_build,
+      ]
     if: |
       always()
     steps:
@@ -193,4 +193,3 @@ jobs:
               echo "Failed"
               exit 1
           fi
-
