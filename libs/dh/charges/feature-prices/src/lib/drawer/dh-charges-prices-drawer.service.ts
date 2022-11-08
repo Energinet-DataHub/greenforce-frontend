@@ -22,9 +22,9 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class DhChargesPricesDrawerService {
-  defaultMessageId?: ChargeMessageV1Dto = undefined;
+  defaultChargeMessageV1Dto?: ChargeMessageV1Dto = undefined;
 
-  private message$ = new BehaviorSubject(this.defaultMessageId);
+  private message$ = new BehaviorSubject(this.defaultChargeMessageV1Dto);
   message = this.message$.asObservable();
 
   reset() {
