@@ -17,3 +17,13 @@
 .prices-label {
   color: var(--watt-color-primary);
 }
+
+.clickable {
+  color: var(--watt-color-primary);
+  cursor: pointer;
+}
+
+.clickable:hover {
+  color: var(--watt-color-primary-dark);
+  cursor: pointer;
+}
