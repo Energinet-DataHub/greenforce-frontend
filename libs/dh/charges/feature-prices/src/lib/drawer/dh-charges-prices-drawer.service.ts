@@ -14,9 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-charge-links-data-access-api.store';
-export * from './lib/dh-charges-data-access-api.store';
-export * from './lib/dh-market-participant-data-access-api.store';
-export * from './lib/dh-charge-prices-data-access-api.store';
-export * from './lib/dh-charge-messages-data-access-api.store';
-export * from './lib/dh-charge-message-archive-data-access-api.store';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class DhChargesPricesDrawerService {
+  defaultMessageId?: string = undefined;
+
+  private messageId$ = new BehaviorSubject(this.defaultMessageId);
+  messageId = this.messageId$.asObservable();
+
+  reset() {
+    this.messageId$.next(undefined);
+  }
+
+  setMessageId(messageId: string) {
+    this.messageId$.next(messageId);
+  }
+
+  removeMessageId() {
+    this.messageId$.next(undefined);
+  }
+}
