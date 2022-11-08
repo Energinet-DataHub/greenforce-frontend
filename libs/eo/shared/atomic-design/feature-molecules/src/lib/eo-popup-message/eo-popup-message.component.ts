@@ -136,8 +136,8 @@ import { MatIconModule } from '@angular/material/icon';
           class="error-message collapsed"
           [ngClass]="{ collapsed: errorCollapsed }"
         >
-          <h4>Error code: {{ errorMessage?.status }}</h4>
-          {{ errorMessage?.message }}
+          <h4>Error code: {{ errorMessage.status }}</h4>
+          {{ errorMessage.message }}
         </div>
       </div>
 

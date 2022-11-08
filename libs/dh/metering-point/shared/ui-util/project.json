@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/metering-point/shared/ui-util"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/metering-point/shared/ui-util"
+      ],
       "options": {
         "jestConfig": "libs/dh/metering-point/shared/ui-util/jest.config.ts",
         "passWithNoTests": true

@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/eo/shared/atomic-design/ui-organisms"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/eo/shared/atomic-design/ui-organisms"
+      ],
       "options": {
         "jestConfig": "libs/eo/shared/atomic-design/ui-organisms/jest.config.ts",
         "passWithNoTests": true

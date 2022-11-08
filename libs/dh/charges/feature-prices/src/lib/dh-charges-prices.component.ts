@@ -49,7 +49,7 @@ import {
   DhChargesDataAccessApiStore,
   DhMarketParticipantDataAccessApiStore,
 } from '@energinet-datahub/dh/charges/data-access-api';
-import { SearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
+import { ChargeSearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-charges-prices',
@@ -65,7 +65,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
   chargeTypeOptions: WattDropdownOptions = [];
   validityOptions: WattDropdownOptions = [];
   validityOption: string | undefined;
-  searchCriteria: SearchCriteriaV1Dto = {};
+  searchCriteria: ChargeSearchCriteriaV1Dto = {};
   marketParticipantsOptions: WattDropdownOptions = [];
 
   all$ = this.chargesStore.all$;
