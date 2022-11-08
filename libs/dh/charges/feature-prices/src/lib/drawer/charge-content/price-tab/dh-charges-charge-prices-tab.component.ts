@@ -94,6 +94,7 @@ export class DhChargesChargePricesTabComponent
   };
 
   result: ChargePriceV1Dto[] | undefined;
+  totalAmount = this.chargePricesStore.totalAmount$;
   isLoading = this.chargePricesStore.isLoading$;
   hasLoadingError = this.chargePricesStore.hasGeneralError$;
   chargePricesNotFound = this.chargePricesStore.chargePricesNotFound$;

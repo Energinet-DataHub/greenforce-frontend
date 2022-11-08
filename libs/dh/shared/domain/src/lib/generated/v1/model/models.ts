@@ -8,6 +8,7 @@ export * from './actor-status';
 export * from './address-dto';
 export * from './asset-type';
 export * from './batch-dto-v2';
+export * from './batch-grid-area-dto';
 export * from './batch-request-dto';
 export * from './batch-search-dto';
 export * from './batch-state';

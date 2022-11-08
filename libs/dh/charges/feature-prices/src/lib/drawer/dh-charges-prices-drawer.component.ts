@@ -14,80 +14,89 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
   NgModule,
+  OnDestroy,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
-import { DhChargeDetailsHeaderScam } from '../details-header/dh-charge-details-header.component';
-import {
-  DhChargesChargeMessagesTabScam,
-  DhChargesChargeMessagesTabComponent,
-} from './message-tab/dh-charges-charge-messages-tab.component';
+import { PushModule } from '@rx-angular/template';
+
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import {
   WattDrawerModule,
   WattDrawerComponent,
 } from '@energinet-datahub/watt/drawer';
-import {
-  WattTabsComponent,
-  WattTabsModule,
-} from '@energinet-datahub/watt/tabs';
+import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { TranslocoModule } from '@ngneat/transloco';
+
+import { DrawerDatepickerService } from './charge-content/drawer-datepicker/drawer-datepicker.service';
+import { DhChargeDetailsHeaderScam } from './charge-content/details-header/dh-charge-details-header.component';
+import { DhChargesPricesDrawerService } from './dh-charges-prices-drawer.service';
+import { Subject, takeUntil } from 'rxjs';
 import {
-  DhChargesChargePricesTabScam,
-  DhChargesChargePricesTabComponent,
-} from './price-tab/dh-charges-charge-prices-tab.component';
-import { DhChargesChargeHistoryTabScam } from './history-tab/dh-charges-charge-history-tab.component';
-import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
+  DhChargeContentComponent,
+  DhChargeContentScam,
+} from './charge-content/dh-charge-content.component';
+import { DhChargePriceMessageScam } from './charge-message/dh-charge-price-message.component';
 
 @Component({
   selector: 'dh-charges-prices-drawer',
   templateUrl: './dh-charges-prices-drawer.component.html',
   styleUrls: ['./dh-charges-prices-drawer.component.scss'],
 })
-export class DhChargesPricesDrawerComponent {
+export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
   @ViewChild('drawer') drawer!: WattDrawerComponent;
-  @ViewChild(DhChargesChargeMessagesTabComponent)
-  chargesMessageTabComponent!: DhChargesChargeMessagesTabComponent;
-  @ViewChild(DhChargesChargePricesTabComponent)
-  chargePricesTabComponent!: DhChargesChargePricesTabComponent;
-  @ViewChild(WattTabsComponent)
-  wattTabsComponents!: WattTabsComponent;
+  @ViewChild(DhChargeContentComponent) chargeContent!: DhChargeContentComponent;
 
   @Output() closed = new EventEmitter<void>();
 
+  message$ = this.dhChargesPricesDrawerService.message;
   charge?: ChargeV1Dto;
+  showChargeMessage = false;
 
-  constructor(private datepickerService: DrawerDatepickerService) {}
+  private destroy$ = new Subject<void>();
+  constructor(
+    private datepickerService: DrawerDatepickerService,
+    private dhChargesPricesDrawerService: DhChargesPricesDrawerService
+  ) {}
+
+  ngOnInit(): void {
+    this.dhChargesPricesDrawerService.message
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((message) => {
+        if (message === undefined) this.showChargeMessage = false;
+        else this.showChargeMessage = true;
+      });
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   openDrawer(charge: ChargeV1Dto) {
     this.charge = charge;
     this.drawer.open();
-    this.wattTabsComponents.triggerChange();
+    this.chargeContent.load();
+    this.dhChargesPricesDrawerService.removeMessage();
   }
 
   drawerClosed() {
-    this.closed.emit();
+    this.dhChargesPricesDrawerService.reset();
     this.datepickerService.reset();
-    this.chargePricesTabComponent.reset();
+    this.closed.emit();
   }
 
-  loadPrices() {
-    if (this.charge) this.chargePricesTabComponent.loadPrices(this.charge);
-  }
-
-  loadMessages() {
-    if (this.charge) this.chargesMessageTabComponent.loadMessages(this.charge);
-  }
-
-  loadHistory() {
-    console.log('load history');
+  goToCharge() {
+    this.dhChargesPricesDrawerService.removeMessage();
   }
 }
 
@@ -95,6 +104,7 @@ export class DhChargesPricesDrawerComponent {
   declarations: [DhChargesPricesDrawerComponent],
   exports: [DhChargesPricesDrawerComponent],
   imports: [
+    CommonModule,
     WattDrawerModule,
     TranslocoModule,
     WattTabsModule,
@@ -102,9 +112,10 @@ export class DhChargesPricesDrawerComponent {
     WattDatepickerModule,
     WattFormFieldModule,
     DhChargeDetailsHeaderScam,
-    DhChargesChargePricesTabScam,
-    DhChargesChargeMessagesTabScam,
-    DhChargesChargeHistoryTabScam,
+    DhChargeContentScam,
+    DhChargePriceMessageScam,
+    PushModule,
+    WattIconModule,
   ],
 })
 export class DhChargesPricesDrawerScam {}
