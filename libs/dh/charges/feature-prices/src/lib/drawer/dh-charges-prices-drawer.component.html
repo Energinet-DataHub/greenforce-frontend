@@ -45,7 +45,9 @@ limitations under the License.
             label="{{ t('messages').toUpperCase() }}"
             (changed)="loadMessages()"
           >
-            <dh-charges-charge-messages-tab></dh-charges-charge-messages-tab>
+            <dh-charges-charge-messages-tab
+              [charge]="this.charge"
+            ></dh-charges-charge-messages-tab>
           </watt-tab>
           <watt-tab
             label="{{ t('history').toUpperCase() }}"

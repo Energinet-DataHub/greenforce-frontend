@@ -259,6 +259,14 @@
     "tariffsTitle": "Tariffs",
     "subscriptionsTitle": "Subscriptions",
     "feesTitle": "Fees",
+    "messageType": {
+      "D18": "Request change of billing masterdata",
+      "D08": "Request change of price series"
+    },
+    "messageTypeAbbreviation": {
+      "D18": "RSM-033",
+      "D08": "RSM-033"
+    },
     "chargeType": {
       "D01": "Subscription",
       "D02": "Fee",
@@ -337,6 +345,7 @@
       "startSearchText": "Your results will appear here",
       "noPricesForCharge": "No prices",
       "noPricesForChargeText": "No price series exists for this price.",
+      "noChargePriceResultsHelperText": "No prices have been submitted for the period.",
       "paginator": {
         "itemsPerPageLabel": "Prices per page",
         "of": "of",
@@ -364,6 +373,7 @@
       "drawer": {
         "prices": "Prices",
         "messages": "Messages",
+        "message": "Message",
         "dateChips": {
           "day": "Day",
           "week": "Week",

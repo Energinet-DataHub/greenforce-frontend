@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { exhaustMap, mergeMap, of, throwError } from 'rxjs';
-import { AuthHttp } from '@energinet-datahub/eo/auth/data-access-api';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
+import { AuthHttp } from '@energinet-datahub/eo/auth/data-access-api';
+import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/shared/utilities';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { exhaustMap, mergeMap, of, throwError } from 'rxjs';
 
 // No internal state needed
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
