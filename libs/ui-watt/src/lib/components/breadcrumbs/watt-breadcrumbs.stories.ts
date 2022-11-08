@@ -14,16 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { APP_INITIALIZER, Component } from '@angular/core';
 import { APP_BASE_HREF } from '@angular/common';
+import { APP_INITIALIZER, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Story, Meta, moduleMetadata } from '@storybook/angular';
 
 import {
-  WattBreadcrumbComponent,
-  WattBreadcrumbsComponent,
+  WattBreadcrumbs, WattBreadcrumbsComponent
 } from './watt-breadcrumbs.component';
-import { Router } from '@angular/router';
 
 function generateComponent(template: string) {
   @Component({
@@ -41,7 +40,7 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        WattBreadcrumbComponent,
+        WattBreadcrumbs,
         RouterTestingModule.withRoutes([
           { path: '', redirectTo: 'overview', pathMatch: 'full' },
           { path: 'components', component: generateComponent('Components') },
@@ -83,5 +82,3 @@ export const Overview: Story<WattBreadcrumbsComponent> = (args) => ({
     <router-outlet></router-outlet>
   `,
 });
-
-Overview.args = {};

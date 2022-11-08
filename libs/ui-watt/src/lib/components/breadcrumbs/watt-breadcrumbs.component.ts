@@ -16,15 +16,15 @@
  */
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ViewEncapsulation,
   ContentChildren,
-  QueryList,
-  AfterViewInit,
-  Output,
   EventEmitter,
-  HostBinding
+  HostBinding,
+  Output,
+  QueryList,
+  ViewEncapsulation
 } from '@angular/core';
 
 import { WattIconModule } from '../../foundations/icon/icon.module';
@@ -48,6 +48,10 @@ export class WattBreadcrumbComponent {
   isLast = false;
 }
 
+/**
+ * Usage:
+ * `import { WattBreadcrumbs } from '@energinet-datahub/watt/breadcrumbs';`
+ */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -58,9 +62,17 @@ export class WattBreadcrumbComponent {
   templateUrl: './watt-breadcrumbs.component.html',
 })
 export class WattBreadcrumbsComponent implements AfterViewInit {
+  /**
+   * @ignore
+   */
   @ContentChildren(WattBreadcrumbComponent) breadcrumbs!: QueryList<WattBreadcrumbComponent>;
 
+  /**
+   * @ignore
+   */
   ngAfterViewInit() {
     this.breadcrumbs.last.isLast = true;
   }
 }
+
+export const WattBreadcrumbs = [WattBreadcrumbsComponent, WattBreadcrumbComponent];
