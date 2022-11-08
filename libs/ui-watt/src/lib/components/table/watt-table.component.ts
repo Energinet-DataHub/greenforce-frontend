@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { CommonModule, KeyValue } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -33,19 +33,15 @@ import { MatTableModule } from '@angular/material/table';
 import { WattResizeObserverDirective } from '../../utils/resize-observer';
 import { WattTableDataSource } from './watt-table-data-source';
 
-export type WattTableSizing =
-  | `auto`
-  | `min-content`
-  | `max-content`
-  | `${number}fr`
-  | `${number}%`
-  | `${number}px`
-  | `${number}em`
-  | `${number}rem`;
+export type WattTableColumn<T> = {
+  header: string | ((key: string) => string);
+  cell?: (row: T) => string;
+  sort?: boolean;
+  size?: string;
+};
 
-export interface WattTableCellContext<T> {
+interface WattTableCellContext<T> {
   $implicit: T;
-  column: string;
 }
 
 @Directive({
@@ -53,11 +49,8 @@ export interface WattTableCellContext<T> {
   selector: '[wattTableCell]',
 })
 export class WattTableCellDirective<T> {
-  @Input()
-  wattTableCell!: WattTableComponent<T>;
-
-  @Input('wattTableCellColumn')
-  column?: string;
+  @Input('wattTableCell')
+  column!: WattTableColumn<T>;
 
   templateRef = inject(TemplateRef<WattTableCellContext<T>>);
 
@@ -85,35 +78,48 @@ export class WattTableComponent<T> implements OnChanges {
   cells = new QueryList<WattTableCellDirective<T>>();
 
   @Input()
-  columns: string[] = [];
-
-  @Input()
-  columnSizing: WattTableSizing[] = [];
+  columns: { [id: string]: WattTableColumn<T> } = {};
 
   @Input()
   dataSource!: WattTableDataSource<T>;
 
-  @Input()
-  formatHeader = (id: string) => id;
-
-  private setGridTemplateStyle() {
-    const sizing = this.columns.map((_, i) => this.columnSizing[i] ?? 'auto');
-    this.element.nativeElement.style.setProperty(
-      '--watt-table-grid-template-columns',
-      sizing.join(' ')
-    );
-  }
-
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.columns || changes.columnSizing) {
-      this.setGridTemplateStyle();
+    if (changes.columns) {
+      const sizing = Object.keys(this.columns)
+        .map((key) => this.columns[key].size)
+        .map((size) => size ?? 'auto');
+
+      this.element.nativeElement.style.setProperty(
+        '--watt-table-grid-template-columns',
+        sizing.join(' ')
+      );
     }
   }
 
-  getTemplate(column: string) {
+  _getColumns() {
+    return Object.keys(this.columns);
+  }
+
+  _getColumnTemplate(column: WattTableColumn<T>) {
     const cell = this.cells.find((item) => item.column === column);
     return cell
       ? cell.templateRef
       : this.cells.find((item) => !item.column)?.templateRef;
+  }
+
+  _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
+    return typeof column.value.header === 'string'
+      ? column.value.header
+      : column.value.header(column.key);
+  }
+
+  _getColumnCell(column: KeyValue<string, WattTableColumn<T>>, row: T) {
+    if (column.value.cell) {
+      return column.value.cell(row);
+    } else if (column.key in row) {
+      return (row as Record<string, unknown>)[column.key];
+    } else {
+      return '-';
+    }
   }
 }

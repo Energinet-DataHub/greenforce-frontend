@@ -24,13 +24,8 @@ limitations under the License.
 >
 </mat-paginator>
 
-<watt-table
-  #table
-  [dataSource]="sortedData"
-  [columns]="columns"
-  [columnSizing]="columnSizing"
->
-  <ng-container *wattTableCell="table; column: 'name'; let element">
+<watt-table #table [dataSource]="sortedData" [columns]="columns">
+  <ng-container *wattTableCell="table.columns.name; let element">
     <div class="watt-text-s">
       {{ element.name }}
       <div class="watt-on-light--medium-emphasis">
@@ -38,7 +33,7 @@ limitations under the License.
       </div>
     </div>
   </ng-container>
-  <ng-container *wattTableCell="table; column: 'symbol'; let element">
+  <ng-container *wattTableCell="table.columns.symbol; let element">
     <watt-icon
       name="date"
       size="s"
