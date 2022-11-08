@@ -33,12 +33,16 @@ import { MatTableModule } from '@angular/material/table';
 import { WattResizeObserverDirective } from '../../utils/resize-observer';
 import { WattTableDataSource } from './watt-table-data-source';
 
-export type WattTableColumn<T> = {
+export interface WattTableColumn<T> {
   header: string | ((key: string) => string);
   cell?: (row: T) => string;
   sort?: boolean;
   size?: string;
-};
+}
+
+export interface WattTableColumnDef<T> {
+  [id: string]: WattTableColumn<T>;
+}
 
 interface WattTableCellContext<T> {
   $implicit: T;
@@ -78,7 +82,7 @@ export class WattTableComponent<T> implements OnChanges {
   cells = new QueryList<WattTableCellDirective<T>>();
 
   @Input()
-  columns: { [id: string]: WattTableColumn<T> } = {};
+  columns: WattTableColumnDef<T> = {};
 
   @Input()
   dataSource!: WattTableDataSource<T>;
