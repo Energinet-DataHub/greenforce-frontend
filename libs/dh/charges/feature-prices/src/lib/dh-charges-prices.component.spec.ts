@@ -26,6 +26,8 @@ import {
 } from './dh-charges-prices.component';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
+const wattDrawerName = 'watt-drawer';
+
 describe('DhChargesPricesComponent', () => {
   async function setup() {
     const { fixture } = await render(DhChargesPricesComponent, {
@@ -94,7 +96,7 @@ describe('DhChargesPricesComponent', () => {
     userEvent.click(id);
 
     const drawer = screen.getByText(
-      (content, element) => element?.tagName.toLowerCase() === 'watt-drawer'
+      (content, element) => element?.tagName.toLowerCase() === wattDrawerName
     );
 
     expect(drawer).toBeInTheDocument();
@@ -115,7 +117,7 @@ describe('DhChargesPricesComponent', () => {
     userEvent.click(id);
 
     const drawer = screen.getByText(
-      (content, element) => element?.tagName.toLowerCase() === 'watt-drawer'
+      (content, element) => element?.tagName.toLowerCase() === wattDrawerName
     );
 
     expect(drawer).toBeInTheDocument();
@@ -148,7 +150,7 @@ describe('DhChargesPricesComponent', () => {
     await new Promise((res) => setTimeout(res, 0));
 
     const drawer = screen.getByText(
-      (content, element) => element?.tagName.toLowerCase() === 'watt-drawer'
+      (content, element) => element?.tagName.toLowerCase() === wattDrawerName
     );
 
     expect(drawer).toBeInTheDocument();
@@ -189,7 +191,7 @@ describe('DhChargesPricesComponent', () => {
     await new Promise((res) => setTimeout(res, 0));
 
     const drawer2 = screen.getByText(
-      (content, element) => element?.tagName.toLowerCase() === 'watt-drawer'
+      (content, element) => element?.tagName.toLowerCase() === wattDrawerName
     );
 
     expect(drawer2).toBeInTheDocument();

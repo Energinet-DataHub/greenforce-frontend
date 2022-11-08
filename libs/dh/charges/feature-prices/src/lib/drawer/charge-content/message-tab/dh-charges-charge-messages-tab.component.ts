@@ -50,6 +50,7 @@ import {
   DhDrawerDatepickerScam,
 } from '../drawer-datepicker/dh-drawer-datepicker.component';
 import { zonedTimeToUtc } from 'date-fns-tz';
+import { DhChargesPricesDrawerService } from '../../dh-charges-prices-drawer.service';
 
 @Component({
   selector: 'dh-charges-charge-messages-tab',
@@ -70,7 +71,8 @@ export class DhChargesChargeMessagesTabComponent
   @Input() charge: ChargeV1Dto | undefined;
 
   constructor(
-    private chargeMessagesStore: DhChargeMessagesDataAccessApiStore
+    private chargeMessagesStore: DhChargeMessagesDataAccessApiStore,
+    private dhChargesPricesDrawerService: DhChargesPricesDrawerService
   ) {}
 
   localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -137,7 +139,9 @@ export class DhChargesChargeMessagesTabComponent
     if (this.charge) this.loadMessages(this.charge);
   }
 
-  rowClicked(message: string) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  rowClicked(event: any, message: ChargeMessageV1Dto) {
+    event.stopPropagation();
     this.openMessage(message);
   }
 
@@ -174,8 +178,10 @@ export class DhChargesChargeMessagesTabComponent
     ).toISOString();
   }
 
-  openMessage(message: string) {
-    console.log(message);
+  openMessage(message: ChargeMessageV1Dto) {
+    if (message.messageId == undefined) return;
+
+    this.dhChargesPricesDrawerService.setMessageId(message.messageId);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
