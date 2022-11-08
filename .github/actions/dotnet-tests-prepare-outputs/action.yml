@@ -15,7 +15,7 @@
 name: Prepare dotnet tests outputs
 
 #
-# This action is called from the 'dotnet-solution-ci-build.yml' file.
+# This action is called from the 'dotnet-build-prerelease.yml' file.
 #
 # Prepared outputs will be zipped and uploaded as the 'dotnet-tests' artifact.
 #
