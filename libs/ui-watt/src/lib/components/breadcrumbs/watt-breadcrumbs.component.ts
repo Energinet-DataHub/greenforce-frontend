@@ -24,7 +24,7 @@ import {
   HostBinding,
   Output,
   QueryList,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
 import { WattIconModule } from '../../foundations/icon/icon.module';
@@ -66,7 +66,8 @@ export class WattBreadcrumbsComponent implements AfterViewInit {
   /**
    * @ignore
    */
-  @ContentChildren(WattBreadcrumbComponent) breadcrumbs!: QueryList<WattBreadcrumbComponent>;
+  @ContentChildren(WattBreadcrumbComponent)
+  breadcrumbs!: QueryList<WattBreadcrumbComponent>;
 
   /**
    * @ignore
@@ -76,4 +77,7 @@ export class WattBreadcrumbsComponent implements AfterViewInit {
   }
 }
 
-export const WattBreadcrumbs = [WattBreadcrumbsComponent, WattBreadcrumbComponent];
+export const WattBreadcrumbs = [
+  WattBreadcrumbsComponent,
+  WattBreadcrumbComponent,
+];

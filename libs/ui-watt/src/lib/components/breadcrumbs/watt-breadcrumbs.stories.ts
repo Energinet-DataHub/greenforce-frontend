@@ -21,7 +21,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Story, Meta, moduleMetadata } from '@storybook/angular';
 
 import {
-  WattBreadcrumbs, WattBreadcrumbsComponent
+  WattBreadcrumbs,
+  WattBreadcrumbsComponent,
 } from './watt-breadcrumbs.component';
 
 function generateComponent(template: string) {
