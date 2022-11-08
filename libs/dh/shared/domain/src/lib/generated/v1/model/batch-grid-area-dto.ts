@@ -11,11 +11,8 @@
  */
 
 
-export interface MarketParticipantV1Dto { 
-    id: string;
-    name?: string | null;
-    marketParticipantId?: string | null;
-    businessProcessRole?: string | null;
+export interface BatchGridAreaDto { 
+    gridAreaCode: string;
 }
 
 

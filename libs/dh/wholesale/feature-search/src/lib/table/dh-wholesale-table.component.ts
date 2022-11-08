@@ -28,7 +28,11 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { first, of } from 'rxjs';
 
-import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
+import {
+  BatchDtoV2,
+  BatchState,
+  BatchGridAreaDto,
+} from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt/badge';
@@ -47,6 +51,7 @@ type wholesaleTableData = MatTableDataSource<{
   executionTimeEnd?: string | null;
   executionState: BatchState;
   isBasisDataDownloadAvailable: boolean;
+  batchGridAreas: Array<BatchGridAreaDto>;
 }>;
 
 @Component({

@@ -30,12 +30,13 @@ import {
   Resolution,
   VatClassification,
 } from '@energinet-datahub/dh/shared/domain';
-import { DhChargesChargePricesTabScam } from './price-tab/dh-charges-charge-prices-tab.component';
-import { DhChargesChargeHistoryTabScam } from './history-tab/dh-charges-charge-history-tab.component';
-import { DhChargesChargeMessagesTabScam } from './message-tab/dh-charges-charge-messages-tab.component';
-import { DhDrawerDatepickerScam } from './drawer-datepicker/dh-drawer-datepicker.component';
+import { DhChargesChargePricesTabScam } from './charge-content/price-tab/dh-charges-charge-prices-tab.component';
+import { DhChargesChargeHistoryTabScam } from './charge-content/history-tab/dh-charges-charge-history-tab.component';
+import { DhChargesChargeMessagesTabScam } from './charge-content/message-tab/dh-charges-charge-messages-tab.component';
+import { DhDrawerDatepickerScam } from './charge-content/drawer-datepicker/dh-drawer-datepicker.component';
 import userEvent from '@testing-library/user-event';
-import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
+import { DrawerDatepickerService } from './charge-content/drawer-datepicker/drawer-datepicker.service';
+import { DhMarketParticipantDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 
 const charge = {
   id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
@@ -57,7 +58,10 @@ const charge = {
 describe('DhChargesPricesDrawerComponent', () => {
   async function setup() {
     const { fixture } = await render(DhChargesPricesDrawerComponent, {
-      providers: [DrawerDatepickerService],
+      providers: [
+        DrawerDatepickerService,
+        DhMarketParticipantDataAccessApiStore,
+      ],
       imports: [
         getTranslocoTestingModule(),
         MatNativeDateModule,
@@ -73,7 +77,6 @@ describe('DhChargesPricesDrawerComponent', () => {
       ],
     });
 
-    fixture.componentInstance.chargesMessageTabComponent;
     fixture.componentInstance.openDrawer(charge);
 
     return {
