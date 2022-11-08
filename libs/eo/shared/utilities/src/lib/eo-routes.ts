@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/permission.guard';
-export * from './lib/permission';
-export * from './lib/permission-required.directive';
-export * from './lib/scope.service';
+export const eoCertificatesRoutePath = 'certificates';
+export const eoConsumptionPageRoutePath = 'consumption';
+export const eoDashboardRoutePath = 'dashboard';
+export const eoEmissionsRoutePath = 'emissions';
+export const eoFaqRoutePath = 'faq';
+export const eoMeteringPointsRoutePath = 'metering-points';
+export const eoOriginOfEnergyRoutePath = 'origin-of-energy';
+export const eoPrivacyPolicyRoutePath = 'privacy-policy';
+export const eoProductionRoutePath = 'production';
+export const eoLandingPageRelativeUrl = '/';

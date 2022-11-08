@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/permission.guard';
-export * from './lib/permission';
-export * from './lib/permission-required.directive';
-export * from './lib/scope.service';
+export * from './lib/absolute-url-generator.service';
+export * from './lib/eo-routes';
+export * from './lib/title/eo-title.store';
