@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { MatSort, MatSortable, Sort } from '@angular/material/sort';
+import { Component } from '@angular/core';
 import { WattTableDataSource } from '../watt-table-data-source';
 
 export interface PeriodicElement {
@@ -37,29 +36,10 @@ export const periodicElements: PeriodicElement[] = [
   templateUrl: 'storybook-table-overview.component.html',
 })
 export class StorybookTableOverviewComponent {
+  dataSource = new WattTableDataSource(periodicElements);
   columns = {
     position: { header: 'Position', size: 'min-content' },
     name: { header: 'Name' },
     symbol: { header: 'Symbol', sort: false },
   };
-
-  sortedData = new WattTableDataSource(periodicElements);
-
-  // @ViewChild(MatSort) matSort?: MatSort;
-
-  // ngAfterViewInit(): void {
-  //   this.sortedData.sort = this.matSort ?? null;
-
-  //   this.setDefaultSorting();
-  // }
-
-  // sortData(sort: Sort) {
-  //   if (sort.direction === '') {
-  //     this.setDefaultSorting();
-  //   }
-  // }
-
-  // setDefaultSorting() {
-  //   this.matSort?.sort(this.matSort.sortables.get('position') as MatSortable);
-  // }
 }

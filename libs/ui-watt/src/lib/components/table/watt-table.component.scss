@@ -50,6 +50,11 @@ watt-table .mat-table {
     padding: var(--watt-space-s);
   }
 
+  .mat-sort-header-arrow {
+    margin: 0;
+    margin-right: var(--watt-space-s);
+  }
+
   .watt-header-cell {
     display: inline-block;
     @include watt.space-inset-stretch-s;

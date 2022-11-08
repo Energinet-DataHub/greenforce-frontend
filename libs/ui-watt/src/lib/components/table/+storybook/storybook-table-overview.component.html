@@ -24,7 +24,13 @@ limitations under the License.
 >
 </mat-paginator>
 
-<watt-table #table [dataSource]="sortedData" [columns]="columns">
+<watt-table
+  #table
+  [dataSource]="dataSource"
+  [columns]="columns"
+  sortActive="position"
+  sortDirection="asc"
+>
   <ng-container *wattTableCell="table.columns.name; let element">
     <div class="watt-text-s">
       {{ element.name }}

@@ -16,6 +16,7 @@
  */
 import { CommonModule, KeyValue } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ContentChildren,
@@ -27,8 +28,10 @@ import {
   QueryList,
   SimpleChanges,
   TemplateRef,
+  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { MatSort, MatSortModule, SortDirection } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { WattResizeObserverDirective } from '../../utils/resize-observer';
 import { WattTableDataSource } from './watt-table-data-source';
@@ -68,24 +71,49 @@ export class WattTableCellDirective<T> {
 
 @Component({
   standalone: true,
-  imports: [CommonModule, MatTableModule, WattResizeObserverDirective],
+  imports: [
+    CommonModule,
+    MatSortModule,
+    MatTableModule,
+    WattResizeObserverDirective,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-table',
   styleUrls: ['./watt-table.component.scss'],
   templateUrl: './watt-table.component.html',
 })
-export class WattTableComponent<T> implements OnChanges {
+export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   element = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @ContentChildren(WattTableCellDirective)
   cells = new QueryList<WattTableCellDirective<T>>();
 
+  @ViewChild(MatSort)
+  sort!: MatSort;
+
+  @Input()
+  dataSource!: WattTableDataSource<T>;
+
   @Input()
   columns: WattTableColumnDef<T> = {};
 
   @Input()
-  dataSource!: WattTableDataSource<T>;
+  sortActive = '';
+
+  @Input()
+  sortDirection: SortDirection = '';
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    const parentSortingDataAccessor = this.dataSource.sortingDataAccessor;
+    this.dataSource.sortingDataAccessor = (data: T, sortHeaderId: string) => {
+      const value = (data as unknown as Record<string, unknown>)[sortHeaderId];
+      return typeof value === 'string'
+        ? value.toLowerCase()
+        : parentSortingDataAccessor(data, sortHeaderId);
+    };
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.columns) {
