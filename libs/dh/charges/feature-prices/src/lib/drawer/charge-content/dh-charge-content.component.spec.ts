@@ -16,26 +16,18 @@
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DhChargesChargePricesTabComponent } from './dh-charges-charge-prices-tab.component';
-import { HttpClientModule } from '@angular/common/http';
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+import { DhChargeContentComponent } from './dh-charge-content.component';
 
-describe('DhChargesPricesPricetabComponent', () => {
-  let component: DhChargesChargePricesTabComponent;
-  let fixture: ComponentFixture<DhChargesChargePricesTabComponent>;
+describe('ChargeContentComponent', () => {
+  let component: DhChargeContentComponent;
+  let fixture: ComponentFixture<DhChargeContentComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        getTranslocoTestingModule(),
-        HttpClientModule,
-        DhApiModule.forRoot(),
-      ],
-      declarations: [DhChargesChargePricesTabComponent],
+      declarations: [DhChargeContentComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DhChargesChargePricesTabComponent);
+    fixture = TestBed.createComponent(DhChargeContentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
