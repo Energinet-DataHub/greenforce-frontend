@@ -14,7 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/permission.guard';
-export * from './lib/permission';
-export * from './lib/permission-required.directive';
-export * from './lib/scope.service';
+import { Injectable } from '@angular/core';
+import { ChargeMessageV1Dto } from '@energinet-datahub/dh/shared/domain';
+import { BehaviorSubject } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class DhChargesPricesDrawerService {
+  defaultChargeMessageV1Dto?: ChargeMessageV1Dto = undefined;
+
+  private message$ = new BehaviorSubject(this.defaultChargeMessageV1Dto);
+  message = this.message$.asObservable();
+
+  reset() {
+    this.message$.next(undefined);
+  }
+
+  setMessage(message: ChargeMessageV1Dto) {
+    this.message$.next(message);
+  }
+
+  removeMessage() {
+    this.message$.next(undefined);
+  }
+}

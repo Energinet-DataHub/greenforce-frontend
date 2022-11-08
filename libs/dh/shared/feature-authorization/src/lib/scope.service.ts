@@ -16,18 +16,106 @@
  */
 
 import { Inject, Injectable } from '@angular/core';
+import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
+import {
+  AuthenticationResult,
+  EventMessage,
+  EventType,
+} from '@azure/msal-browser';
 import {
   DhB2CEnvironment,
   dhB2CEnvironmentToken,
 } from '@energinet-datahub/dh/shared/environments';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { filter } from 'rxjs';
+import { ScopeStorage, scopeStorageToken } from './scope-storage';
+
+export const actorScopesClaimsKey = 'extn.actors';
 
 @Injectable({ providedIn: 'root' })
 export class ScopeService {
+  localAccountId = '';
+
   constructor(
-    @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment
-  ) {}
+    @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment,
+    private msalBroadcastService: MsalBroadcastService,
+    private authService: MsalService,
+    private featureFlagService: DhFeatureFlagsService,
+    @Inject(scopeStorageToken) private scopeStorage: ScopeStorage
+  ) {
+    this.msalBroadcastService.msalSubject$
+      .pipe(
+        filter(
+          (msg: EventMessage) =>
+            msg.eventType === EventType.ACQUIRE_TOKEN_SUCCESS
+        )
+      )
+      .subscribe((e: EventMessage) => {
+        const payload = e.payload as AuthenticationResult;
+        const account = payload.account;
+
+        if (!account) {
+          return;
+        }
+
+        this.localAccountId = account.localAccountId;
+        this.authService.instance.setActiveAccount(account);
+
+        const userId = account.localAccountId;
+        const actors =
+          account.idTokenClaims &&
+          (account.idTokenClaims[actorScopesClaimsKey] as string[]);
+        const scopes = this.getActorClaims(actors);
+
+        this.scopeStorage.setScopes(userId, scopes.join(' '));
+      });
+
+    this.msalBroadcastService.msalSubject$
+      .pipe(
+        filter(
+          (msg: EventMessage) =>
+            msg.eventType === EventType.ACQUIRE_TOKEN_FAILURE
+        )
+      )
+      .subscribe((e: EventMessage) => {
+        const payload = e.payload as AuthenticationResult;
+        const account = payload.account;
+
+        if (account) {
+          this.scopeStorage.clearScopes(account.localAccountId);
+        }
+      });
+  }
 
   public getActiveScope() {
-    return this.config.clientId;
+    if (!this.localAccountId) return this.fallbackScope();
+
+    const scopes = this.getScopes(this.localAccountId);
+    if (scopes.length === 0) return this.fallbackScope();
+
+    const stored = this.scopeStorage.getActiveScope(this.localAccountId);
+    if (stored && scopes.includes(stored)) return stored;
+
+    const activeScope = scopes[0];
+    this.scopeStorage.setActiveScope(this.localAccountId, activeScope);
+
+    return activeScope;
+  }
+
+  private getScopes(userId: string) {
+    const scopes = this.scopeStorage.getScopes(userId);
+    return (scopes && scopes.split(' ')) || [];
+  }
+
+  private getActorClaims(scopesString?: string[]) {
+    return scopesString && scopesString.length > 0
+      ? scopesString[0].split(' ')
+      : [];
+  }
+
+  private fallbackScope() {
+    return this.featureFlagService.isEnabled('grant_full_authorization')
+      ? this.config.clientId
+      : '';
   }
 }
