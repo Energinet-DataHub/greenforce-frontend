@@ -21,17 +21,17 @@ limitations under the License.
       <span class="prices-label">{{ t("prices") }}</span>
       <watt-icon name="right"></watt-icon>
       <span
-        [ngClass]="{ clickable: (messageId$ | push) !== undefined }"
+        [ngClass]="{ clickable: (message$ | push) !== undefined }"
         (click)="goToCharge()"
         >{{ charge?.chargeId }}</span
       >
-      <ng-container *ngIf="(messageId$ | push) !== undefined">
+      <ng-container *ngIf="(message$ | push) !== undefined">
         <watt-icon name="right"></watt-icon>
-        <span>{{ messageId$ | push }}</span>
+        <span>{{ (message$ | push)?.messageId }}</span>
       </ng-container>
     </watt-drawer-topbar>
 
-    <watt-drawer-actions *ngIf="(messageId$ | push) === undefined">
+    <watt-drawer-actions *ngIf="(message$ | push) === undefined">
       <watt-button variant="secondary" [disabled]="true">{{
         t("stop")
       }}</watt-button>

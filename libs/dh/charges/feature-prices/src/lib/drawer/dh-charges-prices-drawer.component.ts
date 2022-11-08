@@ -59,7 +59,7 @@ export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
 
   @Output() closed = new EventEmitter<void>();
 
-  messageId$ = this.dhChargesPricesDrawerService.message;
+  message$ = this.dhChargesPricesDrawerService.message;
   charge?: ChargeV1Dto;
   showChargeMessage = false;
 
