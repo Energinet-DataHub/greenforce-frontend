@@ -70,8 +70,9 @@ export class DhChargesPricesResultComponent
     'chargeId',
     'chargeName',
     'chargeOwnerName',
-    'icons',
     'chargeType',
+    'transparentInvoicing',
+    'taxIndicator',
     'resolution',
     'validFromDateTime',
     'validToDateTime',
@@ -99,7 +100,7 @@ export class DhChargesPricesResultComponent
   }
 
   rowClicked(charge: ChargeV1Dto) {
-    this.activeChargeId = charge.chargeId;
+    this.activeChargeId = charge.id;
     this.chargePriceDrawer.openDrawer(charge);
   }
 

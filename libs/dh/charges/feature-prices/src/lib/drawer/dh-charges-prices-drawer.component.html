@@ -17,12 +17,21 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'charges.prices.drawer'">
   <!-- drawer -->
   <watt-drawer #drawer size="large" (closed)="drawerClosed()">
-    <watt-drawer-topbar
-      ><span class="prices-label">{{ t("prices") }}</span> >
-      {{ charge?.chargeId }}</watt-drawer-topbar
-    >
+    <watt-drawer-topbar>
+      <span class="prices-label">{{ t("prices") }}</span>
+      <watt-icon name="right"></watt-icon>
+      <span
+        [ngClass]="{ clickable: (messageId$ | push) !== undefined }"
+        (click)="goToCharge()"
+        >{{ charge?.chargeId }}</span
+      >
+      <ng-container *ngIf="(messageId$ | push) !== undefined">
+        <watt-icon name="right"></watt-icon>
+        <span>{{ messageId$ | push }}</span>
+      </ng-container>
+    </watt-drawer-topbar>
 
-    <watt-drawer-actions>
+    <watt-drawer-actions *ngIf="(messageId$ | push) === undefined">
       <watt-button variant="secondary" [disabled]="true">{{
         t("stop")
       }}</watt-button>
@@ -31,19 +40,13 @@ limitations under the License.
 
     <watt-drawer-content>
       <div class="container">
-        <dh-charge-details-header [charge]="charge"> </dh-charge-details-header>
-
-        <watt-tabs>
-          <watt-tab label="{{ t('prices').toUpperCase() }}">
-            <dh-charges-charge-prices-tab></dh-charges-charge-prices-tab>
-          </watt-tab>
-          <watt-tab label="{{ t('messages').toUpperCase() }}">
-            <dh-charges-charge-messages-tab></dh-charges-charge-messages-tab>
-          </watt-tab>
-          <watt-tab label="{{ t('history').toUpperCase() }}">
-            <dh-charges-charge-history-tab></dh-charges-charge-history-tab>
-          </watt-tab>
-        </watt-tabs>
+        <dh-charge-content
+          [charge]="charge"
+          [hidden]="showChargeMessage === true"
+        ></dh-charge-content>
+        <dh-charge-price-message
+          [hidden]="showChargeMessage === false"
+        ></dh-charge-price-message>
       </div>
     </watt-drawer-content>
   </watt-drawer>

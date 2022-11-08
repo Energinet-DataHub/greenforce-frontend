@@ -16,6 +16,10 @@
       "ariaLabel": "Vælg side"
     }
   },
+  "clipboard": {
+    "success": "Kopieret til udklipsholder",
+    "error": "Kopiering mislykkedes"
+  },
   "sidebar": {
     "navigation": {
       "meteringPoints": "Målepunkter",
@@ -255,6 +259,16 @@
     "tariffsTitle": "Tariffer",
     "subscriptionsTitle": "Abonnementer",
     "feesTitle": "Gebyrer",
+    "back": "Tilbage",
+    "sender": "Afsender",
+    "messageType": {
+      "D18": "Opdatering af pris stamdata",
+      "D08": "Opdatering af prisserie"
+    },
+    "messageTypeAbbreviation": {
+      "D18": "RSM-033",
+      "D08": "RSM-033"
+    },
     "chargeType": {
       "D01": "Abonnement",
       "D02": "Gebyr",
@@ -297,6 +311,12 @@
     "prices": {
       "topBarTitle": "Søg pris",
       "prices": "Priser",
+      "price": "Pris",
+      "priceTab": {
+        "fromDateTime": "Gyldig fra",
+        "toDateTime": "Gyldig til",
+        "time": "Tid"
+      },
       "search": {
         "idOrName": "Pris ID/Navn",
         "enterIdOrName": "Indtast dele af eller hele id eller navn",
@@ -318,7 +338,8 @@
       "resolution": "Opløsning",
       "validFromDateTime": "Gyldig fra",
       "validToDateTime": "Gyldig til",
-      "resultLength": "Søgeresultater",
+      "resultLength": "Søgeresultat",
+      "resultsLength": "Søgeresultater",
       "Download": "Download",
       "noResultsFound": "Intet resultat",
       "noResultsHelperText": "Prøv at ændre dine søgeindstillinger",
@@ -326,6 +347,9 @@
       "transparentInvoicing": "Viderefakturering",
       "startSearch": "Start søgning",
       "startSearchText": "Dine resultater vil fremgå her",
+      "noPricesForCharge": "Ingen priser",
+      "noPricesForChargeText": "Der findes ingen prisserier for denne pris.",
+      "noChargePriceResultsHelperText": "Ingen priser er indsendt for denne periode.",
       "paginator": {
         "itemsPerPageLabel": "Priser pr. side",
         "of": "af",
@@ -353,6 +377,7 @@
       "drawer": {
         "prices": "Priser",
         "messages": "Beskeder",
+        "message": "Besked",
         "dateChips": {
           "day": "Dag",
           "week": "Uge",
@@ -510,7 +535,7 @@
       "columns": {
         "organization": "Organisation",
         "gln": "Aktørnummer",
-        "status": "Status",
+        "status": "Aktørstatus",
         "marketRoles": "Markedsroller",
         "gridAreas": "Netområder",
         "noActors": "Ingen aktører"

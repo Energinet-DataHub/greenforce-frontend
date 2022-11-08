@@ -36,11 +36,11 @@ export class PermissionService {
       return of(true);
     }
 
-    const accounts = this.authService.instance.getAllAccounts();
+    const account = this.authService.instance.getActiveAccount();
 
     // If MSAL returns no accounts or the claims are missing,
     // the service default to no access.
-    if (accounts.length != 1) {
+    if (!account) {
       return of(false);
     }
 
@@ -48,7 +48,7 @@ export class PermissionService {
 
     const tokenRequest: SilentRequest = {
       scopes: [activeScope],
-      account: accounts[0],
+      account: account,
     };
 
     return this.authService.acquireTokenSilent(tokenRequest).pipe(

@@ -28,7 +28,10 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
+import {
+  BatchDtoV2,
+  BatchState
+} from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt/badge';
