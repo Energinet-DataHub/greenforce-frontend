@@ -28,6 +28,7 @@ limitations under the License.
             <watt-dropdown
               formControlName="chargeType"
               [options]="chargeTypeOptions"
+              (ngModelChange)="chargeTypeChanged($event)"
               name="chargeType"
               [showResetOption]="false"
               [placeholder]="t('createPrices.selectChargeType')"
@@ -126,7 +127,7 @@ limitations under the License.
           </watt-checkbox>
 
           <!-- Tax Indicator -->
-          <watt-checkbox formControlName="taxIndicator">
+          <watt-checkbox *ngIf="isTariff" formControlName="taxIndicator">
             {{ t("taxIndicator") }}
           </watt-checkbox>
         </div>

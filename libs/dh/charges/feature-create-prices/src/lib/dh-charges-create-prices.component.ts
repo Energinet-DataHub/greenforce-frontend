@@ -67,6 +67,8 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     taxIndicator: new FormControl(false, Validators.required),
   });
 
+  isTariff = false;
+
   private destroy$ = new Subject<void>();
 
   constructor(private translocoService: TranslocoService) {}
@@ -81,9 +83,11 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  createPrice() {
-    console.log(this.charge.controls['effectiveDate']);
+  chargeTypeChanged(chargeType: number) {
+    this.isTariff = chargeType == Number(ChargeTypes.Tariff);
+  }
 
+  createPrice() {
     if (!this.charge.valid) return;
 
     console.log('VALID!');
