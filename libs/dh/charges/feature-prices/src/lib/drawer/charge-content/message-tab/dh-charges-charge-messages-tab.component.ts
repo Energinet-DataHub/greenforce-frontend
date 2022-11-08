@@ -181,7 +181,7 @@ export class DhChargesChargeMessagesTabComponent
   openMessage(message: ChargeMessageV1Dto) {
     if (message.messageId == undefined) return;
 
-    this.dhChargesPricesDrawerService.setMessageId(message.messageId);
+    this.dhChargesPricesDrawerService.setMessage(message);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

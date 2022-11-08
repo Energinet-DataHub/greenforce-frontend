@@ -73,16 +73,25 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   blobHasGeneralError$ = this.blobStore.hasGeneralError$;
 
   searchCriteria: MessageArchiveSearchCriteria = {
-    maxItemCount: 1,
+    continuationToken: null,
+    dateTimeFrom: new Date().toISOString(),
+    dateTimeTo: new Date().toISOString(),
+    functionName: null,
     includeRelated: false,
     includeResultsWithoutContent: false,
+    invocationId: null,
+    maxItemCount: 1,
+    processTypes: [],
+    rsmNames: [],
+    traceId: null,
   };
 
   ngOnInit(): void {
-    this.dhChargesPricesDrawerService.messageId
+    this.dhChargesPricesDrawerService.message
       .pipe(takeUntil(this.destroy$))
-      .subscribe((messageId) => {
-        this.searchCriteria.messageId = messageId;
+      .subscribe((message) => {
+        this.searchCriteria.messageId = message?.messageId;
+        this.searchCriteria.dateTimeFrom = message?.messageDateTime;
         this.chargeMessageArchiveStore.searchLogs(this.searchCriteria);
       });
 
@@ -116,7 +125,7 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   }
 
   backToCharge() {
-    this.dhChargesPricesDrawerService.removeMessageId();
+    this.dhChargesPricesDrawerService.removeMessage();
   }
 
   downloadLog() {
