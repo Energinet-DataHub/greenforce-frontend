@@ -24,6 +24,7 @@ name: Prepare dotnet outputs
 # All 'apps' must be output into the '/functions\' subfolder, to match
 # how they are later retrieved in the '<domain>-stage-deployment.yml' file.
 #
+
 inputs:
   OUTPUT_PATH:
     required: true

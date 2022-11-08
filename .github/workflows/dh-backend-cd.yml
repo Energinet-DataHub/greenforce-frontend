@@ -11,7 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: CD
+
+name: DH Backend CD
 
 on:
   push:
@@ -24,7 +25,7 @@ jobs:
   #
 
   changes:
-    uses: ./.github/workflows/detect-changes.yml
+    uses: ./.github/workflows/dh-backend-detect-changes.yml
 
   #
   # CD .NET
@@ -33,7 +34,7 @@ jobs:
   dotnet_update_coverage_report:
     needs: changes
     if: ${{ needs.changes.outputs.dotnet == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v8
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v9
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       ENVIRONMENT: AzureAuth
@@ -47,7 +48,7 @@ jobs:
   dotnet_promote_prerelease:
     needs: changes
     if: ${{ needs.changes.outputs.dotnet == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v8
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v9
     with:
       RELEASE_NAME_PREFIX: dotnet
   #
@@ -73,7 +74,7 @@ jobs:
       - run: echo "${{ toJSON(needs) }}"
 
       - name: Find associated pull request
-        uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@v8
+        uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@v9
         id: find_pull_request
 
       - name: Repository Dispatch
@@ -81,5 +82,5 @@ jobs:
         with:
           token: ${{ secrets.PAT_TOKEN }}
           repository: '${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}'
-          event-type: 'geh-post-office-deployment-request-domain'
-          client-payload: '{"pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet_deploy": "${{ needs.changes.outputs.dotnet }}"}'
+          event-type: 'dh-backend-deployment-request-domain'
+          client-payload: '{"domain_pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet_deploy": "${{ needs.changes.outputs.dotnet }}"}'
