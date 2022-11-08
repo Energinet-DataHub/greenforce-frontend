@@ -1,0 +1,196 @@
+# Copyright 2020 Energinet DataHub A/S
+#
+# Licensed under the Apache License, Version 2.0 (the "License2");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: DH Frontend CI
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  app-name: app-dh
+  BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+  is-main-branch: ${{ github.ref == 'refs/heads/main' }}
+  is-pull-request: ${{ github.event_name == 'pull_request' }}
+  NODE_OPTIONS: --max-old-space-size=6144
+  node-version-file: .nvmrc
+  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
+  yarn-version: 1.22.19
+  NX_MAX_PARALLEL: 2
+
+  # Nx Cloud
+  NX_BRANCH: ${{ github.event.number }}
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_RUN_GROUP: ${{ github.run_id }}
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+jobs:
+  #
+  # Detect if affected to start relevant jobs
+  #
+  affected:
+    name: Is affected?
+    runs-on: ubuntu-latest
+
+    outputs:
+      is-affected: ${{ steps.affected.outputs.is-affected }}
+
+    steps:
+      # needed for nx affected command
+      - name: Check out source code with current branch Git history
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      # needed for nx affected command
+      - name: 'PR: Fetch base branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: git fetch --no-tags origin $BASE_BRANCH
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ${{ env.node-version-file }}
+          cache: 'yarn'
+
+      - name: Disable workspace NGCC run
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
+
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
+
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Is affected?
+        id: affected
+        uses: ./.github/actions/affected
+        with:
+          base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+          project: ${{ env.app-name }}
+
+  frontend_ci_build:
+    name: Publish
+    if: ${{ needs.affected.outputs.is-affected == 'true' }}
+    needs: affected
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ${{ env.node-version-file }}
+          cache: 'yarn'
+
+      - name: Disable workspace NGCC run
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
+
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
+
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Angular Compatibility Compiler
+        run: npm run ngcc:dh
+
+      - name: Production build
+        run: yarn nx build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL
+
+      - name: Optimize i18n assets
+        run: yarn i18n:optimize:${{ env.app-name }}
+
+      - name: Find associated pull request
+        uses: jwalton/gh-find-current-pr@v1
+        id: find_pull_request
+        with:
+          state: all
+
+      - name: Fail if PR not found
+        if: steps.find_pull_request.outputs.pr == ''
+        run: exit 1
+
+      - name: Set RELEASE_VERSION
+        shell: bash
+        run: |
+          echo "RELEASE_VERSION=dh_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+          echo "RELEASE_FOLDER_PATH=${{ github.workspace }}/dh_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+
+      - name: Setup Release
+        shell: bash
+        run: |
+          cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.app-name }} ${{ env.RELEASE_FOLDER_PATH }}
+
+      - name: Zip files for prerelease
+        uses: thedoctor0/zip-release@0.6.2
+        with:
+          type: 'zip'
+          filename: ${{ env.RELEASE_ZIP_FILENAME }}
+          directory: ${{ env.RELEASE_FOLDER_PATH }}
+
+      - name: Create prelease
+        uses: marvinpinto/action-automatic-releases@v1.2.1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: ${{ env.RELEASE_VERSION }}
+          prerelease: true
+          title: ${{ env.RELEASE_VERSION }}
+          files: |
+            ${{ env.RELEASE_FOLDER_PATH }}/${{ env.RELEASE_ZIP_FILENAME }}
+
+      - name: Zip artifact
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          filename: ${{ env.RELEASE_VERSION }}.zip
+          directory: ${{ env.RELEASE_FOLDER_PATH }}
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.PAT_TOKEN }}
+          automatic_release_tag: ${{ env.RELEASE_VERSION }}
+          title: ${{ env.RELEASE_VERSION }}
+          prerelease: false
+          files: ${{ env.RELEASE_FOLDER_PATH }}/${{ env.RELEASE_VERSION }}.zip
+
+  #
+  # Branch policy status check
+  #
+
+  allow_merge:
+    runs-on: ubuntu-latest
+    needs: [
+      # Frontend
+      frontend_ci_build,
+    ]
+    if: |
+      always()
+    steps:
+      - name: Verify if merge is allowed
+        run: |
+          echo "${{ toJSON(needs) }}"
+          if [[ ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }} = true ]]; then
+              echo "Failed"
+              exit 1
+          fi
+
