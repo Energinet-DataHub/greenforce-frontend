@@ -28,16 +28,17 @@
 // the project's config changing)
 
 // Keep documented parameters
-// @ts-ignore
+
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
 };
 
-// Cypress Cucumber
-const cucumber = require('cypress-cucumber-preprocessor').default;
+const webpack = require('@cypress/webpack-preprocessor');
 
-// @ts-ignore
-module.exports = (on, config) => {
-  on('file:preprocessor', cucumber());
+module.exports = (on) => {
+  const options = {
+    webpackOptions: require('../../webpack.config'),
+  };
+  on('file:preprocessor', webpack(options));
 };

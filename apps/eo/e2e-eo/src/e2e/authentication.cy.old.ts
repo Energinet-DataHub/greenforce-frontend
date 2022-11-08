@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as appShell from '../support/app-shell.po';
+import * as appShell from '../page-objects/app.po';
 import * as authApi from '../support/auth-api';
-import * as dashboardPage from '../support/dashboard-page.po';
-import * as landingPage from '../support/landing-page.po';
-import * as termsPage from '../support/terms-page.po';
+import * as dashboardPage from '../page-objects/dashboard.po';
+import * as landingPage from '../page-objects/landing-page.po';
+import * as termsPage from '../page-objects/terms.po';
 
 describe('Authentication', () => {
   it(`Given a commercial user

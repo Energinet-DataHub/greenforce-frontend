@@ -9,7 +9,7 @@ const cypressJsonConfig = {
   video: false,
   viewportHeight: 1080,
   viewportWidth: 1920,
-  specPattern: 'src/e2e/**/*.cy.{js,jsx,ts,tsx}',
+  specPattern: ['**/*.feature'],
   supportFile: 'src/support/e2e.ts',
 };
 export default defineConfig({
