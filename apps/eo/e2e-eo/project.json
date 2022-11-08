@@ -7,19 +7,20 @@
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/eo/e2e-eo/cypress.json",
+        "cypressConfig": "apps/eo/e2e-eo/cypress.config.ts",
         "tsConfig": "apps/eo/e2e-eo/tsconfig.e2e.json",
         "devServerTarget": "app-eo:serve:e2e-development",
-        "headed": true
+        "headed": true,
+        "testingType": "e2e"
       },
       "configurations": {
         "ci": {
-          "cypressConfig": "apps/eo/e2e-eo/cypress.ci.json",
+          "cypressConfig": "apps/eo/e2e-eo/cypress.ci.config.ts",
           "devServerTarget": "app-eo:serve:production",
           "headed": false
         },
         "ci-development": {
-          "cypressConfig": "apps/eo/e2e-eo/cypress.ci.json",
+          "cypressConfig": "apps/eo/e2e-eo/cypress.ci.config.ts",
           "headed": false
         },
         "production": {

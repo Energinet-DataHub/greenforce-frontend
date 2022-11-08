@@ -135,7 +135,8 @@
     "@types/vimeo__player": "2.16.3",
     "@typescript-eslint/eslint-plugin": "5.40.0",
     "@typescript-eslint/parser": "5.40.0",
-    "cypress": "9.7.0",
+    "cypress": "10.11.0",
+    "cypress-cucumber-preprocessor": "4.3.1",
     "dotenv": "16.0.2",
     "eslint": "8.18.0",
     "eslint-config-prettier": "8.5.0",
@@ -168,5 +169,8 @@
   },
   "msw": {
     "workerDirectory": "libs\\dh\\shared\\data-access-msw\\src\\assets"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true
   }
 }

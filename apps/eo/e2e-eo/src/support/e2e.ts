@@ -14,22 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 // ***********************************************************
-// This example plugins/index.js can be used to load plugins
+// This example support/index.ts is processed and
+// loaded automatically before your test files.
 //
-// You can change the location of this file or turn off loading
-// the plugins file with the 'pluginsFile' configuration option.
+// This is a great place to put global configuration and
+// behavior that modifies Cypress.
+//
+// You can change the location of this file or turn off
+// automatically serving support files with the
+// 'supportFile' configuration option.
 //
 // You can read more here:
-// https://on.cypress.io/plugins-guide
+// https://on.cypress.io/configuration
 // ***********************************************************
 
-// This function is called when a project is opened or re-opened (e.g. due to
-// the project's config changing)
+// Import commands.js using ES2015 syntax:
+import './commands';
 
-// Keep documented parameters
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-module.exports = (on, config) => {
-  // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
-};
+Cypress.on('uncaught:exception', (err) => {
+  return !err.message.includes('Cannot read properties of undefined');
+});
