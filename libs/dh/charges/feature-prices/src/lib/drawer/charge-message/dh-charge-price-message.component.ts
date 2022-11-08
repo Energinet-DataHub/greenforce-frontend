@@ -37,6 +37,7 @@ import { CommonModule } from '@angular/common';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { MatDividerModule } from '@angular/material/divider';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+
 @Component({
   selector: 'dh-charge-price-message',
   templateUrl: './dh-charge-price-message.component.html',
@@ -73,17 +74,30 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   blobHasGeneralError$ = this.blobStore.hasGeneralError$;
 
   searchCriteria: MessageArchiveSearchCriteria = {
-    maxItemCount: 1,
+    continuationToken: null,
+    // Need to split because message archive wants a specific format.
+    dateTimeFrom: new Date().toISOString().split('.')[0] + 'Z',
+    dateTimeTo: new Date().toISOString().split('.')[0] + 'Z',
+    functionName: null,
     includeRelated: false,
     includeResultsWithoutContent: false,
+    invocationId: null,
+    maxItemCount: 1,
+    processTypes: [],
+    rsmNames: [],
+    traceId: null,
   };
 
   ngOnInit(): void {
-    this.dhChargesPricesDrawerService.messageId
+    this.dhChargesPricesDrawerService.message
       .pipe(takeUntil(this.destroy$))
-      .subscribe((messageId) => {
-        this.searchCriteria.messageId = messageId;
-        this.chargeMessageArchiveStore.searchLogs(this.searchCriteria);
+      .subscribe((message) => {
+        if (message) {
+          this.searchCriteria.messageId = message.messageId;
+          this.searchCriteria.dateTimeFrom =
+            new Date(message.messageDateTime).toISOString().split('.')[0] + 'Z';
+          this.chargeMessageArchiveStore.searchLogs(this.searchCriteria);
+        }
       });
 
     this.chargeMessageArchiveStore.searchResult$
@@ -116,7 +130,7 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   }
 
   backToCharge() {
-    this.dhChargesPricesDrawerService.removeMessageId();
+    this.dhChargesPricesDrawerService.removeMessage();
   }
 
   downloadLog() {
