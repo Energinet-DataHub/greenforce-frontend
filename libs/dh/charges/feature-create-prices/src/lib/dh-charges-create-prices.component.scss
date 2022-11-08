@@ -27,7 +27,45 @@
 
 .form-container {
   display: grid;
-  grid-row: 2;
+  grid-template-columns: auto auto auto;
   padding-bottom: var(--watt-space-m);
   gap: var(--watt-space-m);
+}
+
+.checkboxes {
+  display: grid;
+  padding-bottom: var(--watt-space-m);
+  gap: var(--watt-space-m);
+  grid-row: 6;
+}
+
+.charge-type {
+  grid-column-start: 1;
+}
+
+.price-id {
+  grid-column-start: 1;
+}
+
+.price-name {
+  grid-column-start: 1;
+}
+
+.description {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.price-owner {
+  grid-column: 1;
+}
+
+.resolution {
+  grid-column-start: 2;
+  grid-row-start: 1;
+}
+
+.effective-date {
+  grid-column-start: 2;
+  grid-row-start: 2;
 }

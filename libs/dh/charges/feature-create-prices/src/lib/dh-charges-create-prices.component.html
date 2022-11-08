@@ -23,7 +23,7 @@ limitations under the License.
       <form [formGroup]="charge" (submit)="createPrice()">
         <div class="form-container">
           <!-- Price Type -->
-          <watt-form-field>
+          <watt-form-field class="charge-type">
             <watt-label>{{ t("prices.chargeType") }}</watt-label>
             <watt-dropdown
               formControlName="chargeType"
@@ -42,7 +42,7 @@ limitations under the License.
           </watt-form-field>
 
           <!-- Price Id -->
-          <watt-form-field>
+          <watt-form-field class="price-id">
             <watt-label>{{ t("createPrices.priceId") }}</watt-label>
             <input wattInput type="text" formControlName="priceId" required />
             <watt-error *ngIf="charge.controls['priceId'].hasError('required')">
@@ -50,7 +50,8 @@ limitations under the License.
             </watt-error>
           </watt-form-field>
 
-          <watt-form-field>
+          <!-- Price Name -->
+          <watt-form-field class="price-name">
             <watt-label>{{ t("createPrices.priceName") }}</watt-label>
             <input wattInput type="text" formControlName="priceName" required />
             <watt-error
@@ -60,19 +61,8 @@ limitations under the License.
             </watt-error>
           </watt-form-field>
 
-          <!-- Price Description -->
-          <watt-form-field>
-            <watt-label>{{ t("createPrices.priceDescription") }}</watt-label>
-            <textarea wattInput formControlName="priceDescription"></textarea>
-            <watt-error
-              *ngIf="charge.controls['priceDescription'].hasError('required')"
-            >
-              {{ t("fieldRequiredErrorText") }}
-            </watt-error>
-          </watt-form-field>
-
           <!-- Price Owner -->
-          <watt-form-field>
+          <watt-form-field class="price-owner">
             <watt-label>{{ t("createPrices.priceOwner") }}</watt-label>
             <input
               wattInput
@@ -87,8 +77,19 @@ limitations under the License.
             </watt-error>
           </watt-form-field>
 
-          <!-- Period Type -->
-          <watt-form-field>
+          <!-- Price Description -->
+          <watt-form-field class="description">
+            <watt-label>{{ t("createPrices.priceDescription") }}</watt-label>
+            <textarea wattInput formControlName="priceDescription"></textarea>
+            <watt-error
+              *ngIf="charge.controls['priceDescription'].hasError('required')"
+            >
+              {{ t("fieldRequiredErrorText") }}
+            </watt-error>
+          </watt-form-field>
+
+          <!-- Resolution -->
+          <watt-form-field class="resolution">
             <watt-label>{{ t("resolution") }}</watt-label>
             <watt-dropdown
               formControlName="resolution"
@@ -106,7 +107,7 @@ limitations under the License.
           </watt-form-field>
 
           <!-- Effective Date -->
-          <watt-form-field>
+          <watt-form-field class="effective-date">
             <watt-label>{{ t("effectiveDate") }}</watt-label>
             <watt-datepicker formControlName="effectiveDate"></watt-datepicker>
             <watt-error
@@ -116,20 +117,22 @@ limitations under the License.
             </watt-error>
           </watt-form-field>
 
-          <!-- Transparent invoicing -->
-          <watt-checkbox formControlName="transparentInvoicing">
-            {{ t("transparentInvoicing") }}
-          </watt-checkbox>
+          <div class="col-1 checkboxes">
+            <!-- Transparent invoicing -->
+            <watt-checkbox formControlName="transparentInvoicing">
+              {{ t("transparentInvoicing") }}
+            </watt-checkbox>
 
-          <!-- Vat Classification -->
-          <watt-checkbox formControlName="vatClassification">
-            {{ t("vatClassification") }}
-          </watt-checkbox>
+            <!-- Vat Classification -->
+            <watt-checkbox formControlName="vatClassification">
+              {{ t("vatClassification") }}
+            </watt-checkbox>
 
-          <!-- Tax Indicator -->
-          <watt-checkbox *ngIf="isTariff" formControlName="taxIndicator">
-            {{ t("taxIndicator") }}
-          </watt-checkbox>
+            <!-- Tax Indicator -->
+            <watt-checkbox *ngIf="isTariff" formControlName="taxIndicator">
+              {{ t("taxIndicator") }}
+            </watt-checkbox>
+          </div>
         </div>
 
         <watt-button type="submit">Create</watt-button>
