@@ -63,7 +63,7 @@ jobs:
   dotnet_ci_test_unittests:
     needs: changes
     if: ${{ needs.changes.outputs.dotnet == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci-test.yml@v9
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-postbuild-test.yml@v9
     with:
       TESTS_DLL_FILE_PATH: '\apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net6.0\Energinet.DataHub.WebApi.Tests.dll'
       DOWNLOAD_ATTEMPT_LIMIT: 12
