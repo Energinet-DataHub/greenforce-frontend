@@ -34,17 +34,18 @@ import { WattIconModule } from '../../foundations/icon/icon.module';
   standalone: true,
   imports: [CommonModule, WattIconModule],
   encapsulation: ViewEncapsulation.None,
-  template: `<ng-content></ng-content><watt-icon *ngIf="!isLast" name="right"></watt-icon>`,
+  template: `<ng-content></ng-content
+    ><watt-icon *ngIf="!isLast" name="right"></watt-icon>`,
 })
 export class WattBreadcrumbComponent {
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() click: EventEmitter<unknown> = new EventEmitter<unknown>(); // Used to determine if the breadcrumb is interactive or not
   @HostBinding('class.interactive') get isInteractive() {
     return this.click.observed;
-  };
+  }
   @HostBinding('attr.role') get role() {
     return this.isInteractive ? 'link' : null;
-  };
+  }
   isLast = false;
 }
 
