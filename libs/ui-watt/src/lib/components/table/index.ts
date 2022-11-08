@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export { WattTableDataSource } from './watt-table-data-source';
 export {
   WattTableComponent,
   WattTableCellDirective,

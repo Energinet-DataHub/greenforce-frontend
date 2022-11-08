@@ -14,12 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<table
-  mat-table
-  [dataSource]="dataSource"
-  wattResizeObserver
-  (resize)="updateStyle()"
->
+<table mat-table [dataSource]="dataSource">
   <ng-container *ngFor="let column of columns" [matColumnDef]="column">
     <th mat-header-cell *matHeaderCellDef>
       <span class="watt-header-cell">{{ formatHeader(column) }} </span>

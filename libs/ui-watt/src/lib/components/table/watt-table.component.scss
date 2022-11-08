@@ -17,46 +17,30 @@
 @use "@energinet-datahub/watt/utils" as watt;
 
 watt-table .mat-table {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--watt-table-grid-template-columns);
+  height: 100px;
+  overflow: auto;
 
   thead,
-  .mat-row {
-    display: contents !important;
+  tbody,
+  tr.mat-row,
+  tr.mat-header-row {
+    display: contents;
   }
 
-  .mat-header-row {
+  tr.mat-header-row {
     flex: 0 0 auto;
-    height: auto;
-    background: #ebf5f5; /* Magic UX color */
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    overflow: hidden;
   }
 
   th.mat-header-cell {
-    background-color: transparent;
-    border: 0;
+    position: sticky;
+    top: 0;
     padding: 0;
-  }
-
-  .watt-header-cell {
-    display: inline-block;
-    @include watt.space-inset-stretch-s;
-  }
-
-  .mat-header-row,
-  tbody {
-    display: grid;
-    grid-template-columns: var(--watt-table-grid-template-columns);
-  }
-
-  tbody {
-    overflow-y: auto;
-  }
-
-  watt-icon {
-    display: inline-flex;
+    height: auto;
+    background: #ebf5f5; /* Magic UX color */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   }
 
   td.mat-cell {
@@ -64,5 +48,10 @@ watt-table .mat-table {
     align-items: center;
     min-height: 56px; /* Magic UX number */
     padding: var(--watt-space-s);
+  }
+
+  .watt-header-cell {
+    display: inline-block;
+    @include watt.space-inset-stretch-s;
   }
 }

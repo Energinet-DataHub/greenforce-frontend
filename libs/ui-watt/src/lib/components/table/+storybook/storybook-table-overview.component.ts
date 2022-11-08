@@ -16,7 +16,6 @@
  */
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatSort, MatSortable, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { WattTableDataSource } from '../watt-table-data-source';
 import { WattTableSizing } from '../watt-table.component';
 
