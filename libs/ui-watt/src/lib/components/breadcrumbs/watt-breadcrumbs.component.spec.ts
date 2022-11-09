@@ -16,13 +16,12 @@
  */
 import { render } from '@testing-library/angular';
 
-import { WattBreadcrumbs, WattBreadcrumbsComponent } from './watt-breadcrumbs.component';
+import { WATT_BREADCRUMBS, WattBreadcrumbsComponent } from './watt-breadcrumbs.component';
 
 describe(WattBreadcrumbsComponent.name, () => {
   it('renders', async () => {
     await render(WattBreadcrumbsComponent, {
-      declarations: [WattBreadcrumbsComponent],
-      imports: [WattBreadcrumbs],
+      imports: [WATT_BREADCRUMBS]
     });
   });
 });

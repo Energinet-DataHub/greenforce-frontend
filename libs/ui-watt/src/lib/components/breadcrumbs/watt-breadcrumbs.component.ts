@@ -79,7 +79,7 @@ export class WattBreadcrumbsComponent implements AfterViewInit {
   }
 }
 
-export const WattBreadcrumbs = [
+export const WATT_BREADCRUMBS = [
   WattBreadcrumbsComponent,
   WattBreadcrumbComponent,
-];
+] as const;

@@ -21,7 +21,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Story, Meta, moduleMetadata } from '@storybook/angular';
 
 import {
-  WattBreadcrumbs,
+  WATT_BREADCRUMBS,
   WattBreadcrumbsComponent,
 } from './watt-breadcrumbs.component';
 
@@ -41,7 +41,7 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        WattBreadcrumbs,
+        WATT_BREADCRUMBS,
         RouterTestingModule.withRoutes([
           { path: '', redirectTo: 'overview', pathMatch: 'full' },
           { path: 'components', component: generateComponent('Components') },
