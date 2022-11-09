@@ -38,10 +38,11 @@ limitations under the License.
 
     <!-- Download -->
     <watt-button
+      *ngIf="message"
       class="download-button"
       icon="openInNew"
       variant="text"
-      (click)="downloadLog()"
+      (click)="downloadLog($event)"
     >
       {{ t("prices.Download") }}
     </watt-button>
