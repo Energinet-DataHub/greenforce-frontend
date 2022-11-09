@@ -729,6 +729,11 @@
         "of": "af"
       }
     },
+    "batchDetails": {
+      "headline": "Batch: {{batchNumber}}",
+      "calculationPeriod": "Beregningsperiode",
+      "executionTime": "Eksekveringstidspunkt"
+    },
     "gridAreas": {
       "header": "{{total}} Netområder",
       "gridAreaCode": "ID",

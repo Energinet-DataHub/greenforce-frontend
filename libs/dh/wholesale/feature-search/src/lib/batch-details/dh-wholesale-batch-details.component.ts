@@ -21,26 +21,29 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
 
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import {
   WattDrawerComponent,
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
-import { TranslocoModule } from '@ngneat/transloco';
-import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
+
 import { BatchVm } from '../table/dh-wholesale-table.component';
+import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
 
 @Component({
   standalone: true,
   imports: [
     CommonModule,
-    WattDrawerModule,
+    DhSharedUiDateTimeModule,
+    DhWholesaleGridAreasComponent,
+    TranslocoModule,
     WattBadgeModule,
     WattCardModule,
-    TranslocoModule,
-    DhWholesaleGridAreasComponent,
+    WattDrawerModule,
   ],
   selector: 'dh-wholesale-batch-details',
   templateUrl: './dh-wholesale-batch-details.component.html',

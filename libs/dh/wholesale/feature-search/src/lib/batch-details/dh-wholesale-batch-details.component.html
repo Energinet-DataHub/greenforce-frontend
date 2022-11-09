@@ -14,26 +14,33 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-drawer *transloco="let transloco; read: 'wholesale.searchBatch'" #drawer>
+<watt-drawer *transloco="let transloco; read: 'wholesale'" #drawer>
   <watt-drawer-topbar>
     <div>
       <watt-badge [type]="batch.statusType">
-        {{ transloco(batch.executionState) }}
+        {{ transloco("searchBatch." + batch.executionState) }}
       </watt-badge>
-      <p class="subheadline"><small>Korrektionsafregning</small></p>
-      <h3 class="headline watt-headline-1">Batch: {{ batch.batchNumber }}</h3>
+      <h3 class="headline watt-headline-1">
+        {{
+          transloco("batchDetails.headline", { batchNumber: batch.batchNumber })
+        }}
+      </h3>
     </div>
   </watt-drawer-topbar>
 
   <watt-drawer-content>
     <dl>
       <div>
-        <dt class="watt-label">Beregningsperiode</dt>
-        <dd>01-02-2022 - 01-03-2022</dd>
+        <dt class="watt-label">
+          {{ transloco("batchDetails.calculationPeriod") }}
+        </dt>
+        <dd>{{ batch.periodStart | dhDate }} - {{ batch.periodEnd | dhDate }}</dd>
       </div>
       <div>
-        <dt class="watt-label">Eksekveringstidspunkt</dt>
-        <dd>10-07-2022 10:00</dd>
+        <dt class="watt-label">
+          {{ transloco("batchDetails.executionTime") }}
+        </dt>
+        <dd>{{ batch.executionTimeStart | dhDateTime }}</dd>
       </div>
     </dl>
     <dh-wholesale-grid-areas
