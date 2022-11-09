@@ -15,11 +15,19 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  ViewChild,
+} from '@angular/core';
 
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
+import {
+  WattDrawerComponent,
+  WattDrawerModule,
+} from '@energinet-datahub/watt/drawer';
 import { TranslocoModule } from '@ngneat/transloco';
 import { BatchVm } from '../table/dh-wholesale-table.component';
 
@@ -30,7 +38,7 @@ import { BatchVm } from '../table/dh-wholesale-table.component';
     WattDrawerModule,
     WattBadgeModule,
     WattCardModule,
-    TranslocoModule
+    TranslocoModule,
   ],
   selector: 'dh-wholesale-batch-details',
   templateUrl: './dh-wholesale-batch-details.component.html',
