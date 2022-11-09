@@ -61,7 +61,7 @@ jobs:
       RELEASE_NAME_PREFIX: ui_dotnet
 
   # Run all tests in 'Tests.dll'
-  dotnet_ci_test_unittests:
+  dotnet_ci_test:
     needs: changes
     if: ${{ needs.changes.outputs.dotnet == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-postbuild-test.yml@v9
@@ -84,7 +84,7 @@ jobs:
     needs: [
         # .NET
         dotnet_ci_build,
-        dotnet_ci_test_unittests,
+        dotnet_ci_test,
       ]
     runs-on: ubuntu-latest
     env:
@@ -142,7 +142,7 @@ jobs:
     needs: [
         # .NET
         dotnet_ci_build,
-        dotnet_ci_test_unittests,
+        dotnet_ci_test,
 
         # Frontend Client
         generate_client,
