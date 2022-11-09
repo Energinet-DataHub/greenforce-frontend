@@ -24,7 +24,7 @@ const cypressJsonConfig = {
   chromeWebSecurity: false,
   fileServerFolder: '.',
   fixturesFolder: './src/fixtures',
-  video: true,
+  video: false,
   videosFolder: '../../../dist/cypress/apps/eo/e2e-eo/videos',
   viewportHeight: 800,
   viewportWidth: 1280,
