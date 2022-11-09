@@ -14,22 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-  width: 100%;
+.headline,
+.subheadline {
+  margin: 0;
 }
 
-watt-empty-state {
-  margin-top: var(--watt-space-xl);
+.subheadline {
+  float: right;
+  margin-left: var(--watt-space-s);
 }
 
-watt-card-title {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: var(--watt-space-s);
+dl {
+  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+  margin: 0 0 var(--watt-space-m) 0;
+  padding-bottom: var(--watt-space-m);
 
-  h3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  dd {
     margin: 0;
   }
 }
