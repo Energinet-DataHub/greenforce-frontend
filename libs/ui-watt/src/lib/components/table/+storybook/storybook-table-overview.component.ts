@@ -44,10 +44,6 @@ export const periodicElements: PeriodicElement[] = [
         height: calc(100vh - 2rem);
         grid-template-rows: min-content minmax(10rem, min-content);
       }
-
-      :host > * {
-        height: 100%;
-      }
     `,
   ],
 })
