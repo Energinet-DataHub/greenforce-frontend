@@ -259,13 +259,15 @@
     "tariffsTitle": "Tariffs",
     "subscriptionsTitle": "Subscriptions",
     "feesTitle": "Fees",
+    "back": "Back",
+    "sender": "Sender",
     "messageType": {
-      "D05": "Request change of billing masterdata",
-      "D10": "Request change of price series"
+      "D18": "Request change of billing masterdata",
+      "D08": "Request change of price series"
     },
     "messageTypeAbbreviation": {
-      "D05": "RSM-33",
-      "D10": "RSM-33"
+      "D18": "RSM-033",
+      "D08": "RSM-033"
     },
     "chargeType": {
       "D01": "Subscription",

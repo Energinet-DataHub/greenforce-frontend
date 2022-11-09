@@ -20,8 +20,8 @@ import {
   ChargeV1Dto,
   MarketParticipantV1Dto,
   VatClassification,
-  ChargeMessageV1Dto,
-  ChargeMessageDocumentType,
+  ChargeMessagesV1Dto,
+  ChargeMessageType,
 } from '@energinet-datahub/dh/shared/domain';
 
 export function chargesMocks(apiBase: string) {
@@ -130,6 +130,13 @@ function getMarketParticipants(apiBase: string) {
           id: 'C5E0990A-713B-41E6-AB9C-A1B357A1EABD',
           name: 'name 1',
           marketParticipantId: '8100000000016',
+          businessProcessRole: 'DDZ',
+        },
+        {
+          id: 'C5E0990A-713B-41E6-AB9C-A1B357A1EABD',
+          name: 'name 2',
+          marketParticipantId: '8100000000030',
+          businessProcessRole: 'DDM',
         },
       ];
       return res(ctx.status(200), ctx.json(result));
@@ -170,23 +177,26 @@ function searchChargeMessages(apiBase: string) {
   return rest.post(
     `${apiBase}/v1/Charges/SearchChargeMessagesAsync`,
     (req, res, ctx) => {
-      const result: ChargeMessageV1Dto[] = [
-        {
-          messageId: 'MessageId00001',
-          messageDateTime: '2022-08-01T22:00:00',
-          messageType: ChargeMessageDocumentType.D05,
-        },
-        {
-          messageId: 'MessageId00002',
-          messageDateTime: '2022-08-02T22:00:00',
-          messageType: ChargeMessageDocumentType.D05,
-        },
-        {
-          messageId: 'MessageId00003',
-          messageDateTime: '2022-08-03T22:00:00',
-          messageType: ChargeMessageDocumentType.D10,
-        },
-      ];
+      const result: ChargeMessagesV1Dto = {
+        totalCount: 3,
+        chargeMessages: [
+          {
+            messageId: 'MessageId00001',
+            messageDateTime: '2022-10-01T22:00:00',
+            messageType: ChargeMessageType.D18,
+          },
+          {
+            messageId: 'MessageId00002',
+            messageDateTime: '2022-10-02T22:00:00',
+            messageType: ChargeMessageType.D18,
+          },
+          {
+            messageId: 'MessageId00003',
+            messageDateTime: '2022-10-03T22:00:00',
+            messageType: ChargeMessageType.D08,
+          },
+        ],
+      };
       return res(ctx.status(200), ctx.json(result));
     }
   );
