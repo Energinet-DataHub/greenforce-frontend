@@ -14,54 +14,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const { defineConfig } = require('cypress');
-const { webpackPreprocessor } = require('@cypress/webpack-preprocessor');
-const {
-  addCucumberPreprocessorPlugin,
-} = require('@badeball/cypress-cucumber-preprocessor');
+ const { defineConfig } = require('cypress');
+ const webpackPreprocessor = require('@cypress/webpack-preprocessor');
+ const {
+   addCucumberPreprocessorPlugin,
+ } = require('@badeball/cypress-cucumber-preprocessor');
 
-const cypressJsonConfig = {
-  chromeWebSecurity: false,
-  fileServerFolder: '.',
-  fixturesFolder: './src/fixtures',
-  video: true,
-  videosFolder: '../../../dist/cypress/apps/eo/e2e-eo/videos',
-  viewportHeight: 800,
-  viewportWidth: 1280,
-  screenshotsFolder: '../../../dist/cypress/apps/eo/e2e-eo/screenshots',
-  specPattern: ['**/*.feature'],
-  supportFile: 'src/support/e2e.ts',
-};
+ const cypressJsonConfig = {
+   chromeWebSecurity: false,
+   fileServerFolder: '.',
+   fixturesFolder: './src/fixtures',
+   video: true,
+   videosFolder: '../../../dist/cypress/apps/eo/e2e-eo/videos',
+   viewportHeight: 800,
+   viewportWidth: 1280,
+   screenshotsFolder: '../../../dist/cypress/apps/eo/e2e-eo/screenshots',
+   specPattern: ['**/*.feature'],
+   supportFile: 'src/support/e2e.ts',
+ };
 
-async function setupNodeEvents(on, config) {
-  await addCucumberPreprocessorPlugin(on, config);
+ async function setupNodeEvents(on, config) {
+   await addCucumberPreprocessorPlugin(on, config);
 
-  const options = {
-    webpackOptions: {
-      module: {
-        rules: [
-          {
-            test: /\.feature$/,
-            use: [
-              {
-                loader: '@badeball/cypress-cucumber-preprocessor/webpack',
-                options: config,
-              },
-            ],
-          },
-        ],
-      },
-    },
-  };
+   const options = {
+     webpackOptions: {
+       module: {
+         rules: [
+           {
+             test: /\.feature$/,
+             use: [
+               {
+                 loader: '@badeball/cypress-cucumber-preprocessor/webpack',
+                 options: config,
+               },
+             ],
+           },
+         ],
+       },
+     },
+   };
 
-  on('file:preprocessor', webpackPreprocessor(options));
+   on('file:preprocessor', webpackPreprocessor(options));
 
-  return config;
-}
+   return config;
+ }
 
-export default defineConfig({
-  e2e: {
-    ...cypressJsonConfig,
-    setupNodeEvents,
-  },
-});
+ export default defineConfig({
+   e2e: {
+     ...cypressJsonConfig,
+     setupNodeEvents,
+   },
+ });

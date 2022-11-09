@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 const { defineConfig } = require('cypress');
-const { webpackPreprocessor } = require('@cypress/webpack-preprocessor');
+const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 const {
   addCucumberPreprocessorPlugin,
 } = require('@badeball/cypress-cucumber-preprocessor');
