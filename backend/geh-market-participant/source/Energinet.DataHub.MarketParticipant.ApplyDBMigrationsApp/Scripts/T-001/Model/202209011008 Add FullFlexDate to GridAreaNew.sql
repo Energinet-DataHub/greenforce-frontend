@@ -1,3 +1,0 @@
-ALTER TABLE [dbo].[GridAreaNew]
-    ADD [FullFlexDate] DATETIMEOFFSET NULL
-GO

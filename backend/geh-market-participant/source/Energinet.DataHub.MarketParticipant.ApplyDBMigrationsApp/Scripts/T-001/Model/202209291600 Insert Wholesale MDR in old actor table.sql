@@ -1,2 +1,0 @@
-INSERT [dbo].[ActorInfo] ([Id], [IdentificationNumber], [IdentificationType], [Roles], [Active], [Name]) VALUES (N'84eb4688-4d96-4a28-8168-689243f6c0e0', N'8200000007739', 1, N'MDR', 1, N'Wholesale_MDR_805')
-GO
