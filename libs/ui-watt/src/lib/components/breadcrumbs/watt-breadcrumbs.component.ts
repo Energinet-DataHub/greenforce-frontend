@@ -60,7 +60,9 @@ export class WattBreadcrumbComponent {
   imports: [CommonModule, WattIconModule],
   selector: 'watt-breadcrumbs',
   styleUrls: ['./watt-breadcrumbs.component.scss'],
-  templateUrl: './watt-breadcrumbs.component.html',
+  template: `<nav>
+    <ng-content select="watt-breadcrumb"></ng-content>
+  </nav>`,
 })
 export class WattBreadcrumbsComponent implements AfterViewInit {
   /**
