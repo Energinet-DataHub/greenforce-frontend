@@ -40,7 +40,7 @@ import { BatchVm } from '../table/dh-wholesale-table.component';
     WattBadgeModule,
     WattCardModule,
     TranslocoModule,
-    DhWholesaleGridAreasComponent
+    DhWholesaleGridAreasComponent,
   ],
   selector: 'dh-wholesale-batch-details',
   templateUrl: './dh-wholesale-batch-details.component.html',
