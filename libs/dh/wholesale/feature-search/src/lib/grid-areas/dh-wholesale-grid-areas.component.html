@@ -15,9 +15,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<watt-card *transloco="let transloco; read: 'wholesale.searchBatch'">
+<watt-card *transloco="let transloco; read: 'wholesale.gridAreas'">
   <watt-card-title>
-    <h3 class="watt-on-light--high-emphasis">{{ transloco("headline") }}</h3>
+    <h3 class="watt-on-light--high-emphasis">{{ transloco('header', {total: _data.data.length}) }}</h3>
     <dh-shared-ui-paginator></dh-shared-ui-paginator>
   </watt-card-title>
 
@@ -32,7 +32,7 @@ limitations under the License.
     <!--Grid Area Code -->
     <ng-container matColumnDef="gridAreaCode">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        ID
+        {{ transloco('gridAreaCode') }}
       </mat-header-cell>
       <mat-cell *matCellDef="let gridArea">
         {{ gridArea.gridAreaCode }}
@@ -41,7 +41,7 @@ limitations under the License.
     <!-- Name -->
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        Navn
+        {{ transloco('name') }}
       </mat-header-cell>
       <mat-cell *matCellDef="let batch">
         -

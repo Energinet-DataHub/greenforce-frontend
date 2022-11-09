@@ -727,6 +727,11 @@
         "of": "of"
       }
     },
+    "gridAreas": {
+      "header": "{{total}} Grid Areas",
+      "gridAreaCode": "ID",
+      "name": "name"
+    },
     "overview": {
       "header": "Process Overview"
     }

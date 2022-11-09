@@ -729,6 +729,11 @@
         "of": "af"
       }
     },
+    "gridAreas": {
+      "header": "{{total}} Netområder",
+      "gridAreaCode": "ID",
+      "name": "navn"
+    },
     "overview": {
       "header": "Proces oversigt"
     }
