@@ -16,6 +16,7 @@
  */
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Inject,
@@ -118,7 +119,8 @@ export class WattDatepickerComponent extends WattPickerBase {
     protected rangeInputService: WattRangeInputService,
     protected elementRef: ElementRef<HTMLElement>,
     @Optional() @Self() ngControl: NgControl,
-    @Inject(LOCALE_ID) private locale: string
+    @Inject(LOCALE_ID) private locale: string,
+    private cdr: ChangeDetectorRef
   ) {
     super(
       `watt-datepicker-${WattDatepickerComponent.nextId++}`,
@@ -311,6 +313,9 @@ export class WattDatepickerComponent extends WattPickerBase {
         }
 
         this.changeParentValue({ start, end });
+
+        // Needed for updating the datepicker in components with `ChangeDetectionStrategy.OnPush`;
+        setTimeout(() => this.cdr.markForCheck());
       });
   }
 
