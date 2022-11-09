@@ -14,11 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as appShell from '../page-objects/app.po';
+import { App, DashboardPage, LandingPage, TermsPage } from '../page-objects';
 import * as authApi from '../support/auth-api';
-import * as dashboardPage from '../page-objects/dashboard.po';
-import * as landingPage from '../page-objects/landing-page.po';
-import * as termsPage from '../page-objects/terms.po';
 
 describe('Authentication', () => {
   it(`Given a commercial user
@@ -26,13 +23,13 @@ describe('Authentication', () => {
     Then they are redirected to the dashboard page`, () => {
     // Arrange
     authApi.allowExistingUserAuthentication();
-    landingPage.navigateTo();
+    LandingPage.navigateTo();
 
     // Act
-    landingPage.findStartLink().click();
+    LandingPage.findStartLink().click();
 
     // Assert
-    dashboardPage.findTitle().should('be.visible');
+    DashboardPage.findTitle().should('be.visible');
   });
 
   it(`Given an authenticated commercial user
@@ -42,16 +39,16 @@ describe('Authentication', () => {
     // Arrange
     authApi.allowExistingUserAuthentication();
     authApi.allowLogOut();
-    landingPage.navigateTo();
-    landingPage.findStartLink().click();
+    LandingPage.navigateTo();
+    LandingPage.findStartLink().click();
     // Wait for animation to finish
-    appShell.findMenu().should('be.visible');
+    App.findMenu().should('be.visible');
 
     // Act
-    appShell.findLogOutMenuItem().click();
+    App.findLogOutMenuItem().click();
 
     // Assert
-    cy.location('pathname').should('eq', landingPage.path);
+    cy.location('pathname').should('eq', LandingPage.path);
   });
 
   it(`Given a commercial user using NemID
@@ -72,15 +69,15 @@ describe('Authentication', () => {
         next_url: '/dashboard?success=1',
       }
     ).as('authPostTerms');
-    landingPage.navigateTo();
+    LandingPage.navigateTo();
 
     // Act
-    landingPage.findStartLink().click();
-    termsPage.findAcceptCheckbox().click({ force: true });
-    termsPage.findAcceptButton().click({ force: true });
+    LandingPage.findStartLink().click();
+    TermsPage.findAcceptCheckbox().click({ force: true });
+    TermsPage.findAcceptButton().click({ force: true });
 
     // Assert
-    dashboardPage.findTitle().should('exist');
+    DashboardPage.findTitle().should('exist');
   });
 
   it(`Given a commercial user using NemID
@@ -91,14 +88,14 @@ describe('Authentication', () => {
     // Arrange
     authApi.allowFirstTimeAuthentication();
     authApi.allowGetTerms();
-    landingPage.navigateTo();
+    LandingPage.navigateTo();
 
     // Act
-    landingPage.findStartLink().click();
-    termsPage.findAcceptButton().click();
+    LandingPage.findStartLink().click();
+    TermsPage.findAcceptButton().click();
 
     // Assert (Happy path -> Nothing happens - Asserting we are still on the terms page)
-    termsPage.findAcceptButton().should('exist');
+    TermsPage.findAcceptButton().should('exist');
   });
 
   // Next: Test where the user logs out = hits the "Cancel" button
@@ -110,13 +107,13 @@ describe('Authentication', () => {
     authApi.allowFirstTimeAuthentication();
     authApi.allowLogOut();
     authApi.allowGetTerms();
-    landingPage.navigateTo();
+    LandingPage.navigateTo();
 
     // Act
-    landingPage.findStartLink().click();
-    termsPage.findCancelButton().click();
+    LandingPage.findStartLink().click();
+    TermsPage.findCancelButton().click();
 
     // Assert
-    cy.location('pathname').should('eq', landingPage.path);
+    cy.location('pathname').should('eq', LandingPage.path);
   });
 });

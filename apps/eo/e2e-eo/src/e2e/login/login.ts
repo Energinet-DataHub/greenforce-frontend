@@ -24,10 +24,27 @@ When('I click the start button to login', () => {
   cy.get('eo-landing-page-login-button').eq(0).click();
 });
 
-When('I can see Charlotte CSRs login and click it', () => {
+When('I see Charlotte CSRs login button and click it', () => {
   cy.get('[value="Charlotte CSR"]').click();
+});
+
+When("I see Thomas Tesla's login button and click it", () => {
+  cy.get('[value="Thomas Tesla"]').click();
+});
+
+When('I see Ivan Iværksætters login button and click it', () => {
+  cy.get('[value="Ivan Iværksætter"]').click();
 });
 
 Then('I can see the dashboard page', () => {
   cy.get('h2').should('contain.text', 'Dashboard');
+  cy.get('a.mat-list-item').contains('Log out').click();
+});
+
+Then('I am on the landing page again with an error in the URL', () => {
+  cy.get('h1').should('contain.text', 'Your emissions and renewables overview');
+  cy.url().should(
+    'contain',
+    'Private%20users%20are%20not%20allowed%20to%20login'
+  );
 });
