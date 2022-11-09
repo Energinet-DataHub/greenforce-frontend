@@ -4,21 +4,13 @@
     "sourceMap": false,
     "outDir": "../../../dist/out-tsc",
     "allowJs": true,
-    "types": [
-      "@testing-library/cypress",
-      "cypress",
-      "node"
-    ],
+    "types": ["@testing-library/cypress", "cypress", "node"],
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.js",
-    "cypress.config.js"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.js", "cypress.config.js"],
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
