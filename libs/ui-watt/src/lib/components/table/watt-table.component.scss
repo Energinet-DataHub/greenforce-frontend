@@ -20,7 +20,7 @@ watt-table .mat-table {
   position: relative;
   display: grid;
   grid-template-columns: var(--watt-table-grid-template-columns);
-  height: 100px;
+  height: 100%;
   overflow: auto;
 
   thead,
