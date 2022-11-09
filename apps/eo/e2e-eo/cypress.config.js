@@ -14,10 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { defineConfig } from 'cypress';
-import { nxE2EPreset } from '@nrwl/cypress/plugins/cypress-preset';
-
-const webpackPreprocessor = require('@cypress/webpack-preprocessor');
+const { defineConfig } = require('cypress');
+const { webpackPreprocessor } = require('@cypress/webpack-preprocessor');
 const {
   addCucumberPreprocessorPlugin,
 } = require('@badeball/cypress-cucumber-preprocessor');
@@ -28,14 +26,14 @@ const cypressJsonConfig = {
   fixturesFolder: './src/fixtures',
   video: true,
   videosFolder: '../../../dist/cypress/apps/eo/e2e-eo/videos',
-  viewportHeight: 1080,
-  viewportWidth: 1920,
+  viewportHeight: 800,
+  viewportWidth: 1280,
   screenshotsFolder: '../../../dist/cypress/apps/eo/e2e-eo/screenshots',
   specPattern: ['**/*.feature'],
   supportFile: 'src/support/e2e.ts',
 };
 
-async function setupNodeEvents(on: any, config: any) {
+async function setupNodeEvents(on, config) {
   await addCucumberPreprocessorPlugin(on, config);
 
   const options = {
@@ -63,7 +61,6 @@ async function setupNodeEvents(on: any, config: any) {
 
 export default defineConfig({
   e2e: {
-    ...nxE2EPreset(__dirname),
     ...cypressJsonConfig,
     setupNodeEvents,
   },

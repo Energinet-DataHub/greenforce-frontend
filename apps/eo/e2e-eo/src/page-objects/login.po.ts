@@ -15,10 +15,11 @@
  * limitations under the License.
  */
 export default class LoginPage {
-  findTitle = () => cy.get('h2[class="action-text"]');
-  getCharlotteCSR = () =>
-    cy.get('button').should('have.value', 'Charlotte CSR');
-  getThomasTesla = () => cy.get('button').should('have.value', 'Thomas Tesla');
-  getIvanIvaerksaetter = () =>
-    cy.get('button').should('have.value', 'Ivan Iværksætter');
+  getButtonWithValue = (value: string) =>
+    cy.get('button').should('have.value', value);
+
+  findTitle = cy.get('h2[class="action-text"]');
+  getCharlotteCSR = this.getButtonWithValue('Charlotte CSR');
+  getThomasTesla = this.getButtonWithValue('Thomas Tesla');
+  getIvanIvaerksaetter = this.getButtonWithValue('Ivan Iværksætter');
 }
