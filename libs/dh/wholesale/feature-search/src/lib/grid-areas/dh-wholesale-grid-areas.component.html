@@ -31,9 +31,7 @@ limitations under the License.
   >
     <!--Grid Area Code -->
     <ng-container matColumnDef="gridAreaCode">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        ID
-      </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
       <mat-cell *matCellDef="let gridArea">
         {{ gridArea.gridAreaCode }}
       </mat-cell>
@@ -43,15 +41,11 @@ limitations under the License.
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         Navn
       </mat-header-cell>
-      <mat-cell *matCellDef="let batch">
-        -
-      </mat-cell>
+      <mat-cell *matCellDef="let batch"> - </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
-    <mat-row
-      *matRowDef="let row; columns: columnIds"
-    ></mat-row>
+    <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
   </mat-table>
 
   <!-- No Batches found -->
