@@ -15,11 +15,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'charges'">
-  <watt-button (click)="backToCharge()" [variant]="'text'" [icon]="'left'">
-    {{ t("back") }}</watt-button
-  >
+  <div class="back-button">
+    <watt-button (click)="backToCharge()" [variant]="'text'" [icon]="'left'">
+      {{ t("back") }}</watt-button
+    >
+  </div>
+
   <ng-container *ngIf="message">
-    <br />
     <small>{{ message.createdDate | dhDateTime }}</small>
     <h1>{{ message.messageId }}</h1>
     <small>
