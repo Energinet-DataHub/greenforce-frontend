@@ -29,6 +29,7 @@ import {
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
 import { TranslocoModule } from '@ngneat/transloco';
+import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
 import { BatchVm } from '../table/dh-wholesale-table.component';
 
 @Component({
@@ -39,6 +40,7 @@ import { BatchVm } from '../table/dh-wholesale-table.component';
     WattBadgeModule,
     WattCardModule,
     TranslocoModule,
+    DhWholesaleGridAreasComponent
   ],
   selector: 'dh-wholesale-batch-details',
   templateUrl: './dh-wholesale-batch-details.component.html',
