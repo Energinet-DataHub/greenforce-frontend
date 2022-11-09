@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -15,9 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { Injectable } from '@angular/core';
-import { MarketRole } from '@energinet-datahub/dh/market-participant/data-access-api';
+import {
+  MarketRole,
+  MarketRoleGridArea,
+} from '@energinet-datahub/dh/market-participant/data-access-api';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain';
 import { EditableMarketRoleRow } from './dh-market-participant-actor-market-roles.component';
 
 @Injectable()
@@ -25,17 +27,16 @@ export class MarketRoleGroupService {
   readonly groupRows = (rows: EditableMarketRoleRow[]) => {
     const result: MarketRole[] = [];
 
-    for (let index = 0; index < rows.length; index++) {
-      const row = rows[index];
+    for (const row of rows) {
       const gridAreaId = row.gridArea;
 
-      const gridArea = {
-        id: gridAreaId!,
-        meteringPointTypes: row.meteringPointTypes!,
+      const gridArea: MarketRoleGridArea = {
+        id: gridAreaId ?? '',
+        meteringPointTypes: row.meteringPointTypes ?? [],
       };
 
       const marketRoleExsits: MarketRole | undefined = result.find(
-        (x) => x.marketRole === row.marketRole!
+        (x) => x.marketRole === row.marketRole
       );
 
       if (marketRoleExsits) {
@@ -45,7 +46,7 @@ export class MarketRoleGroupService {
 
       const marketRole: MarketRole = {
         comment: row.comment,
-        marketRole: row.marketRole!,
+        marketRole: row.marketRole ?? EicFunction.Agent,
         gridAreas: [gridArea],
       };
 
