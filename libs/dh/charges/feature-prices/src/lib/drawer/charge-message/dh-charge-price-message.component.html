@@ -52,7 +52,7 @@ limitations under the License.
     <pre>{{ blobContent }}</pre>
   </ng-container>
 
-  <div *ngIf="(blobIsDownloading$ | push) && (messageIsSearching$ | push)">
+  <div *ngIf="(blobIsDownloading$ | push) || (messageIsSearching$ | push)">
     <watt-spinner [diameter]="60"></watt-spinner>
   </div>
 

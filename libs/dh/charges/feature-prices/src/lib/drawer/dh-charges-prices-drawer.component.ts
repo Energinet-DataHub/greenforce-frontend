@@ -59,7 +59,7 @@ export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
 
   @Output() closed = new EventEmitter<void>();
 
-  messageId$ = this.dhChargesPricesDrawerService.messageId;
+  message$ = this.dhChargesPricesDrawerService.message;
   charge?: ChargeV1Dto;
   showChargeMessage = false;
 
@@ -70,10 +70,10 @@ export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.dhChargesPricesDrawerService.messageId
+    this.dhChargesPricesDrawerService.message
       .pipe(takeUntil(this.destroy$))
-      .subscribe((messageId) => {
-        if (messageId === undefined) this.showChargeMessage = false;
+      .subscribe((message) => {
+        if (message === undefined) this.showChargeMessage = false;
         else this.showChargeMessage = true;
       });
   }
@@ -86,7 +86,7 @@ export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
     this.charge = charge;
     this.drawer.open();
     this.chargeContent.load();
-    this.dhChargesPricesDrawerService.removeMessageId();
+    this.dhChargesPricesDrawerService.removeMessage();
   }
 
   drawerClosed() {
@@ -96,7 +96,7 @@ export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
   }
 
   goToCharge() {
-    this.dhChargesPricesDrawerService.removeMessageId();
+    this.dhChargesPricesDrawerService.removeMessage();
   }
 }
 
