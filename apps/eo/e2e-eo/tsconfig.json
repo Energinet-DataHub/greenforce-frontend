@@ -1,9 +1,7 @@
 {
   "extends": "../../../tsconfig.base.json",
   "files": [],
-  "include": [
-    "cypress.ci.config.js"
-  ],
+  "include": ["cypress.ci.config.js"],
   "references": [
     {
       "path": "./tsconfig.e2e.json"
