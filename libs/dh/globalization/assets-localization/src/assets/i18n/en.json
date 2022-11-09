@@ -730,7 +730,8 @@
     "gridAreas": {
       "header": "{{total}} Grid Areas",
       "gridAreaCode": "ID",
-      "name": "name"
+      "name": "name",
+      "noGridAreasFound": "No grid areas found"
     },
     "overview": {
       "header": "Process Overview"

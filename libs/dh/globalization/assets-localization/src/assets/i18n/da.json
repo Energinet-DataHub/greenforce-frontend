@@ -732,7 +732,8 @@
     "gridAreas": {
       "header": "{{total}} Netområder",
       "gridAreaCode": "ID",
-      "name": "navn"
+      "name": "navn",
+      "noGridAreasFound": "Ingen netområder fundet"
     },
     "overview": {
       "header": "Proces oversigt"
