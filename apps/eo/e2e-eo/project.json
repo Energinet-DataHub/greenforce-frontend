@@ -10,7 +10,7 @@
         "cypressConfig": "apps/eo/e2e-eo/cypress.config.js",
         "tsConfig": "apps/eo/e2e-eo/tsconfig.e2e.json",
         "devServerTarget": "app-eo:serve:e2e-development",
-        "headed": true,
+        "headed": false,
         "testingType": "e2e"
       },
       "configurations": {
