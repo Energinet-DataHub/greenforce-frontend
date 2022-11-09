@@ -1,0 +1,51 @@
+﻿<!--
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Energinet.DataHub.Core.FunctionApp.TestCommon" Version="3.5.1" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
+      <PackageReference Include="xunit" Version="2.4.2" />
+      <PackageReference Include="xunit.categories" Version="2.0.6" />
+      <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="coverlet.collector" Version="3.2.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Energinet.DataHub.MarketParticipant.ApplyDBMigrationsApp\Energinet.DataHub.MarketParticipant.ApplyDBMigrationsApp.csproj" />
+      <ProjectReference Include="..\Energinet.DataHub.MarketParticipant.EntryPoint.Organization\Energinet.DataHub.MarketParticipant.EntryPoint.Organization.csproj" />
+      <ProjectReference Include="..\Energinet.DataHub.MarketParticipant.EntryPoint.WebApi\Energinet.DataHub.MarketParticipant.EntryPoint.WebApi.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="integrationtest.local.settings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+</Project>

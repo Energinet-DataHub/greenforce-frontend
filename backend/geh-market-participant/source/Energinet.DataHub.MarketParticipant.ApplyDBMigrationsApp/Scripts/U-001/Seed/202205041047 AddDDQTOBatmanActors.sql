@@ -1,0 +1,4 @@
+UPDATE ActorInfo
+SET [Roles] = 'DDM,MDR,DDQ'
+WHERE Id = 'a982de1f-3703-4e3c-be56-4e54418a2a59'
+GO

@@ -1,0 +1,69 @@
+/* Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+import "Protobuf/ActorCreatedIntegrationEventContract.proto";
+import "Protobuf/ActorExternalIdChangedIntegrationEventContract.proto";
+import "Protobuf/ActorNameChangedIntegrationEventContract.proto";
+import "Protobuf/ActorStatusChangedIntegrationEventContract.proto";
+import "Protobuf/ActorUpdatedIntegrationEventContract.proto";
+import "Protobuf/ContactAddedToActorIntegrationEventContract.proto";
+import "Protobuf/ContactRemovedFromActorIntegrationEventContract.proto";
+import "Protobuf/GridAreaAddedToActorIntegrationEventContract.proto";
+import "Protobuf/GridAreaCreatedIntegrationEventContract.proto";
+import "Protobuf/GridAreaNameChangedIntegrationEventContract.proto";
+import "Protobuf/GridAreaRemovedFromActorIntegrationEventContract.proto";
+import "Protobuf/GridAreaUpdatedIntegrationEventContract.proto";
+import "Protobuf/MarketRoleAddedToActorIntegrationEventContract.proto";
+import "Protobuf/MarketRoleRemovedFromActorIntegrationEventContract.proto";
+import "Protobuf/MeteringPointTypeAddedToActorIntegrationEventContract.proto";
+import "Protobuf/MeteringPointTypeRemovedFromActorIntegrationEventContract.proto";
+import "Protobuf/OrganizationAddressChangedIntegrationEventContract.proto";
+import "Protobuf/OrganizationBusinessRegisterIdentifierChangedIntegrationEventContract.proto";
+import "Protobuf/OrganizationCommentChangedIntegrationEventContract.proto";
+import "Protobuf/OrganizationCreatedIntegrationEventContract.proto";
+import "Protobuf/OrganizationNameChangedIntegrationEventContract.proto";
+import "Protobuf/OrganizationStatusChangedIntegrationEventContract.proto";
+import "Protobuf/OrganizationUpdatedIntegrationEventContract.proto";
+
+option csharp_namespace = "Energinet.DataHub.MarketParticipant.Integration.Model.Protobuf";
+
+message SharedIntegrationEventContract {
+ oneof IntegrationEvent {
+     ActorCreatedIntegrationEventContract ActorCreatedIntegrationEvent = 1;
+     ActorExternalIdChangedIntegrationEventContract ActorExternalIdChangedIntegrationEvent = 2;
+     ActorNameChangedIntegrationEventContract ActorNameChangedIntegrationEvent = 3;
+     ActorStatusChangedIntegrationEventContract ActorStatusChangedIntegrationEvent = 4;
+     ActorUpdatedIntegrationEventContract ActorUpdatedIntegrationEvent = 5;
+     ContactAddedToActorIntegrationEventContract ContactAddedToActorIntegrationEvent = 6;
+     ContactRemovedFromActorIntegrationEventContract ContactRemovedFromActorIntegrationEvent = 7;
+     GridAreaAddedToActorIntegrationEventContract GridAreaAddedToActorIntegrationEvent = 8;
+     GridAreaCreatedIntegrationEventContract GridAreaCreatedIntegrationEvent = 9;
+     GridAreaNameChangedIntegrationEventContract GridAreaNameChangedIntegrationEvent = 10;
+     GridAreaRemovedFromActorIntegrationEventContract GridAreaRemovedFromActorIntegrationEvent = 11;
+     GridAreaUpdatedIntegrationEventContract GridAreaUpdatedIntegrationEvent = 12;
+     MarketRoleAddedToActorIntegrationEventContract MarketRoleAddedToActorIntegrationEvent = 13;
+     MarketRoleRemovedFromActorIntegrationEventContract MarketRoleRemovedFromActorIntegrationEvent = 14;
+     MeteringPointTypeAddedToActorIntegrationEventContract MeteringPointTypeAddedToActorIntegrationEvent = 15;
+     MeteringPointTypeRemovedFromActorIntegrationEventContract MeteringPointTypeRemovedFromActorIntegrationEvent = 16;
+     OrganizationAddressChangedIntegrationEventContract OrganizationAddressChangedIntegrationEvent = 17;
+     OrganizationBusinessRegisterIdentifierChangedIntegrationEventContract OrganizationBusinessRegisterIdentifierChangedIntegrationEvent = 18;
+     OrganizationCommentChangedIntegrationEventContract OrganizationCommentChangedIntegrationEvent = 19;
+     OrganizationCreatedIntegrationEventContract OrganizationCreatedIntegrationEvent = 20;
+     OrganizationNameChangedIntegrationEventContract OrganizationNameChangedIntegrationEvent = 21;
+     OrganizationStatusChangedIntegrationEventContract OrganizationStatusChangedIntegrationEvent = 22;
+     OrganizationUpdatedIntegrationEventContract OrganizationUpdatedIntegrationEvent = 23;
+ }
+}

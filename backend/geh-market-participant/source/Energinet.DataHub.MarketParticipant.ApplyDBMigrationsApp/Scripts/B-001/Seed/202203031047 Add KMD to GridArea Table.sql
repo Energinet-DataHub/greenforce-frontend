@@ -1,0 +1,4 @@
+INSERT [dbo].[GridAreaInfo] ([Id], [RecordId], [Code], [Name], [PriceAreaCode], [Active], [ActorId]) VALUES (N'f05fa661-555e-4c37-a541-a2c3e07eea66', 31, N'900', N'KMDTest4', N'DK1', 1, N'8a679aa1-cb2e-4871-a643-5321e4e55449')
+INSERT [dbo].[GridAreaInfo] ([Id], [RecordId], [Code], [Name], [PriceAreaCode], [Active], [ActorId]) VALUES (N'079075a2-38d2-4df0-98c2-ce7ceede48c6', 32, N'901', N'KMDTest5', N'DK1', 1, N'478a4c63-605b-42db-ae77-b13865ac89ad')
+INSERT [dbo].[GridAreaInfo] ([Id], [RecordId], [Code], [Name], [PriceAreaCode], [Active], [ActorId]) VALUES (N'0ec2a713-b029-40a6-8e6c-e1148fbef6b4', 33, N'902', N'KMDTest6', N'DK1', 1, N'f88a12a4-4c5b-4e9c-bd6a-9c48e11ae505')
+GO
