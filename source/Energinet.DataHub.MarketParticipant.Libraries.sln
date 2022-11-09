@@ -1,0 +1,103 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Energinet.DataHub.MarketParticipant.Integration.Model", "Energinet.DataHub.MarketParticipant.Integration.Model", "{DA0800AF-EB01-4C44-8725-FC80F6966D50}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{195A29AD-35C4-4A1E-BFD5-343B866A8076}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Energinet.DataHub.MarketParticipant.Integration.Model", "Energinet.DataHub.MarketParticipant.Integration.Model\source\Energinet.DataHub.MarketParticipant.Integration.Model\Energinet.DataHub.MarketParticipant.Integration.Model.csproj", "{9DFDE860-54F2-4AB8-8B7B-F793EB1BC6EC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Energinet.DataHub.MarketParticipant.Libraries.Tests", "Energinet.DataHub.MarketParticipant.Libraries.Tests\Energinet.DataHub.MarketParticipant.Libraries.Tests.csproj", "{375ABB0C-AA56-44AE-B2C6-711BD6437465}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "documents", "documents", "{A9FA66DD-78E3-4670-929B-359D316FFE89}"
+	ProjectSection(SolutionItems) = preProject
+		Energinet.DataHub.MarketParticipant.Integration.Model\documents\documentation.md = Energinet.DataHub.MarketParticipant.Integration.Model\documents\documentation.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "release-notes", "release-notes", "{1F824644-506C-48FC-8D9E-E51D7BBDBF1D}"
+	ProjectSection(SolutionItems) = preProject
+		Energinet.DataHub.MarketParticipant.Integration.Model\documents\release-notes\release-notes.md = Energinet.DataHub.MarketParticipant.Integration.Model\documents\release-notes\release-notes.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Energinet.DataHub.MarketParticipant.Client", "Energinet.DataHub.MarketParticipant.Client", "{6BE488A4-60AC-4493-B577-AE30AEEFC7F7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Energinet.DataHub.MarketParticipant.Client", "Energinet.DataHub.MarketParticipant.Client\source\Energinet.DataHub.MarketParticipant.Client\Energinet.DataHub.MarketParticipant.Client.csproj", "{9D882AE8-5124-4415-8FBC-92416E7AA25A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "documents", "documents", "{47568893-9433-4587-B82B-4477BE822436}"
+	ProjectSection(SolutionItems) = preProject
+		Energinet.DataHub.MarketParticipant.Client\documents\documentation.md = Energinet.DataHub.MarketParticipant.Client\documents\documentation.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{C4393E95-5754-47F9-9188-9FAE82160025}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "release-notes", "release-notes", "{A19C8C61-30D0-4B6C-9EAE-75C5B810CCA3}"
+	ProjectSection(SolutionItems) = preProject
+		Energinet.DataHub.MarketParticipant.Client\documents\release-notes\release-notes.md = Energinet.DataHub.MarketParticipant.Client\documents\release-notes\release-notes.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DFDE860-54F2-4AB8-8B7B-F793EB1BC6EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DFDE860-54F2-4AB8-8B7B-F793EB1BC6EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DFDE860-54F2-4AB8-8B7B-F793EB1BC6EC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9DFDE860-54F2-4AB8-8B7B-F793EB1BC6EC}.Debug|x64.Build.0 = Debug|Any CPU
+		{9DFDE860-54F2-4AB8-8B7B-F793EB1BC6EC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9DFDE860-54F2-4AB8-8B7B-F793EB1BC6EC}.Debug|x86.Build.0 = Debug|Any CPU
+		{9DFDE860-54F2-4AB8-8B7B-F793EB1BC6EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DFDE860-54F2-4AB8-8B7B-F793EB1BC6EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DFDE860-54F2-4AB8-8B7B-F793EB1BC6EC}.Release|x64.ActiveCfg = Release|Any CPU
+		{9DFDE860-54F2-4AB8-8B7B-F793EB1BC6EC}.Release|x64.Build.0 = Release|Any CPU
+		{9DFDE860-54F2-4AB8-8B7B-F793EB1BC6EC}.Release|x86.ActiveCfg = Release|Any CPU
+		{9DFDE860-54F2-4AB8-8B7B-F793EB1BC6EC}.Release|x86.Build.0 = Release|Any CPU
+		{375ABB0C-AA56-44AE-B2C6-711BD6437465}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{375ABB0C-AA56-44AE-B2C6-711BD6437465}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{375ABB0C-AA56-44AE-B2C6-711BD6437465}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{375ABB0C-AA56-44AE-B2C6-711BD6437465}.Debug|x64.Build.0 = Debug|Any CPU
+		{375ABB0C-AA56-44AE-B2C6-711BD6437465}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{375ABB0C-AA56-44AE-B2C6-711BD6437465}.Debug|x86.Build.0 = Debug|Any CPU
+		{375ABB0C-AA56-44AE-B2C6-711BD6437465}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{375ABB0C-AA56-44AE-B2C6-711BD6437465}.Release|Any CPU.Build.0 = Release|Any CPU
+		{375ABB0C-AA56-44AE-B2C6-711BD6437465}.Release|x64.ActiveCfg = Release|Any CPU
+		{375ABB0C-AA56-44AE-B2C6-711BD6437465}.Release|x64.Build.0 = Release|Any CPU
+		{375ABB0C-AA56-44AE-B2C6-711BD6437465}.Release|x86.ActiveCfg = Release|Any CPU
+		{375ABB0C-AA56-44AE-B2C6-711BD6437465}.Release|x86.Build.0 = Release|Any CPU
+		{9D882AE8-5124-4415-8FBC-92416E7AA25A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D882AE8-5124-4415-8FBC-92416E7AA25A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D882AE8-5124-4415-8FBC-92416E7AA25A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9D882AE8-5124-4415-8FBC-92416E7AA25A}.Debug|x64.Build.0 = Debug|Any CPU
+		{9D882AE8-5124-4415-8FBC-92416E7AA25A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9D882AE8-5124-4415-8FBC-92416E7AA25A}.Debug|x86.Build.0 = Debug|Any CPU
+		{9D882AE8-5124-4415-8FBC-92416E7AA25A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D882AE8-5124-4415-8FBC-92416E7AA25A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D882AE8-5124-4415-8FBC-92416E7AA25A}.Release|x64.ActiveCfg = Release|Any CPU
+		{9D882AE8-5124-4415-8FBC-92416E7AA25A}.Release|x64.Build.0 = Release|Any CPU
+		{9D882AE8-5124-4415-8FBC-92416E7AA25A}.Release|x86.ActiveCfg = Release|Any CPU
+		{9D882AE8-5124-4415-8FBC-92416E7AA25A}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{195A29AD-35C4-4A1E-BFD5-343B866A8076} = {DA0800AF-EB01-4C44-8725-FC80F6966D50}
+		{9DFDE860-54F2-4AB8-8B7B-F793EB1BC6EC} = {195A29AD-35C4-4A1E-BFD5-343B866A8076}
+		{A9FA66DD-78E3-4670-929B-359D316FFE89} = {DA0800AF-EB01-4C44-8725-FC80F6966D50}
+		{1F824644-506C-48FC-8D9E-E51D7BBDBF1D} = {A9FA66DD-78E3-4670-929B-359D316FFE89}
+		{9D882AE8-5124-4415-8FBC-92416E7AA25A} = {C4393E95-5754-47F9-9188-9FAE82160025}
+		{47568893-9433-4587-B82B-4477BE822436} = {6BE488A4-60AC-4493-B577-AE30AEEFC7F7}
+		{C4393E95-5754-47F9-9188-9FAE82160025} = {6BE488A4-60AC-4493-B577-AE30AEEFC7F7}
+		{A19C8C61-30D0-4B6C-9EAE-75C5B810CCA3} = {47568893-9433-4587-B82B-4477BE822436}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F21FEE51-8A81-4FFD-9ACF-E208CE4F2FC3}
+	EndGlobalSection
+EndGlobal

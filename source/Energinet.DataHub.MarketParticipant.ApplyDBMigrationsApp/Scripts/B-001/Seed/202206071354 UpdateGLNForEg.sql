@@ -1,0 +1,3 @@
+UPDATE ActorInfo
+SET IdentificationNumber = '8200000007333'
+WHERE Id = '08707473-ce69-4699-9780-2c118dd527cf'

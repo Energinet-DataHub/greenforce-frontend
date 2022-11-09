@@ -1,0 +1,76 @@
+# Copyright 2020 Energinet DataHub A/S
+#
+# Licensed under the Apache License, Version 2.0 (the "License2");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Publish Energinet.DataHub.MarketParticipant.Integration.Model nuget package
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - source/Energinet.DataHub.MarketParticipant.Integration.Model/**
+      - .github/workflows/publish-marketparticipant-model.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - source/Energinet.DataHub.MarketParticipant.Integration.Model/**
+      - .github/workflows/publish-marketparticipant-model.yml
+  workflow_dispatch: {}
+
+env:
+  PUSH_PACKAGES: ${{ github.event_name != 'pull_request' }}
+
+jobs:
+
+  build_and_publish:
+
+    runs-on: windows-2022
+    name: Publish bundle to NuGet.org
+
+    steps:
+      - name: Checkout repository
+        uses: Energinet-DataHub/.github/.github/actions/nuget-checkout-repository@v8
+
+      - name: Setup dotnet and tools
+        uses: Energinet-DataHub/.github/.github/actions/dotnet-setup-and-tools@v8
+        with:
+          USE_AZURE_FUNCTIONS_TOOLS: 'true'
+
+      - name: Build and test solution
+        uses: Energinet-DataHub/.github/.github/actions/dotnet-solution-build-and-test@v8
+        with:
+          SOLUTION_FILE_PATH: './source/Energinet.DataHub.MarketParticipant.Libraries.sln'
+          CODE_COVERAGE_FLAGS: clientlibraries
+
+      - name: Pack Client project
+        uses: Energinet-DataHub/.github/.github/actions/nuget-project-pack@v8
+        with:
+          PROJECT_PATH: './source/Energinet.DataHub.MarketParticipant.Integration.Model/source/Energinet.DataHub.MarketParticipant.Integration.Model/Energinet.DataHub.MarketParticipant.Integration.Model.csproj'
+
+      - name: Package content or build has changed
+        id: changed-content
+        uses: tj-actions/changed-files@v17.2
+        with:
+          files: |
+            source/Energinet.DataHub.MarketParticipant.Integration.Model/**/*.*
+            .github/workflows/publish-marketparticipant-model.yml
+
+      - name: Assert versions of NuGet packages and push them to NuGet.org
+        uses: Energinet-DataHub/.github/.github/actions/nuget-packages-assert-and-push@v8
+        with:
+          PUSH_PACKAGES: ${{ env.PUSH_PACKAGES }}
+          CONTENT_CHANGED: ${{ steps.changed-content.outputs.any_changed }}
+          NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
+          NUPKG_RECURSE_PATH: 'source'

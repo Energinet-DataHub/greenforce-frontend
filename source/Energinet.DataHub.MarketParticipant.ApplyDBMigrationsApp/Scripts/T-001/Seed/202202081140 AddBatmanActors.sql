@@ -1,0 +1,4 @@
+INSERT [dbo].[ActorInfo] ([Id], [IdentificationNumber], [IdentificationType], [Roles], [Active], [Name]) VALUES (N'0a05bb66-42b8-4b71-affb-9a3716a94489', N'8200000002765', 1, N'DDM,MDR', 1, N'Batman - DDM Test 1 -')
+INSERT [dbo].[ActorInfo] ([Id], [IdentificationNumber], [IdentificationType], [Roles], [Active], [Name]) VALUES (N'31e83b3a-22d3-49ce-bdf1-2d456205f0d1', N'8200000003519', 1, N'DDM,MDR', 1, N'Batman - DDM Test 2 -')
+INSERT [dbo].[ActorInfo] ([Id], [IdentificationNumber], [IdentificationType], [Roles], [Active], [Name]) VALUES (N'55878bd4-ef25-4f2e-8ba8-b2f3cca962e6', N'8200000002727', 1, N'DDM,MDR', 1, N'Batman - DDM Test 3 -')
+INSERT [dbo].[ActorInfo] ([Id], [IdentificationNumber], [IdentificationType], [Roles], [Active], [Name]) VALUES (N'950af11e-85dd-49da-943f-491c7730ff7a', N'8200000005131', 1, N'DDM,MDR', 1, N'Batman - DDM Test 4 -')

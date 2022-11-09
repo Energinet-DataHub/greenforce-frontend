@@ -1,0 +1,7 @@
+INSERT [dbo].[ActorInfo] ([Id], [IdentificationNumber], [IdentificationType], [Roles], [Active], [Name]) VALUES (N'8a679aa1-cb2e-4871-a643-5321e4e55449', N'8200000007296', 1, N'DDM,MDR', 1, N'KMD A/S')
+INSERT [dbo].[ActorInfo] ([Id], [IdentificationNumber], [IdentificationType], [Roles], [Active], [Name]) VALUES (N'478a4c63-605b-42db-ae77-b13865ac89ad', N'8200000007630', 1, N'DDM,MDR', 1, N'KMD A/S')
+INSERT [dbo].[ActorInfo] ([Id], [IdentificationNumber], [IdentificationType], [Roles], [Active], [Name]) VALUES (N'f88a12a4-4c5b-4e9c-bd6a-9c48e11ae505', N'8200000007647', 1, N'DDM,MDR', 1, N'KMD A/S')
+INSERT [dbo].[ActorInfo] ([Id], [IdentificationNumber], [IdentificationType], [Roles], [Active], [Name]) VALUES (N'ea0aa193-c7a1-4899-892b-e863cd6637df', N'8200000007272', 1, N'DDQ', 1, N'KMD A/S')
+INSERT [dbo].[ActorInfo] ([Id], [IdentificationNumber], [IdentificationType], [Roles], [Active], [Name]) VALUES (N'1114b900-ecb2-488b-9bb5-7b536d0a2ef8', N'8200000007289', 1, N'DDQ', 1, N'KMD A/S')
+INSERT [dbo].[ActorInfo] ([Id], [IdentificationNumber], [IdentificationType], [Roles], [Active], [Name]) VALUES (N'c00df348-66aa-4aff-9ff7-6bb496e7b402', N'8200000007319', 1, N'DDQ', 1, N'KMD A/S')
+GO

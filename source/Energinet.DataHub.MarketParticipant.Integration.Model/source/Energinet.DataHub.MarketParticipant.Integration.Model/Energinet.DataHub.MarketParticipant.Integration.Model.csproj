@@ -1,0 +1,289 @@
+﻿<!--
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>9</LangVersion>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Energinet.DataHub.MarketParticipant.Integration.Model</AssemblyName>
+    <RootNamespace>Energinet.DataHub.MarketParticipant.Integration.Model</RootNamespace>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Energinet.DataHub.MarketParticipant.Integration.Model</PackageId>
+    <PackageVersion>2.7.3$(VersionSuffix)</PackageVersion>
+    <Title>Energinet.DataHub.MarketParticipant.Integration.Model library</Title>
+    <Company>Energinet-DataHub</Company>
+    <Authors>Energinet-DataHub</Authors>
+    <RepositoryUrl>https://github.com/Energinet-DataHub/geh-market-participant</RepositoryUrl>
+    <PackageReleaseNotes>
+Release Notes
+https://github.com/Energinet-DataHub/geh-market-participant/blob/master/source/Energinet.DataHub.MarketParticipant.Integration.Model/documents/release-notes/release-notes.md
+
+Documentation
+https://github.com/Energinet-DataHub/geh-market-participant/blob/master/source/Energinet.DataHub.MarketParticipant.Integration.Model/documents/documentation.md
+    </PackageReleaseNotes>
+    <PackageDescription>
+Release Notes
+https://github.com/Energinet-DataHub/geh-market-participant/blob/master/source/Energinet.DataHub.MarketParticipant.Integration.Model/documents/release-notes/release-notes.md
+
+Documentation
+https://github.com/Energinet-DataHub/geh-market-participant/blob/master/source/Energinet.DataHub.MarketParticipant.Integration.Model/documents/documentation.md
+    </PackageDescription>
+    <Description>Library containing models for Energinet.DataHub.MarketParticipant</Description>
+    <PackageTags>geh;library</PackageTags>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <!-- Enable Source Link (https://github.com/dotnet/sourcelink/blob/master/README.md) -->
+  <PropertyGroup>
+    <!-- Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.21.8" />
+    <PackageReference Include="Grpc.Tools" Version="2.50.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protobuf\ActorContactEventData.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\ActorCreatedIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\ActorExternalIdChangedIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\ActorNameChangedIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\ActorNumberType.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\ActorUpdatedIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+    </Protobuf>
+    <Protobuf Include="Protobuf\ContactAddedToActorIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\ContactRemovedFromActorIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\GridAreaAddedToActorIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\GridAreaCreatedIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+    </Protobuf>
+    <Protobuf Include="Protobuf\GridAreaNameChangedIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\GridAreaRemovedFromActorIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\GridAreaUpdatedIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\MarketRoleAddedToActorIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\MarketRoleRemovedFromActorIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\MeteringPointTypeAddedToActorIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\MeteringPointTypeRemovedFromActorIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\OrganisationAddressEventData.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\OrganizationAddressChangedIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\OrganizationBusinessRegisterIdentifierChangedIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\OrganizationCommentChangedIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\OrganizationCreatedIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+    </Protobuf>
+    <Protobuf Include="Protobuf\OrganizationNameChangedIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\OrganizationStatusChangedIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\OrganizationUpdatedIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="Protobuf\ActorStatusChangedIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+    </Protobuf>
+    <Protobuf Include="Protobuf\SharedIntegrationEventContract.proto">
+      <GrpcServices>None</GrpcServices>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj\Debug\net6.0\</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+  </ItemGroup>
+
+</Project>
