@@ -105,7 +105,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       switchMap((filter: BatchSearchDto) => {
         const searchBatchesRequest: BatchSearchDto = {
           minExecutionTime: filter.minExecutionTime,
-          maxExecutionTime: this.addTimeToDate(filter.maxExecutionTime),
+          maxExecutionTime: filter.maxExecutionTime,
         };
 
         return this.httpClient
@@ -148,10 +148,4 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       );
     }
   );
-
-  // TODO: This should be removed when the design system has implemented a proper fix in the date picker (Mighty Ducks will do this refactor)
-  private addTimeToDate(date: string): string {
-    const withTime = new Date(date).setHours(23, 59, 59, 999);
-    return new Date(withTime).toISOString();
-  }
 }

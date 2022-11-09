@@ -35,8 +35,8 @@ import {
 } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { combineLatest, map, merge, startWith, takeUntil, tap } from 'rxjs';
-import { parse, isValid } from 'date-fns';
-import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
+import { parse, isValid, parseISO, set } from 'date-fns';
+import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
 
 import { WattInputMaskService } from '../shared/watt-input-mask.service';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
@@ -44,7 +44,7 @@ import { WattRange } from '../shared/watt-range';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
 
-const dateTimeFormat = 'dd-MM-yyyy';
+const dateShortFormat = 'dd-MM-yyyy';
 const danishLocaleCode = 'da';
 export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
@@ -142,6 +142,23 @@ export class WattDatepickerComponent extends WattPickerBase {
       (value: string) => this.onBeforePaste(value)
     );
 
+    const onInputOnChange$ = onChange$.pipe(
+      // `value` can have one of three values:
+      // 1. An empty string (usually when no initial value is set or input value is manually deleted)
+      // 2. A `dd-MM-yyyy` format (keep in sync with `dateShortFormat`) (usually when date is manually typed)
+      // 3. Full ISO 8601 format (usually when initial value is set)
+      map((value) => {
+        const parsedDate = this.parseDateShortFormat(value);
+
+        if (isValid(parsedDate)) {
+          this.matDatepickerInput.value = parsedDate;
+          value = this.formatDateFromViewToModel(parsedDate);
+        }
+
+        return value;
+      })
+    );
+
     const matDatepickerChange$ = this.matDatepickerInput.dateInput.pipe(
       tap(() => {
         this.inputMaskService.setInputColor(pickerInputElement, inputMask);
@@ -157,16 +174,11 @@ export class WattDatepickerComponent extends WattPickerBase {
       })
     );
 
-    merge(onChange$, matDatepickerChange$).subscribe((value: string) => {
-      const parsedDate = this.parseDate(value);
-
-      if (isValid(parsedDate)) {
-        this.matDatepickerInput.value = parsedDate;
-        value = this.formatDateFromViewToModel(parsedDate);
-      }
-
-      this.changeParentValue(value);
-    });
+    merge(onInputOnChange$, matDatepickerChange$)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value: string) => {
+        this.changeParentValue(value);
+      });
   }
 
   /**
@@ -203,17 +215,14 @@ export class WattDatepickerComponent extends WattPickerBase {
     });
 
     const getInitialValue = (initialValue: string) => {
-      let value: Date | string;
+      let value: Date | string = '';
 
       if (initialValue) {
-        return {
-          value: this.parseDate(
-            this.formatDateTimeFromModelToView(initialValue)
-          ),
-        };
-      } else {
-        value = '';
+        value = this.parseDateShortFormat(
+          this.formatDateTimeFromModelToView(initialValue)
+        );
       }
+
       return { value };
     };
 
@@ -248,7 +257,9 @@ export class WattDatepickerComponent extends WattPickerBase {
         let end = '';
 
         if (value instanceof Date) {
-          end = this.formatDateFromViewToModel(value);
+          const endOfDay = this.setToEndOfDay(value);
+
+          end = this.formatDateFromViewToModel(endOfDay);
         }
 
         return end;
@@ -275,18 +286,28 @@ export class WattDatepickerComponent extends WattPickerBase {
     // Subscribe for input changes
     this.rangeInputService.onInputChanges$
       ?.pipe(takeUntil(this.destroy$))
+      // `start` and `end` can have one of three values:
+      // 1. An empty string (usually when no initial value is set or input value is manually deleted)
+      // 2. A `dd-MM-yyyy` format (keep in sync with `dateShortFormat`) (usually when date is manually typed)
+      // 3. Full ISO 8601 format (usually when initial value is set)
       .subscribe(([start, end]) => {
-        const parsedStartDate = this.parseDate(start);
-        const parsedEndDate = this.parseDate(end);
+        const parsedStartDate = this.parseDateShortFormat(start);
 
         if (isValid(parsedStartDate)) {
           this.matStartDate.value = parsedStartDate;
           start = this.formatDateFromViewToModel(parsedStartDate);
         }
 
-        if (isValid(parsedEndDate)) {
-          this.matEndDate.value = parsedEndDate;
-          end = this.formatDateFromViewToModel(parsedEndDate);
+        const maybeEndDateInDanishTimeZone: Date | null =
+          this.setEndDateToDanishTimeZone(end);
+
+        if (maybeEndDateInDanishTimeZone != null) {
+          const endDateEndOfDay = this.setToEndOfDay(
+            maybeEndDateInDanishTimeZone
+          );
+
+          this.matEndDate.value = endDateEndOfDay;
+          end = this.formatDateFromViewToModel(endDateEndOfDay);
         }
 
         this.changeParentValue({ start, end });
@@ -361,8 +382,15 @@ export class WattDatepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  private parseDate(value: string): Date {
-    return parse(value, dateTimeFormat, new Date());
+  private parseDateShortFormat(value: string): Date {
+    return parse(value, dateShortFormat, new Date());
+  }
+
+  /**
+   * @ignore
+   */
+  private parseISO8601Format(value: string): Date {
+    return parseISO(value);
   }
 
   /**
@@ -391,6 +419,45 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   private formatDateTimeFromModelToView(value: string): string {
-    return formatInTimeZone(value, danishTimeZoneIdentifier, dateTimeFormat);
+    return formatInTimeZone(value, danishTimeZoneIdentifier, dateShortFormat);
+  }
+
+  /**
+   * @ignore
+   */
+  private toDanishTimeZone(value: Date): Date {
+    return utcToZonedTime(value.toISOString(), danishTimeZoneIdentifier);
+  }
+
+  /**
+   * @ignore
+   */
+  private setToEndOfDay(value: Date): Date {
+    return set(value, {
+      hours: 23,
+      minutes: 59,
+      seconds: 59,
+      milliseconds: 999,
+    });
+  }
+
+  /**
+   * @ignore
+   */
+  private setEndDateToDanishTimeZone(value: string): Date | null {
+    const dateBasedOnShortFormat = this.parseDateShortFormat(value);
+    const dateBasedOnISO8601Format = this.parseISO8601Format(value);
+
+    let maybeDateInDanishTimeZone: Date | null = null;
+
+    if (isValid(dateBasedOnShortFormat)) {
+      maybeDateInDanishTimeZone = this.toDanishTimeZone(dateBasedOnShortFormat);
+    } else if (isValid(dateBasedOnISO8601Format)) {
+      maybeDateInDanishTimeZone = this.toDanishTimeZone(
+        dateBasedOnISO8601Format
+      );
+    }
+
+    return maybeDateInDanishTimeZone;
   }
 }
