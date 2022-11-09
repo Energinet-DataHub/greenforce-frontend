@@ -73,11 +73,14 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   blobIsDownloading$ = this.blobStore.isDownloading$;
   blobHasGeneralError$ = this.blobStore.hasGeneralError$;
 
+  today = new Date();
+  tomorrow = new Date(this.today.setDate(this.today.getDate() + 1));
+
   searchCriteria: MessageArchiveSearchCriteria = {
     continuationToken: null,
     // Need to split because message archive wants a specific format.
-    dateTimeFrom: new Date().toISOString().split('.')[0] + 'Z',
-    dateTimeTo: new Date().toISOString().split('.')[0] + 'Z',
+    dateTimeFrom: new Date(2000, 1, 1).toISOString().split('.')[0] + 'Z',
+    dateTimeTo: this.tomorrow.toISOString().split('.')[0] + 'Z',
     functionName: null,
     includeRelated: false,
     includeResultsWithoutContent: false,
@@ -94,9 +97,9 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
       .subscribe((message) => {
         if (message) {
           this.searchCriteria.messageId = message.messageId;
-          this.searchCriteria.dateTimeFrom =
-            new Date(message.messageDateTime).toISOString().split('.')[0] + 'Z';
           this.chargeMessageArchiveStore.searchLogs(this.searchCriteria);
+        } else {
+          this.message = undefined;
         }
       });
 
@@ -133,7 +136,9 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
     this.dhChargesPricesDrawerService.removeMessage();
   }
 
-  downloadLog() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  downloadLog(event: any) {
+    event.stopPropagation();
     if (this.message == undefined) return;
     const logName = this.findLogName(this.message.blobContentUri);
     this.blobStore.downloadLogFile(logName);
