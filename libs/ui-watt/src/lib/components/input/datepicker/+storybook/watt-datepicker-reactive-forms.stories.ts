@@ -27,7 +27,8 @@ import { WattRangeValidators } from '../../shared/validators';
 
 export const initialValueSingle = '2022-09-02T22:00:00.000Z';
 export const initialValueRangeStart = initialValueSingle;
-export const initialValueRangeEnd = '2022-09-15T21:59:59.999Z';
+export const initialValueRangeEnd_StartOfDay = '2022-09-14T22:00:00.000Z';
+export const initialValueRangeEnd_EndOfDay = '2022-09-15T21:59:59.999Z';
 
 export interface WattDatepickerStoryConfig extends WattDatepickerComponent {
   disableAnimations?: boolean; // Used to disable animations for the tests
@@ -50,7 +51,8 @@ export default {
   excludeStories: [
     'initialValueSingle',
     'initialValueRangeStart',
-    'initialValueRangeEnd',
+    'initialValueRangeEnd_StartOfDay',
+    'initialValueRangeEnd_EndOfDay',
   ],
 } as Meta;
 
@@ -107,7 +109,7 @@ export const withInitialValue: Story<WattDatepickerStoryConfig> = (args) => ({
     exampleFormControlSingle: new FormControl(initialValueSingle),
     exampleFormControlRange: new FormControl({
       start: initialValueRangeStart,
-      end: initialValueRangeEnd,
+      end: initialValueRangeEnd_StartOfDay,
     }),
     ...args,
   },
