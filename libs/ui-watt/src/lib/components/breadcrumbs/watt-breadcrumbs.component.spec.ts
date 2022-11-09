@@ -16,7 +16,10 @@
  */
 import { render } from '@testing-library/angular';
 
-import { WattBreadcrumbs, WattBreadcrumbsComponent } from './watt-breadcrumbs.component';
+import {
+  WattBreadcrumbs,
+  WattBreadcrumbsComponent,
+} from './watt-breadcrumbs.component';
 
 describe(WattBreadcrumbsComponent.name, () => {
   it('renders', async () => {
