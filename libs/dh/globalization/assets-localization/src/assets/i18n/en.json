@@ -390,7 +390,8 @@
         "hideDescriptionLabel": "Hide description",
         "messageId": "Message Id",
         "messageType": "Type",
-        "date": "Date"
+        "date": "Date",
+        "unknownMessageError": "Unknown error"
       },
       "csvHeader": {
         "id": "PRICE ID",

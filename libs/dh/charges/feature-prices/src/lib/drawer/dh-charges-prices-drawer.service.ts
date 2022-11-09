@@ -15,26 +15,27 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
+import { ChargeMessageV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DhChargesPricesDrawerService {
-  defaultMessageId?: string = undefined;
+  defaultChargeMessageV1Dto?: ChargeMessageV1Dto = undefined;
 
-  private messageId$ = new BehaviorSubject(this.defaultMessageId);
-  messageId = this.messageId$.asObservable();
+  private message$ = new BehaviorSubject(this.defaultChargeMessageV1Dto);
+  message = this.message$.asObservable();
 
   reset() {
-    this.messageId$.next(undefined);
+    this.message$.next(undefined);
   }
 
-  setMessageId(messageId: string) {
-    this.messageId$.next(messageId);
+  setMessage(message: ChargeMessageV1Dto) {
+    this.message$.next(message);
   }
 
-  removeMessageId() {
-    this.messageId$.next(undefined);
+  removeMessage() {
+    this.message$.next(undefined);
   }
 }

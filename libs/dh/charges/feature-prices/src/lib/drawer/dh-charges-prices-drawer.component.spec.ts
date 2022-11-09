@@ -36,7 +36,6 @@ import { DhChargesChargeMessagesTabScam } from './charge-content/message-tab/dh-
 import { DhDrawerDatepickerScam } from './charge-content/drawer-datepicker/dh-drawer-datepicker.component';
 import userEvent from '@testing-library/user-event';
 import { DrawerDatepickerService } from './charge-content/drawer-datepicker/drawer-datepicker.service';
-import { DhChargePriceMessageScam } from './charge-message/dh-charge-price-message.component';
 import { DhMarketParticipantDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 
 const charge = {

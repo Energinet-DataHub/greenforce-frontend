@@ -392,7 +392,8 @@
         "hideDescriptionLabel": "Luk beskrivelse",
         "messageId": "Besked Id",
         "messageType": "Type",
-        "date": "Dato"
+        "date": "Dato",
+        "unknownMessageError": "Ukendt fejl"
       },
       "csvHeader": {
         "id": "PRIS ID",

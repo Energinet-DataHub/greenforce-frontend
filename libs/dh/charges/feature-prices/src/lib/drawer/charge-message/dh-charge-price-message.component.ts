@@ -37,6 +37,7 @@ import { CommonModule } from '@angular/common';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { MatDividerModule } from '@angular/material/divider';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+
 @Component({
   selector: 'dh-charge-price-message',
   templateUrl: './dh-charge-price-message.component.html',
@@ -72,18 +73,34 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   blobIsDownloading$ = this.blobStore.isDownloading$;
   blobHasGeneralError$ = this.blobStore.hasGeneralError$;
 
+  today = new Date();
+  tomorrow = new Date(this.today.setDate(this.today.getDate() + 1));
+
   searchCriteria: MessageArchiveSearchCriteria = {
-    maxItemCount: 1,
+    continuationToken: null,
+    // Need to split because message archive wants a specific format.
+    dateTimeFrom: new Date(2000, 1, 1).toISOString().split('.')[0] + 'Z',
+    dateTimeTo: this.tomorrow.toISOString().split('.')[0] + 'Z',
+    functionName: null,
     includeRelated: false,
     includeResultsWithoutContent: false,
+    invocationId: null,
+    maxItemCount: 1,
+    processTypes: [],
+    rsmNames: [],
+    traceId: null,
   };
 
   ngOnInit(): void {
-    this.dhChargesPricesDrawerService.messageId
+    this.dhChargesPricesDrawerService.message
       .pipe(takeUntil(this.destroy$))
-      .subscribe((messageId) => {
-        this.searchCriteria.messageId = messageId;
-        this.chargeMessageArchiveStore.searchLogs(this.searchCriteria);
+      .subscribe((message) => {
+        if (message) {
+          this.searchCriteria.messageId = message.messageId;
+          this.chargeMessageArchiveStore.searchLogs(this.searchCriteria);
+        } else {
+          this.message = undefined;
+        }
       });
 
     this.chargeMessageArchiveStore.searchResult$
@@ -116,10 +133,12 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   }
 
   backToCharge() {
-    this.dhChargesPricesDrawerService.removeMessageId();
+    this.dhChargesPricesDrawerService.removeMessage();
   }
 
-  downloadLog() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  downloadLog(event: any) {
+    event.stopPropagation();
     if (this.message == undefined) return;
     const logName = this.findLogName(this.message.blobContentUri);
     this.blobStore.downloadLogFile(logName);
