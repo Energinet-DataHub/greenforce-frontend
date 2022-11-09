@@ -259,13 +259,15 @@
     "tariffsTitle": "Tariffer",
     "subscriptionsTitle": "Abonnementer",
     "feesTitle": "Gebyrer",
+    "back": "Tilbage",
+    "sender": "Afsender",
     "messageType": {
       "D18": "Opdatering af pris stamdata",
       "D08": "Opdatering af prisserie"
     },
     "messageTypeAbbreviation": {
-      "D18": "RSM-33",
-      "D08": "RSM-33"
+      "D18": "RSM-033",
+      "D08": "RSM-033"
     },
     "chargeType": {
       "D01": "Abonnement",
@@ -390,7 +392,8 @@
         "hideDescriptionLabel": "Luk beskrivelse",
         "messageId": "Besked Id",
         "messageType": "Type",
-        "date": "Dato"
+        "date": "Dato",
+        "unknownMessageError": "Ukendt fejl"
       },
       "csvHeader": {
         "id": "PRIS ID",

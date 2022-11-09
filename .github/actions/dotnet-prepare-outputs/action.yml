@@ -15,10 +15,14 @@
 name: Prepare dotnet outputs
 
 #
-# This action is called from the 'dotnet-solution-ci.yml' file if the
-# workflow parameter PREPARE_OUTPUTS is set to 'true'.
+# This action is called from:
+#  - the 'dotnet-solution-ci.yml' file IF the workflow parameter PREPARE_OUTPUTS is set to 'true'.
+#  - the 'dotnet-build-prerelease.yml' file.
 #
-# Prepared outputs will be uploaded as the 'dotnet' artifact.
+# Prepared outputs will be zipped and uploaded as the 'dotnet' artifact.
+#
+# All 'apps' must be output into the '/functions\' subfolder, to match
+# how they are later retrieved in the '<domain>-stage-deployment.yml' file.
 #
 
 inputs:
@@ -28,7 +32,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Publish Web API
+    - name: Publish WebApi
       shell: bash
       run: |
         dotnet publish \
@@ -41,4 +45,4 @@ runs:
     - name: Publish Swagger
       shell: bash
       run: |
-        cp '${{ github.workspace }}\apps\dh\api-dh\source\DataHub.WebApi\bin\Release\net6.0\swagger.json' '${{ inputs.OUTPUT_PATH }}'
+        cp "${{ github.workspace }}/apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0/swagger.json" "${{ inputs.OUTPUT_PATH }}"
