@@ -19,17 +19,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 
-import {
-  WattTableComponent,
-  WattTableCellDirective,
-} from '../watt-table.component';
+import { WATT_TABLE } from '../watt-table.component';
 import { WattIconModule } from '../../../foundations/icon';
 import { StorybookTableOverviewComponent } from './storybook-table-overview.component';
 
 @NgModule({
   imports: [
-    WattTableComponent,
-    WattTableCellDirective,
+    ...WATT_TABLE,
     WattIconModule,
     MatSortModule,
     MatPaginatorModule,

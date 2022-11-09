@@ -155,3 +155,5 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     }
   }
 }
+
+export const WATT_TABLE = [WattTableComponent, WattTableCellDirective] as const;

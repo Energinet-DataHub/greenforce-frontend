@@ -18,4 +18,5 @@ export { WattTableDataSource } from './watt-table-data-source';
 export {
   WattTableComponent,
   WattTableCellDirective,
+  WATT_TABLE,
 } from './watt-table.component';

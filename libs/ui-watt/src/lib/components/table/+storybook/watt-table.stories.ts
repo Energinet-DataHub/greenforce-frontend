@@ -33,10 +33,10 @@ export const Overview: Story<StorybookTableOverviewComponent> = (args) => ({
   template: '<storybook-table-overview></storybook-table-overview>',
 });
 
-// overview.parameters = {
-//   docs: {
-//     source: {
-//       code: 'Use Table component from Angular Material.',
-//     },
-//   },
-// };
+Overview.parameters = {
+  docs: {
+    source: {
+      code: '<watt-table [dataSource]="dataSource" [columns]="columns"></watt-table>',
+    },
+  },
+};
