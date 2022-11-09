@@ -14,18 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Then, When } from '@badeball/cypress-cucumber-preprocessor';
+import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
 
-When('I visit duckduckgo.com', () => {
-  cy.visit('https://duckduckgo.com/');
+Given('I am on the landing page', () => {
+  cy.visit('/');
 });
 
-Then('I should see a search bar', () => {
-  cy.get('input').should(
-    'have.attr',
-    'placeholder',
-    'Search the web without being tracked'
-  );
+When('I click the start button to login', () => {
+  cy.get('eo-landing-page-login-button').eq(0).click();
+});
 
-  assert.deepEqual({}, {});
+When('I can see Charlotte CSRs login and click it', () => {
+  cy.get('[value="Charlotte CSR"]').click();
+});
+
+Then('I can see the dashboard page', () => {
+  cy.get('h2').should('contain.text', 'Dashboard');
 });
