@@ -55,9 +55,9 @@ limitations under the License.
       <pre>{{ blobContent }}</pre>
     </ng-container>
 
-    <div *transloco="let transloco; read: 'messageArchive'">
+    <div>
       <watt-badge *ngIf="blobHasGeneralError$ | push" type="danger">{{
-        transloco("unknowenError")
+        t("prices.drawer.unknownMessageError")
       }}</watt-badge>
     </div>
   </ng-container>
