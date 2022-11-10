@@ -16,11 +16,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {
-  EoProductionShellComponent,
-  EoProductionShellScam,
-} from './eo-production-shell.component';
+import { RouterModule, Routes } from '@angular/router';
+import { EoProductionShellComponent } from './eo-production-shell.component';
 
 const routes: Routes = [
   {
@@ -30,6 +27,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), EoProductionShellScam],
+  imports: [RouterModule.forChild(routes), EoProductionShellComponent],
 })
 export class EoProductionShellModule {}

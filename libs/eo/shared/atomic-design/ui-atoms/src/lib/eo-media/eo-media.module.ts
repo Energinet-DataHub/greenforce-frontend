@@ -16,8 +16,8 @@
  */
 import { NgModule } from '@angular/core';
 
-import { EoMediaImageScam } from './eo-media-image.directive';
-import { EoMediaScam } from './eo-media.component';
+import { EoMediaImageDirective } from './eo-media-image.directive';
+import { EoMediaComponent } from './eo-media.component';
 
 /**
  * The Energy Origin Media components represent the classical OOCSS Media
@@ -39,6 +39,7 @@ import { EoMediaScam } from './eo-media.component';
  * </eo-media>
  */
 @NgModule({
-  exports: [EoMediaScam, EoMediaImageScam],
+  imports: [EoMediaComponent, EoMediaImageDirective],
+  exports: [EoMediaComponent, EoMediaImageDirective],
 })
 export class EoMediaModule {}

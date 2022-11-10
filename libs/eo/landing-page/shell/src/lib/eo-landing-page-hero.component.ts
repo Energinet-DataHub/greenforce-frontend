@@ -14,11 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { EoLandingPageLoginButtonComponent } from './eo-landing-page-login-button.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [EoLandingPageLoginButtonComponent],
   selector: 'eo-landing-page-hero',
   styles: [
     `
@@ -92,10 +94,3 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
   `,
 })
 export class EoLandingPageHeroComponent {}
-
-@NgModule({
-  declarations: [EoLandingPageHeroComponent],
-  exports: [EoLandingPageHeroComponent],
-  imports: [EoLandingPageLoginButtonScam],
-})
-export class EoLandingPageHeroScam {}

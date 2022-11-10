@@ -15,18 +15,29 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoPopupMessageScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { LetModule } from '@rx-angular/template';
-import { EoEmissionsPageCo2ReductionScam } from './eo-emissions-page-co2-reduction';
-import { EoEmissionsPageGreenhouseGassesScam } from './eo-emissions-page-greenhouse-gasses.component';
-import { EoEmissionsPageInfoScam } from './eo-emissions-page-info.component';
-import { EoEmissionsPageLeadByExampleScam } from './eo-emissions-page-lead-by-example.component';
-import { EoEmissionsPageTipScam } from './eo-emissions-page-tip.component';
+import { EoEmissionsPageCo2ReductionComponent } from './eo-emissions-page-co2-reduction';
+import { EoEmissionsPageGreenhouseGassesComponent } from './eo-emissions-page-greenhouse-gasses.component';
+import { EoEmissionsPageInfoComponent } from './eo-emissions-page-info.component';
+import { EoEmissionsPageLeadByExampleComponent } from './eo-emissions-page-lead-by-example.component';
+import { EoEmissionsPageTipComponent } from './eo-emissions-page-tip.component';
 import { EoEmissionsStore } from './eo-emissions.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    LetModule,
+    CommonModule,
+    EoPopupMessageComponent,
+    EoEmissionsPageInfoComponent,
+    EoEmissionsPageCo2ReductionComponent,
+    EoEmissionsPageTipComponent,
+    EoEmissionsPageGreenhouseGassesComponent,
+    EoEmissionsPageLeadByExampleComponent,
+  ],
   selector: 'eo-emissions-page-shell',
   styles: [
     `
@@ -67,18 +78,3 @@ export class EoEmissionsPageShellComponent {
 
   constructor(private emissionsStore: EoEmissionsStore) {}
 }
-
-@NgModule({
-  declarations: [EoEmissionsPageShellComponent],
-  imports: [
-    LetModule,
-    CommonModule,
-    EoPopupMessageScam,
-    EoEmissionsPageInfoScam,
-    EoEmissionsPageCo2ReductionScam,
-    EoEmissionsPageTipScam,
-    EoEmissionsPageGreenhouseGassesScam,
-    EoEmissionsPageLeadByExampleScam,
-  ],
-})
-export class EoEmissionsPageShellScam {}
