@@ -45,7 +45,7 @@ jobs:
   #
 
   changes:
-    uses: ./.github/workflows/dh-backend-detect-changes.yml
+    uses: ./.github/workflows/dh-detect-changes.yml
 
   #
   # Frontend
