@@ -15,10 +15,12 @@
  * limitations under the License.
  */
 
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
+  standalone: true,
+  imports: [MatCardModule],
   selector: 'eo-dashboard-links',
   template: ` <mat-card>
     <h3 class="watt-space-stack-s">Links</h3>
@@ -75,10 +77,3 @@ import { MatCardModule } from '@angular/material/card';
   ],
 })
 export class EoDashboardLinksComponent {}
-
-@NgModule({
-  declarations: [EoDashboardLinksComponent],
-  exports: [EoDashboardLinksComponent],
-  imports: [MatCardModule],
-})
-export class EoDashboardLinksScam {}

@@ -19,7 +19,6 @@ import {
   Component,
   HostBinding,
   Input,
-  NgModule,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -35,6 +34,7 @@ const selector = 'eo-inline-message';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
   selector,
   styles: [
     `
@@ -90,9 +90,3 @@ export class EoInlineMessageComponent {
   @Input()
   type: InlineMessageType = 'default';
 }
-
-@NgModule({
-  declarations: [EoInlineMessageComponent],
-  exports: [EoInlineMessageComponent],
-})
-export class EoInlineMessageScam {}

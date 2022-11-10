@@ -14,11 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { EoPrivacyPolicyComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [EoPrivacyPolicyComponent],
   selector: 'eo-privacy-policy-shell',
   styles: [
     `
@@ -39,9 +41,3 @@ import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/
   `,
 })
 export class EoPrivacyPolicyShellComponent {}
-
-@NgModule({
-  imports: [EoPrivacyPolicyScam],
-  declarations: [EoPrivacyPolicyShellComponent],
-})
-export class EoPrivacyPolicyShellScam {}

@@ -19,7 +19,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  NgModule,
   Output,
   ViewEncapsulation,
 } from '@angular/core';
@@ -39,6 +38,8 @@ import { map } from 'rxjs';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [CommonModule, MatButtonToggleModule, LetModule],
   selector: 'eo-resolution-picker',
   styles: [
     `
@@ -129,10 +130,3 @@ export class EoResolutionPickerComponent {
     this.newResolution.emit(resolution);
   }
 }
-
-@NgModule({
-  declarations: [EoResolutionPickerComponent],
-  imports: [CommonModule, MatButtonToggleModule, LetModule],
-  exports: [EoResolutionPickerComponent],
-})
-export class EoResolutionPickerScam {}
