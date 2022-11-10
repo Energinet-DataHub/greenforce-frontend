@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Directive, Input, NgModule } from '@angular/core';
+import { Directive, Input } from '@angular/core';
 
 import { EoMediaAlign } from './eo-media-align';
 import { EoMediaPresenter } from './eo-media.presenter';
 
 @Directive({
+  standalone: true,
   exportAs: 'eoMediaImage',
   selector: '[eoMediaImage]',
 })
@@ -43,9 +44,3 @@ export class EoMediaImageDirective {
 
   constructor(private presenter: EoMediaPresenter) {}
 }
-
-@NgModule({
-  declarations: [EoMediaImageDirective],
-  exports: [EoMediaImageDirective],
-})
-export class EoMediaImageScam {}

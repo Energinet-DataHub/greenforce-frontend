@@ -19,13 +19,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 
-import { EoShellComponent, EoShellScam } from './eo-shell.component';
+import { EoShellComponent } from './eo-shell.component';
 
 describe(EoShellComponent.name, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        EoShellScam,
+        EoShellComponent,
         // Because of primary navigation relying on AuthHttp
         HttpClientTestingModule,
       ],

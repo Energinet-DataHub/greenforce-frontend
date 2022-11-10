@@ -65,4 +65,4 @@ export class EoFeatureFlagDirective implements AfterViewInit {
   declarations: [EoFeatureFlagDirective],
   exports: [EoFeatureFlagDirective],
 })
-export class EoFeatureFlagScam {}
+export class EoFeatureFlagComponent {}

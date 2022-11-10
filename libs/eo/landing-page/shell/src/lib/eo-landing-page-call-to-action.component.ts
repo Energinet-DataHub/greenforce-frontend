@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
+import { EoLandingPageLoginButtonComponent } from './eo-landing-page-login-button.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [WattIconModule, EoLandingPageLoginButtonComponent],
   selector: 'eo-landing-page-call-to-action',
   styles: [
     `
@@ -92,10 +94,3 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
   `,
 })
 export class EoLandingPageCallToActionComponent {}
-
-@NgModule({
-  declarations: [EoLandingPageCallToActionComponent],
-  exports: [EoLandingPageCallToActionComponent],
-  imports: [WattIconModule, EoLandingPageLoginButtonScam],
-})
-export class EoLandingPageCallToActionScam {}

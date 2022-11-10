@@ -14,11 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoVimeoPlayerScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [EoVimeoPlayerComponent],
   selector: 'eo-landing-page-introduction',
   styles: [
     `
@@ -101,10 +103,3 @@ import { EoVimeoPlayerScam } from '@energinet-datahub/eo/shared/atomic-design/ui
   `,
 })
 export class EoLandingPageIntroductionComponent {}
-
-@NgModule({
-  declarations: [EoLandingPageIntroductionComponent],
-  exports: [EoLandingPageIntroductionComponent],
-  imports: [EoVimeoPlayerScam],
-})
-export class EoLandingPageIntroductionScam {}

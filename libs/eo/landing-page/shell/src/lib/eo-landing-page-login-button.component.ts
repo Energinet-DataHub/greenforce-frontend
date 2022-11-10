@@ -14,13 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { LetModule } from '@rx-angular/template';
 import { EoLandingPageStore } from './eo-landing-page.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [WattButtonModule, LetModule],
   selector: 'eo-landing-page-login-button',
   styles: [
     `
@@ -46,10 +48,3 @@ export class EoLandingPageLoginButtonComponent {
 
   constructor(private landingPageStore: EoLandingPageStore) {}
 }
-
-@NgModule({
-  declarations: [EoLandingPageLoginButtonComponent],
-  exports: [EoLandingPageLoginButtonComponent],
-  imports: [WattButtonModule, LetModule],
-})
-export class EoLandingPageLoginButtonScam {}

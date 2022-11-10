@@ -15,20 +15,34 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { EoPopupMessageScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoMediaModule } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { LetModule } from '@rx-angular/template';
-import { EoOriginOfEnergyChartCardScam } from './eo-origin-of-energy-chart-card.component';
-import { EoOriginOfEnergyChartTipsScam } from './eo-origin-of-energy-chart-tips.component';
-import { EoOriginOfEnergyGlobalGoalsMediaScam } from './eo-origin-of-energy-global-goals-media.component';
-import { EoOriginOfEnergyHourlyDeclarationScam } from './eo-origin-of-energy-hourly-declaration.component';
-import { EoOriginOfEnergyRenewableEnergyScam } from './eo-origin-of-energy-renewable-energy.component';
-import { EoOriginOfEnergyWhatIsItScam } from './eo-origin-of-energy-what-is-it.component';
+import { EoOriginOfEnergyChartCardComponent } from './eo-origin-of-energy-chart-card.component';
+import { EoOriginOfEnergyChartTipsComponent } from './eo-origin-of-energy-chart-tips.component';
+import { EoOriginOfEnergyGlobalGoalsMediaComponent } from './eo-origin-of-energy-global-goals-media.component';
+import { EoOriginOfEnergyHourlyDeclarationComponent } from './eo-origin-of-energy-hourly-declaration.component';
+import { EoOriginOfEnergyRenewableEnergyComponent } from './eo-origin-of-energy-renewable-energy.component';
+import { EoOriginOfEnergyWhatIsItComponent } from './eo-origin-of-energy-what-is-it.component';
 import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    LetModule,
+    CommonModule,
+    EoPopupMessageComponent,
+    EoMediaModule,
+    MatCardModule,
+    EoOriginOfEnergyWhatIsItComponent,
+    EoOriginOfEnergyChartCardComponent,
+    EoOriginOfEnergyGlobalGoalsMediaComponent,
+    EoOriginOfEnergyChartTipsComponent,
+    EoOriginOfEnergyRenewableEnergyComponent,
+    EoOriginOfEnergyHourlyDeclarationComponent,
+  ],
   selector: 'eo-origin-of-energy-shell',
   styles: [
     `
@@ -81,21 +95,3 @@ export class EoOriginOfEnergyShellComponent {
 
   constructor(private originOfEnergyStore: EoOriginOfEnergyStore) {}
 }
-
-@NgModule({
-  declarations: [EoOriginOfEnergyShellComponent],
-  imports: [
-    LetModule,
-    CommonModule,
-    EoPopupMessageScam,
-    EoMediaModule,
-    MatCardModule,
-    EoOriginOfEnergyWhatIsItScam,
-    EoOriginOfEnergyChartCardScam,
-    EoOriginOfEnergyGlobalGoalsMediaScam,
-    EoOriginOfEnergyChartTipsScam,
-    EoOriginOfEnergyRenewableEnergyScam,
-    EoOriginOfEnergyHourlyDeclarationScam,
-  ],
-})
-export class EoOriginOfEnergyShellScam {}
