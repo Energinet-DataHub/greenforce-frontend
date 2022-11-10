@@ -16,14 +16,9 @@
  */
 import { render, screen } from '@testing-library/angular';
 
-import {
-  MeteringPointCimDto,
-  ReadingOccurrence,
-  SettlementMethod,
-} from '@energinet-datahub/dh/shared/domain';
+import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/domain';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
-import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 
 import {
   DhMeteringPointIdentityComponent,
@@ -33,131 +28,140 @@ import {
 import { getByGsrnResponse as identityData } from 'libs/dh/shared/data-access-msw/src/lib/mocks/metering-point';
 
 const {
-  meteringPointTypeCode,
-  meteringPointSubTypeCode,
+  overview: {
+    settlementMethod,
+    readingOccurrence,
+    meteringMethod,
+    primaryMasterData: {
+      meterNumber,
+      address,
+      hasElectricitySupplier,
+      actualAddress,
+    },
+  },
   physicalStatusCode,
-  settlementMethodCode,
-  readingOccurrenceCode,
 } = enTranslations.meteringPoint;
 
-const testId = {
-  supplyStart: 'dh-metering-point-identity-text-field-supply-start',
-  actualAddress: 'dh-metering-point-identity-text-field-isActualAddress',
-};
+const getByTitle = (title: string) =>
+  screen.queryByTitle(title, { suggest: false });
 
 describe(DhMeteringPointIdentityComponent.name, () => {
-  async function setup(testData?: MeteringPointCimDto) {
+  async function setup(testData: MeteringPointCimDto) {
     const { fixture } = await render(DhMeteringPointIdentityComponent, {
       componentProperties: {
-        identityData,
-        ...testData,
+        identityDetails: {
+          ...identityData,
+          ...testData,
+        } as MeteringPointCimDto,
       },
+
       imports: [DhMeteringPointIdentityScam, getTranslocoTestingModule()],
     });
 
-    runOnPushChangeDetection(fixture);
+    return fixture.componentInstance.identityDetails;
   }
 
-  describe('metering point connectionstate', () => {
-    test('connectionstate is displayed when it has a valid value', async () => {
-      await setup({ connectionState: 'D02' } as MeteringPointCimDto);
-
-      const connectionState = physicalStatusCode[identityData.connectionState];
-
-      expect(connectionState).toBeVisible;
+  describe('connectionstate test', () => {
+    test('connectionstate is displayed when it has a valid value', () => {
+      setup({ connectionState: 'D03' } as MeteringPointCimDto).then(
+        ({ connectionState }) =>
+          expect(
+            screen.queryByText(physicalStatusCode[connectionState])
+          ).toBeInTheDocument()
+      );
     });
   });
 
-  describe('metering method', () => {
-    test('metering method is displayed when it has a valid value', async () => {
-      await setup({ meteringMethod: 'D02' } as MeteringPointCimDto);
-
-      const meteringMethod =
-        meteringPointSubTypeCode[identityData.meteringMethod];
-
-      expect(meteringMethod).toBeVisible;
+  describe('metering method test', () => {
+    test('metering method text is displayed when it has a valid value', () => {
+      setup({ meteringMethod: 'D02' } as MeteringPointCimDto).then(() => {
+        expect(getByTitle(meteringMethod)).toBeInTheDocument();
+      });
     });
   });
 
-  describe('metering point type', () => {
-    test('metering point type is displayed when it has a valid value', async () => {
-      await setup({ meteringPointType: 'D02' } as MeteringPointCimDto);
+  describe('settlement method test', () => {
+    test('settlement method is displayed when it has a valid value', () => {
+      setup({ settlementMethod: 'D01' } as MeteringPointCimDto).then(() =>
+        expect(getByTitle(settlementMethod)).toBeInTheDocument()
+      );
+    });
 
-      const meteringPointType =
-        meteringPointTypeCode[identityData.meteringPointType];
-
-      expect(meteringPointType).toBeVisible;
+    test('settlement method is displayed when it has a valid value', () => {
+      setup({ settlementMethod: null } as MeteringPointCimDto).then(() =>
+        expect(getByTitle(settlementMethod)).not.toBeInTheDocument()
+      );
     });
   });
 
-  describe('settlement method', () => {
-    test('settlement method is displayed when it has a valid value', async () => {
-      await setup({ settlementMethod: 'D01' } as MeteringPointCimDto);
-
-      const settlementMethod =
-        settlementMethodCode[identityData.settlementMethod as SettlementMethod];
-
-      expect(settlementMethod).toBeVisible;
-    });
-
-    test('settlement method is not displayed when the value is null', async () => {
-      await setup({ settlementMethod: null } as MeteringPointCimDto);
-
-      const settlementMethod =
-        settlementMethodCode[identityData.settlementMethod as SettlementMethod];
-
-      expect(settlementMethod).toNotBeVisible;
+  describe('reading occurrence test', () => {
+    test('reading occurrence is displayed when it has a valid value', () => {
+      setup({ readingOccurrence: 'P1Y' } as MeteringPointCimDto).then(() => {
+        expect(getByTitle(readingOccurrence));
+      });
     });
   });
 
-  describe('reading occurrence', () => {
-    test('reading occurrence is displayed when it has a valid value', async () => {
-      await setup();
+  describe('meter id test', () => {
+    test('meter id is displayed when it has a valid value', () => {
+      setup({ meterId: '123456' } as MeteringPointCimDto).then(
+        ({ meterId }) => {
+          expect(getByTitle(meterNumber)).toHaveTextContent(meterId as string);
+        }
+      );
+    });
 
-      const readingOccurrence =
-        readingOccurrenceCode[
-          identityData.readingOccurrence as ReadingOccurrence
-        ];
-
-      expect(readingOccurrence).toBeVisible;
+    test('meter id is not displayed when it has value null', () => {
+      setup({ meterId: null } as MeteringPointCimDto).then(() =>
+        expect(getByTitle(meterNumber)).not.toBeInTheDocument()
+      );
     });
   });
 
-  describe('supply start', () => {
+  describe('address test', () => {
+    test('address is displayed when it has vaild values', async () => {
+      await setup({
+        streetName: 'Nørre Lysgade',
+        postalCode: '4545',
+        cityName: 'Fiktivby',
+      } as MeteringPointCimDto).then(() =>
+        expect(getByTitle(address)).toBeInTheDocument()
+      );
+    });
+  });
+
+  describe('supply start test', () => {
     test('supply start is displayed when it has a valid value', async () => {
       await setup({
         supplyStart: '2021-09-25T22:00:00Z',
       } as MeteringPointCimDto);
-
-      const supplyStart = screen.getByTestId(testId.supplyStart);
-
-      expect(supplyStart).toBeVisible;
+      expect(getByTitle(hasElectricitySupplier)).toBeInTheDocument();
     });
 
     test('supply start is not displayed when the value is null', async () => {
-      await setup({ supplyStart: null } as MeteringPointCimDto);
-
-      const supplyStart = screen.getByTestId(testId.supplyStart);
-
-      expect(supplyStart).toNotBeVisible;
+      await setup({ supplyStart: null } as MeteringPointCimDto).then(() =>
+        expect(getByTitle(hasElectricitySupplier)).not.toBeInTheDocument()
+      );
     });
   });
 
-  describe('is actual address', () => {
+  describe('is actual address test', () => {
     test('actual address is displayed when it vaule is false', async () => {
-      await setup({ isActualAddress: false } as MeteringPointCimDto);
-
-      const actualAddress = screen.getByTestId(testId.actualAddress);
-
-      expect(actualAddress).toBeVisible;
+      await setup({ isActualAddress: false } as MeteringPointCimDto).then(() =>
+        expect(getByTitle(actualAddress)).toBeInTheDocument()
+      );
     });
 
-    test('supply start is not displayed when the value is null', async () => {
-      await setup({ supplyStart: null } as MeteringPointCimDto);
+    test('actual address is not displayed when the value is true', async () => {
+      await setup({ isActualAddress: true } as MeteringPointCimDto).then(() =>
+        expect(getByTitle(actualAddress)).not.toBeInTheDocument()
+      );
+    });
 
-      const actualAddress = screen.getByTestId(testId.actualAddress);
-
-      expect(actualAddress).toNotBeVisible;
+    test('actual address is not displayed when the value is undefined', async () => {
+      await setup({ isActualAddress: undefined } as MeteringPointCimDto).then(
+        () => expect(getByTitle(actualAddress)).not.toBeInTheDocument()
+      );
     });
   });
 });
