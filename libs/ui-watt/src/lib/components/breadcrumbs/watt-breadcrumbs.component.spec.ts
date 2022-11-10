@@ -18,7 +18,11 @@ import {
   composeStory,
   createMountableStoryComponent,
 } from '@storybook/testing-angular';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/angular';
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/angular';
 import { Story } from '@storybook/angular';
 import Meta, { Overview } from './watt-breadcrumbs.stories';
 
@@ -30,7 +34,7 @@ const overviewStory = composeStory(Overview, Meta);
 describe(WattBreadcrumbsComponent.name, () => {
   async function setup(story: Story, clickSpy?: unknown) {
     const { component, ngModule } = createMountableStoryComponent(
-      story({onClick: clickSpy}, {} as never)
+      story({ onClick: clickSpy }, {} as never)
     );
     await render(component, { imports: [ngModule] });
   }

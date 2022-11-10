@@ -43,8 +43,14 @@ export default {
         WATT_BREADCRUMBS,
         RouterTestingModule.withRoutes([
           { path: '', redirectTo: 'overview', pathMatch: 'full' },
-          { path: 'components', component: generateComponent('Route:Components') },
-          { path: 'breadcrumbs', component: generateComponent('Route:Breadcrumbs') },
+          {
+            path: 'components',
+            component: generateComponent('Route:Components'),
+          },
+          {
+            path: 'breadcrumbs',
+            component: generateComponent('Route:Breadcrumbs'),
+          },
           { path: 'overview', component: generateComponent('Route:Overview') },
         ]),
       ],
