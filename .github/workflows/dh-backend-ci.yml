@@ -47,6 +47,14 @@ jobs:
   changes:
     uses: ./.github/workflows/dh-backend-detect-changes.yml
 
+  test:
+    needs: changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if PR not found
+        run: echo ${{ needs.changes.outputs.frontend }}
+
+
   #
   # Frontend
   #
