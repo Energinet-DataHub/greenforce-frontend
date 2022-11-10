@@ -18,6 +18,7 @@ on:
   push:
     branches:
       - main
+      - new-dhui-cicd
 
 jobs:
   #
@@ -51,6 +52,18 @@ jobs:
     uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v9
     with:
       RELEASE_NAME_PREFIX: ui_dotnet
+
+  #
+  # Frontend
+  #
+
+  frontend_promote_prerelease:
+    needs: changes
+    if: ${{ needs.changes.outputs.frontend == 'true' }}
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v9
+    with:
+      RELEASE_NAME_PREFIX: ui_frontend
+
   #
   # Dispatch deployment request
   #
@@ -58,17 +71,20 @@ jobs:
   dispatch_deploment_event:
     runs-on: ubuntu-latest
     needs: [
-        # Necessary to be able to use its outputs in the dispatch event
-        changes,
-        # .NET
-        dotnet_promote_prerelease,
-      ]
+      # Necessary to be able to use its outputs in the dispatch event
+      changes,
+      # .NET
+      dotnet_promote_prerelease,
+      # Frontend
+      frontend_promote_prerelease,
+    ]
     if: |
       always() &&
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       !(
-        needs.dotnet_promote_prerelease.result == 'skipped'
+        needs.dotnet_promote_prerelease.result == 'skipped' &&
+        needs.frontend_promote_prerelease.result == 'skipped'
       )
     steps:
       - run: echo "${{ toJSON(needs) }}"
@@ -82,5 +98,5 @@ jobs:
         with:
           token: ${{ secrets.PAT_TOKEN }}
           repository: '${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}'
-          event-type: 'ui-backend-deployment-request-domain'
-          client-payload: '{"domain_pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet_deploy": "${{ needs.changes.outputs.dotnet }}"}'
+          event-type: 'ui-deployment-request-domain'
+          client-payload: '{"domain_pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet_deploy": "${{ needs.changes.outputs.dotnet }}", "frontend_deploy": "${{ needs.changes.outputs.frontend }}"}'

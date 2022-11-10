@@ -60,12 +60,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Release
-        shell: bash
-        run: |
-          echo ${{ env.RELEASE_VERSION }}
-          echo ${{ env.RELEASE_FOLDER_PATH }}
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -95,12 +89,6 @@ jobs:
       - name: Setup Release
         shell: bash
         run: cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.app-name }} ${{ env.RELEASE_FOLDER_PATH }}
-
-      - name: Test
-        shell: bash
-        run: |
-          ls -ahl ${{ env.RELEASE_FOLDER_PATH }}
-          echo "${{ env.RELEASE_VERSION }}.zip"
 
       - name: Zip artifact
         uses: thedoctor0/zip-release@master
@@ -153,14 +141,13 @@ jobs:
 
   generate_client:
     needs: [
-        # .NET
-        dotnet_ci_build,
-        dotnet_ci_test,
-      ]
+      # .NET
+      dotnet_ci_build,
+      dotnet_ci_test,
+    ]
     runs-on: ubuntu-latest
     env:
       output-path: libs/dh/shared/domain/src/lib/generated/v1/
-
     steps:
       # needed to push to origin
       - name: 'PR: Check out source code with current branch Git history'
