@@ -87,7 +87,7 @@ describe(DhMeteringPointIdentityComponent.name, () => {
       );
     });
 
-    test('settlement method is displayed when it has a valid value', () => {
+    test('settlement method is not displayed when it has value null', () => {
       setup({ settlementMethod: null } as MeteringPointCimDto).then(() =>
         expect(getByTitle(settlementMethod)).not.toBeInTheDocument()
       );
@@ -97,7 +97,7 @@ describe(DhMeteringPointIdentityComponent.name, () => {
   describe('reading occurrence test', () => {
     test('reading occurrence is displayed when it has a valid value', () => {
       setup({ readingOccurrence: 'P1Y' } as MeteringPointCimDto).then(() => {
-        expect(getByTitle(readingOccurrence));
+        expect(getByTitle(readingOccurrence)).toBeInTheDocument();
       });
     });
   });
