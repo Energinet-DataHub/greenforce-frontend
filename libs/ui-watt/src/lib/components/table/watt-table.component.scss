@@ -59,4 +59,13 @@ watt-table .mat-table {
     display: inline-block;
     @include watt.space-inset-stretch-s;
   }
+
+  .watt-table-checkbox-cell {
+    justify-content: center;
+  }
+
+  th.watt-table-checkbox-cell {
+    display: flex;
+    align-items: center;
+  }
 }

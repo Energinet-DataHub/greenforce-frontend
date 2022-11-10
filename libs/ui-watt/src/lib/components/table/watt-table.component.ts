@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { SelectionModel } from '@angular/cdk/collections';
 import { CommonModule, KeyValue } from '@angular/common';
 import {
   AfterViewInit,
@@ -22,18 +23,24 @@ import {
   ContentChildren,
   Directive,
   ElementRef,
+  EventEmitter,
   inject,
   Input,
   OnChanges,
-  QueryList,
+  OnDestroy,
+  Output,
   SimpleChanges,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import type { QueryList } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, SortDirection } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { map, type Subscription } from 'rxjs';
 import { WattResizeObserverDirective } from '../../utils/resize-observer';
+import { WattCheckboxModule } from '../checkbox';
 import { WattTableDataSource } from './watt-table-data-source';
 
 export interface WattTableColumn<T> {
@@ -73,9 +80,11 @@ export class WattTableCellDirective<T> {
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     MatSortModule,
     MatTableModule,
     WattResizeObserverDirective,
+    WattCheckboxModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -83,15 +92,9 @@ export class WattTableCellDirective<T> {
   styleUrls: ['./watt-table.component.scss'],
   templateUrl: './watt-table.component.html',
 })
-export class WattTableComponent<T> implements OnChanges, AfterViewInit {
-  element = inject<ElementRef<HTMLElement>>(ElementRef);
-
-  @ContentChildren(WattTableCellDirective)
-  cells = new QueryList<WattTableCellDirective<T>>();
-
-  @ViewChild(MatSort)
-  sort!: MatSort;
-
+export class WattTableComponent<T>
+  implements OnChanges, AfterViewInit, OnDestroy
+{
   @Input()
   dataSource!: WattTableDataSource<T>;
 
@@ -104,8 +107,39 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   @Input()
   sortDirection: SortDirection = '';
 
+  @Input()
+  selectable = true;
+
+  @Output()
+  selectionChange = new EventEmitter<T[]>();
+
+  /** @ignore */
+  @ContentChildren(WattTableCellDirective)
+  _cells!: QueryList<WattTableCellDirective<T>>;
+
+  /** @ignore */
+  @ViewChild(MatSort)
+  _sort!: MatSort;
+
+  /** @ignore */
+  _selectionModel = new SelectionModel<T>(true, []);
+
+  /** @ignore */
+  _checkboxColumn = '__checkboxColumn__';
+
+  /** @ignore */
+  _element = inject<ElementRef<HTMLElement>>(ElementRef);
+
+  /** @ignore */
+  _subscription!: Subscription;
+
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+    this.dataSource.sort = this._sort;
+    this._subscription = this._selectionModel.changed
+      .pipe(map(() => this._selectionModel.selected))
+      .subscribe((selection) => this.selectionChange.emit(selection));
+
+    // Make sorting by text case insensitive
     const parentSortingDataAccessor = this.dataSource.sortingDataAccessor;
     this.dataSource.sortingDataAccessor = (data: T, sortHeaderId: string) => {
       const value = (data as unknown as Record<string, unknown>)[sortHeaderId];
@@ -116,27 +150,49 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.columns) {
+    if (changes.columns || changes.selectable) {
       const sizing = Object.keys(this.columns)
         .map((key) => this.columns[key].size)
         .map((size) => size ?? 'auto');
 
-      this.element.nativeElement.style.setProperty(
+      // Add space for extra checkbox column
+      if (this.selectable) sizing.unshift('var(--watt-space-xl)');
+
+      this._element.nativeElement.style.setProperty(
         '--watt-table-grid-template-columns',
         sizing.join(' ')
       );
     }
   }
 
+  ngOnDestroy() {
+    this._subscription.unsubscribe();
+  }
+
+  get _columnSelection() {
+    return this.dataSource.filteredData.every((row) =>
+      this._selectionModel.isSelected(row)
+    );
+  }
+
+  set _columnSelection(value) {
+    if (value) {
+      this._selectionModel.setSelection(...this.dataSource.filteredData);
+    } else {
+      this._selectionModel.clear();
+    }
+  }
+
   _getColumns() {
-    return Object.keys(this.columns);
+    const columns = Object.keys(this.columns);
+    return this.selectable ? [this._checkboxColumn, ...columns] : columns;
   }
 
   _getColumnTemplate(column: WattTableColumn<T>) {
-    const cell = this.cells.find((item) => item.column === column);
+    const cell = this._cells.find((item) => item.column === column);
     return cell
       ? cell.templateRef
-      : this.cells.find((item) => !item.column)?.templateRef;
+      : this._cells.find((item) => !item.column)?.templateRef;
   }
 
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
@@ -151,7 +207,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     } else if (column.key in row) {
       return (row as Record<string, unknown>)[column.key];
     } else {
-      return '-';
+      return '—';
     }
   }
 }
