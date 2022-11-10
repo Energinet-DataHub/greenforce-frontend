@@ -37,19 +37,9 @@ jobs:
       dotnet: ${{ steps.filter.outputs.dotnet }}
       frontend: ${{ steps.affected.outputs.is-affected }}
     env:
-      app-name: app-dh
+      APP_NAME: app-dh
       BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
-      is-main-branch: ${{ github.ref == 'refs/heads/main' }}
-      is-pull-request: ${{ github.event_name == 'pull_request' }}
-      NODE_OPTIONS: --max-old-space-size=6144
-      node-version-file: .nvmrc
-      # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-      yarn-version: 1.22.19
-      NX_MAX_PARALLEL: 2
-      # Nx Cloud
-      NX_BRANCH: ${{ github.event.number }}
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      NX_RUN_GROUP: ${{ github.run_id }}
+      IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
     steps:
       # needed for nx affected command
       - name: Check out source code with current branch Git history
@@ -71,13 +61,13 @@ jobs:
 
       # needed for nx affected command
       - name: 'PR: Fetch base branch Git history'
-        if: ${{ env.is-pull-request == 'true' }}
-        run: git fetch --no-tags origin $BASE_BRANCH
+        if: ${{ env.IS_PULL_REQUEST == 'true' }}
+        run: git fetch --no-tags origin ${{ env.BASE_BRANCH }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version-file: ${{ env.node-version-file }}
+          node-version-file: .nvmrc
           cache: 'yarn'
 
       - name: Disable workspace NGCC run
@@ -85,8 +75,8 @@ jobs:
         with:
           ngcc: false
 
-      - name: Set yarn version ${{ env.yarn-version }}
-        run: yarn set version ${{ env.yarn-version }}
+      - name: Set yarn version 1.22.19
+        run: yarn set version 1.22.19
 
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
@@ -95,5 +85,5 @@ jobs:
         id: affected
         uses: ./.github/actions/affected
         with:
-          base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
-          project: ${{ env.app-name }}
+          base: ${{ github.ref == 'refs/heads/main' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+          project: ${{ env.APP_NAME }}

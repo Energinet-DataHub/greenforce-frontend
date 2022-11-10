@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: DH Backend CD
+name: DH CD
 
 on:
   push:
@@ -26,7 +26,7 @@ jobs:
   #
 
   changes:
-    uses: ./.github/workflows/dh-backend-detect-changes.yml
+    uses: ./.github/workflows/dh-detect-changes.yml
 
   #
   # CD .NET
