@@ -28,14 +28,20 @@ export default {
   ],
 };
 
-export const overview: Story<StorybookTableOverviewComponent> = (args) => ({
+export const Overview: Story<StorybookTableOverviewComponent> = (args) => ({
   props: args,
-  template: '<storybook-table-overview></storybook-table-overview>',
+  template: `<storybook-table-overview [selectable]="selectable"></storybook-table-overview>`,
 });
-overview.parameters = {
+
+Overview.args = { selectable: false };
+
+Overview.parameters = {
   docs: {
     source: {
-      code: 'Use Table component from Angular Material.',
+      code: '<watt-table [dataSource]="dataSource" [columns]="columns"></watt-table>',
     },
   },
 };
+
+export const Selectable = Overview.bind({});
+Selectable.args = { selectable: true };

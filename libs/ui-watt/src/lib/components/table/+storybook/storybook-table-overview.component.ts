@@ -14,9 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { MatSort, MatSortable, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, Input } from '@angular/core';
+import { WattTableDataSource } from '../watt-table-data-source';
 
 export interface PeriodicElement {
   name: string;
@@ -29,32 +28,31 @@ export const periodicElements: PeriodicElement[] = [
   { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
   { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
   { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
+  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
+  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
+  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
 ];
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'storybook-table-overview',
   templateUrl: 'storybook-table-overview.component.html',
+  styles: [
+    `
+      :host {
+        display: grid;
+        height: calc(100vh - 2rem);
+        grid-template-rows: min-content minmax(10rem, min-content);
+      }
+    `,
+  ],
 })
-export class StorybookTableOverviewComponent implements AfterViewInit {
-  displayedColumns: string[] = ['position', 'name', 'symbol'];
-  sortedData = new MatTableDataSource(periodicElements);
-
-  @ViewChild(MatSort) matSort?: MatSort;
-
-  ngAfterViewInit(): void {
-    this.sortedData.sort = this.matSort ?? null;
-
-    this.setDefaultSorting();
-  }
-
-  sortData(sort: Sort) {
-    if (sort.direction === '') {
-      this.setDefaultSorting();
-    }
-  }
-
-  setDefaultSorting() {
-    this.matSort?.sort(this.matSort.sortables.get('position') as MatSortable);
-  }
+export class StorybookTableOverviewComponent {
+  @Input() selectable = false;
+  dataSource = new WattTableDataSource(periodicElements);
+  columns = {
+    position: { header: 'Position', size: 'min-content' },
+    name: { header: 'Name' },
+    symbol: { header: 'Symbol', sort: false },
+  };
 }
