@@ -54,8 +54,17 @@ jobs:
     if: ${{ needs.changes.outputs.frontend == 'true' }}
     needs: changes
     runs-on: ubuntu-latest
+    env:
+      RELEASE_VERSION: ui_frontend_${{ github.event.number }}
+      RELEASE_FOLDER_PATH: ${{ github.workspace }}/ui_frontend_${{ github.event.number }}
     steps:
       - uses: actions/checkout@v3
+
+      - name: Setup Release
+        shell: bash
+        run: |
+          echo ${{ env.RELEASE_VERSION }}
+          echo ${{ env.RELEASE_FOLDER_PATH }}
 
       - name: Find associated pull request
         uses: jwalton/gh-find-current-pr@v1
@@ -93,17 +102,15 @@ jobs:
       - name: Optimize i18n assets
         run: yarn i18n:optimize:${{ env.app-name }}
 
-      - name: Set RELEASE_VERSION
-        shell: bash
-        run: |
-          echo "RELEASE_VERSION=ui_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
-          echo "RELEASE_FOLDER_PATH=${{ github.workspace }}/ui_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
-
       - name: Setup Release
         shell: bash
         run: |
-          ls -ahl ${{ github.workspace }}/dist/apps/dh/${{ env.app-name }}
           cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.app-name }} ${{ env.RELEASE_FOLDER_PATH }}
+
+      - name: Test
+        shell: bash
+        run: |
+          ls -ahl ${{ env.RELEASE_FOLDER_PATH }}
 
       - name: Zip files for prerelease
         uses: thedoctor0/zip-release@0.6.2
