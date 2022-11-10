@@ -40,10 +40,6 @@ describe(WattBreadcrumbsComponent.name, () => {
   const getBreadcrumbWithClick = () => screen.queryByText('Components');
   const getNoninteractiveBreadcrumb = () => screen.queryByText('Overview');
 
-  it('renders', async () => {
-    await setup(overviewStory);
-  });
-
   it('should render correct amount of seperators', async () => {
     await setup(overviewStory);
     expect(getSeperators()).toHaveLength(2);
