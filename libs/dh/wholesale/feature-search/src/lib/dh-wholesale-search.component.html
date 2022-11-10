@@ -22,34 +22,44 @@ limitations under the License.
     ></dh-wholesale-form>
   </div>
 
-  <mat-card *ngIf="searchSubmitted">
-    <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
-      <section class="content">
-        <ng-container
-          *rxLet="
-            data$;
-            let data;
-            error: loadedBatchesError;
-            suspense: loadingBatches;
-            suspenseTrg: loadingBatchesTrigger$;
-            errorTrg: loadingBatchesErrorTrigger$
-          "
-          ><dh-wholesale-table *ngIf="data" [data]="data"></dh-wholesale-table
-        ></ng-container>
-      </section>
+  <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
+    <section class="content" *ngIf="searchSubmitted">
+      <ng-container
+        *rxLet="
+          data$;
+          let data;
+          error: loadedBatchesError;
+          suspense: loadingBatches;
+          suspenseTrg: loadingBatchesTrigger$;
+          errorTrg: loadingBatchesErrorTrigger$
+        "
+      >
+        <dh-wholesale-table
+          *ngIf="data"
+          [data]="data"
+          (selectedRow)="onBatchSelected($event)"
+          (download)="onDownloadBasisData($event)"
+        ></dh-wholesale-table>
+      </ng-container>
+    </section>
 
-      <ng-template #loadingBatches>
-        <watt-spinner></watt-spinner>
-      </ng-template>
+    <ng-template #loadingBatches>
+      <watt-spinner></watt-spinner>
+    </ng-template>
 
-      <ng-template #loadedBatchesError>
-        <watt-empty-state
-          icon="power"
-          [title]="transloco('loadBatchesFailedTitle')"
-          [message]="transloco('loadBatchesFailedMessage')"
-        >
-        </watt-empty-state>
-      </ng-template>
-    </ng-container>
-  </mat-card>
+    <ng-template #loadedBatchesError>
+      <watt-empty-state
+        icon="power"
+        [title]="transloco('loadBatchesFailedTitle')"
+        [message]="transloco('loadBatchesFailedMessage')"
+      >
+      </watt-empty-state>
+    </ng-template>
+
+    <dh-wholesale-batch-details
+      *ngIf="selectedBatch"
+      [batch]="selectedBatch"
+      #batchDetails
+    ></dh-wholesale-batch-details>
+  </ng-container>
 </ng-container>

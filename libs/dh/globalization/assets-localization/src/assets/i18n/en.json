@@ -728,6 +728,17 @@
         "of": "of"
       }
     },
+    "batchDetails": {
+      "headline": "Batch: {{batchNumber}}",
+      "calculationPeriod": "Calculation period",
+      "executionTime": "Execution time"
+    },
+    "gridAreas": {
+      "header": "{{total}} Grid Areas",
+      "gridAreaCode": "ID",
+      "name": "name",
+      "noGridAreasFound": "No grid areas found"
+    },
     "overview": {
       "header": "Process Overview"
     }

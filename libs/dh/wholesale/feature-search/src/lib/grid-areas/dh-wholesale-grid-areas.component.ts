@@ -21,89 +21,49 @@ import {
   Component,
   Input,
   ViewChild,
-  Output,
-  EventEmitter,
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { BatchGridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt/badge';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-
-export type BatchVm = BatchDtoV2 & { statusType: WattBadgeType };
-type wholesaleTableData = MatTableDataSource<BatchVm>;
 
 @Component({
   standalone: true,
   imports: [
     CommonModule,
-    DhSharedUiDateTimeModule,
     MatSortModule,
     MatTableModule,
     TranslocoModule,
-    WattBadgeModule,
-    WattButtonModule,
     WattEmptyStateModule,
     DhSharedUiPaginatorComponent,
     WattCardModule,
   ],
-  selector: 'dh-wholesale-table',
-  templateUrl: './dh-wholesale-table.component.html',
-  styleUrls: ['./dh-wholesale-table.component.scss'],
+  selector: 'dh-wholesale-grid-areas',
+  templateUrl: './dh-wholesale-grid-areas.component.html',
+  styleUrls: ['./dh-wholesale-grid-areas.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleTableComponent implements AfterViewInit {
+export class DhWholesaleGridAreasComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
-  @Input() set data(batches: BatchDtoV2[]) {
-    this._data = new MatTableDataSource(
-      batches.map((batch) => ({
-        ...batch,
-        statusType: this.getStatusType(batch.executionState),
-      }))
-    );
+  @Input() set data(gridAreas: BatchGridAreaDto[]) {
+    this._data = new MatTableDataSource(gridAreas);
+    this._data.paginator = this.paginator.instance;
   }
-  @Output() selectedRow: EventEmitter<BatchVm> = new EventEmitter();
-  @Output() download: EventEmitter<BatchVm> = new EventEmitter();
-
-  _data: wholesaleTableData = new MatTableDataSource(undefined);
-  columnIds = [
-    'batchNumber',
-    'periodStart',
-    'periodEnd',
-    'executionTimeStart',
-    'executionState',
-    'basisData',
-  ];
+  _data: MatTableDataSource<BatchGridAreaDto> = new MatTableDataSource(
+    undefined
+  );
+  columnIds = ['gridAreaCode', 'name'];
 
   ngAfterViewInit() {
     if (this._data === null) return;
     this._data.sort = this.sort;
     this._data.paginator = this.paginator.instance;
-  }
-
-  onDownload(event: Event, batch: BatchVm) {
-    event.stopPropagation();
-    this.download.emit(batch);
-  }
-
-  private getStatusType(status: BatchState): WattBadgeType {
-    if (status === BatchState.Pending) {
-      return 'warning';
-    } else if (status === BatchState.Completed) {
-      return 'success';
-    } else if (status === BatchState.Failed) {
-      return 'danger';
-    } else {
-      return 'info';
-    }
   }
 }
