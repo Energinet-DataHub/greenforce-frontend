@@ -14,14 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
-import { EoFeatureFlagScam } from '@energinet-datahub/eo/shared/services';
+import { EoFeatureFlagComponent } from '@energinet-datahub/eo/shared/services';
 import {
   eoCertificatesRoutePath,
   eoConsumptionPageRoutePath,
@@ -39,6 +34,12 @@ import {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    WattNavListComponent,
+    WattNavListItemComponent,
+    EoFeatureFlagComponent,
+  ],
   selector: 'eo-primary-navigation',
   styles: [
     `
@@ -96,10 +97,3 @@ export class EoPrimaryNavigationComponent {
     this.store.onLogOut();
   }
 }
-
-@NgModule({
-  declarations: [EoPrimaryNavigationComponent],
-  exports: [EoPrimaryNavigationComponent],
-  imports: [WattNavListComponent, WattNavListItemComponent, EoFeatureFlagScam],
-})
-export class EoPrimaryNavigationScam {}

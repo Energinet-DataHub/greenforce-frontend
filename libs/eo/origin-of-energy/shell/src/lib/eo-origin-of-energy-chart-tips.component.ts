@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
+  standalone: true,
+  imports: [MatCardModule],
   selector: 'eo-origin-of-energy-chart-tips',
   template: `
     <mat-card class="tip-card">
@@ -60,10 +62,3 @@ import { MatCardModule } from '@angular/material/card';
   ],
 })
 export class EoOriginOfEnergyChartTipsComponent {}
-
-@NgModule({
-  declarations: [EoOriginOfEnergyChartTipsComponent],
-  exports: [EoOriginOfEnergyChartTipsComponent],
-  imports: [MatCardModule],
-})
-export class EoOriginOfEnergyChartTipsScam {}

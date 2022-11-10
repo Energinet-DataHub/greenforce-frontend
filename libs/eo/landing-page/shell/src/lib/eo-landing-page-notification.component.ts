@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { EoInlineMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [WattIconModule, EoInlineMessageComponent],
   selector: 'eo-landing-page-notification',
   styles: [
     `
@@ -56,10 +58,3 @@ import { WattIconModule } from '@energinet-datahub/watt/icon';
   `,
 })
 export class EoLandingPageNotificationComponent {}
-
-@NgModule({
-  declarations: [EoLandingPageNotificationComponent],
-  exports: [EoLandingPageNotificationComponent],
-  imports: [WattIconModule, EoInlineMessageScam],
-})
-export class EoLandingPageNotificationScam {}

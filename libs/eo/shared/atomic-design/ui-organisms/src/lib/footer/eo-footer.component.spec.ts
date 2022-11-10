@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { render, screen } from '@testing-library/angular';
-import { EoFooterScam, EoFooterComponent } from './eo-footer.component';
+import { EoFooterComponent } from './eo-footer.component';
 
 describe(EoFooterComponent.name, () => {
   const findEnerginetLogo = () =>
@@ -29,7 +29,7 @@ describe(EoFooterComponent.name, () => {
 
   beforeEach(async () => {
     await render(EoFooterComponent, {
-      imports: [EoFooterScam],
+      imports: [EoFooterComponent],
     });
   });
 
@@ -52,10 +52,10 @@ describe(EoFooterComponent.name, () => {
   });
 });
 
-describe(`${EoFooterScam.name} - Component API, Content projection`, () => {
+describe(`${EoFooterComponent.name} - Component API, Content projection`, () => {
   it('Inserts content into ng-content', async () => {
     await render(`<eo-footer><p>test</p></eo-footer>`, {
-      imports: [EoFooterScam],
+      imports: [EoFooterComponent],
     });
     expect(await screen.findByText('test')).toBeInTheDocument();
   });

@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-scroll-view',
+  standalone: true,
   styles: [
     `
       :host {
@@ -65,9 +66,3 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
   `,
 })
 export class EoScrollViewComponent {}
-
-@NgModule({
-  declarations: [EoScrollViewComponent],
-  exports: [EoScrollViewComponent],
-})
-export class EoScrollViewScam {}
