@@ -49,17 +49,17 @@ describe(DhMeteringPointIdentityTextFieldWithIconComponent.name, () => {
       text: 'show text',
     });
 
-    expect('dh-metering-point-identity-text-field-icon').not.toBeVisible;
-    // expect(screen.getByText('show text')).toBeInTheDocument();
+    expect(screen.queryByRole('img')).not.toBeInTheDocument();
+    expect(screen.getByText('show text')).toBeInTheDocument();
   });
 
-  // it('should show both text & icon', async () => {
-  //   await setup({
-  //     iconName: 'warning',
-  //     text: 'show text',
-  //   });
+  it('should show both text & icon', async () => {
+    await setup({
+      iconName: 'warning',
+      text: 'show text',
+    });
 
-  //   expect('dh-metering-point-identity-text-field-icon').toBeVisible();
-  //   expect(screen.getByText('show text')).toBeInTheDocument();
-  // });
+    expect(screen.getByRole('img', { name: 'warning' })).toBeInTheDocument();
+    expect(screen.getByText('show text')).toBeInTheDocument();
+  });
 });
