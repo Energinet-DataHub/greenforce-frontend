@@ -95,3 +95,6 @@ jobs:
         with:
           base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
           project: ${{ env.app-name }}
+
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: echo ${{ steps.affected.outputs.is-affected }}
