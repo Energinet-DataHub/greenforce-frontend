@@ -15,14 +15,13 @@
  * limitations under the License.
  */
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { render, within } from '@testing-library/angular';
+import { render } from '@testing-library/angular';
 
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import {
   getByTerm,
   getDefinitonByTerm,
-  queryByTerm,
   runOnPushChangeDetection,
 } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { MeteringPointType } from '@energinet-datahub/dh/shared/domain';
