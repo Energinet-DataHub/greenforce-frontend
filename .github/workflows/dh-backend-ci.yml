@@ -44,7 +44,6 @@ jobs:
   # Detect changes to start relevant jobs
   #
 
-
   changes:
     uses: ./.github/workflows/dh-backend-detect-changes.yml
 
@@ -172,10 +171,10 @@ jobs:
 
   generate_client:
     needs: [
-      # .NET
-      dotnet_ci_build,
-      dotnet_ci_test,
-    ]
+        # .NET
+        dotnet_ci_build,
+        dotnet_ci_test,
+      ]
     runs-on: ubuntu-latest
     env:
       output-path: libs/dh/shared/domain/src/lib/generated/v1/
@@ -238,7 +237,7 @@ jobs:
         generate_client,
 
         # Frontend
-        frontend_ci_build
+        frontend_ci_build,
       ]
     if: |
       always()
