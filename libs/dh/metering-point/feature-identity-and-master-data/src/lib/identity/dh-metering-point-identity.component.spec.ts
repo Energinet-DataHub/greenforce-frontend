@@ -26,7 +26,10 @@ import {
 } from './dh-metering-point-identity.component';
 
 import { getByGsrnResponse as identityData } from 'libs/dh/shared/data-access-msw/src/lib/mocks/metering-point';
-import { getByTitle } from '@energinet-datahub/dh/shared/test-util-metering-point';
+import {
+  getByTitle,
+  runOnPushChangeDetection,
+} from '@energinet-datahub/dh/shared/test-util-metering-point';
 
 const {
   overview: {
@@ -60,7 +63,7 @@ describe(DhMeteringPointIdentityComponent.name, () => {
       imports: [DhMeteringPointIdentityScam, getTranslocoTestingModule()],
     });
 
-    return fixture.componentInstance.identityDetails;
+    runOnPushChangeDetection(fixture);
   }
 
   describe('connectionstate test', () => {
