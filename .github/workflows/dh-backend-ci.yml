@@ -66,16 +66,6 @@ jobs:
           echo ${{ env.RELEASE_VERSION }}
           echo ${{ env.RELEASE_FOLDER_PATH }}
 
-      - name: Find associated pull request
-        uses: jwalton/gh-find-current-pr@v1
-        id: find_pull_request
-        with:
-          state: all
-
-      - name: Fail if PR not found
-        if: steps.find_pull_request.outputs.pr == ''
-        run: exit 1
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -104,19 +94,19 @@ jobs:
 
       - name: Setup Release
         shell: bash
-        run: |
-          cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.app-name }} ${{ env.RELEASE_FOLDER_PATH }}
+        run: cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.app-name }} ${{ env.RELEASE_FOLDER_PATH }}
 
       - name: Test
         shell: bash
         run: |
           ls -ahl ${{ env.RELEASE_FOLDER_PATH }}
+          echo "${{ env.RELEASE_VERSION }}.zip"
 
-      - name: Zip files for prerelease
-        uses: thedoctor0/zip-release@0.6.2
+      - name: Zip artifact
+        uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          filename: ${{ env.RELEASE_ZIP_FILENAME }}
+          filename: "${{ env.RELEASE_VERSION }}.zip"
           directory: ${{ env.RELEASE_FOLDER_PATH }}
 
       - name: Create prelease
@@ -126,22 +116,6 @@ jobs:
           automatic_release_tag: ${{ env.RELEASE_VERSION }}
           prerelease: true
           title: ${{ env.RELEASE_VERSION }}
-          files: |
-            ${{ env.RELEASE_FOLDER_PATH }}/${{ env.RELEASE_ZIP_FILENAME }}
-
-      - name: Zip artifact
-        uses: thedoctor0/zip-release@master
-        with:
-          type: 'zip'
-          filename: ${{ env.RELEASE_VERSION }}.zip
-          directory: ${{ env.RELEASE_FOLDER_PATH }}
-
-      - uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: ${{ secrets.PAT_TOKEN }}
-          automatic_release_tag: ${{ env.RELEASE_VERSION }}
-          title: ${{ env.RELEASE_VERSION }}
-          prerelease: false
           files: ${{ env.RELEASE_FOLDER_PATH }}/${{ env.RELEASE_VERSION }}.zip
 
   #
