@@ -108,7 +108,7 @@ export class WattTableComponent<T>
   sortDirection: SortDirection = '';
 
   @Input()
-  selectable = true;
+  selectable = false;
 
   @Output()
   selectionChange = new EventEmitter<T[]>();

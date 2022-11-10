@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { WattTableDataSource } from '../watt-table-data-source';
 
 export interface PeriodicElement {
@@ -48,6 +48,7 @@ export const periodicElements: PeriodicElement[] = [
   ],
 })
 export class StorybookTableOverviewComponent {
+  @Input() selectable = false;
   dataSource = new WattTableDataSource(periodicElements);
   columns = {
     position: { header: 'Position', size: 'min-content' },

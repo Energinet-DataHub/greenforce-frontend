@@ -30,8 +30,10 @@ export default {
 
 export const Overview: Story<StorybookTableOverviewComponent> = (args) => ({
   props: args,
-  template: '<storybook-table-overview></storybook-table-overview>',
+  template: `<storybook-table-overview [selectable]="selectable"></storybook-table-overview>`,
 });
+
+Overview.args = { selectable: false };
 
 Overview.parameters = {
   docs: {
@@ -40,3 +42,6 @@ Overview.parameters = {
     },
   },
 };
+
+export const Selectable = Overview.bind({});
+Selectable.args = { selectable: true };
