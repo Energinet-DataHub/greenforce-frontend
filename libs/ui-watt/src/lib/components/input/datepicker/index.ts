@@ -16,3 +16,4 @@
  */
 export { WattDatepickerComponent } from './watt-datepicker.component';
 export { WattDatepickerModule } from './watt-datepicker.module';
+export { WattRange } from '../shared/watt-range';
