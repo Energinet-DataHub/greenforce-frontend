@@ -26,6 +26,7 @@ import {
 } from './dh-metering-point-identity.component';
 
 import { getByGsrnResponse as identityData } from 'libs/dh/shared/data-access-msw/src/lib/mocks/metering-point';
+import { getByTitle } from '@energinet-datahub/dh/shared/test-util-metering-point';
 
 const {
   overview: {
@@ -37,19 +38,20 @@ const {
       address,
       hasElectricitySupplier,
       actualAddress,
+      notActualAddress,
     },
   },
+  settlementMethodCode,
+  meteringPointSubTypeCode,
   physicalStatusCode,
+  readingOccurrenceCode,
 } = enTranslations.meteringPoint;
 
-const getByTitle = (title: string) =>
-  screen.queryByTitle(title, { suggest: false });
-
 describe(DhMeteringPointIdentityComponent.name, () => {
-  async function setup(testData: MeteringPointCimDto) {
+  async function setup(testData?: MeteringPointCimDto) {
     const { fixture } = await render(DhMeteringPointIdentityComponent, {
       componentProperties: {
-        identityDetails: {
+        identityData: {
           ...identityData,
           ...testData,
         } as MeteringPointCimDto,
@@ -62,59 +64,60 @@ describe(DhMeteringPointIdentityComponent.name, () => {
   }
 
   describe('connectionstate test', () => {
-    test('connectionstate is displayed when it has a valid value', () => {
-      setup({ connectionState: 'D03' } as MeteringPointCimDto).then(
-        ({ connectionState }) =>
-          expect(
-            screen.queryByText(physicalStatusCode[connectionState])
-          ).toBeInTheDocument()
-      );
+    test('connectionstate is displayed when it has a valid value', async () => {
+      await setup({ connectionState: 'D02' } as MeteringPointCimDto);
+
+      expect(screen.queryByText(physicalStatusCode['D02'])).toBeInTheDocument();
     });
   });
 
   describe('metering method test', () => {
-    test('metering method text is displayed when it has a valid value', () => {
-      setup({ meteringMethod: 'D02' } as MeteringPointCimDto).then(() => {
-        expect(getByTitle(meteringMethod)).toBeInTheDocument();
-      });
+    test('metering method text is displayed when it has a valid value', async () => {
+      await setup({ meteringMethod: 'D02' } as MeteringPointCimDto);
+
+      expect(getByTitle(meteringMethod)).toHaveTextContent(
+        meteringPointSubTypeCode['D02']
+      );
     });
   });
 
   describe('settlement method test', () => {
-    test('settlement method is displayed when it has a valid value', () => {
-      setup({ settlementMethod: 'D01' } as MeteringPointCimDto).then(() =>
-        expect(getByTitle(settlementMethod)).toBeInTheDocument()
+    test('settlement method is displayed when it has a valid value', async () => {
+      await setup({ settlementMethod: 'D01' } as MeteringPointCimDto);
+
+      expect(getByTitle(settlementMethod)).toHaveTextContent(
+        settlementMethodCode['D01']
       );
     });
 
-    test('settlement method is not displayed when it has value null', () => {
-      setup({ settlementMethod: null } as MeteringPointCimDto).then(() =>
-        expect(getByTitle(settlementMethod)).not.toBeInTheDocument()
-      );
+    test('settlement method is not displayed when it has value null', async () => {
+      await setup({ settlementMethod: null } as MeteringPointCimDto);
+
+      expect(getByTitle(settlementMethod)).not.toBeInTheDocument();
     });
   });
 
   describe('reading occurrence test', () => {
-    test('reading occurrence is displayed when it has a valid value', () => {
-      setup({ readingOccurrence: 'P1Y' } as MeteringPointCimDto).then(() => {
-        expect(getByTitle(readingOccurrence)).toBeInTheDocument();
-      });
+    test('reading occurrence is displayed when it has a valid value', async () => {
+      await setup({ readingOccurrence: 'P1Y' } as MeteringPointCimDto);
+
+      expect(getByTitle(readingOccurrence)).toHaveTextContent(
+        readingOccurrenceCode['P1Y']
+      );
     });
   });
 
   describe('meter id test', () => {
-    test('meter id is displayed when it has a valid value', () => {
-      setup({ meterId: '123456' } as MeteringPointCimDto).then(
-        ({ meterId }) => {
-          expect(getByTitle(meterNumber)).toHaveTextContent(meterId as string);
-        }
-      );
+    test('meter id is displayed when it has a valid value', async () => {
+      await setup({ meterId: '123456' } as MeteringPointCimDto);
+
+      expect(getByTitle(meterNumber)).toHaveTextContent('123456');
     });
 
-    test('meter id is not displayed when it has value null', () => {
-      setup({ meterId: null } as MeteringPointCimDto).then(() =>
-        expect(getByTitle(meterNumber)).not.toBeInTheDocument()
-      );
+    test('meter id is not displayed when it has value null', async () => {
+      await setup({ meterId: null } as MeteringPointCimDto);
+
+      expect(getByTitle(meterNumber)).not.toBeInTheDocument();
     });
   });
 
@@ -124,9 +127,9 @@ describe(DhMeteringPointIdentityComponent.name, () => {
         streetName: 'Nørre Lysgade',
         postalCode: '4545',
         cityName: 'Fiktivby',
-      } as MeteringPointCimDto).then(() =>
-        expect(getByTitle(address)).toBeInTheDocument()
-      );
+      } as MeteringPointCimDto);
+
+      expect(getByTitle(address)).toBeInTheDocument();
     });
   });
 
@@ -135,33 +138,33 @@ describe(DhMeteringPointIdentityComponent.name, () => {
       await setup({
         supplyStart: '2021-09-25T22:00:00Z',
       } as MeteringPointCimDto);
-      expect(getByTitle(hasElectricitySupplier)).toBeInTheDocument();
+
+      expect(getByTitle(hasElectricitySupplier)).toHaveTextContent(
+        'Since 26-09-2021'
+      );
     });
 
     test('supply start is not displayed when the value is null', async () => {
-      await setup({ supplyStart: null } as MeteringPointCimDto).then(() =>
-        expect(getByTitle(hasElectricitySupplier)).not.toBeInTheDocument()
-      );
+      await setup({ supplyStart: null } as MeteringPointCimDto);
+
+      expect(getByTitle(hasElectricitySupplier)).not.toBeInTheDocument();
     });
   });
 
   describe('is actual address test', () => {
     test('actual address is displayed when it vaule is false', async () => {
-      await setup({ isActualAddress: false } as MeteringPointCimDto).then(() =>
-        expect(getByTitle(actualAddress)).toBeInTheDocument()
-      );
+      await setup({ isActualAddress: false } as MeteringPointCimDto);
+      expect(getByTitle(actualAddress)).toHaveTextContent(notActualAddress);
     });
 
     test('actual address is not displayed when the value is true', async () => {
-      await setup({ isActualAddress: true } as MeteringPointCimDto).then(() =>
-        expect(getByTitle(actualAddress)).not.toBeInTheDocument()
-      );
+      await setup({ isActualAddress: true } as MeteringPointCimDto);
+      expect(getByTitle(actualAddress)).not.toBeInTheDocument();
     });
 
     test('actual address is not displayed when the value is undefined', async () => {
-      await setup({ isActualAddress: undefined } as MeteringPointCimDto).then(
-        () => expect(getByTitle(actualAddress)).not.toBeInTheDocument()
-      );
+      await setup({ isActualAddress: undefined } as MeteringPointCimDto);
+      expect(getByTitle(actualAddress)).not.toBeInTheDocument();
     });
   });
 });
