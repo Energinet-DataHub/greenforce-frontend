@@ -79,7 +79,8 @@ export class DhMeteringPointIdentityComponent {
     if (data.citySubDivisionName) {
       address += ` ${data.citySubDivisionName}`;
     }
-    return (address += ` ${data.postalCode} ${data.cityName}`);
+
+    return `${address} ${data.postalCode} ${data.cityName}`;
   };
 
   private buildTranslations = (
