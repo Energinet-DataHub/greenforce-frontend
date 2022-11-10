@@ -26,6 +26,10 @@
   &__row {
     margin-bottom: var(--watt-space-s);
   }
+
+  &__row-field {
+    display: inline-block;
+  }
 }
 
 // NOTE(xdzus): Move to a global reset
