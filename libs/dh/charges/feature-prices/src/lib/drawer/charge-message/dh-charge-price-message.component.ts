@@ -137,8 +137,7 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  downloadLog(event: any) {
-    event.stopPropagation();
+  downloadLog() {
     if (this.message == undefined) return;
     const logName = this.findLogName(this.message.blobContentUri);
     this.blobStore.downloadLogFile(logName);
