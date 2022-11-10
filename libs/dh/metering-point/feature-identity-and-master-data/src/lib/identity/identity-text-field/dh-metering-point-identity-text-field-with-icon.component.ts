@@ -21,11 +21,12 @@ import { WattIcon, WattIconModule } from '@energinet-datahub/watt/icon';
 
 @Component({
   standalone: true,
-  selector: 'dh-metering-point-identity-text-field',
-  templateUrl: './dh-metering-point-identity-text-field.component.html',
+  selector: 'dh-metering-point-identity-text-field-with-icon',
+  templateUrl:
+    './dh-metering-point-identity-text-field-with-icon.component.html',
   imports: [CommonModule, WattIconModule],
 })
-export class DhMeteringPointIdentityTextFieldComponent {
+export class DhMeteringPointIdentityTextFieldWithIconComponent {
   @Input() iconName?: WattIcon;
   @Input() text = '';
 }
