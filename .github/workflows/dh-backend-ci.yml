@@ -47,13 +47,6 @@ jobs:
   changes:
     uses: ./.github/workflows/dh-backend-detect-changes.yml
 
-  test:
-    needs: changes
-    runs-on: ubuntu-latest
-    steps:
-      - name: Test
-        run: echo ${{ needs.changes.outputs.frontend }}
-
   #
   # Frontend
   #
@@ -109,6 +102,7 @@ jobs:
       - name: Setup Release
         shell: bash
         run: |
+          ls -ahl ${{ env.RELEASE_FOLDER_PATH }}
           cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.app-name }} ${{ env.RELEASE_FOLDER_PATH }}
 
       - name: Zip files for prerelease
