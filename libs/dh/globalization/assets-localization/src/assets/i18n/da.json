@@ -392,7 +392,8 @@
         "hideDescriptionLabel": "Luk beskrivelse",
         "messageId": "Besked Id",
         "messageType": "Type",
-        "date": "Dato"
+        "date": "Dato",
+        "unknownMessageError": "Ukendt fejl"
       },
       "csvHeader": {
         "id": "PRIS ID",
@@ -728,6 +729,17 @@
         "lastPageLabel": "Sidste side",
         "of": "af"
       }
+    },
+    "batchDetails": {
+      "headline": "Batch: {{batchNumber}}",
+      "calculationPeriod": "Beregningsperiode",
+      "executionTime": "Eksekveringstidspunkt"
+    },
+    "gridAreas": {
+      "header": "{{total}} Netområder",
+      "gridAreaCode": "ID",
+      "name": "navn",
+      "noGridAreasFound": "Ingen netområder fundet"
     },
     "overview": {
       "header": "Proces oversigt"

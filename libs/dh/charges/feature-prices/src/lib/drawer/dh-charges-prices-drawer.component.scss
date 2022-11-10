@@ -21,6 +21,7 @@
 .clickable {
   color: var(--watt-color-primary);
   cursor: pointer;
+  text-decoration: underline;
 }
 
 .clickable:hover {
