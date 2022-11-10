@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: DH Backend CI
+name: DH CI
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -43,7 +43,6 @@ jobs:
   #
   # Detect changes to start relevant jobs
   #
-
 
   changes:
     uses: ./.github/workflows/dh-backend-detect-changes.yml
@@ -97,8 +96,8 @@ jobs:
       - name: Set RELEASE_VERSION
         shell: bash
         run: |
-          echo "RELEASE_VERSION=dh_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
-          echo "RELEASE_FOLDER_PATH=${{ github.workspace }}/dh_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+          echo "RELEASE_VERSION=ui_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+          echo "RELEASE_FOLDER_PATH=${{ github.workspace }}/ui_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
 
       - name: Setup Release
         shell: bash
