@@ -51,12 +51,21 @@ jobs:
   # Frontend
   #
   frontend_ci_build:
-    name: Publish
     if: ${{ needs.changes.outputs.frontend == 'true' }}
     needs: changes
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Find associated pull request
+        uses: jwalton/gh-find-current-pr@v1
+        id: find_pull_request
+        with:
+          state: all
+
+      - name: Fail if PR not found
+        if: steps.find_pull_request.outputs.pr == ''
+        run: exit 1
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -83,16 +92,6 @@ jobs:
 
       - name: Optimize i18n assets
         run: yarn i18n:optimize:${{ env.app-name }}
-
-      - name: Find associated pull request
-        uses: jwalton/gh-find-current-pr@v1
-        id: find_pull_request
-        with:
-          state: all
-
-      - name: Fail if PR not found
-        if: steps.find_pull_request.outputs.pr == ''
-        run: exit 1
 
       - name: Set RELEASE_VERSION
         shell: bash
@@ -172,10 +171,10 @@ jobs:
 
   generate_client:
     needs: [
-        # .NET
-        dotnet_ci_build,
-        dotnet_ci_test,
-      ]
+      # .NET
+      dotnet_ci_build,
+      dotnet_ci_test,
+    ]
     runs-on: ubuntu-latest
     env:
       output-path: libs/dh/shared/domain/src/lib/generated/v1/
@@ -234,8 +233,11 @@ jobs:
         dotnet_ci_build,
         dotnet_ci_test,
 
-        # Frontend Client
+        # Frontend client
         generate_client,
+
+        # Frontend
+        frontend_ci_build
       ]
     if: |
       always()
