@@ -37,16 +37,15 @@ function generateComponent(template: string) {
 
 export default {
   title: 'Components/Breadcrumbs',
-  component: WattBreadcrumbsComponent,
   decorators: [
     moduleMetadata({
       imports: [
         WATT_BREADCRUMBS,
         RouterTestingModule.withRoutes([
           { path: '', redirectTo: 'overview', pathMatch: 'full' },
-          { path: 'components', component: generateComponent('Components') },
-          { path: 'breadcrumbs', component: generateComponent('Breadcrumbs') },
-          { path: 'overview', component: generateComponent('Overview') },
+          { path: 'components', component: generateComponent('Route:Components') },
+          { path: 'breadcrumbs', component: generateComponent('Route:Breadcrumbs') },
+          { path: 'overview', component: generateComponent('Route:Overview') },
         ]),
       ],
       providers: [
@@ -65,7 +64,7 @@ export default {
     }),
   ],
   argTypes: { onClick: { action: 'clicked' } },
-} as Meta<WattBreadcrumbsComponent>;
+} as Meta;
 
 export const Overview: Story<WattBreadcrumbsComponent> = (args) => ({
   props: args,
