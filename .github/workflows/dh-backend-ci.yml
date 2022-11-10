@@ -102,7 +102,7 @@ jobs:
       - name: Setup Release
         shell: bash
         run: |
-          ls -ahl ${{ env.RELEASE_FOLDER_PATH }}
+          ls -ahl ${{ github.workspace }}/dist/apps/dh/${{ env.app-name }}
           cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.app-name }} ${{ env.RELEASE_FOLDER_PATH }}
 
       - name: Zip files for prerelease
