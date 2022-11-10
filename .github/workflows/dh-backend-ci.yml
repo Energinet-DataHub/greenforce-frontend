@@ -106,7 +106,7 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          filename: "${{ env.RELEASE_VERSION }}.zip"
+          filename: '${{ env.RELEASE_VERSION }}.zip'
           directory: ${{ env.RELEASE_FOLDER_PATH }}
 
       - name: Create prelease
