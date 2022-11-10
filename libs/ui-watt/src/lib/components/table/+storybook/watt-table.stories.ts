@@ -28,14 +28,15 @@ export default {
   ],
 };
 
-export const overview: Story<StorybookTableOverviewComponent> = (args) => ({
+export const Overview: Story<StorybookTableOverviewComponent> = (args) => ({
   props: args,
   template: '<storybook-table-overview></storybook-table-overview>',
 });
-overview.parameters = {
+
+Overview.parameters = {
   docs: {
     source: {
-      code: 'Use Table component from Angular Material.',
+      code: '<watt-table [dataSource]="dataSource" [columns]="columns"></watt-table>',
     },
   },
 };
