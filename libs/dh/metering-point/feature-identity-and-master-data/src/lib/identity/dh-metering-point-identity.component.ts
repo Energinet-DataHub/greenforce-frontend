@@ -24,7 +24,7 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/domain';
-import { DhMeteringPointIdentityTextFieldComponent } from './identity-text-field/dh-metering-point-identity-text-field.component';
+import { DhMeteringPointIdentityTextFieldWithIconComponent } from './identity-text-field/dh-metering-point-identity-text-field-with-icon.component';
 import { DhMeteringPointStatusBadgeScam } from '@energinet-datahub/dh/metering-point/ui-status-badge';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
@@ -45,7 +45,7 @@ export interface MeteringPointIdentityTranslationKeys {
   templateUrl: './dh-metering-point-identity.component.html',
 })
 export class DhMeteringPointIdentityComponent {
-  identityDetails?: MeteringPointCimDto;
+  identityDetails!: MeteringPointCimDto;
   translationKeys?: MeteringPointIdentityTranslationKeys;
   address?: string;
 
@@ -101,7 +101,7 @@ export class DhMeteringPointIdentityComponent {
   declarations: [DhMeteringPointIdentityComponent],
   exports: [DhMeteringPointIdentityComponent],
   imports: [
-    DhMeteringPointIdentityTextFieldComponent,
+    DhMeteringPointIdentityTextFieldWithIconComponent,
     DhMeteringPointStatusBadgeScam,
     DhEmDashFallbackPipeScam,
     DhSharedUiDateTimeModule,
