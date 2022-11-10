@@ -54,7 +54,6 @@ jobs:
       - name: Fail if PR not found
         run: echo ${{ needs.changes.outputs.frontend }}
 
-
   #
   # Frontend
   #
