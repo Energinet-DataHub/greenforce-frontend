@@ -51,7 +51,7 @@ jobs:
     needs: changes
     runs-on: ubuntu-latest
     steps:
-      - name: Fail if PR not found
+      - name: Test
         run: echo ${{ needs.changes.outputs.frontend }}
 
   #
