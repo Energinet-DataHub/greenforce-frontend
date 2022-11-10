@@ -18,64 +18,80 @@ limitations under the License.
   <div class="watt-text-s overview-header__row">
     <span [title]="t('connectionState')" class="watt-space-inline-xs">
       <dh-status-badge
-        [connectionState]="identityDetails?.connectionState"
+        [connectionState]="identityDetails.connectionState"
       ></dh-status-badge>
     </span>
 
-    <dh-metering-point-identity-text-field
-      text="
+    <span [title]="t('meteringMethod')">
       {{ translationKeys?.meteringPointType | transloco | dhEmDashFallback }}
-      ({{ translationKeys?.meteringMethod | transloco | dhEmDashFallback }}) | "
-    >
-    </dh-metering-point-identity-text-field>
+      ({{ translationKeys?.meteringMethod | transloco | dhEmDashFallback }}) |
+    </span>
 
-    <dh-metering-point-identity-text-field
+    <span
       *ngIf="identityDetails?.settlementMethod"
-      text="{{ translationKeys?.settlementMethod | transloco }} | "
+      [title]="t('settlementMethod')"
     >
-    </dh-metering-point-identity-text-field>
+      {{ translationKeys?.settlementMethod | transloco }} |
+    </span>
 
-    <dh-metering-point-identity-text-field
-      text="{{ translationKeys?.readingOccurrence | transloco }} | "
-    >
-    </dh-metering-point-identity-text-field>
+    <span [title]="t('readingOccurrence')">
+      {{ translationKeys?.readingOccurrence | transloco | dhEmDashFallback }}
+      |
+    </span>
 
-    <dh-metering-point-identity-text-field
-      text="{{ translationKeys?.meteringPointId | transloco }}: {{
-        identityDetails?.meterId
-      }}"
+    <span
+      *ngIf="identityDetails?.meterId"
+      [title]="t('primaryMasterData.meterNumber')"
     >
-    </dh-metering-point-identity-text-field>
+      {{ t("primaryMasterData.meterNumber") }}:
+      {{ identityDetails.meterId }}
+    </span>
   </div>
 
-  <h1 class="overview-header__row" [title]="t('gsrnNumber')">
-    {{ identityDetails?.gsrnNumber }}
-  </h1>
+  <div class="overview-header__row" [title]="t('gsrnNumber')">
+    <h1>
+      {{ identityDetails.gsrnNumber }}
+    </h1>
+  </div>
 
   <div class="watt-text-s overview-header__row">
-    <dh-metering-point-identity-text-field
-      iconName="map_marker"
-      text="{{ address }}"
+    <div
+      [title]="t('primaryMasterData.address')"
+      class="overview-header__row-field"
     >
-    </dh-metering-point-identity-text-field>
+      <dh-metering-point-identity-text-field-with-icon
+        iconName="map_marker"
+        text="{{ address | dhEmDashFallback }}"
+      >
+      </dh-metering-point-identity-text-field-with-icon>
+    </div>
 
-    <dh-metering-point-identity-text-field
+    <div
       *ngIf="identityDetails?.supplyStart"
-      data-testid="dh-metering-point-identity-text-field-supply-start"
-      iconName="power"
-      text="{{
-        translationKeys?.electricitySupplierSince
-          | transloco: { date: identityDetails?.supplyStart | dhDate }
-      }}"
+      [title]="t('primaryMasterData.hasElectricitySupplier')"
+      class="overview-header__row-field"
     >
-    </dh-metering-point-identity-text-field>
+      <dh-metering-point-identity-text-field-with-icon
+        iconName="power"
+        text="{{
+          translationKeys?.electricitySupplierSince
+            | transloco: { date: identityDetails.supplyStart | dhDate }
+        }}"
+      >
+      </dh-metering-point-identity-text-field-with-icon>
+    </div>
 
-    <dh-metering-point-identity-text-field
-      *ngIf="!identityDetails?.isActualAddress"
-      data-testid="dh-metering-point-identity-text-field-isActualAddress"
-      iconName="warning"
-      [text]="t('primaryMasterData.notActualAddress')"
+    <!-- only show if not actual address -->
+    <div
+      *ngIf="identityDetails?.isActualAddress === false"
+      [title]="t('primaryMasterData.actualAddress')"
+      class="overview-header__row-field"
     >
-    </dh-metering-point-identity-text-field>
+      <dh-metering-point-identity-text-field-with-icon
+        iconName="warning"
+        [text]="t('primaryMasterData.notActualAddress')"
+      >
+      </dh-metering-point-identity-text-field-with-icon>
+    </div>
   </div>
 </div>
