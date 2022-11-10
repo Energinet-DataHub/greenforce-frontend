@@ -81,29 +81,6 @@ limitations under the License.
         </td>
       </ng-container>
 
-      <!-- icons column -->
-      <ng-container matColumnDef="icons">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
-          <div class="icons">
-            <watt-icon
-              name="payments"
-              [ngClass]="{ active: element.taxIndicator }"
-              [wattTooltip]="element.taxIndicator ? t('taxIndicator') : null"
-              [label]="t('taxIndicator')"
-            ></watt-icon>
-            <watt-icon
-              name="redo"
-              [ngClass]="{ active: element.transparentInvoicing }"
-              [wattTooltip]="
-                element.transparentInvoicing ? t('transparentInvoicing') : null
-              "
-              [label]="t('transparentInvoicing')"
-            ></watt-icon>
-          </div>
-        </td>
-      </ng-container>
-
       <!-- charge type column -->
       <ng-container matColumnDef="chargeType">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -111,6 +88,51 @@ limitations under the License.
         </th>
         <td mat-cell *matCellDef="let element">
           {{ "charges.chargeType." + element.chargeType | transloco }}
+        </td>
+      </ng-container>
+
+      <!-- Transparent invoicing column -->
+      <ng-container matColumnDef="transparentInvoicing">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("transparentInvoicing") }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <div
+            *ngIf="element.transparentInvoicing"
+            class="transparent-invoicing"
+          >
+            <div class="watt-text-s">
+              <watt-icon
+                name="success"
+                size="s"
+                class="primary-color icon"
+              ></watt-icon>
+            </div>
+            <div class="watt-text-s" *transloco="let transloco">
+              {{ transloco("charges.transparentInvoicing") }}
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Tax indicator column -->
+      <ng-container matColumnDef="taxIndicator">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("taxIndicator") }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="element.taxIndicator" class="tax-indicator">
+            <div class="watt-text-s">
+              <watt-icon
+                name="success"
+                size="s"
+                class="primary-color icon"
+              ></watt-icon>
+            </div>
+            <div class="watt-text-s" *transloco="let transloco">
+              {{ transloco("charges.taxIndicator") }}
+            </div>
+          </div>
         </td>
       </ng-container>
 

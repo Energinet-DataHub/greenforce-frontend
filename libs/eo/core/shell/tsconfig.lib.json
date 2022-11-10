@@ -10,5 +10,5 @@
     "lib": ["dom", "es2018"]
   },
   "exclude": ["src/test-setup.ts", "**/*.spec.ts", "jest.config.ts"],
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "../../shared/utilities/src/lib/eo-routes.ts"]
 }

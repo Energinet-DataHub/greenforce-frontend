@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/msal-fake.service';
+export * from './lib/local-storage-fake.service';

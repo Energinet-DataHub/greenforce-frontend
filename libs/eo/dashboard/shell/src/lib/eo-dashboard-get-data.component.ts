@@ -18,7 +18,7 @@
 import { Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
-import { eoEmissionsRoutePath } from '@energinet-datahub/eo-emissions-routing';
+import { eoEmissionsRoutePath } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   selector: 'eo-dashboard-get-data',
