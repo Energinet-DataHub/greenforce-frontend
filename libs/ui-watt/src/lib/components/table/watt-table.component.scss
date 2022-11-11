@@ -59,7 +59,7 @@ watt-table .mat-table {
     user-select: none;
   }
 
-  .watt-table-clickable-row:hover:not(.watt-table-active-row) td {
+  .watt-table-highlight-row:hover:not(.watt-table-active-row) td {
     background: var(--watt-color-neutral-grey-100);
   }
 

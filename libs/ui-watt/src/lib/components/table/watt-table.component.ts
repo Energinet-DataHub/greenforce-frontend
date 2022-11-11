@@ -111,6 +111,9 @@ export class WattTableComponent<T>
   selectable = false;
 
   @Input()
+  suppressRowHoverHighlight = false;
+
+  @Input()
   getActiveRow?: (row: T) => boolean;
 
   @Output()
