@@ -51,5 +51,5 @@ Then('I can see a link collection component', () => {
   cy.get('eo-dashboard-links a').should('have.length', 4);
 });
 Then('I can see a component for exporting data for CSR', () => {
-  cy.get('eo-dashboard-get-data').should('be.visible');
+  cy.get('eo-dashboard-get-datad').should('be.visible');
 });

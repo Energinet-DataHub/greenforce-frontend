@@ -27,10 +27,10 @@ const cypressJsonConfig = {
   fixturesFolder: './src/fixtures',
   video: true,
   videoUploadOnPasses: false,
-  videosFolder: '../../../dist/cypress/apps/eo/e2e-eo/videos',
+  videosFolder: 'dist/cypress/apps/eo/e2e-eo/videos',
   viewportHeight: 800,
   viewportWidth: 1280,
-  screenshotsFolder: '../../../dist/cypress/apps/eo/e2e-eo/screenshots',
+  screenshotsFolder: 'dist/cypress/apps/eo/e2e-eo/screenshots',
   specPattern: ['**/*.feature'],
   supportFile: 'src/support/e2e.ts',
 };

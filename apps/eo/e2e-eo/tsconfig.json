@@ -1,7 +1,7 @@
 {
   "extends": "../../../tsconfig.base.json",
   "files": [],
-  "include": ["cypress.ci.config.js"],
+  "include": ["cypress.config.js"],
   "references": [{ "path": "./tsconfig.e2e.json" }],
   "compilerOptions": {
     "esModuleInterop": true

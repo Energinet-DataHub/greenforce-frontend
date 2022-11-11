@@ -15,7 +15,7 @@
       },
       "configurations": {
         "ci": {
-          "cypressConfig": "apps/eo/e2e-eo/cypress.ci.config.js",
+          "cypressConfig": "apps/eo/e2e-eo/cypress.config.js",
           "headed": false
         },
         "production": {
@@ -33,11 +33,20 @@
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": ["apps/eo/e2e-eo/**/*.{js,ts}"]
+        "lintFilePatterns": [
+          "apps/eo/e2e-eo/**/*.{js,ts}"
+        ]
       },
-      "outputs": ["{options.outputFile}"]
+      "outputs": [
+        "{options.outputFile}"
+      ]
     }
   },
-  "tags": ["product:eo", "type:e2e"],
-  "implicitDependencies": ["app-eo"]
+  "tags": [
+    "product:eo",
+    "type:e2e"
+  ],
+  "implicitDependencies": [
+    "app-eo"
+  ]
 }
