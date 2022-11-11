@@ -16,16 +16,16 @@
  */
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 
+import { WATT_TABLE } from '../watt-table.component';
 import { WattIconModule } from '../../../foundations/icon';
 import { StorybookTableOverviewComponent } from './storybook-table-overview.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   imports: [
-    MatTableModule,
+    ...WATT_TABLE,
     WattIconModule,
     MatSortModule,
     MatPaginatorModule,

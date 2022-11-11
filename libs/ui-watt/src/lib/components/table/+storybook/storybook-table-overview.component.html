@@ -14,19 +14,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<p>
-  <strong>Important:</strong>
-  Watt doesn't currently have a table component.
-</p>
-<p>
-  We recommend using the Table component (<a
-    href="https://material.angular.io/components/table/overview"
-    target="_blank"
-    rel="noopener"
-    >link to documentation</a
-  >) from Angular Material. When using that component, Watt will apply some
-  global styling to it as seen in the follwing example.
-</p>
 
 <mat-paginator
   [length]="100"
@@ -37,48 +24,30 @@ limitations under the License.
 >
 </mat-paginator>
 
-<mat-table
-  #matTable
-  [dataSource]="sortedData"
-  matSort
-  (matSortChange)="sortData($event)"
+<watt-table
+  #table
+  [dataSource]="dataSource"
+  [columns]="columns"
+  [selectable]="selectable"
+  (rowClick)="onRowClick($event)"
+  [getActiveRow]="getActiveRow"
+  sortActive="position"
+  sortDirection="asc"
 >
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
-
-  <!-- Position Column -->
-  <ng-container matColumnDef="position">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>No.</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{ element.position }}</mat-cell>
-  </ng-container>
-
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-    <mat-cell *matCellDef="let element">
-      <div class="multi-line-cell">
-        <div class="watt-text-s">
-          {{ element.name }}
-        </div>
-        <div class="watt-text-s">Weight: {{ element.weight }}</div>
+  <ng-container *wattTableCell="table.columns.name; let element">
+    <div class="watt-text-s">
+      {{ element.name }}
+      <div class="watt-on-light--medium-emphasis">
+        Weight: {{ element.weight }}
       </div>
-    </mat-cell>
+    </div>
   </ng-container>
-
-  <!-- Symbol Column -->
-  <ng-container matColumnDef="symbol">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>Symbol</mat-header-cell>
-    <mat-cell *matCellDef="let element">
-      <watt-icon
-        name="date"
-        [size]="'s'"
-        class="date-icon watt-space-inline-s"
-      ></watt-icon>
-
-      <span class="watt-text-s">{{ element.symbol }}</span></mat-cell
-    >
+  <ng-container *wattTableCell="table.columns.symbol; let element">
+    <watt-icon
+      name="date"
+      size="s"
+      class="date-icon watt-space-inline-s"
+    ></watt-icon>
+    <span class="watt-text-s">{{ element.symbol }}</span>
   </ng-container>
-
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-</mat-table>
+</watt-table>
