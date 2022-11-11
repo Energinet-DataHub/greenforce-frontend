@@ -50,12 +50,25 @@ watt-table .mat-table {
     padding: var(--watt-space-s);
   }
 
+  .watt-table-clickable-row td {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .watt-table-clickable-row:hover:not(.watt-table-active-row) td {
+    background: var(--watt-color-neutral-grey-100);
+  }
+
+  .watt-table-active-row td {
+    background: var(--watt-color-secondary-ultralight);
+  }
+
   .mat-sort-header-arrow {
     margin: 0;
     margin-right: var(--watt-space-s);
   }
 
-  .watt-header-cell {
+  .watt-table-header-cell {
     display: inline-block;
     @include watt.space-inset-stretch-s;
   }

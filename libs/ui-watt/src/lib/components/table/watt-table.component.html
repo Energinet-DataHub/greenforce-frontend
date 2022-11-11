@@ -33,6 +33,7 @@ limitations under the License.
       <watt-checkbox
         [ngModel]="_selectionModel.isSelected(row)"
         (ngModelChange)="_selectionModel.toggle(row)"
+        (click)="$event.stopPropagation()"
       ></watt-checkbox>
     </td>
   </ng-container>
@@ -46,7 +47,9 @@ limitations under the License.
       mat-sort-header
       [disabled]="column.value.sort === false"
     >
-      <span class="watt-header-cell">{{ _getColumnHeader(column) }} </span>
+      <span class="watt-table-header-cell"
+        >{{ _getColumnHeader(column) }}
+      </span>
     </th>
     <td mat-cell *matCellDef="let row">
       <ng-template #default>{{ _getColumnCell(column, row) }}</ng-template>
@@ -61,5 +64,13 @@ limitations under the License.
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="_getColumns()"></tr>
-  <tr mat-row *matRowDef="let row; columns: _getColumns()"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: _getColumns()"
+    [ngClass]="{
+      'watt-table-clickable-row': rowClick.observed,
+      'watt-table-active-row': getActiveRow?.(row)
+    }"
+    (click)="rowClick.emit(row)"
+  ></tr>
 </table>

@@ -55,4 +55,14 @@ export class StorybookTableOverviewComponent {
     name: { header: 'Name' },
     symbol: { header: 'Symbol', sort: false },
   };
+
+  activeRow?: number;
+
+  onRowClick(event: PeriodicElement) {
+    this.activeRow = event.position;
+  }
+
+  getActiveRow = (row: PeriodicElement) => {
+    return row.position === this.activeRow;
+  };
 }

@@ -110,8 +110,14 @@ export class WattTableComponent<T>
   @Input()
   selectable = false;
 
+  @Input()
+  getActiveRow?: (row: T) => boolean;
+
   @Output()
   selectionChange = new EventEmitter<T[]>();
+
+  @Output()
+  rowClick = new EventEmitter<T>();
 
   /** @ignore */
   @ContentChildren(WattTableCellDirective)

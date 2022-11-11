@@ -29,6 +29,8 @@ limitations under the License.
   [dataSource]="dataSource"
   [columns]="columns"
   [selectable]="selectable"
+  (rowClick)="onRowClick($event)"
+  [getActiveRow]="getActiveRow"
   sortActive="position"
   sortDirection="asc"
 >
