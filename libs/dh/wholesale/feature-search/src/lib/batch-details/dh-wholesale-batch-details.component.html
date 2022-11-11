@@ -17,7 +17,7 @@ limitations under the License.
 <watt-drawer *transloco="let transloco; read: 'wholesale'" #drawer>
   <watt-drawer-topbar>
     <watt-breadcrumbs>
-      <watt-breadcrumb>{{transloco("searchBatch.topBarTitle")}}</watt-breadcrumb>
+      <watt-breadcrumb (click)="drawer.close()">{{transloco("searchBatch.topBarTitle")}}</watt-breadcrumb>
       <watt-breadcrumb>{{
         transloco("batchDetails.headline", { batchNumber: batch.batchNumber })
       }}</watt-breadcrumb>
