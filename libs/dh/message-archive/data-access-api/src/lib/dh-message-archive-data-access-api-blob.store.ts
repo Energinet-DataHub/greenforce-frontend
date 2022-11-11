@@ -101,6 +101,9 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
         downloadLink.href = window.URL.createObjectURL(
           new Blob(binaryData, { type: dataType })
         );
+        downloadLink.onclick = function (event) {
+          event.stopPropagation();
+        };
         if (logName) downloadLink.setAttribute('download', logName);
         document.body.appendChild(downloadLink);
         downloadLink.click();
