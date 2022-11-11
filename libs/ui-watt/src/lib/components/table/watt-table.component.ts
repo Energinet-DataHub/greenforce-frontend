@@ -44,9 +44,13 @@ import { WattCheckboxModule } from '../checkbox';
 import { WattTableDataSource } from './watt-table-data-source';
 
 export interface WattTableColumn<T> {
+  /** Text to display in the header. Supports callback for translation etc. */
   header: string | ((key: string) => string);
+  /** Optional callback for determining cell content when not using template. */
   cell?: (row: T) => string;
+  /** Enable or disable sorting for this column. Defaults to `true`. */
   sort?: boolean;
+  /** Set the column size using grid sizing values. Defaults to `"auto"`. */
   size?: string;
 }
 
