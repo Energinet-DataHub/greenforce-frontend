@@ -38,6 +38,10 @@ const selector = 'watt-checkbox';
       ${selector} .mat-checkbox-frame {
         border-color: var(--watt-color-primary);
       }
+
+      ${selector} {
+        line-height: 16px;
+      }
     `,
   ],
   templateUrl: './watt-checkbox.component.html',
