@@ -28,6 +28,7 @@
 // the project's config changing)
 
 // Keep documented parameters
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
