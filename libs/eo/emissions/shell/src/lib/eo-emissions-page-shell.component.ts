@@ -17,6 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { LetModule } from '@rx-angular/template';
 import { EoEmissionsPageCo2ReductionComponent } from './eo-emissions-page-co2-reduction';
 import { EoEmissionsPageGreenhouseGassesComponent } from './eo-emissions-page-greenhouse-gasses.component';
@@ -37,6 +38,7 @@ import { EoEmissionsStore } from './eo-emissions.store';
     EoEmissionsPageTipComponent,
     EoEmissionsPageGreenhouseGassesComponent,
     EoEmissionsPageLeadByExampleComponent,
+    EoStackComponent,
   ],
   selector: 'eo-emissions-page-shell',
   styles: [
@@ -54,22 +56,15 @@ import { EoEmissionsStore } from './eo-emissions.store';
       </eo-popup-message>
     </ng-container>
     <div class="content">
-      <div>
-        <eo-emissions-page-info
-          class="watt-space-stack-l"
-        ></eo-emissions-page-info>
-        <eo-emissions-page-co2-reduction
-          class="watt-space-stack-l"
-        ></eo-emissions-page-co2-reduction>
+      <eo-stack size="L">
+        <eo-emissions-page-info></eo-emissions-page-info>
+        <eo-emissions-page-co2-reduction></eo-emissions-page-co2-reduction>
         <eo-emissions-page-tip></eo-emissions-page-tip>
-      </div>
-
-      <div>
-        <eo-emissions-page-greenhouse-gasses
-          class="watt-space-stack-l"
-        ></eo-emissions-page-greenhouse-gasses>
+      </eo-stack>
+      <eo-stack size="L">
+        <eo-emissions-page-greenhouse-gasses></eo-emissions-page-greenhouse-gasses>
         <eo-emissions-page-lead-by-example></eo-emissions-page-lead-by-example>
-      </div>
+      </eo-stack>
     </div>
   `,
 })
