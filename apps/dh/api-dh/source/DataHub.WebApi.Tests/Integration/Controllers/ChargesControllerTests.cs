@@ -14,6 +14,7 @@
 
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Energinet.DataHub.Charges.Clients.Charges;
 using Energinet.DataHub.Charges.Contracts.Charge;
@@ -28,24 +29,29 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
     public class ChargesControllerTests : ControllerTestsBase<IChargesClient>
     {
-        public ChargesControllerTests(BffWebApiFixture bffWebApiFixture, WebApiFactory factory, ITestOutputHelper testOutputHelper)
+        public ChargesControllerTests(
+            BffWebApiFixture bffWebApiFixture,
+            WebApiFactory factory,
+            ITestOutputHelper testOutputHelper)
             : base(bffWebApiFixture, factory, testOutputHelper)
         {
         }
 
         [Theory]
         [InlineAutoMoqData]
-        public async Task GetChargesAsync_WhenMeteringPointIdHasChargeLinks_ReturnsOk(List<ChargeV1Dto> list)
+        public async Task SearchAsync_WhenChargesExists_ReturnsOk(
+            List<ChargeV1Dto> data,
+            ChargeSearchCriteriaV1Dto searchCriteriaV1Dto)
         {
             // Arrange
-            var requestUrl = $"/v1/Charges";
+            var requestUrl = $"/v1/Charges/SearchAsync";
 
             DomainClientMock
-                .Setup(m => m.GetChargesAsync())
-                .ReturnsAsync(list);
+                .Setup(m => m.SearchChargesAsync(It.IsAny<ChargeSearchCriteriaV1Dto>()))
+                .ReturnsAsync(data);
 
             // Act
-            var actual = await BffClient.GetAsync(requestUrl);
+            var actual = await BffClient.PostAsJsonAsync(requestUrl, searchCriteriaV1Dto);
 
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
