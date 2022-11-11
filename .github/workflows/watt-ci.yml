@@ -12,14 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: DH CI
+name: Watt CI
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
-  APP_NAME: app-dh
+  APP_NAME: ui-watt
   IS_MAIN_BRANCH: ${{ github.ref == 'refs/heads/main' }}
   IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
   NODE_OPTIONS: --max-old-space-size=6144
