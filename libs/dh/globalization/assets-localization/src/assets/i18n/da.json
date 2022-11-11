@@ -266,6 +266,7 @@
     "resolution": "Opløsning",
     "effectiveDate": "Skæringsdato",
     "fieldRequiredErrorText": "Feltet er påkrævet.",
+    "fieldMaxLengthErrorText": "Maks 10 tegn.",
     "topBarTitles": {
       "prices": "Søg pris",
       "createPrices": "Opret pris"

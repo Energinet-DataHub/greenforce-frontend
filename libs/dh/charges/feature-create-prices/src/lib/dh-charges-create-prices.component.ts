@@ -33,7 +33,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import {
   WattDropdownModule,
   WattDropdownOptions,
@@ -43,19 +42,25 @@ import { ChargeTypes, Resolution } from '@energinet-datahub/dh/charges/domain';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
+import { DhMarketParticipantDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 
 @Component({
   selector: 'dh-charges-create-prices',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-charges-create-prices.component.html',
   styleUrls: ['./dh-charges-create-prices.component.scss'],
+  providers: [DhMarketParticipantDataAccessApiStore],
 })
 export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   chargeTypeOptions: WattDropdownOptions = [];
   resolutionOptions: WattDropdownOptions = [];
+  marketParticipantsOptions: WattDropdownOptions = [];
 
   charge = new FormGroup({
-    priceId: new FormControl('', Validators.required),
+    priceId: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(10),
+    ]),
     chargeType: new FormControl('', Validators.required),
     priceName: new FormControl('', Validators.required),
     priceDescription: new FormControl('', Validators.required),
@@ -68,12 +73,19 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   });
 
   isTariff = false;
+  marketParticipants = this.marketParticipantStore.all$;
 
   private destroy$ = new Subject<void>();
 
-  constructor(private translocoService: TranslocoService) {}
+  constructor(
+    private translocoService: TranslocoService,
+    private marketParticipantStore: DhMarketParticipantDataAccessApiStore
+  ) {}
 
   ngOnInit() {
+    this.marketParticipantStore.loadMarketParticipants();
+
+    this.buildMarketParticipantOptions();
     this.buildChargeTypeOptions();
     this.buildValidityOptions();
   }
@@ -85,12 +97,72 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
 
   chargeTypeChanged(chargeType: number) {
     this.isTariff = chargeType == Number(ChargeTypes.Tariff);
+
+    this.enableFormGroup();
+
+    switch (Number(chargeType)) {
+      case ChargeTypes.Tariff: {
+        console.log('Tariff!');
+        // Resolution dropdown should only have "Hour" and "Day".
+        break;
+      }
+      case ChargeTypes.Subscription: {
+        this.disableResolutionWithValue();
+        this.disableTaxIndicator();
+        break;
+      }
+      case ChargeTypes.Fee: {
+        this.disableTaxIndicator();
+        this.disableTransparentInvoicing();
+        this.disableResolutionWithValue();
+        break;
+      }
+      default:
+        break;
+    }
   }
 
   createPrice() {
     if (!this.charge.valid) return;
 
     console.log('VALID!');
+  }
+
+  enableFormGroup() {
+    this.charge.controls['resolution'].enable();
+    this.charge.controls['taxIndicator'].enable();
+    this.charge.controls['transparentInvoicing'].enable();
+  }
+
+  disableTaxIndicator() {
+    this.charge.controls['taxIndicator'].setValue(false);
+    this.charge.controls['taxIndicator'].disable();
+  }
+
+  disableTransparentInvoicing() {
+    this.charge.controls['transparentInvoicing'].setValue(false);
+    this.charge.controls['transparentInvoicing'].disable();
+  }
+
+  disableResolutionWithValue() {
+    this.charge.controls['resolution'].setValue(
+      Number(Resolution.P1M).toString()
+    );
+    this.charge.controls['resolution'].disable();
+  }
+
+  private buildMarketParticipantOptions() {
+    this.marketParticipants.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (marketParticipants) => {
+        if (marketParticipants == null) return;
+        this.marketParticipantsOptions = marketParticipants.map((mp) => {
+          return {
+            value: mp.id,
+            displayValue: mp.marketParticipantId || '',
+          };
+        });
+      },
+    });
   }
 
   private buildChargeTypeOptions() {
@@ -121,8 +193,10 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
           this.resolutionOptions = Object.keys(Resolution)
             .filter(
               (key) =>
-                Resolution[Number(key)] != null &&
-                Number(key) != Resolution.Unknown
+                (Resolution[Number(key)] != null &&
+                  Number(key) != Resolution.Unknown &&
+                  Number(key) != Resolution.PT15M) ||
+                (this.isTariff && Number(key) != Resolution.P1M)
             )
             .map((chargeTypeKey) => {
               return {
