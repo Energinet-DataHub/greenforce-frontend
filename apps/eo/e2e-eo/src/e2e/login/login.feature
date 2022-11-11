@@ -4,20 +4,20 @@ Feature: Login
   based on personas. Currently we have Charlotte CSR, Thomas Tesla and Ivan Iværksætter. They should all potentially
   provide different mocked data, based on their production/consumption.
 
-  Scenario: Login as Charlotte CSR is possible and sends user to dashboard page
+  Scenario: Login as Charlotte CSR is allowed
     Given I am on the landing page
     When I click the start button to login
-    When I see Charlotte CSRs login button and click it
+    And I see Charlotte CSRs login button and click it
     Then I can see the dashboard page
 
-  Scenario: Login as Thomas Tesla is not possible and sends user to landing page
+  Scenario: Login as Thomas Tesla is NOT allowed
     Given I am on the landing page
     When I click the start button to login
-    When I see Thomas Tesla's login button and click it
+    And I see Thomas Tesla's login button and click it
     Then I am on the landing page again with an error in the URL
 
-  Scenario: Login as Ivan Iværksætter is possible and sends user to dashboard page
+  Scenario: Login as Ivan Iværksætter is allowed
     Given I am on the landing page
     When I click the start button to login
-    When I see Ivan Iværksætters login button and click it
+    And I see Ivan Iværksætters login button and click it
     Then I can see the dashboard page

@@ -18,6 +18,7 @@ import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
 
 Given('I am on the landing page', () => {
   cy.visit('/');
+  cy.get('h1').should('contain.text', 'Your emissions and renewables overview');
 });
 
 When('I click the start button to login', () => {
