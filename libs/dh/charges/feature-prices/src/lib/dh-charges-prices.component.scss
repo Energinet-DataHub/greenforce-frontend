@@ -16,7 +16,7 @@
  */
 .search-container {
   display: grid;
-  grid-template-columns: 2fr 2fr;
+  grid-template-columns: 2fr 2fr 1fr 1fr 1fr 1fr;
   padding-bottom: var(--watt-space-m);
   gap: var(--watt-space-m);
 }
