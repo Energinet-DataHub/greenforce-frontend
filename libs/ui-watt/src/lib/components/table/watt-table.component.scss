@@ -43,6 +43,10 @@ watt-table .mat-table {
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   }
 
+  th.watt-table-checkbox-cell {
+    z-index: 2 !important; // override local style
+  }
+
   td.mat-cell {
     display: flex;
     align-items: center;
