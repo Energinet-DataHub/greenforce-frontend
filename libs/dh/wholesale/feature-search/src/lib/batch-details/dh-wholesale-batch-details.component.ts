@@ -33,6 +33,7 @@ import {
 
 import { BatchVm } from '../table/dh-wholesale-table.component';
 import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
+import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 
 @Component({
   standalone: true,
@@ -44,6 +45,7 @@ import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-a
     WattBadgeModule,
     WattCardModule,
     WattDrawerModule,
+    ...WATT_BREADCRUMBS
   ],
   selector: 'dh-wholesale-batch-details',
   templateUrl: './dh-wholesale-batch-details.component.html',

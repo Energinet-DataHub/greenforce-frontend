@@ -16,7 +16,16 @@ limitations under the License.
 -->
 <watt-drawer *transloco="let transloco; read: 'wholesale'" #drawer>
   <watt-drawer-topbar>
-    <div>
+    <watt-breadcrumbs>
+      <watt-breadcrumb>{{transloco("searchBatch.topBarTitle")}}</watt-breadcrumb>
+      <watt-breadcrumb>{{
+        transloco("batchDetails.headline", { batchNumber: batch.batchNumber })
+      }}</watt-breadcrumb>
+    </watt-breadcrumbs>
+  </watt-drawer-topbar>
+
+  <watt-drawer-content>
+    <div class="headline-container">
       <watt-badge [type]="batch.statusType">
         {{ transloco("searchBatch." + batch.executionState) }}
       </watt-badge>
@@ -26,9 +35,6 @@ limitations under the License.
         }}
       </h3>
     </div>
-  </watt-drawer-topbar>
-
-  <watt-drawer-content>
     <dl>
       <div>
         <dt class="watt-label">
