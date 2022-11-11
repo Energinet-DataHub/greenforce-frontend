@@ -99,11 +99,17 @@ export class WattTableCellDirective<T> {
 export class WattTableComponent<T>
   implements OnChanges, AfterViewInit, OnDestroy
 {
-  @Input()
-  dataSource!: WattTableDataSource<T>;
+  /**
+   * The table's source of data.
+   */
+  @Input() dataSource!: WattTableDataSource<T>;
 
-  @Input()
-  columns: WattTableColumnDef<T> = {};
+  /**
+   * Column definition record with keys representing the column identifiers
+   * and values being the column configuration. The order of the columns
+   * is determined by the property order.
+   */
+  @Input() columns: WattTableColumnDef<T> = {};
 
   @Input()
   sortActive = '';
