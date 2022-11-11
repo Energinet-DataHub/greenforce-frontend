@@ -49,8 +49,8 @@ jobs:
     needs: changes
     runs-on: ubuntu-latest
     env:
-      RELEASE_VERSION: ui_frontend_${{ github.event.number }}
-      RELEASE_FOLDER_PATH: ${{ github.workspace }}/ui_frontend_${{ github.event.number }}
+      RELEASE_VERSION: watt_frontend_${{ github.event.number }}
+      RELEASE_FOLDER_PATH: ${{ github.workspace }}/watt_frontend_${{ github.event.number }}
     steps:
       - uses: actions/checkout@v3
 
@@ -101,104 +101,12 @@ jobs:
           files: ${{ env.RELEASE_FOLDER_PATH }}/${{ env.RELEASE_VERSION }}.zip
 
   #
-  # CI .NET
-  #
-
-  # Build all projects within solution
-  dotnet_ci_build:
-    needs: changes
-    if: ${{ needs.changes.outputs.dotnet == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@v9
-    with:
-      SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
-      RELEASE_NAME_PREFIX: ui_dotnet
-
-  # Run all tests in 'Tests.dll'
-  dotnet_ci_test:
-    needs: changes
-    if: ${{ needs.changes.outputs.dotnet == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-postbuild-test.yml@v9
-    with:
-      TESTS_DLL_FILE_PATH: '\apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net6.0\Energinet.DataHub.WebApi.Tests.dll'
-      DOWNLOAD_ATTEMPT_LIMIT: 12
-      ENVIRONMENT: AzureAuth
-    secrets:
-      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      AZURE_SPN_ID: ${{ secrets.AZURE_SPN_ID_OIDC }}
-      AZURE_KEYVAULT_URL: ${{ secrets.AZURE_KEYVAULT_URL }}
-      AZURE_SECRETS_KEYVAULT_URL: ${{ secrets.AZURE_SECRETS_KEYVAULT_URL }}
-
-  #
-  # Client Generation
-  #
-
-  generate_client:
-    needs: [
-        # .NET
-        dotnet_ci_build,
-        dotnet_ci_test,
-      ]
-    runs-on: ubuntu-latest
-    env:
-      output-path: libs/dh/shared/domain/src/lib/generated/v1/
-    steps:
-      # needed to push to origin
-      - name: 'PR: Check out source code with current branch Git history'
-        if: ${{ env.IS_PULL_REQUEST == 'true' }}
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: ${{ github.head_ref }}
-          token: ${{ secrets.PAT_TOKEN }}
-
-      - name: 'Merge: Check out source code'
-        if: ${{ env.IS_MAIN_BRANCH == 'true' }}
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: ${{ env.NODE_VERSION_FILE }}
-          cache: 'yarn'
-
-      - name: Set yarn version ${{ env.YARN_VERSION }}
-        run: yarn set version ${{ env.YARN_VERSION }}
-
-      - name: Install package dependencies
-        run: yarn install --frozen-lockfile --non-interactive
-
-      - name: Generate API client
-        run: yarn nx run api-dh:build-client
-
-      - name: 'PR: Commit generated files'
-        if: ${{ env.IS_PULL_REQUEST == 'true' }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add ${{ env.output-path }} || cd .
-          git commit -m 'feat(dh): generate DataHub API v1 client' || cd .
-          git push origin --force-with-lease || cd .
-
-      - name: 'Merge: Verify no changes'
-        if: ${{ env.IS_MAIN_BRANCH == 'true' }}
-        run: |
-          git diff ${{ env.output-path }} --exit-code || (echo '❌ DataHub API v1 client is out-of-sync. Run the `build-client` Nx target and merge the changes.' && exit 1)
-
-  #
   # Branch policy status check
   #
 
   allow_merge:
     runs-on: ubuntu-latest
     needs: [
-        # .NET
-        dotnet_ci_build,
-        dotnet_ci_test,
-
-        # Frontend client
-        generate_client,
-
         # Frontend
         frontend_ci_build,
       ]
