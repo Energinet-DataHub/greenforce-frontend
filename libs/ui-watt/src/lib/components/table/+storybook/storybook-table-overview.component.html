@@ -26,13 +26,13 @@ limitations under the License.
 
 <watt-table
   #table
+  sortDirection="asc"
+  sortActive="position"
   [dataSource]="dataSource"
   [columns]="columns"
   [selectable]="selectable"
+  [getActiveRow]="isActiveRow"
   (rowClick)="onRowClick($event)"
-  [getActiveRow]="getActiveRow"
-  sortActive="position"
-  sortDirection="asc"
 >
   <ng-container *wattTableCell="table.columns.name; let element">
     <div class="watt-text-s">

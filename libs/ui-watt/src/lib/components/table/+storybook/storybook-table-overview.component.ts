@@ -62,7 +62,7 @@ export class StorybookTableOverviewComponent {
     this.activeRow = event.position;
   }
 
-  getActiveRow = (row: PeriodicElement) => {
+  isActiveRow = (row: PeriodicElement) => {
     return row.position === this.activeRow;
   };
 }
