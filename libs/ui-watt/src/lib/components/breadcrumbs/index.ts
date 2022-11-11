@@ -14,4 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WATT_BREADCRUMBS, WattBreadcrumbsComponent, WattBreadcrumbComponent } from './watt-breadcrumbs.component';
+export {
+  WATT_BREADCRUMBS,
+  WattBreadcrumbsComponent,
+  WattBreadcrumbComponent,
+} from './watt-breadcrumbs.component';

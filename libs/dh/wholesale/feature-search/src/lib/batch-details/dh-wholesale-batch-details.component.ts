@@ -45,7 +45,7 @@ import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
     WattBadgeModule,
     WattCardModule,
     WattDrawerModule,
-    ...WATT_BREADCRUMBS
+    ...WATT_BREADCRUMBS,
   ],
   selector: 'dh-wholesale-batch-details',
   templateUrl: './dh-wholesale-batch-details.component.html',
