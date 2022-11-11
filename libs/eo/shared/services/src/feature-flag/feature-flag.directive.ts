@@ -14,21 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  AfterViewInit,
-  Directive,
-  ElementRef,
-  Input,
-  NgModule,
-} from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
 import {
   allowedFeatureFlags,
   FeatureFlagService,
 } from './feature-flag.service';
 
-@Directive({
-  selector: '[onFeatureFlag]',
-})
 /**
  * This directive can be used to show/hide a component based on the feature flags that are currently enabled.
  * @example
@@ -37,6 +28,10 @@ import {
  * To Enable: Append something like this '?enableFeature=daterange' to the URL
  * To Disable: Append something like this '?disableFeature=daterange' to the URL
  */
+@Directive({
+  selector: '[onFeatureFlag]',
+  standalone: true,
+})
 export class EoFeatureFlagDirective implements AfterViewInit {
   /**
    * This directive can be used to show/hide a component based on the feature flags that are currently enabled.
@@ -60,9 +55,3 @@ export class EoFeatureFlagDirective implements AfterViewInit {
     }
   }
 }
-
-@NgModule({
-  declarations: [EoFeatureFlagDirective],
-  exports: [EoFeatureFlagDirective],
-})
-export class EoFeatureFlagComponent {}

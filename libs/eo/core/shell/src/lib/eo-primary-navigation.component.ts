@@ -16,7 +16,7 @@
  */
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
-import { EoFeatureFlagComponent } from '@energinet-datahub/eo/shared/services';
+import { EoFeatureFlagDirective } from '@energinet-datahub/eo/shared/services';
 import {
   eoCertificatesRoutePath,
   eoConsumptionPageRoutePath,
@@ -38,7 +38,7 @@ import {
   imports: [
     WattNavListComponent,
     WattNavListItemComponent,
-    EoFeatureFlagComponent,
+    EoFeatureFlagDirective,
   ],
   selector: 'eo-primary-navigation',
   styles: [

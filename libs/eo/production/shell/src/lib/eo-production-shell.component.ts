@@ -25,7 +25,7 @@ import {
 import {
   AppSettingsStore,
   CalendarDateRange,
-  EoFeatureFlagComponent,
+  EoFeatureFlagDirective,
 } from '@energinet-datahub/eo/shared/services';
 import { LetModule } from '@rx-angular/template';
 import { EoProductionLineChartComponent } from './eo-production-chart-card.component';
@@ -38,7 +38,7 @@ import { EoProductionStore } from './eo-production.store';
   standalone: true,
   imports: [
     EoPopupMessageComponent,
-    EoFeatureFlagComponent,
+    EoFeatureFlagDirective,
     CommonModule,
     LetModule,
     EoDatePickerComponent,

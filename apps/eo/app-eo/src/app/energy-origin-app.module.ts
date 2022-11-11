@@ -24,6 +24,7 @@ import { EnergyOriginAppComponent } from './energy-origin-app.component';
 
 @NgModule({
   bootstrap: [EnergyOriginAppComponent],
+  declarations: [EnergyOriginAppComponent],
   imports: [
     RouterModule,
     BrowserAnimationsModule,
@@ -31,6 +32,5 @@ import { EnergyOriginAppComponent } from './energy-origin-app.component';
     MatDatepickerModule,
     MatNativeDateModule,
   ],
-  declarations: [EnergyOriginAppComponent],
 })
 export class EnergyOriginAppModule {}
