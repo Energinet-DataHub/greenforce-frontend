@@ -29,7 +29,7 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
         align-items: center;
         justify-content: center;
         text-align: center;
-        background: #ebf5f5; //Magic UX color
+        background: var(--watt-color-primary-ultralight);
         position: relative;
       }
 

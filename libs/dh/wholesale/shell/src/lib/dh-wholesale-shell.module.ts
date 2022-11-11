@@ -22,10 +22,7 @@ import {
   DhWholesaleStartScam,
 } from '@energinet-datahub/dh/wholesale/feature-start';
 
-import {
-  DhWholesaleSearchComponent,
-  DhWholesaleSearchScam,
-} from '@energinet-datahub/dh/wholesale/feature-search';
+import { DhWholesaleSearchComponent } from '@energinet-datahub/dh/wholesale/feature-search';
 
 import {
   DhWholesaleOverviewComponent,
@@ -56,7 +53,6 @@ const routes: Routes = [
 @NgModule({
   imports: [
     DhWholesaleStartScam,
-    DhWholesaleSearchScam,
     DhWholesaleOverviewScam,
     RouterModule.forChild(routes),
   ],

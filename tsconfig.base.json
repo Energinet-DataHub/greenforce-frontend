@@ -189,9 +189,6 @@
       "@energinet-datahub/dh/wholesale/shell": [
         "libs/dh/wholesale/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo-emissions-routing": [
-        "libs/eo/emissions/routing/src/index.ts"
-      ],
       "@energinet-datahub/eo/auth/data-access-api": [
         "libs/eo/auth/data-access-api/src/index.ts"
       ],
@@ -207,50 +204,28 @@
       "@energinet-datahub/eo/certificates": [
         "libs/eo/certificates/src/index.ts"
       ],
-      "@energinet-datahub/eo/consumption-page/routing": [
-        "libs/eo/consumption-page/routing/src/index.ts"
-      ],
       "@energinet-datahub/eo/consumption-page/shell": [
         "libs/eo/consumption-page/shell/src/index.ts"
       ],
       "@energinet-datahub/eo/core/shell": ["libs/eo/core/shell/src/index.ts"],
-      "@energinet-datahub/eo/dashboard/routing": [
-        "libs/eo/dashboard/routing/src/index.ts"
-      ],
       "@energinet-datahub/eo/dashboard/shell": [
         "libs/eo/dashboard/shell/src/index.ts"
       ],
       "@energinet-datahub/eo/emissions/shell": [
         "libs/eo/emissions/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/faq/routing": ["libs/eo/faq/routing/src/index.ts"],
       "@energinet-datahub/eo/faq/shell": ["libs/eo/faq/shell/src/index.ts"],
-      "@energinet-datahub/eo/landing-page/routing": [
-        "libs/eo/landing-page/routing/src/index.ts"
-      ],
       "@energinet-datahub/eo/landing-page/shell": [
         "libs/eo/landing-page/shell/src/index.ts"
-      ],
-      "@energinet-datahub/eo/metering-points/routing": [
-        "libs/eo/metering-points/routing/src/index.ts"
       ],
       "@energinet-datahub/eo/metering-points/shell": [
         "libs/eo/metering-points/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/origin-of-energy/routing": [
-        "libs/eo/origin-of-energy/routing/src/index.ts"
-      ],
       "@energinet-datahub/eo/origin-of-energy/shell": [
         "libs/eo/origin-of-energy/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/privacy-policy/routing": [
-        "libs/eo/privacy-policy/routing/src/index.ts"
-      ],
       "@energinet-datahub/eo/privacy-policy/shell": [
         "libs/eo/privacy-policy/shell/src/index.ts"
-      ],
-      "@energinet-datahub/eo/production/routing": [
-        "libs/eo/production/routing/src/index.ts"
       ],
       "@energinet-datahub/eo/production/shell": [
         "libs/eo/production/shell/src/index.ts"
@@ -273,8 +248,8 @@
       "@energinet-datahub/eo/shared/services": [
         "libs/eo/shared/services/src/index.ts"
       ],
-      "@energinet-datahub/eo/shared/util-browser": [
-        "libs/eo/shared/util-browser/src/index.ts"
+      "@energinet-datahub/eo/shared/utilities": [
+        "libs/eo/shared/utilities/src/index.ts"
       ],
       "@energinet-datahub/gf/configuration-danish-locale": [
         "libs/gf/configuration-danish-locale/src/index.ts"
@@ -290,6 +265,9 @@
       ],
       "@energinet-datahub/watt/badge": [
         "libs/ui-watt/src/lib/components/badge/index.ts"
+      ],
+      "@energinet-datahub/watt/breadcrumbs": [
+        "libs/ui-watt/src/lib/components/breadcrumbs/index.ts"
       ],
       "@energinet-datahub/watt/breakpoints": [
         "libs/ui-watt/src/lib/foundations/breakpoints/index.ts"
