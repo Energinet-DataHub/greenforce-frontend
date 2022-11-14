@@ -24,20 +24,22 @@ limitations under the License.
 
     <span [title]="t('meteringMethod')">
       {{ translationKeys?.meteringPointType | transloco | dhEmDashFallback }}
-      ({{ translationKeys?.meteringMethod | transloco | dhEmDashFallback }}) |
+      ({{ translationKeys?.meteringMethod | transloco | dhEmDashFallback }})
     </span>
+    |
 
     <span
       *ngIf="identityDetails?.settlementMethod"
       [title]="t('settlementMethod')"
     >
-      {{ translationKeys?.settlementMethod | transloco }} |
+      {{ translationKeys?.settlementMethod | transloco }}
     </span>
+    |
 
     <span [title]="t('readingOccurrence')">
       {{ translationKeys?.readingOccurrence | transloco | dhEmDashFallback }}
-      |
     </span>
+    |
 
     <span
       *ngIf="identityDetails?.meterId"
@@ -49,49 +51,36 @@ limitations under the License.
   </div>
 
   <div class="overview-header__row" [title]="t('gsrnNumber')">
-    <h1>
+    <h1 [title]="t('gsrnNumber')">
       {{ identityDetails.gsrnNumber }}
     </h1>
   </div>
 
   <div class="watt-text-s overview-header__row">
-    <div
+    <dh-metering-point-identity-text-field-with-icon
       [title]="t('primaryMasterData.address')"
-      class="overview-header__row-field"
+      iconName="map_marker"
+      text="{{ address | dhEmDashFallback }}"
     >
-      <dh-metering-point-identity-text-field-with-icon
-        iconName="map_marker"
-        text="{{ address | dhEmDashFallback }}"
-      >
-      </dh-metering-point-identity-text-field-with-icon>
-    </div>
+    </dh-metering-point-identity-text-field-with-icon>
 
-    <div
+    <dh-metering-point-identity-text-field-with-icon
       *ngIf="identityDetails?.supplyStart"
       [title]="t('primaryMasterData.hasElectricitySupplier')"
-      class="overview-header__row-field"
+      iconName="power"
+      text="{{
+        translationKeys?.electricitySupplierSince
+          | transloco: { date: identityDetails.supplyStart | dhDate }
+      }}"
     >
-      <dh-metering-point-identity-text-field-with-icon
-        iconName="power"
-        text="{{
-          translationKeys?.electricitySupplierSince
-            | transloco: { date: identityDetails.supplyStart | dhDate }
-        }}"
-      >
-      </dh-metering-point-identity-text-field-with-icon>
-    </div>
+    </dh-metering-point-identity-text-field-with-icon>
 
-    <!-- only show if not actual address -->
-    <div
+    <dh-metering-point-identity-text-field-with-icon
       *ngIf="identityDetails?.isActualAddress === false"
       [title]="t('primaryMasterData.actualAddress')"
-      class="overview-header__row-field"
+      iconName="warning"
+      [text]="t('primaryMasterData.notActualAddress')"
     >
-      <dh-metering-point-identity-text-field-with-icon
-        iconName="warning"
-        [text]="t('primaryMasterData.notActualAddress')"
-      >
-      </dh-metering-point-identity-text-field-with-icon>
-    </div>
+    </dh-metering-point-identity-text-field-with-icon>
   </div>
 </div>

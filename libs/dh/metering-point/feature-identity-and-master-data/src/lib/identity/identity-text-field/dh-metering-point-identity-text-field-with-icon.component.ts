@@ -26,7 +26,7 @@ import { WattIcon, WattIconModule } from '@energinet-datahub/watt/icon';
   template: ` <span
       *ngIf="iconName"
       ngClass="watt-space-inline-xs"
-      [ngStyle]="{ display: 'inline-block' }"
+      [ngStyle]="{ display: 'inline-flex' }"
     >
       <watt-icon
         [name]="iconName"
@@ -36,7 +36,7 @@ import { WattIcon, WattIconModule } from '@energinet-datahub/watt/icon';
       ></watt-icon>
     </span>
 
-    <span class="watt-space-inline-m">{{ text }}</span>`,
+    <span>{{ text }}</span>`,
   imports: [CommonModule, WattIconModule],
 })
 export class DhMeteringPointIdentityTextFieldWithIconComponent {

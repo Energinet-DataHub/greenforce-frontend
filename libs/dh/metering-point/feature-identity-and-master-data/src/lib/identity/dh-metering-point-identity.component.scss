@@ -23,11 +23,9 @@
   padding: var(--watt-space-m) 0;
 
   &__row {
+    display: flex;
+    gap: var(--watt-space-s);
     margin-bottom: var(--watt-space-s);
-  }
-
-  &__row-field {
-    display: inline-block;
   }
 }
 
