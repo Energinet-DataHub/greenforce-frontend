@@ -65,8 +65,11 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     priceName: new FormControl('', Validators.required),
     priceDescription: new FormControl('', Validators.required),
     priceOwner: new FormControl('', Validators.required),
-    resolution: new FormControl('', Validators.required),
-    effectiveDate: new FormControl(undefined, Validators.required),
+    resolution: new FormControl(
+      { value: '', disabled: true },
+      Validators.required
+    ),
+    effectiveDate: new FormControl('', Validators.required),
     vatClassification: new FormControl(true, Validators.required),
     transparentInvoicing: new FormControl(true, Validators.required),
     taxIndicator: new FormControl(false, Validators.required),
@@ -98,14 +101,11 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   chargeTypeChanged(chargeType: number) {
     this.isTariff = chargeType == Number(ChargeTypes.Tariff);
 
+    // Building options because it's different depending on the chargetype.
+    this.buildValidityOptions();
     this.enableFormGroup();
 
     switch (Number(chargeType)) {
-      case ChargeTypes.Tariff: {
-        console.log('Tariff!');
-        // Resolution dropdown should only have "Hour" and "Day".
-        break;
-      }
       case ChargeTypes.Subscription: {
         this.disableResolutionWithValue();
         this.disableTaxIndicator();
@@ -193,10 +193,9 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
           this.resolutionOptions = Object.keys(Resolution)
             .filter(
               (key) =>
-                (Resolution[Number(key)] != null &&
-                  Number(key) != Resolution.Unknown &&
-                  Number(key) != Resolution.PT15M) ||
-                (this.isTariff && Number(key) != Resolution.P1M)
+                Resolution[Number(key)] != null &&
+                Number(key) != Resolution.Unknown &&
+                Number(key) != Resolution.PT15M
             )
             .map((chargeTypeKey) => {
               return {
@@ -205,6 +204,11 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
                   translationKeys[Resolution[Number(chargeTypeKey)]],
               };
             });
+
+          if (this.isTariff)
+            this.resolutionOptions = this.resolutionOptions.filter(
+              (option) => Number(option.value) != Resolution.P1M
+            );
         },
       });
   }
