@@ -21,7 +21,6 @@ import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util
 import { DhMeteringPointIdentityTextFieldWithIconComponent } from './dh-metering-point-identity-text-field-with-icon.component';
 
 import { WattIcon } from '@energinet-datahub/watt/icon';
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
 interface DhMeteringPointIdentityTextFieldProps {
   iconName?: WattIcon;
@@ -36,7 +35,6 @@ describe(DhMeteringPointIdentityTextFieldWithIconComponent.name, () => {
         componentProperties: {
           ...testData,
         },
-        imports: [getTranslocoTestingModule()],
       }
     );
 

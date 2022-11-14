@@ -15,15 +15,28 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { WattIcon, WattIconModule } from '@energinet-datahub/watt/icon';
 
 @Component({
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-identity-text-field-with-icon',
-  templateUrl:
-    './dh-metering-point-identity-text-field-with-icon.component.html',
+  template: ` <span
+      *ngIf="iconName"
+      ngClass="watt-space-inline-xs"
+      [ngStyle]="{ display: 'inline-block' }"
+    >
+      <watt-icon
+        [name]="iconName"
+        [label]="iconName"
+        size="s"
+        aria-hidden
+      ></watt-icon>
+    </span>
+
+    <span class="watt-space-inline-m">{{ text }}</span>`,
   imports: [CommonModule, WattIconModule],
 })
 export class DhMeteringPointIdentityTextFieldWithIconComponent {
