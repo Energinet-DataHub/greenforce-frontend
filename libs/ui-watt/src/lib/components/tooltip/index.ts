@@ -14,5 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattTooltipModule } from './watt-tooltip.module';
-export { WattTooltipDirective } from './watt-tooltip.directive';
+export {
+  WattTooltipDirective,
+  wattTooltipPosition,
+} from './watt-tooltip.directive';
