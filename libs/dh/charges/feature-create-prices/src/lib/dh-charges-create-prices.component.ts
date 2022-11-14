@@ -76,6 +76,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   });
 
   isTariff = false;
+  isFormValid = false;
   marketParticipants = this.marketParticipantStore.all$;
 
   private destroy$ = new Subject<void>();
@@ -106,6 +107,10 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     this.enableFormGroup();
 
     switch (Number(chargeType)) {
+      case ChargeTypes.Tariff: {
+        this.charge.controls['resolution'].setValue('');
+        break;
+      }
       case ChargeTypes.Subscription: {
         this.disableResolutionWithValue();
         this.disableTaxIndicator();

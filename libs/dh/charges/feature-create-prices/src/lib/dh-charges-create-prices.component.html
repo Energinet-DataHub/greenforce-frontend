@@ -24,7 +24,7 @@ limitations under the License.
         <div class="form-container">
           <!-- Price Type -->
           <watt-form-field class="charge-type">
-            <watt-label>{{ t("prices.chargeType") }}</watt-label>
+            <watt-label>{{ t("prices.chargeType") }} *</watt-label>
             <watt-dropdown
               formControlName="chargeType"
               [options]="chargeTypeOptions"
@@ -68,7 +68,7 @@ limitations under the License.
 
           <!-- Price Owner -->
           <watt-form-field class="price-owner">
-            <watt-label>{{ t("createPrices.priceOwner") }}</watt-label>
+            <watt-label>{{ t("createPrices.priceOwner") }} *</watt-label>
             <watt-dropdown
               formControlName="priceOwner"
               name="owner"
@@ -97,7 +97,7 @@ limitations under the License.
 
           <!-- Resolution -->
           <watt-form-field class="resolution">
-            <watt-label>{{ t("resolution") }}</watt-label>
+            <watt-label>{{ t("resolution") }} *</watt-label>
             <watt-dropdown
               formControlName="resolution"
               [options]="resolutionOptions"
@@ -115,12 +115,12 @@ limitations under the License.
 
           <!-- Effective Date -->
           <watt-form-field class="effective-date">
-            <watt-label>{{ t("effectiveDate") }}</watt-label>
+            <watt-label>{{ t("effectiveDate") }} *</watt-label>
             <watt-datepicker formControlName="effectiveDate"></watt-datepicker>
             <watt-error
               *ngIf="charge.controls['effectiveDate'].hasError('required')"
             >
-              Date is required
+              {{ t("fieldRequiredErrorText") }}
             </watt-error>
           </watt-form-field>
 
@@ -142,7 +142,9 @@ limitations under the License.
           </div>
         </div>
 
-        <watt-button type="submit">Create</watt-button>
+        <watt-button [disabled]="!charge.valid" type="submit"
+          >Create</watt-button
+        >
       </form>
     </div>
   </watt-card>
