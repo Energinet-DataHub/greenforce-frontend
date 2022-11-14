@@ -14,6 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+.headline-container {
+  padding-bottom: var(--watt-space-m);
+  margin-bottom: var(--watt-space-m);
+  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+}
+
 .headline,
 .subheadline {
   margin: 0;
