@@ -43,7 +43,7 @@ const data: PeriodicElement[] = [
 interface Properties<T> {
   dataSource: WattTableDataSource<T>;
   columns: WattTableColumnDef<T>;
-  sortActive?: string;
+  sortBy?: string;
   sortDirection?: string;
   selectable?: boolean;
   selectionChange?: (selection: T[]) => void;
@@ -56,7 +56,7 @@ function setup<T>(properties: Properties<T>, template = '') {
       #table
       [dataSource]="dataSource"
       [columns]="columns"
-      [sortActive]="sortActive"
+      [sortBy]="sortBy"
       [sortDirection]="sortDirection"
       [selectable]="selectable"
       (selectionChange)="selectionChange($event)"
@@ -139,7 +139,7 @@ describe(WattTableComponent.name, () => {
     await setup({
       dataSource,
       columns,
-      sortActive: 'position',
+      sortBy: 'position',
       sortDirection: 'asc',
     });
 

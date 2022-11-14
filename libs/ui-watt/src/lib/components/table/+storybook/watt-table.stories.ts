@@ -15,31 +15,29 @@
  * limitations under the License.
  */
 import { moduleMetadata, Story } from '@storybook/angular';
-
 import { StorybookTableOverviewComponent } from './storybook-table-overview.component';
-import { StorybookTableOverviewModule } from './storybook-table-overview.module';
 
 export default {
   title: 'Components/Table',
   decorators: [
     moduleMetadata({
-      imports: [StorybookTableOverviewModule],
+      imports: [StorybookTableOverviewComponent],
     }),
   ],
 };
 
-export const Overview: Story<StorybookTableOverviewComponent> = (args) => ({
+export const Table: Story<StorybookTableOverviewComponent> = (args) => ({
   props: args,
   template: `
-    <storybook-table-overview
+    <watt-storybook-table-overview
       [selectable]="selectable"
       [suppressRowHoverHighlight]="suppressRowHoverHighlight"
-    ></storybook-table-overview>
+    ></watt-storybook-table-overview>
   `,
 });
 
-Overview.args = { selectable: true, suppressRowHoverHighlight: false };
-Overview.parameters = {
+Table.args = { selectable: true, suppressRowHoverHighlight: false };
+Table.parameters = {
   docs: {
     source: {
       code: '<watt-table [dataSource]="dataSource" [columns]="columns"></watt-table>',

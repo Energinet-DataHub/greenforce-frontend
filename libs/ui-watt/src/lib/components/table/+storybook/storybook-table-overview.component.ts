@@ -15,7 +15,12 @@
  * limitations under the License.
  */
 import { Component, Input } from '@angular/core';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { WattIconModule } from '../../../foundations/icon/icon.module';
 import { WattTableDataSource } from '../watt-table-data-source';
+import { WATT_TABLE } from '../watt-table.component';
 
 export interface PeriodicElement {
   name: string;
@@ -34,8 +39,15 @@ export const periodicElements: PeriodicElement[] = [
 ];
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'storybook-table-overview',
+  standalone: true,
+  imports: [
+    WATT_TABLE,
+    WattIconModule,
+    MatSortModule,
+    MatPaginatorModule,
+    BrowserAnimationsModule,
+  ],
+  selector: 'watt-storybook-table-overview',
   templateUrl: 'storybook-table-overview.component.html',
   styles: [
     `
