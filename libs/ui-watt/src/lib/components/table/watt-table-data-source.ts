@@ -16,4 +16,7 @@
  */
 import { MatTableDataSource } from '@angular/material/table';
 
+/**
+ * @see https://material.angular.io/components/table/api#MatTableDataSource
+ */
 export class WattTableDataSource<T> extends MatTableDataSource<T> {}

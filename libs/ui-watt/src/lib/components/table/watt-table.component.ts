@@ -54,10 +54,14 @@ export interface WattTableColumn<T> {
   size?: string;
 }
 
-export interface WattTableColumnDef<T> {
-  [id: string]: WattTableColumn<T>;
-}
+/**
+ * Record for defining displayed columns. Keys are used as column
+ * identifiers and should often match the keys defined in the
+ * data `T` (helps the table in assuming certain values).
+ */
+export type WattTableColumnDef<T> = Record<string, WattTableColumn<T>>;
 
+// Used for strongly typing the structural directive
 interface WattTableCellContext<T> {
   $implicit: T;
 }
@@ -67,11 +71,9 @@ interface WattTableCellContext<T> {
   selector: '[wattTableCell]',
 })
 export class WattTableCellDirective<T> {
-  @Input('wattTableCell')
-  column!: WattTableColumn<T>;
-
+  /** The WattTableColumn this template applies to. */
+  @Input('wattTableCell') column!: WattTableColumn<T>;
   templateRef = inject(TemplateRef<WattTableCellContext<T>>);
-
   static ngTemplateContextGuard<T>(
     _directive: WattTableCellDirective<T>,
     context: unknown
@@ -115,24 +117,45 @@ export class WattTableComponent<T>
    */
   @Input() columns: WattTableColumnDef<T> = {};
 
+  /**
+   * Identifier for column that should be sorted initially.
+   */
   @Input()
-  sortActive = '';
+  sortBy = '';
 
+  /**
+   * The sort direction of the initially sorted column.
+   */
   @Input()
   sortDirection: SortDirection = '';
 
+  /**
+   * Whether the table should include a checkbox column for row selection.
+   */
   @Input()
   selectable = false;
 
+  /**
+   * Set to true to disable row hover highlight.
+   */
   @Input()
   suppressRowHoverHighlight = false;
 
+  /**
+   * Callback for determining if a row is the currently active row.
+   */
   @Input()
   getActiveRow?: (row: T) => boolean;
 
+  /**
+   * Emits whenever the selection updates. Only works when selectable is `true`.
+   */
   @Output()
   selectionChange = new EventEmitter<T[]>();
 
+  /**
+   * Emits whenever a row is clicked.
+   */
   @Output()
   rowClick = new EventEmitter<T>();
 
@@ -192,12 +215,14 @@ export class WattTableComponent<T>
     this._subscription.unsubscribe();
   }
 
+  /** @ignore */
   get _columnSelection() {
     return this.dataSource.filteredData.every((row) =>
       this._selectionModel.isSelected(row)
     );
   }
 
+  /** @ignore */
   set _columnSelection(value) {
     if (value) {
       this._selectionModel.setSelection(...this.dataSource.filteredData);
@@ -206,21 +231,25 @@ export class WattTableComponent<T>
     }
   }
 
+  /** @ignore */
   _getColumns() {
     const columns = Object.keys(this.columns);
     return this.selectable ? [this._checkboxColumn, ...columns] : columns;
   }
 
+  /** @ignore */
   _getColumnTemplate(column: WattTableColumn<T>) {
     return this._cells.find((item) => item.column === column)?.templateRef;
   }
 
+  /** @ignore */
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
     return typeof column.value.header === 'string'
       ? column.value.header
       : column.value.header(column.key);
   }
 
+  /** @ignore */
   _getColumnCell(column: KeyValue<string, WattTableColumn<T>>, row: T) {
     if (column.value.cell) {
       return column.value.cell(row);
