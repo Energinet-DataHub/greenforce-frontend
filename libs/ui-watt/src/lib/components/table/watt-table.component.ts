@@ -80,6 +80,10 @@ export class WattTableCellDirective<T> {
   }
 }
 
+/**
+ * Usage:
+ * `import { WATT_TABLE } from '@energinet-datahub/watt/table';`
+ */
 @Component({
   standalone: true,
   imports: [
@@ -208,10 +212,7 @@ export class WattTableComponent<T>
   }
 
   _getColumnTemplate(column: WattTableColumn<T>) {
-    const cell = this._cells.find((item) => item.column === column);
-    return cell
-      ? cell.templateRef
-      : this._cells.find((item) => !item.column)?.templateRef;
+    return this._cells.find((item) => item.column === column)?.templateRef;
   }
 
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
@@ -231,4 +232,4 @@ export class WattTableComponent<T>
   }
 }
 
-export const WATT_TABLE = [WattTableComponent, WattTableCellDirective] as const;
+export const WATT_TABLE = [WattTableComponent, WattTableCellDirective];

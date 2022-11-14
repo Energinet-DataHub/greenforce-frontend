@@ -25,7 +25,7 @@ import { StorybookTableOverviewComponent } from './storybook-table-overview.comp
 
 @NgModule({
   imports: [
-    ...WATT_TABLE,
+    WATT_TABLE,
     WattIconModule,
     MatSortModule,
     MatPaginatorModule,

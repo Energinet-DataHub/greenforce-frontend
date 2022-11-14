@@ -50,6 +50,7 @@ export const periodicElements: PeriodicElement[] = [
 export class StorybookTableOverviewComponent {
   @Input() selectable = false;
   @Input() suppressRowHoverHighlight = false;
+
   dataSource = new WattTableDataSource(periodicElements);
   columns = {
     position: { header: 'Position', size: 'min-content' },
