@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const findDrawer = () => cy.get('mat-sidenav:not(.ng-animating)');
-export const findLogOutMenuItem = () =>
-  cy.findByRole('link', { name: /Log out/i });
-export const findMenu = () =>
-  cy.findByLabelText(/Menu/i, {
-    selector: 'mat-sidenav:not(.ng-animating) *',
-  });
+export class LandingPage {
+  private path = '/';
+  private pageHeaderText = 'Your emissions and renewables overview';
+
+  headerIsVisible = () =>
+    cy.get('h1').should('contain.text', this.pageHeaderText);
+  navigateTo = () => cy.visit(this.path);
+}
