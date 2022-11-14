@@ -1,27 +1,15 @@
 {
-  "extends": [
-    "plugin:cypress/recommended",
-    "../../../.eslintrc.json"
-  ],
-  "ignorePatterns": [
-    "!**/*"
-  ],
+  "extends": ["plugin:cypress/recommended", "../../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts",
-        "*.tsx",
-        "*.js",
-        "*.jsx"
-      ],
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
         "sonarjs/no-duplicate-string": "off"
       }
     },
     {
-      "files": [
-        "src/plugins/index.js"
-      ],
+      "files": ["src/plugins/index.js"],
       "rules": {
         "@typescript-eslint/no-var-requires": "off",
         "no-undef": "off"
