@@ -54,6 +54,7 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
 
   @Input() set data(gridAreas: BatchGridAreaDto[]) {
     this._data = new MatTableDataSource(gridAreas);
+    this._data.paginator = this.paginator.instance;
   }
   _data: MatTableDataSource<BatchGridAreaDto> = new MatTableDataSource(
     undefined

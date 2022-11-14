@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattDatepickerComponent } from './watt-datepicker.component';
-export { WattDatepickerModule } from './watt-datepicker.module';
-export { WattRange } from '../shared/watt-range';
+export {
+  WATT_BREADCRUMBS,
+  WattBreadcrumbsComponent,
+  WattBreadcrumbComponent,
+} from './watt-breadcrumbs.component';
