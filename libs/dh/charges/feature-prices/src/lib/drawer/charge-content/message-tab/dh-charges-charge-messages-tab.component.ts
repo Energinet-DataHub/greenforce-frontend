@@ -38,7 +38,7 @@ import {
   ChargeV1Dto,
   ChargeMessageSortColumnName,
 } from '@energinet-datahub/dh/shared/domain';
-import { WattTooltipModule } from '@energinet-datahub/watt/tooltip';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
@@ -216,7 +216,7 @@ export class DhChargesChargeMessagesTabComponent
     PushModule,
     WattButtonModule,
     WattEmptyStateModule,
-    WattTooltipModule,
+    WattTooltipDirective,
     WattSpinnerModule,
     DhSharedUiDateTimeModule,
     DhSharedUiPaginatorComponent,
