@@ -15,14 +15,17 @@
  * limitations under the License.
  */
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
+import { LandingPage } from '../../page-objects';
+
+const landingPage = new LandingPage();
 
 Given('I am on the landing page', () => {
-  cy.visit('/');
-  cy.get('h1').should('contain.text', 'Your emissions and renewables overview');
+  landingPage.navigateTo();
+  landingPage.headerIsVisible();
 });
 
-When('I click the start button to login', () => {
-  cy.get('eo-landing-page-login-button').eq(0).click();
+When('I click the first start button to login', () => {
+  cy.get('eo-landing-page-login-button').first().click();
 });
 
 When('I see Charlotte CSRs login button and click it', () => {

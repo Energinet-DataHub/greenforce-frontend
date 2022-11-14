@@ -6,18 +6,18 @@ Feature: Login
 
   Scenario: Login as Charlotte CSR is allowed
     Given I am on the landing page
-    When I click the start button to login
+    When I click the first start button to login
     And I see Charlotte CSRs login button and click it
     Then I can see the dashboard page
 
   Scenario: Login as Thomas Tesla is NOT allowed
     Given I am on the landing page
-    When I click the start button to login
+    When I click the first start button to login
     And I see Thomas Tesla's login button and click it
     Then I am on the landing page again with an error in the URL
 
   Scenario: Login as Ivan Iværksætter is allowed
     Given I am on the landing page
-    When I click the start button to login
+    When I click the first start button to login
     And I see Ivan Iværksætters login button and click it
     Then I can see the dashboard page

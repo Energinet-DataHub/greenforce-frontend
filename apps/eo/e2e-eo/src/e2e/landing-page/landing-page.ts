@@ -15,10 +15,13 @@
  * limitations under the License.
  */
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
+import { LandingPage } from '../../page-objects';
+
+const landingPage = new LandingPage();
 
 Given('I am on the landing page', () => {
-  cy.visit('/');
-  cy.get('h1').should('contain.text', 'Your emissions and renewables overview');
+  landingPage.navigateTo();
+  landingPage.headerIsVisible();
 });
 
 When('I can see a cookie consent popup', () => {
