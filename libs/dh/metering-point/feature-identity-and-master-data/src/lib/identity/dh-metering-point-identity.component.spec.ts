@@ -94,7 +94,7 @@ describe(DhMeteringPointIdentityComponent.name, () => {
     });
 
     test('settlement method is not displayed when it has value null', async () => {
-      await setup({ settlementMethod: null } as MeteringPointCimDto);
+      await setup({ settlementMethod: undefined } as MeteringPointCimDto);
 
       expect(getByTitle(settlementMethod)).not.toBeInTheDocument();
     });

@@ -54,7 +54,7 @@ export interface MeteringPointCimDto {
     darReference?: string | null;
     capacity?: number | null;
     assetType?: AssetType;
-    settlementMethod?: SettlementMethod | null;
+    settlementMethod?: SettlementMethod;
     inAreaCode?: string | null;
     outAreaCode?: string | null;
     netSettlementGroup?: NetSettlementGroup;
