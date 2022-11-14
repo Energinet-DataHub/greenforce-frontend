@@ -15,9 +15,11 @@
  * limitations under the License.
  */
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
-import { LandingPage } from '../../page-objects';
+import { Footer, LandingPage, Shared } from '../../page-objects';
 
 const landingPage = new LandingPage();
+const footer = new Footer();
+const shared = new Shared();
 
 Given('I am on the landing page', () => {
   landingPage.navigateTo();
@@ -25,28 +27,28 @@ Given('I am on the landing page', () => {
 });
 
 When('I can see a cookie consent popup', () => {
-  cy.get('eo-cookie-banner').should('be.visible');
-  cy.get('[data-testid="button-only-necessary"]').should('be.visible');
-  cy.get('[data-testid="button-accept-all"]').should('be.visible');
+  shared.cookieBannerIsVisible();
+  shared.onlyNecessaryButtonIsVisible();
+  shared.acceptAllButtonIsVisible();
 });
 
 When("I click the 'only necessary' button", () => {
-  cy.get('[data-testid="button-only-necessary"]').click();
+  shared.clickOnlyNecessaryButton();
 });
 
 Then('The popup closes', () => {
-  cy.get('eo-cookie-banner').should('not.exist');
+  shared.cookieBannerIsNotVisible();
 });
 
 Then('I can see 3 start buttons', () => {
-  cy.get('eo-landing-page-login-button').should('have.length', 3);
+  landingPage.startButtonsVisible(3);
 });
 
 Then('I can see a footer with content in it', () => {
-  cy.get('eo-footer').should('be.visible');
-  cy.get('eo-footer').get('img[alt="Energinet"].logo').should('be.visible');
-  cy.get('eo-footer').get('a[aria-label="privacypolicy"]').should('be.visible');
-  cy.get('eo-footer').get('a[aria-label="accessibility"]').should('be.visible');
-  cy.get('eo-footer').get('a[aria-label="phone"]').should('be.visible');
-  cy.get('eo-footer').get('a[aria-label="email"]').should('be.visible');
+  footer.isVisible();
+  footer.hasLogo();
+  footer.hasPrivacyPolicyLink();
+  footer.hasAccessibilityLink();
+  footer.hasPhoneLink();
+  footer.hasEmailLink();
 });

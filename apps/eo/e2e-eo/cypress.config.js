@@ -48,7 +48,7 @@ export default defineConfig({
     chromeWebSecurity: false,
     fileServerFolder: '.',
     fixturesFolder: './src/fixtures',
-    video: true,
+    video: false,
     videoUploadOnPasses: false,
     videosFolder: 'dist/cypress/apps/eo/e2e-eo/videos',
     viewportHeight: 800,
