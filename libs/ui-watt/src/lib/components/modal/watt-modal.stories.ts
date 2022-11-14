@@ -21,6 +21,7 @@ import { WattFormFieldModule } from '../form-field/form-field.module';
 import { WattModalModule } from './watt-modal.module';
 import { WattModalComponent } from './watt-modal.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { WattTooltipDirective } from '../tooltip';
 
 export default {
   title: 'Components/Modal',
@@ -33,6 +34,7 @@ export default {
         WattFormFieldModule,
         WattInputModule,
         WattModalModule,
+        WattTooltipDirective
       ],
     }),
   ],
@@ -91,7 +93,7 @@ export const Large: Story<WattModalComponent> = (args) => ({
   template: `
     <watt-button (click)="modal.open()">{{title}}</watt-button>
     <watt-modal #modal [title]="title" [size]="size" [disableClose]="disableClose" closeLabel="Close modal">
-      <h4>Develop across all platforms</h4>
+      <h4 wattTooltip="Tooltip in modal" style="display: inline-block;">Develop across all platforms</h4>
       <p>Learn one way to build applications with Angular and reuse your code and abilities to build apps for any deployment target. For web, mobile web, native mobile and native desktop.</p>
       <h4>Speed &amp; Performance</h4>
       <p>Achieve the maximum speed possible on the Web Platform today, and take it further, via Web Workers and server-side rendering. Angular puts you in control over scalability. Meet huge data requirements by building data models on RxJS, Immutable.js or another push-model.</p>

@@ -25,7 +25,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { createPopper } from '@popperjs/core';
+import { createPopper, Instance } from '@popperjs/core';
 import { Platform } from '@angular/cdk/platform';
 
 import { wattTooltipPosition } from './watt-tooltip.directive';
@@ -37,7 +37,7 @@ type unlistenerFunction = () => void;
 @Component({
   template: `
     {{ text }}
-    <div id="arrow" data-popper-arrow></div>
+    <div id="arrow"></div>
   `,
   selector: 'watt-tooltip',
   standalone: true,
@@ -65,11 +65,9 @@ export class WattTooltipComponent implements AfterViewInit, OnDestroy {
   private listeners: unlistenerFunction[] = [];
   private showClass = 'show';
 
-  ngAfterViewInit(): void {
-    createPopper(this.target, this.element, {
-      placement: this.position,
-    });
+  private popper: Instance | null = null;
 
+  ngAfterViewInit(): void {
     this.setupEventListeners();
 
     this.focusMonitor
@@ -85,6 +83,7 @@ export class WattTooltipComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.popper?.destroy();
     this.listeners.forEach((listener) => listener());
     this.destroyed.next();
     this.destroyed.complete();
@@ -131,6 +130,11 @@ export class WattTooltipComponent implements AfterViewInit, OnDestroy {
   }
 
   private show(): void {
+    if(!this.popper) {
+      this.popper = createPopper(this.target, this.element, {
+        placement: this.position,
+      });
+    }
     this.renderer.addClass(this.element, this.showClass);
   }
 

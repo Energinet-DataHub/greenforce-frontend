@@ -21,7 +21,7 @@ $arrow-size: 8px;
 $offset: 6px;
 
 :host {
-  z-index: 500;
+  z-index: 1000;
   display: inline-block;
   background: var(--watt-color-primary-dark);
   color: var(--watt-color-primary-dark-contrast);
@@ -71,21 +71,21 @@ $offset: 6px;
   &[data-popper-placement="top"],
   &[data-popper-placement="bottom"] {
     > #arrow {
-      right: calc(50% - math.div($arrow-size, 2));
+      left: calc(50% - math.div($arrow-size, 2)) !important;
     }
   }
 
   &[data-popper-placement="top-end"],
   &[data-popper-placement="bottom-end"] {
     > #arrow {
-      right: var(--watt-space-m);
+      left: 10px !important;
     }
   }
 
   &[data-popper-placement="top-start"],
   &[data-popper-placement="bottom-start"] {
     > #arrow {
-      left: var(--watt-space-m);
+      left: calc(100% - ($arrow-size + 10px));
     }
   }
 }
