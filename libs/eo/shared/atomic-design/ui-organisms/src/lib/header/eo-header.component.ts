@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoProductLogoComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatToolbarModule, EoProductLogoComponent],
   selector: 'eo-header',
   styles: [
     `
@@ -47,10 +49,3 @@ import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui
   `,
 })
 export class EoHeaderComponent {}
-
-@NgModule({
-  declarations: [EoHeaderComponent],
-  exports: [EoHeaderComponent],
-  imports: [MatToolbarModule, EoProductLogoScam],
-})
-export class EoHeaderScam {}

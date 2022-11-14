@@ -15,27 +15,41 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoPopupMessageScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import {
-  EoDatePickerScam,
-  EoResolutionPickerScam,
-  EoStackScam,
+  EoDatePickerComponent,
+  EoResolutionPickerComponent,
+  EoStackComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import {
   AppSettingsStore,
   CalendarDateRange,
-  EoFeatureFlagScam,
+  EoFeatureFlagDirective,
 } from '@energinet-datahub/eo/shared/services';
 import { LetModule } from '@rx-angular/template';
-import { EoConsumptionLineChartScam } from './eo-consumption-chart-card.component';
-import { EoConsumptionPageEnergyConsumptionScam } from './eo-consumption-page-energy-consumption.component';
-import { EoConsumptionPageInfoScam } from './eo-consumption-page-info.component';
-import { EoConsumptionPageTipScam } from './eo-consumption-page-tip.component';
+import { EoConsumptionLineChartComponent } from './eo-consumption-chart-card.component';
+import { EoConsumptionPageEnergyConsumptionComponent } from './eo-consumption-page-energy-consumption.component';
+import { EoConsumptionPageInfoComponent } from './eo-consumption-page-info.component';
+import { EoConsumptionPageTipComponent } from './eo-consumption-page-tip.component';
 import { EoConsumptionStore } from './eo-consumption.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    LetModule,
+    CommonModule,
+    EoStackComponent,
+    EoPopupMessageComponent,
+    EoFeatureFlagDirective,
+    EoDatePickerComponent,
+    EoResolutionPickerComponent,
+    EoConsumptionPageTipComponent,
+    EoConsumptionPageInfoComponent,
+    EoConsumptionPageEnergyConsumptionComponent,
+    EoConsumptionLineChartComponent,
+  ],
   selector: 'eo-consumption-shell',
   styles: [
     `
@@ -85,21 +99,3 @@ export class EoConsumptionPageShellComponent {
     this.appSettingsStore.setCalendarDateRange(dates);
   }
 }
-
-@NgModule({
-  declarations: [EoConsumptionPageShellComponent],
-  imports: [
-    LetModule,
-    CommonModule,
-    EoStackScam,
-    EoPopupMessageScam,
-    EoFeatureFlagScam,
-    EoDatePickerScam,
-    EoResolutionPickerScam,
-    EoConsumptionPageTipScam,
-    EoConsumptionPageInfoScam,
-    EoConsumptionPageEnergyConsumptionScam,
-    EoConsumptionLineChartScam,
-  ],
-})
-export class EoConsumptionPageShellScam {}

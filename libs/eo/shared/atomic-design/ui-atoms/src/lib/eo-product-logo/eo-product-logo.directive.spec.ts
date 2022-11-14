@@ -17,14 +17,14 @@
 import { render, screen } from '@testing-library/angular';
 
 import {
+  EoProductLogoComponent,
   EoProductLogoDirective,
-  EoProductLogoScam,
 } from './eo-product-logo.directive';
 
 describe(EoProductLogoDirective.name, () => {
   beforeEach(async () => {
     await render('<img eoProductLogo>', {
-      imports: [EoProductLogoScam],
+      imports: [EoProductLogoComponent],
     });
 
     hostElement = screen.getByRole('img');

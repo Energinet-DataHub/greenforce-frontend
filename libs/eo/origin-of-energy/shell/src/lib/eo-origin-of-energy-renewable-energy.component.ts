@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
+  standalone: true,
+  imports: [MatCardModule],
   selector: 'eo-origin-of-energy-renewable-energy',
   template: `<mat-card>
     <p class="watt-space-stack-m"><strong>Renewable energy</strong></p>
@@ -56,10 +58,3 @@ import { MatCardModule } from '@angular/material/card';
   ],
 })
 export class EoOriginOfEnergyRenewableEnergyComponent {}
-
-@NgModule({
-  declarations: [EoOriginOfEnergyRenewableEnergyComponent],
-  exports: [EoOriginOfEnergyRenewableEnergyComponent],
-  imports: [MatCardModule],
-})
-export class EoOriginOfEnergyRenewableEnergyScam {}

@@ -14,21 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
-import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { EoPrivacyPolicyComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import {
-  EoFooterScam,
-  EoHeaderScam,
+  EoFooterComponent,
+  EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { EoScrollViewScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { EoAuthTermsStore } from './eo-auth-terms.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  providers: [EoAuthTermsStore],
+  imports: [
+    FormsModule,
+    WattButtonModule,
+    WattCheckboxModule,
+    EoFooterComponent,
+    EoHeaderComponent,
+    EoPrivacyPolicyComponent,
+    EoScrollViewComponent,
+  ],
   selector: 'eo-auth-terms',
   styles: [
     `
@@ -111,18 +122,3 @@ export class EoAuthFeatureTermsComponent {
     }
   }
 }
-
-@NgModule({
-  providers: [EoAuthTermsStore],
-  declarations: [EoAuthFeatureTermsComponent],
-  imports: [
-    FormsModule,
-    WattButtonModule,
-    WattCheckboxModule,
-    EoFooterScam,
-    EoHeaderScam,
-    EoPrivacyPolicyScam,
-    EoScrollViewScam,
-  ],
-})
-export class EoAuthFeatureTermsScam {}
