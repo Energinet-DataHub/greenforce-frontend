@@ -34,7 +34,7 @@ export default {
         WattFormFieldModule,
         WattInputModule,
         WattModalModule,
-        WattTooltipDirective
+        WattTooltipDirective,
       ],
     }),
   ],

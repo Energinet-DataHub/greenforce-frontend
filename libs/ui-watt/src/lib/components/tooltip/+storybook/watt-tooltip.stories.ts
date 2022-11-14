@@ -79,7 +79,7 @@ Overview.play = async ({ canvasElement }) => {
 
   // Positions are not visible by default, to hide them from the docs page.
   const container = positions.parentElement?.parentElement;
-  if(container) {
+  if (container) {
     container.style.display = 'block';
   }
 
