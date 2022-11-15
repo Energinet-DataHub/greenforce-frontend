@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export class Footer {
+export class FooterPO {
   private logo = 'img[alt="Energinet"].logo';
   private privacyPolicy = 'a[aria-label="privacypolicy"]';
   private accessibility = 'a[aria-label="accessibility"]';

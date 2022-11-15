@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
-import { Footer, LandingPage, Shared } from '../../page-objects';
+import { FooterPO, LandingPagePO, SharedPO } from '../../page-objects';
 
-const landingPage = new LandingPage();
-const footer = new Footer();
-const shared = new Shared();
+const landingPage = new LandingPagePO();
+const footer = new FooterPO();
+const shared = new SharedPO();
 
 Given('I am on the landing page', () => {
   landingPage.navigateTo();

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export class Shared {
+export class SharedPO {
   private onlyNecessaryButton = '[data-testid="button-only-necessary"]';
   private cookieBanner = 'eo-cookie-banner';
   private acceptAllButton = '[data-testid="button-accept-all"]';
@@ -30,4 +30,6 @@ export class Shared {
 
   // Interaction
   clickOnlyNecessaryButton = () => cy.get(this.onlyNecessaryButton).click();
+  clickLogoutMenuItem = () =>
+    cy.get('a.mat-list-item').contains('Log out').click();
 }

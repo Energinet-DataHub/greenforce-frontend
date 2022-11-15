@@ -15,9 +15,17 @@
  * limitations under the License.
  */
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
-import { LandingPage } from '../../page-objects';
+import {
+  DashboardPo,
+  LandingPagePO,
+  LoginPo,
+  SharedPO,
+} from '../../page-objects';
 
-const landingPage = new LandingPage();
+const landingPage = new LandingPagePO();
+const login = new LoginPo();
+const shared = new SharedPO();
+const dashboardPage = new DashboardPo();
 
 Given('I am on the landing page', () => {
   landingPage.navigateTo();
@@ -25,30 +33,27 @@ Given('I am on the landing page', () => {
 });
 
 When('I click the first start button to login', () => {
-  cy.get('eo-landing-page-login-button').first().click();
+  landingPage.clickStartButtonByIndex(0);
 });
 
 When('I see Charlotte CSRs login button and click it', () => {
-  cy.get('[value="Charlotte CSR"]').click();
+  login.clickCharlotteLogin();
 });
 
 When("I see Thomas Tesla's login button and click it", () => {
-  cy.get('[value="Thomas Tesla"]').click();
+  login.clickThomasLogin();
 });
 
 When('I see Ivan Iværksætters login button and click it', () => {
-  cy.get('[value="Ivan Iværksætter"]').click();
+  login.clickIvanLogin();
 });
 
 Then('I can see the dashboard page', () => {
-  cy.get('h2').should('contain.text', 'Dashboard');
-  cy.get('a.mat-list-item').contains('Log out').click();
+  dashboardPage.headerIsVisible();
+  shared.clickLogoutMenuItem();
 });
 
 Then('I am on the landing page again with an error in the URL', () => {
-  cy.get('h1').should('contain.text', 'Your emissions and renewables overview');
-  cy.url().should(
-    'contain',
-    'Private%20users%20are%20not%20allowed%20to%20login'
-  );
+  landingPage.headerIsVisible();
+  landingPage.urlShowsPrivateUserNotAllowed();
 });

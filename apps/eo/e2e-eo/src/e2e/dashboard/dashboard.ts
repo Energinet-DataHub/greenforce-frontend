@@ -15,44 +15,47 @@
  * limitations under the License.
  */
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
-import { LandingPage } from '../../page-objects';
+import {
+  DashboardPo,
+  LandingPagePO,
+  LoginPo,
+  SharedPO,
+} from '../../page-objects';
 
-const landingPage = new LandingPage();
+const dashboard = new DashboardPo();
+const landingPage = new LandingPagePO();
+const login = new LoginPo();
+const shared = new SharedPO();
 
 Given('I am logged in as Charlotte CSR', () => {
   landingPage.navigateTo();
-  cy.get('[data-testid="button-only-necessary"]').click();
-  cy.get('eo-landing-page-login-button').eq(0).click();
-  cy.get('[value="Charlotte CSR"]').click();
-  cy.url().should('not.contain', 'auth/oidc-mock');
+  shared.clickOnlyNecessaryButton(); // To get rid of Cookie Consent banner
+  landingPage.clickStartButtonByIndex(0);
+  login.clickCharlotteLogin();
 });
 
 When('I am on the dashboard page', () => {
-  cy.url().should('contain', 'dashboard');
-  cy.get('h2').should('contain.text', 'Dashboard');
+  dashboard.urlIsDashboardPage();
+  dashboard.headerIsVisible();
 });
 
 Then('I can see the a pie-chart component', () => {
-  cy.get('eo-dashboard-chart-card').should(
-    'contain.html',
-    'eo-origin-of-energy-pie-chart'
-  );
+  dashboard.pieChartIsVisible();
 });
+
 Then('I can see an emissions data component', () => {
-  cy.get('eo-dashboard-emissions-card').should(
-    'contain.html',
-    'eo-emissions-data'
-  );
+  dashboard.emissionCardIsVisible();
 });
 
 Then('I can see an hourly declaration component', () => {
-  cy.get('eo-dashboard-hourly-declaration').should('be.visible');
+  dashboard.hourlyDeclarationIsVisible();
 });
 
 Then('I can see a link collection component', () => {
-  cy.get('eo-dashboard-links').should('be.visible');
-  cy.get('eo-dashboard-links a').should('have.length', 4);
+  dashboard.linkCollectionIsVisible();
+  dashboard.linkCollectionHasAmount(4);
 });
+
 Then('I can see a component for exporting data for CSR', () => {
-  cy.get('eo-dashboard-get-data').should('be.visible');
+  dashboard.exportDataCardIsVisible();
 });

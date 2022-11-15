@@ -17,3 +17,5 @@
 export * from './landing-page.po';
 export * from './shared.po';
 export * from './footer.po';
+export * from './login.po';
+export * from './dashboard.po';
