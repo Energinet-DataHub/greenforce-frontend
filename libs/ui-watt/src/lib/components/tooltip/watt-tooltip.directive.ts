@@ -14,87 +14,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* eslint-disable @angular-eslint/no-host-metadata-property */
-import { AriaDescriber, FocusMonitor } from '@angular/cdk/a11y';
-import { Directionality } from '@angular/cdk/bidi';
-import {
-  Overlay,
-  ScrollDispatcher,
-  ScrollStrategy,
-} from '@angular/cdk/overlay';
-import { Platform } from '@angular/cdk/platform';
-import { DOCUMENT } from '@angular/common';
 import {
   Directive,
   ElementRef,
-  Inject,
+  inject,
   Input,
-  NgZone,
-  Optional,
+  OnInit,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  MatTooltip,
-  MatTooltipDefaultOptions,
-  MAT_TOOLTIP_DEFAULT_OPTIONS,
-  MAT_TOOLTIP_SCROLL_STRATEGY,
-  TooltipPosition,
-} from '@angular/material/tooltip';
 
-export type wattTooltipPosition = TooltipPosition;
+import { WattTooltipComponent } from './watt-tooltip.component';
+
+export type wattTooltipPosition =
+  | 'top-start'
+  | 'top'
+  | 'top-end'
+  | 'right'
+  | 'bottom-start'
+  | 'bottom'
+  | 'bottom-end'
+  | 'left';
 
 @Directive({
   selector: '[wattTooltip]',
+  standalone: true,
   exportAs: 'wattTooltip',
 })
-export class WattTooltipDirective extends MatTooltip {
-  constructor(
-    overlay: Overlay,
-    elementRef: ElementRef<HTMLElement>,
-    scrollDispatcher: ScrollDispatcher,
-    viewContainerRef: ViewContainerRef,
-    ngZone: NgZone,
-    platform: Platform,
-    ariaDescriber: AriaDescriber,
-    focusMonitor: FocusMonitor,
-    @Inject(MAT_TOOLTIP_SCROLL_STRATEGY) scrollStrategy: () => ScrollStrategy,
-    @Optional() dir: Directionality,
-    @Optional()
-    @Inject(MAT_TOOLTIP_DEFAULT_OPTIONS)
-    defaultOptions: MatTooltipDefaultOptions,
-    @Inject(DOCUMENT) _document: Document
-  ) {
-    super(
-      overlay,
-      elementRef,
-      scrollDispatcher,
-      viewContainerRef,
-      ngZone,
-      platform,
-      ariaDescriber,
-      focusMonitor,
-      scrollStrategy,
-      dir,
-      defaultOptions,
-      _document
-    );
+export class WattTooltipDirective implements OnInit {
+  @Input('wattTooltip') text!: string;
+  @Input('wattTooltipPosition') position: wattTooltipPosition = 'top';
 
-    super.position = 'above';
+  private element: HTMLElement = inject(ElementRef).nativeElement;
+  private viewContainerRef = inject(ViewContainerRef);
+
+  ngOnInit(): void {
+    this.createTooltipComponent();
   }
 
-  @Input('wattTooltip')
-  get message(): string {
-    return super.message;
-  }
-  set message(value: string) {
-    super.message = value;
-  }
+  private createTooltipComponent() {
+    const tooltip =
+      this.viewContainerRef.createComponent<WattTooltipComponent>(
+        WattTooltipComponent
+      );
+    tooltip.instance.text = this.text;
+    tooltip.instance.target = this.element;
+    tooltip.instance.position = this.position;
 
-  @Input('wattTooltipPosition')
-  get position(): wattTooltipPosition {
-    return super.position;
-  }
-  set position(value: wattTooltipPosition) {
-    super.position = value;
+    this.element.setAttribute('aria-describedby', tooltip.instance.id);
   }
 }

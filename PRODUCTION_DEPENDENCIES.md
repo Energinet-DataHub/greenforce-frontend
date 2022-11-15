@@ -20,6 +20,7 @@
 | [microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.8 | MIT |
 | [ngneat/transloco](https://github.com/ngneat/transloco) | 4.1.1 | MIT |
 | [ngrx/component-store](https://github.com/ngrx/platform) | 14.3.2 | MIT |
+| [popperjs/core](https://github.com/popperjs/popper-core) | 2.11.6 | MIT |
 | [rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 1.0.0-rc.2 | MIT |
 | [rx-angular/template](https://github.com/rx-angular/rx-angular) | 1.0.0-rc.3 | MIT |
 | [vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
