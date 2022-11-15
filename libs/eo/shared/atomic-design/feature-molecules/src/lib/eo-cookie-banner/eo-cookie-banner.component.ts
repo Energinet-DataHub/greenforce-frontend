@@ -23,8 +23,9 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 @Component({
   selector: 'eo-cookie-banner',
   styles: [
+    //language=scss
     `
-      .banner {
+      :host {
         position: fixed;
         z-index: 100;
         top: 50%;
@@ -46,30 +47,34 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
       }
 
       watt-button ::ng-deep button {
-        width: 160px; //Magic UX number
+        width: 160px; // Magic UX number
       }
     `,
   ],
   template: `
-    <div class="banner">
-      <mat-card>
-        <h1>No cookies, no energy</h1>
-        <p>
-          Some are used for statistics and others are set by third party
-          services.
-        </p>
-        <p>
-          By clicking OK you accept the use of the types of cookies selected
-          below.
-        </p>
-        <div class="buttons">
-          <watt-button variant="secondary" (click)="acceptNecessaryCookies()"
-            >Only necessary</watt-button
-          >
-          <watt-button (click)="acceptAllCookies()">Accept all</watt-button>
-        </div>
-      </mat-card>
-    </div>
+    <mat-card>
+      <h1>No cookies, no energy</h1>
+      <p>
+        Some are used for statistics and others are set by third party services.
+      </p>
+      <p>
+        By clicking OK you accept the use of the types of cookies selected
+        below.
+      </p>
+      <div class="buttons">
+        <watt-button
+          data-testid="button-only-necessary"
+          variant="secondary"
+          (click)="acceptNecessaryCookies()"
+          >Only necessary
+        </watt-button>
+        <watt-button
+          data-testid="button-accept-all"
+          (click)="acceptAllCookies()"
+          >Accept all
+        </watt-button>
+      </div>
+    </mat-card>
   `,
 })
 export class EoCookieBannerComponent {
