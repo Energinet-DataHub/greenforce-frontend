@@ -37,7 +37,7 @@ type unlistenerFunction = () => void;
 @Component({
   template: `
     {{ text }}
-    <div id="arrow"></div>
+    <div class="arrow"></div>
   `,
   selector: 'watt-tooltip',
   standalone: true,

@@ -42,67 +42,67 @@ $offset: 6px;
 
   &[data-popper-placement^="bottom"] {
     inset-block-start: $offset !important;
-    > #arrow {
+    > .arrow {
       top: -#{math.div($arrow-size, 2)};
     }
   }
 
   &[data-popper-placement^="left"] {
     inset-inline-end: $offset !important;
-    > #arrow {
+    > .arrow {
       right: -#{math.div($arrow-size, 2)};
     }
   }
 
   &[data-popper-placement^="right"] {
     inset-inline-start: $offset !important;
-    > #arrow {
+    > .arrow {
       left: -#{math.div($arrow-size, 2)};
     }
   }
 
   &[data-popper-placement="left"],
   &[data-popper-placement="right"] {
-    > #arrow {
+    > .arrow {
       top: calc(50% - math.div($arrow-size, 2));
     }
   }
 
   &[data-popper-placement="top"],
   &[data-popper-placement="bottom"] {
-    > #arrow {
+    > .arrow {
       left: calc(50% - math.div($arrow-size, 2)) !important;
     }
   }
 
   &[data-popper-placement="top-end"],
   &[data-popper-placement="bottom-end"] {
-    > #arrow {
+    > .arrow {
       left: 10px !important;
     }
   }
 
   &[data-popper-placement="top-start"],
   &[data-popper-placement="bottom-start"] {
-    > #arrow {
+    > .arrow {
       left: calc(100% - ($arrow-size + 10px));
     }
   }
 }
 
-#arrow,
-#arrow::before {
+.arrow,
+.arrow::before {
   position: absolute;
   width: $arrow-size;
   height: $arrow-size;
   background: inherit;
 }
 
-#arrow {
+.arrow {
   visibility: hidden;
 }
 
-#arrow::before {
+.arrow::before {
   visibility: visible;
   content: "";
   transform: rotate(45deg);
