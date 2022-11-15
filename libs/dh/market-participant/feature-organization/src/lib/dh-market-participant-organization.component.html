@@ -55,7 +55,7 @@ limitations under the License.
     <ng-container *rxLet="overviewList$ as overviewList">
       <watt-empty-state
         *ngIf="!isLoading && overviewList.length === 0"
-        icon="power"
+        icon="custom-power"
         size="small"
         [title]="t('noOrganizations')"
       ></watt-empty-state>
