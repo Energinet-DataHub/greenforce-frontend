@@ -75,7 +75,7 @@ jobs:
         run: npm run ngcc:dh
 
       - name: Production build
-        run: yarn nx build ${{ env.APP_NAME }} --max-parallel=$${{ env.NX_MAX_PARALLEL }}
+        run: yarn nx build ${{ env.APP_NAME }} --max-parallel=${{ env.NX_MAX_PARALLEL }}
 
       - name: Optimize i18n assets
         run: yarn i18n:optimize:${{ env.APP_NAME }}
