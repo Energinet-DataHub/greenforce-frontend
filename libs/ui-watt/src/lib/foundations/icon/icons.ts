@@ -55,6 +55,9 @@ const materialIcons = {
   download: 'cloud_download',
   print: 'print',
   preview: 'preview',
+  // Other
+  power: 'power',
+  location: 'location_on',
 };
 
 /**

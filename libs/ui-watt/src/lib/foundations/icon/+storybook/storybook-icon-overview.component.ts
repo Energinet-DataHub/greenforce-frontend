@@ -118,5 +118,11 @@ export class StorybookIconOverviewComponent {
         { name: 'Payments', icon: 'payments' },
       ],
     },
+    {
+      icons: [
+        { name: 'power', icon: 'power' },
+        { name: 'location', icon: 'location' },
+      ],
+    },
   ];
 }
