@@ -24,14 +24,14 @@ limitations under the License.
 
   <watt-empty-state
     *ngIf="notFound$ | push"
-    icon="explore"
+    icon="custom-explore"
     [title]="transloco('noMeteringPointFoundTitle')"
     [message]="transloco('noMeteringPointFoundMessage')"
   ></watt-empty-state>
 
   <watt-empty-state
     *ngIf="hasGeneralError$ | push"
-    icon="power"
+    icon="custom-power"
     [title]="transloco('serverErrorTitle')"
     [message]="transloco('serverErrorMessage')"
   ></watt-empty-state>

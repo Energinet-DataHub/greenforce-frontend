@@ -19,8 +19,8 @@ limitations under the License.
 >
   <div class="column flex">
     <watt-icon
-      name="map_marker"
-      label="map_marker"
+      name="custom-map-marker"
+      label="map marker"
       size="xl"
       aria-hidden
     ></watt-icon>
@@ -67,7 +67,12 @@ limitations under the License.
         property: 'electricitySupplier'
       "
     >
-      <watt-icon name="power" label="power" size="xl" aria-hidden></watt-icon>
+      <watt-icon
+        name="custom-power"
+        label="power"
+        size="xl"
+        aria-hidden
+      ></watt-icon>
       <dl>
         <dt class="watt-label">
           {{ transloco("hasElectricitySupplier") }}
@@ -86,7 +91,12 @@ limitations under the License.
     </section>
 
     <section>
-      <watt-icon name="meter" label="meter" size="xl" aria-hidden></watt-icon>
+      <watt-icon
+        name="custom-meter"
+        label="meter"
+        size="xl"
+        aria-hidden
+      ></watt-icon>
       <dl>
         <dt class="watt-label">{{ transloco("meterNumber") }}</dt>
         <dd>
