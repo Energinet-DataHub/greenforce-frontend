@@ -124,7 +124,7 @@ limitations under the License.
       >
         <watt-empty-state
           class="no-result-div"
-          icon="explore"
+          icon="custom-explore"
           size="large"
           title="{{ t('noResultsFound') }}"
           message="{{ t('noChargePriceResultsHelperText') }}"
@@ -136,7 +136,7 @@ limitations under the License.
       <ng-container *ngIf="hasLoadingError | push">
         <watt-empty-state
           class="loading-error"
-          icon="power"
+          icon="custom-power"
           title="{{ t('loadingErrorTitle') }}"
           message="{{ t('loadingErrorMessage') }}"
         ></watt-empty-state>

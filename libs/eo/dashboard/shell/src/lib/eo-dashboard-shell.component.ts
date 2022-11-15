@@ -58,7 +58,7 @@ import { EoDashboardLinksScam } from './eo-dashboard-links.component';
       </div>
     </div>
     <eo-inline-message type="warning">
-      <watt-icon name="primary_info" size="l"></watt-icon>
+      <watt-icon name="custom-primary-info" size="l"></watt-icon>
       <p>
         The Energy Origin Platform is <strong>under development</strong> and new
         functionalities will be released continuously. The first release of the
