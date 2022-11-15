@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,9 +34,3 @@ import { RouterModule } from '@angular/router';
   template: `<router-outlet></router-outlet>`,
 })
 export class EnergyOriginAppComponent {}
-
-@NgModule({
-  declarations: [EnergyOriginAppComponent],
-  imports: [RouterModule],
-})
-export class EnergyOriginAppScam {}

@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [RouterModule],
   selector: 'eo-footer',
   styles: [
     `
@@ -125,10 +127,3 @@ import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities
   `,
 })
 export class EoFooterComponent {}
-
-@NgModule({
-  declarations: [EoFooterComponent],
-  imports: [RouterModule],
-  exports: [EoFooterComponent],
-})
-export class EoFooterScam {}

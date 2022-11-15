@@ -14,11 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  EoPrivacyPolicyShellComponent,
-  EoPrivacyPolicyShellScam,
-} from './eo-privacy-policy-shell.component';
 import { RouterModule, Routes } from '@angular/router';
+import { EoPrivacyPolicyShellComponent } from './eo-privacy-policy-shell.component';
 
 import { NgModule } from '@angular/core';
 
@@ -30,6 +27,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), EoPrivacyPolicyShellScam],
+  imports: [RouterModule.forChild(routes), EoPrivacyPolicyShellComponent],
 })
 export class EoPrivacyPolicyShellModule {}

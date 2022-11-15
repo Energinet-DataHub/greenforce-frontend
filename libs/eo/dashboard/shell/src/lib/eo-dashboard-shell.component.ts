@@ -14,17 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { EoInlineMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { EoDashboardChartCardScam } from './eo-dashboard-chart-card.component';
-import { EoDashboardEmissionsCardScam } from './eo-dashboard-emissions-card.component';
-import { EoDashboardGetDataScam } from './eo-dashboard-get-data.component';
-import { EoDashboardHourlyDeclarationScam } from './eo-dashboard-hourly-declaration.component';
-import { EoDashboardLinksScam } from './eo-dashboard-links.component';
+import { EoDashboardChartCardComponent } from './eo-dashboard-chart-card.component';
+import { EoDashboardEmissionsCardComponent } from './eo-dashboard-emissions-card.component';
+import { EoDashboardGetDataComponent } from './eo-dashboard-get-data.component';
+import { EoDashboardHourlyDeclarationComponent } from './eo-dashboard-hourly-declaration.component';
+import { EoDashboardLinksComponent } from './eo-dashboard-links.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    WattIconModule,
+    EoInlineMessageComponent,
+    EoDashboardLinksComponent,
+    EoDashboardGetDataComponent,
+    EoDashboardHourlyDeclarationComponent,
+    EoDashboardChartCardComponent,
+    EoDashboardEmissionsCardComponent,
+  ],
   selector: 'eo-dashboard-shell',
   styles: [
     `
@@ -76,18 +86,3 @@ import { EoDashboardLinksScam } from './eo-dashboard-links.component';
   `,
 })
 export class EoDashboardShellComponent {}
-
-@NgModule({
-  declarations: [EoDashboardShellComponent],
-  exports: [EoDashboardShellComponent],
-  imports: [
-    WattIconModule,
-    EoInlineMessageScam,
-    EoDashboardLinksScam,
-    EoDashboardGetDataScam,
-    EoDashboardHourlyDeclarationScam,
-    EoDashboardChartCardScam,
-    EoDashboardEmissionsCardScam,
-  ],
-})
-export class EoDashboardShellScam {}

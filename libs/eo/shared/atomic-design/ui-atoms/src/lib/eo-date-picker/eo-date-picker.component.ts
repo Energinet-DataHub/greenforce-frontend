@@ -21,7 +21,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  NgModule,
   OnInit,
   Output,
   ViewChild,
@@ -39,6 +38,8 @@ import { EoDatePickerDialogComponent } from './eo-date-picker-dialog.component';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [MatIconModule, MatDialogModule, CommonModule],
   selector: 'eo-date-picker',
   styles: [
     `
@@ -133,10 +134,3 @@ export class EoDatePickerComponent implements OnInit {
     return new Date(dateInput).setDate(new Date(dateInput).getDate() - 1);
   }
 }
-
-@NgModule({
-  declarations: [EoDatePickerComponent],
-  imports: [MatIconModule, MatDialogModule, CommonModule],
-  exports: [EoDatePickerComponent],
-})
-export class EoDatePickerScam {}
