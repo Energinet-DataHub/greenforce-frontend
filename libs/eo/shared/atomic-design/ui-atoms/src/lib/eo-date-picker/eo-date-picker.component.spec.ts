@@ -15,16 +15,13 @@
  * limitations under the License.
  */
 import { render } from '@testing-library/angular';
-import {
-  EoDatePickerComponent,
-  EoDatePickerScam,
-} from './eo-date-picker.component';
+import { EoDatePickerComponent } from './eo-date-picker.component';
 
 describe(`${EoDatePickerComponent.name} component API`, () => {
   it('Displays a date picker', async () => {
     // Arrange
     await render(`<eo-date-picker></eo-date-picker>`, {
-      imports: [EoDatePickerScam],
+      imports: [EoDatePickerComponent],
     });
 
     // Act

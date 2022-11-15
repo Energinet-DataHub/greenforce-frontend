@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EoFaqShellComponent, EoFaqShellScam } from './eo-faq-shell.component';
 import { RouterModule, Routes } from '@angular/router';
+import { EoFaqShellComponent } from './eo-faq-shell.component';
 
 import { NgModule } from '@angular/core';
 
@@ -27,6 +27,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), EoFaqShellScam],
+  imports: [RouterModule.forChild(routes), EoFaqShellComponent],
 })
 export class EoFaqShellModule {}

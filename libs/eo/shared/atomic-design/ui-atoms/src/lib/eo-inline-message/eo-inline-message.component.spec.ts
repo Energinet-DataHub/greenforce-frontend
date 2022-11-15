@@ -17,10 +17,7 @@
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { render, screen } from '@testing-library/angular';
 
-import {
-  EoInlineMessageComponent,
-  EoInlineMessageScam,
-} from './eo-inline-message.component';
+import { EoInlineMessageComponent } from './eo-inline-message.component';
 
 describe(`${EoInlineMessageComponent.name} component API`, () => {
   it('projects a Watt Icon', async () => {
@@ -28,7 +25,7 @@ describe(`${EoInlineMessageComponent.name} component API`, () => {
     await render(
       `<eo-inline-message><watt-icon name="primary_info" label="Test icon"></watt-icon></eo-inline-message>`,
       {
-        imports: [EoInlineMessageScam, WattIconModule],
+        imports: [EoInlineMessageComponent, WattIconModule],
       }
     );
 
@@ -43,7 +40,7 @@ describe(`${EoInlineMessageComponent.name} component API`, () => {
   it('projects content', async () => {
     // Arrange
     await render(`<eo-inline-message><p>Test content</p></eo-inline-message>`, {
-      imports: [EoInlineMessageScam],
+      imports: [EoInlineMessageComponent],
     });
 
     // Act

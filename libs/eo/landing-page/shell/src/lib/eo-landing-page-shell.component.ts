@@ -15,27 +15,36 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  NgModule,
-} from '@angular/core';
-import { EoCookieBannerComponentScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoLandingPageAudienceScam } from './eo-landing-page-audience.component';
-import { EoLandingPageCallToActionScam } from './eo-landing-page-call-to-action.component';
-import { EoLandingPageCompanyScam } from './eo-landing-page-company.component';
-import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
-import { EoLandingPageHeroScam } from './eo-landing-page-hero.component';
-import { EoLandingPageIntroductionScam } from './eo-landing-page-introduction.component';
-import { EoLandingPageNotificationScam } from './eo-landing-page-notification.component';
-import { EoLandingPageOriginOfEnergyScam } from './eo-landing-page-origin-of-energy.component';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { EoCookieBannerComponentComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoLandingPageAudienceComponent } from './eo-landing-page-audience.component';
+import { EoLandingPageCallToActionComponent } from './eo-landing-page-call-to-action.component';
+import { EoLandingPageCompanyComponent } from './eo-landing-page-company.component';
+import { EoLandingPageHeaderComponent } from './eo-landing-page-header.component';
+import { EoLandingPageHeroComponent } from './eo-landing-page-hero.component';
+import { EoLandingPageIntroductionComponent } from './eo-landing-page-introduction.component';
+import { EoLandingPageNotificationComponent } from './eo-landing-page-notification.component';
+import { EoLandingPageOriginOfEnergyComponent } from './eo-landing-page-origin-of-energy.component';
 import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 import { EoLandingPageStore } from './eo-landing-page.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    EoFooterComponent,
+    EoLandingPageAudienceComponent,
+    EoLandingPageCallToActionComponent,
+    EoLandingPageCompanyComponent,
+    EoLandingPageHeaderComponent,
+    EoLandingPageHeroComponent,
+    EoLandingPageIntroductionComponent,
+    EoLandingPageNotificationComponent,
+    EoLandingPageOriginOfEnergyComponent,
+    EoCookieBannerComponentComponent,
+    CommonModule,
+  ],
   selector: 'eo-landing-page-shell',
   styles: [
     `
@@ -108,21 +117,3 @@ export class EoLandingPageShellComponent {
     this.cookiesSet = localStorage.getItem('cookiesAccepted');
   }
 }
-
-@NgModule({
-  declarations: [EoLandingPageShellComponent],
-  imports: [
-    EoFooterScam,
-    EoLandingPageAudienceScam,
-    EoLandingPageCallToActionScam,
-    EoLandingPageCompanyScam,
-    EoLandingPageHeaderScam,
-    EoLandingPageHeroScam,
-    EoLandingPageIntroductionScam,
-    EoLandingPageNotificationScam,
-    EoLandingPageOriginOfEnergyScam,
-    EoCookieBannerComponentScam,
-    CommonModule,
-  ],
-})
-export class EoLandingPageShellScam {}

@@ -18,7 +18,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  NgModule,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -27,6 +26,7 @@ export type StackSize = 'XS' | 'S' | 'M' | 'L' | 'XL';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
   selector: 'eo-stack',
   styles: [
     `
@@ -65,9 +65,3 @@ export type StackSize = 'XS' | 'S' | 'M' | 'L' | 'XL';
 export class EoStackComponent {
   @Input() size: StackSize = 'L';
 }
-
-@NgModule({
-  declarations: [EoStackComponent],
-  exports: [EoStackComponent],
-})
-export class EoStackScam {}

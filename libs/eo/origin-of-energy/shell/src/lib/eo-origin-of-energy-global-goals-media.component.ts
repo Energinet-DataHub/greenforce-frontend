@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'eo-origin-of-energy-global-goals-media',
   template: ` <div class="global-goals-box">
     <img
@@ -47,10 +48,3 @@ import { Component, NgModule } from '@angular/core';
   ],
 })
 export class EoOriginOfEnergyGlobalGoalsMediaComponent {}
-
-@NgModule({
-  declarations: [EoOriginOfEnergyGlobalGoalsMediaComponent],
-  exports: [EoOriginOfEnergyGlobalGoalsMediaComponent],
-  imports: [],
-})
-export class EoOriginOfEnergyGlobalGoalsMediaScam {}
