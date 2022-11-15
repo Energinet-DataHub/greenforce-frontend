@@ -38,7 +38,8 @@ describe(WattTooltipDirective.name, () => {
   const getTooltip = () => screen.getByText('Click me');
   const getTooltipTarget = () => screen.getByText('Button');
 
-  const isTooltipVisible = (): boolean => getTooltip().classList.contains('show');
+  const isTooltipVisible = (): boolean =>
+    getTooltip().classList.contains('show');
 
   it('always displays accessible tooltip', async () => {
     await setup();
