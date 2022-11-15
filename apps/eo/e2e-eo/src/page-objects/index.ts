@@ -14,10 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const findDrawer = () => cy.get('mat-sidenav:not(.ng-animating)');
-export const findLogOutMenuItem = () =>
-  cy.findByRole('link', { name: /Log out/i });
-export const findMenu = () =>
-  cy.findByLabelText(/Menu/i, {
-    selector: 'mat-sidenav:not(.ng-animating) *',
-  });
+export * from './landing-page.po';
+export * from './shared.po';
+export * from './footer.po';
+export * from './login.po';
+export * from './dashboard.po';
