@@ -16,12 +16,12 @@
  */
 import { Component, Input } from '@angular/core';
 import { WattIconModule } from '../../../foundations/icon';
-import { WattTooltipModule } from '../../tooltip';
+import { WattTooltipDirective } from '../../tooltip';
 import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
 
 @Component({
   standalone: true,
-  imports: [WattTooltipModule, WattIconModule, WattCopyToClipboardDirective],
+  imports: [WattTooltipDirective, WattIconModule, WattCopyToClipboardDirective],
   selector: 'watt-storybook-copy-to-clipboard',
   styles: [
     `
@@ -44,7 +44,6 @@ import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directiv
       class="watt-storybook-copy-to-clipboard"
       [wattCopyToClipboard]="text"
       [wattTooltip]="tooltip"
-      wattTooltipPosition="above"
     >
       <ng-content></ng-content>
       <watt-icon size="s" name="contentCopy"></watt-icon>
