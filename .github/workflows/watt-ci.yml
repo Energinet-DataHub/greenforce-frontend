@@ -19,10 +19,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  APP_NAME: ui-watt
-  IS_MAIN_BRANCH: ${{ github.ref == 'refs/heads/main' }}
-  IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
-  NODE_OPTIONS: --max-old-space-size=6144
+  APP_NAME: designsystem
   NODE_VERSION_FILE: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
   YARN_VERSION: 1.22.19
