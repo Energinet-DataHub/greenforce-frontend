@@ -16,15 +16,23 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { EoLineChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoLineChartComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { LetModule } from '@rx-angular/template';
 import { map } from 'rxjs';
 import { EoProductionStore } from './eo-production.store';
 
 @Component({
+  standalone: true,
+  imports: [
+    LetModule,
+    MatCardModule,
+    EoLineChartComponent,
+    CommonModule,
+    WattSpinnerModule,
+  ],
   selector: 'eo-production-line-chart',
   template: ` <mat-card class="chart-card watt-space-inline-l">
     <h3 class="watt-space-stack-s">kWh</h3>
@@ -66,16 +74,3 @@ export class EoProductionLineChartComponent {
 
   constructor(private store: EoProductionStore) {}
 }
-
-@NgModule({
-  declarations: [EoProductionLineChartComponent],
-  exports: [EoProductionLineChartComponent],
-  imports: [
-    LetModule,
-    MatCardModule,
-    EoLineChartScam,
-    CommonModule,
-    WattSpinnerModule,
-  ],
-})
-export class EoProductionLineChartScam {}

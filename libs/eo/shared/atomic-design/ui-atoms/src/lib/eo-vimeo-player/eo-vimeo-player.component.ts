@@ -21,7 +21,6 @@ import {
   Component,
   ElementRef,
   Input,
-  NgModule,
   SecurityContext,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -29,6 +28,8 @@ import Player from '@vimeo/player';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CommonModule],
   selector: 'eo-vimeo-player',
   styles: [
     `
@@ -136,10 +137,3 @@ export class EoVimeoPlayerComponent {
     vimeoPlayer.play();
   }
 }
-
-@NgModule({
-  declarations: [EoVimeoPlayerComponent],
-  exports: [EoVimeoPlayerComponent],
-  imports: [CommonModule],
-})
-export class EoVimeoPlayerScam {}

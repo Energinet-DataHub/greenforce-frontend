@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { EoEmissionsStore } from './eo-emissions.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CommonModule, WattSpinnerModule],
   selector: 'eo-emissions-data',
   styles: [
     `
@@ -62,10 +64,3 @@ export class EoEmissionsDataComponent {
     return Number((num / 1000).toFixed(0));
   }
 }
-
-@NgModule({
-  declarations: [EoEmissionsDataComponent],
-  exports: [EoEmissionsDataComponent],
-  imports: [CommonModule, WattSpinnerModule],
-})
-export class EoEmissionsDataScam {}

@@ -14,11 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatCardModule],
   selector: 'eo-production-tip',
   styles: [
     `
@@ -59,10 +61,3 @@ import { MatCardModule } from '@angular/material/card';
   `,
 })
 export class EoProductionTipComponent {}
-
-@NgModule({
-  declarations: [EoProductionTipComponent],
-  imports: [MatCardModule],
-  exports: [EoProductionTipComponent],
-})
-export class EoProductionTipScam {}
