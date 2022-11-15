@@ -61,11 +61,11 @@ const materialIcons = {
  * Icons manually registered
  */
 export const customIcons = {
-  power: 'power',
-  explore: 'explore',
-  meter: 'meter',
-  map_marker: 'map_marker',
-  primary_info: 'primary_info',
+  'custom-power': 'power',
+  'custom-explore': 'explore',
+  'custom-meter': 'meter',
+  'custom-map-marker': 'map-marker',
+  'custom-primary-info': 'primary-info',
 };
 
 export const allIcons = { ...materialIcons, ...customIcons };
