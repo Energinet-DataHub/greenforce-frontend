@@ -2,6 +2,7 @@ import { create } from '@storybook/theming';
 
 export default create({
   base: 'light',
+  brandImage: '/assets/ui-watt/watt-logo.svg',
   /*
   base: 'light',
 
