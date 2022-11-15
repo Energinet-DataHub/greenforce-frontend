@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
+  standalone: true,
+  imports: [MatCardModule],
   selector: 'eo-origin-of-energy-hourly-declaration',
   template: `<mat-card class="description-card">
     <p class="watt-space-stack-m"><strong>Hourly Declaration</strong></p>
@@ -44,10 +46,3 @@ import { MatCardModule } from '@angular/material/card';
   ],
 })
 export class EoOriginOfEnergyHourlyDeclarationComponent {}
-
-@NgModule({
-  declarations: [EoOriginOfEnergyHourlyDeclarationComponent],
-  exports: [EoOriginOfEnergyHourlyDeclarationComponent],
-  imports: [MatCardModule],
-})
-export class EoOriginOfEnergyHourlyDeclarationScam {}

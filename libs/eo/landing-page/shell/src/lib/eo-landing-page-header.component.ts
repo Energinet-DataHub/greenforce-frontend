@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoHeaderScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { EoHeaderComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoLandingPageLoginButtonComponent } from './eo-landing-page-login-button.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [EoHeaderComponent, EoLandingPageLoginButtonComponent],
   selector: 'eo-landing-page-header',
   styles: [
     `
@@ -35,10 +37,3 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
   `,
 })
 export class EoLandingPageHeaderComponent {}
-
-@NgModule({
-  declarations: [EoLandingPageHeaderComponent],
-  exports: [EoLandingPageHeaderComponent],
-  imports: [EoHeaderScam, EoLandingPageLoginButtonScam],
-})
-export class EoLandingPageHeaderScam {}

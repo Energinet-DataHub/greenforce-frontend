@@ -15,26 +15,39 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoPopupMessageScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import {
-  EoDatePickerScam,
-  EoResolutionPickerScam,
-  EoStackScam,
+  EoDatePickerComponent,
+  EoResolutionPickerComponent,
+  EoStackComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import {
   AppSettingsStore,
   CalendarDateRange,
-  EoFeatureFlagScam,
+  EoFeatureFlagDirective,
 } from '@energinet-datahub/eo/shared/services';
 import { LetModule } from '@rx-angular/template';
-import { EoProductionLineChartScam } from './eo-production-chart-card.component';
-import { EoProductionInfoScam } from './eo-production-info.component';
-import { EoProductionTipScam } from './eo-production-tip.component';
+import { EoProductionLineChartComponent } from './eo-production-chart-card.component';
+import { EoProductionInfoComponent } from './eo-production-info.component';
+import { EoProductionTipComponent } from './eo-production-tip.component';
 import { EoProductionStore } from './eo-production.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    EoPopupMessageComponent,
+    EoFeatureFlagDirective,
+    CommonModule,
+    LetModule,
+    EoDatePickerComponent,
+    EoResolutionPickerComponent,
+    EoStackComponent,
+    EoProductionTipComponent,
+    EoProductionInfoComponent,
+    EoProductionLineChartComponent,
+  ],
   selector: 'eo-production-shell',
   styles: [
     `
@@ -83,20 +96,3 @@ export class EoProductionShellComponent {
     this.appSettingsStore.setCalendarDateRange(dates);
   }
 }
-
-@NgModule({
-  declarations: [EoProductionShellComponent],
-  imports: [
-    EoPopupMessageScam,
-    EoFeatureFlagScam,
-    CommonModule,
-    LetModule,
-    EoDatePickerScam,
-    EoResolutionPickerScam,
-    EoStackScam,
-    EoProductionTipScam,
-    EoProductionInfoScam,
-    EoProductionLineChartScam,
-  ],
-})
-export class EoProductionShellScam {}

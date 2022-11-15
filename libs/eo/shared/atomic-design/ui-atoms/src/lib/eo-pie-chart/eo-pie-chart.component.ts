@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DoCheck, Input, NgModule, ViewChild } from '@angular/core';
+import { Component, DoCheck, Input, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import DatalabelsPlugin, { Context } from 'chartjs-plugin-datalabels';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 
 @Component({
+  standalone: true,
+  imports: [NgChartsModule],
   selector: 'eo-pie-chart',
   template: `<canvas
     baseChart
@@ -108,10 +110,3 @@ export class EoPieChartComponent implements DoCheck {
     }
   }
 }
-
-@NgModule({
-  declarations: [EoPieChartComponent],
-  exports: [EoPieChartComponent],
-  imports: [NgChartsModule],
-})
-export class EoPieChartScam {}

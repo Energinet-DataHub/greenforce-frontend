@@ -106,4 +106,4 @@ export class EoCookieBannerComponent {
   exports: [EoCookieBannerComponent],
   imports: [WattButtonModule, MatCardModule, MatSlideToggleModule, FormsModule],
 })
-export class EoCookieBannerComponentScam {}
+export class EoCookieBannerComponentComponent {}
