@@ -14,13 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  Inject,
-  NgModule,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, Inject, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   DateRange,
@@ -35,6 +29,8 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 @Component({
   selector: 'eo-date-picker-dialog',
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [MatDatepickerModule, WattButtonModule, MatRadioModule, FormsModule],
   styles: [
     `
       .dialog-container {
@@ -272,10 +268,3 @@ export class EoDatePickerDialogComponent {
     return new Date(input).setDate(new Date(input).getDate() - 1);
   }
 }
-
-@NgModule({
-  declarations: [EoDatePickerDialogComponent],
-  imports: [MatDatepickerModule, WattButtonModule, MatRadioModule, FormsModule],
-  exports: [EoDatePickerDialogComponent],
-})
-export class EoDatePickerDialogScam {}

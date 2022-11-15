@@ -15,19 +15,30 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { EoCookieBannerComponentScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoCookieBannerComponentComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { EoProductLogoComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoTitleStore } from '@energinet-datahub/eo/shared/utilities';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { PushModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
-import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
+import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    RouterModule,
+    WattShellComponent,
+    EoPrimaryNavigationComponent,
+    EoCookieBannerComponentComponent,
+    EoProductLogoComponent,
+    EoFooterComponent,
+    PushModule,
+    CommonModule,
+  ],
   selector: 'eo-shell',
   styles: [
     `
@@ -146,18 +157,3 @@ export class EoShellComponent {
     this.cookiesSet = localStorage.getItem('cookiesAccepted');
   }
 }
-
-@NgModule({
-  declarations: [EoShellComponent],
-  imports: [
-    RouterModule,
-    WattShellComponent,
-    EoPrimaryNavigationScam,
-    EoCookieBannerComponentScam,
-    EoProductLogoScam,
-    EoFooterScam,
-    PushModule,
-    CommonModule,
-  ],
-})
-export class EoShellScam {}
