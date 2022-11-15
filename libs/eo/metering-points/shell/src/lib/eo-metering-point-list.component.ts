@@ -16,10 +16,12 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoMeteringPointsStore } from './eo-metering-points.store';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'eo-metering-points-list',
   styles: [
     `
@@ -102,10 +104,3 @@ export class EoMeteringPointListComponent {
 
   constructor(private store: EoMeteringPointsStore) {}
 }
-
-@NgModule({
-  declarations: [EoMeteringPointListComponent],
-  exports: [EoMeteringPointListComponent],
-  imports: [CommonModule],
-})
-export class EoMeteringPointListScam {}

@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { eoFaqRoutePath } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
   selector: 'eo-faq-shell',
   styles: [
     `
@@ -113,8 +114,3 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/shared/utilities';
   `,
 })
 export class EoFaqShellComponent {}
-
-@NgModule({
-  declarations: [EoFaqShellComponent],
-})
-export class EoFaqShellScam {}

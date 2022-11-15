@@ -26,7 +26,6 @@ describe(EoPieChartComponent.name, () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EoPieChartComponent],
       imports: [NgChartsModule],
     });
     fixture = TestBed.createComponent(EoPieChartComponent);

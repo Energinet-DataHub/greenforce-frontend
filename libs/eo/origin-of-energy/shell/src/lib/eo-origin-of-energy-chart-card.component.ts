@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { EoOriginOfEnergyPieChartScam } from './eo-origin-of-energy-pie-chart.component';
+import { EoOriginOfEnergyPieChartComponent } from './eo-origin-of-energy-pie-chart.component';
 
 @Component({
+  standalone: true,
+  imports: [EoOriginOfEnergyPieChartComponent, MatCardModule],
   selector: 'eo-origin-of-energy-chart-card',
   template: ` <mat-card>
     <h3>Your share of renewable energy in 2021</h3>
@@ -41,10 +43,3 @@ import { EoOriginOfEnergyPieChartScam } from './eo-origin-of-energy-pie-chart.co
   ],
 })
 export class EoOriginOfEnergyChartCardComponent {}
-
-@NgModule({
-  declarations: [EoOriginOfEnergyChartCardComponent],
-  exports: [EoOriginOfEnergyChartCardComponent],
-  imports: [EoOriginOfEnergyPieChartScam, MatCardModule],
-})
-export class EoOriginOfEnergyChartCardScam {}
