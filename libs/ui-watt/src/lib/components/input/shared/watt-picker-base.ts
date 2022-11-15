@@ -17,6 +17,7 @@
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Directive,
   ElementRef,
   Input,
@@ -243,6 +244,7 @@ export abstract class WattPickerBase
     protected inputMaskService: WattInputMaskService,
     protected rangeInputService: WattRangeInputService,
     protected elementRef: ElementRef<HTMLElement>,
+    protected changeDetectionRef: ChangeDetectorRef,
     @Optional() ngControl: NgControl
   ) {
     this.elementRef.nativeElement.setAttribute('id', id);
@@ -343,6 +345,7 @@ export abstract class WattPickerBase
    */
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+    this.changeDetectionRef.detectChanges();
   }
 
   /**
