@@ -127,6 +127,7 @@ export class WattDatepickerComponent extends WattPickerBase {
       inputMaskService,
       rangeInputService,
       elementRef,
+      cdr,
       ngControl
     );
   }
