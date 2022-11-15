@@ -16,6 +16,7 @@
  */
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostBinding,
@@ -198,6 +199,7 @@ export class WattTimepickerComponent extends WattPickerBase {
     protected inputMaskService: WattInputMaskService,
     protected rangeInputService: WattRangeInputService,
     protected elementRef: ElementRef<HTMLElement>,
+    protected changeDetectionRef: ChangeDetectorRef,
     @Optional() @Self() ngControl: NgControl
   ) {
     super(
@@ -205,6 +207,7 @@ export class WattTimepickerComponent extends WattPickerBase {
       inputMaskService,
       rangeInputService,
       elementRef,
+      changeDetectionRef,
       ngControl
     );
   }
