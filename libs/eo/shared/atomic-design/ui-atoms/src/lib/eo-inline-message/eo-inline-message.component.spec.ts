@@ -26,7 +26,7 @@ describe(`${EoInlineMessageComponent.name} component API`, () => {
   it('projects a Watt Icon', async () => {
     // Arrange
     await render(
-      `<eo-inline-message><watt-icon name="primary_info" label="Test icon"></watt-icon></eo-inline-message>`,
+      `<eo-inline-message><watt-icon name="custom-primary-info" label="Test icon"></watt-icon></eo-inline-message>`,
       {
         imports: [EoInlineMessageScam, WattIconModule],
       }
