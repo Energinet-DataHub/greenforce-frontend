@@ -26,7 +26,7 @@ import { formatInTimeZone } from 'date-fns-tz';
 import Meta, {
   initialValueSingle,
   initialValueRangeStart,
-  initialValueRangeEnd,
+  initialValueRangeEnd_EndOfDay,
   withFormControl as WithFormControl,
   withInitialValue as WithInitialValue,
   withValidations as WithValidations,
@@ -222,7 +222,7 @@ describe('Datepicker', () => {
 
       it('should only output valid end date', async () => {
         const { endDateInput } = await setup(withFormControl);
-        const expectedDate = initialValueRangeEnd;
+        const expectedDate = initialValueRangeEnd_EndOfDay;
         const expectedDateWithoutSeperators = formatDateAs(
           expectedDate,
           'ddMMyyyy'
@@ -285,9 +285,12 @@ describe('Datepicker', () => {
       it('should be able to paste `yyyy-MM-dd` format into end date', async () => {
         const { endDateInput } = await setup(withFormControl);
 
-        const dateToPaste = formatDateAs(initialValueRangeEnd, pasteDateFormat);
+        const dateToPaste = formatDateAs(
+          initialValueRangeEnd_EndOfDay,
+          pasteDateFormat
+        );
         const expectedDate = formatDateAs(
-          initialValueRangeEnd,
+          initialValueRangeEnd_EndOfDay,
           displayDateFormat
         );
 
@@ -338,7 +341,7 @@ describe('Datepicker', () => {
 
         expect(
           screen.getByText(
-            `{ "start": "${initialValueRangeStart}", "end": "${initialValueRangeEnd}" }`
+            `{ "start": "${initialValueRangeStart}", "end": "${initialValueRangeEnd_EndOfDay}" }`
           )
         ).toBeInTheDocument();
       });
@@ -369,7 +372,7 @@ describe('Datepicker', () => {
         userEvent.click(dayButtonEnd);
 
         expect(screen.getByTestId('rangeValue')).toHaveTextContent(
-          `{ "start": "${initialValueRangeStart}", "end": "2022-09-27T22:00:00.000Z" }`
+          `{ "start": "${initialValueRangeStart}", "end": "2022-09-28T21:59:59.999Z" }`
         );
       });
     });
