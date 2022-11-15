@@ -40,12 +40,13 @@ limitations under the License.
     </span>
     |
 
-    <ng-container *ngIf="identityDetails?.meterId">
-      <span [title]="t('primaryMasterData.meterNumber')">
-        {{ t("primaryMasterData.meterNumber") }}:
-        {{ identityDetails.meterId }}
-      </span>
-    </ng-container>
+    <span
+      *ngIf="identityDetails?.meterId"
+      [title]="t('primaryMasterData.meterNumber')"
+    >
+      {{ t("primaryMasterData.meterNumber") }}:
+      {{ identityDetails.meterId }}
+    </span>
   </div>
 
   <div class="overview-header__row" [title]="t('gsrnNumber')">
