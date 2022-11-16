@@ -18,6 +18,7 @@ on:
   push:
     branches:
       - main
+      - new-dhui-cicd
   pull_request: {}
 
 jobs:
