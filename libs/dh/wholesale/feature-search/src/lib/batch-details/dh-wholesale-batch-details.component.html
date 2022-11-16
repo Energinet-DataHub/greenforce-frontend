@@ -55,6 +55,7 @@ limitations under the License.
     </dl>
     <dh-wholesale-grid-areas
       [data]="batch.batchGridAreas"
+      (selected)="onGridAreaSelected($event)"
     ></dh-wholesale-grid-areas>
   </watt-drawer-content>
 </watt-drawer>

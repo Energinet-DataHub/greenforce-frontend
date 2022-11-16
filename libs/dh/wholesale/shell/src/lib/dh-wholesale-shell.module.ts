@@ -29,6 +29,13 @@ import {
   DhWholesaleOverviewScam,
 } from '@energinet-datahub/dh/wholesale/feature-overview';
 
+import {
+  WHOLESALE_CALCULATION_STEPS_PATH,
+  WHOLESALE_CALCULATION_STEPS_BATCH_PARAM,
+  WHOLESALE_CALCULATION_STEPS_GRID_AREA_PARAM,
+  DhWholesaleCalculationStepsComponent,
+} from '@energinet-datahub/dh/wholesale/feature-calculation-steps';
+
 const routes: Routes = [
   {
     path: 'start-process',
@@ -45,11 +52,14 @@ const routes: Routes = [
     },
   },
   {
+    path: `${WHOLESALE_CALCULATION_STEPS_PATH}/:${WHOLESALE_CALCULATION_STEPS_BATCH_PARAM}/:${WHOLESALE_CALCULATION_STEPS_GRID_AREA_PARAM}`,
+    component: DhWholesaleCalculationStepsComponent,
+  },
+  {
     path: 'overview',
     component: DhWholesaleOverviewComponent,
   },
 ];
-
 @NgModule({
   imports: [
     DhWholesaleStartScam,

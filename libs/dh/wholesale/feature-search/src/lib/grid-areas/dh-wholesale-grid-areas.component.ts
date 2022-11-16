@@ -19,7 +19,9 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -54,8 +56,10 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
 
   @Input() set data(gridAreas: BatchGridAreaDto[]) {
     this._data = new MatTableDataSource(gridAreas);
-    this._data.paginator = this.paginator.instance;
+    this._data.paginator = this.paginator?.instance;
   }
+  @Output() selected = new EventEmitter<BatchGridAreaDto>();
+
   _data: MatTableDataSource<BatchGridAreaDto> = new MatTableDataSource(
     undefined
   );
@@ -65,5 +69,9 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
     if (this._data === null) return;
     this._data.sort = this.sort;
     this._data.paginator = this.paginator.instance;
+  }
+
+  onSelect(gridArea: BatchGridAreaDto) {
+    this.selected.emit(gridArea);
   }
 }

@@ -20,6 +20,7 @@ import {
   Component,
   Input,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -34,6 +35,9 @@ import {
 import { BatchVm } from '../table/dh-wholesale-table.component';
 import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
+import { BatchGridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { ActivatedRoute, Router } from '@angular/router';
+import { WHOLESALE_CALCULATION_STEPS_PATH } from 'libs/dh/wholesale/feature-calculation-steps/src';
 
 @Component({
   standalone: true,
@@ -56,7 +60,22 @@ export class DhWholesaleBatchDetailsComponent {
   @Input() batch!: BatchVm;
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
+  router = inject(Router);
+  route = inject(ActivatedRoute);
+
   open(): void {
     this.drawer.open();
+  }
+
+  onGridAreaSelected(gridArea: BatchGridAreaDto): void {
+    this.router.navigate(
+      [
+        '..',
+        WHOLESALE_CALCULATION_STEPS_PATH,
+        this.batch.batchNumber,
+        gridArea.gridAreaCode,
+      ],
+      { relativeTo: this.route, state: { batch: this.batch } }
+    );
   }
 }

@@ -49,7 +49,7 @@ limitations under the License.
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
+    <mat-row *matRowDef="let row; columns: columnIds" (click)="onSelect(row)"></mat-row>
   </mat-table>
 
   <!-- No Batches found -->
