@@ -26,9 +26,12 @@ export interface DatePickerData {
   providedIn: 'root',
 })
 export class DrawerDatepickerService {
+  todayAtMidnight = new Date(new Date().setHours(0, 0, 0, 0));
+  tonightBeforeMidnight = new Date(new Date().setHours(23, 59, 59, 59));
+
   dateRangeDefault: DatePickerData = {
-    startDate: new Date().toISOString(),
-    endDate: new Date().toISOString(),
+    startDate: this.todayAtMidnight.toISOString(),
+    endDate: this.tonightBeforeMidnight.toISOString(),
   };
 
   private dataSource$ = new BehaviorSubject(this.dateRangeDefault);
