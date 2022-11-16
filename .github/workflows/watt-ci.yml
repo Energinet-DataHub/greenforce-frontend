@@ -76,7 +76,7 @@ jobs:
 
       - name: Setup Release
         shell: bash
-        run: cp -R ${{ github.workspace }}/dist/apps/${{ env.APP_NAME }} ${{ env.RELEASE_FOLDER_PATH }}
+        run: cp -R ${{ github.workspace }}/dist/${{ env.APP_NAME }} ${{ env.RELEASE_FOLDER_PATH }}
 
       - name: Zip artifact
         uses: thedoctor0/zip-release@master
