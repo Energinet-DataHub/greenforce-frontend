@@ -731,7 +731,9 @@
       }
     },
     "calculationSteps": {
-      "topBarTitle": "Se akkumulerede tidsserier"
+      "topBarTitle": "Se akkumulerede tidsserier",
+      "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
+      "subHeading": "Netområde ID {{gridAreaCode}}"
     },
     "batchDetails": {
       "headline": "Batch: {{batchNumber}}",

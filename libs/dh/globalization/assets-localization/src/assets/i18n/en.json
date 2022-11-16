@@ -729,7 +729,9 @@
       }
     },
     "calculationSteps": {
-      "topBarTitle": "See accumulated time series"
+      "topBarTitle": "See accumulated time series",
+      "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
+      "subHeading": "Grid Area Code {{gridAreaCode}}"
     },
     "batchDetails": {
       "headline": "Batch: {{batchNumber}}",

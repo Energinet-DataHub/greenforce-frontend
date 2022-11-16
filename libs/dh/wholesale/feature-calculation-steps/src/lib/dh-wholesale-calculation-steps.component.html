@@ -1,1 +1,28 @@
-WORKS!!!!
+<header *transloco="let transloco; read: 'wholesale'">
+  <watt-breadcrumbs>
+    <watt-breadcrumb>{{
+      transloco("searchBatch.topBarTitle")
+    }}</watt-breadcrumb>
+    <watt-breadcrumb>{{
+      transloco("batchDetails.headline", { batchNumber: batch?.batchNumber })
+    }}</watt-breadcrumb>
+    <!-- TODO: GRID AREA NAME SHOULD BE ADDED HERE WHEN AVAILABLE -->
+    <watt-breadcrumb>{{
+      transloco("calculationSteps.breadcrumb", {
+        gridAreaCode: gridArea?.gridAreaCode
+      })
+    }}</watt-breadcrumb>
+  </watt-breadcrumbs>
+
+  <watt-badge [type]="batch?.statusType || 'info'">
+    {{ transloco("searchBatch." + batch?.executionState) }}
+  </watt-badge>
+  <h1>NAVN PÅ NETOMRÅDE</h1>
+  <p>
+    <small>{{
+      transloco("calculationSteps.subHeading", {
+        gridAreaCode: gridArea?.gridAreaCode
+      })
+    }}</small>
+  </p>
+</header>

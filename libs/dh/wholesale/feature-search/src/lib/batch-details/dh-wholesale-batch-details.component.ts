@@ -75,7 +75,10 @@ export class DhWholesaleBatchDetailsComponent {
         this.batch.batchNumber,
         gridArea.gridAreaCode,
       ],
-      { relativeTo: this.route, state: { batch: this.batch } }
+      {
+        relativeTo: this.route,
+        state: { batch: this.batch, gridArea: gridArea },
+      }
     );
   }
 }
