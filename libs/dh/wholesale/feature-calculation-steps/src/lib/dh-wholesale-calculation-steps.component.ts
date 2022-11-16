@@ -1,5 +1,5 @@
-import { Component, inject } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, inject, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 
 import { WATT_BREADCRUMBS } from "@energinet-datahub/watt/breadcrumbs";
 
@@ -19,8 +19,15 @@ import { BatchVm } from "@energinet-datahub/dh/wholesale/feature-search";
     ...WATT_BREADCRUMBS
   ]
 })
-export class DhWholesaleCalculationStepsComponent {
+export class DhWholesaleCalculationStepsComponent implements OnInit {
   router = inject(Router);
+  route = inject(ActivatedRoute);
   batch?: BatchVm = this.router.getCurrentNavigation()?.extras.state?.['batch'];
   gridArea?: BatchGridAreaDto = this.router.getCurrentNavigation()?.extras.state?.['gridArea'];
+
+  ngOnInit(): void {
+    if (!this.batch || !this.gridArea) {
+      this.router.navigate(['/wholesale/search-batch'], { relativeTo: this.route });
+    }
+  }
 }
