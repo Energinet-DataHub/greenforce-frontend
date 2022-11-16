@@ -14,47 +14,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { StorybookButtonOverviewModule } from './+storybook/storybook-button-overview.module';
+import { moduleMetadata, Story } from '@storybook/angular';
+import { WattStorybookButtonComponent } from './+storybook/storybook-button.component';
 import { WattButtonComponent } from './watt-button.component';
 import { WattButtonModule } from './watt-button.module';
 
-export default {
-  title: 'Components/Button',
-  component: WattButtonComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [WattButtonModule],
-    }),
-  ],
-} as Meta<WattButtonComponent>;
+// export default {
+//   title: 'Components/Button',
+//   component: WattButtonComponent,
+//   decorators: [
+//     moduleMetadata({
+//       imports: [WattButtonModule],
+//     }),
+//   ],
+// } as Meta<WattButtonComponent>;
 
-const howToUseGuide = `
-1. Import ${WattButtonModule.name} in a module
-import { ${WattButtonModule.name} } from '@energinet-datahub/watt/button';
+// const howToUseGuide = `
+// 1. Import ${WattButtonModule.name} in a module
+// import { ${WattButtonModule.name} } from '@energinet-datahub/watt/button';
 
-2. Use <watt-button>Button</watt-button>
-`;
+// 2. Use <watt-button>Button</watt-button>
+// `;
 
-export const Overview = () => ({
-  template: '<storybook-button-overview></storybook-button-overview>',
+const Story: Story<WattStorybookButtonComponent> = (args) => ({
+  props: args,
+  template: `
+    <watt-storybook-button [variant]="variant"></watt-storybook-button>
+  `,
 });
-Overview.decorators = [
+
+Story.decorators = [
   moduleMetadata({
-    imports: [StorybookButtonOverviewModule],
+    imports: [WattStorybookButtonComponent],
   }),
 ];
-Overview.parameters = {
-  docs: { source: { code: howToUseGuide } },
-};
 
-//👇 We create a “template” of how args map to rendering
-const ButtonStory: Story<WattButtonComponent> = (args) => ({
-  props: args,
-  template: `<watt-button>Button</watt-button>`,
+export const Primary = Story.bind({});
+Primary.args = { variant: 'primary' };
+
+export const Secondary = Story.bind({});
+Secondary.args = { variant: 'secondary' };
+
+export const Text = Story.bind({});
+Text.args = { variant: 'text' };
+
+export const Large: Story<WattButtonComponent> = () => ({
+  template: `<watt-button size="large">Enabled</watt-button>`,
 });
 
-export const Button = ButtonStory.bind({});
-Button.args = {
-  variant: 'primary',
-};
+Large.decorators = [
+  moduleMetadata({
+    imports: [WattButtonModule],
+  }),
+];
