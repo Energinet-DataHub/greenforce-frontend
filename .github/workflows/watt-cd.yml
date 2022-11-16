@@ -27,7 +27,7 @@ jobs:
   #
 
   changes:
-    uses: ./.github/workflows/dh-detect-changes.yml
+    uses: ./.github/workflows/watt-detect-changes.yml
 
   #
   # Frontend
