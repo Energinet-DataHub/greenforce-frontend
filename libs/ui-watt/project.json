@@ -43,6 +43,7 @@
       "executor": "@storybook/angular:build-storybook",
       "outputs": ["{options.outputPath}"],
       "options": {
+        "docsMode": true,
         "styles": ["libs/ui-watt/.storybook/styles.scss"],
         "stylePreprocessorOptions": {
           "includePaths": ["libs/ui-watt/src/lib/styles"]

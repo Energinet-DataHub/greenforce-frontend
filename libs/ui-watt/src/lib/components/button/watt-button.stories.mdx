@@ -1,0 +1,78 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+import { moduleMetadata } from '@storybook/angular';
+import { Story, Meta, ArgsTable, Source } from '@storybook/addon-docs/blocks';
+import { WattButtonComponent } from './watt-button.component';
+import { WattButtonModule } from './watt-button.module';
+import { action } from '@storybook/addon-actions';
+
+<Meta
+  title="Components/Button"
+  component={WattButtonComponent}
+  decorators={[
+    moduleMetadata({
+      imports: [WattButtonModule],
+    }),
+  ]}
+/>
+
+# Primary
+
+Contained buttons are high-emphasis, distinguished by their use of fill.
+They contain actions that are primary to your app.
+
+<Story name="Primary">
+  {{
+    template: `
+      <div style="display: grid;grid-template-columns: repeat(3, min-content);grid-gap: var(--watt-space-m);">
+        <watt-button>Enabled</watt-button>
+        <watt-button [disabled]="true">Disabled</watt-button>
+        <watt-button [loading]="true">Hidden</watt-button>
+        <watt-button icon="plus">Enabled</watt-button>
+        <watt-button icon="plus" [disabled]="true">Disabled</watt-button>
+      </div>
+    `,
+  }}
+</Story>
+
+# Secondary
+
+Outlined buttons are medium-emphasis buttons.
+They contain actions that are important, but aren't the primary action in an app.
+
+<Story name="Secondary">
+  {{
+    template: `
+      <div style="display: grid;grid-template-columns: repeat(3, min-content);grid-gap: var(--watt-space-m);">
+        <watt-button variant="secondary">Enabled</watt-button>
+        <watt-button variant="secondary" [disabled]="true">Disabled</watt-button>
+        <watt-button variant="secondary" [loading]="true">Hidden</watt-button>
+        <watt-button variant="secondary" icon="plus">Enabled</watt-button>
+        <watt-button variant="secondary" icon="plus" [disabled]="true">Disabled</watt-button>
+      </div>
+    `,
+  }}
+</Story>
+
+# Usage
+
+<Source code="<watt-button>Button</watt-button>"></Source>
+
+# Arguments
+
+<ArgsTable of={WattButtonComponent}></ArgsTable>
