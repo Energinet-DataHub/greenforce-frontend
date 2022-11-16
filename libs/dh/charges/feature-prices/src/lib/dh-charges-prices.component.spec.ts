@@ -128,7 +128,7 @@ describe('DhChargesPricesComponent', () => {
 
     expect(startDateInput).toBeInTheDocument();
 
-    const expectedDate = new Date().toLocaleDateString();
+    const expectedDate = new Date(new Date().setHours(0, 0, 0, 0)).toLocaleDateString();
     const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
 
     expect(actualDateInput).toEqual(expectedDate);
