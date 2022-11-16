@@ -100,6 +100,41 @@ jobs:
           title: ${{ env.RELEASE_VERSION }}
           files: ${{ env.RELEASE_FOLDER_PATH }}/${{ env.RELEASE_VERSION }}.zip
 
+  chromatic_deployment:
+    name: Deploy to Chromatic
+    if: ${{ needs.affected.outputs.is-affected == 'true' }}
+    needs: affected
+    # Operating System
+    runs-on: ubuntu-latest
+    # Job steps
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ${{ env.node-version-file }}
+          cache: 'yarn'
+
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
+
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+        # 👇 Adds Chromatic as a step in the workflow
+      - name: Publish to Chromatic
+        uses: chromaui/action@v1
+        # Chromatic GitHub Action options
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # 👇 Chromatic projectToken, refer to the manage page to obtain it.
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          exitZeroOnChanges: true # 👈 Option to prevent the workflow from failing
+          buildScriptName: ${{ env.APP_NAME }}:build
+
   #
   # CI .NET
   #
@@ -201,6 +236,7 @@ jobs:
 
         # Frontend
         frontend_ci_build,
+        chromatic_deployment,
       ]
     if: |
       always()
