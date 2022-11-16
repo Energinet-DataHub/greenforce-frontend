@@ -728,6 +728,9 @@
         "of": "of"
       }
     },
+    "calculationSteps": {
+      "topBarTitle": "See accumulated time series"
+    },
     "batchDetails": {
       "headline": "Batch: {{batchNumber}}",
       "calculationPeriod": "Calculation period",

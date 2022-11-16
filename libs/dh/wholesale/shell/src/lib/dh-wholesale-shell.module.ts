@@ -54,6 +54,9 @@ const routes: Routes = [
   {
     path: `${WHOLESALE_CALCULATION_STEPS_PATH}/:${WHOLESALE_CALCULATION_STEPS_BATCH_PARAM}/:${WHOLESALE_CALCULATION_STEPS_GRID_AREA_PARAM}`,
     component: DhWholesaleCalculationStepsComponent,
+    data: {
+      titleTranslationKey: 'wholesale.calculationSteps.topBarTitle',
+    },
   },
   {
     path: 'overview',

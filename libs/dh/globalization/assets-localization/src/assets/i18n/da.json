@@ -730,6 +730,9 @@
         "of": "af"
       }
     },
+    "calculationSteps": {
+      "topBarTitle": "Se akkumulerede tidsserier"
+    },
     "batchDetails": {
       "headline": "Batch: {{batchNumber}}",
       "calculationPeriod": "Beregningsperiode",
