@@ -18,61 +18,48 @@ limitations under the License.
 import { moduleMetadata } from '@storybook/angular';
 import { Story, Meta, ArgsTable, Source } from '@storybook/addon-docs/blocks';
 import { WattButtonComponent } from './watt-button.component';
-import { WattButtonModule } from './watt-button.module';
+import { WattStorybookButtonComponent } from './+storybook/storybook-button.component';
+import * as stories from './watt-button.stories';
 import { action } from '@storybook/addon-actions';
 
 <Meta
   title="Components/Button"
-  component={WattButtonComponent}
   decorators={[
     moduleMetadata({
-      imports: [WattButtonModule],
+      imports: [WattStorybookButtonComponent],
     }),
   ]}
 />
 
-# Primary
+## Primary
 
-Contained buttons are high-emphasis, distinguished by their use of fill.
+Contained buttons are **high-emphasis**, distinguished by their use of fill.
 They contain actions that are primary to your app.
 
-<Story name="Primary">
-  {{
-    template: `
-      <div style="display: grid;grid-template-columns: repeat(3, min-content);grid-gap: var(--watt-space-m);">
-        <watt-button>Enabled</watt-button>
-        <watt-button [disabled]="true">Disabled</watt-button>
-        <watt-button [loading]="true">Hidden</watt-button>
-        <watt-button icon="plus">Enabled</watt-button>
-        <watt-button icon="plus" [disabled]="true">Disabled</watt-button>
-      </div>
-    `,
-  }}
-</Story>
+<Story story={stories.Primary} />
 
-# Secondary
+## Secondary
 
-Outlined buttons are medium-emphasis buttons.
+Outlined buttons are **medium-emphasis** buttons.
 They contain actions that are important, but aren't the primary action in an app.
 
-<Story name="Secondary">
-  {{
-    template: `
-      <div style="display: grid;grid-template-columns: repeat(3, min-content);grid-gap: var(--watt-space-m);">
-        <watt-button variant="secondary">Enabled</watt-button>
-        <watt-button variant="secondary" [disabled]="true">Disabled</watt-button>
-        <watt-button variant="secondary" [loading]="true">Hidden</watt-button>
-        <watt-button variant="secondary" icon="plus">Enabled</watt-button>
-        <watt-button variant="secondary" icon="plus" [disabled]="true">Disabled</watt-button>
-      </div>
-    `,
-  }}
-</Story>
+<Story story={stories.Secondary} />
 
-# Usage
+## Text
+
+Text buttons are typically used for **less-pronounced actions**, including those located in dialogs and cards.
+In cards, text buttons help maintain an emphasis on card content.
+
+<Story story={stories.Text} />
+
+## Large
+
+<Story story={stories.Large} />
+
+## Usage
 
 <Source code="<watt-button>Button</watt-button>"></Source>
 
-# Arguments
+## Arguments
 
 <ArgsTable of={WattButtonComponent}></ArgsTable>
