@@ -27,7 +27,7 @@ export interface DatePickerData {
 })
 export class DrawerDatepickerService {
   todayAtMidnight = new Date(new Date().setHours(0, 0, 0, 0));
-  tonightBeforeMidnight = new Date(new Date().setHours(23, 59, 59, 59));
+  tonightBeforeMidnight = new Date(new Date().setHours(23, 59, 59, 999));
 
   dateRangeDefault: DatePickerData = {
     startDate: this.todayAtMidnight.toISOString(),
