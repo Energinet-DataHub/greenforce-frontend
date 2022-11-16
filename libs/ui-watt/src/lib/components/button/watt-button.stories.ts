@@ -19,15 +19,15 @@ import { StorybookButtonOverviewModule } from './+storybook/storybook-button-ove
 import { WattButtonComponent } from './watt-button.component';
 import { WattButtonModule } from './watt-button.module';
 
-export default {
-  title: 'Components/Button',
-  component: WattButtonComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [WattButtonModule],
-    }),
-  ],
-} as Meta<WattButtonComponent>;
+// export default {
+//   title: 'Components/Button',
+//   component: WattButtonComponent,
+//   decorators: [
+//     moduleMetadata({
+//       imports: [WattButtonModule],
+//     }),
+//   ],
+// } as Meta<WattButtonComponent>;
 
 const howToUseGuide = `
 1. Import ${WattButtonModule.name} in a module

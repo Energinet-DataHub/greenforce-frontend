@@ -1,41 +1,55 @@
 import { create } from '@storybook/theming';
 
+// export default create({
+//   appBg: '#212121',
+//   // appBorderColor: 'grey',
+//   // appBorderRadius: '20px',
+//   // appContentBg: '#424242', // this
+//   // barBg: '#FFFFFF',
+//   // barSelectedColor: 'rgb(0, 137, 138)',
+//   // barTextColor: 'rgb(0, 137, 138)',
+//   base: 'dark', // thisc
+//   brandImage: '/assets/ui-watt/watt-logo-dark.svg', // this
+
+//   // brandTarget: 'new',
+//   brandTitle: 'Watt Storybook', // this
+//   // brandUrl: 'https://example.com',
+//   colorSecondary: 'rgb(0, 137, 138)', // this
+//   colorPrimary: 'rgb(238, 147, 49)', // this
+//   fontBase: '"Open Sans", sans-serif', // this
+//   // fontCode: 'monospace',
+//   // gridCellSize: '100px',
+//   // inputBg: 'pink',
+//   // inputBorder: 'pink',
+//   // inputBorderRadius: '20px',
+//   // inputTextColor: 'pink',
+//   // textInverseColor: 'pink',
+//   textMutedColor: 'rgba(255,255,255, 0.38)',
+// });
+
 export default create({
-  base: 'light',
-  brandTitle: 'Watt Storybook',
-  brandImage: '/assets/ui-watt/watt-logo.svg',
-  /*
-  base: 'light',
-
-  colorPrimary: 'hotpink',
-  colorSecondary: 'deepskyblue',
-
-  // UI
-  appBg: 'white',
-  appContentBg: 'silver',
-  appBorderColor: 'grey',
-  appBorderRadius: 4,
-
-  // Typography
-  fontBase: '"Open Sans", sans-serif',
-  fontCode: 'monospace',
-
-  // Text colors
+  appBg: 'rgb(235, 245, 245)',
+  // appBorderColor: 'grey',
+  // appBorderRadius: '20px',
+  // appContentBg: 'rgb(255, 255, 255)', // this
+  // barBg: 'rgb(255, 255, 255)',
+  // barSelectedColor: 'rgb(0, 137, 138)',
+  // barTextColor: 'rgb(0, 137, 138)',
+  base: 'light', // thisc
+  brandImage: '/assets/ui-watt/watt-logo.svg', // this
+  // brandTarget: 'new',
+  brandTitle: 'Watt Storybook', // this
+  // brandUrl: 'https://example.com',
+  colorSecondary: 'rgb(0, 137, 138)', // this
+  colorPrimary: 'rgb(238, 147, 49)', // this
+  fontBase: '"Open Sans", sans-serif', // this
+  // fontCode: 'monospace',
+  // gridCellSize: '100px',
+  // inputBg: 'pink',
+  // inputBorder: 'pink',
+  // inputBorderRadius: '20px',
+  // inputTextColor: 'pink',
   textColor: 'black',
-  textInverseColor: 'rgba(255,255,255,0.9)',
-
-  // Toolbar default and active colors
-  barTextColor: 'silver',
-  barSelectedColor: 'black',
-  barBg: 'hotpink',
-
-  // Form colors
-  inputBg: 'white',
-  inputBorder: 'silver',
-  inputTextColor: 'black',
-  inputBorderRadius: 4,
-
-  brandTitle: 'My custom storybook',
-  brandUrl: 'https://example.com',
-  brandImage: 'https://place-hold.it/350x150',*/
+  // textInverseColor: 'pink',
+  // textMutedColor: 'rgba(0,0,0, 0.38)',
 });
