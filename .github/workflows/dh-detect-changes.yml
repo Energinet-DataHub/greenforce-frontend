@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: DH Backend Detect changes
+name: DH Detect changes
 
 # DESCRIPTION:
 # This workflow will determine which categories of jobs should be executed,
@@ -25,6 +25,8 @@ on:
     outputs:
       dotnet:
         value: ${{ jobs.changes.outputs.dotnet }}
+      frontend:
+        value: ${{ jobs.changes.outputs.frontend }}
 
 jobs:
   changes:
@@ -33,11 +35,17 @@ jobs:
     # Set job outputs to values from filter step
     outputs:
       dotnet: ${{ steps.filter.outputs.dotnet }}
+      frontend: ${{ steps.affected.outputs.is-affected }}
+    env:
+      APP_NAME: app-dh
+      BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+      IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
     steps:
-      # For pull requests it's not necessary to checkout the code because GitHub REST API is used to determine changes
-      - name: Checkout repository
-        if: ${{ github.event_name != 'pull_request' }}
+      # needed for nx affected command
+      - name: Check out source code with current branch Git history
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Detect file changes
         uses: dorny/paths-filter@v2
@@ -50,3 +58,32 @@ jobs:
               - '.github/workflows/dh-backend-detect-changes.yml'
               - '.github/actions/dotnet-*/**'
               - 'apps/dh/api-dh/**'
+
+      # needed for nx affected command
+      - name: 'PR: Fetch base branch Git history'
+        if: ${{ env.IS_PULL_REQUEST == 'true' }}
+        run: git fetch --no-tags origin ${{ env.BASE_BRANCH }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+          cache: 'yarn'
+
+      - name: Disable workspace NGCC run
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
+
+      - name: Set yarn version 1.22.19
+        run: yarn set version 1.22.19
+
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Is affected?
+        id: affected
+        uses: ./.github/actions/affected
+        with:
+          base: ${{ github.ref == 'refs/heads/main' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+          project: ${{ env.APP_NAME }}
