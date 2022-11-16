@@ -15,14 +15,16 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
-import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { Component } from '@angular/core';
+import { EoPieChartComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { LetModule } from '@rx-angular/template';
 import { map } from 'rxjs';
 import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
 
 @Component({
+  standalone: true,
+  imports: [EoPieChartComponent, CommonModule, WattSpinnerModule, LetModule],
   selector: 'eo-origin-of-energy-pie-chart',
   template: `
     <ng-container *rxLet="loadingDone$ as loadingDone">
@@ -95,10 +97,3 @@ export class EoOriginOfEnergyPieChartComponent {
 
   constructor(private store: EoOriginOfEnergyStore) {}
 }
-
-@NgModule({
-  declarations: [EoOriginOfEnergyPieChartComponent],
-  exports: [EoOriginOfEnergyPieChartComponent],
-  imports: [EoPieChartScam, CommonModule, WattSpinnerModule, LetModule],
-})
-export class EoOriginOfEnergyPieChartScam {}

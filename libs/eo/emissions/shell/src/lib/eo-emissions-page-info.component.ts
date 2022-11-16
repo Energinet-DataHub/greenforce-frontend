@@ -14,15 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { EoEmissionsDataScam } from './eo-emissions-data.component';
+import { EoEmissionsDataComponent } from './eo-emissions-data.component';
 import { EoEmissionsStore } from './eo-emissions.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatCardModule, WattButtonModule, EoEmissionsDataComponent],
   selector: 'eo-emissions-page-info',
   styles: [
     `
@@ -69,10 +71,3 @@ export class EoEmissionsPageInfoComponent {
     return Number((num / 1000).toFixed(0));
   }
 }
-
-@NgModule({
-  declarations: [EoEmissionsPageInfoComponent],
-  imports: [MatCardModule, WattButtonModule, EoEmissionsDataScam],
-  exports: [EoEmissionsPageInfoComponent],
-})
-export class EoEmissionsPageInfoScam {}

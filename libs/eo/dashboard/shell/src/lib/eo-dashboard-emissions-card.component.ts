@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { EoEmissionsDataScam } from '@energinet-datahub/eo/emissions/shell';
+import { EoEmissionsDataComponent } from '@energinet-datahub/eo/emissions/shell';
 
 @Component({
+  standalone: true,
+  imports: [MatCardModule, EoEmissionsDataComponent],
   selector: 'eo-dashboard-emissions-card',
   template: ` <mat-card>
     <h3 class="watt-space-stack-s">Emissions</h3>
@@ -35,10 +37,3 @@ import { EoEmissionsDataScam } from '@energinet-datahub/eo/emissions/shell';
   ],
 })
 export class EoDashboardEmissionsCardComponent {}
-
-@NgModule({
-  declarations: [EoDashboardEmissionsCardComponent],
-  exports: [EoDashboardEmissionsCardComponent],
-  imports: [MatCardModule, EoEmissionsDataScam],
-})
-export class EoDashboardEmissionsCardScam {}
