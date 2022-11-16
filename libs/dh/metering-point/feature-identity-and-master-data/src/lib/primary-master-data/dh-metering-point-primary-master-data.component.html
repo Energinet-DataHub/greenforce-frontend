@@ -18,34 +18,8 @@ limitations under the License.
   *transloco="let transloco; read: 'meteringPoint.overview.primaryMasterData'"
 >
   <div class="column flex">
-    <watt-icon
-      name="custom-map-marker"
-      label="map marker"
-      size="xl"
-      aria-hidden
-    ></watt-icon>
     <section class="align-top">
-      <dl>
-        <dt class="watt-label">{{ transloco("address") }}</dt>
-        <dd [innerHTML]="address"></dd>
-      </dl>
-
       <dl class="multiple-terms-and-descriptions">
-        <dt
-          class="with-icon"
-          [title]="transloco(actualAddressTranslationKey)"
-          aria-hidden
-        >
-          <watt-icon
-            [name]="isActualAddressIcon"
-            [label]="isActualAddressIcon"
-            size="xs"
-          ></watt-icon>
-        </dt>
-        <dd class="watt-text-s">
-          {{ transloco(actualAddressTranslationKey) }}
-        </dd>
-
         <dt class="watt-text-s">{{ transloco("locationDescription") }}:</dt>
         <dd class="watt-text-s">
           {{ primaryMasterData?.locationDescription | dhEmDashFallback }}
@@ -55,52 +29,6 @@ limitations under the License.
         </dt>
         <dd class="watt-text-s text-dimmed">
           {{ primaryMasterData?.darReference | dhEmDashFallback }}
-        </dd>
-      </dl>
-    </section>
-  </div>
-
-  <div class="column">
-    <section
-      *dhShowForMeteringPointType="
-        primaryMasterData?.meteringPointType;
-        property: 'electricitySupplier'
-      "
-    >
-      <watt-icon
-        name="custom-power"
-        label="power"
-        size="xl"
-        aria-hidden
-      ></watt-icon>
-      <dl>
-        <dt class="watt-label">
-          {{ transloco("hasElectricitySupplier") }}
-        </dt>
-        <dd>
-          {{ isSupplyStartSet | dhYesNo }}
-        </dd>
-        <dd class="watt-text-s text-dimmed full-width">
-          {{
-            electricitySupplierSinceTranslationKey
-              | transloco: { date: primaryMasterData?.supplyStart | dhDate }
-              | dhEmDashFallback
-          }}
-        </dd>
-      </dl>
-    </section>
-
-    <section>
-      <watt-icon
-        name="custom-meter"
-        label="meter"
-        size="xl"
-        aria-hidden
-      ></watt-icon>
-      <dl>
-        <dt class="watt-label">{{ transloco("meterNumber") }}</dt>
-        <dd>
-          <small>{{ primaryMasterData?.meterId | dhEmDashFallback }}</small>
         </dd>
       </dl>
     </section>
