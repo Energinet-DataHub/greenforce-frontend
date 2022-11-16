@@ -74,12 +74,9 @@ jobs:
       - name: Production build
         run: yarn ${{ env.APP_NAME }}:build
 
-      - name: Optimize i18n assets
-        run: yarn i18n:optimize:${{ env.APP_NAME }}
-
       - name: Setup Release
         shell: bash
-        run: cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }} ${{ env.RELEASE_FOLDER_PATH }}
+        run: cp -R ${{ github.workspace }}/dist/apps/${{ env.APP_NAME }} ${{ env.RELEASE_FOLDER_PATH }}
 
       - name: Zip artifact
         uses: thedoctor0/zip-release@master
