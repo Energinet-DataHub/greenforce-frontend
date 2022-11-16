@@ -1,4 +1,5 @@
 [nx]: https://nx.dev
+
 [angular]: https://angular.io
 
 # GreenForce
@@ -40,7 +41,7 @@ frontends backed by [Nx] and [Angular].
 > [Angular Tour of Heroes](https://angular.io/tutorial) serves as a good
 > introduction.
 
-This repository is a monorepo which hosts serveral applications that all share
+This repository is a monorepo which hosts several applications that all share
 the same dependencies (for example, every application is running the same
 version of Angular).
 
@@ -67,9 +68,13 @@ The application is deployed to five different environments as listed below:
 | [U-001][dh-u-001] | [U-002][dh-u-002] | [T-001][dh-t-001] | [B-001][dh-b-001] | [B-002][dh-b-002] |
 
 [dh-u-001]: https://jolly-sand-03f839703.azurestaticapps.net
+
 [dh-u-002]: https://wonderful-field-057109603.1.azurestaticapps.net
+
 [dh-t-001]: https://lively-river-0f22ad403.azurestaticapps.net
+
 [dh-b-001]: https://blue-rock-05b7e5e03.azurestaticapps.net
+
 [dh-b-002]: https://purple-forest-07e41fb03.azurestaticapps.net
 
 <sub>\* This is identical to **U-001**, except it also hosts
@@ -176,8 +181,11 @@ which is currently deployed to four different environments:
 | [U-001][watt-u-001] | [T-001][watt-t-001] | [B-001][watt-b-001] | [B-002][watt-b-002] |
 
 [watt-u-001]: https://lively-ocean-04c4e1403.1.azurestaticapps.net
+
 [watt-t-001]: https://green-hill-085d93003.1.azurestaticapps.net/
+
 [watt-b-001]: https://calm-tree-090e25403.1.azurestaticapps.net/
+
 [watt-b-002]: https://wonderful-rock-021a80803.1.azurestaticapps.net/
 
 _Note: There is currently no differences between the environments, but this
@@ -187,7 +195,7 @@ To use components or other functionality from Watt, import as in the following
 example:
 
 ```ts
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import {WattButtonModule} from '@energinet-datahub/watt/button';
 ```
 
 ## Workspace
@@ -234,7 +242,7 @@ In other words, all applications must follow the naming scheme
 
 Below is an exhaustive list of permitted application types, along with their
 intended purpose, folder name and which [library types](#library-types) they are
-allowed to have direct dependendies to:
+allowed to have direct dependencies to:
 
 | Type      | Description                    | Name            | Allowed Dependencies                     |
 | --------- | ------------------------------ | --------------- | ---------------------------------------- |
@@ -365,7 +373,7 @@ _Bots are used for certain trivial tasks such as adding license headers to files
 formatting code, fixing lint errors, and generating API clients based on OpenAPI.
 For this to work, bots have to use the repository secret `PAT_TOKEN` when pushing
 changes or creating releases that trigger a workflow. Only do this for idempotent
-tasks to prevent circular workflows from causing inifinite workflow runs._
+tasks to prevent circular workflows from causing infinite workflow runs._
 
 ## Visual Studio Code
 
