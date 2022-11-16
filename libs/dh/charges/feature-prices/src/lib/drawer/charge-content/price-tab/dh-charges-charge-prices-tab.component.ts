@@ -196,15 +196,43 @@ export class DhChargesChargePricesTabComponent
     };
   }
 
-  getHours(date: string) {
-    return this.addLeadingZeros(getHours(new Date(date)), 2);
+  getHours(date: Date, hoursToAdd: number) {
+    const hours = getHours(date) + hoursToAdd;
+    return this.addLeadingZeros(hours, 2);
   }
 
-  getTime(date: string) {
-    if (this.charge?.resolution == Resolution.PT1H) return this.getHours(date);
+  getFromDateTime(price: ChargePriceV1Dto) {
+    const fromDateTime = new Date(price.fromDateTime);
 
-    const minutes = this.addLeadingZeros(getMinutes(new Date(date)), 2);
-    const hours = this.getHours(date);
+    if (this.charge?.resolution == Resolution.PT1H)
+      return this.getHours(fromDateTime, 0);
+
+    return this.getTime(fromDateTime);
+  }
+
+  getToDateTime(price: ChargePriceV1Dto) {
+    const toDateTime = new Date(price.toDateTime);
+
+    if (this.charge?.resolution == Resolution.PT1H) {
+      const fromDateTime = new Date(price.fromDateTime);
+
+      // If fromDateTime is winter and toDateTime is summer, remove 1 hour from ToDateTime
+      if (fromDateTime.getTimezoneOffset() > toDateTime.getTimezoneOffset())
+        return this.getHours(toDateTime, -1);
+
+      // If fromDateTime is summer and toDateTime is winter, add 1 hour to ToDateTime
+      if (fromDateTime.getTimezoneOffset() < toDateTime.getTimezoneOffset())
+        return this.getHours(toDateTime, 1);
+
+      return this.getHours(toDateTime, 0);
+    }
+
+    return this.getTime(toDateTime);
+  }
+
+  getTime(date: Date) {
+    const minutes = this.addLeadingZeros(getMinutes(date), 2);
+    const hours = this.getHours(date, 0);
     return `${hours}:${minutes}`;
   }
 
