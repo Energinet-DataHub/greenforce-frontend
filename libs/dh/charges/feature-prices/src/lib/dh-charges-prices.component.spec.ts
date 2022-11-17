@@ -28,6 +28,9 @@ import {
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
 const wattDrawerName = 'watt-drawer';
+const dateTimeFormat = 'dd.MM.yyyy';
+const danishTimeZoneIdentifier = 'Europe/Copenhagen';
+
 
 describe('DhChargesPricesComponent', () => {
   async function setup() {
@@ -129,8 +132,6 @@ describe('DhChargesPricesComponent', () => {
 
     expect(startDateInput).toBeInTheDocument();
 
-    const dateTimeFormat = 'dd.MM.yyyy';
-    const danishTimeZoneIdentifier = 'Europe/Copenhagen';
     const expectedDateUTC = new Date(new Date().setHours(0, 0, 0, 0));
     const expectedDate = formatInTimeZone(
       expectedDateUTC,
@@ -169,8 +170,6 @@ describe('DhChargesPricesComponent', () => {
 
     expect(startDateInput).toBeInTheDocument();
 
-    const dateTimeFormat = 'dd.MM.yyyy';
-    const danishTimeZoneIdentifier = 'Europe/Copenhagen';
     const expectedDateUTC = new Date(new Date().setHours(0, 0, 0, 0));
     const expectedDate = formatInTimeZone(
       expectedDateUTC,

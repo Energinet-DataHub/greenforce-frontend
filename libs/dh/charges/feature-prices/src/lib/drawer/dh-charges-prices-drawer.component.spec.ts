@@ -39,6 +39,9 @@ import userEvent from '@testing-library/user-event';
 import { DrawerDatepickerService } from './charge-content/drawer-datepicker/drawer-datepicker.service';
 import { DhMarketParticipantDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 
+const dateTimeFormat = 'dd.MM.yyyy';
+const danishTimeZoneIdentifier = 'Europe/Copenhagen';
+
 const charge = {
   id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
   chargeType: ChargeType.D02,
@@ -108,8 +111,6 @@ describe('DhChargesPricesDrawerComponent', () => {
 
     expect(startDateInput).toBeInTheDocument();
 
-    const dateTimeFormat = 'dd.MM.yyyy';
-    const danishTimeZoneIdentifier = 'Europe/Copenhagen';
     const expectedDateUTC = new Date(new Date().setHours(0, 0, 0, 0));
     const expectedDate = formatInTimeZone(
       expectedDateUTC,
@@ -133,9 +134,12 @@ describe('DhChargesPricesDrawerComponent', () => {
 
     expect(startDateInput).toBeInTheDocument();
 
-    const expectedDate = new Date(
-      new Date().setHours(0, 0, 0, 0)
-    ).toLocaleDateString();
+    const expectedDateUTC = new Date(new Date().setHours(0, 0, 0, 0));
+    const expectedDate = formatInTimeZone(
+      expectedDateUTC,
+      danishTimeZoneIdentifier,
+      dateTimeFormat
+    );
     const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
 
     expect(actualDateInput).toEqual(expectedDate);
