@@ -132,7 +132,11 @@ describe('DhChargesPricesComponent', () => {
     const dateTimeFormat = 'dd.MM.yyyy';
     const danishTimeZoneIdentifier = 'Europe/Copenhagen';
     const expectedDateUTC = new Date(new Date().setHours(0, 0, 0, 0));
-    const expectedDate = formatInTimeZone(expectedDateUTC, danishTimeZoneIdentifier, dateTimeFormat);
+    const expectedDate = formatInTimeZone(
+      expectedDateUTC,
+      danishTimeZoneIdentifier,
+      dateTimeFormat
+    );
     const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
 
     expect(actualDateInput).toEqual(expectedDate);
@@ -168,7 +172,11 @@ describe('DhChargesPricesComponent', () => {
     const dateTimeFormat = 'dd.MM.yyyy';
     const danishTimeZoneIdentifier = 'Europe/Copenhagen';
     const expectedDateUTC = new Date(new Date().setHours(0, 0, 0, 0));
-    const expectedDate = formatInTimeZone(expectedDateUTC, danishTimeZoneIdentifier, dateTimeFormat);
+    const expectedDate = formatInTimeZone(
+      expectedDateUTC,
+      danishTimeZoneIdentifier,
+      dateTimeFormat
+    );
     const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
 
     expect(actualDateInput).toEqual(expectedDate);
