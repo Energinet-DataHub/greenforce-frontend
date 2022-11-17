@@ -20,7 +20,6 @@ import {
   EoApiEnvironment,
   eoApiEnvironmentToken,
 } from '@energinet-datahub/eo/shared/environments';
-import { of } from 'rxjs';
 
 export interface EoCertificate {
   dateFrom: number;
@@ -42,16 +41,6 @@ interface EoCertificateResponse {
 })
 export class EoCertificatesService {
   #apiBase: string;
-  #mockCert: EoCertificate = {
-    gridArea: 'DK1',
-    dateFrom: 1668606049,
-    dateTo: 1668609649,
-    fuelCode: 'T123123123',
-    gsrn: '12312312312312312312312',
-    id: 'soidjowidjoijd21',
-    quantity: 123123,
-    techCode: 'Fe12412e12124',
-  };
 
   constructor(
     private http: HttpClient,
@@ -61,10 +50,9 @@ export class EoCertificatesService {
   }
 
   getCertificates() {
-    return of({ result: [this.#mockCert] });
-    /* return this.http.get<EoCertificateResponse>(
+    return this.http.get<EoCertificateResponse>(
       `${this.#apiBase}/certificates`,
       { withCredentials: true }
-    ); */
+    );
   }
 }
