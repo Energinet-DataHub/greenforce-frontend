@@ -20,7 +20,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WattIconModule } from '../../../foundations/icon/icon.module';
 import { WattTableDataSource } from '../watt-table-data-source';
-import { WATT_TABLE } from '../watt-table.component';
+import { WattTableColumnDef, WATT_TABLE } from '../watt-table.component';
 
 export interface PeriodicElement {
   name: string;
@@ -83,7 +83,7 @@ export class StorybookTableOverviewComponent implements AfterViewInit {
 
   activeRow?: number;
   dataSource = new WattTableDataSource(periodicElements);
-  columns = {
+  columns: WattTableColumnDef<PeriodicElement> = {
     position: { header: 'Position', size: 'min-content' },
     name: { header: 'Name' },
     symbol: { header: 'Symbol', sort: false },
