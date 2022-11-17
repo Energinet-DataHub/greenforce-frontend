@@ -40,7 +40,7 @@ import { DrawerDatepickerService } from './charge-content/drawer-datepicker/draw
 import { DhMarketParticipantDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 
 const dateTimeFormat = 'MM-dd-yyyy';
-const danishTimeZoneIdentifier = 'Europe/Copenhagen';
+const timeZoneIdentifier = 'Europe/London';
 
 const charge = {
   id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
@@ -114,7 +114,7 @@ describe('DhChargesPricesDrawerComponent', () => {
     const expectedDateUTC = new Date(new Date().setHours(0, 0, 0, 0));
     const expectedDate = formatInTimeZone(
       expectedDateUTC,
-      danishTimeZoneIdentifier,
+      timeZoneIdentifier,
       dateTimeFormat
     );
     const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
@@ -138,7 +138,7 @@ describe('DhChargesPricesDrawerComponent', () => {
     const expectedDateUTC = new Date(new Date().setHours(0, 0, 0, 0));
     const expectedDate = formatInTimeZone(
       expectedDateUTC,
-      danishTimeZoneIdentifier,
+      timeZoneIdentifier,
       dateTimeFormat
     );
     const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
