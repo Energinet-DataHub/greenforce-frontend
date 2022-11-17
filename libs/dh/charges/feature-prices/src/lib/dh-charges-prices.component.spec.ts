@@ -29,7 +29,7 @@ import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets
 
 const wattDrawerName = 'watt-drawer';
 const dateTimeFormat = 'MM-dd-yyyy';
-const danishTimeZoneIdentifier = 'Europe/London';
+const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
 describe('DhChargesPricesComponent', () => {
   async function setup() {

@@ -40,7 +40,7 @@ import { DrawerDatepickerService } from './charge-content/drawer-datepicker/draw
 import { DhMarketParticipantDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 
 const dateTimeFormat = 'MM-dd-yyyy';
-const timeZoneIdentifier = 'Europe/London';
+const timeZoneIdentifier = 'Europe/Copenhagen';
 
 const charge = {
   id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
