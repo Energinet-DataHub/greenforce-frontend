@@ -57,7 +57,6 @@ const routes: Routes = [
     children: [
       {
         path: eoCertificatesRoutePath,
-        data: { title: 'Certificates' },
         loadChildren: () =>
           import('@energinet-datahub/eo/certificates').then(
             (esModule) => esModule.EoCertificatesModule
