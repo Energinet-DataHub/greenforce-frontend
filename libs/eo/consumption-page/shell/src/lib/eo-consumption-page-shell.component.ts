@@ -61,17 +61,17 @@ import { EoConsumptionStore } from './eo-consumption.store';
     `,
   ],
   template: `
-    <ng-container *rxLet="error$ as error">
+    <ng-container *rxLet="error$; let error">
       <eo-popup-message *ngIf="error" [errorMessage]="error">
       </eo-popup-message>
     </ng-container>
     <div class="content">
-      <eo-stack [size]="'L'">
+      <eo-stack size="L">
         <eo-consumption-page-info></eo-consumption-page-info>
         <eo-consumption-line-chart></eo-consumption-line-chart>
         <eo-date-picker
           [onFeatureFlag]="'daterange'"
-          *rxLet="appSettingsDates$ as dates"
+          *rxLet="appSettingsDates$; let dates"
           [dateRangeInput]="dates"
           (newDates)="setNewAppDates($event)"
         ></eo-date-picker>
@@ -79,7 +79,7 @@ import { EoConsumptionStore } from './eo-consumption.store';
           [onFeatureFlag]="'resolution'"
         ></eo-resolution-picker>
       </eo-stack>
-      <eo-stack [size]="'L'">
+      <eo-stack size="L">
         <eo-consumption-page-tip></eo-consumption-page-tip>
         <eo-consumption-page-energy-consumption></eo-consumption-page-energy-consumption>
       </eo-stack>
