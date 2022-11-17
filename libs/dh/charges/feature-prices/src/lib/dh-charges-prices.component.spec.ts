@@ -130,8 +130,8 @@ describe('DhChargesPricesComponent', () => {
 
     const expectedDate = new Date(
       new Date().setHours(0, 0, 0, 0)
-    );
-    const actualDateInput = new Date(startDateInput.value);
+    ).toISOString();
+    const actualDateInput = new Date(startDateInput.value).toISOString();
 
     expect(actualDateInput).toEqual(expectedDate);
   });
