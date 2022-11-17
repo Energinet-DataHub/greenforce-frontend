@@ -18,6 +18,7 @@ import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { MatNativeDateModule } from '@angular/material/core';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { HttpClientModule } from '@angular/common/http';
+import { formatInTimeZone } from 'date-fns-tz';
 import { fireEvent, render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import {
@@ -128,10 +129,11 @@ describe('DhChargesPricesComponent', () => {
 
     expect(startDateInput).toBeInTheDocument();
 
-    const expectedDate = new Date(
-      new Date().setHours(0, 0, 0, 0)
-    ).toISOString();
-    const actualDateInput = new Date(startDateInput.value).toISOString();
+    const dateTimeFormat = 'dd.MM.yyyy';
+    const danishTimeZoneIdentifier = 'Europe/Copenhagen';
+    const expectedDateUTC = new Date(new Date().setHours(0, 0, 0, 0));
+    const expectedDate = formatInTimeZone(expectedDateUTC, danishTimeZoneIdentifier, dateTimeFormat);
+    const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
 
     expect(actualDateInput).toEqual(expectedDate);
   });
@@ -163,9 +165,10 @@ describe('DhChargesPricesComponent', () => {
 
     expect(startDateInput).toBeInTheDocument();
 
-    const expectedDate = new Date(
-      new Date().setHours(0, 0, 0, 0)
-    ).toLocaleDateString();
+    const dateTimeFormat = 'dd.MM.yyyy';
+    const danishTimeZoneIdentifier = 'Europe/Copenhagen';
+    const expectedDateUTC = new Date(new Date().setHours(0, 0, 0, 0));
+    const expectedDate = formatInTimeZone(expectedDateUTC, danishTimeZoneIdentifier, dateTimeFormat);
     const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
 
     expect(actualDateInput).toEqual(expectedDate);
