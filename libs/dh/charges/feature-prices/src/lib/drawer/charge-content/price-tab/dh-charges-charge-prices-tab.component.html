@@ -76,8 +76,10 @@ limitations under the License.
             {{ t("priceTab.time") }}
           </th>
           <td mat-cell *matCellDef="let element">
-            {{ this.getFromDateTime(element) }} -
-            {{ this.getToDateTime(element) }}
+            <!-- {{ this.getFromDateTime(element) }} -
+            {{ this.getToDateTime(element) }} -->
+            {{ element.fromDateTime | dhTime: charge?.resolution }} -
+            {{ element.toDateTime | dhTime: charge?.resolution }}
           </td>
         </ng-container>
 
