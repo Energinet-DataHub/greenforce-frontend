@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
-import { EoCertificatesStore } from '../eo-certificates.store';
-import { map, tap } from 'rxjs';
 import { LetModule } from '@rx-angular/template';
+import { map, tap } from 'rxjs';
+import { EoCertificatesStore } from '../eo-certificates.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,21 +36,18 @@ import { LetModule } from '@rx-angular/template';
   selector: 'eo-certificates',
   standalone: true,
   styles: [
-    //language=scss
     `
       :host {
         display: grid;
-        grid-template-columns: 1fr 279px;
+        grid-template-columns: auto 279px;
         grid-gap: var(--watt-space-m);
         max-width: 1040px; // Magic UX number
       }
 
-      table {
-        th {
-          text-align: left;
-          width: 200px; // Magic UX number
-          height: 34px; // Magic UX number
-        }
+      .grid-table {
+        display: grid;
+        grid-template-columns: minmax(auto, 200px) auto;
+        gap: 1rem;
       }
 
       .space-between {
@@ -70,48 +67,34 @@ import { LetModule } from '@rx-angular/template';
       <mat-card>
         <eo-stack size="M">
           <h4><b>Static Data</b></h4>
-          <table>
-            <tr>
-              <th>Energy</th>
-              <td>{{ cert?.quantity?.toLocaleString() }} Wh</td>
-            </tr>
-            <tr>
-              <th>Start time</th>
-              <td>
-                {{ cert?.dateFrom | date: 'HH:mm dd-MMM-y z' | uppercase }}
-              </td>
-            </tr>
-            <tr>
-              <th>Start time</th>
-              <td>
-                {{ cert?.dateTo | date: 'HH:mm dd-MMM-y z' | uppercase }}
-              </td>
-            </tr>
-            <tr>
-              <th>GSRN</th>
-              <td>{{ cert?.gsrn }}</td>
-            </tr>
-            <tr>
-              <th>Certificate ID</th>
-              <td>{{ cert?.id }}</td>
-            </tr>
-          </table>
+          <div class="grid-table">
+            <b>Energy</b>
+            <div>{{ cert?.quantity?.toLocaleString() }} Wh</div>
+            <b>Start time</b>
+            <div>
+              {{ cert?.dateFrom | date: 'HH:mm dd-MMM-y z' | uppercase }}
+            </div>
+            <b>Start time</b>
+            <div>
+              {{ cert?.dateTo | date: 'HH:mm dd-MMM-y z' | uppercase }}
+            </div>
+            <b>GSRN</b>
+            <div>{{ cert?.gsrn }}</div>
+            <b>Certificate ID</b>
+            <div>{{ cert?.id }}</div>
+          </div>
         </eo-stack>
       </mat-card>
       <mat-card>
         <div class="space-between">
           <eo-stack size="M">
             <h4><b>Technology</b></h4>
-            <table>
-              <tr>
-                <th>Technology Code</th>
-                <td>{{ cert?.techCode }}</td>
-              </tr>
-              <tr>
-                <th>Fuel Code</th>
-                <td>{{ cert?.fuelCode }}</td>
-              </tr>
-            </table>
+            <div class="grid-table">
+              <b>Technology Code</b>
+              <div>{{ cert?.techCode }}</div>
+              <b>Fuel Code</b>
+              <div>{{ cert?.fuelCode }}</div>
+            </div>
           </eo-stack>
           <img
             alt="Windmill"

@@ -23,7 +23,6 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 @Component({
   selector: 'eo-cookie-banner',
   styles: [
-    //language=scss
     `
       :host {
         position: fixed;

@@ -52,7 +52,6 @@ import { EoConsumptionStore } from './eo-consumption.store';
   ],
   selector: 'eo-consumption-shell',
   styles: [
-    // language=scss
     `
       .content {
         display: grid;

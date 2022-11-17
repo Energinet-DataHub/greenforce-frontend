@@ -24,10 +24,10 @@ import {
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { RouterModule } from '@angular/router';
+import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { EoCertificate } from './eo-certificates.service';
 import { EoCertificatesStore } from './eo-certificates.store';
-import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
-import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'eo-certificates-table',
@@ -41,7 +41,6 @@ import { RouterModule } from '@angular/router';
   ],
   standalone: true,
   styles: [
-    //language=scss
     `
       .link {
         text-decoration: none;
@@ -63,8 +62,8 @@ import { RouterModule } from '@angular/router';
           >Time
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element.dateFrom * 1000 | date: 'dd-MMM-y HH:mm' }}-{{
-            element.dateTo * 1000 | date: 'HH:mm'
+          {{ element.dateFrom | date: 'dd-MMM-y HH:mm' }}-{{
+            element.dateTo | date: 'HH:mm'
           }}
         </mat-cell>
       </ng-container>
