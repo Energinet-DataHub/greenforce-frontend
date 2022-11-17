@@ -107,7 +107,6 @@ describe('DhChargesPricesDrawerComponent', () => {
 
     expect(startDateInput).toBeInTheDocument();
 
-
     const danishLocaleCode = 'da';
     const expectedDate = new Date(
       new Date().setHours(0, 0, 0, 0)
