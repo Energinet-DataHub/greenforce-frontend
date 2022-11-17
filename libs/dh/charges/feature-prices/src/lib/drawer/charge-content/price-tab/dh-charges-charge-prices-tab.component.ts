@@ -48,13 +48,13 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { getHours, getMinutes } from 'date-fns';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { zonedTimeToUtc } from 'date-fns-tz';
+import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
 
 @Component({
   selector: 'dh-charges-charge-prices-tab',
@@ -153,6 +153,16 @@ export class DhChargesChargePricesTabComponent
     if (this.charge) this.loadPrices(this.charge);
   }
 
+  getFromDateTime(price: ChargePriceV1Dto) {
+    if (this.charge) return getFromDateTime(price, this.charge.resolution);
+    return undefined;
+  }
+
+  getToDateTime(price: ChargePriceV1Dto) {
+    if (this.charge) return getToDateTime(price, this.charge.resolution);
+    return undefined;
+  }
+
   loadPrices(charge: ChargeV1Dto) {
     setTimeout(() => {
       if (charge?.hasAnyPrices) {
@@ -194,50 +204,6 @@ export class DhChargesChargePricesTabComponent
       skip: 0,
       take: 0,
     };
-  }
-
-  getHours(date: Date, hoursToAdd: number) {
-    const hours = getHours(date) + hoursToAdd;
-    return this.addLeadingZeros(hours, 2);
-  }
-
-  getFromDateTime(price: ChargePriceV1Dto) {
-    const fromDateTime = new Date(price.fromDateTime);
-
-    if (this.charge?.resolution == Resolution.PT1H)
-      return this.getHours(fromDateTime, 0);
-
-    return this.getTime(fromDateTime);
-  }
-
-  getToDateTime(price: ChargePriceV1Dto) {
-    const toDateTime = new Date(price.toDateTime);
-
-    if (this.charge?.resolution == Resolution.PT1H) {
-      const fromDateTime = new Date(price.fromDateTime);
-
-      // If fromDateTime is winter and toDateTime is summer, remove 1 hour from ToDateTime
-      if (fromDateTime.getTimezoneOffset() > toDateTime.getTimezoneOffset())
-        return this.getHours(toDateTime, -1);
-
-      // If fromDateTime is summer and toDateTime is winter, add 1 hour to ToDateTime
-      if (fromDateTime.getTimezoneOffset() < toDateTime.getTimezoneOffset())
-        return this.getHours(toDateTime, 1);
-
-      return this.getHours(toDateTime, 0);
-    }
-
-    return this.getTime(toDateTime);
-  }
-
-  getTime(date: Date) {
-    const minutes = this.addLeadingZeros(getMinutes(date), 2);
-    const hours = this.getHours(date, 0);
-    return `${hours}:${minutes}`;
-  }
-
-  addLeadingZeros(number: number, totalLength: number): string {
-    return String(number).padStart(totalLength, '0');
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
