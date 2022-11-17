@@ -50,7 +50,17 @@ export interface WattTableColumn<T> {
   cell?: (row: T) => string;
   /** Enable or disable sorting for this column. Defaults to `true`. */
   sort?: boolean;
-  /** Set the column size using grid sizing values. Defaults to `"auto"`. */
+
+  /**
+   * Set the column size using grid sizing values. Defaults to `"auto"`.
+   *
+   * @remarks
+   * Accepts all of the CSS grid track size keywords (such as `min-content`,
+   * `max-content`, `minmax()`) as well as fractional (`fr`), percentage (`%`)
+   * and length (`px`, `em`, etc) units.
+   *
+   * @see https://drafts.csswg.org/css-grid/#track-sizes
+   */
   size?: string;
 }
 
