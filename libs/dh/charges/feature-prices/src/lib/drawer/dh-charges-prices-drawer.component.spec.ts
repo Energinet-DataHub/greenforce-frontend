@@ -18,6 +18,7 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { fireEvent, render, screen, waitFor } from '@testing-library/angular';
 import { MatNativeDateModule } from '@angular/material/core';
 import { HttpClientModule } from '@angular/common/http';
+import { formatInTimeZone } from 'date-fns-tz';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { WattDrawerModule } from '@energinet-datahub/watt/drawer';
@@ -108,10 +109,10 @@ describe('DhChargesPricesDrawerComponent', () => {
     expect(startDateInput).toBeInTheDocument();
 
 
-    const danishLocaleCode = 'da';
-    const expectedDate = new Date(
-      new Date().setHours(0, 0, 0, 0)
-    ).toLocaleDateString(danishLocaleCode);
+    const dateTimeFormat = 'dd.MM.yyyy';
+    const danishTimeZoneIdentifier = 'Europe/Copenhagen';
+    const expectedDateUTC = new Date(new Date().setHours(0, 0, 0, 0));
+    const expectedDate = formatInTimeZone(expectedDateUTC, danishTimeZoneIdentifier, dateTimeFormat);
     const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
 
     expect(actualDateInput).toEqual(expectedDate);
