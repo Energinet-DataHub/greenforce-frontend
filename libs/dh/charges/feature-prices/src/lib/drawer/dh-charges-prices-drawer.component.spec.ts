@@ -39,7 +39,7 @@ import userEvent from '@testing-library/user-event';
 import { DrawerDatepickerService } from './charge-content/drawer-datepicker/drawer-datepicker.service';
 import { DhMarketParticipantDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 
-const dateTimeFormat = 'dd.MM.yyyy';
+const dateTimeFormat = 'MM-dd-yyyy';
 const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
 const charge = {
@@ -118,8 +118,9 @@ describe('DhChargesPricesDrawerComponent', () => {
       dateTimeFormat
     );
     const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
+    const expectedDateInput = new Date(expectedDate).toLocaleDateString();
 
-    expect(actualDateInput).toEqual(expectedDate);
+    expect(actualDateInput).toEqual(expectedDateInput);
   });
 
   it('when date range updated, should be same on all tabs', async () => {
@@ -141,8 +142,9 @@ describe('DhChargesPricesDrawerComponent', () => {
       dateTimeFormat
     );
     const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
+    const expectedDateInput = new Date(expectedDate).toLocaleDateString();
 
-    expect(actualDateInput).toEqual(expectedDate);
+    expect(actualDateInput).toEqual(expectedDateInput);
 
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);

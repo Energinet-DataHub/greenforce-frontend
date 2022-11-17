@@ -28,7 +28,7 @@ import {
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
 const wattDrawerName = 'watt-drawer';
-const dateTimeFormat = 'dd.MM.yyyy';
+const dateTimeFormat = 'MM-dd-yyyy';
 const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
 describe('DhChargesPricesComponent', () => {
@@ -138,8 +138,9 @@ describe('DhChargesPricesComponent', () => {
       dateTimeFormat
     );
     const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
+    const expectedDateInput = new Date(expectedDate).toLocaleDateString();
 
-    expect(actualDateInput).toEqual(expectedDate);
+    expect(actualDateInput).toEqual(expectedDateInput);
   });
 
   it.skip('when date range in drawer is changed, it should be reset to today on close.', async () => {
@@ -176,8 +177,9 @@ describe('DhChargesPricesComponent', () => {
       dateTimeFormat
     );
     const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
+    const expectedDateInput = new Date(expectedDate).toLocaleDateString();
 
-    expect(actualDateInput).toEqual(expectedDate);
+    expect(actualDateInput).toEqual(expectedDateInput);
 
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
