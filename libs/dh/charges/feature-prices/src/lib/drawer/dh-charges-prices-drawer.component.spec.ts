@@ -107,7 +107,9 @@ describe('DhChargesPricesDrawerComponent', () => {
 
     expect(startDateInput).toBeInTheDocument();
 
-    const expectedDate = new Date().toLocaleDateString();
+    const expectedDate = new Date(
+      new Date().setHours(0, 0, 0, 0)
+    ).toLocaleDateString();
     const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
 
     expect(actualDateInput).toEqual(expectedDate);
@@ -125,10 +127,12 @@ describe('DhChargesPricesDrawerComponent', () => {
 
     expect(startDateInput).toBeInTheDocument();
 
-    const today = new Date();
+    const expectedDate = new Date(
+      new Date().setHours(0, 0, 0, 0)
+    ).toLocaleDateString();
     const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
 
-    expect(actualDateInput).toEqual(today.toLocaleDateString());
+    expect(actualDateInput).toEqual(expectedDate);
 
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
