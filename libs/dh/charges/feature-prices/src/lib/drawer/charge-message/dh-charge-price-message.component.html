@@ -44,7 +44,7 @@ limitations under the License.
       class="download-button"
       icon="openInNew"
       variant="text"
-      (click)="downloadLog($event)"
+      (click)="downloadLog()"
     >
       {{ t("prices.Download") }}
     </watt-button>
@@ -73,7 +73,7 @@ limitations under the License.
   <ng-container *ngIf="messageHasGeneralError$ | push">
     <watt-empty-state
       class="loading-error"
-      icon="power"
+      icon="custom-power"
       title="{{ t('prices.loadingErrorTitle') }}"
       message="{{ t('prices.loadingErrorMessage') }}"
     ></watt-empty-state>

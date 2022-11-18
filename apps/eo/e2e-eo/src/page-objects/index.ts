@@ -14,25 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { WattTooltipModule } from './watt-tooltip.module';
-import { moduleMetadata, Story } from '@storybook/angular';
-import { WattButtonModule } from '../button';
-
-export default {
-  title: 'Components/Tooltip',
-  decorators: [
-    moduleMetadata({
-      imports: [WattButtonModule, WattTooltipModule],
-    }),
-  ],
-};
-
-export const Overview: Story = (args) => ({
-  props: args,
-  template: `
-    <watt-button
-      wattTooltip="Click me"
-      wattTooltipPosition="right"
-    >Button</watt-button>
-  `,
-});
+export * from './landing-page.po';
+export * from './shared.po';
+export * from './footer.po';
+export * from './login.po';
+export * from './dashboard.po';

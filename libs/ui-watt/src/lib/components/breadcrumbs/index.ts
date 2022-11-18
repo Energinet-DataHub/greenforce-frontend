@@ -14,13 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { WattTooltipDirective } from './watt-tooltip.directive';
-
-@NgModule({
-  imports: [MatTooltipModule],
-  declarations: [WattTooltipDirective],
-  exports: [WattTooltipDirective],
-})
-export class WattTooltipModule {}
+export {
+  WATT_BREADCRUMBS,
+  WattBreadcrumbsComponent,
+  WattBreadcrumbComponent,
+} from './watt-breadcrumbs.component';

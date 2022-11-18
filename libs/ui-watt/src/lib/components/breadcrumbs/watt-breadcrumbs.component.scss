@@ -14,10 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const findDrawer = () => cy.get('mat-sidenav:not(.ng-animating)');
-export const findLogOutMenuItem = () =>
-  cy.findByRole('link', { name: /Log out/i });
-export const findMenu = () =>
-  cy.findByLabelText(/Menu/i, {
-    selector: 'mat-sidenav:not(.ng-animating) *',
-  });
+@use "@energinet-datahub/watt/utils" as watt;
+
+watt-breadcrumbs {
+  display: block;
+  @include watt.typography-watt-text-s;
+
+  nav,
+  watt-breadcrumb {
+    align-items: center;
+    display: flex;
+  }
+
+  watt-breadcrumb {
+    cursor: default;
+
+    &.interactive {
+      cursor: pointer;
+    }
+    &:not(:last-child) {
+      color: var(--watt-color-primary);
+      text-decoration: none;
+    }
+  }
+}

@@ -15,10 +15,12 @@
  * limitations under the License.
  */
 
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
+  standalone: true,
+  imports: [MatCardModule],
   selector: 'eo-dashboard-hourly-declaration',
   template: ` <mat-card>
     <h3>Hourly declaration</h3>
@@ -41,10 +43,3 @@ import { MatCardModule } from '@angular/material/card';
   ],
 })
 export class EoDashboardHourlyDeclarationComponent {}
-
-@NgModule({
-  declarations: [EoDashboardHourlyDeclarationComponent],
-  exports: [EoDashboardHourlyDeclarationComponent],
-  imports: [MatCardModule],
-})
-export class EoDashboardHourlyDeclarationScam {}

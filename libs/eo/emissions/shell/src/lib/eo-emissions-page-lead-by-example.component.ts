@@ -14,11 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatCardModule],
   selector: 'eo-emissions-page-lead-by-example',
   styles: [
     `
@@ -81,10 +83,3 @@ import { MatCardModule } from '@angular/material/card';
   `,
 })
 export class EoEmissionsPageLeadByExampleComponent {}
-
-@NgModule({
-  declarations: [EoEmissionsPageLeadByExampleComponent],
-  imports: [MatCardModule],
-  exports: [EoEmissionsPageLeadByExampleComponent],
-})
-export class EoEmissionsPageLeadByExampleScam {}

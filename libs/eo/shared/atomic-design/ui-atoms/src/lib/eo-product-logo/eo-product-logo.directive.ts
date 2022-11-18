@@ -37,4 +37,4 @@ export class EoProductLogoDirective {
   declarations: [EoProductLogoDirective],
   exports: [EoProductLogoDirective],
 })
-export class EoProductLogoScam {}
+export class EoProductLogoComponent {}

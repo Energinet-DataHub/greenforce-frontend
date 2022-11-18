@@ -15,14 +15,21 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoPopupMessageScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { LetModule } from '@rx-angular/template';
-import { EoMeteringPointListScam } from './eo-metering-point-list.component';
+import { EoMeteringPointListComponent } from './eo-metering-point-list.component';
 import { EoMeteringPointsStore } from './eo-metering-points.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    LetModule,
+    CommonModule,
+    EoPopupMessageComponent,
+    EoMeteringPointListComponent,
+  ],
   selector: 'eo-metering-points-shell',
   styles: [``],
   template: ` <ng-container *rxLet="error$ as error">
@@ -35,15 +42,3 @@ export class EoMeteringPointsShellComponent {
 
   constructor(private meteringPointStore: EoMeteringPointsStore) {}
 }
-
-@NgModule({
-  declarations: [EoMeteringPointsShellComponent],
-  exports: [EoMeteringPointsShellComponent],
-  imports: [
-    LetModule,
-    CommonModule,
-    EoPopupMessageScam,
-    EoMeteringPointListScam,
-  ],
-})
-export class EoMeteringPointsShellScam {}
