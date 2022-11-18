@@ -16,10 +16,22 @@
  */
 
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { EoCertificatesComponent } from './lib/eo-certificates.component';
+import { EoCertificateDetailsComponent } from './lib/certificate-details/eo-certificate-details.component';
 
-const routes: Routes = [{ path: '', component: EoCertificatesComponent }];
+const routes: Routes = [
+  {
+    path: '',
+    data: { title: 'Certificates' },
+    component: EoCertificatesComponent,
+  },
+  {
+    path: ':id',
+    data: { title: 'Certificate Details - Production' },
+    component: EoCertificateDetailsComponent,
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes), EoCertificatesComponent],
