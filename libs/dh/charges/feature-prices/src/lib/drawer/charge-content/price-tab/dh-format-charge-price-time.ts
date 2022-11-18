@@ -18,7 +18,6 @@ import {
   ChargePriceV1Dto,
   Resolution,
 } from '@energinet-datahub/dh/shared/domain';
-import { getHours } from 'date-fns';
 import { formatInTimeZone, toDate } from 'date-fns-tz';
 
 const timeFormat = 'HH:mm';
