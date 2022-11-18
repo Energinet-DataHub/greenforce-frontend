@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
+import { set } from 'date-fns';
 import { BehaviorSubject } from 'rxjs';
 
 export interface DatePickerData {
@@ -26,7 +27,8 @@ export interface DatePickerData {
   providedIn: 'root',
 })
 export class DrawerDatepickerService {
-  todayAtMidnight = new Date(new Date().setHours(0, 0, 0, 0));
+  todayAtMidnight = this.setToStartOfDay(new Date());
+
   dateRangeDefault: DatePickerData = {
     startDate: this.todayAtMidnight.toISOString(),
     endDate: new Date().toISOString(),
@@ -43,7 +45,12 @@ export class DrawerDatepickerService {
     this.dataSource$.next(dateRange);
   }
 
-  reset() {
-    this.dataSource$.next(this.dateRangeDefault);
+  private setToStartOfDay(date: Date): Date {
+    return set(date, {
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+      milliseconds: 0,
+    });
   }
 }
