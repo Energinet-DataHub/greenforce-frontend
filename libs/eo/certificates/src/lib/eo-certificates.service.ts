@@ -50,9 +50,9 @@ export class EoCertificatesService {
   }
 
   getCertificates() {
-    return this.http.get<EoCertificateResponse>(
-      `${this.#apiBase}/certificates`,
-      { withCredentials: true }
-    );
+     return this.http.get<EoCertificateResponse>(
+       `${this.#apiBase}/certificates`,
+       { withCredentials: true }
+     );
   }
 }

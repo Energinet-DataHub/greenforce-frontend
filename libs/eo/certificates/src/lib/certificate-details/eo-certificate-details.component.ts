@@ -46,8 +46,8 @@ import { EoCertificatesStore } from '../eo-certificates.store';
 
       .grid-table {
         display: grid;
-        grid-template-columns: minmax(auto, 200px) auto;
-        gap: 1rem;
+        grid-template-columns: minmax(auto, 200px) auto; // Magix UX number
+        gap: var(--watt-space-m);
       }
 
       .space-between {
