@@ -24,17 +24,32 @@ import {
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { RouterModule } from '@angular/router';
+import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { EoCertificate } from './eo-certificates.service';
 import { EoCertificatesStore } from './eo-certificates.store';
 
 @Component({
   selector: 'eo-certificates-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MatPaginatorModule, MatTableModule, MatSortModule],
+  imports: [
+    CommonModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
+    RouterModule,
+  ],
   standalone: true,
-  styles: [],
+  styles: [
+    `
+      .link {
+        text-decoration: none;
+      }
+    `,
+  ],
   template: `
     <mat-paginator
+      *ngIf="dataSource.data.length > 10"
       [pageSize]="10"
       [pageSizeOptions]="[10, 25, 50, 100, 250]"
       [showFirstLastButtons]="true"
@@ -47,8 +62,8 @@ import { EoCertificatesStore } from './eo-certificates.store';
           >Time
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element.dateFrom * 1000 | date: 'dd-MMM-y HH:mm' }}-{{
-            element.dateTo * 1000 | date: 'HH:mm'
+          {{ element.dateFrom | date: 'dd-MMM-y HH:mm' }}-{{
+            element.dateTo | date: 'HH:mm'
           }}
         </mat-cell>
       </ng-container>
@@ -67,8 +82,28 @@ import { EoCertificatesStore } from './eo-certificates.store';
           >Amount
         </mat-header-cell>
         <mat-cell *matCellDef="let element"
-          >{{ element.quantity.toLocaleString() }} Wh</mat-cell
-        >
+          >{{ element.quantity.toLocaleString() }} Wh
+        </mat-cell>
+      </ng-container>
+
+      <!-- Action column -->
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+        <mat-cell *matCellDef="let element"
+          ><h4>
+            <a
+              class="link"
+              routerLink="/${eoCertificatesRoutePath}/{{ element.id }}"
+            >
+              View certificate
+            </a>
+          </h4>
+        </mat-cell>
+      </ng-container>
+
+      <!-- No data to show -->
+      <ng-container *matNoDataRow>
+        You do not have any certificates to show right now.
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -77,15 +112,16 @@ import { EoCertificatesStore } from './eo-certificates.store';
   `,
 })
 export class EoCertificatesTableComponent implements AfterViewInit {
-  data$ = this.store.certificates$;
   dataSource: MatTableDataSource<EoCertificate> = new MatTableDataSource();
-  displayedColumns: string[] = ['dateFrom', 'gsrn', 'quantity'];
+  displayedColumns: string[] = ['dateFrom', 'gsrn', 'quantity', 'action'];
 
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private store: EoCertificatesStore) {
-    this.data$.subscribe((certs) => (this.dataSource.data = certs));
+    this.store.certificates$.subscribe(
+      (certs) => (this.dataSource.data = certs)
+    );
   }
 
   ngAfterViewInit() {

@@ -69,7 +69,12 @@ export class EoCertificatesStore extends ComponentStore<EoCertificatesState> {
   loadData() {
     this.service.getCertificates().subscribe({
       next: (response) => {
-        this.setCertificates(response.result);
+        const adjustedToDateInMilliseconds = response?.result?.map((cert) => ({
+          ...cert,
+          dateTo: cert.dateTo * 1000,
+          dateFrom: cert.dateFrom * 1000,
+        }));
+        this.setCertificates(adjustedToDateInMilliseconds);
         this.setError(null);
         this.setHasLoaded(true);
       },
