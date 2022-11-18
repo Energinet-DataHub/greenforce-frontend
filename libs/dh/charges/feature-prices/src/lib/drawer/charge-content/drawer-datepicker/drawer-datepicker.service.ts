@@ -23,9 +23,7 @@ export interface DatePickerData {
   endDate: string;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class DrawerDatepickerService {
   todayAtMidnight = this.setToStartOfDay(new Date());
 
