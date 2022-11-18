@@ -26,6 +26,10 @@ export interface EoCertificate {
   dateTo: number;
   quantity: number;
   gsrn: string;
+  techCode: string;
+  fuelCode: string;
+  id: string;
+  gridArea: string;
 }
 
 interface EoCertificateResponse {

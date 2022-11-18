@@ -24,7 +24,7 @@ import { EoCertificatesTableComponent } from './eo-certificates-table.component'
   imports: [MatCardModule, WattCheckboxModule, EoCertificatesTableComponent],
   selector: 'eo-certificates',
   standalone: true,
-  styles: [``],
+  styles: [],
   template: `
     <mat-card class="watt-space-stack-l">
       <h3 class="watt-space-stack-m">This is the beginning</h3>
