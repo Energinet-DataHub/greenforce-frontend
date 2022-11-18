@@ -47,11 +47,13 @@ import {
   WattTabsModule,
 } from '@energinet-datahub/watt/tabs';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
+import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
 
 @Component({
   selector: 'dh-charge-content',
   templateUrl: './dh-charge-content.component.html',
   styleUrls: ['./dh-charge-content.component.scss'],
+  providers: [DrawerDatepickerService],
 })
 export class DhChargeContentComponent {
   @ViewChild(DhChargesChargeMessagesTabComponent)

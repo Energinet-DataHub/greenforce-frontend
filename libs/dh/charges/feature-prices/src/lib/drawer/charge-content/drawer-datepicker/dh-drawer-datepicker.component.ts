@@ -45,7 +45,6 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
   selector: 'dh-drawer-datepicker',
   templateUrl: './dh-drawer-datepicker.component.html',
   styleUrls: ['./dh-drawer-datepicker.component.scss'],
-  providers: [DrawerDatepickerService],
 })
 export class DhDrawerDatepickerComponent
   implements OnInit, OnDestroy, AfterViewInit
