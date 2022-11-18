@@ -21,7 +21,7 @@ import {
 } from '@storybook/angular';
 
 import { WattStorybookTableDecoratorComponent } from './storybook-table-decorator.component';
-import { WATT_TABLE } from '../watt-table.component';
+import { WattTableColumnDef, WATT_TABLE } from '../watt-table.component';
 import { WattTableDataSource } from '../watt-table-data-source';
 import { WattIconModule } from '../../../foundations/icon/icon.module';
 import { MatSortModule } from '@angular/material/sort';
@@ -131,5 +131,5 @@ Table.args = {
     position: { header: 'Position', size: 'min-content' },
     name: { header: 'Name' },
     symbol: { header: 'Symbol', sort: false },
-  },
+  } as WattTableColumnDef<PeriodicElement>,
 };
