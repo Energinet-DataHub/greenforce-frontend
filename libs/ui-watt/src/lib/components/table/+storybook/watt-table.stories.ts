@@ -93,6 +93,7 @@ export const Table: Story = (args) => {
     template: `
       <watt-table
         #table
+        description="Atomic Elements"
         sortBy="position"
         sortDirection="asc"
         [dataSource]="dataSource"

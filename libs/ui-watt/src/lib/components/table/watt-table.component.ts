@@ -136,6 +136,12 @@ export class WattTableComponent<T>
   @Input() columns: WattTableColumnDef<T> = {};
 
   /**
+   * Provide a description of the table for visually impaired users.
+   */
+  @Input()
+  description = '';
+
+  /**
    * Identifier for column that should be sorted initially.
    */
   @Input()
