@@ -62,7 +62,13 @@ export function getToDateTime(price: ChargePriceV1Dto, resolution: Resolution) {
 }
 
 function formatHours(date: Date, hoursToAdd: number) {
-  const hours = getHours(date) + hoursToAdd;
+  const dateHours = formatInTimeZone(
+    date,
+    danishTimeZoneIdentifier,
+    hourFormat
+  );
+
+  const hours = Number(dateHours) + hoursToAdd;
   return addLeadingZeros(hours, 2);
 }
 
