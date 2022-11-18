@@ -36,7 +36,6 @@ import { DhChargesChargeHistoryTabScam } from './charge-content/history-tab/dh-c
 import { DhChargesChargeMessagesTabScam } from './charge-content/message-tab/dh-charges-charge-messages-tab.component';
 import { DhDrawerDatepickerScam } from './charge-content/drawer-datepicker/dh-drawer-datepicker.component';
 import userEvent from '@testing-library/user-event';
-import { DrawerDatepickerService } from './charge-content/drawer-datepicker/drawer-datepicker.service';
 import { DhMarketParticipantDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 
 const dateTimeFormat = 'MM-dd-yyyy';
@@ -59,13 +58,10 @@ const charge = {
   hasAnyPrices: true,
 };
 
-describe('DhChargesPricesDrawerComponent', () => {
+describe(DhChargesPricesDrawerComponent.name, () => {
   async function setup() {
     const { fixture } = await render(DhChargesPricesDrawerComponent, {
-      providers: [
-        DrawerDatepickerService,
-        DhMarketParticipantDataAccessApiStore,
-      ],
+      providers: [DhMarketParticipantDataAccessApiStore],
       imports: [
         getTranslocoTestingModule(),
         MatNativeDateModule,

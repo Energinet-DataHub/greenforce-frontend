@@ -38,7 +38,6 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { DrawerDatepickerService } from './charge-content/drawer-datepicker/drawer-datepicker.service';
 import { DhChargeDetailsHeaderScam } from './charge-content/details-header/dh-charge-details-header.component';
 import { DhChargesPricesDrawerService } from './dh-charges-prices-drawer.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -65,7 +64,6 @@ export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
   constructor(
-    private datepickerService: DrawerDatepickerService,
     private dhChargesPricesDrawerService: DhChargesPricesDrawerService
   ) {}
 
@@ -91,7 +89,6 @@ export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
 
   drawerClosed() {
     this.dhChargesPricesDrawerService.reset();
-    this.datepickerService.reset();
     this.closed.emit();
   }
 
