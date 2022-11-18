@@ -22,6 +22,7 @@ import { getHours } from 'date-fns';
 import { formatInTimeZone, toDate } from 'date-fns-tz';
 
 const timeFormat = 'HH:mm';
+const hourFormat = 'HH';
 const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
 export function getFromDateTime(
@@ -32,7 +33,8 @@ export function getFromDateTime(
     timeZone: danishTimeZoneIdentifier,
   });
 
-  if (resolution == Resolution.PT1H) return formatHours(fromDateTime, 0);
+  if (resolution == Resolution.PT1H)
+    return formatInTimeZone(fromDateTime, danishTimeZoneIdentifier, hourFormat);
 
   return formatInTimeZone(fromDateTime, danishTimeZoneIdentifier, timeFormat);
 }
@@ -53,7 +55,7 @@ export function getToDateTime(price: ChargePriceV1Dto, resolution: Resolution) {
     if (fromDateTime.getTimezoneOffset() < toDateTime.getTimezoneOffset())
       return formatHours(toDateTime, 1);
 
-    return formatHours(toDateTime, 0);
+    return formatInTimeZone(toDateTime, danishTimeZoneIdentifier, hourFormat);
   }
 
   return formatInTimeZone(toDateTime, danishTimeZoneIdentifier, timeFormat);
