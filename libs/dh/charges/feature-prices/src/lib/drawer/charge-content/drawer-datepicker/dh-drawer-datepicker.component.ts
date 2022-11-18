@@ -82,7 +82,7 @@ export class DhDrawerDatepickerComponent
     this.formControlDateRange.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((dateRange) => {
-        this.UpdateDateRange({
+        this.updateDateRange({
           startDate: dateRange?.start ?? '',
           endDate: dateRange?.end ?? '',
         });
@@ -142,7 +142,7 @@ export class DhDrawerDatepickerComponent
       });
   }
 
-  private UpdateDateRange(dateRange: DatePickerData) {
+  private updateDateRange(dateRange: DatePickerData) {
     clearTimeout(this.timer);
 
     this.datepickerService.setData({
