@@ -19,7 +19,7 @@ import {
   Resolution,
 } from '@energinet-datahub/dh/shared/domain';
 import { getHours } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
+import { formatInTimeZone, toDate } from 'date-fns-tz';
 
 const timeFormat = 'HH:mm';
 const danishTimeZoneIdentifier = 'Europe/Copenhagen';
@@ -28,7 +28,9 @@ export function getFromDateTime(
   price: ChargePriceV1Dto,
   resolution: Resolution
 ) {
-  const fromDateTime = new Date(price.fromDateTime);
+  const fromDateTime = toDate(new Date(price.fromDateTime), {
+    timeZone: danishTimeZoneIdentifier,
+  });
 
   if (resolution == Resolution.PT1H) return formatHours(fromDateTime, 0);
 
@@ -36,7 +38,9 @@ export function getFromDateTime(
 }
 
 export function getToDateTime(price: ChargePriceV1Dto, resolution: Resolution) {
-  const toDateTime = new Date(price.toDateTime);
+  const toDateTime = toDate(new Date(price.toDateTime), {
+    timeZone: danishTimeZoneIdentifier,
+  });
 
   if (resolution == Resolution.PT1H) {
     const fromDateTime = new Date(price.fromDateTime);
