@@ -27,13 +27,11 @@ import {
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { PushModule } from '@rx-angular/template';
 
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import {
   WattDrawerModule,
   WattDrawerComponent,
 } from '@energinet-datahub/watt/drawer';
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
-import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -106,8 +104,6 @@ export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
     TranslocoModule,
     WattTabsModule,
     WattButtonModule,
-    WattDatepickerModule,
-    WattFormFieldModule,
     DhChargeDetailsHeaderScam,
     DhChargeContentScam,
     DhChargePriceMessageScam,
