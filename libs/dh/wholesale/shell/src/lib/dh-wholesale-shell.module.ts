@@ -25,11 +25,6 @@ import {
 import { DhWholesaleSearchComponent } from '@energinet-datahub/dh/wholesale/feature-search';
 
 import {
-  DhWholesaleOverviewComponent,
-  DhWholesaleOverviewScam,
-} from '@energinet-datahub/dh/wholesale/feature-overview';
-
-import {
   WHOLESALE_CALCULATION_STEPS_PATH,
   WHOLESALE_CALCULATION_STEPS_BATCH_PARAM,
   WHOLESALE_CALCULATION_STEPS_GRID_AREA_PARAM,
@@ -57,16 +52,11 @@ const routes: Routes = [
     data: {
       titleTranslationKey: 'wholesale.calculationSteps.topBarTitle',
     },
-  },
-  {
-    path: 'overview',
-    component: DhWholesaleOverviewComponent,
-  },
+  }
 ];
 @NgModule({
   imports: [
     DhWholesaleStartScam,
-    DhWholesaleOverviewScam,
     RouterModule.forChild(routes),
   ],
 })

@@ -746,9 +746,6 @@
       "gridAreaCode": "ID",
       "name": "name",
       "noGridAreasFound": "No grid areas found"
-    },
-    "overview": {
-      "header": "Process Overview"
     }
   }
 }

@@ -748,9 +748,6 @@
       "gridAreaCode": "ID",
       "name": "navn",
       "noGridAreasFound": "Ingen netområder fundet"
-    },
-    "overview": {
-      "header": "Proces oversigt"
     }
   }
 }
