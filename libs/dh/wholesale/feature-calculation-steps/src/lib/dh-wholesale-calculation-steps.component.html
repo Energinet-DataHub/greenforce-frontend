@@ -1,28 +1,75 @@
-<header *transloco="let transloco; read: 'wholesale'">
-  <watt-breadcrumbs>
-    <watt-breadcrumb>{{
-      transloco("searchBatch.topBarTitle")
-    }}</watt-breadcrumb>
-    <watt-breadcrumb>{{
-      transloco("batchDetails.headline", { batchNumber: batch?.batchNumber })
-    }}</watt-breadcrumb>
-    <!-- TODO: GRID AREA NAME SHOULD BE ADDED HERE WHEN AVAILABLE -->
-    <watt-breadcrumb>{{
-      transloco("calculationSteps.breadcrumb", {
-        gridAreaCode: gridArea?.gridAreaCode
-      })
-    }}</watt-breadcrumb>
-  </watt-breadcrumbs>
+<ng-container *transloco="let transloco; read: 'wholesale'">
+  <header>
+    <watt-breadcrumbs>
+      <watt-breadcrumb>{{
+        transloco("searchBatch.topBarTitle")
+      }}</watt-breadcrumb>
+      <watt-breadcrumb>{{
+        transloco("batchDetails.headline", { batchNumber: batch?.batchNumber })
+      }}</watt-breadcrumb>
+      <watt-breadcrumb>{{
+        transloco("calculationSteps.breadcrumb", {
+          gridAreaCode: gridArea?.gridAreaCode,
+          gridAreaName: transloco('calculationSteps.gridAreaName')
+        })
+      }}</watt-breadcrumb>
+    </watt-breadcrumbs>
 
-  <watt-badge [type]="batch?.statusType || 'info'">
-    {{ transloco("searchBatch." + batch?.executionState) }}
-  </watt-badge>
-  <h1>NAVN PÅ NETOMRÅDE</h1>
-  <p>
-    <small>{{
-      transloco("calculationSteps.subHeading", {
-        gridAreaCode: gridArea?.gridAreaCode
-      })
-    }}</small>
-  </p>
-</header>
+    <h2>
+      {{transloco('calculationSteps.gridAreaName')}}
+      <watt-badge type="info">
+        {{ transloco("searchBatch." + batch?.executionState) }}
+      </watt-badge>
+    </h2>
+
+    <p>
+      <small>{{
+        transloco("calculationSteps.subHeading", {
+          gridAreaCode: gridArea?.gridAreaCode
+        })
+      }}</small>
+    </p>
+  </header>
+
+  <main>
+    <ul class="steps" *ngIf="steps; else loading">
+      <li *ngFor="let step of steps">
+        <watt-expandable-card>
+          <watt-badge type="info">25</watt-badge>
+          <watt-expandable-card-title
+            >Aggregeret produktion per netområde</watt-expandable-card-title
+          >
+          <p>kommer snart</p>
+        </watt-expandable-card>
+      </li>
+    </ul>
+
+    <ng-template #loading>
+      <div class="loading-container">
+        <watt-spinner></watt-spinner>
+      </div>
+    </ng-template>
+
+    <aside class="details">
+      <watt-card>
+        <watt-card-title>
+          <h3>Detaljer</h3>
+        </watt-card-title>
+
+        <dl *ngIf="batch">
+          <dt class="watt-label">
+            {{ transloco("batchDetails.calculationPeriod") }}
+          </dt>
+          <dd>
+            {{ batch.periodStart | dhDate }} - {{ batch.periodEnd | dhDate }}
+          </dd>
+
+          <dt class="watt-label">
+            {{ transloco("batchDetails.executionTime") }}
+          </dt>
+          <dd>{{ batch.executionTimeStart | dhDateTime }}</dd>
+        </dl>
+      </watt-card>
+    </aside>
+  </main>
+</ng-container>

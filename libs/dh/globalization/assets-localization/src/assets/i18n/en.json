@@ -731,7 +731,8 @@
     "calculationSteps": {
       "topBarTitle": "See accumulated time series",
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
-      "subHeading": "Grid Area Code {{gridAreaCode}}"
+      "subHeading": "Grid Area Code {{gridAreaCode}}",
+      "gridAreaName": "[Grid area name]"
     },
     "batchDetails": {
       "headline": "Batch: {{batchNumber}}",
