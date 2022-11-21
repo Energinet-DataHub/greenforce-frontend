@@ -92,7 +92,7 @@ describe('DhFormatChargePriceTime', () => {
         fromDateTime: new Date('2022-03-27T00:00:00.000Z').toISOString(),
         toDateTime: new Date('2022-03-27T01:00:00.000Z').toISOString(),
       };
-      console.log('test');
+
       const fromDateTime = getFromDateTime(chargePrice, Resolution.PT1H);
       const toDateTime = getToDateTime(chargePrice, Resolution.PT1H);
 
