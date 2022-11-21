@@ -20,14 +20,14 @@ import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
 
 const chargePrice15Minutes = {
   price: 1,
-  fromDateTime: '2022-11-18T07:15:00.000Z',
-  toDateTime: '2022-11-18T07:30:00.000Z',
+  fromDateTime: '2022-11-18T07:15:00.00+00:00',
+  toDateTime: '2022-11-18T07:30:00.00+00:00',
 };
 
 const chargePriceHour = {
   price: 1,
-  fromDateTime: '2022-11-18T07:00:00.000Z',
-  toDateTime: '2022-11-18T08:00:00.000Z',
+  fromDateTime: '2022-11-18T07:00:00.00+00:00',
+  toDateTime: '2022-11-18T08:00:00.00+00:00',
 };
 
 describe('DhFormatChargePriceTime', () => {

@@ -18,7 +18,7 @@ import {
   ChargePriceV1Dto,
   Resolution,
 } from '@energinet-datahub/dh/shared/domain';
-import { format, getHours } from 'date-fns';
+import { format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 
 const timeFormat = 'HH:mm';
@@ -58,7 +58,7 @@ export function getToDateTime(price: ChargePriceV1Dto, resolution: Resolution) {
 }
 
 function formatHours(date: Date, hoursToAdd: number) {
-  const dateHours = getHours(date);
+  const dateHours = date.getHours();
   const hours = Number(dateHours) + hoursToAdd;
 
   return addLeadingZeros(hours, 2);
