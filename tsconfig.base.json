@@ -183,9 +183,6 @@
       "@energinet-datahub/dh/wholesale/feature-calculation-steps": [
         "libs/dh/wholesale/feature-calculation-steps/src/index.ts"
       ],
-      "@energinet-datahub/dh/wholesale/feature-overview": [
-        "libs/dh/wholesale/feature-overview/src/index.ts"
-      ],
       "@energinet-datahub/dh/wholesale/feature-search": [
         "libs/dh/wholesale/feature-search/src/index.ts"
       ],
