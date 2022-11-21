@@ -51,7 +51,7 @@ export function getToDateTime(price: ChargePriceV1Dto, resolution: Resolution) {
     if (fromDateTimeUtc.getTimezoneOffset() < toDateTimeUtc.getTimezoneOffset())
       return formatHours(toDateTimeUtc, 1);
 
-    return formatHours(toDateTimeUtc, 0);
+    return formatHours(toDateTime, 0);
   }
 
   return format(toDateTime, timeFormat);
