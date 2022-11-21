@@ -72,8 +72,8 @@ describe('DhFormatChargePriceTime', () => {
     it('when fromDateTime is summer and toDateTime is winter, return toDateTime with plus 1 hour', () => {
       const chargePrice = {
         price: 1,
-        fromDateTime: '2022-10-30T00:00:00.000Z',
-        toDateTime: '2022-11-30T01:00:00.000Z',
+        fromDateTime: '2022-10-30T00:00:00+00:00',
+        toDateTime: '2022-10-30T01:00:00+00:00',
       };
 
       const fromDateTime = getFromDateTime(chargePrice, Resolution.PT1H);
@@ -89,8 +89,8 @@ describe('DhFormatChargePriceTime', () => {
     it('when fromDateTime is winter and toDateTime is summer, return toDateTime with minus 1 hour', () => {
       const chargePrice = {
         price: 1,
-        fromDateTime: new Date('2022-03-27T00:00:00.000Z').toISOString(),
-        toDateTime: new Date('2022-03-27T01:00:00.000Z').toISOString(),
+        fromDateTime: '2022-03-27T00:00:00+00:00',
+        toDateTime: '2022-03-27T01:00:00+00:00',
       };
 
       const fromDateTime = getFromDateTime(chargePrice, Resolution.PT1H);
