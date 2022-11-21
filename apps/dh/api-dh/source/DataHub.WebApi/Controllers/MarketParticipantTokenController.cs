@@ -21,11 +21,11 @@ namespace Energinet.DataHub.WebApi.Controllers
 {
     [ApiController]
     [Route("v1/[controller]")]
-    public class MarketParticipantTokenController : MarketParticipantControllerBase
+    public class TokenController : MarketParticipantControllerBase
     {
         private readonly IMarketParticipantClient _client;
 
-        public MarketParticipantTokenController(IMarketParticipantClient client)
+        public TokenController(IMarketParticipantClient client)
         {
             _client = client;
         }
@@ -33,8 +33,8 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Retrieves a DataHub access token
         /// </summary>
-        [HttpGet]
-        public Task<ActionResult<GetTokenResponseDto>> GetAllGridAreasAsync(GetTokenRequestDto request)
+        [HttpPost]
+        public Task<ActionResult<GetTokenResponseDto>> GetTokenAsync(GetTokenRequestDto request)
         {
             return HandleExceptionAsync(() => _client.GetTokenAsync(request));
         }
