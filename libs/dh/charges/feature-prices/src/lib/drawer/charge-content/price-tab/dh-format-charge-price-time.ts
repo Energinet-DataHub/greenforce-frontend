@@ -45,9 +45,14 @@ export function getToDateTime(price: ChargePriceV1Dto, resolution: Resolution) {
     if (fromDateTime.getTimezoneOffset() > toDateTime.getTimezoneOffset())
       return formatHours(toDateTime, -1);
 
+    const fromDateTimeUtc = new Date(price.fromDateTime);
+    const toDateTimeUtc = new Date(price.toDateTime);
     // If fromDateTime is summer and toDateTime is winter, add 1 hour to ToDateTime
-    if (fromDateTime.getTimezoneOffset() < toDateTime.getTimezoneOffset())
-      return formatHours(toDateTime, 1);
+    if (
+      fromDateTimeUtc.getTimezoneOffset() < toDateTimeUtc.getTimezoneOffset()
+    ) {
+      return formatHours(toDateTimeUtc, 1);
+    }
 
     return formatHours(toDateTime, 0);
   }
