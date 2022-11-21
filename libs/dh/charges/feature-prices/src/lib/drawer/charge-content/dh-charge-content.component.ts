@@ -30,7 +30,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, NgModule, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  NgModule,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   DhChargesChargePricesTabComponent,
   DhChargesChargePricesTabScam,
@@ -54,6 +60,7 @@ import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.s
   templateUrl: './dh-charge-content.component.html',
   styleUrls: ['./dh-charge-content.component.scss'],
   providers: [DrawerDatepickerService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhChargeContentComponent {
   @ViewChild(DhChargesChargeMessagesTabComponent)
