@@ -19,16 +19,14 @@ import {
   Resolution,
 } from '@energinet-datahub/dh/shared/domain';
 import { format } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
 
 const timeFormat = 'HH:mm';
-const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
 export function getFromDateTime(
   price: ChargePriceV1Dto,
   resolution: Resolution
 ) {
-  const fromDateTime = toDanishTimeZone(price.fromDateTime);
+  const fromDateTime = new Date(price.fromDateTime);
 
   if (resolution == Resolution.PT1H) return formatHours(fromDateTime, 0);
 
@@ -36,20 +34,18 @@ export function getFromDateTime(
 }
 
 export function getToDateTime(price: ChargePriceV1Dto, resolution: Resolution) {
-  const toDateTime = toDanishTimeZone(price.toDateTime);
+  const toDateTime = new Date(price.toDateTime);
 
   if (resolution == Resolution.PT1H) {
-    const fromDateTime = toDanishTimeZone(price.fromDateTime);
+    const fromDateTime = new Date(price.fromDateTime);
 
     // If fromDateTime is winter and toDateTime is summer, remove 1 hour from ToDateTime
     if (fromDateTime.getTimezoneOffset() > toDateTime.getTimezoneOffset())
       return formatHours(toDateTime, -1);
 
-    const fromDateTimeUtc = new Date(price.fromDateTime);
-    const toDateTimeUtc = new Date(price.toDateTime);
     // If fromDateTime is summer and toDateTime is winter, add 1 hour to ToDateTime
-    if (fromDateTimeUtc.getTimezoneOffset() < toDateTimeUtc.getTimezoneOffset())
-      return formatHours(toDateTimeUtc, 1);
+    if (fromDateTime.getTimezoneOffset() < toDateTime.getTimezoneOffset())
+      return formatHours(toDateTime, 1);
 
     return formatHours(toDateTime, 0);
   }
@@ -66,8 +62,4 @@ function formatHours(date: Date, hoursToAdd: number) {
 
 function addLeadingZeros(number: number, totalLength: number): string {
   return String(number).padStart(totalLength, '0');
-}
-
-function toDanishTimeZone(value: string): Date {
-  return utcToZonedTime(value, danishTimeZoneIdentifier);
 }
