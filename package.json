@@ -5,7 +5,7 @@
   "license": "MIT",
   "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file.",
   "engines": {
-    "node": "16.17.1",
+    "node": "16.18.0",
     "npm": "Please use Yarn v1 instead of npm to install dependencies.",
     "yarn": "1.22.19"
   },
@@ -165,7 +165,7 @@
   },
   "volta": {
     "//node-comment": "Keep this in sync with 'engines' config at the top of the current file",
-    "node": "16.17.1",
+    "node": "16.18.0",
     "//yarn-comment": "Keep this in sync with GitHub actions pipelines",
     "yarn": "1.22.19"
   },
