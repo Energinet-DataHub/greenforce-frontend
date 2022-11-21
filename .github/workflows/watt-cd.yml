@@ -12,13 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Design System Frontend and BFF
+# Design System Frontend
 name: Watt CD
 
 on:
   push:
     branches:
       - main
+  # Needed for is-affected not to fail (can be removed once is-affected will be removed)
   pull_request: {}
 
 jobs:

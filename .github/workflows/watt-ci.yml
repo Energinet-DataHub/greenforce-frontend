@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Design System Frontend and BFF
+# Design System Frontend
 name: Watt CI
 
 concurrency:
@@ -37,7 +37,7 @@ jobs:
   #
 
   changes:
-    uses: ./.github/workflows/dh-detect-changes.yml
+    uses: ./.github/workflows/watt-detect-changes.yml
 
   #
   # Frontend
