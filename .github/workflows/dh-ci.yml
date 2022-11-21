@@ -135,10 +135,9 @@ jobs:
 
   generate_client:
     needs: [
-        # .NET
-        dotnet_ci_build,
-        dotnet_ci_test,
-      ]
+      # .NET
+      dotnet_ci_build
+    ]
     runs-on: ubuntu-latest
     env:
       output-path: libs/dh/shared/domain/src/lib/generated/v1/
@@ -209,6 +208,6 @@ jobs:
         run: |
           echo "${{ toJSON(needs) }}"
           if [[ ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }} = true ]]; then
-              echo "Failed"
-              exit 1
+            echo "Failed"
+            exit 1
           fi

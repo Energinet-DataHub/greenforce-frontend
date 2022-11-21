@@ -53,9 +53,9 @@ jobs:
         with:
           filters: |
             dotnet:
-              - '.github/workflows/dh-backend-ci.yml'
-              - '.github/workflows/dh-backend-cd.yml'
-              - '.github/workflows/dh-backend-detect-changes.yml'
+              - '.github/workflows/dh-ci.yml'
+              - '.github/workflows/dh-cd.yml'
+              - '.github/workflows/dh-detect-changes.yml'
               - '.github/actions/dotnet-*/**'
               - 'apps/dh/api-dh/**'
 
