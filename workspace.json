@@ -58,7 +58,6 @@
     "dh-wholesale-data-access-api": "libs/dh/wholesale/data-access-api",
     "dh-wholesale-domain": "libs/dh/wholesale/domain",
     "dh-wholesale-feature-calculation-steps": "libs/dh/wholesale/feature-calculation-steps",
-    "dh-wholesale-feature-overview": "libs/dh/wholesale/feature-overview",
     "dh-wholesale-feature-search": "libs/dh/wholesale/feature-search",
     "dh-wholesale-feature-start": "libs/dh/wholesale/feature-start",
     "dh-wholesale-shell": "libs/dh/wholesale/shell",
