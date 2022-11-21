@@ -52,7 +52,8 @@ import { DhChargePriceMessageScam } from './charge-message/dh-charge-price-messa
 })
 export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
   @ViewChild('drawer') drawer!: WattDrawerComponent;
-  @ViewChild(DhChargeContentComponent) chargeContent!: DhChargeContentComponent;
+  @ViewChild(DhChargeContentComponent)
+  chargeContent!: DhChargeContentComponent;
 
   @Output() closed = new EventEmitter<void>();
 
