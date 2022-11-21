@@ -17,10 +17,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {
-  EoEmissionsPageShellComponent,
-  EoEmissionsPageShellScam,
-} from './eo-emissions-page-shell.component';
+import { EoEmissionsPageShellComponent } from './eo-emissions-page-shell.component';
 
 const routes: Routes = [
   {
@@ -30,6 +27,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), EoEmissionsPageShellScam],
+  imports: [RouterModule.forChild(routes), EoEmissionsPageShellComponent],
 })
 export class EoEmissionsPageShellModule {}

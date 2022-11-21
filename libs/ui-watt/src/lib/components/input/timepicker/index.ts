@@ -16,3 +16,4 @@
  */
 export { WattTimepickerComponent } from './watt-timepicker.component';
 export { WattTimepickerModule } from './watt-timepicker.module';
+export { WattRange } from '../shared/watt-range';

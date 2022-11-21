@@ -30,7 +30,7 @@ export class WattIconService {
   }
 
   isCustomIcon(icon: WattIcon): boolean {
-    return Object.values(customIcons).includes(icon);
+    return Object.keys(customIcons).includes(icon);
   }
 
   getIconName(icon: WattIcon) {
@@ -38,11 +38,17 @@ export class WattIconService {
   }
 
   private registerCustomIcons() {
-    this.addSvgIcon('explore', '/assets/ui-watt/icons/explore.svg');
-    this.addSvgIcon('power', '/assets/ui-watt/icons/power.svg');
-    this.addSvgIcon('meter', '/assets/ui-watt/icons/meter.svg');
-    this.addSvgIcon('map_marker', '/assets/ui-watt/icons/mapMarker.svg');
-    this.addSvgIcon('primary_info', '/assets/ui-watt/icons/primary-info.svg');
+    this.addSvgIcon('custom-explore', '/assets/ui-watt/icons/explore.svg');
+    this.addSvgIcon('custom-power', '/assets/ui-watt/icons/power.svg');
+    this.addSvgIcon('custom-meter', '/assets/ui-watt/icons/meter.svg');
+    this.addSvgIcon(
+      'custom-map-marker',
+      '/assets/ui-watt/icons/map-marker.svg'
+    );
+    this.addSvgIcon(
+      'custom-primary-info',
+      '/assets/ui-watt/icons/primary-info.svg'
+    );
   }
 
   private addSvgIcon(icon: WattCustomIcon, url: string) {

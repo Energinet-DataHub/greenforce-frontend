@@ -35,7 +35,6 @@ const routes: Routes = [
   },
   {
     path: dhChargesPricesPath,
-    pathMatch: 'full',
     component: DhChargesPricesComponent,
     data: {
       titleTranslationKey: 'charges.topBarTitles.prices',

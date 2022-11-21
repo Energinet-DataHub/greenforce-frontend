@@ -263,6 +263,8 @@
     "tariffsTitle": "Tariffs",
     "subscriptionsTitle": "Subscriptions",
     "feesTitle": "Fees",
+    "back": "Back",
+    "sender": "Sender",
     "resolution": "Resolution",
     "effectiveDate": "Effectivedate",
     "fieldRequiredErrorText": "Field is required.",
@@ -408,7 +410,8 @@
         "hideDescriptionLabel": "Hide description",
         "messageId": "Message Id",
         "messageType": "Type",
-        "date": "Date"
+        "date": "Date",
+        "unknownMessageError": "Unknown error"
       },
       "csvHeader": {
         "id": "PRICE ID",
@@ -744,6 +747,17 @@
         "lastPageLabel": "last page",
         "of": "of"
       }
+    },
+    "batchDetails": {
+      "headline": "Batch: {{batchNumber}}",
+      "calculationPeriod": "Calculation period",
+      "executionTime": "Execution time"
+    },
+    "gridAreas": {
+      "header": "{{total}} Grid Areas",
+      "gridAreaCode": "ID",
+      "name": "name",
+      "noGridAreasFound": "No grid areas found"
     },
     "overview": {
       "header": "Process Overview"

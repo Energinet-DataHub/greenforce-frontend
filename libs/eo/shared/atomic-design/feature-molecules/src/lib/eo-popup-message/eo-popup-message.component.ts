@@ -16,7 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, HostBinding, Input, NgModule } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -30,6 +30,8 @@ import { MatIconModule } from '@angular/material/icon';
  */
 
 @Component({
+  standalone: true,
+  imports: [MatButtonModule, MatIconModule, CommonModule],
   selector: 'eo-popup-message',
   styles: [
     `
@@ -151,10 +153,3 @@ export class EoPopupMessageComponent {
 
   @Input() errorMessage: HttpErrorResponse | null = null;
 }
-
-@NgModule({
-  declarations: [EoPopupMessageComponent],
-  exports: [EoPopupMessageComponent],
-  imports: [MatButtonModule, MatIconModule, CommonModule],
-})
-export class EoPopupMessageScam {}

@@ -16,11 +16,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {
-  EoConsumptionPageShellComponent,
-  EoConsumptionPageShellScam,
-} from './eo-consumption-page-shell.component';
+import { RouterModule, Routes } from '@angular/router';
+import { EoConsumptionPageShellComponent } from './eo-consumption-page-shell.component';
 
 const routes: Routes = [
   {
@@ -30,6 +27,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), EoConsumptionPageShellScam],
+  imports: [RouterModule.forChild(routes), EoConsumptionPageShellComponent],
 })
 export class EoConsumptionPageShellModule {}

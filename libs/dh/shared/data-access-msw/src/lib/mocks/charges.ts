@@ -130,6 +130,13 @@ function getMarketParticipants(apiBase: string) {
           id: 'C5E0990A-713B-41E6-AB9C-A1B357A1EABD',
           name: 'name 1',
           marketParticipantId: '8100000000016',
+          businessProcessRole: 'DDZ',
+        },
+        {
+          id: 'C5E0990A-713B-41E6-AB9C-A1B357A1EABD',
+          name: 'name 2',
+          marketParticipantId: '8100000000030',
+          businessProcessRole: 'DDM',
         },
         {
           id: 'S5E0990A-713B-41E6-AB9C-A1B357A1EABD',

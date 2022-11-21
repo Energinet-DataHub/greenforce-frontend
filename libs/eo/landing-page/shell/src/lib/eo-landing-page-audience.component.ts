@@ -14,18 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
   selector: 'eo-landing-page-audience',
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
       :host {
         padding: var(--watt-space-xl);
-        background: #ebf5f5; /* Magic UX color */
+        background: var(--watt-color-primary-ultralight);
         display: block;
 
         @include watt.media('<Large') {
@@ -84,9 +85,3 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 export class EoLandingPageAudienceComponent {
   constructor(public landingPage: EoLandingPagePresenter) {}
 }
-
-@NgModule({
-  declarations: [EoLandingPageAudienceComponent],
-  exports: [EoLandingPageAudienceComponent],
-})
-export class EoLandingPageAudienceScam {}

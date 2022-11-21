@@ -269,6 +269,9 @@
       "@energinet-datahub/watt/badge": [
         "libs/ui-watt/src/lib/components/badge/index.ts"
       ],
+      "@energinet-datahub/watt/breadcrumbs": [
+        "libs/ui-watt/src/lib/components/breadcrumbs/index.ts"
+      ],
       "@energinet-datahub/watt/breakpoints": [
         "libs/ui-watt/src/lib/foundations/breakpoints/index.ts"
       ],
