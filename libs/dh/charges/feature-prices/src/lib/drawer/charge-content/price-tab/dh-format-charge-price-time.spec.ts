@@ -32,7 +32,7 @@ const chargePriceHour = {
 
 describe('DhFormatChargePriceTime', () => {
   describe('getFromDateTime', () => {
-    it('when resolution is PT15M, returns fromDateTime in time format.', async () => {
+    it('when resolution is PT15M, returns fromDateTime in time format.', () => {
       const fromDateTime = getFromDateTime(
         chargePrice15Minutes,
         Resolution.PT15M
@@ -43,7 +43,7 @@ describe('DhFormatChargePriceTime', () => {
       expect(fromDateTime).toBe(expectedTime);
     });
 
-    it('when resolution is PT1H, returns fromDateTime in hour format.', async () => {
+    it('when resolution is PT1H, returns fromDateTime in hour format.', () => {
       const fromDateTime = getFromDateTime(chargePriceHour, Resolution.PT1H);
 
       const expectedTime = '08';
@@ -53,7 +53,7 @@ describe('DhFormatChargePriceTime', () => {
   });
 
   describe('getToDateTime', () => {
-    it('when resolution is PT15M, return toDateTime in time format', async () => {
+    it('when resolution is PT15M, return toDateTime in time format', () => {
       const toDateTime = getToDateTime(chargePrice15Minutes, Resolution.PT15M);
 
       const expectedTime = '08:30';
@@ -61,7 +61,7 @@ describe('DhFormatChargePriceTime', () => {
       expect(toDateTime).toBe(expectedTime);
     });
 
-    it('when resolution is PT1H, return toDateTime in hour format', async () => {
+    it('when resolution is PT1H, return toDateTime in hour format', () => {
       const toDateTime = getToDateTime(chargePriceHour, Resolution.PT1H);
 
       const expectedTime = '09';
@@ -69,15 +69,15 @@ describe('DhFormatChargePriceTime', () => {
       expect(toDateTime).toBe(expectedTime);
     });
 
-    it('when fromDateTime is summer and toDateTime is winter, return toDateTime with plus 1 hour', async () => {
+    it('when fromDateTime is summer and toDateTime is winter, return toDateTime with plus 1 hour', () => {
       const chargePrice = {
         price: 1,
         fromDateTime: '2022-10-30T00:00:00.000Z',
         toDateTime: '2022-11-30T01:00:00.000Z',
       };
 
-      const toDateTime = getToDateTime(chargePrice, Resolution.PT1H);
       const fromDateTime = getFromDateTime(chargePrice, Resolution.PT1H);
+      const toDateTime = getToDateTime(chargePrice, Resolution.PT1H);
 
       const expectedFromHour = '02';
       const expectedToHour = '03';
@@ -86,15 +86,15 @@ describe('DhFormatChargePriceTime', () => {
       expect(toDateTime).toBe(expectedToHour);
     });
 
-    it('when fromDateTime is winter and toDateTime is summer, return toDateTime with minus 1 hour', async () => {
+    it('when fromDateTime is winter and toDateTime is summer, return toDateTime with minus 1 hour', () => {
       const chargePrice = {
         price: 1,
-        fromDateTime: '2022-03-27T00:00:00.000Z',
-        toDateTime: '2022-03-27T01:00:00.000Z',
+        fromDateTime: new Date('2022-03-27T00:00:00.000Z').toISOString(),
+        toDateTime: new Date('2022-03-27T01:00:00.000Z').toISOString(),
       };
-
-      const toDateTime = getToDateTime(chargePrice, Resolution.PT1H);
+      console.log('test');
       const fromDateTime = getFromDateTime(chargePrice, Resolution.PT1H);
+      const toDateTime = getToDateTime(chargePrice, Resolution.PT1H);
 
       const expectedFromHour = '01';
       const expectedToHour = '02';

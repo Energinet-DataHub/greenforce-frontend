@@ -28,7 +28,7 @@ export function getFromDateTime(
   price: ChargePriceV1Dto,
   resolution: Resolution
 ) {
-  const fromDateTime = toDate(new Date(price.fromDateTime), {
+  const fromDateTime = toDate(price.fromDateTime, {
     timeZone: danishTimeZoneIdentifier,
   });
 
@@ -39,12 +39,12 @@ export function getFromDateTime(
 }
 
 export function getToDateTime(price: ChargePriceV1Dto, resolution: Resolution) {
-  const toDateTime = toDate(new Date(price.toDateTime), {
+  const toDateTime = toDate(price.toDateTime, {
     timeZone: danishTimeZoneIdentifier,
   });
 
   if (resolution == Resolution.PT1H) {
-    const fromDateTime = toDate(new Date(price.fromDateTime), {
+    const fromDateTime = toDate(price.fromDateTime, {
       timeZone: danishTimeZoneIdentifier,
     });
 
