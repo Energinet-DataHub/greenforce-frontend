@@ -31,10 +31,9 @@ import {
   BatchDtoV2,
   BatchSearchDto,
 } from '@energinet-datahub/dh/shared/domain';
-import {
-  BatchVm,
-  DhWholesaleTableComponent,
-} from './table/dh-wholesale-table.component';
+import { batch } from "@energinet-datahub/dh/wholesale/domain";
+
+import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-batch-details.component';
 
@@ -70,7 +69,7 @@ export class DhWholesaleSearchComponent {
   loadingBatchesErrorTrigger$ = this.store.loadingBatchesErrorTrigger$;
 
   searchSubmitted = false;
-  selectedBatch: BatchVm | null = null;
+  selectedBatch: batch | null = null;
 
   onSearch(search: BatchSearchDto) {
     this.searchSubmitted = true;
@@ -89,7 +88,7 @@ export class DhWholesaleSearchComponent {
     });
   }
 
-  onBatchSelected(batch: BatchVm) {
+  onBatchSelected(batch: batch) {
     this.selectedBatch = batch;
     this.changeDetectorRef.detectChanges();
 

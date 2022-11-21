@@ -15,4 +15,3 @@
  * limitations under the License.
  */
 export * from './lib/dh-wholesale-search.component';
-export { BatchVm } from './lib/table/dh-wholesale-table.component';

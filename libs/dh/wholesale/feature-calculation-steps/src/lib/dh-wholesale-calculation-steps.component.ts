@@ -3,7 +3,6 @@ import { CommonModule } from "@angular/common";
 import { Component, inject, OnInit } from "@angular/core";
 import { TranslocoModule } from "@ngneat/transloco";
 
-import { BatchGridAreaDto } from "@energinet-datahub/dh/shared/domain";
 import { DhSharedUiDateTimeModule } from "@energinet-datahub/dh/shared/ui-date-time";
 import { WATT_BREADCRUMBS } from "@energinet-datahub/watt/breadcrumbs";
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from "@energinet-datahub/watt/expandable-card";
@@ -12,7 +11,8 @@ import { WattCardModule } from "@energinet-datahub/watt/card";
 import { WattEmptyStateModule } from "@energinet-datahub/watt/empty-state";
 import { WattSpinnerModule } from "@energinet-datahub/watt/spinner";
 
-import { BatchVm } from "@energinet-datahub/dh/wholesale/feature-search";
+import { batch } from "@energinet-datahub/dh/wholesale/domain";
+import { BatchGridAreaDto } from "@energinet-datahub/dh/shared/domain";
 
 @Component({
   templateUrl: "./dh-wholesale-calculation-steps.component.html",
@@ -33,7 +33,7 @@ import { BatchVm } from "@energinet-datahub/dh/wholesale/feature-search";
 export class DhWholesaleCalculationStepsComponent implements OnInit {
   router = inject(Router);
   route = inject(ActivatedRoute);
-  batch?: BatchVm = this.router.getCurrentNavigation()?.extras.state?.['batch'];
+  batch?: batch = this.router.getCurrentNavigation()?.extras.state?.['batch'];
   gridArea?: BatchGridAreaDto = this.router.getCurrentNavigation()?.extras.state?.['gridArea'];
 
   steps?: unknown[] = undefined;
