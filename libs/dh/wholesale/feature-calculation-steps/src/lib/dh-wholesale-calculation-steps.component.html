@@ -50,6 +50,15 @@
       </div>
     </ng-template>
 
+    <ng-template #error>
+      <watt-empty-state
+        icon="custom-power"
+        [title]="transloco('calculationSteps.loadCalculationStepsFailedTitle')"
+        [message]="transloco('calculationSteps.loadCalculationStepsFailedMessage')"
+      >
+      </watt-empty-state>
+    </ng-template>
+
     <aside class="details">
       <watt-card>
         <watt-card-title>

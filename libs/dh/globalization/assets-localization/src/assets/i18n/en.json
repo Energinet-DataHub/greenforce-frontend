@@ -732,7 +732,9 @@
       "topBarTitle": "See accumulated time series",
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
       "subHeading": "Grid Area Code {{gridAreaCode}}",
-      "gridAreaName": "[Grid area name]"
+      "gridAreaName": "[Grid area name]",
+      "loadCalculationStepsFailedTitle": "Ups! Der opstod en fejl",
+      "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
     },
     "batchDetails": {
       "headline": "Batch: {{batchNumber}}",

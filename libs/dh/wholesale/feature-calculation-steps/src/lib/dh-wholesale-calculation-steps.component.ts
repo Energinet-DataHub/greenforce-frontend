@@ -1,18 +1,18 @@
-import { Component, inject, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-
-import { WATT_BREADCRUMBS } from "@energinet-datahub/watt/breadcrumbs";
-import { WATT_EXPANDABLE_CARD_COMPONENTS } from "@energinet-datahub/watt/expandable-card";
-import { WattCardModule } from "@energinet-datahub/watt/card";
-import { WattSpinnerModule } from "@energinet-datahub/watt/spinner";
+import { CommonModule } from "@angular/common";
+import { Component, inject, OnInit } from "@angular/core";
+import { TranslocoModule } from "@ngneat/transloco";
 
 import { BatchGridAreaDto } from "@energinet-datahub/dh/shared/domain";
-import { TranslocoModule } from "@ngneat/transloco";
+import { DhSharedUiDateTimeModule } from "@energinet-datahub/dh/shared/ui-date-time";
+import { WATT_BREADCRUMBS } from "@energinet-datahub/watt/breadcrumbs";
+import { WATT_EXPANDABLE_CARD_COMPONENTS } from "@energinet-datahub/watt/expandable-card";
 import { WattBadgeModule } from "@energinet-datahub/watt/badge";
+import { WattCardModule } from "@energinet-datahub/watt/card";
+import { WattEmptyStateModule } from "@energinet-datahub/watt/empty-state";
+import { WattSpinnerModule } from "@energinet-datahub/watt/spinner";
 
 import { BatchVm } from "@energinet-datahub/dh/wholesale/feature-search";
-import { CommonModule } from "@angular/common";
-import { DhSharedUiDateTimeModule } from "@energinet-datahub/dh/shared/ui-date-time";
 
 @Component({
   templateUrl: "./dh-wholesale-calculation-steps.component.html",
@@ -24,6 +24,7 @@ import { DhSharedUiDateTimeModule } from "@energinet-datahub/dh/shared/ui-date-t
     WattBadgeModule,
     WattCardModule,
     WattSpinnerModule,
+    WattEmptyStateModule,
     DhSharedUiDateTimeModule,
     ...WATT_BREADCRUMBS,
     ...WATT_EXPANDABLE_CARD_COMPONENTS

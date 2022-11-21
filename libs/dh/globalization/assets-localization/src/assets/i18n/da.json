@@ -734,7 +734,9 @@
       "topBarTitle": "Se akkumulerede tidsserier",
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
       "subHeading": "Netområde ID {{gridAreaCode}}",
-      "gridAreaName": "[Netområde navn]"
+      "gridAreaName": "[Netområde navn]",
+      "loadCalculationStepsFailedTitle": "Ups! Der opstod en fejl",
+      "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
     },
     "batchDetails": {
       "headline": "Batch: {{batchNumber}}",
