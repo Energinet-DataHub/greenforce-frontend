@@ -85,7 +85,7 @@ import { EoLandingPageLoginButtonComponent } from './eo-landing-page-login-butto
             rel="nofollow noopener"
             class="icon-link"
           >
-            <watt-icon name="primary_info"></watt-icon>
+            <watt-icon name="custom-primary-info"></watt-icon>
           </a>
         </h1>
       </div>
