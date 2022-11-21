@@ -31,7 +31,7 @@ const wattDrawerName = 'watt-drawer';
 const dateTimeFormat = 'MM-dd-yyyy';
 const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
-describe('DhChargesPricesComponent', () => {
+xdescribe(DhChargesPricesComponent.name, () => {
   async function setup() {
     const { fixture } = await render(DhChargesPricesComponent, {
       imports: [
