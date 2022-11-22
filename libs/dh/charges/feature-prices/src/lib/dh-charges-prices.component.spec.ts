@@ -114,7 +114,7 @@ describe(DhChargesPricesComponent.name, () => {
     expect(drawer).toBeInTheDocument();
   });
 
-  it('when drawer is open, date range should be set', async () => {
+  it.skip('when drawer is open, date range should be set', async () => {
     await setup();
 
     const searchButton = screen.getByRole('button', { name: /search/i });
