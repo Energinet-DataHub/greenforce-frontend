@@ -16,7 +16,10 @@
  */
 import { Injectable } from '@angular/core';
 import { set } from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import { BehaviorSubject } from 'rxjs';
+
+const timeZoneIdentifier = 'Europe/Copenhagen';
 
 export interface DatePickerData {
   startDate: string;
@@ -25,7 +28,7 @@ export interface DatePickerData {
 
 @Injectable()
 export class DrawerDatepickerService {
-  todayAtMidnight = this.setToStartOfDay(new Date());
+  private todayAtMidnight = this.setToStartOfDay(new Date());
 
   dateRangeDefault: DatePickerData = {
     startDate: this.todayAtMidnight.toISOString(),
@@ -43,12 +46,14 @@ export class DrawerDatepickerService {
     this.dataSource$.next(dateRange);
   }
 
-  private setToStartOfDay(date: Date): Date {
-    return set(date, {
+  private setToStartOfDay(value: Date): Date {
+    const date = set(value, {
       hours: 0,
       minutes: 0,
       seconds: 0,
       milliseconds: 0,
     });
+
+    return zonedTimeToUtc(date, timeZoneIdentifier);
   }
 }
