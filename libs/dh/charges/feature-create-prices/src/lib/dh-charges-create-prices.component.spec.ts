@@ -14,29 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { MatNativeDateModule } from '@angular/material/core';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { HttpClientModule } from '@angular/common/http';
+import { render } from '@testing-library/angular';
 import {
   DhChargesCreatePricesComponent,
   DhChargesCreatePricesScam,
 } from './dh-charges-create-prices.component';
 
-describe('DhChargesPricesResultComponent', () => {
-  let component: DhChargesCreatePricesComponent;
-  let fixture: ComponentFixture<DhChargesCreatePricesComponent>;
+describe('DhChargesCreatePrices', () => {
+  async function setup() {
+    const { fixture } = await render(DhChargesCreatePricesComponent, {
+      imports: [
+        getTranslocoTestingModule(),
+        MatNativeDateModule,
+        DhApiModule.forRoot(),
+        HttpClientModule,
+        DhChargesCreatePricesScam,
+      ],
+    });
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [MatNativeDateModule, DhChargesCreatePricesScam],
-      declarations: [DhChargesCreatePricesComponent],
-    }).compileComponents();
+    return {
+      fixture,
+    };
+  }
 
-    fixture = TestBed.createComponent(DhChargesCreatePricesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should fetch and render data on submit', async () => {
+    const { fixture } = await setup();
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });
