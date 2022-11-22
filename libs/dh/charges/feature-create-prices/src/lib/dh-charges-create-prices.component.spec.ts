@@ -14,3 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatNativeDateModule } from '@angular/material/core';
+import {
+  DhChargesCreatePricesComponent,
+  DhChargesCreatePricesScam,
+} from './dh-charges-create-prices.component';
+
+describe('DhChargesPricesResultComponent', () => {
+  let component: DhChargesCreatePricesComponent;
+  let fixture: ComponentFixture<DhChargesCreatePricesComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [MatNativeDateModule, DhChargesCreatePricesScam],
+      declarations: [DhChargesCreatePricesComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(DhChargesCreatePricesComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
