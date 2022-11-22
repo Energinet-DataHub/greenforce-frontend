@@ -22,11 +22,7 @@ import { WattButtonModule } from './watt-button.module';
 export default {
   title: 'Components/Button',
   component: WattButtonComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [WattButtonModule],
-    }),
-  ],
+  decorators: [moduleMetadata({ imports: [WattButtonModule] })],
 } as Meta<WattButtonComponent>;
 
 const howToUseGuide = `
