@@ -327,7 +327,10 @@
       "priceDescription": "Description",
       "priceOwner": "Price owner",
       "selectResolution": "Select resolution",
-      "selectChargeType": "Select charge type"
+      "selectChargeType": "Select charge type",
+      "createPriceError": "Something went wrong. Price is not created. Try again.",
+      "createPriceSuccess": "Success! The price has been submitted.",
+      "loadingRequestText": "Submitting the price."
     },
     "prices": {
       "prices": "Prices",

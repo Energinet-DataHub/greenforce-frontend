@@ -65,5 +65,13 @@ namespace Energinet.DataHub.WebApi.Controllers
 
             return result;
         }
+
+        [HttpPost("CreateChargeAsync")]
+        public async Task<ActionResult> CreateChargeAsync([FromBody] CreateChargeV1Dto createChargeV1Dto)
+        {
+            await _chargesClient.CreateChargeAsync(createChargeV1Dto);
+
+            return Ok();
+        }
     }
 }

@@ -37,19 +37,37 @@ import {
   WattDropdownModule,
   WattDropdownOptions,
 } from '@energinet-datahub/watt/dropdown';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { ChargeTypes, Resolution } from '@energinet-datahub/dh/charges/domain';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
-import { DhMarketParticipantDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
+import {
+  DhChargesDataAccessApiStore,
+  DhMarketParticipantDataAccessApiStore,
+} from '@energinet-datahub/dh/charges/data-access-api';
+import {
+  ChargeType,
+  MarketParticipantV1Dto,
+  VatClassification,
+} from '@energinet-datahub/dh/shared/domain';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { PushModule } from '@rx-angular/template';
+import { Router } from '@angular/router';
+import {
+  dhChargesPath,
+  dhChargesPricesPath,
+} from '@energinet-datahub/dh/charges/routing';
 
 @Component({
   selector: 'dh-charges-create-prices',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-charges-create-prices.component.html',
   styleUrls: ['./dh-charges-create-prices.component.scss'],
-  providers: [DhMarketParticipantDataAccessApiStore],
+  providers: [
+    DhMarketParticipantDataAccessApiStore,
+    DhChargesDataAccessApiStore,
+  ],
 })
 export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   chargeTypeOptions: WattDropdownOptions = [];
@@ -57,14 +75,13 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   marketParticipantsOptions: WattDropdownOptions = [];
 
   charge = new FormGroup({
-    priceId: new FormControl('', [
+    senderProvidedChargeId: new FormControl('', [
       Validators.required,
       Validators.maxLength(10),
     ]),
     chargeType: new FormControl('', Validators.required),
-    priceName: new FormControl('', Validators.required),
-    priceDescription: new FormControl('', Validators.required),
-    priceOwner: new FormControl('', Validators.required),
+    chargeName: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
     resolution: new FormControl(
       { value: '', disabled: true },
       Validators.required
@@ -73,17 +90,24 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     vatClassification: new FormControl(true, Validators.required),
     transparentInvoicing: new FormControl(true, Validators.required),
     taxIndicator: new FormControl(false, Validators.required),
+    senderMarketParticipantId: new FormControl('', Validators.required),
   });
+  selectedSenderMarketParticipant?: MarketParticipantV1Dto;
 
   isTariff = false;
   isFormValid = false;
   marketParticipants = this.marketParticipantStore.all$;
 
+  isLoading = this.chargesStore.isCreateRequestLoading$;
+
   private destroy$ = new Subject<void>();
 
   constructor(
+    private chargesStore: DhChargesDataAccessApiStore,
+    private marketParticipantStore: DhMarketParticipantDataAccessApiStore,
+    private toastService: WattToastService,
     private translocoService: TranslocoService,
-    private marketParticipantStore: DhMarketParticipantDataAccessApiStore
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -92,11 +116,55 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     this.buildMarketParticipantOptions();
     this.buildChargeTypeOptions();
     this.buildValidityOptions();
+
+    this.chargesStore.createRequestHasError$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((hasError) => {
+        if (hasError) {
+          this.toastService.open({
+            message: this.translocoService.translate(
+              'charges.createPrices.createPriceError'
+            ),
+            type: 'danger',
+          });
+
+          this.enableFormGroup();
+        }
+      });
+
+    this.chargesStore.createRequestHasSucceeded$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((hasSucceded) => {
+        if (hasSucceded) {
+          this.toastService.open({
+            message: this.translocoService.translate(
+              'charges.createPrices.createPriceSuccess'
+            ),
+            type: 'success',
+          });
+
+          setTimeout(() => {
+            this.router.navigateByUrl(
+              `${dhChargesPath}/${dhChargesPricesPath}`
+            );
+          }, 1000);
+        }
+      });
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.unsubscribe();
+  }
+
+  ownerChanged(marketParticipantId: string) {
+    this.marketParticipantStore.all$
+      .pipe(take(1))
+      .subscribe((marketParticipants) => {
+        this.selectedSenderMarketParticipant = marketParticipants?.find(
+          (mp) => mp.id == marketParticipantId
+        );
+      });
   }
 
   chargeTypeChanged(chargeType: number) {
@@ -109,9 +177,11 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     switch (Number(chargeType)) {
       case ChargeTypes.Tariff: {
         this.charge.controls['resolution'].setValue('');
+        this.charge.controls['transparentInvoicing'].setValue(true);
         break;
       }
       case ChargeTypes.Subscription: {
+        this.charge.controls['transparentInvoicing'].setValue(true);
         this.disableResolutionWithValue();
         this.disableTaxIndicator();
         break;
@@ -130,13 +200,62 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   createPrice() {
     if (!this.charge.valid) return;
 
-    console.log('VALID!');
+    this.disableFormGroup();
+    const charge = this.charge.value;
+
+    const resolution = this.charge.controls['resolution'].value;
+
+    this.chargesStore.createCharge({
+      chargeType: charge.chargeType as ChargeType,
+      effectiveDate: charge.effectiveDate as string,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      resolution: Resolution[Number(resolution)] as any,
+      chargeName: charge.chargeName as string,
+      taxIndicator: charge.taxIndicator as boolean,
+      transparentInvoicing: charge.transparentInvoicing as boolean,
+      vatClassification: charge.vatClassification
+        ? VatClassification.Vat25
+        : VatClassification.NoVat,
+      description: charge.description as string,
+      senderProvidedChargeId: charge.senderProvidedChargeId as string,
+      senderMarketParticipant: this.selectedSenderMarketParticipant,
+    });
+
+    this.toastService.open({
+      message: this.translocoService.translate(
+        'charges.createPrices.loadingRequestText'
+      ),
+      type: 'loading',
+    });
+  }
+
+  disableFormGroup() {
+    this.charge.controls['chargeType'].disable();
+    this.charge.controls['senderProvidedChargeId'].disable();
+    this.charge.controls['chargeName'].disable();
+    this.charge.controls['senderMarketParticipantId'].disable();
+    this.charge.controls['description'].disable();
+    this.charge.controls['taxIndicator'].disable();
+    this.charge.controls['transparentInvoicing'].disable();
+    this.charge.controls['resolution'].disable();
+    this.charge.controls['effectiveDate'].disable();
+    this.charge.controls['vatClassification'].disable();
   }
 
   enableFormGroup() {
-    this.charge.controls['resolution'].enable();
     this.charge.controls['taxIndicator'].enable();
     this.charge.controls['transparentInvoicing'].enable();
+    this.charge.controls['chargeType'].enable();
+    this.charge.controls['senderProvidedChargeId'].enable();
+    this.charge.controls['chargeName'].enable();
+    this.charge.controls['senderMarketParticipantId'].enable();
+    this.charge.controls['description'].enable();
+    this.charge.controls['effectiveDate'].enable();
+    this.charge.controls['vatClassification'].enable();
+
+    const chargeType = Number(this.charge.controls['chargeType'].value);
+    if (chargeType === ChargeTypes.Tariff)
+      this.charge.controls['resolution'].enable();
   }
 
   disableTaxIndicator() {
@@ -224,6 +343,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   imports: [
     CommonModule,
     FormsModule,
+    PushModule,
     TranslocoModule,
     ReactiveFormsModule,
     WattButtonModule,

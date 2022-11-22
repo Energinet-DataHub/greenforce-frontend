@@ -33,6 +33,7 @@ export * from './connection-type';
 export * from './contact-category';
 export * from './create-actor-contact-dto';
 export * from './create-actor-dto';
+export * from './create-charge-v1-dto';
 export * from './create-organization-dto';
 export * from './disconnection-type';
 export * from './eic-function';

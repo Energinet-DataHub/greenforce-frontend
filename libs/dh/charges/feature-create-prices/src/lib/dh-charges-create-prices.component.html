@@ -44,12 +44,23 @@ limitations under the License.
           <!-- Price Id -->
           <watt-form-field class="price-id">
             <watt-label>{{ t("createPrices.priceId") }}</watt-label>
-            <input wattInput type="text" formControlName="priceId" required />
-            <watt-error *ngIf="charge.controls['priceId'].hasError('required')">
+            <input
+              wattInput
+              type="text"
+              formControlName="senderProvidedChargeId"
+              required
+            />
+            <watt-error
+              *ngIf="
+                charge.controls['senderProvidedChargeId'].hasError('required')
+              "
+            >
               {{ t("fieldRequiredErrorText") }}
             </watt-error>
             <watt-error
-              *ngIf="charge.controls['priceId'].hasError('maxlength')"
+              *ngIf="
+                charge.controls['senderProvidedChargeId'].hasError('maxlength')
+              "
             >
               {{ t("fieldMaxLengthErrorText") }}
             </watt-error>
@@ -58,9 +69,14 @@ limitations under the License.
           <!-- Price Name -->
           <watt-form-field class="price-name">
             <watt-label>{{ t("createPrices.priceName") }}</watt-label>
-            <input wattInput type="text" formControlName="priceName" required />
+            <input
+              wattInput
+              type="text"
+              formControlName="chargeName"
+              required
+            />
             <watt-error
-              *ngIf="charge.controls['priceName'].hasError('required')"
+              *ngIf="charge.controls['chargeName'].hasError('required')"
             >
               {{ t("fieldRequiredErrorText") }}
             </watt-error>
@@ -70,15 +86,20 @@ limitations under the License.
           <watt-form-field class="price-owner">
             <watt-label>{{ t("createPrices.priceOwner") }} *</watt-label>
             <watt-dropdown
-              formControlName="priceOwner"
+              formControlName="senderMarketParticipantId"
               name="owner"
               [options]="marketParticipantsOptions"
               [placeholder]="t('prices.search.enterOwner')"
               [showResetOption]="false"
+              (ngModelChange)="ownerChanged($event)"
             >
             </watt-dropdown>
             <watt-error
-              *ngIf="charge.controls['priceOwner'].hasError('required')"
+              *ngIf="
+                charge.controls['senderMarketParticipantId'].hasError(
+                  'required'
+                )
+              "
             >
               {{ t("fieldRequiredErrorText") }}
             </watt-error>
@@ -87,9 +108,9 @@ limitations under the License.
           <!-- Price Description -->
           <watt-form-field class="description">
             <watt-label>{{ t("createPrices.priceDescription") }}</watt-label>
-            <textarea wattInput formControlName="priceDescription"></textarea>
+            <textarea wattInput formControlName="description"></textarea>
             <watt-error
-              *ngIf="charge.controls['priceDescription'].hasError('required')"
+              *ngIf="charge.controls['description'].hasError('required')"
             >
               {{ t("fieldRequiredErrorText") }}
             </watt-error>
@@ -142,7 +163,7 @@ limitations under the License.
           </div>
         </div>
 
-        <watt-button [disabled]="!charge.valid" type="submit"
+        <watt-button type="submit" [loading]="isLoading | push"
           >Create</watt-button
         >
       </form>
