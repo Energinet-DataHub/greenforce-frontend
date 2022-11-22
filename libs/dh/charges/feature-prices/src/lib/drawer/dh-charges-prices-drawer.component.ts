@@ -82,6 +82,8 @@ export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
   openDrawer(charge: ChargeV1Dto) {
     this.charge = charge;
     this.drawer.open();
+    setTimeout(() => this.chargeContent.load());
+    this.dhChargesPricesDrawerService.removeMessage();
   }
 
   drawerClosed() {

@@ -73,9 +73,7 @@ export class DhChargeContentComponent {
   @Input() charge?: ChargeV1Dto;
 
   load() {
-    setTimeout(() => {
-      this.wattTabsComponents.triggerChange();
-    }, 0);
+    this.wattTabsComponents.triggerChange();
   }
 
   loadPrices() {
