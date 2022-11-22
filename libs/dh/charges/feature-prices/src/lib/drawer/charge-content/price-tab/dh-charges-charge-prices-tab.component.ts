@@ -48,13 +48,13 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { getHours, getMinutes } from 'date-fns';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { zonedTimeToUtc } from 'date-fns-tz';
+import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
 
 @Component({
   selector: 'dh-charges-charge-prices-tab',
@@ -153,6 +153,16 @@ export class DhChargesChargePricesTabComponent
     if (this.charge) this.loadPrices(this.charge);
   }
 
+  getFromDateTime(price: ChargePriceV1Dto) {
+    if (this.charge) return getFromDateTime(price, this.charge.resolution);
+    return undefined;
+  }
+
+  getToDateTime(price: ChargePriceV1Dto) {
+    if (this.charge) return getToDateTime(price, this.charge.resolution);
+    return undefined;
+  }
+
   loadPrices(charge: ChargeV1Dto) {
     setTimeout(() => {
       if (charge?.hasAnyPrices) {
@@ -194,22 +204,6 @@ export class DhChargesChargePricesTabComponent
       skip: 0,
       take: 0,
     };
-  }
-
-  getHours(date: string) {
-    return this.addLeadingZeros(getHours(new Date(date)), 2);
-  }
-
-  getTime(date: string) {
-    if (this.charge?.resolution == Resolution.PT1H) return this.getHours(date);
-
-    const minutes = this.addLeadingZeros(getMinutes(new Date(date)), 2);
-    const hours = this.getHours(date);
-    return `${hours}:${minutes}`;
-  }
-
-  addLeadingZeros(number: number, totalLength: number): string {
-    return String(number).padStart(totalLength, '0');
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
