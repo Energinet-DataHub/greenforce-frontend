@@ -12,27 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: DH Backend CI
+# DataHub UI Frontend and BFF
+name: DH CI
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
-  app-name: app-dh
-  BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
-  is-main-branch: ${{ github.ref == 'refs/heads/main' }}
-  is-pull-request: ${{ github.event_name == 'pull_request' }}
+  APP_NAME: app-dh
+  IS_MAIN_BRANCH: ${{ github.ref == 'refs/heads/main' }}
+  IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
   NODE_OPTIONS: --max-old-space-size=6144
-  node-version-file: .nvmrc
+  NODE_VERSION_FILE: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  yarn-version: 1.22.19
+  YARN_VERSION: 1.22.19
   NX_MAX_PARALLEL: 2
-
-  # Nx Cloud
-  NX_BRANCH: ${{ github.event.number }}
-  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-  NX_RUN_GROUP: ${{ github.run_id }}
 
 on:
   pull_request:
@@ -45,7 +40,66 @@ jobs:
   #
 
   changes:
-    uses: ./.github/workflows/dh-backend-detect-changes.yml
+    uses: ./.github/workflows/dh-detect-changes.yml
+
+  #
+  # Frontend
+  #
+  frontend_ci_build:
+    if: ${{ needs.changes.outputs.frontend == 'true' }}
+    needs: changes
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_VERSION: ui_frontend_${{ github.event.number }}
+      RELEASE_FOLDER_PATH: ${{ github.workspace }}/ui_frontend_${{ github.event.number }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ${{ env.NODE_VERSION_FILE }}
+          cache: 'yarn'
+
+      - name: Disable workspace NGCC run
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
+
+      - name: Set yarn version ${{ env.YARN_VERSION }}
+        run: yarn set version ${{ env.YARN_VERSION }}
+
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Angular Compatibility Compiler
+        run: npm run ngcc:dh
+
+      - name: Production build
+        run: yarn nx build ${{ env.APP_NAME }} --max-parallel=$${{ env.NX_MAX_PARALLEL }}
+
+      - name: Optimize i18n assets
+        run: yarn i18n:optimize:${{ env.APP_NAME }}
+
+      - name: Setup Release
+        shell: bash
+        run: cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }} ${{ env.RELEASE_FOLDER_PATH }}
+
+      - name: Zip artifact
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          filename: '${{ env.RELEASE_VERSION }}.zip'
+          directory: ${{ env.RELEASE_FOLDER_PATH }}
+
+      - name: Create prelease
+        uses: marvinpinto/action-automatic-releases@v1.2.1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: ${{ env.RELEASE_VERSION }}
+          prerelease: true
+          title: ${{ env.RELEASE_VERSION }}
+          files: ${{ env.RELEASE_FOLDER_PATH }}/${{ env.RELEASE_VERSION }}.zip
 
   #
   # CI .NET
@@ -84,16 +138,14 @@ jobs:
     needs: [
         # .NET
         dotnet_ci_build,
-        dotnet_ci_test,
       ]
     runs-on: ubuntu-latest
     env:
       output-path: libs/dh/shared/domain/src/lib/generated/v1/
-
     steps:
       # needed to push to origin
       - name: 'PR: Check out source code with current branch Git history'
-        if: ${{ env.is-pull-request == 'true' }}
+        if: ${{ env.IS_PULL_REQUEST == 'true' }}
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -101,17 +153,17 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }}
 
       - name: 'Merge: Check out source code'
-        if: ${{ env.is-main-branch == 'true' }}
+        if: ${{ env.IS_MAIN_BRANCH == 'true' }}
         uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version-file: ${{ env.node-version-file }}
+          node-version-file: ${{ env.NODE_VERSION_FILE }}
           cache: 'yarn'
 
-      - name: Set yarn version ${{ env.yarn-version }}
-        run: yarn set version ${{ env.yarn-version }}
+      - name: Set yarn version ${{ env.YARN_VERSION }}
+        run: yarn set version ${{ env.YARN_VERSION }}
 
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
@@ -120,7 +172,7 @@ jobs:
         run: yarn nx run api-dh:build-client
 
       - name: 'PR: Commit generated files'
-        if: ${{ env.is-pull-request == 'true' }}
+        if: ${{ env.IS_PULL_REQUEST == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -129,7 +181,7 @@ jobs:
           git push origin --force-with-lease || cd .
 
       - name: 'Merge: Verify no changes'
-        if: ${{ env.is-main-branch == 'true' }}
+        if: ${{ env.IS_MAIN_BRANCH == 'true' }}
         run: |
           git diff ${{ env.output-path }} --exit-code || (echo '❌ DataHub API v1 client is out-of-sync. Run the `build-client` Nx target and merge the changes.' && exit 1)
 
@@ -144,8 +196,11 @@ jobs:
         dotnet_ci_build,
         dotnet_ci_test,
 
-        # Frontend Client
+        # Frontend client
         generate_client,
+
+        # Frontend
+        frontend_ci_build,
       ]
     if: |
       always()
@@ -154,6 +209,6 @@ jobs:
         run: |
           echo "${{ toJSON(needs) }}"
           if [[ ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }} = true ]]; then
-              echo "Failed"
-              exit 1
+            echo "Failed"
+            exit 1
           fi
