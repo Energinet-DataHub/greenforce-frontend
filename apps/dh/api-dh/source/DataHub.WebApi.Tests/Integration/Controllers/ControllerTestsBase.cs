@@ -48,8 +48,6 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 });
             })
             .CreateClient();
-
-            factory.ReconfigureJwtTokenValidatorMock(isValid: true);
         }
 
         public Task InitializeAsync()
