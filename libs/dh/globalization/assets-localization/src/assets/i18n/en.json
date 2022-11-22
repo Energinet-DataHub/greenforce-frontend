@@ -268,7 +268,9 @@
     "resolution": "Resolution",
     "effectiveDate": "Effectivedate",
     "fieldRequiredErrorText": "Field is required.",
-    "fieldMaxLengthErrorText": "Max 10 characters.",
+    "senderProvidedChargeIdMaxLengthErrorText": "Max 10 characters.",
+    "chargeNameMaxLengthErrorText": "Max 132 characters",
+    "descriptionMaxLengthErrorText": "Max 2048 characters.",
     "topBarTitles": {
       "prices": "Search price",
       "createPrices": "Create prices"

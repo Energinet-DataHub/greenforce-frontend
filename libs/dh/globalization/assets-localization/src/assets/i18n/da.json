@@ -268,7 +268,9 @@
     "resolution": "Opløsning",
     "effectiveDate": "Skæringsdato",
     "fieldRequiredErrorText": "Feltet er påkrævet.",
-    "fieldMaxLengthErrorText": "Maks 10 tegn.",
+    "senderProvidedChargeIdMaxLengthErrorText": "Maksimalt 10 tegn.",
+    "chargeNameMaxLengthErrorText": "Maksimalt 132 tegn.",
+    "descriptionMaxLengthErrorText": "Maksimalt 2048 tegn.",
     "topBarTitles": {
       "prices": "Søg pris",
       "createPrices": "Opret pris"

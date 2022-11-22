@@ -80,8 +80,14 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
       Validators.maxLength(10),
     ]),
     chargeType: new FormControl('', Validators.required),
-    chargeName: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required),
+    chargeName: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(132),
+    ]),
+    description: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(2048),
+    ]),
     resolution: new FormControl(
       { value: '', disabled: true },
       Validators.required

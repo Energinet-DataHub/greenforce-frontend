@@ -62,7 +62,7 @@ limitations under the License.
                 charge.controls['senderProvidedChargeId'].hasError('maxlength')
               "
             >
-              {{ t("fieldMaxLengthErrorText") }}
+              {{ t("senderProvidedChargeIdMaxLengthErrorText") }}
             </watt-error>
           </watt-form-field>
 
@@ -79,6 +79,11 @@ limitations under the License.
               *ngIf="charge.controls['chargeName'].hasError('required')"
             >
               {{ t("fieldRequiredErrorText") }}
+            </watt-error>
+            <watt-error
+              *ngIf="charge.controls['chargeName'].hasError('maxlength')"
+            >
+              {{ t("chargeNameMaxLengthErrorText") }}
             </watt-error>
           </watt-form-field>
 
@@ -113,6 +118,11 @@ limitations under the License.
               *ngIf="charge.controls['description'].hasError('required')"
             >
               {{ t("fieldRequiredErrorText") }}
+            </watt-error>
+            <watt-error
+              *ngIf="charge.controls['description'].hasError('maxlength')"
+            >
+              {{ t("descriptionMaxLengthErrorText") }}
             </watt-error>
           </watt-form-field>
 
@@ -163,9 +173,9 @@ limitations under the License.
           </div>
         </div>
 
-        <watt-button type="submit" [loading]="isLoading | push"
-          >Create</watt-button
-        >
+        <watt-button type="submit" [loading]="isLoading | push">
+          Create
+        </watt-button>
       </form>
     </div>
   </watt-card>
