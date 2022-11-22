@@ -9,14 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { EicFunction } from './eic-function';
-import { ActorGridAreaDto } from './actor-grid-area-dto';
 
 
-export interface ActorMarketRoleDto { 
-    eicFunction: EicFunction;
-    gridAreas: Array<ActorGridAreaDto>;
-    comment?: string | null;
+export interface GetTokenRequestDto { 
+    externalActorId: string;
+    externalToken: string;
 }
 
 
