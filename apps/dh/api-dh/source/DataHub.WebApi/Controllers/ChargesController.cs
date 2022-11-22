@@ -71,7 +71,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             await _chargesClient.CreateChargeAsync(createChargeV1Dto);
 
-            return Ok();
+            return Accepted();
         }
     }
 }

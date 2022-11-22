@@ -100,7 +100,7 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
         tap(() => {
           this.resetState();
 
-          this.setcreateRequestState(LoadingState.LOADING);
+          this.setCreateRequestState(LoadingState.LOADING);
         }),
         switchMap((createChargeV1Dto) =>
           this.httpClient
@@ -108,10 +108,10 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
             .pipe(
               tapResponse(
                 () => {
-                  this.setcreateRequestState(LoadingState.LOADED);
+                  this.setCreateRequestState(LoadingState.LOADED);
                 },
                 () => {
-                  this.setcreateRequestState(LoadingState.LOADED);
+                  this.setCreateRequestState(LoadingState.LOADED);
                   this.handleCreateRequestError();
                 }
               )
@@ -138,7 +138,7 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
     })
   );
 
-  private setcreateRequestState = this.updater(
+  private setCreateRequestState = this.updater(
     (state, loadingState: LoadingState): ChargesState => ({
       ...state,
       createRequestState: loadingState,
