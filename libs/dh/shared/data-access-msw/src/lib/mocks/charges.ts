@@ -103,7 +103,7 @@ function searchCharges(apiBase: string) {
       {
         id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
         chargeType: 'D02',
-        resolution: 'PT15M',
+        resolution: 'PT1H',
         taxIndicator: false,
         transparentInvoicing: false,
         vatClassification: VatClassification.NoVat,
