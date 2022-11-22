@@ -37,6 +37,8 @@ export * from './create-charge-v1-dto';
 export * from './create-organization-dto';
 export * from './disconnection-type';
 export * from './eic-function';
+export * from './get-token-request-dto';
+export * from './get-token-response-dto';
 export * from './grid-area-audit-log-entry-dto';
 export * from './grid-area-audit-log-entry-field';
 export * from './grid-area-dto';
