@@ -19,8 +19,6 @@ on:
   push:
     branches:
       - main
-  # Needed for is-affected not to fail (can be removed once is-affected will be removed)
-  pull_request: {}
 
 jobs:
   #
