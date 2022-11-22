@@ -35,7 +35,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Get saved request and response logs
+        /// Get saved request and response logs.
         /// </summary>
         /// <param name="searchCriteria">search criteria input</param>
         /// <returns>Search result.</returns>
@@ -48,7 +48,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Download log content as stream
+        /// Download log content as stream.
         /// </summary>
         /// <param name="logName">log name</param>
         /// <returns>log content</returns>
