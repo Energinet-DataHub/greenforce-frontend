@@ -16,10 +16,7 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {
-  EoOriginOfEnergyShellComponent,
-  EoOriginOfEnergyShellScam,
-} from './eo-origin-of-energy-shell.component';
+import { EoOriginOfEnergyShellComponent } from './eo-origin-of-energy-shell.component';
 
 const routes: Routes = [
   {
@@ -29,6 +26,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), EoOriginOfEnergyShellScam],
+  imports: [RouterModule.forChild(routes), EoOriginOfEnergyShellComponent],
 })
 export class EoOriginOfEnergyShellModule {}

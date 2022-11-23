@@ -15,12 +15,14 @@
  * limitations under the License.
  */
 
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import { eoEmissionsRoutePath } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
+  standalone: true,
+  imports: [MatCardModule, RouterModule],
   selector: 'eo-dashboard-get-data',
   template: `<mat-card>
     <h3 class="watt-space-stack-s">Get Data for your CSR-report</h3>
@@ -52,10 +54,3 @@ import { eoEmissionsRoutePath } from '@energinet-datahub/eo/shared/utilities';
   ],
 })
 export class EoDashboardGetDataComponent {}
-
-@NgModule({
-  declarations: [EoDashboardGetDataComponent],
-  exports: [EoDashboardGetDataComponent],
-  imports: [MatCardModule, RouterModule],
-})
-export class EoDashboardGetDataScam {}

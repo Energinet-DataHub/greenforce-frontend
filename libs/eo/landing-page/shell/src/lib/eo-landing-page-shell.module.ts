@@ -15,17 +15,14 @@
  * limitations under the License.
  */
 
-import {
-  EoLandingPageShellComponent,
-  EoLandingPageShellScam,
-} from './eo-landing-page-shell.component';
 import { RouterModule, Routes } from '@angular/router';
+import { EoLandingPageShellComponent } from './eo-landing-page-shell.component';
 
 import { NgModule } from '@angular/core';
 
 const routes: Routes = [{ path: '', component: EoLandingPageShellComponent }];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), EoLandingPageShellScam],
+  imports: [RouterModule.forChild(routes), EoLandingPageShellComponent],
 })
 export class EoLandingPageShellModule {}

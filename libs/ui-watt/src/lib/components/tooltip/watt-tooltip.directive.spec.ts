@@ -21,7 +21,7 @@ import {
 } from '@storybook/testing-angular';
 
 import { WattTooltipDirective } from './watt-tooltip.directive';
-import Meta, { Overview } from './watt-tooltip.stories';
+import Meta, { Overview } from './+storybook/watt-tooltip.stories';
 import userEvent from '@testing-library/user-event';
 
 const Story = composeStory(Overview, Meta);
@@ -35,14 +35,50 @@ async function setup() {
 }
 
 describe(WattTooltipDirective.name, () => {
+  const getTooltip = () => screen.getByText('Click me');
+  const getTooltipTarget = () => screen.getByText('Button');
+
+  const isTooltipVisible = (): boolean =>
+    getTooltip().classList.contains('show');
+
   it('always displays accessible tooltip', async () => {
     await setup();
-    expect(screen.getByRole('tooltip', { hidden: true })).toBeInTheDocument();
+    expect(screen.getAllByRole('tooltip')[0]).toBeInTheDocument();
   });
 
   it('displays tooltip on hover', async () => {
     await setup();
-    userEvent.hover(screen.getByRole('button'));
-    expect(screen.getByText('Click me', { ignore: '[role]' })).toBeVisible();
+    expect(isTooltipVisible()).toBe(false);
+
+    userEvent.hover(getTooltipTarget());
+    expect(isTooltipVisible()).toBe(true);
+  });
+
+  it('hides tooltip on unhover', async () => {
+    await setup();
+    userEvent.hover(getTooltipTarget());
+    expect(isTooltipVisible()).toBe(true);
+
+    userEvent.unhover(getTooltipTarget());
+    expect(isTooltipVisible()).toBe(false);
+  });
+
+  it('displays tooltip on focus', async () => {
+    await setup();
+    expect(isTooltipVisible()).toBe(false);
+
+    userEvent.tab();
+
+    expect(isTooltipVisible()).toBe(true);
+  });
+
+  it('hides tooltip on blur', async () => {
+    await setup();
+    userEvent.tab();
+    expect(isTooltipVisible()).toBe(true);
+
+    userEvent.tab();
+
+    expect(isTooltipVisible()).toBe(false);
   });
 });

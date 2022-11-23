@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
   selector: 'eo-emissions-page-co2-reduction',
   styles: [
     `
@@ -47,9 +48,3 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
   `,
 })
 export class EoEmissionsPageCo2ReductionComponent {}
-
-@NgModule({
-  declarations: [EoEmissionsPageCo2ReductionComponent],
-  exports: [EoEmissionsPageCo2ReductionComponent],
-})
-export class EoEmissionsPageCo2ReductionScam {}

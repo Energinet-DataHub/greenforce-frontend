@@ -31,7 +31,7 @@ import {
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 import { EoHttpModule } from './eo-http.module';
 import { EoMaterialModule } from './eo-material.module';
-import { EoShellComponent, EoShellScam } from './eo-shell.component';
+import { EoShellComponent } from './eo-shell.component';
 
 const routes: Routes = [
   {
@@ -57,7 +57,6 @@ const routes: Routes = [
     children: [
       {
         path: eoCertificatesRoutePath,
-        data: { title: 'Certificates' },
         loadChildren: () =>
           import('@energinet-datahub/eo/certificates').then(
             (esModule) => esModule.EoCertificatesModule
@@ -143,7 +142,7 @@ const routes: Routes = [
       scrollPositionRestoration: 'enabled',
     }),
     EoMaterialModule.forRoot(),
-    EoShellScam,
+    EoShellComponent,
   ],
 })
 export class EoCoreShellModule {}
