@@ -138,7 +138,7 @@ namespace Energinet.DataHub.WebApi
 
             if (!Environment.IsDevelopment())
             {
-                app.UseMiddleware<JwtTokenMiddleware>();
+                app.UseAuthentication();
             }
 
             app.UseAuthorization();
