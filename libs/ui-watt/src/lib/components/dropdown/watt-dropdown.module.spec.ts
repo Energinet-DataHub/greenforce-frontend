@@ -38,9 +38,9 @@ const matOptionClass = '.mat-option';
 describe(WattDropdownModule.name, () => {
   function getFilterInput(): HTMLInputElement {
     const inputs: HTMLInputElement[] = screen.getAllByRole('textbox', {
-      // We search for hidden input elements because as of `ngx-mat-select-search` v5.0.0
+      // We search for "hidden" input elements because as of `ngx-mat-select-search` v5.0.0
       // when the `ngx-mat-select-search` component is inside a `mat-option`,
-      // the `mat-option` element has a `aria-hidden="true"`
+      // the `mat-option` element has a `aria-hidden="true"` applied to it.
       // See https://github.com/bithost-gmbh/ngx-mat-select-search/pull/392
       hidden: true,
     });
