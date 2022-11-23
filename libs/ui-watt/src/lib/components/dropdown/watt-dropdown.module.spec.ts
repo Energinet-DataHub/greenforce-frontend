@@ -164,7 +164,7 @@ describe(WattDropdownModule.name, () => {
           By.css(matOptionClass)
         );
 
-        // Note(xdzus): The first option is skipped because it holds the filter input
+        // The first option is skipped because it holds the filter input
         const [, resetOptionDe] = matOptions;
 
         if (resetOptionDe) {
@@ -205,7 +205,7 @@ describe(WattDropdownModule.name, () => {
         const filterInput = getFilterInput();
         userEvent.type(filterInput, 'mighty');
 
-        // Note(xdzus): Number of options is 3:
+        // Number of options is 3:
         // Option 1. Filter input
         // Option 2. Reset option
         // Option 3. Actual option containing the desired text
@@ -231,7 +231,7 @@ describe(WattDropdownModule.name, () => {
           By.css('.mat-pseudo-checkbox')
         );
 
-        // Note(xdzus): The first option is skipped because it holds the filter input
+        // The first option is skipped because it holds the filter input
         const [, secondOptionDe] = matOptions;
 
         if (secondOptionDe) {
@@ -255,7 +255,7 @@ describe(WattDropdownModule.name, () => {
         const filterInput = getFilterInput();
         userEvent.type(filterInput, 'non-existent option');
 
-        // Note(xdzus): Number of options is 1:
+        // Number of options is 1:
         // Option 1. Filter input containing the 'No options found.' label
         const expectedOptions = 1;
         const actialOptions = await matSelect.getOptions();
@@ -346,7 +346,7 @@ describe(WattDropdownModule.name, () => {
           By.css(matOptionClass)
         );
 
-        // Note(xdzus): The first option is skipped because it holds the filter input
+        // The first option is skipped because it holds the filter input
         const [, resetOptionDe] = matOptions;
 
         if (resetOptionDe) {
@@ -365,7 +365,7 @@ describe(WattDropdownModule.name, () => {
         const filterInput = getFilterInput();
         userEvent.type(filterInput, 'mighty');
 
-        // Note(xdzus): Number of options is 3:
+        // Number of options is 3:
         // Option 1. Filter input
         // Option 2. Reset option
         // Option 3. Actual option containing the desired text
@@ -391,7 +391,7 @@ describe(WattDropdownModule.name, () => {
           By.css('.mat-pseudo-checkbox')
         );
 
-        // Note(xdzus): The first option is skipped because it holds the filter input
+        // The first option is skipped because it holds the filter input
         const [, secondOptionDe] = matOptions;
 
         if (secondOptionDe) {
@@ -416,7 +416,7 @@ describe(WattDropdownModule.name, () => {
         const filterInput = getFilterInput();
         userEvent.type(filterInput, 'non-existent option');
 
-        // Note(xdzus): Number of options is 1:
+        // Number of options is 1:
         // Option 1. Filter input containing the 'No options found.' label
         const expectedOptions = 1;
         const actialOptions = await matSelect.getOptions();
