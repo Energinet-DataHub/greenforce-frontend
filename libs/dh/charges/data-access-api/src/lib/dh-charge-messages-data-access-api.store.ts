@@ -24,7 +24,10 @@ import {
   ChargesHttp,
 } from '@energinet-datahub/dh/shared/domain';
 import { Observable, switchMap, tap } from 'rxjs';
-import { ErrorState, LoadingState } from './states';
+import {
+  ErrorState,
+  LoadingState,
+} from '@energinet-datahub/dh/shared/data-access-api';
 
 interface ChargeMessagesState {
   readonly chargeMessages?: Array<ChargeMessageV1Dto>;
