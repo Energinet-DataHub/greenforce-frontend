@@ -178,7 +178,7 @@ describe(DhChargeContentComponent.name, () => {
     const expectedNewDate = formatInTimeZone(
       tomorrow,
       timeZoneIdentifier,
-      'dd-MM-yyyy'
+      dateTimeFormat
     );
 
     expect(startDateInput.value).toEqual(expectedNewDate);
