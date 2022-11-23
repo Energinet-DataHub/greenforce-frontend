@@ -33,7 +33,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Retrieves actors associated with the users external actor token.
         /// </summary>
-        [HttpPost]
+        [HttpGet]
         public Task<ActionResult<GetAssociatedUserActorsResponseDto>> GetUserActorsAsync(string externalToken)
         {
             return HandleExceptionAsync(() => _client.GetUserActorsAsync(externalToken));
