@@ -22,7 +22,6 @@ import {
   ContentChildren,
   EventEmitter,
   HostBinding,
-  inject,
   Output,
   QueryList,
   ViewEncapsulation,
@@ -76,6 +75,7 @@ export class WattBreadcrumbsComponent implements AfterViewInit {
    * @ignore
    */
   ngAfterViewInit() {
+    // To avoid - Error: NG0100: ExpressionChangedAfterItHasBeenCheckedError
     setTimeout(() => {
       this.breadcrumbs.last.isLast = true;
     });
