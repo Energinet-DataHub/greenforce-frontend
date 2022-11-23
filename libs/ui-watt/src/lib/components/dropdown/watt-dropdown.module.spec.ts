@@ -36,6 +36,22 @@ const dropdownOptions: WattDropdownOptions = [
 const matOptionClass = '.mat-option';
 
 describe(WattDropdownModule.name, () => {
+  function getFilterInput(): HTMLInputElement {
+    const inputs: HTMLInputElement[] = screen.getAllByRole('textbox', {
+      // We search for hidden input elements because as of `ngx-mat-select-search` v5.0.0
+      // when the `ngx-mat-select-search` component is inside a `mat-option`,
+      // the `mat-option` element has a `aria-hidden="true"`
+      // See https://github.com/bithost-gmbh/ngx-mat-select-search/pull/392
+      hidden: true,
+    });
+
+    const [visibleInput] = inputs.filter((input) =>
+      input.classList.contains('mat-input-element')
+    );
+
+    return visibleInput;
+  }
+
   const placeholder = 'Select a team';
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -186,7 +202,7 @@ describe(WattDropdownModule.name, () => {
 
         await matSelect.open();
 
-        const filterInput: HTMLInputElement = screen.getByRole('textbox');
+        const filterInput = getFilterInput();
         userEvent.type(filterInput, 'mighty');
 
         // Note(xdzus): Number of options is 3:
@@ -236,7 +252,7 @@ describe(WattDropdownModule.name, () => {
 
         await matSelect.open();
 
-        const filterInput: HTMLInputElement = screen.getByRole('textbox');
+        const filterInput = getFilterInput();
         userEvent.type(filterInput, 'non-existent option');
 
         // Note(xdzus): Number of options is 1:
@@ -346,7 +362,7 @@ describe(WattDropdownModule.name, () => {
 
         await matSelect.open();
 
-        const filterInput: HTMLInputElement = screen.getByRole('textbox');
+        const filterInput = getFilterInput();
         userEvent.type(filterInput, 'mighty');
 
         // Note(xdzus): Number of options is 3:
@@ -397,7 +413,7 @@ describe(WattDropdownModule.name, () => {
 
         await matSelect.open();
 
-        const filterInput: HTMLInputElement = screen.getByRole('textbox');
+        const filterInput = getFilterInput();
         userEvent.type(filterInput, 'non-existent option');
 
         // Note(xdzus): Number of options is 1:
