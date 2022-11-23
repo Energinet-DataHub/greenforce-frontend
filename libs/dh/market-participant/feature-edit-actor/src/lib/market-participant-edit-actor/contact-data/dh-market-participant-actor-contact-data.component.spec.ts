@@ -121,7 +121,7 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
     ).getByRole('combobox');
     userEvent.click(categories);
 
-    const category = screen.getAllByRole('option')[2];
+    const category = screen.getAllByRole('option')[1];
     const name = screen.getByRole('textbox', {
       name: /name field for new contact/i,
     });
