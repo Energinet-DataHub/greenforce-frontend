@@ -138,6 +138,11 @@ function getMarketParticipants(apiBase: string) {
           marketParticipantId: '8100000000030',
           businessProcessRole: 'DDM',
         },
+        {
+          id: 'S5E0990A-713B-41E6-AB9C-A1B357A1EABD',
+          name: 'name 12',
+          marketParticipantId: '8100000000030',
+        },
       ];
       return res(ctx.status(200), ctx.json(result));
     }
