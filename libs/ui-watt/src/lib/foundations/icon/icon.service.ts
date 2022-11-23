@@ -49,6 +49,7 @@ export class WattIconService {
       'custom-primary-info',
       '/assets/ui-watt/icons/primary-info.svg'
     );
+    this.addSvgIcon('custom-no-results', '/assets/ui-watt/icons/noResults.svg');
   }
 
   private addSvgIcon(icon: WattCustomIcon, url: string) {
