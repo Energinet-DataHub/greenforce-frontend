@@ -145,15 +145,22 @@ limitations under the License.
           </watt-form-field>
 
           <!-- Effective Date -->
-          <watt-form-field class="effective-date">
-            <watt-label>{{ t("effectiveDate") }} *</watt-label>
-            <watt-datepicker formControlName="effectiveDate"></watt-datepicker>
+          <div class="effective-date">
+            <watt-form-field>
+              <watt-label>{{ t("effectiveDate") }} *</watt-label>
+              <watt-datepicker
+                formControlName="effectiveDate"
+              ></watt-datepicker>
+            </watt-form-field>
             <watt-error
-              *ngIf="charge.controls['effectiveDate'].hasError('required')"
+              *ngIf="
+                charge.controls['effectiveDate'].hasError('required') &&
+                hasSubmitted
+              "
             >
               {{ t("fieldRequiredErrorText") }}
             </watt-error>
-          </watt-form-field>
+          </div>
 
           <div class="col-1 checkboxes">
             <!-- Transparent invoicing -->

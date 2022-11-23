@@ -107,6 +107,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   isTariff = false;
   isFormValid = false;
   marketParticipants = this.marketParticipantStore.all$;
+  hasSubmitted = false;
 
   isLoading = this.chargesStore.isCreateRequestLoading$;
 
@@ -208,6 +209,8 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   }
 
   createPrice() {
+    this.hasSubmitted = true;
+
     if (!this.charge.valid) return;
 
     this.disableFormGroup();
