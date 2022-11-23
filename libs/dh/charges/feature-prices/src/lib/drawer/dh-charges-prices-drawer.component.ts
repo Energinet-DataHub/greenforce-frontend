@@ -27,18 +27,15 @@ import {
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { PushModule } from '@rx-angular/template';
 
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import {
   WattDrawerModule,
   WattDrawerComponent,
 } from '@energinet-datahub/watt/drawer';
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
-import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { DrawerDatepickerService } from './charge-content/drawer-datepicker/drawer-datepicker.service';
 import { DhChargeDetailsHeaderScam } from './charge-content/details-header/dh-charge-details-header.component';
 import { DhChargesPricesDrawerService } from './dh-charges-prices-drawer.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -55,7 +52,8 @@ import { DhChargePriceMessageScam } from './charge-message/dh-charge-price-messa
 })
 export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
   @ViewChild('drawer') drawer!: WattDrawerComponent;
-  @ViewChild(DhChargeContentComponent) chargeContent!: DhChargeContentComponent;
+  @ViewChild(DhChargeContentComponent)
+  chargeContent!: DhChargeContentComponent;
 
   @Output() closed = new EventEmitter<void>();
 
@@ -65,7 +63,6 @@ export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
   constructor(
-    private datepickerService: DrawerDatepickerService,
     private dhChargesPricesDrawerService: DhChargesPricesDrawerService
   ) {}
 
@@ -85,13 +82,12 @@ export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
   openDrawer(charge: ChargeV1Dto) {
     this.charge = charge;
     this.drawer.open();
-    this.chargeContent.load();
+    setTimeout(() => this.chargeContent.load());
     this.dhChargesPricesDrawerService.removeMessage();
   }
 
   drawerClosed() {
     this.dhChargesPricesDrawerService.reset();
-    this.datepickerService.reset();
     this.closed.emit();
   }
 
@@ -109,8 +105,6 @@ export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
     TranslocoModule,
     WattTabsModule,
     WattButtonModule,
-    WattDatepickerModule,
-    WattFormFieldModule,
     DhChargeDetailsHeaderScam,
     DhChargeContentScam,
     DhChargePriceMessageScam,

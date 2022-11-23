@@ -60,11 +60,6 @@ describe('DhChargesChargePricesTabComponent', () => {
     };
   }
 
-  it('should create', async () => {
-    const fixture = await setup();
-    expect(fixture.fixture.componentInstance).toBeTruthy();
-  });
-
   it('show message when charge has no prices at all', async () => {
     await setup();
 

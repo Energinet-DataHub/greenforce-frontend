@@ -146,23 +146,21 @@ export class DhChargesChargeMessagesTabComponent
   }
 
   loadMessages(charge: ChargeV1Dto) {
-    setTimeout(() => {
-      this.chargeMessagesSearchCriteria.chargeId = charge.id;
-      this.chargeMessagesSearchCriteria.take = this.paginator.instance.pageSize;
+    this.chargeMessagesSearchCriteria.chargeId = charge.id;
+    this.chargeMessagesSearchCriteria.take = this.paginator.instance.pageSize;
 
-      const dateTimeRange =
-        this.drawerDatepickerComponent.formControlDateRange.value;
+    const dateTimeRange =
+      this.drawerDatepickerComponent.formControlDateRange.value;
 
-      if (dateTimeRange) {
-        this.setSearchCriteriaDateRange({
-          startDate: dateTimeRange.start,
-          endDate: dateTimeRange.end,
-        });
-      }
-      this.chargeMessagesStore.searchChargeMessages(
-        this.chargeMessagesSearchCriteria
-      );
-    }, 0);
+    if (dateTimeRange) {
+      this.setSearchCriteriaDateRange({
+        startDate: dateTimeRange.start,
+        endDate: dateTimeRange.end,
+      });
+    }
+    this.chargeMessagesStore.searchChargeMessages(
+      this.chargeMessagesSearchCriteria
+    );
 
     this.dataSource.sortingDataAccessor = ToLowerSort();
   }
