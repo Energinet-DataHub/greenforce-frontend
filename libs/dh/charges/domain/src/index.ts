@@ -16,4 +16,4 @@
  */
 export * from './lib/chargeTypes';
 export * from './lib/validityOptions';
-export * from './lib/resolution';
+export * from './lib/resolutionOptions';

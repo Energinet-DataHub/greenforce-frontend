@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export enum Resolution {
+export enum ResolutionOptions {
   Unknown = 0,
   PT15M = 1,
   PT1H = 2,

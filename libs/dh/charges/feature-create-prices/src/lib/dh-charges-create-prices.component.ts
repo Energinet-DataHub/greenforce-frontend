@@ -38,7 +38,10 @@ import {
   WattDropdownOptions,
 } from '@energinet-datahub/watt/dropdown';
 import { Subject, take, takeUntil } from 'rxjs';
-import { ChargeTypes, Resolution } from '@energinet-datahub/dh/charges/domain';
+import {
+  ChargeTypes,
+  ResolutionOptions,
+} from '@energinet-datahub/dh/charges/domain';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
@@ -49,6 +52,7 @@ import {
 import {
   ChargeType,
   MarketParticipantV1Dto,
+  Resolution,
   VatClassification,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -214,8 +218,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     this.chargesStore.createCharge({
       chargeType: charge.chargeType as ChargeType,
       effectiveDate: charge.effectiveDate as string,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      resolution: Resolution[Number(resolution)] as any,
+      resolution: ResolutionOptions[Number(resolution)] as Resolution,
       chargeName: charge.chargeName as string,
       taxIndicator: charge.taxIndicator as boolean,
       transparentInvoicing: charge.transparentInvoicing as boolean,
@@ -276,7 +279,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
 
   disableResolutionWithValue() {
     this.charge.controls['resolution'].setValue(
-      Number(Resolution.P1M).toString()
+      Number(ResolutionOptions.P1M).toString()
     );
     this.charge.controls['resolution'].disable();
   }
@@ -320,24 +323,24 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (translationKeys) => {
-          this.resolutionOptions = Object.keys(Resolution)
+          this.resolutionOptions = Object.keys(ResolutionOptions)
             .filter(
               (key) =>
-                Resolution[Number(key)] != null &&
-                Number(key) != Resolution.Unknown &&
-                Number(key) != Resolution.PT15M
+                ResolutionOptions[Number(key)] != null &&
+                Number(key) != ResolutionOptions.Unknown &&
+                Number(key) != ResolutionOptions.PT15M
             )
             .map((chargeTypeKey) => {
               return {
                 value: chargeTypeKey,
                 displayValue:
-                  translationKeys[Resolution[Number(chargeTypeKey)]],
+                  translationKeys[ResolutionOptions[Number(chargeTypeKey)]],
               };
             });
 
           if (this.isTariff)
             this.resolutionOptions = this.resolutionOptions.filter(
-              (option) => Number(option.value) != Resolution.P1M
+              (option) => Number(option.value) != ResolutionOptions.P1M
             );
         },
       });
