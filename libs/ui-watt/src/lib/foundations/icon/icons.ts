@@ -69,6 +69,7 @@ export const customIcons = {
   'custom-meter': 'meter',
   'custom-map-marker': 'map-marker',
   'custom-primary-info': 'primary-info',
+  'custom-no-results': 'no-results',
 };
 
 export const allIcons = { ...materialIcons, ...customIcons };
