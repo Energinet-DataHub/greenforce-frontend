@@ -111,7 +111,6 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
                   this.setCreateRequestState(LoadingState.LOADED);
                 },
                 () => {
-                  this.setCreateRequestState(LoadingState.LOADED);
                   this.handleCreateRequestError();
                 }
               )
