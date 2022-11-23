@@ -14776,10 +14776,10 @@ ng2-charts@3.0.11:
     lodash-es "^4.17.15"
     tslib "^2.3.0"
 
-ngx-mat-select-search@4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/ngx-mat-select-search/-/ngx-mat-select-search-4.2.1.tgz#8970763746728c69b622a42d8decff12a4ef8678"
-  integrity sha512-bKHpOSIXyqwZw35OB6yi87tcRRV/69mu49PN0M2ZzVbiWBPg/IN58aJnCHUDxDG6CdK0vbGJ/2eCPniZ1nf9KA==
+ngx-mat-select-search@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-mat-select-search/-/ngx-mat-select-search-5.0.0.tgz#3f5793c5a83594efbf7e8043161899166626b86a"
+  integrity sha512-w9NLIhN/b6aDpvwdrvxttNm6eYbcnalyCIOPaFPTpK8Ub8graHmL6qQdWzIw54Qxyzlr7A0DvpMgywcs4eGSYA==
   dependencies:
     tslib "^2.4.0"
 

@@ -96,7 +96,7 @@ export class MessageArchiveHttp {
     }
 
     /**
-     * Download log content as stream
+     * Download log content as stream.
      * @param logName log name
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -167,7 +167,7 @@ export class MessageArchiveHttp {
     }
 
     /**
-     * Get saved request and response logs
+     * Get saved request and response logs.
      * @param messageArchiveSearchCriteria search criteria input
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.

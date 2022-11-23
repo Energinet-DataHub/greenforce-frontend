@@ -16,4 +16,3 @@
  */
 export * from './lib/dh-message-archive-data-access-api.store';
 export * from './lib/dh-message-archive-data-access-api-blob.store';
-export * from './lib/states';
