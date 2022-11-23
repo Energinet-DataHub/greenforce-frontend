@@ -13,6 +13,7 @@ import { WattSpinnerModule } from "@energinet-datahub/watt/spinner";
 
 import { batch } from "@energinet-datahub/dh/wholesale/domain";
 import { BatchGridAreaDto } from "@energinet-datahub/dh/shared/domain";
+import { navigateToWholesaleSearchBatch } from "@energinet-datahub/dh/wholesale/routing";
 
 @Component({
   templateUrl: "./dh-wholesale-calculation-steps.component.html",
@@ -46,5 +47,9 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
     setTimeout(() => {
       this.steps = [...Array(25).keys()];
     }, 1000);
+  }
+
+  navigateToSearchBatch(batch?: batch): void {
+    navigateToWholesaleSearchBatch(this.router, batch);
   }
 }

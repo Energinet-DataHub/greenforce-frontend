@@ -48,6 +48,7 @@ import { WattToastModule } from '@energinet-datahub/watt/toast';
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
 import { ScopeService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { WHOLESALE_BASE_PATH } from '@energinet-datahub/dh/wholesale/routing';
 
 const routes: Routes = [
   {
@@ -84,10 +85,10 @@ const routes: Routes = [
         canActivate: [MsalGuard],
       },
       {
-        path: 'wholesale',
+        path: WHOLESALE_BASE_PATH,
         loadChildren: () =>
-          import('@energinet-datahub/dh/wholesale/shell').then(
-            (esModule) => esModule.DhWholesaleShellModule
+          import('@energinet-datahub/dh/wholesale/routing').then(
+            (esModule) => esModule.WHOLESALE_ROUTES
           ),
         canActivate: [MsalGuard],
       },
@@ -115,7 +116,7 @@ const routes: Routes = [
     MsalModule,
     DhConfigurationLocalizationModule.forRoot(),
     WattDanishDatetimeModule.forRoot(),
-    DhSharedUtilApplicationInsightsModule.forRoot(),
+    //DhSharedUtilApplicationInsightsModule.forRoot(),
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       // Don't perform initial navigation in iframes or popups

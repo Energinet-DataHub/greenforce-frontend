@@ -1,10 +1,10 @@
 <ng-container *transloco="let transloco; read: 'wholesale'">
   <header>
     <watt-breadcrumbs>
-      <watt-breadcrumb>{{
+      <watt-breadcrumb (click)="navigateToSearchBatch()">{{
         transloco("searchBatch.topBarTitle")
       }}</watt-breadcrumb>
-      <watt-breadcrumb>{{
+      <watt-breadcrumb (click)="navigateToSearchBatch(batch)">{{
         transloco("batchDetails.headline", { batchNumber: batch?.batchNumber })
       }}</watt-breadcrumb>
       <watt-breadcrumb>{{

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, inject, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, inject, ChangeDetectorRef, ViewChild, AfterViewInit } from '@angular/core';
 import { first, of } from 'rxjs';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -36,6 +36,7 @@ import { batch } from "@energinet-datahub/dh/wholesale/domain";
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-batch-details.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -56,20 +57,27 @@ import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-b
   styleUrls: ['./dh-wholesale-search.component.scss'],
   providers: [DhWholesaleBatchDataAccessApiStore],
 })
-export class DhWholesaleSearchComponent {
+export class DhWholesaleSearchComponent implements AfterViewInit {
   @ViewChild('batchDetails') batchDetails!: DhWholesaleBatchDetailsComponent;
 
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private toastService = inject(WattToastService);
   private translations = inject(TranslocoService);
   private changeDetectorRef = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
   data$ = this.store.batches$;
   loadingBatchesTrigger$ = this.store.loadingBatches$;
   loadingBatchesErrorTrigger$ = this.store.loadingBatchesErrorTrigger$;
 
   searchSubmitted = false;
-  selectedBatch: batch | null = null;
+  selectedBatch: batch | null = this.router.getCurrentNavigation()?.extras.state?.['batch'];
+
+  ngAfterViewInit(): void {
+    if (this.selectedBatch) {
+      this.batchDetails.open();
+    }
+  }
 
   onSearch(search: BatchSearchDto) {
     this.searchSubmitted = true;

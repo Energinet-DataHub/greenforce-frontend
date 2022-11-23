@@ -22,6 +22,7 @@ import {
   ContentChildren,
   EventEmitter,
   HostBinding,
+  inject,
   Output,
   QueryList,
   ViewEncapsulation,
@@ -75,7 +76,9 @@ export class WattBreadcrumbsComponent implements AfterViewInit {
    * @ignore
    */
   ngAfterViewInit() {
-    this.breadcrumbs.last.isLast = true;
+    setTimeout(() => {
+      this.breadcrumbs.last.isLast = true;
+    });
   }
 }
 

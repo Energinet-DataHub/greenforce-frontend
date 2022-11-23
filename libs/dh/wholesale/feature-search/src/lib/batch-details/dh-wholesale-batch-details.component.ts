@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -37,7 +37,7 @@ import {
 import { batch } from "@energinet-datahub/dh/wholesale/domain";
 import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
 import { BatchGridAreaDto } from '@energinet-datahub/dh/shared/domain';
-import { WHOLESALE_CALCULATION_STEPS_PATH } from 'libs/dh/wholesale/feature-calculation-steps/src';
+import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/wholesale/routing';
 
 @Component({
   standalone: true,
@@ -61,24 +61,12 @@ export class DhWholesaleBatchDetailsComponent {
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
   router = inject(Router);
-  route = inject(ActivatedRoute);
 
   open(): void {
     this.drawer.open();
   }
 
   onGridAreaSelected(gridArea: BatchGridAreaDto): void {
-    this.router.navigate(
-      [
-        '..',
-        WHOLESALE_CALCULATION_STEPS_PATH,
-        this.batch.batchNumber,
-        gridArea.gridAreaCode,
-      ],
-      {
-        relativeTo: this.route,
-        state: { batch: this.batch, gridArea: gridArea },
-      }
-    );
+    navigateToWholesaleCalculationSteps(this.router, this.batch, gridArea);
   }
 }

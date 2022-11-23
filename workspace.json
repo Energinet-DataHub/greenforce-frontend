@@ -60,7 +60,7 @@
     "dh-wholesale-feature-calculation-steps": "libs/dh/wholesale/feature-calculation-steps",
     "dh-wholesale-feature-search": "libs/dh/wholesale/feature-search",
     "dh-wholesale-feature-start": "libs/dh/wholesale/feature-start",
-    "dh-wholesale-shell": "libs/dh/wholesale/shell",
+    "dh-wholesale-routing": "libs/dh/wholesale/routing",
     "e2e-dh": "apps/dh/e2e-dh",
     "e2e-eo": "apps/eo/e2e-eo",
     "eo-auth-data-access-api": "libs/eo/auth/data-access-api",
