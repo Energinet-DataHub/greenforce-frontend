@@ -15,19 +15,23 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
+import { set } from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import { BehaviorSubject } from 'rxjs';
+
+const timeZoneIdentifier = 'Europe/Copenhagen';
 
 export interface DatePickerData {
   startDate: string;
   endDate: string;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class DrawerDatepickerService {
+  private todayAtMidnight = this.setToStartOfDay(new Date());
+
   dateRangeDefault: DatePickerData = {
-    startDate: new Date().toISOString(),
+    startDate: this.todayAtMidnight.toISOString(),
     endDate: new Date().toISOString(),
   };
 
@@ -42,7 +46,14 @@ export class DrawerDatepickerService {
     this.dataSource$.next(dateRange);
   }
 
-  reset() {
-    this.dataSource$.next(this.dateRangeDefault);
+  private setToStartOfDay(value: Date): Date {
+    const date = set(value, {
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+      milliseconds: 0,
+    });
+
+    return zonedTimeToUtc(date, timeZoneIdentifier);
   }
 }
