@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/dh-api.module';
+export * from './lib/states';
