@@ -26,7 +26,11 @@
       "messageArchive": "Request/Response messages",
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid areas",
-      "chargePrices": "Prices",
+      "chargePrices": {
+        "menuGroupLabel": "Prices",
+        "search": "Search prices",
+        "create": "Create prices"
+      },
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "startBatch": "Start Batch",
@@ -261,6 +265,16 @@
     "feesTitle": "Fees",
     "back": "Back",
     "sender": "Sender",
+    "resolution": "Resolution",
+    "effectiveDate": "Effectivedate",
+    "fieldRequiredErrorText": "Field is required.",
+    "senderProvidedChargeIdMaxLengthErrorText": "Max 10 characters.",
+    "chargeNameMaxLengthErrorText": "Max 132 characters",
+    "descriptionMaxLengthErrorText": "Max 2048 characters.",
+    "topBarTitles": {
+      "prices": "Search price",
+      "createPrices": "Create prices"
+    },
     "messageType": {
       "D18": "Request change of billing masterdata",
       "D08": "Request change of price series"
@@ -308,8 +322,20 @@
       "title": "Oops! There was an error",
       "message": "Unfortunately, an error occurred while retrieving the necessary information."
     },
+    "createPrices": {
+      "title": "Create price",
+      "create": "Create",
+      "priceId": "Price id",
+      "priceName": "Price name",
+      "priceDescription": "Description",
+      "priceOwner": "Price owner",
+      "selectResolution": "Select resolution",
+      "selectChargeType": "Select charge type",
+      "createPriceError": "Something went wrong. Price is not created. Try again.",
+      "createPriceSuccess": "Success! The price has been submitted.",
+      "loadingRequestText": "Submitting the price."
+    },
     "prices": {
-      "topBarTitle": "Search price",
       "prices": "Prices",
       "price": "Price",
       "priceTab": {
