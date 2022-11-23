@@ -324,6 +324,7 @@
     },
     "createPrices": {
       "title": "Opret pris",
+      "create": "Opret",
       "priceId": "Pris id",
       "priceName": "Pris navn",
       "priceDescription": "Beskrivelse",

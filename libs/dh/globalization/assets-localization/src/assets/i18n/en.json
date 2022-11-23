@@ -324,6 +324,7 @@
     },
     "createPrices": {
       "title": "Create price",
+      "create": "Create",
       "priceId": "Price id",
       "priceName": "Price name",
       "priceDescription": "Description",
