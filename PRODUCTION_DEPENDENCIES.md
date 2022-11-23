@@ -31,7 +31,7 @@
 | [include-media](https://github.com/eduardoboucas/include-media) | 1.4.10 | MIT |
 | [inputmask](https://github.com/RobinHerbots/Inputmask) | 5.0.7 | MIT |
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 3.0.11 | ISC |
-| [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 4.2.1 | MIT |
+| [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 5.0.0 | MIT |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.5.7 | Apache-2.0 |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
 | [zone.js](https://github.com/angular/angular) | 0.12.0 | MIT |
