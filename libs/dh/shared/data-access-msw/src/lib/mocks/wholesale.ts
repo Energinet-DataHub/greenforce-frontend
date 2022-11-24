@@ -69,10 +69,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         executionTimeEnd: null,
         executionState: BatchState.Pending,
         isBasisDataDownloadAvailable: false,
-        gridAreaCodes: [
-           '805',
-          '806'
-        ],
+        gridAreaCodes: ['805', '806'],
       },
       {
         batchNumber: '234',
