@@ -28,7 +28,6 @@ import {
 } from '@azure/msal-browser';
 
 import { DhB2CEnvironment } from '@energinet-datahub/dh/shared/environments';
-import { ScopeService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 export function MSALInstanceFactory(
   config: DhB2CEnvironment
@@ -67,10 +66,10 @@ function reloadOnLoginFailed(error: string) {
 }
 
 export function MSALInterceptorConfigFactory(
-  scopeService: ScopeService
+  config: DhB2CEnvironment
 ): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
-  protectedResourceMap.set('*', [scopeService.getActiveScope()]);
+  protectedResourceMap.set('*', [config.backendId ?? config.clientId]);
 
   return {
     interactionType: InteractionType.Redirect,
@@ -79,10 +78,10 @@ export function MSALInterceptorConfigFactory(
 }
 
 export function MSALGuardConfigFactory(
-  scopeService: ScopeService
+  config: DhB2CEnvironment
 ): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Redirect,
-    authRequest: { scopes: [scopeService.getActiveScope()] },
+    authRequest: { scopes: [config.backendId ?? config.clientId] },
   };
 }

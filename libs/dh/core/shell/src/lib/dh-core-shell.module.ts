@@ -47,7 +47,9 @@ import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-ti
 import { WattToastModule } from '@energinet-datahub/watt/toast';
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
-import { ScopeService } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  dhAuthorizationInterceptorProvider,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 
 const routes: Routes = [
   {
@@ -135,6 +137,7 @@ const routes: Routes = [
       useClass: MsalInterceptor,
       multi: true,
     },
+    dhAuthorizationInterceptorProvider,
     {
       provide: MSAL_INSTANCE,
       useFactory: MSALInstanceFactory,
@@ -143,12 +146,12 @@ const routes: Routes = [
     {
       provide: MSAL_GUARD_CONFIG,
       useFactory: MSALGuardConfigFactory,
-      deps: [ScopeService],
+      deps: [dhB2CEnvironmentToken],
     },
     {
       provide: MSAL_INTERCEPTOR_CONFIG,
       useFactory: MSALInterceptorConfigFactory,
-      deps: [ScopeService],
+      deps: [dhB2CEnvironmentToken],
     },
   ],
 })
