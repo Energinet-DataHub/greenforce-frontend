@@ -54,9 +54,7 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
     this._data = new MatTableDataSource(gridAreas);
     this._data.paginator = this.paginator.instance;
   }
-  _data: MatTableDataSource<string> = new MatTableDataSource(
-    undefined
-  );
+  _data: MatTableDataSource<string> = new MatTableDataSource(undefined);
   columnIds = ['gridAreaCode', 'name'];
 
   ngAfterViewInit() {
