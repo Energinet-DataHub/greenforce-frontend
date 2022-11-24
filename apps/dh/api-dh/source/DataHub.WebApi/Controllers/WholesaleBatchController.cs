@@ -66,6 +66,24 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
+        /// Get a batch.
+        /// </summary>
+        [HttpGet("Batch")]
+        public async Task<ActionResult> GetBatchAsync(Guid batchId)
+        {
+            var batch = new BatchDtoV2(
+                batchId,
+                DateTimeOffset.Now,
+                DateTimeOffset.Now,
+                DateTimeOffset.Now,
+                DateTimeOffset.Now,
+                BatchState.Completed,
+                true,
+                new[] { "123" });
+            return await Task.FromResult<ActionResult>(Ok(batch));
+        }
+
+        /// <summary>
         /// Get a process.
         /// </summary>
         [HttpGet("Process")]
