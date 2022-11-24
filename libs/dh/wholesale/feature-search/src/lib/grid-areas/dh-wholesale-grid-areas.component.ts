@@ -25,8 +25,6 @@ import {
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
-
-import { BatchGridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -52,13 +50,11 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
-  @Input() set data(gridAreas: BatchGridAreaDto[]) {
+  @Input() set data(gridAreas: string[]) {
     this._data = new MatTableDataSource(gridAreas);
     this._data.paginator = this.paginator.instance;
   }
-  _data: MatTableDataSource<BatchGridAreaDto> = new MatTableDataSource(
-    undefined
-  );
+  _data: MatTableDataSource<string> = new MatTableDataSource(undefined);
   columnIds = ['gridAreaCode', 'name'];
 
   ngAfterViewInit() {
