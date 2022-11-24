@@ -9,14 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ProcessType } from './process-type';
 
 
-export interface BatchRequestDto { 
-    processType: ProcessType;
-    gridAreaCodes: Array<string>;
-    startDate: string;
-    endDate: string;
-}
+export type ProcessType = 'BalanceFixing';
 
+export const ProcessType = {
+    BalanceFixing: 'BalanceFixing' as ProcessType
+};
 
