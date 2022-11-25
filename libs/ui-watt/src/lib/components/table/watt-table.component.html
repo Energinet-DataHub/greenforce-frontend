@@ -19,6 +19,7 @@ limitations under the License.
   matSort
   [matSortActive]="sortBy"
   [matSortDirection]="sortDirection"
+  [matSortDisableClear]="!sortClear"
   [dataSource]="dataSource"
   [attr.aria-label]="description"
 >
@@ -57,10 +58,12 @@ limitations under the License.
       <ng-container
         *ngIf="_getColumnTemplate(column.value) as template; else default"
       >
-        <ng-container
-          *ngTemplateOutlet="template; context: { $implicit: row }"
-        ></ng-container
-      ></ng-container>
+        <div>
+          <ng-container
+            *ngTemplateOutlet="template; context: { $implicit: row }"
+          ></ng-container>
+        </div>
+      </ng-container>
     </td>
   </ng-container>
 
@@ -72,7 +75,7 @@ limitations under the License.
     [ngClass]="{
       'watt-table-highlight-row': !suppressRowHoverHighlight,
       'watt-table-clickable-row': rowClick.observed,
-      'watt-table-active-row': getActiveRow?.(row)
+      'watt-table-active-row': row === activeRow
     }"
   ></tr>
 </table>

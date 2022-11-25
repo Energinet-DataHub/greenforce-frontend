@@ -37,7 +37,8 @@ watt-table .mat-table {
   th.mat-header-cell {
     position: sticky;
     top: 0;
-    padding: 0;
+    padding: 0 var(--watt-space-s);
+    // padding: 0;
     height: auto;
     background: var(--watt-color-primary-ultralight);
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -47,7 +48,8 @@ watt-table .mat-table {
     display: flex;
     align-items: center;
     min-height: 56px; /* Magic UX number */
-    padding: var(--watt-space-s);
+    padding: var(--watt-space-s) var(--watt-space-m);
+    // padding: var(--watt-space-s);
   }
 
   .watt-table-clickable-row td {

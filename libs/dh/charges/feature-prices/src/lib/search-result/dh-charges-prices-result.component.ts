@@ -17,14 +17,12 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  NgModule,
   AfterViewInit,
   OnChanges,
   ViewChild,
   Input,
 } from '@angular/core';
 
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -35,11 +33,15 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
+import {
+  WattTableDataSource,
+  WattTableColumnDef,
+  WATT_TABLE,
+} from '@energinet-datahub/watt/table';
 
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import {
   DhChargesPricesDrawerComponent,
   DhChargesPricesDrawerScam,
@@ -47,6 +49,23 @@ import {
 import formatInTimeZone from 'date-fns-tz/formatInTimeZone';
 
 @Component({
+  standalone: true,
+  imports: [
+    WATT_TABLE,
+    CommonModule,
+    TranslocoModule,
+    LetModule,
+    WattIconModule,
+    WattButtonModule,
+    WattEmptyStateModule,
+    DhFeatureFlagDirectiveModule,
+    WattTooltipDirective,
+    WattSpinnerModule,
+    DhSharedUiDateTimeModule,
+    MatSortModule,
+    DhChargesPricesDrawerScam,
+    DhSharedUiPaginatorComponent,
+  ],
   selector: 'dh-charges-prices-result',
   templateUrl: './dh-charges-prices-result.component.html',
   styleUrls: ['./dh-charges-prices-result.component.scss'],
@@ -65,21 +84,37 @@ export class DhChargesPricesResultComponent
   @Input() isInit = false;
   @Input() hasLoadingError = false;
 
-  activeChargeId?: string | null;
-  displayedColumns = [
-    'chargeId',
-    'chargeName',
-    'chargeOwnerName',
-    'chargeType',
-    'transparentInvoicing',
-    'taxIndicator',
-    'resolution',
-    'validFromDateTime',
-    'validToDateTime',
-  ];
+  activeCharge?: ChargeV1Dto;
 
-  readonly dataSource: MatTableDataSource<ChargeV1Dto> =
-    new MatTableDataSource<ChargeV1Dto>();
+  /* eslint-disable @typescript-eslint/member-ordering */
+  formatHeader = (header: string) =>
+    this.translocoService.translate(`charges.prices.${header}`);
+
+  /* eslint-disable sonarjs/no-duplicate-string */
+  columns: WattTableColumnDef<ChargeV1Dto> = {
+    chargeId: { header: this.formatHeader, size: 'max-content' },
+    chargeName: { header: this.formatHeader },
+    chargeOwnerName: { header: this.formatHeader, size: 'max-content' },
+    icons: { header: '-', size: 'max-content', sort: false },
+    chargeType: {
+      header: this.formatHeader,
+      cell: (row) =>
+        this.translocoService.translate('charges.chargeType.' + row.chargeType),
+      size: 'max-content',
+    },
+    resolution: {
+      header: this.formatHeader,
+      cell: (row) =>
+        this.translocoService.translate(
+          'charges.resolutionType.' + row.resolution
+        ),
+      size: 'max-content',
+    },
+    validFromDateTime: { header: this.formatHeader, size: 'max-content' },
+    validToDateTime: { header: this.formatHeader, size: 'max-content' },
+  };
+
+  readonly dataSource = new WattTableDataSource<ChargeV1Dto>();
 
   private danishTimeZoneIdentifier = 'Europe/Copenhagen';
   private dateFormat = 'dd-MM-yyyy';
@@ -89,18 +124,15 @@ export class DhChargesPricesResultComponent
 
   ngOnChanges() {
     if (this.result) this.dataSource.data = this.result;
-
-    this.dataSource.paginator = this.paginator?.instance;
-    this.dataSource.sort = this.matSort;
+    // this.dataSource.paginator = this.paginator?.instance;
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator.instance;
-    this.dataSource.sortingDataAccessor = ToLowerSort();
   }
 
   rowClicked(charge: ChargeV1Dto) {
-    this.activeChargeId = charge.id;
+    this.activeCharge = charge;
     this.chargePriceDrawer.openDrawer(charge);
   }
 
@@ -115,7 +147,7 @@ export class DhChargesPricesResultComponent
   }
 
   drawerClosed() {
-    this.activeChargeId = null;
+    this.activeCharge = undefined;
   }
 
   private createHeaderLabels(): string[] {
@@ -205,25 +237,3 @@ export class DhChargesPricesResultComponent
       .concat(' ', dateString, fileType);
   }
 }
-
-@NgModule({
-  declarations: [DhChargesPricesResultComponent],
-  exports: [DhChargesPricesResultComponent],
-  imports: [
-    CommonModule,
-    MatTableModule,
-    TranslocoModule,
-    LetModule,
-    WattIconModule,
-    WattButtonModule,
-    WattEmptyStateModule,
-    DhFeatureFlagDirectiveModule,
-    WattTooltipDirective,
-    WattSpinnerModule,
-    DhSharedUiDateTimeModule,
-    MatSortModule,
-    DhChargesPricesDrawerScam,
-    DhSharedUiPaginatorComponent,
-  ],
-})
-export class DhChargesPricesResultScam {}

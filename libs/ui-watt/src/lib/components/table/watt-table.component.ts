@@ -154,6 +154,12 @@ export class WattTableComponent<T>
   sortDirection: SortDirection = '';
 
   /**
+   * Whether to allow the user to clear the sort. Defaults to `true`.
+   */
+  @Input()
+  sortClear = true;
+
+  /**
    * Whether the table should include a checkbox column for row selection.
    */
   @Input()
@@ -166,10 +172,10 @@ export class WattTableComponent<T>
   suppressRowHoverHighlight = false;
 
   /**
-   * Callback for determining if a row is the currently active row.
+   * Highlights the currently active row.
    */
   @Input()
-  getActiveRow?: (row: T) => boolean;
+  activeRow?: T;
 
   /**
    * Emits whenever the selection updates. Only works when selectable is `true`.

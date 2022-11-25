@@ -44,7 +44,7 @@ import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 import { PushModule } from '@rx-angular/template';
-import { DhChargesPricesResultScam } from './search-result/dh-charges-prices-result.component';
+import { DhChargesPricesResultComponent } from './search-result/dh-charges-prices-result.component';
 import {
   DhChargesDataAccessApiStore,
   DhMarketParticipantDataAccessApiStore,
@@ -166,7 +166,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
     WattSpinnerModule,
     TranslocoModule,
     FormsModule,
-    DhChargesPricesResultScam,
+    DhChargesPricesResultComponent,
     WattDatepickerModule,
     PushModule,
   ],
