@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule, Routes } from '@angular/router';
 import { EoAuthenticationGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
@@ -143,6 +144,7 @@ const routes: Routes = [
     }),
     EoMaterialModule.forRoot(),
     EoShellComponent,
+    MatDialogModule,
   ],
 })
 export class EoCoreShellModule {}
