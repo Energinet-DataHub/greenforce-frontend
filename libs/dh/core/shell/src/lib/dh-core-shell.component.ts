@@ -26,10 +26,7 @@ import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feat
 import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar';
 
 import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
-import {
-  WattTopBarComponent,
-  WattTopBarOutletComponent,
-} from '@energinet-datahub/watt/top-bar';
+import { WattTopBarOutletComponent } from '@energinet-datahub/watt/top-bar';
 
 @Component({
   selector: 'dh-shell',
@@ -45,7 +42,6 @@ import {
     WattShellComponent,
     WattButtonModule,
     WattTopBarOutletComponent,
-    WattTopBarComponent,
   ],
 })
 export class DhCoreShellComponent {
