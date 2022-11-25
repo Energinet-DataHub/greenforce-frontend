@@ -9,7 +9,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { BatchGridAreaDto } from './batch-grid-area-dto';
 import { BatchState } from './batch-state';
 
 
@@ -21,7 +20,7 @@ export interface BatchDtoV2 {
     executionTimeEnd?: string | null;
     executionState: BatchState;
     isBasisDataDownloadAvailable: boolean;
-    batchGridAreas: Array<BatchGridAreaDto>;
+    gridAreaCodes: Array<string>;
 }
 
 
