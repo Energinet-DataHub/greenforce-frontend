@@ -15,8 +15,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using Energinet.DataHub.MarketParticipant.Client;
+using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Dto.Wholesale;
 using Energinet.DataHub.Wholesale.Client;
 using Energinet.DataHub.Wholesale.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -28,10 +32,14 @@ namespace Energinet.DataHub.WebApi.Controllers
     public class WholesaleBatchController : ControllerBase
     {
         private readonly IWholesaleClient _client;
+        private readonly IMarketParticipantClient _marketParticipantClient;
+        private readonly IBatchDtoMapper _batchDtoMapper;
 
-        public WholesaleBatchController(IWholesaleClient client)
+        public WholesaleBatchController(IWholesaleClient client, IMarketParticipantClient marketParticipantClient, IBatchDtoMapper batchDtoMapper)
         {
             _client = client;
+            _marketParticipantClient = marketParticipantClient;
+            _batchDtoMapper = batchDtoMapper;
         }
 
         /// <summary>
@@ -51,7 +59,23 @@ namespace Energinet.DataHub.WebApi.Controllers
         public async Task<ActionResult<IEnumerable<BatchDtoV2>>> PostAsync(BatchSearchDto batchSearchDto)
         {
             var batches = await _client.GetBatchesAsync(batchSearchDto).ConfigureAwait(false);
-            return Ok(batches);
+            var gridAreas = await HandleExceptionAsync(() => _marketParticipantClient.GetGridAreasAsync());
+            var enrichedBatches = new List<BatchDto>();
+            foreach (var batchDtoV2 in batches)
+            {
+                var gridAreasOnBatch = new List<GridAreaDto>();
+                foreach (var gridAreaCode in batchDtoV2.GridAreaCodes)
+                {
+                    if (gridAreas.Value != null)
+                    {
+                        gridAreasOnBatch.Add(gridAreas.Value.Single(x => x.Code == gridAreaCode));
+                    }
+                }
+
+                enrichedBatches.Add(_batchDtoMapper.Map(batchDtoV2, gridAreasOnBatch));
+            }
+
+            return Ok(enrichedBatches);
         }
 
         /// <summary>
@@ -104,6 +128,22 @@ namespace Energinet.DataHub.WebApi.Controllers
                 new decimal(1.1),
                 new TimeSeriesPointDto[] { new TimeSeriesPointDto(new DateTimeOffset(DateTime.Now), new decimal(1.1)) });
             return await Task.FromResult<ActionResult>(Ok(processStepResult));
+        }
+
+        protected async Task<ActionResult<T>> HandleExceptionAsync<T>(Func<Task<T>> func)
+        {
+            try
+            {
+                return Ok(await func().ConfigureAwait(false));
+            }
+            catch (MarketParticipantBadRequestException ex)
+            {
+                return StatusCode(ex.StatusCode, ex.JsonError);
+            }
+            catch (MarketParticipantException ex)
+            {
+                return StatusCode(ex.StatusCode, ex.Message);
+            }
         }
     }
 }
