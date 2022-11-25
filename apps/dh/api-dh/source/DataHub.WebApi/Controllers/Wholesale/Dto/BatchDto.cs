@@ -16,7 +16,7 @@ using System;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.Wholesale.Contracts;
 
-namespace Energinet.DataHub.WebApi.Dto.Wholesale
+namespace Energinet.DataHub.WebApi.Controllers.Dto
 {
     public sealed record BatchDto(Guid BatchNumber, DateTimeOffset PeriodStart, DateTimeOffset PeriodEnd, DateTimeOffset? ExecutionTimeStart, DateTimeOffset? ExecutionTimeEnd, BatchState ExecutionState, bool IsBasisDataDownloadAvailable, GridAreaDto[] GridAreas);
 }

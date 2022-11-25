@@ -14,7 +14,7 @@
 
 using System.Collections.Generic;
 using Energinet.DataHub.MarketParticipant.Client.Models;
-using Energinet.DataHub.WebApi.Dto.Wholesale;
+using Energinet.DataHub.WebApi.Controllers.Dto;
 using Energinet.DataHub.Wholesale.Contracts;
 
 namespace Energinet.DataHub.WebApi.Controllers
