@@ -41,6 +41,7 @@ import {
   distinctUntilChanged,
   map,
   takeUntil,
+  take,
 } from 'rxjs';
 
 import { WattDropdownOptions } from './watt-dropdown-option';
@@ -222,6 +223,22 @@ export class WattDropdownComponent
       this.isCloseToScreenLeftEdge =
         triggerPosition.left <= MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE;
     }
+  }
+
+  /**
+   * @ignore
+   */
+  onToggleAll(toggleAllState: boolean): void {
+    this.filteredOptions$
+      .pipe(
+        take(1),
+        map((options) => options.map((option) => option.value))
+      )
+      .subscribe((filteredOptions: string[]) => {
+        const optionsToSelect = toggleAllState ? filteredOptions : [];
+
+        this.matSelectControl.patchValue(optionsToSelect);
+      });
   }
 
   /**

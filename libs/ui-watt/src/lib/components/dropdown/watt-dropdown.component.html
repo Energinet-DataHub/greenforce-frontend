@@ -32,6 +32,8 @@ limitations under the License.
     ><ngx-mat-select-search
       [formControl]="filterControl"
       [placeholderLabel]="placeholder"
+      [showToggleAllCheckbox]="multiple"
+      (toggleAll)="onToggleAll($event)"
       [noEntriesFoundLabel]="noOptionsFoundLabel"
     ></ngx-mat-select-search
   ></mat-option>
