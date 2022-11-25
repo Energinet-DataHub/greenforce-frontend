@@ -63,16 +63,16 @@ namespace Energinet.DataHub.WebApi.Controllers
             var enrichedBatches = new List<BatchDto>();
             foreach (var batchDtoV2 in batches)
             {
-                var gridAreasOnBatch = new List<GridAreaDto>();
+                var gridAreaDtos = new List<GridAreaDto>();
                 foreach (var gridAreaCode in batchDtoV2.GridAreaCodes)
                 {
                     if (gridAreas.Value != null)
                     {
-                        gridAreasOnBatch.Add(gridAreas.Value.Single(x => x.Code == gridAreaCode));
+                        gridAreaDtos.Add(gridAreas.Value.Single(x => x.Code == gridAreaCode));
                     }
                 }
 
-                enrichedBatches.Add(_batchDtoMapper.Map(batchDtoV2, gridAreasOnBatch));
+                enrichedBatches.Add(_batchDtoMapper.Map(batchDtoV2, gridAreaDtos));
             }
 
             return Ok(enrichedBatches);
