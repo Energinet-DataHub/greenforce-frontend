@@ -360,7 +360,7 @@
         "libs/ui-watt/src/lib/components/tooltip/index.ts"
       ],
       "@energinet-datahub/watt/top-bar": [
-        "libs/ui-watt/src/lib/components/top-bar/index.ts"
+        "libs/ui-watt/src/lib/components/shell/top-bar/index.ts"
       ],
       "@energinet-datahub/watt/validation-message": [
         "libs/ui-watt/src/lib/components/validation-message/index.ts"
