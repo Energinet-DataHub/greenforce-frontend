@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.actions {
-  display: flex;
-  justify-content: flex-end;
-
-  watt-button {
-    margin-top: var(--watt-space-m);
-    margin-left: var(--watt-space-l);
-  }
+watt-top-bar-outlet {
+  background: var(--watt-color-neutral-white);
+  display: block;
+  padding: var(--watt-space-l);
+  box-shadow: 0px 4px 18px 3px rgba(46, 50, 52, 0.08), 0px 1px 6px rgba(11, 60, 93, 0.12);
+  margin-top: 2px;
 }

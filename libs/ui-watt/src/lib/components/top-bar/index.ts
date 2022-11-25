@@ -14,12 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.actions {
-  display: flex;
-  justify-content: flex-end;
-
-  watt-button {
-    margin-top: var(--watt-space-m);
-    margin-left: var(--watt-space-l);
-  }
-}
+export { WattTopBarComponent } from './watt-top-bar.component';
+export { WattTopBarOutletComponent } from './watt-top-bar-outlet.component';
