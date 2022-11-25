@@ -18,7 +18,11 @@ limitations under the License.
   <ng-container *rxLet="searching$ as searching">
     <ng-container *rxLet="continuationToken$ as continuationToken">
       <watt-top-bar>
-        <form #searchForm name="log-search-form" (ngSubmit)="onSubmit(searching)">
+        <form
+          #searchForm
+          name="log-search-form"
+          (ngSubmit)="onSubmit(searching)"
+        >
           <div class="wrapper">
             <!-- RSM -->
             <watt-form-field>

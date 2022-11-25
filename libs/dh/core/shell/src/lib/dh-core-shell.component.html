@@ -27,27 +27,27 @@ limitations under the License.
     <dh-primary-navigation></dh-primary-navigation>
   </ng-container>
 
-    <ng-container watt-shell-toolbar>
-      <h2 class="toolbar__heading">
-        {{ titleTranslationKey$ | push | transloco }}
-      </h2>
+  <ng-container watt-shell-toolbar>
+    <h2 class="toolbar__heading">
+      {{ titleTranslationKey$ | push | transloco }}
+    </h2>
 
-      <div class="toolbar__actions">
-        <dh-language-picker></dh-language-picker>
-      </div>
+    <div class="toolbar__actions">
+      <dh-language-picker></dh-language-picker>
+    </div>
 
-      <ng-container *transloco="let transloco; read: 'shell'">
-        <watt-button
-          class="toolbar__logout"
-          variant="text"
-          (click)="logout()"
-          icon="logout"
-          >{{ transloco("logout") }}</watt-button
-        >
-      </ng-container>
+    <ng-container *transloco="let transloco; read: 'shell'">
+      <watt-button
+        class="toolbar__logout"
+        variant="text"
+        (click)="logout()"
+        icon="logout"
+        >{{ transloco("logout") }}</watt-button
+      >
     </ng-container>
+  </ng-container>
 
-    <watt-top-bar-outlet></watt-top-bar-outlet>
+  <watt-top-bar-outlet></watt-top-bar-outlet>
 
   <router-outlet></router-outlet>
 </watt-shell>

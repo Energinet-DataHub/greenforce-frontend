@@ -35,7 +35,7 @@ export default {
         RouterTestingModule,
         BrowserAnimationsModule,
         WattShellComponent,
-        WattTopBarOutletComponent
+        WattTopBarOutletComponent,
       ],
     }),
   ],
@@ -105,9 +105,7 @@ function generateComponent(template: string) {
   @Component({
     template,
     standalone: true,
-    imports: [
-      WattTopBarComponent
-    ]
+    imports: [WattTopBarComponent],
   })
   class StorybookPageComponent {}
 
@@ -184,8 +182,16 @@ withTopBar.decorators = [
     imports: [
       RouterTestingModule.withRoutes([
         { path: '', redirectTo: 'with-top-bar', pathMatch: 'full' },
-        { path: 'with-top-bar', component: generateComponent('<watt-top-bar>Top Bar</watt-top-bar> This page has a top bar') },
-        { path: 'without-top-bar', component: generateComponent('This page does not have a top bar') },
+        {
+          path: 'with-top-bar',
+          component: generateComponent(
+            '<watt-top-bar>Top Bar</watt-top-bar> This page has a top bar'
+          ),
+        },
+        {
+          path: 'without-top-bar',
+          component: generateComponent('This page does not have a top bar'),
+        },
       ]),
       WattNavListComponent,
       WattNavListItemComponent,

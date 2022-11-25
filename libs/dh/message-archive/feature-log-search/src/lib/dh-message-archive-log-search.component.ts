@@ -233,7 +233,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     WattBadgeModule,
     WattDropdownModule,
     WattSpinnerModule,
-    WattTopBarComponent
+    WattTopBarComponent,
   ],
   declarations: [DhMessageArchiveLogSearchComponent],
 })

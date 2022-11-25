@@ -53,7 +53,7 @@ import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
     TranslocoModule,
     WattEmptyStateModule,
     WattSpinnerModule,
-    WattTopBarComponent
+    WattTopBarComponent,
   ],
   templateUrl: './dh-wholesale-search.component.html',
   styleUrls: ['./dh-wholesale-search.component.scss'],
