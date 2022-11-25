@@ -42,7 +42,7 @@ import {
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattTopBarComponent } from 'libs/ui-watt/src/lib/components/shell/top-bar';
+import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 
 import { PushModule } from '@rx-angular/template';
 import { DhChargesPricesResultScam } from './search-result/dh-charges-prices-result.component';
