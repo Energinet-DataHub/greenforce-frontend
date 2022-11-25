@@ -101,6 +101,11 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
+  emDash = '—';
+
+  /**
+   * @ignore
+   */
   @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
 
   /**
