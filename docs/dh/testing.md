@@ -38,12 +38,15 @@ In this case import `WattTopBarOutletComponent` inside the testing setup, and re
 ```ts
 import { WattTopBarOutletComponent } from 'libs/ui-watt/src/lib/components/shell/top-bar';
 
-await render(`<watt-top-bar-outlet></watt-top-bar-outlet><your-awesome-component></your-awesome-component>`, {
+await render(
+  `<watt-top-bar-outlet></watt-top-bar-outlet><your-awesome-component></your-awesome-component>`,
+  {
     imports: [
       WattTopBarOutletComponent,
       // ...
     ],
-  });
+  }
+);
 ```
 
 #### When the feature under test uses translations

@@ -36,24 +36,27 @@ const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
 describe(DhChargesPricesComponent.name, () => {
   async function setup() {
-    const { fixture } = await render(`<watt-top-bar-outlet></watt-top-bar-outlet><dh-charges-prices></dh-charges-prices>`, {
-      componentProviders: [
-        {
-          provide: DrawerDatepickerService,
-          useValue: new DrawerDatepickerService(),
-        },
-      ],
-      declarations: [DhChargesPricesComponent],
-      imports: [
-        getTranslocoTestingModule(),
-        DhApiModule.forRoot(),
-        HttpClientModule,
-        DhChargesPricesScam,
-        WattDanishDatetimeModule.forRoot(),
-        DanishLocaleModule,
-        WattTopBarOutletComponent
-      ],
-    });
+    const { fixture } = await render(
+      `<watt-top-bar-outlet></watt-top-bar-outlet><dh-charges-prices></dh-charges-prices>`,
+      {
+        componentProviders: [
+          {
+            provide: DrawerDatepickerService,
+            useValue: new DrawerDatepickerService(),
+          },
+        ],
+        declarations: [DhChargesPricesComponent],
+        imports: [
+          getTranslocoTestingModule(),
+          DhApiModule.forRoot(),
+          HttpClientModule,
+          DhChargesPricesScam,
+          WattDanishDatetimeModule.forRoot(),
+          DanishLocaleModule,
+          WattTopBarOutletComponent,
+        ],
+      }
+    );
 
     return {
       fixture,
