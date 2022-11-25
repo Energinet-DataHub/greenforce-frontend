@@ -41,30 +41,40 @@ export class DhAuthorizationInterceptor implements HttpInterceptor {
       return nextHandler.handle(request);
     }
 
-    const url = request.url;
-
-    if (url.endsWith('MarketParticipantUser') || url.endsWith('Token'))
+    if (this.isPartOfAuthFlow(request)) {
       return nextHandler.handle(request);
+    }
 
-    const externalToken = request.headers.get('Authorization');
+    const authorizationHeader = 'Authorization';
+    const bearerPrefix = 'Bearer ';
+
+    const externalToken = request.headers.get(authorizationHeader);
 
     if (!externalToken) {
       return nextHandler.handle(request);
     }
 
     return this.actorTokenService
-      .acquireToken(externalToken.replace('Bearer ', ''))
+      .acquireToken(externalToken.replace(bearerPrefix, ''))
       .pipe(
         switchMap((internalToken) => {
-          const modifiedRequest = request.clone({
-            headers: request.headers.set(
-              'Authorization',
-              `Bearer ${internalToken}`
-            ),
-          });
-          return nextHandler.handle(modifiedRequest);
+          return nextHandler.handle(
+            request.clone({
+              headers: request.headers.set(
+                authorizationHeader,
+                `${bearerPrefix}${internalToken}`
+              ),
+            })
+          );
         })
       );
+  }
+
+  private isPartOfAuthFlow(request: HttpRequest<unknown>) {
+    return (
+      request.url.endsWith('/MarketParticipantUser') ||
+      request.url.endsWith('/Token')
+    );
   }
 }
 
