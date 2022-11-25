@@ -76,26 +76,10 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Get a process.
-        /// </summary>
-        [HttpGet("Process")]
-        public async Task<ActionResult> GetAsync(Guid batchId, string gridAreaCode)
-        {
-            var process = new ProcessDto(
-                ProcessType.BalanceFixing,
-                "123",
-                new ProcessStepDto[]
-                {
-                    new(ProcessStepType.AggregateProductionPerGridArea),
-                });
-            return await Task.FromResult<ActionResult>(Ok(process));
-        }
-
-        /// <summary>
         /// Get a processStepResult.
         /// </summary>
         [HttpGet("ProcessStepResult")]
-        public async Task<ActionResult> GetAsync(Guid batchId, string gridAreaCode, int stepNumber)
+        public async Task<ActionResult> GetAsync(Guid batchId, string gridAreaCode, ProcessStepType type)
         {
             var processStepResult = new ProcessStepResultDto(
                 MeteringPointType.Production,
