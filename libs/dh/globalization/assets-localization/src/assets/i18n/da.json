@@ -332,7 +332,7 @@
       "selectResolution": "Vælg opløsning",
       "selectChargeType": "Vælg type",
       "createPriceError": "Noget gik galt. Prisen blev ikke oprettet. Prøv igen.",
-      "createPriceSuccess": "Success! Prisen er indsendt.",
+      "createPriceSuccess": "Succes! Prisen er indsendt.",
       "loadingRequestText": "Indsender pris."
     },
     "prices": {
