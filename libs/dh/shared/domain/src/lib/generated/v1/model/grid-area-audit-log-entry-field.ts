@@ -11,9 +11,9 @@
  */
 
 
-export type GridAreaAuditLogEntryField = 'Name';
+export type GridAreaAuditLogEntryField = 0;
 
 export const GridAreaAuditLogEntryField = {
-    Name: 'Name' as GridAreaAuditLogEntryField
+    Name: 0 as GridAreaAuditLogEntryField
 };
 

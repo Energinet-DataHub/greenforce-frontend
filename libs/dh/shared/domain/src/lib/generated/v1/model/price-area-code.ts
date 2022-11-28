@@ -11,10 +11,10 @@
  */
 
 
-export type PriceAreaCode = 'Dk1' | 'Dk2';
+export type PriceAreaCode = 1 | 2;
 
 export const PriceAreaCode = {
-    Dk1: 'Dk1' as PriceAreaCode,
-    Dk2: 'Dk2' as PriceAreaCode
+    Dk1: 1 as PriceAreaCode,
+    Dk2: 2 as PriceAreaCode
 };
 

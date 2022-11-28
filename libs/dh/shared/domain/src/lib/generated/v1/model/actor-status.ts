@@ -11,12 +11,12 @@
  */
 
 
-export type ActorStatus = 'New' | 'Active' | 'Inactive' | 'Passive';
+export type ActorStatus = 1 | 2 | 3 | 4;
 
 export const ActorStatus = {
-    New: 'New' as ActorStatus,
-    Active: 'Active' as ActorStatus,
-    Inactive: 'Inactive' as ActorStatus,
-    Passive: 'Passive' as ActorStatus
+    New: 1 as ActorStatus,
+    Active: 2 as ActorStatus,
+    Inactive: 3 as ActorStatus,
+    Passive: 4 as ActorStatus
 };
 

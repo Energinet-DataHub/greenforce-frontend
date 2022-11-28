@@ -11,31 +11,31 @@
  */
 
 
-export type MarketParticipantMeteringPointType = 'Unknown' | 'D01VeProduction' | 'D02Analysis' | 'D03NotUsed' | 'D04SurplusProductionGroup6' | 'D05NetProduction' | 'D06SupplyToGrid' | 'D07ConsumptionFromGrid' | 'D08WholeSaleServicesInformation' | 'D09OwnProduction' | 'D10NetFromGrid' | 'D11NetToGrid' | 'D12TotalConsumption' | 'D13NetLossCorrection' | 'D14ElectricalHeating' | 'D15NetConsumption' | 'D17OtherConsumption' | 'D18OtherProduction' | 'D20ExchangeReactiveEnergy' | 'D99InternalUse' | 'E17Consumption' | 'E18Production' | 'E20Exchange';
+export type MarketParticipantMeteringPointType = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22;
 
 export const MarketParticipantMeteringPointType = {
-    Unknown: 'Unknown' as MarketParticipantMeteringPointType,
-    D01VeProduction: 'D01VeProduction' as MarketParticipantMeteringPointType,
-    D02Analysis: 'D02Analysis' as MarketParticipantMeteringPointType,
-    D03NotUsed: 'D03NotUsed' as MarketParticipantMeteringPointType,
-    D04SurplusProductionGroup6: 'D04SurplusProductionGroup6' as MarketParticipantMeteringPointType,
-    D05NetProduction: 'D05NetProduction' as MarketParticipantMeteringPointType,
-    D06SupplyToGrid: 'D06SupplyToGrid' as MarketParticipantMeteringPointType,
-    D07ConsumptionFromGrid: 'D07ConsumptionFromGrid' as MarketParticipantMeteringPointType,
-    D08WholeSaleServicesInformation: 'D08WholeSaleServicesInformation' as MarketParticipantMeteringPointType,
-    D09OwnProduction: 'D09OwnProduction' as MarketParticipantMeteringPointType,
-    D10NetFromGrid: 'D10NetFromGrid' as MarketParticipantMeteringPointType,
-    D11NetToGrid: 'D11NetToGrid' as MarketParticipantMeteringPointType,
-    D12TotalConsumption: 'D12TotalConsumption' as MarketParticipantMeteringPointType,
-    D13NetLossCorrection: 'D13NetLossCorrection' as MarketParticipantMeteringPointType,
-    D14ElectricalHeating: 'D14ElectricalHeating' as MarketParticipantMeteringPointType,
-    D15NetConsumption: 'D15NetConsumption' as MarketParticipantMeteringPointType,
-    D17OtherConsumption: 'D17OtherConsumption' as MarketParticipantMeteringPointType,
-    D18OtherProduction: 'D18OtherProduction' as MarketParticipantMeteringPointType,
-    D20ExchangeReactiveEnergy: 'D20ExchangeReactiveEnergy' as MarketParticipantMeteringPointType,
-    D99InternalUse: 'D99InternalUse' as MarketParticipantMeteringPointType,
-    E17Consumption: 'E17Consumption' as MarketParticipantMeteringPointType,
-    E18Production: 'E18Production' as MarketParticipantMeteringPointType,
-    E20Exchange: 'E20Exchange' as MarketParticipantMeteringPointType
+    Unknown: 0 as MarketParticipantMeteringPointType,
+    D01VeProduction: 1 as MarketParticipantMeteringPointType,
+    D02Analysis: 2 as MarketParticipantMeteringPointType,
+    D03NotUsed: 3 as MarketParticipantMeteringPointType,
+    D04SurplusProductionGroup6: 4 as MarketParticipantMeteringPointType,
+    D05NetProduction: 5 as MarketParticipantMeteringPointType,
+    D06SupplyToGrid: 6 as MarketParticipantMeteringPointType,
+    D07ConsumptionFromGrid: 7 as MarketParticipantMeteringPointType,
+    D08WholeSaleServicesInformation: 8 as MarketParticipantMeteringPointType,
+    D09OwnProduction: 9 as MarketParticipantMeteringPointType,
+    D10NetFromGrid: 10 as MarketParticipantMeteringPointType,
+    D11NetToGrid: 11 as MarketParticipantMeteringPointType,
+    D12TotalConsumption: 12 as MarketParticipantMeteringPointType,
+    D13NetLossCorrection: 13 as MarketParticipantMeteringPointType,
+    D14ElectricalHeating: 14 as MarketParticipantMeteringPointType,
+    D15NetConsumption: 15 as MarketParticipantMeteringPointType,
+    D17OtherConsumption: 16 as MarketParticipantMeteringPointType,
+    D18OtherProduction: 17 as MarketParticipantMeteringPointType,
+    D20ExchangeReactiveEnergy: 18 as MarketParticipantMeteringPointType,
+    D99InternalUse: 19 as MarketParticipantMeteringPointType,
+    E17Consumption: 20 as MarketParticipantMeteringPointType,
+    E18Production: 21 as MarketParticipantMeteringPointType,
+    E20Exchange: 22 as MarketParticipantMeteringPointType
 };
 

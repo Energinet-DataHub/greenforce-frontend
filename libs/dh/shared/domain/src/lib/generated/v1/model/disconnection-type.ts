@@ -11,10 +11,10 @@
  */
 
 
-export type DisconnectionType = 'D01' | 'D02';
+export type DisconnectionType = 0 | 1;
 
 export const DisconnectionType = {
-    D01: 'D01' as DisconnectionType,
-    D02: 'D02' as DisconnectionType
+    D01: 0 as DisconnectionType,
+    D02: 1 as DisconnectionType
 };
 

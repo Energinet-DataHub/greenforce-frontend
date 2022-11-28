@@ -11,25 +11,25 @@
  */
 
 
-export type AssetType = 'D01' | 'D02' | 'D03' | 'D04' | 'D05' | 'D06' | 'D07' | 'D10' | 'D11' | 'D12' | 'D13' | 'D14' | 'D17' | 'D19' | 'D20' | 'D98' | 'D99';
+export type AssetType = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 99 | 100;
 
 export const AssetType = {
-    D01: 'D01' as AssetType,
-    D02: 'D02' as AssetType,
-    D03: 'D03' as AssetType,
-    D04: 'D04' as AssetType,
-    D05: 'D05' as AssetType,
-    D06: 'D06' as AssetType,
-    D07: 'D07' as AssetType,
-    D10: 'D10' as AssetType,
-    D11: 'D11' as AssetType,
-    D12: 'D12' as AssetType,
-    D13: 'D13' as AssetType,
-    D14: 'D14' as AssetType,
-    D17: 'D17' as AssetType,
-    D19: 'D19' as AssetType,
-    D20: 'D20' as AssetType,
-    D98: 'D98' as AssetType,
-    D99: 'D99' as AssetType
+    D01: 0 as AssetType,
+    D02: 1 as AssetType,
+    D03: 2 as AssetType,
+    D04: 3 as AssetType,
+    D05: 4 as AssetType,
+    D06: 5 as AssetType,
+    D07: 6 as AssetType,
+    D10: 7 as AssetType,
+    D11: 8 as AssetType,
+    D12: 9 as AssetType,
+    D13: 10 as AssetType,
+    D14: 11 as AssetType,
+    D17: 12 as AssetType,
+    D19: 13 as AssetType,
+    D20: 14 as AssetType,
+    D98: 99 as AssetType,
+    D99: 100 as AssetType
 };
 

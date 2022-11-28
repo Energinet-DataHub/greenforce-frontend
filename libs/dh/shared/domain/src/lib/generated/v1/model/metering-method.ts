@@ -11,11 +11,11 @@
  */
 
 
-export type MeteringMethod = 'D01' | 'D02' | 'D03';
+export type MeteringMethod = 0 | 1 | 2;
 
 export const MeteringMethod = {
-    D01: 'D01' as MeteringMethod,
-    D02: 'D02' as MeteringMethod,
-    D03: 'D03' as MeteringMethod
+    D01: 0 as MeteringMethod,
+    D02: 1 as MeteringMethod,
+    D03: 2 as MeteringMethod
 };
 
