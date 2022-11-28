@@ -62,6 +62,7 @@ import {
   dhChargesPath,
   dhChargesPricesPath,
 } from '@energinet-datahub/dh/charges/routing';
+import { add } from 'date-fns';
 
 @Component({
   selector: 'dh-charges-create-prices',
@@ -96,7 +97,10 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
       { value: '', disabled: true },
       Validators.required
     ),
-    effectiveDate: new FormControl('', Validators.required),
+    effectiveDate: new FormControl(
+      add(new Date(), { days: 31 }).toISOString(),
+      Validators.required
+    ),
     vatClassification: new FormControl(true, Validators.required),
     transparentInvoicing: new FormControl(false, Validators.required),
     taxIndicator: new FormControl(false, Validators.required),
