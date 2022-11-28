@@ -23,7 +23,6 @@ import {
   inject,
   OnDestroy,
   TemplateRef,
-  ViewChild,
   ViewContainerRef,
   ViewEncapsulation,
   Renderer2,
@@ -43,9 +42,6 @@ import { WattTopBarService } from './watt-top-bar.service';
   template: `<ng-template [cdkPortalOutlet]="templatePortal"></ng-template>`,
 })
 export class WattTopBarOutletComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('templatePortalContent')
-  templatePortalContent!: TemplateRef<unknown>;
-
   templatePortal!: TemplatePortal<unknown>;
 
   private destroy$ = new Subject<void>();
