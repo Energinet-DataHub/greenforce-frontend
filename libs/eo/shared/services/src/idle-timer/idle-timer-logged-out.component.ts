@@ -16,9 +16,9 @@
  */
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattModalModule } from '@energinet-datahub/watt/modal';
-import { finalize, map, take, timer } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,61 +29,40 @@ import { finalize, map, take, timer } from 'rxjs';
     `
       :host {
         height: 500px; // Magic UX number
-        position: relative;
-        display: grid;
-        padding: var(--watt-space-s);
-        gap: var(--watt-space-s);
-        align-items: center;
-        grid-template-columns: 1fr auto;
-        grid-template-rows: 44px 1fr auto;
-        grid-template-areas:
-          'title close'
-          'content content'
-          '. actions';
+        display: flex;
+        flex-direction: column;
       }
 
-      .modal-title {
-        grid-area: title;
-      }
-
-      .modal-close {
-        grid-area: close;
-        justify-self: end;
-        color: var(--watt-color-primary);
+      h3 {
+        min-height: 44px; // Magic UX number
       }
 
       .content {
-        grid-area: content;
-        border-top: 1px solid var(--watt-primary-light);
-        border-bottom: 1px solid var(--watt-primary-light);
         color: var(--watt-color-primary-dark);
         padding-top: var(--watt-space-m);
-        align-self: start;
         height: 100%;
       }
 
-      .actions {
-        padding-top: var(--watt-space-m);
+      watt-button {
         display: flex;
-        grid-area: actions;
-        gap: var(--watt-space-m);
+        justify-content: end;
       }
     `,
   ],
   template: `
-    <h3 class="modal-title">Automatic logout</h3>
-    <div class="content">
-      <p>For security reasons you have been automatically logged out.</p>
-    </div>
-    <div class="actions">
-      <watt-button aria-selected="true">Ok</watt-button>
-    </div>
+    <h3>Automatic logout</h3>
+    <p class="content">
+      For security reasons you have been automatically logged out.
+    </p>
+    <watt-button aria-selected="true" (click)="close()">Ok</watt-button>
   `,
 })
-export class EoIdleTimerModalComponent {
-  remainingTime$ = timer(0, 1000).pipe(
-    take(6),
-    map((t) => 5000 - t * 1000),
-    finalize(() => alert('countdown done'))
-  );
+export class EoIdleTimerLoggedOutModalComponent {
+  close(action?: string) {
+    this.dialogRef.close(action);
+  }
+
+  constructor(
+    private dialogRef: MatDialogRef<EoIdleTimerLoggedOutModalComponent>
+  ) {}
 }

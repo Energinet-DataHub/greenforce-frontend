@@ -30,13 +30,10 @@ import { map, take, tap, timer } from 'rxjs';
     `
       :host {
         height: 500px; // Magic UX number
-        position: relative;
         display: grid;
-        padding: var(--watt-space-s);
-        gap: var(--watt-space-s);
         align-items: center;
         grid-template-columns: 1fr auto;
-        grid-template-rows: 44px 1fr auto;
+        grid-template-rows: 44px 1fr auto; // Magic UX number
         grid-template-areas:
           'title close'
           'content content'
@@ -76,35 +73,34 @@ import { map, take, tap, timer } from 'rxjs';
       variant="icon"
       icon="close"
       class="modal-close"
-      [attr.aria-label]="'closeLabel'"
       (click)="close()"
     ></watt-button>
     <h3 class="modal-title">Automatic logout</h3>
     <div class="content">
       <p>You will be logged out in:</p>
-      <h1>{{ remainingTime$ | async | date: 'mm:ss' }}</h1>
+      <h1>{{ countDownTimer$ | async | date: 'mm:ss' }}</h1>
       <br />
       <p>We are logging you out for security reasons.</p>
     </div>
     <div class="actions">
-      <watt-button variant="secondary" (click)="close('logout')"
-        >Log out</watt-button
-      >
-      <watt-button aria-selected="true" (click)="close()"
-        >Stay logged in</watt-button
-      >
+      <watt-button variant="secondary" (click)="close('logout')">
+        Log out
+      </watt-button>
+      <watt-button aria-selected="true" (click)="close()">
+        Stay logged in
+      </watt-button>
     </div>
   `,
 })
-export class EoIdleTimerModalComponent {
-  logoutAfterSeconds = 5;
+export class EoIdleTimerCountdownModalComponent {
+  logoutAfterSeconds = 300;
 
-  remainingTime$ = timer(0, 1000).pipe(
-    take(this.logoutAfterSeconds),
-    map((time) => this.logoutAfterSeconds - 1 - time),
-    map((time) => time * 1000), // Convert to milliseconds
-    tap((x) => {
-      if (x === 0) this.dialogRef.close('logout');
+  countDownTimer$ = timer(0, 1000).pipe(
+    take(this.logoutAfterSeconds), // Count from 0 to logoutAfterSeconds
+    map((time) => this.logoutAfterSeconds - time - 1), // Calculate remaining time from current time
+    map((time) => time * 1000), // Convert to milliseconds for the date pipe
+    tap((timeLeft) => {
+      if (timeLeft === 0) this.dialogRef.close('logout');
     })
   );
 
@@ -112,5 +108,7 @@ export class EoIdleTimerModalComponent {
     this.dialogRef.close(action);
   }
 
-  constructor(private dialogRef: MatDialogRef<EoIdleTimerModalComponent>) {}
+  constructor(
+    private dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent>
+  ) {}
 }

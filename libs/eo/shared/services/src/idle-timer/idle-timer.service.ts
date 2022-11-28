@@ -16,63 +16,61 @@
  */
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { EoIdleTimerModalComponent } from './idle-timer-countdown.component';
+import {
+  fromEvent,
+  merge,
+  startWith,
+  Subscription,
+  switchMap,
+  timer,
+} from 'rxjs';
+import { EoIdleTimerCountdownModalComponent } from './idle-timer-countdown.component';
+import { EoIdleTimerLoggedOutModalComponent } from './idle-timer-logged-out.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IdleTimerService {
-  timer: NodeJS.Timeout | undefined;
-  dialogRef: MatDialogRef<EoIdleTimerModalComponent> | undefined;
+  allowedInactiveTime = 5000; // milliseconds
+  dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent> | undefined;
+  subscription$: Subscription | undefined;
+  monitoredEvents$ = merge(
+    fromEvent(document, 'visibilitychange'),
+    fromEvent(document, 'click'),
+    fromEvent(document, 'keyup')
+  );
 
   constructor(private dialog: MatDialog) {}
 
-  stopIdleMonitor() {
-    this.removeMonitors();
+  attachMonitorsWithTimer() {
+    return this.monitoredEvents$.pipe(
+      startWith(0), // Starts timer, no matter if user already interacted or not
+      switchMap(() => timer(this.allowedInactiveTime))
+    );
   }
 
   startIdleMonitor() {
-    this.addMonitors();
+    this.subscription$ = this.attachMonitorsWithTimer().subscribe(() =>
+      this.showLogoutWarning()
+    );
   }
 
-  addMonitors() {
-    document.addEventListener('visibilitychange', this.resetTimer);
-    document.addEventListener('mousedown', this.resetTimer);
-    document.addEventListener('keydown', this.resetTimer);
-    this.resetTimer();
+  stopIdleMonitor() {
+    this.subscription$?.unsubscribe();
   }
 
-  removeMonitors() {
-    document.removeEventListener('visibilitychange', this.resetTimer);
-    document.removeEventListener('mousedown', this.resetTimer);
-    document.removeEventListener('keydown', this.resetTimer);
-    clearTimeout(this.timer);
-  }
+  private showLogoutWarning() {
+    this.stopIdleMonitor();
 
-  resetTimer() {
-    const showLogoutWarning = () => {
-      console.log('going to show logout warning');
-      console.log('dialog', this.dialogRef);
-      this.dialogRef = this.dialog?.open(EoIdleTimerModalComponent);
-
-      this.dialogRef?.afterClosed().subscribe((result) => {
-        console.log('result', result);
+    this.dialog
+      .open(EoIdleTimerCountdownModalComponent)
+      .afterClosed()
+      .subscribe((result: string) => {
         if (result === 'logout') {
-          console.log('going to logout');
+          this.dialog.open(EoIdleTimerLoggedOutModalComponent);
           return;
         }
-        this.resetTimer();
+        this.startIdleMonitor();
       });
-      console.log('dialog2', this.dialogRef);
-    };
-
-    console.log('reset timer');
-    // const allowedInactiveTime = 900000; // 15 minutes
-    const allowedInactiveTime = 3000;
-    clearTimeout(this.timer);
-
-    this.timer = setTimeout(() => {
-      showLogoutWarning();
-    }, allowedInactiveTime);
   }
 }
