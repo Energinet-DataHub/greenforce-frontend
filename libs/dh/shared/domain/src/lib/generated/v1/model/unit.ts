@@ -11,18 +11,18 @@
  */
 
 
-export type Unit = 'AMP' | 'K3' | 'KWH' | 'KWT' | 'MAW' | 'MWH' | 'TNE' | 'Z03' | 'Z14' | 'H87';
+export type Unit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 export const Unit = {
-    AMP: 'AMP' as Unit,
-    K3: 'K3' as Unit,
-    KWH: 'KWH' as Unit,
-    KWT: 'KWT' as Unit,
-    MAW: 'MAW' as Unit,
-    MWH: 'MWH' as Unit,
-    TNE: 'TNE' as Unit,
-    Z03: 'Z03' as Unit,
-    Z14: 'Z14' as Unit,
-    H87: 'H87' as Unit
+    AMP: 0 as Unit,
+    K3: 1 as Unit,
+    KWH: 2 as Unit,
+    KWT: 3 as Unit,
+    MAW: 4 as Unit,
+    MWH: 5 as Unit,
+    TNE: 6 as Unit,
+    Z03: 7 as Unit,
+    Z14: 8 as Unit,
+    H87: 9 as Unit
 };
 

@@ -11,12 +11,12 @@
  */
 
 
-export type ConnectionState = 'D03' | 'E22' | 'E23' | 'D02';
+export type ConnectionState = 0 | 1 | 2 | 3;
 
 export const ConnectionState = {
-    D03: 'D03' as ConnectionState,
-    E22: 'E22' as ConnectionState,
-    E23: 'E23' as ConnectionState,
-    D02: 'D02' as ConnectionState
+    D03: 0 as ConnectionState,
+    E22: 1 as ConnectionState,
+    E23: 2 as ConnectionState,
+    D02: 3 as ConnectionState
 };
 

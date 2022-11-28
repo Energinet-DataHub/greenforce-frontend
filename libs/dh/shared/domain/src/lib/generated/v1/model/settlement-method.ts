@@ -11,11 +11,11 @@
  */
 
 
-export type SettlementMethod = 'D01' | 'E01' | 'E02';
+export type SettlementMethod = 0 | 1 | 2;
 
 export const SettlementMethod = {
-    D01: 'D01' as SettlementMethod,
-    E01: 'E01' as SettlementMethod,
-    E02: 'E02' as SettlementMethod
+    D01: 0 as SettlementMethod,
+    E01: 1 as SettlementMethod,
+    E02: 2 as SettlementMethod
 };
 

@@ -11,10 +11,10 @@
  */
 
 
-export type VatClassification = 'NoVat' | 'Vat25';
+export type VatClassification = 1 | 2;
 
 export const VatClassification = {
-    NoVat: 'NoVat' as VatClassification,
-    Vat25: 'Vat25' as VatClassification
+    NoVat: 1 as VatClassification,
+    Vat25: 2 as VatClassification
 };
 

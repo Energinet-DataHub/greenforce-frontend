@@ -11,10 +11,10 @@
  */
 
 
-export type ConnectionType = 'D01' | 'D02';
+export type ConnectionType = 0 | 1;
 
 export const ConnectionType = {
-    D01: 'D01' as ConnectionType,
-    D02: 'D02' as ConnectionType
+    D01: 0 as ConnectionType,
+    D02: 1 as ConnectionType
 };
 

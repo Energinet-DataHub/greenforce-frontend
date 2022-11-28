@@ -11,12 +11,12 @@
  */
 
 
-export type OrganizationStatus = 'New' | 'Active' | 'Blocked' | 'Deleted';
+export type OrganizationStatus = 1 | 2 | 3 | 4;
 
 export const OrganizationStatus = {
-    New: 'New' as OrganizationStatus,
-    Active: 'Active' as OrganizationStatus,
-    Blocked: 'Blocked' as OrganizationStatus,
-    Deleted: 'Deleted' as OrganizationStatus
+    New: 1 as OrganizationStatus,
+    Active: 2 as OrganizationStatus,
+    Blocked: 3 as OrganizationStatus,
+    Deleted: 4 as OrganizationStatus
 };
 

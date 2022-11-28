@@ -11,9 +11,9 @@
  */
 
 
-export type ProcessType = 'BalanceFixing';
+export type ProcessType = 0;
 
 export const ProcessType = {
-    BalanceFixing: 'BalanceFixing' as ProcessType
+    BalanceFixing: 0 as ProcessType
 };
 
