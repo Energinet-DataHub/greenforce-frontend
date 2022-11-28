@@ -42,6 +42,8 @@ export class PermissionService {
     }
 
     const accounts = this.authService.instance.getAllAccounts();
+
+    // we expect one and only one account for now.
     if (accounts.length != 1) {
       return of(false);
     }
