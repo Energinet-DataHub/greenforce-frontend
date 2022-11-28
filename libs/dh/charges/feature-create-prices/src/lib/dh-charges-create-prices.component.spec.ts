@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { HttpClientModule } from '@angular/common/http';
-import { HtmlParser } from '@angular/compiler';
 import { ChargeTypes } from '@energinet-datahub/dh/charges/domain';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
