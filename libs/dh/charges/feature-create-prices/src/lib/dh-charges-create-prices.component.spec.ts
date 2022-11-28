@@ -14,10 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpClientModule } from '@angular/common/http';
+import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DanishLocaleModule } from '@energinet-datahub/gf/configuration-danish-locale';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 import { render } from '@testing-library/angular';
+import { WattToastRootModule } from 'libs/ui-watt/src/lib/components/toast/watt-toast.module';
 import {
   DhChargesCreatePricesComponent,
   DhChargesCreatePricesScam,
@@ -28,7 +31,10 @@ describe(DhChargesCreatePricesComponent.name, () => {
     const { fixture } = await render(DhChargesCreatePricesComponent, {
       imports: [
         getTranslocoTestingModule(),
+        DhApiModule.forRoot(),
+        HttpClientModule,
         WattDanishDatetimeModule.forRoot(),
+        WattToastRootModule,
         DanishLocaleModule,
         DhChargesCreatePricesScam,
       ],
