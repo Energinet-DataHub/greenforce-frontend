@@ -34,6 +34,8 @@ limitations under the License.
       [placeholderLabel]="placeholder"
       [showToggleAllCheckbox]="multiple"
       (toggleAll)="onToggleAll($event)"
+      [toggleAllCheckboxChecked]="isToggleAllChecked"
+      [toggleAllCheckboxIndeterminate]="isToggleAllIndeterminate"
       [noEntriesFoundLabel]="noOptionsFoundLabel"
     ></ngx-mat-select-search
   ></mat-option>

@@ -107,6 +107,16 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
+  isToggleAllChecked = false;
+
+  /**
+   * @ignore
+   */
+  isToggleAllIndeterminate = false;
+
+  /**
+   * @ignore
+   */
   @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
 
   /**
@@ -247,7 +257,13 @@ export class WattDropdownComponent
   private listenForFilterFieldValueChanges() {
     this.filterControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.filterOptions());
+      .subscribe(() => {
+        this.filterOptions();
+
+        if (this.multiple) {
+          this.determineToggleAllCheckboxState();
+        }
+      });
   }
 
   /**
@@ -332,6 +348,10 @@ export class WattDropdownComponent
         takeUntil(this.destroy$)
       )
       .subscribe((value: WattDropdownValue) => {
+        if (this.multiple) {
+          this.determineToggleAllCheckboxState();
+        }
+
         this.markParentControlAsTouched();
         this.changeParentValue(value);
       });
@@ -375,5 +395,22 @@ export class WattDropdownComponent
         (option) => option.displayValue.toLowerCase().indexOf(search) > -1
       )
     );
+  }
+
+  /**
+   * @ignore
+   */
+  private determineToggleAllCheckboxState(): void {
+    const selectedOptions = this.matSelectControl.value;
+
+    if (Array.isArray(selectedOptions)) {
+      this.isToggleAllIndeterminate =
+        selectedOptions.length > 0 &&
+        selectedOptions.length < this.options.length;
+
+      this.isToggleAllChecked =
+        selectedOptions.length > 0 &&
+        selectedOptions.length === this.options.length;
+    }
   }
 }
