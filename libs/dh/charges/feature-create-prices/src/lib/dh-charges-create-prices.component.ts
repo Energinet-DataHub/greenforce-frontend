@@ -98,7 +98,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     ),
     effectiveDate: new FormControl('', Validators.required),
     vatClassification: new FormControl(true, Validators.required),
-    transparentInvoicing: new FormControl(true, Validators.required),
+    transparentInvoicing: new FormControl(false, Validators.required),
     taxIndicator: new FormControl(false, Validators.required),
     senderMarketParticipantId: new FormControl('', Validators.required),
   });
@@ -188,11 +188,11 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     switch (Number(chargeType)) {
       case ChargeTypes.Tariff: {
         this.charge.controls['resolution'].setValue('');
-        this.charge.controls['transparentInvoicing'].setValue(true);
+        this.charge.controls['transparentInvoicing'].setValue(false);
         break;
       }
       case ChargeTypes.Subscription: {
-        this.charge.controls['transparentInvoicing'].setValue(true);
+        this.charge.controls['transparentInvoicing'].setValue(false);
         this.disableResolutionWithValue();
         this.disableTaxIndicator();
         break;
