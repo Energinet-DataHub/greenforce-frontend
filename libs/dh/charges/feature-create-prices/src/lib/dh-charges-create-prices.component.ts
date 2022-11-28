@@ -99,7 +99,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     ),
     effectiveDate: new FormControl(
       add(new Date(), { days: 31 }).toISOString(),
-      Validators.required
+      [Validators.required, this.validateValidFromDate]
     ),
     vatClassification: new FormControl(true, Validators.required),
     transparentInvoicing: new FormControl(false, Validators.required),
@@ -351,6 +351,22 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
             );
         },
       });
+  }
+
+  validateValidFromDate(validFromDate: FormControl) {
+    const inputValue = new Date(validFromDate.value);
+
+    const maximumDate = new Date();
+    maximumDate.setFullYear(maximumDate.getFullYear() + 3);
+
+    if (inputValue > maximumDate)
+      return {
+        maxDate: {
+          valid: false,
+        },
+      };
+
+    return null;
   }
 }
 
