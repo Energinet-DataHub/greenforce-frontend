@@ -26,7 +26,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Energinet.DataHub.WebApi
 {
@@ -49,7 +48,8 @@ namespace Energinet.DataHub.WebApi
         {
             services.AddApplicationInsightsTelemetry();
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
             services.AddHealthChecks();
 
@@ -64,9 +64,9 @@ namespace Energinet.DataHub.WebApi
                     Version = "1.0.0",
                     Description = "Backend-for-frontend for DataHub",
                 });
+
                 config.SchemaFilter<RequireNonNullablePropertiesSchemaFilter>();
                 config.SupportNonNullableReferenceTypes();
-                config.SchemaFilter<EnumSchemaFilter>();
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
