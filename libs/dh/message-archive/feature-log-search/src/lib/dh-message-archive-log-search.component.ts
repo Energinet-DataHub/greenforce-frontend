@@ -37,6 +37,7 @@ import {
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 import {
   DhMessageArchiveDataAccessApiStore,
   DhMessageArchiveDataAccessBlobApiStore,
@@ -232,6 +233,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     WattBadgeModule,
     WattDropdownModule,
     WattSpinnerModule,
+    WattTopBarComponent,
   ],
   declarations: [DhMessageArchiveLogSearchComponent],
 })
