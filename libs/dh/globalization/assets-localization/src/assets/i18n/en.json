@@ -333,7 +333,8 @@
       "selectChargeType": "Select charge type",
       "createPriceError": "Something went wrong. Price is not created. Try again.",
       "createPriceSuccess": "Success! The price has been submitted.",
-      "loadingRequestText": "Submitting the price."
+      "loadingRequestText": "Submitting the price.",
+      "validFromDateTime": "Valid from"
     },
     "prices": {
       "prices": "Prices",

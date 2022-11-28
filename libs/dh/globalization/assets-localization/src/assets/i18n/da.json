@@ -333,7 +333,8 @@
       "selectChargeType": "Vælg type",
       "createPriceError": "Noget gik galt. Prisen blev ikke oprettet. Prøv igen.",
       "createPriceSuccess": "Succes! Prisen er indsendt.",
-      "loadingRequestText": "Indsender pris."
+      "loadingRequestText": "Indsender pris.",
+      "validFromDateTime": "Gyldig fra"
     },
     "prices": {
       "prices": "Priser",
