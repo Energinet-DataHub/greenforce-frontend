@@ -11,14 +11,14 @@
  */
 
 
-export type ProductId = 0 | 1 | 2 | 3 | 4 | 5;
+export type ProductId = 'Tariff' | 'FuelQuantity' | 'PowerActive' | 'PowerReactive' | 'EnergyActive' | 'EnergyReactive';
 
 export const ProductId = {
-    Tariff: 0 as ProductId,
-    FuelQuantity: 1 as ProductId,
-    PowerActive: 2 as ProductId,
-    PowerReactive: 3 as ProductId,
-    EnergyActive: 4 as ProductId,
-    EnergyReactive: 5 as ProductId
+    Tariff: 'Tariff' as ProductId,
+    FuelQuantity: 'FuelQuantity' as ProductId,
+    PowerActive: 'PowerActive' as ProductId,
+    PowerReactive: 'PowerReactive' as ProductId,
+    EnergyActive: 'EnergyActive' as ProductId,
+    EnergyReactive: 'EnergyReactive' as ProductId
 };
 

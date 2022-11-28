@@ -11,11 +11,11 @@
  */
 
 
-export type ChargeType = 1 | 2 | 3;
+export type ChargeType = 'D01' | 'D02' | 'D03';
 
 export const ChargeType = {
-    D01: 1 as ChargeType,
-    D02: 2 as ChargeType,
-    D03: 3 as ChargeType
+    D01: 'D01' as ChargeType,
+    D02: 'D02' as ChargeType,
+    D03: 'D03' as ChargeType
 };
 

@@ -11,11 +11,11 @@
  */
 
 
-export type ChargeMessageSortColumnName = 0 | 1 | 2;
+export type ChargeMessageSortColumnName = 'MessageId' | 'MessageType' | 'MessageDateTime';
 
 export const ChargeMessageSortColumnName = {
-    MessageId: 0 as ChargeMessageSortColumnName,
-    MessageType: 1 as ChargeMessageSortColumnName,
-    MessageDateTime: 2 as ChargeMessageSortColumnName
+    MessageId: 'MessageId' as ChargeMessageSortColumnName,
+    MessageType: 'MessageType' as ChargeMessageSortColumnName,
+    MessageDateTime: 'MessageDateTime' as ChargeMessageSortColumnName
 };
 

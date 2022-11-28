@@ -11,12 +11,12 @@
  */
 
 
-export type Resolution = 1 | 2 | 3 | 4;
+export type Resolution = 'PT15M' | 'PT1H' | 'P1D' | 'P1M';
 
 export const Resolution = {
-    PT15M: 1 as Resolution,
-    PT1H: 2 as Resolution,
-    P1D: 3 as Resolution,
-    P1M: 4 as Resolution
+    PT15M: 'PT15M' as Resolution,
+    PT1H: 'PT1H' as Resolution,
+    P1D: 'P1D' as Resolution,
+    P1M: 'P1M' as Resolution
 };
 

@@ -11,23 +11,23 @@
  */
 
 
-export type ContactCategory = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14;
+export type ContactCategory = 'Default' | 'Charges' | 'ChargeLinks' | 'ElectricalHeating' | 'EndOfSupply' | 'EnerginetInquiry' | 'ErrorReport' | 'IncorrectMove' | 'IncorrectSwitch' | 'MeasurementData' | 'MeteringPoint' | 'NetSettlement' | 'Notification' | 'Recon' | 'Reminder';
 
 export const ContactCategory = {
-    Default: 0 as ContactCategory,
-    Charges: 1 as ContactCategory,
-    ChargeLinks: 2 as ContactCategory,
-    ElectricalHeating: 3 as ContactCategory,
-    EndOfSupply: 4 as ContactCategory,
-    EnerginetInquiry: 5 as ContactCategory,
-    ErrorReport: 6 as ContactCategory,
-    IncorrectMove: 7 as ContactCategory,
-    IncorrectSwitch: 8 as ContactCategory,
-    MeasurementData: 9 as ContactCategory,
-    MeteringPoint: 10 as ContactCategory,
-    NetSettlement: 11 as ContactCategory,
-    Notification: 12 as ContactCategory,
-    Recon: 13 as ContactCategory,
-    Reminder: 14 as ContactCategory
+    Default: 'Default' as ContactCategory,
+    Charges: 'Charges' as ContactCategory,
+    ChargeLinks: 'ChargeLinks' as ContactCategory,
+    ElectricalHeating: 'ElectricalHeating' as ContactCategory,
+    EndOfSupply: 'EndOfSupply' as ContactCategory,
+    EnerginetInquiry: 'EnerginetInquiry' as ContactCategory,
+    ErrorReport: 'ErrorReport' as ContactCategory,
+    IncorrectMove: 'IncorrectMove' as ContactCategory,
+    IncorrectSwitch: 'IncorrectSwitch' as ContactCategory,
+    MeasurementData: 'MeasurementData' as ContactCategory,
+    MeteringPoint: 'MeteringPoint' as ContactCategory,
+    NetSettlement: 'NetSettlement' as ContactCategory,
+    Notification: 'Notification' as ContactCategory,
+    Recon: 'Recon' as ContactCategory,
+    Reminder: 'Reminder' as ContactCategory
 };
 

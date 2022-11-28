@@ -11,14 +11,14 @@
  */
 
 
-export type NetSettlementGroup = 0 | 1 | 2 | 3 | 6 | 99;
+export type NetSettlementGroup = 'Zero' | 'One' | 'Two' | 'Three' | 'Six' | 'NinetyNine';
 
 export const NetSettlementGroup = {
-    Zero: 0 as NetSettlementGroup,
-    One: 1 as NetSettlementGroup,
-    Two: 2 as NetSettlementGroup,
-    Three: 3 as NetSettlementGroup,
-    Six: 6 as NetSettlementGroup,
-    NinetyNine: 99 as NetSettlementGroup
+    Zero: 'Zero' as NetSettlementGroup,
+    One: 'One' as NetSettlementGroup,
+    Two: 'Two' as NetSettlementGroup,
+    Three: 'Three' as NetSettlementGroup,
+    Six: 'Six' as NetSettlementGroup,
+    NinetyNine: 'NinetyNine' as NetSettlementGroup
 };
 

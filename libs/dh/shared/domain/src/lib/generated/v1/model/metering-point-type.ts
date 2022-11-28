@@ -11,29 +11,29 @@
  */
 
 
-export type MeteringPointType = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20;
+export type MeteringPointType = 'E17' | 'E18' | 'E20' | 'D13' | 'D02' | 'D01' | 'D20' | 'D99' | 'D04' | 'D05' | 'D06' | 'D07' | 'D08' | 'D09' | 'D10' | 'D11' | 'D12' | 'D14' | 'D15' | 'D17' | 'D18';
 
 export const MeteringPointType = {
-    E17: 0 as MeteringPointType,
-    E18: 1 as MeteringPointType,
-    E20: 2 as MeteringPointType,
-    D13: 3 as MeteringPointType,
-    D02: 4 as MeteringPointType,
-    D01: 5 as MeteringPointType,
-    D20: 6 as MeteringPointType,
-    D99: 7 as MeteringPointType,
-    D04: 8 as MeteringPointType,
-    D05: 9 as MeteringPointType,
-    D06: 10 as MeteringPointType,
-    D07: 11 as MeteringPointType,
-    D08: 12 as MeteringPointType,
-    D09: 13 as MeteringPointType,
-    D10: 14 as MeteringPointType,
-    D11: 15 as MeteringPointType,
-    D12: 16 as MeteringPointType,
-    D14: 17 as MeteringPointType,
-    D15: 18 as MeteringPointType,
-    D17: 19 as MeteringPointType,
-    D18: 20 as MeteringPointType
+    E17: 'E17' as MeteringPointType,
+    E18: 'E18' as MeteringPointType,
+    E20: 'E20' as MeteringPointType,
+    D13: 'D13' as MeteringPointType,
+    D02: 'D02' as MeteringPointType,
+    D01: 'D01' as MeteringPointType,
+    D20: 'D20' as MeteringPointType,
+    D99: 'D99' as MeteringPointType,
+    D04: 'D04' as MeteringPointType,
+    D05: 'D05' as MeteringPointType,
+    D06: 'D06' as MeteringPointType,
+    D07: 'D07' as MeteringPointType,
+    D08: 'D08' as MeteringPointType,
+    D09: 'D09' as MeteringPointType,
+    D10: 'D10' as MeteringPointType,
+    D11: 'D11' as MeteringPointType,
+    D12: 'D12' as MeteringPointType,
+    D14: 'D14' as MeteringPointType,
+    D15: 'D15' as MeteringPointType,
+    D17: 'D17' as MeteringPointType,
+    D18: 'D18' as MeteringPointType
 };
 

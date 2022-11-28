@@ -11,12 +11,12 @@
  */
 
 
-export type ProcessStatus = 0 | 1 | 2 | 3;
+export type ProcessStatus = 'None' | 'Completed' | 'Received' | 'Sent';
 
 export const ProcessStatus = {
-    None: 0 as ProcessStatus,
-    Completed: 1 as ProcessStatus,
-    Received: 2 as ProcessStatus,
-    Sent: 3 as ProcessStatus
+    None: 'None' as ProcessStatus,
+    Completed: 'Completed' as ProcessStatus,
+    Received: 'Received' as ProcessStatus,
+    Sent: 'Sent' as ProcessStatus
 };
 

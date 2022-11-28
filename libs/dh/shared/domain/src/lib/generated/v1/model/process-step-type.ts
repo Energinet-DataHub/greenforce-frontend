@@ -11,9 +11,9 @@
  */
 
 
-export type ProcessStepType = 25;
+export type ProcessStepType = 'AggregateProductionPerGridArea';
 
 export const ProcessStepType = {
-    AggregateProductionPerGridArea: 25 as ProcessStepType
+    AggregateProductionPerGridArea: 'AggregateProductionPerGridArea' as ProcessStepType
 };
 
