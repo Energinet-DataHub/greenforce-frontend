@@ -23,16 +23,19 @@ import {
   MessageArchiveSearchResultItemDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { ErrorState, SearchingState } from './states';
+import {
+  ErrorState,
+  LoadingState,
+} from '@energinet-datahub/dh/shared/data-access-api';
 interface SearchResultState {
   readonly searchResult: Array<MessageArchiveSearchResultItemDto>;
-  readonly searchingState: SearchingState | ErrorState;
+  readonly loadingState: LoadingState | ErrorState;
   readonly continuationToken: string | null | undefined;
 }
 
 const initialState: SearchResultState = {
   searchResult: [],
-  searchingState: SearchingState.INIT,
+  loadingState: LoadingState.INIT,
   continuationToken: null,
 };
 
@@ -41,6 +44,8 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
   constructor(private httpClient: MessageArchiveHttp) {
     super(initialState);
   }
+
+  isInit$ = this.select((state) => state.loadingState === LoadingState.INIT);
 
   searchResult$: Observable<Array<MessageArchiveSearchResultItemDto>> =
     this.select((state) => state.searchResult).pipe(
@@ -54,10 +59,10 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
     (state) => state.continuationToken
   );
   isSearching$ = this.select(
-    (state) => state.searchingState === SearchingState.SEARCHING
+    (state) => state.loadingState === LoadingState.LOADING
   );
   hasGeneralError$ = this.select(
-    (state) => state.searchingState === ErrorState.GENERAL_ERROR
+    (state) => state.loadingState === ErrorState.GENERAL_ERROR
   );
 
   readonly searchLogs = this.effect(
@@ -68,8 +73,9 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
           this.updateContinuationToken(e.continuationToken);
           this.updateSearchResult([]);
         }),
-        switchMap((searchCriteria) =>
-          this.httpClient
+        switchMap((searchCriteria) => {
+          console.log({ searchCriteria });
+          return this.httpClient
             .v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria)
             .pipe(
               tapResponse(
@@ -83,8 +89,8 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
                   this.handleError(error);
                 }
               )
-            )
-        )
+            );
+        })
       );
     }
   );
@@ -116,9 +122,7 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
   private setLoading = this.updater(
     (state, isLoading: boolean): SearchResultState => ({
       ...state,
-      searchingState: isLoading
-        ? SearchingState.SEARCHING
-        : SearchingState.DONE,
+      loadingState: isLoading ? LoadingState.LOADING : LoadingState.LOADED,
     })
   );
 
@@ -130,7 +134,7 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
         ? ErrorState.NOT_FOUND_ERROR
         : ErrorState.GENERAL_ERROR;
 
-    this.patchState({ searchingState: requestError });
+    this.patchState({ loadingState: requestError });
   };
 
   readonly resetState = () => this.setState(initialState);

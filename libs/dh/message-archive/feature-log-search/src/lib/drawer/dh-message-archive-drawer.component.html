@@ -1,0 +1,57 @@
+<ng-container *transloco="let t; read: 'messageArchive.drawer'">
+  <!-- drawer -->
+  <watt-drawer #drawer size="large" (closed)="onClose()">
+    <watt-drawer-topbar>
+      <span class="message-label">{{ t("message") }}</span>
+      <watt-icon name="right"></watt-icon>
+      <span>{{ message?.messageId }}</span>
+    </watt-drawer-topbar>
+
+    <!-- <watt-drawer-actions *ngIf="!showChargeMessage">
+      <watt-button variant="secondary" [disabled]="true">{{
+        t("stop")
+      }}</watt-button>
+      <watt-button [disabled]="true">{{ t("edit") }}</watt-button>
+    </watt-drawer-actions> -->
+
+    <watt-drawer-content>
+      <div class="container">
+        <span class="dateTime">{{ message?.createdDate | dhDateTime }}</span>
+        <h1>{{ message?.messageId }}</h1>
+        <dh-message-archive-status
+          [message]="message?.httpData"
+        ></dh-message-archive-status>
+        <span class="smallDivider">|</span>
+        <span class="documenttype"
+          >{{ message?.rsmName }} |
+          {{ message?.rsmName | documentTypeName }}</span
+        >
+
+        <mat-divider></mat-divider>
+
+        <span class="sender-receiver-label">{{ t("sender") }}</span>
+        <span class="sender-receiver-value"
+          >{{ message?.senderGln | actorName: actors }} ({{
+            message?.senderGln
+          }})</span
+        >
+        <span class="sender-receiver-label">{{ t("receiver") }}</span>
+        <span class="sender-receiver-value">
+          {{ message?.receiverGln | actorName: actors }} ({{
+            message?.receiverGln
+          }})</span
+        >
+
+        <watt-button
+          variant="text"
+          title="{{ t('download') }}"
+          (click)="downloadLogFile()"
+          icon="download"
+          >{{ t("download") }}</watt-button
+        >
+      </div>
+
+      <pre>{{ messageLog$ | async }}</pre>
+    </watt-drawer-content>
+  </watt-drawer>
+</ng-container>
