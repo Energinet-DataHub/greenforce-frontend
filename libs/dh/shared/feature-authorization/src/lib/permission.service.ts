@@ -51,7 +51,7 @@ export class PermissionService {
     const account = accounts[0];
 
     const tokenRequest: SilentRequest = {
-      scopes: [this.config.backendId ?? this.config.clientId],
+      scopes: [this.config.backendId || this.config.clientId],
       account: account,
     };
 
