@@ -35,15 +35,9 @@
   </watt-top-bar>
 
   <main>
-    <ul class="steps" *ngIf="steps; else loading">
-      <li *ngFor="let step of steps">
-        <watt-expandable-card>
-          <watt-badge type="info">25</watt-badge>
-          <watt-expandable-card-title
-            >Aggregeret produktion per netområde</watt-expandable-card-title
-          >
-          <p>kommer snart</p>
-        </watt-expandable-card>
+    <ul class="steps">
+      <li>
+        <dh-wholesale-production-per-gridarea [batch]="batch" [gridAreaCode]="gridAreaCode"></dh-wholesale-production-per-gridarea>
       </li>
     </ul>
 

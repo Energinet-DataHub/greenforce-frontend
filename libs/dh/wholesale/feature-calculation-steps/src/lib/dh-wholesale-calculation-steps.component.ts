@@ -17,6 +17,7 @@ import { WattTopBarComponent } from "libs/ui-watt/src/lib/components/shell/top-b
 import { batch } from "@energinet-datahub/dh/wholesale/domain";
 import { navigateToWholesaleSearchBatch } from "@energinet-datahub/dh/wholesale/routing";
 import { DhWholesaleBatchDataAccessApiStore } from "@energinet-datahub/dh/wholesale/data-access-api";
+import { DhWholesaleProductionPerGridareaComponent } from "./steps/25-production-per-gridarea.component";
 
 @Component({
   templateUrl: "./dh-wholesale-calculation-steps.component.html",
@@ -34,6 +35,7 @@ import { DhWholesaleBatchDataAccessApiStore } from "@energinet-datahub/dh/wholes
     WattEmptyStateModule,
     WattSpinnerModule,
     WattTopBarComponent,
+    DhWholesaleProductionPerGridareaComponent
   ]
 })
 export class DhWholesaleCalculationStepsComponent implements OnInit {
