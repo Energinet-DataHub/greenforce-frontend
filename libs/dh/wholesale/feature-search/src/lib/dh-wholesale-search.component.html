@@ -15,12 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
-  <div class="header">
+  <watt-top-bar>
     <dh-wholesale-form
       (search)="onSearch($event)"
       [loading]="loadingBatchesTrigger$ | push"
     ></dh-wholesale-form>
-  </div>
+  </watt-top-bar>
 
   <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
     <section class="content" *ngIf="searchSubmitted">

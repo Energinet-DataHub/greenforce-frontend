@@ -14,16 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.search-container {
-  display: grid;
-  grid-template-columns: 2fr 2fr 1fr 1fr 1fr 1fr;
-  padding-bottom: var(--watt-space-m);
-  gap: var(--watt-space-m);
-}
-
-.buttons-container {
-  display: flex;
-  justify-content: flex-end;
-  padding-bottom: var(--watt-space-m);
-  gap: var(--watt-space-m);
-}
+export { WattTopBarComponent } from './watt-top-bar.component';
+export { WattTopBarOutletComponent } from './watt-top-bar-outlet.component';
