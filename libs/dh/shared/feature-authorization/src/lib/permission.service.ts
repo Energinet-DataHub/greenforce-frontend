@@ -15,18 +15,23 @@
  * limitations under the License.
  */
 
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
 import { SilentRequest } from '@azure/msal-browser';
+import {
+  DhB2CEnvironment,
+  dhB2CEnvironmentToken,
+} from '@energinet-datahub/dh/shared/environments';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
-import { map, of } from 'rxjs';
+import { map, of, switchMap } from 'rxjs';
+import { ActorTokenService } from './actor-token.service';
 import { Permission } from './permission';
-import { ScopeService } from './scope.service';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
   constructor(
-    private scopeService: ScopeService,
+    @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment,
+    private actorTokenService: ActorTokenService,
     private authService: MsalService,
     private featureFlag: DhFeatureFlagsService
   ) {}
@@ -36,24 +41,26 @@ export class PermissionService {
       return of(true);
     }
 
-    const account = this.authService.instance.getActiveAccount();
+    const accounts = this.authService.instance.getAllAccounts();
 
-    // If MSAL returns no accounts or the claims are missing,
-    // the service default to no access.
-    if (!account) {
+    // we expect one and only one account for now.
+    if (accounts.length != 1) {
       return of(false);
     }
 
-    const activeScope = this.scopeService.getActiveScope();
+    const account = accounts[0];
 
     const tokenRequest: SilentRequest = {
-      scopes: [activeScope],
+      scopes: [this.config.backendId || this.config.clientId],
       account: account,
     };
 
     return this.authService.acquireTokenSilent(tokenRequest).pipe(
-      map((authResult) => {
-        const roles = this.acquireClaimsFromAccessToken(authResult.accessToken);
+      switchMap((authResult) => {
+        return this.actorTokenService.acquireToken(authResult.accessToken);
+      }),
+      map((internalToken) => {
+        const roles = this.acquireClaimsFromAccessToken(internalToken);
         return roles.includes(permission);
       })
     );
@@ -66,7 +73,7 @@ export class PermissionService {
     const claims = window.atob(jwtPayload);
 
     const jwtJson = JSON.parse(claims);
-    const roles = jwtJson['roles'] as Permission[];
+    const roles = jwtJson['role'] as Permission[];
 
     return roles || [];
   }
