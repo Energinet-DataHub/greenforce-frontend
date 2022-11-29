@@ -31,6 +31,24 @@ for instructions.
 
 ### Special test configuration
 
+#### When the feature under test uses a top bar
+
+In this case, import `WattTopBarOutletComponent` inside the testing setup and render a template instead of the component directly to include the `<watt-top-bar-outlet></watt-top-bar-outlet>` component to ensure the content of the top bar is rendered. For example:
+
+```ts
+import { WattTopBarOutletComponent } from 'libs/ui-watt/src/lib/components/shell/top-bar';
+
+await render(
+  `<watt-top-bar-outlet></watt-top-bar-outlet><your-awesome-component></your-awesome-component>`,
+  {
+    imports: [
+      WattTopBarOutletComponent,
+      // ...
+    ],
+  }
+);
+```
+
 #### When the feature under test uses translations
 
 In this case import `getTranslocoTestingModule` function in the testing setup. This will preload the translation files and set the default language to "English". So the English translation file should be used when looking for specific strings. For example:
