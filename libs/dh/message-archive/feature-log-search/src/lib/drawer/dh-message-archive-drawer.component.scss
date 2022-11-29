@@ -14,18 +14,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  align-items: center;
-  background-color: var(--watt-color-neutral-white);
-  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-  display: flex;
-  gap: var(--watt-space-s);
-  margin: calc(1.5 * var(--watt-space-m));
-  margin-bottom: var(--watt-space-s);
-  position: sticky;
-  top: 0;
+.message-label {
+  color: var(--watt-color-primary);
+}
 
-  .close-btn {
+.container {
+  text-transform: uppercase;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--watt-space-s);
+  align-items: center;
+
+  .dateTime {
+    width: 100%;
+  }
+
+  h1 {
+    width: 100%;
+  }
+
+  mat-divider {
+    width: 100%;
+    height: 1px;
+  }
+
+  watt-button {
     margin-left: auto;
   }
+}
+
+pre {
+  border: solid 1px lightgray;
+  white-space: break-spaces;
+  padding: var(--watt-space-s);
+}
+
+.sender-receiver-label {
+  color: var(--watt-typography-label-color);
+}
+
+h1 {
+  margin: 0;
+}
+
+mat-divider {
+  color: var(--watt-color-neutral-grey-300);
+  margin: var(--watt-space-m) 0;
 }

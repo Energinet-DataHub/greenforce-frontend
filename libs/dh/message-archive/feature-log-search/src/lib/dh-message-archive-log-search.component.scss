@@ -14,22 +14,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.wrapper {
+.form {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   column-gap: var(--watt-space-m);
   row-gap: var(--watt-space-m);
+  align-items: center;
+
+  .mat-checkbox {
+    .mat-checkbox-layout {
+      text-transform: initial;
+      font-weight: initial;
+    }
+  }
+}
+
+.rowContainer {
+  grid-column-end: span 4;
+  display: grid;
+  grid-template-columns: 250px 168px 1fr 1fr;
+  column-gap: var(--watt-space-m);
+  row-gap: var(--watt-space-m);
+  align-items: center;
+}
+
+.header {
+  background: var(--watt-color-neutral-white);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  display: block;
+  margin-bottom: var(--watt-space-l);
+  margin-left: calc(var(--watt-space-l) * -1);
+  margin-top: calc(var(--watt-space-l) * -1);
+  padding: var(--watt-space-l);
+  width: calc(100% + var(--watt-space-xl));
 }
 
 .buttons-container {
   display: flex;
   justify-content: flex-end;
-  padding-bottom: var(--watt-space-m);
   gap: var(--watt-space-m);
-}
 
-.load-more-button-container {
-  display: flex;
-  justify-content: center;
-  padding-top: var(--watt-space-l);
+  button {
+    width: 140px;
+  }
 }

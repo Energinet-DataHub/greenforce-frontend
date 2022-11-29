@@ -14,19 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const enum SearchingState {
-  INIT = 'INIT',
-  SEARCHING = 'SEARCHING',
-  DONE = 'DONE',
-}
+import { Pipe, PipeTransform } from '@angular/core';
+import { DocumentTypes } from '@energinet-datahub/dh/message-archive/domain';
 
-export const enum DownloadingState {
-  INIT = 'INIT',
-  DOWNLOADING = 'DOWNLOADING',
-  DONE = 'DONE',
-}
+@Pipe({ name: 'documentTypeName', standalone: true })
+export class DocumentTypeNamePipe implements PipeTransform {
+  transform(key: string | null | undefined): string | undefined {
+    if (!key) return 'N/A';
+    const indexOfS = Object.keys(DocumentTypes)
+      .map((x) => x.toLowerCase())
+      .indexOf(key);
 
-export const enum ErrorState {
-  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
-  GENERAL_ERROR = 'GENERAL_ERROR',
+    return Object.values(DocumentTypes)[indexOfS];
+  }
 }

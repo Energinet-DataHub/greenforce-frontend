@@ -440,21 +440,27 @@
   },
   "messageArchive": {
     "unknowenError": "Ukendt fejl",
+    "drawer": {
+      "message": "Besked",
+      "sender": "Afsender",
+      "receiver": "Modtager",
+      "download": "Download"
+    },
     "search": {
       "topBarTitle": "Fremsøg forretningsbesked",
       "documenttype": "Dokumenttype",
-      "senderId": "Afsender Id",
+      "senderId": "Afsender",
       "messageId": "Besked Id",
       "traceId": "Trace Id",
-      "receiverId": "Modtager Id",
+      "receiverId": "Modtager",
       "businessReason": "Forretningsårsag",
       "dateFrom": "Dato fra",
       "dateTo": "Dato til",
-      "startSearch": "Fremsøg besked",
-      "NoResultsFound": "Intet resultat",
+      "startSearch": "Søg",
+      "noResultsFound": "Intet resultat",
       "ChooseBusinessReason": "Vælg forretningsårsag",
-      "ChooseDocumentType": "Vælg dokumenttype",
-      "includeRelatedMessage": "Inkluder relateret besked",
+      "ChooseDocumentType": "Indtast eller vælg",
+      "includeRelatedMessage": "Inkluder relaterede beskeder (ved søgning på Besked ID)",
       "loadMore": "Indlæs flere",
       "rsm": "RSM",
       "sender": "Aktør",
@@ -465,7 +471,15 @@
       "download": "Download",
       "show": "Vis",
       "noResultsHelperText": "Prøv at ændring dine søge indstillinger",
-      "clearSearch": "Ryd form"
+      "clearSearch": "Ryd",
+      "periode": "periode",
+      "time": "klokkeslæt",
+      "searchResult": "Søgeresultater",
+      "startSearchResultView": "Start søgning",
+      "startSearchText": "Dine resultater vil fremgå her",
+      "loadingErrorTitle": "Der opstod en uventet fejl",
+      "loadingErrorMessage": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl.",
+      "dateTime": "Dato og tid"
     }
   },
   "marketParticipant": {
