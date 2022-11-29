@@ -16,5 +16,6 @@
  */
 
 export * from './app-settings/app-settings.store';
-export * from './feature-flag/feature-flag.service';
 export * from './feature-flag/feature-flag.directive';
+export * from './feature-flag/feature-flag.service';
+export * from './idle-timer/idle-timer.service';
