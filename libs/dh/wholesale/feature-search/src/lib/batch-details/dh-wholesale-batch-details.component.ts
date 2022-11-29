@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -22,8 +22,13 @@ import {
   Input,
   ViewChild,
   inject,
+  AfterViewInit,
+  OnDestroy,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
+import { Subject, takeUntil } from 'rxjs';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
@@ -56,17 +61,35 @@ import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/whole
   styleUrls: ['./dh-wholesale-batch-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleBatchDetailsComponent {
-  @Input() batch!: batch;
+export class DhWholesaleBatchDetailsComponent implements AfterViewInit, OnDestroy {
+  @Input() batch?: batch;
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
+  @Output() closed = new EventEmitter<void>();
+
   router = inject(Router);
+  route = inject(ActivatedRoute);
+
+  destroy$ = new Subject<void>();
+
+  ngAfterViewInit(): void {
+    this.drawer.closed.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.closed.emit();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   open(): void {
     this.drawer.open();
   }
 
   onGridAreaSelected(gridArea: GridAreaDto): void {
-    navigateToWholesaleCalculationSteps(this.router, this.batch, gridArea);
+    navigateToWholesaleCalculationSteps(this.router, this.batch as batch, gridArea);
   }
 }

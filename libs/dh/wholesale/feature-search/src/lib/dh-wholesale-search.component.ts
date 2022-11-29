@@ -15,10 +15,28 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, inject, ChangeDetectorRef, ViewChild, AfterViewInit } from '@angular/core';
-import { first, of } from 'rxjs';
+import {
+  Component,
+  inject,
+  ChangeDetectorRef,
+  ViewChild,
+  AfterViewInit,
+  AfterViewChecked,
+  OnDestroy,
+} from '@angular/core';
+import {
+  first,
+  Observable,
+  of,
+  Subject,
+  takeUntil,
+  map,
+  filter,
+  tap,
+  switchMap,
+} from 'rxjs';
 import { LetModule, PushModule } from '@rx-angular/template';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
@@ -32,7 +50,7 @@ import {
   BatchDtoV2,
   BatchSearchDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { batch } from "@energinet-datahub/dh/wholesale/domain";
+import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
@@ -59,26 +77,34 @@ import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
   styleUrls: ['./dh-wholesale-search.component.scss'],
   providers: [DhWholesaleBatchDataAccessApiStore],
 })
-export class DhWholesaleSearchComponent implements AfterViewInit {
+export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
   @ViewChild('batchDetails') batchDetails!: DhWholesaleBatchDetailsComponent;
 
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private toastService = inject(WattToastService);
   private translations = inject(TranslocoService);
-  private changeDetectorRef = inject(ChangeDetectorRef);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   data$ = this.store.batches$;
+  destroy$ = new Subject<void>();
+  selectedBatch$ = this.store.selectedBatch$;
   loadingBatchesTrigger$ = this.store.loadingBatches$;
   loadingBatchesErrorTrigger$ = this.store.loadingBatchesErrorTrigger$;
 
   searchSubmitted = false;
-  selectedBatch: batch | null = this.router.getCurrentNavigation()?.extras.state?.['batch'];
 
-  ngAfterViewInit(): void {
-    if (this.selectedBatch) {
+  ngAfterViewInit() {
+    const selectedBatch = this.route.snapshot.queryParams.batch;
+    if(selectedBatch) {
+      this.store.getBatch(selectedBatch);
       this.batchDetails.open();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onSearch(search: BatchSearchDto) {
@@ -99,9 +125,19 @@ export class DhWholesaleSearchComponent implements AfterViewInit {
   }
 
   onBatchSelected(batch: batch) {
-    this.selectedBatch = batch;
-    this.changeDetectorRef.detectChanges();
-
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { batch: batch.batchNumber },
+    });
+    this.store.setSelectedBatch(batch);
     this.batchDetails.open();
+  }
+
+  onBatchDetailsClosed() {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { batch: null },
+    });
+    this.store.setSelectedBatch(undefined);
   }
 }

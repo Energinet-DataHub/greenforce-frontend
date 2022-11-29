@@ -21,6 +21,7 @@ export function wholesaleMocks(apiBase: string) {
   return [
     postWholesaleBatch(apiBase),
     getWholesaleSearchBatch(apiBase),
+    getWholesaleSearchBatches(apiBase),
     downloadBasisData(apiBase),
   ];
 }
@@ -28,6 +29,28 @@ export function wholesaleMocks(apiBase: string) {
 function postWholesaleBatch(apiBase: string) {
   return rest.post(`${apiBase}/v1/WholesaleBatch`, (req, res, ctx) => {
     return res(ctx.status(200));
+  });
+}
+
+const periodStart = '2021-12-01T23:00:00Z';
+const periodEnd = '2021-12-02T23:00:00Z';
+const executionTimeStart = '2021-12-01T23:00:00Z';
+const executionTimeEnd = '2021-12-02T23:00:00Z';
+
+function getWholesaleSearchBatch(apiBase: string) {
+  return rest.get(`${apiBase}/v1/WholesaleBatch/Batch`, (req, res, ctx) => {
+    const batchId = req.url.searchParams.get('batchId') || '';
+    const batch: BatchDtoV2 = {
+      batchNumber: batchId,
+      periodStart,
+      periodEnd,
+      executionTimeStart,
+      executionTimeEnd: null,
+      executionState: BatchState.Pending,
+      isBasisDataDownloadAvailable: false,
+      gridAreaCodes: ['805', '806'],
+    };
+    return res(ctx.status(200), ctx.json(batch));
   });
 }
 
@@ -53,12 +76,7 @@ function downloadBasisData(apiBase: string) {
   );
 }
 
-function getWholesaleSearchBatch(apiBase: string) {
-  const periodStart = '2021-12-01T23:00:00Z';
-  const periodEnd = '2021-12-02T23:00:00Z';
-  const executionTimeStart = '2021-12-01T23:00:00Z';
-  const executionTimeEnd = '2021-12-02T23:00:00Z';
-
+function getWholesaleSearchBatches(apiBase: string) {
   return rest.post(`${apiBase}/v1/WholesaleBatch/search`, (req, res, ctx) => {
     const mockData: BatchDtoV2[] = [
       {

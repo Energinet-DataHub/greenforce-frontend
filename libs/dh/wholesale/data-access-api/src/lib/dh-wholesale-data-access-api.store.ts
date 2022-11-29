@@ -25,6 +25,7 @@ import {
   Subject,
   catchError,
   EMPTY,
+  map,
 } from 'rxjs';
 
 import {
@@ -33,11 +34,15 @@ import {
   ProcessType,
   BatchSearchDto,
   BatchDtoV2,
+  BatchState,
 } from '@energinet-datahub/dh/shared/domain';
+import { batch } from '@energinet-datahub/dh/wholesale/domain';
+import { WattBadgeType } from '@energinet-datahub/watt/badge';
 
 interface State {
-  batches?: BatchDtoV2[];
+  batches?: batch[];
   loadingBatches: boolean;
+  selectedBatch?: batch;
 }
 
 const initialState: State = {
@@ -47,6 +52,7 @@ const initialState: State = {
 @Injectable()
 export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   batches$ = this.select((x) => x.batches);
+  selectedBatch$ = this.select((x) => x.selectedBatch);
   loadingBatches$ = this.select((x) => x.loadingBatches);
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
   loadingBasisDataErrorTrigger$: Subject<void> = new Subject();
@@ -82,9 +88,9 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   );
 
   readonly setBatches = this.updater(
-    (state, value: BatchDtoV2[]): State => ({
+    (state, batches: batch[]): State => ({
       ...state,
-      batches: value,
+      batches: batches,
       loadingBatches: false,
     })
   );
@@ -111,6 +117,11 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
         return this.httpClient
           .v1WholesaleBatchSearchPost(searchBatchesRequest)
           .pipe(
+            map((batches) => {
+              return batches.map((batch) => {
+                return {...batch, statusType: this.getStatusType(batch.executionState)}
+              });
+            }),
             tap((batches) => this.setBatches(batches)),
             catchError(() => {
               this.setLoadingBatches(false);
@@ -121,6 +132,28 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       })
     );
   });
+
+  readonly getBatch = this.effect(
+    (batchNumber$: Observable<string>) => {
+      return batchNumber$.pipe(
+        switchMap((batchNumber) => {
+          return this.httpClient
+            .v1WholesaleBatchBatchGet(batchNumber)
+            .pipe(
+              map((batch) => {
+                return {...batch, statusType: this.getStatusType(batch.executionState)}
+              }),
+              tap((batch) => {
+                this.setSelectedBatch(batch);
+              }),
+              catchError(() => {
+                return EMPTY;
+              })
+            );
+        })
+      );
+    }
+  );
 
   readonly getZippedBasisData = this.effect(
     (batch$: Observable<BatchDtoV2>) => {
@@ -148,4 +181,23 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       );
     }
   );
+
+  readonly setSelectedBatch = this.updater(
+    (state, batch: batch | undefined): State => ({
+      ...state,
+      selectedBatch: batch,
+    })
+  );
+
+  private getStatusType(status: BatchState): WattBadgeType {
+    if (status === BatchState.Pending) {
+      return 'warning';
+    } else if (status === BatchState.Completed) {
+      return 'success';
+    } else if (status === BatchState.Failed) {
+      return 'danger';
+    } else {
+      return 'info';
+    }
+  }
 }

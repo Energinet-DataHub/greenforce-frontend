@@ -67,9 +67,9 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
   columnIds = ['gridAreaCode', 'name'];
 
   ngAfterViewInit() {
-    if (this._data === null) return;
+    if (!this._data) return;
     this._data.sort = this.sort;
-    this._data.paginator = this.paginator.instance;
+    this._data.paginator = this.paginator?.instance;
   }
 
   onSelect(gridArea: GridAreaDto) {

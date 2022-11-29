@@ -64,13 +64,8 @@ export class DhWholesaleTableComponent implements AfterViewInit {
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
-  @Input() set data(batches: BatchDtoV2[]) {
-    this._data = new MatTableDataSource(
-      batches.map((batch) => ({
-        ...batch,
-        statusType: this.getStatusType(batch.executionState),
-      }))
-    );
+  @Input() set data(batches: batch[]) {
+    this._data = new MatTableDataSource(batches);
   }
   @Output() selectedRow: EventEmitter<batch> = new EventEmitter();
   @Output() download: EventEmitter<batch> = new EventEmitter();
@@ -94,17 +89,5 @@ export class DhWholesaleTableComponent implements AfterViewInit {
   onDownload(event: Event, batch: batch) {
     event.stopPropagation();
     this.download.emit(batch);
-  }
-
-  private getStatusType(status: BatchState): WattBadgeType {
-    if (status === BatchState.Pending) {
-      return 'warning';
-    } else if (status === BatchState.Completed) {
-      return 'success';
-    } else if (status === BatchState.Failed) {
-      return 'danger';
-    } else {
-      return 'info';
-    }
   }
 }

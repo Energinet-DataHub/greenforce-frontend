@@ -44,7 +44,7 @@ export const WHOLESALE_ROUTES: Route[] = [
       ),
     data: {
       titleTranslationKey: 'wholesale.searchBatch.topBarTitle',
-    },
+    }
   },
   {
     path: `${WHOLESALE_CALCULATION_STEPS_PATH}/:batchId}/:gridAreaCode`,
@@ -78,9 +78,9 @@ export function navigateToWholesaleCalculationSteps(
 
 export function navigateToWholesaleSearchBatch(
   router: Router,
-  batch?: BatchDtoV2
+  batchNumber?: string
 ) {
   return router.navigate([WHOLESALE_BASE_PATH, WHOLESALE_SEARCH_BATCH_PATH], {
-    state: { batch },
+    queryParams: batchNumber ? { batch: batchNumber } : null,
   });
 }

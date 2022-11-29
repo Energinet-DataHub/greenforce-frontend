@@ -50,6 +50,6 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
   }
 
   navigateToSearchBatch(batch?: batch): void {
-    navigateToWholesaleSearchBatch(this.router, batch);
+    navigateToWholesaleSearchBatch(this.router, batch?.batchNumber);
   }
 }
