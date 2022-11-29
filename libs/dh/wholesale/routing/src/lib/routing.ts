@@ -17,7 +17,7 @@
 import { Route, Router } from '@angular/router';
 import {
   BatchDtoV2,
-  BatchGridAreaDto,
+  GridAreaDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 export const WHOLESALE_BASE_PATH = 'wholesale';
@@ -61,14 +61,14 @@ export const WHOLESALE_ROUTES: Route[] = [
 export function navigateToWholesaleCalculationSteps(
   router: Router,
   batch: BatchDtoV2,
-  gridArea: BatchGridAreaDto
+  gridArea: GridAreaDto
 ) {
   router.navigate(
     [
       WHOLESALE_BASE_PATH,
       WHOLESALE_CALCULATION_STEPS_PATH,
       batch.batchNumber,
-      gridArea.gridAreaCode,
+      gridArea.code,
     ],
     {
       state: { batch: batch, gridArea: gridArea },

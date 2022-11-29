@@ -7,8 +7,10 @@ import { ChargesHttp } from './api/charges-http.service';
 import { MarketParticipantHttp } from './api/market-participant-http.service';
 import { MarketParticipantGridAreaHttp } from './api/market-participant-grid-area-http.service';
 import { MarketParticipantGridAreaOverviewHttp } from './api/market-participant-grid-area-overview-http.service';
+import { MarketParticipantUserHttp } from './api/market-participant-user-http.service';
 import { MessageArchiveHttp } from './api/message-archive-http.service';
 import { MeteringPointHttp } from './api/metering-point-http.service';
+import { TokenHttp } from './api/token-http.service';
 import { WholesaleBatchHttp } from './api/wholesale-batch-http.service';
 
 @NgModule({

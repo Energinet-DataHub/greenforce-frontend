@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, ChangeDetectorRef, ViewChild, AfterViewInit } from '@angular/core';
 import { first, of } from 'rxjs';
 import { LetModule, PushModule } from '@rx-angular/template';
+import { Router } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
@@ -36,7 +37,7 @@ import { batch } from "@energinet-datahub/dh/wholesale/domain";
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-batch-details.component';
-import { Router } from '@angular/router';
+import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -52,6 +53,7 @@ import { Router } from '@angular/router';
     TranslocoModule,
     WattEmptyStateModule,
     WattSpinnerModule,
+    WattTopBarComponent,
   ],
   templateUrl: './dh-wholesale-search.component.html',
   styleUrls: ['./dh-wholesale-search.component.scss'],

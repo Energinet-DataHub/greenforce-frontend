@@ -12,7 +12,7 @@ import { WattEmptyStateModule } from "@energinet-datahub/watt/empty-state";
 import { WattSpinnerModule } from "@energinet-datahub/watt/spinner";
 
 import { batch } from "@energinet-datahub/dh/wholesale/domain";
-import { BatchGridAreaDto } from "@energinet-datahub/dh/shared/domain";
+import { GridAreaDto } from "@energinet-datahub/dh/shared/domain";
 import { navigateToWholesaleSearchBatch } from "@energinet-datahub/dh/wholesale/routing";
 
 @Component({
@@ -35,7 +35,7 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
   router = inject(Router);
   route = inject(ActivatedRoute);
   batch?: batch = this.router.getCurrentNavigation()?.extras.state?.['batch'];
-  gridArea?: BatchGridAreaDto = this.router.getCurrentNavigation()?.extras.state?.['gridArea'];
+  gridArea?: GridAreaDto = this.router.getCurrentNavigation()?.extras.state?.['gridArea'];
 
   steps?: unknown[] = undefined;
 

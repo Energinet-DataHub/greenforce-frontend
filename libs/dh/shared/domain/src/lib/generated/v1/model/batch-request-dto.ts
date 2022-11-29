@@ -9,11 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { WholesaleProcessType } from './wholesale-process-type';
+import { ProcessType } from './process-type';
 
 
 export interface BatchRequestDto { 
-    processType: WholesaleProcessType;
+    processType: ProcessType;
     gridAreaCodes: Array<string>;
     startDate: string;
     endDate: string;

@@ -16,6 +16,7 @@ import { ActorGridAreaDto } from './actor-grid-area-dto';
 export interface ActorMarketRoleDto { 
     eicFunction: EicFunction;
     gridAreas: Array<ActorGridAreaDto>;
+    comment?: string | null;
 }
 
 

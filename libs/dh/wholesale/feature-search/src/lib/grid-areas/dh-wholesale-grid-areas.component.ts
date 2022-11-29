@@ -28,10 +28,11 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { BatchGridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+
+import { GridAreaDto } from "@energinet-datahub/dh/shared/domain";
 
 @Component({
   standalone: true,
@@ -54,13 +55,13 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
-  @Input() set data(gridAreas: BatchGridAreaDto[]) {
-    this._data = new MatTableDataSource(gridAreas);
+  @Input() set data(gridAreaCodes: string[]) {
+    this._data = new MatTableDataSource(gridAreaCodes.map((code) => ({ code } as GridAreaDto)));
     this._data.paginator = this.paginator?.instance;
   }
-  @Output() selected = new EventEmitter<BatchGridAreaDto>();
+  @Output() selected = new EventEmitter<GridAreaDto>();
 
-  _data: MatTableDataSource<BatchGridAreaDto> = new MatTableDataSource(
+  _data: MatTableDataSource<GridAreaDto> = new MatTableDataSource(
     undefined
   );
   columnIds = ['gridAreaCode', 'name'];
@@ -71,7 +72,7 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
     this._data.paginator = this.paginator.instance;
   }
 
-  onSelect(gridArea: BatchGridAreaDto) {
+  onSelect(gridArea: GridAreaDto) {
     this.selected.emit(gridArea);
   }
 }

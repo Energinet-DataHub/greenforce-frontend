@@ -36,7 +36,7 @@ import {
 
 import { batch } from "@energinet-datahub/dh/wholesale/domain";
 import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
-import { BatchGridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/wholesale/routing';
 
 @Component({
@@ -66,7 +66,7 @@ export class DhWholesaleBatchDetailsComponent {
     this.drawer.open();
   }
 
-  onGridAreaSelected(gridArea: BatchGridAreaDto): void {
+  onGridAreaSelected(gridArea: GridAreaDto): void {
     navigateToWholesaleCalculationSteps(this.router, this.batch, gridArea);
   }
 }

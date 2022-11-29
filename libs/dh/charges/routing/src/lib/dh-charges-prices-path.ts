@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export const dhChargesPricesPath = 'prices';
+export const dhChargesCreatePricesPath = 'create-prices';
