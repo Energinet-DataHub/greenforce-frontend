@@ -21,6 +21,8 @@ $arrow-size: 8px;
 $offset: 6px;
 
 :host {
+  position: absolute;
+  pointer-events: none;
   z-index: 1000;
   display: inline-block;
   background: var(--watt-color-primary-dark);

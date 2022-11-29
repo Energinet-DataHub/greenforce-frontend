@@ -22,24 +22,26 @@ import {
   AuthenticationResult,
   IPublicClientApplication,
 } from '@azure/msal-browser';
-import { ScopeService } from './scope.service';
 import { firstValueFrom, of } from 'rxjs';
 import { DeepPartial } from 'chart.js/types/utils';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhB2CEnvironment } from '@energinet-datahub/dh/shared/environments';
+import { ActorTokenService } from './actor-token.service';
 
 describe(PermissionService.name, () => {
-  // base64 encoded access token: { roles: ['organization:view'] }
+  // base64 encoded access token: { role: ['organization:view'] }
   const fakeAccessToken =
-    'ignored.eyJyb2xlcyI6WyJvcmdhbml6YXRpb246dmlldyJdfQ==';
+    'ignored.eyAicm9sZSI6IFsgIm9yZ2FuaXphdGlvbjp2aWV3IiBdIH0K';
 
-  test('should return false if no active account is found', async () => {
+  test('should return false if no account is found', async () => {
     // arrange
     const instance: Partial<IPublicClientApplication> = {
-      getActiveAccount: () => null,
+      getAllAccounts: () => [],
     };
 
     const target = new PermissionService(
-      {} as ScopeService,
+      {} as DhB2CEnvironment,
+      {} as ActorTokenService,
       {
         instance: instance,
       } as MsalService,
@@ -60,11 +62,12 @@ describe(PermissionService.name, () => {
   test('should return true if grant_full_authorization is enabled', async () => {
     // arrange
     const instance: Partial<IPublicClientApplication> = {
-      getActiveAccount: () => null,
+      getAllAccounts: () => [],
     };
 
     const target = new PermissionService(
-      {} as ScopeService,
+      {} as DhB2CEnvironment,
+      {} as ActorTokenService,
       {
         instance: instance,
       } as MsalService,
@@ -85,7 +88,7 @@ describe(PermissionService.name, () => {
   test('should return true if permission is found within access token roles', async () => {
     // arrange
     const instance: Partial<IPublicClientApplication> = {
-      getActiveAccount: () => ({} as AccountInfo),
+      getAllAccounts: () => [{} as AccountInfo],
     };
 
     const authService: DeepPartial<MsalService> = {
@@ -99,7 +102,10 @@ describe(PermissionService.name, () => {
     } as DhFeatureFlagsService;
 
     const target = new PermissionService(
-      { getActiveScope: () => 'fake_value' } as ScopeService,
+      {} as DhB2CEnvironment,
+      {
+        acquireToken: (e) => of(e),
+      } as ActorTokenService,
       authService as MsalService,
       featureFlagService as DhFeatureFlagsService
     );
@@ -116,7 +122,7 @@ describe(PermissionService.name, () => {
   test('should return false if permission is not found within access token roles', async () => {
     // arrange
     const instance: Partial<IPublicClientApplication> = {
-      getActiveAccount: () => ({} as AccountInfo),
+      getAllAccounts: () => [{} as AccountInfo],
     };
 
     const authService: DeepPartial<MsalService> = {
@@ -130,7 +136,10 @@ describe(PermissionService.name, () => {
     } as DhFeatureFlagsService;
 
     const target = new PermissionService(
-      { getActiveScope: () => 'fake_value' } as ScopeService,
+      {} as DhB2CEnvironment,
+      {
+        acquireToken: (e) => of(e),
+      } as ActorTokenService,
       authService as MsalService,
       featureFlagService as DhFeatureFlagsService
     );

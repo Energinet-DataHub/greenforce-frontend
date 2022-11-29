@@ -30,7 +30,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, NgModule, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  NgModule,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   DhChargesChargePricesTabComponent,
   DhChargesChargePricesTabScam,
@@ -47,11 +53,14 @@ import {
   WattTabsModule,
 } from '@energinet-datahub/watt/tabs';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
+import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
 
 @Component({
   selector: 'dh-charge-content',
   templateUrl: './dh-charge-content.component.html',
   styleUrls: ['./dh-charge-content.component.scss'],
+  providers: [DrawerDatepickerService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhChargeContentComponent {
   @ViewChild(DhChargesChargeMessagesTabComponent)
@@ -64,9 +73,7 @@ export class DhChargeContentComponent {
   @Input() charge?: ChargeV1Dto;
 
   load() {
-    setTimeout(() => {
-      this.wattTabsComponents.triggerChange();
-    }, 0);
+    this.wattTabsComponents.triggerChange();
   }
 
   loadPrices() {

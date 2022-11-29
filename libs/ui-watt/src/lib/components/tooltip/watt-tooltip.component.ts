@@ -134,6 +134,8 @@ export class WattTooltipComponent implements AfterViewInit, OnDestroy {
       this.popper = createPopper(this.target, this.element, {
         placement: this.position,
       });
+    } else {
+      this.popper.forceUpdate();
     }
     this.renderer.addClass(this.element, this.showClass);
   }

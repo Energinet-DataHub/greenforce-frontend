@@ -42,6 +42,7 @@ import {
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 
 import { PushModule } from '@rx-angular/template';
 import { DhChargesPricesResultComponent } from './search-result/dh-charges-prices-result.component';
@@ -157,18 +158,23 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
   declarations: [DhChargesPricesComponent],
   imports: [
     CommonModule,
+    FormsModule,
+    PushModule,
+    TranslocoModule,
+    WattBadgeModule,
     WattButtonModule,
+    WattCheckboxModule,
+    WattDatepickerModule,
+    WattDropdownModule,
     WattFormFieldModule,
     WattInputModule,
-    WattCheckboxModule,
-    WattBadgeModule,
-    WattDropdownModule,
     WattSpinnerModule,
     TranslocoModule,
     FormsModule,
     DhChargesPricesResultComponent,
     WattDatepickerModule,
     PushModule,
+    WattTopBarComponent,
   ],
 })
 export class DhChargesPricesScam {}
