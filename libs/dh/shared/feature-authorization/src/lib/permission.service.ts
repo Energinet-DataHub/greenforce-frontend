@@ -50,12 +50,6 @@ export class PermissionService {
 
     const account = accounts[0];
 
-    // If MSAL returns no accounts or the claims are missing,
-    // the service default to no access.
-    if (!account) {
-      return of(false);
-    }
-
     const tokenRequest: SilentRequest = {
       scopes: [this.config.backendId ?? this.config.clientId],
       account: account,
