@@ -1,36 +1,38 @@
 <ng-container *transloco="let transloco; read: 'wholesale'">
   <ng-container *rxLet="batch$; let batch">
-  <header>
-    <watt-breadcrumbs>
-      <watt-breadcrumb (click)="navigateToSearchBatch()">{{
-        transloco("searchBatch.topBarTitle")
-      }}</watt-breadcrumb>
-      <watt-breadcrumb (click)="navigateToSearchBatch(batch)">{{
-        transloco("batchDetails.headline", { batchNumber: batch?.batchNumber })
-      }}</watt-breadcrumb>
-      <watt-breadcrumb>{{
-        transloco("calculationSteps.breadcrumb", {
-          gridAreaCode: gridAreaCode,
-          gridAreaName: transloco('calculationSteps.gridAreaName')
-        })
-      }}</watt-breadcrumb>
-    </watt-breadcrumbs>
+  <watt-top-bar>
+    <div class="header">
+      <watt-breadcrumbs>
+        <watt-breadcrumb (click)="navigateToSearchBatch()">{{
+          transloco("searchBatch.topBarTitle")
+        }}</watt-breadcrumb>
+        <watt-breadcrumb (click)="navigateToSearchBatch(batch)">{{
+          transloco("batchDetails.headline", { batchNumber: batch?.batchNumber })
+        }}</watt-breadcrumb>
+        <watt-breadcrumb>{{
+          transloco("calculationSteps.breadcrumb", {
+            gridAreaCode: gridAreaCode,
+            gridAreaName: transloco('calculationSteps.gridAreaName')
+          })
+        }}</watt-breadcrumb>
+      </watt-breadcrumbs>
 
-    <h2>
-      {{transloco('calculationSteps.gridAreaName')}}
-      <watt-badge type="info">
-        {{ transloco("searchBatch." + batch?.executionState) }}
-      </watt-badge>
-    </h2>
+      <h2>
+        {{transloco('calculationSteps.gridAreaName')}}
+        <watt-badge type="info">
+          {{ transloco("searchBatch." + batch?.executionState) }}
+        </watt-badge>
+      </h2>
 
-    <p>
-      <small>{{
-        transloco("calculationSteps.subHeading", {
-          gridAreaCode: gridAreaCode
-        })
-      }}</small>
-    </p>
-  </header>
+      <p>
+        <small>{{
+          transloco("calculationSteps.subHeading", {
+            gridAreaCode: gridAreaCode
+          })
+        }}</small>
+      </p>
+    </div>
+  </watt-top-bar>
 
   <main>
     <ul class="steps" *ngIf="steps; else loading">

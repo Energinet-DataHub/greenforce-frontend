@@ -12,9 +12,9 @@ import { WattBadgeModule } from "@energinet-datahub/watt/badge";
 import { WattCardModule } from "@energinet-datahub/watt/card";
 import { WattEmptyStateModule } from "@energinet-datahub/watt/empty-state";
 import { WattSpinnerModule } from "@energinet-datahub/watt/spinner";
+import { WattTopBarComponent } from "libs/ui-watt/src/lib/components/shell/top-bar";
 
 import { batch } from "@energinet-datahub/dh/wholesale/domain";
-import { GridAreaDto } from "@energinet-datahub/dh/shared/domain";
 import { navigateToWholesaleSearchBatch } from "@energinet-datahub/dh/wholesale/routing";
 import { DhWholesaleBatchDataAccessApiStore } from "@energinet-datahub/dh/wholesale/data-access-api";
 
@@ -23,16 +23,17 @@ import { DhWholesaleBatchDataAccessApiStore } from "@energinet-datahub/dh/wholes
   styleUrls: ["./dh-wholesale-calculation-steps.component.scss"],
   standalone: true,
   imports: [
+    ...WATT_BREADCRUMBS,
+    ...WATT_EXPANDABLE_CARD_COMPONENTS,
     CommonModule,
+    DhSharedUiDateTimeModule,
+    LetModule,
     TranslocoModule,
     WattBadgeModule,
     WattCardModule,
-    WattSpinnerModule,
     WattEmptyStateModule,
-    DhSharedUiDateTimeModule,
-    LetModule,
-    ...WATT_BREADCRUMBS,
-    ...WATT_EXPANDABLE_CARD_COMPONENTS
+    WattSpinnerModule,
+    WattTopBarComponent,
   ]
 })
 export class DhWholesaleCalculationStepsComponent implements OnInit {
