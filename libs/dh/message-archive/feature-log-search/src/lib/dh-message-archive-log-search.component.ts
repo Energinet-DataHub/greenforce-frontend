@@ -39,7 +39,6 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { Router } from '@angular/router';
 import { LetModule } from '@rx-angular/template';
 import { map, Observable } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -60,7 +59,6 @@ import {
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
-import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 import {
   DhMessageArchiveDataAccessApiStore,
   DhMessageArchiveDataAccessBlobApiStore,
