@@ -36,8 +36,8 @@ describe(DhDateTimePipe, () => {
     test.each([
       [undefined, ''],
       [null, ''],
-      ['2015-01-24T03:14:15Z', '24-01-2015 04:14:15'], // Standard / Winter time
-      ['2015-09-21T03:14:15Z', '21-09-2015 05:14:15'], // Summer time
+      ['2015-01-24T03:14:15Z', '24-01-2015 04:14'], // Standard / Winter time
+      ['2015-09-21T03:14:15Z', '21-09-2015 05:14'], // Summer time
     ])(
       '"%s" returns "%s" when formatted',
       async (value: undefined | null | string, result: string) => {
