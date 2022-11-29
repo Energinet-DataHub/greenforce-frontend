@@ -16,12 +16,19 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { EoCertificatesTableComponent } from './eo-certificates-table.component';
+import { EoCertificatesStore } from './eo-certificates.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, WattCheckboxModule, EoCertificatesTableComponent],
+  imports: [
+    MatCardModule,
+    WattCheckboxModule,
+    EoCertificatesTableComponent,
+    WattButtonModule,
+  ],
   selector: 'eo-certificates',
   standalone: true,
   styles: [],
@@ -36,9 +43,16 @@ import { EoCertificatesTableComponent } from './eo-certificates-table.component'
         any consequences.
       </p>
     </mat-card>
-    <mat-card>
+    <mat-card class="watt-space-stack-m">
       <eo-certificates-table></eo-certificates-table>
     </mat-card>
+    <watt-button (click)="loadMockData()">Load mock data</watt-button>
   `,
 })
-export class EoCertificatesComponent {}
+export class EoCertificatesComponent {
+  constructor(private store: EoCertificatesStore) {}
+
+  loadMockData() {
+    this.store.loadMockData();
+  }
+}
