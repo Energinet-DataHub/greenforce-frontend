@@ -30,7 +30,7 @@ import {
 import {
   WholesaleBatchHttp,
   BatchRequestDto,
-  WholesaleProcessType,
+  ProcessType,
   BatchSearchDto,
   BatchDtoV2,
 } from '@energinet-datahub/dh/shared/domain';
@@ -69,7 +69,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       return batch$.pipe(
         exhaustMap((batch) => {
           const batchRequest: BatchRequestDto = {
-            processType: WholesaleProcessType.BalanceFixing,
+            processType: ProcessType.BalanceFixing,
             gridAreaCodes: batch.gridAreas,
             startDate: batch.dateRange.start,
             endDate: batch.dateRange.end,

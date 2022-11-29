@@ -21,6 +21,7 @@ import {
   ChargeV1Dto,
   ChargesHttp,
   ChargeSearchCriteriaV1Dto,
+  CreateChargeV1Dto,
 } from '@energinet-datahub/dh/shared/domain';
 import { Observable, switchMap, tap } from 'rxjs';
 import {
@@ -31,11 +32,13 @@ import {
 interface ChargesState {
   readonly charges?: Array<ChargeV1Dto>;
   readonly requestState: LoadingState | ErrorState;
+  readonly createRequestState: LoadingState | ErrorState;
 }
 
 const initialState: ChargesState = {
   charges: undefined,
   requestState: LoadingState.INIT,
+  createRequestState: LoadingState.INIT,
 };
 
 @Injectable()
@@ -51,6 +54,16 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
   );
   hasGeneralError$ = this.select(
     (state) => state.requestState === ErrorState.GENERAL_ERROR
+  );
+
+  isCreateRequestLoading$ = this.select(
+    (state) => state.createRequestState === LoadingState.LOADING
+  );
+  createRequestHasSucceeded$ = this.select(
+    (state) => state.createRequestState === LoadingState.LOADED
+  );
+  createRequestHasError$ = this.select(
+    (state) => state.createRequestState === ErrorState.GENERAL_ERROR
   );
 
   constructor(private httpClient: ChargesHttp) {
@@ -84,6 +97,32 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
     }
   );
 
+  readonly createCharge = this.effect(
+    (createChargeV1Dto: Observable<CreateChargeV1Dto>) => {
+      return createChargeV1Dto.pipe(
+        tap(() => {
+          this.resetState();
+
+          this.setCreateRequestState(LoadingState.LOADING);
+        }),
+        switchMap((createChargeV1Dto) =>
+          this.httpClient
+            .v1ChargesCreateChargeAsyncPost(createChargeV1Dto)
+            .pipe(
+              tapResponse(
+                () => {
+                  this.setCreateRequestState(LoadingState.LOADED);
+                },
+                () => {
+                  this.handleCreateRequestError();
+                }
+              )
+            )
+        )
+      );
+    }
+  );
+
   private updateChargesData = this.updater(
     (
       state: ChargesState,
@@ -101,6 +140,13 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
     })
   );
 
+  private setCreateRequestState = this.updater(
+    (state, loadingState: LoadingState): ChargesState => ({
+      ...state,
+      createRequestState: loadingState,
+    })
+  );
+
   private handleError = (error: HttpErrorResponse) => {
     const chargesData = undefined;
     this.updateChargesData(chargesData);
@@ -111,6 +157,10 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
         : ErrorState.GENERAL_ERROR;
 
     this.patchState({ requestState: requestError });
+  };
+
+  private handleCreateRequestError = () => {
+    this.patchState({ createRequestState: ErrorState.GENERAL_ERROR });
   };
 
   readonly clearCharges = () => {

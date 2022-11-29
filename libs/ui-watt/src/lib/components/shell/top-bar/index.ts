@@ -14,10 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export enum Resolution {
-  Unknown = 0,
-  PT15M = 1,
-  PT1H = 2,
-  P1D = 3,
-  P1M = 4,
-}
+export { WattTopBarComponent } from './watt-top-bar.component';
+export { WattTopBarOutletComponent } from './watt-top-bar-outlet.component';
