@@ -74,7 +74,6 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
           this.updateSearchResult([]);
         }),
         switchMap((searchCriteria) => {
-          console.log({ searchCriteria });
           return this.httpClient
             .v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria)
             .pipe(
