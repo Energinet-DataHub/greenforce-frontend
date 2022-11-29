@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'charges.prices.search'">
-  <div class="header">
+  <watt-top-bar>
     <form #searchForm name="price-search-form" (ngSubmit)="onSubmit()">
       <div class="search-container">
         <!-- ID or name -->
@@ -111,7 +111,7 @@ limitations under the License.
         </watt-button>
       </div>
     </form>
-  </div>
+  </watt-top-bar>
 
   <dh-charges-prices-result
     [result]="all$ | push"
