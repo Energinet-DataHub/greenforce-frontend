@@ -75,7 +75,6 @@ import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
   ],
   templateUrl: './dh-wholesale-search.component.html',
   styleUrls: ['./dh-wholesale-search.component.scss'],
-  providers: [DhWholesaleBatchDataAccessApiStore],
 })
 export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
   @ViewChild('batchDetails') batchDetails!: DhWholesaleBatchDetailsComponent;
@@ -85,6 +84,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
   private translations = inject(TranslocoService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private changeDetectorRef = inject(ChangeDetectorRef);
 
   data$ = this.store.batches$;
   destroy$ = new Subject<void>();
@@ -100,6 +100,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
       this.store.getBatch(selectedBatch);
       this.batchDetails.open();
     }
+    this.changeDetectorRef.detectChanges();
   }
 
   ngOnDestroy(): void {
@@ -110,6 +111,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
   onSearch(search: BatchSearchDto) {
     this.searchSubmitted = true;
     this.store.getBatches(of(search));
+    this.changeDetectorRef.detectChanges();
   }
 
   onDownloadBasisData(batch: BatchDtoV2) {

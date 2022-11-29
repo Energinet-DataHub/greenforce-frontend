@@ -47,7 +47,7 @@ export const WHOLESALE_ROUTES: Route[] = [
     }
   },
   {
-    path: `${WHOLESALE_CALCULATION_STEPS_PATH}/:batchId}/:gridAreaCode`,
+    path: `${WHOLESALE_CALCULATION_STEPS_PATH}/:batchId/:gridAreaCode`,
     loadComponent: () =>
       import('@energinet-datahub/dh/wholesale/feature-calculation-steps').then(
         (m) => m.DhWholesaleCalculationStepsComponent

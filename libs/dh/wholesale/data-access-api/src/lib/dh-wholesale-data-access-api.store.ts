@@ -49,7 +49,9 @@ const initialState: State = {
   loadingBatches: false,
 };
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   batches$ = this.select((x) => x.batches);
   selectedBatch$ = this.select((x) => x.selectedBatch);
@@ -59,7 +61,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
 
   private document = inject(DOCUMENT);
   private httpClient = inject(WholesaleBatchHttp);
-  private changeDetectorRef = inject(ChangeDetectorRef);
 
   constructor() {
     super(initialState);
@@ -106,7 +107,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     return filter$.pipe(
       tap(() => {
         this.setLoadingBatches(true);
-        this.changeDetectorRef.detectChanges();
       }),
       switchMap((filter: BatchSearchDto) => {
         const searchBatchesRequest: BatchSearchDto = {
@@ -137,6 +137,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (batchNumber$: Observable<string>) => {
       return batchNumber$.pipe(
         switchMap((batchNumber) => {
+          console.log('batchNumber', batchNumber);
           return this.httpClient
             .v1WholesaleBatchBatchGet(batchNumber)
             .pipe(
