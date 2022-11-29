@@ -14,19 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { TestBed } from '@angular/core/testing';
-
-import { DrawerDatepickerService } from './drawer-datepicker.service';
-
-describe('DrawerDatepickerServiceService', () => {
-  let service: DrawerDatepickerService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(DrawerDatepickerService);
-  });
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+export { WattTopBarComponent } from './watt-top-bar.component';
+export { WattTopBarOutletComponent } from './watt-top-bar-outlet.component';
