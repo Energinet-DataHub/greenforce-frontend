@@ -26,6 +26,13 @@ export default {
     },
   },
   coverageDirectory: '../../../../coverage/libs/eo/auth/data-access-security',
+  /**
+   * https://stackoverflow.com/questions/42260218/jest-setup-syntaxerror-unexpected-token-export
+   * NG2-charts has an error with lodash-es, Jest tests fail if this is not added.
+   */
+  moduleNameMapper: {
+    'lodash-es': 'lodash',
+  },
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
