@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 export * from './lib/eo-date-picker/eo-date-picker.component';
+export * from './lib/eo-idle-timer/idle-timer-countdown.component';
+export * from './lib/eo-idle-timer/idle-timer-logged-out.component';
 export * from './lib/eo-inline-message/eo-inline-message.component';
 export * from './lib/eo-line-chart/eo-line-chart.component';
 // Media
