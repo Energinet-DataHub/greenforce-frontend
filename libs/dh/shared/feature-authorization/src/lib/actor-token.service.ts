@@ -22,8 +22,6 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { map, Observable, of, switchMap, tap } from 'rxjs';
 
-export const actorScopesClaimsKey = 'extn.actors';
-
 @Injectable({ providedIn: 'root' })
 export class ActorTokenService {
   private _internalToken = '';

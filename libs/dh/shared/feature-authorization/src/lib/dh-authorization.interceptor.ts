@@ -78,7 +78,7 @@ export class DhAuthorizationInterceptor implements HttpInterceptor {
   }
 }
 
-export const dhAuthorizationInterceptorProvider: ClassProvider = {
+export const dhAuthorizationInterceptor: ClassProvider = {
   multi: true,
   provide: HTTP_INTERCEPTORS,
   useClass: DhAuthorizationInterceptor,

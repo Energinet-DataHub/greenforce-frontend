@@ -69,7 +69,7 @@ export function MSALInterceptorConfigFactory(
   config: DhB2CEnvironment
 ): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
-  protectedResourceMap.set('*', [config.backendId ?? config.clientId]);
+  protectedResourceMap.set('*', [config.backendId || config.clientId]);
 
   return {
     interactionType: InteractionType.Redirect,
@@ -82,6 +82,6 @@ export function MSALGuardConfigFactory(
 ): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Redirect,
-    authRequest: { scopes: [config.backendId ?? config.clientId] },
+    authRequest: { scopes: [config.backendId || config.clientId] },
   };
 }
