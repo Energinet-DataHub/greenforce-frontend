@@ -16,6 +16,12 @@
  */
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import {
+  EoIdleTimerCountdownModalComponent,
+  EoIdleTimerLoggedOutModalComponent,
+} from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/shared/utilities';
 import {
   fromEvent,
   merge,
@@ -24,14 +30,13 @@ import {
   switchMap,
   timer,
 } from 'rxjs';
-import { EoIdleTimerCountdownModalComponent } from './idle-timer-countdown.component';
-import { EoIdleTimerLoggedOutModalComponent } from './idle-timer-logged-out.component';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IdleTimerService {
-  allowedInactiveTime = 5000; // milliseconds
+  allowedInactiveTime = 900000; // 15 minutes in milliseconds
   dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent> | undefined;
   subscription$: Subscription | undefined;
   monitoredEvents$ = merge(
@@ -40,7 +45,11 @@ export class IdleTimerService {
     fromEvent(document, 'keyup')
   );
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   attachMonitorsWithTimer() {
     return this.monitoredEvents$.pipe(
@@ -67,9 +76,15 @@ export class IdleTimerService {
       .afterClosed()
       .subscribe((result: string) => {
         if (result === 'logout') {
-          this.dialog.open(EoIdleTimerLoggedOutModalComponent);
+          this.authService.logout().subscribe((response) => {
+            if (response.success) {
+              this.router.navigateByUrl(eoLandingPageRelativeUrl);
+              this.dialog.open(EoIdleTimerLoggedOutModalComponent);
+            }
+          });
           return;
         }
+
         this.startIdleMonitor();
       });
   }

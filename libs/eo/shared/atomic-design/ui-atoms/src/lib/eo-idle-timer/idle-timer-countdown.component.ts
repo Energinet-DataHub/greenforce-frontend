@@ -93,7 +93,7 @@ import { map, take, tap, timer } from 'rxjs';
   `,
 })
 export class EoIdleTimerCountdownModalComponent {
-  logoutAfterSeconds = 300;
+  logoutAfterSeconds = 300; // 5 minutes
 
   countDownTimer$ = timer(0, 1000).pipe(
     take(this.logoutAfterSeconds), // Count from 0 to logoutAfterSeconds
