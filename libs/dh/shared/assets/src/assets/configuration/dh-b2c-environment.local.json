@@ -1,5 +1,6 @@
 {
   "clientId": "88e5d356-0c71-49e9-b260-d0629f3c0445",
+  "backendId": null,
   "authority": "https://dev002DataHubB2C.b2clogin.com/dev002DataHubB2C.onmicrosoft.com/B2C_1_sign_in_experiments",
   "knownAuthorities": ["dev002DataHubB2C.b2clogin.com"]
 }
