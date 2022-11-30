@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   DhChargeMessageArchiveDataAccessStore,
   DhMarketParticipantDataAccessApiStore,
@@ -39,6 +39,20 @@ import { MatDividerModule } from '@angular/material/divider';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    PushModule,
+    LetModule,
+    WattEmptyStateModule,
+    DhSharedUiDateTimeModule,
+    TranslocoModule,
+    WattButtonModule,
+    WattIconModule,
+    WattSpinnerModule,
+    WattBadgeModule,
+    MatDividerModule,
+  ],
   selector: 'dh-charge-price-message',
   templateUrl: './dh-charge-price-message.component.html',
   styleUrls: ['./dh-charge-price-message.component.scss'],
@@ -154,22 +168,3 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
     return '';
   }
 }
-
-@NgModule({
-  declarations: [DhChargePriceMessageComponent],
-  exports: [DhChargePriceMessageComponent],
-  imports: [
-    CommonModule,
-    PushModule,
-    LetModule,
-    WattEmptyStateModule,
-    DhSharedUiDateTimeModule,
-    TranslocoModule,
-    WattButtonModule,
-    WattIconModule,
-    WattSpinnerModule,
-    WattBadgeModule,
-    MatDividerModule,
-  ],
-})
-export class DhChargePriceMessageScam {}

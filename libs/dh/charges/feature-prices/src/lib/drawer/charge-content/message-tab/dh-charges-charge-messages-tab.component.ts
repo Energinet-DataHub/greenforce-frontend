@@ -18,17 +18,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  NgModule,
   OnInit,
   OnDestroy,
   OnChanges,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule, PushModule } from '@rx-angular/template';
-import { MatSort, MatSortModule } from '@angular/material/sort';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { Subject, takeUntil } from 'rxjs';
 import { DhChargeMessagesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
@@ -38,6 +36,11 @@ import {
   ChargeV1Dto,
   ChargeMessageSortColumnName,
 } from '@energinet-datahub/dh/shared/domain';
+import {
+  WattTableDataSource,
+  WattTableColumnDef,
+  WATT_TABLE,
+} from '@energinet-datahub/watt/table';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -45,14 +48,27 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
-import {
-  DhDrawerDatepickerComponent,
-  DhDrawerDatepickerScam,
-} from '../drawer-datepicker/dh-drawer-datepicker.component';
+import { DhDrawerDatepickerComponent } from '../drawer-datepicker/dh-drawer-datepicker.component';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { DhChargesPricesDrawerService } from '../../dh-charges-prices-drawer.service';
 
 @Component({
+  standalone: true,
+  imports: [
+    WATT_TABLE,
+    CommonModule,
+    TranslocoModule,
+    LetModule,
+    PushModule,
+    WattButtonModule,
+    WattEmptyStateModule,
+    WattTooltipDirective,
+    WattSpinnerModule,
+    DhSharedUiDateTimeModule,
+    DhSharedUiPaginatorComponent,
+    DhSharedUiDateTimeModule,
+    DhDrawerDatepickerComponent,
+  ],
   selector: 'dh-charges-charge-messages-tab',
   templateUrl: './dh-charges-charge-messages-tab.component.html',
   styleUrls: ['./dh-charges-charge-messages-tab.component.scss'],
@@ -64,16 +80,15 @@ export class DhChargesChargeMessagesTabComponent
 {
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
-  @ViewChild(MatSort) matSort!: MatSort;
+
   @ViewChild(DhDrawerDatepickerComponent)
   drawerDatepickerComponent!: DhDrawerDatepickerComponent;
 
   @Input() charge: ChargeV1Dto | undefined;
 
-  constructor(
-    private chargeMessagesStore: DhChargeMessagesDataAccessApiStore,
-    private dhChargesPricesDrawerService: DhChargesPricesDrawerService
-  ) {}
+  private transloco = inject(TranslocoService);
+  private chargeMessagesStore = inject(DhChargeMessagesDataAccessApiStore);
+  private dhChargesPricesDrawerService = inject(DhChargesPricesDrawerService);
 
   localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -98,12 +113,26 @@ export class DhChargesChargeMessagesTabComponent
   hasLoadingError = this.chargeMessagesStore.hasGeneralError$;
   chargeMessagesNotFound = this.chargeMessagesStore.chargeMessagesNotFound$;
   totalCount = this.chargeMessagesStore.totalCount$;
-  displayedColumns = ['messageId', 'messageDateTime', 'messageType'];
+
+  columns: WattTableColumnDef<ChargeMessageV1Dto> = {
+    messageId: {
+      header: () => this.transloco.translate('charges.prices.drawer.messageId'),
+    },
+    messageDateTime: {
+      header: () => this.transloco.translate('charges.prices.drawer.date'),
+      size: 'max-content',
+    },
+    messageType: {
+      header: () =>
+        this.transloco.translate('charges.prices.drawer.messageType'),
+      size: 'max-content',
+    },
+  };
 
   private destroy$ = new Subject<void>();
 
-  readonly dataSource: MatTableDataSource<ChargeMessageV1Dto> =
-    new MatTableDataSource<ChargeMessageV1Dto>();
+  readonly dataSource: WattTableDataSource<ChargeMessageV1Dto> =
+    new WattTableDataSource<ChargeMessageV1Dto>();
 
   ngOnInit() {
     this.chargeMessagesStore.all$
@@ -112,7 +141,6 @@ export class DhChargesChargeMessagesTabComponent
         this.dataSource.data =
           chargeMessages ?? new Array<ChargeMessageV1Dto>();
         this.result = chargeMessages;
-        this.dataSource.sort = this.matSort;
       });
 
     this.chargeMessagesStore.totalCount$
@@ -124,8 +152,6 @@ export class DhChargesChargeMessagesTabComponent
 
   ngOnChanges() {
     if (this.result) this.dataSource.data = this.result;
-
-    this.dataSource.sort = this.matSort;
   }
 
   ngOnDestroy(): void {
@@ -140,8 +166,7 @@ export class DhChargesChargeMessagesTabComponent
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  rowClicked(event: any, message: ChargeMessageV1Dto) {
-    event.stopPropagation();
+  rowClicked(message: ChargeMessageV1Dto) {
     this.openMessage(message);
   }
 
@@ -201,25 +226,3 @@ export class DhChargesChargeMessagesTabComponent
     );
   }
 }
-
-@NgModule({
-  declarations: [DhChargesChargeMessagesTabComponent],
-  exports: [DhChargesChargeMessagesTabComponent],
-  imports: [
-    CommonModule,
-    MatTableModule,
-    MatSortModule,
-    TranslocoModule,
-    LetModule,
-    PushModule,
-    WattButtonModule,
-    WattEmptyStateModule,
-    WattTooltipDirective,
-    WattSpinnerModule,
-    DhSharedUiDateTimeModule,
-    DhSharedUiPaginatorComponent,
-    DhSharedUiDateTimeModule,
-    DhDrawerDatepickerScam,
-  ],
-})
-export class DhChargesChargeMessagesTabScam {}
