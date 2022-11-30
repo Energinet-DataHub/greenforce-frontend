@@ -14,10 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-table {
-  width: 100%;
-}
-
 .no-result-div {
   margin-top: var(--watt-space-xl);
 }
@@ -31,4 +27,8 @@ table {
   display: flex;
   justify-content: center;
   margin-top: var(--watt-space-m);
+}
+
+watt-card {
+  height: calc(100vh - 2rem);
 }
