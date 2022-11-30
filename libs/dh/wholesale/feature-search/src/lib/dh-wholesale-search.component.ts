@@ -27,10 +27,7 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import {
-  BatchDto,
-  BatchSearchDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { BatchDto, BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
 import {
   BatchVm,
   DhWholesaleTableComponent,
