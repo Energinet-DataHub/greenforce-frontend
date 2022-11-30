@@ -20,8 +20,8 @@
   border-bottom: 1px solid var(--watt-color-neutral-grey-300);
   display: flex;
   gap: var(--watt-space-s);
-  padding: calc(1.5 * var(--watt-space-m));
-  padding-bottom: var(--watt-space-s);
+  margin: calc(1.5 * var(--watt-space-m));
+  margin-bottom: var(--watt-space-s);
   position: sticky;
   top: 0;
 
