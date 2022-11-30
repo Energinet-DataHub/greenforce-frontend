@@ -49,6 +49,10 @@ watt-dropdown {
     }
   }
 
+  .mat-checkbox-frame {
+    border-color: var(--watt-color-primary);
+  }
+
   .mat-pseudo-checkbox {
     color: var(--watt-color-primary);
   }
