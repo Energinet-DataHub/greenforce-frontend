@@ -141,9 +141,15 @@ export class WattTableComponent<T>
   /**
    * Column definition record with keys representing the column identifiers
    * and values being the column configuration. The order of the columns
-   * is determined by the property order.
+   * is determined by the property order, but can be overruled by the
+   * `displayedColumns` input.
    */
   @Input() columns: WattTableColumnDef<T> = {};
+
+  /**
+   * Used for hiding or reordering columns defined in the `columns` input.
+   */
+  @Input() displayedColumns?: string[];
 
   /**
    * Provide a description of the table for visually impaired users.
@@ -242,8 +248,10 @@ export class WattTableComponent<T>
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.columns || changes.selectable) {
+    if (changes.columns || changes.displayedColumns || changes.selectable) {
+      const { displayedColumns } = this;
       const sizing = Object.keys(this.columns)
+        .filter((key) => !displayedColumns || displayedColumns.includes(key))
         .map((key) => this.columns[key].size)
         .map((size) => size ?? 'auto');
 
@@ -279,7 +287,7 @@ export class WattTableComponent<T>
 
   /** @ignore */
   _getColumns() {
-    const columns = Object.keys(this.columns);
+    const columns = this.displayedColumns ?? Object.keys(this.columns);
     return this.selectable ? [this._checkboxColumn, ...columns] : columns;
   }
 

@@ -48,6 +48,7 @@ limitations under the License.
       mat-header-cell
       *matHeaderCellDef
       mat-sort-header
+      [arrowPosition]="column.value.align === 'right' ? 'before' : 'after'"
       [disabled]="column.value.sort === false"
       class="watt-table-align-{{ column.value.align ?? 'left' }}"
     >

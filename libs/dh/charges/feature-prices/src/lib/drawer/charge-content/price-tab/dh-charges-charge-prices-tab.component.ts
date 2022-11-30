@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -29,9 +30,7 @@ import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
-import { TranslocoModule } from '@ngneat/transloco';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { DhChargePricesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 import {
@@ -44,6 +43,11 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
+import {
+  WattTableDataSource,
+  WattTableColumnDef,
+  WATT_TABLE,
+} from '@energinet-datahub/watt/table';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -55,6 +59,7 @@ import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
 @Component({
   standalone: true,
   imports: [
+    WATT_TABLE,
     CommonModule,
     DhDrawerDatepickerComponent,
     WattIconModule,
@@ -63,8 +68,6 @@ import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
     WattTooltipDirective,
     WattSpinnerModule,
     TranslocoModule,
-    MatTableModule,
-    MatSortModule,
     DhSharedUiPaginatorComponent,
     DhSharedUiDateTimeModule,
     PushModule,
@@ -81,12 +84,14 @@ export class DhChargesChargePricesTabComponent
 {
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
-  @ViewChild(MatSort) matSort!: MatSort;
+
   @ViewChild(DhDrawerDatepickerComponent)
   drawerDatepickerComponent!: DhDrawerDatepickerComponent;
 
   @Input() charge: ChargeV1Dto | undefined;
-  constructor(private chargePricesStore: DhChargePricesDataAccessApiStore) {}
+
+  private transloco = inject(TranslocoService);
+  private chargePricesStore = inject(DhChargePricesDataAccessApiStore);
 
   localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -112,12 +117,34 @@ export class DhChargesChargePricesTabComponent
   hasLoadingError = this.chargePricesStore.hasGeneralError$;
   chargePricesNotFound = this.chargePricesStore.chargePricesNotFound$;
   showDateTime = false;
+
   displayedColumns = ['fromDateTime', 'time', 'price'];
+  columns: WattTableColumnDef<ChargePriceV1Dto> = {
+    fromDateTime: {
+      header: () =>
+        this.transloco.translate('charges.prices.priceTab.fromDateTime'),
+      size: 'max-content',
+    },
+    time: {
+      header: () => this.transloco.translate('charges.prices.priceTab.time'),
+      sort: false,
+    },
+    toDateTime: {
+      header: () =>
+        this.transloco.translate('charges.prices.priceTab.toDateTime'),
+      sort: false,
+    },
+    price: {
+      header: () => this.transloco.translate('charges.prices.price'),
+      align: 'right',
+      size: 'max-content',
+    },
+  };
 
   private destroy$ = new Subject<void>();
 
-  readonly dataSource: MatTableDataSource<ChargePriceV1Dto> =
-    new MatTableDataSource<ChargePriceV1Dto>();
+  readonly dataSource: WattTableDataSource<ChargePriceV1Dto> =
+    new WattTableDataSource<ChargePriceV1Dto>();
 
   ngOnInit() {
     this.chargePricesStore.all$
@@ -125,7 +152,6 @@ export class DhChargesChargePricesTabComponent
       .subscribe((chargePrices) => {
         this.dataSource.data = chargePrices ?? new Array<ChargePriceV1Dto>();
         this.result = chargePrices;
-        this.dataSource.sort = this.matSort;
       });
 
     this.chargePricesStore.totalAmount$

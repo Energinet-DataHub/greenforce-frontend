@@ -67,6 +67,13 @@ watt-table .mat-table {
 
   .mat-sort-header-arrow {
     margin: 0;
+  }
+
+  .mat-sort-header-position-before .mat-sort-header-arrow {
+    margin-left: var(--watt-space-s);
+  }
+
+  .mat-sort-header-position-after .mat-sort-header-arrow {
     margin-right: var(--watt-space-s);
   }
 
