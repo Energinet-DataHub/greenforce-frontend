@@ -14,7 +14,11 @@
 
 using System.Net.Http;
 using System.Threading.Tasks;
+using Energinet.DataHub.Charges.Clients.Charges;
+using Energinet.DataHub.MarketParticipant.Client;
+using Energinet.DataHub.MeteringPoints.Client.Abstractions;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
+using Energinet.DataHub.Wholesale.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
@@ -22,19 +26,21 @@ using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
-    public abstract class ControllerTestsBase<TDomainClient, TDomainClient2> :
+    public class ControllerTestsBase :
         WebApiTestBase<BffWebApiFixture>,
         IClassFixture<BffWebApiFixture>,
         IClassFixture<WebApiFactory>,
         IAsyncLifetime
-        where TDomainClient : class
-        where TDomainClient2 : class
     {
-        protected Mock<TDomainClient> DomainClientMock { get; }
-
-        protected Mock<TDomainClient2> DomainClientMock2 { get; }
-
         protected HttpClient BffClient { get; }
+
+        protected Mock<IWholesaleClient> WholesaleClientMock { get; }
+
+        protected Mock<IMeteringPointClient> MeteringPointClientMock { get; }
+
+        protected Mock<IMarketParticipantClient> MarketParticipantClientMock { get; }
+
+        protected Mock<IChargesClient> ChargeClientMock { get; }
 
         protected ControllerTestsBase(
             BffWebApiFixture bffWebApiFixture,
@@ -42,14 +48,19 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             ITestOutputHelper testOutputHelper)
              : base(bffWebApiFixture, testOutputHelper)
         {
-            DomainClientMock = new Mock<TDomainClient>();
-            DomainClientMock2 = new Mock<TDomainClient2>();
+            WholesaleClientMock = new Mock<IWholesaleClient>();
+            MarketParticipantClientMock = new Mock<IMarketParticipantClient>();
+            MeteringPointClientMock = new Mock<IMeteringPointClient>();
+            ChargeClientMock = new Mock<IChargesClient>();
+
             BffClient = factory.WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
                 {
-                    services.AddTransient(_ => DomainClientMock.Object);
-                    services.AddTransient(_ => DomainClientMock2.Object);
+                    services.AddTransient(_ => WholesaleClientMock.Object);
+                    services.AddTransient(_ => MeteringPointClientMock.Object);
+                    services.AddTransient(_ => MarketParticipantClientMock.Object);
+                    services.AddTransient(_ => ChargeClientMock.Object);
                 });
             })
             .CreateClient();

@@ -14,15 +14,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Energinet.DataHub.Core.TestCommon.AutoFixture.Attributes;
-using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Controllers.Wholesale.Dto;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
-using Energinet.DataHub.Wholesale.Client;
 using Energinet.DataHub.Wholesale.Contracts;
 using FluentAssertions;
 using Moq;
@@ -31,7 +29,7 @@ using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
-    public class WholesaleControllerTests : ControllerTestsBase<IWholesaleClient, IMarketParticipantClient>
+    public class WholesaleControllerTests : ControllerTestsBase
     {
         public WholesaleControllerTests(
             BffWebApiFixture bffWebApiFixture,
@@ -43,6 +41,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         private const string BatchCreateUrl = "/v1/wholesalebatch";
         private const string BatchSearchUrl = "/v1/wholesalebatch/search";
+        private const string GridAreaCode = "805";
 
         [Theory]
         [InlineAutoMoqData]
@@ -67,9 +66,9 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                     DateTimeOffset.Now,
                     BatchState.Completed,
                     true,
-                    new[] { "805" }),
+                    new[] { GridAreaCode }),
             };
-            DomainClientMock
+            WholesaleClientMock
                 .Setup(m => m.GetBatchesAsync(searchDto))
                 .ReturnsAsync(batches);
 
@@ -85,7 +84,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         public async Task PostAsync_WhenNoBatchesFound_ReturnsOk(BatchSearchDto searchDto)
         {
             MockMarketParticipantClient();
-            DomainClientMock
+            WholesaleClientMock
                 .Setup(m => m.GetBatchesAsync(searchDto))
                 .ReturnsAsync(new List<BatchDtoV2>());
 
@@ -94,14 +93,47 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        private void MockMarketParticipantClient()
+        [Theory]
+        [InlineAutoMoqData]
+        public async Task PostAsync_WhenBatchesFound_GridAreasHaveNames(BatchSearchDto searchDto)
         {
-            DomainClientMock2.Setup(d => d.GetGridAreasAsync()).ReturnsAsync(new List<GridAreaDto>
+            var batches = new List<BatchDtoV2>
             {
                 new(
                     Guid.NewGuid(),
-                    "805",
-                    "name",
+                    DateTimeOffset.Now,
+                    DateTimeOffset.Now,
+                    DateTimeOffset.Now,
+                    DateTimeOffset.Now,
+                    BatchState.Completed,
+                    true,
+                    new[] { GridAreaCode }),
+            };
+            WholesaleClientMock
+                .Setup(m => m.GetBatchesAsync(searchDto))
+                .ReturnsAsync(batches);
+
+            MockMarketParticipantClient();
+
+            var responseMessage = await BffClient.PostAsJsonAsync(BatchSearchUrl, searchDto);
+            var actual = await responseMessage.Content.ReadAsAsync<IEnumerable<BatchDto>>();
+            foreach (var batchDto in actual)
+            {
+                foreach (var gridAreaDto in batchDto.GridAreas)
+                {
+                    Assert.NotNull(gridAreaDto.Name);
+                }
+            }
+        }
+
+        private void MockMarketParticipantClient()
+        {
+            MarketParticipantClientMock.Setup(d => d.GetGridAreasAsync()).ReturnsAsync(new List<GridAreaDto>
+            {
+                new(
+                    Guid.NewGuid(),
+                    GridAreaCode,
+                    "GridAreaCodeName",
                     PriceAreaCode.Dk1,
                     DateTimeOffset.Now,
                     DateTimeOffset.Now.AddDays(1)),

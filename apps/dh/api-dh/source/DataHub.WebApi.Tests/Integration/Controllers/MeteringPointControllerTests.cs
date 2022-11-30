@@ -15,8 +15,6 @@
 using System.Net;
 using System.Threading.Tasks;
 using Energinet.DataHub.Core.TestCommon.AutoFixture.Attributes;
-using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MeteringPoints.Client.Abstractions;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions.Models;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
@@ -26,7 +24,7 @@ using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
-    public class MeteringPointControllerTests : ControllerTestsBase<IMeteringPointClient, IMarketParticipantClient>
+    public class MeteringPointControllerTests : ControllerTestsBase
     {
         public MeteringPointControllerTests(BffWebApiFixture bffWebApiFixture, WebApiFactory factory, ITestOutputHelper testOutputHelper)
             : base(bffWebApiFixture, factory, testOutputHelper)
@@ -41,7 +39,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             const string gsrn = "574591757409421563";
             var requestUrl = $"/v1/MeteringPoint/GetByGsrn?gsrnNumber={gsrn}";
 
-            DomainClientMock
+            MeteringPointClientMock
                 .Setup(mock => mock.GetMeteringPointByGsrnAsync(gsrn))
                 .ReturnsAsync(meteringPointDto);
 
@@ -59,7 +57,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             const string gsrn = "non-existing-gsrn-number";
             var requestUrl = $"/v1/meteringpoint/getbygsrn?gsrnNumber={gsrn}";
 
-            DomainClientMock
+            MeteringPointClientMock
                 .Setup(mock => mock.GetMeteringPointByGsrnAsync(gsrn))
                 .Returns(Task.FromResult<MeteringPointCimDto?>(null));
 

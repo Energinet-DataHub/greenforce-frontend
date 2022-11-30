@@ -20,7 +20,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
-using Energinet.DataHub.WebApi.Controllers.Dto;
+using Energinet.DataHub.WebApi.Controllers.Wholesale.Dto;
 using Energinet.DataHub.Wholesale.Client;
 using Energinet.DataHub.Wholesale.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -54,35 +54,34 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a batch.
         /// </summary>
         [HttpPost("Search")]
-        public async Task<ActionResult<IEnumerable<BatchDtoV2>>> PostAsync(BatchSearchDto batchSearchDto)
+        public async Task<ActionResult<IEnumerable<BatchDto>>> PostAsync(BatchSearchDto batchSearchDto)
         {
-            var batches = await _client.GetBatchesAsync(batchSearchDto).ConfigureAwait(false);
-            var gridAreas = await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false);
-            var enrichedBatches = new List<BatchDto>();
-            foreach (var batchDtoV2 in batches)
-            {
-                var areaDtos = gridAreas as GridAreaDto[] ?? gridAreas!.ToArray();
-                var gridAreaDtos = new List<GridAreaDto>();
-                foreach (var gridAreaCode in batchDtoV2.GridAreaCodes)
-                {
-                    if (gridAreas != null)
-                    {
-                        gridAreaDtos.Add(areaDtos.Single(x => x.Code == gridAreaCode));
-                    }
-                }
+            var gridAreas = new List<GridAreaDto>();
+            var batchesWithGridAreasWithNames = new List<BatchDto>();
 
-                enrichedBatches.Add(new BatchDto(
-                    batchDtoV2.BatchNumber,
-                    batchDtoV2.PeriodStart,
-                    batchDtoV2.PeriodEnd,
-                    batchDtoV2.ExecutionTimeStart,
-                    batchDtoV2.ExecutionTimeEnd,
-                    batchDtoV2.ExecutionState,
-                    batchDtoV2.IsBasisDataDownloadAvailable,
-                    gridAreaDtos.ToArray()));
+            var batches = (await _client.GetBatchesAsync(batchSearchDto).ConfigureAwait(false)).ToList();
+
+            if (batches.Any())
+            {
+                gridAreas = (await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false)).ToList();
             }
 
-            return Ok(enrichedBatches);
+            foreach (var batch in batches)
+            {
+                var gridAreaDtos = gridAreas.Where(x => batch.GridAreaCodes.Contains(x.Code));
+
+                batchesWithGridAreasWithNames.Add(new BatchDto(
+                        batch.BatchNumber,
+                        batch.PeriodStart,
+                        batch.PeriodEnd,
+                        batch.ExecutionTimeStart,
+                        batch.ExecutionTimeEnd,
+                        batch.ExecutionState,
+                        batch.IsBasisDataDownloadAvailable,
+                        gridAreaDtos.ToArray()));
+            }
+
+            return Ok(batchesWithGridAreasWithNames);
         }
 
         /// <summary>
