@@ -55,6 +55,33 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         [Theory]
         [InlineAutoMoqData]
+        public async Task GetAsync_ReturnsBatch_WithGridAreaNames(Guid batchId)
+        {
+            MockMarketParticipantClient();
+            var batchDtoV2 = new BatchDtoV2(
+                Guid.NewGuid(),
+                DateTimeOffset.Now,
+                DateTimeOffset.Now,
+                DateTimeOffset.Now,
+                DateTimeOffset.Now,
+                BatchState.Completed,
+                true,
+                new[] { GridAreaCode });
+
+            WholesaleClientMock
+                .Setup(m => m.GetBatchAsync(batchId))
+                .ReturnsAsync(batchDtoV2);
+            var responseMessage = await BffClient.GetAsync($"/v1/WholesaleBatch/Batch?batchId={batchId}");
+
+            var actual = await responseMessage.Content.ReadAsAsync<BatchDto>();
+            foreach (var gridAreaDto in actual.GridAreas)
+            {
+                Assert.NotNull(gridAreaDto.Name);
+            }
+        }
+
+        [Theory]
+        [InlineAutoMoqData]
         public async Task PostAsync_WhenBatchesFound_ReturnsOk(BatchSearchDto searchDto)
         {
             var batches = new List<BatchDtoV2>

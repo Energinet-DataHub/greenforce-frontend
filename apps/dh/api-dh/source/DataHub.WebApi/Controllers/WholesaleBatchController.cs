@@ -54,7 +54,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a batch.
         /// </summary>
         [HttpPost("Search")]
-        public async Task<ActionResult<IEnumerable<BatchDto>>> PostAsync(BatchSearchDto batchSearchDto)
+        public async Task<ActionResult<IEnumerable<BatchDto>>> SearchAsync(BatchSearchDto batchSearchDto)
         {
             var gridAreas = new List<GridAreaDto>();
             var batchesWithGridAreasWithNames = new List<BatchDto>();
@@ -71,14 +71,14 @@ namespace Energinet.DataHub.WebApi.Controllers
                 var gridAreaDtos = gridAreas.Where(x => batch.GridAreaCodes.Contains(x.Code));
 
                 batchesWithGridAreasWithNames.Add(new BatchDto(
-                        batch.BatchNumber,
-                        batch.PeriodStart,
-                        batch.PeriodEnd,
-                        batch.ExecutionTimeStart,
-                        batch.ExecutionTimeEnd,
-                        batch.ExecutionState,
-                        batch.IsBasisDataDownloadAvailable,
-                        gridAreaDtos.ToArray()));
+                    batch.BatchNumber,
+                    batch.PeriodStart,
+                    batch.PeriodEnd,
+                    batch.ExecutionTimeStart,
+                    batch.ExecutionTimeEnd,
+                    batch.ExecutionState,
+                    batch.IsBasisDataDownloadAvailable,
+                    gridAreaDtos.ToArray()));
             }
 
             return Ok(batchesWithGridAreasWithNames);
@@ -99,10 +99,22 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a batch.
         /// </summary>
         [HttpGet("Batch")]
-        public async Task<ActionResult<BatchDtoV2?>> GetBatchAsync(Guid batchId)
+        public async Task<ActionResult<BatchDto>> GetBatchAsync(Guid batchId)
         {
-            var batchDto = await _client.GetBatchAsync(batchId);
-            return batchDto;
+            var batch = await _client.GetBatchAsync(batchId);
+            var gridAreas = (await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false)).ToList();
+
+            var gridAreaDtos = gridAreas.Where(x => batch!.GridAreaCodes.Contains(x.Code));
+
+            return new BatchDto(
+                batch!.BatchNumber,
+                batch.PeriodStart,
+                batch.PeriodEnd,
+                batch.ExecutionTimeStart,
+                batch.ExecutionTimeEnd,
+                batch.ExecutionState,
+                batch.IsBasisDataDownloadAvailable,
+                gridAreaDtos.ToArray());
         }
 
         /// <summary>
