@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Energinet.DataHub.Charges.Clients.Charges;
 using Energinet.DataHub.Charges.Contracts.Charge;
 using Energinet.DataHub.Core.TestCommon.AutoFixture.Attributes;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
@@ -27,7 +26,7 @@ using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
-    public class ChargesControllerTests : ControllerTestsBase<IChargesClient>
+    public class ChargesControllerTests : ControllerTestsBase
     {
         public ChargesControllerTests(
             BffWebApiFixture bffWebApiFixture,
@@ -46,7 +45,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             // Arrange
             var requestUrl = $"/v1/Charges/SearchAsync";
 
-            DomainClientMock
+            ChargeClientMock
                 .Setup(m => m.SearchChargesAsync(It.IsAny<ChargeSearchCriteriaV1Dto>()))
                 .ReturnsAsync(data);
 
