@@ -68,7 +68,13 @@
   }
 }
 
+.watt-sidenav-content {
+  display: grid;
+  grid-template-rows: max-content max-content minmax(20rem, auto);
+}
+
 .watt-toolbar {
+  grid-row: 1;
   background-color: var(--watt-color-neutral-white);
   border-bottom: 1px solid var(--watt-color-neutral-grey-300);
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
@@ -76,6 +82,7 @@
 }
 
 .watt-main-content {
+  grid-row: 3;
   @include watt.space-inset-m;
 
   @include watt.media(">Large") {
