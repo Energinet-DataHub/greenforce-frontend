@@ -84,10 +84,12 @@ const routes: Routes = [
               },
               {
                 path: dhMarketParticipantActorsCreatePath,
+                canActivate: [PermissionGuard(['actor:manage'])],
                 component: DhMarketParticipantEditActorComponent,
               },
               {
                 path: `:${dhMarketParticipantActorIdParam}`,
+                canActivate: [PermissionGuard(['actor:manage'])],
                 children: [
                   {
                     path: '',
