@@ -16,9 +16,9 @@
  */
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
-
 import { EoShellComponent } from './eo-shell.component';
 
 describe(EoShellComponent.name, () => {
@@ -28,6 +28,7 @@ describe(EoShellComponent.name, () => {
         EoShellComponent,
         // Because of primary navigation relying on AuthHttp
         HttpClientTestingModule,
+        MatDialogModule,
       ],
     });
 
