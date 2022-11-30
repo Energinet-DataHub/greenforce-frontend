@@ -19,16 +19,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  NgModule,
   OnChanges,
   OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
-import {
-  DhDrawerDatepickerComponent,
-  DhDrawerDatepickerScam,
-} from '../drawer-datepicker/dh-drawer-datepicker.component';
+import { DhDrawerDatepickerComponent } from '../drawer-datepicker/dh-drawer-datepicker.component';
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
@@ -57,6 +53,23 @@ import { zonedTimeToUtc } from 'date-fns-tz';
 import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    DhDrawerDatepickerComponent,
+    WattIconModule,
+    WattButtonModule,
+    WattEmptyStateModule,
+    WattTooltipDirective,
+    WattSpinnerModule,
+    TranslocoModule,
+    MatTableModule,
+    MatSortModule,
+    DhSharedUiPaginatorComponent,
+    DhSharedUiDateTimeModule,
+    PushModule,
+    DhFeatureFlagDirectiveModule,
+  ],
   selector: 'dh-charges-charge-prices-tab',
   templateUrl: './dh-charges-charge-prices-tab.component.html',
   styleUrls: ['./dh-charges-charge-prices-tab.component.scss'],
@@ -220,25 +233,3 @@ export class DhChargesChargePricesTabComponent
     this.chargePricesStore.searchChargePrices(this.searchCriteria);
   }
 }
-
-@NgModule({
-  declarations: [DhChargesChargePricesTabComponent],
-  exports: [DhChargesChargePricesTabComponent],
-  imports: [
-    CommonModule,
-    DhDrawerDatepickerScam,
-    WattIconModule,
-    WattButtonModule,
-    WattEmptyStateModule,
-    WattTooltipDirective,
-    WattSpinnerModule,
-    TranslocoModule,
-    MatTableModule,
-    MatSortModule,
-    DhSharedUiPaginatorComponent,
-    DhSharedUiDateTimeModule,
-    PushModule,
-    DhFeatureFlagDirectiveModule,
-  ],
-})
-export class DhChargesChargePricesTabScam {}

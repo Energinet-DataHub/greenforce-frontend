@@ -42,10 +42,7 @@ import {
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import {
-  DhChargesPricesDrawerComponent,
-  DhChargesPricesDrawerScam,
-} from '../drawer/dh-charges-prices-drawer.component';
+import { DhChargesPricesDrawerComponent } from '../drawer/dh-charges-prices-drawer.component';
 import formatInTimeZone from 'date-fns-tz/formatInTimeZone';
 
 @Component({
@@ -63,8 +60,8 @@ import formatInTimeZone from 'date-fns-tz/formatInTimeZone';
     WattSpinnerModule,
     DhSharedUiDateTimeModule,
     MatSortModule,
-    DhChargesPricesDrawerScam,
     DhSharedUiPaginatorComponent,
+    DhChargesPricesDrawerComponent,
   ],
   selector: 'dh-charges-prices-result',
   templateUrl: './dh-charges-prices-result.component.html',
@@ -124,7 +121,6 @@ export class DhChargesPricesResultComponent
 
   ngOnChanges() {
     if (this.result) this.dataSource.data = this.result;
-    // this.dataSource.paginator = this.paginator?.instance;
   }
 
   ngAfterViewInit() {

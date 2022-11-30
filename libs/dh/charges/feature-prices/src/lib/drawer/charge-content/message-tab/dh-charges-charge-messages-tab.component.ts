@@ -18,7 +18,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  NgModule,
   OnInit,
   OnDestroy,
   OnChanges,
@@ -45,14 +44,28 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
-import {
-  DhDrawerDatepickerComponent,
-  DhDrawerDatepickerScam,
-} from '../drawer-datepicker/dh-drawer-datepicker.component';
+import { DhDrawerDatepickerComponent } from '../drawer-datepicker/dh-drawer-datepicker.component';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { DhChargesPricesDrawerService } from '../../dh-charges-prices-drawer.service';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatSortModule,
+    TranslocoModule,
+    LetModule,
+    PushModule,
+    WattButtonModule,
+    WattEmptyStateModule,
+    WattTooltipDirective,
+    WattSpinnerModule,
+    DhSharedUiDateTimeModule,
+    DhSharedUiPaginatorComponent,
+    DhSharedUiDateTimeModule,
+    DhDrawerDatepickerComponent,
+  ],
   selector: 'dh-charges-charge-messages-tab',
   templateUrl: './dh-charges-charge-messages-tab.component.html',
   styleUrls: ['./dh-charges-charge-messages-tab.component.scss'],
@@ -201,25 +214,3 @@ export class DhChargesChargeMessagesTabComponent
     );
   }
 }
-
-@NgModule({
-  declarations: [DhChargesChargeMessagesTabComponent],
-  exports: [DhChargesChargeMessagesTabComponent],
-  imports: [
-    CommonModule,
-    MatTableModule,
-    MatSortModule,
-    TranslocoModule,
-    LetModule,
-    PushModule,
-    WattButtonModule,
-    WattEmptyStateModule,
-    WattTooltipDirective,
-    WattSpinnerModule,
-    DhSharedUiDateTimeModule,
-    DhSharedUiPaginatorComponent,
-    DhSharedUiDateTimeModule,
-    DhDrawerDatepickerScam,
-  ],
-})
-export class DhChargesChargeMessagesTabScam {}

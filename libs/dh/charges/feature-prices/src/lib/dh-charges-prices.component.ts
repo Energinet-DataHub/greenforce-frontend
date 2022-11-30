@@ -17,7 +17,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  NgModule,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -53,6 +52,27 @@ import {
 import { ChargeSearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    PushModule,
+    TranslocoModule,
+    WattBadgeModule,
+    WattButtonModule,
+    WattCheckboxModule,
+    WattDatepickerModule,
+    WattDropdownModule,
+    WattFormFieldModule,
+    WattInputModule,
+    WattSpinnerModule,
+    TranslocoModule,
+    FormsModule,
+    DhChargesPricesResultComponent,
+    WattDatepickerModule,
+    PushModule,
+    WattTopBarComponent,
+  ],
   selector: 'dh-charges-prices',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-charges-prices.component.html',
@@ -153,28 +173,3 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
     this.chargesStore.clearCharges();
   }
 }
-
-@NgModule({
-  declarations: [DhChargesPricesComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    PushModule,
-    TranslocoModule,
-    WattBadgeModule,
-    WattButtonModule,
-    WattCheckboxModule,
-    WattDatepickerModule,
-    WattDropdownModule,
-    WattFormFieldModule,
-    WattInputModule,
-    WattSpinnerModule,
-    TranslocoModule,
-    FormsModule,
-    DhChargesPricesResultComponent,
-    WattDatepickerModule,
-    PushModule,
-    WattTopBarComponent,
-  ],
-})
-export class DhChargesPricesScam {}
