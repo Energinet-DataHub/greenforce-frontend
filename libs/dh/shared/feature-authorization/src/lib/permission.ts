@@ -18,4 +18,5 @@
 export type Permission =
   | 'organization:view'
   | 'organization:manage'
-  | 'gridareas:manage';
+  | 'gridareas:manage'
+  | 'actor:manage';
