@@ -51,6 +51,7 @@ export interface MarketRoleChanges {
 export interface MarketRole {
   marketRole: EicFunction;
   gridAreas: MarketRoleGridArea[];
+  comment?: string | null;
 }
 
 export interface MarketRoleGridArea {
@@ -405,6 +406,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
         marketRoles: changes.marketRoles.map((mrc) => ({
           eicFunction: mrc.marketRole,
           gridAreas: mrc.gridAreas,
+          comment: mrc.comment,
         })),
       },
     });
