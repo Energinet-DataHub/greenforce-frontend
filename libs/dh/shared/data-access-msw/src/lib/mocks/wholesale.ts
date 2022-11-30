@@ -14,7 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { BatchDto, BatchState, PriceAreaCode } from '@energinet-datahub/dh/shared/domain';
+import {
+  BatchDto,
+  BatchState,
+  PriceAreaCode,
+} from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
 export function wholesaleMocks(apiBase: string) {
@@ -75,15 +79,15 @@ function getWholesaleSearchBatch(apiBase: string) {
             code: '805',
             name: 'hello',
             priceAreaCode: PriceAreaCode.Dk1,
-            validFrom: "11-11-2022"
+            validFrom: '11-11-2022',
           },
           {
             id: '2',
             code: '806',
             name: 'hello again',
             priceAreaCode: PriceAreaCode.Dk1,
-            validFrom: "11-11-2022"
-          }
+            validFrom: '11-11-2022',
+          },
         ],
       },
       {
