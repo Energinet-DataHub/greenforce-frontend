@@ -332,8 +332,10 @@
       "selectResolution": "Vælg opløsning",
       "selectChargeType": "Vælg type",
       "createPriceError": "Noget gik galt. Prisen blev ikke oprettet. Prøv igen.",
-      "createPriceSuccess": "Success! Prisen er indsendt.",
-      "loadingRequestText": "Indsender pris."
+      "createPriceSuccess": "Succes! Prisen er indsendt.",
+      "loadingRequestText": "Indsender pris.",
+      "validFromDateTime": "Gyldig fra",
+      "maxDateValidationErrorText": "Dato skal være inden for 3 år."
     },
     "prices": {
       "prices": "Priser",
