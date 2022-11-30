@@ -21,6 +21,7 @@ import { environment } from '../environment';
 
 export interface DhB2CEnvironment {
   readonly clientId: string;
+  readonly backendId: string | null;
   readonly authority: string;
   readonly knownAuthorities: string[];
 }

@@ -501,6 +501,7 @@
           "marketRole": "Market role",
           "gridArea": "Grid area",
           "meteringPointTypes": "Metering point types",
+          "comment": "Comment",
           "invalidConfiguration": "Market roles are not correctly configured"
         }
       }
