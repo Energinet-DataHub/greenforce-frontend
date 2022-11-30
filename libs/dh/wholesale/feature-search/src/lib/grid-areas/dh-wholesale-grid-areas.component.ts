@@ -52,7 +52,7 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
   paginator!: DhSharedUiPaginatorComponent;
 
   @Input() set data(gridAreas: GridAreaDto[]) {
-    this._data = new MatTableDataSource(gridAreas.map(x => x.code));
+    this._data = new MatTableDataSource(gridAreas.map((x) => x.code));
     this._data.paginator = this.paginator.instance;
   }
   _data: MatTableDataSource<string> = new MatTableDataSource(undefined);
