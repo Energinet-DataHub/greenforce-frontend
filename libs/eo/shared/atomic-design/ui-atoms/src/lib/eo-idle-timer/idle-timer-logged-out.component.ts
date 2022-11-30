@@ -30,9 +30,12 @@ import { WattModalModule } from '@energinet-datahub/watt/modal';
       :host {
         display: grid;
         align-items: center;
-        grid-template-columns: auto;
-        grid-template-rows: 44px 1fr;
+        grid-template-rows: auto 1fr;
         height: 100%;
+      }
+
+      .modal-header {
+        height: 44px;
       }
 
       .content {
@@ -51,7 +54,7 @@ import { WattModalModule } from '@energinet-datahub/watt/modal';
     `,
   ],
   template: `
-    <span class="watt-headline-3">Automatic logout</span>
+    <span class="watt-headline-3 modal-header">Automatic logout</span>
     <p class="content">
       For security reasons you have been automatically logged out.
     </p>

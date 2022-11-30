@@ -30,9 +30,8 @@ import { map, take, tap, timer } from 'rxjs';
     `
       :host {
         display: grid;
-        align-items: center;
         grid-template-columns: auto auto;
-        grid-template-rows: 44px 1fr;
+        grid-template-rows: auto 1fr;
         height: 100%;
       }
 
@@ -41,8 +40,13 @@ import { map, take, tap, timer } from 'rxjs';
         color: var(--watt-color-primary);
       }
 
+      .modal-header {
+        align-self: center;
+      }
+
       .content {
-        grid-column: 1 / span 2;
+        grid-column: span 2;
+        margin-top: var(--watt-space-s);
         border-top: 1px solid var(--watt-color-primary-light);
         color: var(--watt-color-primary-dark);
         padding-top: var(--watt-space-m);
@@ -53,14 +57,14 @@ import { map, take, tap, timer } from 'rxjs';
         padding-top: var(--watt-space-m);
         border-top: 1px solid var(--watt-color-primary-light);
         display: flex;
-        grid-column: 1 / span 2;
+        grid-column: span 2;
         gap: var(--watt-space-m);
         justify-content: end;
       }
     `,
   ],
   template: `
-    <span class="watt-headline-3">Automatic logout</span>
+    <span class="watt-headline-3 modal-header">Automatic logout</span>
     <watt-button
       variant="icon"
       icon="close"
