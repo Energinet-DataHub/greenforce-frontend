@@ -14,32 +14,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { Injectable } from '@angular/core';
-import { MarketRole } from '@energinet-datahub/dh/market-participant/data-access-api';
+import {
+  MarketRole,
+  MarketRoleGridArea,
+} from '@energinet-datahub/dh/market-participant/data-access-api';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain';
 import { EditableMarketRoleRow } from './dh-market-participant-actor-market-roles.component';
 
 @Injectable()
 export class MarketRoleGroupService {
   readonly groupRows = (rows: EditableMarketRoleRow[]) => {
-    const marketRolesMap = rows.reduce((map, row) => {
-      map.set(row.marketRole, [...(map.get(row.marketRole) || [])]);
-      if (row.gridArea)
-        map.set(row.marketRole, [
-          ...map.get(row.marketRole),
-          {
-            id: row.gridArea,
-            meteringPointTypes: row.meteringPointTypes,
-          },
-        ]);
-      return map;
-    }, new Map());
-
     const result: MarketRole[] = [];
 
-    marketRolesMap.forEach((v, k) =>
-      result.push({ marketRole: k, gridAreas: v })
-    );
+    for (const row of rows) {
+      const gridAreaId = row.gridArea;
+
+      const gridArea: MarketRoleGridArea = {
+        id: gridAreaId ?? '',
+        meteringPointTypes: row.meteringPointTypes ?? [],
+      };
+
+      const marketRoleExsits: MarketRole | undefined = result.find(
+        (x) => x.marketRole === row.marketRole
+      );
+
+      if (marketRoleExsits) {
+        marketRoleExsits.gridAreas.push(gridArea);
+        continue;
+      }
+
+      const marketRole: MarketRole = {
+        comment: row.comment,
+        marketRole: row.marketRole ?? EicFunction.Agent,
+        gridAreas: [gridArea],
+      };
+
+      result.push(marketRole);
+    }
 
     return result;
   };

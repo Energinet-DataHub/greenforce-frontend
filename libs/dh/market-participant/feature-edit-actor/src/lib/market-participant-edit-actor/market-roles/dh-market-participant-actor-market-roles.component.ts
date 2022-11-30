@@ -52,6 +52,7 @@ export interface EditableMarketRoleRow {
   marketRole?: EicFunction;
   gridArea?: string;
   meteringPointTypes?: MarketParticipantMeteringPointType[];
+  comment?: string | null;
 }
 
 @Component({
@@ -65,10 +66,17 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   @Input() actorStatus?: ActorStatus;
   @Input() gridAreas: GridAreaDto[] = [];
   @Input() actorMarketRoles?: ActorMarketRoleDto[] = [];
+  @Input() comment?: string;
 
   @Output() changed = new EventEmitter<MarketRoleChanges>();
 
-  columnIds = ['marketRole', 'gridArea', 'meteringPointTypes', 'delete'];
+  columnIds = [
+    'marketRole',
+    'gridArea',
+    'meteringPointTypes',
+    'comment',
+    'delete',
+  ];
 
   rows: EditableMarketRoleRow[] = [];
   deleted: { marketRole?: EicFunction }[] = [];
@@ -109,6 +117,7 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
             marketRole: marketRole.eicFunction,
             gridArea: gridArea.id,
             meteringPointTypes: gridArea.meteringPointTypes,
+            comment: marketRole.comment,
           })
         )
       );
@@ -124,6 +133,10 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   };
 
   readonly onDropdownChanged = () => {
+    this.raiseChanged();
+  };
+
+  readonly onCommentChanged = () => {
     this.raiseChanged();
   };
 
