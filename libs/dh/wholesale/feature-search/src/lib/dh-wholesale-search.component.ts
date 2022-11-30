@@ -28,7 +28,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import {
-  BatchDtoV2,
+  BatchDto,
   BatchSearchDto,
 } from '@energinet-datahub/dh/shared/domain';
 import {
@@ -79,7 +79,7 @@ export class DhWholesaleSearchComponent {
     this.store.getBatches(of(search));
   }
 
-  onDownloadBasisData(batch: BatchDtoV2) {
+  onDownloadBasisData(batch: BatchDto) {
     this.store.getZippedBasisData(of(batch));
     this.store.loadingBasisDataErrorTrigger$.pipe(first()).subscribe(() => {
       this.toastService.open({
