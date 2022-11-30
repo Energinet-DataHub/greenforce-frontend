@@ -62,6 +62,7 @@ import {
   dhChargesPath,
   dhChargesPricesPath,
 } from '@energinet-datahub/dh/charges/routing';
+import { add } from 'date-fns';
 
 @Component({
   selector: 'dh-charges-create-prices',
@@ -96,9 +97,12 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
       { value: '', disabled: true },
       Validators.required
     ),
-    effectiveDate: new FormControl('', Validators.required),
+    effectiveDate: new FormControl(
+      add(new Date(), { days: 31 }).toISOString(),
+      [Validators.required, this.validateValidFromDate]
+    ),
     vatClassification: new FormControl(true, Validators.required),
-    transparentInvoicing: new FormControl(true, Validators.required),
+    transparentInvoicing: new FormControl(false, Validators.required),
     taxIndicator: new FormControl(false, Validators.required),
     senderMarketParticipantId: new FormControl('', Validators.required),
   });
@@ -188,11 +192,11 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     switch (Number(chargeType)) {
       case ChargeTypes.Tariff: {
         this.charge.controls['resolution'].setValue('');
-        this.charge.controls['transparentInvoicing'].setValue(true);
+        this.charge.controls['transparentInvoicing'].setValue(false);
         break;
       }
       case ChargeTypes.Subscription: {
-        this.charge.controls['transparentInvoicing'].setValue(true);
+        this.charge.controls['transparentInvoicing'].setValue(false);
         this.disableResolutionWithValue();
         this.disableTaxIndicator();
         break;
@@ -347,6 +351,22 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
             );
         },
       });
+  }
+
+  validateValidFromDate(validFromDate: FormControl) {
+    const inputValue = new Date(validFromDate.value);
+
+    const maximumDate = new Date();
+    maximumDate.setFullYear(maximumDate.getFullYear() + 3);
+
+    if (inputValue > maximumDate)
+      return {
+        maxDate: {
+          valid: false,
+        },
+      };
+
+    return null;
   }
 }
 
