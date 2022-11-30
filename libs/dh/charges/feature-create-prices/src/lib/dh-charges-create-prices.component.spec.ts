@@ -147,7 +147,7 @@ describe(DhChargesCreatePricesComponent.name, () => {
     expect(screen.queryByText(/tax/i)).not.toBeInTheDocument();
   });
 
-  it('when selecting Tariff charge type, change input field', async () => {
+  it('when selecting Tariff charge type, resolution should not be selected', async () => {
     await setup();
 
     const chargeTypeDropdown = findDropdownElement(chargeTypeDropdownName);
