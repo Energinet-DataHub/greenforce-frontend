@@ -33,13 +33,11 @@ namespace Energinet.DataHub.WebApi.Controllers
     {
         private readonly IWholesaleClient _client;
         private readonly IMarketParticipantClient _marketParticipantClient;
-        private readonly IBatchDtoMapper _batchDtoMapper;
 
-        public WholesaleBatchController(IWholesaleClient client, IMarketParticipantClient marketParticipantClient, IBatchDtoMapper batchDtoMapper)
+        public WholesaleBatchController(IWholesaleClient client, IMarketParticipantClient marketParticipantClient)
         {
             _client = client;
             _marketParticipantClient = marketParticipantClient;
-            _batchDtoMapper = batchDtoMapper;
         }
 
         /// <summary>
@@ -59,20 +57,29 @@ namespace Energinet.DataHub.WebApi.Controllers
         public async Task<ActionResult<IEnumerable<BatchDtoV2>>> PostAsync(BatchSearchDto batchSearchDto)
         {
             var batches = await _client.GetBatchesAsync(batchSearchDto).ConfigureAwait(false);
-            var gridAreas = await HandleExceptionAsync(() => _marketParticipantClient.GetGridAreasAsync());
+            var gridAreas = await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false);
             var enrichedBatches = new List<BatchDto>();
             foreach (var batchDtoV2 in batches)
             {
+                var areaDtos = gridAreas as GridAreaDto[] ?? gridAreas!.ToArray();
                 var gridAreaDtos = new List<GridAreaDto>();
                 foreach (var gridAreaCode in batchDtoV2.GridAreaCodes)
                 {
-                    if (gridAreas.Value != null)
+                    if (gridAreas != null)
                     {
-                        gridAreaDtos.Add(gridAreas.Value.Single(x => x.Code == gridAreaCode));
+                        gridAreaDtos.Add(areaDtos.Single(x => x.Code == gridAreaCode));
                     }
                 }
 
-                enrichedBatches.Add(_batchDtoMapper.Map(batchDtoV2, gridAreaDtos));
+                enrichedBatches.Add(new BatchDto(
+                    batchDtoV2.BatchNumber,
+                    batchDtoV2.PeriodStart,
+                    batchDtoV2.PeriodEnd,
+                    batchDtoV2.ExecutionTimeStart,
+                    batchDtoV2.ExecutionTimeEnd,
+                    batchDtoV2.ExecutionState,
+                    batchDtoV2.IsBasisDataDownloadAvailable,
+                    gridAreaDtos.ToArray()));
             }
 
             return Ok(enrichedBatches);

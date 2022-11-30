@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using Energinet.DataHub.Charges.Clients.Charges;
 using Energinet.DataHub.Charges.Contracts.ChargeLink;
 using Energinet.DataHub.Core.TestCommon.AutoFixture.Attributes;
+using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
 using Moq;
@@ -26,7 +27,7 @@ using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
-    public class ChargeLinksControllerTests : ControllerTestsBase<IChargesClient>
+    public class ChargeLinksControllerTests : ControllerTestsBase<IChargesClient, IMarketParticipantClient>
     {
         public ChargeLinksControllerTests(BffWebApiFixture bffWebApiFixture, WebApiFactory factory, ITestOutputHelper testOutputHelper)
             : base(bffWebApiFixture, factory, testOutputHelper)

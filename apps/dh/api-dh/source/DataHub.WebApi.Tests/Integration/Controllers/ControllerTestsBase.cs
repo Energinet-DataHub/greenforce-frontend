@@ -22,14 +22,17 @@ using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
-    public abstract class ControllerTestsBase<TDomainClient> :
+    public abstract class ControllerTestsBase<TDomainClient, TDomainClient2> :
         WebApiTestBase<BffWebApiFixture>,
         IClassFixture<BffWebApiFixture>,
         IClassFixture<WebApiFactory>,
         IAsyncLifetime
         where TDomainClient : class
+        where TDomainClient2 : class
     {
         protected Mock<TDomainClient> DomainClientMock { get; }
+
+        protected Mock<TDomainClient2> DomainClientMock2 { get; }
 
         protected HttpClient BffClient { get; }
 
@@ -40,11 +43,13 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
              : base(bffWebApiFixture, testOutputHelper)
         {
             DomainClientMock = new Mock<TDomainClient>();
+            DomainClientMock2 = new Mock<TDomainClient2>();
             BffClient = factory.WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
                 {
                     services.AddTransient(_ => DomainClientMock.Object);
+                    services.AddTransient(_ => DomainClientMock2.Object);
                 });
             })
             .CreateClient();

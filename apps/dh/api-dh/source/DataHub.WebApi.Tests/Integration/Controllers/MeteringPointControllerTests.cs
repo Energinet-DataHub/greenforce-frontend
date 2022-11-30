@@ -15,6 +15,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Energinet.DataHub.Core.TestCommon.AutoFixture.Attributes;
+using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions.Models;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
@@ -25,7 +26,7 @@ using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
-    public class MeteringPointControllerTests : ControllerTestsBase<IMeteringPointClient>
+    public class MeteringPointControllerTests : ControllerTestsBase<IMeteringPointClient, IMarketParticipantClient>
     {
         public MeteringPointControllerTests(BffWebApiFixture bffWebApiFixture, WebApiFactory factory, ITestOutputHelper testOutputHelper)
             : base(bffWebApiFixture, factory, testOutputHelper)
