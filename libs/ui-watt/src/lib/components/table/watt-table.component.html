@@ -48,12 +48,15 @@ limitations under the License.
       *matHeaderCellDef
       mat-sort-header
       [disabled]="column.value.sort === false"
+      class="watt-table-align-{{ column.value.align ?? 'left' }}"
     >
-      <span class="watt-table-header-cell"
-        >{{ _getColumnHeader(column) }}
-      </span>
+      <div class="watt-table-header-cell">{{ _getColumnHeader(column) }}</div>
     </th>
-    <td mat-cell *matCellDef="let row">
+    <td
+      mat-cell
+      *matCellDef="let row"
+      class="watt-table-align-{{ column.value.align ?? 'left' }}"
+    >
       <ng-template #default>{{ _getColumnCell(column, row) }}</ng-template>
       <ng-container
         *ngIf="_getColumnTemplate(column.value) as template; else default"

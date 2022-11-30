@@ -70,6 +70,11 @@ export interface WattTableColumn<T> {
    * @see https://drafts.csswg.org/css-grid/#track-sizes
    */
   size?: string;
+
+  /**
+   * Horizontally align the contents of the column. Defaults to `"left"`.
+   */
+  align?: 'left' | 'right' | 'center';
 }
 
 /**

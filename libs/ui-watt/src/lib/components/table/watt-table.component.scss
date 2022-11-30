@@ -84,4 +84,14 @@ watt-table .mat-table {
     align-items: center;
     z-index: 2 !important; // override local style
   }
+
+  td.watt-table-align-center,
+  .watt-table-align-center .mat-sort-header-container {
+    justify-content: center;
+  }
+
+  td.watt-table-align-right,
+  .watt-table-align-right .mat-sort-header-container {
+    justify-content: right;
+  }
 }

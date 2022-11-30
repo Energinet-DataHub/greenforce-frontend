@@ -94,8 +94,8 @@ export class DhChargesPricesResultComponent
   columns: WattTableColumnDef<ChargeV1Dto> = {
     chargeId: { header: this.formatHeader, size: 'max-content' },
     chargeName: { header: this.formatHeader },
-    chargeOwnerName: { header: this.formatHeader, size: 'max-content' },
-    icons: { header: '-', size: 'max-content', sort: false },
+    chargeOwnerName: { header: this.formatHeader },
+    icons: { header: '-', size: 'max-content', sort: false, align: 'center' },
     chargeType: {
       header: this.formatHeader,
       cell: (row) =>
