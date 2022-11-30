@@ -405,16 +405,27 @@ export class WattDropdownComponent
    * @ignore
    */
   private determineToggleAllCheckboxState(): void {
-    const selectedOptions = this.matSelectControl.value;
+    this.filteredOptions$
+      .pipe(
+        take(1),
+        map((options) => options.map((option) => option.value))
+      )
+      .subscribe((filteredOptions: string[]) => {
+        const selectedOptions = this.matSelectControl.value;
 
-    if (Array.isArray(selectedOptions)) {
-      this.isToggleAllIndeterminate =
-        selectedOptions.length > 0 &&
-        selectedOptions.length < this.options.length;
+        if (Array.isArray(selectedOptions)) {
+          const selectedFilteredOptions = filteredOptions.filter(
+            (option) => selectedOptions.indexOf(option) > -1
+          );
 
-      this.isToggleAllChecked =
-        selectedOptions.length > 0 &&
-        selectedOptions.length === this.options.length;
-    }
+          this.isToggleAllIndeterminate =
+            selectedFilteredOptions.length > 0 &&
+            selectedFilteredOptions.length < filteredOptions.length;
+
+          this.isToggleAllChecked =
+            selectedFilteredOptions.length > 0 &&
+            selectedFilteredOptions.length === filteredOptions.length;
+        }
+      });
   }
 }
