@@ -115,7 +115,7 @@ describe(DhChargesCreatePricesComponent.name, () => {
     expect(screen.queryByText(/tax/i)).not.toBeInTheDocument();
   });
 
-  it('when selecting Fee charge type, change input field', async () => {
+  it('when selecting Fee charge type, resolution should be Month, transparent invoicing false, and VAT true', async () => {
     await setup();
 
     const chargeTypeDropdown = findDropdownElement(chargeTypeDropdownName);
