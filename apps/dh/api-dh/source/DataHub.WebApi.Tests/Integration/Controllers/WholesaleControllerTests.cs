@@ -74,14 +74,14 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         [Theory]
         [InlineAutoMoqData]
         public async Task PostAsync_WhenProcessStepResultIsFound_ReturnsOk(
-            ProcessStepResultRequestDto searchDto,
-            ProcessStepResultDto dto)
+            ProcessStepResultRequestDto processStepResultRequestDto,
+            ProcessStepResultDto processStepResultDto)
         {
             DomainClientMock
-                .Setup(m => m.GetProcessStepResultAsync(searchDto))
-                .ReturnsAsync(dto);
+                .Setup(m => m.GetProcessStepResultAsync(processStepResultRequestDto))
+                .ReturnsAsync(processStepResultDto);
 
-            var actual = await BffClient.PostAsJsonAsync(BatchSearchUrl, searchDto);
+            var actual = await BffClient.PostAsJsonAsync(BatchSearchUrl, processStepResultRequestDto);
 
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
