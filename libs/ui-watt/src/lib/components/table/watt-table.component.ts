@@ -36,7 +36,12 @@ import {
 } from '@angular/core';
 import type { QueryList } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatSort, MatSortModule, SortDirection } from '@angular/material/sort';
+import {
+  MatSort,
+  MatSortModule,
+  Sort,
+  SortDirection,
+} from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { map, type Subscription } from 'rxjs';
 import { WattResizeObserverDirective } from '../../utils/resize-observer';
@@ -193,6 +198,12 @@ export class WattTableComponent<T>
    */
   @Output()
   rowClick = new EventEmitter<T>();
+
+  /**
+   * Event emitted when the user changes the active sort or sort direction.
+   */
+  @Output()
+  sortChange = new EventEmitter<Sort>();
 
   /** @ignore */
   @ContentChildren(WattTableCellDirective)
