@@ -7,6 +7,7 @@ export * from './actor-number-dto';
 export * from './actor-status';
 export * from './address-dto';
 export * from './asset-type';
+export * from './batch-dto';
 export * from './batch-dto-v2';
 export * from './batch-request-dto';
 export * from './batch-search-dto';

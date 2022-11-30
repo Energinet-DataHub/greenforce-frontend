@@ -32,11 +32,11 @@ import {
   BatchRequestDto,
   ProcessType,
   BatchSearchDto,
-  BatchDtoV2,
+  BatchDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface State {
-  batches?: BatchDtoV2[];
+  batches?: BatchDto[];
   loadingBatches: boolean;
 }
 
@@ -82,7 +82,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   );
 
   readonly setBatches = this.updater(
-    (state, value: BatchDtoV2[]): State => ({
+    (state, value: BatchDto[]): State => ({
       ...state,
       batches: value,
       loadingBatches: false,
@@ -123,7 +123,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   });
 
   readonly getZippedBasisData = this.effect(
-    (batch$: Observable<BatchDtoV2>) => {
+    (batch$: Observable<BatchDto>) => {
       return batch$.pipe(
         switchMap((batch) => {
           return this.httpClient

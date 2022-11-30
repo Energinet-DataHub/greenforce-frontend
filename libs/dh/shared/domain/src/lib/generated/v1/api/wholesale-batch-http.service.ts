@@ -19,6 +19,8 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
+import { BatchDto } from '../model/batch-dto';
+// @ts-ignore
 import { BatchDtoV2 } from '../model/batch-dto-v2';
 // @ts-ignore
 import { BatchRequestDto } from '../model/batch-request-dto';
@@ -322,9 +324,9 @@ export class WholesaleBatchHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1WholesaleBatchSearchPost(batchSearchDto?: BatchSearchDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<BatchDtoV2>>;
-    public v1WholesaleBatchSearchPost(batchSearchDto?: BatchSearchDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<BatchDtoV2>>>;
-    public v1WholesaleBatchSearchPost(batchSearchDto?: BatchSearchDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<BatchDtoV2>>>;
+    public v1WholesaleBatchSearchPost(batchSearchDto?: BatchSearchDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<BatchDto>>;
+    public v1WholesaleBatchSearchPost(batchSearchDto?: BatchSearchDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<BatchDto>>>;
+    public v1WholesaleBatchSearchPost(batchSearchDto?: BatchSearchDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<BatchDto>>>;
     public v1WholesaleBatchSearchPost(batchSearchDto?: BatchSearchDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
@@ -379,7 +381,7 @@ export class WholesaleBatchHttp {
         }
 
         let localVarPath = `/v1/WholesaleBatch/Search`;
-        return this.httpClient.request<Array<BatchDtoV2>>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Array<BatchDto>>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: batchSearchDto,
