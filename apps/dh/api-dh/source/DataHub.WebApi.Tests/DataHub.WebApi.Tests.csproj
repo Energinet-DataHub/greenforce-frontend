@@ -67,10 +67,6 @@ limitations under the License.
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Unit\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="integrationtest.local.settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>

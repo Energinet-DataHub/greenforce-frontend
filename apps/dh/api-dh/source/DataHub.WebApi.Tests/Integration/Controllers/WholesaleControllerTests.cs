@@ -29,13 +29,17 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
     public class WholesaleControllerTests : ControllerTestsBase<IWholesaleClient>
     {
-        public WholesaleControllerTests(BffWebApiFixture bffWebApiFixture, WebApiFactory factory, ITestOutputHelper testOutputHelper)
+        public WholesaleControllerTests(
+            BffWebApiFixture bffWebApiFixture,
+            WebApiFactory factory,
+            ITestOutputHelper testOutputHelper)
             : base(bffWebApiFixture, factory, testOutputHelper)
         {
         }
 
         private const string BatchCreateUrl = "/v1/wholesalebatch";
         private const string BatchSearchUrl = "/v1/wholesalebatch/search";
+        private const string BatchProcessStepResultUrl = "/v1/wholesalebatch/processstepresult";
 
         [Theory]
         [InlineAutoMoqData]
@@ -67,6 +71,21 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .ReturnsAsync(new List<BatchDtoV2>());
 
             var actual = await BffClient.PostAsJsonAsync(BatchSearchUrl, searchDto);
+
+            actual.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Theory]
+        [InlineAutoMoqData]
+        public async Task PostAsync_WhenProcessStepResultIsFound_ReturnsOk(
+            ProcessStepResultRequestDto processStepResultRequestDto,
+            ProcessStepResultDto processStepResultDto)
+        {
+            DomainClientMock
+                .Setup(m => m.GetProcessStepResultAsync(processStepResultRequestDto))
+                .ReturnsAsync(processStepResultDto);
+
+            var actual = await BffClient.PostAsJsonAsync(BatchProcessStepResultUrl, processStepResultRequestDto);
 
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
