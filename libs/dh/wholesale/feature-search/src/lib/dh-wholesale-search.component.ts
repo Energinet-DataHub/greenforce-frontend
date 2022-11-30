@@ -37,6 +37,7 @@ import {
 } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-batch-details.component';
+import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -52,6 +53,7 @@ import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-b
     TranslocoModule,
     WattEmptyStateModule,
     WattSpinnerModule,
+    WattTopBarComponent,
   ],
   templateUrl: './dh-wholesale-search.component.html',
   styleUrls: ['./dh-wholesale-search.component.scss'],
