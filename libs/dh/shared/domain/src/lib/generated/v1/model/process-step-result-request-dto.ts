@@ -9,10 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProcessStepType } from './process-step-type';
 
 
-export interface GetAssociatedUserActorsResponseDto { 
-    actorIds: Array<string>;
+export interface ProcessStepResultRequestDto { 
+    batchId: string;
+    gridAreaCode: string;
+    processStepResult: ProcessStepType;
 }
 
 

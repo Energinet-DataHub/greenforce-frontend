@@ -10,9 +10,10 @@
       "gridAreas": [
         {
           "id": "2f8197d5-05a7-4f68-957c-73d95d1c9289",
-          "meteringPointTypes": ["D01VeProduction"]
+          "meteringPointTypes": ["D01VeProduction", "D03NotUsed"]
         }
-      ]
+      ],
+      "comment": "Test kommentar"
     }
   ]
 }
