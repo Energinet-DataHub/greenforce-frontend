@@ -35,6 +35,7 @@ watt-dropdown {
 .watt-dropdown-panel {
   // Add 2px because watt-form-field has 1px border on each side
   min-width: calc(100% + 2px) !important;
+  margin-top: -16px;
 
   &.watt-dropdown-panel-single-selection {
     margin-left: 15px;
@@ -47,6 +48,10 @@ watt-dropdown {
     &.watt-dropdown-panel-close-to-screen-left-edge {
       margin-left: 8px;
     }
+  }
+
+  &.mat-select-search-panel {
+    transform: scaleY(1) !important;
   }
 
   .mat-checkbox-frame {
