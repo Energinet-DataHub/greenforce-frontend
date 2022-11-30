@@ -12,7 +12,7 @@
 
 
 export interface GetAssociatedUserActorsResponseDto { 
-    externalActorIds: Array<string>;
+    actorIds: Array<string>;
 }
 
 
