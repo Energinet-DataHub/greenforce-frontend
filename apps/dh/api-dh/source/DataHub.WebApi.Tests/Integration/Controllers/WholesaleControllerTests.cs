@@ -42,6 +42,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         private const string BatchCreateUrl = "/v1/wholesalebatch";
         private const string BatchSearchUrl = "/v1/wholesalebatch/search";
         private const string GridAreaCode = "805";
+        private const string BatchProcessStepResultUrl = "/v1/wholesalebatch/processstepresult";
 
         [Theory]
         [InlineAutoMoqData]
@@ -124,6 +125,21 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                     Assert.NotNull(gridAreaDto.Name);
                 }
             }
+        }
+
+        [Theory]
+        [InlineAutoMoqData]
+        public async Task PostAsync_WhenProcessStepResultIsFound_ReturnsOk(
+            ProcessStepResultRequestDto processStepResultRequestDto,
+            ProcessStepResultDto processStepResultDto)
+        {
+            DomainClientMock
+                .Setup(m => m.GetProcessStepResultAsync(processStepResultRequestDto))
+                .ReturnsAsync(processStepResultDto);
+
+            var actual = await BffClient.PostAsJsonAsync(BatchProcessStepResultUrl, processStepResultRequestDto);
+
+            actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         private void MockMarketParticipantClient()

@@ -61,6 +61,8 @@ export * from './process';
 export * from './process-detail';
 export * from './process-detail-error';
 export * from './process-status';
+export * from './process-step-result-request-dto';
+export * from './process-step-type';
 export * from './process-type';
 export * from './product-id';
 export * from './reading-occurrence';

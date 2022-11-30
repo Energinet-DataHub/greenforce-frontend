@@ -17,4 +17,4 @@
 export * from './lib/permission.guard';
 export * from './lib/permission';
 export * from './lib/permission-required.directive';
-export * from './lib/scope.service';
+export * from './lib/dh-authorization.interceptor';

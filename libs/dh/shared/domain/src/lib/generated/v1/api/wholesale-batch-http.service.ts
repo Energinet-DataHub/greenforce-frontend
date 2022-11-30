@@ -25,6 +25,8 @@ import { BatchRequestDto } from '../model/batch-request-dto';
 // @ts-ignore
 import { BatchSearchDto } from '../model/batch-search-dto';
 // @ts-ignore
+import { ProcessStepResultRequestDto } from '../model/process-step-result-request-dto';
+// @ts-ignore
 import { Stream } from '../model/stream';
 
 // @ts-ignore
@@ -242,104 +244,15 @@ export class WholesaleBatchHttp {
     }
 
     /**
-     * Get a process.
-     * @param batchId 
-     * @param gridAreaCode 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public v1WholesaleBatchProcessGet(batchId?: string, gridAreaCode?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1WholesaleBatchProcessGet(batchId?: string, gridAreaCode?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1WholesaleBatchProcessGet(batchId?: string, gridAreaCode?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1WholesaleBatchProcessGet(batchId?: string, gridAreaCode?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (batchId !== undefined && batchId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>batchId, 'batchId');
-        }
-        if (gridAreaCode !== undefined && gridAreaCode !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>gridAreaCode, 'gridAreaCode');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (Bearer) required
-        localVarCredential = this.configuration.lookupCredential('Bearer');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/v1/WholesaleBatch/Process`;
-        return this.httpClient.request<any>('get', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
      * Get a processStepResult.
-     * @param batchId 
-     * @param gridAreaCode 
-     * @param stepNumber 
+     * @param processStepResultRequestDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1WholesaleBatchProcessStepResultGet(batchId?: string, gridAreaCode?: string, stepNumber?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1WholesaleBatchProcessStepResultGet(batchId?: string, gridAreaCode?: string, stepNumber?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1WholesaleBatchProcessStepResultGet(batchId?: string, gridAreaCode?: string, stepNumber?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1WholesaleBatchProcessStepResultGet(batchId?: string, gridAreaCode?: string, stepNumber?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (batchId !== undefined && batchId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>batchId, 'batchId');
-        }
-        if (gridAreaCode !== undefined && gridAreaCode !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>gridAreaCode, 'gridAreaCode');
-        }
-        if (stepNumber !== undefined && stepNumber !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>stepNumber, 'stepNumber');
-        }
+    public v1WholesaleBatchProcessStepResultPost(processStepResultRequestDto?: ProcessStepResultRequestDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public v1WholesaleBatchProcessStepResultPost(processStepResultRequestDto?: ProcessStepResultRequestDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public v1WholesaleBatchProcessStepResultPost(processStepResultRequestDto?: ProcessStepResultRequestDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public v1WholesaleBatchProcessStepResultPost(processStepResultRequestDto?: ProcessStepResultRequestDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -366,6 +279,17 @@ export class WholesaleBatchHttp {
             localVarHttpContext = new HttpContext();
         }
 
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json',
+            'text/json',
+            'application/*+json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
@@ -379,10 +303,10 @@ export class WholesaleBatchHttp {
         }
 
         let localVarPath = `/v1/WholesaleBatch/ProcessStepResult`;
-        return this.httpClient.request<any>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                params: localVarQueryParameters,
+                body: processStepResultRequestDto,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
