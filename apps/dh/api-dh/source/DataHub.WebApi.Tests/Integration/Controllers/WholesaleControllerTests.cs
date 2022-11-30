@@ -70,5 +70,20 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
+
+        [Theory]
+        [InlineAutoMoqData]
+        public async Task PostAsync_WhenProcessStepResultIsFound_ReturnsOk(
+            ProcessStepResultRequestDto searchDto,
+            ProcessStepResultDto dto)
+        {
+            DomainClientMock
+                .Setup(m => m.GetProcessStepResultAsync(searchDto))
+                .ReturnsAsync(dto);
+
+            var actual = await BffClient.PostAsJsonAsync(BatchSearchUrl, searchDto);
+
+            actual.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
     }
 }
