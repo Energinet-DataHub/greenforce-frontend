@@ -29,18 +29,21 @@ describe(MarketRoleGroupService.name, () => {
         marketRole: EicFunction.Agent,
         gridArea: 'ga1',
         meteringPointTypes: [],
+        comment: 'comment ga1',
       },
       {
         existing: true,
         marketRole: EicFunction.BalanceResponsibleParty,
         gridArea: 'ga3',
         meteringPointTypes: [],
+        comment: 'comment ga3',
       },
       {
         existing: true,
         marketRole: EicFunction.Agent,
         gridArea: 'ga2',
         meteringPointTypes: [],
+        comment: 'comment ga2',
       },
     ];
 
@@ -50,8 +53,8 @@ describe(MarketRoleGroupService.name, () => {
       (x) => x.marketRole === EicFunction.Agent
     );
     const agentMarketRoleGridAreas = agentMarketRoles[0].gridAreas;
-
     // assert
+    expect(marketRoles[0].comment).toBe('comment ga1');
     expect(marketRoles).toHaveLength(2);
     expect(agentMarketRoles).toHaveLength(1);
     expect(agentMarketRoleGridAreas).toEqual([
