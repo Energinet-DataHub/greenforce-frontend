@@ -18,7 +18,6 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
-  NgModule,
   OnDestroy,
   OnInit,
   Output,
@@ -36,16 +35,26 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { DhChargeDetailsHeaderScam } from './charge-content/details-header/dh-charge-details-header.component';
+import { DhChargeDetailsHeaderComponent } from './charge-content/details-header/dh-charge-details-header.component';
 import { DhChargesPricesDrawerService } from './dh-charges-prices-drawer.service';
 import { Subject, takeUntil } from 'rxjs';
-import {
-  DhChargeContentComponent,
-  DhChargeContentScam,
-} from './charge-content/dh-charge-content.component';
-import { DhChargePriceMessageScam } from './charge-message/dh-charge-price-message.component';
+import { DhChargeContentComponent } from './charge-content/dh-charge-content.component';
+import { DhChargePriceMessageComponent } from './charge-message/dh-charge-price-message.component';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    WattDrawerModule,
+    TranslocoModule,
+    WattTabsModule,
+    WattButtonModule,
+    DhChargeDetailsHeaderComponent,
+    DhChargeContentComponent,
+    DhChargePriceMessageComponent,
+    PushModule,
+    WattIconModule,
+  ],
   selector: 'dh-charges-prices-drawer',
   templateUrl: './dh-charges-prices-drawer.component.html',
   styleUrls: ['./dh-charges-prices-drawer.component.scss'],
@@ -95,21 +104,3 @@ export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
     this.dhChargesPricesDrawerService.removeMessage();
   }
 }
-
-@NgModule({
-  declarations: [DhChargesPricesDrawerComponent],
-  exports: [DhChargesPricesDrawerComponent],
-  imports: [
-    CommonModule,
-    WattDrawerModule,
-    TranslocoModule,
-    WattTabsModule,
-    WattButtonModule,
-    DhChargeDetailsHeaderScam,
-    DhChargeContentScam,
-    DhChargePriceMessageScam,
-    PushModule,
-    WattIconModule,
-  ],
-})
-export class DhChargesPricesDrawerScam {}

@@ -43,9 +43,9 @@ table {
 
 .icons {
   display: flex;
+  gap: var(--watt-space-s);
 
   watt-icon {
-    margin-left: 1rem;
     color: var(--watt-color-neutral-grey-400);
   }
 
@@ -67,26 +67,6 @@ table {
 
 .loading-error {
   margin-top: var(--watt-space-m);
-}
-
-tr:hover,
-.active-row {
-  background-color: var(--watt-color-primary-light);
-
-  td {
-    color: var(--watt-color-neutral-white);
-    cursor: pointer;
-  }
-
-  .gln-number {
-    color: var(--watt-color-neutral-white);
-  }
-
-  .icons {
-    .active {
-      color: var(--watt-color-neutral-white);
-    }
-  }
 }
 
 .tax-indicator,
