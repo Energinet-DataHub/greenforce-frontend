@@ -76,9 +76,5 @@
 }
 
 .watt-main-content {
-  @include watt.space-inset-m;
-
-  @include watt.media(">Large") {
-    @include watt.space-inset-l;
-  }
+  @include watt.space-inset-l;
 }

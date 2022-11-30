@@ -438,6 +438,12 @@
   },
   "messageArchive": {
     "unknowenError": "Unknown error",
+    "drawer": {
+      "message": "Message",
+      "receiver": "Receiver",
+      "sender": "Sender",
+      "download": "Download"
+    },
     "search": {
       "topBarTitle": "Search in request and response messages",
       "documenttype": "Document type",
@@ -451,8 +457,8 @@
       "startSearch": "Search",
       "NoResultsFound": "No result",
       "ChooseBusinessReason": "Choose business reason",
-      "ChooseDocumentType": "Choose document type",
-      "includeRelatedMessage": "Include related message",
+      "ChooseDocumentType": "Type or choose",
+      "includeRelatedMessage": "Include related message (when searching Message Id)",
       "loadMore": "Load more",
       "rsm": "RSM",
       "sender": "Aktor",
@@ -463,7 +469,13 @@
       "download": "Download",
       "show": "Show",
       "noResultsHelperText": "Try adjusting your search or filter to find what you are looking for.",
-      "clearSearch": "Clear form"
+      "clearSearch": "Clear",
+      "periode": "periode",
+      "time": "time",
+      "searchResult": "Search results",
+      "startSearchResultView": "Start search",
+      "startSearchText": "Your results will appear here",
+      "dateTime": "Date and time"
     }
   },
   "marketParticipant": {
