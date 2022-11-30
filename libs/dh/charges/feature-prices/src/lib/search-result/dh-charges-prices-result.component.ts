@@ -25,7 +25,6 @@ import {
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
-import { MatSort, MatSortModule } from '@angular/material/sort';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
@@ -59,7 +58,6 @@ import formatInTimeZone from 'date-fns-tz/formatInTimeZone';
     WattTooltipDirective,
     WattSpinnerModule,
     DhSharedUiDateTimeModule,
-    MatSortModule,
     DhSharedUiPaginatorComponent,
     DhChargesPricesDrawerComponent,
   ],
@@ -72,7 +70,6 @@ export class DhChargesPricesResultComponent
 {
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
-  @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(DhChargesPricesDrawerComponent)
   chargePriceDrawer!: DhChargesPricesDrawerComponent;
 
