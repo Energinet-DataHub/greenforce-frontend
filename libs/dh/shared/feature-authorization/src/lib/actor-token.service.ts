@@ -49,7 +49,7 @@ export class ActorTokenService {
         switchMap((r) => {
           return this.tokenHttp
             .v1TokenPost({
-              externalActorId: r.externalActorIds[0],
+              actorId: r.actorIds[0],
               externalToken: externalToken,
             })
             .pipe(

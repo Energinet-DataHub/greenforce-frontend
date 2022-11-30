@@ -15,8 +15,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using Energinet.DataHub.MarketParticipant.Client;
+using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Controllers.Wholesale.Dto;
 using Energinet.DataHub.Wholesale.Client;
 using Energinet.DataHub.Wholesale.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -28,10 +32,12 @@ namespace Energinet.DataHub.WebApi.Controllers
     public class WholesaleBatchController : ControllerBase
     {
         private readonly IWholesaleClient _client;
+        private readonly IMarketParticipantClient _marketParticipantClient;
 
-        public WholesaleBatchController(IWholesaleClient client)
+        public WholesaleBatchController(IWholesaleClient client, IMarketParticipantClient marketParticipantClient)
         {
             _client = client;
+            _marketParticipantClient = marketParticipantClient;
         }
 
         /// <summary>
@@ -48,10 +54,34 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a batch.
         /// </summary>
         [HttpPost("Search")]
-        public async Task<ActionResult<IEnumerable<BatchDtoV2>>> PostAsync(BatchSearchDto batchSearchDto)
+        public async Task<ActionResult<IEnumerable<BatchDto>>> SearchAsync(BatchSearchDto batchSearchDto)
         {
-            var batches = await _client.GetBatchesAsync(batchSearchDto).ConfigureAwait(false);
-            return Ok(batches);
+            var gridAreas = new List<GridAreaDto>();
+            var batchesWithGridAreasWithNames = new List<BatchDto>();
+
+            var batches = (await _client.GetBatchesAsync(batchSearchDto).ConfigureAwait(false)).ToList();
+
+            if (batches.Any())
+            {
+                gridAreas = (await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false)).ToList();
+            }
+
+            foreach (var batch in batches)
+            {
+                var gridAreaDtos = gridAreas.Where(x => batch.GridAreaCodes.Contains(x.Code));
+
+                batchesWithGridAreasWithNames.Add(new BatchDto(
+                    batch.BatchNumber,
+                    batch.PeriodStart,
+                    batch.PeriodEnd,
+                    batch.ExecutionTimeStart,
+                    batch.ExecutionTimeEnd,
+                    batch.ExecutionState,
+                    batch.IsBasisDataDownloadAvailable,
+                    gridAreaDtos.ToArray()));
+            }
+
+            return Ok(batchesWithGridAreasWithNames);
         }
 
         /// <summary>
@@ -69,10 +99,22 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a batch.
         /// </summary>
         [HttpGet("Batch")]
-        public async Task<ActionResult<BatchDtoV2?>> GetBatchAsync(Guid batchId)
+        public async Task<ActionResult<BatchDto>> GetBatchAsync(Guid batchId)
         {
-            var batchDto = await _client.GetBatchAsync(batchId);
-            return batchDto;
+            var batch = await _client.GetBatchAsync(batchId);
+            var gridAreas = (await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false)).ToList();
+
+            var gridAreaDtos = gridAreas.Where(x => batch!.GridAreaCodes.Contains(x.Code));
+
+            return new BatchDto(
+                batch!.BatchNumber,
+                batch.PeriodStart,
+                batch.PeriodEnd,
+                batch.ExecutionTimeStart,
+                batch.ExecutionTimeEnd,
+                batch.ExecutionState,
+                batch.IsBasisDataDownloadAvailable,
+                gridAreaDtos.ToArray());
         }
 
         /// <summary>

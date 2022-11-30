@@ -53,8 +53,6 @@ limitations under the License.
         <dd>{{ batch.executionTimeStart | dhDateTime }}</dd>
       </div>
     </dl>
-    <dh-wholesale-grid-areas
-      [data]="batch.gridAreaCodes"
-    ></dh-wholesale-grid-areas>
+    <dh-wholesale-grid-areas [data]="batch.gridAreas"></dh-wholesale-grid-areas>
   </watt-drawer-content>
 </watt-drawer>
