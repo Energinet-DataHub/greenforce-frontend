@@ -14,20 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  Output,
-} from '@angular/core';
-import { EoScrollViewScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { ChangeDetectionStrategy, Component, Output } from '@angular/core';
+import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { PushModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
 import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [EoScrollViewComponent, PushModule],
   selector: 'eo-privacy-policy',
+
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
@@ -97,10 +95,3 @@ export class EoPrivacyPolicyComponent {
 
   constructor(private store: EoPrivacyPolicyStore) {}
 }
-
-@NgModule({
-  declarations: [EoPrivacyPolicyComponent],
-  exports: [EoPrivacyPolicyComponent],
-  imports: [EoScrollViewScam, PushModule],
-})
-export class EoPrivacyPolicyScam {}

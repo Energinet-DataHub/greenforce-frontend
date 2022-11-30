@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { render, screen } from '@testing-library/angular';
-import { EoHeaderComponent, EoHeaderScam } from './eo-header.component';
+import { EoHeaderComponent } from './eo-header.component';
 
 describe(EoHeaderComponent.name, () => {
   const findEnergyOriginLogo = () =>
@@ -23,14 +23,14 @@ describe(EoHeaderComponent.name, () => {
 
   it('displays the Energy Origin logo', async () => {
     await render(EoHeaderComponent, {
-      imports: [EoHeaderScam],
+      imports: [EoHeaderComponent],
     });
     expect(await findEnergyOriginLogo()).toBeInTheDocument();
   });
 
   it('Inserts content into ng-content', async () => {
     await render(`<eo-header><p>test</p></eo-header>`, {
-      imports: [EoHeaderScam],
+      imports: [EoHeaderComponent],
     });
     expect(await screen.findByText('test')).toBeInTheDocument();
   });

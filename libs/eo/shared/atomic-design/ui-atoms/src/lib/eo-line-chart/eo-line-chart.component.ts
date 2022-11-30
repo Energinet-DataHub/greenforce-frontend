@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DoCheck, Input, NgModule, ViewChild } from '@angular/core';
+import { Component, DoCheck, Input, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 
 @Component({
   selector: 'eo-line-chart',
+  standalone: true,
+  imports: [NgChartsModule],
   template: `<canvas
     baseChart
     data-testid="line-chart"
@@ -75,10 +77,3 @@ export class EoLineChartComponent implements DoCheck {
     );
   }
 }
-
-@NgModule({
-  declarations: [EoLineChartComponent],
-  exports: [EoLineChartComponent],
-  imports: [NgChartsModule],
-})
-export class EoLineChartScam {}

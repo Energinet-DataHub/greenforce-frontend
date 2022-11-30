@@ -34,14 +34,6 @@ namespace Energinet.DataHub.WebApi.Controllers
             _chargesClient = chargesClient;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IList<ChargeV1Dto>>> GetAsync()
-        {
-            var result = await _chargesClient.GetChargesAsync();
-
-            return result.Any() ? Ok(result) : NotFound();
-        }
-
         [HttpPost("SearchAsync")]
         public async Task<ActionResult<IList<ChargeV1Dto>>> SearchAsync([FromBody] ChargeSearchCriteriaV1Dto searchCriteria)
         {
@@ -72,6 +64,14 @@ namespace Energinet.DataHub.WebApi.Controllers
             var result = await _chargesClient.SearchChargeMessagesAsync(searchCriteria);
 
             return result;
+        }
+
+        [HttpPost("CreateChargeAsync")]
+        public async Task<ActionResult> CreateChargeAsync([FromBody] CreateChargeV1Dto createChargeV1Dto)
+        {
+            await _chargesClient.CreateChargeAsync(createChargeV1Dto);
+
+            return Accepted();
         }
     }
 }

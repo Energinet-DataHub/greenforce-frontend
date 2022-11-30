@@ -31,6 +31,8 @@ import { ChargeSearchCriteriaV1Dto } from '../model/charge-search-criteria-v1-dt
 // @ts-ignore
 import { ChargeV1Dto } from '../model/charge-v1-dto';
 // @ts-ignore
+import { CreateChargeV1Dto } from '../model/create-charge-v1-dto';
+// @ts-ignore
 import { MarketParticipantV1Dto } from '../model/market-participant-v1-dto';
 
 // @ts-ignore
@@ -104,13 +106,14 @@ export class ChargesHttp {
     }
 
     /**
+     * @param createChargeV1Dto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1ChargesGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<ChargeV1Dto>>;
-    public v1ChargesGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<ChargeV1Dto>>>;
-    public v1ChargesGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<ChargeV1Dto>>>;
-    public v1ChargesGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1ChargesCreateChargeAsyncPost(createChargeV1Dto?: CreateChargeV1Dto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public v1ChargesCreateChargeAsyncPost(createChargeV1Dto?: CreateChargeV1Dto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public v1ChargesCreateChargeAsyncPost(createChargeV1Dto?: CreateChargeV1Dto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public v1ChargesCreateChargeAsyncPost(createChargeV1Dto?: CreateChargeV1Dto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -125,9 +128,6 @@ export class ChargesHttp {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
-                'text/plain',
-                'application/json',
-                'text/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -141,6 +141,17 @@ export class ChargesHttp {
         }
 
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json',
+            'text/json',
+            'application/*+json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -152,10 +163,11 @@ export class ChargesHttp {
             }
         }
 
-        let localVarPath = `/v1/Charges`;
-        return this.httpClient.request<Array<ChargeV1Dto>>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/v1/Charges/CreateChargeAsync`;
+        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: createChargeV1Dto,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

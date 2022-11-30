@@ -17,10 +17,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import {
-  EoAuthFeatureTermsComponent,
-  EoAuthFeatureTermsScam,
-} from './eo-auth-feature-terms.component';
+import { EoAuthFeatureTermsComponent } from './eo-auth-feature-terms.component';
 
 const routes: Routes = [
   {
@@ -30,6 +27,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), EoAuthFeatureTermsScam],
+  imports: [RouterModule.forChild(routes), EoAuthFeatureTermsComponent],
 })
 export class EoAuthFeatureTermsModule {}

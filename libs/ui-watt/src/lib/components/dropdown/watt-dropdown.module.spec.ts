@@ -36,6 +36,22 @@ const dropdownOptions: WattDropdownOptions = [
 const matOptionClass = '.mat-option';
 
 describe(WattDropdownModule.name, () => {
+  function getFilterInput(): HTMLInputElement {
+    const inputs: HTMLInputElement[] = screen.getAllByRole('textbox', {
+      // We search for "hidden" input elements because as of `ngx-mat-select-search` v5.0.0
+      // when the `ngx-mat-select-search` component is inside a `mat-option`,
+      // the `mat-option` element has a `aria-hidden="true"` applied to it.
+      // See https://github.com/bithost-gmbh/ngx-mat-select-search/pull/392
+      hidden: true,
+    });
+
+    const [visibleInput] = inputs.filter((input) =>
+      input.classList.contains('mat-input-element')
+    );
+
+    return visibleInput;
+  }
+
   const placeholder = 'Select a team';
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -148,7 +164,7 @@ describe(WattDropdownModule.name, () => {
           By.css(matOptionClass)
         );
 
-        // Note(xdzus): The first option is skipped because it holds the filter input
+        // The first option is skipped because it holds the filter input
         const [, resetOptionDe] = matOptions;
 
         if (resetOptionDe) {
@@ -186,10 +202,10 @@ describe(WattDropdownModule.name, () => {
 
         await matSelect.open();
 
-        const filterInput: HTMLInputElement = screen.getByRole('textbox');
+        const filterInput = getFilterInput();
         userEvent.type(filterInput, 'mighty');
 
-        // Note(xdzus): Number of options is 3:
+        // Number of options is 3:
         // Option 1. Filter input
         // Option 2. Reset option
         // Option 3. Actual option containing the desired text
@@ -215,7 +231,7 @@ describe(WattDropdownModule.name, () => {
           By.css('.mat-pseudo-checkbox')
         );
 
-        // Note(xdzus): The first option is skipped because it holds the filter input
+        // The first option is skipped because it holds the filter input
         const [, secondOptionDe] = matOptions;
 
         if (secondOptionDe) {
@@ -236,10 +252,10 @@ describe(WattDropdownModule.name, () => {
 
         await matSelect.open();
 
-        const filterInput: HTMLInputElement = screen.getByRole('textbox');
+        const filterInput = getFilterInput();
         userEvent.type(filterInput, 'non-existent option');
 
-        // Note(xdzus): Number of options is 1:
+        // Number of options is 1:
         // Option 1. Filter input containing the 'No options found.' label
         const expectedOptions = 1;
         const actialOptions = await matSelect.getOptions();
@@ -330,7 +346,7 @@ describe(WattDropdownModule.name, () => {
           By.css(matOptionClass)
         );
 
-        // Note(xdzus): The first option is skipped because it holds the filter input
+        // The first option is skipped because it holds the filter input
         const [, resetOptionDe] = matOptions;
 
         if (resetOptionDe) {
@@ -346,10 +362,10 @@ describe(WattDropdownModule.name, () => {
 
         await matSelect.open();
 
-        const filterInput: HTMLInputElement = screen.getByRole('textbox');
+        const filterInput = getFilterInput();
         userEvent.type(filterInput, 'mighty');
 
-        // Note(xdzus): Number of options is 3:
+        // Number of options is 3:
         // Option 1. Filter input
         // Option 2. Reset option
         // Option 3. Actual option containing the desired text
@@ -375,7 +391,7 @@ describe(WattDropdownModule.name, () => {
           By.css('.mat-pseudo-checkbox')
         );
 
-        // Note(xdzus): The first option is skipped because it holds the filter input
+        // The first option is skipped because it holds the filter input
         const [, secondOptionDe] = matOptions;
 
         if (secondOptionDe) {
@@ -397,10 +413,10 @@ describe(WattDropdownModule.name, () => {
 
         await matSelect.open();
 
-        const filterInput: HTMLInputElement = screen.getByRole('textbox');
+        const filterInput = getFilterInput();
         userEvent.type(filterInput, 'non-existent option');
 
-        // Note(xdzus): Number of options is 1:
+        // Number of options is 1:
         // Option 1. Filter input containing the 'No options found.' label
         const expectedOptions = 1;
         const actialOptions = await matSelect.getOptions();

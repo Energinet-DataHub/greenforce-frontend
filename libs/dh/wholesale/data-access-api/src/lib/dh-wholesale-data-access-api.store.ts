@@ -30,7 +30,7 @@ import {
 import {
   WholesaleBatchHttp,
   BatchRequestDto,
-  WholesaleProcessType,
+  ProcessType,
   BatchSearchDto,
   BatchDtoV2,
 } from '@energinet-datahub/dh/shared/domain';
@@ -69,7 +69,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       return batch$.pipe(
         exhaustMap((batch) => {
           const batchRequest: BatchRequestDto = {
-            processType: WholesaleProcessType.BalanceFixing,
+            processType: ProcessType.BalanceFixing,
             gridAreaCodes: batch.gridAreas,
             startDate: batch.dateRange.start,
             endDate: batch.dateRange.end,
@@ -105,7 +105,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       switchMap((filter: BatchSearchDto) => {
         const searchBatchesRequest: BatchSearchDto = {
           minExecutionTime: filter.minExecutionTime,
-          maxExecutionTime: this.addTimeToDate(filter.maxExecutionTime),
+          maxExecutionTime: filter.maxExecutionTime,
         };
 
         return this.httpClient
@@ -148,10 +148,4 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       );
     }
   );
-
-  // TODO: This should be removed when the design system has implemented a proper fix in the date picker (Mighty Ducks will do this refactor)
-  private addTimeToDate(date: string): string {
-    const withTime = new Date(date).setHours(23, 59, 59, 999);
-    return new Date(withTime).toISOString();
-  }
 }

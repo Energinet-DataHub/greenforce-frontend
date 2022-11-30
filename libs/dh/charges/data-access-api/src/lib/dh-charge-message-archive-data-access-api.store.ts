@@ -23,7 +23,10 @@ import {
   MessageArchiveSearchResultItemDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { ErrorState, LoadingState } from './states';
+import {
+  ErrorState,
+  LoadingState,
+} from '@energinet-datahub/dh/shared/data-access-api';
 
 interface SearchResultState {
   readonly searchResult?: MessageArchiveSearchResultItemDto;

@@ -1,0 +1,27 @@
+{
+  "name": "dh-charges-feature-create-prices",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/charges/feature-create-prices/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/charges/feature-create-prices"],
+      "options": {
+        "jestConfig": "libs/dh/charges/feature-create-prices/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/charges/feature-create-prices/**/*.ts",
+          "libs/dh/charges/feature-create-prices/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:charges", "type:feature"]
+}

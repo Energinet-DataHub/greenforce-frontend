@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
   selector: 'eo-landing-page-origin-of-energy',
   styles: [
     `
@@ -86,9 +87,3 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 export class EoLandingPageOriginOfEnergyComponent {
   constructor(public landingPage: EoLandingPagePresenter) {}
 }
-
-@NgModule({
-  declarations: [EoLandingPageOriginOfEnergyComponent],
-  exports: [EoLandingPageOriginOfEnergyComponent],
-})
-export class EoLandingPageOriginOfEnergyScam {}

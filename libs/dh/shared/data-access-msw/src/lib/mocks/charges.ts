@@ -103,7 +103,7 @@ function searchCharges(apiBase: string) {
       {
         id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
         chargeType: 'D02',
-        resolution: 'PT15M',
+        resolution: 'PT1H',
         taxIndicator: false,
         transparentInvoicing: false,
         vatClassification: VatClassification.NoVat,
@@ -137,6 +137,11 @@ function getMarketParticipants(apiBase: string) {
           name: 'name 2',
           marketParticipantId: '8100000000030',
           businessProcessRole: 'DDM',
+        },
+        {
+          id: 'S5E0990A-713B-41E6-AB9C-A1B357A1EABD',
+          name: 'name 12',
+          marketParticipantId: '8100000000030',
         },
       ];
       return res(ctx.status(200), ctx.json(result));

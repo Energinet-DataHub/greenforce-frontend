@@ -19,40 +19,25 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  inject,
   Input,
   ViewChild,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { first, of } from 'rxjs';
+import { TranslocoModule } from '@ngneat/transloco';
 
-import {
-  BatchDtoV2,
-  BatchState,
-  BatchGridAreaDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-
-type wholesaleTableData = MatTableDataSource<{
-  statusType: void | WattBadgeType;
-  batchNumber: string;
-  periodStart: string;
-  periodEnd: string;
-  executionTimeStart?: string | null;
-  executionTimeEnd?: string | null;
-  executionState: BatchState;
-  isBasisDataDownloadAvailable: boolean;
-  batchGridAreas: Array<BatchGridAreaDto>;
-}>;
+export type BatchVm = BatchDtoV2 & { statusType: WattBadgeType };
+type wholesaleTableData = MatTableDataSource<BatchVm>;
 
 @Component({
   standalone: true,
@@ -66,6 +51,7 @@ type wholesaleTableData = MatTableDataSource<{
     WattButtonModule,
     WattEmptyStateModule,
     DhSharedUiPaginatorComponent,
+    WattCardModule,
   ],
   selector: 'dh-wholesale-table',
   templateUrl: './dh-wholesale-table.component.html',
@@ -76,6 +62,7 @@ export class DhWholesaleTableComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
+
   @Input() set data(batches: BatchDtoV2[]) {
     this._data = new MatTableDataSource(
       batches.map((batch) => ({
@@ -84,12 +71,10 @@ export class DhWholesaleTableComponent implements AfterViewInit {
       }))
     );
   }
+  @Output() selectedRow: EventEmitter<BatchVm> = new EventEmitter();
+  @Output() download: EventEmitter<BatchVm> = new EventEmitter();
+
   _data: wholesaleTableData = new MatTableDataSource(undefined);
-
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
-  private toastService = inject(WattToastService);
-  private translations = inject(TranslocoService);
-
   columnIds = [
     'batchNumber',
     'periodStart',
@@ -105,27 +90,20 @@ export class DhWholesaleTableComponent implements AfterViewInit {
     this._data.paginator = this.paginator.instance;
   }
 
-  onDownload(batch: BatchDtoV2) {
-    this.store.getZippedBasisData(of(batch));
-    this.store.loadingBasisDataErrorTrigger$.pipe(first()).subscribe(() => {
-      this.toastService.open({
-        message: this.translations.translate(
-          'wholesale.searchBatch.downloadFailed'
-        ),
-        type: 'danger',
-      });
-    });
+  onDownload(event: Event, batch: BatchVm) {
+    event.stopPropagation();
+    this.download.emit(batch);
   }
 
-  private getStatusType(status: BatchState): WattBadgeType | void {
+  private getStatusType(status: BatchState): WattBadgeType {
     if (status === BatchState.Pending) {
       return 'warning';
     } else if (status === BatchState.Completed) {
       return 'success';
-    } else if (status === BatchState.Executing) {
-      return 'info';
     } else if (status === BatchState.Failed) {
       return 'danger';
+    } else {
+      return 'info';
     }
   }
 }

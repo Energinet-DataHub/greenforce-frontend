@@ -19,7 +19,6 @@ import {
   Component,
   HostBinding,
   Input,
-  NgModule,
 } from '@angular/core';
 import { PushModule } from '@rx-angular/template';
 
@@ -27,6 +26,8 @@ import { EoMediaPresenter } from './eo-media.presenter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [PushModule],
   exportAs: 'eoMedia',
   providers: [EoMediaPresenter],
   selector: 'eo-media',
@@ -117,10 +118,3 @@ export class EoMediaComponent {
 
   constructor(public presenter: EoMediaPresenter) {}
 }
-
-@NgModule({
-  declarations: [EoMediaComponent],
-  exports: [EoMediaComponent],
-  imports: [PushModule],
-})
-export class EoMediaScam {}

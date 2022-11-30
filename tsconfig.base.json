@@ -29,6 +29,9 @@
       "@energinet-datahub/dh/charges/domain": [
         "libs/dh/charges/domain/src/index.ts"
       ],
+      "@energinet-datahub/dh/charges/feature-create-prices": [
+        "libs/dh/charges/feature-create-prices/src/index.ts"
+      ],
       "@energinet-datahub/dh/charges/feature-prices": [
         "libs/dh/charges/feature-prices/src/index.ts"
       ],
@@ -266,6 +269,9 @@
       "@energinet-datahub/watt/badge": [
         "libs/ui-watt/src/lib/components/badge/index.ts"
       ],
+      "@energinet-datahub/watt/breadcrumbs": [
+        "libs/ui-watt/src/lib/components/breadcrumbs/index.ts"
+      ],
       "@energinet-datahub/watt/breakpoints": [
         "libs/ui-watt/src/lib/foundations/breakpoints/index.ts"
       ],
@@ -338,6 +344,9 @@
       "@energinet-datahub/watt/spinner": [
         "libs/ui-watt/src/lib/components/spinner/index.ts"
       ],
+      "@energinet-datahub/watt/table": [
+        "libs/ui-watt/src/lib/components/table/index.ts"
+      ],
       "@energinet-datahub/watt/tabs": [
         "libs/ui-watt/src/lib/components/tabs/index.ts"
       ],
@@ -349,6 +358,9 @@
       ],
       "@energinet-datahub/watt/tooltip": [
         "libs/ui-watt/src/lib/components/tooltip/index.ts"
+      ],
+      "@energinet-datahub/watt/top-bar": [
+        "libs/ui-watt/src/lib/components/shell/top-bar/index.ts"
       ],
       "@energinet-datahub/watt/validation-message": [
         "libs/ui-watt/src/lib/components/validation-message/index.ts"

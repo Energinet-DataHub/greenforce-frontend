@@ -26,7 +26,11 @@
       "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
-      "chargePrices": "Priser",
+      "chargePrices": {
+        "menuGroupLabel": "Priser",
+        "search": "Søg priser",
+        "create": "Opret priser"
+      },
       "wholesale": {
         "menuGroupLabel": "Afregninger",
         "startBatch": "Start batch",
@@ -261,6 +265,16 @@
     "feesTitle": "Gebyrer",
     "back": "Tilbage",
     "sender": "Afsender",
+    "resolution": "Opløsning",
+    "effectiveDate": "Skæringsdato",
+    "fieldRequiredErrorText": "Feltet er påkrævet.",
+    "senderProvidedChargeIdMaxLengthErrorText": "Maksimalt 10 tegn.",
+    "chargeNameMaxLengthErrorText": "Maksimalt 132 tegn.",
+    "descriptionMaxLengthErrorText": "Maksimalt 2048 tegn.",
+    "topBarTitles": {
+      "prices": "Søg pris",
+      "createPrices": "Opret pris"
+    },
     "messageType": {
       "D18": "Opdatering af pris stamdata",
       "D08": "Opdatering af prisserie"
@@ -308,8 +322,20 @@
       "title": "Ups! Der opstod en fejl",
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
     },
+    "createPrices": {
+      "title": "Opret pris",
+      "create": "Opret",
+      "priceId": "Pris id",
+      "priceName": "Pris navn",
+      "priceDescription": "Beskrivelse",
+      "priceOwner": "Pris Ejer",
+      "selectResolution": "Vælg opløsning",
+      "selectChargeType": "Vælg type",
+      "createPriceError": "Noget gik galt. Prisen blev ikke oprettet. Prøv igen.",
+      "createPriceSuccess": "Success! Prisen er indsendt.",
+      "loadingRequestText": "Indsender pris."
+    },
     "prices": {
-      "topBarTitle": "Søg pris",
       "prices": "Priser",
       "price": "Pris",
       "priceTab": {
@@ -392,7 +418,8 @@
         "hideDescriptionLabel": "Luk beskrivelse",
         "messageId": "Besked Id",
         "messageType": "Type",
-        "date": "Dato"
+        "date": "Dato",
+        "unknownMessageError": "Ukendt fejl"
       },
       "csvHeader": {
         "id": "PRIS ID",
@@ -729,6 +756,17 @@
         "lastPageLabel": "Sidste side",
         "of": "af"
       }
+    },
+    "batchDetails": {
+      "headline": "Batch: {{batchNumber}}",
+      "calculationPeriod": "Beregningsperiode",
+      "executionTime": "Eksekveringstidspunkt"
+    },
+    "gridAreas": {
+      "header": "{{total}} Netområder",
+      "gridAreaCode": "ID",
+      "name": "navn",
+      "noGridAreasFound": "Ingen netområder fundet"
     },
     "overview": {
       "header": "Proces oversigt"

@@ -56,6 +56,39 @@ export class EoCertificatesStore extends ComponentStore<EoCertificatesState> {
     })
   );
 
+  mockData = [
+    {
+      id: '3b2fcf2f-0e39-4622-9371-05c5a37147c8',
+      dateFrom: 1668606049000,
+      dateTo: 1668609649000,
+      quantity: 17,
+      gsrn: '112233445566778899',
+      gridArea: 'DK1',
+      techCode: 'T010000',
+      fuelCode: 'F00000000',
+    },
+    {
+      id: 'e3b35527-890e-4249-8105-dba4f2f9335a',
+      dateFrom: 1668606039000,
+      dateTo: 1668609639000,
+      quantity: 38,
+      gsrn: '112233445566778899',
+      gridArea: 'DK1',
+      techCode: 'T010000',
+      fuelCode: 'F00000000',
+    },
+    {
+      id: '20bdf409-f4ae-428b-8b62-f2bc756f7cc0',
+      dateFrom: 1668606029000,
+      dateTo: 1668609629000,
+      quantity: 22,
+      gsrn: '112233445566778899',
+      gridArea: 'DK1',
+      techCode: 'T010000',
+      fuelCode: 'F00000000',
+    },
+  ];
+
   constructor(private service: EoCertificatesService) {
     super({
       hasLoaded: false,
@@ -66,10 +99,19 @@ export class EoCertificatesStore extends ComponentStore<EoCertificatesState> {
     this.loadData();
   }
 
+  loadMockData() {
+    this.setCertificates(this.mockData);
+  }
+
   loadData() {
     this.service.getCertificates().subscribe({
       next: (response) => {
-        this.setCertificates(response.result);
+        const adjustedToDateInMilliseconds = response?.result?.map((cert) => ({
+          ...cert,
+          dateTo: cert.dateTo * 1000,
+          dateFrom: cert.dateFrom * 1000,
+        }));
+        this.setCertificates(adjustedToDateInMilliseconds);
         this.setError(null);
         this.setHasLoaded(true);
       },

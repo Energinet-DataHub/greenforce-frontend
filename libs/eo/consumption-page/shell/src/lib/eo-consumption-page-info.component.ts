@@ -15,13 +15,16 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { EoConsumptionStore } from './eo-consumption.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  providers: [EoConsumptionStore],
+  imports: [MatCardModule, CommonModule, WattSpinnerModule],
   selector: 'eo-consumption-page-info',
   styles: [
     `
@@ -63,11 +66,3 @@ export class EoConsumptionPageInfoComponent {
     return Number((wattHour / 1000).toFixed(0));
   }
 }
-
-@NgModule({
-  providers: [EoConsumptionStore],
-  declarations: [EoConsumptionPageInfoComponent],
-  imports: [MatCardModule, CommonModule, WattSpinnerModule],
-  exports: [EoConsumptionPageInfoComponent],
-})
-export class EoConsumptionPageInfoScam {}

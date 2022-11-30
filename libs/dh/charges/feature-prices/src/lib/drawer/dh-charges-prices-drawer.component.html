@@ -17,7 +17,7 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'charges.prices.drawer'">
   <!-- drawer -->
   <watt-drawer #drawer size="large" (closed)="drawerClosed()">
-    <watt-drawer-topbar>
+    <watt-drawer-topbar *ngIf="drawer.opened">
       <span class="prices-label">{{ t("prices") }}</span>
       <watt-icon name="right"></watt-icon>
       <span
@@ -38,7 +38,7 @@ limitations under the License.
       <watt-button [disabled]="true">{{ t("edit") }}</watt-button>
     </watt-drawer-actions>
 
-    <watt-drawer-content>
+    <watt-drawer-content *ngIf="drawer.opened">
       <div class="container">
         <dh-charge-content
           [charge]="charge"

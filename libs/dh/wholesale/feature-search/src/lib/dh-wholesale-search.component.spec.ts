@@ -27,22 +27,24 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 import { WattToastModule } from '@energinet-datahub/watt/toast';
 
-import {
-  DhWholesaleSearchComponent,
-  DhWholesaleSearchScam,
-} from './dh-wholesale-search.component';
+import { DhWholesaleSearchComponent } from './dh-wholesale-search.component';
+import { WattTopBarOutletComponent } from 'libs/ui-watt/src/lib/components/shell/top-bar';
 
 async function setup() {
-  await render(DhWholesaleSearchComponent, {
-    imports: [
-      WattDanishDatetimeModule.forRoot(),
-      DhWholesaleSearchScam,
-      HttpClientModule,
-      getTranslocoTestingModule(),
-      DhApiModule.forRoot(),
-      WattToastModule.forRoot(),
-    ],
-  });
+  await render(
+    `<watt-top-bar-outlet></watt-top-bar-outlet><dh-wholesale-search></dh-wholesale-search>`,
+    {
+      imports: [
+        DhApiModule.forRoot(),
+        DhWholesaleSearchComponent,
+        getTranslocoTestingModule(),
+        HttpClientModule,
+        WattDanishDatetimeModule.forRoot(),
+        WattToastModule.forRoot(),
+        WattTopBarOutletComponent,
+      ],
+    }
+  );
 }
 
 describe(DhWholesaleSearchComponent.name, () => {
