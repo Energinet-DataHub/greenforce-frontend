@@ -114,21 +114,5 @@ namespace Energinet.DataHub.WebApi.Controllers
             var dto = await _client.GetProcessStepResultAsync(processStepResultRequestDto).ConfigureAwait(false);
             return await Task.FromResult<ActionResult>(Ok(dto));
         }
-
-        protected async Task<ActionResult<T>> HandleExceptionAsync<T>(Func<Task<T>> func)
-        {
-            try
-            {
-                return Ok(await func().ConfigureAwait(false));
-            }
-            catch (MarketParticipantBadRequestException ex)
-            {
-                return StatusCode(ex.StatusCode, ex.JsonError);
-            }
-            catch (MarketParticipantException ex)
-            {
-                return StatusCode(ex.StatusCode, ex.Message);
-            }
-        }
     }
 }

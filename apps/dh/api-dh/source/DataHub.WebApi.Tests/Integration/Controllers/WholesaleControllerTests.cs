@@ -133,7 +133,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             ProcessStepResultRequestDto processStepResultRequestDto,
             ProcessStepResultDto processStepResultDto)
         {
-            DomainClientMock
+            WholesaleClientMock
                 .Setup(m => m.GetProcessStepResultAsync(processStepResultRequestDto))
                 .ReturnsAsync(processStepResultDto);
 
