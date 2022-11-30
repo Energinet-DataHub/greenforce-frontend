@@ -27,10 +27,7 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import {
-  BatchDtoV2,
-  BatchSearchDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { BatchDto, BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
 import {
   BatchVm,
   DhWholesaleTableComponent,
@@ -79,7 +76,7 @@ export class DhWholesaleSearchComponent {
     this.store.getBatches(of(search));
   }
 
-  onDownloadBasisData(batch: BatchDtoV2) {
+  onDownloadBasisData(batch: BatchDto) {
     this.store.getZippedBasisData(of(batch));
     this.store.loadingBasisDataErrorTrigger$.pipe(first()).subscribe(() => {
       this.toastService.open({

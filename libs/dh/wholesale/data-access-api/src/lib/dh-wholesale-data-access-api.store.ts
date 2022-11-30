@@ -32,11 +32,11 @@ import {
   BatchRequestDto,
   ProcessType,
   BatchSearchDto,
-  BatchDtoV2,
+  BatchDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface State {
-  batches?: BatchDtoV2[];
+  batches?: BatchDto[];
   loadingBatches: boolean;
 }
 
@@ -82,7 +82,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   );
 
   readonly setBatches = this.updater(
-    (state, value: BatchDtoV2[]): State => ({
+    (state, value: BatchDto[]): State => ({
       ...state,
       batches: value,
       loadingBatches: false,
@@ -122,30 +122,28 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     );
   });
 
-  readonly getZippedBasisData = this.effect(
-    (batch$: Observable<BatchDtoV2>) => {
-      return batch$.pipe(
-        switchMap((batch) => {
-          return this.httpClient
-            .v1WholesaleBatchZippedBasisDataStreamGet(batch.batchNumber)
-            .pipe(
-              tap((data) => {
-                const blob = new Blob([data as unknown as BlobPart], {
-                  type: 'application/zip',
-                });
-                const basisData = window.URL.createObjectURL(blob);
-                const link = this.document.createElement('a');
-                link.href = basisData;
-                link.download = `${batch.batchNumber}.zip`;
-                link.click();
-              }),
-              catchError(() => {
-                this.loadingBasisDataErrorTrigger$.next();
-                return EMPTY;
-              })
-            );
-        })
-      );
-    }
-  );
+  readonly getZippedBasisData = this.effect((batch$: Observable<BatchDto>) => {
+    return batch$.pipe(
+      switchMap((batch) => {
+        return this.httpClient
+          .v1WholesaleBatchZippedBasisDataStreamGet(batch.batchNumber)
+          .pipe(
+            tap((data) => {
+              const blob = new Blob([data as unknown as BlobPart], {
+                type: 'application/zip',
+              });
+              const basisData = window.URL.createObjectURL(blob);
+              const link = this.document.createElement('a');
+              link.href = basisData;
+              link.download = `${batch.batchNumber}.zip`;
+              link.click();
+            }),
+            catchError(() => {
+              this.loadingBasisDataErrorTrigger$.next();
+              return EMPTY;
+            })
+          );
+      })
+    );
+  });
 }
