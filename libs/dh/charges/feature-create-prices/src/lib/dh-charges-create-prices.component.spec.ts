@@ -94,7 +94,7 @@ describe(DhChargesCreatePricesComponent.name, () => {
     expect(effectiveDateInput.value).toEqual(expectedDate);
   });
 
-  it('when selecting subscription charge type, change input field', async () => {
+  it('when selecting subscription charge type, resolution should be Month', async () => {
     await setup();
 
     const chargeTypeDropdown = findDropdownElement(chargeTypeDropdownName);
