@@ -28,6 +28,7 @@ import {
 import {
   AsyncValidatorFn,
   ControlValueAccessor,
+  FormControl,
   NgControl,
   UntypedFormControl,
   ValidationErrors,
@@ -41,6 +42,7 @@ import {
   distinctUntilChanged,
   map,
   takeUntil,
+  take,
 } from 'rxjs';
 
 import { WattDropdownOptions } from './watt-dropdown-option';
@@ -77,7 +79,10 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
-  matSelectControl = new UntypedFormControl(null, { updateOn: 'blur' });
+  matSelectControl = new FormControl<string | string[] | undefined | null>(
+    null,
+    { updateOn: 'blur' }
+  );
 
   /**
    * Control for the MatSelect filter keyword
@@ -97,6 +102,21 @@ export class WattDropdownComponent
    * @ignore
    */
   isCloseToScreenLeftEdge = false;
+
+  /**
+   * @ignore
+   */
+  emDash = '—';
+
+  /**
+   * @ignore
+   */
+  isToggleAllChecked = false;
+
+  /**
+   * @ignore
+   */
+  isToggleAllIndeterminate = false;
 
   /**
    * @ignore
@@ -222,10 +242,32 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
+  onToggleAll(toggleAllState: boolean): void {
+    this.filteredOptions$
+      .pipe(
+        take(1),
+        map((options) => options.map((option) => option.value))
+      )
+      .subscribe((filteredOptions: string[]) => {
+        const optionsToSelect = toggleAllState ? filteredOptions : [];
+
+        this.matSelectControl.patchValue(optionsToSelect);
+      });
+  }
+
+  /**
+   * @ignore
+   */
   private listenForFilterFieldValueChanges() {
     this.filterControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.filterOptions());
+      .subscribe(() => {
+        this.filterOptions();
+
+        if (this.multiple) {
+          this.determineToggleAllCheckboxState();
+        }
+      });
   }
 
   /**
@@ -310,6 +352,10 @@ export class WattDropdownComponent
         takeUntil(this.destroy$)
       )
       .subscribe((value: WattDropdownValue) => {
+        if (this.multiple) {
+          this.determineToggleAllCheckboxState();
+        }
+
         this.markParentControlAsTouched();
         this.changeParentValue(value);
       });
@@ -353,5 +399,33 @@ export class WattDropdownComponent
         (option) => option.displayValue.toLowerCase().indexOf(search) > -1
       )
     );
+  }
+
+  /**
+   * @ignore
+   */
+  private determineToggleAllCheckboxState(): void {
+    this.filteredOptions$
+      .pipe(
+        take(1),
+        map((options) => options.map((option) => option.value))
+      )
+      .subscribe((filteredOptions: string[]) => {
+        const selectedOptions = this.matSelectControl.value;
+
+        if (Array.isArray(selectedOptions)) {
+          const selectedFilteredOptions = filteredOptions.filter(
+            (option) => selectedOptions.indexOf(option) > -1
+          );
+
+          this.isToggleAllIndeterminate =
+            selectedFilteredOptions.length > 0 &&
+            selectedFilteredOptions.length < filteredOptions.length;
+
+          this.isToggleAllChecked =
+            selectedFilteredOptions.length > 0 &&
+            selectedFilteredOptions.length === filteredOptions.length;
+        }
+      });
   }
 }
