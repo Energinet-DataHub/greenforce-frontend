@@ -28,33 +28,36 @@ import { WattModalModule } from '@energinet-datahub/watt/modal';
   styles: [
     `
       :host {
-        height: 500px; // Magic UX number
-        display: flex;
-        flex-direction: column;
-      }
-
-      h3 {
-        min-height: 44px; // Magic UX number
+        display: grid;
+        align-items: center;
+        grid-template-columns: auto;
+        grid-template-rows: 44px 1fr;
+        height: 100%;
       }
 
       .content {
         color: var(--watt-color-primary-dark);
+        border-top: 1px solid var(--watt-color-primary-light);
         padding-top: var(--watt-space-m);
-        height: 100%;
+        align-self: start;
       }
 
-      watt-button {
+      .actions {
+        padding-top: var(--watt-space-m);
+        border-top: 1px solid var(--watt-color-primary-light);
         display: flex;
         justify-content: end;
       }
     `,
   ],
   template: `
-    <h3>Automatic logout</h3>
+    <span class="watt-headline-3">Automatic logout</span>
     <p class="content">
       For security reasons you have been automatically logged out.
     </p>
-    <watt-button aria-selected="true" (click)="close()">Ok</watt-button>
+    <div class="actions">
+      <watt-button (click)="close()">Ok</watt-button>
+    </div>
   `,
 })
 export class EoIdleTimerLoggedOutModalComponent {

@@ -29,56 +29,49 @@ import { map, take, tap, timer } from 'rxjs';
   styles: [
     `
       :host {
-        height: 500px; // Magic UX number
         display: grid;
         align-items: center;
-        grid-template-columns: 1fr auto;
-        grid-template-rows: 44px 1fr auto; // Magic UX number
-        grid-template-areas:
-          'title close'
-          'content content'
-          '. actions';
-      }
-
-      .modal-title {
-        grid-area: title;
+        grid-template-columns: auto auto;
+        grid-template-rows: 44px 1fr;
+        height: 100%;
       }
 
       .modal-close {
-        grid-area: close;
         justify-self: end;
         color: var(--watt-color-primary);
       }
 
       .content {
-        grid-area: content;
-        border-top: 1px solid var(--watt-primary-light);
-        border-bottom: 1px solid var(--watt-primary-light);
+        grid-column: 1 / span 2;
+        border-top: 1px solid var(--watt-color-primary-light);
         color: var(--watt-color-primary-dark);
         padding-top: var(--watt-space-m);
         align-self: start;
-        height: 100%;
       }
 
       .actions {
         padding-top: var(--watt-space-m);
+        border-top: 1px solid var(--watt-color-primary-light);
         display: flex;
-        grid-area: actions;
+        grid-column: 1 / span 2;
         gap: var(--watt-space-m);
+        justify-content: end;
       }
     `,
   ],
   template: `
+    <span class="watt-headline-3">Automatic logout</span>
     <watt-button
       variant="icon"
       icon="close"
       class="modal-close"
       (click)="close()"
     ></watt-button>
-    <h3 class="modal-title">Automatic logout</h3>
     <div class="content">
       <p>You will be logged out in:</p>
-      <h1>{{ countDownTimer$ | async | date: 'mm:ss' }}</h1>
+      <span class="watt-headline-1">{{
+        countDownTimer$ | async | date: 'mm:ss'
+      }}</span>
       <br />
       <p>We are logging you out for security reasons.</p>
     </div>
@@ -86,9 +79,7 @@ import { map, take, tap, timer } from 'rxjs';
       <watt-button variant="secondary" (click)="close('logout')">
         Log out
       </watt-button>
-      <watt-button aria-selected="true" (click)="close()">
-        Stay logged in
-      </watt-button>
+      <watt-button (click)="close()"> Stay logged in </watt-button>
     </div>
   `,
 })

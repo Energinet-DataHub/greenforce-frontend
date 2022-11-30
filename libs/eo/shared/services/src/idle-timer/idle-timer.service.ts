@@ -73,14 +73,20 @@ export class IdleTimerService {
     this.stopIdleMonitor();
 
     this.dialog
-      .open(EoIdleTimerCountdownModalComponent)
+      .open(EoIdleTimerCountdownModalComponent, {
+        height: '500px',
+        autoFocus: false,
+      })
       .afterClosed()
       .subscribe((result: string) => {
         if (result === 'logout') {
           this.authService.logout().subscribe((response) => {
             if (response.success) {
               this.router.navigateByUrl(eoLandingPageRelativeUrl);
-              this.dialog.open(EoIdleTimerLoggedOutModalComponent);
+              this.dialog.open(EoIdleTimerLoggedOutModalComponent, {
+                height: '500px',
+                autoFocus: false,
+              });
             }
           });
           return;
