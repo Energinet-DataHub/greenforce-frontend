@@ -49,7 +49,6 @@ import { EoCertificatesStore } from './eo-certificates.store';
   ],
   template: `
     <mat-paginator
-      *ngIf="dataSource.data.length > 10"
       [pageSize]="10"
       [pageSizeOptions]="[10, 25, 50, 100, 250]"
       [showFirstLastButtons]="true"
