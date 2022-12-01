@@ -104,21 +104,27 @@ limitations under the License.
           <button mat-menu-item (click)="onEditOrganization(element)">
             {{ t("editOrganization") }}
           </button>
-          <button mat-menu-item (click)="onCreateActor(element)">
-            {{ t("createActor") }}
-          </button>
           <button
             mat-menu-item
-            (click)="
-              onEditActor(
-                element.organization.organizationId,
-                element.actor.actorId
-              )
-            "
-            *ngIf="element.actor"
+            *dhPermissionRequired="['actor:manage']"
+            (click)="onCreateActor(element)"
           >
-            {{ t("editActor") }}
+            {{ t("createActor") }}
           </button>
+          <ng-container *dhPermissionRequired="['actor:manage']">
+            <button
+              mat-menu-item
+              (click)="
+                onEditActor(
+                  element.organization.organizationId,
+                  element.actor.actorId
+                )
+              "
+              *ngIf="element.actor"
+            >
+              {{ t("editActor") }}
+            </button>
+          </ng-container>
         </mat-menu>
       </mat-cell>
     </ng-container>
