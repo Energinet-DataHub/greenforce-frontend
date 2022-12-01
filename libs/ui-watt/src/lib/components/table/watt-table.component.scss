@@ -20,6 +20,7 @@ watt-table .mat-table {
   position: relative;
   display: grid;
   grid-template-columns: var(--watt-table-grid-template-columns);
+  grid-auto-rows: max-content;
   height: 100%;
   overflow: auto;
 
@@ -35,6 +36,7 @@ watt-table .mat-table {
   }
 
   th.mat-header-cell {
+    display: flex;
     position: sticky;
     top: 0;
     padding: 0 var(--watt-space-s);
