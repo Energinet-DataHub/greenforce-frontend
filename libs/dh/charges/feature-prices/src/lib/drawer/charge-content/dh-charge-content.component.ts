@@ -33,21 +33,14 @@
 import {
   Component,
   Input,
-  NgModule,
   ViewChild,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import {
-  DhChargesChargePricesTabComponent,
-  DhChargesChargePricesTabScam,
-} from '../charge-content/price-tab/dh-charges-charge-prices-tab.component';
+import { DhChargesChargePricesTabComponent } from '../charge-content/price-tab/dh-charges-charge-prices-tab.component';
 import { TranslocoModule } from '@ngneat/transloco';
-import {
-  DhChargesChargeMessagesTabComponent,
-  DhChargesChargeMessagesTabScam,
-} from '../charge-content/message-tab/dh-charges-charge-messages-tab.component';
-import { DhChargesChargeHistoryTabScam } from '../charge-content/history-tab/dh-charges-charge-history-tab.component';
-import { DhChargeDetailsHeaderScam } from '../charge-content/details-header/dh-charge-details-header.component';
+import { DhChargesChargeMessagesTabComponent } from '../charge-content/message-tab/dh-charges-charge-messages-tab.component';
+import { DhChargesChargeHistoryTabComponent } from '../charge-content/history-tab/dh-charges-charge-history-tab.component';
+import { DhChargeDetailsHeaderComponent } from '../charge-content/details-header/dh-charge-details-header.component';
 import {
   WattTabsComponent,
   WattTabsModule,
@@ -56,6 +49,15 @@ import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
 
 @Component({
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    DhChargeDetailsHeaderComponent,
+    DhChargesChargePricesTabComponent,
+    DhChargesChargeMessagesTabComponent,
+    DhChargesChargeHistoryTabComponent,
+    WattTabsModule,
+  ],
   selector: 'dh-charge-content',
   templateUrl: './dh-charge-content.component.html',
   styleUrls: ['./dh-charge-content.component.scss'],
@@ -88,17 +90,3 @@ export class DhChargeContentComponent {
     console.log('load history');
   }
 }
-
-@NgModule({
-  declarations: [DhChargeContentComponent],
-  exports: [DhChargeContentComponent],
-  imports: [
-    TranslocoModule,
-    DhChargeDetailsHeaderScam,
-    DhChargesChargePricesTabScam,
-    DhChargesChargeMessagesTabScam,
-    DhChargesChargeHistoryTabScam,
-    WattTabsModule,
-  ],
-})
-export class DhChargeContentScam {}
