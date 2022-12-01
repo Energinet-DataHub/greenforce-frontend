@@ -29,6 +29,7 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
         border-radius: 4px;
         display: block;
         padding: calc(1.5 * var(--watt-space-m)); /* 24px */
+        background: var(--watt-color-neutral-white);
       }
     `,
   ],
