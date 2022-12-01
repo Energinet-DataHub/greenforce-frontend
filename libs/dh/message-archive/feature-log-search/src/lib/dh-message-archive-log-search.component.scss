@@ -16,7 +16,7 @@
  */
 .form {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   column-gap: var(--watt-space-m);
   row-gap: var(--watt-space-m);
   align-items: center;
@@ -30,7 +30,7 @@
 }
 
 .rowContainer {
-  grid-column-end: span 4;
+  grid-column-end: span 5;
   display: grid;
   grid-template-columns: 250px 168px 1fr 1fr;
   column-gap: var(--watt-space-m);

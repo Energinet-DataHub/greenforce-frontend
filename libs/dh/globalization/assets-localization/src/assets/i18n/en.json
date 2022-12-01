@@ -456,7 +456,7 @@
       "dateTo": "Date to",
       "startSearch": "Search",
       "NoResultsFound": "No result",
-      "ChooseBusinessReason": "Choose business reason",
+      "progressType": "Business reason",
       "ChooseDocumentType": "Type or choose",
       "includeRelatedMessage": "Include related message (when searching Message Id)",
       "loadMore": "Load more",

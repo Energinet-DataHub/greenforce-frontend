@@ -47,6 +47,18 @@ limitations under the License.
             </watt-dropdown>
           </watt-form-field>
 
+          <watt-form-field>
+            <watt-label>{{ transloco("progressType") }}</watt-label>
+            <watt-dropdown
+              formControlName="processTypes"
+              [options]="processTypeFormFieldOptions"
+              name="processTypes"
+              [placeholder]="transloco('ChooseDocumentType')"
+              [multiple]="true"
+            >
+            </watt-dropdown>
+          </watt-form-field>
+
           <!-- Sender -->
           <watt-form-field>
             <watt-label>{{ transloco("senderId") }}</watt-label>

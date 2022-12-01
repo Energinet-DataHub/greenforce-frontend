@@ -94,6 +94,7 @@ export class DhMessageArchiveLogSearchComponent {
   searchForm: FormGroup = new FormGroup({
     messageId: new FormControl(''),
     rsmNames: new FormControl([]),
+    processTypes: new FormControl([]),
     senderId: new FormControl(''),
     receiverId: new FormControl(''),
     includeRelated: new FormControl<boolean>({ value: false, disabled: true }),
@@ -205,6 +206,7 @@ export class DhMessageArchiveLogSearchComponent {
       receiverId,
       senderId,
       timeRange,
+      processTypes,
     } = this.searchForm.value;
 
     const dateTimeFrom = zonedTimeToUtc(dateRange?.start, this.localTimeZone);
@@ -234,6 +236,7 @@ export class DhMessageArchiveLogSearchComponent {
       rsmNames,
       senderId,
       receiverId,
+      processTypes,
     });
 
     this.store.searchLogs(this.searchCriteria);

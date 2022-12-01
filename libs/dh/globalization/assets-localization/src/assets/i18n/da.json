@@ -458,7 +458,7 @@
       "dateTo": "Dato til",
       "startSearch": "Søg",
       "noResultsFound": "Intet resultat",
-      "ChooseBusinessReason": "Vælg forretningsårsag",
+      "progressType": "Forretningsårsag",
       "ChooseDocumentType": "Indtast eller vælg",
       "includeRelatedMessage": "Inkluder relaterede beskeder (ved søgning på Besked ID)",
       "loadMore": "Indlæs flere",
