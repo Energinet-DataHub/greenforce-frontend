@@ -31,10 +31,7 @@ import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-ti
 import { DanishLocaleModule } from '@energinet-datahub/gf/configuration-danish-locale';
 import { add } from 'date-fns';
 import { TestBed } from '@angular/core/testing';
-import {
-  DhChargeContentComponent,
-  DhChargeContentScam,
-} from './dh-charge-content.component';
+import { DhChargeContentComponent } from './dh-charge-content.component';
 import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 
@@ -80,7 +77,7 @@ describe(DhChargeContentComponent.name, () => {
         },
       ],
       imports: [
-        DhChargeContentScam,
+        DhChargeContentComponent,
         getTranslocoTestingModule(),
         WattDanishDatetimeModule.forRoot(),
         DanishLocaleModule,
