@@ -35,6 +35,7 @@ watt-table .mat-table {
   }
 
   th.mat-header-cell {
+    display: flex;
     position: sticky;
     top: 0;
     padding: 0 var(--watt-space-s);

@@ -80,14 +80,6 @@ export default {
 };
 
 export const Table: Story = (args) => {
-  let activeRow: number;
-
-  args.dataSource = new WattTableDataSource(periodicElements);
-  args.isActiveRow = (row: PeriodicElement) => row.position == activeRow;
-  args.onRowClick = (row: PeriodicElement) => {
-    activeRow = row.position;
-  };
-
   return {
     props: args,
     template: `
@@ -100,8 +92,8 @@ export const Table: Story = (args) => {
         [columns]="columns"
         [selectable]="selectable"
         [suppressRowHoverHighlight]="suppressRowHoverHighlight"
-        [getActiveRow]="isActiveRow"
-        (rowClick)="onRowClick($event)"
+        [activeRow]="activeRow"
+        (rowClick)="activeRow = $event"
         >
         <ng-container *wattTableCell="table.columns.name; let element">
           <div class="watt-text-s">
@@ -132,4 +124,11 @@ Table.args = {
     name: { header: 'Name' },
     symbol: { header: 'Symbol', sort: false },
   } as WattTableColumnDef<PeriodicElement>,
+  dataSource: new WattTableDataSource(periodicElements),
+  activeRow: undefined,
+};
+
+Table.argTypes = {
+  activeRow: { control: false },
+  dataSource: { control: false },
 };
