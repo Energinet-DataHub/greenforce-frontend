@@ -139,11 +139,11 @@ limitations under the License.
       </div>
       <dh-message-archive-log-search-result
         *rxLet="searchResult$ as searchResult"
-        [searchResult]="(this.searchResult$ | async) ?? []"
+        [searchResult]="this.searchResult$ | push"
         [hasSearchError]="hasSearchError$ | push"
         [isInit]="isInit$ | push"
         [isSearching]="searching"
-        [actors]="getActorOptions$ | async"
+        [actors]="getActorOptions$ | push"
       >
       </dh-message-archive-log-search-result>
     </ng-container>

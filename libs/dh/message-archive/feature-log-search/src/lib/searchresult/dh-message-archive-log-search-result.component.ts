@@ -67,7 +67,7 @@ export class DhMessageArchiveLogSearchResultComponent
   implements AfterViewInit, OnChanges
 {
   private _translateScrope = 'messageArchive.search';
-  private _selectedRow: string | null | undefined = null;
+  private _selectedRow?: string;
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(DhMessageArchiveDrawerComponent)
   messageDrawer!: DhMessageArchiveDrawerComponent;
@@ -76,13 +76,13 @@ export class DhMessageArchiveLogSearchResultComponent
     new EventEmitter<MessageArchiveSearchResultItemDto>();
   @Output() downloadLogFile =
     new EventEmitter<MessageArchiveSearchResultItemDto>();
-  @Input() isSearching: boolean | null = false;
+  @Input() isSearching = false;
 
   columns: WattTableColumnDef<MessageArchiveSearchResultItemDto>;
 
-  @Input() hasSearchError: boolean | null = false;
-  @Input() isInit: boolean | null = false;
-  @Input() actors: WattDropdownOptions | null = null;
+  @Input() hasSearchError = false;
+  @Input() isInit = false;
+  @Input() actors!: WattDropdownOptions;
 
   DocumentTypes = DocumentTypes;
 
@@ -119,7 +119,7 @@ export class DhMessageArchiveLogSearchResultComponent
   }
 
   onRowClick(row: MessageArchiveSearchResultItemDto) {
-    this._selectedRow = row.messageId;
+    this._selectedRow = row.messageId ?? '';
     this.messageDrawer.open(row);
   }
 
