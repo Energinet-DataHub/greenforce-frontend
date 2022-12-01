@@ -16,7 +16,6 @@
  */
 import {
   Component,
-  NgModule,
   OnInit,
   OnDestroy,
   Output,
@@ -42,6 +41,16 @@ import {
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    CommonModule,
+    ReactiveFormsModule,
+    WattFormFieldModule,
+    WattDatepickerModule,
+    WattChipsModule,
+    DhFeatureFlagDirectiveModule,
+  ],
   selector: 'dh-drawer-datepicker',
   templateUrl: './dh-drawer-datepicker.component.html',
   styleUrls: ['./dh-drawer-datepicker.component.scss'],
@@ -155,18 +164,3 @@ export class DhDrawerDatepickerComponent
     }, 1000);
   }
 }
-
-@NgModule({
-  declarations: [DhDrawerDatepickerComponent],
-  exports: [DhDrawerDatepickerComponent],
-  imports: [
-    TranslocoModule,
-    CommonModule,
-    ReactiveFormsModule,
-    WattFormFieldModule,
-    WattDatepickerModule,
-    WattChipsModule,
-    DhFeatureFlagDirectiveModule,
-  ],
-})
-export class DhDrawerDatepickerScam {}

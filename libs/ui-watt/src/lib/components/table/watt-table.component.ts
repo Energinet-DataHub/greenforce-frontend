@@ -36,7 +36,12 @@ import {
 } from '@angular/core';
 import type { QueryList } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatSort, MatSortModule, SortDirection } from '@angular/material/sort';
+import {
+  MatSort,
+  MatSortModule,
+  Sort,
+  SortDirection,
+} from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { map, type Subscription } from 'rxjs';
 import { WattResizeObserverDirective } from '../../utils/resize-observer';
@@ -70,6 +75,11 @@ export interface WattTableColumn<T> {
    * @see https://drafts.csswg.org/css-grid/#track-sizes
    */
   size?: string;
+
+  /**
+   * Horizontally align the contents of the column. Defaults to `"left"`.
+   */
+  align?: 'left' | 'right' | 'center';
 }
 
 /**
@@ -131,9 +141,15 @@ export class WattTableComponent<T>
   /**
    * Column definition record with keys representing the column identifiers
    * and values being the column configuration. The order of the columns
-   * is determined by the property order.
+   * is determined by the property order, but can be overruled by the
+   * `displayedColumns` input.
    */
   @Input() columns: WattTableColumnDef<T> = {};
+
+  /**
+   * Used for hiding or reordering columns defined in the `columns` input.
+   */
+  @Input() displayedColumns?: string[];
 
   /**
    * Provide a description of the table for visually impaired users.
@@ -154,6 +170,12 @@ export class WattTableComponent<T>
   sortDirection: SortDirection = '';
 
   /**
+   * Whether to allow the user to clear the sort. Defaults to `true`.
+   */
+  @Input()
+  sortClear = true;
+
+  /**
    * Whether the table should include a checkbox column for row selection.
    */
   @Input()
@@ -166,10 +188,10 @@ export class WattTableComponent<T>
   suppressRowHoverHighlight = false;
 
   /**
-   * Callback for determining if a row is the currently active row.
+   * Highlights the currently active row.
    */
   @Input()
-  getActiveRow?: (row: T) => boolean;
+  activeRow?: T;
 
   /**
    * Emits whenever the selection updates. Only works when selectable is `true`.
@@ -182,6 +204,12 @@ export class WattTableComponent<T>
    */
   @Output()
   rowClick = new EventEmitter<T>();
+
+  /**
+   * Event emitted when the user changes the active sort or sort direction.
+   */
+  @Output()
+  sortChange = new EventEmitter<Sort>();
 
   /** @ignore */
   @ContentChildren(WattTableCellDirective)
@@ -220,8 +248,10 @@ export class WattTableComponent<T>
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.columns || changes.selectable) {
+    if (changes.columns || changes.displayedColumns || changes.selectable) {
+      const { displayedColumns } = this;
       const sizing = Object.keys(this.columns)
+        .filter((key) => !displayedColumns || displayedColumns.includes(key))
         .map((key) => this.columns[key].size)
         .map((size) => size ?? 'auto');
 
@@ -257,7 +287,7 @@ export class WattTableComponent<T>
 
   /** @ignore */
   _getColumns() {
-    const columns = Object.keys(this.columns);
+    const columns = this.displayedColumns ?? Object.keys(this.columns);
     return this.selectable ? [this._checkboxColumn, ...columns] : columns;
   }
 
