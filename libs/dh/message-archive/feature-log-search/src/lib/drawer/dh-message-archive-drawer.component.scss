@@ -43,10 +43,17 @@
   }
 }
 
+watt-drawer-content {
+  display: grid;
+  height: 100%;
+  grid-template-rows: auto 1fr;
+}
+
 pre {
   border: solid 1px lightgray;
   white-space: break-spaces;
   padding: var(--watt-space-s);
+  overflow: auto;
 }
 
 .sender-receiver-label {
