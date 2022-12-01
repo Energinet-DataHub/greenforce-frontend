@@ -92,28 +92,28 @@ export class DhMessageArchiveLogSearchResultComponent
   constructor(private translocoService: TranslocoService) {
     this.columns = {
       messageId: {
-        header: translocoService.translate(
-          `${this._translateScrope}.messageId`
-        ),
+        header: () =>
+          translocoService.translate(`${this._translateScrope}.messageId`),
       },
       rsmName: {
-        header: translocoService.translate(
-          `${this._translateScrope}.documenttype`
-        ),
+        header: () =>
+          translocoService.translate(`${this._translateScrope}.documenttype`),
       },
       senderGln: {
-        header: translocoService.translate(`${this._translateScrope}.senderId`),
+        header: () =>
+          translocoService.translate(`${this._translateScrope}.senderId`),
       },
       receiverGln: {
-        header: translocoService.translate(
-          `${this._translateScrope}.receiverId`
-        ),
+        header: () =>
+          translocoService.translate(`${this._translateScrope}.receiverId`),
       },
       createdDate: {
-        header: translocoService.translate(`${this._translateScrope}.dateTime`),
+        header: () =>
+          translocoService.translate(`${this._translateScrope}.dateTime`),
       },
       httpData: {
-        header: translocoService.translate(`${this._translateScrope}.status`),
+        header: () =>
+          translocoService.translate(`${this._translateScrope}.status`),
       },
     };
   }
