@@ -104,12 +104,14 @@ export const Table: Story = (args) => {
           </div>
         </ng-container>
         <ng-container *wattTableCell="table.columns.symbol; let element">
-          <watt-icon
-            name="date"
-            size="s"
-            class="date-icon watt-space-inline-s"
-          ></watt-icon>
-          <span class="watt-text-s">{{ element.symbol }}</span>
+          <div style="display: flex">
+            <watt-icon
+              name="date"
+              size="s"
+              class="date-icon watt-space-inline-s"
+            ></watt-icon>
+            <span class="watt-text-s">{{ element.symbol }}</span>
+          </div>
         </ng-container>
       </watt-table>
     `,
