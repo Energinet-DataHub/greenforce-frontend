@@ -52,6 +52,16 @@ describe(WattDropdownModule.name, () => {
     return visibleInput;
   }
 
+  function getSelectAllCheckbox(): HTMLInputElement {
+    return screen.getByRole('checkbox', {
+      // We search for a "hidden" checkbox element because as of `ngx-mat-select-search` v5.0.0
+      // when the `ngx-mat-select-search` component is inside a `mat-option`,
+      // the `mat-option` element has a `aria-hidden="true"` applied to it.
+      // See https://github.com/bithost-gmbh/ngx-mat-select-search/pull/392
+      hidden: true,
+    });
+  }
+
   const placeholder = 'Select a team';
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -238,6 +248,30 @@ describe(WattDropdownModule.name, () => {
           secondOptionDe.nativeElement.click();
         }
 
+        await matSelect.close();
+
+        expect(fixture.componentInstance.dropdownControl.value).toBeNull();
+      });
+
+      it('can select/unselect all options via a toggle all checkbox', async () => {
+        const { fixture, matSelect } = await setup({
+          multiple: true,
+        });
+
+        await matSelect.open();
+
+        let checkbox = getSelectAllCheckbox();
+        userEvent.click(checkbox);
+        await matSelect.close();
+
+        expect(fixture.componentInstance.dropdownControl.value?.length).toBe(
+          dropdownOptions.length
+        );
+
+        await matSelect.open();
+
+        checkbox = getSelectAllCheckbox();
+        userEvent.click(checkbox);
         await matSelect.close();
 
         expect(fixture.componentInstance.dropdownControl.value).toBeNull();
