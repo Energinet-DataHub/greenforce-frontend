@@ -32,11 +32,15 @@ limitations under the License.
     ><ngx-mat-select-search
       [formControl]="filterControl"
       [placeholderLabel]="placeholder"
+      [showToggleAllCheckbox]="multiple"
+      (toggleAll)="onToggleAll($event)"
+      [toggleAllCheckboxChecked]="isToggleAllChecked"
+      [toggleAllCheckboxIndeterminate]="isToggleAllIndeterminate"
       [noEntriesFoundLabel]="noOptionsFoundLabel"
     ></ngx-mat-select-search
   ></mat-option>
 
-  <mat-option *ngIf="!multiple && showResetOption">—</mat-option>
+  <mat-option *ngIf="!multiple && showResetOption">{{ emDash }}</mat-option>
 
   <mat-option
     *ngFor="let option of filteredOptions$ | push"
