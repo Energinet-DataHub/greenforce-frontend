@@ -232,7 +232,7 @@ export class DhMessageArchiveLogSearchComponent {
       dateTimeFrom: dateTimeFrom.toISOString(),
       dateTimeTo: dateTimeTo.toISOString(),
       includeRelated: Boolean(includeRelated),
-      messageId,
+      messageId: messageId === '' ? null : messageId,
       rsmNames,
       senderId,
       receiverId,
