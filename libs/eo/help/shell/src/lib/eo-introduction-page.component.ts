@@ -14,4 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/eo-faq-shell.module';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  selector: 'eo-introduction-page',
+  styles: [``],
+  template: ` <div>Introduction</div> `,
+})
+export class EoIntroductionPageComponent {}

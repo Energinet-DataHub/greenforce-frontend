@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { eoFaqRoutePath } from '@energinet-datahub/eo/shared/utilities';
+import { RouterModule } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  selector: 'eo-faq-shell',
+  imports: [RouterModule],
+  selector: 'eo-faq-page',
   styles: [
     `
       :host {
@@ -41,27 +42,27 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/shared/utilities';
   ],
   template: `
     <div class="watt-space-stack-m faq-link">
-      <a href="${eoFaqRoutePath}#what-is-energy-origin">
+      <a routerLink="." fragment="#what-is-energy-origin">
         What is Energy Origin?
       </a>
     </div>
     <div class="watt-space-stack-m faq-link">
-      <a href="${eoFaqRoutePath}#who-can-access-the-platform">
+      <a routerLink="." fragment="#who-can-access-the-platform">
         Who can access the platform?
       </a>
     </div>
     <div class="watt-space-stack-m faq-link">
-      <a href="${eoFaqRoutePath}#where-does-the-data-come-from">
+      <a routerLink="." fragment="#where-does-the-data-come-from">
         Where does the data come from?
       </a>
     </div>
     <div class="watt-space-stack-m faq-link">
-      <a href="${eoFaqRoutePath}#how-can-i-influence-the-development">
+      <a routerLink="." fragment="#how-can-i-influence-the-development">
         How can I influence the development?
       </a>
     </div>
     <div class="watt-space-stack-m faq-link">
-      <a href="${eoFaqRoutePath}#where-can-i-read-more">
+      <a routerLink="." fragment="#where-can-i-read-more">
         Where can I read more?
       </a>
     </div>
@@ -113,4 +114,4 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/shared/utilities';
     </p>
   `,
 })
-export class EoFaqShellComponent {}
+export class EoFaqPageComponent {}

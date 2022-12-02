@@ -18,9 +18,30 @@ export const eoCertificatesRoutePath = 'certificates';
 export const eoConsumptionPageRoutePath = 'consumption';
 export const eoDashboardRoutePath = 'dashboard';
 export const eoEmissionsRoutePath = 'emissions';
-export const eoFaqRoutePath = 'faq';
 export const eoMeteringPointsRoutePath = 'metering-points';
 export const eoOriginOfEnergyRoutePath = 'origin-of-energy';
 export const eoPrivacyPolicyRoutePath = 'privacy-policy';
 export const eoProductionRoutePath = 'production';
 export const eoLandingPageRelativeUrl = '/';
+export const eoHelpRoutePath = 'help';
+export const eoFaqRoutePath = `faq`;
+export const eoIntroductionRoutePath = 'introduction';
+export const eoSimultaneityRoutePath = 'simultaneity';
+export const eoGeographyRoutePath = 'geography';
+
+export const eoRoutes = {
+  certificates: eoCertificatesRoutePath,
+  consumption: eoConsumptionPageRoutePath,
+  dashboard: eoDashboardRoutePath,
+  emissions: eoEmissionsRoutePath,
+  meteringpoints: eoMeteringPointsRoutePath,
+  originOfEnergy: eoOriginOfEnergyRoutePath,
+  privacyPolicy: eoPrivacyPolicyRoutePath,
+  production: eoProductionRoutePath,
+  landingPage: eoLandingPageRelativeUrl,
+  help: eoHelpRoutePath,
+  faq: eoFaqRoutePath,
+  introduction: eoIntroductionRoutePath,
+  simultaneity: eoSimultaneityRoutePath,
+  geography: eoGeographyRoutePath,
+};
