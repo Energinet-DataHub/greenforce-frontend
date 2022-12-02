@@ -134,7 +134,8 @@ export class WattTableComponent<T>
   implements OnChanges, AfterViewInit, OnDestroy
 {
   /**
-   * The table's source of data.
+   * The table's source of data. Property should not be changed after
+   * initialization, instead update the data on the instance itself.
    */
   @Input() dataSource!: WattTableDataSource<T>;
 
