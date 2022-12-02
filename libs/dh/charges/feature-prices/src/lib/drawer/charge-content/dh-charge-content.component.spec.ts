@@ -37,9 +37,9 @@ import {
 } from './dh-charge-content.component';
 import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
 const dateTimeFormat = 'dd-MM-yyyy';
-const timeZoneIdentifier = 'Europe/Copenhagen';
 
 const charge: ChargeV1Dto = {
   id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
@@ -135,7 +135,7 @@ describe(DhChargeContentComponent.name, () => {
     const now = new Date();
     const expectedDate = formatInTimeZone(
       now,
-      timeZoneIdentifier,
+      danishTimeZoneIdentifier,
       dateTimeFormat
     );
 
@@ -158,7 +158,7 @@ describe(DhChargeContentComponent.name, () => {
 
     const newDateToInput = formatInTimeZone(
       tomorrow,
-      timeZoneIdentifier,
+      danishTimeZoneIdentifier,
       'ddMMyyyy'
     );
 
@@ -177,7 +177,7 @@ describe(DhChargeContentComponent.name, () => {
 
     const expectedNewDate = formatInTimeZone(
       tomorrow,
-      timeZoneIdentifier,
+      danishTimeZoneIdentifier,
       dateTimeFormat
     );
 

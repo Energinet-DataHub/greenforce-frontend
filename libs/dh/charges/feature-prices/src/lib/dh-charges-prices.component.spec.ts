@@ -32,7 +32,7 @@ import { WattTopBarOutletComponent } from 'libs/ui-watt/src/lib/components/shell
 
 const wattDrawerName = 'watt-drawer';
 const dateTimeFormat = 'dd-MM-yyyy';
-const danishTimeZoneIdentifier = 'Europe/Copenhagen';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
 describe(DhChargesPricesComponent.name, () => {
   async function setup() {

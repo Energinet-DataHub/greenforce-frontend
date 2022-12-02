@@ -14,23 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//ts-ignore
-/**
- * @license
- * Copyright 2020 Energinet DataHub A/S
- *
- * Licensed under the Apache License, Version 2.0 (the "License2");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 import {
   FormControl,
   FormGroup,
@@ -74,6 +57,7 @@ import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-a
 import { ViewEncapsulation } from '@angular/core';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import zonedTimeToUtc from 'date-fns-tz/zonedTimeToUtc';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -116,8 +100,6 @@ export class DhMessageArchiveLogSearchComponent {
   isInit$ = this.store.isInit$;
   getActorOptions$ = this.actorStore.actors$;
 
-  localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
   rsmFormFieldOptions: WattDropdownOptions = this.buildRsmOptions();
   processTypeFormFieldOptions: WattDropdownOptions =
     this.buildProcessTypesOptions();
@@ -136,7 +118,6 @@ export class DhMessageArchiveLogSearchComponent {
     private actorStore: DhMessageArchiveActorDataAccessApiStore
   ) {
     this.actorStore.getActors();
-    this.resetSearchCritera();
     this.searchForm.valueChanges.subscribe((value) => this.handleState(value));
   }
 
@@ -189,8 +170,11 @@ export class DhMessageArchiveLogSearchComponent {
       processTypes,
     } = this.searchForm.value;
 
-    const dateTimeFrom = zonedTimeToUtc(dateRange?.start, this.localTimeZone);
-    const dateTimeTo = zonedTimeToUtc(dateRange?.end, this.localTimeZone);
+    const dateTimeFrom = zonedTimeToUtc(
+      dateRange?.start,
+      danishTimeZoneIdentifier
+    );
+    const dateTimeTo = zonedTimeToUtc(dateRange?.end, danishTimeZoneIdentifier);
 
     if (
       timeRange?.start &&
