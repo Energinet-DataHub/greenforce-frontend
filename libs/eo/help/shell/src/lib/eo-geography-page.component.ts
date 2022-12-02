@@ -14,19 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { RouterModule, Routes } from '@angular/router';
-import { EoFaqShellComponent } from './eo-faq-shell.component';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { NgModule } from '@angular/core';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: EoFaqShellComponent,
-  },
-];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoFaqShellComponent],
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  selector: 'eo-geography-page',
+  styles: [``],
+  template: ` <div>Geography</div> `,
 })
-export class EoFaqShellModule {}
+export class EoGeographyPageComponent {}
