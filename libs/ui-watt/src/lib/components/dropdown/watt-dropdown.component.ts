@@ -415,7 +415,7 @@ export class WattDropdownComponent
 
         if (Array.isArray(selectedOptions)) {
           const selectedFilteredOptions = filteredOptions.filter(
-            (option) => selectedOptions.indexOf(option) > -1
+            (option) => selectedOptions.includes(option)
           );
 
           this.isToggleAllIndeterminate =
