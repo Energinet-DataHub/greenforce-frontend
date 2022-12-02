@@ -414,8 +414,8 @@ export class WattDropdownComponent
         const selectedOptions = this.matSelectControl.value;
 
         if (Array.isArray(selectedOptions)) {
-          const selectedFilteredOptions = filteredOptions.filter(
-            (option) => selectedOptions.includes(option)
+          const selectedFilteredOptions = filteredOptions.filter((option) =>
+            selectedOptions.includes(option)
           );
 
           this.isToggleAllIndeterminate =
