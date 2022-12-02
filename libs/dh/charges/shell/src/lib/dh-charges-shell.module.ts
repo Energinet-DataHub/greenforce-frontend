@@ -17,10 +17,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import {
-  DhChargesPricesComponent,
-  DhChargesPricesScam,
-} from '@energinet-datahub/dh/charges/feature-prices';
+import { DhChargesPricesComponent } from '@energinet-datahub/dh/charges/feature-prices';
 import {
   dhChargesCreatePricesPath,
   dhChargesPricesPath,
@@ -51,6 +48,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [DhChargesPricesScam, RouterModule.forChild(routes)],
+  imports: [DhChargesPricesComponent, RouterModule.forChild(routes)],
 })
 export class DhChargesShellModule {}
