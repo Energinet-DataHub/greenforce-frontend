@@ -40,7 +40,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { LetModule } from '@rx-angular/template';
-import { map, Observable } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@rx-angular/template';
 
@@ -59,15 +58,13 @@ import {
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 import {
   DhMessageArchiveDataAccessApiStore,
   DhMessageArchiveDataAccessBlobApiStore,
   DhMessageArchiveActorDataAccessApiStore,
 } from '@energinet-datahub/dh/message-archive/data-access-api';
-import {
-  ActorDto,
-  MessageArchiveSearchCriteria,
-} from '@energinet-datahub/dh/shared/domain';
+import { MessageArchiveSearchCriteria } from '@energinet-datahub/dh/shared/domain';
 import {
   ProcessTypes,
   DocumentTypes,
@@ -117,6 +114,7 @@ export class DhMessageArchiveLogSearchComponent {
   hasSearchError$ = this.store.hasGeneralError$;
   continuationToken$ = this.store.continuationToken$;
   isInit$ = this.store.isInit$;
+  getActorOptions$ = this.actorStore.actors$;
 
   localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -133,31 +131,13 @@ export class DhMessageArchiveLogSearchComponent {
     processTypes: [],
   };
 
-  getActorOptions$ = this.getActorOptions();
-
   constructor(
     private store: DhMessageArchiveDataAccessApiStore,
     private actorStore: DhMessageArchiveActorDataAccessApiStore
   ) {
+    this.actorStore.getActors();
     this.resetSearchCritera();
     this.searchForm.valueChanges.subscribe((value) => this.handleState(value));
-  }
-
-  getActorOptions(): Observable<WattDropdownOptions> {
-    this.actorStore.getActors();
-    return this.actorStore
-      .select((x) => x.actorResult)
-      .pipe(
-        map((actors) =>
-          (actors ?? []).flatMap((actor: ActorDto) => ({
-            value: actor.actorNumber.value,
-            displayValue:
-              actor.name.value === ''
-                ? actor.actorNumber.value
-                : actor.name.value,
-          }))
-        )
-      );
   }
 
   private handleState(formChanges: typeof this.searchForm.value): void {
@@ -271,6 +251,7 @@ export class DhMessageArchiveLogSearchComponent {
     WattSpinnerModule,
     ReactiveFormsModule,
     PushModule,
+    WattTopBarComponent,
   ],
 })
 export class DhMessageArchiveLogSearchScam {}

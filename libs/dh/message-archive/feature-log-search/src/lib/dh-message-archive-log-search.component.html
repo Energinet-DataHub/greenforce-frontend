@@ -17,7 +17,7 @@ limitations under the License.
 <ng-container *transloco="let transloco; read: 'messageArchive.search'">
   <ng-container *rxLet="searching$ as searching">
     <ng-container *rxLet="continuationToken$ as continuationToken">
-      <div class="header">
+      <watt-top-bar>
         <form
           class="form"
           [formGroup]="searchForm"
@@ -67,7 +67,6 @@ limitations under the License.
               [options]="(getActorOptions$ | async) ?? []"
               name="senderId"
               [placeholder]="transloco('ChooseDocumentType')"
-              [multiple]="false"
             >
             </watt-dropdown>
           </watt-form-field>
@@ -81,7 +80,6 @@ limitations under the License.
               [options]="(getActorOptions$ | async) ?? []"
               name="receiverId"
               [placeholder]="transloco('ChooseDocumentType')"
-              [multiple]="false"
             >
             </watt-dropdown>
           </watt-form-field>
@@ -96,7 +94,7 @@ limitations under the License.
               <watt-error
                 *ngIf="searchForm.controls.dateRange.errors?.rangeRequired"
               >
-                Date range is required
+                {{ transloco("invalidDate") }}
               </watt-error>
             </watt-form-field>
 
@@ -115,31 +113,29 @@ limitations under the License.
               name="reference-id"
               >{{ transloco("includeRelatedMessage") }}</watt-checkbox
             >
-            <ng-container *rxLet="continuationToken$ as continuationToken">
-              <div class="buttons-container">
-                <watt-button
-                  title="{{ transloco('clearSearch') }}"
-                  (click)="resetSearchCritera()"
-                  icon="remove"
-                  variant="secondary"
-                  >{{ transloco("clearSearch") }}</watt-button
-                >
-                <!-- Search -->
-                <watt-button
-                  *rxLet="this.searching$ as seaching"
-                  variant="primary"
-                  type="submit"
-                  icon="search"
-                  >{{ transloco("startSearch") }}</watt-button
-                >
-              </div>
-            </ng-container>
+            <div class="buttons-container">
+              <watt-button
+                (click)="resetSearchCritera()"
+                icon="remove"
+                variant="secondary"
+                >{{ transloco("clearSearch") }}</watt-button
+              >
+              <!-- Search -->
+              <watt-button
+                *rxLet="searching$ as seaching"
+                [disabled]="seaching"
+                variant="primary"
+                type="submit"
+                icon="search"
+                >{{ transloco("startSearch") }}</watt-button
+              >
+            </div>
           </div>
         </form>
-      </div>
+      </watt-top-bar>
       <dh-message-archive-log-search-result
         *rxLet="searchResult$ as searchResult"
-        [searchResult]="this.searchResult$ | push"
+        [searchResult]="searchResult$ | push"
         [hasSearchError]="hasSearchError$ | push"
         [isInit]="isInit$ | push"
         [isSearching]="searching"

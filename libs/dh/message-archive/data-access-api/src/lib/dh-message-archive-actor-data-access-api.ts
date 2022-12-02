@@ -24,7 +24,7 @@ import {
   LoadingState,
   ErrorState,
 } from '@energinet-datahub/dh/shared/data-access-api';
-import { Observable, switchMap, tap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 interface ActorsResultState {
@@ -45,6 +45,16 @@ export class DhMessageArchiveActorDataAccessApiStore extends ComponentStore<Acto
   );
   hasGeneralError$ = this.select(
     (state) => state.loadingState === ErrorState.GENERAL_ERROR
+  );
+
+  actors$ = this.select((state) => state.actorResult).pipe(
+    map((actors) =>
+      (actors ?? []).flatMap((actor: ActorDto) => ({
+        value: actor.actorNumber.value,
+        displayValue:
+          actor.name.value === '' ? actor.actorNumber.value : actor.name.value,
+      }))
+    )
   );
 
   constructor(private httpClient: MarketParticipantHttp) {

@@ -475,7 +475,8 @@
       "searchResult": "Search results",
       "startSearchResultView": "Start search",
       "startSearchText": "Your results will appear here",
-      "dateTime": "Date and time"
+      "dateTime": "Date and time",
+      "invalidDate": "Invalid date"
     }
   },
   "marketParticipant": {

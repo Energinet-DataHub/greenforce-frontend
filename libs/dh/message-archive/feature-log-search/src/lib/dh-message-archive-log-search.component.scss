@@ -38,17 +38,6 @@
   align-items: center;
 }
 
-.header {
-  background: var(--watt-color-neutral-white);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  display: block;
-  margin-bottom: var(--watt-space-l);
-  margin-left: calc(var(--watt-space-l) * -1);
-  margin-top: calc(var(--watt-space-l) * -1);
-  padding: var(--watt-space-l);
-  width: calc(100% + var(--watt-space-xl));
-}
-
 .buttons-container {
   display: flex;
   justify-content: flex-end;

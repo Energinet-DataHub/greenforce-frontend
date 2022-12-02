@@ -479,7 +479,8 @@
       "startSearchText": "Dine resultater vil fremgå her",
       "loadingErrorTitle": "Der opstod en uventet fejl",
       "loadingErrorMessage": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl.",
-      "dateTime": "Dato og tid"
+      "dateTime": "Dato og tid",
+      "invalidDate": "Ugyldig dato"
     }
   },
   "marketParticipant": {
