@@ -122,9 +122,9 @@ Table.args = {
   selectable: true,
   suppressRowHoverHighlight: false,
   columns: {
-    position: { header: 'Position', size: 'min-content' },
-    name: { header: 'Name' },
-    symbol: { header: 'Symbol', sort: false },
+    position: { data: 'position', header: 'Position', size: 'min-content' },
+    name: { data: 'name', header: 'Name' },
+    symbol: { data: 'symbol', header: 'Symbol', sort: false },
   } as WattTableColumnDef<PeriodicElement>,
   dataSource: new WattTableDataSource(periodicElements),
   activeRow: undefined,

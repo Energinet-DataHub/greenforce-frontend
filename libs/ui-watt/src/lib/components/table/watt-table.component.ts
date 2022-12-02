@@ -50,9 +50,16 @@ import { WattTableDataSource } from './watt-table-data-source';
 
 export interface WattTableColumn<T> {
   /**
-   * Text to display in the header. Supports callback for translation etc.
+   * The data property of `T` that this column should be bound to. This is
+   * required for sorting to work out of the box. Use `null` for columns
+   * that cannot be associated with a data property.
    */
-  header: string | ((key: string) => string);
+  data: keyof T | null;
+
+  /**
+   * Text to display in the header. For translations or
+   */
+  header?: string;
 
   /**
    * Optional callback for determining cell content when not using template.
@@ -157,6 +164,12 @@ export class WattTableComponent<T>
    */
   @Input()
   description = '';
+
+  /**
+   * TODO
+   */
+  @Input()
+  formatHeader?: (key: string) => string;
 
   /**
    * Identifier for column that should be sorted initially.
@@ -299,6 +312,7 @@ export class WattTableComponent<T>
 
   /** @ignore */
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
+    if (!column.value.header) return this.formatHeader?.(column.key);
     return typeof column.value.header === 'string'
       ? column.value.header
       : column.value.header(column.key);
