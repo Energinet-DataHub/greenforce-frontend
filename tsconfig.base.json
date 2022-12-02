@@ -217,7 +217,7 @@
       "@energinet-datahub/eo/emissions/shell": [
         "libs/eo/emissions/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/faq/shell": ["libs/eo/faq/shell/src/index.ts"],
+      "@energinet-datahub/eo/help/shell": ["libs/eo/help/shell/src/index.ts"],
       "@energinet-datahub/eo/landing-page/shell": [
         "libs/eo/landing-page/shell/src/index.ts"
       ],

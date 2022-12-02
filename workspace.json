@@ -72,7 +72,7 @@
     "eo-core-shell": "libs/eo/core/shell",
     "eo-dashboard-shell": "libs/eo/dashboard/shell",
     "eo-emissions-shell": "libs/eo/emissions/shell",
-    "eo-faq-shell": "libs/eo/faq/shell",
+    "eo-help-shell": "libs/eo/help/shell",
     "eo-landing-page-shell": "libs/eo/landing-page/shell",
     "eo-metering-points-shell": "libs/eo/metering-points/shell",
     "eo-origin-of-energy-shell": "libs/eo/origin-of-energy/shell",
