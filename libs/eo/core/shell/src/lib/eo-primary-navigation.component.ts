@@ -49,7 +49,7 @@ import {
       }
 
       .menu-spacer {
-        height: 40px;
+        height: var(--watt-space-xl);
       }
     `,
   ],
