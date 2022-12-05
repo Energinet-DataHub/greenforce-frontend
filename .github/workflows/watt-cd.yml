@@ -15,6 +15,11 @@
 # Design System Frontend
 name: Watt CD
 
+env:
+  node-version-file: .nvmrc
+  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
+  yarn-version: 1.22.19
+
 on:
   push:
     branches:

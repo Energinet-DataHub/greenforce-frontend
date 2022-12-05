@@ -23,7 +23,7 @@ import {
   eoConsumptionPageRoutePath,
   eoDashboardRoutePath,
   eoEmissionsRoutePath,
-  eoFaqRoutePath,
+  eoHelpRoutePath,
   eoMeteringPointsRoutePath,
   eoOriginOfEnergyRoutePath,
   eoPrivacyPolicyRoutePath,
@@ -112,11 +112,10 @@ const routes: Routes = [
           ),
       },
       {
-        path: eoFaqRoutePath,
-        data: { title: 'FAQ' },
+        path: eoHelpRoutePath,
         loadChildren: () =>
-          import('@energinet-datahub/eo/faq/shell').then(
-            (esModule) => esModule.EoFaqShellModule
+          import('@energinet-datahub/eo/help/shell').then(
+            (esModule) => esModule.EoHelpModule
           ),
       },
       {

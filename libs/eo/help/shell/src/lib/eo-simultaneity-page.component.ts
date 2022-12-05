@@ -14,34 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-/**
- * Usage:
- * `import { WattCardModule } from '@energinet-datahub/watt/card';`
- */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'watt-card',
-  styles: [
-    `
-      :host {
-        border-radius: 4px;
-        display: block;
-        padding: calc(1.5 * var(--watt-space-m)); /* 24px */
-        background: var(--watt-color-neutral-white);
-      }
-    `,
-  ],
-  template: `
-    <ng-content select="watt-card-title"></ng-content>
-
-    <ng-content></ng-content>
-  `,
+  standalone: true,
+  selector: 'eo-simultaneity-page',
+  styles: [``],
+  template: ` <div>Simultaneity</div> `,
 })
-export class WattCardComponent {
-  @HostBinding('class')
-  get cssClass() {
-    return 'watt-card watt-elevation';
-  }
-}
+export class EoSimultaneityPageComponent {}
