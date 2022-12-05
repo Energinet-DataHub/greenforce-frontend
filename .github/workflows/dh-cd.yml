@@ -106,11 +106,12 @@ jobs:
   #
 
   dispatch_failed:
-    needs: [
-      frontend_promote_prerelease,
-      dotnet_promote_prerelease,
-      dispatch_deploment_event,
-    ]
+    needs:
+      [
+        frontend_promote_prerelease,
+        dotnet_promote_prerelease,
+        dispatch_deploment_event,
+      ]
     if: |
       always() &&
       contains(needs.*.result, 'failure')
