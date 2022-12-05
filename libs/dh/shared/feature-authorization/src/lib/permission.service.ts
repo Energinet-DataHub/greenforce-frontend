@@ -22,7 +22,6 @@ import {
   DhB2CEnvironment,
   dhB2CEnvironmentToken,
 } from '@energinet-datahub/dh/shared/environments';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { map, of, switchMap } from 'rxjs';
 import { ActorTokenService } from './actor-token.service';
 import { Permission } from './permission';
@@ -32,14 +31,10 @@ export class PermissionService {
   constructor(
     @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment,
     private actorTokenService: ActorTokenService,
-    private authService: MsalService,
-    private featureFlag: DhFeatureFlagsService
+    private authService: MsalService
   ) {}
 
   public hasPermission(permission: Permission) {
-    if (this.featureFlag.isEnabled('grant_full_authorization')) {
-      return of(true);
-    }
 
     const accounts = this.authService.instance.getAllAccounts();
 

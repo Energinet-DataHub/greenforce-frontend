@@ -22,24 +22,19 @@ import {
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { Observable, switchMap } from 'rxjs';
 import { ActorTokenService } from './actor-token.service';
 
 @Injectable()
 export class DhAuthorizationInterceptor implements HttpInterceptor {
   constructor(
-    private actorTokenService: ActorTokenService,
-    private featureFlag: DhFeatureFlagsService
+    private actorTokenService: ActorTokenService
   ) {}
 
   intercept(
     request: HttpRequest<unknown>,
     nextHandler: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    if (this.featureFlag.isEnabled('grant_full_authorization')) {
-      return nextHandler.handle(request);
-    }
 
     if (this.isPartOfAuthFlow(request)) {
       return nextHandler.handle(request);
