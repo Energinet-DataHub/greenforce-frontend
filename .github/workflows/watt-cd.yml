@@ -114,3 +114,22 @@ jobs:
           repository: '${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}'
           event-type: 'watt-deployment-request-domain'
           client-payload: '{"domain_pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "frontend_deploy": "${{ needs.changes.outputs.frontend }}"}'
+
+  #
+  # Send notification to teams channel if deployment dispatch failed
+  #
+
+  dispatch_failed:
+    needs: [
+      frontend_promote_prerelease,
+      chromatic_deployment,
+      dispatch_deploment_event,
+    ]
+    if: |
+      always() &&
+      contains(needs.*.result, 'failure')
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v9
+    with:
+      TEAM_NAME: 'TexasRangers'
+      SUBJECT: 'Deployment dispatch failed: Watt + UI'
+    secrets: inherit
