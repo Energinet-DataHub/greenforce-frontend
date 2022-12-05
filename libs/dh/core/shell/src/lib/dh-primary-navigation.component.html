@@ -22,9 +22,7 @@ limitations under the License.
     <watt-nav-list-item link="/message-archive">{{
       transloco("messageArchive")
     }}</watt-nav-list-item>
-    <ng-container
-      *dhPermissionRequired="['organization:view']"
-    >
+    <ng-container *dhPermissionRequired="['organization:view']">
       <watt-nav-list-item link="/market-participant/organizations">{{
         transloco("marketParticipantOrganizations")
       }}</watt-nav-list-item>

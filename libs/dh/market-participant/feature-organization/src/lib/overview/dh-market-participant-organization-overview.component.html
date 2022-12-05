@@ -102,13 +102,15 @@ limitations under the License.
           *dhPermissionRequired="['organization:manage', 'actor:manage']"
           variant="icon"
           icon="edit"
-          [mat-menu-trigger-for]="menu">
+          [mat-menu-trigger-for]="menu"
+        >
         </watt-button>
         <mat-menu #menu="matMenu">
           <button
             *dhPermissionRequired="['organization:manage']"
             mat-menu-item
-            (click)="onEditOrganization(element)">
+            (click)="onEditOrganization(element)"
+          >
             {{ t("editOrganization") }}
           </button>
           <button

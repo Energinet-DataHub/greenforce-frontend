@@ -114,7 +114,7 @@ export class DhMarketParticipantOrganizationComponent {
     WattValidationMessageModule,
     DhMarketParticipantOrganizationOverviewScam,
     PushModule,
-    DhPermissionRequiredDirective
+    DhPermissionRequiredDirective,
   ],
   declarations: [DhMarketParticipantOrganizationComponent],
 })
