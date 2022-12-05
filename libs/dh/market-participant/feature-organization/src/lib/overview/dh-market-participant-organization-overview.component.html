@@ -98,10 +98,17 @@ limitations under the License.
     <ng-container matColumnDef="row-edit">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <watt-button variant="icon" icon="edit" [mat-menu-trigger-for]="menu">
+        <watt-button
+          *dhPermissionRequired="['organization:manage', 'actor:manage']"
+          variant="icon"
+          icon="edit"
+          [mat-menu-trigger-for]="menu">
         </watt-button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="onEditOrganization(element)">
+          <button
+            *dhPermissionRequired="['organization:manage']"
+            mat-menu-item
+            (click)="onEditOrganization(element)">
             {{ t("editOrganization") }}
           </button>
           <button
