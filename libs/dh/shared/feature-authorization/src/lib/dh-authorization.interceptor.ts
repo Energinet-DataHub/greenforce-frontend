@@ -27,15 +27,12 @@ import { ActorTokenService } from './actor-token.service';
 
 @Injectable()
 export class DhAuthorizationInterceptor implements HttpInterceptor {
-  constructor(
-    private actorTokenService: ActorTokenService
-  ) {}
+  constructor(private actorTokenService: ActorTokenService) {}
 
   intercept(
     request: HttpRequest<unknown>,
     nextHandler: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-
     if (this.isPartOfAuthFlow(request)) {
       return nextHandler.handle(request);
     }

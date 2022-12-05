@@ -35,7 +35,6 @@ export class PermissionService {
   ) {}
 
   public hasPermission(permission: Permission) {
-
     const accounts = this.authService.instance.getAllAccounts();
 
     // we expect one and only one account for now.
