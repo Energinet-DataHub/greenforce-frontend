@@ -49,10 +49,12 @@ limitations under the License.
       *matHeaderCellDef
       mat-sort-header
       [arrowPosition]="column.value.align === 'right' ? 'before' : 'after'"
-      [disabled]="column.value.sort === false"
+      [disabled]="!column.value.accessor || column.value.sort === false"
       class="watt-table-align-{{ column.value.align ?? 'left' }}"
     >
-      <div class="watt-table-header-cell">{{ _getColumnHeader(column) }}</div>
+      <div class="watt-table-header-cell">
+        {{ _getColumnHeader(column) }}
+      </div>
     </th>
     <td
       mat-cell
