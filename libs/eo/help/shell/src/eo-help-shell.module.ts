@@ -29,17 +29,17 @@ const routes: Routes = [
   {
     path: eoRoutes.introduction,
     component: EoIntroductionPageComponent,
-    data: { title: 'Introduction' },
+    data: { title: 'Introduktion til EnergiOprindelse' },
   },
   {
     path: eoRoutes.simultaneity,
     component: EoSimultaneityPageComponent,
-    data: { title: 'Simultaneity' },
+    data: { title: 'Samtidighed' },
   },
   {
     path: eoRoutes.geography,
     component: EoGeographyPageComponent,
-    data: { title: 'Geography' },
+    data: { title: 'Geografi' },
   },
   { path: '**', redirectTo: '' },
 ];
