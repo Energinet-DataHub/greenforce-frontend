@@ -216,7 +216,7 @@ export class WattTableComponent<T>
    * The default behavior for determining the active row is to compare
    * the two row objects using strict equality check. This is sufficient
    * as long as the instances remain the same, which may not be the case
-   * if row data is recreated or rebuild from serialization.
+   * if row data is recreated or rebuilt from serialization.
    */
   @Input()
   activeRowComparator?: (currentRow: T, activeRow: T) => boolean;
