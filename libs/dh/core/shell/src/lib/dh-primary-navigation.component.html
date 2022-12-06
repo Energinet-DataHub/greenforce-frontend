@@ -34,21 +34,19 @@ limitations under the License.
     </ng-container>
   </watt-nav-list>
 
-  <ng-container>
-    <watt-nav-list
-      [expandable]="true"
-      [title]="transloco('chargePrices.menuGroupLabel')"
-    >
-      <watt-nav-list-item link="/charges/prices">{{
-        transloco("chargePrices.search")
+  <watt-nav-list
+    [expandable]="true"
+    [title]="transloco('chargePrices.menuGroupLabel')"
+  >
+    <watt-nav-list-item link="/charges/prices">{{
+      transloco("chargePrices.search")
+    }}</watt-nav-list-item>
+    <ng-container *dhFeatureFlag="'create_charge_prices_page_feature_flag'">
+      <watt-nav-list-item link="/charges/create-prices">{{
+        transloco("chargePrices.create")
       }}</watt-nav-list-item>
-      <ng-container *dhFeatureFlag="'create_charge_prices_page_feature_flag'">
-        <watt-nav-list-item link="/charges/create-prices">{{
-          transloco("chargePrices.create")
-        }}</watt-nav-list-item>
-      </ng-container>
-    </watt-nav-list>
-  </ng-container>
+    </ng-container>
+  </watt-nav-list>
 
   <ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
     <watt-nav-list
