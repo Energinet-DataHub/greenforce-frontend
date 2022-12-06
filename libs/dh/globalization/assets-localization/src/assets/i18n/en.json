@@ -771,5 +771,10 @@
     "overview": {
       "header": "Process Overview"
     }
+  },
+  "admin": {
+    "userManagement": {
+      "topBarTitle": "User management"
+    }
   }
 }

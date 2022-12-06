@@ -773,5 +773,10 @@
     "overview": {
       "header": "Proces oversigt"
     }
+  },
+  "admin": {
+    "userManagement": {
+      "topBarTitle": "Brugeradministration"
+    }
   }
 }
