@@ -20,10 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { formatInTimeZone } from 'date-fns-tz';
 import { fireEvent, render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
-import {
-  DhChargesPricesScam,
-  DhChargesPricesComponent,
-} from './dh-charges-prices.component';
+import { DhChargesPricesComponent } from './dh-charges-prices.component';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 import { DanishLocaleModule } from '@energinet-datahub/gf/configuration-danish-locale';
@@ -45,12 +42,11 @@ describe(DhChargesPricesComponent.name, () => {
             useValue: new DrawerDatepickerService(),
           },
         ],
-        declarations: [DhChargesPricesComponent],
         imports: [
           getTranslocoTestingModule(),
           DhApiModule.forRoot(),
           HttpClientModule,
-          DhChargesPricesScam,
+          DhChargesPricesComponent,
           WattDanishDatetimeModule.forRoot(),
           DanishLocaleModule,
           WattTopBarOutletComponent,
@@ -71,7 +67,7 @@ describe(DhChargesPricesComponent.name, () => {
     userEvent.click(searchButton);
 
     const id = await waitFor(() =>
-      screen.getByRole('cell', { name: /0AA1F/i })
+      screen.getByRole('gridcell', { name: /0AA1F/i })
     );
 
     expect(id).toBeInTheDocument();
@@ -107,7 +103,7 @@ describe(DhChargesPricesComponent.name, () => {
     userEvent.click(searchButton);
 
     const id = await waitFor(() =>
-      screen.getByRole('cell', { name: /0AA1F/i })
+      screen.getByRole('gridcell', { name: /0AA1F/i })
     );
 
     expect(id).toBeInTheDocument();
@@ -128,7 +124,7 @@ describe(DhChargesPricesComponent.name, () => {
     userEvent.click(searchButton);
 
     const id = await waitFor(() =>
-      screen.getByRole('cell', { name: /0AA1F/i })
+      screen.getByRole('gridcell', { name: /0AA1F/i })
     );
 
     expect(id).toBeInTheDocument();
@@ -166,7 +162,7 @@ describe(DhChargesPricesComponent.name, () => {
     userEvent.click(searchButton);
 
     const tableCell = await waitFor(() =>
-      screen.getByRole('cell', { name: /0AA1F/i })
+      screen.getByRole('gridcell', { name: /0AA1F/i })
     );
 
     expect(tableCell).toBeInTheDocument();

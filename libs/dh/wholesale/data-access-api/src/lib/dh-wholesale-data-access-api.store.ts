@@ -33,8 +33,8 @@ import {
   BatchRequestDto,
   ProcessType,
   BatchSearchDto,
-  BatchDtoV2,
   BatchState,
+  BatchDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { WattBadgeType } from '@energinet-datahub/watt/badge';
@@ -119,7 +119,10 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
           .pipe(
             map((batches) => {
               return batches.map((batch) => {
-                return {...batch, statusType: this.getStatusType(batch.executionState)}
+                return {
+                  ...batch,
+                  statusType: this.getStatusType(batch.executionState),
+                };
               });
             }),
             tap((batches) => this.setBatches(batches)),
@@ -133,55 +136,52 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     );
   });
 
-  readonly getBatch = this.effect(
-    (batchNumber$: Observable<string>) => {
-      return batchNumber$.pipe(
-        switchMap((batchNumber) => {
-          console.log('batchNumber', batchNumber);
-          return this.httpClient
-            .v1WholesaleBatchBatchGet(batchNumber)
-            .pipe(
-              map((batch) => {
-                return {...batch, statusType: this.getStatusType(batch.executionState)}
-              }),
-              tap((batch) => {
-                this.setSelectedBatch(batch);
-              }),
-              catchError(() => {
-                return EMPTY;
-              })
-            );
-        })
-      );
-    }
-  );
+  readonly getBatch = this.effect((batchNumber$: Observable<string>) => {
+    return batchNumber$.pipe(
+      switchMap((batchNumber) => {
+        console.log('batchNumber', batchNumber);
+        return this.httpClient.v1WholesaleBatchBatchGet(batchNumber).pipe(
+          map((batch) => {
+            return {
+              ...batch,
+              statusType: this.getStatusType(batch.executionState),
+            };
+          }),
+          tap((batch) => {
+            this.setSelectedBatch(batch);
+          }),
+          catchError(() => {
+            return EMPTY;
+          })
+        );
+      })
+    );
+  });
 
-  readonly getZippedBasisData = this.effect(
-    (batch$: Observable<BatchDtoV2>) => {
-      return batch$.pipe(
-        switchMap((batch) => {
-          return this.httpClient
-            .v1WholesaleBatchZippedBasisDataStreamGet(batch.batchNumber)
-            .pipe(
-              tap((data) => {
-                const blob = new Blob([data as unknown as BlobPart], {
-                  type: 'application/zip',
-                });
-                const basisData = window.URL.createObjectURL(blob);
-                const link = this.document.createElement('a');
-                link.href = basisData;
-                link.download = `${batch.batchNumber}.zip`;
-                link.click();
-              }),
-              catchError(() => {
-                this.loadingBasisDataErrorTrigger$.next();
-                return EMPTY;
-              })
-            );
-        })
-      );
-    }
-  );
+  readonly getZippedBasisData = this.effect((batch$: Observable<BatchDto>) => {
+    return batch$.pipe(
+      switchMap((batch) => {
+        return this.httpClient
+          .v1WholesaleBatchZippedBasisDataStreamGet(batch.batchNumber)
+          .pipe(
+            tap((data) => {
+              const blob = new Blob([data as unknown as BlobPart], {
+                type: 'application/zip',
+              });
+              const basisData = window.URL.createObjectURL(blob);
+              const link = this.document.createElement('a');
+              link.href = basisData;
+              link.download = `${batch.batchNumber}.zip`;
+              link.click();
+            }),
+            catchError(() => {
+              this.loadingBasisDataErrorTrigger$.next();
+              return EMPTY;
+            })
+          );
+      })
+    );
+  });
 
   readonly setSelectedBatch = this.updater(
     (state, batch: batch | undefined): State => ({

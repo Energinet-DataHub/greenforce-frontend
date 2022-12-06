@@ -135,10 +135,7 @@ jobs:
   #
 
   generate_client:
-    needs: [
-        # .NET
-        dotnet_ci_build,
-      ]
+    needs: dotnet_ci_build
     runs-on: ubuntu-latest
     env:
       output-path: libs/dh/shared/domain/src/lib/generated/v1/

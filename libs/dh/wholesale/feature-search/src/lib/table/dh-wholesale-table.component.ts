@@ -28,6 +28,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import { BatchDto, BatchState } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt/badge';
@@ -35,8 +36,7 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 
-import { batch } from "@energinet-datahub/dh/wholesale/domain";
-import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
+import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
 type wholesaleTableData = MatTableDataSource<batch>;
 
@@ -66,6 +66,12 @@ export class DhWholesaleTableComponent implements AfterViewInit {
 
   @Input() set data(batches: batch[]) {
     this._data = new MatTableDataSource(batches);
+    // this._data = new MatTableDataSource(
+    //   batches.map((batch) => ({
+    //     ...batch,
+    //     statusType: this.getStatusType(batch.executionState),
+    //   }))
+    // );
   }
   @Output() selectedRow: EventEmitter<batch> = new EventEmitter();
   @Output() download: EventEmitter<batch> = new EventEmitter();

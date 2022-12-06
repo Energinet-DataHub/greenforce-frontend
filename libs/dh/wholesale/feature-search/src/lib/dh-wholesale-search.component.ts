@@ -46,10 +46,8 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import {
-  BatchDtoV2,
-  BatchSearchDto,
-} from '@energinet-datahub/dh/shared/domain';
+
+import { BatchDto, BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
@@ -96,7 +94,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     const selectedBatch = this.route.snapshot.queryParams.batch;
-    if(selectedBatch) {
+    if (selectedBatch) {
       this.store.getBatch(selectedBatch);
       this.batchDetails.open();
     }
@@ -114,7 +112,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
     this.changeDetectorRef.detectChanges();
   }
 
-  onDownloadBasisData(batch: BatchDtoV2) {
+  onDownloadBasisData(batch: BatchDto) {
     this.store.getZippedBasisData(of(batch));
     this.store.loadingBasisDataErrorTrigger$.pipe(first()).subscribe(() => {
       this.toastService.open({

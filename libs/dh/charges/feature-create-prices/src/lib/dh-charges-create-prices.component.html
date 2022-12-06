@@ -147,7 +147,9 @@ limitations under the License.
           <!-- Effective Date -->
           <div class="effective-date">
             <watt-form-field>
-              <watt-label>{{ t("effectiveDate") }} *</watt-label>
+              <watt-label
+                >{{ t("createPrices.validFromDateTime") }} *</watt-label
+              >
               <watt-datepicker
                 formControlName="effectiveDate"
               ></watt-datepicker>
@@ -159,6 +161,15 @@ limitations under the License.
               "
             >
               {{ t("fieldRequiredErrorText") }}
+            </watt-error>
+
+            <watt-error
+              *ngIf="
+                charge.controls['effectiveDate'].hasError('maxDate') &&
+                hasSubmitted
+              "
+            >
+              {{ t("createPrices.maxDateValidationErrorText") }}
             </watt-error>
           </div>
 
