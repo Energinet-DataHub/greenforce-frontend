@@ -57,7 +57,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
   template: `
     <div class="column">
       <div class="text-box">
-        <h3>Houston, we have a problem!</h3>
+        <span class="watt-headline-3">Houston, we have a problem!</span>
         <eo-stack size="M">
           <p>
             I elsystemet, som det er i dag, mangler der en sammenhæng i tid,
@@ -78,7 +78,9 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         </eo-stack>
       </div>
       <div class="text-box">
-        <h3>Flyt energiforbruget for en grønnere profil</h3>
+        <span class="watt-headline-3"
+          >Flyt energiforbruget for en grønnere profil</span
+        >
         <eo-stack size="M">
           <p>
             Med det nuværende energisystem, hvor energiforbrug baseres på et

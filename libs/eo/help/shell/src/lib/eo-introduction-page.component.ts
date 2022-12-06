@@ -100,7 +100,9 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           style="display:block; margin-left: auto; margin-right: auto;"
         />
         <div class="text-box">
-          <h3>Hvad kan du bruge energioprindelse.dk til?</h3>
+          <span class="watt-headline-3"
+            >Hvad kan du bruge energioprindelse.dk til?</span
+          >
           <eo-stack size="M">
             <p>
               energioprindelse.dk er hovedsageligt beregnet til, at du kan
@@ -120,7 +122,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         </div>
       </div>
       <div class="text-box">
-        <h3>Grøn energi med EnergiOprindelse</h3>
+        <span class="watt-headline-3">Grøn energi med EnergiOprindelse</span>
         <eo-stack size="M">
           <p>
             Energiforbrugere oplever et stigende behov for kendskab til deres
@@ -145,7 +147,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         </eo-stack>
       </div>
       <div class="text-box">
-        <h3>Hvordan kan du blive grønnere?</h3>
+        <span class="watt-headline-3">Hvordan kan du blive grønnere?</span>
         <eo-stack size="M">
           <p>
             Helt overordnet kan du blive mere grøn ved at:
@@ -174,7 +176,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         </p>
       </div>
       <div class="text-box">
-        <h3>GO- vs. GC-certifikater</h3>
+        <span class="watt-headline-3">GO- vs. GC-certifikater</span>
         <eo-stack size="M">
           <p>
             GO står for Guarantees of Origin, og er en oprindelsesgaranti, som
