@@ -45,19 +45,11 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
       .info-box {
         padding: var(--watt-space-m);
+        background-color: var(--watt-color-primary-dark);
+        color: white;
 
-        &.green {
-          background-color: var(--watt-color-primary-dark);
+        span {
           color: white;
-
-          span {
-            color: white;
-          }
-        }
-
-        img {
-          display: block;
-          padding-bottom: var(--watt-space-m);
         }
       }
     `,
@@ -117,17 +109,21 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
     </div>
     <div class="column">
       <div>
-        <h1
-          style="color: var(--watt-color-primary-light); padding-bottom: var(--watt-space-m);"
-        >
-          Samtidighed
-        </h1>
-        <p style="color: var(--watt-color-primary-dark);">
-          Det er helt afgørende for den grønne omstilling af energisystemet, at
-          vi kan dokumentere, at vi faktisk bruger strømmen, når den er grøn.
-        </p>
+        <eo-stack size="M">
+          <p
+            class="watt-headline-1"
+            style="color: var(--watt-color-primary-light);"
+          >
+            Samtidighed
+          </p>
+          <p style="color: var(--watt-color-primary-dark);">
+            Det er helt afgørende for den grønne omstilling af energisystemet,
+            at vi kan dokumentere, at vi faktisk bruger strømmen, når den er
+            grøn.
+          </p>
+        </eo-stack>
       </div>
-      <div class="info-box green">
+      <div class="info-box">
         <span class="watt-headline-3">
           Vi danner grundlaget for at kunne træffe de grønne valg</span
         >

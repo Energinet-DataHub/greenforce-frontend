@@ -97,7 +97,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           width="383"
           src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.png"
           alt="Energy Origin graph of energy"
-          style="display:block; margin: 0 auto;"
+          style="display:block; margin-left: auto; margin-right: auto;"
         />
         <div class="text-box">
           <h3>Hvad kan du bruge energioprindelse.dk til?</h3>
@@ -196,19 +196,22 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
     </div>
     <div class="column">
       <div>
-        <h1
-          style="color: var(--watt-color-primary-light); padding-bottom: var(--watt-space-m);"
-        >
-          Grøn energi
-        </h1>
-        <p style="color: var(--watt-color-primary-dark)">
-          Med denne platform har du mulighed for at spore din energis oprindelse
-          og se din andel af vedvarende energi og dine emissioner baseret på dit
-          forbrug i den enkelte time.
-        </p>
+        <eo-stack size="M">
+          <p
+            class="watt-headline-1"
+            style="color: var(--watt-color-primary-light);"
+          >
+            Grøn energi
+          </p>
+          <p style="color: var(--watt-color-primary-dark)">
+            Med denne platform har du mulighed for at spore din energis
+            oprindelse og se din andel af vedvarende energi og dine emissioner
+            baseret på dit forbrug i den enkelte time.
+          </p>
+        </eo-stack>
       </div>
       <div class="goal-7">
-        <img alt="Iværksætter case" src="/assets/images/help/goal_7.png" />
+        <img alt="UN climate goal 7" src="/assets/images/help/goal_7.png" />
         <p>
           Bæredygtig energi er et af FN's 17 verdensmål, som indgår i
           udviklingsdagsordenen for bæredygtig udvikling frem mod 2030. Målet
@@ -262,18 +265,21 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       </div>
       <div class="info-box beige">
         <span class="watt-headline-3">Timedeklarationen</span>
-        <p>
-          Ny deklaration der baseres på faktiske time-for-time overblik af
-          leveret strøm.
-          <br /><br />
-          Læs mere om timedeklaration her:
-          <a
-            href="https://energinet.dk/El/Gron-el/Deklarationer"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Deklarationer</a
-          >
-        </p>
+        <eo-stack size="M">
+          <p>
+            Ny deklaration der baseres på faktiske time-for-time overblik af
+            leveret strøm.
+          </p>
+          <p>
+            Læs mere om timedeklaration her:
+            <a
+              href="https://energinet.dk/El/Gron-el/Deklarationer"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Deklarationer</a
+            >
+          </p>
+        </eo-stack>
       </div>
     </div>
   `,

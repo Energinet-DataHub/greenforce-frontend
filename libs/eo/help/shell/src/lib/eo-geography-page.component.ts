@@ -39,6 +39,14 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         gap: var(--watt-space-l);
       }
 
+      .img-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px;
+        gap: var(--watt-space-s);
+      }
+
       .text-box {
         padding: var(--watt-space-m);
       }
@@ -84,7 +92,9 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       <div class="text-box">
         <eo-stack size="M">
           <div>
-            <h3>Strøm kan ikke flyttes på tværs af hele Europa</h3>
+            <span class="watt-headline-3"
+              >Strøm kan ikke flyttes på tværs af hele Europa</span
+            >
             <p>
               Det er ikke uden udfordringer, når energi flyttes gennem elnettet.
               Det gælder både, når der er tale om at flytte energi indenfor egne
@@ -106,15 +116,13 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
               Island kan umuligt være samme energi forbrugt i Danmark.
             </p>
           </div>
-          <div
-            style="display: flex; flex-direction: column; align-items: center;"
-          >
+          <div class="img-box">
             <img
               width="367"
               src="/assets/images/help/map_geography.jpg"
-              alt="Energy Origin graph of energy"
+              alt="Transmission net across countries"
             />
-            <span style="font-size: 14px;">
+            <span>
               Billedet viser det europæiske transmissionsnet på tværs af
               landegrænser
             </span>
@@ -122,7 +130,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         </eo-stack>
       </div>
       <div class="text-box">
-        <h3>Hvordan løser vi udfordringerne?</h3>
+        <span class="watt-headline-3">Hvordan løser vi udfordringerne?</span>
         <p>
           En løsning er at sætte regler for, hvor lang afstanden må være fra
           produktions- til forbrugsstedet ved handel af grønne certifikater.
@@ -133,7 +141,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       </div>
       <div class="case">
         <img
-          alt="Iværksætter case"
+          alt="Geography case"
           src="/assets/images/help/case_geography.jpg"
         />
         <p>
@@ -150,15 +158,18 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
     </div>
     <div class="column">
       <div>
-        <h1
-          style="color: var(--watt-color-primary-light); padding-bottom: var(--watt-space-m);"
-        >
-          Geografi
-        </h1>
-        <p style="color: var(--watt-color-primary-dark)">
-          Der er enkelte fysiske begrænsninger for, hvordan energi kan bevæge
-          sig rundt, som bliver nødt til at være indarbejdet i systemet.
-        </p>
+        <eo-stack size="M">
+          <p
+            class="watt-headline-1"
+            style="color: var(--watt-color-primary-light);"
+          >
+            Geografi
+          </p>
+          <p style="color: var(--watt-color-primary-dark)">
+            Der er enkelte fysiske begrænsninger for, hvordan energi kan bevæge
+            sig rundt, som bliver nødt til at være indarbejdet i systemet.
+          </p>
+        </eo-stack>
       </div>
 
       <div class="info-box green">
