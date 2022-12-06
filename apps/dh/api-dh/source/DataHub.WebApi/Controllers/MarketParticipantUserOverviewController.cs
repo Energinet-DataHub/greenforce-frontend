@@ -32,7 +32,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         [HttpGet]
-        public Task<ActionResult<IEnumerable<UserOverviewItemDto>>> GetAllGridAreasAsync(int pageNumber, int pageSize)
+        public Task<ActionResult<IEnumerable<UserOverviewItemDto>>> GetUserOverviewAsync(int pageNumber, int pageSize)
         {
             return HandleExceptionAsync(() => _client.GetUserOverviewAsync(pageNumber, pageSize));
         }
