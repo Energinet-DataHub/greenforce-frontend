@@ -23,30 +23,36 @@ import {
   ViewChild,
   Output,
   EventEmitter,
+  inject,
 } from '@angular/core';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TranslocoModule } from '@ngneat/transloco';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { BatchDto, BatchState } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
+import {
+  WATT_TABLE,
+  WattTableDataSource,
+  WattTableColumnDef,
+} from '@energinet-datahub/watt/table';
 import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
+import { PushModule } from '@rx-angular/template';
+import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 
-type wholesaleTableData = MatTableDataSource<batch>;
+type wholesaleTableData = WattTableDataSource<batch>;
 
 @Component({
   standalone: true,
   imports: [
+    WATT_TABLE,
     CommonModule,
+    PushModule,
     DhSharedUiDateTimeModule,
-    MatSortModule,
-    MatTableModule,
     TranslocoModule,
     WattBadgeModule,
     WattButtonModule,
@@ -60,35 +66,38 @@ type wholesaleTableData = MatTableDataSource<batch>;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleTableComponent implements AfterViewInit {
-  @ViewChild(MatSort) sort!: MatSort;
+  private store = inject(DhWholesaleBatchDataAccessApiStore);
+
+  selectedBatch$ = this.store.selectedBatch$;
+
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
   @Input() set data(batches: batch[]) {
-    this._data = new MatTableDataSource(batches);
-    // this._data = new MatTableDataSource(
-    //   batches.map((batch) => ({
-    //     ...batch,
-    //     statusType: this.getStatusType(batch.executionState),
-    //   }))
-    // );
+    this._data = new WattTableDataSource(batches);
   }
+
   @Output() selectedRow: EventEmitter<batch> = new EventEmitter();
   @Output() download: EventEmitter<batch> = new EventEmitter();
 
-  _data: wholesaleTableData = new MatTableDataSource(undefined);
-  columnIds = [
-    'batchNumber',
-    'periodStart',
-    'periodEnd',
-    'executionTimeStart',
-    'executionState',
-    'basisData',
-  ];
+  _data: wholesaleTableData = new WattTableDataSource(undefined);
+  columns: WattTableColumnDef<batch> = {
+    batchNumber: { accessor: 'batchNumber' },
+    periodFrom: { accessor: 'periodStart' },
+    periodTo: { accessor: 'periodEnd' },
+    executionTime: { accessor: 'executionTimeStart' },
+    status: { accessor: 'executionState' },
+    basisData: { accessor: 'isBasisDataDownloadAvailable' },
+  };
+
+  translateHeader = (key: string) =>
+    translate(`wholesale.searchBatch.columns.${key}`);
+
+  isSelectedBatch = (currentBatch: batch, activeBatch: batch) =>
+    currentBatch.batchNumber === activeBatch.batchNumber;
 
   ngAfterViewInit() {
     if (this._data === null) return;
-    this._data.sort = this.sort;
     this._data.paginator = this.paginator.instance;
   }
 

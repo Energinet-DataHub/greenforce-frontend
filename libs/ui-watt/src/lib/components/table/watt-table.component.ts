@@ -210,6 +210,18 @@ export class WattTableComponent<T>
   activeRow?: T;
 
   /**
+   * Custom comparator function to determine if two rows are equal.
+   *
+   * @remarks
+   * The default behavior for determining the active row is to compare
+   * the two row objects using strict equality check. This is sufficient
+   * as long as the instances remain the same, which may not be the case
+   * if row data is recreated or rebuild from serialization.
+   */
+  @Input()
+  activeRowComparator?: (currentRow: T, activeRow: T) => boolean;
+
+  /**
    * Emits whenever the selection updates. Only works when selectable is `true`.
    */
   @Output()
@@ -327,6 +339,14 @@ export class WattTableComponent<T>
   /** @ignore */
   _getColumnCell(column: KeyValue<string, WattTableColumn<T>>, row: T) {
     return column.value.cell?.(row) ?? this.getCellData(row, column.value);
+  }
+
+  /** @ignore */
+  _isActiveRow(row: T) {
+    if (!this.activeRow) return false;
+    return this.activeRowComparator
+      ? this.activeRowComparator(row, this.activeRow)
+      : row === this.activeRow;
   }
 }
 
