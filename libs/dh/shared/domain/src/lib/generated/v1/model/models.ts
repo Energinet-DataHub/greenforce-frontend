@@ -70,4 +70,5 @@ export * from './resolution';
 export * from './settlement-method';
 export * from './stream';
 export * from './unit';
+export * from './user-overview-item-dto';
 export * from './vat-classification';
