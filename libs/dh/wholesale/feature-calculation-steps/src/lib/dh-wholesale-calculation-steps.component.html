@@ -1,0 +1,107 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let transloco; read: 'wholesale'">
+  <ng-container *rxLet="batch$; let batch">
+    <watt-top-bar>
+      <div class="header">
+        <watt-breadcrumbs>
+          <watt-breadcrumb (click)="navigateToSearchBatch()">{{
+            transloco("searchBatch.topBarTitle")
+          }}</watt-breadcrumb>
+          <watt-breadcrumb (click)="navigateToSearchBatch(batch)">{{
+            transloco("batchDetails.headline", {
+              batchNumber: batch?.batchNumber
+            })
+          }}</watt-breadcrumb>
+          <watt-breadcrumb>{{
+            transloco("calculationSteps.breadcrumb", {
+              gridAreaCode: gridAreaCode,
+              gridAreaName: transloco("calculationSteps.gridAreaName")
+            })
+          }}</watt-breadcrumb>
+        </watt-breadcrumbs>
+
+        <h2>
+          {{ transloco("calculationSteps.gridAreaName") }}
+          <watt-badge type="info">
+            {{ transloco("searchBatch." + batch?.executionState) }}
+          </watt-badge>
+        </h2>
+
+        <p>
+          <small>{{
+            transloco("calculationSteps.subHeading", {
+              gridAreaCode: gridAreaCode
+            })
+          }}</small>
+        </p>
+      </div>
+    </watt-top-bar>
+
+    <main>
+      <ul class="steps">
+        <li>
+          <dh-wholesale-production-per-gridarea
+            [batch]="batch"
+            [gridAreaCode]="gridAreaCode"
+          ></dh-wholesale-production-per-gridarea>
+        </li>
+      </ul>
+
+      <ng-template #loading>
+        <div class="loading-container">
+          <watt-spinner></watt-spinner>
+        </div>
+      </ng-template>
+
+      <ng-template #error>
+        <watt-empty-state
+          icon="custom-power"
+          [title]="
+            transloco('calculationSteps.loadCalculationStepsFailedTitle')
+          "
+          [message]="
+            transloco('calculationSteps.loadCalculationStepsFailedMessage')
+          "
+        >
+        </watt-empty-state>
+      </ng-template>
+
+      <aside class="details">
+        <watt-card>
+          <watt-card-title>
+            <h3>Detaljer</h3>
+          </watt-card-title>
+
+          <dl *ngIf="batch">
+            <dt class="watt-label">
+              {{ transloco("batchDetails.calculationPeriod") }}
+            </dt>
+            <dd>
+              {{ batch.periodStart | dhDate }} - {{ batch.periodEnd | dhDate }}
+            </dd>
+
+            <dt class="watt-label">
+              {{ transloco("batchDetails.executionTime") }}
+            </dt>
+            <dd>{{ batch.executionTimeStart | dhDateTime }}</dd>
+          </dl>
+        </watt-card>
+      </aside>
+    </main>
+  </ng-container>
+</ng-container>
