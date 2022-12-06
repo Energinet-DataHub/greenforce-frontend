@@ -43,7 +43,7 @@ import {
   SortDirection,
 } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { map, identity, type Subscription } from 'rxjs';
+import { map, type Subscription } from 'rxjs';
 import { WattCheckboxModule } from '../checkbox';
 import { WattTableDataSource } from './watt-table-data-source';
 
