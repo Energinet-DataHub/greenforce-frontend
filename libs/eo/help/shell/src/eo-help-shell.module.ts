@@ -29,7 +29,7 @@ const routes: Routes = [
   {
     path: eoRoutes.introduction,
     component: EoIntroductionPageComponent,
-    data: { title: 'Introduction' },
+    data: { title: 'Introduktion til EnergiOprindelse' },
   },
   {
     path: eoRoutes.simultaneity,

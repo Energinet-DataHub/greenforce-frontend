@@ -22,7 +22,6 @@ import {
   eoConsumptionPageRoutePath,
   eoDashboardRoutePath,
   eoEmissionsRoutePath,
-  eoFaqRoutePath,
   eoHelpRoutePath,
   eoMeteringPointsRoutePath,
   eoOriginOfEnergyRoutePath,
@@ -82,13 +81,8 @@ import {
           >BETA</span
         >
       </watt-nav-list-item>
-      <watt-nav-list-item link="/${eoHelpRoutePath}/${eoFaqRoutePath}"
-        >FAQ</watt-nav-list-item
-      >
-      <div class="menu-spacer" [onFeatureFlag]="'help'"></div>
-      <watt-nav-list-item link="/${eoHelpRoutePath}" [onFeatureFlag]="'help'"
-        >Help</watt-nav-list-item
-      >
+      <div class="menu-spacer"></div>
+      <watt-nav-list-item link="/${eoHelpRoutePath}">Help</watt-nav-list-item>
       <watt-nav-list-item (click)="onLogOut()" role="link">
         Log out
       </watt-nav-list-item>
