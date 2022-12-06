@@ -15,15 +15,17 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   EoMediaModule,
   EoStackComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [EoStackComponent, EoMediaModule],
+  imports: [EoStackComponent, EoMediaModule, RouterModule],
   selector: 'eo-introduction-page',
   styles: [
     `
@@ -153,8 +155,10 @@ import {
           </p>
           <p>
             Flere af disse muligheder kræver, at strømmen er produceret samtidig
-            med, at den bliver forbrugt. Denne samtidighed kan du læse mere om,
-            da det er en af de væsentlige ting i det nye certifikat.
+            med, at den bliver forbrugt. Denne
+            <a routerLink="../{{ routes.simultaneity }}">samtidighed</a> kan du
+            læse mere om, da det er en af de væsentlige ting i det nye
+            certifikat.
           </p>
         </eo-stack>
       </div>
@@ -181,7 +185,8 @@ import {
           <p>
             Med denne nye platform introduceres GC-certifikaterne, der er
             baseret på GO, og de to vil fungere parallelt. De nye
-            GC-certifikater giver mere værdi, da de håndterer samtidighed og
+            GC-certifikater giver mere værdi, da de håndterer
+            <a routerLink="../{{ routes.simultaneity }}">samtidighed</a> og
             geografiske begrænsninger.
           </p>
         </eo-stack>
@@ -262,4 +267,6 @@ import {
     </div>
   `,
 })
-export class EoIntroductionPageComponent {}
+export class EoIntroductionPageComponent {
+  routes = eoRoutes;
+}

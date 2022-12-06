@@ -34,7 +34,7 @@ const routes: Routes = [
   {
     path: eoRoutes.simultaneity,
     component: EoSimultaneityPageComponent,
-    data: { title: 'Simultaneity' },
+    data: { title: 'Samtidighed' },
   },
   {
     path: eoRoutes.geography,
