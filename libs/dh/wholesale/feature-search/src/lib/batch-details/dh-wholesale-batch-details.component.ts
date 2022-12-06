@@ -25,7 +25,7 @@ import {
   AfterViewInit,
   OnDestroy,
   Output,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
@@ -39,7 +39,7 @@ import {
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
 
-import { batch } from "@energinet-datahub/dh/wholesale/domain";
+import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
 import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/wholesale/routing';
@@ -61,7 +61,9 @@ import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/whole
   styleUrls: ['./dh-wholesale-batch-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleBatchDetailsComponent implements AfterViewInit, OnDestroy {
+export class DhWholesaleBatchDetailsComponent
+  implements AfterViewInit, OnDestroy
+{
   @Input() batch?: batch;
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
@@ -73,9 +75,7 @@ export class DhWholesaleBatchDetailsComponent implements AfterViewInit, OnDestro
   destroy$ = new Subject<void>();
 
   ngAfterViewInit(): void {
-    this.drawer.closed.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(() => {
+    this.drawer.closed.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.closed.emit();
     });
   }
@@ -90,6 +90,10 @@ export class DhWholesaleBatchDetailsComponent implements AfterViewInit, OnDestro
   }
 
   onGridAreaSelected(gridArea: GridAreaDto): void {
-    navigateToWholesaleCalculationSteps(this.router, this.batch as batch, gridArea);
+    navigateToWholesaleCalculationSteps(
+      this.router,
+      this.batch as batch,
+      gridArea
+    );
   }
 }

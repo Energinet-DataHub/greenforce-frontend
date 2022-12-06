@@ -67,12 +67,15 @@ import { batch } from 'libs/dh/wholesale/domain/src';
             <watt-badge>Trin 25</watt-badge>
             Aggregeret produktion per netområde
           </h3>
-          <p><strong>NETOMRÅDE</strong> {{
-            transloco('calculationSteps.breadcrumb', {
-              gridAreaCode: gridAreaCode,
-              gridAreaName: transloco('calculationSteps.gridAreaName')
-            })
-          }}</p>
+          <p>
+            <strong>NETOMRÅDE</strong>
+            {{
+              transloco('calculationSteps.breadcrumb', {
+                gridAreaCode: gridAreaCode,
+                gridAreaName: transloco('calculationSteps.gridAreaName')
+              })
+            }}
+          </p>
           <hr />
         </ng-container>
       </watt-drawer-content>
