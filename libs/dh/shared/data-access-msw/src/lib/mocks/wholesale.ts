@@ -44,7 +44,7 @@ const executionTimeEnd = '2021-12-02T23:00:00Z';
 function getWholesaleSearchBatch(apiBase: string) {
   return rest.get(`${apiBase}/v1/WholesaleBatch/Batch`, (req, res, ctx) => {
     const batchId = req.url.searchParams.get('batchId') || '';
-    const batch: BatchDtoV2 = {
+    const batch: BatchDto = {
       batchNumber: batchId,
       periodStart,
       periodEnd,
@@ -52,7 +52,22 @@ function getWholesaleSearchBatch(apiBase: string) {
       executionTimeEnd: null,
       executionState: BatchState.Pending,
       isBasisDataDownloadAvailable: false,
-      gridAreaCodes: ['805', '806'],
+      gridAreas: [
+        {
+          id: '1',
+          code: '805',
+          name: 'hello',
+          priceAreaCode: PriceAreaCode.Dk1,
+          validFrom: '01-11-2022',
+        },
+        {
+          id: '2',
+          code: '806',
+          name: 'hello again',
+          priceAreaCode: PriceAreaCode.Dk1,
+          validFrom: '01-11-2022',
+        },
+      ],
     };
     return res(ctx.status(200), ctx.json(batch));
   });

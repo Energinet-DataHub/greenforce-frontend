@@ -15,10 +15,7 @@
  * limitations under the License.
  */
 import { Route, Router } from '@angular/router';
-import {
-  BatchDtoV2,
-  GridAreaDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { BatchDto, GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 
 export const WHOLESALE_BASE_PATH = 'wholesale';
 const WHOLESALE_START_PROCESS_PATH = 'start-process';
@@ -44,7 +41,7 @@ export const WHOLESALE_ROUTES: Route[] = [
       ),
     data: {
       titleTranslationKey: 'wholesale.searchBatch.topBarTitle',
-    }
+    },
   },
   {
     path: `${WHOLESALE_CALCULATION_STEPS_PATH}/:batchId/:gridAreaCode`,
@@ -60,7 +57,7 @@ export const WHOLESALE_ROUTES: Route[] = [
 
 export function navigateToWholesaleCalculationSteps(
   router: Router,
-  batch: BatchDtoV2,
+  batch: BatchDto,
   gridArea: GridAreaDto
 ) {
   router.navigate(

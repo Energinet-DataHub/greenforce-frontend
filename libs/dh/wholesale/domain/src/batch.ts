@@ -1,6 +1,6 @@
-import { BatchDtoV2 } from "@energinet-datahub/dh/shared/domain";
+import { BatchDto } from '@energinet-datahub/dh/shared/domain';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { WattBadgeType } from "@energinet-datahub/watt/badge";
+import { WattBadgeType } from '@energinet-datahub/watt/badge';
 
-export type batch = BatchDtoV2 & { statusType: WattBadgeType };
+export type batch = BatchDto & { statusType: WattBadgeType };
