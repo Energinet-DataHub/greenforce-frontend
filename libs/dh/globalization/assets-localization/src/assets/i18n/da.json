@@ -36,6 +36,10 @@
         "startBatch": "Start batch",
         "searchBatch": "Søg batch",
         "overview": "Oversigt"
+      },
+      "admin": {
+        "menuGroupLabel": "Opsætning",
+        "userManagement": "Brugeradministration"
       }
     }
   },

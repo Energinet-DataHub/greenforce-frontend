@@ -36,6 +36,10 @@
         "startBatch": "Start Batch",
         "searchBatch": "Search Batch",
         "overview": "Overview"
+      },
+      "admin": {
+        "menuGroupLabel": "Settings",
+        "userManagement": "User management"
       }
     }
   },

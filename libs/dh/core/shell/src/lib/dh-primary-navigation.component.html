@@ -61,4 +61,15 @@ limitations under the License.
       }}</watt-nav-list-item>
     </watt-nav-list>
   </ng-container>
+
+  <ng-container *dhPermissionRequired="['users:manage']">
+    <watt-nav-list
+      [expandable]="true"
+      [title]="transloco('admin.menuGroupLabel')"
+    >
+      <watt-nav-list-item link="/admin/user-management">{{
+        transloco("admin.userManagement")
+      }}</watt-nav-list-item>
+    </watt-nav-list>
+  </ng-container>
 </ng-container>
