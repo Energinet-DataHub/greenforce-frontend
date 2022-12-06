@@ -251,9 +251,8 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           EU Kommissionen skal beskrive metode, der kan dokumentere, at strøm
           taget fra elnettet produceres samtidigt med produktion af grøn brint
           til transport. (EU-direktiv ark. 27)
-          <br /><br />
-          Dette vil netop kunne gøres med EnergiOprindelse.
         </p>
+        <p>Dette vil netop kunne gøres med EnergiOprindelse.</p>
       </div>
       <div class="info-box beige">
         <span class="watt-headline-3">CSR-rapport</span>
