@@ -67,7 +67,7 @@ describe(DhChargesPricesComponent.name, () => {
     userEvent.click(searchButton);
 
     const id = await waitFor(() =>
-      screen.getByRole('cell', { name: /0AA1F/i })
+      screen.getByRole('gridcell', { name: /0AA1F/i })
     );
 
     expect(id).toBeInTheDocument();
@@ -103,7 +103,7 @@ describe(DhChargesPricesComponent.name, () => {
     userEvent.click(searchButton);
 
     const id = await waitFor(() =>
-      screen.getByRole('cell', { name: /0AA1F/i })
+      screen.getByRole('gridcell', { name: /0AA1F/i })
     );
 
     expect(id).toBeInTheDocument();
@@ -124,7 +124,7 @@ describe(DhChargesPricesComponent.name, () => {
     userEvent.click(searchButton);
 
     const id = await waitFor(() =>
-      screen.getByRole('cell', { name: /0AA1F/i })
+      screen.getByRole('gridcell', { name: /0AA1F/i })
     );
 
     expect(id).toBeInTheDocument();
@@ -162,7 +162,7 @@ describe(DhChargesPricesComponent.name, () => {
     userEvent.click(searchButton);
 
     const tableCell = await waitFor(() =>
-      screen.getByRole('cell', { name: /0AA1F/i })
+      screen.getByRole('gridcell', { name: /0AA1F/i })
     );
 
     expect(tableCell).toBeInTheDocument();
