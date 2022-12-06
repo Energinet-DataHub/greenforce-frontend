@@ -64,7 +64,7 @@ export interface WattTableColumn<T> {
 
   /**
    * Callback for determining cell content when not using template. By default,
-   * cell content is determined by the `accessor` (unless it is `null`).
+   * cell content is found using the `accessor` (unless it is `null`).
    */
   cell?: (row: T) => string;
 
@@ -166,10 +166,12 @@ export class WattTableComponent<T>
   description = '';
 
   /**
-   * TODO
+   * Optional callback for determining header text for columns that
+   * do not have a static header text set in the column definition.
+   * Useful for providing translations of column headers.
    */
   @Input()
-  resolveHeader = identity<string>;
+  resolveHeader?: (key: string) => string;
 
   /**
    * Identifier for column that should be sorted initially.
@@ -317,7 +319,9 @@ export class WattTableComponent<T>
 
   /** @ignore */
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
-    return column.value.header ?? this.resolveHeader(column.key);
+    return column.value.header
+      ? column.value.header
+      : this.resolveHeader?.(column.key) ?? column.key;
   }
 
   /** @ignore */
