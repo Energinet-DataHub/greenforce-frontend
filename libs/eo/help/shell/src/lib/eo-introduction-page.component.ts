@@ -187,7 +187,9 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
             baseret på GO, og de to vil fungere parallelt. De nye
             GC-certifikater giver mere værdi, da de håndterer
             <a routerLink="../{{ routes.simultaneity }}">samtidighed</a> og
-            geografiske begrænsninger.
+            <a routerLink="../{{ routes.geography }}"
+              >geografiske begrænsninger</a
+            >.
           </p>
         </eo-stack>
       </div>

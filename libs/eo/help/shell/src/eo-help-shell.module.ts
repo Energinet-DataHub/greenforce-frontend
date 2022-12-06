@@ -39,7 +39,7 @@ const routes: Routes = [
   {
     path: eoRoutes.geography,
     component: EoGeographyPageComponent,
-    data: { title: 'Geography' },
+    data: { title: 'Geografi' },
   },
   { path: '**', redirectTo: '' },
 ];
