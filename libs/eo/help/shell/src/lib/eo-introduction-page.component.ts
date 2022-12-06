@@ -214,8 +214,12 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           udviklingsdagsordenen for bæredygtig udvikling frem mod 2030. Målet
           med verdensmål 7 er at sikre overkommelig, pålidelig, bæredygtig og
           moderne energi for alle. Verdensmål 7 har helt specifikt fokus på
-          vedvarende energi og emissioner, som kan ses her på platformen.
-          [verdensmaalene.dk/maal/7]
+          vedvarende energi og emissioner, som kan ses her på platformen. [<a
+            href="https://www.verdensmaalene.dk/maal/7"
+            target="_blank"
+            rel="noopener noreferrer"
+            >verdensmaalene.dk/maal/7</a
+          >]
         </p>
       </div>
       <div class="info-box green">
@@ -263,7 +267,12 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           leveret strøm.
           <br /><br />
           Læs mere om timedeklaration her:
-          https://energinet.dk/El/Gron-el/Deklarationer
+          <a
+            href="https://energinet.dk/El/Gron-el/Deklarationer"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Deklarationer</a
+          >
         </p>
       </div>
     </div>
