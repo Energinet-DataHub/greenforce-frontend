@@ -72,13 +72,16 @@ main {
   grid-template-columns: 2fr 1fr;
   grid-template-rows: 1fr;
   gap: 0px var(--watt-space-l);
-  grid-template-areas:
-    "steps details";
+  grid-template-areas: "steps details";
 }
 
-.details { grid-area: details; }
-.steps { grid-area: steps; }
+.details {
+  grid-area: details;
+}
+.steps {
+  grid-area: steps;
+}
 
 watt-card {
-  background: var(--watt-color-neutral-white)
+  background: var(--watt-color-neutral-white);
 }
