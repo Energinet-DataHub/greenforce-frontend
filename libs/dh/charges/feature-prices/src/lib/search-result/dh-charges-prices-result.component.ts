@@ -86,26 +86,31 @@ export class DhChargesPricesResultComponent
 
   /* eslint-disable sonarjs/no-duplicate-string */
   columns: WattTableColumnDef<ChargeV1Dto> = {
-    chargeId: { header: this.formatHeader, size: 'max-content' },
-    chargeName: { header: this.formatHeader },
-    chargeOwnerName: { header: this.formatHeader },
-    icons: { header: '-', size: 'max-content', sort: false, align: 'center' },
+    chargeId: { accessor: 'chargeId', size: 'max-content' },
+    chargeName: { accessor: 'chargeName' },
+    chargeOwnerName: { accessor: 'chargeOwnerName' },
+    icons: {
+      accessor: null,
+      header: '-',
+      size: 'max-content',
+      align: 'center',
+    },
     chargeType: {
-      header: this.formatHeader,
+      accessor: 'chargeType',
       cell: (row) =>
         this.translocoService.translate('charges.chargeType.' + row.chargeType),
       size: 'max-content',
     },
     resolution: {
-      header: this.formatHeader,
+      accessor: 'resolution',
       cell: (row) =>
         this.translocoService.translate(
           'charges.resolutionType.' + row.resolution
         ),
       size: 'max-content',
     },
-    validFromDateTime: { header: this.formatHeader, size: 'max-content' },
-    validToDateTime: { header: this.formatHeader, size: 'max-content' },
+    validFromDateTime: { accessor: 'validFromDateTime', size: 'max-content' },
+    validToDateTime: { accessor: 'validToDateTime', size: 'max-content' },
   };
 
   readonly dataSource = new WattTableDataSource<ChargeV1Dto>();

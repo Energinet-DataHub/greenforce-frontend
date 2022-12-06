@@ -17,6 +17,7 @@ limitations under the License.
 <table
   mat-table
   matSort
+  role="treegrid"
   [matSortActive]="sortBy"
   [matSortDirection]="sortDirection"
   [matSortDisableClear]="!sortClear"
@@ -49,10 +50,12 @@ limitations under the License.
       *matHeaderCellDef
       mat-sort-header
       [arrowPosition]="column.value.align === 'right' ? 'before' : 'after'"
-      [disabled]="column.value.sort === false"
+      [disabled]="!column.value.accessor || column.value.sort === false"
       class="watt-table-align-{{ column.value.align ?? 'left' }}"
     >
-      <div class="watt-table-header-cell">{{ _getColumnHeader(column) }}</div>
+      <div class="watt-table-header-cell">
+        {{ _getColumnHeader(column) }}
+      </div>
     </th>
     <td
       mat-cell
@@ -76,6 +79,7 @@ limitations under the License.
   <tr
     mat-row
     *matRowDef="let row; columns: _getColumns()"
+    [attr.aria-selected]="row === activeRow"
     (click)="rowClick.emit(row)"
     [ngClass]="{
       'watt-table-highlight-row': !suppressRowHoverHighlight,

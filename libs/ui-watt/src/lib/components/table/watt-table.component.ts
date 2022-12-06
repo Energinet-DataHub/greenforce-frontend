@@ -44,23 +44,33 @@ import {
 } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { map, type Subscription } from 'rxjs';
-import { WattResizeObserverDirective } from '../../utils/resize-observer';
 import { WattCheckboxModule } from '../checkbox';
 import { WattTableDataSource } from './watt-table-data-source';
 
 export interface WattTableColumn<T> {
   /**
-   * Text to display in the header. Supports callback for translation etc.
+   * The data that this column should be bound to, either as a property of `T`
+   * or derived from each row of `T` using an accessor function.  Use `null`
+   * for columns that should not be associated with data, but note that this
+   * will disable sorting and automatic cell population.
    */
-  header: string | ((key: string) => string);
+  accessor: keyof T | ((row: T) => unknown) | null;
 
   /**
-   * Optional callback for determining cell content when not using template.
+   * Resolve the header text to a static display value. This will prevent
+   * the `resolveHeader` input function from being called for this column.
+   */
+  header?: string;
+
+  /**
+   * Callback for determining cell content when not using template. By default,
+   * cell content is found using the `accessor` (unless it is `null`).
    */
   cell?: (row: T) => string;
 
   /**
-   * Enable or disable sorting for this column. Defaults to `true`.
+   * Enable or disable sorting for this column. Defaults to `true`
+   * unless `accessor` is `null`.
    */
   sort?: boolean;
 
@@ -83,9 +93,7 @@ export interface WattTableColumn<T> {
 }
 
 /**
- * Record for defining displayed columns. Keys are used as column
- * identifiers and should often match the keys defined in the
- * data `T` (helps the table in assuming certain values).
+ * Record for defining columns with keys used as column identifiers.
  */
 export type WattTableColumnDef<T> = Record<string, WattTableColumn<T>>;
 
@@ -121,7 +129,6 @@ export class WattTableCellDirective<T> {
     FormsModule,
     MatSortModule,
     MatTableModule,
-    WattResizeObserverDirective,
     WattCheckboxModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -157,6 +164,14 @@ export class WattTableComponent<T>
    */
   @Input()
   description = '';
+
+  /**
+   * Optional callback for determining header text for columns that
+   * do not have a static header text set in the column definition.
+   * Useful for providing translations of column headers.
+   */
+  @Input()
+  resolveHeader?: (key: string) => string;
 
   /**
    * Identifier for column that should be sorted initially.
@@ -232,6 +247,14 @@ export class WattTableComponent<T>
   /** @ignore */
   _subscription!: Subscription;
 
+  /** @ignore */
+  private getCellData(row: T, column: WattTableColumn<T>) {
+    if (!column.accessor) return null;
+    return typeof column.accessor === 'function'
+      ? column.accessor(row)
+      : row[column.accessor];
+  }
+
   ngAfterViewInit() {
     this.dataSource.sort = this._sort;
     this._subscription = this._selectionModel.changed
@@ -239,12 +262,9 @@ export class WattTableComponent<T>
       .subscribe((selection) => this.selectionChange.emit(selection));
 
     // Make sorting by text case insensitive
-    const parentSortingDataAccessor = this.dataSource.sortingDataAccessor;
-    this.dataSource.sortingDataAccessor = (data: T, sortHeaderId: string) => {
-      const value = (data as unknown as Record<string, unknown>)[sortHeaderId];
-      return typeof value === 'string'
-        ? value.toLowerCase()
-        : parentSortingDataAccessor(data, sortHeaderId);
+    this.dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
+      const data = this.getCellData(row, this.columns[sortHeaderId]);
+      return typeof data === 'string' ? data.toLowerCase() : (data as number);
     };
   }
 
@@ -299,20 +319,14 @@ export class WattTableComponent<T>
 
   /** @ignore */
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
-    return typeof column.value.header === 'string'
+    return column.value.header
       ? column.value.header
-      : column.value.header(column.key);
+      : this.resolveHeader?.(column.key) ?? column.key;
   }
 
   /** @ignore */
   _getColumnCell(column: KeyValue<string, WattTableColumn<T>>, row: T) {
-    if (column.value.cell) {
-      return column.value.cell(row);
-    } else if (column.key in row) {
-      return (row as Record<string, unknown>)[column.key];
-    } else {
-      return '—';
-    }
+    return column.value.cell?.(row) ?? this.getCellData(row, column.value);
   }
 }
 
