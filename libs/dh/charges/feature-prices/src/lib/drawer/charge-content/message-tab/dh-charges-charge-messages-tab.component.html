@@ -50,6 +50,7 @@ limitations under the License.
       [columns]="columns"
       sortBy="messageDateTime"
       sortDirection="desc"
+      [resolveHeader]="translateHeader"
       [sortClear]="false"
       (rowClick)="rowClicked($event)"
       (sortChange)="sortData($event)"

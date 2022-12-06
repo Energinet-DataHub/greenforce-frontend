@@ -52,6 +52,7 @@ limitations under the License.
       [dataSource]="dataSource"
       sortBy="chargeId"
       sortDirection="asc"
+      [resolveHeader]="t"
       [sortClear]="false"
       [activeRow]="activeCharge"
       (rowClick)="rowClicked($event)"
