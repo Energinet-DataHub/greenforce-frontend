@@ -17,16 +17,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
 import { EoFeatureFlagDirective } from '@energinet-datahub/eo/shared/services';
-import {
-  eoCertificatesRoutePath,
-  eoConsumptionPageRoutePath,
-  eoDashboardRoutePath,
-  eoEmissionsRoutePath,
-  eoHelpRoutePath,
-  eoMeteringPointsRoutePath,
-  eoOriginOfEnergyRoutePath,
-  eoProductionRoutePath,
-} from '@energinet-datahub/eo/shared/utilities';
+import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import {
   WattNavListComponent,
   WattNavListItemComponent,
@@ -54,27 +45,27 @@ import {
   ],
   template: `
     <watt-nav-list>
-      <watt-nav-list-item link="/${eoDashboardRoutePath}">
+      <watt-nav-list-item link="{{ routes.dashboard }}">
         Dashboard
       </watt-nav-list-item>
-      <watt-nav-list-item link="/${eoOriginOfEnergyRoutePath}">
+      <watt-nav-list-item link="{{ routes.originOfEnergy }}">
         Renewable Share
       </watt-nav-list-item>
-      <watt-nav-list-item link="/${eoEmissionsRoutePath}">
+      <watt-nav-list-item link="{{ routes.emissions }}">
         Emissions
       </watt-nav-list-item>
-      <watt-nav-list-item link="/${eoConsumptionPageRoutePath}">
+      <watt-nav-list-item link="{{ routes.consumption }}">
         Consumption
       </watt-nav-list-item>
-      <watt-nav-list-item link="/${eoProductionRoutePath}">
+      <watt-nav-list-item link="{{ routes.production }}">
         Production
       </watt-nav-list-item>
-      <watt-nav-list-item link="/${eoMeteringPointsRoutePath}">
+      <watt-nav-list-item link="{{ routes.meteringpoints }}">
         Metering Points
       </watt-nav-list-item>
       <watt-nav-list-item
         [onFeatureFlag]="'certificates'"
-        link="/${eoCertificatesRoutePath}"
+        link="{{ routes.certificates }}"
         >Certificates
         <span
           style="padding-left:8px; font-weight:bold;color:var(--watt-color-secondary-dark);"
@@ -82,7 +73,7 @@ import {
         >
       </watt-nav-list-item>
       <div class="menu-spacer"></div>
-      <watt-nav-list-item link="/${eoHelpRoutePath}">Help</watt-nav-list-item>
+      <watt-nav-list-item link="{{ routes.help }}">Help</watt-nav-list-item>
       <watt-nav-list-item (click)="onLogOut()" role="link">
         Log out
       </watt-nav-list-item>
@@ -91,6 +82,8 @@ import {
   viewProviders: [EoLogOutStore],
 })
 export class EoPrimaryNavigationComponent {
+  routes = eoRoutes;
+
   @HostBinding('attr.aria-label')
   get ariaLabelAttribute(): string {
     return 'Menu';
