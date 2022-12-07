@@ -35,7 +35,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { first } from 'rxjs';
-import { navigateToWholesaleSearchBatch } from 'libs/dh/wholesale/routing/src';
+import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
 
 @Component({
   selector: 'dh-wholesale-production-per-gridarea',
