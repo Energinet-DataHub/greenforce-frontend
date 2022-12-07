@@ -23,11 +23,7 @@ import {
   AfterViewInit,
   OnDestroy,
 } from '@angular/core';
-import {
-  first,
-  of,
-  Subject,
-} from 'rxjs';
+import { first, of, Subject } from 'rxjs';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
