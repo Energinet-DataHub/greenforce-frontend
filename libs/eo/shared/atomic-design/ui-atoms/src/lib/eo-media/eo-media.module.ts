@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-
 import { EoMediaImageDirective } from './eo-media-image.directive';
 import { EoMediaComponent } from './eo-media.component';
 
