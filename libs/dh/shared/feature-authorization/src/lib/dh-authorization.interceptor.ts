@@ -22,7 +22,6 @@ import {
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { Observable, switchMap } from 'rxjs';
-
 import { ClassProvider, Injectable } from '@angular/core';
 
 import { ActorTokenService } from './actor-token.service';
