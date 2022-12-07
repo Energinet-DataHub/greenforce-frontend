@@ -31,15 +31,8 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
     `
       :host {
         display: grid;
-        grid-auto-flow: column;
         gap: var(--watt-space-l);
         grid-template-columns: 600px 360px; // Magic UX Numbers
-      }
-
-      .column {
-        display: flex;
-        flex-direction: column;
-        gap: var(--watt-space-l);
       }
 
       .text-box {
@@ -91,7 +84,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
     `,
   ],
   template: `
-    <div class="column">
+    <eo-stack size="L">
       <div>
         <img
           width="383"
@@ -195,8 +188,8 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           </p>
         </eo-stack>
       </div>
-    </div>
-    <div class="column">
+    </eo-stack>
+    <eo-stack size="L">
       <div>
         <eo-stack size="M">
           <p
@@ -282,7 +275,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           </p>
         </eo-stack>
       </div>
-    </div>
+    </eo-stack>
   `,
 })
 export class EoIntroductionPageComponent {

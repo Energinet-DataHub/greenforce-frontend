@@ -28,15 +28,8 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
     `
       :host {
         display: grid;
-        grid-auto-flow: column;
         gap: var(--watt-space-l);
         grid-template-columns: 600px 360px; // Magic UX Numbers
-      }
-
-      .column {
-        display: flex;
-        flex-direction: column;
-        gap: var(--watt-space-l);
       }
 
       .text-box {
@@ -46,16 +39,16 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       .info-box {
         padding: var(--watt-space-m);
         background-color: var(--watt-color-primary-dark);
-        color: white;
+        color: var(--watt-color-neutral-white);
 
         span {
-          color: white;
+          color: var(--watt-color-neutral-white);
         }
       }
     `,
   ],
   template: `
-    <div class="column">
+    <eo-stack size="L">
       <div class="text-box">
         <span class="watt-headline-3">Houston, we have a problem!</span>
         <eo-stack size="M">
@@ -108,8 +101,8 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           << Tilbage til Introduktion til EnergiOprindelse
         </a>
       </h4>
-    </div>
-    <div class="column">
+    </eo-stack>
+    <eo-stack size="L">
       <div>
         <eo-stack size="M">
           <p
@@ -136,7 +129,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           gøre en forskel.
         </p>
       </div>
-    </div>
+    </eo-stack>
   `,
 })
 export class EoSimultaneityPageComponent {

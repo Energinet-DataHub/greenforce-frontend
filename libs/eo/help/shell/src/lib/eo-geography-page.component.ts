@@ -28,22 +28,23 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
     `
       :host {
         display: grid;
-        grid-auto-flow: column;
         gap: var(--watt-space-l);
         grid-template-columns: 600px 360px; // Magic UX Numbers
       }
 
-      .column {
-        display: flex;
-        flex-direction: column;
-        gap: var(--watt-space-l);
+      * + h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin-block-start: var(--watt-space-l);
       }
 
       .img-box {
         display: flex;
         flex-direction: column;
         align-items: center;
-        font-size: 14px;
         gap: var(--watt-space-s);
       }
 
@@ -69,10 +70,10 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
         &.green {
           background-color: var(--watt-color-primary-dark);
-          color: white;
+          color: var(--watt-color-neutral-white);
 
           span {
-            color: white;
+            color: var(--watt-color-neutral-white);
           }
         }
 
@@ -88,49 +89,43 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
     `,
   ],
   template: `
-    <div class="column">
-      <div class="text-box">
-        <eo-stack size="M">
-          <div>
-            <span class="watt-headline-3"
-              >Strøm kan ikke flyttes på tværs af hele Europa</span
-            >
-            <p>
-              Det er ikke uden udfordringer, når energi flyttes gennem elnettet.
-              Det gælder både, når der er tale om at flytte energi indenfor egne
-              landegrænser, men særligt når det er på tværs af landegrænser. Ved
-              dokumentation og sporing af energis oprindelse, for at sikre at
-              energien er grøn, er det vigtigt, at der tages højde for disse
-              udfordringer.
-            </p>
-          </div>
-          <div>
-            <h4>Grøn produktion kan være sort forbrug</h4>
-            <p>
-              En af problematikkerne findes bl.a. ved køb af GO certifikater.
-              Det er f.eks. lige nu muligt for danske virksomheder at købe GO
-              certifikater af grøn energi produceret i Island. På papiret ser
-              det på den måde ud som om, at den energi man forbruger er grøn.
-              Virkeligheden kan dog være en helt anden. Da der ikke findes nogen
-              forbindelse mellem Island og Danmark, så energien produceret i
-              Island kan umuligt være samme energi forbrugt i Danmark.
-            </p>
-          </div>
-          <div class="img-box">
-            <img
-              width="367"
-              src="/assets/images/help/map_geography.jpg"
-              alt="Transmission net across countries"
-            />
-            <span>
-              Billedet viser det europæiske transmissionsnet på tværs af
-              landegrænser
-            </span>
-          </div>
-        </eo-stack>
+    <eo-stack size="L">
+      <h3>Strøm kan ikke flyttes på tværs af hele Europa</h3>
+
+      <p>
+        Det er ikke uden udfordringer, når energi flyttes gennem elnettet. Det
+        gælder både, når der er tale om at flytte energi indenfor egne
+        landegrænser, men særligt når det er på tværs af landegrænser. Ved
+        dokumentation og sporing af energis oprindelse, for at sikre at energien
+        er grøn, er det vigtigt, at der tages højde for disse udfordringer.
+      </p>
+
+      <div>
+        <h4>Grøn produktion kan være sort forbrug</h4>
+        <p>
+          En af problematikkerne findes bl.a. ved køb af GO certifikater. Det er
+          f.eks. lige nu muligt for danske virksomheder at købe GO certifikater
+          af grøn energi produceret i Island. På papiret ser det på den måde ud
+          som om, at den energi man forbruger er grøn. Virkeligheden kan dog
+          være en helt anden. Da der ikke findes nogen forbindelse mellem Island
+          og Danmark, så energien produceret i Island kan umuligt være samme
+          energi forbrugt i Danmark.
+        </p>
       </div>
+
+      <figure>
+        <img
+          width="367"
+          src="/assets/images/help/map_geography.jpg"
+          alt="Transmission net across countries"
+        />
+        <figcaption>
+          Billedet viser det europæiske transmissionsnet på tværs af
+          landegrænser
+        </figcaption>
+      </figure>
       <div class="text-box">
-        <span class="watt-headline-3">Hvordan løser vi udfordringerne?</span>
+        <h3>Hvordan løser vi udfordringerne?</h3>
         <p>
           En løsning er at sætte regler for, hvor lang afstanden må være fra
           produktions- til forbrugsstedet ved handel af grønne certifikater.
@@ -155,21 +150,14 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           << Tilbage til Introduktion til EnergiOprindelse
         </a>
       </h4>
-    </div>
-    <div class="column">
+    </eo-stack>
+    <eo-stack size="L">
       <div>
-        <eo-stack size="M">
-          <p
-            class="watt-headline-1"
-            style="color: var(--watt-color-primary-light);"
-          >
-            Geografi
-          </p>
-          <p style="color: var(--watt-color-primary-dark)">
-            Der er enkelte fysiske begrænsninger for, hvordan energi kan bevæge
-            sig rundt, som bliver nødt til at være indarbejdet i systemet.
-          </p>
-        </eo-stack>
+        <h1 style="color: var(--watt-color-primary-light);">Geografi</h1>
+        <p style="color: var(--watt-color-primary-dark)">
+          Der er enkelte fysiske begrænsninger for, hvordan energi kan bevæge
+          sig rundt, som bliver nødt til at være indarbejdet i systemet.
+        </p>
       </div>
 
       <div class="info-box green">
@@ -198,7 +186,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           følger f.eks. landegrænser.
         </p>
       </div>
-    </div>
+    </eo-stack>
   `,
 })
 export class EoGeographyPageComponent {
