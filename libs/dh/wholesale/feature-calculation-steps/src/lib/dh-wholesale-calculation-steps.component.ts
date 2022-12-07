@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
@@ -34,6 +34,7 @@ import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleProductionPerGridareaComponent } from './steps/25-production-per-gridarea.component';
+import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   templateUrl: './dh-wholesale-calculation-steps.component.html',
@@ -64,8 +65,7 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
       if (!batch) this.store.getBatch(this.route.snapshot.params['batchId']);
     })
   );
-  gridAreaCode?: string = this.route.snapshot.params['gridAreaCode'];
-
+  gridArea$: Observable<GridAreaDto | undefined> = this.store.getGridArea$(this.route.snapshot.params['gridAreaCode']);
   steps?: unknown[] = undefined;
 
   ngOnInit(): void {

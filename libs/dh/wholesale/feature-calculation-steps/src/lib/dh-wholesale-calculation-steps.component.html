@@ -16,92 +16,94 @@ limitations under the License.
 -->
 <ng-container *transloco="let transloco; read: 'wholesale'">
   <ng-container *rxLet="batch$; let batch">
-    <watt-top-bar>
-      <div class="header">
-        <watt-breadcrumbs>
-          <watt-breadcrumb (click)="navigateToSearchBatch()">{{
-            transloco("searchBatch.topBarTitle")
-          }}</watt-breadcrumb>
-          <watt-breadcrumb (click)="navigateToSearchBatch(batch)">{{
-            transloco("batchDetails.headline", {
-              batchNumber: batch?.batchNumber
-            })
-          }}</watt-breadcrumb>
-          <watt-breadcrumb>{{
-            transloco("calculationSteps.breadcrumb", {
-              gridAreaCode: gridAreaCode,
-              gridAreaName: transloco("calculationSteps.gridAreaName")
-            })
-          }}</watt-breadcrumb>
-        </watt-breadcrumbs>
+    <ng-container *rxLet="gridArea$; let gridArea">
+      <watt-top-bar>
+        <div class="header">
+          <watt-breadcrumbs *ngIf="gridArea">
+            <watt-breadcrumb (click)="navigateToSearchBatch()">{{
+              transloco("searchBatch.topBarTitle")
+            }}</watt-breadcrumb>
+            <watt-breadcrumb (click)="navigateToSearchBatch(batch)">{{
+              transloco("batchDetails.headline", {
+                batchNumber: batch?.batchNumber
+              })
+            }}</watt-breadcrumb>
+            <watt-breadcrumb>{{
+              transloco("calculationSteps.breadcrumb", {
+                gridAreaCode: gridArea.code,
+                gridAreaName: gridArea.name
+              })
+            }}</watt-breadcrumb>
+          </watt-breadcrumbs>
 
-        <h2>
-          {{ transloco("calculationSteps.gridAreaName") }}
-          <watt-badge type="info">
-            {{ transloco("searchBatch." + batch?.executionState) }}
-          </watt-badge>
-        </h2>
+          <h2>
+            {{ gridArea?.name }}
+            <watt-badge type="info">
+              {{ transloco("searchBatch." + batch?.executionState) }}
+            </watt-badge>
+          </h2>
 
-        <p>
-          <small>{{
-            transloco("calculationSteps.subHeading", {
-              gridAreaCode: gridAreaCode
-            })
-          }}</small>
-        </p>
-      </div>
-    </watt-top-bar>
-
-    <main>
-      <ul class="steps">
-        <li>
-          <dh-wholesale-production-per-gridarea
-            [batch]="batch"
-            [gridAreaCode]="gridAreaCode"
-          ></dh-wholesale-production-per-gridarea>
-        </li>
-      </ul>
-
-      <ng-template #loading>
-        <div class="loading-container">
-          <watt-spinner></watt-spinner>
+          <p *ngIf="gridArea">
+            <small>{{
+              transloco("calculationSteps.subHeading", {
+                gridAreaCode: gridArea.code
+              })
+            }}</small>
+          </p>
         </div>
-      </ng-template>
+      </watt-top-bar>
+      <main>
+        <ul class="steps">
+          <li>
+            <dh-wholesale-production-per-gridarea
+              [batch]="batch"
+              [gridAreaCode]="gridArea?.code"
+            ></dh-wholesale-production-per-gridarea>
+          </li>
+        </ul>
 
-      <ng-template #error>
-        <watt-empty-state
-          icon="custom-power"
-          [title]="
-            transloco('calculationSteps.loadCalculationStepsFailedTitle')
-          "
-          [message]="
-            transloco('calculationSteps.loadCalculationStepsFailedMessage')
-          "
-        >
-        </watt-empty-state>
-      </ng-template>
+        <ng-template #loading>
+          <div class="loading-container">
+            <watt-spinner></watt-spinner>
+          </div>
+        </ng-template>
 
-      <aside class="details">
-        <watt-card>
-          <watt-card-title>
-            <h3>Detaljer</h3>
-          </watt-card-title>
+        <ng-template #error>
+          <watt-empty-state
+            icon="custom-power"
+            [title]="
+              transloco('calculationSteps.loadCalculationStepsFailedTitle')
+            "
+            [message]="
+              transloco('calculationSteps.loadCalculationStepsFailedMessage')
+            "
+          >
+          </watt-empty-state>
+        </ng-template>
 
-          <dl *ngIf="batch">
-            <dt class="watt-label">
-              {{ transloco("batchDetails.calculationPeriod") }}
-            </dt>
-            <dd>
-              {{ batch.periodStart | dhDate }} - {{ batch.periodEnd | dhDate }}
-            </dd>
+        <aside class="details">
+          <watt-card>
+            <watt-card-title>
+              <h3>Detaljer</h3>
+            </watt-card-title>
 
-            <dt class="watt-label">
-              {{ transloco("batchDetails.executionTime") }}
-            </dt>
-            <dd>{{ batch.executionTimeStart | dhDateTime }}</dd>
-          </dl>
-        </watt-card>
-      </aside>
-    </main>
+            <dl *ngIf="batch">
+              <dt class="watt-label">
+                {{ transloco("batchDetails.calculationPeriod") }}
+              </dt>
+              <dd>
+                {{ batch.periodStart | dhDate }} -
+                {{ batch.periodEnd | dhDate }}
+              </dd>
+
+              <dt class="watt-label">
+                {{ transloco("batchDetails.executionTime") }}
+              </dt>
+              <dd>{{ batch.executionTimeStart | dhDateTime }}</dd>
+            </dl>
+          </watt-card>
+        </aside>
+      </main>
+    </ng-container>
   </ng-container>
 </ng-container>

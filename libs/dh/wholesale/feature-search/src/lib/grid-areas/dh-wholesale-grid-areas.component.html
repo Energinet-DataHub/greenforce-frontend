@@ -44,7 +44,9 @@ limitations under the License.
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ transloco("name") }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let batch"> - </mat-cell>
+      <mat-cell *matCellDef="let gridArea">
+        {{ gridArea.name || "—" }}
+      </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
