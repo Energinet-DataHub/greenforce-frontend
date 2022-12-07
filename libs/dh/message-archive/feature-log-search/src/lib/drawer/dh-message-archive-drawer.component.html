@@ -23,13 +23,6 @@ limitations under the License.
       <span>{{ message?.messageId }}</span>
     </watt-drawer-topbar>
 
-    <!-- <watt-drawer-actions *ngIf="!showChargeMessage">
-      <watt-button variant="secondary" [disabled]="true">{{
-        t("stop")
-      }}</watt-button>
-      <watt-button [disabled]="true">{{ t("edit") }}</watt-button>
-    </watt-drawer-actions> -->
-
     <watt-drawer-content>
       <div class="container">
         <span class="dateTime">{{
@@ -62,7 +55,6 @@ limitations under the License.
 
         <watt-button
           variant="text"
-          title="{{ t('download') }}"
           (click)="downloadLogFile()"
           icon="download"
           >{{ t("download") }}</watt-button

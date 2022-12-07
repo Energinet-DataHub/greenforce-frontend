@@ -50,7 +50,7 @@ watt-drawer-content {
 }
 
 pre {
-  border: solid 1px lightgray;
+  border: solid 1px var(--watt-color-neutral-grey-300);
   white-space: break-spaces;
   padding: var(--watt-space-s);
   overflow: auto;

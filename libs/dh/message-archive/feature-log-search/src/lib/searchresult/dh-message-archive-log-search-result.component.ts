@@ -44,7 +44,6 @@ import {
 } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
-import { DocumentTypes } from '@energinet-datahub/dh/message-archive/domain';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 import {
@@ -83,8 +82,6 @@ export class DhMessageArchiveLogSearchResultComponent
   @Input() hasSearchError = false;
   @Input() isInit = false;
   @Input() actors!: WattDropdownOptions;
-
-  DocumentTypes = DocumentTypes;
 
   readonly dataSource: MatTableDataSource<MessageArchiveSearchResultItemDto> =
     new MatTableDataSource<MessageArchiveSearchResultItemDto>();

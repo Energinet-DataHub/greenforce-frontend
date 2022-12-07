@@ -18,8 +18,8 @@ limitations under the License.
   <watt-card>
     <watt-card-title>
       <h3>
-        <ng-container *ngIf="this.searchResult">
-          {{ this.searchResult.length > 0 ? this.searchResult.length : "" }}
+        <ng-container *ngIf="searchResult">
+          {{ searchResult.length > 0 ? searchResult.length : "" }}
         </ng-container>
         {{ t("searchResult") }}
       </h3>
@@ -36,8 +36,6 @@ limitations under the License.
         sortDirection="asc"
         [dataSource]="dataSource"
         [columns]="columns"
-        [selectable]="false"
-        [suppressRowHoverHighlight]="false"
         [getActiveRow]="isActiveRow"
         (rowClick)="onRowClick($event)"
       >
@@ -97,8 +95,8 @@ limitations under the License.
         class="no-result-div"
         icon="custom-no-results"
         size="large"
-        title="{{ t('noResultsFound') }}"
-        message="{{ t('noResultsHelperText') }}"
+        [title]="t('noResultsFound')"
+        [message]="t('noResultsHelperText')"
       >
       </watt-empty-state>
     </ng-container>
@@ -109,8 +107,8 @@ limitations under the License.
         class="no-result-div"
         icon="custom-explore"
         size="large"
-        title="{{ t('startSearchResultView') }}"
-        message="{{ t('startSearchText') }}"
+        [title]="t('startSearchResultView')"
+        [message]="t('startSearchText')"
       >
       </watt-empty-state>
     </ng-container>
@@ -120,8 +118,8 @@ limitations under the License.
       <watt-empty-state
         class="loading-error"
         icon="power"
-        title="{{ t('loadingErrorTitle') }}"
-        message="{{ t('loadingErrorMessage') }}"
+        [title]="t('loadingErrorTitle')"
+        [message]="t('loadingErrorMessage')"
       ></watt-empty-state>
     </ng-container>
   </watt-card>
