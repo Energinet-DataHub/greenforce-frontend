@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewChild, inject, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewChild,
+  inject,
+  AfterViewInit,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
@@ -128,7 +134,9 @@ import { navigateToWholesaleSearchBatch } from 'libs/dh/wholesale/routing/src';
     TranslocoModule,
   ],
 })
-export class DhWholesaleProductionPerGridareaComponent implements AfterViewInit {
+export class DhWholesaleProductionPerGridareaComponent
+  implements AfterViewInit
+{
   @Input() batch?: batch;
   @Input() gridAreaCode?: string;
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
