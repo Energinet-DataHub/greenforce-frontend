@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable, ChangeDetectorRef, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ComponentStore } from '@ngrx/component-store';
 import {
@@ -35,14 +35,18 @@ import {
   BatchSearchDto,
   BatchState,
   BatchDto,
+  GridAreaDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
+
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { WattBadgeType } from '@energinet-datahub/watt/badge';
 
 interface State {
   batches?: batch[];
   loadingBatches: boolean;
   selectedBatch?: batch;
+  selectedGridArea?: GridAreaDto;
 }
 
 const initialState: State = {
@@ -55,6 +59,8 @@ const initialState: State = {
 export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   batches$ = this.select((x) => x.batches);
   selectedBatch$ = this.select((x) => x.selectedBatch);
+  selectedGridArea$ = this.select((x) => x.selectedGridArea);
+
   loadingBatches$ = this.select((x) => x.loadingBatches);
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
   loadingBasisDataErrorTrigger$: Subject<void> = new Subject();
@@ -189,6 +195,21 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       selectedBatch: batch,
     })
   );
+
+  readonly getGridArea$ = (
+    gridAreaCode: string
+  ): Observable<GridAreaDto | undefined> => {
+    return this.selectedBatch$.pipe(
+      map((x) => {
+        return x?.gridAreas.filter(
+          (gridArea: GridAreaDto) => gridArea.code === gridAreaCode
+        )[0];
+      }),
+      tap((gridArea) => {
+        console.log('gridArea', gridArea);
+      })
+    );
+  };
 
   private getStatusType(status: BatchState): WattBadgeType {
     if (status === BatchState.Pending) {

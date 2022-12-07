@@ -27,7 +27,6 @@ import {
 } from '@angular/core';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
-import { BatchDto, BatchState } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import {
@@ -35,7 +34,7 @@ import {
   WattTableDataSource,
   WattTableColumnDef,
 } from '@energinet-datahub/watt/table';
-import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt/badge';
+import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';

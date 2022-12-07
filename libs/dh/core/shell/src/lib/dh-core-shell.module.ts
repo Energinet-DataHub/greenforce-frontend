@@ -87,8 +87,8 @@ const routes: Routes = [
       {
         path: WHOLESALE_BASE_PATH,
         loadChildren: () =>
-          import('@energinet-datahub/dh/wholesale/routing').then(
-            (esModule) => esModule.WHOLESALE_ROUTES
+          import('@energinet-datahub/dh/wholesale/shell').then(
+            (esModule) => esModule.WHOLESALE_SHELL
           ),
         canActivate: [MsalGuard],
       },
@@ -116,7 +116,7 @@ const routes: Routes = [
     MsalModule,
     DhConfigurationLocalizationModule.forRoot(),
     WattDanishDatetimeModule.forRoot(),
-    //DhSharedUtilApplicationInsightsModule.forRoot(),
+    DhSharedUtilApplicationInsightsModule.forRoot(),
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       // Don't perform initial navigation in iframes or popups

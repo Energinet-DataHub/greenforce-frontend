@@ -14,46 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { BatchDto, GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 
 export const WHOLESALE_BASE_PATH = 'wholesale';
-const WHOLESALE_START_PROCESS_PATH = 'start-process';
-const WHOLESALE_SEARCH_BATCH_PATH = 'search-batch';
-const WHOLESALE_CALCULATION_STEPS_PATH = `calculation-steps`;
-
-export const WHOLESALE_ROUTES: Route[] = [
-  {
-    path: WHOLESALE_START_PROCESS_PATH,
-    loadComponent: () =>
-      import('@energinet-datahub/dh/wholesale/feature-start').then(
-        (m) => m.DhWholesaleStartComponent
-      ),
-    data: {
-      titleTranslationKey: 'wholesale.startBatch.topBarTitle',
-    },
-  },
-  {
-    path: WHOLESALE_SEARCH_BATCH_PATH,
-    loadComponent: () =>
-      import('@energinet-datahub/dh/wholesale/feature-search').then(
-        (m) => m.DhWholesaleSearchComponent
-      ),
-    data: {
-      titleTranslationKey: 'wholesale.searchBatch.topBarTitle',
-    },
-  },
-  {
-    path: `${WHOLESALE_CALCULATION_STEPS_PATH}/:batchId/:gridAreaCode`,
-    loadComponent: () =>
-      import('@energinet-datahub/dh/wholesale/feature-calculation-steps').then(
-        (m) => m.DhWholesaleCalculationStepsComponent
-      ),
-    data: {
-      titleTranslationKey: 'wholesale.calculationSteps.topBarTitle',
-    },
-  },
-];
+export const WHOLESALE_START_PROCESS_PATH = 'start-process';
+export const WHOLESALE_SEARCH_BATCH_PATH = 'search-batch';
+export const WHOLESALE_CALCULATION_STEPS_PATH = `calculation-steps`;
 
 export function navigateToWholesaleCalculationSteps(
   router: Router,

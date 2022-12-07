@@ -21,22 +21,11 @@ import {
   ChangeDetectorRef,
   ViewChild,
   AfterViewInit,
-  AfterViewChecked,
   OnDestroy,
 } from '@angular/core';
-import {
-  first,
-  Observable,
-  of,
-  Subject,
-  takeUntil,
-  map,
-  filter,
-  tap,
-  switchMap,
-} from 'rxjs';
+import { first, of, Subject } from 'rxjs';
 import { LetModule, PushModule } from '@rx-angular/template';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';

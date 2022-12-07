@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewChild, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewChild,
+  inject,
+  AfterViewInit,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
@@ -27,7 +33,9 @@ import {
 } from '@energinet-datahub/watt/drawer';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { batch } from 'libs/dh/wholesale/domain/src';
+import { batch } from '@energinet-datahub/dh/wholesale/domain';
+import { first } from 'rxjs';
+import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
 
 @Component({
   selector: 'dh-wholesale-production-per-gridarea',
@@ -43,15 +51,15 @@ import { batch } from 'libs/dh/wholesale/domain/src';
     <watt-drawer #drawer>
       <watt-drawer-topbar>
         <watt-breadcrumbs *transloco="let transloco; read: 'wholesale'">
-          <watt-breadcrumb>{{
+          <watt-breadcrumb (click)="navigateToSearchBatch()">{{
             transloco('searchBatch.topBarTitle')
           }}</watt-breadcrumb>
-          <watt-breadcrumb>{{
+          <watt-breadcrumb (click)="navigateToSearchBatch(batch?.batchNumber)">{{
             transloco('batchDetails.headline', {
               batchNumber: batch?.batchNumber
             })
           }}</watt-breadcrumb>
-          <watt-breadcrumb>{{
+          <watt-breadcrumb (click)="drawer.close()">{{
             transloco('calculationSteps.breadcrumb', {
               gridAreaCode: gridAreaCode,
               gridAreaName: transloco('calculationSteps.gridAreaName')
@@ -126,13 +134,22 @@ import { batch } from 'libs/dh/wholesale/domain/src';
     TranslocoModule,
   ],
 })
-export class DhWholesaleProductionPerGridareaComponent {
+export class DhWholesaleProductionPerGridareaComponent
+  implements AfterViewInit
+{
   @Input() batch?: batch;
   @Input() gridAreaCode?: string;
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+
+  ngAfterViewInit(): void {
+    const selectedStep = this.route.snapshot.queryParams['step'];
+    if (selectedStep) {
+      this.drawer.open();
+    }
+  }
 
   openDetails(): void {
     this.router.navigate([], {
@@ -141,5 +158,16 @@ export class DhWholesaleProductionPerGridareaComponent {
     });
 
     this.drawer.open();
+
+    this.drawer.closed.pipe(first()).subscribe(() => {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { step: null },
+      });
+    });
+  }
+
+  navigateToSearchBatch(batchNumber?: string): void {
+    navigateToWholesaleSearchBatch(this.router, batchNumber);
   }
 }
