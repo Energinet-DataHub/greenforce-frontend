@@ -187,14 +187,20 @@
       "@energinet-datahub/dh/wholesale/data-access-api": [
         "libs/dh/wholesale/data-access-api/src/index.ts"
       ],
-      "@energinet-datahub/dh/wholesale/feature-overview": [
-        "libs/dh/wholesale/feature-overview/src/index.ts"
+      "@energinet-datahub/dh/wholesale/domain": [
+        "libs/dh/wholesale/domain/src/index.ts"
+      ],
+      "@energinet-datahub/dh/wholesale/feature-calculation-steps": [
+        "libs/dh/wholesale/feature-calculation-steps/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/feature-search": [
         "libs/dh/wholesale/feature-search/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/feature-start": [
         "libs/dh/wholesale/feature-start/src/index.ts"
+      ],
+      "@energinet-datahub/dh/wholesale/routing": [
+        "libs/dh/wholesale/routing/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/shell": [
         "libs/dh/wholesale/shell/src/index.ts"

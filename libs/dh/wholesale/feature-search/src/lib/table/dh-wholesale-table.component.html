@@ -22,86 +22,54 @@ limitations under the License.
   </watt-card-title>
 
   <!-- Table -->
-  <mat-table
+  <watt-table
     [dataSource]="_data"
-    aria-label="batches"
-    matSort
-    matSortActive="executionTimeStart"
-    matSortDirection="desc"
+    [columns]="columns"
+    [resolveHeader]="translateHeader"
+    [activeRow]="selectedBatch$ | push"
+    [activeRowComparator]="isSelectedBatch"
+    description="batches"
+    sortBy="executionTime"
+    sortDirection="desc"
+    (rowClick)="selectedRow.emit($event)"
   >
-    <!-- Batch Number -->
-    <ng-container matColumnDef="batchNumber">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ transloco("columns.batchNumber") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let batch">
-        {{ batch.batchNumber }}
-      </mat-cell>
-    </ng-container>
     <!-- Period From -->
-    <ng-container matColumnDef="periodStart">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ transloco("columns.periodFrom") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let batch">
-        {{ batch.periodStart | dhDate }}
-      </mat-cell>
-    </ng-container>
-    <!-- Period To -->
-    <ng-container matColumnDef="periodEnd">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ transloco("columns.periodTo") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let batch">
-        {{ batch.periodEnd | dhDate }}
-      </mat-cell>
-    </ng-container>
-    <!-- Execution Time -->
-    <ng-container matColumnDef="executionTimeStart">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ transloco("columns.executionTime") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let batch">
-        <div>
-          <div>{{ batch.executionTimeStart | dhDateTime }}</div>
-          <div>{{ batch.executionTimeEnd | dhDateTime }}</div>
-        </div>
-      </mat-cell>
-    </ng-container>
-    <!-- Status -->
-    <ng-container matColumnDef="executionState">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ transloco("columns.status") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let batch">
-        <watt-badge [type]="batch.statusType">
-          {{ transloco(batch.executionState) }}
-        </watt-badge>
-      </mat-cell>
-    </ng-container>
-    <!-- Download basis data -->
-    <ng-container matColumnDef="basisData">
-      <mat-header-cell *matHeaderCellDef>
-        {{ transloco("columns.basisData") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let batch">
-        <watt-button
-          variant="icon"
-          title="{{ transloco('download') }}"
-          icon="download"
-          (click)="onDownload($event, batch)"
-          [disabled]="!batch.isBasisDataDownloadAvailable"
-        >
-        </watt-button>
-      </mat-cell>
+    <ng-container *wattTableCell="columns.periodFrom; let batch">
+      {{ batch.periodStart | dhDate }}
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
-    <mat-row
-      *matRowDef="let row; columns: columnIds"
-      (click)="selectedRow.emit(row)"
-    ></mat-row>
-  </mat-table>
+    <!-- Period To -->
+    <ng-container *wattTableCell="columns.periodTo; let batch">
+      {{ batch.periodEnd | dhDate }}
+    </ng-container>
+
+    <!-- Execution Time -->
+    <ng-container *wattTableCell="columns.executionTime; let batch">
+      <div>
+        <div>{{ batch.executionTimeStart | dhDateTime }}</div>
+        <div>{{ batch.executionTimeEnd | dhDateTime }}</div>
+      </div>
+    </ng-container>
+
+    <!-- Status -->
+    <ng-container *wattTableCell="columns.status; let batch">
+      <watt-badge [type]="batch.statusType">
+        {{ transloco(batch.executionState) }}
+      </watt-badge>
+    </ng-container>
+
+    <!-- Download basis data -->
+    <ng-container *wattTableCell="columns.basisData; let batch">
+      <watt-button
+        variant="icon"
+        title="{{ transloco('download') }}"
+        icon="download"
+        (click)="onDownload($event, batch)"
+        [disabled]="!batch.isBasisDataDownloadAvailable"
+      >
+      </watt-button>
+    </ng-container>
+  </watt-table>
 
   <!-- No Batches found -->
   <watt-empty-state
