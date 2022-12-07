@@ -54,7 +54,7 @@ import {
 
 import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
 import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeName.pipe';
-
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhMessageArchiveStatusComponentScam } from '../shared/dh-message-archive-status.component';
 
 @Component({
@@ -162,6 +162,7 @@ export class DhMessageArchiveLogSearchResultComponent
     DhMessageArchiveStatusComponentScam,
     ActorNamePipe,
     DocumentTypeNamePipe,
+    DhEmDashFallbackPipeScam,
   ],
 })
 export class DhMessageArchiveLogSearchResultScam {}

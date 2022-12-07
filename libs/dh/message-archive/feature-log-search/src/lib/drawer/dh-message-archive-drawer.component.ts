@@ -32,6 +32,7 @@ import { DhMessageArchiveDataAccessBlobApiStore } from '@energinet-datahub/dh/me
 
 import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
 import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeName.pipe';
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 
 @Component({
   selector: 'dh-message-archive-drawer',
@@ -96,6 +97,7 @@ export class DhMessageArchiveDrawerComponent {
     ActorNamePipe,
     DocumentTypeNamePipe,
     WattButtonModule,
+    DhEmDashFallbackPipeScam,
   ],
 })
 export class DhMessageArchiveDrawerScam {}

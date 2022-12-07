@@ -23,8 +23,10 @@ export class ActorNamePipe implements PipeTransform {
     actorId: string | null | undefined,
     actors: WattDropdownOptions | null
   ): string | undefined {
-    if (!actorId) return 'N/A';
+    if (!actorId) return undefined;
     const actor = actors?.find((x) => x.value === actorId);
-    return actor?.displayValue === actor?.value ? 'N/A' : actor?.displayValue;
+    return actor?.displayValue === actor?.value
+      ? undefined
+      : actor?.displayValue;
   }
 }

@@ -46,28 +46,28 @@ limitations under the License.
         </ng-container>
         <ng-container *wattTableCell="columns.rsmName; let element">
           <div>
-            {{ element.rsmName | documentTypeName }}
+            {{ element.rsmName | documentTypeName | dhEmDashFallback }}
             <br />
             <span class="number">{{ element.rsmName }}</span>
           </div>
         </ng-container>
         <ng-container *wattTableCell="columns.senderGln; let element">
           <div>
-            {{ element.senderGln | actorName: actors }}
+            {{ element.senderGln | actorName: actors | dhEmDashFallback }}
             <br />
             <span class="number">{{ element.senderGln }}</span>
           </div>
         </ng-container>
         <ng-container *wattTableCell="columns.receiverGln; let element">
           <div>
-            {{ element.receiverGln | actorName: actors }}
+            {{ element.receiverGln | actorName: actors | dhEmDashFallback }}
             <br />
             <span class="number">{{ element.receiverGln }}</span>
           </div>
         </ng-container>
         <ng-container *wattTableCell="columns.createdDate; let element">
           <div style="white-space: nowrap">
-            {{ element.createdDate | dhDateTime }}
+            {{ element.createdDate | dhDateTime | dhEmDashFallback }}
           </div>
         </ng-container>
         <ng-container *wattTableCell="columns.httpData; let element">
