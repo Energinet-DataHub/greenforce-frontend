@@ -197,10 +197,10 @@ export class DhMessageArchiveLogSearchComponent {
       dateTimeTo: dateTimeTo.toISOString(),
       includeRelated: Boolean(includeRelated),
       messageId: messageId === '' ? null : messageId,
-      rsmNames,
-      senderId,
-      receiverId,
-      processTypes,
+      rsmNames: rsmNames.length === 0 ? null : rsmNames,
+      senderId: senderId === '' ? null : senderId,
+      receiverId: receiverId === '' ? null : receiverId,
+      processTypes: processTypes.length === 0 ? null : processTypes,
     });
 
     this.store.searchLogs(this.searchCriteria);
