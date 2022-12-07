@@ -196,14 +196,18 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     })
   );
 
-  readonly getGridArea$ = (gridAreaCode: string): Observable<GridAreaDto | undefined> => {
+  readonly getGridArea$ = (
+    gridAreaCode: string
+  ): Observable<GridAreaDto | undefined> => {
     return this.selectedBatch$.pipe(
       map((x) => {
         return x?.gridAreas.filter(
           (gridArea: GridAreaDto) => gridArea.code === gridAreaCode
         )[0];
       }),
-      tap((gridArea) => { console.log('gridArea', gridArea) })
+      tap((gridArea) => {
+        console.log('gridArea', gridArea);
+      })
     );
   };
 
