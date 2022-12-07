@@ -33,12 +33,14 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("users")]
         public Task<ActionResult<IEnumerable<UserRoleTemplateDto>>> GetAsync(Guid actorId, Guid userId)
         {
             return HandleExceptionAsync(() => _client.GetAsync(actorId, userId));
         }
 
         [HttpGet]
+        [Route("actors")]
         public Task<ActionResult<IEnumerable<UserRoleTemplateDto>>> GetAssignableAsync(Guid actorId)
         {
             return HandleExceptionAsync(() => _client.GetAssignableAsync(actorId));
