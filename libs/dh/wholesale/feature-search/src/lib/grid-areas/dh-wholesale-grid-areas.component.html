@@ -23,38 +23,15 @@ limitations under the License.
   </watt-card-title>
 
   <!-- Table -->
-  <mat-table
+  <watt-table
     [dataSource]="_data"
-    aria-label="batches"
-    matSort
-    matSortActive="executionTimeStart"
-    matSortDirection="desc"
-  >
-    <!--Grid Area Code -->
-    <ng-container matColumnDef="gridAreaCode">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ transloco("gridAreaCode") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let gridArea">
-        {{ gridArea.code }}
-      </mat-cell>
-    </ng-container>
-    <!-- Name -->
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ transloco("name") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let gridArea">
-        {{ gridArea.name || "—" }}
-      </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
-    <mat-row
-      *matRowDef="let row; columns: columnIds"
-      (click)="onSelect(row)"
-    ></mat-row>
-  </mat-table>
+    [columns]="columns"
+    [resolveHeader]="transloco"
+    description="batches"
+    sortBy="code"
+    sortDirection="desc"
+    (rowClick)="onSelect($event)"
+  ></watt-table>
 
   <!-- No Batches found -->
   <watt-empty-state
