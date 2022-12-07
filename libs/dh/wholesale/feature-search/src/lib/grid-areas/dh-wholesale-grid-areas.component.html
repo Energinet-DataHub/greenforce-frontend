@@ -14,7 +14,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
 <watt-card *transloco="let transloco; read: 'wholesale.gridAreas'">
   <watt-card-title>
     <h3 class="watt-on-light--high-emphasis">
@@ -37,7 +36,7 @@ limitations under the License.
         {{ transloco("gridAreaCode") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let gridArea">
-        {{ gridArea.gridAreaCode }}
+        {{ gridArea.code }}
       </mat-cell>
     </ng-container>
     <!-- Name -->
@@ -49,7 +48,10 @@ limitations under the License.
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
+    <mat-row
+      *matRowDef="let row; columns: columnIds"
+      (click)="onSelect(row)"
+    ></mat-row>
   </mat-table>
 
   <!-- No Batches found -->

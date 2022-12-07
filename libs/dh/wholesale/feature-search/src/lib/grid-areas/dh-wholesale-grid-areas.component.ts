@@ -19,12 +19,15 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
+
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -52,15 +55,22 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
   paginator!: DhSharedUiPaginatorComponent;
 
   @Input() set data(gridAreas: GridAreaDto[]) {
-    this._data = new MatTableDataSource(gridAreas.map((x) => x.code));
-    this._data.paginator = this.paginator.instance;
+    this._data = new MatTableDataSource(gridAreas);
+    this._data.paginator = this.paginator?.instance;
   }
-  _data: MatTableDataSource<string> = new MatTableDataSource(undefined);
+
+  @Output() selected = new EventEmitter<GridAreaDto>();
+
+  _data: MatTableDataSource<GridAreaDto> = new MatTableDataSource(undefined);
   columnIds = ['gridAreaCode', 'name'];
 
   ngAfterViewInit() {
-    if (this._data === null) return;
+    if (!this._data) return;
     this._data.sort = this.sort;
-    this._data.paginator = this.paginator.instance;
+    this._data.paginator = this.paginator?.instance;
+  }
+
+  onSelect(gridArea: GridAreaDto) {
+    this.selected.emit(gridArea);
   }
 }
