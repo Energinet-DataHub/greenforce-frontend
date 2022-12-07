@@ -24,7 +24,6 @@ import {
 } from '@azure/msal-browser';
 import { firstValueFrom, of } from 'rxjs';
 import { DeepPartial } from 'chart.js/types/utils';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhB2CEnvironment } from '@energinet-datahub/dh/shared/environments';
 import { ActorTokenService } from './actor-token.service';
 
@@ -44,10 +43,7 @@ describe(PermissionService.name, () => {
       {} as ActorTokenService,
       {
         instance: instance,
-      } as MsalService,
-      {
-        isEnabled: () => false,
-      } as DhFeatureFlagsService
+      } as MsalService
     );
 
     // act
@@ -57,32 +53,6 @@ describe(PermissionService.name, () => {
 
     // assert
     expect(actual).toBe(false);
-  });
-
-  test('should return true if grant_full_authorization is enabled', async () => {
-    // arrange
-    const instance: Partial<IPublicClientApplication> = {
-      getAllAccounts: () => [],
-    };
-
-    const target = new PermissionService(
-      {} as DhB2CEnvironment,
-      {} as ActorTokenService,
-      {
-        instance: instance,
-      } as MsalService,
-      {
-        isEnabled: (f) => f === 'grant_full_authorization',
-      } as DhFeatureFlagsService
-    );
-
-    // act
-    const actual = await firstValueFrom(
-      target.hasPermission('organization:manage')
-    );
-
-    // assert
-    expect(actual).toBe(true);
   });
 
   test('should return true if permission is found within access token roles', async () => {
@@ -97,17 +67,12 @@ describe(PermissionService.name, () => {
         of({ accessToken: fakeAccessToken } as AuthenticationResult),
     };
 
-    const featureFlagService = {
-      isEnabled: () => false,
-    } as DhFeatureFlagsService;
-
     const target = new PermissionService(
       {} as DhB2CEnvironment,
       {
         acquireToken: (e) => of(e),
       } as ActorTokenService,
-      authService as MsalService,
-      featureFlagService as DhFeatureFlagsService
+      authService as MsalService
     );
 
     // act
@@ -131,17 +96,12 @@ describe(PermissionService.name, () => {
         of({ accessToken: fakeAccessToken } as AuthenticationResult),
     };
 
-    const featureFlagService = {
-      isEnabled: () => false,
-    } as DhFeatureFlagsService;
-
     const target = new PermissionService(
       {} as DhB2CEnvironment,
       {
         acquireToken: (e) => of(e),
       } as ActorTokenService,
-      authService as MsalService,
-      featureFlagService as DhFeatureFlagsService
+      authService as MsalService
     );
 
     // act
