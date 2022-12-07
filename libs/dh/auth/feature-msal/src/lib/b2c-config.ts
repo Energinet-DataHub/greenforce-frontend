@@ -68,7 +68,9 @@ function reloadOnLoginFailed(error: string) {
 export function MSALInterceptorConfigFactory(
   config: DhB2CEnvironment
 ): MsalInterceptorConfiguration {
-  const protectedResourceMap = new Map<string, Array<string>>();
+  const protectedResourceMap = new Map<string, Array<string> | null>();
+
+  protectedResourceMap.set('/assets/*', null);
   protectedResourceMap.set('*', [config.backendId || config.clientId]);
 
   return {
