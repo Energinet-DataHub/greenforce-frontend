@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule, Routes } from '@angular/router';
 import { EoAuthenticationGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
@@ -22,7 +23,7 @@ import {
   eoConsumptionPageRoutePath,
   eoDashboardRoutePath,
   eoEmissionsRoutePath,
-  eoFaqRoutePath,
+  eoHelpRoutePath,
   eoMeteringPointsRoutePath,
   eoOriginOfEnergyRoutePath,
   eoPrivacyPolicyRoutePath,
@@ -111,11 +112,10 @@ const routes: Routes = [
           ),
       },
       {
-        path: eoFaqRoutePath,
-        data: { title: 'FAQ' },
+        path: eoHelpRoutePath,
         loadChildren: () =>
-          import('@energinet-datahub/eo/faq/shell').then(
-            (esModule) => esModule.EoFaqShellModule
+          import('@energinet-datahub/eo/help/shell').then(
+            (esModule) => esModule.EoHelpModule
           ),
       },
       {
@@ -143,6 +143,7 @@ const routes: Routes = [
     }),
     EoMaterialModule.forRoot(),
     EoShellComponent,
+    MatDialogModule,
   ],
 })
 export class EoCoreShellModule {}

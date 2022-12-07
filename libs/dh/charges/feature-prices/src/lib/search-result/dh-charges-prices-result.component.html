@@ -45,135 +45,52 @@ limitations under the License.
     </div>
 
     <!-- Table -->
-    <table
-      aria-label="prices search results"
-      mat-table
+    <watt-table
+      #table
+      description="prices search results"
+      [columns]="columns"
       [dataSource]="dataSource"
-      matSort
-      matSortDisableClear
-      matSortActive="chargeId"
-      matSortDirection="asc"
+      sortBy="chargeId"
+      sortDirection="asc"
+      [resolveHeader]="t"
+      [sortClear]="false"
+      [activeRow]="activeCharge"
+      (rowClick)="rowClicked($event)"
     >
-      <!-- Charge id column -->
-      <ng-container matColumnDef="chargeId">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header>
-          {{ t("chargeId") }}
-        </th>
-        <td mat-cell *matCellDef="let element">{{ element.chargeId }}</td>
-      </ng-container>
-
-      <!-- Charge name column -->
-      <ng-container matColumnDef="chargeName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ t("chargeName") }}
-        </th>
-        <td mat-cell *matCellDef="let element">{{ element.chargeName }}</td>
-      </ng-container>
-
       <!-- Charge owner column -->
-      <ng-container matColumnDef="chargeOwnerName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ t("chargeOwnerName") }}
-        </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.chargeOwnerName }} <br />
-          <span class="gln-number">{{ element.chargeOwner }}</span>
-        </td>
-      </ng-container>
-
-      <!-- charge type column -->
-      <ng-container matColumnDef="chargeType">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ t("chargeType") }}
-        </th>
-        <td mat-cell *matCellDef="let element">
-          {{ "charges.chargeType." + element.chargeType | transloco }}
-        </td>
+      <ng-container *wattTableCell="table.columns.chargeOwnerName; let element">
+        {{ element.chargeOwnerName }}<br />
+        <span class="gln-number">{{ element.chargeOwner }}</span>
       </ng-container>
 
       <!-- Transparent invoicing column -->
-      <ng-container matColumnDef="transparentInvoicing">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ t("transparentInvoicing") }}
-        </th>
-        <td mat-cell *matCellDef="let element">
-          <div
-            *ngIf="element.transparentInvoicing"
-            class="transparent-invoicing"
-          >
-            <div class="watt-text-s">
-              <watt-icon
-                name="success"
-                size="s"
-                class="primary-color icon"
-              ></watt-icon>
-            </div>
-            <div class="watt-text-s" *transloco="let transloco">
-              {{ transloco("charges.transparentInvoicing") }}
-            </div>
-          </div>
-        </td>
-      </ng-container>
-
-      <!-- Tax indicator column -->
-      <ng-container matColumnDef="taxIndicator">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ t("taxIndicator") }}
-        </th>
-        <td mat-cell *matCellDef="let element">
-          <div *ngIf="element.taxIndicator" class="tax-indicator">
-            <div class="watt-text-s">
-              <watt-icon
-                name="success"
-                size="s"
-                class="primary-color icon"
-              ></watt-icon>
-            </div>
-            <div class="watt-text-s" *transloco="let transloco">
-              {{ transloco("charges.taxIndicator") }}
-            </div>
-          </div>
-        </td>
-      </ng-container>
-
-      <!-- charge resolution column -->
-      <ng-container matColumnDef="resolution">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ t("resolution") }}
-        </th>
-        <td mat-cell *matCellDef="let element">
-          {{ "charges.resolutionType." + element.resolution | transloco }}
-        </td>
+      <ng-container *wattTableCell="table.columns.icons; let element">
+        <div class="icons">
+          <watt-icon
+            name="payments"
+            [ngClass]="{ active: element.taxIndicator }"
+            [wattTooltip]="t('taxIndicator')"
+          ></watt-icon>
+          <watt-icon
+            name="redo"
+            [ngClass]="{ active: element.transparentInvoicing }"
+            [wattTooltip]="t('transparentInvoicing')"
+          ></watt-icon>
+        </div>
       </ng-container>
 
       <!-- valid from date column -->
-      <ng-container matColumnDef="validFromDateTime">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ t("validFromDateTime") }}
-        </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.validFromDateTime | dhDate }}
-        </td>
+      <ng-container
+        *wattTableCell="table.columns.validFromDateTime; let element"
+      >
+        {{ element.validFromDateTime | dhDate }}
       </ng-container>
 
       <!-- valid to date column -->
-      <ng-container matColumnDef="validToDateTime">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ t("validToDateTime") }}
-        </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.validToDateTime | dhDate }}
-        </td>
+      <ng-container *wattTableCell="table.columns.validToDateTime; let element">
+        {{ element.validToDateTime | dhDate }}
       </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr
-        mat-row
-        (click)="rowClicked(row)"
-        [ngClass]="{ 'active-row': row.id === activeChargeId }"
-        *matRowDef="let row; columns: displayedColumns"
-      ></tr>
-    </table>
+    </watt-table>
 
     <!-- Spinner -->
     <div *ngIf="isLoading" class="overview__spinner spinner-container">

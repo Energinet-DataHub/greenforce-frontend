@@ -15,11 +15,12 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { EoCookieBannerComponentComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoProductLogoComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { IdleTimerService } from '@energinet-datahub/eo/shared/services';
 import { EoTitleStore } from '@energinet-datahub/eo/shared/utilities';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { PushModule } from '@rx-angular/template';
@@ -73,8 +74,7 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
         .watt-toolbar
         watt-icon-button[icon='menu']
         > button {
-        // Remove menu toggle left padding to collapse with top app bar padding
-        padding-left: 0;
+        padding-left: 0; // Remove menu toggle left padding to collapse with top app bar padding
       }
 
       ::ng-deep watt-shell .mat-nav-list {
@@ -145,15 +145,23 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
     </watt-shell>
   `,
 })
-export class EoShellComponent {
-  title$: Observable<string> = this.title.routeTitle$;
+export class EoShellComponent implements OnDestroy {
+  title$: Observable<string> = this.titleStore.routeTitle$;
   cookiesSet: string | null = null;
 
-  constructor(private title: EoTitleStore) {
+  constructor(
+    private titleStore: EoTitleStore,
+    private idleTimerService: IdleTimerService
+  ) {
     this.getBannerStatus();
+    this.idleTimerService.startIdleMonitor();
   }
 
   getBannerStatus() {
     this.cookiesSet = localStorage.getItem('cookiesAccepted');
+  }
+
+  ngOnDestroy() {
+    this.idleTimerService.stopIdleMonitor();
   }
 }

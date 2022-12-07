@@ -14,19 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { RouterModule, Routes } from '@angular/router';
-import { EoFaqShellComponent } from './eo-faq-shell.component';
-
-import { NgModule } from '@angular/core';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: EoFaqShellComponent,
-  },
-];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoFaqShellComponent],
-})
-export class EoFaqShellModule {}
+export const dhAdminPath = 'admin';
+export const dhAdminUserManagementPath = 'user-management';

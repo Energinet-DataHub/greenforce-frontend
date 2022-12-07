@@ -100,3 +100,23 @@ jobs:
           repository: '${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}'
           event-type: 'ui-deployment-request-domain'
           client-payload: '{"domain_pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet_deploy": "${{ needs.changes.outputs.dotnet }}", "frontend_deploy": "${{ needs.changes.outputs.frontend }}"}'
+
+  #
+  # Send notification to teams channel if deployment dispatch failed
+  #
+
+  dispatch_failed:
+    needs:
+      [
+        frontend_promote_prerelease,
+        dotnet_promote_prerelease,
+        dispatch_deploment_event,
+      ]
+    if: |
+      always() &&
+      contains(needs.*.result, 'failure')
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v9
+    with:
+      TEAM_NAME: 'TexasRangers'
+      SUBJECT: 'Deployment dispatch failed: UI + BFF'
+    secrets: inherit

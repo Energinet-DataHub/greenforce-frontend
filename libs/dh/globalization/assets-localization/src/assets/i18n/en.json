@@ -36,6 +36,10 @@
         "startBatch": "Start Batch",
         "searchBatch": "Search Batch",
         "overview": "Overview"
+      },
+      "admin": {
+        "menuGroupLabel": "Settings",
+        "userManagement": "User management"
       }
     }
   },
@@ -333,7 +337,9 @@
       "selectChargeType": "Select charge type",
       "createPriceError": "Something went wrong. Price is not created. Try again.",
       "createPriceSuccess": "Success! The price has been submitted.",
-      "loadingRequestText": "Submitting the price."
+      "loadingRequestText": "Submitting the price.",
+      "validFromDateTime": "Valid from",
+      "maxDateValidationErrorText": "Date must be within 3 years."
     },
     "prices": {
       "prices": "Prices",
@@ -514,6 +520,7 @@
           "marketRole": "Market role",
           "gridArea": "Grid area",
           "meteringPointTypes": "Metering point types",
+          "comment": "Comment",
           "invalidConfiguration": "Market roles are not correctly configured"
         }
       }
@@ -780,6 +787,11 @@
     },
     "overview": {
       "header": "Process Overview"
+    }
+  },
+  "admin": {
+    "userManagement": {
+      "topBarTitle": "User management"
     }
   }
 }

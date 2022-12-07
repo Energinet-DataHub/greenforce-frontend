@@ -20,6 +20,13 @@
       "@energinet-datahub/dh-shared-data-access-top-bar": [
         "libs/dh/shared/data-access-top-bar/src/index.ts"
       ],
+      "@energinet-datahub/dh/admin/feature-user-management": [
+        "libs/dh/admin/feature-user-management/src/index.ts"
+      ],
+      "@energinet-datahub/dh/admin/routing": [
+        "libs/dh/admin/routing/src/index.ts"
+      ],
+      "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/src/index.ts"],
       "@energinet-datahub/dh/auth/msal": [
         "libs/dh/auth/feature-msal/src/index.ts"
       ],
@@ -217,7 +224,7 @@
       "@energinet-datahub/eo/emissions/shell": [
         "libs/eo/emissions/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/faq/shell": ["libs/eo/faq/shell/src/index.ts"],
+      "@energinet-datahub/eo/help/shell": ["libs/eo/help/shell/src/index.ts"],
       "@energinet-datahub/eo/landing-page/shell": [
         "libs/eo/landing-page/shell/src/index.ts"
       ],
