@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Component } from '@angular/core';
 
-export type Permission =
-  | 'organization:view'
-  | 'organization:manage'
-  | 'gridareas:manage'
-  | 'actor:manage'
-  | 'users:manage';
+@Component({
+  selector: 'dh-admin-feature-user-management',
+  template: ``,
+  standalone: true,
+})
+export class DhAdminFeatureUserManagementComponent {}

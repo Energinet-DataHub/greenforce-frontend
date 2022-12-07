@@ -14,10 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import 'jest-preset-angular/setup-jest';
 
-export type Permission =
-  | 'organization:view'
-  | 'organization:manage'
-  | 'gridareas:manage'
-  | 'actor:manage'
-  | 'users:manage';
+import {
+  setUpTestbed,
+  setUpAngularTestingLibrary,
+} from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSW } from '@energinet-datahub/dh/shared/test-util-msw';
+
+setupMSW();
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();
