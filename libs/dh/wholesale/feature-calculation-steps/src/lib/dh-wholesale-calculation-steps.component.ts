@@ -28,7 +28,7 @@ import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattTopBarComponent } from 'libs/ui-watt/src/lib/components/shell/top-bar';
+import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';

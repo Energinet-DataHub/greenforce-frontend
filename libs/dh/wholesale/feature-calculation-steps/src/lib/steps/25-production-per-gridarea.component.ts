@@ -27,7 +27,7 @@ import {
 } from '@energinet-datahub/watt/drawer';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { batch } from 'libs/dh/wholesale/domain/src';
+import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
   selector: 'dh-wholesale-production-per-gridarea',

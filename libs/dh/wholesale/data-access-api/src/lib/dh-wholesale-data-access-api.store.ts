@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable, ChangeDetectorRef, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ComponentStore } from '@ngrx/component-store';
 import {
@@ -37,6 +37,8 @@ import {
   BatchDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
+
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { WattBadgeType } from '@energinet-datahub/watt/badge';
 
 interface State {

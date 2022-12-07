@@ -62,6 +62,7 @@
     "dh-wholesale-feature-search": "libs/dh/wholesale/feature-search",
     "dh-wholesale-feature-start": "libs/dh/wholesale/feature-start",
     "dh-wholesale-routing": "libs/dh/wholesale/routing",
+    "dh-wholesale-shell": "libs/dh/wholesale/shell",
     "e2e-dh": "apps/dh/e2e-dh",
     "e2e-eo": "apps/eo/e2e-eo",
     "eo-auth-data-access-api": "libs/eo/auth/data-access-api",
