@@ -115,24 +115,18 @@ export class DhChargesChargeMessagesTabComponent
   totalCount = this.chargeMessagesStore.totalCount$;
 
   columns: WattTableColumnDef<ChargeMessageV1Dto> = {
-    messageId: {
-      header: () => this.transloco.translate('charges.prices.drawer.messageId'),
-    },
-    messageDateTime: {
-      header: () => this.transloco.translate('charges.prices.drawer.date'),
-      size: 'max-content',
-    },
-    messageType: {
-      header: () =>
-        this.transloco.translate('charges.prices.drawer.messageType'),
-      size: 'max-content',
-    },
+    messageId: { accessor: 'messageId' },
+    date: { accessor: 'messageDateTime', size: 'max-content' },
+    messageType: { accessor: 'messageType', size: 'max-content' },
   };
 
   private destroy$ = new Subject<void>();
 
   readonly dataSource: WattTableDataSource<ChargeMessageV1Dto> =
     new WattTableDataSource<ChargeMessageV1Dto>();
+
+  translateHeader = (key: string) =>
+    this.transloco.translate(`charges.prices.drawer.${key}`);
 
   ngOnInit() {
     this.chargeMessagesStore.all$

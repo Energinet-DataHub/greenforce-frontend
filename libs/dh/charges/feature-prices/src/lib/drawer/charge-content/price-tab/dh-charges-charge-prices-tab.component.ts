@@ -120,31 +120,21 @@ export class DhChargesChargePricesTabComponent
 
   displayedColumns = ['fromDateTime', 'time', 'price'];
   columns: WattTableColumnDef<ChargePriceV1Dto> = {
-    fromDateTime: {
-      header: () =>
-        this.transloco.translate('charges.prices.priceTab.fromDateTime'),
-      size: 'max-content',
-    },
-    time: {
-      header: () => this.transloco.translate('charges.prices.priceTab.time'),
-      sort: false,
-    },
-    toDateTime: {
-      header: () =>
-        this.transloco.translate('charges.prices.priceTab.toDateTime'),
-      sort: false,
-    },
-    price: {
-      header: () => this.transloco.translate('charges.prices.price'),
-      align: 'right',
-      size: 'max-content',
-    },
+    fromDateTime: { accessor: 'fromDateTime', size: 'max-content' },
+    time: { accessor: null },
+    toDateTime: { accessor: 'toDateTime', sort: false },
+    price: { accessor: 'price', align: 'right', size: 'max-content' },
   };
 
   private destroy$ = new Subject<void>();
 
   readonly dataSource: WattTableDataSource<ChargePriceV1Dto> =
     new WattTableDataSource<ChargePriceV1Dto>();
+
+  translateHeader = (key: string) =>
+    key === 'price'
+      ? this.transloco.translate('charges.prices.price')
+      : this.transloco.translate(`charges.prices.priceTab.${key}`);
 
   ngOnInit() {
     this.chargePricesStore.all$
