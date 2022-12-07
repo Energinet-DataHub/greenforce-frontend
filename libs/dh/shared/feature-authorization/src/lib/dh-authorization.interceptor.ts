@@ -23,22 +23,19 @@ import {
 } from '@angular/common/http';
 import { Observable, switchMap } from 'rxjs';
 
-import { ClassProvider, inject, Injectable } from '@angular/core';
-import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { ClassProvider, Injectable } from '@angular/core';
 
 import { ActorTokenService } from './actor-token.service';
 
 @Injectable()
 export class DhAuthorizationInterceptor implements HttpInterceptor {
-  apiBase = inject(dhApiEnvironmentToken).apiBase;
-
   constructor(private actorTokenService: ActorTokenService) {}
 
   intercept(
     request: HttpRequest<unknown>,
     nextHandler: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    if (this.isPartOfAuthFlow(request) || this.isNotAgainstOwnApi(request)) {
+    if (this.isPartOfAuthFlow(request)) {
       return nextHandler.handle(request);
     }
 
@@ -72,12 +69,6 @@ export class DhAuthorizationInterceptor implements HttpInterceptor {
       request.url.endsWith('/MarketParticipantUser') ||
       request.url.endsWith('/Token')
     );
-  }
-
-  private isNotAgainstOwnApi(request: HttpRequest<unknown>) {
-    const isAgainstOwnApi = request.url.startsWith(this.apiBase);
-
-    return isAgainstOwnApi === false;
   }
 }
 
