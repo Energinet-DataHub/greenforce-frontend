@@ -16,7 +16,7 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'dh-wholesale-overview',
+  displayName: 'dh-wholesale-routing',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -25,7 +25,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/dh/wholesale/feature-overview',
+  coverageDirectory: '../../../../coverage/libs/dh/wholesale/routing',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

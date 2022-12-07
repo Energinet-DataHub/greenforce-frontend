@@ -761,6 +761,14 @@
         "of": "of"
       }
     },
+    "calculationSteps": {
+      "topBarTitle": "See accumulated time series",
+      "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
+      "subHeading": "Grid Area Code {{gridAreaCode}}",
+      "gridAreaName": "[Grid area name]",
+      "loadCalculationStepsFailedTitle": "Ups! Der opstod en fejl",
+      "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
+    },
     "batchDetails": {
       "headline": "Batch: {{batchNumber}}",
       "calculationPeriod": "Calculation period",
@@ -771,9 +779,6 @@
       "gridAreaCode": "ID",
       "name": "name",
       "noGridAreasFound": "No grid areas found"
-    },
-    "overview": {
-      "header": "Process Overview"
     }
   },
   "admin": {

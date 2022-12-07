@@ -28,16 +28,16 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { BatchDto, BatchState } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt/badge';
+import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 
-export type BatchVm = BatchDto & { statusType: WattBadgeType };
-type wholesaleTableData = MatTableDataSource<BatchVm>;
+import { batch } from '@energinet-datahub/dh/wholesale/domain';
+
+type wholesaleTableData = MatTableDataSource<batch>;
 
 @Component({
   standalone: true,
@@ -63,16 +63,11 @@ export class DhWholesaleTableComponent implements AfterViewInit {
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
-  @Input() set data(batches: BatchDto[]) {
-    this._data = new MatTableDataSource(
-      batches.map((batch) => ({
-        ...batch,
-        statusType: this.getStatusType(batch.executionState),
-      }))
-    );
+  @Input() set data(batches: batch[]) {
+    this._data = new MatTableDataSource(batches);
   }
-  @Output() selectedRow: EventEmitter<BatchVm> = new EventEmitter();
-  @Output() download: EventEmitter<BatchVm> = new EventEmitter();
+  @Output() selectedRow: EventEmitter<batch> = new EventEmitter();
+  @Output() download: EventEmitter<batch> = new EventEmitter();
 
   _data: wholesaleTableData = new MatTableDataSource(undefined);
   columnIds = [
@@ -90,20 +85,8 @@ export class DhWholesaleTableComponent implements AfterViewInit {
     this._data.paginator = this.paginator.instance;
   }
 
-  onDownload(event: Event, batch: BatchVm) {
+  onDownload(event: Event, batch: batch) {
     event.stopPropagation();
     this.download.emit(batch);
-  }
-
-  private getStatusType(status: BatchState): WattBadgeType {
-    if (status === BatchState.Pending) {
-      return 'warning';
-    } else if (status === BatchState.Completed) {
-      return 'success';
-    } else if (status === BatchState.Failed) {
-      return 'danger';
-    } else {
-      return 'info';
-    }
   }
 }
