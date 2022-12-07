@@ -14,7 +14,7 @@ import { GridAreaDto } from './grid-area-dto';
 
 
 export interface BatchDto { 
-    batchNumber: string;
+    batchId: string;
     periodStart: string;
     periodEnd: string;
     executionTimeStart?: string | null;
