@@ -25,9 +25,7 @@ import {
   Subject,
   catchError,
   EMPTY,
-  map,
-  filter,
-  find,
+  map
 } from 'rxjs';
 
 import {
