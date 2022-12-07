@@ -22,14 +22,14 @@ import { TranslocoModule } from '@ngneat/transloco';
 @Component({
   selector: 'dh-message-archive-status',
   template: `<ng-container *transloco="let t; read: 'messageArchive.search'"
-    ><container-element [ngSwitch]="this.message">
+    ><container-element [ngSwitch]="message">
       <watt-badge *ngSwitchCase="'request'" type="info">{{
         t('sent')
       }}</watt-badge>
       <watt-badge *ngSwitchCase="'response'" type="success">{{
         t('received')
       }}</watt-badge>
-      <watt-badge *ngSwitchDefault type="info">{{ this.message }}</watt-badge>
+      <watt-badge *ngSwitchDefault type="info">{{ message }}</watt-badge>
     </container-element>
   </ng-container>`,
 })

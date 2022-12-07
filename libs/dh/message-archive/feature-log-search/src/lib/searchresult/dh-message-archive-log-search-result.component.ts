@@ -66,7 +66,7 @@ export class DhMessageArchiveLogSearchResultComponent
   implements AfterViewInit, OnChanges
 {
   private _translateScrope = 'messageArchive.search';
-  private _selectedRow?: string;
+  private _selectedRow = new Set();
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(DhMessageArchiveDrawerComponent)
   messageDrawer!: DhMessageArchiveDrawerComponent;
@@ -116,12 +116,13 @@ export class DhMessageArchiveLogSearchResultComponent
   }
 
   onRowClick(row: MessageArchiveSearchResultItemDto) {
-    this._selectedRow = row.messageId ?? '';
+    this._selectedRow.clear();
+    this._selectedRow.add(row);
     this.messageDrawer.open(row);
   }
 
   isActiveRow = (row: MessageArchiveSearchResultItemDto) => {
-    return this._selectedRow === row.messageId;
+    return this._selectedRow.has(row);
   };
 
   onScroll() {
@@ -129,7 +130,7 @@ export class DhMessageArchiveLogSearchResultComponent
   }
 
   ngOnChanges() {
-    if (this.searchResult) this.dataSource.data = this.searchResult;
+    this.dataSource.data = this.searchResult;
   }
 
   ngAfterViewInit() {
