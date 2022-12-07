@@ -35,6 +35,8 @@ import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeN
 import { PushModule } from '@rx-angular/template';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 
+import { findLogName } from '../shared/findLogname';
+
 @Component({
   selector: 'dh-message-archive-drawer',
   templateUrl: './dh-message-archive-drawer.component.html',
@@ -43,20 +45,14 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/s
 export class DhMessageArchiveDrawerComponent {
   @ViewChild('drawer') drawer!: WattDrawerComponent;
   @Input() actors: WattDropdownOptions | null = null;
-  private regexLogNameWithDateFolder = new RegExp(
-    /\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/
-  );
-  private regexLogNameIsSingleGuid = new RegExp(
-    /[\da-zA-Z]{8}-([\da-zA-Z]{4}-){3}[\da-zA-Z]{12}$/
-  );
 
   message: MessageArchiveSearchResultItemDto | null = null;
-  messageLog$ = this.blobStore.select((x) => x.blobContent);
+  messageLog$ = this.blobStore.blobContent$;
 
   constructor(private blobStore: DhMessageArchiveDataAccessBlobApiStore) {}
 
   open(message: MessageArchiveSearchResultItemDto) {
-    this.blobStore.downloadLog(this.findLogName(message.blobContentUri));
+    this.blobStore.downloadLog(findLogName(message.blobContentUri));
     this.message = message;
     this.drawer.open();
   }
@@ -67,20 +63,8 @@ export class DhMessageArchiveDrawerComponent {
 
   downloadLogFile() {
     this.blobStore.downloadLogFile(
-      this.findLogName(this.message?.blobContentUri ?? '')
+      findLogName(this.message?.blobContentUri ?? '')
     );
-  }
-
-  findLogName(logUrl: string): string {
-    if (this.regexLogNameWithDateFolder.test(logUrl)) {
-      const match = this.regexLogNameWithDateFolder.exec(logUrl);
-      return match != null ? match[0] : '';
-    } else if (this.regexLogNameIsSingleGuid.test(logUrl)) {
-      const match = this.regexLogNameIsSingleGuid.exec(logUrl);
-      return match != null ? match[0] : '';
-    }
-
-    return '';
   }
 }
 
