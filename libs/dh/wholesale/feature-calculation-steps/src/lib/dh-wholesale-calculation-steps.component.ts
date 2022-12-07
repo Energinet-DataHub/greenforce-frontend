@@ -65,7 +65,9 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
       if (!batch) this.store.getBatch(this.route.snapshot.params['batchId']);
     })
   );
-  gridArea$: Observable<GridAreaDto | undefined> = this.store.getGridArea$(this.route.snapshot.params['gridAreaCode']);
+  gridArea$: Observable<GridAreaDto | undefined> = this.store.getGridArea$(
+    this.route.snapshot.params['gridAreaCode']
+  );
   steps?: unknown[] = undefined;
 
   ngOnInit(): void {
