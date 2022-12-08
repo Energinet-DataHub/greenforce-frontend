@@ -116,7 +116,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
   onBatchSelected(batch: batch) {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { batch: batch.batchNumber },
+      queryParams: { batch: batch.batchId },
     });
     this.store.setSelectedBatch(batch);
     this.batchDetails.open();

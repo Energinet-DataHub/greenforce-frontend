@@ -36,6 +36,10 @@
         "startBatch": "Start Batch",
         "searchBatch": "Search Batch",
         "overview": "Overview"
+      },
+      "admin": {
+        "menuGroupLabel": "Settings",
+        "userManagement": "User management"
       }
     }
   },
@@ -731,7 +735,7 @@
         "searchButton": "Search"
       },
       "columns": {
-        "batchNumber": "Batch number",
+        "batchId": "Batch number",
         "periodFrom": "Period from",
         "periodTo": "Period to",
         "executionTime": "Execution time",
@@ -766,7 +770,7 @@
       "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
     },
     "batchDetails": {
-      "headline": "Batch: {{batchNumber}}",
+      "headline": "Batch: {{batchId}}",
       "calculationPeriod": "Calculation period",
       "executionTime": "Execution time"
     },
@@ -775,6 +779,11 @@
       "gridAreaCode": "ID",
       "name": "name",
       "noGridAreasFound": "No grid areas found"
+    }
+  },
+  "admin": {
+    "userManagement": {
+      "topBarTitle": "User management"
     }
   }
 }

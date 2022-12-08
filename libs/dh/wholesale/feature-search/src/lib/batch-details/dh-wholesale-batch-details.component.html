@@ -15,15 +15,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-drawer #drawer>
-  <watt-drawer-topbar>
+  <watt-drawer-topbar *ngIf="batch">
     <watt-breadcrumbs *transloco="let transloco; read: 'wholesale'">
       <watt-breadcrumb (click)="drawer.close()">{{
         transloco("searchBatch.topBarTitle")
       }}</watt-breadcrumb>
       <watt-breadcrumb>{{
-        transloco("batchDetails.headline", {
-          batchNumber: batch?.batchNumber
-        })
+        transloco("batchDetails.headline", { batchId: batch.batchId })
       }}</watt-breadcrumb>
     </watt-breadcrumbs>
   </watt-drawer-topbar>
@@ -36,12 +34,8 @@ limitations under the License.
       <watt-badge *ngIf="batch" [type]="batch.statusType">
         {{ transloco("searchBatch." + batch.executionState) }}
       </watt-badge>
-      <h3 class="headline watt-headline-1">
-        {{
-          transloco("batchDetails.headline", {
-            batchNumber: batch?.batchNumber
-          })
-        }}
+      <h3 class="headline watt-headline-1" *ngIf="batch">
+        {{ transloco("batchDetails.headline", { batchId: batch.batchId }) }}
       </h3>
     </div>
     <dl *transloco="let transloco; read: 'wholesale'">

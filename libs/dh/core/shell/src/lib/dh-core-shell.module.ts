@@ -49,6 +49,7 @@ import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
 import { WHOLESALE_BASE_PATH } from '@energinet-datahub/dh/wholesale/routing';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
+import { dhAdminPath } from '@energinet-datahub/dh/admin/routing';
 
 const routes: Routes = [
   {
@@ -97,6 +98,14 @@ const routes: Routes = [
         loadChildren: () =>
           import('@energinet-datahub/dh/charges/shell').then(
             (esModule) => esModule.DhChargesShellModule
+          ),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: dhAdminPath,
+        loadChildren: () =>
+          import('@energinet-datahub/dh/admin/shell').then(
+            (esModule) => esModule.routes
           ),
         canActivate: [MsalGuard],
       },

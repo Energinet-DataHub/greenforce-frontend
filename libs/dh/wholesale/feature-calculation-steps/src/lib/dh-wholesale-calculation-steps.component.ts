@@ -77,6 +77,6 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
   }
 
   navigateToSearchBatch(batch?: batch): void {
-    navigateToWholesaleSearchBatch(this.router, batch?.batchNumber);
+    navigateToWholesaleSearchBatch(this.router, batch?.batchId);
   }
 }

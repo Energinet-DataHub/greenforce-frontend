@@ -25,6 +25,8 @@ import { BatchRequestDto } from '../model/batch-request-dto';
 // @ts-ignore
 import { BatchSearchDto } from '../model/batch-search-dto';
 // @ts-ignore
+import { ProcessStepResultDto } from '../model/process-step-result-dto';
+// @ts-ignore
 import { ProcessStepResultRequestDto } from '../model/process-step-result-request-dto';
 // @ts-ignore
 import { Stream } from '../model/stream';
@@ -249,10 +251,10 @@ export class WholesaleBatchHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1WholesaleBatchProcessStepResultPost(processStepResultRequestDto?: ProcessStepResultRequestDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1WholesaleBatchProcessStepResultPost(processStepResultRequestDto?: ProcessStepResultRequestDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1WholesaleBatchProcessStepResultPost(processStepResultRequestDto?: ProcessStepResultRequestDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1WholesaleBatchProcessStepResultPost(processStepResultRequestDto?: ProcessStepResultRequestDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public v1WholesaleBatchProcessStepResultPost(processStepResultRequestDto?: ProcessStepResultRequestDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<ProcessStepResultDto>;
+    public v1WholesaleBatchProcessStepResultPost(processStepResultRequestDto?: ProcessStepResultRequestDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<ProcessStepResultDto>>;
+    public v1WholesaleBatchProcessStepResultPost(processStepResultRequestDto?: ProcessStepResultRequestDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<ProcessStepResultDto>>;
+    public v1WholesaleBatchProcessStepResultPost(processStepResultRequestDto?: ProcessStepResultRequestDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -267,6 +269,9 @@ export class WholesaleBatchHttp {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -303,7 +308,7 @@ export class WholesaleBatchHttp {
         }
 
         let localVarPath = `/v1/WholesaleBatch/ProcessStepResult`;
-        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ProcessStepResultDto>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: processStepResultRequestDto,

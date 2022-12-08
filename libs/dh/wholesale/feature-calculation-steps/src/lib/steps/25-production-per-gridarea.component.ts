@@ -55,9 +55,9 @@ import { ProcessStepType } from '@energinet-datahub/dh/shared/domain';
           <watt-breadcrumb (click)="navigateToSearchBatch()">{{
             transloco('searchBatch.topBarTitle')
           }}</watt-breadcrumb>
-          <watt-breadcrumb (click)="navigateToSearchBatch(batch.batchNumber)">{{
+          <watt-breadcrumb (click)="navigateToSearchBatch(batch.batchId)">{{
             transloco('batchDetails.headline', {
-              batchNumber: batch.batchNumber
+              batchNumber: batch.batchId
             })
           }}</watt-breadcrumb>
           <watt-breadcrumb (click)="drawer.close()">{{
@@ -162,7 +162,7 @@ export class DhWholesaleProductionPerGridareaComponent
     this.drawer.open();
 
     this.store.getProcessStepResults({
-      batchId: this.batch.batchNumber,
+      batchId: this.batch.batchId,
       gridAreaCode: this.gridAreaCode,
       processStepResult: ProcessStepType.AggregateProductionPerGridArea,
     });

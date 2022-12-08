@@ -36,6 +36,10 @@
         "startBatch": "Start batch",
         "searchBatch": "Søg batch",
         "overview": "Oversigt"
+      },
+      "admin": {
+        "menuGroupLabel": "Opsætning",
+        "userManagement": "Brugeradministration"
       }
     }
   },
@@ -733,7 +737,7 @@
         "searchButton": "Søg"
       },
       "columns": {
-        "batchNumber": "Batch-nummer",
+        "batchId": "Batch-nummer",
         "periodFrom": "Periode fra",
         "periodTo": "Periode til",
         "executionTime": "Eksekveringstid",
@@ -768,7 +772,7 @@
       "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
     },
     "batchDetails": {
-      "headline": "Batch: {{batchNumber}}",
+      "headline": "Batch: {{batchId}}",
       "calculationPeriod": "Beregningsperiode",
       "executionTime": "Eksekveringstidspunkt"
     },
@@ -777,6 +781,11 @@
       "gridAreaCode": "ID",
       "name": "navn",
       "noGridAreasFound": "Ingen netområder fundet"
+    }
+  },
+  "admin": {
+    "userManagement": {
+      "topBarTitle": "Brugeradministration"
     }
   }
 }

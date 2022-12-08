@@ -31,7 +31,7 @@ export function navigateToWholesaleCalculationSteps(
     [
       WHOLESALE_BASE_PATH,
       WHOLESALE_CALCULATION_STEPS_PATH,
-      batch.batchNumber,
+      batch.batchId,
       gridArea.code,
     ],
     {
@@ -42,9 +42,9 @@ export function navigateToWholesaleCalculationSteps(
 
 export function navigateToWholesaleSearchBatch(
   router: Router,
-  batchNumber?: string
+  batchId?: string
 ) {
   return router.navigate([WHOLESALE_BASE_PATH, WHOLESALE_SEARCH_BATCH_PATH], {
-    queryParams: batchNumber ? { batch: batchNumber } : null,
+    queryParams: batchId ? { batch: batchId } : null,
   });
 }

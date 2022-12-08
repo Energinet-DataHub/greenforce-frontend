@@ -14,10 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-export type Permission =
-  | 'organization:view'
-  | 'organization:manage'
-  | 'gridareas:manage'
-  | 'actor:manage'
-  | 'users:manage';
+export * from './lib/dh-admin-feature-user-management.component';
