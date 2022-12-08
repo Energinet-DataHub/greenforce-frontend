@@ -66,7 +66,7 @@ export class DhMessageArchiveLogSearchResultComponent
   implements AfterViewInit, OnChanges
 {
   private _translateScrope = 'messageArchive.search';
-  private _selectedRow = new Set();
+  activeRow: MessageArchiveSearchResultItemDto | undefined;
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(DhMessageArchiveDrawerComponent)
   messageDrawer!: DhMessageArchiveDrawerComponent;
@@ -89,41 +89,30 @@ export class DhMessageArchiveLogSearchResultComponent
   constructor(private translocoService: TranslocoService) {
     this.columns = {
       messageId: {
-        header: () =>
-          translocoService.translate(`${this._translateScrope}.messageId`),
+        accessor: 'messageId',
       },
       rsmName: {
-        header: () =>
-          translocoService.translate(`${this._translateScrope}.documenttype`),
+        accessor: 'rsmName',
       },
       senderGln: {
-        header: () =>
-          translocoService.translate(`${this._translateScrope}.senderId`),
+        accessor: 'senderGln',
       },
       receiverGln: {
-        header: () =>
-          translocoService.translate(`${this._translateScrope}.receiverId`),
+        accessor: 'receiverGln',
       },
       createdDate: {
-        header: () =>
-          translocoService.translate(`${this._translateScrope}.dateTime`),
+        accessor: 'createdDate',
       },
       httpData: {
-        header: () =>
-          translocoService.translate(`${this._translateScrope}.status`),
+        accessor: 'httpData',
       },
     };
   }
 
   onRowClick(row: MessageArchiveSearchResultItemDto) {
-    this._selectedRow.clear();
-    this._selectedRow.add(row);
+    this.activeRow = row;
     this.messageDrawer.open(row);
   }
-
-  isActiveRow = (row: MessageArchiveSearchResultItemDto) => {
-    return this._selectedRow.has(row);
-  };
 
   onScroll() {
     console.log('get more data');

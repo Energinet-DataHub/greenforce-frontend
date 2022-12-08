@@ -21,5 +21,4 @@ export {
   WattTableComponent,
   WattTableCellDirective,
   WATT_TABLE,
-  WattTableColumnDef,
 } from './watt-table.component';

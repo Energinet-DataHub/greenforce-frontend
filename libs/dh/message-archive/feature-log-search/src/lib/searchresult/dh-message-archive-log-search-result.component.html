@@ -35,8 +35,9 @@ limitations under the License.
         sortBy="createdDate"
         sortDirection="asc"
         [dataSource]="dataSource"
+        [resolveHeader]="t"
         [columns]="columns"
-        [getActiveRow]="isActiveRow"
+        [activeRow]="activeRow"
         (rowClick)="onRowClick($event)"
       >
         <ng-container *wattTableCell="columns.messageId; let element">

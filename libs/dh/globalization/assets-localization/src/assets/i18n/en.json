@@ -452,11 +452,11 @@
     },
     "search": {
       "topBarTitle": "Search in request and response messages",
-      "documenttype": "Document type",
-      "senderId": "Sender Id",
+      "rsmName": "Document type",
+      "senderGln": "Sender",
       "messageId": "Message Id",
       "traceId": "Trace Id",
-      "receiverId": "Receiver Id",
+      "receiverGln": "Receiver",
       "businessReason": "Business reason",
       "dateFrom": "Date from",
       "dateTo": "Date to",
@@ -469,7 +469,7 @@
       "rsm": "RSM",
       "sender": "Aktor",
       "timeStamp": "Time",
-      "status": "Status",
+      "httpData": "Status",
       "sent": "IN",
       "received": "OUT",
       "download": "Download",
@@ -481,7 +481,7 @@
       "searchResult": "Search results",
       "startSearchResultView": "Start search",
       "startSearchText": "Your results will appear here",
-      "dateTime": "Date and time",
+      "createdDate": "Date and time",
       "invalidDate": "Invalid date"
     }
   },
