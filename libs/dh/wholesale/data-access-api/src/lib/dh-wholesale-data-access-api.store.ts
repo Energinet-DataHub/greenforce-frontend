@@ -36,7 +36,7 @@ import {
   BatchState,
   BatchDto,
   GridAreaDto,
-  ProcessStepResultRequestDto
+  ProcessStepResultRequestDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
@@ -55,7 +55,7 @@ interface State {
 const initialState: State = {
   loadingBatches: false,
   loadingBatch: false,
-  loadingBatchProccessStepResult: false
+  loadingBatchProccessStepResult: false,
 };
 
 @Injectable({
