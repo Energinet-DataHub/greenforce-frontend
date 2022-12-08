@@ -36,12 +36,11 @@ import {
   BatchState,
   BatchDto,
   GridAreaDto,
-  ProcessStepResultRequestDto
+  ProcessStepResultRequestDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { WattBadgeType } from '@energinet-datahub/watt/badge';
+import type { WattBadgeType } from '@energinet-datahub-types/watt/badge';
 
 interface State {
   batches?: batch[];
@@ -55,7 +54,7 @@ interface State {
 const initialState: State = {
   loadingBatches: false,
   loadingBatch: false,
-  loadingBatchProccessStepResult: false
+  loadingBatchProccessStepResult: false,
 };
 
 @Injectable({
