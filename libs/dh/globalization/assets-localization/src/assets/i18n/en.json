@@ -782,6 +782,11 @@
       "loadCalculationStepsFailedTitle": "Ups! Der opstod en fejl",
       "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
     },
+    "timeSeriesPoints": {
+      "header": "Quantities ​​in the period",
+      "time": "time",
+      "quantity": "quantity"
+    },
     "batchDetails": {
       "headline": "Batch: {{batchId}}",
       "calculationPeriod": "Calculation period",

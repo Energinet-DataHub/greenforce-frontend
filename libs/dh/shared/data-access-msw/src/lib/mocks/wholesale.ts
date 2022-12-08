@@ -18,6 +18,7 @@ import {
   BatchDto,
   BatchState,
   PriceAreaCode,
+  ProcessStepMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
@@ -246,7 +247,30 @@ function postWholesaleBatchProcessStepResult(apiBase: string) {
   return rest.post(
     `${apiBase}/v1/WholesaleBatch/ProcessStepResult`,
     (req, res, ctx) => {
-      return res(ctx.delay(300), ctx.status(200));
+      return res(ctx.delay(300), ctx.status(200), ctx.json({
+        processStepMeteringPointType: ProcessStepMeteringPointType.Production,
+        sum: 102234.245654,
+        min: 0.000000,
+        max: 114.415789,
+        timeSeriesPoints: [
+          {
+            time: periodStart,
+            quantity: 13.518
+          },
+          {
+            time: periodEnd,
+            quantity: 13.518
+          },
+          {
+            time: periodStart,
+            quantity: 13.518
+          },
+          {
+            time: periodEnd,
+            quantity: 13.518
+          }
+        ]
+      }));
     }
   );
 }

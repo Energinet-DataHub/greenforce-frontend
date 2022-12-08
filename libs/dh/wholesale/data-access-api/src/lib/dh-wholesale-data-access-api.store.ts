@@ -37,6 +37,7 @@ import {
   BatchDto,
   GridAreaDto,
   ProcessStepResultRequestDto,
+  ProcessStepResultDto
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
@@ -44,9 +45,10 @@ import type { WattBadgeType } from '@energinet-datahub-types/watt/badge';
 
 interface State {
   batches?: batch[];
+  processStepResults?: ProcessStepResultDto;
   loadingBatches: boolean;
   loadingBatch: boolean;
-  loadingBatchProccessStepResult: boolean;
+  loadingProcessStepResults: boolean;
   selectedBatch?: batch;
   selectedGridArea?: GridAreaDto;
 }
@@ -54,7 +56,7 @@ interface State {
 const initialState: State = {
   loadingBatches: false,
   loadingBatch: false,
-  loadingBatchProccessStepResult: false,
+  loadingProcessStepResults: false,
 };
 
 @Injectable({
@@ -64,6 +66,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   batches$ = this.select((x) => x.batches);
   selectedBatch$ = this.select((x) => x.selectedBatch);
   selectedGridArea$ = this.select((x) => x.selectedGridArea);
+  processStepResults$ = this.select(x => x.processStepResults);
 
   loadingBatches$ = this.select((x) => x.loadingBatches);
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
@@ -102,7 +105,15 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (state, batches: batch[]): State => ({
       ...state,
       batches: batches,
-      loadingBatches: false,
+      loadingBatches: false
+    })
+  );
+
+  readonly setProcessStepResults = this.updater(
+    (state, processStepResults: ProcessStepResultDto): State => ({
+      ...state,
+      processStepResults,
+      loadingProcessStepResults: false,
     })
   );
 
@@ -110,6 +121,13 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (state, loadingBatches: boolean): State => ({
       ...state,
       loadingBatches,
+    })
+  );
+
+  readonly setLoadingProcessStepResults = this.updater(
+    (state, loadingProcessStepResults: boolean): State => ({
+      ...state,
+      loadingProcessStepResults,
     })
   );
 
@@ -170,12 +188,15 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   readonly getProcessStepResults = this.effect(
     (options$: Observable<ProcessStepResultRequestDto>) => {
       return options$.pipe(
+        tap(() => {
+          this.setLoadingProcessStepResults(true);
+        }),
         switchMap((options) => {
           return this.httpClient
             .v1WholesaleBatchProcessStepResultPost(options)
             .pipe(
-              tap((stepResults) => {
-                console.log('xxx', stepResults);
+              tap((stepResults: ProcessStepResultDto) => {
+                this.setProcessStepResults(stepResults);
               }),
               catchError(() => {
                 return EMPTY;
@@ -215,6 +236,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (state, batch: batch | undefined): State => ({
       ...state,
       selectedBatch: batch,
+      processStepResults: undefined
     })
   );
 
