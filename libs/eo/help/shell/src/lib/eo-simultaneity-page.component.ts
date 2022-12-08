@@ -53,6 +53,10 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           color: var(--watt-color-primary-dark);
         }
       }
+
+      .nav-link {
+        display: block;
+      }
     `,
   ],
   template: `

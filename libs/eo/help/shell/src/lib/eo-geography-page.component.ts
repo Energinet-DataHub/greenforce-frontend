@@ -18,13 +18,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   EoInfoBoxComponent,
-  EoStackComponent,
+  EoStackComponent
 } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
+  imports: [EoStackComponent, RouterModule, EoInfoBoxComponent],
   selector: 'eo-geography-page',
   styles: [
     `
@@ -35,11 +36,8 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       }
 
       * + h1,
-      * + h2,
       * + h3,
       * + h4,
-      * + h5,
-      * + h6,
       * + .case,
       * + figure,
       * + .nav-link,
@@ -83,24 +81,27 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
   ],
   template: `
     <div>
-      <h3>Strøm kan ikke flyttes på tværs af hele Europa</h3>
-      <p>
-        Det er ikke uden udfordringer, når energi flyttes gennem elnettet. Det
-        gælder både, når der er tale om at flytte energi indenfor egne
-        landegrænser, men særligt når det er på tværs af landegrænser. Ved
-        dokumentation og sporing af energis oprindelse, for at sikre at energien
-        er grøn, er det vigtigt, at der tages højde for disse udfordringer.
-      </p>
-      <h4>Grøn produktion kan være sort forbrug</h4>
-      <p>
-        En af problematikkerne findes bl.a. ved køb af GO certifikater. Det er
-        f.eks. lige nu muligt for danske virksomheder at købe GO certifikater af
-        grøn energi produceret i Island. På papiret ser det på den måde ud som
-        om, at den energi man forbruger er grøn. Virkeligheden kan dog være en
-        helt anden. Da der ikke findes nogen forbindelse mellem Island og
-        Danmark, så energien produceret i Island kan umuligt være samme energi
-        forbrugt i Danmark.
-      </p>
+      <eo-info-box>
+        <h3>Strøm kan ikke flyttes på tværs af hele Europa</h3>
+        <p>
+          Det er ikke uden udfordringer, når energi flyttes gennem elnettet. Det
+          gælder både, når der er tale om at flytte energi indenfor egne
+          landegrænser, men særligt når det er på tværs af landegrænser. Ved
+          dokumentation og sporing af energis oprindelse, for at sikre at
+          energien er grøn, er det vigtigt, at der tages højde for disse
+          udfordringer.
+        </p>
+        <h4>Grøn produktion kan være sort forbrug</h4>
+        <p>
+          En af problematikkerne findes bl.a. ved køb af GO certifikater. Det er
+          f.eks. lige nu muligt for danske virksomheder at købe GO certifikater
+          af grøn energi produceret i Island. På papiret ser det på den måde ud
+          som om, at den energi man forbruger er grøn. Virkeligheden kan dog
+          være en helt anden. Da der ikke findes nogen forbindelse mellem Island
+          og Danmark, så energien produceret i Island kan umuligt være samme
+          energi forbrugt i Danmark.
+        </p>
+      </eo-info-box>
       <figure>
         <img
           width="367"
@@ -112,15 +113,16 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           landegrænser
         </figcaption>
       </figure>
-
-      <h3>Hvordan løser vi udfordringerne?</h3>
-      <p>
-        En løsning er at sætte regler for, hvor lang afstanden må være fra
-        produktions- til forbrugsstedet ved handel af grønne certifikater.
-        Begrænsningerne sættes af de fysiske kabler, altså at man kun kan handle
-        certifikater fra nabolande. På den måde sikrer man, at grøn energi kun
-        kan bruges i produktionslandet og eventuelle nabolande.
-      </p>
+      <eo-info-box>
+        <h3>Hvordan løser vi udfordringerne?</h3>
+        <p>
+          En løsning er at sætte regler for, hvor lang afstanden må være fra
+          produktions- til forbrugsstedet ved handel af grønne certifikater.
+          Begrænsningerne sættes af de fysiske kabler, altså at man kun kan
+          handle certifikater fra nabolande. På den måde sikrer man, at grøn
+          energi kun kan bruges i produktionslandet og eventuelle nabolande.
+        </p></eo-info-box
+      >
       <div class="case">
         <img
           alt="Producent case"
@@ -177,7 +179,6 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       </eo-info-box>
     </div>
   `,
-  imports: [EoStackComponent, RouterModule, EoInfoBoxComponent],
 })
 export class EoGeographyPageComponent {
   routes = eoRoutes;
