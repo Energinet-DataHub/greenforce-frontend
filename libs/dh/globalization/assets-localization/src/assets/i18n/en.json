@@ -774,6 +774,18 @@
         "of": "of"
       }
     },
+    "calculationSteps": {
+      "topBarTitle": "See accumulated time series",
+      "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
+      "subHeading": "Grid Area Code {{gridAreaCode}}",
+      "loadCalculationStepsFailedTitle": "Oops! There was an error",
+      "loadCalculationStepsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information"
+    },
+    "timeSeriesPoints": {
+      "header": "Quantities ​​in the period",
+      "time": "time",
+      "quantity": "quantity"
+    },
     "batchDetails": {
       "headline": "Batch: {{batchId}}",
       "calculationPeriod": "Calculation period",
@@ -784,9 +796,6 @@
       "gridAreaCode": "ID",
       "name": "name",
       "noGridAreasFound": "No grid areas found"
-    },
-    "overview": {
-      "header": "Process Overview"
     }
   },
   "admin": {
