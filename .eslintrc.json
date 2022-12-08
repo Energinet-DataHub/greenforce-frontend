@@ -22,7 +22,7 @@
           "error",
           {
             "enforceBuildableLibDependency": true,
-            "allow": [],
+            "allow": ["@energinet-datahub-types"],
             "depConstraints": [
               {
                 "sourceTag": "type:app",
