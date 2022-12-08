@@ -62,6 +62,11 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
         .text {
           padding: var(--watt-space-m);
+
+          h4 {
+            font-weight: bold;
+            text-transform: uppercase;
+          }
         }
       }
 
@@ -129,7 +134,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           src="/assets/images/help/case_geography.jpg"
         />
         <div class="text">
-          <h4><b>CASE</b></h4>
+          <h4>Case</h4>
           <p>
             Peter Producent kan sælge sine certifikater i Danmark, Tyskland,
             Norge og Sverige. Så længe der er plads på de respektive

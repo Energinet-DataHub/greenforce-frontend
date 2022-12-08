@@ -51,6 +51,11 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
         .text {
           padding: var(--watt-space-m);
+
+          h4 {
+            font-weight: bold;
+            text-transform: uppercase;
+          }
         }
       }
 
@@ -146,7 +151,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       <div class="case">
         <img alt="Iværksætter case" src="/assets/images/help/ivan_case.jpg" />
         <div class="text">
-          <h4><b>CASE</b></h4>
+          <h4>Case</h4>
           <p>
             Ivan Iværksætter prøver at lave energistyring ved at flytte sit
             forbrug til tidspunkter, hvor strømmen er mere grøn. Han har også
