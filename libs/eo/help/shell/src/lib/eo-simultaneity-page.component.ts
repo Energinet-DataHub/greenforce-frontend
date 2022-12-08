@@ -41,7 +41,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         margin-block-start: var(--watt-space-l);
       }
 
-      .headline-1 {
+      .title-container {
         h1 {
           color: var(--watt-color-primary-light);
           line-height: normal;
@@ -116,7 +116,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       </a>
     </div>
     <div>
-      <div class="headline-1">
+      <div class="title-container">
         <eo-stack size="M">
           <h1>Samtidighed</h1>
           <p>

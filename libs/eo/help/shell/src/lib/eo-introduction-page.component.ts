@@ -59,7 +59,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         }
       }
 
-      .headline-1 {
+      .title-container {
         h1 {
           color: var(--watt-color-primary-light);
           line-height: normal;
@@ -184,7 +184,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       </eo-info-box>
     </div>
     <div>
-      <div class="headline-1">
+      <div class="title-container">
         <eo-stack size="M">
           <h1>Grøn energi</h1>
           <p>
