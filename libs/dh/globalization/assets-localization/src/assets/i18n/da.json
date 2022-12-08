@@ -795,7 +795,12 @@
   },
   "admin": {
     "userManagement": {
-      "topBarTitle": "Brugeradministration"
+      "topBarTitle": "Brugeradministration",
+      "tabs": {
+        "users": "Brugere",
+        "roles": "Roller",
+        "permissions": "Rettigheder"
+      }
     }
   }
 }

@@ -791,7 +791,12 @@
   },
   "admin": {
     "userManagement": {
-      "topBarTitle": "User management"
+      "topBarTitle": "User management",
+      "tabs": {
+        "users": "Users",
+        "roles": "Roles",
+        "permissions": "Permissions"
+      }
     }
   }
 }
