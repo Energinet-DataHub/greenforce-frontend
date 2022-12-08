@@ -16,13 +16,15 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import {
+  EoInfoBoxComponent,
+  EoStackComponent,
+} from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [EoStackComponent, RouterModule],
   selector: 'eo-simultaneity-page',
   styles: [
     `
@@ -32,25 +34,31 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         grid-template-columns: 600px 360px; // Magic UX Numbers
       }
 
-      .text-box {
-        padding: var(--watt-space-m);
+      * + h1,
+      * + h3,
+      * + .nav-link,
+      * + eo-info-box {
+        margin-block-start: var(--watt-space-l);
       }
 
-      .info-box {
-        padding: var(--watt-space-m);
-        background-color: var(--watt-color-primary-dark);
-        color: var(--watt-color-neutral-white);
+      .headline-1 {
+        h1 {
+          color: var(--watt-color-primary-light);
+          line-height: normal;
+          font-size: 48px; // Magic UX Number
+        }
 
-        span {
-          color: var(--watt-color-neutral-white);
+        p {
+          display: block;
+          color: var(--watt-color-primary-dark);
         }
       }
     `,
   ],
   template: `
-    <eo-stack size="L">
-      <div class="text-box">
-        <span class="watt-headline-3">Houston, we have a problem!</span>
+    <div>
+      <eo-info-box>
+        <h3>Houston, we have a problem!</h3>
         <eo-stack size="M">
           <p>
             I elsystemet, som det er i dag, mangler der en sammenhæng i tid,
@@ -64,16 +72,17 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
             helt andet, når vi ser det på timebasis. Hvis vi siger de bruger 10
             enheder strøm hver.
           </p>
-          <img
-            alt="Hourly declaration"
-            src="/assets/images/help/hour_declaration.png"
-          />
+          <div>
+            <img
+              alt="Hourly declaration"
+              src="/assets/images/help/hour_declaration.png"
+            />
+          </div>
         </eo-stack>
-      </div>
-      <div class="text-box">
-        <span class="watt-headline-3"
-          >Flyt energiforbruget for en grønnere profil</span
-        >
+      </eo-info-box>
+
+      <eo-info-box>
+        <h3>Flyt energiforbruget for en grønnere profil</h3>
         <eo-stack size="M">
           <p>
             Med det nuværende energisystem, hvor energiforbrug baseres på et
@@ -89,48 +98,42 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
             mulighed for at flytte sit forbrug til mere klimavenlige
             tidspunkter.
           </p>
-          <img
-            alt="Move consumption"
-            src="/assets/images/help/move_consumption.png"
-            style="display:block; margin-left: auto; margin-right: auto;"
-          />
+
+          <div>
+            <img
+              alt="Move consumption"
+              src="/assets/images/help/move_consumption.png"
+            />
+          </div>
         </eo-stack>
-      </div>
-      <h4>
-        <a class="link" routerLink="../{{ routes.introduction }}">
-          << Tilbage til Introduktion til EnergiOprindelse
-        </a>
-      </h4>
-    </eo-stack>
-    <eo-stack size="L">
-      <div>
+      </eo-info-box>
+      <a class="nav-link" routerLink="../{{ routes.introduction }}">
+        << Tilbage til Introduktion til EnergiOprindelse
+      </a>
+    </div>
+    <div>
+      <div class="headline-1">
         <eo-stack size="M">
-          <p
-            class="watt-headline-1"
-            style="color: var(--watt-color-primary-light);"
-          >
-            Samtidighed
-          </p>
-          <p style="color: var(--watt-color-primary-dark);">
+          <h1>Samtidighed</h1>
+          <p>
             Det er helt afgørende for den grønne omstilling af energisystemet,
             at vi kan dokumentere, at vi faktisk bruger strømmen, når den er
             grøn.
           </p>
         </eo-stack>
       </div>
-      <div class="info-box">
-        <span class="watt-headline-3">
-          Vi danner grundlaget for at kunne træffe de grønne valg</span
-        >
+      <eo-info-box variant="dark">
+        <h3>Vi danner grundlaget for at kunne træffe de grønne valg</h3>
         <p>
           Et tættere match mellem produktion og forbrug kan blive fundamentet
           for et mere fleksibelt elmarked, hvor man som forbruger har incitament
           til at forbruge grøn el, når det er gunstigt og dermed være med til at
           gøre en forskel.
         </p>
-      </div>
-    </eo-stack>
+      </eo-info-box>
+    </div>
   `,
+  imports: [EoStackComponent, RouterModule, EoInfoBoxComponent],
 })
 export class EoSimultaneityPageComponent {
   routes = eoRoutes;

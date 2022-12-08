@@ -16,13 +16,15 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import {
+  EoInfoBoxComponent,
+  EoStackComponent,
+} from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [EoStackComponent, RouterModule],
   selector: 'eo-geography-page',
   styles: [
     `
@@ -38,7 +40,10 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       * + h4,
       * + h5,
       * + h6,
-      * + .case {
+      * + .case,
+      * + figure,
+      * + .nav-link,
+      * + eo-info-box {
         margin-block-start: var(--watt-space-l);
       }
 
@@ -49,38 +54,29 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         gap: var(--watt-space-s);
       }
 
+      .nav-link {
+        display: block;
+      }
+
       .case {
         display: flex;
         background-color: var(--watt-color-primary-light);
 
-        p {
+        .text {
           padding: var(--watt-space-m);
-
-          b {
-            color: var(--watt-color-primary-dark);
-          }
         }
       }
 
-      .info-box {
-        padding: var(--watt-space-m);
-
-        &.green {
-          background-color: var(--watt-color-primary-dark);
-          color: var(--watt-color-neutral-white);
-
-          span {
-            color: var(--watt-color-neutral-white);
-          }
+      .headline-1 {
+        h1 {
+          color: var(--watt-color-primary-light);
+          line-height: normal;
+          font-size: 48px; // Magic UX Number
         }
 
-        &.beige {
-          background-color: var(--watt-color-secondary-light);
-        }
-
-        img {
+        p {
           display: block;
-          padding-bottom: var(--watt-space-m);
+          color: var(--watt-color-primary-dark);
         }
       }
     `,
@@ -88,7 +84,6 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
   template: `
     <div>
       <h3>Strøm kan ikke flyttes på tværs af hele Europa</h3>
-
       <p>
         Det er ikke uden udfordringer, når energi flyttes gennem elnettet. Det
         gælder både, når der er tale om at flytte energi indenfor egne
@@ -96,7 +91,6 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         dokumentation og sporing af energis oprindelse, for at sikre at energien
         er grøn, er det vigtigt, at der tages højde for disse udfordringer.
       </p>
-
       <h4>Grøn produktion kan være sort forbrug</h4>
       <p>
         En af problematikkerne findes bl.a. ved køb af GO certifikater. Det er
@@ -107,7 +101,6 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         Danmark, så energien produceret i Island kan umuligt være samme energi
         forbrugt i Danmark.
       </p>
-
       <figure>
         <img
           width="367"
@@ -130,32 +123,34 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       </p>
       <div class="case">
         <img
-          alt="Geography case"
+          alt="Producent case"
           src="/assets/images/help/case_geography.jpg"
         />
-        <p>
-          <b>CASE</b><br />
-          Peter Producent kan sælge sine certifikater i Danmark, Tyskland, Norge
-          og Sverige. Så længe der er plads på de respektive forbindelser.
-        </p>
+        <div class="text">
+          <h4><b>CASE</b></h4>
+          <p>
+            Peter Producent kan sælge sine certifikater i Danmark, Tyskland,
+            Norge og Sverige. Så længe der er plads på de respektive
+            forbindelser.
+          </p>
+        </div>
       </div>
-      <h4>
-        <a class="link" routerLink="../{{ routes.introduction }}">
-          << Tilbage til Introduktion til EnergiOprindelse
-        </a>
-      </h4>
+      <a class="nav-link" routerLink="../{{ routes.introduction }}">
+        << Tilbage til Introduktion til EnergiOprindelse
+      </a>
     </div>
-    <eo-stack size="L">
-      <div>
-        <h1 style="color: var(--watt-color-primary-light);">Geografi</h1>
-        <p style="color: var(--watt-color-primary-dark)">
-          Der er enkelte fysiske begrænsninger for, hvordan energi kan bevæge
-          sig rundt, som bliver nødt til at være indarbejdet i systemet.
-        </p>
+    <div>
+      <div class="headline-1">
+        <eo-stack size="M">
+          <h1>Geografi</h1>
+          <p>
+            Der er enkelte fysiske begrænsninger for, hvordan energi kan bevæge
+            sig rundt, som bliver nødt til at være indarbejdet i systemet.
+          </p>
+        </eo-stack>
       </div>
-
-      <div class="info-box green">
-        <span class="watt-headline-3">Interconnectors</span>
+      <eo-info-box variant="dark">
+        <h3>Interconnectors</h3>
         <p>
           Sammenkoblinger er strømledninger forbundet til andre lande. De
           muliggør handel med el. Dette er vigtigt, for med et større geografisk
@@ -166,9 +161,9 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           fysiske begrænsninger i forhold til hvor meget strøm der kan løbe
           igennem dem.
         </p>
-      </div>
-      <div class="info-box beige">
-        <span class="watt-headline-3">Budzoner</span>
+      </eo-info-box>
+      <eo-info-box variant="light">
+        <h3>Budzoner</h3>
         <p>
           Budzoner er geografisk definerede områder, inden for hvilke elhandlen
           foregår. I Danmark har vi to budzoner for hhv. Vestdanmark (DK1) og
@@ -179,9 +174,10 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           budzonegrænser ikke afspejler kapacitetsbegrænsningerne, men i stedet
           følger f.eks. landegrænser.
         </p>
-      </div>
-    </eo-stack>
+      </eo-info-box>
+    </div>
   `,
+  imports: [EoStackComponent, RouterModule, EoInfoBoxComponent],
 })
 export class EoGeographyPageComponent {
   routes = eoRoutes;
