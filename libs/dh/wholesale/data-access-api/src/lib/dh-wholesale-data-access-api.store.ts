@@ -126,7 +126,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     return batch$.pipe(
       switchMap((batch) => {
         return this.httpClient
-          .v1WholesaleBatchZippedBasisDataStreamGet(batch.batchNumber)
+          .v1WholesaleBatchZippedBasisDataStreamGet(batch.batchId)
           .pipe(
             tap((data) => {
               const blob = new Blob([data as unknown as BlobPart], {
@@ -135,7 +135,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
               const basisData = window.URL.createObjectURL(blob);
               const link = this.document.createElement('a');
               link.href = basisData;
-              link.download = `${batch.batchNumber}.zip`;
+              link.download = `${batch.batchId}.zip`;
               link.click();
             }),
             catchError(() => {

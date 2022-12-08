@@ -748,7 +748,7 @@
         "searchButton": "Search"
       },
       "columns": {
-        "batchNumber": "Batch number",
+        "batchId": "Batch number",
         "periodFrom": "Period from",
         "periodTo": "Period to",
         "executionTime": "Execution time",
@@ -775,7 +775,7 @@
       }
     },
     "batchDetails": {
-      "headline": "Batch: {{batchNumber}}",
+      "headline": "Batch: {{batchId}}",
       "calculationPeriod": "Calculation period",
       "executionTime": "Execution time"
     },

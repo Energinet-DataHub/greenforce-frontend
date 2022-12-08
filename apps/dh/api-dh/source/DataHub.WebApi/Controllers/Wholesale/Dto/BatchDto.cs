@@ -18,5 +18,5 @@ using Energinet.DataHub.Wholesale.Contracts;
 
 namespace Energinet.DataHub.WebApi.Controllers.Wholesale.Dto
 {
-    public sealed record BatchDto(Guid BatchNumber, DateTimeOffset PeriodStart, DateTimeOffset PeriodEnd, DateTimeOffset? ExecutionTimeStart, DateTimeOffset? ExecutionTimeEnd, BatchState ExecutionState, bool IsBasisDataDownloadAvailable, GridAreaDto[] GridAreas);
+    public sealed record BatchDto(Guid BatchId, DateTimeOffset PeriodStart, DateTimeOffset PeriodEnd, DateTimeOffset? ExecutionTimeStart, DateTimeOffset? ExecutionTimeEnd, BatchState ExecutionState, bool IsBasisDataDownloadAvailable, GridAreaDto[] GridAreas);
 }
