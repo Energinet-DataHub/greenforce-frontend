@@ -17,6 +17,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
+      "@energinet-datahub-types/watt/*": ["libs/ui-watt/src/lib/components/*"],
       "@energinet-datahub/dh-shared-data-access-top-bar": [
         "libs/dh/shared/data-access-top-bar/src/index.ts"
       ],
