@@ -793,9 +793,15 @@
     "userManagement": {
       "topBarTitle": "User management",
       "tabs": {
-        "users": "Users",
-        "roles": "Roles",
-        "permissions": "Permissions"
+        "users": {
+          "tabLabel": "Users"
+        },
+        "roles": {
+          "tabLabel": "Roles"
+        },
+        "permissions": {
+          "tabLabel": "Permissions"
+        }
       }
     }
   }
