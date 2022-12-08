@@ -14,7 +14,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
 <watt-card *transloco="let transloco; read: 'wholesale.gridAreas'">
   <watt-card-title>
     <h3 class="watt-on-light--high-emphasis">
@@ -24,33 +23,15 @@ limitations under the License.
   </watt-card-title>
 
   <!-- Table -->
-  <mat-table
+  <watt-table
     [dataSource]="_data"
-    aria-label="batches"
-    matSort
-    matSortActive="executionTimeStart"
-    matSortDirection="desc"
-  >
-    <!--Grid Area Code -->
-    <ng-container matColumnDef="gridAreaCode">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ transloco("gridAreaCode") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let gridArea">
-        {{ gridArea }}
-      </mat-cell>
-    </ng-container>
-    <!-- Name -->
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ transloco("name") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let batch"> - </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
-  </mat-table>
+    [columns]="columns"
+    [resolveHeader]="transloco"
+    description="batches"
+    sortBy="code"
+    sortDirection="desc"
+    (rowClick)="onSelect($event)"
+  ></watt-table>
 
   <!-- No Batches found -->
   <watt-empty-state
