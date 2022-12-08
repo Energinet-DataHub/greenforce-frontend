@@ -37,7 +37,7 @@ import {
   BatchDto,
   GridAreaDto,
   ProcessStepResultRequestDto,
-  ProcessStepResultDto
+  ProcessStepResultDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
@@ -66,7 +66,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   batches$ = this.select((x) => x.batches);
   selectedBatch$ = this.select((x) => x.selectedBatch);
   selectedGridArea$ = this.select((x) => x.selectedGridArea);
-  processStepResults$ = this.select(x => x.processStepResults);
+  processStepResults$ = this.select((x) => x.processStepResults);
 
   loadingBatches$ = this.select((x) => x.loadingBatches);
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
@@ -105,7 +105,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (state, batches: batch[]): State => ({
       ...state,
       batches: batches,
-      loadingBatches: false
+      loadingBatches: false,
     })
   );
 
@@ -236,7 +236,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (state, batch: batch | undefined): State => ({
       ...state,
       selectedBatch: batch,
-      processStepResults: undefined
+      processStepResults: undefined,
     })
   );
 

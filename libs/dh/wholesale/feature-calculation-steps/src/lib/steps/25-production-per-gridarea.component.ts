@@ -48,7 +48,9 @@ import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-w
 @Component({
   selector: 'dh-wholesale-production-per-gridarea',
   template: `
-    <ng-container *transloco="let transloco; read: 'wholesale.processStepResults'">
+    <ng-container
+      *transloco="let transloco; read: 'wholesale.processStepResults'"
+    >
       <watt-card (click)="openDetails()">
         <h4>
           <watt-badge>25</watt-badge>
@@ -96,10 +98,13 @@ import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-w
             <hr />
           </ng-container>
 
-          <ng-container *ngIf="processStepResults$ | async as processStepResults">
-            <dh-wholesale-time-series-points [data]="processStepResults.timeSeriesPoints"></dh-wholesale-time-series-points>
+          <ng-container
+            *ngIf="processStepResults$ | async as processStepResults"
+          >
+            <dh-wholesale-time-series-points
+              [data]="processStepResults.timeSeriesPoints"
+            ></dh-wholesale-time-series-points>
           </ng-container>
-
         </watt-drawer-content>
       </watt-drawer>
     </ng-container>
@@ -183,7 +188,7 @@ export class DhWholesaleProductionPerGridareaComponent
     this.store.getProcessStepResults({
       batchId: this.batch.batchId,
       gridAreaCode: this.gridArea.code,
-      processStepResult: ProcessStepType.AggregateProductionPerGridArea
+      processStepResult: ProcessStepType.AggregateProductionPerGridArea,
     });
   }
 

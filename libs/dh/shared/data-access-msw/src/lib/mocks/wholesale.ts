@@ -247,30 +247,34 @@ function postWholesaleBatchProcessStepResult(apiBase: string) {
   return rest.post(
     `${apiBase}/v1/WholesaleBatch/ProcessStepResult`,
     (req, res, ctx) => {
-      return res(ctx.delay(300), ctx.status(200), ctx.json({
-        processStepMeteringPointType: ProcessStepMeteringPointType.Production,
-        sum: 102234.245654,
-        min: 0.000000,
-        max: 114.415789,
-        timeSeriesPoints: [
-          {
-            time: periodStart,
-            quantity: 13.518
-          },
-          {
-            time: periodEnd,
-            quantity: 13.518
-          },
-          {
-            time: periodStart,
-            quantity: 13.518
-          },
-          {
-            time: periodEnd,
-            quantity: 13.518
-          }
-        ]
-      }));
+      return res(
+        ctx.delay(300),
+        ctx.status(200),
+        ctx.json({
+          processStepMeteringPointType: ProcessStepMeteringPointType.Production,
+          sum: 102234.245654,
+          min: 0.0,
+          max: 114.415789,
+          timeSeriesPoints: [
+            {
+              time: periodStart,
+              quantity: 13.518,
+            },
+            {
+              time: periodEnd,
+              quantity: 13.518,
+            },
+            {
+              time: periodStart,
+              quantity: 13.518,
+            },
+            {
+              time: periodEnd,
+              quantity: 13.518,
+            },
+          ],
+        })
+      );
     }
   );
 }

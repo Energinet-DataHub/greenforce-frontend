@@ -63,7 +63,9 @@ export class DhWholesaleTimeSeriesPointsComponent implements AfterViewInit {
     this._data.paginator = this.paginator?.instance;
   }
 
-  _data: WattTableDataSource<TimeSeriesPointDto> = new WattTableDataSource(undefined);
+  _data: WattTableDataSource<TimeSeriesPointDto> = new WattTableDataSource(
+    undefined
+  );
   columns: WattTableColumnDef<TimeSeriesPointDto> = {
     time: { accessor: 'time' },
     quantity: { accessor: 'quantity' },
