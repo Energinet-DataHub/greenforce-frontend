@@ -19,6 +19,8 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 
+import { DhUsersTabComponent } from './dh-users-tab.component';
+
 @Component({
   selector: 'dh-user-management-tabs',
   standalone: true,
@@ -30,6 +32,6 @@ import { WattTabsModule } from '@energinet-datahub/watt/tabs';
       }
     `,
   ],
-  imports: [WattTabsModule, TranslocoModule],
+  imports: [TranslocoModule, WattTabsModule, DhUsersTabComponent],
 })
 export class DhUserManagementTabsComponent {}
