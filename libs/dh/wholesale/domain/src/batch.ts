@@ -14,3 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { BatchDto } from '@energinet-datahub/dh/shared/domain';
+
+import type { WattBadgeType } from '@energinet-datahub-types/watt/badge';
+
+export type batch = BatchDto & { statusType: WattBadgeType };

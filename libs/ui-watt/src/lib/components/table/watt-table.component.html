@@ -84,7 +84,7 @@ limitations under the License.
     [ngClass]="{
       'watt-table-highlight-row': !suppressRowHoverHighlight,
       'watt-table-clickable-row': rowClick.observed,
-      'watt-table-active-row': row === activeRow
+      'watt-table-active-row': _isActiveRow(row)
     }"
   ></tr>
 </table>
