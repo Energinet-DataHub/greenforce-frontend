@@ -737,7 +737,7 @@
         "searchButton": "Søg"
       },
       "columns": {
-        "batchNumber": "Batch-nummer",
+        "batchId": "Batch-nummer",
         "periodFrom": "Periode fra",
         "periodTo": "Periode til",
         "executionTime": "Eksekveringstid",
@@ -764,7 +764,7 @@
       }
     },
     "batchDetails": {
-      "headline": "Batch: {{batchNumber}}",
+      "headline": "Batch: {{batchId}}",
       "calculationPeriod": "Beregningsperiode",
       "executionTime": "Eksekveringstidspunkt"
     },
