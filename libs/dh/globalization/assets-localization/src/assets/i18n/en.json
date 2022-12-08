@@ -794,7 +794,11 @@
       "topBarTitle": "User management",
       "tabs": {
         "users": {
-          "tabLabel": "Users"
+          "tabLabel": "Users",
+          "usersHeadline": {
+            "singular": "{{ numberOfUsers }} user",
+            "plural": "{{ numberOfUsers }} users"
+          }
         },
         "roles": {
           "tabLabel": "Roles"

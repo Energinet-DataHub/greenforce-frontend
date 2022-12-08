@@ -798,7 +798,11 @@
       "topBarTitle": "Brugeradministration",
       "tabs": {
         "users": {
-          "tabLabel": "Brugere"
+          "tabLabel": "Brugere",
+          "usersHeadline": {
+            "singular": "{{ numberOfUsers }} bruger",
+            "plural": "{{ numberOfUsers }} brugere"
+          }
         },
         "roles": {
           "tabLabel": "Roller"

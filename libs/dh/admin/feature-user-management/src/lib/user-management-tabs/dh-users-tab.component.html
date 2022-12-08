@@ -1,5 +1,28 @@
-<watt-card>
-  <watt-card-title>
-    <h4>{{ numberOfUsers$ | push }} brugere</h4>
-  </watt-card-title>
-</watt-card>
+<ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
+  <watt-card>
+    <watt-card-title>
+      <ng-container
+        *ngTemplateOutlet="
+          usersHeadline;
+          context: {
+            $implicit: numberOfUsers$ | push
+          }
+        "
+      ></ng-container>
+    </watt-card-title>
+  </watt-card>
+</ng-container>
+
+<ng-template #usersHeadline let-numberOfUsers>
+  <ng-container
+    *transloco="let t; read: 'admin.userManagement.tabs.users.usersHeadline'"
+  >
+    <h4 *ngIf="numberOfUsers === 1">
+      {{ t("singular", { numberOfUsers: numberOfUsers }) }}
+    </h4>
+
+    <h4 *ngIf="numberOfUsers === 0 || numberOfUsers > 0">
+      {{ t("plural", { numberOfUsers: numberOfUsers }) }}
+    </h4>
+  </ng-container>
+</ng-template>
