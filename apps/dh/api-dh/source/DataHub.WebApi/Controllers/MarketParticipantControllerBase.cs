@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Microsoft.AspNetCore.Mvc;
