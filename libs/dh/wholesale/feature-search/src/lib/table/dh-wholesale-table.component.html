@@ -30,12 +30,12 @@ limitations under the License.
     matSortDirection="desc"
   >
     <!-- Batch Number -->
-    <ng-container matColumnDef="batchNumber">
+    <ng-container matColumnDef="batchId">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ transloco("columns.batchNumber") }}
+        {{ transloco("columns.batchId") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let batch">
-        {{ batch.batchNumber }}
+        {{ batch.batchId }}
       </mat-cell>
     </ng-container>
     <!-- Period From -->
