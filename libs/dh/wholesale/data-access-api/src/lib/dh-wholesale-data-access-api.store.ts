@@ -40,8 +40,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { WattBadgeType } from '@energinet-datahub/watt/badge';
+import type { WattBadgeType } from '@energinet-datahub-types/watt/badge';
 
 interface State {
   batches?: batch[];
