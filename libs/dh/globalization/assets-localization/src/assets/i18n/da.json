@@ -780,6 +780,7 @@
     },
     "calculationSteps": {
       "topBarTitle": "Se akkumulerede tidsserier",
+      "sidebarTitle": "Detaljer",
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
       "subHeading": "Netområde ID {{gridAreaCode}}",
       "loadCalculationStepsFailedTitle": "Ups! Der opstod en fejl",

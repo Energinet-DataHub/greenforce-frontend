@@ -776,6 +776,7 @@
     },
     "calculationSteps": {
       "topBarTitle": "See accumulated time series",
+      "sidebarTitle": "Details",
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
       "subHeading": "Grid Area Code {{gridAreaCode}}",
       "loadCalculationStepsFailedTitle": "Oops! There was an error",
