@@ -18,8 +18,7 @@ import { Injectable } from '@angular/core';
 import { set } from 'date-fns';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { BehaviorSubject } from 'rxjs';
-
-const timeZoneIdentifier = 'Europe/Copenhagen';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
 export interface DatePickerData {
   startDate: string;
@@ -54,6 +53,6 @@ export class DrawerDatepickerService {
       milliseconds: 0,
     });
 
-    return zonedTimeToUtc(date, timeZoneIdentifier);
+    return zonedTimeToUtc(date, danishTimeZoneIdentifier);
   }
 }

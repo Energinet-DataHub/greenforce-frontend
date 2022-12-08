@@ -14,6 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.message-id-header {
-  padding-top: var(--watt-space-m);
+import { Pipe, PipeTransform } from '@angular/core';
+import { DocumentTypes } from '@energinet-datahub/dh/message-archive/domain';
+
+@Pipe({ name: 'documentTypeName', standalone: true })
+export class DocumentTypeNamePipe implements PipeTransform {
+  transform(key: string | null | undefined): string | undefined {
+    if (!key) return undefined;
+    const indexOfS = Object.keys(DocumentTypes)
+      .map((x) => x.toLowerCase())
+      .indexOf(key);
+
+    return Object.values(DocumentTypes)[indexOfS];
+  }
 }

@@ -14,19 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const enum SearchingState {
-  INIT = 'INIT',
-  SEARCHING = 'SEARCHING',
-  DONE = 'DONE',
-}
+import { Pipe, PipeTransform } from '@angular/core';
+import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
-export const enum DownloadingState {
-  INIT = 'INIT',
-  DOWNLOADING = 'DOWNLOADING',
-  DONE = 'DONE',
-}
-
-export const enum ErrorState {
-  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
-  GENERAL_ERROR = 'GENERAL_ERROR',
+@Pipe({ name: 'actorName', standalone: true })
+export class ActorNamePipe implements PipeTransform {
+  transform(
+    actorId: string | null | undefined,
+    actors: WattDropdownOptions | null
+  ): string | undefined {
+    if (!actorId) return undefined;
+    const actor = actors?.find((x) => x.value === actorId);
+    return actor?.displayValue === actor?.value
+      ? undefined
+      : actor?.displayValue;
+  }
 }
