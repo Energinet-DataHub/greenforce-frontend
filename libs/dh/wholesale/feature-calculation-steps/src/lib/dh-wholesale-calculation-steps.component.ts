@@ -16,10 +16,10 @@
  */
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
-import { Observable, tap } from 'rxjs';
+import { tap } from 'rxjs';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
@@ -34,7 +34,6 @@ import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleProductionPerGridareaComponent } from './steps/25-production-per-gridarea.component';
-import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   templateUrl: './dh-wholesale-calculation-steps.component.html',
@@ -55,7 +54,7 @@ import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
     DhWholesaleProductionPerGridareaComponent,
   ],
 })
-export class DhWholesaleCalculationStepsComponent implements OnInit {
+export class DhWholesaleCalculationStepsComponent {
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -65,16 +64,10 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
       if (!batch) this.store.getBatch(this.route.snapshot.params['batchId']);
     })
   );
+
   gridArea$ = this.store.getGridArea$(
     this.route.snapshot.params['gridAreaCode']
   );
-  steps?: unknown[] = undefined;
-
-  ngOnInit(): void {
-    setTimeout(() => {
-      this.steps = [...Array(25).keys()];
-    }, 1000);
-  }
 
   navigateToSearchBatch(batch?: batch): void {
     navigateToWholesaleSearchBatch(this.router, batch?.batchId);
