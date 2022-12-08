@@ -14,22 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  OnDestroy,
-} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { LetModule } from '@rx-angular/template';
-import { Subject } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
+import { PushModule } from '@rx-angular/template';
 
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import {
+  WattDatepickerModule,
+  WattRange,
+} from '@energinet-datahub/watt/datepicker';
+import { WattTimepickerModule } from '@energinet-datahub/watt/timepicker';
 import {
   WattDropdownModule,
   WattDropdownOptions,
@@ -41,17 +45,19 @@ import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 import {
   DhMessageArchiveDataAccessApiStore,
   DhMessageArchiveDataAccessBlobApiStore,
+  DhMessageArchiveActorDataAccessApiStore,
 } from '@energinet-datahub/dh/message-archive/data-access-api';
-import {
-  MessageArchiveSearchCriteria,
-  MessageArchiveSearchResultItemDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { MessageArchiveSearchCriteria } from '@energinet-datahub/dh/shared/domain';
 import {
   ProcessTypes,
   DocumentTypes,
 } from '@energinet-datahub/dh/message-archive/domain';
 
 import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-archive-log-search-result.component';
+import { ViewEncapsulation } from '@angular/core';
+import { WattRangeValidators } from '@energinet-datahub/watt/validators';
+import zonedTimeToUtc from 'date-fns-tz/zonedTimeToUtc';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -61,62 +67,75 @@ import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-a
   providers: [
     DhMessageArchiveDataAccessApiStore,
     DhMessageArchiveDataAccessBlobApiStore,
+    DhMessageArchiveActorDataAccessApiStore,
   ],
+  encapsulation: ViewEncapsulation.None,
 })
-export class DhMessageArchiveLogSearchComponent implements OnDestroy {
-  private destroy$ = new Subject<void>();
-  private regexLogNameWithDateFolder = new RegExp(
-    /\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/
-  );
-  private regexLogNameIsSingleGuid = new RegExp(
-    /[\da-zA-Z]{8}-([\da-zA-Z]{4}-){3}[\da-zA-Z]{12}$/
-  );
+export class DhMessageArchiveLogSearchComponent {
+  searchForm: FormGroup = new FormGroup({
+    messageId: new FormControl(''),
+    rsmNames: new FormControl([]),
+    processTypes: new FormControl([]),
+    senderId: new FormControl(''),
+    receiverId: new FormControl(''),
+    includeRelated: new FormControl<boolean>({ value: false, disabled: true }),
+    dateRange: new FormControl<WattRange>(
+      {
+        start: '',
+        end: '',
+      },
+      [WattRangeValidators.required()]
+    ),
+    timeRange: new FormControl<WattRange>({
+      start: '00:00',
+      end: '23:59',
+      disabled: true,
+    }),
+  });
 
   searchResult$ = this.store.searchResult$;
   searching$ = this.store.isSearching$;
   hasSearchError$ = this.store.hasGeneralError$;
   continuationToken$ = this.store.continuationToken$;
+  isInit$ = this.store.isInit$;
+  getActorOptions$ = this.actorStore.actors$;
 
   rsmFormFieldOptions: WattDropdownOptions = this.buildRsmOptions();
   processTypeFormFieldOptions: WattDropdownOptions =
     this.buildProcessTypesOptions();
+
   searching = false;
   maxItemCount = 100;
   searchCriteria: MessageArchiveSearchCriteria = {
     maxItemCount: this.maxItemCount,
     includeRelated: false,
     includeResultsWithoutContent: false,
-  };
-
-  private initDateFrom = (): Date => {
-    const from = new Date();
-    from.setUTCMonth(new Date().getMonth() - 1);
-    from.setUTCHours(0, 0, 0);
-    return from;
-  };
-  private initDateTo = (): Date => {
-    const to = new Date();
-    to.setUTCHours(23, 59, 59);
-    return to;
+    processTypes: [],
   };
 
   constructor(
     private store: DhMessageArchiveDataAccessApiStore,
-    private router: Router,
-    private currentRoute: ActivatedRoute,
-    private logStore: DhMessageArchiveDataAccessBlobApiStore
+    private actorStore: DhMessageArchiveActorDataAccessApiStore
   ) {
-    this.resetSearchCritera();
+    this.actorStore.getActors();
+    this.searchForm.valueChanges.subscribe((value) => this.handleState(value));
+  }
 
-    this.currentRoute.queryParamMap.subscribe((q) => {
-      this.searchCriteria.traceId = q.has('traceId') ? q.get('traceId') : null;
-      this.searchCriteria.functionName = q.has('functionName')
-        ? q.get('functionName')
-        : null;
-      this.searchCriteria.invocationId = q.has('invocationId')
-        ? q.get('invocationId')
-        : null;
-    });
+  private handleState(formChanges: typeof this.searchForm.value): void {
+    const { messageId, dateRange } = formChanges;
+    const stopEmitEvent = { emitEvent: false };
+
+    if (messageId) {
+      this.searchForm.controls.includeRelated.enable(stopEmitEvent);
+    } else {
+      this.searchForm.controls.includeRelated.disable(stopEmitEvent);
+    }
+
+    if (dateRange?.start != '' && dateRange?.end != '') {
+      this.searchForm.controls.timeRange.enable(stopEmitEvent);
+    } else {
+      this.searchForm.controls.timeRange.disable(stopEmitEvent);
+    }
   }
 
   private buildRsmOptions() {
@@ -137,94 +156,75 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     });
   }
 
-  onSubmit(searching: boolean) {
-    if (!searching && this.validateSearchParams()) {
-      this.searchCriteria.continuationToken = null;
+  onSubmit() {
+    if (this.searchForm.valid === false) return;
 
-      if (!this.searchCriteria.messageId) {
-        this.searchCriteria.includeRelated = false;
-      }
+    const {
+      dateRange,
+      includeRelated,
+      messageId,
+      rsmNames,
+      receiverId,
+      senderId,
+      timeRange,
+      processTypes,
+    } = this.searchForm.value;
 
-      this.store.searchLogs(this.searchCriteria);
+    const dateTimeFrom = zonedTimeToUtc(
+      dateRange?.start,
+      danishTimeZoneIdentifier
+    );
+    const dateTimeTo = zonedTimeToUtc(dateRange?.end, danishTimeZoneIdentifier);
+
+    if (
+      timeRange?.start &&
+      timeRange.end &&
+      dateRange?.start &&
+      dateRange?.end
+    ) {
+      const [fromHours, fromMinuts] = timeRange.start.split(':');
+      const [toHours, toMinutes] = timeRange.end.split(':');
+
+      dateTimeFrom.setHours(fromHours);
+      dateTimeFrom.setMinutes(fromMinuts);
+
+      dateTimeTo.setHours(toHours);
+      dateTimeTo.setMinutes(toMinutes);
     }
+
+    Object.assign(this.searchCriteria, {
+      dateTimeFrom: dateTimeFrom.toISOString(),
+      dateTimeTo: dateTimeTo.toISOString(),
+      includeRelated: Boolean(includeRelated),
+      messageId: messageId === '' ? null : messageId,
+      rsmNames: rsmNames.length === 0 ? null : rsmNames,
+      senderId: senderId === '' ? null : senderId,
+      receiverId: receiverId === '' ? null : receiverId,
+      processTypes: processTypes.length === 0 ? null : processTypes,
+    });
+
+    this.store.searchLogs(this.searchCriteria);
   }
 
-  loadMore(searching: boolean, continuationToken?: string | null) {
-    if (!searching && this.validateSearchParams() && continuationToken) {
-      this.store.searchLogs({ ...this.searchCriteria, continuationToken });
-    }
+  loadMore(continuationToken?: string | null) {
+    console.log({ continuationToken });
   }
 
   resetSearchCritera() {
     this.store.resetState();
-    this.searchCriteria = {
-      messageId: null,
-      rsmNames: new Array<string>(),
-      includeRelated: false,
-      traceId: null,
-      functionName: null,
-      invocationId: null,
-      maxItemCount: this.maxItemCount,
-      processTypes: new Array<string>(),
-      includeResultsWithoutContent: false,
-    };
-    this.searchCriteria.dateTimeFrom =
-      this.initDateFrom().toISOString().split('.')[0] + 'Z';
-    this.searchCriteria.dateTimeTo =
-      this.initDateTo().toISOString().split('.')[0] + 'Z';
-  }
-
-  redirectToDownloadLogPage(resultItem: MessageArchiveSearchResultItemDto) {
-    const logName = this.findLogName(resultItem.blobContentUri);
-    const encodedLogName = encodeURIComponent(logName);
-    const url = this.router.serializeUrl(
-      this.router.createUrlTree([`/message-archive/${encodedLogName}`])
-    );
-    const logViewWindow = window.open(url, '_blank');
-    logViewWindow?.sessionStorage.setItem(
-      'messageId',
-      resultItem.messageId ?? ''
-    );
-    logViewWindow?.sessionStorage.setItem('traceId', resultItem.traceId ?? '');
-  }
-
-  downloadLog(resultItem: MessageArchiveSearchResultItemDto) {
-    const logName = this.findLogName(resultItem.blobContentUri);
-    this.logStore.downloadLogFile(logName);
-  }
-
-  validateSearchParams(): boolean {
-    return (
-      this.searchCriteria.dateTimeFrom != null &&
-      this.searchCriteria.dateTimeTo != null &&
-      this.searchCriteria.dateTimeFrom.length === 20 &&
-      this.searchCriteria.dateTimeTo.length === 20
-    );
-  }
-
-  findLogName(logUrl: string): string {
-    if (this.regexLogNameWithDateFolder.test(logUrl)) {
-      const match = this.regexLogNameWithDateFolder.exec(logUrl);
-      return match != null ? match[0] : '';
-    } else if (this.regexLogNameIsSingleGuid.test(logUrl)) {
-      const match = this.regexLogNameIsSingleGuid.exec(logUrl);
-      return match != null ? match[0] : '';
-    }
-
-    return '';
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
+    //TODO: reset form not working
+    this.searchForm.reset();
   }
 }
 @NgModule({
+  declarations: [DhMessageArchiveLogSearchComponent],
   imports: [
     WattFormFieldModule,
     WattInputModule,
     WattButtonModule,
     WattCheckboxModule,
+    WattDatepickerModule,
+    WattTimepickerModule,
     FormsModule,
     CommonModule,
     LetModule,
@@ -233,8 +233,9 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     WattBadgeModule,
     WattDropdownModule,
     WattSpinnerModule,
+    ReactiveFormsModule,
+    PushModule,
     WattTopBarComponent,
   ],
-  declarations: [DhMessageArchiveLogSearchComponent],
 })
 export class DhMessageArchiveLogSearchScam {}

@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { formatInTimeZone } from 'date-fns-tz';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
-const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 export type TValue = string | null | undefined;
 
 export function dhFormatDanishDatetime(

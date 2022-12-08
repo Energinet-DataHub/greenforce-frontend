@@ -29,7 +29,7 @@ import { WattTopBarOutletComponent } from 'libs/ui-watt/src/lib/components/shell
 
 const wattDrawerName = 'watt-drawer';
 const dateTimeFormat = 'dd-MM-yyyy';
-const danishTimeZoneIdentifier = 'Europe/Copenhagen';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
 describe(DhChargesPricesComponent.name, () => {
   async function setup() {
@@ -67,7 +67,7 @@ describe(DhChargesPricesComponent.name, () => {
     userEvent.click(searchButton);
 
     const id = await waitFor(() =>
-      screen.getByRole('cell', { name: /0AA1F/i })
+      screen.getByRole('gridcell', { name: /0AA1F/i })
     );
 
     expect(id).toBeInTheDocument();
@@ -103,7 +103,7 @@ describe(DhChargesPricesComponent.name, () => {
     userEvent.click(searchButton);
 
     const id = await waitFor(() =>
-      screen.getByRole('cell', { name: /0AA1F/i })
+      screen.getByRole('gridcell', { name: /0AA1F/i })
     );
 
     expect(id).toBeInTheDocument();
@@ -124,7 +124,7 @@ describe(DhChargesPricesComponent.name, () => {
     userEvent.click(searchButton);
 
     const id = await waitFor(() =>
-      screen.getByRole('cell', { name: /0AA1F/i })
+      screen.getByRole('gridcell', { name: /0AA1F/i })
     );
 
     expect(id).toBeInTheDocument();
@@ -162,7 +162,7 @@ describe(DhChargesPricesComponent.name, () => {
     userEvent.click(searchButton);
 
     const tableCell = await waitFor(() =>
-      screen.getByRole('cell', { name: /0AA1F/i })
+      screen.getByRole('gridcell', { name: /0AA1F/i })
     );
 
     expect(tableCell).toBeInTheDocument();

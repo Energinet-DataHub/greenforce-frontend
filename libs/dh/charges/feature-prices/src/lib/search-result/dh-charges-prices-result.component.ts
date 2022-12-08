@@ -42,6 +42,7 @@ import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { DhChargesPricesDrawerComponent } from '../drawer/dh-charges-prices-drawer.component';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 import formatInTimeZone from 'date-fns-tz/formatInTimeZone';
 
 @Component({
@@ -86,31 +87,35 @@ export class DhChargesPricesResultComponent
 
   /* eslint-disable sonarjs/no-duplicate-string */
   columns: WattTableColumnDef<ChargeV1Dto> = {
-    chargeId: { header: this.formatHeader, size: 'max-content' },
-    chargeName: { header: this.formatHeader },
-    chargeOwnerName: { header: this.formatHeader },
-    icons: { header: '-', size: 'max-content', sort: false, align: 'center' },
+    chargeId: { accessor: 'chargeId', size: 'max-content' },
+    chargeName: { accessor: 'chargeName' },
+    chargeOwnerName: { accessor: 'chargeOwnerName' },
+    icons: {
+      accessor: null,
+      header: '-',
+      size: 'max-content',
+      align: 'center',
+    },
     chargeType: {
-      header: this.formatHeader,
+      accessor: 'chargeType',
       cell: (row) =>
         this.translocoService.translate('charges.chargeType.' + row.chargeType),
       size: 'max-content',
     },
     resolution: {
-      header: this.formatHeader,
+      accessor: 'resolution',
       cell: (row) =>
         this.translocoService.translate(
           'charges.resolutionType.' + row.resolution
         ),
       size: 'max-content',
     },
-    validFromDateTime: { header: this.formatHeader, size: 'max-content' },
-    validToDateTime: { header: this.formatHeader, size: 'max-content' },
+    validFromDateTime: { accessor: 'validFromDateTime', size: 'max-content' },
+    validToDateTime: { accessor: 'validToDateTime', size: 'max-content' },
   };
 
   readonly dataSource = new WattTableDataSource<ChargeV1Dto>();
 
-  private danishTimeZoneIdentifier = 'Europe/Copenhagen';
   private dateFormat = 'dd-MM-yyyy';
   private dateTimeFormat = 'dd-MM-yyyy HH:mm:ss';
 
@@ -187,14 +192,14 @@ export class DhChargesPricesResultComponent
         ),
         formatInTimeZone(
           charge.validFromDateTime,
-          this.danishTimeZoneIdentifier,
+          danishTimeZoneIdentifier,
           this.dateFormat
         ),
         charge.validToDateTime == null
           ? ''
           : formatInTimeZone(
               charge.validToDateTime,
-              this.danishTimeZoneIdentifier,
+              danishTimeZoneIdentifier,
               this.dateFormat
             ),
       ]);
@@ -221,7 +226,7 @@ export class DhChargesPricesResultComponent
     const dateString = (
       formatInTimeZone(
         new Date().toISOString(),
-        this.danishTimeZoneIdentifier,
+        danishTimeZoneIdentifier,
         this.dateTimeFormat
       ) ?? ''
     ).replace(/:/g, '_');

@@ -14,10 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-table {
-  width: 100%;
-}
-
 .no-result-div {
   margin-top: var(--watt-space-xl);
+}
+
+.number {
+  font-size: 12px;
+  color: var(--watt-color-neutral-grey-400);
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--watt-space-m);
 }

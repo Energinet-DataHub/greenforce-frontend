@@ -36,6 +36,10 @@
         "startBatch": "Start batch",
         "searchBatch": "Søg batch",
         "overview": "Oversigt"
+      },
+      "admin": {
+        "menuGroupLabel": "Opsætning",
+        "userManagement": "Brugeradministration"
       }
     }
   },
@@ -442,32 +446,47 @@
   },
   "messageArchive": {
     "unknowenError": "Ukendt fejl",
+    "drawer": {
+      "message": "Besked",
+      "sender": "Afsender",
+      "receiver": "Modtager",
+      "download": "Download"
+    },
     "search": {
       "topBarTitle": "Fremsøg forretningsbesked",
-      "documenttype": "Dokumenttype",
-      "senderId": "Afsender Id",
+      "rsmName": "Dokumenttype",
+      "senderGln": "Afsender",
       "messageId": "Besked Id",
       "traceId": "Trace Id",
-      "receiverId": "Modtager Id",
+      "receiverGln": "Modtager",
       "businessReason": "Forretningsårsag",
       "dateFrom": "Dato fra",
       "dateTo": "Dato til",
-      "startSearch": "Fremsøg besked",
-      "NoResultsFound": "Intet resultat",
-      "ChooseBusinessReason": "Vælg forretningsårsag",
-      "ChooseDocumentType": "Vælg dokumenttype",
-      "includeRelatedMessage": "Inkluder relateret besked",
+      "startSearch": "Søg",
+      "noResultsFound": "Intet resultat",
+      "progressType": "Forretningsårsag",
+      "chooseDocumentType": "Indtast eller vælg",
+      "includeRelatedMessage": "Inkluder relaterede beskeder (ved søgning på Besked ID)",
       "loadMore": "Indlæs flere",
       "rsm": "RSM",
       "sender": "Aktør",
       "timeStamp": "Tid",
-      "status": "Status",
+      "httpData": "Status",
       "sent": "IND",
       "received": "UD",
       "download": "Download",
       "show": "Vis",
       "noResultsHelperText": "Prøv at ændring dine søge indstillinger",
-      "clearSearch": "Ryd form"
+      "clearSearch": "Ryd",
+      "periode": "periode",
+      "time": "klokkeslæt",
+      "searchResult": "Søgeresultater",
+      "startSearchResultView": "Start søgning",
+      "startSearchText": "Dine resultater vil fremgå her",
+      "loadingErrorTitle": "Der opstod en uventet fejl",
+      "loadingErrorMessage": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl.",
+      "createdDate": "Dato og tid",
+      "invalidDate": "Ugyldig dato"
     }
   },
   "marketParticipant": {
@@ -733,7 +752,7 @@
         "searchButton": "Søg"
       },
       "columns": {
-        "batchNumber": "Batch-nummer",
+        "batchId": "Batch-nummer",
         "periodFrom": "Periode fra",
         "periodTo": "Periode til",
         "executionTime": "Eksekveringstid",
@@ -760,7 +779,7 @@
       }
     },
     "batchDetails": {
-      "headline": "Batch: {{batchNumber}}",
+      "headline": "Batch: {{batchId}}",
       "calculationPeriod": "Beregningsperiode",
       "executionTime": "Eksekveringstidspunkt"
     },
@@ -772,6 +791,16 @@
     },
     "overview": {
       "header": "Proces oversigt"
+    }
+  },
+  "admin": {
+    "userManagement": {
+      "topBarTitle": "Brugeradministration",
+      "tabs": {
+        "users": "Brugere",
+        "roles": "Roller",
+        "permissions": "Rettigheder"
+      }
     }
   }
 }
