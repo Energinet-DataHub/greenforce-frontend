@@ -25,13 +25,52 @@ export function wholesaleMocks(apiBase: string) {
   return [
     postWholesaleBatch(apiBase),
     getWholesaleSearchBatch(apiBase),
+    getWholesaleSearchBatches(apiBase),
     downloadBasisData(apiBase),
+    postWholesaleBatchProcessStepResult(apiBase),
   ];
 }
 
 function postWholesaleBatch(apiBase: string) {
   return rest.post(`${apiBase}/v1/WholesaleBatch`, (req, res, ctx) => {
     return res(ctx.status(200));
+  });
+}
+
+const periodStart = '2021-12-01T23:00:00Z';
+const periodEnd = '2021-12-02T23:00:00Z';
+const executionTimeStart = '2021-12-01T23:00:00Z';
+const executionTimeEnd = '2021-12-02T23:00:00Z';
+
+function getWholesaleSearchBatch(apiBase: string) {
+  return rest.get(`${apiBase}/v1/WholesaleBatch/Batch`, (req, res, ctx) => {
+    const batchId = req.url.searchParams.get('batchId') || '';
+    const batch: BatchDto = {
+      batchId: batchId,
+      periodStart,
+      periodEnd,
+      executionTimeStart,
+      executionTimeEnd: null,
+      executionState: BatchState.Pending,
+      isBasisDataDownloadAvailable: false,
+      gridAreas: [
+        {
+          id: '1',
+          code: '805',
+          name: 'hello',
+          priceAreaCode: PriceAreaCode.Dk1,
+          validFrom: '01-11-2022',
+        },
+        {
+          id: '2',
+          code: '806',
+          name: 'hello again',
+          priceAreaCode: PriceAreaCode.Dk1,
+          validFrom: '01-11-2022',
+        },
+      ],
+    };
+    return res(ctx.status(200), ctx.json(batch));
   });
 }
 
@@ -57,12 +96,7 @@ function downloadBasisData(apiBase: string) {
   );
 }
 
-function getWholesaleSearchBatch(apiBase: string) {
-  const periodStart = '2021-12-01T23:00:00Z';
-  const periodEnd = '2021-12-02T23:00:00Z';
-  const executionTimeStart = '2021-12-01T23:00:00Z';
-  const executionTimeEnd = '2021-12-02T23:00:00Z';
-
+function getWholesaleSearchBatches(apiBase: string) {
   return rest.post(`${apiBase}/v1/WholesaleBatch/search`, (req, res, ctx) => {
     const mockData: BatchDto[] = [
       {
@@ -121,7 +155,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         gridAreas: [],
       },
       {
-        batchId: '123',
+        batchId: '8910',
         periodStart,
         periodEnd,
         executionTimeStart,
@@ -131,7 +165,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         gridAreas: [],
       },
       {
-        batchId: '234',
+        batchId: '1011',
         periodStart,
         periodEnd,
         executionTimeStart,
@@ -141,7 +175,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         gridAreas: [],
       },
       {
-        batchId: '345',
+        batchId: '1112',
         periodStart,
         periodEnd,
         executionTimeStart,
@@ -151,7 +185,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         gridAreas: [],
       },
       {
-        batchId: '567',
+        batchId: '1314',
         periodStart,
         periodEnd,
         executionTimeStart,
@@ -161,7 +195,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         gridAreas: [],
       },
       {
-        batchId: '123',
+        batchId: '1516',
         periodStart,
         periodEnd,
         executionTimeStart,
@@ -171,7 +205,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         gridAreas: [],
       },
       {
-        batchId: '234',
+        batchId: '1718',
         periodStart,
         periodEnd,
         executionTimeStart,
@@ -181,7 +215,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         gridAreas: [],
       },
       {
-        batchId: '345',
+        batchId: '1920',
         periodStart,
         periodEnd,
         executionTimeStart,
@@ -191,7 +225,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         gridAreas: [],
       },
       {
-        batchId: '567',
+        batchId: '2021',
         periodStart,
         periodEnd,
         executionTimeStart,
@@ -206,4 +240,13 @@ function getWholesaleSearchBatch(apiBase: string) {
     //return res(ctx.delay(300), ctx.status(200), ctx.json([]));
     //return res(ctx.delay(2000), ctx.status(500));
   });
+}
+
+function postWholesaleBatchProcessStepResult(apiBase: string) {
+  return rest.post(
+    `${apiBase}/v1/WholesaleBatch/ProcessStepResult`,
+    (req, res, ctx) => {
+      return res(ctx.delay(300), ctx.status(200));
+    }
+  );
 }
