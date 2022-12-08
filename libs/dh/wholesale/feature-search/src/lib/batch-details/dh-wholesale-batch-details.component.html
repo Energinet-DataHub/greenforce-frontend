@@ -14,9 +14,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-drawer *transloco="let transloco; read: 'wholesale'" #drawer>
-  <watt-drawer-topbar>
-    <watt-breadcrumbs>
+<watt-drawer #drawer>
+  <watt-drawer-topbar *ngIf="batch">
+    <watt-breadcrumbs *transloco="let transloco; read: 'wholesale'">
       <watt-breadcrumb (click)="drawer.close()">{{
         transloco("searchBatch.topBarTitle")
       }}</watt-breadcrumb>
@@ -27,30 +27,37 @@ limitations under the License.
   </watt-drawer-topbar>
 
   <watt-drawer-content>
-    <div class="headline-container">
-      <watt-badge [type]="batch.statusType">
+    <div
+      class="headline-container"
+      *transloco="let transloco; read: 'wholesale'"
+    >
+      <watt-badge *ngIf="batch" [type]="batch.statusType">
         {{ transloco("searchBatch." + batch.executionState) }}
       </watt-badge>
-      <h3 class="headline watt-headline-1">
+      <h3 class="headline watt-headline-1" *ngIf="batch">
         {{ transloco("batchDetails.headline", { batchId: batch.batchId }) }}
       </h3>
     </div>
-    <dl>
+    <dl *transloco="let transloco; read: 'wholesale'">
       <div>
         <dt class="watt-label">
           {{ transloco("batchDetails.calculationPeriod") }}
         </dt>
         <dd>
-          {{ batch.periodStart | dhDate }} - {{ batch.periodEnd | dhDate }}
+          {{ batch?.periodStart | dhDate }} - {{ batch?.periodEnd | dhDate }}
         </dd>
       </div>
       <div>
         <dt class="watt-label">
           {{ transloco("batchDetails.executionTime") }}
         </dt>
-        <dd>{{ batch.executionTimeStart | dhDateTime }}</dd>
+        <dd>{{ batch?.executionTimeStart | dhDateTime }}</dd>
       </div>
     </dl>
-    <dh-wholesale-grid-areas [data]="batch.gridAreas"></dh-wholesale-grid-areas>
+    <dh-wholesale-grid-areas
+      *ngIf="batch"
+      [data]="batch.gridAreas"
+      (selected)="onGridAreaSelected($event)"
+    ></dh-wholesale-grid-areas>
   </watt-drawer-content>
 </watt-drawer>

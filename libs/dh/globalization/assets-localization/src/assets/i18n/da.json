@@ -778,6 +778,19 @@
         "of": "af"
       }
     },
+    "calculationSteps": {
+      "topBarTitle": "Se akkumulerede tidsserier",
+      "sidebarTitle": "Detaljer",
+      "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
+      "subHeading": "Netområde ID {{gridAreaCode}}",
+      "loadCalculationStepsFailedTitle": "Ups! Der opstod en fejl",
+      "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
+    },
+    "timeSeriesPoints": {
+      "header": "Værdier i perioden",
+      "time": "tid",
+      "quantity": "værdi"
+    },
     "batchDetails": {
       "headline": "Batch: {{batchId}}",
       "calculationPeriod": "Beregningsperiode",
@@ -788,9 +801,6 @@
       "gridAreaCode": "ID",
       "name": "navn",
       "noGridAreasFound": "Ingen netområder fundet"
-    },
-    "overview": {
-      "header": "Proces oversigt"
     }
   },
   "admin": {

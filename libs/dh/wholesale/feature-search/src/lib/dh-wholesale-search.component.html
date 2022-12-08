@@ -55,11 +55,11 @@ limitations under the License.
       >
       </watt-empty-state>
     </ng-template>
-
-    <dh-wholesale-batch-details
-      *ngIf="selectedBatch"
-      [batch]="selectedBatch"
-      #batchDetails
-    ></dh-wholesale-batch-details>
   </ng-container>
+
+  <dh-wholesale-batch-details
+    [batch]="selectedBatch$ | push"
+    (closed)="onBatchDetailsClosed()"
+    #batchDetails
+  ></dh-wholesale-batch-details>
 </ng-container>
