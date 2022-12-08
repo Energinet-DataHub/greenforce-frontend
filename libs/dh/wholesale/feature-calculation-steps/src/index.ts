@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-wholesale-overview.component';
+export { DhWholesaleCalculationStepsComponent } from './lib/dh-wholesale-calculation-steps.component';
