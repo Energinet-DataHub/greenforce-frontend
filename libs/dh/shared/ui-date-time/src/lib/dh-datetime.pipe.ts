@@ -23,7 +23,7 @@ export const pipeName = 'dhDateTime';
   name: pipeName,
 })
 export class DhDateTimePipe implements PipeTransform {
-  private dateTimeFormat = 'dd-MM-yyyy HH:mm:ss';
+  private dateTimeFormat = 'dd-MM-yyyy HH:mm';
 
   /**
    *
