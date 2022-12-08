@@ -14,17 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.no-result-div {
-  margin-top: var(--watt-space-xl);
-}
+import { Component } from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
 
-.number {
-  font-size: 12px;
-  color: var(--watt-color-neutral-grey-400);
-}
+import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 
-.spinner-container {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--watt-space-m);
-}
+@Component({
+  selector: 'dh-user-management-tabs',
+  standalone: true,
+  templateUrl: './dh-user-management-tabs.component.html',
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
+  imports: [WattTabsModule, TranslocoModule],
+})
+export class DhUserManagementTabsComponent {}

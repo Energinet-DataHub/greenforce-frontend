@@ -14,101 +14,116 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let transloco; read: 'messageArchive.search'">
-  <table
-    aria-label="request response log search"
-    mat-table
-    [dataSource]="this.searchResult ?? []"
-  >
-    <!-- message id Column -->
-    <ng-container matColumnDef="messageId">
-      <th mat-header-cell *matHeaderCellDef>{{ transloco("messageId") }}</th>
-      <td mat-cell *matCellDef="let element">{{ element.messageId }}</td>
-    </ng-container>
-
-    <!-- message id Column -->
-    <ng-container matColumnDef="rsmName">
-      <th mat-header-cell *matHeaderCellDef>{{ transloco("rsm") }}</th>
-      <td mat-cell *matCellDef="let element">{{ element.rsmName }}</td>
-    </ng-container>
-
-    <!-- sender gln -->
-    <ng-container matColumnDef="sender">
-      <th mat-header-cell *matHeaderCellDef>{{ transloco("sender") }}</th>
-      <td mat-cell *matCellDef="let element">
-        <container-element [ngSwitch]="element.httpData">
-          <ng-container *ngSwitchCase="'request'">{{
-            element.senderGln
-          }}</ng-container>
-          <ng-container *ngSwitchCase="'response'">{{
-            element.receiverGln
-          }}</ng-container>
-          <ng-container *ngSwitchDefault>??</ng-container>
-        </container-element>
-      </td>
-    </ng-container>
-
-    <!-- timestamp gln -->
-    <ng-container matColumnDef="createddate">
-      <th mat-header-cell *matHeaderCellDef>{{ transloco("timeStamp") }}</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.createdDate | dhDateTime }}
-      </td>
-    </ng-container>
-
-    <!-- in /out -->
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>{{ transloco("status") }}</th>
-      <td mat-cell *matCellDef="let element">
-        <container-element [ngSwitch]="element.httpData">
-          <watt-badge *ngSwitchCase="'request'" type="info">{{
-            transloco("sent")
-          }}</watt-badge>
-          <watt-badge *ngSwitchCase="'response'" type="success">{{
-            transloco("received")
-          }}</watt-badge>
-          <watt-badge *ngSwitchDefault type="info">{{
-            element.httpData
-          }}</watt-badge>
-        </container-element>
-      </td>
-    </ng-container>
-
-    <!-- log options -->
-    <ng-container matColumnDef="logoptions">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
-        <watt-button
-          variant="icon"
-          title="{{ transloco('download') }}"
-          (click)="emitDownlogLogFile(element)"
-          icon="download"
-        >
-        </watt-button>
-        <watt-button
-          variant="icon"
-          (click)="emitShowLogDownloadPage(element)"
-          icon="openInNew"
-          title="{{ transloco('show') }}"
-        >
-        </watt-button>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-
-  <ng-container
-    *ngIf="!isSearching && searchResult && searchResult.length === 0"
-  >
-    <watt-empty-state
-      class="no-result-div"
-      icon="custom-explore"
-      size="large"
-      title="{{ transloco('NoResultsFound') }}"
-      message="{{ transloco('noResultsHelperText') }}"
+<ng-container *transloco="let t; read: 'messageArchive.search'">
+  <watt-card>
+    <watt-card-title>
+      <h3>
+        <ng-container *ngIf="searchResult">
+          {{ searchResult.length > 0 ? searchResult.length : "" }}
+        </ng-container>
+        {{ t("searchResult") }}
+      </h3>
+    </watt-card-title>
+    <ng-container
+      *ngIf="
+        !hasSearchError && !isInit && searchResult && searchResult.length > 0
+      "
     >
-    </watt-empty-state>
-  </ng-container>
+      <watt-table
+        #table
+        description="Search result"
+        sortBy="createdDate"
+        sortDirection="asc"
+        [dataSource]="dataSource"
+        [resolveHeader]="t"
+        [columns]="columns"
+        [activeRow]="activeRow"
+        (rowClick)="onRowClick($event)"
+      >
+        <ng-container *wattTableCell="columns.messageId; let element">
+          {{ element.messageId }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.rsmName; let element">
+          <div>
+            {{ element.rsmName | documentTypeName | dhEmDashFallback }}
+            <br />
+            <span class="number">{{ element.rsmName }}</span>
+          </div>
+        </ng-container>
+        <ng-container *wattTableCell="columns.senderGln; let element">
+          <div>
+            {{ element.senderGln | actorName: actors | dhEmDashFallback }}
+            <br />
+            <span class="number">{{ element.senderGln }}</span>
+          </div>
+        </ng-container>
+        <ng-container *wattTableCell="columns.receiverGln; let element">
+          <div>
+            {{ element.receiverGln | actorName: actors | dhEmDashFallback }}
+            <br />
+            <span class="number">{{ element.receiverGln }}</span>
+          </div>
+        </ng-container>
+        <ng-container *wattTableCell="columns.createdDate; let element">
+          <div style="white-space: nowrap">
+            {{ element.createdDate | dhDateTime | dhEmDashFallback }}
+          </div>
+        </ng-container>
+        <ng-container *wattTableCell="columns.httpData; let element">
+          <dh-message-archive-status
+            [message]="element.httpData"
+          ></dh-message-archive-status>
+        </ng-container>
+      </watt-table>
+    </ng-container>
+
+    <!-- Spinner -->
+    <div *ngIf="isSearching" class="overview__spinner spinner-container">
+      <watt-spinner></watt-spinner>
+    </div>
+
+    <!-- Empty -->
+    <ng-container
+      *ngIf="
+        !hasSearchError &&
+        !isSearching &&
+        !isInit &&
+        searchResult &&
+        searchResult.length === 0
+      "
+    >
+      <watt-empty-state
+        class="no-result-div"
+        icon="custom-no-results"
+        size="large"
+        [title]="t('noResultsFound')"
+        [message]="t('noResultsHelperText')"
+      >
+      </watt-empty-state>
+    </ng-container>
+
+    <!-- Init -->
+    <ng-container *ngIf="isInit">
+      <watt-empty-state
+        class="no-result-div"
+        icon="custom-explore"
+        size="large"
+        [title]="t('startSearchResultView')"
+        [message]="t('startSearchText')"
+      >
+      </watt-empty-state>
+    </ng-container>
+
+    <!-- Error -->
+    <ng-container *ngIf="hasSearchError">
+      <watt-empty-state
+        class="loading-error"
+        icon="power"
+        [title]="t('loadingErrorTitle')"
+        [message]="t('loadingErrorMessage')"
+      ></watt-empty-state>
+    </ng-container>
+  </watt-card>
+
+  <dh-message-archive-drawer [actors]="actors"></dh-message-archive-drawer>
 </ng-container>
