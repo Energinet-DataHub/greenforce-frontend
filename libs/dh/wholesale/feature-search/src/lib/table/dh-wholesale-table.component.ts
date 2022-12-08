@@ -76,7 +76,7 @@ export class DhWholesaleTableComponent implements AfterViewInit {
 
   _data: wholesaleTableData = new MatTableDataSource(undefined);
   columnIds = [
-    'batchNumber',
+    'batchId',
     'periodStart',
     'periodEnd',
     'executionTimeStart',

@@ -121,10 +121,10 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a processStepResult.
         /// </summary>
         [HttpPost("ProcessStepResult")]
-        public async Task<ActionResult> GetAsync(ProcessStepResultRequestDto processStepResultRequestDto)
+        public async Task<ActionResult<ProcessStepResultDto>> GetAsync(ProcessStepResultRequestDto processStepResultRequestDto)
         {
             var dto = await _client.GetProcessStepResultAsync(processStepResultRequestDto).ConfigureAwait(false);
-            return await Task.FromResult<ActionResult>(Ok(dto));
+            return Ok(dto);
         }
     }
 }

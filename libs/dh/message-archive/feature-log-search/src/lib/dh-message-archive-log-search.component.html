@@ -19,157 +19,128 @@ limitations under the License.
     <ng-container *rxLet="continuationToken$ as continuationToken">
       <watt-top-bar>
         <form
-          #searchForm
+          class="form"
+          [formGroup]="searchForm"
           name="log-search-form"
-          (ngSubmit)="onSubmit(searching)"
+          (ngSubmit)="onSubmit()"
         >
-          <div class="wrapper">
-            <!-- RSM -->
+          <!-- MessageId -->
+          <watt-form-field>
+            <watt-label>{{ transloco("messageId") }}</watt-label>
+            <input
+              formControlName="messageId"
+              wattInput
+              type="text"
+              name="messageId"
+            />
+          </watt-form-field>
+          <!-- RSM -->
+          <watt-form-field>
+            <watt-label>{{ transloco("rsmName") }}</watt-label>
+            <watt-dropdown
+              formControlName="rsmNames"
+              [options]="rsmFormFieldOptions"
+              name="rsmName"
+              [placeholder]="transloco('chooseDocumentType')"
+              [multiple]="true"
+            >
+            </watt-dropdown>
+          </watt-form-field>
+
+          <watt-form-field>
+            <watt-label>{{ transloco("progressType") }}</watt-label>
+            <watt-dropdown
+              formControlName="processTypes"
+              [options]="processTypeFormFieldOptions"
+              name="processTypes"
+              [placeholder]="transloco('chooseDocumentType')"
+              [multiple]="true"
+            >
+            </watt-dropdown>
+          </watt-form-field>
+
+          <!-- Sender -->
+          <watt-form-field>
+            <watt-label>{{ transloco("senderGln") }}</watt-label>
+            <watt-dropdown
+              formControlName="senderId"
+              [options]="(getActorOptions$ | async) ?? []"
+              name="senderId"
+              [placeholder]="transloco('chooseDocumentType')"
+            >
+            </watt-dropdown>
+          </watt-form-field>
+
+          <!-- Receiver -->
+          <watt-form-field>
+            <watt-label>{{ transloco("receiverGln") }}</watt-label>
+            <watt-dropdown
+              formControlName="receiverId"
+              [options]="(getActorOptions$ | async) ?? []"
+              name="receiverId"
+              [placeholder]="transloco('chooseDocumentType')"
+            >
+            </watt-dropdown>
+          </watt-form-field>
+
+          <div class="rowContainer">
             <watt-form-field>
-              <watt-label>{{ transloco("documenttype") }}</watt-label>
-              <watt-dropdown
-                [(ngModel)]="this.searchCriteria.rsmNames"
-                [options]="rsmFormFieldOptions"
-                name="rsmName"
-                [placeholder]="transloco('ChooseDocumentType')"
-                [multiple]="true"
-                [title]="this.searchCriteria.rsmNames ?? ''"
+              <watt-label>{{ transloco("periode") }}</watt-label>
+              <watt-datepicker
+                formControlName="dateRange"
+                [range]="true"
+              ></watt-datepicker>
+              <watt-error
+                *ngIf="searchForm.controls.dateRange.errors?.rangeRequired"
               >
-              </watt-dropdown>
+                {{ transloco("invalidDate") }}
+              </watt-error>
             </watt-form-field>
 
-            <!-- Sender -->
             <watt-form-field>
-              <watt-label>{{ transloco("senderId") }}</watt-label>
-              <input
-                #searchInputSenderId
-                [(ngModel)]="this.searchCriteria.senderId"
-                wattInput
-                type="text"
-                name="senderId"
-              />
-            </watt-form-field>
-
-            <!-- Receiver -->
-            <watt-form-field>
-              <watt-label>{{ transloco("receiverId") }}</watt-label>
-              <input
-                #searchInputReceiverId
-                [(ngModel)]="this.searchCriteria.receiverId"
-                wattInput
-                type="text"
-                name="receiverId"
-              />
-            </watt-form-field>
-
-            <!-- MessageId -->
-            <watt-form-field>
-              <watt-label>{{ transloco("messageId") }}</watt-label>
-              <input
-                #searchInputMessageId
-                [(ngModel)]="this.searchCriteria.messageId"
-                wattInput
-                type="text"
-                name="messageId"
-              />
-            </watt-form-field>
-
-            <!-- ProcessType -->
-            <watt-form-field>
-              <watt-label>{{ transloco("businessReason") }}</watt-label>
-              <watt-dropdown
-                name="processType"
-                [(ngModel)]="this.searchCriteria.processTypes"
-                [options]="processTypeFormFieldOptions"
-                [placeholder]="transloco('ChooseBusinessReason')"
-                [multiple]="true"
-                [title]="this.searchCriteria.processTypes ?? ''"
-              >
-              </watt-dropdown>
+              <watt-label>{{ transloco("time") }}</watt-label>
+              <watt-timepicker
+                formControlName="timeRange"
+                [range]="true"
+              ></watt-timepicker>
             </watt-form-field>
 
             <!-- Reference id -->
             <watt-checkbox
-              #searchInputReferenceId
-              [(ngModel)]="this.searchCriteria.includeRelated"
+              formControlName="includeRelated"
               wattInput
               name="reference-id"
               >{{ transloco("includeRelatedMessage") }}</watt-checkbox
             >
-
-            <!-- Date from -->
-            <watt-form-field>
-              <watt-label>{{ transloco("dateFrom") }}</watt-label>
-              <input
-                #searchInputDateTimeFrom
-                [(ngModel)]="this.searchCriteria.dateTimeFrom"
-                wattInput
-                type="text"
-                name="dateTimeFrom"
-              />
-            </watt-form-field>
-
-            <!-- Date to -->
-            <watt-form-field>
-              <watt-label>{{ transloco("dateTo") }}</watt-label>
-
-              <input
-                #searchInputDateTimeTo
-                [(ngModel)]="this.searchCriteria.dateTimeTo"
-                wattInput
-                type="text"
-                name="dateTimeTo"
-              />
-            </watt-form-field>
-          </div>
-          <ng-container *rxLet="continuationToken$ as continuationToken">
             <div class="buttons-container">
               <watt-button
-                title="{{ transloco('clearSearch') }}"
                 (click)="resetSearchCritera()"
-                icon="close"
+                icon="remove"
                 variant="secondary"
                 >{{ transloco("clearSearch") }}</watt-button
               >
               <!-- Search -->
               <watt-button
-                *rxLet="this.searching$ as seaching"
-                [disabled]="!validateSearchParams() || seaching"
+                *rxLet="searching$ as seaching"
+                [disabled]="seaching"
                 variant="primary"
                 type="submit"
                 icon="search"
                 >{{ transloco("startSearch") }}</watt-button
               >
             </div>
-          </ng-container>
+          </div>
         </form>
-
-        <div *transloco="let transloco; read: 'messageArchive'">
-          <watt-badge *ngIf="hasSearchError$ | async" type="danger">{{
-            transloco("unknowenError")
-          }}</watt-badge>
-        </div>
       </watt-top-bar>
-
       <dh-message-archive-log-search-result
         *rxLet="searchResult$ as searchResult"
-        [searchResult]="this.searchResult$ | async"
+        [searchResult]="searchResult$ | push"
+        [hasSearchError]="hasSearchError$ | push"
+        [isInit]="isInit$ | push"
         [isSearching]="searching"
-        (downloadLogFile)="downloadLog($event)"
-        (showLogDownloadPage)="redirectToDownloadLogPage($event)"
+        [actors]="getActorOptions$ | push"
       >
       </dh-message-archive-log-search-result>
-
-      <div class="load-more-button-container">
-        <watt-button
-          *ngIf="continuationToken && !searching"
-          [disabled]="searching"
-          (click)="loadMore(searching, continuationToken)"
-        >
-          {{ transloco("loadMore") }}</watt-button
-        >
-        <watt-spinner *ngIf="searching" [diameter]="48"></watt-spinner>
-      </div>
     </ng-container>
   </ng-container>
 </ng-container>
