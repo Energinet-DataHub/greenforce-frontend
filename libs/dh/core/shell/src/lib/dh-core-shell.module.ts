@@ -47,6 +47,7 @@ import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-ti
 import { WattToastModule } from '@energinet-datahub/watt/toast';
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
+import { WHOLESALE_BASE_PATH } from '@energinet-datahub/dh/wholesale/routing';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhAdminPath } from '@energinet-datahub/dh/admin/routing';
 
@@ -85,10 +86,10 @@ const routes: Routes = [
         canActivate: [MsalGuard],
       },
       {
-        path: 'wholesale',
+        path: WHOLESALE_BASE_PATH,
         loadChildren: () =>
           import('@energinet-datahub/dh/wholesale/shell').then(
-            (esModule) => esModule.DhWholesaleShellModule
+            (esModule) => esModule.WHOLESALE_SHELL
           ),
         canActivate: [MsalGuard],
       },
