@@ -778,8 +778,8 @@
       "topBarTitle": "See accumulated time series",
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
       "subHeading": "Grid Area Code {{gridAreaCode}}",
-      "loadCalculationStepsFailedTitle": "Ups! Der opstod en fejl",
-      "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
+      "loadCalculationStepsFailedTitle": "Oops! There was an error",
+      "loadCalculationStepsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information"
     },
     "timeSeriesPoints": {
       "header": "Quantities ​​in the period",
