@@ -155,7 +155,7 @@ function getWholesaleSearchBatches(apiBase: string) {
         gridAreas: [],
       },
       {
-        batchId: '123',
+        batchId: '8910',
         periodStart,
         periodEnd,
         executionTimeStart,
@@ -165,7 +165,7 @@ function getWholesaleSearchBatches(apiBase: string) {
         gridAreas: [],
       },
       {
-        batchId: '234',
+        batchId: '1011',
         periodStart,
         periodEnd,
         executionTimeStart,
@@ -175,7 +175,7 @@ function getWholesaleSearchBatches(apiBase: string) {
         gridAreas: [],
       },
       {
-        batchId: '345',
+        batchId: '1112',
         periodStart,
         periodEnd,
         executionTimeStart,
@@ -185,7 +185,7 @@ function getWholesaleSearchBatches(apiBase: string) {
         gridAreas: [],
       },
       {
-        batchId: '567',
+        batchId: '1314',
         periodStart,
         periodEnd,
         executionTimeStart,
@@ -195,7 +195,7 @@ function getWholesaleSearchBatches(apiBase: string) {
         gridAreas: [],
       },
       {
-        batchId: '123',
+        batchId: '1516',
         periodStart,
         periodEnd,
         executionTimeStart,
@@ -205,7 +205,7 @@ function getWholesaleSearchBatches(apiBase: string) {
         gridAreas: [],
       },
       {
-        batchId: '234',
+        batchId: '1718',
         periodStart,
         periodEnd,
         executionTimeStart,
@@ -215,7 +215,7 @@ function getWholesaleSearchBatches(apiBase: string) {
         gridAreas: [],
       },
       {
-        batchId: '345',
+        batchId: '1920',
         periodStart,
         periodEnd,
         executionTimeStart,
@@ -225,7 +225,7 @@ function getWholesaleSearchBatches(apiBase: string) {
         gridAreas: [],
       },
       {
-        batchId: '567',
+        batchId: '2021',
         periodStart,
         periodEnd,
         executionTimeStart,

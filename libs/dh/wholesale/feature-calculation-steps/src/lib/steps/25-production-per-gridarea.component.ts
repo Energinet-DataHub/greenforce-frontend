@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
+ import {
   Component,
   Input,
   ViewChild,
@@ -34,9 +34,8 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
-import { navigateToWholesaleSearchBatch } from 'libs/dh/wholesale/routing/src';
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import { ProcessStepType } from '@energinet-datahub/dh/shared/domain';
+import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
+import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-wholesale-production-per-gridarea',
@@ -49,7 +48,7 @@ import { ProcessStepType } from '@energinet-datahub/dh/shared/domain';
       <watt-button variant="text" icon="openInNew">Åbn</watt-button>
     </watt-card>
 
-    <watt-drawer #drawer (closed)="removeStepFromNavigation()">
+    <watt-drawer #drawer (closed)="onDrawerClosed()">
       <watt-drawer-topbar>
         <watt-breadcrumbs *transloco="let transloco; read: 'wholesale'">
           <watt-breadcrumb (click)="navigateToSearchBatch()">{{
@@ -57,13 +56,13 @@ import { ProcessStepType } from '@energinet-datahub/dh/shared/domain';
           }}</watt-breadcrumb>
           <watt-breadcrumb (click)="navigateToSearchBatch(batch.batchId)">{{
             transloco('batchDetails.headline', {
-              batchNumber: batch.batchId
+              batchId: batch.batchId
             })
           }}</watt-breadcrumb>
           <watt-breadcrumb (click)="drawer.close()">{{
             transloco('calculationSteps.breadcrumb', {
-              gridAreaCode: gridAreaCode,
-              gridAreaName: transloco('calculationSteps.gridAreaName')
+              gridAreaCode: gridArea.code,
+              gridAreaName: gridArea.name
             })
           }}</watt-breadcrumb>
           <watt-breadcrumb>Trin 25</watt-breadcrumb>
@@ -80,8 +79,8 @@ import { ProcessStepType } from '@energinet-datahub/dh/shared/domain';
             <strong>NETOMRÅDE</strong>
             {{
               transloco('calculationSteps.breadcrumb', {
-                gridAreaCode: gridAreaCode,
-                gridAreaName: transloco('calculationSteps.gridAreaName')
+                gridAreaCode: gridArea.code,
+                gridAreaName: gridArea.name
               })
             }}
           </p>
@@ -139,17 +138,16 @@ export class DhWholesaleProductionPerGridareaComponent
   implements AfterViewInit
 {
   @Input() batch!: batch;
-  @Input() gridAreaCode!: string;
+  @Input() gridArea!: GridAreaDto;
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
   ngAfterViewInit(): void {
     const selectedStep = this.route.snapshot.queryParams['step'];
     if (selectedStep) {
-      this.openDetails();
+      this.drawer.open();
     }
   }
 
@@ -160,22 +158,16 @@ export class DhWholesaleProductionPerGridareaComponent
     });
 
     this.drawer.open();
-
-    this.store.getProcessStepResults({
-      batchId: this.batch.batchId,
-      gridAreaCode: this.gridAreaCode,
-      processStepResult: ProcessStepType.AggregateProductionPerGridArea,
-    });
   }
 
-  removeStepFromNavigation(): void {
+  onDrawerClosed(): void {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { step: null },
     });
   }
 
-  navigateToSearchBatch(batchNumber?: string): void {
-    navigateToWholesaleSearchBatch(this.router, batchNumber);
+  navigateToSearchBatch(batchId?: string): void {
+    navigateToWholesaleSearchBatch(this.router, batchId);
   }
 }

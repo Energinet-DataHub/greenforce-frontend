@@ -25,7 +25,7 @@ limitations under the License.
             }}</watt-breadcrumb>
             <watt-breadcrumb (click)="navigateToSearchBatch(batch)">{{
               transloco("batchDetails.headline", {
-                batchNumber: batch?.batchId
+                batchId: batch?.batchId
               })
             }}</watt-breadcrumb>
             <watt-breadcrumb>{{
@@ -57,7 +57,7 @@ limitations under the License.
           <li>
             <dh-wholesale-production-per-gridarea
               [batch]="batch"
-              [gridAreaCode]="gridArea.code"
+              [gridArea]="gridArea"
             ></dh-wholesale-production-per-gridarea>
           </li>
         </ul>

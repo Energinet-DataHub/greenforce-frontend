@@ -25,7 +25,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import {
+  WattTableDataSource,
+  WattTableColumnDef,
+  WATT_TABLE,
+} from '@energinet-datahub/watt/table';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
@@ -36,9 +40,9 @@ import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 @Component({
   standalone: true,
   imports: [
+    WATT_TABLE,
     CommonModule,
     MatSortModule,
-    MatTableModule,
     TranslocoModule,
     WattEmptyStateModule,
     DhSharedUiPaginatorComponent,
@@ -55,14 +59,17 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
   paginator!: DhSharedUiPaginatorComponent;
 
   @Input() set data(gridAreas: GridAreaDto[]) {
-    this._data = new MatTableDataSource(gridAreas);
+    this._data = new WattTableDataSource(gridAreas);
     this._data.paginator = this.paginator?.instance;
   }
 
   @Output() selected = new EventEmitter<GridAreaDto>();
 
-  _data: MatTableDataSource<GridAreaDto> = new MatTableDataSource(undefined);
-  columnIds = ['gridAreaCode', 'name'];
+  _data: WattTableDataSource<GridAreaDto> = new WattTableDataSource(undefined);
+  columns: WattTableColumnDef<GridAreaDto> = {
+    gridAreaCode: { accessor: 'code' },
+    name: { accessor: 'name', cell: (row) => row.name ?? '—' },
+  };
 
   ngAfterViewInit() {
     if (!this._data) return;
