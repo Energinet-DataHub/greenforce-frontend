@@ -53,11 +53,11 @@ limitations under the License.
         </div>
       </watt-top-bar>
       <main>
-        <ul class="steps">
+        <ul class="steps" *ngIf="batch && gridArea">
           <li>
             <dh-wholesale-production-per-gridarea
               [batch]="batch"
-              [gridAreaCode]="gridArea?.code"
+              [gridAreaCode]="gridArea.code"
             ></dh-wholesale-production-per-gridarea>
           </li>
         </ul>

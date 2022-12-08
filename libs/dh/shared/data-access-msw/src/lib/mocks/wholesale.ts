@@ -27,6 +27,7 @@ export function wholesaleMocks(apiBase: string) {
     getWholesaleSearchBatch(apiBase),
     getWholesaleSearchBatches(apiBase),
     downloadBasisData(apiBase),
+    postWholesaleBatchProcessStepResult(apiBase),
   ];
 }
 
@@ -239,4 +240,13 @@ function getWholesaleSearchBatches(apiBase: string) {
     //return res(ctx.delay(300), ctx.status(200), ctx.json([]));
     //return res(ctx.delay(2000), ctx.status(500));
   });
+}
+
+function postWholesaleBatchProcessStepResult(apiBase: string) {
+  return rest.post(
+    `${apiBase}/v1/WholesaleBatch/ProcessStepResult`,
+    (req, res, ctx) => {
+      return res(ctx.delay(300), ctx.status(200));
+    }
+  );
 }

@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewChild, inject, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewChild,
+  inject,
+  AfterViewInit,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
@@ -28,8 +34,9 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
-import { first } from 'rxjs';
 import { navigateToWholesaleSearchBatch } from 'libs/dh/wholesale/routing/src';
+import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+import { ProcessStepType } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-wholesale-production-per-gridarea',
@@ -42,15 +49,15 @@ import { navigateToWholesaleSearchBatch } from 'libs/dh/wholesale/routing/src';
       <watt-button variant="text" icon="openInNew">Åbn</watt-button>
     </watt-card>
 
-    <watt-drawer #drawer>
+    <watt-drawer #drawer (closed)="removeStepFromNavigation()">
       <watt-drawer-topbar>
         <watt-breadcrumbs *transloco="let transloco; read: 'wholesale'">
           <watt-breadcrumb (click)="navigateToSearchBatch()">{{
             transloco('searchBatch.topBarTitle')
           }}</watt-breadcrumb>
-          <watt-breadcrumb (click)="navigateToSearchBatch(batch?.batchNumber)">{{
+          <watt-breadcrumb (click)="navigateToSearchBatch(batch.batchNumber)">{{
             transloco('batchDetails.headline', {
-              batchNumber: batch?.batchNumber
+              batchNumber: batch.batchNumber
             })
           }}</watt-breadcrumb>
           <watt-breadcrumb (click)="drawer.close()">{{
@@ -128,18 +135,21 @@ import { navigateToWholesaleSearchBatch } from 'libs/dh/wholesale/routing/src';
     TranslocoModule,
   ],
 })
-export class DhWholesaleProductionPerGridareaComponent implements AfterViewInit {
-  @Input() batch?: batch;
-  @Input() gridAreaCode?: string;
+export class DhWholesaleProductionPerGridareaComponent
+  implements AfterViewInit
+{
+  @Input() batch!: batch;
+  @Input() gridAreaCode!: string;
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
+  private store = inject(DhWholesaleBatchDataAccessApiStore);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
   ngAfterViewInit(): void {
     const selectedStep = this.route.snapshot.queryParams['step'];
     if (selectedStep) {
-      this.drawer.open();
+      this.openDetails();
     }
   }
 
@@ -151,11 +161,17 @@ export class DhWholesaleProductionPerGridareaComponent implements AfterViewInit 
 
     this.drawer.open();
 
-    this.drawer.closed.pipe(first()).subscribe(() => {
-      this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: { step: null },
-      });
+    this.store.getProcessStepResults({
+      batchId: this.batch.batchNumber,
+      gridAreaCode: this.gridAreaCode,
+      processStepResult: ProcessStepType.AggregateProductionPerGridArea,
+    });
+  }
+
+  removeStepFromNavigation(): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { step: null },
     });
   }
 

@@ -36,6 +36,7 @@ import {
   BatchState,
   BatchDto,
   GridAreaDto,
+  ProcessStepResultRequestDto
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
@@ -45,12 +46,16 @@ import { WattBadgeType } from '@energinet-datahub/watt/badge';
 interface State {
   batches?: batch[];
   loadingBatches: boolean;
+  loadingBatch: boolean;
+  loadingBatchProccessStepResult: boolean;
   selectedBatch?: batch;
   selectedGridArea?: GridAreaDto;
 }
 
 const initialState: State = {
   loadingBatches: false,
+  loadingBatch: false,
+  loadingBatchProccessStepResult: false
 };
 
 @Injectable({
@@ -145,7 +150,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   readonly getBatch = this.effect((batchNumber$: Observable<string>) => {
     return batchNumber$.pipe(
       switchMap((batchNumber) => {
-        console.log('batchNumber', batchNumber);
         return this.httpClient.v1WholesaleBatchBatchGet(batchNumber).pipe(
           map((batch) => {
             return {
@@ -163,6 +167,25 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       })
     );
   });
+
+  readonly getProcessStepResults = this.effect(
+    (options$: Observable<ProcessStepResultRequestDto>) => {
+      return options$.pipe(
+        switchMap((options) => {
+          return this.httpClient
+            .v1WholesaleBatchProcessStepResultPost(options)
+            .pipe(
+              tap((stepResults) => {
+                console.log('xxx', stepResults);
+              }),
+              catchError(() => {
+                return EMPTY;
+              })
+            );
+        })
+      );
+    }
+  );
 
   readonly getZippedBasisData = this.effect((batch$: Observable<BatchDto>) => {
     return batch$.pipe(
@@ -204,9 +227,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
         return x?.gridAreas.filter(
           (gridArea: GridAreaDto) => gridArea.code === gridAreaCode
         )[0];
-      }),
-      tap((gridArea) => {
-        console.log('gridArea', gridArea);
       })
     );
   };
