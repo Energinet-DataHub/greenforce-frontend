@@ -37,8 +37,6 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       <a routerLink="{{ routes.introduction }}"
         >Introduction to Energy Origin (Danish only)</a
       >
-      <a routerLink="{{ routes.simultaneity }}">Samtidighed (Danish only)</a>
-      <a routerLink="{{ routes.geography }}">Geografi (Danish only)</a>
     </eo-stack>
   `,
 })
