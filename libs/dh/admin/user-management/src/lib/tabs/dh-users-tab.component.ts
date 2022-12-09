@@ -20,18 +20,18 @@ import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhUserManagementStore } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   selector: 'dh-users-tab',
   templateUrl: './dh-users-tab.component.html',
   styleUrls: ['./dh-users-tab.component.scss'],
   standalone: true,
-  providers: [DhAdminUserManagementDataAccessApiStore],
+  providers: [DhUserManagementStore],
   imports: [CommonModule, PushModule, TranslocoModule, WattCardModule],
 })
 export class DhUsersTabComponent {
-  private store = inject(DhAdminUserManagementDataAccessApiStore);
+  private store = inject(DhUserManagementStore);
 
   usersCount$ = this.store.usersCount$;
 }

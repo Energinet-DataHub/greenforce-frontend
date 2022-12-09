@@ -14,21 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-
-import { DhUserManagementTabsComponent } from './user-management-tabs/dh-user-management-tabs.component';
-
-@Component({
-  selector: 'dh-admin-feature-user-management',
-  template: `<dh-user-management-tabs></dh-user-management-tabs>`,
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  standalone: true,
-  imports: [DhUserManagementTabsComponent],
-})
-export class DhAdminFeatureUserManagementComponent {}
+export * from './lib/dh-user-management.component';
