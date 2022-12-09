@@ -33,5 +33,5 @@ import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/a
 export class DhUsersTabComponent {
   private store = inject(DhAdminUserManagementDataAccessApiStore);
 
-  numberOfUsers$ = this.store.numberOfUsers$;
+  usersCount$ = this.store.usersCount$;
 }

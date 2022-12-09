@@ -21,7 +21,7 @@ limitations under the License.
         *ngTemplateOutlet="
           usersHeadline;
           context: {
-            $implicit: numberOfUsers$ | push
+            $implicit: usersCount$ | push
           }
         "
       ></ng-container>
@@ -29,16 +29,16 @@ limitations under the License.
   </watt-card>
 </ng-container>
 
-<ng-template #usersHeadline let-numberOfUsers>
+<ng-template #usersHeadline let-usersCount>
   <ng-container
     *transloco="let t; read: 'admin.userManagement.tabs.users.usersHeadline'"
   >
-    <h4 *ngIf="numberOfUsers === 1">
-      {{ t("singular", { numberOfUsers: numberOfUsers }) }}
+    <h4 *ngIf="usersCount === 1">
+      {{ t("singular", { usersCount: usersCount }) }}
     </h4>
 
-    <h4 *ngIf="numberOfUsers === 0 || numberOfUsers > 0">
-      {{ t("plural", { numberOfUsers: numberOfUsers }) }}
+    <h4 *ngIf="usersCount === 0 || usersCount > 0">
+      {{ t("plural", { usersCount: usersCount }) }}
     </h4>
   </ng-container>
 </ng-template>

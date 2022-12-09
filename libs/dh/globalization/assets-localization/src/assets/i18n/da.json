@@ -800,8 +800,8 @@
         "users": {
           "tabLabel": "Brugere",
           "usersHeadline": {
-            "singular": "{{ numberOfUsers }} bruger",
-            "plural": "{{ numberOfUsers }} brugere"
+            "singular": "{{ usersCount }} bruger",
+            "plural": "{{ usersCount }} brugere"
           }
         },
         "roles": {

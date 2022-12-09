@@ -796,8 +796,8 @@
         "users": {
           "tabLabel": "Users",
           "usersHeadline": {
-            "singular": "{{ numberOfUsers }} user",
-            "plural": "{{ numberOfUsers }} users"
+            "singular": "{{ usersCount }} user",
+            "plural": "{{ usersCount }} users"
           }
         },
         "roles": {
