@@ -15,13 +15,16 @@
  * limitations under the License.
  */
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ContentChildren,
   QueryList,
+  AfterViewInit,
   ViewEncapsulation,
 } from '@angular/core';
 
-import { WattTabComponent } from './tab/tab.component';
+import { WattTabComponent } from './watt-tab.component';
 
 /**
  * Usage:
@@ -29,17 +32,24 @@ import { WattTabComponent } from './tab/tab.component';
  */
 @Component({
   selector: 'watt-tabs',
-  styleUrls: ['./tabs.component.scss'],
-  templateUrl: './tabs.component.html',
+  styleUrls: ['./watt-tabs.component.scss'],
+  templateUrl: './watt-tabs.component.html',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WattTabsComponent {
+export class WattTabsComponent implements AfterViewInit {
   /**
    * @ignore
    */
   @ContentChildren(WattTabComponent)
   public readonly tabElements: QueryList<WattTabComponent> = new QueryList<WattTabComponent>();
   activeTabIndex = 0;
+
+  constructor(private readonly cdr: ChangeDetectorRef) {}
+
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
 
   emitSelectedTabChange(selectedIndex: number) {
     this.activeTabIndex = selectedIndex;
