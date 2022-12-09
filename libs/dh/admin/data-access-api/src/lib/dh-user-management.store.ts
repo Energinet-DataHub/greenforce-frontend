@@ -28,7 +28,7 @@ const initialState: DhUserManagementState = {
 };
 
 @Injectable()
-export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUserManagementState> {
+export class DhUserManagementStore extends ComponentStore<DhUserManagementState> {
   usersCount$ = this.select((store) => store.users.length);
 
   constructor() {
