@@ -1,5 +1,5 @@
 {
-  "name": "dh-admin-user-management",
+  "name": "dh-admin-feature-user-management",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/dh/admin/user-management/src",
