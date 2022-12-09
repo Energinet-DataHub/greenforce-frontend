@@ -46,9 +46,7 @@ import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorizat
 const routes: Routes = [
   {
     path: dhMarketParticipantOrganizationsPath,
-    canActivate: [
-      PermissionGuard(['organization:view', 'organization:manage']),
-    ],
+    canActivate: [PermissionGuard(['organization:view'])],
     children: [
       {
         path: '',
@@ -60,6 +58,7 @@ const routes: Routes = [
       },
       {
         path: dhMarketParticipantOrganizationsCreatePath,
+        canActivate: [PermissionGuard(['organization:manage'])],
         component: DhMarketParticipantEditOrganizationComponent,
       },
       {
@@ -72,6 +71,7 @@ const routes: Routes = [
           },
           {
             path: `${dhMarketParticipantOrganizationsEditPath}`,
+            canActivate: [PermissionGuard(['organization:manage'])],
             component: DhMarketParticipantEditOrganizationComponent,
           },
           {
@@ -84,10 +84,12 @@ const routes: Routes = [
               },
               {
                 path: dhMarketParticipantActorsCreatePath,
+                canActivate: [PermissionGuard(['actor:manage'])],
                 component: DhMarketParticipantEditActorComponent,
               },
               {
                 path: `:${dhMarketParticipantActorIdParam}`,
+                canActivate: [PermissionGuard(['actor:manage'])],
                 children: [
                   {
                     path: '',

@@ -21,17 +21,20 @@ import {
   MessageArchiveHttp,
   Stream,
 } from '@energinet-datahub/dh/shared/domain';
-import { DownloadingState, ErrorState } from './states';
+import {
+  LoadingState,
+  ErrorState,
+} from '@energinet-datahub/dh/shared/data-access-api';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
 
 interface DownloadBlobResultState {
   readonly blobContent?: Stream | null;
-  readonly downloadingState: DownloadingState | ErrorState;
+  readonly loadingState: LoadingState | ErrorState;
 }
 
 const initialState: DownloadBlobResultState = {
   blobContent: null,
-  downloadingState: DownloadingState.INIT,
+  loadingState: LoadingState.INIT,
 };
 
 @Injectable()
@@ -47,10 +50,10 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
     map((blobContent) => blobContent as Stream)
   );
   isDownloading$ = this.select(
-    (state) => state.downloadingState === DownloadingState.DOWNLOADING
+    (state) => state.loadingState === LoadingState.LOADING
   );
   hasGeneralError$ = this.select(
-    (state) => state.downloadingState === ErrorState.GENERAL_ERROR
+    (state) => state.loadingState === ErrorState.GENERAL_ERROR
   );
 
   readonly downloadLog = this.effect((logName$: Observable<string>) => {
@@ -126,9 +129,7 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
   private setLoading = this.updater(
     (state, isLoading: boolean): DownloadBlobResultState => ({
       ...state,
-      downloadingState: isLoading
-        ? DownloadingState.DOWNLOADING
-        : DownloadingState.DONE,
+      loadingState: isLoading ? LoadingState.LOADING : LoadingState.LOADED,
     })
   );
 
@@ -140,7 +141,7 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
         ? ErrorState.NOT_FOUND_ERROR
         : ErrorState.GENERAL_ERROR;
 
-    this.patchState({ downloadingState: requestError });
+    this.patchState({ loadingState: requestError });
   };
 
   private resetState = () => this.setState(initialState);

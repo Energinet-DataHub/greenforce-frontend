@@ -14,11 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
-import { DhDrawerDatepickerScam } from '../drawer-datepicker/dh-drawer-datepicker.component';
+import { Component } from '@angular/core';
+import { DhDrawerDatepickerComponent } from '../drawer-datepicker/dh-drawer-datepicker.component';
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 
 @Component({
+  standalone: true,
+  imports: [DhDrawerDatepickerComponent],
   selector: 'dh-charges-charge-history-tab',
   templateUrl: './dh-charges-charge-history-tab.component.html',
   styleUrls: ['./dh-charges-charge-history-tab.component.scss'],
@@ -28,10 +30,3 @@ export class DhChargesChargeHistoryTabComponent {
     console.log(dateRange);
   }
 }
-
-@NgModule({
-  declarations: [DhChargesChargeHistoryTabComponent],
-  exports: [DhChargesChargeHistoryTabComponent],
-  imports: [DhDrawerDatepickerScam],
-})
-export class DhChargesChargeHistoryTabScam {}

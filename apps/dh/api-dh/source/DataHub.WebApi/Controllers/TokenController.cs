@@ -31,7 +31,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Retrieves a DataHub access token
+        /// Retrieves a DataHub access token.
         /// </summary>
         [HttpPost]
         public Task<ActionResult<GetTokenResponseDto>> GetTokenAsync(GetTokenRequestDto request)

@@ -22,9 +22,7 @@ limitations under the License.
     <watt-nav-list-item link="/message-archive">{{
       transloco("messageArchive")
     }}</watt-nav-list-item>
-    <ng-container
-      *dhPermissionRequired="['organization:view', 'organization:manage']"
-    >
+    <ng-container *dhPermissionRequired="['organization:view']">
       <watt-nav-list-item link="/market-participant/organizations">{{
         transloco("marketParticipantOrganizations")
       }}</watt-nav-list-item>
@@ -36,21 +34,19 @@ limitations under the License.
     </ng-container>
   </watt-nav-list>
 
-  <ng-container>
-    <watt-nav-list
-      [expandable]="true"
-      [title]="transloco('chargePrices.menuGroupLabel')"
-    >
-      <watt-nav-list-item link="/charges/prices">{{
-        transloco("chargePrices.search")
+  <watt-nav-list
+    [expandable]="true"
+    [title]="transloco('chargePrices.menuGroupLabel')"
+  >
+    <watt-nav-list-item link="/charges/prices">{{
+      transloco("chargePrices.search")
+    }}</watt-nav-list-item>
+    <ng-container *dhFeatureFlag="'create_charge_prices_page_feature_flag'">
+      <watt-nav-list-item link="/charges/create-prices">{{
+        transloco("chargePrices.create")
       }}</watt-nav-list-item>
-      <ng-container *dhFeatureFlag="'create_charge_prices_page_feature_flag'">
-        <watt-nav-list-item link="/charges/create-prices">{{
-          transloco("chargePrices.create")
-        }}</watt-nav-list-item>
-      </ng-container>
-    </watt-nav-list>
-  </ng-container>
+    </ng-container>
+  </watt-nav-list>
 
   <ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
     <watt-nav-list
@@ -62,6 +58,17 @@ limitations under the License.
       }}</watt-nav-list-item>
       <watt-nav-list-item link="/wholesale/search-batch">{{
         transloco("wholesale.searchBatch")
+      }}</watt-nav-list-item>
+    </watt-nav-list>
+  </ng-container>
+
+  <ng-container *dhPermissionRequired="['users:manage']">
+    <watt-nav-list
+      [expandable]="true"
+      [title]="transloco('admin.menuGroupLabel')"
+    >
+      <watt-nav-list-item link="/admin/user-management">{{
+        transloco("admin.userManagement")
       }}</watt-nav-list-item>
     </watt-nav-list>
   </ng-container>

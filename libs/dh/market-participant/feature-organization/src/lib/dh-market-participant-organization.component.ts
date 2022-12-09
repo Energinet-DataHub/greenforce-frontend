@@ -35,6 +35,7 @@ import {
 } from '@energinet-datahub/dh/market-participant/routing';
 import { DhMarketParticipantOrganizationOverviewScam } from './overview/dh-market-participant-organization-overview.component';
 import { PushModule } from '@rx-angular/template';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-market-participant-organization',
@@ -113,6 +114,7 @@ export class DhMarketParticipantOrganizationComponent {
     WattValidationMessageModule,
     DhMarketParticipantOrganizationOverviewScam,
     PushModule,
+    DhPermissionRequiredDirective,
   ],
   declarations: [DhMarketParticipantOrganizationComponent],
 })

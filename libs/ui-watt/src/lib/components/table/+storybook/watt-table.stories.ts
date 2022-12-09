@@ -80,14 +80,6 @@ export default {
 };
 
 export const Table: Story = (args) => {
-  let activeRow: number;
-
-  args.dataSource = new WattTableDataSource(periodicElements);
-  args.isActiveRow = (row: PeriodicElement) => row.position == activeRow;
-  args.onRowClick = (row: PeriodicElement) => {
-    activeRow = row.position;
-  };
-
   return {
     props: args,
     template: `
@@ -100,8 +92,8 @@ export const Table: Story = (args) => {
         [columns]="columns"
         [selectable]="selectable"
         [suppressRowHoverHighlight]="suppressRowHoverHighlight"
-        [getActiveRow]="isActiveRow"
-        (rowClick)="onRowClick($event)"
+        [activeRow]="activeRow"
+        (rowClick)="activeRow = $event"
         >
         <ng-container *wattTableCell="table.columns.name; let element">
           <div class="watt-text-s">
@@ -112,12 +104,14 @@ export const Table: Story = (args) => {
           </div>
         </ng-container>
         <ng-container *wattTableCell="table.columns.symbol; let element">
-          <watt-icon
-            name="date"
-            size="s"
-            class="date-icon watt-space-inline-s"
-          ></watt-icon>
-          <span class="watt-text-s">{{ element.symbol }}</span>
+          <div style="display: flex">
+            <watt-icon
+              name="date"
+              size="s"
+              class="date-icon watt-space-inline-s"
+            ></watt-icon>
+            <span class="watt-text-s">{{ element.symbol }}</span>
+          </div>
         </ng-container>
       </watt-table>
     `,
@@ -128,8 +122,15 @@ Table.args = {
   selectable: true,
   suppressRowHoverHighlight: false,
   columns: {
-    position: { header: 'Position', size: 'min-content' },
-    name: { header: 'Name' },
-    symbol: { header: 'Symbol', sort: false },
+    position: { accessor: 'position', size: 'min-content' },
+    name: { accessor: 'name' },
+    symbol: { accessor: 'symbol', sort: false },
   } as WattTableColumnDef<PeriodicElement>,
+  dataSource: new WattTableDataSource(periodicElements),
+  activeRow: undefined,
+};
+
+Table.argTypes = {
+  activeRow: { control: false },
+  dataSource: { control: false },
 };

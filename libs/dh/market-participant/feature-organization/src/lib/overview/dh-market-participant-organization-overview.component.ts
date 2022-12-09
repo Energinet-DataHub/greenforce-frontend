@@ -41,6 +41,7 @@ import { DhMarketParticipantOrganizationOverviewGridAreasScam } from './dh-marke
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { OrganizationWithActorRow } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-market-participant-organization-overview',
@@ -115,6 +116,7 @@ export class DhMarketParticipantOrganizationOverviewComponent
     DhEmDashFallbackPipeScam,
     DhMarketParticipantOrganizationOverviewGridAreasScam,
     DhSharedUiPaginatorComponent,
+    DhPermissionRequiredDirective,
   ],
   declarations: [DhMarketParticipantOrganizationOverviewComponent],
   exports: [DhMarketParticipantOrganizationOverviewComponent],
