@@ -15,16 +15,12 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
-
-import { DhUsersTabComponent } from './dh-users-tab.component';
+import { DhTabsComponent } from './tabs/dh-tabs.component';
 
 @Component({
-  selector: 'dh-user-management-tabs',
-  standalone: true,
-  templateUrl: './dh-user-management-tabs.component.html',
+  selector: 'dh-user-management',
+  template: `<dh-user-management-tabs></dh-user-management-tabs>`,
   styles: [
     `
       :host {
@@ -32,6 +28,7 @@ import { DhUsersTabComponent } from './dh-users-tab.component';
       }
     `,
   ],
-  imports: [TranslocoModule, WattTabsModule, DhUsersTabComponent],
+  standalone: true,
+  imports: [DhTabsComponent],
 })
-export class DhUserManagementTabsComponent {}
+export class DhUserManagementComponent {}
