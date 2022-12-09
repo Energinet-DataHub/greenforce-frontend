@@ -20,6 +20,7 @@ watt-table .mat-table {
   position: relative;
   display: grid;
   grid-template-columns: var(--watt-table-grid-template-columns);
+  grid-auto-rows: max-content;
   height: 100%;
   overflow: auto;
 
@@ -35,9 +36,10 @@ watt-table .mat-table {
   }
 
   th.mat-header-cell {
+    display: flex;
     position: sticky;
     top: 0;
-    padding: 0;
+    padding: 0 var(--watt-space-s);
     height: auto;
     background: var(--watt-color-primary-ultralight);
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -47,7 +49,7 @@ watt-table .mat-table {
     display: flex;
     align-items: center;
     min-height: 56px; /* Magic UX number */
-    padding: var(--watt-space-s);
+    padding: var(--watt-space-s) var(--watt-space-m);
   }
 
   .watt-table-clickable-row td {
@@ -65,6 +67,13 @@ watt-table .mat-table {
 
   .mat-sort-header-arrow {
     margin: 0;
+  }
+
+  .mat-sort-header-position-before .mat-sort-header-arrow {
+    margin-left: var(--watt-space-s);
+  }
+
+  .mat-sort-header-position-after .mat-sort-header-arrow {
     margin-right: var(--watt-space-s);
   }
 
@@ -81,5 +90,15 @@ watt-table .mat-table {
     display: flex;
     align-items: center;
     z-index: 2 !important; // override local style
+  }
+
+  .watt-table-align-center,
+  .watt-table-align-center .mat-sort-header-container {
+    justify-content: center;
+  }
+
+  .watt-table-align-right,
+  .watt-table-align-right .mat-sort-header-container {
+    justify-content: right;
   }
 }

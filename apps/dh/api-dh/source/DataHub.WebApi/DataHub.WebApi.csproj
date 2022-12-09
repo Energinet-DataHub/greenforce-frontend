@@ -35,15 +35,15 @@ limitations under the License.
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="Energinet.DataHub.Wholesale.Client" Version="3.3.0" />
+    <PackageReference Include="Energinet.DataHub.Wholesale.Client" Version="4.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.20.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients" Version="6.1.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients.Registration" Version="6.1.0" />
-    <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="7.2.4" />
-    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="7.2.4" />
-    <PackageReference Include="Energinet.DataHub.MarketParticipant.Client" Version="2.7.7" />
-    <PackageReference Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.3" />
-    <PackageReference Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.2" />
+    <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="7.2.10" />
+    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="7.2.10" />
+    <PackageReference Include="Energinet.DataHub.MarketParticipant.Client" Version="2.9.2" />
+    <PackageReference Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
+    <PackageReference Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="3.0.1" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client.Abstractions" Version="3.0.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
@@ -58,6 +58,6 @@ limitations under the License.
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 </Project>

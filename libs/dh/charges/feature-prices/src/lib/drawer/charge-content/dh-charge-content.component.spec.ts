@@ -31,15 +31,12 @@ import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-ti
 import { DanishLocaleModule } from '@energinet-datahub/gf/configuration-danish-locale';
 import { add } from 'date-fns';
 import { TestBed } from '@angular/core/testing';
-import {
-  DhChargeContentComponent,
-  DhChargeContentScam,
-} from './dh-charge-content.component';
+import { DhChargeContentComponent } from './dh-charge-content.component';
 import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
 const dateTimeFormat = 'dd-MM-yyyy';
-const timeZoneIdentifier = 'Europe/Copenhagen';
 
 const charge: ChargeV1Dto = {
   id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
@@ -80,7 +77,7 @@ describe(DhChargeContentComponent.name, () => {
         },
       ],
       imports: [
-        DhChargeContentScam,
+        DhChargeContentComponent,
         getTranslocoTestingModule(),
         WattDanishDatetimeModule.forRoot(),
         DanishLocaleModule,
@@ -135,7 +132,7 @@ describe(DhChargeContentComponent.name, () => {
     const now = new Date();
     const expectedDate = formatInTimeZone(
       now,
-      timeZoneIdentifier,
+      danishTimeZoneIdentifier,
       dateTimeFormat
     );
 
@@ -158,7 +155,7 @@ describe(DhChargeContentComponent.name, () => {
 
     const newDateToInput = formatInTimeZone(
       tomorrow,
-      timeZoneIdentifier,
+      danishTimeZoneIdentifier,
       'ddMMyyyy'
     );
 
@@ -177,7 +174,7 @@ describe(DhChargeContentComponent.name, () => {
 
     const expectedNewDate = formatInTimeZone(
       tomorrow,
-      timeZoneIdentifier,
+      danishTimeZoneIdentifier,
       dateTimeFormat
     );
 

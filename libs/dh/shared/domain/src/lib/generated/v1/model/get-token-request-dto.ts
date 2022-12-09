@@ -12,7 +12,7 @@
 
 
 export interface GetTokenRequestDto { 
-    externalActorId: string;
+    actorId: string;
     externalToken: string;
 }
 

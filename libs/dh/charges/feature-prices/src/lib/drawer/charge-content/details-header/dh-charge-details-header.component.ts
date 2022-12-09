@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { MatDividerModule } from '@angular/material/divider';
@@ -23,15 +23,7 @@ import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { WattExpansionModule } from '@energinet-datahub/watt/expansion';
 
 @Component({
-  selector: 'dh-charge-details-header',
-  styleUrls: ['./dh-charge-details-header.component.scss'],
-  templateUrl: './dh-charge-details-header.component.html',
-})
-export class DhChargeDetailsHeaderComponent {
-  @Input() charge?: ChargeV1Dto;
-}
-
-@NgModule({
+  standalone: true,
   imports: [
     CommonModule,
     TranslocoModule,
@@ -39,7 +31,10 @@ export class DhChargeDetailsHeaderComponent {
     MatDividerModule,
     WattExpansionModule,
   ],
-  declarations: [DhChargeDetailsHeaderComponent],
-  exports: [DhChargeDetailsHeaderComponent],
+  selector: 'dh-charge-details-header',
+  styleUrls: ['./dh-charge-details-header.component.scss'],
+  templateUrl: './dh-charge-details-header.component.html',
 })
-export class DhChargeDetailsHeaderScam {}
+export class DhChargeDetailsHeaderComponent {
+  @Input() charge?: ChargeV1Dto;
+}

@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Sort } from '@angular/material/sort';
 import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
@@ -42,12 +43,16 @@ const data: PeriodicElement[] = [
 
 interface Properties<T> {
   dataSource: WattTableDataSource<T>;
+  displayedColumns?: string[];
   columns: WattTableColumnDef<T>;
   sortBy?: string;
   sortDirection?: string;
+  activeRow?: T;
   selectable?: boolean;
+  resolveHeader?: (key: string) => string;
   selectionChange?: (selection: T[]) => void;
   rowClick?: (row: T) => void;
+  sortChange?: (sort: Sort) => void;
 }
 
 function setup<T>(properties: Properties<T>, template = '') {
@@ -56,11 +61,15 @@ function setup<T>(properties: Properties<T>, template = '') {
       #table
       [dataSource]="dataSource"
       [columns]="columns"
+      [displayedColumns]="displayedColumns"
       [sortBy]="sortBy"
       [sortDirection]="sortDirection"
       [selectable]="selectable"
+      [activeRow]="activeRow"
+      [resolveHeader]="resolveHeader"
       (selectionChange)="selectionChange($event)"
       (rowClick)="rowClick($event)"
+      (sortChange)="sortChange($event)"
       >${template}</watt-table>`,
     { imports: WATT_TABLE, componentProperties: properties }
   );
@@ -70,10 +79,10 @@ describe(WattTableComponent.name, () => {
   it('renders all rows and columns from dataSource', async () => {
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
-      position: { header: 'Position' },
-      name: { header: 'Name' },
-      weight: { header: 'Weight' },
-      symbol: { header: 'Symbol' },
+      position: { accessor: 'position' },
+      name: { accessor: 'name' },
+      weight: { accessor: 'weight' },
+      symbol: { accessor: 'symbol' },
     };
 
     await setup({ dataSource, columns });
@@ -85,8 +94,8 @@ describe(WattTableComponent.name, () => {
   it('only renders columns as provided in input', async () => {
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
-      position: { header: 'Position' },
-      name: { header: 'Name' },
+      position: { accessor: 'position' },
+      name: { accessor: 'name' },
     };
 
     await setup({ dataSource, columns });
@@ -94,11 +103,26 @@ describe(WattTableComponent.name, () => {
     expect(screen.queryAllByRole('columnheader')).toHaveLength(2);
   });
 
+  it('only renders columns provided in displayColumns', async () => {
+    const dataSource = new WattTableDataSource(data);
+    const displayedColumns = ['position', 'name'];
+    const columns: WattTableColumnDef<PeriodicElement> = {
+      position: { accessor: 'position' },
+      name: { accessor: 'name' },
+      weight: { accessor: 'weight' },
+      symbol: { accessor: 'symbol' },
+    };
+
+    await setup({ dataSource, columns, displayedColumns });
+
+    expect(screen.queryAllByRole('columnheader')).toHaveLength(2);
+  });
+
   it('renders headers with strings provided in columns', async () => {
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
-      position: { header: 'Position' },
-      name: { header: 'Element' },
+      position: { accessor: 'position', header: 'Position' },
+      name: { accessor: 'name', header: 'Element' },
     };
 
     await setup({ dataSource, columns });
@@ -107,21 +131,40 @@ describe(WattTableComponent.name, () => {
     expect(screen.getByText('Element')).toBeInTheDocument();
   });
 
-  it('renders headers using callback provided in columns', async () => {
+  it('renders headers using the resolveHeader input', async () => {
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
-      position: { header: (id) => id.toUpperCase() },
+      position: { accessor: 'position' },
+      name: { accessor: 'name' },
+      weight: { accessor: 'weight' },
+      symbol: { accessor: 'symbol', header: '⚛' },
     };
 
-    await setup({ dataSource, columns });
+    const resolveHeader = (key: string) => {
+      switch (key) {
+        case 'position':
+          return 'Position';
+        case 'name':
+          return 'Navn';
+        case 'weight':
+          return 'Vægt';
+        default:
+          throw Error('Test failed');
+      }
+    };
 
-    expect(screen.getByText('POSITION')).toBeInTheDocument();
+    await setup({ dataSource, columns, resolveHeader });
+
+    expect(screen.getByText('Position')).toBeInTheDocument();
+    expect(screen.getByText('Navn')).toBeInTheDocument();
+    expect(screen.getByText('Vægt')).toBeInTheDocument();
+    expect(screen.getByText('⚛')).toBeInTheDocument();
   });
 
   it('renders cells using callback provided in columns', async () => {
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
-      position: { header: 'Position', cell: (data) => `Number #${data}` },
+      position: { accessor: 'position', cell: (data) => `Number #${data}` },
     };
 
     await setup({ dataSource, columns });
@@ -132,8 +175,8 @@ describe(WattTableComponent.name, () => {
   it('allows for sorting of column data', async () => {
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
-      position: { header: 'Position', sort: true },
-      weight: { header: 'Weight', sort: false },
+      position: { accessor: 'position', sort: true },
+      weight: { accessor: 'weight', sort: false },
     };
 
     await setup({
@@ -144,18 +187,72 @@ describe(WattTableComponent.name, () => {
     });
 
     expect(
-      screen.getByRole('columnheader', { name: 'Position' })
+      screen.getByRole('columnheader', { name: 'position' })
     ).toHaveAttribute('aria-sort', 'ascending');
     expect(
-      screen.getByRole('columnheader', { name: 'Weight' })
+      screen.getByRole('columnheader', { name: 'weight' })
     ).toHaveAttribute('aria-sort', 'none');
+  });
+
+  it('outputs event when sorting column', async () => {
+    const sortChange = jest.fn();
+    const dataSource = new WattTableDataSource(data);
+    const columns: WattTableColumnDef<PeriodicElement> = {
+      position: { accessor: 'position', sort: true },
+      weight: { accessor: 'weight', sort: false },
+    };
+
+    await setup({ dataSource, columns, sortChange });
+
+    const position = screen.getByRole('columnheader', { name: 'position' });
+    userEvent.click(position);
+
+    expect(sortChange).toHaveBeenCalledWith({
+      active: 'position',
+      direction: 'asc',
+    });
+  });
+
+  it('outputs event when clicking on row', async () => {
+    const rowClick = jest.fn();
+    const dataSource = new WattTableDataSource(data);
+    const columns: WattTableColumnDef<PeriodicElement> = {
+      position: { accessor: 'position' },
+      weight: { accessor: 'weight' },
+    };
+
+    await setup({ dataSource, columns, rowClick });
+
+    const [firstCell] = screen.getAllByRole('gridcell');
+    userEvent.click(firstCell);
+
+    expect(rowClick).toHaveBeenCalledWith(data[0]);
+  });
+
+  it('selects the active row', async () => {
+    const rowClick = jest.fn();
+    const dataSource = new WattTableDataSource(data);
+    const columns: WattTableColumnDef<PeriodicElement> = {
+      position: { accessor: 'position', sort: true },
+      weight: { accessor: 'weight', sort: false },
+    };
+
+    const result = await setup({ dataSource, columns, rowClick });
+
+    const [, secondRow] = screen.getAllByRole('row');
+    userEvent.click(secondRow);
+
+    const [row] = rowClick.mock.lastCall;
+    result.change({ activeRow: row });
+
+    expect(screen.getByRole('row', { selected: true })).toEqual(secondRow);
   });
 
   it('renders checkbox column when selectable is true', async () => {
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
-      position: { header: 'Position' },
-      weight: { header: 'Weight' },
+      position: { accessor: 'position' },
+      weight: { accessor: 'weight' },
     };
 
     await setup({ dataSource, columns, selectable: true });
@@ -167,8 +264,8 @@ describe(WattTableComponent.name, () => {
     const selectionChange = jest.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
-      position: { header: 'Position' },
-      weight: { header: 'Weight' },
+      position: { accessor: 'position' },
+      weight: { accessor: 'weight' },
     };
 
     await setup({ dataSource, columns, selectable: true, selectionChange });
@@ -183,8 +280,8 @@ describe(WattTableComponent.name, () => {
     const selectionChange = jest.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
-      position: { header: 'Position' },
-      weight: { header: 'Weight' },
+      position: { accessor: 'position' },
+      weight: { accessor: 'weight' },
     };
 
     await setup({ dataSource, columns, selectable: true, selectionChange });
@@ -200,8 +297,8 @@ describe(WattTableComponent.name, () => {
     const selectionChange = jest.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
-      position: { header: 'Position' },
-      weight: { header: 'Weight' },
+      position: { accessor: 'position' },
+      weight: { accessor: 'weight' },
     };
 
     await setup({ dataSource, columns, selectable: true, selectionChange });
@@ -218,8 +315,8 @@ describe(WattTableComponent.name, () => {
     const selectionChange = jest.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
-      position: { header: 'Position' },
-      weight: { header: 'Weight' },
+      position: { accessor: 'position' },
+      weight: { accessor: 'weight' },
     };
 
     await setup({ dataSource, columns, selectable: true, selectionChange });
@@ -234,8 +331,8 @@ describe(WattTableComponent.name, () => {
     const selectionChange = jest.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
-      position: { header: 'Position' },
-      weight: { header: 'Weight' },
+      position: { accessor: 'position' },
+      weight: { accessor: 'weight' },
     };
 
     await setup({ dataSource, columns, selectable: true, selectionChange });
@@ -247,27 +344,11 @@ describe(WattTableComponent.name, () => {
     await waitFor(() => expect(firstCheckbox).not.toBeChecked());
   });
 
-  it('outputs event when clicking on row', async () => {
-    const rowClick = jest.fn();
-    const dataSource = new WattTableDataSource(data);
-    const columns: WattTableColumnDef<PeriodicElement> = {
-      position: { header: 'Position' },
-      weight: { header: 'Weight' },
-    };
-
-    await setup({ dataSource, columns, rowClick });
-
-    const [firstCell] = screen.getAllByRole('cell');
-    userEvent.click(firstCell);
-
-    expect(rowClick).toHaveBeenCalledWith(data[0]);
-  });
-
   it('renders cell content using template', async () => {
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
-      position: { header: 'Position' },
-      weight: { header: 'Weight' },
+      position: { accessor: 'position' },
+      weight: { accessor: 'weight' },
     };
 
     await setup(

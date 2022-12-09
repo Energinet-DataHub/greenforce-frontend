@@ -36,6 +36,10 @@
         "startBatch": "Start Batch",
         "searchBatch": "Search Batch",
         "overview": "Overview"
+      },
+      "admin": {
+        "menuGroupLabel": "Settings",
+        "userManagement": "User management"
       }
     }
   },
@@ -333,7 +337,9 @@
       "selectChargeType": "Select charge type",
       "createPriceError": "Something went wrong. Price is not created. Try again.",
       "createPriceSuccess": "Success! The price has been submitted.",
-      "loadingRequestText": "Submitting the price."
+      "loadingRequestText": "Submitting the price.",
+      "validFromDateTime": "Valid from",
+      "maxDateValidationErrorText": "Date must be within 3 years."
     },
     "prices": {
       "prices": "Prices",
@@ -438,32 +444,45 @@
   },
   "messageArchive": {
     "unknowenError": "Unknown error",
+    "drawer": {
+      "message": "Message",
+      "receiver": "Receiver",
+      "sender": "Sender",
+      "download": "Download"
+    },
     "search": {
       "topBarTitle": "Search in request and response messages",
-      "documenttype": "Document type",
-      "senderId": "Sender Id",
+      "rsmName": "Document type",
+      "senderGln": "Sender",
       "messageId": "Message Id",
       "traceId": "Trace Id",
-      "receiverId": "Receiver Id",
+      "receiverGln": "Receiver",
       "businessReason": "Business reason",
       "dateFrom": "Date from",
       "dateTo": "Date to",
       "startSearch": "Search",
-      "NoResultsFound": "No result",
-      "ChooseBusinessReason": "Choose business reason",
-      "ChooseDocumentType": "Choose document type",
-      "includeRelatedMessage": "Include related message",
+      "noResultsFound": "No result",
+      "progressType": "Business reason",
+      "chooseDocumentType": "Type or choose",
+      "includeRelatedMessage": "Include related message (when searching Message Id)",
       "loadMore": "Load more",
       "rsm": "RSM",
       "sender": "Aktor",
       "timeStamp": "Time",
-      "status": "Status",
+      "httpData": "Status",
       "sent": "IN",
       "received": "OUT",
       "download": "Download",
       "show": "Show",
       "noResultsHelperText": "Try adjusting your search or filter to find what you are looking for.",
-      "clearSearch": "Clear form"
+      "clearSearch": "Clear",
+      "periode": "periode",
+      "time": "time",
+      "searchResult": "Search results",
+      "startSearchResultView": "Start search",
+      "startSearchText": "Your results will appear here",
+      "createdDate": "Date and time",
+      "invalidDate": "Invalid date"
     }
   },
   "marketParticipant": {
@@ -729,7 +748,7 @@
         "searchButton": "Search"
       },
       "columns": {
-        "batchNumber": "Batch number",
+        "batchId": "Batch number",
         "periodFrom": "Period from",
         "periodTo": "Period to",
         "executionTime": "Execution time",
@@ -756,7 +775,7 @@
       }
     },
     "batchDetails": {
-      "headline": "Batch: {{batchNumber}}",
+      "headline": "Batch: {{batchId}}",
       "calculationPeriod": "Calculation period",
       "executionTime": "Execution time"
     },
@@ -768,6 +787,26 @@
     },
     "overview": {
       "header": "Process Overview"
+    }
+  },
+  "admin": {
+    "userManagement": {
+      "topBarTitle": "User management",
+      "tabs": {
+        "users": {
+          "tabLabel": "Users",
+          "usersHeadline": {
+            "singular": "{{ usersCount }} user",
+            "plural": "{{ usersCount }} users"
+          }
+        },
+        "roles": {
+          "tabLabel": "Roles"
+        },
+        "permissions": {
+          "tabLabel": "Permissions"
+        }
+      }
     }
   }
 }
