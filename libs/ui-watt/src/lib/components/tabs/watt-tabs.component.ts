@@ -24,7 +24,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { WattTabComponent } from './tab/tab.component';
+import { WattTabComponent } from './tab/watt-tab.component';
 
 /**
  * Usage:
@@ -32,8 +32,8 @@ import { WattTabComponent } from './tab/tab.component';
  */
 @Component({
   selector: 'watt-tabs',
-  styleUrls: ['./tabs.component.scss'],
-  templateUrl: './tabs.component.html',
+  styleUrls: ['./watt-tabs.component.scss'],
+  templateUrl: './watt-tabs.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
