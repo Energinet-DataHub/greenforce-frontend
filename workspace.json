@@ -4,6 +4,7 @@
     "api-dh": "apps/dh/api-dh",
     "app-dh": "apps/dh/app-dh",
     "app-eo": "apps/eo/app-eo",
+    "dh-admin-data-access-api": "libs/dh/admin/data-access-api",
     "dh-admin-feature-user-management": "libs/dh/admin/feature-user-management",
     "dh-admin-routing": "libs/dh/admin/routing",
     "dh-admin-shell": "libs/dh/admin/shell",
