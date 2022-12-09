@@ -14,24 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { Injectable } from '@angular/core';
+import { ComponentStore } from '@ngrx/component-store';
 
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
-import { DhUsersTabComponent } from './dh-users-tab.component';
+interface DhUserManagementState {
+  users: UserOverviewItemDto[];
+}
 
-@Component({
-  selector: 'dh-user-management-tabs',
-  standalone: true,
-  templateUrl: './dh-user-management-tabs.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  imports: [TranslocoModule, WattTabsModule, DhUsersTabComponent],
-})
-export class DhUserManagementTabsComponent {}
+const initialState: DhUserManagementState = {
+  users: [],
+};
+
+@Injectable()
+export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUserManagementState> {
+  usersCount$ = this.select((store) => store.users.length);
+
+  constructor() {
+    super(initialState);
+  }
+}

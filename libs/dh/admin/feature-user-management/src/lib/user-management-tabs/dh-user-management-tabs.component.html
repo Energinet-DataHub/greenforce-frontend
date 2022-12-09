@@ -16,8 +16,10 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs'">
   <watt-tabs>
-    <watt-tab [label]="t('users')"></watt-tab>
-    <watt-tab [label]="t('roles')"></watt-tab>
-    <watt-tab [label]="t('permissions')"></watt-tab>
+    <watt-tab [label]="t('users.tabLabel')">
+      <dh-users-tab></dh-users-tab>
+    </watt-tab>
+    <watt-tab [label]="t('roles.tabLabel')"></watt-tab>
+    <watt-tab [label]="t('permissions.tabLabel')"></watt-tab>
   </watt-tabs>
 </ng-container>
