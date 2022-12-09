@@ -25,7 +25,9 @@ import {
 
 @Component({
   selector: 'watt-tab',
-  templateUrl: './watt-tab.component.html',
+  template: `<ng-template #templateRef>
+    <ng-content></ng-content>
+  </ng-template>`,
 })
 export class WattTabComponent {
   @Input() label = '';

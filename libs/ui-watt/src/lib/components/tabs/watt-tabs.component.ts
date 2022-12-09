@@ -24,7 +24,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { WattTabComponent } from './tab/watt-tab.component';
+import { WattTabComponent } from './watt-tab.component';
 
 /**
  * Usage:

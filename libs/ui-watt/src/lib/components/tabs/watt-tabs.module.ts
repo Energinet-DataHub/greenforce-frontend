@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 
-import { WattTabComponent } from './tab/watt-tab.component';
+import { WattTabComponent } from './watt-tab.component';
 import { WattTabsComponent } from './watt-tabs.component';
 
 @NgModule({
