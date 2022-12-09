@@ -23,13 +23,13 @@
       "@energinet-datahub/dh/admin/data-access-api": [
         "libs/dh/admin/data-access-api/src/index.ts"
       ],
-      "@energinet-datahub/dh/admin/user-management": [
-        "libs/dh/admin/user-management/src/index.ts"
-      ],
       "@energinet-datahub/dh/admin/routing": [
         "libs/dh/admin/routing/src/index.ts"
       ],
       "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/src/index.ts"],
+      "@energinet-datahub/dh/admin/user-management": [
+        "libs/dh/admin/user-management/src/index.ts"
+      ],
       "@energinet-datahub/dh/auth/msal": [
         "libs/dh/auth/feature-msal/src/index.ts"
       ],
