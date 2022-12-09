@@ -16,9 +16,19 @@
  */
 import { Component } from '@angular/core';
 
+import { DhUserManagementTabsComponent } from './user-management-tabs/dh-user-management-tabs.component';
+
 @Component({
   selector: 'dh-admin-feature-user-management',
-  template: ``,
+  template: `<dh-user-management-tabs></dh-user-management-tabs>`,
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
   standalone: true,
+  imports: [DhUserManagementTabsComponent],
 })
 export class DhAdminFeatureUserManagementComponent {}

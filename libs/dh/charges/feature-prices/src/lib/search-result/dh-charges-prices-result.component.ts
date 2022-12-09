@@ -42,6 +42,7 @@ import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { DhChargesPricesDrawerComponent } from '../drawer/dh-charges-prices-drawer.component';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 import formatInTimeZone from 'date-fns-tz/formatInTimeZone';
 
 @Component({
@@ -115,7 +116,6 @@ export class DhChargesPricesResultComponent
 
   readonly dataSource = new WattTableDataSource<ChargeV1Dto>();
 
-  private danishTimeZoneIdentifier = 'Europe/Copenhagen';
   private dateFormat = 'dd-MM-yyyy';
   private dateTimeFormat = 'dd-MM-yyyy HH:mm:ss';
 
@@ -192,14 +192,14 @@ export class DhChargesPricesResultComponent
         ),
         formatInTimeZone(
           charge.validFromDateTime,
-          this.danishTimeZoneIdentifier,
+          danishTimeZoneIdentifier,
           this.dateFormat
         ),
         charge.validToDateTime == null
           ? ''
           : formatInTimeZone(
               charge.validToDateTime,
-              this.danishTimeZoneIdentifier,
+              danishTimeZoneIdentifier,
               this.dateFormat
             ),
       ]);
@@ -226,7 +226,7 @@ export class DhChargesPricesResultComponent
     const dateString = (
       formatInTimeZone(
         new Date().toISOString(),
-        this.danishTimeZoneIdentifier,
+        danishTimeZoneIdentifier,
         this.dateTimeFormat
       ) ?? ''
     ).replace(/:/g, '_');
