@@ -30,9 +30,11 @@ import {
   </ng-template>`,
 })
 export class WattTabComponent {
-  @Input() label = '';
   @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null =
     null;
+
+  @Input() label = '';
+
   @Output() changed = new EventEmitter<void>();
 
   emitChange() {
