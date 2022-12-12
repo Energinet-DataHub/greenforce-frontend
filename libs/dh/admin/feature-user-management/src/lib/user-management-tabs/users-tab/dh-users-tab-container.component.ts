@@ -4,7 +4,7 @@ import { DhUsersTabComponent } from './dh-users-tab.component';
 @Component({
   selector: 'dh-users-tab-container',
   standalone: true,
-  template: '<dh-users-tab></dh-users-tab>',
+  templateUrl: 'dh-users-tab-container.component.html',
   styles: [
     `
       :host {
