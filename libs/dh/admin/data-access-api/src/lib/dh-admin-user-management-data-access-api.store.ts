@@ -52,7 +52,6 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
   );
 
   users$ = this.select((store) => store.users);
-  usersCount$ = this.select((store) => store.users.length);
 
   constructor(private httpClient: MarketParticipantUserOverviewHttp) {
     super(initialState);
