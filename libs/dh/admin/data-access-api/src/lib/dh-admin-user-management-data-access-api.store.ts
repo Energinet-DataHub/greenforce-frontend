@@ -15,23 +15,106 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ComponentStore } from '@ngrx/component-store';
+import { Observable, switchMap, tap } from 'rxjs';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
-import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  ErrorState,
+  LoadingState,
+} from '@energinet-datahub/dh/shared/data-access-api';
+import {
+  MarketParticipantUserOverviewHttp,
+  UserOverviewItemDto,
+} from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserManagementState {
-  users: UserOverviewItemDto[];
+  readonly users: UserOverviewItemDto[];
+  readonly requestState: LoadingState | ErrorState;
 }
 
 const initialState: DhUserManagementState = {
   users: [],
+  requestState: LoadingState.INIT,
 };
 
 @Injectable()
 export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUserManagementState> {
+  isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
+  isLoading$ = this.select(
+    (state) => state.requestState === LoadingState.LOADING
+  );
+  usersNotFound$ = this.select(
+    (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
+  );
+  hasGeneralError$ = this.select(
+    (state) => state.requestState === ErrorState.GENERAL_ERROR
+  );
+
+  users$ = this.select((store) => store.users);
   usersCount$ = this.select((store) => store.users.length);
 
-  constructor() {
+  constructor(private httpClient: MarketParticipantUserOverviewHttp) {
     super(initialState);
+  }
+
+  readonly getUsers = this.effect((trigger$: Observable<void>) =>
+    trigger$.pipe(
+      tap(() => {
+        this.resetState();
+
+        this.setLoading(LoadingState.LOADING);
+      }),
+      switchMap(() =>
+        this.httpClient.v1MarketParticipantUserOverviewGet().pipe(
+          tapResponse(
+            (users) => {
+              this.setLoading(LoadingState.LOADED);
+
+              this.updateUsers(users);
+            },
+            (error: HttpErrorResponse) => {
+              this.setLoading(LoadingState.LOADED);
+
+              this.handleError(error);
+            }
+          )
+        )
+      )
+    )
+  );
+
+  private updateUsers = this.updater(
+    (
+      state: DhUserManagementState,
+      users: UserOverviewItemDto[]
+    ): DhUserManagementState => ({
+      ...state,
+      users,
+    })
+  );
+
+  private setLoading = this.updater(
+    (state, loadingState: LoadingState): DhUserManagementState => ({
+      ...state,
+      requestState: loadingState,
+    })
+  );
+
+  private handleError = (error: HttpErrorResponse) => {
+    this.updateUsers([]);
+
+    const requestError =
+      error.status === HttpStatusCode.NotFound
+        ? ErrorState.NOT_FOUND_ERROR
+        : ErrorState.GENERAL_ERROR;
+
+    this.patchState({ requestState: requestError });
+  };
+
+  private resetState = () => this.setState(initialState);
+
+  ngrxOnStoreInit(): void {
+    this.getUsers();
   }
 }
