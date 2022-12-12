@@ -26,56 +26,23 @@ export default {
     }),
   ],
   component: WattBadgeComponent,
-} as Meta<WattBadgeComponent>;
+} as Meta;
 
-export const overview: Story<WattBadgeComponent> = (args) => ({
+const Template: Story = (args) => ({
   props: args,
   template: `
-  <watt-badge>Default</watt-badge>
-  <br />
-  <watt-badge type="warning">Warning</watt-badge>
-  <br />
-  <watt-badge type="danger">Danger</watt-badge>
-  <br />
-  <watt-badge type="success">Success</watt-badge>
-  <br />
-  <watt-badge type="info">Info</watt-badge>
+    <div style="display: flex; gap: var(--watt-space-m);">
+      <watt-badge type="neutral" [size]="size">Neutral</watt-badge>
+      <watt-badge type="info" [size]="size">Info</watt-badge>
+      <watt-badge type="success" [size]="size">Success</watt-badge>
+      <watt-badge type="warning" [size]="size">Warning</watt-badge>
+      <watt-badge type="danger" [size]="size">Danger</watt-badge>
+    </div>
   `,
 });
-overview.parameters = {
-  docs: {
-    source: {
-      code: 'Nothing to see here.',
-    },
-  },
-};
-overview.argTypes = {
-  type: {
-    control: false,
-  },
-};
 
-const template: Story<WattBadgeComponent> = (args) => ({
-  props: args,
-  template: `<watt-badge type="${args.type}">${args.type}</watt-badge>`,
-});
+export const Normal = Template.bind({});
+Normal.args = { size: 'normal' };
 
-export const warning = template.bind({});
-warning.args = {
-  type: 'warning',
-};
-
-export const danger = template.bind({});
-danger.args = {
-  type: 'danger',
-};
-
-export const success = template.bind({});
-success.args = {
-  type: 'success',
-};
-
-export const info = template.bind({});
-info.args = {
-  type: 'info',
-};
+export const Large = Template.bind({});
+Large.args = { size: 'large' };

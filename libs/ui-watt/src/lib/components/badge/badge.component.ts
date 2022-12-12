@@ -25,17 +25,19 @@ export type WattBadgeType = 'warning' | 'success' | 'danger' | 'info';
 @Component({
   selector: 'watt-badge',
   styleUrls: ['./badge.component.scss'],
-  templateUrl: './badge.component.html',
-  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
-  host: {
-    class: 'watt-label',
-  },
+  template: '<ng-content></ng-content>',
 })
 export class WattBadgeComponent {
   @Input() type: WattBadgeType = 'info';
+  @Input() size = 'nprmal';
 
   @HostBinding('class')
   get badgeType() {
     return `watt-badge-${this.type}`;
+  }
+
+  @HostBinding('class.watt-badge-large')
+  get isLarge() {
+    return this.size === 'large';
   }
 }

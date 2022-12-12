@@ -45,7 +45,6 @@
   }
 
   & watt-badge {
-    @include watt.typography-watt-text-m-highlighted;
     margin-right: var(--watt-space-m);
   }
 }

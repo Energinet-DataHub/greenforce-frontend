@@ -162,7 +162,6 @@ $font-sizes: (
   @include font-size("s");
   @include font-weight("semi-bold");
   text-transform: uppercase;
-  letter-spacing: 1.25px;
 }
 
 @mixin watt-link {
