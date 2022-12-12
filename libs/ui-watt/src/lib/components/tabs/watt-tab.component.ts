@@ -14,24 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
-
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
-
-import { DhUsersTabComponent } from './dh-users-tab.component';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 
 @Component({
-  selector: 'dh-user-management-tabs',
-  standalone: true,
-  templateUrl: './dh-user-management-tabs.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  imports: [TranslocoModule, WattTabsModule, DhUsersTabComponent],
+  selector: 'watt-tab',
+  template: `<ng-template #templateRef>
+    <ng-content></ng-content>
+  </ng-template>`,
 })
-export class DhUserManagementTabsComponent {}
+export class WattTabComponent {
+  @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null =
+    null;
+
+  @Input() label = '';
+
+  @Output() changed = new EventEmitter<void>();
+
+  emitChange() {
+    this.changed.emit();
+  }
+}
