@@ -21,7 +21,7 @@ limitations under the License.
         *ngTemplateOutlet="
           usersHeadline;
           context: {
-            $implicit: usersCount$ | push
+            $implicit: users.length
           }
         "
       ></ng-container>

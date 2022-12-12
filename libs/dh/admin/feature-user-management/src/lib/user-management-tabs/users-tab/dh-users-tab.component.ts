@@ -14,23 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
-import { PushModule } from '@rx-angular/template';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-users-tab',
   templateUrl: './dh-users-tab.component.html',
   styleUrls: ['./dh-users-tab.component.scss'],
   standalone: true,
-  imports: [CommonModule, PushModule, TranslocoModule, WattCardModule],
+  imports: [CommonModule, TranslocoModule, WattCardModule],
 })
 export class DhUsersTabComponent {
-  private store = inject(DhAdminUserManagementDataAccessApiStore);
-
-  usersCount$ = this.store.usersCount$;
+  @Input() users: UserOverviewItemDto[] = [];
 }

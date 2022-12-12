@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { provideComponentStore } from '@ngrx/component-store';
+import { PushModule } from '@rx-angular/template';
 
 import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 
@@ -17,6 +18,10 @@ import { DhUsersTabComponent } from './dh-users-tab.component';
     `,
   ],
   providers: [provideComponentStore(DhAdminUserManagementDataAccessApiStore)],
-  imports: [DhUsersTabComponent],
+  imports: [PushModule, DhUsersTabComponent],
 })
-export class DhUsersTabContainerComponent {}
+export class DhUsersTabContainerComponent {
+  private readonly store = inject(DhAdminUserManagementDataAccessApiStore);
+
+  users$ = this.store.users$;
+}
