@@ -27,8 +27,8 @@
         "libs/dh/admin/routing/src/index.ts"
       ],
       "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/src/index.ts"],
-      "@energinet-datahub/dh/admin/user-management": [
-        "libs/dh/admin/user-management/src/index.ts"
+      "@energinet-datahub/dh/admin/feature-user-management": [
+        "libs/dh/admin/feature-user-management/src/index.ts"
       ],
       "@energinet-datahub/dh/auth/msal": [
         "libs/dh/auth/feature-msal/src/index.ts"
