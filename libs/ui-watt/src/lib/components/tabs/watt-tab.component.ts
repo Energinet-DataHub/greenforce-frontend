@@ -14,16 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 
-import { WattTabComponent } from './tab/tab.component';
-import { WattTabsComponent } from './tabs.component';
-
-@NgModule({
-  imports: [CommonModule, MatTabsModule],
-  declarations: [WattTabsComponent, WattTabComponent],
-  exports: [WattTabsComponent, WattTabComponent],
+@Component({
+  selector: 'watt-tab',
+  template: `<ng-template #templateRef>
+    <ng-content></ng-content>
+  </ng-template>`,
 })
-export class WattTabsModule {}
+export class WattTabComponent {
+  @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null =
+    null;
+
+  @Input() label = '';
+
+  @Output() changed = new EventEmitter<void>();
+
+  emitChange() {
+    this.changed.emit();
+  }
+}
