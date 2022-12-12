@@ -14,6 +14,10 @@
 export interface UserOverviewItemDto { 
     id: string;
     email: string;
+    name: string;
+    phoneNumber?: string | null;
+    createdDate: string;
+    active: boolean;
 }
 
 
