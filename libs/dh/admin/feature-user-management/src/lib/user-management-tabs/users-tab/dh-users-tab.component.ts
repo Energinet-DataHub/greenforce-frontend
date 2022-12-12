@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -26,6 +26,7 @@ import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
   templateUrl: './dh-users-tab.component.html',
   styleUrls: ['./dh-users-tab.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, TranslocoModule, WattCardModule],
 })
 export class DhUsersTabComponent {
