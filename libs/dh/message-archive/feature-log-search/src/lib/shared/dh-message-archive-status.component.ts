@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
+  imports: [CommonModule, TranslocoModule, WattBadgeModule],
+  standalone: true,
   selector: 'dh-message-archive-status',
   template: `<ng-container *transloco="let t; read: 'messageArchive.search'"
     ><container-element [ngSwitch]="message">
@@ -36,10 +38,3 @@ import { TranslocoModule } from '@ngneat/transloco';
 export class DhMessageArchiveStatusComponent {
   @Input() message?: string | null = null;
 }
-
-@NgModule({
-  declarations: [DhMessageArchiveStatusComponent],
-  exports: [DhMessageArchiveStatusComponent],
-  imports: [CommonModule, TranslocoModule, WattBadgeModule],
-})
-export class DhMessageArchiveStatusComponentScam {}
