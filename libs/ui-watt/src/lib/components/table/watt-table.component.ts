@@ -18,7 +18,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { CommonModule, KeyValue } from '@angular/common';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   Directive,
