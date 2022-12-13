@@ -1,1 +1,17 @@
-<dh-users-tab [users]="users$ | push"></dh-users-tab>
+<ng-container *rxLet="isLoading$ as isLoading">
+  <div *ngIf="isLoading" class="users-overview__spinner">
+    <watt-spinner></watt-spinner>
+  </div>
+
+  <ng-container *ngIf="!isLoading">
+    <dh-users-tab *rxLet="users$ as users" [users]="users"></dh-users-tab>
+  </ng-container>
+</ng-container>
+
+<ng-container *rxLet="usersNotFound$ as usersNotFound">
+  <div *ngIf="usersNotFound" class="users-overview__error"></div>
+</ng-container>
+
+<ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+  <div *ngIf="hasGeneralError" class="users-overview__error"></div>
+</ng-container>

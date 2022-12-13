@@ -1,8 +1,10 @@
 import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
-import { PushModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template';
 
 import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 
 import { DhUsersTabComponent } from './dh-users-tab.component';
 
@@ -18,10 +20,13 @@ import { DhUsersTabComponent } from './dh-users-tab.component';
     `,
   ],
   providers: [provideComponentStore(DhAdminUserManagementDataAccessApiStore)],
-  imports: [PushModule, DhUsersTabComponent],
+  imports: [CommonModule, LetModule, WattSpinnerModule, DhUsersTabComponent],
 })
 export class DhUsersTabContainerComponent {
   private readonly store = inject(DhAdminUserManagementDataAccessApiStore);
 
   users$ = this.store.users$;
+  isLoading$ = this.store.isLoading$;
+  usersNotFound$ = this.store.usersNotFound$;
+  hasGeneralError$ = this.store.hasGeneralError$;
 }
