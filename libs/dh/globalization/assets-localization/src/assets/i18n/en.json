@@ -782,6 +782,12 @@
       "loadCalculationStepsFailedTitle": "Oops! There was an error",
       "loadCalculationStepsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information"
     },
+    "processStepResults": {
+      "step": "Step {{step}}",
+      "aggregatedProductionPerGridArea": "Aggregated production per grid area",
+      "open": "Open",
+      "gridArea": "Grid area"
+    },
     "timeSeriesPoints": {
       "header": "Quantities ​​in the period",
       "time": "time",

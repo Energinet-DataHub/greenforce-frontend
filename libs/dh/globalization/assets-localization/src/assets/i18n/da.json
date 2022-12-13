@@ -786,6 +786,12 @@
       "loadCalculationStepsFailedTitle": "Ups! Der opstod en fejl",
       "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
     },
+    "processStepResults": {
+      "step": "Trin {{step}}",
+      "aggregatedProductionPerGridArea": "Aggregeret produktion per netområde",
+      "open": "Åbn",
+      "gridArea": "Netområde"
+    },
     "timeSeriesPoints": {
       "header": "Værdier i perioden",
       "time": "tid",
