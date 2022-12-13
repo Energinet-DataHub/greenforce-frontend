@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, tap } from 'rxjs';
+import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
@@ -29,12 +29,12 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserManagementState {
-  readonly users: UserOverviewItemDto[];
+  readonly users: UserOverviewItemDto[] | null;
   readonly requestState: LoadingState | ErrorState;
 }
 
 const initialState: DhUserManagementState = {
-  users: [],
+  users: null,
   requestState: LoadingState.INIT,
 };
 
@@ -51,7 +51,12 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     (state) => state.requestState === ErrorState.GENERAL_ERROR
   );
 
-  users$ = this.select((store) => store.users);
+  users$: Observable<UserOverviewItemDto[]> = this.select(
+    (state) => state.users
+  ).pipe(
+    filter((users) => !!users),
+    map((users) => users as UserOverviewItemDto[])
+  );
 
   constructor(private httpClient: MarketParticipantUserOverviewHttp) {
     super(initialState);
@@ -86,7 +91,7 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
   private updateUsers = this.updater(
     (
       state: DhUserManagementState,
-      users: UserOverviewItemDto[]
+      users: UserOverviewItemDto[] | null
     ): DhUserManagementState => ({
       ...state,
       users,
@@ -101,7 +106,7 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
   );
 
   private handleError = (error: HttpErrorResponse) => {
-    this.updateUsers([]);
+    this.updateUsers(null);
 
     const requestError =
       error.status === HttpStatusCode.NotFound
