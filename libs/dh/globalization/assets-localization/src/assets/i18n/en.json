@@ -801,7 +801,7 @@
           },
           "table": {
             "headers": {
-              "name": "Navn",
+              "name": "Name",
               "email": "Email",
               "phone": "Phone",
               "status": "Status"
