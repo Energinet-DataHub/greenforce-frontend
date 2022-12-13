@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, tap } from 'rxjs';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -29,12 +28,12 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserManagementState {
-  readonly users: UserOverviewItemDto[];
+  readonly users: UserOverviewItemDto[] | null;
   readonly requestState: LoadingState | ErrorState;
 }
 
 const initialState: DhUserManagementState = {
-  users: [],
+  users: null,
   requestState: LoadingState.INIT,
 };
 
@@ -44,15 +43,16 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
   isLoading$ = this.select(
     (state) => state.requestState === LoadingState.LOADING
   );
-  usersNotFound$ = this.select(
-    (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
-  );
   hasGeneralError$ = this.select(
     (state) => state.requestState === ErrorState.GENERAL_ERROR
   );
 
-  users$ = this.select((store) => store.users);
-  usersCount$ = this.select((store) => store.users.length);
+  users$: Observable<UserOverviewItemDto[]> = this.select(
+    (state) => state.users
+  ).pipe(
+    filter((users) => !!users),
+    map((users) => users as UserOverviewItemDto[])
+  );
 
   constructor(private httpClient: MarketParticipantUserOverviewHttp) {
     super(initialState);
@@ -73,10 +73,10 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
 
               this.updateUsers(users);
             },
-            (error: HttpErrorResponse) => {
+            () => {
               this.setLoading(LoadingState.LOADED);
 
-              this.handleError(error);
+              this.handleError();
             }
           )
         )
@@ -87,7 +87,7 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
   private updateUsers = this.updater(
     (
       state: DhUserManagementState,
-      users: UserOverviewItemDto[]
+      users: UserOverviewItemDto[] | null
     ): DhUserManagementState => ({
       ...state,
       users,
@@ -101,15 +101,10 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     })
   );
 
-  private handleError = (error: HttpErrorResponse) => {
-    this.updateUsers([]);
+  private handleError = () => {
+    this.updateUsers(null);
 
-    const requestError =
-      error.status === HttpStatusCode.NotFound
-        ? ErrorState.NOT_FOUND_ERROR
-        : ErrorState.GENERAL_ERROR;
-
-    this.patchState({ requestState: requestError });
+    this.patchState({ requestState: ErrorState.GENERAL_ERROR });
   };
 
   private resetState = () => this.setState(initialState);
