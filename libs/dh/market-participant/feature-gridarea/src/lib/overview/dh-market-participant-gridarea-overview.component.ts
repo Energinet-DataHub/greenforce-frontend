@@ -34,7 +34,7 @@ import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { MatMenuModule } from '@angular/material/menu';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import {
@@ -107,7 +107,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
     MatTableModule,
     MatMenuModule,
     TranslocoModule,
-    WattBadgeModule,
+    WattBadgeComponent,
     WattButtonModule,
     WattIconModule,
     WattEmptyStateModule,

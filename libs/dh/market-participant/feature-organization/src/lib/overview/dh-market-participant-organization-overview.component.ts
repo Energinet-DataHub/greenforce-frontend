@@ -35,7 +35,7 @@ import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhMarketParticipantOrganizationOverviewGridAreasScam } from './dh-market-participant-organization-overview-grid-areas-list.component';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
@@ -107,7 +107,7 @@ export class DhMarketParticipantOrganizationOverviewComponent
     MatTableModule,
     MatMenuModule,
     TranslocoModule,
-    WattBadgeModule,
+    WattBadgeComponent,
     WattButtonModule,
     WattIconModule,
     WattEmptyStateModule,

@@ -14,26 +14,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@energinet-datahub/watt/utils' as watt;
+
+@use "@energinet-datahub/watt/utils" as watt;
 
 :host {
   color: var(--watt-color-primary-dark);
   border-radius: 4px;
   @include watt.space-inset-squish-xs;
+  @include watt.typography-watt-label;
 
-  &.watt-badge-warning {
-    background: var(--watt-color-state-warning-light);
+  &.watt-badge-large {
+    @include watt.typography-font-size("m");
+    @include watt.typography-font-weight("bold");
   }
 
-  &.watt-badge-danger {
-    background: var(--watt-color-state-danger-light);
+  &.watt-badge-neutral {
+    color: var(--watt-color-neutral-grey-600);
+    background: var(--watt-color-neutral-grey-200);
+  }
+
+  &.watt-badge-info {
+    background: var(--watt-color-state-info-light);
   }
 
   &.watt-badge-success {
     background: var(--watt-color-state-success-light);
   }
 
-  &.watt-badge-info {
-    background: var(--watt-color-state-info-light);
+  &.watt-badge-warning {
+    background: var(--watt-color-state-warning-light);
+  }
+
+  &.watt-badge-danger {
+    color: var(--watt-color-state-danger);
+    background: var(--watt-color-state-danger-light);
   }
 }

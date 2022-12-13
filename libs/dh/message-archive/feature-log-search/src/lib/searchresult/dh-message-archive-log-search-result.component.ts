@@ -33,7 +33,7 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 import { MessageArchiveSearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import {
@@ -69,7 +69,7 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
     WattTableComponent,
     WattEmptyStateModule,
     WattButtonModule,
-    WattBadgeModule,
+    WattBadgeComponent,
     DhSharedUiDateTimeModule,
     WattSpinnerModule,
     WattCardModule,

@@ -40,7 +40,7 @@ import {
 } from '@energinet-datahub/watt/dropdown';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 import {
   DhMessageArchiveDataAccessApiStore,
@@ -83,7 +83,7 @@ import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
     LetModule,
     TranslocoModule,
     DhMessageArchiveLogSearchResultComponent,
-    WattBadgeModule,
+    WattBadgeComponent,
     WattDropdownModule,
     WattSpinnerModule,
     ReactiveFormsModule,

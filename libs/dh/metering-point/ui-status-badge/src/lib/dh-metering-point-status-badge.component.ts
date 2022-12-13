@@ -24,7 +24,10 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { ConnectionState } from '@energinet-datahub/dh/shared/domain';
-import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt/badge';
+import {
+  WattBadgeComponent,
+  WattBadgeType,
+} from '@energinet-datahub/watt/badge';
 
 import { connectionStateToBadgeType } from './connection-state-to-badge-type';
 
@@ -55,6 +58,6 @@ export class DhStatusBadgeComponent {
 @NgModule({
   declarations: [DhStatusBadgeComponent],
   exports: [DhStatusBadgeComponent],
-  imports: [CommonModule, TranslocoModule, WattBadgeModule],
+  imports: [CommonModule, TranslocoModule, WattBadgeComponent],
 })
 export class DhMeteringPointStatusBadgeScam {}
