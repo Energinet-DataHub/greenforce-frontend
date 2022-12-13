@@ -9,5 +9,9 @@
 </ng-container>
 
 <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
-  <div *ngIf="hasGeneralError" class="users-overview__error"></div>
+  <div *ngIf="hasGeneralError" class="users-overview__error">
+    <dh-users-tab-general-error
+      (reload)="reloadUsers()"
+    ></dh-users-tab-general-error>
+  </div>
 </ng-container>
