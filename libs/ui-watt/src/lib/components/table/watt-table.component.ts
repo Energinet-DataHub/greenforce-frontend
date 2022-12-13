@@ -18,7 +18,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { CommonModule, KeyValue } from '@angular/common';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   Directive,
@@ -131,7 +130,6 @@ export class WattTableCellDirective<T> {
     MatTableModule,
     WattCheckboxModule,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-table',
   styleUrls: ['./watt-table.component.scss'],
