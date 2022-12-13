@@ -14,21 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { ComponentStore } from '@ngrx/component-store';
 
-import { DhUserManagementTabsComponent } from './user-management-tabs/dh-user-management-tabs.component';
+import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
-@Component({
-  selector: 'dh-admin-feature-user-management',
-  template: `<dh-user-management-tabs></dh-user-management-tabs>`,
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  standalone: true,
-  imports: [DhUserManagementTabsComponent],
-})
-export class DhAdminFeatureUserManagementComponent {}
+interface DhUserManagementState {
+  users: UserOverviewItemDto[];
+}
+
+const initialState: DhUserManagementState = {
+  users: [],
+};
+
+@Injectable()
+export class DhUserManagementStore extends ComponentStore<DhUserManagementState> {
+  usersCount$ = this.select((store) => store.users.length);
+
+  constructor() {
+    super(initialState);
+  }
+}
