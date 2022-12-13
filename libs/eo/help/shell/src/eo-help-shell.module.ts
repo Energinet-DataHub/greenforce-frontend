@@ -24,7 +24,7 @@ import { EoIntroductionPageComponent } from './lib/eo-introduction-page.componen
 import { EoSimultaneityPageComponent } from './lib/eo-simultaneity-page.component';
 
 const routes: Routes = [
-  { path: '', component: EoHelpPageComponent },
+  { path: '', component: EoHelpPageComponent ,data: { title: 'Help' }},
   { path: eoRoutes.faq, component: EoFaqPageComponent, data: { title: 'FAQ' } },
   {
     path: eoRoutes.introduction,

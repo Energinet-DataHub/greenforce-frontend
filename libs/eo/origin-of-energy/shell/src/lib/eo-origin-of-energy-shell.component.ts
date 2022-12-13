@@ -54,7 +54,7 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
       .chart-row {
         display: grid;
         margin-bottom: var(--watt-space-l);
-        grid-template-columns: 584px 1fr;
+        grid-template-columns: 578px 1fr;
         gap: var(--watt-space-l);
       }
 
