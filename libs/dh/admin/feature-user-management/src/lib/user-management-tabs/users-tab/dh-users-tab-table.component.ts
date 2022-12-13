@@ -42,7 +42,8 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/s
       }
     `,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // Using `OnPush` causes issues with table's header row translations
+  changeDetection: ChangeDetectionStrategy.Default,
   imports: [
     CommonModule,
     TranslocoModule,
