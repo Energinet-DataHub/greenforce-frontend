@@ -1,15 +1,15 @@
 {
-  "name": "dh-wholesale-shell",
+  "name": "dh-wholesale-routing",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/dh/wholesale/shell/src",
+  "sourceRoot": "libs/dh/wholesale/routing/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/wholesale/routing"],
       "options": {
-        "jestConfig": "libs/dh/wholesale/shell/jest.config.ts",
+        "jestConfig": "libs/dh/wholesale/routing/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -17,11 +17,11 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/dh/wholesale/shell/**/*.ts",
-          "libs/dh/wholesale/shell/**/*.html"
+          "libs/dh/wholesale/routing/src/**/*.ts",
+          "libs/dh/wholesale/routing/src/**/*.html"
         ]
       }
     }
   },
-  "tags": ["product:dh", "domain:wholesale", "type:shell"]
+  "tags": ["product:dh", "domain:wholesale", "type:routing"]
 }
