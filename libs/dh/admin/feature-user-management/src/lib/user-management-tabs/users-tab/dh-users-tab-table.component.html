@@ -23,19 +23,19 @@ limitations under the License.
   [sortClear]="false"
   [resolveHeader]="translateHeader"
 >
-  <ng-container *wattTableCell="table.columns['name']; let element">
-    {{ element.name }}
-  </ng-container>
+  <ng-container *wattTableCell="table.columns['name']; let element">{{
+    element.name
+  }}</ng-container>
 
-  <ng-container *wattTableCell="table.columns['email']; let element">
-    {{ element.email }}
-  </ng-container>
+  <ng-container *wattTableCell="table.columns['email']; let element">{{
+    element.email
+  }}</ng-container>
 
-  <ng-container *wattTableCell="table.columns['phoneNumber']; let element">
-    {{ element.phoneNumber | dhEmDashFallback }}
-  </ng-container>
+  <ng-container *wattTableCell="table.columns['phoneNumber']; let element">{{
+    element.phoneNumber | dhEmDashFallback
+  }}</ng-container>
 
-  <ng-container *wattTableCell="table.columns['active']; let element">
-    {{ undefined | dhEmDashFallback }}
-  </ng-container>
+  <ng-container *wattTableCell="table.columns['active']; let element">{{
+    undefined | dhEmDashFallback
+  }}</ng-container>
 </watt-table>
