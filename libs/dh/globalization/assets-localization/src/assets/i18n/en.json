@@ -799,6 +799,14 @@
             "singular": "{{ usersCount }} user",
             "plural": "{{ usersCount }} users"
           },
+          "table": {
+            "headers": {
+              "name": "Navn",
+              "email": "Email",
+              "phone": "Phone",
+              "status": "Status"
+            }
+          },
           "errors": {
             "generalError": {
               "title": "Oops! There was an error",
