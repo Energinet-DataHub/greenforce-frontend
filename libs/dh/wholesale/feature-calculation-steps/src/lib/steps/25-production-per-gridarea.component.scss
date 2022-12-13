@@ -23,18 +23,10 @@ watt-card {
   background-color: var(--watt-color-neutral-white);
   cursor: pointer;
 }
+
 watt-card h4 {
   margin: 0;
   color: var(--watt-color-neutral-black);
-}
-watt-badge {
-  font-size: 1rem;
-  line-height: 1.5rem;
-  font-weight: 400;
-  text-transform: none;
-  letter-spacing: 0;
-  font-weight: 700;
-  margin-right: var(--watt-space-m);
 }
 
 .headline {
