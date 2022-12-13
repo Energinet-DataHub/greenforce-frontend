@@ -26,7 +26,7 @@ export type WattBadgeSize = 'normal' | 'large';
 @Component({
   standalone: true,
   selector: 'watt-badge',
-  styleUrls: ['./badge.component.scss'],
+  styleUrls: ['./watt-badge.component.scss'],
   template: '<ng-content></ng-content>',
 })
 export class WattBadgeComponent {

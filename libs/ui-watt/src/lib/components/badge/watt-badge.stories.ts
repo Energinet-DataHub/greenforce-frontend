@@ -16,7 +16,7 @@
  */
 import { Meta, Story } from '@storybook/angular';
 
-import { WattBadgeComponent } from './../index';
+import { WattBadgeComponent } from './watt-badge.component';
 
 export default {
   title: 'Components/Badge',

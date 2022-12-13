@@ -18,4 +18,4 @@ export {
   WattBadgeComponent,
   WattBadgeType,
   WattBadgeSize,
-} from './badge.component';
+} from './watt-badge.component';
