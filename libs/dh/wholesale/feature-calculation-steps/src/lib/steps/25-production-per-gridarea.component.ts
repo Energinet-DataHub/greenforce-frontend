@@ -23,7 +23,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
@@ -53,7 +53,7 @@ import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-w
   imports: [
     CommonModule,
     WattCardModule,
-    WattBadgeModule,
+    WattBadgeComponent,
     WattButtonModule,
     WattDrawerModule,
     DhWholesaleTimeSeriesPointsComponent,

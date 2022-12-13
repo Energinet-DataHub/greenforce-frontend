@@ -24,7 +24,7 @@ import { tap } from 'rxjs';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
-import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -46,7 +46,7 @@ import { DhWholesaleProductionPerGridareaComponent } from './steps/25-production
     DhSharedUiDateTimeModule,
     LetModule,
     TranslocoModule,
-    WattBadgeModule,
+    WattBadgeComponent,
     WattCardModule,
     WattEmptyStateModule,
     WattSpinnerModule,

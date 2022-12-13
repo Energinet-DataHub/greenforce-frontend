@@ -19,7 +19,7 @@ limitations under the License.
     <ng-container *rxLet="gridArea$; let gridArea">
       <watt-top-bar>
         <div class="header">
-          <watt-breadcrumbs *ngIf="gridArea">
+          <watt-breadcrumbs *ngIf="gridArea && batch">
             <watt-breadcrumb (click)="navigateToSearchBatch()">{{
               transloco("searchBatch.topBarTitle")
             }}</watt-breadcrumb>
@@ -38,7 +38,7 @@ limitations under the License.
 
           <h2>
             {{ gridArea?.name }}
-            <watt-badge type="info">
+            <watt-badge type="info" *ngIf="batch">
               {{ transloco("searchBatch." + batch.executionState) }}
             </watt-badge>
           </h2>
