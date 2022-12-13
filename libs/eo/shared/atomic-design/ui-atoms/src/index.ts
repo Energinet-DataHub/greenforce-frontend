@@ -17,9 +17,9 @@
 export * from './lib/eo-date-picker/eo-date-picker.component';
 export * from './lib/eo-idle-timer/idle-timer-countdown.component';
 export * from './lib/eo-idle-timer/idle-timer-logged-out.component';
+export * from './lib/eo-info-box/eo-info-box.component';
 export * from './lib/eo-inline-message/eo-inline-message.component';
 export * from './lib/eo-line-chart/eo-line-chart.component';
-// Media
 export * from './lib/eo-media/eo-media-align';
 export * from './lib/eo-media/eo-media.module';
 export * from './lib/eo-pie-chart/eo-pie-chart.component';

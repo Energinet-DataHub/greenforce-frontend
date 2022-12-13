@@ -21,6 +21,9 @@
       "@energinet-datahub/dh-shared-data-access-top-bar": [
         "libs/dh/shared/data-access-top-bar/src/index.ts"
       ],
+      "@energinet-datahub/dh/admin/data-access-api": [
+        "libs/dh/admin/data-access-api/src/index.ts"
+      ],
       "@energinet-datahub/dh/admin/feature-user-management": [
         "libs/dh/admin/feature-user-management/src/index.ts"
       ],

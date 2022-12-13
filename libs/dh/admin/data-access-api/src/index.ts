@@ -14,16 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
-
-import { WattTabComponent } from './tab/tab.component';
-import { WattTabsComponent } from './tabs.component';
-
-@NgModule({
-  imports: [CommonModule, MatTabsModule],
-  declarations: [WattTabsComponent, WattTabComponent],
-  exports: [WattTabsComponent, WattTabComponent],
-})
-export class WattTabsModule {}
+export * from './lib/dh-admin-user-management-data-access-api.store';

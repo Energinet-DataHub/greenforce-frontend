@@ -807,9 +807,19 @@
     "userManagement": {
       "topBarTitle": "Brugeradministration",
       "tabs": {
-        "users": "Brugere",
-        "roles": "Roller",
-        "permissions": "Rettigheder"
+        "users": {
+          "tabLabel": "Brugere",
+          "usersHeadline": {
+            "singular": "{{ usersCount }} bruger",
+            "plural": "{{ usersCount }} brugere"
+          }
+        },
+        "roles": {
+          "tabLabel": "Roller"
+        },
+        "permissions": {
+          "tabLabel": "Rettigheder"
+        }
       }
     }
   }

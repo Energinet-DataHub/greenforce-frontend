@@ -14,27 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Component, inject } from '@angular/core';
+import { PushModule } from '@rx-angular/template';
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { TranslocoModule } from '@ngneat/transloco';
+import { provideComponentStore } from '@ngrx/component-store';
+
+import { WattCardModule } from '@energinet-datahub/watt/card';
+import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
-  imports: [CommonModule, TranslocoModule, WattBadgeModule],
+  selector: 'dh-users-tab',
+  templateUrl: './dh-users-tab.component.html',
+  styleUrls: ['./dh-users-tab.component.scss'],
   standalone: true,
-  selector: 'dh-message-archive-status',
-  template: `<ng-container *transloco="let t; read: 'messageArchive.search'"
-    ><container-element [ngSwitch]="message">
-      <watt-badge *ngSwitchCase="'request'" type="info">{{
-        t('sent')
-      }}</watt-badge>
-      <watt-badge *ngSwitchCase="'response'" type="success">{{
-        t('received')
-      }}</watt-badge>
-      <watt-badge *ngSwitchDefault type="info">{{ message }}</watt-badge>
-    </container-element>
-  </ng-container>`,
+  providers: [provideComponentStore(DhAdminUserManagementDataAccessApiStore)],
+  imports: [CommonModule, PushModule, TranslocoModule, WattCardModule],
 })
-export class DhMessageArchiveStatusComponent {
-  @Input() message?: string | null = null;
+export class DhUsersTabComponent {
+  private store = inject(DhAdminUserManagementDataAccessApiStore);
+
+  usersCount$ = this.store.usersCount$;
 }

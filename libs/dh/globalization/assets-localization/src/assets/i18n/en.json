@@ -803,9 +803,19 @@
     "userManagement": {
       "topBarTitle": "User management",
       "tabs": {
-        "users": "Users",
-        "roles": "Roles",
-        "permissions": "Permissions"
+        "users": {
+          "tabLabel": "Users",
+          "usersHeadline": {
+            "singular": "{{ usersCount }} user",
+            "plural": "{{ usersCount }} users"
+          }
+        },
+        "roles": {
+          "tabLabel": "Roles"
+        },
+        "permissions": {
+          "tabLabel": "Permissions"
+        }
       }
     }
   }

@@ -14,24 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { rest } from 'msw';
 
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import marketParticipantUserOverviewData from './data/marketParticipantUserOverview.json';
 
-import { DhUsersTabComponent } from './dh-users-tab.component';
+export function adminMocks(apiBase: string) {
+  return [getMarketParticipantUserOverview(apiBase)];
+}
 
-@Component({
-  selector: 'dh-user-management-tabs',
-  standalone: true,
-  templateUrl: './dh-user-management-tabs.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  imports: [TranslocoModule, WattTabsModule, DhUsersTabComponent],
-})
-export class DhUserManagementTabsComponent {}
+function getMarketParticipantUserOverview(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipantUserOverview`,
+    (req, res, ctx) => {
+      return res(ctx.json(marketParticipantUserOverviewData));
+    }
+  );
+}

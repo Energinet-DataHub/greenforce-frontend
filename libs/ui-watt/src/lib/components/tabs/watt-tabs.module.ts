@@ -14,24 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { MatTabsModule } from '@angular/material/tabs';
 
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattTabComponent } from './watt-tab.component';
+import { WattTabsComponent } from './watt-tabs.component';
 
-import { DhUsersTabComponent } from './dh-users-tab.component';
-
-@Component({
-  selector: 'dh-user-management-tabs',
-  standalone: true,
-  templateUrl: './dh-user-management-tabs.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  imports: [TranslocoModule, WattTabsModule, DhUsersTabComponent],
+@NgModule({
+  imports: [CommonModule, MatTabsModule],
+  declarations: [WattTabsComponent, WattTabComponent],
+  exports: [WattTabsComponent, WattTabComponent],
 })
-export class DhUserManagementTabsComponent {}
+export class WattTabsModule {}
