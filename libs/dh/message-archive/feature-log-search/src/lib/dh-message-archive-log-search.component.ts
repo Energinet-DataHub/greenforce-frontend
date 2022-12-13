@@ -21,7 +21,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LetModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@rx-angular/template';
@@ -53,13 +53,14 @@ import {
   DocumentTypes,
 } from '@energinet-datahub/dh/message-archive/domain';
 
-import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-archive-log-search-result.component';
+import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-message-archive-log-search-result.component';
 import { ViewEncapsulation } from '@angular/core';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import zonedTimeToUtc from 'date-fns-tz/zonedTimeToUtc';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
 @Component({
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-message-archive-log-search',
   styleUrls: ['./dh-message-archive-log-search.component.scss'],
@@ -70,6 +71,25 @@ import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
     DhMessageArchiveActorDataAccessApiStore,
   ],
   encapsulation: ViewEncapsulation.None,
+  imports: [
+    WattFormFieldModule,
+    WattInputModule,
+    WattButtonModule,
+    WattCheckboxModule,
+    WattDatepickerModule,
+    WattTimepickerModule,
+    FormsModule,
+    CommonModule,
+    LetModule,
+    TranslocoModule,
+    DhMessageArchiveLogSearchResultComponent,
+    WattBadgeModule,
+    WattDropdownModule,
+    WattSpinnerModule,
+    ReactiveFormsModule,
+    PushModule,
+    WattTopBarComponent,
+  ],
 })
 export class DhMessageArchiveLogSearchComponent {
   searchForm: FormGroup = new FormGroup({
@@ -216,26 +236,3 @@ export class DhMessageArchiveLogSearchComponent {
     this.searchForm.reset();
   }
 }
-@NgModule({
-  declarations: [DhMessageArchiveLogSearchComponent],
-  imports: [
-    WattFormFieldModule,
-    WattInputModule,
-    WattButtonModule,
-    WattCheckboxModule,
-    WattDatepickerModule,
-    WattTimepickerModule,
-    FormsModule,
-    CommonModule,
-    LetModule,
-    TranslocoModule,
-    DhMessageArchiveLogSearchResultScam,
-    WattBadgeModule,
-    WattDropdownModule,
-    WattSpinnerModule,
-    ReactiveFormsModule,
-    PushModule,
-    WattTopBarComponent,
-  ],
-})
-export class DhMessageArchiveLogSearchScam {}

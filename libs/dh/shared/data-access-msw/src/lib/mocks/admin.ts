@@ -14,21 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { DhMessageArchiveLogSearchComponent } from '@energinet-datahub/dh/message-archive/feature-log-search';
+import { rest } from 'msw';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: DhMessageArchiveLogSearchComponent,
-    data: {
-      titleTranslationKey: 'messageArchive.search.topBarTitle',
-    },
-  },
-];
+import marketParticipantUserOverviewData from './data/marketParticipantUserOverview.json';
 
-@NgModule({
-  imports: [RouterModule.forChild(routes), DhMessageArchiveLogSearchComponent],
-})
-export class DhMessageArchiveShellModule {}
+export function adminMocks(apiBase: string) {
+  return [getMarketParticipantUserOverview(apiBase)];
+}
+
+function getMarketParticipantUserOverview(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipantUserOverview`,
+    (req, res, ctx) => {
+      return res(ctx.json(marketParticipantUserOverviewData));
+    }
+  );
+}
