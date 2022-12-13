@@ -72,8 +72,6 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
   };
 
   ngAfterViewInit() {
-    if (!this._data) return;
-    this._data.sort = this.sort;
     this._data.paginator = this.paginator?.instance;
   }
 }
