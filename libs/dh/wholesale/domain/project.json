@@ -1,15 +1,15 @@
 {
-  "name": "dh-wholesale-shell",
+  "name": "dh-wholesale-domain",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/dh/wholesale/shell/src",
+  "sourceRoot": "libs/dh/wholesale/domain/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/dh/wholesale/shell/jest.config.ts",
+        "jestConfig": "libs/dh/wholesale/domain/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -17,11 +17,11 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/dh/wholesale/shell/**/*.ts",
-          "libs/dh/wholesale/shell/**/*.html"
+          "libs/dh/wholesale/domain/**/*.ts",
+          "libs/dh/wholesale/domain/**/*.html"
         ]
       }
     }
   },
-  "tags": ["product:dh", "domain:wholesale", "type:shell"]
+  "tags": ["product:dh", "domain:wholesale", "type:domain"]
 }
