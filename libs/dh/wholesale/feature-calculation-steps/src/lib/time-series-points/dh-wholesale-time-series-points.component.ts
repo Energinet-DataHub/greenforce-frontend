@@ -54,7 +54,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleTimeSeriesPointsComponent implements AfterViewInit {
-  @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
