@@ -33,7 +33,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       :host {
         display: grid;
         gap: var(--watt-space-l);
-        grid-template-columns: 584px 344px; // Magic UX Numbers
+        grid-template-columns: 578px 354px; // Magic UX Numbers
       }
 
       * + h1,
