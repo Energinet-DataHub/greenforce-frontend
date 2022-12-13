@@ -17,7 +17,7 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { WattBadgeModule } from '../badge';
+import { WattBadgeComponent } from '../badge';
 import {
   WattExpandableCardComponent,
   WATT_EXPANDABLE_CARD_COMPONENTS,
@@ -30,7 +30,7 @@ export default {
     moduleMetadata({
       imports: [
         BrowserAnimationsModule,
-        WattBadgeModule,
+        WattBadgeComponent,
         WATT_EXPANDABLE_CARD_COMPONENTS,
       ],
     }),
@@ -41,7 +41,7 @@ export const Overview: Story<WattExpandableCardComponent> = (args) => ({
   props: args,
   template: `
     <watt-expandable-card [expanded]="expanded">
-      <watt-badge>02</watt-badge>
+      <watt-badge size="large">02</watt-badge>
       <watt-expandable-card-title>The Cosmos Awaits</watt-expandable-card-title>
       <p>
         The sky calls to us preserve and cherish that pale blue dot citizens of
