@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { MessageArchiveSearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import {
@@ -26,7 +26,7 @@ import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatDividerModule } from '@angular/material/divider';
-import { DhMessageArchiveStatusComponentScam } from '../shared/dh-message-archive-status.component';
+import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { DhMessageArchiveDataAccessBlobApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
 
@@ -38,9 +38,24 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/s
 import { findLogName } from '../shared/findLogname';
 
 @Component({
+  standalone: true,
   selector: 'dh-message-archive-drawer',
   templateUrl: './dh-message-archive-drawer.component.html',
   styleUrls: ['./dh-message-archive-drawer.component.scss'],
+  imports: [
+    CommonModule,
+    WattDrawerModule,
+    TranslocoModule,
+    WattIconModule,
+    DhSharedUiDateTimeModule,
+    DhMessageArchiveStatusComponent,
+    MatDividerModule,
+    ActorNamePipe,
+    DocumentTypeNamePipe,
+    WattButtonModule,
+    PushModule,
+    DhEmDashFallbackPipeScam,
+  ],
 })
 export class DhMessageArchiveDrawerComponent {
   @ViewChild('drawer') drawer!: WattDrawerComponent;
@@ -67,23 +82,3 @@ export class DhMessageArchiveDrawerComponent {
     );
   }
 }
-
-@NgModule({
-  declarations: [DhMessageArchiveDrawerComponent],
-  exports: [DhMessageArchiveDrawerComponent],
-  imports: [
-    CommonModule,
-    WattDrawerModule,
-    TranslocoModule,
-    WattIconModule,
-    DhSharedUiDateTimeModule,
-    DhMessageArchiveStatusComponentScam,
-    MatDividerModule,
-    ActorNamePipe,
-    DocumentTypeNamePipe,
-    WattButtonModule,
-    PushModule,
-    DhEmDashFallbackPipeScam,
-  ],
-})
-export class DhMessageArchiveDrawerScam {}
