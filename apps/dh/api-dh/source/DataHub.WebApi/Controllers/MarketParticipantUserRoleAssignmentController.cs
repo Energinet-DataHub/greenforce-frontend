@@ -32,7 +32,7 @@ namespace Energinet.DataHub.WebApi.Controllers
             _client = client;
         }
 
-        [HttpGet]
+        [HttpPut]
         [Route("users/roles")]
         public Task GetAsync(Guid userId, UpdateUserRoleAssignmentsDto updateUserRoleAssignmentsDto)
         {
