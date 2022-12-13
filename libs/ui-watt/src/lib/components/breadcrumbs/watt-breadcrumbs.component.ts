@@ -16,6 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   EventEmitter,
@@ -33,13 +34,24 @@ import { WattIconModule } from '../../foundations/icon/icon.module';
   standalone: true,
   imports: [CommonModule, WattIconModule],
   encapsulation: ViewEncapsulation.None,
-  template: `<ng-template #templateRef><ng-content></ng-content></ng-template>`,
+  template: `
+    <ng-template #templateRef>
+      <span
+        class="watt-breadcrumb"
+        (click)="click.emit($event)"
+        [class.interactive]="click.observed"
+        [attr.role]="click.observed ? 'link' : null"
+      >
+        <ng-content></ng-content>
+      </span>
+    </ng-template>
+  `,
 })
 export class WattBreadcrumbComponent {
-  @ViewChild('templateRef') public templateRef!: TemplateRef<unknown>;
+  @ViewChild('templateRef') templateRef!: TemplateRef<unknown>;
 
   // Used to determine if the breadcrumb is interactive or not
-  @Output() click: EventEmitter<unknown> = new EventEmitter<unknown>(); // eslint-disable-line @angular-eslint/no-output-native
+  @Output() click: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>(); // eslint-disable-line @angular-eslint/no-output-native
 }
 
 /**
@@ -55,27 +67,28 @@ export class WattBreadcrumbComponent {
   template: `
     <nav>
       <ng-container *ngFor="let breadcrumb of breadcrumbs; let isLast = last">
-        <span
-          class="watt-breadcrumb"
-          (click)="breadcrumb.click.emit($event)"
-          [class.interactive]="breadcrumb.click.observed"
-          [attr.role]="breadcrumb.click.observed ? 'link' : null"
-        >
-          <ng-container
-            *ngTemplateOutlet="breadcrumb.templateRef"
-          ></ng-container>
-          <watt-icon *ngIf="!isLast" name="right"></watt-icon>
-        </span>
+        <ng-container *ngTemplateOutlet="breadcrumb.templateRef"></ng-container>
+        <watt-icon *ngIf="!isLast" name="right"></watt-icon>
       </ng-container>
     </nav>
   `,
 })
 export class WattBreadcrumbsComponent {
-  /**
-   * @ignore
-   */
+  /** @ignore  */
   @ContentChildren(WattBreadcrumbComponent)
   breadcrumbs!: QueryList<WattBreadcrumbComponent>;
+
+  // returns undefined
+  // @ContentChildren(WattBreadcrumbComponent, { read: TemplateRef })
+  // breadcrumbs!: QueryList<TemplateRef<WattBreadcrumbComponent>>;
+
+  // returns undefined
+  // @ContentChildren(TemplateRef)
+  // breadcrumbs!: QueryList<TemplateRef<WattBreadcrumbComponent>>;
+
+  // returns undefined
+  // @ContentChildren('watt-breadcrumb', { read: TemplateRef })
+  // breadcrumbs!: QueryList<TemplateRef<WattBreadcrumbComponent>>;
 }
 
 export const WATT_BREADCRUMBS = [
