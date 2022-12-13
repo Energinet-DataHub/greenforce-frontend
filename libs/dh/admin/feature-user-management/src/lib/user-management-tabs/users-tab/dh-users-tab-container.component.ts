@@ -15,8 +15,6 @@ import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-ge
   templateUrl: './dh-users-tab-container.component.html',
   styles: [
     `
-      @use '@energinet-datahub/watt/utils' as watt;
-
       :host {
         background-color: var(--watt-color-neutral-white);
         display: block;
