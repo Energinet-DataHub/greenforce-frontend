@@ -774,6 +774,25 @@
         "of": "of"
       }
     },
+    "calculationSteps": {
+      "topBarTitle": "See accumulated time series",
+      "sidebarTitle": "Details",
+      "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
+      "subHeading": "Grid Area Code {{gridAreaCode}}",
+      "loadCalculationStepsFailedTitle": "Oops! There was an error",
+      "loadCalculationStepsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information"
+    },
+    "processStepResults": {
+      "step": "Step {{step}}",
+      "aggregatedProductionPerGridArea": "Aggregated production per grid area",
+      "open": "Open",
+      "gridArea": "Grid area"
+    },
+    "timeSeriesPoints": {
+      "header": "Quantities ​​in the period",
+      "time": "time",
+      "quantity": "quantity"
+    },
     "batchDetails": {
       "headline": "Batch: {{batchId}}",
       "calculationPeriod": "Calculation period",
@@ -784,9 +803,6 @@
       "gridAreaCode": "ID",
       "name": "name",
       "noGridAreasFound": "No grid areas found"
-    },
-    "overview": {
-      "header": "Process Overview"
     }
   },
   "admin": {

@@ -75,7 +75,10 @@ export class WattBreadcrumbsComponent implements AfterViewInit {
    * @ignore
    */
   ngAfterViewInit() {
-    this.breadcrumbs.last.isLast = true;
+    // To avoid - Error: NG0100: ExpressionChangedAfterItHasBeenCheckedError
+    setTimeout(() => {
+      this.breadcrumbs.last.isLast = true;
+    });
   }
 }
 
