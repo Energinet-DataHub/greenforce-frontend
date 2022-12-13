@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
@@ -36,6 +36,17 @@ import { CommonModule } from '@angular/common';
   templateUrl: './dh-wholesale-start.component.html',
   styleUrls: ['./dh-wholesale-start.component.scss'],
   providers: [DhWholesaleBatchDataAccessApiStore],
+  standalone: true,
+  imports: [
+    WattButtonModule,
+    WattDatepickerModule,
+    WattFormFieldModule,
+    TranslocoModule,
+    DhFeatureFlagDirectiveModule,
+    ReactiveFormsModule,
+    CommonModule,
+    WattDropdownModule,
+  ],
 })
 export class DhWholesaleStartComponent {
   constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
@@ -70,18 +81,3 @@ export class DhWholesaleStartComponent {
     }
   }
 }
-
-@NgModule({
-  imports: [
-    WattButtonModule,
-    WattDatepickerModule,
-    WattFormFieldModule,
-    TranslocoModule,
-    DhFeatureFlagDirectiveModule,
-    ReactiveFormsModule,
-    CommonModule,
-    WattDropdownModule,
-  ],
-  declarations: [DhWholesaleStartComponent],
-})
-export class DhWholesaleStartScam {}
