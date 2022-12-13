@@ -786,7 +786,9 @@
       "step": "Step {{step}}",
       "aggregatedProductionPerGridArea": "Aggregated production per grid area",
       "open": "Open",
-      "gridArea": "Grid area"
+      "gridArea": "Grid area",
+      "loadProcessStepResultsErrorTitle": "Oops! There was an error",
+      "loadProcessStepResultsErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information"
     },
     "timeSeriesPoints": {
       "header": "Quantities ​​in the period",
@@ -796,7 +798,9 @@
     "batchDetails": {
       "headline": "Batch: {{batchId}}",
       "calculationPeriod": "Calculation period",
-      "executionTime": "Execution time"
+      "executionTime": "Execution time",
+      "errorTitle": "Oops! There was an error",
+      "errorMessage": "Unfortunately, an error occurred while retrieving the necessary information"
     },
     "gridAreas": {
       "header": "{{total}} Grid Areas",

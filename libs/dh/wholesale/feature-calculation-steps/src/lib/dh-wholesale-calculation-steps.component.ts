@@ -64,6 +64,7 @@ export class DhWholesaleCalculationStepsComponent {
       if (!batch) this.store.getBatch(this.route.snapshot.params['batchId']);
     })
   );
+  loadingBatchErrorTrigger$ = this.store.loadingBatchErrorTrigger$;
 
   gridArea$ = this.store.getGridArea$(
     this.route.snapshot.params['gridAreaCode']

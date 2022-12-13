@@ -15,7 +15,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let transloco; read: 'wholesale'">
-  <ng-container *rxLet="batch$; let batch">
+  <ng-container
+    *rxLet="
+      batch$;
+      let batch;
+      error: error;
+      suspense: suspense;
+      errorTrg: loadingBatchErrorTrigger$
+    "
+  >
     <ng-container *rxLet="gridArea$; let gridArea">
       <watt-top-bar>
         <div class="header">
@@ -62,25 +70,6 @@ limitations under the License.
           </li>
         </ul>
 
-        <ng-template #loading>
-          <div class="loading-container">
-            <watt-spinner></watt-spinner>
-          </div>
-        </ng-template>
-
-        <ng-template #error>
-          <watt-empty-state
-            icon="custom-power"
-            [title]="
-              transloco('calculationSteps.loadCalculationStepsFailedTitle')
-            "
-            [message]="
-              transloco('calculationSteps.loadCalculationStepsFailedMessage')
-            "
-          >
-          </watt-empty-state>
-        </ng-template>
-
         <aside class="details">
           <watt-card>
             <watt-card-title>
@@ -106,4 +95,23 @@ limitations under the License.
       </main>
     </ng-container>
   </ng-container>
+
+  <ng-template #suspense>
+    <div class="center">
+      <watt-spinner></watt-spinner>
+    </div>
+  </ng-template>
+
+  <ng-template #error>
+    <div class="center">
+      <watt-empty-state
+        icon="custom-power"
+        [title]="transloco('calculationSteps.loadCalculationStepsFailedTitle')"
+        [message]="
+          transloco('calculationSteps.loadCalculationStepsFailedMessage')
+        "
+      >
+      </watt-empty-state>
+    </div>
+  </ng-template>
 </ng-container>

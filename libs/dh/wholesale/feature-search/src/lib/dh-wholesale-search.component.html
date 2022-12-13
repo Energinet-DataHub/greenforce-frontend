@@ -58,7 +58,8 @@ limitations under the License.
   </ng-container>
 
   <dh-wholesale-batch-details
-    [batch]="selectedBatch$ | push"
+    [batch$]="selectedBatch$"
+    [errorTrigger$]="selectedBatchErrorTrigger$"
     (closed)="onBatchDetailsClosed()"
     #batchDetails
   ></dh-wholesale-batch-details>

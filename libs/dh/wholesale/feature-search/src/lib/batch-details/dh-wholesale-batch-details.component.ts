@@ -26,11 +26,15 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
+import { LetModule } from '@rx-angular/template';
+import { Observable, Subject } from 'rxjs';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import {
   WattDrawerComponent,
   WattDrawerModule,
@@ -52,6 +56,9 @@ import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/whole
     WattCardModule,
     WattDrawerModule,
     ...WATT_BREADCRUMBS,
+    LetModule,
+    WattSpinnerModule,
+    WattEmptyStateModule
   ],
   selector: 'dh-wholesale-batch-details',
   templateUrl: './dh-wholesale-batch-details.component.html',
@@ -59,22 +66,25 @@ import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/whole
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleBatchDetailsComponent {
-  @Input() batch?: batch;
+  @Input() batch$!: Observable<batch | undefined>;
+  @Input() errorTrigger$!: Subject<void>;
+
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
   @Output() closed = new EventEmitter<void>();
 
   router = inject(Router);
   route = inject(ActivatedRoute);
+  batchId = this.route.snapshot.queryParams['batch'];
 
   open(): void {
     this.drawer.open();
   }
 
-  onGridAreaSelected(gridArea: GridAreaDto): void {
+  onGridAreaSelected(batch: batch, gridArea: GridAreaDto): void {
     navigateToWholesaleCalculationSteps(
       this.router,
-      this.batch as batch,
+      batch,
       gridArea
     );
   }

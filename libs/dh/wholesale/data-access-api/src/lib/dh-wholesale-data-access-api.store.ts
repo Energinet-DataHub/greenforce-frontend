@@ -47,16 +47,12 @@ interface State {
   batches?: batch[];
   processStepResults?: ProcessStepResultDto;
   loadingBatches: boolean;
-  loadingBatch: boolean;
-  loadingProcessStepResults: boolean;
   selectedBatch?: batch;
   selectedGridArea?: GridAreaDto;
 }
 
 const initialState: State = {
   loadingBatches: false,
-  loadingBatch: false,
-  loadingProcessStepResults: false,
 };
 
 @Injectable({
@@ -71,6 +67,9 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   loadingBatches$ = this.select((x) => x.loadingBatches);
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
   loadingBasisDataErrorTrigger$: Subject<void> = new Subject();
+
+  loadingBatchErrorTrigger$: Subject<void> = new Subject();
+  loadingProcessStepResultsErrorTrigger$: Subject<void> = new Subject();
 
   private document = inject(DOCUMENT);
   private httpClient = inject(WholesaleBatchHttp);
@@ -113,7 +112,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (state, processStepResults: ProcessStepResultDto): State => ({
       ...state,
       processStepResults,
-      loadingProcessStepResults: false,
     })
   );
 
@@ -124,12 +122,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     })
   );
 
-  readonly setLoadingProcessStepResults = this.updater(
-    (state, loadingProcessStepResults: boolean): State => ({
-      ...state,
-      loadingProcessStepResults,
-    })
-  );
 
   readonly getBatches = this.effect((filter$: Observable<BatchSearchDto>) => {
     return filter$.pipe(
@@ -178,6 +170,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
             this.setSelectedBatch(batch);
           }),
           catchError(() => {
+            this.loadingBatchErrorTrigger$.next();
             return EMPTY;
           })
         );
@@ -188,9 +181,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   readonly getProcessStepResults = this.effect(
     (options$: Observable<ProcessStepResultRequestDto>) => {
       return options$.pipe(
-        tap(() => {
-          this.setLoadingProcessStepResults(true);
-        }),
         switchMap((options) => {
           return this.httpClient
             .v1WholesaleBatchProcessStepResultPost(options)
@@ -199,6 +189,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
                 this.setProcessStepResults(stepResults);
               }),
               catchError(() => {
+                this.loadingProcessStepResultsErrorTrigger$.next();
                 return EMPTY;
               })
             );

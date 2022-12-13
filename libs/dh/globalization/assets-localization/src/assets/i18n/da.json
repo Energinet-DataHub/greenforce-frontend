@@ -790,7 +790,9 @@
       "step": "Trin {{step}}",
       "aggregatedProductionPerGridArea": "Aggregeret produktion per netområde",
       "open": "Åbn",
-      "gridArea": "Netområde"
+      "gridArea": "Netområde",
+      "loadProcessStepResultsErrorTitle": "Ups! Der opstod en fejl",
+      "loadProcessStepResultsErrorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
     },
     "timeSeriesPoints": {
       "header": "Værdier i perioden",
@@ -800,7 +802,9 @@
     "batchDetails": {
       "headline": "Batch: {{batchId}}",
       "calculationPeriod": "Beregningsperiode",
-      "executionTime": "Eksekveringstidspunkt"
+      "executionTime": "Eksekveringstidspunkt",
+      "errorTitle": "Ups! Der opstod en fejl",
+      "errorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
     },
     "gridAreas": {
       "header": "{{total}} Netområder",

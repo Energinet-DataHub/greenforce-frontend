@@ -71,7 +71,7 @@ function getWholesaleSearchBatch(apiBase: string) {
         },
       ],
     };
-    return res(ctx.status(200), ctx.json(batch));
+    return res(ctx.delay(300), ctx.status(200), ctx.json(batch));
   });
 }
 

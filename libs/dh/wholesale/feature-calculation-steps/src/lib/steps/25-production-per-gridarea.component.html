@@ -71,11 +71,39 @@ limitations under the License.
       </p>
       <hr />
 
-      <ng-container *ngIf="processStepResults$ | async as processStepResults">
+      <ng-container
+        *rxLet="
+          processStepResults$;
+          let processStepResults;
+          suspense: loadingProcessStepResults;
+          error: loadingProcessStepResultsError;
+          errorTrg: loadingProcessStepResultsErrorTrigger$
+        "
+      >
         <dh-wholesale-time-series-points
+          *ngIf="processStepResults"
           [data]="processStepResults.timeSeriesPoints"
         ></dh-wholesale-time-series-points>
       </ng-container>
+
+      <ng-template #loadingProcessStepResults>
+        <div class="center">
+          <watt-spinner></watt-spinner>
+        </div>
+      </ng-template>
+
+      <ng-template #loadingProcessStepResultsError>
+        <div class="center">
+          <watt-empty-state
+            icon="custom-power"
+            [title]="transloco('loadProcessStepResultsErrorTitle')"
+            [message]="
+              transloco('loadProcessStepResultsErrorMessage')
+            "
+          >
+          </watt-empty-state>
+        </div>
+      </ng-template>
     </watt-drawer-content>
   </watt-drawer>
 </ng-container>

@@ -27,7 +27,8 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import {
   WattDrawerComponent,
   WattDrawerModule,
@@ -41,7 +42,7 @@ import {
   ProcessStepType,
 } from '@energinet-datahub/dh/shared/domain';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import { PushModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template';
 import { CommonModule } from '@angular/common';
 import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
 
@@ -59,7 +60,9 @@ import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-w
     DhWholesaleTimeSeriesPointsComponent,
     ...WATT_BREADCRUMBS,
     TranslocoModule,
-    PushModule,
+    LetModule,
+    WattSpinnerModule,
+    WattEmptyStateModule
   ],
 })
 export class DhWholesaleProductionPerGridareaComponent
@@ -74,6 +77,7 @@ export class DhWholesaleProductionPerGridareaComponent
   private route = inject(ActivatedRoute);
 
   processStepResults$ = this.store.processStepResults$;
+  loadingProcessStepResultsErrorTrigger$ = this.store.loadingProcessStepResultsErrorTrigger$;
 
   ngAfterViewInit(): void {
     const selectedStep = this.route.snapshot.queryParams['step'];
