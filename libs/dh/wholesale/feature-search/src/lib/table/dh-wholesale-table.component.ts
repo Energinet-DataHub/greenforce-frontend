@@ -34,7 +34,7 @@ import {
   WattTableDataSource,
   WattTableColumnDef,
 } from '@energinet-datahub/watt/table';
-import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -53,7 +53,7 @@ type wholesaleTableData = WattTableDataSource<batch>;
     PushModule,
     DhSharedUiDateTimeModule,
     TranslocoModule,
-    WattBadgeModule,
+    WattBadgeComponent,
     WattButtonModule,
     WattEmptyStateModule,
     DhSharedUiPaginatorComponent,
