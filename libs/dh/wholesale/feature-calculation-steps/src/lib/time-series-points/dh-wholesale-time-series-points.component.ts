@@ -19,23 +19,22 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
-  Output,
   ViewChild,
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { TranslocoModule } from '@ngneat/transloco';
+
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
+import { TimeSeriesPointDto } from '@energinet-datahub/dh/shared/domain';
+import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import {
   WattTableDataSource,
   WattTableColumnDef,
   WATT_TABLE,
 } from '@energinet-datahub/watt/table';
-import { TranslocoModule } from '@ngneat/transloco';
-
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   standalone: true,
@@ -47,28 +46,28 @@ import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
     WattEmptyStateModule,
     DhSharedUiPaginatorComponent,
     WattCardModule,
+    DhSharedUiDateTimeModule,
   ],
-  selector: 'dh-wholesale-grid-areas',
-  templateUrl: './dh-wholesale-grid-areas.component.html',
-  styleUrls: ['./dh-wholesale-grid-areas.component.scss'],
+  selector: 'dh-wholesale-time-series-points',
+  templateUrl: './dh-wholesale-time-series-points.component.html',
+  styleUrls: ['./dh-wholesale-time-series-points.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleGridAreasComponent implements AfterViewInit {
-  @ViewChild(MatSort) sort!: MatSort;
+export class DhWholesaleTimeSeriesPointsComponent implements AfterViewInit {
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
-  @Input() set data(gridAreas: GridAreaDto[]) {
-    this._data = new WattTableDataSource(gridAreas);
+  @Input() set data(timeSeriesPoints: TimeSeriesPointDto[]) {
+    this._data = new WattTableDataSource(timeSeriesPoints);
     this._data.paginator = this.paginator?.instance;
   }
 
-  @Output() selected = new EventEmitter<GridAreaDto>();
-
-  _data: WattTableDataSource<GridAreaDto> = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<GridAreaDto> = {
-    gridAreaCode: { accessor: 'code' },
-    name: { accessor: 'name', cell: (row: GridAreaDto) => row.name ?? '—' },
+  _data: WattTableDataSource<TimeSeriesPointDto> = new WattTableDataSource(
+    undefined
+  );
+  columns: WattTableColumnDef<TimeSeriesPointDto> = {
+    time: { accessor: 'time' },
+    quantity: { accessor: 'quantity' },
   };
 
   ngAfterViewInit() {

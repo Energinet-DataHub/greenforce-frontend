@@ -6,11 +6,23 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
+        "@typescript-eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@energinet-datahub-types/**"],
+                "message": "`@energinet-datahub-types` may only be used for type imports.",
+                "allowTypeImports": true
+              }
+            ]
+          }
+        ],
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {
             "enforceBuildableLibDependency": true,
-            "allow": [],
+            "allow": ["@energinet-datahub-types"],
             "depConstraints": [
               {
                 "sourceTag": "type:app",

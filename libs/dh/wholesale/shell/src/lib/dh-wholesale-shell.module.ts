@@ -14,47 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Route } from '@angular/router';
 
 import {
-  DhWholesaleStartComponent,
-  DhWholesaleStartScam,
-} from '@energinet-datahub/dh/wholesale/feature-start';
+  WHOLESALE_START_PROCESS_PATH,
+  WHOLESALE_SEARCH_BATCH_PATH,
+  WHOLESALE_CALCULATION_STEPS_PATH,
+} from '@energinet-datahub/dh/wholesale/routing';
 
-import { DhWholesaleSearchComponent } from '@energinet-datahub/dh/wholesale/feature-search';
-
-import {
-  DhWholesaleOverviewComponent,
-  DhWholesaleOverviewScam,
-} from '@energinet-datahub/dh/wholesale/feature-overview';
-
-const routes: Routes = [
+export const WHOLESALE_SHELL: Route[] = [
   {
-    path: 'start-process',
-    component: DhWholesaleStartComponent,
+    path: WHOLESALE_START_PROCESS_PATH,
+    loadComponent: () =>
+      import('@energinet-datahub/dh/wholesale/feature-start').then(
+        (m) => m.DhWholesaleStartComponent
+      ),
     data: {
       titleTranslationKey: 'wholesale.startBatch.topBarTitle',
     },
   },
   {
-    path: 'search-batch',
-    component: DhWholesaleSearchComponent,
+    path: WHOLESALE_SEARCH_BATCH_PATH,
+    loadComponent: () =>
+      import('@energinet-datahub/dh/wholesale/feature-search').then(
+        (m) => m.DhWholesaleSearchComponent
+      ),
     data: {
       titleTranslationKey: 'wholesale.searchBatch.topBarTitle',
     },
   },
   {
-    path: 'overview',
-    component: DhWholesaleOverviewComponent,
+    path: `${WHOLESALE_CALCULATION_STEPS_PATH}/:batchId/:gridAreaCode`,
+    loadComponent: () =>
+      import('@energinet-datahub/dh/wholesale/feature-calculation-steps').then(
+        (m) => m.DhWholesaleCalculationStepsComponent
+      ),
+    data: {
+      titleTranslationKey: 'wholesale.calculationSteps.topBarTitle',
+    },
   },
 ];
-
-@NgModule({
-  imports: [
-    DhWholesaleStartScam,
-    DhWholesaleOverviewScam,
-    RouterModule.forChild(routes),
-  ],
-})
-export class DhWholesaleShellModule {}
