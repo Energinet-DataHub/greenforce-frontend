@@ -15,6 +15,12 @@
  * limitations under the License.
  */
 
+import {
+  HttpEvent,
+  HttpHandler,
+  HttpRequest,
+  HttpResponse,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   MarketParticipantUserHttp,
@@ -22,41 +28,106 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { map, Observable, of, switchMap, tap } from 'rxjs';
 
+type CachedEntry = { token: string; value: string };
+
 @Injectable({ providedIn: 'root' })
 export class ActorTokenService {
-  private _internalToken = '';
-  private _externalToken = '';
+  private _internalActors: CachedEntry = {
+    token: '',
+    value: '',
+  };
+
+  private _internalToken: CachedEntry = {
+    token: '',
+    value: '',
+  };
 
   constructor(
     private marketParticipantUserHttp: MarketParticipantUserHttp,
     private tokenHttp: TokenHttp
   ) {}
 
-  public acquireToken = (externalToken: string): Observable<string> => {
-    if (this._externalToken !== externalToken) {
-      this._internalToken = '';
-    }
+  public isPartOfAuthFlow(request: HttpRequest<unknown>) {
+    return this.isUserActorsRequest(request) || this.isTokenRequest(request);
+  }
 
-    this._externalToken = externalToken;
-
-    if (this._internalToken) {
-      return of(this._internalToken);
-    }
-
-    return this.marketParticipantUserHttp
-      .v1MarketParticipantUserGet(externalToken)
-      .pipe(
-        switchMap((r) => {
-          return this.tokenHttp
-            .v1TokenPost({
-              actorId: r.actorIds[0],
-              externalToken: externalToken,
-            })
-            .pipe(
-              tap((r) => (this._internalToken = r.token)),
-              map((r) => r.token)
-            );
-        })
+  public handleAuthFlow(
+    request: HttpRequest<unknown>,
+    nextHandler: HttpHandler
+  ): Observable<HttpEvent<unknown>> {
+    if (this.isUserActorsRequest(request)) {
+      return this.updateCache(
+        request,
+        nextHandler,
+        () => this._internalActors,
+        (value) => (this._internalActors = value)
       );
+    }
+
+    if (this.isTokenRequest(request)) {
+      return this.updateCache(
+        request,
+        nextHandler,
+        () => this._internalToken,
+        (value) => (this._internalToken = value)
+      );
+    }
+
+    return nextHandler.handle(request);
+  }
+
+  public acquireToken = (): Observable<string> => {
+    return this.marketParticipantUserHttp.v1MarketParticipantUserGet().pipe(
+      switchMap((r) => {
+        return this.tokenHttp
+          .v1TokenPost({
+            actorId: r.actorIds[0],
+            externalToken: '',
+          })
+          .pipe(map((r) => r.token));
+      })
+    );
   };
+
+  private updateCache(
+    request: HttpRequest<unknown>,
+    nextHandler: HttpHandler,
+    readCache: () => CachedEntry,
+    writeCache: (value: CachedEntry) => void
+  ): Observable<HttpEvent<unknown>> {
+    const externalToken = request.headers.get('Authorization');
+
+    if (!externalToken)
+      throw new Error(
+        'handleAuthFlow failed, no token in Authorization header.'
+      );
+
+    const cachedEntry = readCache();
+    if (cachedEntry.token === externalToken) {
+      return this.createCachedResponse(cachedEntry.value);
+    }
+
+    return nextHandler.handle(request).pipe(
+      tap((response) => {
+        const body = (response as HttpResponse<string>).body;
+        if (body) {
+          writeCache({ token: externalToken, value: body });
+        }
+      })
+    );
+  }
+
+  private createCachedResponse(
+    cachedValue: string
+  ): Observable<HttpResponse<string>> {
+    return of(new HttpResponse<string>({ body: cachedValue, status: 200 }));
+  }
+
+  private isUserActorsRequest(request: HttpRequest<unknown>): boolean {
+    return request.url.endsWith('/MarketParticipantUser/Actors');
+  }
+
+  private isTokenRequest(request: HttpRequest<unknown>): boolean {
+    return request.url.endsWith('/Token');
+  }
 }
