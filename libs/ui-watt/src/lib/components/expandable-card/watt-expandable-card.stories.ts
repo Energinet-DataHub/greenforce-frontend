@@ -41,7 +41,7 @@ export const Overview: Story<WattExpandableCardComponent> = (args) => ({
   props: args,
   template: `
     <watt-expandable-card [expanded]="expanded">
-      <watt-badge>02</watt-badge>
+      <watt-badge size="large">02</watt-badge>
       <watt-expandable-card-title>The Cosmos Awaits</watt-expandable-card-title>
       <p>
         The sky calls to us preserve and cherish that pale blue dot citizens of
