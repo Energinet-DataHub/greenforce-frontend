@@ -62,7 +62,7 @@ import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-w
     TranslocoModule,
     LetModule,
     WattSpinnerModule,
-    WattEmptyStateModule
+    WattEmptyStateModule,
   ],
 })
 export class DhWholesaleProductionPerGridareaComponent
@@ -77,7 +77,8 @@ export class DhWholesaleProductionPerGridareaComponent
   private route = inject(ActivatedRoute);
 
   processStepResults$ = this.store.processStepResults$;
-  loadingProcessStepResultsErrorTrigger$ = this.store.loadingProcessStepResultsErrorTrigger$;
+  loadingProcessStepResultsErrorTrigger$ =
+    this.store.loadingProcessStepResultsErrorTrigger$;
 
   ngAfterViewInit(): void {
     const selectedStep = this.route.snapshot.queryParams['step'];

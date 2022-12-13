@@ -58,7 +58,7 @@ import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/whole
     ...WATT_BREADCRUMBS,
     LetModule,
     WattSpinnerModule,
-    WattEmptyStateModule
+    WattEmptyStateModule,
   ],
   selector: 'dh-wholesale-batch-details',
   templateUrl: './dh-wholesale-batch-details.component.html',
@@ -82,10 +82,6 @@ export class DhWholesaleBatchDetailsComponent {
   }
 
   onGridAreaSelected(batch: batch, gridArea: GridAreaDto): void {
-    navigateToWholesaleCalculationSteps(
-      this.router,
-      batch,
-      gridArea
-    );
+    navigateToWholesaleCalculationSteps(this.router, batch, gridArea);
   }
 }
