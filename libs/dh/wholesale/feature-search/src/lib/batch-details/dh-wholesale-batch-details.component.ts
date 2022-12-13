@@ -14,26 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   ViewChild,
+  inject,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import {
   WattDrawerComponent,
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
 
-import { BatchVm } from '../table/dh-wholesale-table.component';
+import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
-import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
+import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/wholesale/routing';
 
 @Component({
   standalone: true,
@@ -53,10 +59,23 @@ import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleBatchDetailsComponent {
-  @Input() batch!: BatchVm;
+  @Input() batch?: batch;
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
+
+  @Output() closed = new EventEmitter<void>();
+
+  router = inject(Router);
+  route = inject(ActivatedRoute);
 
   open(): void {
     this.drawer.open();
+  }
+
+  onGridAreaSelected(gridArea: GridAreaDto): void {
+    navigateToWholesaleCalculationSteps(
+      this.router,
+      this.batch as batch,
+      gridArea
+    );
   }
 }
