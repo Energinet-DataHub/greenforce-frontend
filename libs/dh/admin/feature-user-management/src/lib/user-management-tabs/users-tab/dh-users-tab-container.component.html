@@ -8,10 +8,6 @@
   </ng-container>
 </ng-container>
 
-<ng-container *rxLet="usersNotFound$ as usersNotFound">
-  <div *ngIf="usersNotFound" class="users-overview__error"></div>
-</ng-container>
-
 <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
   <div *ngIf="hasGeneralError" class="users-overview__error"></div>
 </ng-container>

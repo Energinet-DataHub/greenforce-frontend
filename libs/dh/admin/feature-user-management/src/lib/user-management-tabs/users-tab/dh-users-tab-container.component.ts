@@ -27,6 +27,5 @@ export class DhUsersTabContainerComponent {
 
   users$ = this.store.users$;
   isLoading$ = this.store.isLoading$;
-  usersNotFound$ = this.store.usersNotFound$;
   hasGeneralError$ = this.store.hasGeneralError$;
 }
