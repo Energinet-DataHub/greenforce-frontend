@@ -2,9 +2,11 @@
   <watt-card (click)="openDetails()">
     <h4>
       <watt-badge>25</watt-badge>
-      {{ transloco('aggregatedProductionPerGridArea') }}
+      {{ transloco("aggregatedProductionPerGridArea") }}
     </h4>
-    <watt-button variant="text" icon="openInNew">{{ transloco('open') }}</watt-button>
+    <watt-button variant="text" icon="openInNew">{{
+      transloco("open")
+    }}</watt-button>
   </watt-card>
 
   <watt-drawer #drawer (closed)="onDrawerClosed()">
@@ -24,17 +26,19 @@
             gridAreaName: gridArea.name
           })
         }}</watt-breadcrumb>
-        <watt-breadcrumb>{{ transloco('processStepResults.step', {step: 25}) }}</watt-breadcrumb>
+        <watt-breadcrumb>{{
+          transloco("processStepResults.step", { step: 25 })
+        }}</watt-breadcrumb>
       </watt-breadcrumbs>
     </watt-drawer-topbar>
 
     <watt-drawer-content>
       <h3 class="headline watt-headline-1">
-        <watt-badge>{{ transloco('step', {step: 25}) }}</watt-badge>
-        {{ transloco('aggregatedProductionPerGridArea') }}
+        <watt-badge>{{ transloco("step", { step: 25 }) }}</watt-badge>
+        {{ transloco("aggregatedProductionPerGridArea") }}
       </h3>
       <p>
-        <strong>{{ transloco('gridArea') }}</strong>
+        <strong>{{ transloco("gridArea") }}</strong>
         <ng-container *transloco="let transloco; read: 'wholesale'">
           {{
             transloco("calculationSteps.breadcrumb", {
