@@ -25,7 +25,7 @@ limitations under the License.
             }}</watt-breadcrumb>
             <watt-breadcrumb (click)="navigateToSearchBatch(batch)">{{
               transloco("batchDetails.headline", {
-                batchId: batch?.batchId
+                batchId: batch.batchId
               })
             }}</watt-breadcrumb>
             <watt-breadcrumb>{{
@@ -39,7 +39,7 @@ limitations under the License.
           <h2>
             {{ gridArea?.name }}
             <watt-badge type="info">
-              {{ transloco("searchBatch." + batch?.executionState) }}
+              {{ transloco("searchBatch." + batch.executionState) }}
             </watt-badge>
           </h2>
 
