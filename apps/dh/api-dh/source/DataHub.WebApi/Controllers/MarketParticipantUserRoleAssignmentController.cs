@@ -34,7 +34,7 @@ namespace Energinet.DataHub.WebApi.Controllers
 
         [HttpPut]
         [Route("users/roles")]
-        public Task GetAsync(Guid userId, UpdateUserRoleAssignmentsDto updateUserRoleAssignmentsDto)
+        public Task UpdateAssignmentsAsync(Guid userId, UpdateUserRoleAssignmentsDto updateUserRoleAssignmentsDto)
         {
             return HandleExceptionAsync(() => _client.UpdateUserRoleAssignmentsAsync(userId, updateUserRoleAssignmentsDto));
         }
