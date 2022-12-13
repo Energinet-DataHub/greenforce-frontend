@@ -22,10 +22,7 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 
-import {
-  DhWholesaleStartComponent,
-  DhWholesaleStartScam,
-} from './dh-wholesale-start.component';
+import { DhWholesaleStartComponent } from './dh-wholesale-start.component';
 
 describe(DhWholesaleStartComponent.name, () => {
   async function setup() {
@@ -35,7 +32,6 @@ describe(DhWholesaleStartComponent.name, () => {
         getTranslocoTestingModule(),
         DhApiModule.forRoot(),
         HttpClientModule,
-        DhWholesaleStartScam,
       ],
     });
 
