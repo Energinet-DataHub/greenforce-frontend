@@ -131,7 +131,6 @@ export class WattTableCellDirective<T> {
     MatTableModule,
     WattCheckboxModule,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-table',
   styleUrls: ['./watt-table.component.scss'],
