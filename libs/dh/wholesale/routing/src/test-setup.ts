@@ -14,27 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "@energinet-datahub/watt/utils" as watt;
+import 'jest-preset-angular/setup-jest';
 
-watt-breadcrumbs {
-  display: block;
-  @include watt.typography-watt-text-s;
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-  nav,
-  .watt-breadcrumb {
-    align-items: center;
-    display: flex;
-  }
-
-  .watt-breadcrumb {
-    cursor: default;
-
-    &.interactive {
-      cursor: pointer;
-    }
-    &:not(:last-child) {
-      color: var(--watt-color-primary);
-      text-decoration: none;
-    }
-  }
-}
+setUpTestbed();

@@ -14,27 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "@energinet-datahub/watt/utils" as watt;
-
-watt-breadcrumbs {
+:host {
   display: block;
-  @include watt.typography-watt-text-s;
+  width: 100%;
+}
 
-  nav,
-  .watt-breadcrumb {
-    align-items: center;
-    display: flex;
-  }
+watt-empty-state {
+  margin-top: var(--watt-space-xl);
+}
 
-  .watt-breadcrumb {
-    cursor: default;
+watt-card-title {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: var(--watt-space-s);
 
-    &.interactive {
-      cursor: pointer;
-    }
-    &:not(:last-child) {
-      color: var(--watt-color-primary);
-      text-decoration: none;
-    }
+  h3 {
+    margin: 0;
   }
 }

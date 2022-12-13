@@ -14,27 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "@energinet-datahub/watt/utils" as watt;
-
-watt-breadcrumbs {
-  display: block;
-  @include watt.typography-watt-text-s;
-
-  nav,
-  .watt-breadcrumb {
-    align-items: center;
-    display: flex;
-  }
-
-  .watt-breadcrumb {
-    cursor: default;
-
-    &.interactive {
-      cursor: pointer;
-    }
-    &:not(:last-child) {
-      color: var(--watt-color-primary);
-      text-decoration: none;
-    }
-  }
-}
+export * from './lib/routing';
