@@ -21,12 +21,12 @@ watt-breadcrumbs {
   @include watt.typography-watt-text-s;
 
   nav,
-  watt-breadcrumb {
+  .watt-breadcrumb {
     align-items: center;
     display: flex;
   }
 
-  watt-breadcrumb {
+  .watt-breadcrumb {
     cursor: default;
 
     &.interactive {
