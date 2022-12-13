@@ -29,7 +29,7 @@ export type WattBadgeType = 'warning' | 'success' | 'danger' | 'info';
 })
 export class WattBadgeComponent {
   @Input() type: WattBadgeType = 'info';
-  @Input() size = 'nprmal';
+  @Input() size = 'normal';
 
   @HostBinding('class')
   get badgeType() {
