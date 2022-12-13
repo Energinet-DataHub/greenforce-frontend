@@ -22,7 +22,6 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { MatSort, MatSortModule } from '@angular/material/sort';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
@@ -41,7 +40,6 @@ import {
   imports: [
     WATT_TABLE,
     CommonModule,
-    MatSortModule,
     TranslocoModule,
     WattEmptyStateModule,
     DhSharedUiPaginatorComponent,
