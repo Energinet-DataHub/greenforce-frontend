@@ -30,7 +30,7 @@ limitations under the License.
     description="batches"
     sortBy="code"
     sortDirection="desc"
-    (rowClick)="onSelect($event)"
+    (rowClick)="this.selected.emit($event)"
   ></watt-table>
 
   <!-- No Batches found -->

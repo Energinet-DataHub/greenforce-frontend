@@ -76,8 +76,4 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
     this._data.sort = this.sort;
     this._data.paginator = this.paginator?.instance;
   }
-
-  onSelect(gridArea: GridAreaDto) {
-    this.selected.emit(gridArea);
-  }
 }
