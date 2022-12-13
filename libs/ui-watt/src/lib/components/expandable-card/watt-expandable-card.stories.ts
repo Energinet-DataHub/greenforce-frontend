@@ -17,7 +17,7 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { WattBadgeModule } from '../badge';
+import { WattBadgeComponent } from '../badge';
 import {
   WattExpandableCardComponent,
   WATT_EXPANDABLE_CARD_COMPONENTS,
@@ -30,7 +30,7 @@ export default {
     moduleMetadata({
       imports: [
         BrowserAnimationsModule,
-        WattBadgeModule,
+        WattBadgeComponent,
         WATT_EXPANDABLE_CARD_COMPONENTS,
       ],
     }),

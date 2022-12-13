@@ -16,11 +16,11 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
-  imports: [CommonModule, TranslocoModule, WattBadgeModule],
+  imports: [CommonModule, TranslocoModule, WattBadgeComponent],
   standalone: true,
   selector: 'dh-message-archive-status',
   template: `<ng-container *transloco="let t; read: 'messageArchive.search'"

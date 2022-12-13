@@ -14,21 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, Story } from '@storybook/angular';
 
-import { WattBadgeComponent, WattBadgeModule } from './../index';
+import { WattBadgeComponent } from './../index';
 
 export default {
   title: 'Components/Badge',
-  decorators: [
-    moduleMetadata({
-      imports: [WattBadgeModule],
-    }),
-  ],
   component: WattBadgeComponent,
-} as Meta;
+} as Meta<WattBadgeComponent>;
 
-const Template: Story = (args) => ({
+const Template: Story<WattBadgeComponent> = (args) => ({
   props: args,
   template: `
     <div style="display: flex; gap: var(--watt-space-m);">

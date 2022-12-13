@@ -34,7 +34,7 @@ import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { DhMessageArchiveDataAccessBlobApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { CommonModule } from '@angular/common';
-import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { MatDividerModule } from '@angular/material/divider';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 
@@ -50,7 +50,7 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
     WattButtonModule,
     WattIconModule,
     WattSpinnerModule,
-    WattBadgeModule,
+    WattBadgeComponent,
     MatDividerModule,
   ],
   selector: 'dh-charge-price-message',

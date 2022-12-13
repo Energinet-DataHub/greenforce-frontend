@@ -31,7 +31,10 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { BatchDto, BatchState } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt/badge';
+import {
+  WattBadgeComponent,
+  WattBadgeType,
+} from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -47,7 +50,7 @@ type wholesaleTableData = MatTableDataSource<BatchVm>;
     MatSortModule,
     MatTableModule,
     TranslocoModule,
-    WattBadgeModule,
+    WattBadgeComponent,
     WattButtonModule,
     WattEmptyStateModule,
     DhSharedUiPaginatorComponent,

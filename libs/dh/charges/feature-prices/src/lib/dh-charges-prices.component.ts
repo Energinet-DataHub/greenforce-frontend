@@ -39,7 +39,7 @@ import {
   WattDropdownOptions,
 } from '@energinet-datahub/watt/dropdown';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
-import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 
@@ -58,7 +58,7 @@ import { ChargeSearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
     FormsModule,
     PushModule,
     TranslocoModule,
-    WattBadgeModule,
+    WattBadgeComponent,
     WattButtonModule,
     WattCheckboxModule,
     WattDatepickerModule,
