@@ -9,6 +9,7 @@ import { MarketParticipantGridAreaHttp } from './api/market-participant-grid-are
 import { MarketParticipantGridAreaOverviewHttp } from './api/market-participant-grid-area-overview-http.service';
 import { MarketParticipantUserHttp } from './api/market-participant-user-http.service';
 import { MarketParticipantUserOverviewHttp } from './api/market-participant-user-overview-http.service';
+import { MarketParticipantUserRoleAssignmentHttp } from './api/market-participant-user-role-assignment-http.service';
 import { MarketParticipantUserRoleTemplateHttp } from './api/market-participant-user-role-template-http.service';
 import { MessageArchiveHttp } from './api/message-archive-http.service';
 import { MeteringPointHttp } from './api/metering-point-http.service';
