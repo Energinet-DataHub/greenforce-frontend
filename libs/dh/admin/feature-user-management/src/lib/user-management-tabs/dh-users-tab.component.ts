@@ -18,6 +18,7 @@ import { Component, inject } from '@angular/core';
 import { PushModule } from '@rx-angular/template';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
+import { provideComponentStore } from '@ngrx/component-store';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
@@ -27,7 +28,7 @@ import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/a
   templateUrl: './dh-users-tab.component.html',
   styleUrls: ['./dh-users-tab.component.scss'],
   standalone: true,
-  providers: [DhAdminUserManagementDataAccessApiStore],
+  providers: [provideComponentStore(DhAdminUserManagementDataAccessApiStore)],
   imports: [CommonModule, PushModule, TranslocoModule, WattCardModule],
 })
 export class DhUsersTabComponent {
