@@ -77,16 +77,15 @@ export class ActorTokenService {
   }
 
   public acquireToken = (): Observable<string> => {
-    return this.marketParticipantUserHttp.v1MarketParticipantUserGet().pipe(
-      switchMap((r) => {
-        return this.tokenHttp
-          .v1TokenPost({
-            actorId: r.actorIds[0],
-            externalToken: '',
-          })
-          .pipe(map((r) => r.token));
-      })
-    );
+    return this.marketParticipantUserHttp
+      .v1MarketParticipantUserActorsGet()
+      .pipe(
+        switchMap((r) => {
+          return this.tokenHttp
+            .v1TokenPost(r.actorIds[0])
+            .pipe(map((r) => r.token));
+        })
+      );
   };
 
   private updateCache(
