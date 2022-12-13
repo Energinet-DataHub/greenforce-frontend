@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-card *transloco="let transloco; read: 'wholesale.gridAreas'">
+<watt-card *transloco="let transloco; read: 'wholesale.timeSeriesPoints'">
   <watt-card-title>
     <h3 class="watt-on-light--high-emphasis">
       {{ transloco("header", { total: _data.data.length }) }}
@@ -27,18 +27,27 @@ limitations under the License.
     [dataSource]="_data"
     [columns]="columns"
     [resolveHeader]="transloco"
-    description="batches"
+    description="Time Series Points"
     sortBy="code"
     sortDirection="desc"
-    (rowClick)="this.selected.emit($event)"
-  ></watt-table>
+  >
+    <!-- Time -->
+    <ng-container *wattTableCell="columns.time; let timeSeriesPoint">
+      {{ timeSeriesPoint.time | dhDateTime }}
+    </ng-container>
 
-  <!-- No Batches found -->
+    <!-- Quantity -->
+    <ng-container *wattTableCell="columns.quantity; let timeSeriesPoint">
+      {{ timeSeriesPoint.quantity }} kWh
+    </ng-container>
+  </watt-table>
+
+  <!-- Empty -->
   <watt-empty-state
     *ngIf="_data.data.length === 0"
     icon="cancel"
     size="large"
-    [title]="transloco('noGridAreasFound')"
+    [title]="transloco('empty')"
   >
   </watt-empty-state>
 </watt-card>
