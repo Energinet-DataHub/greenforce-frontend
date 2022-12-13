@@ -32,7 +32,7 @@ limitations under the License.
   </ng-container>
 
   <ng-container *wattTableCell="table.columns['phoneNumber']; let element">
-    {{ element.phoneNumber }}
+    {{ element.phoneNumber | dhEmDashFallback }}
   </ng-container>
 
   <ng-container *wattTableCell="table.columns['active']; let element">
