@@ -77,7 +77,7 @@ describe(ActorTokenService.name, () => {
     // arrange
     const request = new HttpRequest<string>(
       'GET',
-      'https://localhost:5000/v1/Not/Relevant',
+      'https://localhost:5000/v1/Not/Relevant'
     );
 
     const target = new ActorTokenService(
