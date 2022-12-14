@@ -11,13 +11,8 @@
  */
 
 
-export interface UserOverviewItemDto { 
+export interface UserRoleTemplateIdDto { 
     id: string;
-    email: string;
-    name: string;
-    phoneNumber?: string | null;
-    createdDate: string;
-    active: boolean;
 }
 
 

@@ -21,7 +21,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  NgModule,
   OnChanges,
   Output,
   ViewChild,
@@ -34,7 +33,7 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 import { MessageArchiveSearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import {
@@ -46,21 +45,40 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
-import {
-  DhMessageArchiveDrawerComponent,
-  DhMessageArchiveDrawerScam,
-} from '../drawer/dh-message-archive-drawer.component';
+import { DhMessageArchiveDrawerComponent } from '../drawer/dh-message-archive-drawer.component';
 
 import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
 import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeName.pipe';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
-import { DhMessageArchiveStatusComponentScam } from '../shared/dh-message-archive-status.component';
+import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
 
 @Component({
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-message-archive-log-search-result',
   templateUrl: './dh-message-archive-log-search-result.component.html',
   styleUrls: ['./dh-message-archive-log-search-result.component.scss'],
+  imports: [
+    WattTableCellDirective,
+    CommonModule,
+    TranslocoModule,
+    LetModule,
+    MatTableModule,
+    MatSortModule,
+    WattIconModule,
+    WattTableComponent,
+    WattEmptyStateModule,
+    WattButtonModule,
+    WattBadgeComponent,
+    DhSharedUiDateTimeModule,
+    WattSpinnerModule,
+    WattCardModule,
+    DhMessageArchiveDrawerComponent,
+    DhMessageArchiveStatusComponent,
+    ActorNamePipe,
+    DocumentTypeNamePipe,
+    DhEmDashFallbackPipeScam,
+  ],
 })
 export class DhMessageArchiveLogSearchResultComponent
   implements AfterViewInit, OnChanges
@@ -127,29 +145,3 @@ export class DhMessageArchiveLogSearchResultComponent
     this.dataSource.sortingDataAccessor = ToLowerSort();
   }
 }
-@NgModule({
-  declarations: [DhMessageArchiveLogSearchResultComponent],
-  exports: [DhMessageArchiveLogSearchResultComponent],
-  imports: [
-    WattTableCellDirective,
-    CommonModule,
-    TranslocoModule,
-    LetModule,
-    MatTableModule,
-    MatSortModule,
-    WattIconModule,
-    WattTableComponent,
-    WattEmptyStateModule,
-    WattButtonModule,
-    WattBadgeModule,
-    DhSharedUiDateTimeModule,
-    WattSpinnerModule,
-    WattCardModule,
-    DhMessageArchiveDrawerScam,
-    DhMessageArchiveStatusComponentScam,
-    ActorNamePipe,
-    DocumentTypeNamePipe,
-    DhEmDashFallbackPipeScam,
-  ],
-})
-export class DhMessageArchiveLogSearchResultScam {}

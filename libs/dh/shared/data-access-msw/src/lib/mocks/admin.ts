@@ -14,12 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
+import { rest } from 'msw';
 
-import { WattBadgeComponent } from './badge.component';
+import marketParticipantUserOverviewData from './data/marketParticipantUserOverview.json';
 
-@NgModule({
-  declarations: [WattBadgeComponent],
-  exports: [WattBadgeComponent],
-})
-export class WattBadgeModule {}
+export function adminMocks(apiBase: string) {
+  return [getMarketParticipantUserOverview(apiBase)];
+}
+
+function getMarketParticipantUserOverview(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipantUserOverview`,
+    (req, res, ctx) => {
+      return res(ctx.json(marketParticipantUserOverviewData));
+    }
+  );
+}

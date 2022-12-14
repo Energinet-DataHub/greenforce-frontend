@@ -14,4 +14,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-content></ng-content>
+<ng-container *rxLet="isLoading$ as isLoading">
+  <div *ngIf="isLoading" class="users-overview__spinner">
+    <watt-spinner></watt-spinner>
+  </div>
+
+  <ng-container *ngIf="!isLoading">
+    <dh-users-tab *rxLet="users$ as users" [users]="users"></dh-users-tab>
+  </ng-container>
+</ng-container>
+
+<ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+  <div *ngIf="hasGeneralError" class="users-overview__error">
+    <dh-users-tab-general-error
+      (reload)="reloadUsers()"
+    ></dh-users-tab-general-error>
+  </div>
+</ng-container>

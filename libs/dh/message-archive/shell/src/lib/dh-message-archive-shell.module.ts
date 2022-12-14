@@ -16,10 +16,7 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {
-  DhMessageArchiveLogSearchComponent,
-  DhMessageArchiveLogSearchScam,
-} from '@energinet-datahub/dh/message-archive/feature-log-search';
+import { DhMessageArchiveLogSearchComponent } from '@energinet-datahub/dh/message-archive/feature-log-search';
 
 const routes: Routes = [
   {
@@ -32,6 +29,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), DhMessageArchiveLogSearchScam],
+  imports: [RouterModule.forChild(routes), DhMessageArchiveLogSearchComponent],
 })
 export class DhMessageArchiveShellModule {}
