@@ -18,7 +18,6 @@
 import { PermissionService } from './permission.service';
 import { firstValueFrom, of } from 'rxjs';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
-import { DhB2CEnvironment } from '@energinet-datahub/dh/shared/environments';
 import { ActorTokenService } from './actor-token.service';
 
 describe(PermissionService.name, () => {
@@ -28,7 +27,6 @@ describe(PermissionService.name, () => {
 
   test('should return true if grant_full_authorization is enabled', async () => {
     const target = new PermissionService(
-      {} as DhB2CEnvironment,
       {} as ActorTokenService,
       {
         isEnabled: (f) => f === 'grant_full_authorization',
@@ -51,7 +49,6 @@ describe(PermissionService.name, () => {
     } as DhFeatureFlagsService;
 
     const target = new PermissionService(
-      {} as DhB2CEnvironment,
       {
         acquireToken: () => of(fakeAccessToken),
       } as ActorTokenService,
@@ -74,7 +71,6 @@ describe(PermissionService.name, () => {
     } as DhFeatureFlagsService;
 
     const target = new PermissionService(
-      {} as DhB2CEnvironment,
       {
         acquireToken: () => of(fakeAccessToken),
       } as ActorTokenService,
