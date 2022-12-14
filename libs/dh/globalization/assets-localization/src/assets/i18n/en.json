@@ -823,7 +823,10 @@
       "topBarTitle": "User management",
       "tabs": {
         "basicdata": {
-          "tabLabel": "Basicdata"
+          "tabLabel": "Basicdata",
+          "name": "Name",
+          "email": "Email",
+          "phone": "Phone"
         },
         "history": {
           "tabLabel": "History"

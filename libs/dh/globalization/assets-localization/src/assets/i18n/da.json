@@ -827,7 +827,10 @@
       "topBarTitle": "Brugeradministration",
       "tabs": {
         "basicdata": {
-          "tabLabel": "Stamdata"
+          "tabLabel": "Stamdata",
+          "name": "Navn",
+          "email": "Email",
+          "phone": "Telefon"
         },
         "history": {
           "tabLabel": "Historik"
