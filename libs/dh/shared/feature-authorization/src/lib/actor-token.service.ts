@@ -107,10 +107,10 @@ export class ActorTokenService {
     }
 
     return nextHandler.handle(request).pipe(
-      tap((response) => {
-        const body = (response as HttpResponse<string>).body;
-        if (body) {
-          writeCache({ token: externalToken, value: body });
+      tap((event) => {
+        const response = event as HttpResponse<string>;
+        if (response.status === 200 && response.body) {
+          writeCache({ token: externalToken, value: response.body });
         }
       })
     );
@@ -123,10 +123,10 @@ export class ActorTokenService {
   }
 
   private isUserActorsRequest(request: HttpRequest<unknown>): boolean {
-    return request.url.endsWith('/MarketParticipantUser/Actors');
+    return request.url.endsWith('/v1/MarketParticipantUser/Actors');
   }
 
   private isTokenRequest(request: HttpRequest<unknown>): boolean {
-    return request.url.endsWith('/Token');
+    return request.url.endsWith('/v1/Token');
   }
 }
