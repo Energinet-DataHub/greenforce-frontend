@@ -45,7 +45,7 @@ import { EoEmissionsStore } from './eo-emissions.store';
     `
       .content {
         display: grid;
-        grid-template-columns: 344px 578px; // Magic numbers by designer
+        grid-template-columns: 354px 578px; // Magic numbers by designer
         grid-gap: var(--watt-space-l);
       }
     `,
