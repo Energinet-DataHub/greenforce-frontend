@@ -19,6 +19,7 @@ import {
   Component,
   inject,
   Input,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -31,6 +32,7 @@ import {
 } from '@energinet-datahub/watt/table';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 
+import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
 @Component({
   selector: 'dh-users-tab-table',
   standalone: true,
@@ -49,10 +51,13 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/s
     TranslocoModule,
     DhEmDashFallbackPipeScam,
     WATT_TABLE,
+    DhUserDrawerComponent,
   ],
 })
 export class DhUsersTabTableComponent {
   private transloco = inject(TranslocoService);
+  @ViewChild(DhUserDrawerComponent)
+  drawer!: DhUserDrawerComponent;
 
   dataSource = new WattTableDataSource<UserOverviewItemDto>();
 
@@ -65,6 +70,10 @@ export class DhUsersTabTableComponent {
 
   @Input() set users(usersData: UserOverviewItemDto[]) {
     this.dataSource.data = usersData;
+  }
+
+  onRowClick(row: UserOverviewItemDto) {
+    this.drawer.open(row);
   }
 
   translateHeader = (columnId: string): string => {
