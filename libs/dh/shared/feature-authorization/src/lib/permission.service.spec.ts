@@ -26,11 +26,9 @@ describe(PermissionService.name, () => {
 
   test('should return true if permission is found within access token roles', async () => {
     // arrange
-    const target = new PermissionService(
-      {
-        acquireToken: () => of(fakeAccessToken),
-      } as ActorTokenService,
-    );
+    const target = new PermissionService({
+      acquireToken: () => of(fakeAccessToken),
+    } as ActorTokenService);
 
     // act
     const actual = await firstValueFrom(
@@ -43,11 +41,9 @@ describe(PermissionService.name, () => {
 
   test('should return false if permission is not found within access token roles', async () => {
     // arrange
-    const target = new PermissionService(
-      {
-        acquireToken: () => of(fakeAccessToken),
-      } as ActorTokenService,
-    );
+    const target = new PermissionService({
+      acquireToken: () => of(fakeAccessToken),
+    } as ActorTokenService);
 
     // act
     const actual = await firstValueFrom(
