@@ -15,11 +15,7 @@
  * limitations under the License.
  */
 
-import { Inject, Injectable } from '@angular/core';
-import {
-  DhB2CEnvironment,
-  dhB2CEnvironmentToken,
-} from '@energinet-datahub/dh/shared/environments';
+import { Injectable } from '@angular/core';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { map, of } from 'rxjs';
 import { ActorTokenService } from './actor-token.service';
@@ -28,7 +24,6 @@ import { Permission } from './permission';
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
   constructor(
-    @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment,
     private actorTokenService: ActorTokenService,
     private featureFlag: DhFeatureFlagsService
   ) {}
