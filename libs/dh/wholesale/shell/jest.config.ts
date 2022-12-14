@@ -16,7 +16,7 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'dh-wholesale-shell-wholesale',
+  displayName: 'dh-wholesale-shell',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {

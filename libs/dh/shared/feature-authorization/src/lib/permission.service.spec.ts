@@ -16,15 +16,7 @@
  */
 
 import { PermissionService } from './permission.service';
-import { MsalService } from '@azure/msal-angular';
-import {
-  AccountInfo,
-  AuthenticationResult,
-  IPublicClientApplication,
-} from '@azure/msal-browser';
 import { firstValueFrom, of } from 'rxjs';
-import { DeepPartial } from 'chart.js/types/utils';
-import { DhB2CEnvironment } from '@energinet-datahub/dh/shared/environments';
 import { ActorTokenService } from './actor-token.service';
 
 describe(PermissionService.name, () => {
@@ -32,47 +24,12 @@ describe(PermissionService.name, () => {
   const fakeAccessToken =
     'ignored.eyAicm9sZSI6IFsgIm9yZ2FuaXphdGlvbjp2aWV3IiBdIH0K';
 
-  test('should return false if no account is found', async () => {
-    // arrange
-    const instance: Partial<IPublicClientApplication> = {
-      getAllAccounts: () => [],
-    };
-
-    const target = new PermissionService(
-      {} as DhB2CEnvironment,
-      {} as ActorTokenService,
-      {
-        instance: instance,
-      } as MsalService
-    );
-
-    // act
-    const actual = await firstValueFrom(
-      target.hasPermission('gridareas:manage')
-    );
-
-    // assert
-    expect(actual).toBe(false);
-  });
-
   test('should return true if permission is found within access token roles', async () => {
     // arrange
-    const instance: Partial<IPublicClientApplication> = {
-      getAllAccounts: () => [{} as AccountInfo],
-    };
-
-    const authService: DeepPartial<MsalService> = {
-      instance: instance,
-      acquireTokenSilent: () =>
-        of({ accessToken: fakeAccessToken } as AuthenticationResult),
-    };
-
     const target = new PermissionService(
-      {} as DhB2CEnvironment,
       {
-        acquireToken: (e) => of(e),
+        acquireToken: () => of(fakeAccessToken),
       } as ActorTokenService,
-      authService as MsalService
     );
 
     // act
@@ -86,22 +43,10 @@ describe(PermissionService.name, () => {
 
   test('should return false if permission is not found within access token roles', async () => {
     // arrange
-    const instance: Partial<IPublicClientApplication> = {
-      getAllAccounts: () => [{} as AccountInfo],
-    };
-
-    const authService: DeepPartial<MsalService> = {
-      instance: instance,
-      acquireTokenSilent: () =>
-        of({ accessToken: fakeAccessToken } as AuthenticationResult),
-    };
-
     const target = new PermissionService(
-      {} as DhB2CEnvironment,
       {
-        acquireToken: (e) => of(e),
+        acquireToken: () => of(fakeAccessToken),
       } as ActorTokenService,
-      authService as MsalService
     );
 
     // act

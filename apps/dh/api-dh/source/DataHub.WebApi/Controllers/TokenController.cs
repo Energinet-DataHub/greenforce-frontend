@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
@@ -34,9 +36,11 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Retrieves a DataHub access token.
         /// </summary>
         [HttpPost]
-        public Task<ActionResult<GetTokenResponseDto>> GetTokenAsync(GetTokenRequestDto request)
+        public Task<ActionResult<GetTokenResponseDto>> GetTokenAsync(Guid actorId)
         {
-            return HandleExceptionAsync(() => _client.GetTokenAsync(request));
+            var externalToken = HttpContext.Request.Headers["Authorization"].Single();
+            externalToken = externalToken.Replace("Bearer ", string.Empty);
+            return HandleExceptionAsync(() => _client.GetTokenAsync(new GetTokenRequestDto(actorId, externalToken)));
         }
     }
 }

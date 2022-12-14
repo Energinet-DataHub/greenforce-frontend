@@ -15,44 +15,17 @@
  * limitations under the License.
  */
 
-import { Inject, Injectable } from '@angular/core';
-import { MsalService } from '@azure/msal-angular';
-import { SilentRequest } from '@azure/msal-browser';
-import {
-  DhB2CEnvironment,
-  dhB2CEnvironmentToken,
-} from '@energinet-datahub/dh/shared/environments';
-import { map, of, switchMap } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { ActorTokenService } from './actor-token.service';
 import { Permission } from './permission';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
-  constructor(
-    @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment,
-    private actorTokenService: ActorTokenService,
-    private authService: MsalService
-  ) {}
+  constructor(private actorTokenService: ActorTokenService) {}
 
   public hasPermission(permission: Permission) {
-    const accounts = this.authService.instance.getAllAccounts();
-
-    // we expect one and only one account for now.
-    if (accounts.length != 1) {
-      return of(false);
-    }
-
-    const account = accounts[0];
-
-    const tokenRequest: SilentRequest = {
-      scopes: [this.config.backendId || this.config.clientId],
-      account: account,
-    };
-
-    return this.authService.acquireTokenSilent(tokenRequest).pipe(
-      switchMap((authResult) => {
-        return this.actorTokenService.acquireToken(authResult.accessToken);
-      }),
+    return this.actorTokenService.acquireToken().pipe(
       map((internalToken) => {
         const roles = this.acquireClaimsFromAccessToken(internalToken);
         return roles.includes(permission);

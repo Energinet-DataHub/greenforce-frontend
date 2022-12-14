@@ -34,40 +34,32 @@ export class DhAuthorizationInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     nextHandler: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    if (this.isPartOfAuthFlow(request)) {
+    if (!this.hasAuthorizationHeader(request)) {
       return nextHandler.handle(request);
     }
 
-    const authorizationHeader = 'Authorization';
-    const bearerPrefix = 'Bearer ';
-
-    const externalToken = request.headers.get(authorizationHeader);
-
-    if (!externalToken) {
-      return nextHandler.handle(request);
+    if (this.actorTokenService.isPartOfAuthFlow(request)) {
+      return this.actorTokenService.handleAuthFlow(request, nextHandler);
     }
 
-    return this.actorTokenService
-      .acquireToken(externalToken.replace(bearerPrefix, ''))
-      .pipe(
-        switchMap((internalToken) => {
-          return nextHandler.handle(
-            request.clone({
-              headers: request.headers.set(
-                authorizationHeader,
-                `${bearerPrefix}${internalToken}`
-              ),
-            })
-          );
-        })
-      );
+    return this.actorTokenService.acquireToken().pipe(
+      switchMap((internalToken) => {
+        return nextHandler.handle(
+          request.clone({
+            headers: request.headers.set(
+              'Authorization',
+              `Bearer ${internalToken}`
+            ),
+          })
+        );
+      })
+    );
   }
 
-  private isPartOfAuthFlow(request: HttpRequest<unknown>) {
-    return (
-      request.url.endsWith('/MarketParticipantUser') ||
-      request.url.endsWith('/Token')
-    );
+  private hasAuthorizationHeader(request: HttpRequest<unknown>): boolean {
+    const authorizationHeader = 'Authorization';
+    const externalToken = request.headers.get(authorizationHeader);
+    return !!externalToken;
   }
 }
 

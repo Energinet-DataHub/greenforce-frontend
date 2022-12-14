@@ -80,8 +80,7 @@ export class WattDropdownComponent
    * @ignore
    */
   matSelectControl = new FormControl<string | string[] | undefined | null>(
-    null,
-    { updateOn: 'blur' }
+    null
   );
 
   /**
