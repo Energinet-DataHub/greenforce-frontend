@@ -140,13 +140,13 @@ export abstract class WattPickerBase
 
     if (this.range) {
       this.setRangeValue(
-        value as WattRange,
+        (value ?? this.initialValue) as WattRange,
         this.startInput.nativeElement,
         this.endInput.nativeElement
       );
     } else {
       this.setSingleValue(
-        value as Exclude<WattPickerValue, WattRange>,
+        (value ?? this.initialValue) as Exclude<WattPickerValue, WattRange>,
         this.input.nativeElement
       );
     }

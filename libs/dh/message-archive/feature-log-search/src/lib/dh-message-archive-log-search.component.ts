@@ -232,7 +232,6 @@ export class DhMessageArchiveLogSearchComponent {
 
   resetSearchCritera() {
     this.store.resetState();
-    //TODO: reset form not working
     this.searchForm.reset();
   }
 }
