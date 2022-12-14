@@ -83,7 +83,6 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
 export class DhMessageArchiveLogSearchResultComponent
   implements AfterViewInit, OnChanges
 {
-  private _translateScrope = 'messageArchive.search';
   activeRow: MessageArchiveSearchResultItemDto | undefined;
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(DhMessageArchiveDrawerComponent)
@@ -104,7 +103,7 @@ export class DhMessageArchiveLogSearchResultComponent
   readonly dataSource: MatTableDataSource<MessageArchiveSearchResultItemDto> =
     new MatTableDataSource<MessageArchiveSearchResultItemDto>();
 
-  constructor(private translocoService: TranslocoService) {
+  constructor() {
     this.columns = {
       messageId: {
         accessor: 'messageId',
