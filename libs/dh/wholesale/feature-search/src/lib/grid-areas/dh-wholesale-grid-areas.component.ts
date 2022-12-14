@@ -19,12 +19,19 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import {
+  WattTableDataSource,
+  WattTableColumnDef,
+  WATT_TABLE,
+} from '@energinet-datahub/watt/table';
 import { TranslocoModule } from '@ngneat/transloco';
+
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -33,9 +40,9 @@ import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 @Component({
   standalone: true,
   imports: [
+    WATT_TABLE,
     CommonModule,
     MatSortModule,
-    MatTableModule,
     TranslocoModule,
     WattEmptyStateModule,
     DhSharedUiPaginatorComponent,
@@ -52,15 +59,20 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
   paginator!: DhSharedUiPaginatorComponent;
 
   @Input() set data(gridAreas: GridAreaDto[]) {
-    this._data = new MatTableDataSource(gridAreas.map((x) => x.code));
-    this._data.paginator = this.paginator.instance;
+    this._data = new WattTableDataSource(gridAreas);
+    this._data.paginator = this.paginator?.instance;
   }
-  _data: MatTableDataSource<string> = new MatTableDataSource(undefined);
-  columnIds = ['gridAreaCode', 'name'];
+
+  @Output() selected = new EventEmitter<GridAreaDto>();
+
+  _data: WattTableDataSource<GridAreaDto> = new WattTableDataSource(undefined);
+  columns: WattTableColumnDef<GridAreaDto> = {
+    gridAreaCode: { accessor: 'code' },
+    name: { accessor: 'name', cell: (row: GridAreaDto) => row.name ?? '—' },
+  };
 
   ngAfterViewInit() {
-    if (this._data === null) return;
-    this._data.sort = this.sort;
-    this._data.paginator = this.paginator.instance;
+    if (!this._data) return;
+    this._data.paginator = this.paginator?.instance;
   }
 }
