@@ -16,14 +16,13 @@
  */
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   EventEmitter,
-  HostBinding,
   Output,
   QueryList,
+  TemplateRef,
+  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -34,49 +33,49 @@ import { WattIconModule } from '../../foundations/icon/icon.module';
   standalone: true,
   imports: [CommonModule, WattIconModule],
   encapsulation: ViewEncapsulation.None,
-  template: `<ng-content></ng-content
-    ><watt-icon *ngIf="!isLast" name="right"></watt-icon>`,
+  template: `<ng-template #templateRef><ng-content></ng-content></ng-template>`,
 })
 export class WattBreadcrumbComponent {
-  // eslint-disable-next-line @angular-eslint/no-output-native
-  @Output() click: EventEmitter<unknown> = new EventEmitter<unknown>(); // Used to determine if the breadcrumb is interactive or not
-  @HostBinding('class.interactive') get isInteractive() {
-    return this.click.observed;
-  }
-  @HostBinding('attr.role') get role() {
-    return this.isInteractive ? 'link' : null;
-  }
-  isLast = false;
+  @ViewChild('templateRef') public templateRef!: TemplateRef<unknown>;
+
+  // Used to determine if the breadcrumb is interactive or not
+  @Output() click: EventEmitter<unknown> = new EventEmitter<unknown>(); // eslint-disable-line @angular-eslint/no-output-native
 }
 
 /**
  * Usage:
- * `import { WattBreadcrumbs } from '@energinet-datahub/watt/breadcrumbs';`
+ * `import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';`
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [CommonModule, WattIconModule],
   selector: 'watt-breadcrumbs',
   styleUrls: ['./watt-breadcrumbs.component.scss'],
-  template: `<nav>
-    <ng-content select="watt-breadcrumb"></ng-content>
-  </nav>`,
+  template: `
+    <nav>
+      <ng-container *ngFor="let breadcrumb of breadcrumbs; let isLast = last">
+        <span
+          class="watt-breadcrumb"
+          (click)="breadcrumb.click.emit($event)"
+          [class.interactive]="breadcrumb.click.observed"
+          [attr.role]="breadcrumb.click.observed ? 'link' : null"
+        >
+          <ng-container
+            *ngTemplateOutlet="breadcrumb.templateRef"
+          ></ng-container>
+          <watt-icon *ngIf="!isLast" name="right"></watt-icon>
+        </span>
+      </ng-container>
+    </nav>
+  `,
 })
-export class WattBreadcrumbsComponent implements AfterViewInit {
+export class WattBreadcrumbsComponent {
   /**
    * @ignore
    */
   @ContentChildren(WattBreadcrumbComponent)
   breadcrumbs!: QueryList<WattBreadcrumbComponent>;
-
-  /**
-   * @ignore
-   */
-  ngAfterViewInit() {
-    this.breadcrumbs.last.isLast = true;
-  }
 }
 
 export const WATT_BREADCRUMBS = [
