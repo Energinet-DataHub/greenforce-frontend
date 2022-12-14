@@ -820,8 +820,18 @@
   },
   "admin": {
     "userManagement": {
+      "drawer": {
+        "edit": "Rediger",
+        "active": "aktiv"
+      },
       "topBarTitle": "Brugeradministration",
       "tabs": {
+        "basicdata": {
+          "tabLabel": "Stamdata"
+        },
+        "history": {
+          "tabLabel": "Historik"
+        },
         "users": {
           "tabLabel": "Brugere",
           "usersHeadline": {

@@ -22,6 +22,7 @@ limitations under the License.
   sortDirection="asc"
   [sortClear]="false"
   [resolveHeader]="translateHeader"
+  (rowClick)="onRowClick($event)"
 >
   <ng-container *wattTableCell="columns['name']; let element">{{
     element.name
@@ -39,3 +40,4 @@ limitations under the License.
     undefined | dhEmDashFallback
   }}</ng-container>
 </watt-table>
+<dh-user-drawer></dh-user-drawer>

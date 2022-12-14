@@ -1,0 +1,18 @@
+<ng-container *transloco="let t; read: 'admin.userManagement.drawer'">
+  <watt-drawer #drawer size="large" (closed)="onClose()">
+    <watt-drawer-topbar>
+      <watt-badge type="success">{{ t("active") }}</watt-badge>
+    </watt-drawer-topbar>
+
+    <watt-drawer-actions>
+      <watt-button variant="secondary">{{ t("edit") }}</watt-button>
+    </watt-drawer-actions>
+
+    <watt-drawer-content>
+      <h1>Mickey Mouse</h1>
+      <dh-user-management-drawer-tabs
+        [user]="selectedUser"
+      ></dh-user-management-drawer-tabs>
+    </watt-drawer-content>
+  </watt-drawer>
+</ng-container>

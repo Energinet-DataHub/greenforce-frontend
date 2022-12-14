@@ -1,0 +1,18 @@
+<ng-container *transloco="let t; read: 'admin.userManagement.tabs.basicdata'">
+  <watt-card>
+    <ul class="basicdataList watt-text-s">
+      <li>
+        <span class="watt-label">{{ t("name") }}</span>
+        <span>{{ user?.name }}</span>
+      </li>
+      <li>
+        <span class="watt-label">{{ t("email") }}</span>
+        <span>{{ user?.email }}</span>
+      </li>
+      <li>
+        <span class="watt-label">{{ t("phone") }}</span>
+        <span>{{ user?.phoneNumber }}</span>
+      </li>
+    </ul>
+  </watt-card>
+</ng-container>

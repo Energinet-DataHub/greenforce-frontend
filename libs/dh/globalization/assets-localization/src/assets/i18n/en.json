@@ -816,8 +816,18 @@
   },
   "admin": {
     "userManagement": {
+      "drawer": {
+        "edit": "Edit",
+        "active": "Active"
+      },
       "topBarTitle": "User management",
       "tabs": {
+        "basicdata": {
+          "tabLabel": "Basicdata"
+        },
+        "history": {
+          "tabLabel": "History"
+        },
         "users": {
           "tabLabel": "Users",
           "usersHeadline": {
