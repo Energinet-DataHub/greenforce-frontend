@@ -819,6 +819,14 @@
             "singular": "{{ usersCount }} bruger",
             "plural": "{{ usersCount }} brugere"
           },
+          "table": {
+            "headers": {
+              "name": "Navn",
+              "email": "Email",
+              "phone": "Telefon",
+              "status": "Status"
+            }
+          },
           "errors": {
             "generalError": {
               "title": "Ups! Der opstod en fejl",
