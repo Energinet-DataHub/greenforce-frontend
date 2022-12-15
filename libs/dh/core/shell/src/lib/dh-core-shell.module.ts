@@ -39,7 +39,7 @@ import {
   MSALInterceptorConfigFactory,
 } from '@energinet-datahub/dh/auth/msal';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
-import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { dhB2CEnvironmentToken, environment } from '@energinet-datahub/dh/shared/environments';
 import { dhMarketParticipantPath } from '@energinet-datahub/dh/market-participant/routing';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 import { dhChargesPath } from '@energinet-datahub/dh/charges/routing';
@@ -125,7 +125,7 @@ const routes: Routes = [
     MsalModule,
     DhConfigurationLocalizationModule.forRoot(),
     WattDanishDatetimeModule.forRoot(),
-    DhSharedUtilApplicationInsightsModule.forRoot(),
+    environment.production ? DhSharedUtilApplicationInsightsModule.forRoot() : [],
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       // Don't perform initial navigation in iframes or popups
