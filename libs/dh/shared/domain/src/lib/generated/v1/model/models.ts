@@ -68,6 +68,7 @@ export * from './process-type';
 export * from './product-id';
 export * from './reading-occurrence';
 export * from './resolution';
+export * from './selection-actor-dto';
 export * from './settlement-method';
 export * from './stream';
 export * from './time-series-point-dto';
