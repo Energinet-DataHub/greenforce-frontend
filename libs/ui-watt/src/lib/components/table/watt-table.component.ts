@@ -168,17 +168,17 @@ export class WattTableComponent<T>
   /**
    * @ignore
    */
-   @Input()
-   get disabled(): boolean {
-     return this._disabled;
-   }
+  @Input()
+  get disabled(): boolean {
+    return this._disabled;
+  }
 
-   /**
-    * Used for disabling the table. This will disable all user interaction
-    */
-   set disabled(value: BooleanInput) {
-     this._disabled = coerceBooleanProperty(value);
-   }
+  /**
+   * Used for disabling the table. This will disable all user interaction
+   */
+  set disabled(value: BooleanInput) {
+    this._disabled = coerceBooleanProperty(value);
+  }
 
   /**
    * Provide a description of the table for visually impaired users.

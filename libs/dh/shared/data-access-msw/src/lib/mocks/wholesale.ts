@@ -61,7 +61,6 @@ const mockedGridAreas: GridAreaDto[] = [
   },
 ];
 
-
 const mockedBatches: BatchDto[] = [
   {
     batchId: '123',
@@ -217,8 +216,6 @@ function downloadBasisData(apiBase: string) {
 
 function getWholesaleSearchBatches(apiBase: string) {
   return rest.post(`${apiBase}/v1/WholesaleBatch/search`, (req, res, ctx) => {
-
-
     return res(ctx.delay(300), ctx.status(200), ctx.json(mockedBatches));
     //return res(ctx.delay(300), ctx.status(200), ctx.json([]));
     //return res(ctx.delay(2000), ctx.status(500));
