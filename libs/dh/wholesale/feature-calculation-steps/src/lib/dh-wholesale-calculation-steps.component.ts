@@ -68,7 +68,8 @@ export class DhWholesaleCalculationStepsComponent {
       }
 
       // Redirect user to search batch page if batch is failed
-      if((batch as batch)?.executionState === BatchState.Failed) this.navigateToSearchBatch(batch);
+      if ((batch as batch)?.executionState === BatchState.Failed)
+        this.navigateToSearchBatch(batch);
     })
   );
 

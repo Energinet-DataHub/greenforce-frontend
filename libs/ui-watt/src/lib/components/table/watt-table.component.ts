@@ -160,9 +160,9 @@ export class WattTableComponent<T>
   @Input() displayedColumns?: string[];
 
   /**
-    * Used for disabling the table. This will disable all user interaction
-    */
-   @Input() disabled = false;
+   * Used for disabling the table. This will disable all user interaction
+   */
+  @Input() disabled = false;
 
   /**
    * Provide a description of the table for visually impaired users.
@@ -356,7 +356,7 @@ export class WattTableComponent<T>
 
   /** @ignore */
   _onRowClick(row: T) {
-    if(this.disabled) return;
+    if (this.disabled) return;
     this.rowClick.emit(row);
   }
 }
