@@ -153,7 +153,22 @@ function getWholesaleSearchBatches(apiBase: string) {
         executionTimeEnd,
         executionState: BatchState.Failed,
         isBasisDataDownloadAvailable: false,
-        gridAreas: [],
+        gridAreas: [
+          {
+            id: '1',
+            code: '805',
+            name: 'hello',
+            priceAreaCode: PriceAreaCode.Dk1,
+            validFrom: '11-11-2022',
+          },
+          {
+            id: '2',
+            code: '806',
+            name: 'hello again',
+            priceAreaCode: PriceAreaCode.Dk1,
+            validFrom: '11-11-2022',
+          },
+        ],
       },
       {
         batchId: '8910',

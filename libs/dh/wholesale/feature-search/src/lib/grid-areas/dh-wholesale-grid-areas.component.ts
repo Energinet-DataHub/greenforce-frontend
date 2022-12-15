@@ -63,6 +63,8 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
     this._data.paginator = this.paginator?.instance;
   }
 
+  @Input() disabled = false;
+
   @Output() selected = new EventEmitter<GridAreaDto>();
 
   _data: WattTableDataSource<GridAreaDto> = new WattTableDataSource(undefined);
