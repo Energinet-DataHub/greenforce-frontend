@@ -21,7 +21,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Energinet.DataHub.WebApi.Controllers
 {
     [ApiController]
-    [Route("v1/[controller]/selection-actors")]
+    [Route("v1/[controller]")]
     public class MarketParticipantActorQueryController : MarketParticipantControllerBase
     {
         private readonly IMarketParticipantClient _client;
@@ -34,7 +34,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Retrieves all actors available for selection by the user.
         /// </summary>
-        [HttpGet]
+        [HttpGet("selection-actors")]
         public Task<ActionResult<IEnumerable<SelectionActorDto>>> GetSelectionActorsAsync()
         {
             return HandleExceptionAsync(() => _client.GetSelectionActorsAsync());
