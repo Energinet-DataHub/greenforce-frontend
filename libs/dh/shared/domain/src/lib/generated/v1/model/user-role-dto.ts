@@ -11,8 +11,9 @@
  */
 
 
-export interface UpdateUserRoleAssignmentsDto { 
-    userRoleAssignments: Array<string>;
+export interface UserRoleDto { 
+    id: string;
+    name: string;
 }
 
 
