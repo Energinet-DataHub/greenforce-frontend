@@ -46,7 +46,6 @@ import { MatTableModule } from '@angular/material/table';
 import { map, type Subscription } from 'rxjs';
 import { WattCheckboxModule } from '../checkbox';
 import { WattTableDataSource } from './watt-table-data-source';
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export interface WattTableColumn<T> {
   /**
@@ -161,24 +160,9 @@ export class WattTableComponent<T>
   @Input() displayedColumns?: string[];
 
   /**
-   * @ignore
-   */
-  private _disabled = false;
-
-  /**
-   * @ignore
-   */
-   @Input()
-   get disabled(): boolean {
-     return this._disabled;
-   }
-
-   /**
     * Used for disabling the table. This will disable all user interaction
     */
-   set disabled(value: BooleanInput) {
-     this._disabled = coerceBooleanProperty(value);
-   }
+   @Input() disabled = false;
 
   /**
    * Provide a description of the table for visually impaired users.
@@ -368,6 +352,12 @@ export class WattTableComponent<T>
     return this.activeRowComparator
       ? this.activeRowComparator(row, this.activeRow)
       : row === this.activeRow;
+  }
+
+  /** @ignore */
+  _onRowClick(row: T) {
+    if(this.disabled) return;
+    this.rowClick.emit(row);
   }
 }
 
