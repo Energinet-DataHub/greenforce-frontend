@@ -22,7 +22,7 @@ import { wholesaleMocks } from './mocks/wholesale';
 import { marketParticipantMocks } from './mocks/marketParticipant';
 import { messageArchiveMocks } from './mocks/messageArchive';
 import { adminMocks } from './mocks/admin';
-import { marketParticipantUserMocks } from './mocks/MarketParticipantUser';
+import { marketParticipantUserMocks } from './mocks/marketParticipantUser';
 import { tokenMocks } from './mocks/token';
 
 export function handlers(apiBase: string) {
