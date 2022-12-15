@@ -48,7 +48,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         ///     Retrieves actors associated with the userId specified, ensures only actors you are allowed to see are returned.
         /// </summary>
         [HttpGet]
-        [Route("Actors")]
+        [Route("{userId:guid}/Actors")]
         public Task<ActionResult<GetAssociatedUserActorsResponseDto>> GetUserActorsByUserIdAsync(Guid userId)
         {
             return HandleExceptionAsync(() => _client.GetUserActorsAsync(userId));
