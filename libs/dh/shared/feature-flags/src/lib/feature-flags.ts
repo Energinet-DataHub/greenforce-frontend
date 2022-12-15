@@ -49,10 +49,6 @@ export const dhFeatureFlagsConfig = makeFeatureFlags({
     created: '16-10-2022',
     disabledEnvironments: [DhAppEnvironment.prod],
   },
-  grant_full_authorization: {
-    created: '21-10-2022',
-    disabledEnvironments: [DhAppEnvironment.experimental],
-  },
   charge_prices_download_button_feature_flag: {
     created: '27-10-2022',
     disabledEnvironments: [DhAppEnvironment.prod],
