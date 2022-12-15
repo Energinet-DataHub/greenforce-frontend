@@ -68,7 +68,11 @@ function reloadOnLoginFailed(error: string) {
 export function MSALInterceptorConfigFactory(
   config: DhB2CEnvironment
 ): MsalInterceptorConfiguration {
-  const protectedResourceMap = new Map<string, Array<string>>();
+  const protectedResourceMap = new Map<string, Array<string> | null>();
+
+  // Note: A scope value of `null` indicates that a resource is to be unprotected and will not get tokens.
+  // The order here matters. Resources with `null` scope must be first.
+  protectedResourceMap.set('/assets/*', null);
   protectedResourceMap.set('*', [config.backendId || config.clientId]);
 
   return {
