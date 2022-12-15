@@ -22,6 +22,8 @@ import { wholesaleMocks } from './mocks/wholesale';
 import { marketParticipantMocks } from './mocks/marketParticipant';
 import { messageArchiveMocks } from './mocks/messageArchive';
 import { adminMocks } from './mocks/admin';
+import { marketParticipantUserMocks } from './mocks/MarketParticipantUser';
+import { tokenMocks } from './mocks/token';
 
 export function handlers(apiBase: string) {
   return [
@@ -31,6 +33,8 @@ export function handlers(apiBase: string) {
     ...marketParticipantMocks(apiBase),
     ...messageArchiveMocks(apiBase),
     ...adminMocks(apiBase),
+    ...marketParticipantUserMocks(apiBase),
+    ...tokenMocks(apiBase),
   ] as RequestHandler[];
 }
 
