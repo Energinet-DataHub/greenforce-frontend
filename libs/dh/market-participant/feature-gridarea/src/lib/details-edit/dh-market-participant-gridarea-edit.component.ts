@@ -29,6 +29,7 @@ import {
 } from '@energinet-datahub/watt/modal';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { FormsModule } from '@angular/forms';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-market-participant-gridarea-edit',
@@ -80,6 +81,7 @@ export class DhMarketParticipantGridAreaEditComponent {
     WattFormFieldModule,
     WattInputModule,
     FormsModule,
+    DhPermissionRequiredDirective,
   ],
   declarations: [DhMarketParticipantGridAreaEditComponent],
   exports: [DhMarketParticipantGridAreaEditComponent],

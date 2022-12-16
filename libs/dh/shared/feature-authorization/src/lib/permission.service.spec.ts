@@ -20,9 +20,8 @@ import { firstValueFrom, of } from 'rxjs';
 import { ActorTokenService } from './actor-token.service';
 
 describe(PermissionService.name, () => {
-  // base64 encoded access token: { role: ['organization:view'] }
-  const fakeAccessToken =
-    'ignored.eyAicm9sZSI6IFsgIm9yZ2FuaXphdGlvbjp2aWV3IiBdIH0K';
+  // base64 encoded access token: { role: ['actor:manage'] }
+  const fakeAccessToken = 'ignored.eyJyb2xlIjpbImFjdG9yOm1hbmFnZSJdfQ';
 
   test('should return true if permission is found within access token roles', async () => {
     // arrange
@@ -31,9 +30,7 @@ describe(PermissionService.name, () => {
     } as ActorTokenService);
 
     // act
-    const actual = await firstValueFrom(
-      target.hasPermission('organization:view')
-    );
+    const actual = await firstValueFrom(target.hasPermission('actor:manage'));
 
     // assert
     expect(actual).toBe(true);
