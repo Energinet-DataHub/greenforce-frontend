@@ -18,7 +18,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { CommonModule, KeyValue } from '@angular/common';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   Directive,
@@ -131,7 +130,6 @@ export class WattTableCellDirective<T> {
     MatTableModule,
     WattCheckboxModule,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-table',
   styleUrls: ['./watt-table.component.scss'],
@@ -158,6 +156,11 @@ export class WattTableComponent<T>
    * Used for hiding or reordering columns defined in the `columns` input.
    */
   @Input() displayedColumns?: string[];
+
+  /**
+   * Used for disabling the table. This will disable all user interaction
+   */
+  @Input() disabled = false;
 
   /**
    * Provide a description of the table for visually impaired users.
@@ -347,6 +350,12 @@ export class WattTableComponent<T>
     return this.activeRowComparator
       ? this.activeRowComparator(row, this.activeRow)
       : row === this.activeRow;
+  }
+
+  /** @ignore */
+  _onRowClick(row: T) {
+    if (this.disabled) return;
+    this.rowClick.emit(row);
   }
 }
 
