@@ -26,20 +26,30 @@ import {
   MarketParticipantUserHttp,
   TokenHttp,
 } from '@energinet-datahub/dh/shared/domain';
-import { map, Observable, of, switchMap, tap } from 'rxjs';
+import {
+  exhaustMap,
+  map,
+  Observable,
+  of,
+  ReplaySubject,
+  shareReplay,
+  Subject,
+  switchMap,
+  tap,
+} from 'rxjs';
 
-type CachedEntry = { token: string; value: string };
+type CachedEntry = { token: string; value: Observable<string> };
 
 @Injectable({ providedIn: 'root' })
 export class ActorTokenService {
   private _internalActors: CachedEntry = {
     token: '',
-    value: '',
+    value: of(),
   };
 
   private _internalToken: CachedEntry = {
     token: '',
-    value: '',
+    value: of(),
   };
 
   constructor(
@@ -77,15 +87,17 @@ export class ActorTokenService {
   }
 
   public acquireToken = (): Observable<string> => {
-    return this.marketParticipantUserHttp
-      .v1MarketParticipantUserActorsGet()
-      .pipe(
-        switchMap((r) => {
-          return this.tokenHttp
-            .v1TokenPost(r.actorIds[0])
-            .pipe(map((r) => r.token));
-        })
-      );
+    return of(true).pipe(
+      exhaustMap(() =>
+        this.marketParticipantUserHttp.v1MarketParticipantUserActorsGet().pipe(
+          switchMap((r) => {
+            return this.tokenHttp
+              .v1TokenPost(r.actorIds[0])
+              .pipe(map((r) => r.token));
+          })
+        )
+      )
+    );
   };
 
   private updateCache(
@@ -101,25 +113,44 @@ export class ActorTokenService {
         'handleAuthFlow failed, no token in Authorization header.'
       );
 
+    const i = Math.random();
+
     const cachedEntry = readCache();
     if (cachedEntry.token === externalToken) {
-      return this.createCachedResponse(cachedEntry.value);
+      console.log('cache hit ', i);
+      return this.createCachedResponse(cachedEntry.value).pipe(
+        tap(() => console.log('completed from cache ', i))
+      );
     }
 
+    const subject = new ReplaySubject<string>();
+    writeCache({ token: externalToken, value: subject });
+    console.log('cache miss ', i);
+
     return nextHandler.handle(request).pipe(
-      tap((event) => {
-        const response = event as HttpResponse<string>;
-        if (response.status === 200 && response.body) {
-          writeCache({ token: externalToken, value: response.body });
-        }
+      tap({
+        next: (event) => {
+          const response = event as HttpResponse<string>;
+          if (response.status === 200 && response.body) {
+            console.log('completed ', i);
+            subject.next(response.body);
+            subject.complete();
+          }
+        },
+        error: (error) => {
+          console.log('error  ', i);
+          subject.error(error);
+        },
       })
     );
   }
 
   private createCachedResponse(
-    cachedValue: string
+    cache: Observable<string>
   ): Observable<HttpResponse<string>> {
-    return of(new HttpResponse<string>({ body: cachedValue, status: 200 }));
+    return cache.pipe(
+      map((value) => new HttpResponse<string>({ body: value, status: 200 }))
+    );
   }
 
   private isUserActorsRequest(request: HttpRequest<unknown>): boolean {
