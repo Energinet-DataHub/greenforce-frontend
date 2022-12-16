@@ -81,7 +81,7 @@ export class DhMarketParticipantGridAreaEditComponent {
     WattFormFieldModule,
     WattInputModule,
     FormsModule,
-    DhPermissionRequiredDirective
+    DhPermissionRequiredDirective,
   ],
   declarations: [DhMarketParticipantGridAreaEditComponent],
   exports: [DhMarketParticipantGridAreaEditComponent],
