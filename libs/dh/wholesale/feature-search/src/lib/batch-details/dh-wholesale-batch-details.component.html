@@ -66,6 +66,7 @@ limitations under the License.
       <dh-wholesale-grid-areas
         *ngIf="batch"
         [data]="batch.gridAreas"
+        [disabled]="batch.executionState === 'Failed'"
         (selected)="onGridAreaSelected(batch, $event)"
       ></dh-wholesale-grid-areas>
     </ng-container>

@@ -74,6 +74,5 @@ export * from './time-series-point-dto';
 export * from './unit';
 export * from './update-user-role-assignments-dto';
 export * from './user-overview-item-dto';
-export * from './user-role-template-dto';
-export * from './user-role-template-id-dto';
+export * from './user-role-dto';
 export * from './vat-classification';

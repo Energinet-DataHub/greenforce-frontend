@@ -31,6 +31,7 @@ limitations under the License.
     sortBy="code"
     sortDirection="desc"
     (rowClick)="this.selected.emit($event)"
+    [disabled]="disabled"
   ></watt-table>
 
   <!-- No Batches found -->
