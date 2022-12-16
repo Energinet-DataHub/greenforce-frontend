@@ -59,8 +59,8 @@ export class DhUsersTabTableComponent {
   columns: WattTableColumnDef<UserOverviewItemDto> = {
     name: { accessor: 'name' },
     email: { accessor: 'email' },
-    phoneNumber: { accessor: 'phoneNumber' },
-    active: { accessor: 'active' },
+    phone: { accessor: 'phoneNumber' },
+    status: { accessor: 'active' },
   };
 
   @Input() set users(usersData: UserOverviewItemDto[]) {
@@ -68,15 +68,8 @@ export class DhUsersTabTableComponent {
   }
 
   translateHeader = (columnId: string): string => {
-    const baseKey = 'admin.userManagement.tabs.users.table.headers';
+    const baseKey = 'admin.userManagement.tabs.users.table.columns';
 
-    switch (columnId) {
-      case 'phoneNumber':
-        return this.transloco.translate(`${baseKey}.phone`);
-      case 'active':
-        return this.transloco.translate(`${baseKey}.status`);
-      default:
-        return this.transloco.translate(`${baseKey}.${columnId}`);
-    }
+    return this.transloco.translate(`${baseKey}.${columnId}`);
   };
 }
