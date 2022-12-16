@@ -20,7 +20,9 @@ limitations under the License.
 >
   <div class="top-btns">
     <ng-container *dhPermissionRequired="['gridareas:manage']">
-      <watt-button (click)="openEditModal()">{{ t("editGridArea") }}</watt-button>
+      <watt-button (click)="openEditModal()">{{
+        t("editGridArea")
+      }}</watt-button>
     </ng-container>
   </div>
   <ng-container>

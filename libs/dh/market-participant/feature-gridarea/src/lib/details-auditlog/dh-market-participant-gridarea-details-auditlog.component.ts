@@ -85,7 +85,7 @@ export class DhMarketParticipantGridAreaDetailsAuditLogComponent
     WattEmptyStateModule,
     WattSpinnerModule,
     DhSharedUiDateTimeModule,
-    DhPermissionRequiredDirective
+    DhPermissionRequiredDirective,
   ],
   declarations: [DhMarketParticipantGridAreaDetailsAuditLogComponent],
   exports: [DhMarketParticipantGridAreaDetailsAuditLogComponent],
