@@ -121,7 +121,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     })
   );
 
-
   readonly getBatches = this.effect((filter$: Observable<BatchSearchDto>) => {
     return filter$.pipe(
       tap(() => {
