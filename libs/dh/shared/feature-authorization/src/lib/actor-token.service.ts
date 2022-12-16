@@ -26,17 +26,7 @@ import {
   MarketParticipantUserHttp,
   TokenHttp,
 } from '@energinet-datahub/dh/shared/domain';
-import {
-  exhaustMap,
-  map,
-  Observable,
-  of,
-  ReplaySubject,
-  shareReplay,
-  Subject,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { map, Observable, of, ReplaySubject, switchMap, tap } from 'rxjs';
 
 type CachedEntry = { token: string; value: Observable<string> };
 
@@ -87,17 +77,15 @@ export class ActorTokenService {
   }
 
   public acquireToken = (): Observable<string> => {
-    return of(true).pipe(
-      exhaustMap(() =>
-        this.marketParticipantUserHttp.v1MarketParticipantUserActorsGet().pipe(
-          switchMap((r) => {
-            return this.tokenHttp
-              .v1TokenPost(r.actorIds[0])
-              .pipe(map((r) => r.token));
-          })
-        )
-      )
-    );
+    return this.marketParticipantUserHttp
+      .v1MarketParticipantUserActorsGet()
+      .pipe(
+        switchMap((r) => {
+          return this.tokenHttp
+            .v1TokenPost(r.actorIds[0])
+            .pipe(map((r) => r.token));
+        })
+      );
   };
 
   private updateCache(
