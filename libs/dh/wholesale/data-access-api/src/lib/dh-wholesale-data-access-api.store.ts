@@ -66,9 +66,8 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
 
   loadingBatches$ = this.select((x) => x.loadingBatches);
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
-  loadingBasisDataErrorTrigger$: Subject<void> = new Subject();
-
   loadingBatchErrorTrigger$: Subject<void> = new Subject();
+  loadingBasisDataErrorTrigger$: Subject<void> = new Subject();
   loadingProcessStepResultsErrorTrigger$: Subject<void> = new Subject();
 
   private document = inject(DOCUMENT);
