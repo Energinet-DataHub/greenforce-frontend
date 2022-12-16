@@ -816,7 +816,7 @@
             "plural": "{{ usersCount }} users"
           },
           "table": {
-            "headers": {
+            "columns": {
               "name": "Name",
               "email": "Email",
               "phone": "Phone",

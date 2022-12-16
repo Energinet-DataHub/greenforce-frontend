@@ -820,7 +820,7 @@
             "plural": "{{ usersCount }} brugere"
           },
           "table": {
-            "headers": {
+            "columns": {
               "name": "Navn",
               "email": "Email",
               "phone": "Telefon",
