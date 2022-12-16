@@ -54,6 +54,10 @@ export class DhWholesaleStartComponent {
   optionsGridAreas: WattDropdownOption[] = Object.keys({
     805: '805',
     806: '806',
+    512: '512',
+    533: '533',
+    543: '543',
+    584: '584',
   }).map((key) => ({
     displayValue: key,
     value: key,
