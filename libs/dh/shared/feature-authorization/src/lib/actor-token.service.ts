@@ -94,32 +94,24 @@ export class ActorTokenService {
         'handleAuthFlow failed, no token in Authorization header.'
       );
 
-    const i = Math.random();
-
     const cachedEntry = readCache();
     if (cachedEntry && cachedEntry.token === externalToken) {
-      console.log('cache hit ', i);
-      return this.createCachedResponse(cachedEntry.value).pipe(
-        tap(() => console.log('completed from cache ', i))
-      );
+      return this.createCachedResponse(cachedEntry.value);
     }
 
     const subject = new ReplaySubject<string>();
     writeCache({ token: externalToken, value: subject });
-    console.log('cache miss ', i);
 
     return nextHandler.handle(request).pipe(
       tap({
         next: (event) => {
           const response = event as HttpResponse<string>;
           if (response.status === 200 && response.body) {
-            console.log('completed ', i);
             subject.next(response.body);
             subject.complete();
           }
         },
         error: (error) => {
-          console.log('error  ', i);
           subject.error(error);
         },
       })
