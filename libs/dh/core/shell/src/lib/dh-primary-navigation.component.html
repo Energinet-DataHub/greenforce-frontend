@@ -22,16 +22,12 @@ limitations under the License.
     <watt-nav-list-item link="/message-archive">{{
       transloco("messageArchive")
     }}</watt-nav-list-item>
-    <ng-container *dhPermissionRequired="['organization:view']">
-      <watt-nav-list-item link="/market-participant/organizations">{{
-        transloco("marketParticipantOrganizations")
-      }}</watt-nav-list-item>
-    </ng-container>
-    <ng-container *dhPermissionRequired="['gridareas:manage']">
-      <watt-nav-list-item link="/market-participant/gridareas">{{
-        transloco("marketParticipantGridAreas")
-      }}</watt-nav-list-item>
-    </ng-container>
+    <watt-nav-list-item link="/market-participant/organizations">{{
+      transloco("marketParticipantOrganizations")
+    }}</watt-nav-list-item>
+    <watt-nav-list-item link="/market-participant/gridareas">{{
+      transloco("marketParticipantGridAreas")
+    }}</watt-nav-list-item>
   </watt-nav-list>
 
   <watt-nav-list

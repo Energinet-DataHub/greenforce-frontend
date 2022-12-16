@@ -22,6 +22,7 @@ import { MatTableModule } from '@angular/material/table';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { GridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 interface AuditLogEntry {
   timestamp: string;
@@ -84,6 +85,7 @@ export class DhMarketParticipantGridAreaDetailsAuditLogComponent
     WattEmptyStateModule,
     WattSpinnerModule,
     DhSharedUiDateTimeModule,
+    DhPermissionRequiredDirective,
   ],
   declarations: [DhMarketParticipantGridAreaDetailsAuditLogComponent],
   exports: [DhMarketParticipantGridAreaDetailsAuditLogComponent],
