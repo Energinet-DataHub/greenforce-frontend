@@ -26,21 +26,14 @@ import {
   MarketParticipantUserHttp,
   TokenHttp,
 } from '@energinet-datahub/dh/shared/domain';
-import { map, Observable, of, ReplaySubject, switchMap, tap } from 'rxjs';
+import { map, Observable, ReplaySubject, switchMap, tap } from 'rxjs';
 
-type CachedEntry = { token: string; value: Observable<string> };
+type CachedEntry = { token: string; value: Observable<string> } | undefined;
 
 @Injectable({ providedIn: 'root' })
 export class ActorTokenService {
-  private _internalActors: CachedEntry = {
-    token: '',
-    value: of(),
-  };
-
-  private _internalToken: CachedEntry = {
-    token: '',
-    value: of(),
-  };
+  private _internalActors: CachedEntry;
+  private _internalToken: CachedEntry;
 
   constructor(
     private marketParticipantUserHttp: MarketParticipantUserHttp,
@@ -104,7 +97,7 @@ export class ActorTokenService {
     const i = Math.random();
 
     const cachedEntry = readCache();
-    if (cachedEntry.token === externalToken) {
+    if (cachedEntry && cachedEntry.token === externalToken) {
       console.log('cache hit ', i);
       return this.createCachedResponse(cachedEntry.value).pipe(
         tap(() => console.log('completed from cache ', i))
