@@ -23,7 +23,6 @@
 | [popperjs/core](https://github.com/popperjs/popper-core) | 2.11.6 | MIT |
 | [rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 1.0.0-rc.3 | MIT |
 | [rx-angular/template](https://github.com/rx-angular/rx-angular) | 1.0.0-rc.4 | MIT |
-| [types/crypto-js](https://github.com/DefinitelyTyped/DefinitelyTyped) | 4.1.1 | MIT |
 | [vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
 | [chart.js](https://github.com/chartjs/Chart.js) | 3.8.0 | MIT |
 | [chartjs-plugin-datalabels](https://github.com/chartjs/chartjs-plugin-datalabels) | 2.0.0 | MIT |
