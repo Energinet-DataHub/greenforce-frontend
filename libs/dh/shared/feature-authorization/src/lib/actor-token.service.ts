@@ -82,7 +82,7 @@ export class ActorTokenService {
     return this.marketParticipantUserHttp
       .v1MarketParticipantUserActorsGet()
       .pipe(
-        tap(x => this.actorStorage.setUserAssociatedActors(x.actorIds)),
+        tap((x) => this.actorStorage.setUserAssociatedActors(x.actorIds)),
         switchMap(() => {
           return this.tokenHttp
             .v1TokenPost(this.actorStorage.getSelectedActor())
