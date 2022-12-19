@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-export type Permission =
-  | 'organization:manage'
-  | 'gridareas:manage'
-  | 'actor:manage'
-  | 'users:manage';
+export const permissions = [
+  'organization:manage',
+  'gridareas:manage',
+  'actor:manage',
+  'users:manage',
+] as const;
+export type Permission = typeof permissions[number];

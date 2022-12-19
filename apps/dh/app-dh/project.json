@@ -132,7 +132,8 @@
             "@mswjs/interceptors",
             "msw",
             "inputmask",
-            "flat"
+            "flat",
+            "crypto-js"
           ]
         }
       },

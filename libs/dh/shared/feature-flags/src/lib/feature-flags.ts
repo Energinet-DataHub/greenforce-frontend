@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/* eslint-disable sonarjs/no-duplicate-string */
 import { DhAppEnvironment } from '@energinet-datahub/dh/shared/environments';
 
 export type DhFeatureFlagEnvironment = Exclude<
@@ -42,19 +43,19 @@ const makeFeatureFlags = satisfies<FeatureFlagConfig>();
  */
 export const dhFeatureFlagsConfig = makeFeatureFlags({
   start_wholesale_process_feature_flag: {
-    created: '18-10-2022',
+    created: '19-12-2022',
     disabledEnvironments: [DhAppEnvironment.prod],
   },
   charges_price_date_chips_feature_flag: {
-    created: '16-10-2022',
+    created: '19-12-2022',
     disabledEnvironments: [DhAppEnvironment.prod],
   },
   charge_prices_download_button_feature_flag: {
-    created: '27-10-2022',
+    created: '19-12-2022',
     disabledEnvironments: [DhAppEnvironment.prod],
   },
   create_charge_prices_page_feature_flag: {
-    created: '27-10-2022',
+    created: '19-12-2022',
     disabledEnvironments: [DhAppEnvironment.prod],
   },
 });
