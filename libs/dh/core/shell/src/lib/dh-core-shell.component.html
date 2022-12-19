@@ -16,15 +16,21 @@ limitations under the License.
 -->
 <watt-shell>
   <ng-container watt-shell-sidenav>
-    <div class="sidenav">
-      <img
-        src="/assets/logo-light.svg"
-        alt="DataHub logo"
-        class="logo--sidenav"
-      />
-    </div>
+    <div class="sidenav-container">
+      <div class="sidenav">
+        <img
+          src="/assets/logo-light.svg"
+          alt="DataHub logo"
+          class="logo--sidenav"
+        />
+      </div>
 
-    <dh-primary-navigation></dh-primary-navigation>
+      <dh-primary-navigation></dh-primary-navigation>
+
+      <div class="actor-select">
+        <dh-selected-actor></dh-selected-actor>
+      </div>
+    </div>
   </ng-container>
 
   <ng-container watt-shell-toolbar>
