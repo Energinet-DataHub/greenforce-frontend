@@ -27,6 +27,7 @@ limitations under the License.
     <watt-drawer-content>
       <h1>{{ selectedUser?.name }}</h1>
       <dh-user-management-drawer-tabs
+        *ngIf="drawer.opened"
         [user]="selectedUser"
       ></dh-user-management-drawer-tabs>
     </watt-drawer-content>

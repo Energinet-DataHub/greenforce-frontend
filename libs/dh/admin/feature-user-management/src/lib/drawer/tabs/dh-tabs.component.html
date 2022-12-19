@@ -19,7 +19,9 @@ limitations under the License.
     <watt-tab [label]="t('basicdata.tabLabel')">
       <dh-user-basicdata [user]="user"></dh-user-basicdata>
     </watt-tab>
-    <watt-tab [label]="t('roles.tabLabel')"></watt-tab>
+    <watt-tab [label]="t('roles.tabLabel')">
+      <dh-user-roles [user]="user"></dh-user-roles>
+    </watt-tab>
     <watt-tab [label]="t('history.tabLabel')"></watt-tab>
   </watt-tabs>
 </ng-container>

@@ -27,6 +27,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 
 import { DhTabsComponent } from './tabs/dh-tabs.component';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'dh-user-drawer',
@@ -45,6 +46,7 @@ import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
     WattButtonModule,
     DhTabsComponent,
     WattBadgeComponent,
+    CommonModule,
   ],
 })
 export class DhUserDrawerComponent {

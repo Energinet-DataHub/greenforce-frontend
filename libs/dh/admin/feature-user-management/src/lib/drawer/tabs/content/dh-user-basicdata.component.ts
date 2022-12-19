@@ -14,22 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-user-basicdata',
   standalone: true,
   templateUrl: './dh-user-basicdata.component.html',
-  encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      .basicdataList {
+      .list {
         padding: 0;
         margin: 0;
         ul {
@@ -46,13 +44,7 @@ import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
       }
     `,
   ],
-  imports: [
-    CommonModule,
-    LetModule,
-    WattSpinnerModule,
-    WattCardModule,
-    TranslocoModule,
-  ],
+  imports: [CommonModule, LetModule, WattCardModule, TranslocoModule],
 })
 export class DhUserBasicdataComponent {
   @Input() user: UserOverviewItemDto | null = null;

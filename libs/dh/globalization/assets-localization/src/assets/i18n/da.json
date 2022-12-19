@@ -858,7 +858,9 @@
           }
         },
         "roles": {
-          "tabLabel": "Roller"
+          "tabLabel": "Roller",
+          "roles": "Roller",
+          "role": "Rolle"
         },
         "permissions": {
           "tabLabel": "Rettigheder"

@@ -1,0 +1,31 @@
+<ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles'">
+  <ng-container
+    *rxLet="
+      userRoleView$;
+      let userRoleView;
+      error: error;
+      complete: complete;
+      suspense: suspense
+    "
+  >
+    <watt-card>
+      <watt-card-title>
+        <h3 *rxLet="getNumberOfRoles(userRoleView); let numberOfRoles">
+          {{ numberOfRoles }} {{ numberOfRoles > 1 ? t("roles") : t("role") }}
+        </h3>
+      </watt-card-title>
+      <ul
+        class="list watt-text-s"
+        *ngFor="let org of userRoleView.organizations"
+      >
+        <li>
+          <span>{{ org?.name }} | </span>
+        </li>
+      </ul>
+    </watt-card>
+  </ng-container>
+
+  <ng-template #suspense>spinner</ng-template>
+  <ng-template #error>fejl</ng-template>
+  <ng-template #complete>done</ng-template>
+</ng-container>

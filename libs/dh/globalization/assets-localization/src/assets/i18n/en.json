@@ -854,7 +854,9 @@
           }
         },
         "roles": {
-          "tabLabel": "Roles"
+          "tabLabel": "Roles",
+          "roles": "Roles",
+          "role": "Role"
         },
         "permissions": {
           "tabLabel": "Permissions"

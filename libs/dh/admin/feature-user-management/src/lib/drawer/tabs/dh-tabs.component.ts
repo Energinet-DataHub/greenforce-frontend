@@ -20,6 +20,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 
 import { DhUserBasicdataComponent } from './content/dh-user-basicdata.component';
+import { DhUserRolesComponent } from './content/dh-user-roles.component';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
@@ -27,7 +28,12 @@ import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
   standalone: true,
   templateUrl: './dh-tabs.component.html',
   styles: [``],
-  imports: [TranslocoModule, WattTabsModule, DhUserBasicdataComponent],
+  imports: [
+    TranslocoModule,
+    WattTabsModule,
+    DhUserBasicdataComponent,
+    DhUserRolesComponent,
+  ],
 })
 export class DhTabsComponent {
   @Input() user: UserOverviewItemDto | null = null;
