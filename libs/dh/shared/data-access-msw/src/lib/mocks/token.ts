@@ -21,23 +21,12 @@ export function tokenMocks(apiBase: string) {
 }
 
 function postToken(apiBase: string) {
-  const mockedJwt = {
-    sub: 'some-subject',
-    azp: 'some-azp',
-    token: 'mocked.token',
-    nbf: 1671435203,
-    exp: 1671438803,
-    iss: 'some-issuer',
-    aud: 'some-audience',
-    iat: 1671435215,
-  };
-
   return rest.post(`${apiBase}/v1/Token`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
         token:
-          `mocked.${btoa(JSON.stringify(mockedJwt))}`,
+          'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbIm9yZ2FuaXphdGlvbjptYW5hZ2UiLCJncmlkYXJlYXM6bWFuYWdlIiwiYWN0b3I6bWFuYWdlIiwidXNlcnM6bWFuYWdlIl19.ANO5XI556SFKXAuDymX_0lH3gHBwNOflVx_9cQ1-dvs',
       })
     );
   });
