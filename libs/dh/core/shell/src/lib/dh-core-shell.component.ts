@@ -30,21 +30,21 @@ import { WattTopBarOutletComponent } from '@energinet-datahub/watt/top-bar';
 import { DhSelectedActorComponent } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
-    selector: 'dh-shell',
-    styleUrls: ['./dh-core-shell.component.scss'],
-    templateUrl: './dh-core-shell.component.html',
-    standalone: true,
-    imports: [
-        TranslocoModule,
-        DhLanguagePickerModule,
-        RouterModule,
-        PushModule,
-        DhPrimaryNavigationComponent,
-        WattShellComponent,
-        WattButtonModule,
-        WattTopBarOutletComponent,
-        DhSelectedActorComponent
-    ]
+  selector: 'dh-shell',
+  styleUrls: ['./dh-core-shell.component.scss'],
+  templateUrl: './dh-core-shell.component.html',
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    DhLanguagePickerModule,
+    RouterModule,
+    PushModule,
+    DhPrimaryNavigationComponent,
+    WattShellComponent,
+    WattButtonModule,
+    WattTopBarOutletComponent,
+    DhSelectedActorComponent,
+  ],
 })
 export class DhCoreShellComponent {
   titleTranslationKey$ = this.dhTopBarStore.titleTranslationKey$;

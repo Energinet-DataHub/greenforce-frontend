@@ -43,8 +43,13 @@ limitations under the License.
     </div>
 
     <ng-container *transloco="let transloco; read: 'shell'">
-      <watt-button class="toolbar__logout" variant="text" (click)="logout()" icon="logout">{{ transloco("logout")
-        }}</watt-button>
+      <watt-button
+        class="toolbar__logout"
+        variant="text"
+        (click)="logout()"
+        icon="logout"
+        >{{ transloco("logout") }}</watt-button
+      >
     </ng-container>
   </ng-container>
 

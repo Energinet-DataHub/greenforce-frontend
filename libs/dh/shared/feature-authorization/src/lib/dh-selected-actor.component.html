@@ -16,7 +16,9 @@ limitations under the License.
 -->
 <ng-container *rxLet="selectedActor$ as selectedActor">
   <div class="selected-actor-container" *ngIf="!(isLoading$ | push)">
-    <div class="organization-name-label">{{selectedActor.organizationName}}</div>
-    <div class="gln-label">{{selectedActor.gln}}</div>
+    <div class="organization-name-label">
+      {{ selectedActor.organizationName }}
+    </div>
+    <div class="gln-label">{{ selectedActor.gln }}</div>
   </div>
 </ng-container>
