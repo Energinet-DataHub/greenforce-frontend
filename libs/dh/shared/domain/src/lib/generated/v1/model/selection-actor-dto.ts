@@ -14,7 +14,7 @@
 export interface SelectionActorDto { 
     id: string;
     gln: string;
-    name: string;
+    organizationName: string;
 }
 
 

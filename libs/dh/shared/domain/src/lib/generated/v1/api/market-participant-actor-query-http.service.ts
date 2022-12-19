@@ -92,7 +92,7 @@ export class MarketParticipantActorQueryHttp {
     }
 
     /**
-     * Retrieves all actors available for selection by the user.
+     * Retrieves all actors available for selection by the user
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
