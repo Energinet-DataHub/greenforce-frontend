@@ -20,7 +20,7 @@ import { render, RenderResult } from '@testing-library/angular';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
+import { HttpClientFake, MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
 
@@ -31,7 +31,7 @@ describe(DhCoreShellComponent.name, () => {
         getTranslocoTestingModule(),
         WattDanishDatetimeModule.forRoot(),
       ],
-      providers: [MsalServiceFake],
+      providers: [MsalServiceFake, HttpClientFake],
     });
   });
 

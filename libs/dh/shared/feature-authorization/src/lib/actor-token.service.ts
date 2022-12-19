@@ -27,7 +27,7 @@ import {
   TokenHttp,
 } from '@energinet-datahub/dh/shared/domain';
 import { map, Observable, of, switchMap, tap } from 'rxjs';
-import { ActorStorage, actorStorageToken } from './actor-storage';
+import { ActorStorage, actorStorage } from './actor-storage';
 
 type CachedEntry = { token: string; value: string };
 
@@ -46,7 +46,7 @@ export class ActorTokenService {
   constructor(
     private marketParticipantUserHttp: MarketParticipantUserHttp,
     private tokenHttp: TokenHttp,
-    @Inject(actorStorageToken) private actorStorage: ActorStorage
+    @Inject(actorStorage) private actorStorage: ActorStorage
   ) {}
 
   public isPartOfAuthFlow(request: HttpRequest<unknown>) {

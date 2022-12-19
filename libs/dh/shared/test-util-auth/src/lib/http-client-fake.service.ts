@@ -14,18 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.selected-actor-container {
-  display: flex;
-  flex-direction: column;
-  background-color: var(--watt-on-light-low-emphasis);
-  padding: 12px 16px;
-  border-radius: 8px;
-}
+import { MockProvider } from 'ng-mocks';
+import { HttpClient } from '@angular/common/http';
 
-.organization-name-label {
-  color: var(--watt-on-dark-low-emphasis);
-}
-
-.gln-label {
-  color: var(--watt-on-dark-medium-emphasis);
-}
+export const HttpClientFake = MockProvider(HttpClient);
