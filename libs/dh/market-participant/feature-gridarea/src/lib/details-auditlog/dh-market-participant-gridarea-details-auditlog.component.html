@@ -18,7 +18,7 @@ limitations under the License.
 <ng-container
   *transloco="let t; read: 'marketParticipant.gridAreas.detailsAuditLog'"
 >
-  <div class="card-container">
+  <div class="card-container" *dhPermissionRequired="['gridareas:manage']">
     <h3>{{ t("changes") }}</h3>
     <table
       class="auditlog-table"

@@ -14,9 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { rest } from 'msw';
 
-export type Permission =
-  | 'organization:manage'
-  | 'gridareas:manage'
-  | 'actor:manage'
-  | 'users:manage';
+export function tokenMocks(apiBase: string) {
+  return [postToken(apiBase)];
+}
+
+function postToken(apiBase: string) {
+  return rest.post(`${apiBase}/v1/Token`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json({ token: 'mocked-token' }));
+  });
+}

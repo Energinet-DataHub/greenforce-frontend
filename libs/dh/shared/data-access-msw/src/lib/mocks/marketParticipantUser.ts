@@ -14,9 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { rest } from 'msw';
 
-export type Permission =
-  | 'organization:manage'
-  | 'gridareas:manage'
-  | 'actor:manage'
-  | 'users:manage';
+export function marketParticipantUserMocks(apiBase: string) {
+  return [getActors(apiBase)];
+}
+
+function getActors(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipantUser/Actors`,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json({ actorIds: [] }));
+    }
+  );
+}

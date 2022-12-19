@@ -23,25 +23,25 @@ namespace Energinet.DataHub.WebApi.Controllers
 {
     [ApiController]
     [Route("v1/[controller]")]
-    public class MarketParticipantUserRoleTemplateController : MarketParticipantControllerBase
+    public class MarketParticipantUserRoleController : MarketParticipantControllerBase
     {
-        private readonly IMarketParticipantUserRoleTemplateClient _client;
+        private readonly IMarketParticipantUserRoleClient _client;
 
-        public MarketParticipantUserRoleTemplateController(IMarketParticipantUserRoleTemplateClient client)
+        public MarketParticipantUserRoleController(IMarketParticipantUserRoleClient client)
         {
             _client = client;
         }
 
         [HttpGet]
         [Route("users")]
-        public Task<ActionResult<IEnumerable<UserRoleTemplateDto>>> GetAsync(Guid actorId, Guid userId)
+        public Task<ActionResult<IEnumerable<UserRoleDto>>> GetAsync(Guid actorId, Guid userId)
         {
             return HandleExceptionAsync(() => _client.GetAsync(actorId, userId));
         }
 
         [HttpGet]
         [Route("actors")]
-        public Task<ActionResult<IEnumerable<UserRoleTemplateDto>>> GetAssignableAsync(Guid actorId)
+        public Task<ActionResult<IEnumerable<UserRoleDto>>> GetAssignableAsync(Guid actorId)
         {
             return HandleExceptionAsync(() => _client.GetAssignableAsync(actorId));
         }
