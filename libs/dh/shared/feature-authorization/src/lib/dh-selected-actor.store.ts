@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { MarketParticipantActorQueryHttp } from '@energinet-datahub/dh/shared/domain';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable, switchMap, tap } from 'rxjs';
-import { ActorStorage } from './actor-storage';
+import { ActorStorage, actorStorageToken } from './actor-storage';
 
 export type SelectedActorState = {
   isLoading: boolean;
@@ -40,7 +40,7 @@ export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
 
   constructor(
     private client: MarketParticipantActorQueryHttp,
-    private actorStorage: ActorStorage
+    @Inject(actorStorageToken) private actorStorage: ActorStorage
   ) {
     super({
       isLoading: true,
@@ -60,7 +60,7 @@ export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
                 isLoading: false,
                 selectedActor: {
                   gln: actor?.gln,
-                  organizationName: actor?.name,
+                  organizationName: actor?.organizationName,
                 },
               });
             },
