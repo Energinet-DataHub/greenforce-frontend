@@ -32,6 +32,7 @@
 
 .button-padding {
   position: relative;
+  height: 100%;
 
   @include watt.media("<Large") {
     padding-right: 44px; // Added closing button width
