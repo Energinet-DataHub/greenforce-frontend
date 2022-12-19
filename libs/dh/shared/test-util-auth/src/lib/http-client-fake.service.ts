@@ -14,45 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "@energinet-datahub/watt/utils" as watt;
+import { MockProvider } from 'ng-mocks';
+import { HttpClient } from '@angular/common/http';
 
-:host {
-  display: block;
-}
-
-.sidenav-container {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-}
-
-.sidenav {
-  display: flex;
-  justify-content: center;
-}
-
-.selected-actor-container {
-  margin-top: auto;
-  padding: 16px;
-}
-
-.logo--sidenav {
-  margin: var(--watt-space-m) 0;
-}
-
-.toolbar {
-  &__heading {
-    margin-left: var(--watt-space-m);
-  }
-
-  &__actions {
-    margin-left: auto;
-    margin-right: var(--watt-space-m);
-  }
-
-  @include watt.media(">Large") {
-    &__logout {
-      margin-right: var(--watt-space-m);
-    }
-  }
-}
+export const HttpClientFake = MockProvider(HttpClient);
