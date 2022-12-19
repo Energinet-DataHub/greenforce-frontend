@@ -34,10 +34,13 @@ function createJWT(headerKey: unknown, dataKey: unknown, secretKey: string) {
   const header = getBase64Encoded(JSON.stringify(headerKey));
   const payload = btoa(JSON.stringify(dataKey));
   const secret = secretKey;
-  const sign = hmacSHA256(header + "." + payload, secret);
+  const sign = hmacSHA256(header + '.' + payload, secret);
   const sign64 = encBase64.stringify(sign);
 
-  return (header + "." + payload + "." + sign64).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+  return (header + '.' + payload + '.' + sign64)
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
 }
 
 function postToken(apiBase: string) {
@@ -45,7 +48,7 @@ function postToken(apiBase: string) {
     return res(
       ctx.status(200),
       ctx.json({
-        token: createJWT({"alg": "HS256"}, {role: permissions}, ''),
+        token: createJWT({ alg: 'HS256' }, { role: permissions }, ''),
       })
     );
   });
