@@ -58,20 +58,41 @@ limitations under the License.
         }}</watt-badge>
         {{ transloco("aggregatedProductionPerGridArea") }}
       </h3>
-      <p>
-        <strong>{{ transloco("gridArea") }}</strong>
-        <ng-container *transloco="let transloco; read: 'wholesale'">
+      <p class="sub-headline">
+        <span class="watt-label">{{ transloco("gridArea") }}</span>
+        <small *transloco="let transloco; read: 'wholesale'">
           {{
             transloco("calculationSteps.breadcrumb", {
               gridAreaCode: gridArea.code,
               gridAreaName: gridArea.name
             })
           }}
-        </ng-container>
+        </small>
       </p>
-      <hr />
 
       <ng-container *ngIf="processStepResults$ | async as processStepResults">
+        <dl>
+          <div>
+            <dt class="watt-label">{{transloco('meteringPointType')}}</dt>
+            <dd class="watt-text-s">{{transloco('processStepMeteringPointType.' + processStepResults.processStepMeteringPointType)}}</dd>
+          </div>
+          <div>
+            <dt class="watt-label">{{transloco('calculationPeriod')}}</dt>
+            <dd class="watt-text-s">{{ batch.periodStart | dhDate }} - {{ batch.periodEnd | dhDate }}</dd>
+          </div>
+          <div class="new-row">
+            <dt class="watt-label">{{transloco('sum')}}</dt>
+            <dd class="watt-text-s">{{processStepResults.sum}} kWh</dd>
+          </div>
+          <div>
+            <dt class="watt-label">{{transloco('min')}}</dt>
+            <dd class="watt-text-s">{{processStepResults.min}} kWH</dd>
+          </div>
+          <div>
+            <dt class="watt-label">{{transloco('max')}}</dt>
+            <dd class="watt-text-s">{{processStepResults.max}} kWh</dd>
+          </div>
+        </dl>
         <dh-wholesale-time-series-points
           [data]="processStepResults.timeSeriesPoints"
         ></dh-wholesale-time-series-points>
