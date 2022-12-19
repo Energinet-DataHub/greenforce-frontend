@@ -32,7 +32,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Retrieves all actors available for selection by the user.
+        /// Retrieves all actors available for selection by the user
         /// </summary>
         [HttpGet("selection-actors")]
         public Task<ActionResult<IEnumerable<SelectionActorDto>>> GetSelectionActorsAsync()
