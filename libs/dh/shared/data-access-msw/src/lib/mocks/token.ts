@@ -21,7 +21,24 @@ export function tokenMocks(apiBase: string) {
 }
 
 function postToken(apiBase: string) {
+  const mockedJwt = {
+    sub: 'some-subject',
+    azp: 'some-azp',
+    token: 'mocked.token',
+    nbf: 1671435203,
+    exp: 1671438803,
+    iss: 'some-issuer',
+    aud: 'some-audience',
+    iat: 1671435215,
+  };
+
   return rest.post(`${apiBase}/v1/Token`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json({ token: 'mocked-token' }));
+    return res(
+      ctx.status(200),
+      ctx.json({
+        token:
+          `mocked.${btoa(JSON.stringify(mockedJwt))}`,
+      })
+    );
   });
 }
