@@ -4,6 +4,8 @@ export * from './charges-http.service';
 import { ChargesHttp } from './charges-http.service';
 export * from './market-participant-http.service';
 import { MarketParticipantHttp } from './market-participant-http.service';
+export * from './market-participant-actor-query-http.service';
+import { MarketParticipantActorQueryHttp } from './market-participant-actor-query-http.service';
 export * from './market-participant-grid-area-http.service';
 import { MarketParticipantGridAreaHttp } from './market-participant-grid-area-http.service';
 export * from './market-participant-grid-area-overview-http.service';

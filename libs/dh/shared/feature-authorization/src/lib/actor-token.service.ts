@@ -21,12 +21,13 @@ import {
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   MarketParticipantUserHttp,
   TokenHttp,
 } from '@energinet-datahub/dh/shared/domain';
 import { map, Observable, of, switchMap, tap } from 'rxjs';
+import { ActorStorage, actorStorageToken } from './actor-storage';
 
 type CachedEntry = { token: string; value: string };
 
@@ -44,7 +45,8 @@ export class ActorTokenService {
 
   constructor(
     private marketParticipantUserHttp: MarketParticipantUserHttp,
-    private tokenHttp: TokenHttp
+    private tokenHttp: TokenHttp,
+    @Inject(actorStorageToken) private actorStorage: ActorStorage
   ) {}
 
   public isPartOfAuthFlow(request: HttpRequest<unknown>) {
@@ -80,9 +82,10 @@ export class ActorTokenService {
     return this.marketParticipantUserHttp
       .v1MarketParticipantUserActorsGet()
       .pipe(
-        switchMap((r) => {
+        tap((x) => this.actorStorage.setUserAssociatedActors(x.actorIds)),
+        switchMap(() => {
           return this.tokenHttp
-            .v1TokenPost(r.actorIds[0])
+            .v1TokenPost(this.actorStorage.getSelectedActor())
             .pipe(map((r) => r.token));
         })
       );
