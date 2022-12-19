@@ -36,8 +36,7 @@ function postToken(apiBase: string) {
     return res(
       ctx.status(200),
       ctx.json({
-        token:
-          `mocked.${btoa(JSON.stringify(mockedJwt))}`,
+        token: `mocked.${btoa(JSON.stringify(mockedJwt))}`,
       })
     );
   });
