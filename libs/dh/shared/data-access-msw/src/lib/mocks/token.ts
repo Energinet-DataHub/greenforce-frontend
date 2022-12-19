@@ -19,7 +19,7 @@ import hmacSHA256 from 'crypto-js/hmac-sha256';
 import encBase64 from 'crypto-js/enc-base64';
 import encUtf8 from 'crypto-js/enc-utf8';
 
-import { permissions } from '@energinet-datahub/dh/shared/feature-authorization';
+import { permissions } from '@energinet-datahub/dh/shared/domain';
 
 export function tokenMocks(apiBase: string) {
   return [postToken(apiBase)];
