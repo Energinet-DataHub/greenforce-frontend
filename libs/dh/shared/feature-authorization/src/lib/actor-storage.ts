@@ -44,6 +44,9 @@ export class ActorStorage {
     this.storage.setItem(this.selectedActorKey, actorId);
 }
 
-export const actorStorageToken = new InjectionToken<ActorStorage>('actorStorageToken', {
-  factory: (): ActorStorage => new ActorStorage(localStorage),
-});
+export const actorStorageToken = new InjectionToken<ActorStorage>(
+  'actorStorageToken',
+  {
+    factory: (): ActorStorage => new ActorStorage(localStorage),
+  }
+);
