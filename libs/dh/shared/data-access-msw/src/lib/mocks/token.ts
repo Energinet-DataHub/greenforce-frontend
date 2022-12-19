@@ -25,7 +25,8 @@ function postToken(apiBase: string) {
     return res(
       ctx.status(200),
       ctx.json({
-        token: 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbIm9yZ2FuaXphdGlvbjptYW5hZ2UiLCJncmlkYXJlYXM6bWFuYWdlIiwiYWN0b3I6bWFuYWdlIiwidXNlcnM6bWFuYWdlIl19.ANO5XI556SFKXAuDymX_0lH3gHBwNOflVx_9cQ1-dvs',
+        token:
+          'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbIm9yZ2FuaXphdGlvbjptYW5hZ2UiLCJncmlkYXJlYXM6bWFuYWdlIiwiYWN0b3I6bWFuYWdlIiwidXNlcnM6bWFuYWdlIl19.ANO5XI556SFKXAuDymX_0lH3gHBwNOflVx_9cQ1-dvs',
       })
     );
   });
