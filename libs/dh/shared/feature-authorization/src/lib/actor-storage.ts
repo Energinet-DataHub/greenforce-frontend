@@ -18,21 +18,20 @@
 import { InjectionToken } from '@angular/core';
 
 export class ActorStorage {
-  private readonly actorsKey = 'actorStorage.actorIds';
   private readonly selectedActorKey = 'actorStorage.selectedActor';
+
+  private actorIds: string[] = [];
 
   constructor(private storage: Storage) {}
 
-  setUserAssociatedActors = (actorIds: string[]) =>
-    this.storage.setItem(this.actorsKey, actorIds.join(','));
+  setUserAssociatedActors = (actorIds: string[]) => (this.actorIds = actorIds);
 
   getSelectedActor = () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const actorIds = this.storage.getItem(this.actorsKey)!.split(',');
     const selected = this.storage.getItem(this.selectedActorKey);
 
-    if (!selected || !actorIds.includes(selected)) {
-      const defaultActor = actorIds[0];
+    if (!selected || !this.actorIds.includes(selected)) {
+      const defaultActor = this.actorIds[0];
       this.setSelectedActor(defaultActor);
       return defaultActor;
     }
@@ -44,6 +43,9 @@ export class ActorStorage {
     this.storage.setItem(this.selectedActorKey, actorId);
 }
 
-export const actorStorageToken = new InjectionToken<ActorStorage>('actorStorageToken', {
-  factory: (): ActorStorage => new ActorStorage(localStorage),
-});
+export const actorStorageToken = new InjectionToken<ActorStorage>(
+  'actorStorageToken',
+  {
+    factory: (): ActorStorage => new ActorStorage(localStorage),
+  }
+);
