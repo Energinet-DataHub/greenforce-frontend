@@ -18,7 +18,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { ActorTokenService } from './actor-token.service';
-import { Permission } from './permission';
+import { Permission } from '@energinet-datahub/dh/shared/domain';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {

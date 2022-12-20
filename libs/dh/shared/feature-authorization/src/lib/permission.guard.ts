@@ -18,7 +18,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn } from '@angular/router';
 import { PermissionService } from './permission.service';
-import { Permission } from './permission';
+import { Permission } from '@energinet-datahub/dh/shared/domain';
 import { concatAll, from, map, reduce } from 'rxjs';
 
 export function PermissionGuard(permissions: Permission[]): CanActivateFn {

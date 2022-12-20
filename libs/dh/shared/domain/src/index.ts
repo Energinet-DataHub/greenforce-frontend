@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/generated/v1';
+export * from './lib/permission';
