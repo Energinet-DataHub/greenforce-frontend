@@ -263,8 +263,8 @@ export class WattTableComponent<T>
   _subscription!: Subscription;
 
   /** @ignore */
-  private getCellData(row: T, column: WattTableColumn<T>) {
-    if (!column.accessor) return null;
+  private getCellData(row: T, column?: WattTableColumn<T>) {
+    if (!column?.accessor) return null;
     return typeof column.accessor === 'function'
       ? column.accessor(row)
       : row[column.accessor];
