@@ -16,6 +16,8 @@
  */
 import { rest } from 'msw';
 
+import marketParticipantUserActors from './data/marketParticipantUserActors.json';
+
 export function marketParticipantUserMocks(apiBase: string) {
   return [getActors(apiBase)];
 }
@@ -24,7 +26,7 @@ function getActors(apiBase: string) {
   return rest.get(
     `${apiBase}/v1/MarketParticipantUser/Actors`,
     (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({ actorIds: [] }));
+      return res(ctx.status(200), ctx.json(marketParticipantUserActors));
     }
   );
 }

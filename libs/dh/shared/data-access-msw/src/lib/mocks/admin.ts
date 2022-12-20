@@ -17,9 +17,13 @@
 import { rest } from 'msw';
 
 import marketParticipantUserOverviewData from './data/marketParticipantUserOverview.json';
+import marketParticipantActorQuerySelectionActors from './data/marketParticipantActorQuerySelectionActors.json';
 
 export function adminMocks(apiBase: string) {
-  return [getMarketParticipantUserOverview(apiBase)];
+  return [
+    getMarketParticipantUserOverview(apiBase),
+    getMarketParticipantActorQuerySelectionActors(apiBase),
+  ];
 }
 
 function getMarketParticipantUserOverview(apiBase: string) {
@@ -27,6 +31,15 @@ function getMarketParticipantUserOverview(apiBase: string) {
     `${apiBase}/v1/MarketParticipantUserOverview`,
     (req, res, ctx) => {
       return res(ctx.json(marketParticipantUserOverviewData));
+    }
+  );
+}
+
+function getMarketParticipantActorQuerySelectionActors(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipantActorQuery/selection-actors`,
+    (req, res, ctx) => {
+      return res(ctx.json(marketParticipantActorQuerySelectionActors));
     }
   );
 }
