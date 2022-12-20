@@ -17,7 +17,7 @@
 
 import { Inject, Injectable } from '@angular/core';
 import { MarketParticipantActorQueryHttp } from '@energinet-datahub/dh/shared/domain';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { ComponentStore } from '@ngrx/component-store';
 import { Observable, switchMap, tap } from 'rxjs';
 import { ActorStorage, actorStorageToken } from './actor-storage';
 
@@ -52,29 +52,19 @@ export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
     return trigger$.pipe(
       switchMap(() =>
         this.client.v1MarketParticipantActorQuerySelectionActorsGet().pipe(
-          tapResponse(
-            (r) => {
-              const actorId = this.actorStorage.getSelectedActor();
-              const actor = r.find((x) => x.id === actorId);
-              return this.patchState({
-                isLoading: false,
-                selectedActor: {
-                  gln: actor?.gln,
-                  organizationName: actor?.organizationName,
-                },
-              });
-            },
-            (e) => console.log(e)
-          )
+          tap((r) => {
+            const actorId = this.actorStorage.getSelectedActor();
+            const actor = r.find((x) => x.id === actorId);
+            return this.patchState({
+              isLoading: false,
+              selectedActor: {
+                gln: actor?.gln,
+                organizationName: actor?.organizationName,
+              },
+            });
+          })
         )
       )
     );
   });
-
-  gOnInit(): void {
-    this.client
-      .v1MarketParticipantActorQuerySelectionActorsGet()
-      .pipe(tap((x) => console.log(x)))
-      .subscribe();
-  }
 }

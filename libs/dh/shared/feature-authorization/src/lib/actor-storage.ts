@@ -27,7 +27,6 @@ export class ActorStorage {
   setUserAssociatedActors = (actorIds: string[]) => (this.actorIds = actorIds);
 
   getSelectedActor = () => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const selected = this.storage.getItem(this.selectedActorKey);
 
     if (!selected || !this.actorIds.includes(selected)) {
