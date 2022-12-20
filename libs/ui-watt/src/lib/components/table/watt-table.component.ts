@@ -56,6 +56,8 @@ export interface WattTableColumn<T> {
   accessor: keyof T | ((row: T) => unknown) | null;
 
   /**
+   * @deprecated Use `header` input with WattTableCellDirective instead.
+   *
    * Resolve the header text to a static display value. This will prevent
    * the `resolveHeader` input function from being called for this column.
    */
@@ -337,6 +339,7 @@ export class WattTableComponent<T>
 
   /** @ignore */
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
+    if (column.value.header) return column.value.header;
     const cell = this._cells.find((item) => item.column === column.value);
     return cell?.header ?? this.resolveHeader?.(column.key) ?? column.key;
   }
