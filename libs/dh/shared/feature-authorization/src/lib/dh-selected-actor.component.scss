@@ -14,19 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { rest } from 'msw';
-
-import marketParticipantUserActors from './data/marketParticipantUserActors.json';
-
-export function marketParticipantUserMocks(apiBase: string) {
-  return [getActors(apiBase)];
+.selected-actor-container {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--watt-on-light-low-emphasis);
+  padding: 12px 16px;
+  border-radius: 8px;
 }
 
-function getActors(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/MarketParticipantUser/Actors`,
-    (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(marketParticipantUserActors));
-    }
-  );
+.organization-name-label {
+  color: var(--watt-on-dark-low-emphasis);
+}
+
+.gln-label {
+  color: var(--watt-on-dark-medium-emphasis);
 }
