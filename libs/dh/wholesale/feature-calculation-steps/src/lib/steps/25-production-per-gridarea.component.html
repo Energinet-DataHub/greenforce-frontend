@@ -59,7 +59,9 @@ limitations under the License.
         {{ transloco("aggregatedProductionPerGridArea") }}
       </h3>
       <p class="sub-headline">
-        <span class="watt-label watt-on-light--high-emphasis">{{ transloco("gridArea") }}</span>
+        <span class="watt-label watt-on-light--high-emphasis">{{
+          transloco("gridArea")
+        }}</span>
         <small *transloco="let transloco; read: 'wholesale'">
           {{
             transloco("calculationSteps.breadcrumb", {
@@ -73,7 +75,9 @@ limitations under the License.
       <ng-container *ngIf="processStepResults$ | async as processStepResults">
         <dl>
           <div>
-            <dt class="watt-label watt-on-light--high-emphasis">{{ transloco("meteringPointType") }}</dt>
+            <dt class="watt-label watt-on-light--high-emphasis">
+              {{ transloco("meteringPointType") }}
+            </dt>
             <dd class="watt-text-s">
               {{
                 transloco(
@@ -84,21 +88,29 @@ limitations under the License.
             </dd>
           </div>
           <div>
-            <dt class="watt-label watt-on-light--high-emphasis">{{ transloco("calculationPeriod") }}</dt>
+            <dt class="watt-label watt-on-light--high-emphasis">
+              {{ transloco("calculationPeriod") }}
+            </dt>
             <dd class="watt-text-s">
               {{ batch.periodStart | dhDate }} - {{ batch.periodEnd | dhDate }}
             </dd>
           </div>
           <div class="new-row">
-            <dt class="watt-label watt-on-light--high-emphasis">{{ transloco("sum") }}</dt>
+            <dt class="watt-label watt-on-light--high-emphasis">
+              {{ transloco("sum") }}
+            </dt>
             <dd class="watt-text-s">{{ processStepResults.sum }} kWh</dd>
           </div>
           <div>
-            <dt class="watt-label watt-on-light--high-emphasis">{{ transloco("min") }}</dt>
+            <dt class="watt-label watt-on-light--high-emphasis">
+              {{ transloco("min") }}
+            </dt>
             <dd class="watt-text-s">{{ processStepResults.min }} kWH</dd>
           </div>
           <div>
-            <dt class="watt-label watt-on-light--high-emphasis">{{ transloco("max") }}</dt>
+            <dt class="watt-label watt-on-light--high-emphasis">
+              {{ transloco("max") }}
+            </dt>
             <dd class="watt-text-s">{{ processStepResults.max }} kWh</dd>
           </div>
         </dl>
