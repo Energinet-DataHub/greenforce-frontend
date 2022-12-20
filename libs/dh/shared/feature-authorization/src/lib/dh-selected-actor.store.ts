@@ -54,12 +54,14 @@ export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
         this.client.v1MarketParticipantActorQuerySelectionActorsGet().pipe(
           tap((r) => {
             const actorId = this.actorStorage.getSelectedActor();
-            const actor = r.find((x) => x.id === actorId);
+
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const actor = r.find((x) => x.id === actorId)!;
             return this.patchState({
               isLoading: false,
               selectedActor: {
-                gln: actor?.gln,
-                organizationName: actor?.organizationName,
+                gln: actor.gln,
+                organizationName: actor.organizationName,
               },
             });
           })
