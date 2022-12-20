@@ -27,7 +27,12 @@ limitations under the License.
       ></ng-container>
     </watt-card-title>
 
-    <dh-users-tab-table [users]="users"></dh-users-tab-table>
+    <dh-users-tab-table
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [totalUsersCount]="totalUsersCount"
+      (pageChange)="pageChange.emit($event)"
+    ></dh-users-tab-table>
   </watt-card>
 </ng-container>
 

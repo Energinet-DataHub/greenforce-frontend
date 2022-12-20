@@ -14,28 +14,40 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-table
-  #table
-  [columns]="columns"
-  [dataSource]="dataSource"
-  sortBy="name"
-  sortDirection="asc"
-  [sortClear]="false"
-  [resolveHeader]="translateHeader"
->
-  <ng-container *wattTableCell="columns['name']; let element">{{
-    element.name
-  }}</ng-container>
+<mat-paginator
+  [length]="totalUsersCount"
+  [pageSize]="pageSize"
+  [pageIndex]="pageIndex"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="pageChange.emit($event)"
+></mat-paginator>
 
-  <ng-container *wattTableCell="columns['email']; let element">{{
-    element.email
-  }}</ng-container>
+<mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>User</mat-header-cell>
+    <mat-cell *matCellDef="let user">{{ user.name }}</mat-cell>
+  </ng-container>
 
-  <ng-container *wattTableCell="columns['phone']; let element">{{
-    element.phoneNumber | dhEmDashFallback
-  }}</ng-container>
+  <ng-container matColumnDef="email">
+    <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+    <mat-cell *matCellDef="let user">{{ user.email }}</mat-cell>
+  </ng-container>
 
-  <ng-container *wattTableCell="columns['status']; let element">{{
-    undefined | dhEmDashFallback
-  }}</ng-container>
-</watt-table>
+  <ng-container matColumnDef="phone">
+    <mat-header-cell *matHeaderCellDef>phone</mat-header-cell>
+    <mat-cell *matCellDef="let user">{{
+      user.phone | dhEmDashFallback
+    }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+    <mat-cell *matCellDef="let user">{{
+      undefined | dhEmDashFallback
+    }}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>

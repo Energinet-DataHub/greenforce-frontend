@@ -17,19 +17,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  inject,
+  EventEmitter,
   Input,
+  Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
-import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
-import {
-  WattTableDataSource,
-  WattTableColumnDef,
-  WATT_TABLE,
-} from '@energinet-datahub/watt/table';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { DhCustomDataSource } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   selector: 'dh-users-tab-table',
@@ -48,28 +46,20 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/s
     CommonModule,
     TranslocoModule,
     DhEmDashFallbackPipeScam,
-    WATT_TABLE,
+    MatTableModule,
+    MatPaginatorModule,
   ],
 })
 export class DhUsersTabTableComponent {
-  private transloco = inject(TranslocoService);
+  dataSource = new DhCustomDataSource();
+  displayedColumns = ['name', 'email', 'phone', 'status'];
 
-  dataSource = new WattTableDataSource<UserOverviewItemDto>();
+  pageSizeOptions = [2, 4, 5];
 
-  columns: WattTableColumnDef<UserOverviewItemDto> = {
-    name: { accessor: 'name' },
-    email: { accessor: 'email' },
-    phone: { accessor: 'phoneNumber' },
-    status: { accessor: 'active' },
-  };
+  @Input() totalUsersCount!: number;
 
-  @Input() set users(usersData: UserOverviewItemDto[]) {
-    this.dataSource.data = usersData;
-  }
+  @Input() pageSize!: number;
+  @Input() pageIndex!: number;
 
-  translateHeader = (columnId: string): string => {
-    const baseKey = 'admin.userManagement.tabs.users.table.columns';
-
-    return this.transloco.translate(`${baseKey}.${columnId}`);
-  };
+  @Output() pageChange = new EventEmitter<PageEvent>();
 }

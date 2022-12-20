@@ -14,8 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { PageEvent } from '@angular/material/paginator';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
@@ -38,4 +45,10 @@ import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
 })
 export class DhUsersTabComponent {
   @Input() users: UserOverviewItemDto[] = [];
+  @Input() totalUsersCount!: number;
+
+  @Input() pageSize!: number;
+  @Input() pageIndex!: number;
+
+  @Output() pageChange = new EventEmitter<PageEvent>();
 }

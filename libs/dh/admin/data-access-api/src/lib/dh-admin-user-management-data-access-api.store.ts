@@ -15,7 +15,15 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { filter, map, Observable, switchMap, tap, withLatestFrom } from 'rxjs';
+import {
+  delay,
+  filter,
+  map,
+  Observable,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -30,15 +38,17 @@ import {
 interface DhUserManagementState {
   readonly users: UserOverviewItemDto[] | null;
   readonly requestState: LoadingState | ErrorState;
-  readonly pageNumber: number;
+  readonly pageIndex: number;
   readonly pageSize: number;
+  readonly totalUsersCount: number;
 }
 
 const initialState: DhUserManagementState = {
   users: null,
   requestState: LoadingState.INIT,
-  pageNumber: 1,
-  pageSize: 25,
+  pageIndex: 0,
+  pageSize: 2,
+  totalUsersCount: 10,
 };
 
 @Injectable()
@@ -57,6 +67,10 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     filter((users) => !!users),
     map((users) => users as UserOverviewItemDto[])
   );
+  totalUsersCount$ = this.select((state) => state.totalUsersCount);
+
+  pageIndex$ = this.select((state) => state.pageIndex);
+  pageSize$ = this.select((state) => state.pageSize);
 
   constructor(private httpClient: MarketParticipantUserOverviewHttp) {
     super(initialState);
@@ -66,13 +80,12 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     trigger$.pipe(
       withLatestFrom(this.state$),
       tap(() => {
-        this.resetState();
-
         this.setLoading(LoadingState.LOADING);
       }),
+      delay(300),
       switchMap(([, state]) =>
         this.httpClient
-          .v1MarketParticipantUserOverviewGet(state.pageNumber, state.pageSize)
+          .v1MarketParticipantUserOverviewGet(state.pageIndex, state.pageSize)
           .pipe(
             tapResponse(
               (users) => {
@@ -89,6 +102,17 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
           )
       )
     )
+  );
+
+  readonly updatePageMetadata = this.effect(
+    (trigger$: Observable<{ pageIndex: number; pageSize: number }>) =>
+      trigger$.pipe(
+        tap(({ pageIndex, pageSize }) => {
+          this.patchState({ pageIndex: pageIndex, pageSize });
+
+          this.getUsers();
+        })
+      )
   );
 
   private updateUsers = this.updater(
