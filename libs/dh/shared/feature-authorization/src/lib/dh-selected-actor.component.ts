@@ -15,18 +15,17 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { CommonModule } from '@angular/common';
+import { LetModule, PushModule } from '@rx-angular/template';
 
 import { DhSelectedActorStore } from './dh-selected-actor.store';
-import { LetModule, PushModule } from '@rx-angular/template';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'dh-selected-actor',
   styleUrls: ['./dh-selected-actor.component.scss'],
   templateUrl: './dh-selected-actor.component.html',
   standalone: true,
-  imports: [CommonModule, LetModule, TranslocoModule, PushModule],
+  imports: [CommonModule, LetModule, PushModule],
 })
 export class DhSelectedActorComponent {
   selectedActor$ = this.store.selectedActor$;
