@@ -30,5 +30,53 @@
     "phoneNumber": null,
     "createdDate": "2022-12-01T23:00:00Z",
     "active": false
+  },
+  {
+    "id": "d1d93b78-abc9-42b0-8165-953471a9b388",
+    "email": "testuser5@test.dk",
+    "name": "Test User 5",
+    "phoneNumber": null,
+    "createdDate": "2022-12-05T23:00:00Z",
+    "active": false
+  },
+  {
+    "id": "b76e8646-b4e8-41c7-8a70-0a0ef2c63bbd",
+    "email": "testuser6@test.dk",
+    "name": "Test User 6",
+    "phoneNumber": null,
+    "createdDate": "2022-12-06T23:00:00Z",
+    "active": false
+  },
+  {
+    "id": "083372f7-6254-48a8-bc0b-a9945ed29fc0",
+    "email": "testuser7@test.dk",
+    "name": "Test User 7",
+    "phoneNumber": null,
+    "createdDate": "2022-12-07T23:00:00Z",
+    "active": false
+  },
+  {
+    "id": "2fa8a715-db10-4e4f-9441-50b6d06bdb2c",
+    "email": "testuser8@test.dk",
+    "name": "Test User 8",
+    "phoneNumber": null,
+    "createdDate": "2022-12-08T23:00:00Z",
+    "active": false
+  },
+  {
+    "id": "e5f5b932-81c8-4250-bc61-cec1b1fb4f43",
+    "email": "testuser9@test.dk",
+    "name": "Test User 9",
+    "phoneNumber": null,
+    "createdDate": "2022-12-09T23:00:00Z",
+    "active": false
+  },
+  {
+    "id": "bc8eea5f-cde3-4c45-9197-8402830275f1",
+    "email": "testuser10@test.dk",
+    "name": "Test User 10",
+    "phoneNumber": null,
+    "createdDate": "2022-12-10T23:00:00Z",
+    "active": false
   }
 ]
