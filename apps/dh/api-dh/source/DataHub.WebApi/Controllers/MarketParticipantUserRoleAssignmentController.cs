@@ -26,7 +26,7 @@ namespace Energinet.DataHub.WebApi.Controllers
     {
         private readonly IMarketParticipantUserRoleAssignmentClient _client;
 
-        public MarketParticipantUserRoleAssignmentController(IMarketParticipantUserRoleAssignmentClient client, IMarketParticipantOrganizationClient organizationClient)
+        public MarketParticipantUserRoleAssignmentController(IMarketParticipantUserRoleAssignmentClient client)
         {
             _client = client;
         }
