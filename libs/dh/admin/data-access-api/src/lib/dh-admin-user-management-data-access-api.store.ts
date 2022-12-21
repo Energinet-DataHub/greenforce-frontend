@@ -40,7 +40,7 @@ const initialState: DhUserManagementState = {
   users: [],
   totalUserCount: 0,
   requestState: LoadingState.INIT,
-  pageIndex: 0,
+  pageIndex: 1,
   pageSize: 50,
 };
 
