@@ -46,8 +46,6 @@ import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-pa
   ],
 })
 export class DhUsersTabComponent {
-  pageSizeOptions = [2, 4, 5];
-
   @Input() users: UserOverviewItemDto[] = [];
   @Input() totalUserCount!: number;
 
