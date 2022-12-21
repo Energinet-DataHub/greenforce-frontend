@@ -56,6 +56,8 @@ export interface WattTableColumn<T> {
   accessor: keyof T | ((row: T) => unknown) | null;
 
   /**
+   * @deprecated Use `header` input with WattTableCellDirective instead.
+   *
    * Resolve the header text to a static display value. This will prevent
    * the `resolveHeader` input function from being called for this column.
    */
@@ -108,6 +110,7 @@ interface WattTableCellContext<T> {
 export class WattTableCellDirective<T> {
   /** The WattTableColumn this template applies to. */
   @Input('wattTableCell') column!: WattTableColumn<T>;
+  @Input('wattTableCellHeader') header?: string;
   templateRef = inject(TemplateRef<WattTableCellContext<T>>);
   static ngTemplateContextGuard<T>(
     _directive: WattTableCellDirective<T>,
@@ -169,6 +172,8 @@ export class WattTableComponent<T>
   description = '';
 
   /**
+   * @deprecated Use `header` input with WattTableCellDirective instead.
+   *
    * Optional callback for determining header text for columns that
    * do not have a static header text set in the column definition.
    * Useful for providing translations of column headers.
@@ -263,8 +268,8 @@ export class WattTableComponent<T>
   _subscription!: Subscription;
 
   /** @ignore */
-  private getCellData(row: T, column: WattTableColumn<T>) {
-    if (!column.accessor) return null;
+  private getCellData(row: T, column?: WattTableColumn<T>) {
+    if (!column?.accessor) return null;
     return typeof column.accessor === 'function'
       ? column.accessor(row)
       : row[column.accessor];
@@ -334,9 +339,9 @@ export class WattTableComponent<T>
 
   /** @ignore */
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
-    return column.value.header
-      ? column.value.header
-      : this.resolveHeader?.(column.key) ?? column.key;
+    if (column.value.header) return column.value.header;
+    const cell = this._cells.find((item) => item.column === column.value);
+    return cell?.header ?? this.resolveHeader?.(column.key) ?? column.key;
   }
 
   /** @ignore */

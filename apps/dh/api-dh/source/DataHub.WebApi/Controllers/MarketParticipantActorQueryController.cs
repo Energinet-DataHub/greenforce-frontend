@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
@@ -23,20 +22,22 @@ namespace Energinet.DataHub.WebApi.Controllers
 {
     [ApiController]
     [Route("v1/[controller]")]
-    public class MarketParticipantUserRoleAssignmentController : MarketParticipantControllerBase
+    public class MarketParticipantActorQueryController : MarketParticipantControllerBase
     {
-        private readonly IMarketParticipantUserRoleAssignmentClient _client;
+        private readonly IMarketParticipantClient _client;
 
-        public MarketParticipantUserRoleAssignmentController(IMarketParticipantUserRoleAssignmentClient client)
+        public MarketParticipantActorQueryController(IMarketParticipantClient client)
         {
             _client = client;
         }
 
-        [HttpPut]
-        [Route("users/roles")]
-        public Task UpdateAssignmentsAsync(Guid actorId, Guid userId, IEnumerable<Guid> userRoleAssignments)
+        /// <summary>
+        /// Retrieves all actors available for selection by the user
+        /// </summary>
+        [HttpGet("selection-actors")]
+        public Task<ActionResult<IEnumerable<SelectionActorDto>>> GetSelectionActorsAsync()
         {
-            return HandleExceptionAsync(() => _client.UpdateUserRoleAssignmentsAsync(actorId, userId, userRoleAssignments));
+            return HandleExceptionAsync(() => _client.GetSelectionActorsAsync());
         }
     }
 }
