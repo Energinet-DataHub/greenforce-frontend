@@ -41,7 +41,7 @@ import {
   Sort,
   SortDirection,
 } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { map, type Subscription } from 'rxjs';
 import { WattCheckboxModule } from '../checkbox';
 import { WattTableDataSource } from './watt-table-data-source';
@@ -145,7 +145,7 @@ export class WattTableComponent<T>
    * The table's source of data. Property should not be changed after
    * initialization, instead update the data on the instance itself.
    */
-  @Input() dataSource!: WattTableDataSource<T>;
+  @Input() dataSource!: WattTableDataSource<T> | MatTableDataSource<T>;
 
   /**
    * Column definition record with keys representing the column identifiers
