@@ -34,7 +34,6 @@ interface DhUserManagementState {
   readonly requestState: LoadingState | ErrorState;
   readonly pageIndex: number;
   readonly pageSize: number;
-  readonly totalUsersCount: number;
 }
 
 const initialState: DhUserManagementState = {
@@ -42,8 +41,7 @@ const initialState: DhUserManagementState = {
   totalUserCount: 0,
   requestState: LoadingState.INIT,
   pageIndex: 0,
-  pageSize: 2,
-  totalUsersCount: 10,
+  pageSize: 50,
 };
 
 @Injectable()
