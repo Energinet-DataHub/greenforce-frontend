@@ -17,7 +17,7 @@ limitations under the License.
 <ng-container *transloco="let transloco; read: 'wholesale.processStepResults'">
   <watt-card (click)="openDetails()">
     <h4>
-      <watt-badge size="large" class="watt-space-inline-m">25</watt-badge
+      <watt-badge size="large" class="watt-space-inline-m">1</watt-badge
       >{{ transloco("aggregatedProductionPerGridArea") }}
     </h4>
     <watt-button variant="text" icon="openInNew">{{
@@ -43,7 +43,7 @@ limitations under the License.
           })
         }}</watt-breadcrumb>
         <watt-breadcrumb>{{
-          transloco("processStepResults.step", { step: 25 })
+          transloco("processStepResults.step", { step: 1 })
         }}</watt-breadcrumb>
       </watt-breadcrumbs>
     </watt-drawer-topbar>
@@ -54,7 +54,7 @@ limitations under the License.
         style="display: flex; align-items: center"
       >
         <watt-badge size="large" class="watt-space-inline-s">{{
-          transloco("step", { step: 25 })
+          transloco("step", { step: 1 })
         }}</watt-badge>
         {{ transloco("aggregatedProductionPerGridArea") }}
       </h3>

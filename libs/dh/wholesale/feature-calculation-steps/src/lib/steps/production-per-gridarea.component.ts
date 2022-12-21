@@ -49,8 +49,8 @@ import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-w
 
 @Component({
   selector: 'dh-wholesale-production-per-gridarea',
-  templateUrl: './25-production-per-gridarea.component.html',
-  styleUrls: ['./25-production-per-gridarea.component.scss'],
+  templateUrl: './production-per-gridarea.component.html',
+  styleUrls: ['./production-per-gridarea.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
@@ -92,7 +92,7 @@ export class DhWholesaleProductionPerGridareaComponent
   openDetails(): void {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { step: 25 },
+      queryParams: { step: 1 },
     });
 
     this.drawer.open();
