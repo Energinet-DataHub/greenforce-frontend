@@ -20,35 +20,40 @@ import {
   ViewChild,
   ContentChild,
 } from '@angular/core';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { WattCardModule } from '../../card';
+import { WattPaginatorComponent } from '../../paginator';
 import { WattTableComponent } from '../watt-table.component';
 
 @Component({
   standalone: true,
-  imports: [MatPaginatorModule],
+  imports: [WattCardModule, WattPaginatorComponent],
   selector: 'watt-storybook-table-decorator',
   styles: [
     `
-      :host {
+      watt-card {
         display: grid;
         height: calc(100vh - 2rem);
-        grid-template-rows: min-content minmax(10rem, min-content);
+        grid-template-rows: minmax(10rem, auto) min-content;
+      }
+
+      watt-paginator {
+        margin: calc(-1.5 * var(--watt-space-m));
+        margin-top: 0;
       }
     `,
   ],
   template: `
-    <mat-paginator
-      [pageSize]="10"
-      [pageSizeOptions]="[5, 10, 20, 50]"
-      [showFirstLastButtons]="true"
-    ></mat-paginator>
-    <ng-content></ng-content>
+    <watt-card>
+      <ng-content></ng-content>
+      <watt-paginator
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 20, 50]"
+      ></watt-paginator>
+    </watt-card>
   `,
 })
 export class WattStorybookTableDecoratorComponent<T> implements AfterViewInit {
-  // Avoid using MatPaginator directly, instead prefer app specific
-  // implementations (for now) such as DhSharedUiPaginatorComponent.
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(WattPaginatorComponent) paginator!: WattPaginatorComponent;
   @ContentChild(WattTableComponent) table!: WattTableComponent<T>;
 
   ngAfterViewInit() {
