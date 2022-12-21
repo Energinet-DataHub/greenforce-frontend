@@ -14,21 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatTableModule } from '@angular/material/table';
-import { PageEvent } from '@angular/material/paginator';
 
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhCustomDataSource } from '@energinet-datahub/dh/admin/data-access-api';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 
 @Component({
   selector: 'dh-users-tab-table',
@@ -48,19 +40,9 @@ import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-pa
     TranslocoModule,
     DhEmDashFallbackPipeScam,
     MatTableModule,
-    DhSharedUiPaginatorComponent,
   ],
 })
 export class DhUsersTabTableComponent {
   dataSource = new DhCustomDataSource();
   displayedColumns = ['name', 'email', 'phone', 'status'];
-
-  pageSizeOptions = [2, 4, 5];
-
-  @Input() totalUsersCount!: number;
-
-  @Input() pageSize!: number;
-  @Input() pageIndex!: number;
-
-  @Output() pageChange = new EventEmitter<PageEvent>();
 }

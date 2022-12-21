@@ -29,6 +29,7 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
+import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 
 @Component({
   selector: 'dh-users-tab',
@@ -41,9 +42,12 @@ import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
     TranslocoModule,
     WattCardModule,
     DhUsersTabTableComponent,
+    DhSharedUiPaginatorComponent,
   ],
 })
 export class DhUsersTabComponent {
+  pageSizeOptions = [2, 4, 5];
+
   @Input() users: UserOverviewItemDto[] = [];
   @Input() totalUsersCount!: number;
 

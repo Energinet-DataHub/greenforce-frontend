@@ -17,22 +17,28 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
   <watt-card>
     <watt-card-title>
-      <ng-container
-        *ngTemplateOutlet="
-          usersHeadline;
-          context: {
-            $implicit: totalUsersCount
-          }
-        "
-      ></ng-container>
+      <div class="card-title-container">
+        <ng-container
+          *ngTemplateOutlet="
+            usersHeadline;
+            context: {
+              $implicit: totalUsersCount
+            }
+          "
+        ></ng-container>
+
+        <dh-shared-ui-paginator
+          [length]="totalUsersCount"
+          (changed)="pageChange.emit($event)"
+          [pageSizeOptions]="pageSizeOptions"
+          [pageSize]="pageSize"
+          [pageIndex]="pageIndex"
+        >
+        </dh-shared-ui-paginator>
+      </div>
     </watt-card-title>
 
-    <dh-users-tab-table
-      [pageSize]="pageSize"
-      [pageIndex]="pageIndex"
-      [totalUsersCount]="totalUsersCount"
-      (pageChange)="pageChange.emit($event)"
-    ></dh-users-tab-table>
+    <dh-users-tab-table></dh-users-tab-table>
   </watt-card>
 </ng-container>
 
