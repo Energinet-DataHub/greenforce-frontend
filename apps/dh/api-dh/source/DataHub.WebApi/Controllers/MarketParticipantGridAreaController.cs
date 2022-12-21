@@ -36,6 +36,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Retrieves all grid areas
         /// </summary>
         [HttpGet]
+        [Route("GetAllGridAreas")]
         public Task<ActionResult<IEnumerable<GridAreaDto>>> GetAllGridAreasAsync()
         {
             return HandleExceptionAsync(() => _client.GetGridAreasAsync());
@@ -44,13 +45,14 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Retrieves all grid area audit logs for the given grid area
         /// </summary>
-        [HttpGet("{gridAreaId:guid}/auditlogentry")]
+        [HttpGet("GetGridAreaAuditLogEntries")]
         public Task<ActionResult<IEnumerable<GridAreaAuditLogEntryDto>>> GetGridAreaAuditLogEntriesAsync(Guid gridAreaId)
         {
             return HandleExceptionAsync(() => _client.GetGridAreaAuditLogEntriesAsync(gridAreaId));
         }
 
         [HttpPut]
+        [Route("UpdateGridAreaName")]
         public Task<ActionResult> UpdateGridAreaNameAsync(ChangeGridAreaDto changes)
         {
             return HandleExceptionAsync(() => _client.UpdateGridAreaAsync(changes));

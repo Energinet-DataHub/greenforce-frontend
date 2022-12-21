@@ -28,7 +28,7 @@ export function adminMocks(apiBase: string) {
 
 function getMarketParticipantUserOverview(apiBase: string) {
   return rest.get(
-    `${apiBase}/v1/MarketParticipantUserOverview`,
+    `${apiBase}/v1/MarketParticipantUserOverview/GetUserOverview`,
     (req, res, ctx) => {
       return res(ctx.json(marketParticipantUserOverviewData));
     }
@@ -37,7 +37,7 @@ function getMarketParticipantUserOverview(apiBase: string) {
 
 function getMarketParticipantActorQuerySelectionActors(apiBase: string) {
   return rest.get(
-    `${apiBase}/v1/MarketParticipantActorQuery/selection-actors`,
+    `${apiBase}/v1/MarketParticipantActorQuery/GetSelectionActors`,
     (req, res, ctx) => {
       return res(ctx.json(marketParticipantActorQuerySelectionActors));
     }
