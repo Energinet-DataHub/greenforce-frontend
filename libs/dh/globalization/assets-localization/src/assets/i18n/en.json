@@ -788,7 +788,16 @@
       "open": "Open",
       "gridArea": "Grid area",
       "loadProcessStepResultsErrorTitle": "Oops! There was an error",
-      "loadProcessStepResultsErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information"
+      "loadProcessStepResultsErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information",
+      "meteringPointType": "Metering point type",
+      "messageId": "Message ID",
+      "calculationPeriod": "Calculation period",
+      "sum": "Sum",
+      "min": "Min",
+      "max": "Max",
+      "processStepMeteringPointType": {
+        "Production": "Production"
+      }
     },
     "timeSeriesPoints": {
       "header": "Quantities ​​in the period",
@@ -820,7 +829,7 @@
             "plural": "{{ usersCount }} users"
           },
           "table": {
-            "headers": {
+            "columns": {
               "name": "Name",
               "email": "Email",
               "phone": "Phone",

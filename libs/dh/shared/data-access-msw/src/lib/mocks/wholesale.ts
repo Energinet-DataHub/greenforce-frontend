@@ -194,7 +194,7 @@ function getWholesaleSearchBatch(apiBase: string) {
 
 function downloadBasisData(apiBase: string) {
   return rest.get(
-    `${apiBase}/v1/WholesaleBatch/ZippedBasisDataStream?batchId=123`,
+    `${apiBase}/v1/WholesaleBatch/ZippedBasisDataStream`,
     async (req, res, ctx) => {
       return res(ctx.status(500));
 

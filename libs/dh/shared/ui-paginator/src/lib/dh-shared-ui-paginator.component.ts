@@ -54,7 +54,7 @@ export class DhSharedUiPaginatorComponent implements OnDestroy {
   @Input() length = 0;
   @Input() pageSizeOptions: number[] = [50, 100, 150, 200, 250];
   @Input() pageSize = 50;
-  @Output() changed = new EventEmitter();
+  @Output() changed = new EventEmitter<PageEvent>();
 
   ariaLabel?: string;
 

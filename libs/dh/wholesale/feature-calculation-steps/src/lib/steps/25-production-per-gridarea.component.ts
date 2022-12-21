@@ -22,18 +22,20 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PushModule } from '@rx-angular/template';
+import { CommonModule } from '@angular/common';
+import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import {
   WattDrawerComponent,
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
-import { TranslocoModule } from '@ngneat/transloco';
 
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
@@ -41,9 +43,8 @@ import {
   GridAreaDto,
   ProcessStepType,
 } from '@energinet-datahub/dh/shared/domain';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import { LetModule } from '@rx-angular/template';
-import { CommonModule } from '@angular/common';
 import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
 
 @Component({
@@ -53,16 +54,17 @@ import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-w
   standalone: true,
   imports: [
     CommonModule,
-    WattCardModule,
+    DhSharedUiDateTimeModule,
+    DhWholesaleTimeSeriesPointsComponent,
+    PushModule,
+    TranslocoModule,
     WattBadgeComponent,
     WattButtonModule,
+    WattCardModule,
     WattDrawerModule,
-    DhWholesaleTimeSeriesPointsComponent,
-    ...WATT_BREADCRUMBS,
-    TranslocoModule,
-    LetModule,
-    WattSpinnerModule,
     WattEmptyStateModule,
+    WattSpinnerModule,
+    ...WATT_BREADCRUMBS,
   ],
 })
 export class DhWholesaleProductionPerGridareaComponent

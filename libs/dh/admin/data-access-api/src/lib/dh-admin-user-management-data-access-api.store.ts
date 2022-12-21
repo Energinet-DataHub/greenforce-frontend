@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import { filter, map, Observable, switchMap, tap, withLatestFrom } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -30,11 +30,15 @@ import {
 interface DhUserManagementState {
   readonly users: UserOverviewItemDto[] | null;
   readonly requestState: LoadingState | ErrorState;
+  readonly pageNumber: number;
+  readonly pageSize: number;
 }
 
 const initialState: DhUserManagementState = {
   users: null,
   requestState: LoadingState.INIT,
+  pageNumber: 1,
+  pageSize: 25,
 };
 
 @Injectable()
@@ -60,26 +64,29 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
 
   readonly getUsers = this.effect((trigger$: Observable<void>) =>
     trigger$.pipe(
+      withLatestFrom(this.state$),
       tap(() => {
         this.resetState();
 
         this.setLoading(LoadingState.LOADING);
       }),
-      switchMap(() =>
-        this.httpClient.v1MarketParticipantUserOverviewGet().pipe(
-          tapResponse(
-            (users) => {
-              this.setLoading(LoadingState.LOADED);
+      switchMap(([, state]) =>
+        this.httpClient
+          .v1MarketParticipantUserOverviewGet(state.pageNumber, state.pageSize)
+          .pipe(
+            tapResponse(
+              (users) => {
+                this.setLoading(LoadingState.LOADED);
 
-              this.updateUsers(users);
-            },
-            () => {
-              this.setLoading(LoadingState.LOADED);
+                this.updateUsers(users);
+              },
+              () => {
+                this.setLoading(LoadingState.LOADED);
 
-              this.handleError();
-            }
+                this.handleError();
+              }
+            )
           )
-        )
       )
     )
   );
