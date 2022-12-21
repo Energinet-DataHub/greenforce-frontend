@@ -37,7 +37,22 @@ ul {
   }
 }
 
-dl {
+.sub-header {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  margin-top: var(--watt-space-s);
+
+  dt:not(:first-of-type) {
+    margin-left: var(--watt-space-m);
+  }
+
+  dd {
+    margin: 0 var(--watt-space-s);
+  }
+}
+
+.details dl {
   margin: 0;
 
   dt {

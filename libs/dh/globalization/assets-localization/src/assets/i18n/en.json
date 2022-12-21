@@ -778,7 +778,9 @@
       "topBarTitle": "See accumulated time series",
       "sidebarTitle": "Details",
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
-      "subHeading": "Grid Area Code {{gridAreaCode}}",
+      "gridAreaCode": "Grid Area Code",
+      "type": "Type",
+      "balanceFixing": "Balance fixing",
       "loadCalculationStepsFailedTitle": "Oops! There was an error",
       "loadCalculationStepsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information"
     },
@@ -808,6 +810,8 @@
       "headline": "Batch: {{batchId}}",
       "calculationPeriod": "Calculation period",
       "executionTime": "Execution time",
+      "executionType": "Execution type",
+      "executionTypeActual": "Actual",
       "errorTitle": "Oops! There was an error",
       "errorMessage": "Unfortunately, an error occurred while retrieving the necessary information"
     },

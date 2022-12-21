@@ -53,12 +53,20 @@ limitations under the License.
             </watt-badge>
           </h2>
 
-          <p *ngIf="gridArea" class="watt-label watt-on-light--high-emphasis">
-            {{ transloco("calculationSteps.subHeading") }}
-            <small>
+          <dl *ngIf="gridArea" class="sub-header">
+            <dt class="watt-label watt-on-light--high-emphasis">
+              {{ transloco("calculationSteps.type") }}
+            </dt>
+            <dd class="watt-text-small">
+              {{ transloco("calculationSteps.balanceFixing") }}
+            </dd>
+            <dt class="watt-label watt-on-light--high-emphasis">
+              {{ transloco("calculationSteps.gridAreaCode") }}
+            </dt>
+            <dd class="watt-text-small">
               {{ gridArea.code }}
-            </small>
-          </p>
+            </dd>
+          </dl>
         </div>
       </watt-top-bar>
       <main>
@@ -90,6 +98,11 @@ limitations under the License.
                 {{ transloco("batchDetails.executionTime") }}
               </dt>
               <dd>{{ batch.executionTimeStart | dhDateTime }}</dd>
+
+              <dt class="watt-label">
+                {{ transloco("batchDetails.executionType") }}
+              </dt>
+              <dd>{{ transloco("batchDetails.executionTypeActual") }}</dd>
             </dl>
           </watt-card>
         </aside>
