@@ -52,18 +52,6 @@ ul {
   }
 }
 
-.details dl {
-  margin: 0;
-
-  dt {
-    margin: var(--watt-space-l) 0 0 0;
-  }
-
-  dd {
-    margin: 0;
-  }
-}
-
 .center {
   align-items: center;
   display: flex;
@@ -85,7 +73,20 @@ main {
 
 .details {
   grid-area: details;
+
+  dl {
+    margin: 0;
+
+    dt {
+      margin: var(--watt-space-l) 0 0 0;
+    }
+
+    dd {
+      margin: 0;
+    }
+  }
 }
+
 .steps {
   grid-area: steps;
 }
