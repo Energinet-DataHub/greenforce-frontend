@@ -21,14 +21,22 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
+import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
+
 @Component({
   selector: 'dh-users-tab',
   templateUrl: './dh-users-tab.component.html',
   styleUrls: ['./dh-users-tab.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, TranslocoModule, WattCardModule],
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    WattCardModule,
+    DhUsersTabTableComponent,
+  ],
 })
 export class DhUsersTabComponent {
   @Input() users: UserOverviewItemDto[] = [];
+  @Input() totalUserCount!: number;
 }

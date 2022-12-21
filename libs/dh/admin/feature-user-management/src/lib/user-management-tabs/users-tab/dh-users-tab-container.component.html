@@ -20,7 +20,10 @@ limitations under the License.
   </div>
 
   <ng-container *ngIf="!isLoading">
-    <dh-users-tab *rxLet="users$ as users" [users]="users"></dh-users-tab>
+    <dh-users-tab
+      [users]="users$ | push"
+      [totalUserCount]="totalUserCount$ | push"
+    ></dh-users-tab>
   </ng-container>
 </ng-container>
 

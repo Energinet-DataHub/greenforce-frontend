@@ -21,60 +21,45 @@ import {
   HttpRequest,
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
-import { ClassProvider, Injectable } from '@angular/core';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { Observable, switchMap } from 'rxjs';
+import { ClassProvider, Injectable } from '@angular/core';
+
 import { ActorTokenService } from './actor-token.service';
 
 @Injectable()
 export class DhAuthorizationInterceptor implements HttpInterceptor {
-  constructor(
-    private actorTokenService: ActorTokenService,
-    private featureFlag: DhFeatureFlagsService
-  ) {}
+  constructor(private actorTokenService: ActorTokenService) {}
 
   intercept(
     request: HttpRequest<unknown>,
     nextHandler: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    if (this.featureFlag.isEnabled('grant_full_authorization')) {
+    if (!this.hasAuthorizationHeader(request)) {
       return nextHandler.handle(request);
     }
 
-    if (this.isPartOfAuthFlow(request)) {
-      return nextHandler.handle(request);
+    if (this.actorTokenService.isPartOfAuthFlow(request)) {
+      return this.actorTokenService.handleAuthFlow(request, nextHandler);
     }
 
-    const authorizationHeader = 'Authorization';
-    const bearerPrefix = 'Bearer ';
-
-    const externalToken = request.headers.get(authorizationHeader);
-
-    if (!externalToken) {
-      return nextHandler.handle(request);
-    }
-
-    return this.actorTokenService
-      .acquireToken(externalToken.replace(bearerPrefix, ''))
-      .pipe(
-        switchMap((internalToken) => {
-          return nextHandler.handle(
-            request.clone({
-              headers: request.headers.set(
-                authorizationHeader,
-                `${bearerPrefix}${internalToken}`
-              ),
-            })
-          );
-        })
-      );
+    return this.actorTokenService.acquireToken().pipe(
+      switchMap((internalToken) => {
+        return nextHandler.handle(
+          request.clone({
+            headers: request.headers.set(
+              'Authorization',
+              `Bearer ${internalToken}`
+            ),
+          })
+        );
+      })
+    );
   }
 
-  private isPartOfAuthFlow(request: HttpRequest<unknown>) {
-    return (
-      request.url.endsWith('/MarketParticipantUser') ||
-      request.url.endsWith('/Token')
-    );
+  private hasAuthorizationHeader(request: HttpRequest<unknown>): boolean {
+    const authorizationHeader = 'Authorization';
+    const externalToken = request.headers.get(authorizationHeader);
+    return !!externalToken;
   }
 }
 

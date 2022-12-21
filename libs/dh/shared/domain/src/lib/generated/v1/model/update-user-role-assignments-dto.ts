@@ -9,12 +9,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { UserRoleTemplateIdDto } from './user-role-template-id-dto';
 
 
 export interface UpdateUserRoleAssignmentsDto { 
-    actorId: string;
-    userRoleTemplateAssignments: Array<UserRoleTemplateIdDto>;
+    userRoleAssignments: Array<string>;
 }
 
 

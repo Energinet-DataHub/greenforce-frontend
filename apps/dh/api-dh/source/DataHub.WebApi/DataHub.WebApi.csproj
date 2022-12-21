@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 @license
 Copyright 2020 Energinet DataHub A/S
 
@@ -39,9 +39,9 @@ limitations under the License.
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.20.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients" Version="6.1.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients.Registration" Version="6.1.0" />
-    <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="7.2.10" />
-    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="7.2.10" />
-    <PackageReference Include="Energinet.DataHub.MarketParticipant.Client" Version="2.9.4" />
+    <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="7.3.0" />
+    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="7.3.0" />
+    <PackageReference Include="Energinet.DataHub.MarketParticipant.Client" Version="2.13.0" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="3.0.1" />

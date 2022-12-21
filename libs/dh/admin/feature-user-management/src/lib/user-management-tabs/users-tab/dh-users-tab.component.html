@@ -21,11 +21,13 @@ limitations under the License.
         *ngTemplateOutlet="
           usersHeadline;
           context: {
-            $implicit: users.length
+            $implicit: totalUserCount
           }
         "
       ></ng-container>
     </watt-card-title>
+
+    <dh-users-tab-table [users]="users"></dh-users-tab-table>
   </watt-card>
 </ng-container>
 

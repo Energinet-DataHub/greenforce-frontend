@@ -86,6 +86,8 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
     if (selectedBatch) {
       this.store.getBatch(selectedBatch);
       this.batchDetails.open();
+    } else {
+      this.store.setSelectedBatch(undefined);
     }
     this.changeDetectorRef.detectChanges();
   }
