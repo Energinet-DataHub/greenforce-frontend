@@ -38,4 +38,5 @@ import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
 })
 export class DhUsersTabComponent {
   @Input() users: UserOverviewItemDto[] = [];
+  @Input() totalUserCount!: number;
 }
