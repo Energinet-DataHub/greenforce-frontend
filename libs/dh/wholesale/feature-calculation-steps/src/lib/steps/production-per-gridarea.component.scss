@@ -24,16 +24,7 @@ watt-card {
   cursor: pointer;
 }
 
-watt-card h4 {
-  margin: 0;
-  color: var(--watt-color-neutral-black);
-}
-
-.headline {
-  margin: 0;
-}
-
-.sub-headline {
+.headline, .sub-headline {
   margin: 0;
 }
 
