@@ -14,13 +14,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-paginator
+<dh-shared-ui-paginator
   [length]="totalUsersCount"
+  (changed)="pageChange.emit($event)"
+  [pageSizeOptions]="pageSizeOptions"
   [pageSize]="pageSize"
   [pageIndex]="pageIndex"
-  [pageSizeOptions]="pageSizeOptions"
-  (page)="pageChange.emit($event)"
-></mat-paginator>
+>
+</dh-shared-ui-paginator>
 
 <mat-table [dataSource]="dataSource">
   <ng-container matColumnDef="name">

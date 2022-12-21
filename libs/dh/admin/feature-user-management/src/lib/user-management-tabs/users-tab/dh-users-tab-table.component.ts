@@ -24,10 +24,11 @@ import {
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
 
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhCustomDataSource } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 
 @Component({
   selector: 'dh-users-tab-table',
@@ -47,7 +48,7 @@ import { DhCustomDataSource } from '@energinet-datahub/dh/admin/data-access-api'
     TranslocoModule,
     DhEmDashFallbackPipeScam,
     MatTableModule,
-    MatPaginatorModule,
+    DhSharedUiPaginatorComponent,
   ],
 })
 export class DhUsersTabTableComponent {
