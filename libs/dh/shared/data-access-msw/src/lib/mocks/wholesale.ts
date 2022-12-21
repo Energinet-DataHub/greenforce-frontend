@@ -188,7 +188,7 @@ function getWholesaleSearchBatch(apiBase: string) {
   return rest.get(`${apiBase}/v1/WholesaleBatch/Batch`, (req, res, ctx) => {
     const batchId = req.url.searchParams.get('batchId') || '';
     const batch = mockedBatches.find((b) => b.batchId === batchId);
-    return res(ctx.status(200), ctx.json(batch));
+    return res(ctx.delay(300), ctx.status(200), ctx.json(batch));
   });
 }
 
