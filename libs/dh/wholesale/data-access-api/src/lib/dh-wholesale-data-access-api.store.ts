@@ -17,13 +17,7 @@
 import { Injectable, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import {
-  Observable,
-  exhaustMap,
-  switchMap,
-  Subject,
-  map,
-} from 'rxjs';
+import { Observable, exhaustMap, switchMap, Subject, map } from 'rxjs';
 
 import {
   WholesaleBatchHttp,
