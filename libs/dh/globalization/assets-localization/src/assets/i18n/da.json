@@ -782,7 +782,9 @@
       "topBarTitle": "Se akkumulerede tidsserier",
       "sidebarTitle": "Detaljer",
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
-      "subHeading": "Netområde ID {{gridAreaCode}}",
+      "gridAreaCode": "Netområde ID",
+      "type": "Type",
+      "balanceFixing": "Balancefiksering",
       "loadCalculationStepsFailedTitle": "Ups! Der opstod en fejl",
       "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
     },
@@ -791,6 +793,8 @@
       "aggregatedProductionPerGridArea": "Aggregeret produktion per netområde",
       "open": "Åbn",
       "gridArea": "Netområde",
+      "loadProcessStepResultsErrorTitle": "Ups! Der opstod en fejl",
+      "loadProcessStepResultsErrorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "meteringPointType": "Målepunktstype",
       "messageId": "Besked Id",
       "calculationPeriod": "Beregningsperiode",
@@ -809,7 +813,11 @@
     "batchDetails": {
       "headline": "Batch: {{batchId}}",
       "calculationPeriod": "Beregningsperiode",
-      "executionTime": "Eksekveringstidspunkt"
+      "executionTime": "Eksekveringstidspunkt",
+      "executionType": "Eksekveringstype",
+      "executionTypeActual": "Faktisk",
+      "errorTitle": "Ups! Der opstod en fejl",
+      "errorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
     },
     "gridAreas": {
       "header": "{{total}} Netområder",
