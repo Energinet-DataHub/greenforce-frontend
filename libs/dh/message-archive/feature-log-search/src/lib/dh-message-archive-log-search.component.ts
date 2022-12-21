@@ -59,6 +59,29 @@ import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import zonedTimeToUtc from 'date-fns-tz/zonedTimeToUtc';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
+const buildSearchForm = () => {
+  return new FormGroup({
+    messageId: new FormControl(''),
+    rsmNames: new FormControl([]),
+    processTypes: new FormControl([]),
+    senderId: new FormControl(''),
+    receiverId: new FormControl(''),
+    includeRelated: new FormControl<boolean>({ value: false, disabled: true }),
+    dateRange: new FormControl<WattRange>(
+      {
+        start: '',
+        end: '',
+      },
+      [WattRangeValidators.required()]
+    ),
+    timeRange: new FormControl<WattRange>({
+      start: '00:00',
+      end: '23:59',
+      disabled: true,
+    }),
+  });
+};
+
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -92,27 +115,7 @@ import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
   ],
 })
 export class DhMessageArchiveLogSearchComponent {
-  searchForm: FormGroup = new FormGroup({
-    messageId: new FormControl(''),
-    rsmNames: new FormControl([]),
-    processTypes: new FormControl([]),
-    senderId: new FormControl(''),
-    receiverId: new FormControl(''),
-    includeRelated: new FormControl<boolean>({ value: false, disabled: true }),
-    dateRange: new FormControl<WattRange>(
-      {
-        start: '',
-        end: '',
-      },
-      [WattRangeValidators.required()]
-    ),
-    timeRange: new FormControl<WattRange>({
-      start: '00:00',
-      end: '23:59',
-      disabled: true,
-    }),
-  });
-
+  searchForm: FormGroup = buildSearchForm();
   searchResult$ = this.store.searchResult$;
   searching$ = this.store.isSearching$;
   hasSearchError$ = this.store.hasGeneralError$;
@@ -232,7 +235,6 @@ export class DhMessageArchiveLogSearchComponent {
 
   resetSearchCritera() {
     this.store.resetState();
-    //TODO: reset form not working
-    this.searchForm.reset();
+    this.searchForm = buildSearchForm();
   }
 }
