@@ -66,7 +66,7 @@ export class DhUsersTabContainerComponent {
   users$ = this.store.users$;
   totalUserCount$ = this.store.totalUserCount$;
 
-  pageIndex$ = this.store.pageIndex$;
+  pageIndex$ = this.store.paginatorPageIndex$;
   pageSize$ = this.store.pageSize$;
 
   isLoading$ = this.store.isLoading$;

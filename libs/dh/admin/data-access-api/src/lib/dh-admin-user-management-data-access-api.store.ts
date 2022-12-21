@@ -32,7 +32,7 @@ interface DhUserManagementState {
   readonly users: UserOverviewItemDto[];
   readonly totalUserCount: number;
   readonly requestState: LoadingState | ErrorState;
-  readonly pageIndex: number;
+  readonly pageNumber: number;
   readonly pageSize: number;
 }
 
@@ -40,7 +40,7 @@ const initialState: DhUserManagementState = {
   users: [],
   totalUserCount: 0,
   requestState: LoadingState.INIT,
-  pageIndex: 1,
+  pageNumber: 1,
   pageSize: 50,
 };
 
@@ -57,7 +57,9 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
   users$ = this.select((state) => state.users);
   totalUserCount$ = this.select((state) => state.totalUserCount);
 
-  pageIndex$ = this.select((state) => state.pageIndex);
+  // 1 needs to be substracted here because our endpoint's `pageNumber` param starts at `1`
+  // whereas the paginator's `pageIndex` property starts at `0`
+  paginatorPageIndex$ = this.select((state) => state.pageNumber - 1);
   pageSize$ = this.select((state) => state.pageSize);
 
   constructor(private httpClient: MarketParticipantUserOverviewHttp) {
@@ -73,7 +75,7 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
       delay(300),
       switchMap(([, state]) =>
         this.httpClient
-          .v1MarketParticipantUserOverviewGet(state.pageIndex, state.pageSize)
+          .v1MarketParticipantUserOverviewGet(state.pageNumber, state.pageSize)
           .pipe(
             tapResponse(
               (response) => {
@@ -96,7 +98,9 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     (trigger$: Observable<{ pageIndex: number; pageSize: number }>) =>
       trigger$.pipe(
         tap(({ pageIndex, pageSize }) => {
-          this.patchState({ pageIndex: pageIndex, pageSize });
+          // 1 needs to be added here because the paginator's `pageIndex` property starts at `0`
+          // whereas our endpoint's `pageNumber` param starts at `1`
+          this.patchState({ pageNumber: pageIndex + 1, pageSize });
 
           this.getUsers();
         })
