@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { filter, map, Observable, switchMap, tap, withLatestFrom } from 'rxjs';
+import { Observable, switchMap, tap, withLatestFrom } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -25,17 +25,20 @@ import {
 import {
   MarketParticipantUserOverviewHttp,
   UserOverviewItemDto,
+  UserOverviewResultDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserManagementState {
-  readonly users: UserOverviewItemDto[] | null;
+  readonly users: UserOverviewItemDto[];
+  readonly totalUserCount: number;
   readonly requestState: LoadingState | ErrorState;
   readonly pageNumber: number;
   readonly pageSize: number;
 }
 
 const initialState: DhUserManagementState = {
-  users: null,
+  users: [],
+  totalUserCount: 0,
   requestState: LoadingState.INIT,
   pageNumber: 1,
   pageSize: 25,
@@ -51,12 +54,8 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     (state) => state.requestState === ErrorState.GENERAL_ERROR
   );
 
-  users$: Observable<UserOverviewItemDto[]> = this.select(
-    (state) => state.users
-  ).pipe(
-    filter((users) => !!users),
-    map((users) => users as UserOverviewItemDto[])
-  );
+  users$ = this.select((state) => state.users);
+  totalUserCount$ = this.select((state) => state.totalUserCount);
 
   constructor(private httpClient: MarketParticipantUserOverviewHttp) {
     super(initialState);
@@ -75,10 +74,10 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
           .v1MarketParticipantUserOverviewGet(state.pageNumber, state.pageSize)
           .pipe(
             tapResponse(
-              (users) => {
+              (response) => {
                 this.setLoading(LoadingState.LOADED);
 
-                this.updateUsers(users);
+                this.updateUsers(response);
               },
               () => {
                 this.setLoading(LoadingState.LOADED);
@@ -94,10 +93,11 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
   private updateUsers = this.updater(
     (
       state: DhUserManagementState,
-      users: UserOverviewItemDto[] | null
+      response: UserOverviewResultDto
     ): DhUserManagementState => ({
       ...state,
-      users,
+      users: response.users,
+      totalUserCount: response.totalUserCount,
     })
   );
 
@@ -109,7 +109,7 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
   );
 
   private handleError = () => {
-    this.updateUsers(null);
+    this.updateUsers({ users: [], totalUserCount: 0 });
 
     this.patchState({ requestState: ErrorState.GENERAL_ERROR });
   };
