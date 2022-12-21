@@ -17,7 +17,7 @@ limitations under the License.
 <ng-container *transloco="let transloco; read: 'wholesale.processStepResults'">
   <watt-card (click)="openDetails()">
     <h4>
-      <watt-badge size="large" class="watt-space-inline-m">25</watt-badge
+      <watt-badge size="large" class="watt-space-inline-m">1</watt-badge
       >{{ transloco("aggregatedProductionPerGridArea") }}
     </h4>
     <watt-button variant="text" icon="openInNew">{{
@@ -43,7 +43,7 @@ limitations under the License.
           })
         }}</watt-breadcrumb>
         <watt-breadcrumb>{{
-          transloco("processStepResults.step", { step: 25 })
+          transloco("processStepResults.step", { step: 1 })
         }}</watt-breadcrumb>
       </watt-breadcrumbs>
     </watt-drawer-topbar>
@@ -54,7 +54,7 @@ limitations under the License.
         style="display: flex; align-items: center"
       >
         <watt-badge size="large" class="watt-space-inline-s">{{
-          transloco("step", { step: 25 })
+          transloco("step", { step: 1 })
         }}</watt-badge>
         {{ transloco("aggregatedProductionPerGridArea") }}
       </h3>
@@ -72,8 +72,16 @@ limitations under the License.
         </small>
       </p>
 
-      <ng-container *ngIf="processStepResults$ | async as processStepResults">
-        <dl>
+      <ng-container
+        *rxLet="
+          processStepResults$;
+          let processStepResults;
+          suspense: loadingProcessStepResults;
+          error: loadingProcessStepResultsError;
+          errorTrg: loadingProcessStepResultsErrorTrigger$
+        "
+      >
+        <dl *ngIf="processStepResults">
           <div>
             <dt class="watt-label watt-on-light--high-emphasis">
               {{ transloco("meteringPointType") }}
@@ -115,9 +123,27 @@ limitations under the License.
           </div>
         </dl>
         <dh-wholesale-time-series-points
+          *ngIf="processStepResults"
           [data]="processStepResults.timeSeriesPoints"
         ></dh-wholesale-time-series-points>
       </ng-container>
+
+      <ng-template #loadingProcessStepResults>
+        <div class="center">
+          <watt-spinner></watt-spinner>
+        </div>
+      </ng-template>
+
+      <ng-template #loadingProcessStepResultsError>
+        <div class="center">
+          <watt-empty-state
+            icon="custom-power"
+            [title]="transloco('loadProcessStepResultsErrorTitle')"
+            [message]="transloco('loadProcessStepResultsErrorMessage')"
+          >
+          </watt-empty-state>
+        </div>
+      </ng-template>
     </watt-drawer-content>
   </watt-drawer>
 </ng-container>

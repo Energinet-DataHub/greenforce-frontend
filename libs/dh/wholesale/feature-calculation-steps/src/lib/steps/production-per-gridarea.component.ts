@@ -22,14 +22,16 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PushModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import {
   WattDrawerComponent,
   WattDrawerModule,
@@ -47,20 +49,22 @@ import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-w
 
 @Component({
   selector: 'dh-wholesale-production-per-gridarea',
-  templateUrl: './25-production-per-gridarea.component.html',
-  styleUrls: ['./25-production-per-gridarea.component.scss'],
+  templateUrl: './production-per-gridarea.component.html',
+  styleUrls: ['./production-per-gridarea.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
-    WattCardModule,
+    DhSharedUiDateTimeModule,
+    DhWholesaleTimeSeriesPointsComponent,
+    LetModule,
+    TranslocoModule,
     WattBadgeComponent,
     WattButtonModule,
+    WattCardModule,
     WattDrawerModule,
-    DhWholesaleTimeSeriesPointsComponent,
+    WattEmptyStateModule,
+    WattSpinnerModule,
     ...WATT_BREADCRUMBS,
-    TranslocoModule,
-    PushModule,
-    DhSharedUiDateTimeModule,
   ],
 })
 export class DhWholesaleProductionPerGridareaComponent
@@ -75,6 +79,8 @@ export class DhWholesaleProductionPerGridareaComponent
   private route = inject(ActivatedRoute);
 
   processStepResults$ = this.store.processStepResults$;
+  loadingProcessStepResultsErrorTrigger$ =
+    this.store.loadingProcessStepResultsErrorTrigger$;
 
   ngAfterViewInit(): void {
     const selectedStep = this.route.snapshot.queryParams['step'];
@@ -86,7 +92,7 @@ export class DhWholesaleProductionPerGridareaComponent
   openDetails(): void {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { step: 25 },
+      queryParams: { step: 1 },
     });
 
     this.drawer.open();
