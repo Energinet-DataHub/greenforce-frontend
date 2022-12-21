@@ -74,7 +74,7 @@ export class DhMarketParticipantGridAreaOverviewDataAccessApiStore extends Compo
   );
 
   private readonly getOverview = () =>
-    this.gridAreaOverviewClient.v1MarketParticipantGridAreaOverviewGet().pipe(
+    this.gridAreaOverviewClient.v1MarketParticipantGridAreaOverviewGetAllGridAreasGet().pipe(
       tapResponse(
         (rows) =>
           this.patchState({

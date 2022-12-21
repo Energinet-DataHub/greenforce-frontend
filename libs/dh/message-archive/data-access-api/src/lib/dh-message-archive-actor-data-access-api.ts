@@ -68,7 +68,7 @@ export class DhMessageArchiveActorDataAccessApiStore extends ComponentStore<Acto
         this.setLoadState(LoadingState.LOADING);
       }),
       switchMap(() =>
-        this.httpClient.v1MarketParticipantOrganizationGet().pipe(
+        this.httpClient.v1MarketParticipantOrganizationGetAllOrganizationsGet().pipe(
           tapResponse(
             (organizations) => {
               const actors = organizations.flatMap(

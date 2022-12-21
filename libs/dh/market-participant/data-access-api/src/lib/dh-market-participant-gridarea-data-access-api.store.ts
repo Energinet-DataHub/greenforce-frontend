@@ -67,7 +67,7 @@ export class DhMarketParticipantGridAreaDataAccessApiStore extends ComponentStor
       ),
       switchMap((gridAreaId) =>
         this.gridAreaClient
-          .v1MarketParticipantGridAreaGridAreaIdAuditlogentryGet(gridAreaId)
+          .v1MarketParticipantGridAreaGetGridAreaAuditLogEntriesGet(gridAreaId)
           .pipe(
             tapResponse(
               (rows) =>
@@ -93,7 +93,7 @@ export class DhMarketParticipantGridAreaDataAccessApiStore extends ComponentStor
         tap(() => this.patchState({ isLoading: true })),
         exhaustMap((changes) =>
           this.gridAreaClient
-            .v1MarketParticipantGridAreaPut({
+            .v1MarketParticipantGridAreaUpdateGridAreaNamePut({
               id: changes.gridAreaChanges.id,
               name: changes.gridAreaChanges.name,
             })

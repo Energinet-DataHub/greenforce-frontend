@@ -239,7 +239,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
 
   readonly getGridAreas = () =>
     this.gridAreaHttpClient
-      .v1MarketParticipantGridAreaGet()
+      .v1MarketParticipantGridAreaGetAllGridAreasGet()
       .pipe(
         tap((gridAreas) =>
           this.patchState({
@@ -270,7 +270,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       return of(undefined);
     }
     return this.httpClient
-      .v1MarketParticipantOrganizationOrgIdActorActorIdGet(
+      .v1MarketParticipantOrganizationGetActorGet(
         organizationId,
         actorId
       )
@@ -309,7 +309,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       return of([]);
     }
     return this.httpClient
-      .v1MarketParticipantOrganizationOrgIdActorActorIdContactGet(
+      .v1MarketParticipantOrganizationGetContactsGet(
         organizationId,
         actorId
       )
@@ -330,7 +330,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
 
     return forkJoin(
       state.contactChanges.removedContacts.map((contact) =>
-        this.httpClient.v1MarketParticipantOrganizationOrgIdActorActorIdContactContactIdDelete(
+        this.httpClient.v1MarketParticipantOrganizationDeleteContactDelete(
           organizationId,
           actorId,
           contact.contactId
@@ -350,7 +350,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
 
     return forkJoin(
       state.contactChanges.addedContacts.map((c) =>
-        this.httpClient.v1MarketParticipantOrganizationOrgIdActorActorIdContactPost(
+        this.httpClient.v1MarketParticipantOrganizationCreateContactPost(
           organizationId,
           actorId,
           c as CreateActorContactDto
@@ -373,7 +373,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     const actorId = state.actorId;
     if (actorId !== undefined) {
       return this.httpClient
-        .v1MarketParticipantOrganizationOrgIdActorActorIdPut(
+        .v1MarketParticipantOrganizationUpdateActorPut(
           state.organizationId,
           actorId,
           {
@@ -386,7 +386,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     }
 
     return this.httpClient
-      .v1MarketParticipantOrganizationOrgIdActorPost(state.organizationId, {
+      .v1MarketParticipantOrganizationCreateActorPost(state.organizationId, {
         actorNumber: { value: state.changes.actorNumber },
         name: { value: state.changes.name },
         marketRoles: state.marketRoleChanges.marketRoles,

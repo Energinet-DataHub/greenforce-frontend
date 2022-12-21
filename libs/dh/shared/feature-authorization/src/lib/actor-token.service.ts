@@ -80,7 +80,7 @@ export class ActorTokenService {
 
   public acquireToken = (): Observable<string> => {
     return this.marketParticipantUserHttp
-      .v1MarketParticipantUserActorsGet()
+      .v1MarketParticipantUserGetUserActorsGet()
       .pipe(
         tap((x) => this.actorStorage.setUserAssociatedActors(x.actorIds)),
         switchMap(() => {
