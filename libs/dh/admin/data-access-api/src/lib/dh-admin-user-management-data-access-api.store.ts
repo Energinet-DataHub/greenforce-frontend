@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { delay, Observable, switchMap, tap, withLatestFrom } from 'rxjs';
+import { Observable, switchMap, tap, withLatestFrom } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -72,7 +72,6 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
       tap(() => {
         this.setLoading(LoadingState.LOADING);
       }),
-      delay(300),
       switchMap(([, state]) =>
         this.httpClient
           .v1MarketParticipantUserOverviewGet(state.pageNumber, state.pageSize)
