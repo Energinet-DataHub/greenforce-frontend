@@ -14,23 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   ViewChild,
   inject,
   Output,
   EventEmitter,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
+import { LetModule } from '@rx-angular/template';
+import { map } from 'rxjs';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import {
   WattDrawerComponent,
   WattDrawerModule,
@@ -40,6 +43,7 @@ import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
 import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/wholesale/routing';
+import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 
 @Component({
   standalone: true,
@@ -52,6 +56,9 @@ import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/whole
     WattCardModule,
     WattDrawerModule,
     ...WATT_BREADCRUMBS,
+    LetModule,
+    WattSpinnerModule,
+    WattEmptyStateModule,
   ],
   selector: 'dh-wholesale-batch-details',
   templateUrl: './dh-wholesale-batch-details.component.html',
@@ -59,23 +66,25 @@ import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/whole
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleBatchDetailsComponent {
-  @Input() batch?: batch;
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
   @Output() closed = new EventEmitter<void>();
 
-  router = inject(Router);
-  route = inject(ActivatedRoute);
+  private store = inject(DhWholesaleBatchDataAccessApiStore);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  batchId$ = this.route.queryParamMap.pipe(
+    map((params: ParamMap) => params.get('batch'))
+  );
+  batch$ = this.store.select((state) => state.selectedBatch);
+  errorTrigger$ = this.store.loadingBatchErrorTrigger$;
 
   open(): void {
     this.drawer.open();
   }
 
-  onGridAreaSelected(gridArea: GridAreaDto): void {
-    navigateToWholesaleCalculationSteps(
-      this.router,
-      this.batch as batch,
-      gridArea
-    );
+  onGridAreaSelected(batch: batch, gridArea: GridAreaDto): void {
+    navigateToWholesaleCalculationSteps(this.router, batch, gridArea);
   }
 }
