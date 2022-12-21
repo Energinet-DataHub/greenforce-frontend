@@ -27,9 +27,9 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 
 @Component({
   selector: 'dh-users-tab',
