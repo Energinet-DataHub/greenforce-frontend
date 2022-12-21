@@ -16,15 +16,12 @@
  */
 import { Injectable, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { ComponentStore } from '@ngrx/component-store';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   Observable,
   exhaustMap,
   switchMap,
-  tap,
   Subject,
-  catchError,
-  EMPTY,
   map,
 } from 'rxjs';
 
@@ -123,10 +120,9 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
 
   readonly getBatches = this.effect((filter$: Observable<BatchSearchDto>) => {
     return filter$.pipe(
-      tap(() => {
-        this.setLoadingBatches(true);
-      }),
       switchMap((filter: BatchSearchDto) => {
+        this.setLoadingBatches(true);
+
         const searchBatchesRequest: BatchSearchDto = {
           minExecutionTime: filter.minExecutionTime,
           maxExecutionTime: filter.maxExecutionTime,
@@ -135,20 +131,21 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
         return this.httpClient
           .v1WholesaleBatchSearchPost(searchBatchesRequest)
           .pipe(
-            map((batches) => {
-              return batches.map((batch) => {
-                return {
-                  ...batch,
-                  statusType: this.getStatusType(batch.executionState),
-                };
-              });
-            }),
-            tap((batches) => this.setBatches(batches)),
-            catchError(() => {
-              this.setLoadingBatches(false);
-              this.loadingBatchesErrorTrigger$.next();
-              return EMPTY;
-            })
+            tapResponse(
+              (batches) => {
+                const mappedBatches = batches.map((batch) => {
+                  return {
+                    ...batch,
+                    statusType: this.getStatusType(batch.executionState),
+                  };
+                });
+                this.setBatches(mappedBatches);
+              },
+              () => {
+                this.setLoadingBatches(false);
+                this.loadingBatchesErrorTrigger$.next();
+              }
+            )
           );
       })
     );
@@ -158,19 +155,15 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     return batchNumber$.pipe(
       switchMap((batchNumber) => {
         return this.httpClient.v1WholesaleBatchBatchGet(batchNumber).pipe(
-          map((batch) => {
-            return {
-              ...batch,
-              statusType: this.getStatusType(batch.executionState),
-            };
-          }),
-          tap((batch) => {
-            this.setSelectedBatch(batch);
-          }),
-          catchError(() => {
-            this.loadingBatchErrorTrigger$.next();
-            return EMPTY;
-          })
+          tapResponse(
+            (batch) => {
+              this.setSelectedBatch({
+                ...batch,
+                statusType: this.getStatusType(batch.executionState),
+              });
+            },
+            () => this.loadingBatchErrorTrigger$.next()
+          )
         );
       })
     );
@@ -183,13 +176,11 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
           return this.httpClient
             .v1WholesaleBatchProcessStepResultPost(options)
             .pipe(
-              tap((stepResults: ProcessStepResultDto) => {
-                this.setProcessStepResults(stepResults);
-              }),
-              catchError(() => {
-                this.loadingProcessStepResultsErrorTrigger$.next();
-                return EMPTY;
-              })
+              tapResponse(
+                (stepResults: ProcessStepResultDto) =>
+                  this.setProcessStepResults(stepResults),
+                () => this.loadingProcessStepResultsErrorTrigger$.next()
+              )
             );
         })
       );
@@ -202,20 +193,19 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
         return this.httpClient
           .v1WholesaleBatchZippedBasisDataStreamGet(batch.batchId)
           .pipe(
-            tap((data) => {
-              const blob = new Blob([data as unknown as BlobPart], {
-                type: 'application/zip',
-              });
-              const basisData = window.URL.createObjectURL(blob);
-              const link = this.document.createElement('a');
-              link.href = basisData;
-              link.download = `${batch.batchId}.zip`;
-              link.click();
-            }),
-            catchError(() => {
-              this.loadingBasisDataErrorTrigger$.next();
-              return EMPTY;
-            })
+            tapResponse(
+              (data) => {
+                const blob = new Blob([data as unknown as BlobPart], {
+                  type: 'application/zip',
+                });
+                const basisData = window.URL.createObjectURL(blob);
+                const link = this.document.createElement('a');
+                link.href = basisData;
+                link.download = `${batch.batchId}.zip`;
+                link.click();
+              },
+              () => this.loadingBasisDataErrorTrigger$.next()
+            )
           );
       })
     );
