@@ -1,0 +1,6 @@
+<form class="form" [formGroup]="formGroup" name="dateRangeForm">
+  <watt-datepicker formControlName="dateRange" [range]="true"></watt-datepicker>
+  <watt-button data-testid="resetButton" (click)="resetForm()"
+    >Reset</watt-button
+  >
+</form>
