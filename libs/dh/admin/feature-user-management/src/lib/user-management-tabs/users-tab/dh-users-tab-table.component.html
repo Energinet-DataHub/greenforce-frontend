@@ -14,32 +14,36 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-table [dataSource]="dataSource">
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef>User</mat-header-cell>
-    <mat-cell *matCellDef="let user">{{ user.name }}</mat-cell>
-  </ng-container>
+<ng-container
+  *transloco="let t; read: 'admin.userManagement.tabs.users.table.columns'"
+>
+  <mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>{{ t("name") }}</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{ user.name }}</mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="email">
-    <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
-    <mat-cell *matCellDef="let user">{{ user.email }}</mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef>{{ t("email") }}</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{ user.email }}</mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="phone">
-    <mat-header-cell *matHeaderCellDef>phone</mat-header-cell>
-    <mat-cell *matCellDef="let user">{{
-      user.phone | dhEmDashFallback
-    }}</mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="phone">
+      <mat-header-cell *matHeaderCellDef>{{ t("phone") }}</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{
+        user.phone | dhEmDashFallback
+      }}</mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="status">
-    <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-    <mat-cell *matCellDef="let user">{{
-      undefined | dhEmDashFallback
-    }}</mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>{{ t("status") }}</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{
+        undefined | dhEmDashFallback
+      }}</mat-cell>
+    </ng-container>
 
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
-  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-</mat-table>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+</ng-container>
