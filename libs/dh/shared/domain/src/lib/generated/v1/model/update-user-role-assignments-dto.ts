@@ -12,7 +12,8 @@
 
 
 export interface UpdateUserRoleAssignmentsDto { 
-    userRoleAssignments: Array<string>;
+    added: Array<string>;
+    removed: Array<string>;
 }
 
 
