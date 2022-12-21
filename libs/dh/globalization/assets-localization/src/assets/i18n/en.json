@@ -786,7 +786,16 @@
       "step": "Step {{step}}",
       "aggregatedProductionPerGridArea": "Aggregated production per grid area",
       "open": "Open",
-      "gridArea": "Grid area"
+      "gridArea": "Grid area",
+      "meteringPointType": "Metering point type",
+      "messageId": "Message ID",
+      "calculationPeriod": "Calculation period",
+      "sum": "Sum",
+      "min": "Min",
+      "max": "Max",
+      "processStepMeteringPointType": {
+        "Production": "Production"
+      }
     },
     "timeSeriesPoints": {
       "header": "Quantities ​​in the period",

@@ -790,7 +790,16 @@
       "step": "Trin {{step}}",
       "aggregatedProductionPerGridArea": "Aggregeret produktion per netområde",
       "open": "Åbn",
-      "gridArea": "Netområde"
+      "gridArea": "Netområde",
+      "meteringPointType": "Målepunktstype",
+      "messageId": "Besked Id",
+      "calculationPeriod": "Beregningsperiode",
+      "sum": "Sum",
+      "min": "Min",
+      "max": "Max",
+      "processStepMeteringPointType": {
+        "Production": "Produktion"
+      }
     },
     "timeSeriesPoints": {
       "header": "Værdier i perioden",
