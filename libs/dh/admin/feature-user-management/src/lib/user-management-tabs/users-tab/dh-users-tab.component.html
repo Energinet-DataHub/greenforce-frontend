@@ -22,13 +22,13 @@ limitations under the License.
           *ngTemplateOutlet="
             usersHeadline;
             context: {
-              $implicit: totalUsersCount
+              $implicit: totalUserCount
             }
           "
         ></ng-container>
 
         <dh-shared-ui-paginator
-          [length]="totalUsersCount"
+          [length]="totalUserCount"
           (changed)="pageChange.emit($event)"
           [pageSizeOptions]="pageSizeOptions"
           [pageSize]="pageSize"

@@ -64,7 +64,7 @@ export class DhUsersTabContainerComponent {
   private readonly store = inject(DhAdminUserManagementDataAccessApiStore);
 
   users$ = this.store.users$;
-  totalUsersCount$ = this.store.totalUsersCount$;
+  totalUserCount$ = this.store.totalUserCount$;
 
   pageIndex$ = this.store.pageIndex$;
   pageSize$ = this.store.pageSize$;

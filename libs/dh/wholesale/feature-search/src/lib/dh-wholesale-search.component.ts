@@ -75,7 +75,6 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
 
   data$ = this.store.batches$;
   destroy$ = new Subject<void>();
-  selectedBatch$ = this.store.selectedBatch$;
   loadingBatchesTrigger$ = this.store.loadingBatches$;
   loadingBatchesErrorTrigger$ = this.store.loadingBatchesErrorTrigger$;
 
@@ -86,6 +85,8 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
     if (selectedBatch) {
       this.store.getBatch(selectedBatch);
       this.batchDetails.open();
+    } else {
+      this.store.setSelectedBatch(undefined);
     }
     this.changeDetectorRef.detectChanges();
   }

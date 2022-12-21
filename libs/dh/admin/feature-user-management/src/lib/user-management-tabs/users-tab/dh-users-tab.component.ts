@@ -49,7 +49,7 @@ export class DhUsersTabComponent {
   pageSizeOptions = [2, 4, 5];
 
   @Input() users: UserOverviewItemDto[] = [];
-  @Input() totalUsersCount!: number;
+  @Input() totalUserCount!: number;
 
   @Input() pageSize!: number;
   @Input() pageIndex!: number;

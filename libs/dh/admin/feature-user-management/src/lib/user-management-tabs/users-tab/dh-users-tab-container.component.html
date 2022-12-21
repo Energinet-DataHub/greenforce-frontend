@@ -22,7 +22,7 @@ limitations under the License.
   <ng-container *ngIf="!isLoading">
     <dh-users-tab
       [users]="users$ | push"
-      [totalUsersCount]="totalUsersCount$ | push"
+      [totalUserCount]="totalUserCount$ | push"
       [pageIndex]="pageIndex$ | push"
       [pageSize]="pageSize$ | push"
       (pageChange)="onPageChange($event)"

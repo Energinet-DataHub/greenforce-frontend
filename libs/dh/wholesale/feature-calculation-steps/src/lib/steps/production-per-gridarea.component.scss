@@ -24,16 +24,43 @@ watt-card {
   cursor: pointer;
 }
 
-watt-card h4 {
-  margin: 0;
-  color: var(--watt-color-neutral-black);
-}
-
-.headline {
+.headline,
+.sub-headline {
   margin: 0;
 }
 
 hr {
   border: none;
   border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+}
+
+.center {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+// TODO: We don't have any spacing variable for 24px!
+dl {
+  border-top: 1px solid var(--watt-color-neutral-grey-300);
+  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+  margin: 24px 0 24px 0;
+  padding: 24px 0;
+  gap: 24px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  dd {
+    margin: 0;
+  }
+}
+
+.new-row {
+  grid-column-start: 1;
 }

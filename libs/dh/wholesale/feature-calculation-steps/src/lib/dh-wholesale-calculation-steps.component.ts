@@ -33,7 +33,7 @@ import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { BatchState } from '@energinet-datahub/dh/shared/domain';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import { DhWholesaleProductionPerGridareaComponent } from './steps/25-production-per-gridarea.component';
+import { DhWholesaleProductionPerGridareaComponent } from './steps/production-per-gridarea.component';
 import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
 
 @Component({
@@ -72,6 +72,7 @@ export class DhWholesaleCalculationStepsComponent {
         this.navigateToSearchBatch(batch);
     })
   );
+  loadingBatchErrorTrigger$ = this.store.loadingBatchErrorTrigger$;
 
   gridArea$ = this.store.getGridArea$(
     this.route.snapshot.params['gridAreaCode']

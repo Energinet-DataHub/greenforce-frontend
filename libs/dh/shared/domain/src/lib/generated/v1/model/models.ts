@@ -74,5 +74,6 @@ export * from './stream';
 export * from './time-series-point-dto';
 export * from './unit';
 export * from './user-overview-item-dto';
+export * from './user-overview-result-dto';
 export * from './user-role-dto';
 export * from './vat-classification';
