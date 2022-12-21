@@ -15,15 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import {
-  delay,
-  filter,
-  map,
-  Observable,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs';
+import { delay, Observable, switchMap, tap, withLatestFrom } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
