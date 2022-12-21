@@ -68,20 +68,22 @@ export class DhMessageArchiveActorDataAccessApiStore extends ComponentStore<Acto
         this.setLoadState(LoadingState.LOADING);
       }),
       switchMap(() =>
-        this.httpClient.v1MarketParticipantOrganizationGetAllOrganizationsGet().pipe(
-          tapResponse(
-            (organizations) => {
-              const actors = organizations.flatMap(
-                (organization) => organization.actors
-              );
-              this.updateStates(actors);
-            },
-            (error: HttpErrorResponse) => {
-              this.setLoadState(LoadingState.LOADED);
-              this.handleError(error);
-            }
+        this.httpClient
+          .v1MarketParticipantOrganizationGetAllOrganizationsGet()
+          .pipe(
+            tapResponse(
+              (organizations) => {
+                const actors = organizations.flatMap(
+                  (organization) => organization.actors
+                );
+                this.updateStates(actors);
+              },
+              (error: HttpErrorResponse) => {
+                this.setLoadState(LoadingState.LOADED);
+                this.handleError(error);
+              }
+            )
           )
-        )
       )
     );
   });

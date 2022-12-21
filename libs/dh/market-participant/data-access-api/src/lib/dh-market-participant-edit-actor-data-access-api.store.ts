@@ -270,10 +270,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       return of(undefined);
     }
     return this.httpClient
-      .v1MarketParticipantOrganizationGetActorGet(
-        organizationId,
-        actorId
-      )
+      .v1MarketParticipantOrganizationGetActorGet(organizationId, actorId)
       .pipe(
         tap((response) => {
           this.patchState({
@@ -309,10 +306,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       return of([]);
     }
     return this.httpClient
-      .v1MarketParticipantOrganizationGetContactsGet(
-        organizationId,
-        actorId
-      )
+      .v1MarketParticipantOrganizationGetContactsGet(organizationId, actorId)
       .pipe(
         tap((response) => this.patchState({ contacts: response })),
         catchError(this.handleError)

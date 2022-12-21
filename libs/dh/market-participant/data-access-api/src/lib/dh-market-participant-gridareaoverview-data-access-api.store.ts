@@ -74,20 +74,22 @@ export class DhMarketParticipantGridAreaOverviewDataAccessApiStore extends Compo
   );
 
   private readonly getOverview = () =>
-    this.gridAreaOverviewClient.v1MarketParticipantGridAreaOverviewGetAllGridAreasGet().pipe(
-      tapResponse(
-        (rows) =>
-          this.patchState({
-            rows: rows
-              .map((row) => ({
-                ...row,
-                priceAreaCode: row.priceAreaCode,
-              }))
-              .sort((a, b) => a.code.localeCompare(b.code)),
-          }),
-        this.handleError
-      )
-    );
+    this.gridAreaOverviewClient
+      .v1MarketParticipantGridAreaOverviewGetAllGridAreasGet()
+      .pipe(
+        tapResponse(
+          (rows) =>
+            this.patchState({
+              rows: rows
+                .map((row) => ({
+                  ...row,
+                  priceAreaCode: row.priceAreaCode,
+                }))
+                .sort((a, b) => a.code.localeCompare(b.code)),
+            }),
+          this.handleError
+        )
+      );
 
   private readonly handleError = (errorResponse: HttpErrorResponse) =>
     this.patchState({
