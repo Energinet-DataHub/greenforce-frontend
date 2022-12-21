@@ -22,7 +22,7 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PushModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -56,7 +56,7 @@ import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-w
     CommonModule,
     DhSharedUiDateTimeModule,
     DhWholesaleTimeSeriesPointsComponent,
-    PushModule,
+    LetModule,
     TranslocoModule,
     WattBadgeComponent,
     WattButtonModule,
