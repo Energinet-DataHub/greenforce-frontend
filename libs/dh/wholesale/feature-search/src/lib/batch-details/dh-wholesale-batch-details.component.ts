@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   ViewChild,
   inject,
   Output,
@@ -27,7 +26,7 @@ import {
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
-import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -44,6 +43,7 @@ import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
 import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/wholesale/routing';
+import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 
 @Component({
   standalone: true,
@@ -66,16 +66,19 @@ import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/whole
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleBatchDetailsComponent {
-  @Input() batch$!: Observable<batch | undefined>;
-  @Input() errorTrigger$!: Subject<void>;
-
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
   @Output() closed = new EventEmitter<void>();
 
-  router = inject(Router);
-  route = inject(ActivatedRoute);
-  batchId = this.route.snapshot.queryParams['batch'];
+  private store = inject(DhWholesaleBatchDataAccessApiStore);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  batchId$ = this.route.queryParamMap.pipe(
+    map((params: ParamMap) => params.get('batch'))
+  );
+  batch$ = this.store.select((state) => state.selectedBatch);
+  errorTrigger$ = this.store.loadingBatchErrorTrigger$;
 
   open(): void {
     this.drawer.open();

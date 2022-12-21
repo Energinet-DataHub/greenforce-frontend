@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-drawer #drawer (closed)="closed.emit()">
-  <watt-drawer-topbar>
-    <watt-breadcrumbs *transloco="let transloco; read: 'wholesale'">
+  <watt-drawer-topbar *transloco="let transloco; read: 'wholesale'">
+    <watt-breadcrumbs *rxLet="batchId$; let batchId">
       <watt-breadcrumb (click)="drawer.close()">{{
         transloco("searchBatch.topBarTitle")
       }}</watt-breadcrumb>
