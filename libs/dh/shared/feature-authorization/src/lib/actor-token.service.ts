@@ -126,7 +126,7 @@ export class ActorTokenService {
   }
 
   private isUserActorsRequest(request: HttpRequest<unknown>): boolean {
-    return request.url.endsWith('/v1/MarketParticipantUser/Actors');
+    return request.url.endsWith('/v1/MarketParticipantUser/GetUserActors');
   }
 
   private isTokenRequest(request: HttpRequest<unknown>): boolean {
