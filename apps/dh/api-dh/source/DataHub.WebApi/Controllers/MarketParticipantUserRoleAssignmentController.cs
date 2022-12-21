@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
@@ -27,16 +26,16 @@ namespace Energinet.DataHub.WebApi.Controllers
     {
         private readonly IMarketParticipantUserRoleAssignmentClient _client;
 
-        public MarketParticipantUserRoleAssignmentController(IMarketParticipantUserRoleAssignmentClient client)
+        public MarketParticipantUserRoleAssignmentController(IMarketParticipantUserRoleAssignmentClient client, IMarketParticipantOrganizationClient organizationClient)
         {
             _client = client;
         }
 
         [HttpPut]
-        [Route("users/roles")]
-        public Task UpdateAssignmentsAsync(Guid actorId, Guid userId, IEnumerable<Guid> userRoleAssignments)
+        [Route("UpdateAssignments")]
+        public Task UpdateAssignmentsAsync(Guid actorId, Guid userId, UpdateUserRoleAssignmentsDto assignments)
         {
-            return HandleExceptionAsync(() => _client.UpdateUserRoleAssignmentsAsync(actorId, userId, userRoleAssignments));
+            return HandleExceptionAsync(() => _client.UpdateUserRoleAssignmentsAsync(actorId, userId, assignments));
         }
     }
 }
