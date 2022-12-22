@@ -22,6 +22,7 @@ import {
 } from '@angular/core';
 import { WattCardModule } from '../../card';
 import { WattPaginatorComponent } from '../../paginator';
+import { WattTableDataSource } from '../watt-table-data-source';
 import { WattTableComponent } from '../watt-table.component';
 
 @Component({
@@ -57,6 +58,7 @@ export class WattStorybookTableDecoratorComponent<T> implements AfterViewInit {
   @ContentChild(WattTableComponent) table!: WattTableComponent<T>;
 
   ngAfterViewInit() {
-    this.table.dataSource.paginator = this.paginator;
+    const dataSource = this.table.dataSource as WattTableDataSource<T>;
+    dataSource.paginator = this.paginator;
   }
 }

@@ -121,8 +121,8 @@ export class WattTableCellDirective<T> {
 
 export interface WattSortableDataSource<T> extends DataSource<T> {
   filteredData: T[];
-  sort: MatSort | null;
-  sortingDataAccessor: (row: T, sortHeaderId: string) => string | number;
+  sort?: MatSort | null;
+  sortingDataAccessor?: (row: T, sortHeaderId: string) => string | number;
 }
 
 /**
