@@ -25,6 +25,7 @@ import { WattPaginatorComponent } from '../paginator';
  */
 export class WattTableDataSource<T> extends DataSource<T> {
   private dataSource = new MatTableDataSource<T>();
+  private _paginator: MatPaginator | WattPaginatorComponent | null = null;
 
   constructor(data?: T[]) {
     super();
@@ -53,9 +54,10 @@ export class WattTableDataSource<T> extends DataSource<T> {
   }
 
   get paginator() {
-    return this.dataSource.paginator;
+    return this._paginator;
   }
   set paginator(paginator: MatPaginator | WattPaginatorComponent | null) {
+    this._paginator = paginator;
     this.dataSource.paginator =
       paginator instanceof WattPaginatorComponent
         ? paginator.instance
@@ -65,15 +67,34 @@ export class WattTableDataSource<T> extends DataSource<T> {
   get sort() {
     return this.dataSource.sort;
   }
-  set sort(sort: MatSort | null) {
+  set sort(sort: MatTableDataSource<T>['sort']) {
     this.dataSource.sort = sort;
   }
 
-  filterPredicate = this.dataSource.filterPredicate;
+  get filterPredicate() {
+    return this.dataSource.filterPredicate;
+  }
+  set filterPredicate(
+    filterPredicate: MatTableDataSource<T>['filterPredicate']
+  ) {
+    this.dataSource.filterPredicate;
+  }
 
-  sortData = this.dataSource.sortData;
+  get sortData() {
+    return this.dataSource.sortData;
+  }
+  set sortData(sortData: MatTableDataSource<T>['sortData']) {
+    this.dataSource.sortData;
+  }
 
-  sortingDataAccessor = this.dataSource.sortingDataAccessor;
+  get sortingDataAccessor() {
+    return this.dataSource.sortingDataAccessor;
+  }
+  set sortingDataAccessor(
+    sortingDataAccessor: MatTableDataSource<T>['sortingDataAccessor']
+  ) {
+    this.dataSource.sortingDataAccessor = sortingDataAccessor;
+  }
 
   connect() {
     return this.dataSource.connect();
