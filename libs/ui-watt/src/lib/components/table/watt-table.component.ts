@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { SelectionModel } from '@angular/cdk/collections';
+import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { CommonModule, KeyValue } from '@angular/common';
 import {
   AfterViewInit,
@@ -119,7 +119,7 @@ export class WattTableCellDirective<T> {
   }
 }
 
-export interface WattSortableDataSource<T> {
+export interface WattSortableDataSource<T> extends DataSource<T> {
   filteredData: T[];
   sort: MatSort | null;
   sortingDataAccessor: (row: T, sortHeaderId: string) => string | number;
