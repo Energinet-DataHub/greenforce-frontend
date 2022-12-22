@@ -120,6 +120,12 @@ export class WattTableCellDirective<T> {
   }
 }
 
+export interface WattSortableDataSource<T> {
+  filteredData: T[];
+  sort: MatSort | null;
+  sortingDataAccessor: (row: T, sortHeaderId: string) => string | number;
+}
+
 /**
  * Usage:
  * `import { WATT_TABLE } from '@energinet-datahub/watt/table';`
@@ -145,7 +151,7 @@ export class WattTableComponent<T>
    * The table's source of data. Property should not be changed after
    * initialization, instead update the data on the instance itself.
    */
-  @Input() dataSource!: WattTableDataSource<T> | MatTableDataSource<T>;
+  @Input() dataSource!: WattSortableDataSource<T>;
 
   /**
    * Column definition record with keys representing the column identifiers
