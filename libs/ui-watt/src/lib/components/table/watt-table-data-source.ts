@@ -77,14 +77,14 @@ export class WattTableDataSource<T> extends DataSource<T> {
   set filterPredicate(
     filterPredicate: MatTableDataSource<T>['filterPredicate']
   ) {
-    this.dataSource.filterPredicate;
+    this.dataSource.filterPredicate = filterPredicate;
   }
 
   get sortData() {
     return this.dataSource.sortData;
   }
   set sortData(sortData: MatTableDataSource<T>['sortData']) {
-    this.dataSource.sortData;
+    this.dataSource.sortData = sortData;
   }
 
   get sortingDataAccessor() {
