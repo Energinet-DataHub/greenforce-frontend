@@ -70,7 +70,7 @@ export class WattPaginatorComponent implements OnInit, OnDestroy {
 
   private intl = inject(WattPaginatorIntlService);
   private matPaginatorIntl = inject(MatPaginatorIntl);
-  private subscription!: Subscription;
+  private subscription?: Subscription;
 
   ngOnInit() {
     this.matPaginatorIntl.getRangeLabel = this.getRangeLabel;
@@ -79,7 +79,7 @@ export class WattPaginatorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 
   private updateLabels = () => {
