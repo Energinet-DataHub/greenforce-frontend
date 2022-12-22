@@ -26,7 +26,7 @@ import { WattPaginatorIntlService } from '@energinet-datahub/watt/paginator';
 import { TranslocoService } from '@ngneat/transloco';
 
 @Injectable()
-export class DhWattClipboardIntlService extends WattClipboardIntlService {
+export class DhClipboardIntlService extends WattClipboardIntlService {
   constructor(transloco: TranslocoService) {
     super();
 
@@ -41,7 +41,7 @@ export class DhWattClipboardIntlService extends WattClipboardIntlService {
 }
 
 @Injectable()
-export class DhWattPaginatorIntlService extends WattPaginatorIntlService {
+export class DhPaginatorIntlService extends WattPaginatorIntlService {
   constructor(transloco: TranslocoService) {
     super();
 
@@ -71,11 +71,11 @@ export class DhGlobalizationUiWattTranslationModule {
       providers: [
         {
           provide: WattClipboardIntlService,
-          useClass: DhWattClipboardIntlService,
+          useClass: DhClipboardIntlService,
         },
         {
           provide: WattPaginatorIntlService,
-          useClass: DhWattPaginatorIntlService,
+          useClass: DhPaginatorIntlService,
         },
       ],
     };
