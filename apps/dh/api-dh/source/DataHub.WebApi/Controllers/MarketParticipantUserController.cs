@@ -53,5 +53,15 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             return HandleExceptionAsync(() => _client.GetUserActorsAsync(userId));
         }
+
+        /// <summary>
+        ///     Retrieves the audit log history for the specified user.
+        /// </summary>
+        [HttpGet]
+        [Route("GetUserHistory")]
+        public Task<ActionResult<UserAuditLogsDto>> GetUserHistoryAsync(Guid userId)
+        {
+            return HandleExceptionAsync(() => _client.GetUserAuditLogsAsync(userId));
+        }
     }
 }
