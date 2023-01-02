@@ -14,22 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
+import { MatTableModule } from '@angular/material/table';
 
-import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
-import {
-  WattTableDataSource,
-  WattTableColumnDef,
-  WATT_TABLE,
-} from '@energinet-datahub/watt/table';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { DhCustomDataSource } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   selector: 'dh-users-tab-table',
@@ -48,28 +39,10 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/s
     CommonModule,
     TranslocoModule,
     DhEmDashFallbackPipeScam,
-    WATT_TABLE,
+    MatTableModule,
   ],
 })
 export class DhUsersTabTableComponent {
-  private transloco = inject(TranslocoService);
-
-  dataSource = new WattTableDataSource<UserOverviewItemDto>();
-
-  columns: WattTableColumnDef<UserOverviewItemDto> = {
-    name: { accessor: 'name' },
-    email: { accessor: 'email' },
-    phone: { accessor: 'phoneNumber' },
-    status: { accessor: 'active' },
-  };
-
-  @Input() set users(usersData: UserOverviewItemDto[]) {
-    this.dataSource.data = usersData;
-  }
-
-  translateHeader = (columnId: string): string => {
-    const baseKey = 'admin.userManagement.tabs.users.table.columns';
-
-    return this.transloco.translate(`${baseKey}.${columnId}`);
-  };
+  dataSource = new DhCustomDataSource();
+  displayedColumns = ['name', 'email', 'phone', 'status'];
 }
