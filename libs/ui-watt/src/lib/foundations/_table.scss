@@ -40,7 +40,7 @@ mat-table,
   }
 }
 
-mat-paginator {
+mat-paginator:not(.watt-paginator) {
   &.mat-paginator,
   .mat-paginator-page-size .mat-select-trigger {
     @include typography.watt-text-s;

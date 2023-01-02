@@ -22,10 +22,11 @@ import {
   SkipSelf,
 } from '@angular/core';
 import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
+import { WattPaginatorIntlService } from '@energinet-datahub/watt/paginator';
 import { TranslocoService } from '@ngneat/transloco';
 
 @Injectable()
-export class DhWattClipboardIntlService extends WattClipboardIntlService {
+export class DhClipboardIntlService extends WattClipboardIntlService {
   constructor(transloco: TranslocoService) {
     super();
 
@@ -36,6 +37,26 @@ export class DhWattClipboardIntlService extends WattClipboardIntlService {
     transloco
       .selectTranslate('clipboard.error')
       .subscribe((value) => (this.error = value));
+  }
+}
+
+@Injectable()
+export class DhPaginatorIntlService extends WattPaginatorIntlService {
+  constructor(transloco: TranslocoService) {
+    super();
+
+    transloco
+      .selectTranslateObject('shared.paginator')
+      .subscribe((translations) => {
+        this.description = translations.ariaLabel;
+        this.itemsPerPage = translations.itemsPerPageLabel;
+        this.nextPage = translations.next;
+        this.previousPage = translations.previous;
+        this.firstPage = translations.first;
+        this.lastPage = translations.last;
+        this.of = translations.of;
+        this.changes.next();
+      });
   }
 }
 
@@ -50,7 +71,11 @@ export class DhGlobalizationUiWattTranslationModule {
       providers: [
         {
           provide: WattClipboardIntlService,
-          useClass: DhWattClipboardIntlService,
+          useClass: DhClipboardIntlService,
+        },
+        {
+          provide: WattPaginatorIntlService,
+          useClass: DhPaginatorIntlService,
         },
       ],
     };
