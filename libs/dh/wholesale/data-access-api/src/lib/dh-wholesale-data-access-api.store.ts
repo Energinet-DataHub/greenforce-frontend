@@ -32,7 +32,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
-import type { WattBadgeType } from '@energinet-datahub-types/watt/badge';
+import type { WattBadgeType } from '@energinet-datahub/watt/badge';
 
 interface State {
   batches?: batch[];
