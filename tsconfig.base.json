@@ -181,6 +181,9 @@
       "@energinet-datahub/dh/shared/ui-paginator": [
         "libs/dh/shared/ui-paginator/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/ui-util": [
+        "libs/dh/shared/ui-util/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/util-application-insights": [
         "libs/dh/shared/util-application-insights/src/index.ts"
       ],

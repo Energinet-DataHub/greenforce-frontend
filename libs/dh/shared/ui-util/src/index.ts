@@ -14,6 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhYesNoPipeScam } from './lib/dh-yes-no.pipe';
-export { DhIsParentPipeScam } from './lib/dh-is-parent.pipe';
-export { DhShowForMeteringPointTypeDirectiveScam } from './lib/dh-show-for-metering-point-type.directive';
+export * from './lib/dh-em-dash-fallback.pipe';
+export * from './lib/em-dash';
