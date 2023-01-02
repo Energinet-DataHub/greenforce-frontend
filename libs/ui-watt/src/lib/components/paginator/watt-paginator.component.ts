@@ -62,6 +62,7 @@ export class WattPaginatorComponent implements OnInit, OnDestroy {
   @Input() length = 0;
   @Input() pageSizeOptions = [50, 100, 150, 200, 250];
   @Input() pageSize = 50;
+
   @Output() changed = new EventEmitter<PageEvent>();
 
   @ViewChild(MatPaginator, { static: true }) instance!: MatPaginator;
