@@ -18,6 +18,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { LetModule, PushModule } from '@rx-angular/template';
+import { PageEvent } from '@angular/material/paginator';
 
 import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -65,8 +66,18 @@ export class DhUsersTabContainerComponent {
   users$ = this.store.users$;
   totalUserCount$ = this.store.totalUserCount$;
 
+  pageIndex$ = this.store.paginatorPageIndex$;
+  pageSize$ = this.store.pageSize$;
+
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
+
+  onPageChange(event: PageEvent): void {
+    this.store.updatePageMetadata({
+      pageIndex: event.pageIndex,
+      pageSize: event.pageSize,
+    });
+  }
 
   reloadUsers(): void {
     this.store.getUsers();

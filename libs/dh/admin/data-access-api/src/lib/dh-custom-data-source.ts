@@ -14,18 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-  // TODO: Add spacing variable for 24px
-  margin: 24px var(--watt-space-s);
-}
+import { DataSource } from '@angular/cdk/collections';
+import { inject } from '@angular/core';
 
-h4 {
-  margin: 0;
-}
+import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
-.card-title-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+import { DhAdminUserManagementDataAccessApiStore } from './dh-admin-user-management-data-access-api.store';
+
+export class DhCustomDataSource implements DataSource<UserOverviewItemDto> {
+  private readonly store = inject(DhAdminUserManagementDataAccessApiStore);
+
+  connect() {
+    return this.store.users$;
+  }
+
+  disconnect(): void {
+    // Intentionally left empty.
+  }
 }
