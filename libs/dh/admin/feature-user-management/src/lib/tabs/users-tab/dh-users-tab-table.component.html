@@ -37,9 +37,9 @@ limitations under the License.
 
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef>{{ t("status") }}</mat-header-cell>
-      <mat-cell *matCellDef="let user">{{
-        undefined | dhEmDashFallback
-      }}</mat-cell>
+      <mat-cell *matCellDef="let user">
+        <dh-user-status [isActive]="user.active"></dh-user-status>
+      </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
