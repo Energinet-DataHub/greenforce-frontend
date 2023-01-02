@@ -22,7 +22,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Energinet.DataHub.WebApi.Controllers
 {
     [ApiController]
-    [Route("v1/[controller]/organization")]
+    [Route("v1/[controller]/Organization")]
     public class MarketParticipantController : MarketParticipantControllerBase
     {
         private readonly IMarketParticipantClient _client;
@@ -36,6 +36,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Retrieves all organizations
         /// </summary>
         [HttpGet]
+        [Route("GetAllOrganizations")]
         public Task<ActionResult<IEnumerable<OrganizationDto>>> GetAllOrganizationsAsync()
         {
             return HandleExceptionAsync(() => _client.GetOrganizationsAsync());
@@ -44,7 +45,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Retrieves a single organization
         /// </summary>
-        [HttpGet("{orgId:guid}/")]
+        [HttpGet("GetOrganization")]
         public Task<ActionResult<OrganizationDto>> GetOrganizationAsync(Guid orgId)
         {
             return HandleExceptionAsync(() => _client.GetOrganizationAsync(orgId));
@@ -54,6 +55,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Creates an organization
         /// </summary>
         [HttpPost]
+        [Route("CreateOrganization")]
         public Task<ActionResult<Guid>> CreateOrganizationAsync(CreateOrganizationDto organizationDto)
         {
             return HandleExceptionAsync(() => _client.CreateOrganizationAsync(organizationDto));
@@ -63,6 +65,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Updates an organization
         /// </summary>
         [HttpPut]
+        [Route("UpdateOrganization")]
         public Task<ActionResult> UpdateOrganizationAsync(Guid orgId, ChangeOrganizationDto organizationDto)
         {
             return HandleExceptionAsync(() => _client.UpdateOrganizationAsync(orgId, organizationDto));
@@ -71,7 +74,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Retrieves all actors to a single organization
         /// </summary>
-        [HttpGet("{orgId:guid}/actor")]
+        [HttpGet("GetActors")]
         public Task<ActionResult<IEnumerable<ActorDto>>> GetActorsAsync(Guid orgId)
         {
             return HandleExceptionAsync(() => _client.GetActorsAsync(orgId));
@@ -80,7 +83,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Retrieves a single actor to a specific organization
         /// </summary>
-        [HttpGet("{orgId:guid}/actor/{actorId:guid}")]
+        [HttpGet("GetActor")]
         public Task<ActionResult<ActorDto>> GetActorAsync(Guid orgId, Guid actorId)
         {
             return HandleExceptionAsync(() => _client.GetActorAsync(orgId, actorId));
@@ -89,7 +92,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Updates an Actor in an organization
         /// </summary>
-        [HttpPost("{orgId:guid}/actor")]
+        [HttpPost("CreateActor")]
         public Task<ActionResult<Guid>> CreateActorAsync(Guid orgId, CreateActorDto actorDto)
         {
             return HandleExceptionAsync(() => _client.CreateActorAsync(orgId, actorDto));
@@ -98,7 +101,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Updates an Actor in an organization
         /// </summary>
-        [HttpPut("{orgId:guid}/actor/{actorId:guid}")]
+        [HttpPut("UpdateActor")]
         public Task<ActionResult> UpdateActorAsync(Guid orgId, Guid actorId, ChangeActorDto actorDto)
         {
             return HandleExceptionAsync(() => _client.UpdateActorAsync(orgId, actorId, actorDto));
@@ -107,7 +110,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Gets all the contacts for an actor.
         /// </summary>
-        [HttpGet("{orgId:guid}/actor/{actorId:guid}/contact")]
+        [HttpGet("GetContacts")]
         public Task<ActionResult<IEnumerable<ActorContactDto>>> GetContactsAsync(Guid orgId, Guid actorId)
         {
             return HandleExceptionAsync(() => _client.GetContactsAsync(orgId, actorId));
@@ -116,7 +119,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Creates a contact for the actor.
         /// </summary>
-        [HttpPost("{orgId:guid}/actor/{actorId:guid}/contact")]
+        [HttpPost("CreateContact")]
         public Task<ActionResult<Guid>> CreateContactAsync(Guid orgId, Guid actorId, CreateActorContactDto createDto)
         {
             return HandleExceptionAsync(() => _client.CreateContactAsync(orgId, actorId, createDto));
@@ -125,7 +128,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Removes a contact from an actor.
         /// </summary>
-        [HttpDelete("{orgId:guid}/actor/{actorId:guid}/contact/{contactId:guid}")]
+        [HttpDelete("DeleteContact")]
         public Task<ActionResult> DeleteContactAsync(Guid orgId, Guid actorId, Guid contactId)
         {
             return HandleExceptionAsync(() => _client.DeleteContactAsync(orgId, actorId, contactId));

@@ -36,7 +36,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         ///     Retrieves actors associated with the users external actor token.
         /// </summary>
         [HttpGet]
-        [Route("Actors")]
+        [Route("GetUserActors")]
         public Task<ActionResult<GetAssociatedUserActorsResponseDto>> GetUserActorsAsync()
         {
             var externalToken = HttpContext.Request.Headers["Authorization"].Single();
@@ -48,7 +48,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         ///     Retrieves actors associated with the userId specified, ensures only actors you are allowed to see are returned.
         /// </summary>
         [HttpGet]
-        [Route("{userId:guid}/Actors")]
+        [Route("GetUserActorsByUserId")]
         public Task<ActionResult<GetAssociatedUserActorsResponseDto>> GetUserActorsByUserIdAsync(Guid userId)
         {
             return HandleExceptionAsync(() => _client.GetUserActorsAsync(userId));

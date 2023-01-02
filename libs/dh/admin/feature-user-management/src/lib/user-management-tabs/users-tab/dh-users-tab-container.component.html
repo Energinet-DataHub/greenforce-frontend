@@ -23,6 +23,9 @@ limitations under the License.
     <dh-users-tab
       [users]="users$ | push"
       [totalUserCount]="totalUserCount$ | push"
+      [pageIndex]="pageIndex$ | push"
+      [pageSize]="pageSize$ | push"
+      (pageChange)="onPageChange($event)"
     ></dh-users-tab>
   </ng-container>
 </ng-container>

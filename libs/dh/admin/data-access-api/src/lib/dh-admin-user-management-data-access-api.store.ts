@@ -41,7 +41,7 @@ const initialState: DhUserManagementState = {
   totalUserCount: 0,
   requestState: LoadingState.INIT,
   pageNumber: 1,
-  pageSize: 25,
+  pageSize: 50,
 };
 
 @Injectable()
@@ -57,6 +57,11 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
   users$ = this.select((state) => state.users);
   totalUserCount$ = this.select((state) => state.totalUserCount);
 
+  // 1 needs to be substracted here because our endpoint's `pageNumber` param starts at `1`
+  // whereas the paginator's `pageIndex` property starts at `0`
+  paginatorPageIndex$ = this.select((state) => state.pageNumber - 1);
+  pageSize$ = this.select((state) => state.pageSize);
+
   constructor(private httpClient: MarketParticipantUserOverviewHttp) {
     super(initialState);
   }
@@ -65,13 +70,14 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     trigger$.pipe(
       withLatestFrom(this.state$),
       tap(() => {
-        this.resetState();
-
         this.setLoading(LoadingState.LOADING);
       }),
       switchMap(([, state]) =>
         this.httpClient
-          .v1MarketParticipantUserOverviewGet(state.pageNumber, state.pageSize)
+          .v1MarketParticipantUserOverviewGetUserOverviewGet(
+            state.pageNumber,
+            state.pageSize
+          )
           .pipe(
             tapResponse(
               (response) => {
@@ -88,6 +94,19 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
           )
       )
     )
+  );
+
+  readonly updatePageMetadata = this.effect(
+    (trigger$: Observable<{ pageIndex: number; pageSize: number }>) =>
+      trigger$.pipe(
+        tap(({ pageIndex, pageSize }) => {
+          // 1 needs to be added here because the paginator's `pageIndex` property starts at `0`
+          // whereas our endpoint's `pageNumber` param starts at `1`
+          this.patchState({ pageNumber: pageIndex + 1, pageSize });
+
+          this.getUsers();
+        })
+      )
   );
 
   private updateUsers = this.updater(
