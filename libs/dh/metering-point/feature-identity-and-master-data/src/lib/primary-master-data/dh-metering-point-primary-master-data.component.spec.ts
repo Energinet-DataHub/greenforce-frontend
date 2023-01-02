@@ -25,7 +25,7 @@ import {
   runOnPushChangeDetection,
 } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { MeteringPointType } from '@energinet-datahub/dh/shared/domain';
-import { emDash } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { emDash } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   DhMeteringPointPrimaryMasterDataComponent,
@@ -34,7 +34,6 @@ import {
 } from './dh-metering-point-primary-master-data.component';
 
 describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
-  const fallbackValue = emDash;
   const testData: PrimaryMasterData = {
     meterId: '000',
     supplyStart: '2021-12-17T12:38:16.428Z',
@@ -104,7 +103,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       const definition = getDefinitonByTerm(term);
 
       expect(definition).toBeInTheDocument();
-      expect(definition).toHaveTextContent(fallbackValue);
+      expect(definition).toHaveTextContent(emDash);
     });
 
     it('should render fallback definition, if location description is empty string', async () => {
@@ -117,7 +116,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       const definition = getDefinitonByTerm(term);
 
       expect(definition).toBeInTheDocument();
-      expect(definition).toHaveTextContent(fallbackValue);
+      expect(definition).toHaveTextContent(emDash);
     });
   });
 
@@ -151,7 +150,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       const definition = getDefinitonByTerm(term);
 
       expect(definition).toBeInTheDocument();
-      expect(definition).toHaveTextContent(fallbackValue);
+      expect(definition).toHaveTextContent(emDash);
     });
 
     it('should render fallback definition, if geo info reference is null', async () => {
@@ -163,7 +162,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       const definition = getDefinitonByTerm(term);
 
       expect(definition).toBeInTheDocument();
-      expect(definition).toHaveTextContent(fallbackValue);
+      expect(definition).toHaveTextContent(emDash);
     });
 
     it('should render fallback definition, if geo info reference is empty string', async () => {
@@ -175,7 +174,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       const definition = getDefinitonByTerm(term);
 
       expect(definition).toBeInTheDocument();
-      expect(definition).toHaveTextContent(fallbackValue);
+      expect(definition).toHaveTextContent(emDash);
     });
   });
 });
