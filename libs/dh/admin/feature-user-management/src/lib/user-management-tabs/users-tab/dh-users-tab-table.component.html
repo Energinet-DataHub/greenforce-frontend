@@ -31,7 +31,7 @@ limitations under the License.
     <ng-container matColumnDef="phone">
       <mat-header-cell *matHeaderCellDef>{{ t("phone") }}</mat-header-cell>
       <mat-cell *matCellDef="let user">{{
-        user.phone | dhEmDashFallback
+        user.phoneNumber | dhEmDashFallback
       }}</mat-cell>
     </ng-container>
 
