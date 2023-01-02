@@ -14,21 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-
-import { DhTabsComponent } from './tabs/dh-tabs.component';
-
-@Component({
-  selector: 'dh-admin-feature-user-management',
-  template: `<dh-tabs></dh-tabs>`,
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  standalone: true,
-  imports: [DhTabsComponent],
-})
-export class DhAdminFeatureUserManagementComponent {}
+export * from './lib/dh-em-dash-fallback.pipe';
+export * from './lib/em-dash';
