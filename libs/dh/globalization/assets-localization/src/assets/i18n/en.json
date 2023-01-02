@@ -832,6 +832,10 @@
             "singular": "{{ usersCount }} user",
             "plural": "{{ usersCount }} users"
           },
+          "userStatus": {
+            "active": "Aktiv",
+            "inactive": "Inactive"
+          },
           "table": {
             "columns": {
               "name": "Name",
