@@ -26,11 +26,11 @@ import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattExpansionModule } from '@energinet-datahub/watt/expansion';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import {
-  DhEmDashFallbackPipeScam,
   DhIsParentPipeScam,
   DhShowForMeteringPointTypeDirectiveScam,
   DhYesNoPipeScam,
 } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 
 export interface MeteringPointIdentityTranslationKeys {
   unit: string;
