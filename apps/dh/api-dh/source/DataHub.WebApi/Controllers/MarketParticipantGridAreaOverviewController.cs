@@ -32,6 +32,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("GetAllGridAreas")]
         public Task<ActionResult<IEnumerable<GridAreaOverviewItemDto>>> GetAllGridAreasAsync()
         {
             return HandleExceptionAsync(() => _client.GetGridAreaOverviewAsync());

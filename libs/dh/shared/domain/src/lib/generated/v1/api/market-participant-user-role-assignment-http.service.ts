@@ -98,10 +98,10 @@ export class MarketParticipantUserRoleAssignmentHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserRoleAssignmentUsersRolesPut(actorId?: string, userId?: string, updateUserRoleAssignmentsDto?: UpdateUserRoleAssignmentsDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1MarketParticipantUserRoleAssignmentUsersRolesPut(actorId?: string, userId?: string, updateUserRoleAssignmentsDto?: UpdateUserRoleAssignmentsDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1MarketParticipantUserRoleAssignmentUsersRolesPut(actorId?: string, userId?: string, updateUserRoleAssignmentsDto?: UpdateUserRoleAssignmentsDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1MarketParticipantUserRoleAssignmentUsersRolesPut(actorId?: string, userId?: string, updateUserRoleAssignmentsDto?: UpdateUserRoleAssignmentsDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserRoleAssignmentUpdateAssignmentsPut(actorId?: string, userId?: string, updateUserRoleAssignmentsDto?: UpdateUserRoleAssignmentsDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public v1MarketParticipantUserRoleAssignmentUpdateAssignmentsPut(actorId?: string, userId?: string, updateUserRoleAssignmentsDto?: UpdateUserRoleAssignmentsDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public v1MarketParticipantUserRoleAssignmentUpdateAssignmentsPut(actorId?: string, userId?: string, updateUserRoleAssignmentsDto?: UpdateUserRoleAssignmentsDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public v1MarketParticipantUserRoleAssignmentUpdateAssignmentsPut(actorId?: string, userId?: string, updateUserRoleAssignmentsDto?: UpdateUserRoleAssignmentsDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (actorId !== undefined && actorId !== null) {
@@ -161,7 +161,7 @@ export class MarketParticipantUserRoleAssignmentHttp {
             }
         }
 
-        let localVarPath = `/v1/MarketParticipantUserRoleAssignment/users/roles`;
+        let localVarPath = `/v1/MarketParticipantUserRoleAssignment/UpdateAssignments`;
         return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,

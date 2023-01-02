@@ -51,7 +51,7 @@ export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
   readonly init = this.effect((trigger$: Observable<void>) => {
     return trigger$.pipe(
       switchMap(() =>
-        this.client.v1MarketParticipantActorQuerySelectionActorsGet().pipe(
+        this.client.v1MarketParticipantActorQueryGetSelectionActorsGet().pipe(
           tap((r) => {
             const actorId = this.actorStorage.getSelectedActor();
 
