@@ -100,10 +100,10 @@ export class MarketParticipantGridAreaHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantGridAreaGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<GridAreaDto>>;
-    public v1MarketParticipantGridAreaGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<GridAreaDto>>>;
-    public v1MarketParticipantGridAreaGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<GridAreaDto>>>;
-    public v1MarketParticipantGridAreaGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantGridAreaGetAllGridAreasGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<GridAreaDto>>;
+    public v1MarketParticipantGridAreaGetAllGridAreasGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<GridAreaDto>>>;
+    public v1MarketParticipantGridAreaGetAllGridAreasGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<GridAreaDto>>>;
+    public v1MarketParticipantGridAreaGetAllGridAreasGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -145,7 +145,7 @@ export class MarketParticipantGridAreaHttp {
             }
         }
 
-        let localVarPath = `/v1/MarketParticipantGridArea`;
+        let localVarPath = `/v1/MarketParticipantGridArea/GetAllGridAreas`;
         return this.httpClient.request<Array<GridAreaDto>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -164,12 +164,15 @@ export class MarketParticipantGridAreaHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantGridAreaGridAreaIdAuditlogentryGet(gridAreaId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<GridAreaAuditLogEntryDto>>;
-    public v1MarketParticipantGridAreaGridAreaIdAuditlogentryGet(gridAreaId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<GridAreaAuditLogEntryDto>>>;
-    public v1MarketParticipantGridAreaGridAreaIdAuditlogentryGet(gridAreaId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<GridAreaAuditLogEntryDto>>>;
-    public v1MarketParticipantGridAreaGridAreaIdAuditlogentryGet(gridAreaId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
-        if (gridAreaId === null || gridAreaId === undefined) {
-            throw new Error('Required parameter gridAreaId was null or undefined when calling v1MarketParticipantGridAreaGridAreaIdAuditlogentryGet.');
+    public v1MarketParticipantGridAreaGetGridAreaAuditLogEntriesGet(gridAreaId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<GridAreaAuditLogEntryDto>>;
+    public v1MarketParticipantGridAreaGetGridAreaAuditLogEntriesGet(gridAreaId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<GridAreaAuditLogEntryDto>>>;
+    public v1MarketParticipantGridAreaGetGridAreaAuditLogEntriesGet(gridAreaId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<GridAreaAuditLogEntryDto>>>;
+    public v1MarketParticipantGridAreaGetGridAreaAuditLogEntriesGet(gridAreaId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (gridAreaId !== undefined && gridAreaId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>gridAreaId, 'gridAreaId');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -212,10 +215,11 @@ export class MarketParticipantGridAreaHttp {
             }
         }
 
-        let localVarPath = `/v1/MarketParticipantGridArea/${this.configuration.encodeParam({name: "gridAreaId", value: gridAreaId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/auditlogentry`;
+        let localVarPath = `/v1/MarketParticipantGridArea/GetGridAreaAuditLogEntries`;
         return this.httpClient.request<Array<GridAreaAuditLogEntryDto>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -230,10 +234,10 @@ export class MarketParticipantGridAreaHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantGridAreaPut(changeGridAreaDto?: ChangeGridAreaDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1MarketParticipantGridAreaPut(changeGridAreaDto?: ChangeGridAreaDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1MarketParticipantGridAreaPut(changeGridAreaDto?: ChangeGridAreaDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1MarketParticipantGridAreaPut(changeGridAreaDto?: ChangeGridAreaDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantGridAreaUpdateGridAreaNamePut(changeGridAreaDto?: ChangeGridAreaDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public v1MarketParticipantGridAreaUpdateGridAreaNamePut(changeGridAreaDto?: ChangeGridAreaDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public v1MarketParticipantGridAreaUpdateGridAreaNamePut(changeGridAreaDto?: ChangeGridAreaDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public v1MarketParticipantGridAreaUpdateGridAreaNamePut(changeGridAreaDto?: ChangeGridAreaDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -283,7 +287,7 @@ export class MarketParticipantGridAreaHttp {
             }
         }
 
-        let localVarPath = `/v1/MarketParticipantGridArea`;
+        let localVarPath = `/v1/MarketParticipantGridArea/UpdateGridAreaName`;
         return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,

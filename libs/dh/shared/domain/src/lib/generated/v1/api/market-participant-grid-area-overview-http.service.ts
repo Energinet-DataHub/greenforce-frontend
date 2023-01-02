@@ -95,10 +95,10 @@ export class MarketParticipantGridAreaOverviewHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantGridAreaOverviewGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<GridAreaOverviewItemDto>>;
-    public v1MarketParticipantGridAreaOverviewGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<GridAreaOverviewItemDto>>>;
-    public v1MarketParticipantGridAreaOverviewGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<GridAreaOverviewItemDto>>>;
-    public v1MarketParticipantGridAreaOverviewGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantGridAreaOverviewGetAllGridAreasGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<GridAreaOverviewItemDto>>;
+    public v1MarketParticipantGridAreaOverviewGetAllGridAreasGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<GridAreaOverviewItemDto>>>;
+    public v1MarketParticipantGridAreaOverviewGetAllGridAreasGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<GridAreaOverviewItemDto>>>;
+    public v1MarketParticipantGridAreaOverviewGetAllGridAreasGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -140,7 +140,7 @@ export class MarketParticipantGridAreaOverviewHttp {
             }
         }
 
-        let localVarPath = `/v1/MarketParticipantGridAreaOverview`;
+        let localVarPath = `/v1/MarketParticipantGridAreaOverview/GetAllGridAreas`;
         return this.httpClient.request<Array<GridAreaOverviewItemDto>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,

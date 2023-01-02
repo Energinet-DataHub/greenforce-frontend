@@ -73,7 +73,7 @@ export class ActorTokenService {
 
   public acquireToken = (): Observable<string> => {
     return this.marketParticipantUserHttp
-      .v1MarketParticipantUserActorsGet()
+      .v1MarketParticipantUserGetUserActorsGet()
       .pipe(
         tap((x) => this.actorStorage.setUserAssociatedActors(x.actorIds)),
         switchMap(() => {
@@ -130,7 +130,7 @@ export class ActorTokenService {
   }
 
   private isUserActorsRequest(request: HttpRequest<unknown>): boolean {
-    return request.url.endsWith('/v1/MarketParticipantUser/Actors');
+    return request.url.endsWith('/v1/MarketParticipantUser/GetUserActors');
   }
 
   private isTokenRequest(request: HttpRequest<unknown>): boolean {

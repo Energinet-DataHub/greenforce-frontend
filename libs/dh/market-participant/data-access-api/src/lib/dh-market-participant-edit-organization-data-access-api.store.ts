@@ -144,7 +144,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
   ) => {
     if (organizationChanges.organizationId !== undefined) {
       return this.httpClient
-        .v1MarketParticipantOrganizationPut(
+        .v1MarketParticipantOrganizationUpdateOrganizationPut(
           organizationChanges.organizationId,
           organizationChanges as ChangeOrganizationDto
         )
@@ -152,7 +152,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     }
 
     return this.httpClient
-      .v1MarketParticipantOrganizationPost(
+      .v1MarketParticipantOrganizationCreateOrganizationPost(
         organizationChanges as ChangeOrganizationDto
       )
       .pipe(
@@ -166,7 +166,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
 
   private readonly getOrganization = (organizationId: string) =>
     this.httpClient
-      .v1MarketParticipantOrganizationOrgIdGet(organizationId)
+      .v1MarketParticipantOrganizationGetOrganizationGet(organizationId)
       .pipe(
         tap((organization) =>
           this.patchState({
