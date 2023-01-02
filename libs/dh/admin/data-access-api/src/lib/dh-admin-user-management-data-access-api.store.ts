@@ -71,7 +71,10 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
       }),
       switchMap(([, state]) =>
         this.httpClient
-          .v1MarketParticipantUserOverviewGet(state.pageNumber, state.pageSize)
+          .v1MarketParticipantUserOverviewGetUserOverviewGet(
+            state.pageNumber,
+            state.pageSize
+          )
           .pipe(
             tapResponse(
               (response) => {

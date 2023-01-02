@@ -94,20 +94,22 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
 
   private readonly getOrganizations = () =>
     this.httpClient
-      .v1MarketParticipantOrganizationGet()
+      .v1MarketParticipantOrganizationGetAllOrganizationsGet()
       .pipe(map(this.mapToRows))
       .pipe(tapResponse((rows) => this.patchState({ rows }), this.handleError));
 
   private readonly getGridAreas = () =>
-    this.gridAreaHttpClient.v1MarketParticipantGridAreaGet().pipe(
-      tapResponse(
-        (gridAreas) =>
-          this.patchState({
-            gridAreas: gridAreas.sort((a, b) => a.code.localeCompare(b.code)),
-          }),
-        this.handleError
-      )
-    );
+    this.gridAreaHttpClient
+      .v1MarketParticipantGridAreaGetAllGridAreasGet()
+      .pipe(
+        tapResponse(
+          (gridAreas) =>
+            this.patchState({
+              gridAreas: gridAreas.sort((a, b) => a.code.localeCompare(b.code)),
+            }),
+          this.handleError
+        )
+      );
 
   private readonly handleError = (errorResponse: HttpErrorResponse) =>
     this.patchState({

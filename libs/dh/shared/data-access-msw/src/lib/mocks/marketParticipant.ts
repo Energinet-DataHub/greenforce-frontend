@@ -36,7 +36,7 @@ export function marketParticipantMocks(apiBase: string) {
 
 function getOrganizations(apiBase: string) {
   return rest.get(
-    `${apiBase}/v1/MarketParticipant/organization`,
+    `${apiBase}/v1/MarketParticipant/Organization/GetAllOrganizations`,
     (req, res, ctx) => {
       return res(ctx.json(organizationsData));
     }
@@ -45,12 +45,12 @@ function getOrganizations(apiBase: string) {
 
 function getOrganization(apiBase: string) {
   return rest.get(
-    `${apiBase}/v1/MarketParticipant/organization/:organizationId`,
+    `${apiBase}/v1/MarketParticipant/Organization/GetOrganization`,
     (req, res, ctx) => {
-      const { organizationId } = req.params;
+      const { orgId } = req.params;
       const organizationDataWithUpdatedId = {
         ...organizationData,
-        organizationId,
+        orgId,
       };
       return res(ctx.json(organizationDataWithUpdatedId));
     }
@@ -59,7 +59,7 @@ function getOrganization(apiBase: string) {
 
 function getMarketParticipantGridArea(apiBase: string) {
   return rest.get(
-    `${apiBase}/v1/MarketParticipantGridArea`,
+    `${apiBase}/v1/MarketParticipantGridArea/GetAllGridAreas`,
     (req, res, ctx) => {
       return res(ctx.json(gridAreaData));
     }
@@ -68,7 +68,7 @@ function getMarketParticipantGridArea(apiBase: string) {
 
 function getMarketParticipantGridAreaOverview(apiBase: string) {
   return rest.get(
-    `${apiBase}/v1/MarketParticipantGridAreaOverview`,
+    `${apiBase}/v1/MarketParticipantGridAreaOverview/GetAllGridAreas`,
     (req, res, ctx) => {
       return res(ctx.json(gridAreaOverviewData));
     }
@@ -77,7 +77,7 @@ function getMarketParticipantGridAreaOverview(apiBase: string) {
 
 function getActor(apiBase: string) {
   return rest.get(
-    `${apiBase}/v1/MarketParticipant/organization/:organizationId/actor/:actorId`,
+    `${apiBase}/v1/MarketParticipant/Organization/GetActor`,
     (req, res, ctx) => {
       const { actorId } = req.params;
       const actorDataWithUpdatedId = {
@@ -91,7 +91,7 @@ function getActor(apiBase: string) {
 
 function getActorContact(apiBase: string) {
   return rest.get(
-    `${apiBase}/v1/MarketParticipant/organization/:organizationId/actor/:actorId/contact`,
+    `${apiBase}/v1/MarketParticipant/Organization/GetContacts`,
     (req, res, ctx) => {
       return res(ctx.json(actorContactsData));
     }
