@@ -16,11 +16,11 @@
  */
 import { Component } from '@angular/core';
 
-import { DhUserManagementTabsComponent } from './user-management-tabs/dh-user-management-tabs.component';
+import { DhTabsComponent } from './tabs/dh-tabs.component';
 
 @Component({
   selector: 'dh-admin-feature-user-management',
-  template: `<dh-user-management-tabs></dh-user-management-tabs>`,
+  template: `<dh-tabs></dh-tabs>`,
   styles: [
     `
       :host {
@@ -29,6 +29,6 @@ import { DhUserManagementTabsComponent } from './user-management-tabs/dh-user-ma
     `,
   ],
   standalone: true,
-  imports: [DhUserManagementTabsComponent],
+  imports: [DhTabsComponent],
 })
 export class DhAdminFeatureUserManagementComponent {}
