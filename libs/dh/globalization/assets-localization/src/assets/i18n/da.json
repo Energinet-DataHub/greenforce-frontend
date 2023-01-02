@@ -836,6 +836,10 @@
             "singular": "{{ usersCount }} bruger",
             "plural": "{{ usersCount }} brugere"
           },
+          "userStatus": {
+            "active": "Aktiv",
+            "inactive": "Inaktiv"
+          },
           "table": {
             "columns": {
               "name": "Navn",

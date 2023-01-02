@@ -22,6 +22,8 @@ import { MatTableModule } from '@angular/material/table';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { DhCustomDataSource } from '@energinet-datahub/dh/admin/data-access-api';
 
+import { DhUserStatusComponent } from './dh-user-status.component';
+
 @Component({
   selector: 'dh-users-tab-table',
   standalone: true,
@@ -40,6 +42,7 @@ import { DhCustomDataSource } from '@energinet-datahub/dh/admin/data-access-api'
     TranslocoModule,
     DhEmDashFallbackPipeScam,
     MatTableModule,
+    DhUserStatusComponent,
   ],
 })
 export class DhUsersTabTableComponent {
