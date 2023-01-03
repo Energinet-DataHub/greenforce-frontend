@@ -23,7 +23,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LetModule, PushModule } from '@rx-angular/template';
-import { MatSelectModule } from '@angular/material/select';
 
 import { DhSelectedActorStore, Actor } from './dh-selected-actor.store';
 import { MatIconModule } from '@angular/material/icon';
@@ -37,7 +36,6 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule,
     LetModule,
     PushModule,
-    MatSelectModule,
     MatIconModule,
   ],
 })
