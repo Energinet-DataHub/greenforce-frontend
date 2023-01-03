@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <div #dropup class="actors-dropup-container watt-elevation" *rxLet="actorGroups$ as actorGroups">
-  <ng-container *ngFor="let actorGroup of actorGroups">
+  <ng-container *ngFor="let actorGroup of actorGroups; let i = index">
     <div class="organization-name-header">{{actorGroup.organizationName}}</div>
     <div class="actor-container" *ngFor="let actor of actorGroup.actors" (click)="selectActor(actor)">
       <div class="actor-container-inner">
@@ -28,6 +28,7 @@ limitations under the License.
         <mat-icon class="actor-selected-icon" fontIcon="check" *ngIf="actor.selected"></mat-icon>
       </div>
     </div>
+    <div class="organization-group-divider" *ngIf="i < actorGroups.length - 1"></div>
   </ng-container>
 </div>
 <ng-container *rxLet="selectedActor$ as selectedActor">

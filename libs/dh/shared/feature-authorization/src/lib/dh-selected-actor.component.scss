@@ -24,15 +24,19 @@
   overflow-y: auto;
 }
 
+.organization-group-divider {
+  height: 16px;
+}
+
 .organization-name-header {
   color: black;
   text-transform: uppercase;
   font-weight: 600;
-  padding: 16px 16px 0 16px;
+  padding: 10px 16px 0 16px;
 }
 
 .actor-container {
-  padding: 12px 16px 12px 16px;
+  padding: 10px 16px;
   cursor: pointer;
 }
 
@@ -55,7 +59,7 @@
   display: flex;
   flex-direction: column;
   background-color: var(--watt-on-light-low-emphasis);
-  padding: 12px 16px;
+  padding: 10px 16px;
   border-radius: 8px;
   cursor: pointer;
 }
