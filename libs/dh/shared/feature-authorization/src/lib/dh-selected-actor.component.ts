@@ -25,14 +25,14 @@ import { CommonModule } from '@angular/common';
 import { LetModule, PushModule } from '@rx-angular/template';
 
 import { DhSelectedActorStore, Actor } from './dh-selected-actor.store';
-import { MatIconModule } from '@angular/material/icon';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
 
 @Component({
   selector: 'dh-selected-actor',
   styleUrls: ['./dh-selected-actor.component.scss'],
   templateUrl: './dh-selected-actor.component.html',
   standalone: true,
-  imports: [CommonModule, LetModule, PushModule, MatIconModule],
+  imports: [CommonModule, LetModule, PushModule, WattIconModule],
 })
 export class DhSelectedActorComponent {
   actorGroups$ = this.store.actorGroups$;
