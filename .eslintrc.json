@@ -70,6 +70,7 @@
               {
                 "sourceTag": "type:data-access",
                 "onlyDependOnLibsWithTags": [
+                  "type:ui",
                   "type:data-access",
                   "type:routing",
                   "type:util",
@@ -120,6 +121,7 @@
               {
                 "sourceTag": "type:domain",
                 "onlyDependOnLibsWithTags": [
+                  "type:ui",
                   "type:domain",
                   "type:util",
                   "type:test-util"

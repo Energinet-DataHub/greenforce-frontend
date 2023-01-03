@@ -60,5 +60,5 @@
       }
     }
   },
-  "tags": ["product:watt", "type:ui", "type:data-access", "type:domain"]
+  "tags": ["product:watt", "type:ui"]
 }
