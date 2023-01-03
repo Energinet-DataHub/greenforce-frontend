@@ -20,23 +20,28 @@
   display: none;
   max-height: 512px;
   min-width: 312px;
-  border-radius: 2px;
+  border-radius: 4px;
   overflow-y: auto;
 }
 
 .organization-group-divider {
-  height: 16px;
+  height: var(--watt-space-m);
 }
 
 .organization-name-header {
   color: black;
   text-transform: uppercase;
   font-weight: 600;
-  padding: 10px 16px 0 16px;
+  padding-top: var(--watt-space-s);
+  padding-right: var(--watt-space-m);
+  padding-left: var(--watt-space-m);
 }
 
 .actor-container {
-  padding: 10px 16px;
+  padding-top: var(--watt-space-s);
+  padding-bottom: var(--watt-space-s);
+  padding-right: var(--watt-space-m);
+  padding-left: var(--watt-space-m);
   cursor: pointer;
 }
 
@@ -48,7 +53,7 @@
 
 .actor-selected-icon {
   margin-left: auto;
-  color: #00847c;
+  color: var(--watt-color-primary);
 }
 
 .actor-container:hover {
@@ -59,28 +64,30 @@
   display: flex;
   flex-direction: column;
   background-color: var(--watt-on-light-low-emphasis);
-  padding: 10px 16px;
+  padding-top: var(--watt-space-s);
+  padding-bottom: var(--watt-space-s);
+  padding-right: var(--watt-space-m);
+  padding-left: var(--watt-space-m);
   border-radius: 8px;
   cursor: pointer;
 }
 
 .selected-organization-name-label {
-  color: var(--watt-on-dark-low-emphasis);
+  color: var(--watt-on-dark-medium-emphasis);
 }
 
 .selected-gln-label {
-  color: var(--watt-on-dark-medium-emphasis);
+  color: var(--watt-on-dark-high-emphasis);
 }
 
 .selected-actor-name-label {
-  color: var(--watt-on-dark-medium-emphasis);
+  color: var(--watt-on-dark-high-emphasis);
   font-weight: 400;
   text-transform: none;
 }
 
 .actor-name-label {
-  color: var(--watt-on-light-low-emphasis);
-  font-weight: 400;
+  color: var(--watt-on-light-medium-emphasis);
   text-transform: none;
 }
 
