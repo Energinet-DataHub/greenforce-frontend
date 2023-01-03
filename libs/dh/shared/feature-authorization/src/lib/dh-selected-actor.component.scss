@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 .actors-dropup-container {
-  background-color: white;
+  background-color: var(--watt-color-neutral-white);
   position: fixed;
   display: none;
   max-height: 512px;
@@ -29,19 +29,14 @@
 }
 
 .organization-name-header {
-  color: black;
-  text-transform: uppercase;
-  font-weight: 600;
+  color: var(--watt-color-neutral-black);
   padding-top: var(--watt-space-s);
   padding-right: var(--watt-space-m);
   padding-left: var(--watt-space-m);
 }
 
 .actor-container {
-  padding-top: var(--watt-space-s);
-  padding-bottom: var(--watt-space-s);
-  padding-right: var(--watt-space-m);
-  padding-left: var(--watt-space-m);
+  padding: var(--watt-space-s) var(--watt-space-m);
   cursor: pointer;
 }
 
@@ -64,10 +59,7 @@
   display: flex;
   flex-direction: column;
   background-color: var(--watt-on-light-low-emphasis);
-  padding-top: var(--watt-space-s);
-  padding-bottom: var(--watt-space-s);
-  padding-right: var(--watt-space-m);
-  padding-left: var(--watt-space-m);
+  padding: var(--watt-space-s) var(--watt-space-m);
   border-radius: 8px;
   cursor: pointer;
 }
@@ -92,6 +84,6 @@
 }
 
 .gln-label {
-  color: black;
+  color: var(--watt-color-neutral-black);
   font-weight: 400;
 }
