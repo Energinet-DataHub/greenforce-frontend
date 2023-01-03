@@ -19,7 +19,7 @@ limitations under the License.
   class="actors-dropup-container watt-elevation"
   *rxLet="actorGroups$ as actorGroups"
 >
-  <ng-container *ngFor="let actorGroup of actorGroups; let i = index">
+  <ng-container *ngFor="let actorGroup of actorGroups">
     <div class="actor-group-container">
       <div class="watt-label organization-name-header">
         {{ actorGroup.organizationName }}
