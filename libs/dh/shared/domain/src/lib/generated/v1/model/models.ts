@@ -77,7 +77,7 @@ export * from './update-user-role-assignments-dto';
 export * from './user-audit-logs-dto';
 export * from './user-overview-item-dto';
 export * from './user-overview-result-dto';
-export * from './user-role-assignment-audit-log-entry';
+export * from './user-role-assignment-audit-log-dto';
 export * from './user-role-assignment-type-audit-log';
 export * from './user-role-dto';
 export * from './vat-classification';
