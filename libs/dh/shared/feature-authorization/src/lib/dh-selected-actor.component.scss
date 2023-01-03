@@ -14,18 +14,73 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+.actors-dropup-container {
+  background-color: white;
+  position: fixed;
+  display: none;
+  max-height: 512px;
+  min-width: 312px;
+  border-radius: 2px;
+  overflow-y: auto;
+}
+
+.organization-name-header {
+  color: black;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 16px 16px 0 16px;
+}
+
+.actor-container {
+  padding: 12px 16px 12px 16px;
+  cursor: pointer;
+}
+
+.actor-container-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.actor-selected-icon {
+  margin-left: auto;
+  color: #00847c;
+}
+
+.actor-container:hover {
+  background-color: var(--watt-color-primary-ultralight);
+}
+
 .selected-actor-container {
   display: flex;
   flex-direction: column;
   background-color: var(--watt-on-light-low-emphasis);
   padding: 12px 16px;
   border-radius: 8px;
+  cursor: pointer;
 }
 
-.organization-name-label {
+.selected-organization-name-label {
   color: var(--watt-on-dark-low-emphasis);
 }
 
-.gln-label {
+.selected-gln-label {
   color: var(--watt-on-dark-medium-emphasis);
+}
+
+.selected-actor-name-label {
+  color: var(--watt-on-dark-medium-emphasis);
+  font-weight: 400;
+  text-transform: none;
+}
+
+.actor-name-label {
+  color: var(--watt-on-light-low-emphasis);
+  font-weight: 400;
+  text-transform: none;
+}
+
+.gln-label {
+  color: black;
+  font-weight: 400;
 }
