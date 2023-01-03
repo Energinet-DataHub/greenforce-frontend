@@ -16,6 +16,6 @@
  */
 import { BatchDto } from '@energinet-datahub/dh/shared/domain';
 
-import type { WattBadgeType } from '@energinet-datahub-types/watt/badge';
+import type { WattBadgeType } from '@energinet-datahub/watt/badge';
 
 export type batch = BatchDto & { statusType: WattBadgeType };
