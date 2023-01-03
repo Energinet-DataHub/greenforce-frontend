@@ -16,5 +16,5 @@ using System.Collections.Generic;
 
 namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
 {
-    public sealed record UserAuditLogsDto(IEnumerable<UserRoleAssignmentAuditLogDto> RoleAssignments);
+    public sealed record UserAuditLogsDto(IEnumerable<UserRoleAssignmentAuditLogDto> RoleAssignmentAuditLogs);
 }
