@@ -13,7 +13,7 @@ import { UserRoleAssignmentAuditLogDto } from './user-role-assignment-audit-log-
 
 
 export interface UserAuditLogsDto { 
-    roleAssignments: Array<UserRoleAssignmentAuditLogDto>;
+    roleAssignmentAuditLogs: Array<UserRoleAssignmentAuditLogDto>;
 }
 
 
