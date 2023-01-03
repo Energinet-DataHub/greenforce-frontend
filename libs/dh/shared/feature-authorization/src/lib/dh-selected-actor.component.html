@@ -20,32 +20,30 @@ limitations under the License.
   *rxLet="actorGroups$ as actorGroups"
 >
   <ng-container *ngFor="let actorGroup of actorGroups; let i = index">
-    <div class="watt-label organization-name-header">
-      {{ actorGroup.organizationName }}
-    </div>
-    <div
-      class="actor-container"
-      *ngFor="let actor of actorGroup.actors"
-      (click)="selectActor(actor)"
-    >
-      <div class="actor-container-inner">
-        <div>
-          <div class="watt-label gln-label">{{ actor.gln }}</div>
-          <div class="watt-text-s actor-name-label">
-            {{ actor.actorName }}
+    <div class="actor-group-container">
+      <div class="watt-label organization-name-header">
+        {{ actorGroup.organizationName }}
+      </div>
+      <div
+        class="actor-container"
+        *ngFor="let actor of actorGroup.actors"
+        (click)="selectActor(actor)"
+      >
+        <div class="actor-container-inner">
+          <div>
+            <div class="watt-label gln-label">{{ actor.gln }}</div>
+            <div class="watt-text-s actor-name-label">
+              {{ actor.actorName }}
+            </div>
           </div>
+          <watt-icon
+            class="actor-selected-icon"
+            name="checkmark"
+            *ngIf="actor.selected"
+          ></watt-icon>
         </div>
-        <watt-icon
-          class="actor-selected-icon"
-          name="checkmark"
-          *ngIf="actor.selected"
-        ></watt-icon>
       </div>
     </div>
-    <div
-      class="organization-group-divider"
-      *ngIf="i < actorGroups.length - 1"
-    ></div>
   </ng-container>
 </div>
 <ng-container *rxLet="selectedActor$ as selectedActor">

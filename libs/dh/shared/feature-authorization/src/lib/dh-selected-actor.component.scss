@@ -24,8 +24,8 @@
   overflow-y: auto;
 }
 
-.organization-group-divider {
-  height: var(--watt-space-m);
+.actor-group-container:not(:last-child) {
+  padding-bottom: var(--watt-space-m);
 }
 
 .organization-name-header {
