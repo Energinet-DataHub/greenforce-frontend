@@ -32,12 +32,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./dh-selected-actor.component.scss'],
   templateUrl: './dh-selected-actor.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    LetModule,
-    PushModule,
-    MatIconModule,
-  ],
+  imports: [CommonModule, LetModule, PushModule, MatIconModule],
 })
 export class DhSelectedActorComponent {
   actorGroups$ = this.store.actorGroups$;

@@ -25,19 +25,32 @@ limitations under the License.
             {{ actor.actorName }}
           </div>
         </div>
-        <mat-icon class="actor-selected-icon" fontIcon="check" *ngIf="actor.selected"></mat-icon>
+        <mat-icon
+          class="actor-selected-icon"
+          fontIcon="check"
+          *ngIf="actor.selected"
+        ></mat-icon>
       </div>
     </div>
     <div class="organization-group-divider" *ngIf="i < actorGroups.length - 1"></div>
   </ng-container>
 </div>
 <ng-container *rxLet="selectedActor$ as selectedActor">
-  <div #dropupButton class="selected-actor-container" *ngIf="!(isLoading$ | push)" (click)="onClick($event)">
+  <div
+    #dropupButton
+    class="selected-actor-container"
+    *ngIf="!(isLoading$ | push)"
+    (click)="onClick($event)"
+  >
     <div class="watt-label selected-organization-name-label">
       {{ selectedActor.organizationName }}
     </div>
     <div class="watt-label selected-gln-label">{{ selectedActor.gln }}</div>
-    <div class="watt-label selected-actor-name-label" *ngIf="selectedActor.actorName">{{ selectedActor.actorName }}
+    <div
+      class="watt-label selected-actor-name-label"
+      *ngIf="selectedActor.actorName"
+    >
+      {{ selectedActor.actorName }}
     </div>
   </div>
 </ng-container>
