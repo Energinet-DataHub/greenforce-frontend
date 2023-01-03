@@ -13,10 +13,12 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -25,11 +27,13 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public class MarketParticipantUserController : MarketParticipantControllerBase
     {
-        private readonly IMarketParticipantClient _client;
+        private readonly IMarketParticipantClient _marketParticipantClient;
+        private readonly IMarketParticipantUserRoleClient _marketParticipantUserRoleClient;
 
-        public MarketParticipantUserController(IMarketParticipantClient client)
+        public MarketParticipantUserController(IMarketParticipantClient marketParticipantClient, IMarketParticipantUserRoleClient marketParticipantUserRoleClient)
         {
-            _client = client;
+            _marketParticipantClient = marketParticipantClient;
+            _marketParticipantUserRoleClient = marketParticipantUserRoleClient;
         }
 
         /// <summary>
@@ -41,7 +45,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             var externalToken = HttpContext.Request.Headers["Authorization"].Single();
             externalToken = externalToken.Replace("Bearer ", string.Empty);
-            return HandleExceptionAsync(() => _client.GetUserActorsAsync(externalToken));
+            return HandleExceptionAsync(() => _marketParticipantClient.GetUserActorsAsync(externalToken));
         }
 
         /// <summary>
@@ -51,17 +55,46 @@ namespace Energinet.DataHub.WebApi.Controllers
         [Route("GetUserActorsByUserId")]
         public Task<ActionResult<GetAssociatedUserActorsResponseDto>> GetUserActorsByUserIdAsync(Guid userId)
         {
-            return HandleExceptionAsync(() => _client.GetUserActorsAsync(userId));
+            return HandleExceptionAsync(() => _marketParticipantClient.GetUserActorsAsync(userId));
         }
 
         /// <summary>
         ///     Retrieves the audit log history for the specified user.
         /// </summary>
         [HttpGet]
-        [Route("GetUserHistory")]
-        public Task<ActionResult<UserAuditLogsDto>> GetUserHistoryAsync(Guid userId)
+        [Route("GetUserAuditLogs")]
+        public Task<ActionResult<MarketParticipant.Dto.UserAuditLogsDto>> GetUserAuditLogsAsync(Guid userId)
         {
-            return HandleExceptionAsync(() => _client.GetUserAuditLogsAsync(userId));
+            return HandleExceptionAsync(async () =>
+            {
+                var auditLogs = await _marketParticipantClient
+                    .GetUserAuditLogsAsync(userId)
+                    .ConfigureAwait(false);
+
+                var roleAssignmentAuditLogs = new List<UserRoleAssignmentAuditLogDto>();
+
+                foreach (var auditLog in auditLogs.UserRoleAssignmentAuditLogs)
+                {
+                    var userDto = await _marketParticipantClient
+                        .GetUserAsync(auditLog.ChangedByUserId)
+                        .ConfigureAwait(false);
+
+                    var userRoleDto = await _marketParticipantUserRoleClient
+                        .GetAsync(auditLog.UserRoleId)
+                        .ConfigureAwait(false);
+
+                    roleAssignmentAuditLogs.Add(new UserRoleAssignmentAuditLogDto(
+                        auditLog.ActorId,
+                        auditLog.UserRoleId,
+                        userRoleDto.Name,
+                        auditLog.ChangedByUserId,
+                        userDto.Name,
+                        auditLog.Timestamp,
+                        auditLog.AssignmentType));
+                }
+
+                return new MarketParticipant.Dto.UserAuditLogsDto(roleAssignmentAuditLogs);
+            });
         }
     }
 }
