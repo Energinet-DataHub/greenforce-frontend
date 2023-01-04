@@ -23,6 +23,7 @@ limitations under the License.
     <dh-users-tab
       [users]="users$ | push"
       [totalUserCount]="totalUserCount$ | push"
+      [isTablePageLoading]="isTablePageLoading$ | push"
       [pageIndex]="pageIndex$ | push"
       [pageSize]="pageSize$ | push"
       (pageChange)="onPageChange($event)"
@@ -33,7 +34,7 @@ limitations under the License.
 <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
   <div *ngIf="hasGeneralError" class="users-overview__error">
     <dh-users-tab-general-error
-      (reload)="reloadUsers()"
+      (reload)="reloadInitialPage()"
     ></dh-users-tab-general-error>
   </div>
 </ng-container>

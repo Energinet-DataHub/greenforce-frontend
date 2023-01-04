@@ -34,6 +34,8 @@ interface DhUserManagementState {
   readonly requestState: LoadingState | ErrorState;
   readonly pageNumber: number;
   readonly pageSize: number;
+  readonly tablePageRequestState: LoadingState;
+  readonly hasInitialPageLoaded: boolean;
 }
 
 const initialState: DhUserManagementState = {
@@ -42,6 +44,8 @@ const initialState: DhUserManagementState = {
   requestState: LoadingState.INIT,
   pageNumber: 1,
   pageSize: 50,
+  tablePageRequestState: LoadingState.INIT,
+  hasInitialPageLoaded: false,
 };
 
 @Injectable()
@@ -52,6 +56,9 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
   );
   hasGeneralError$ = this.select(
     (state) => state.requestState === ErrorState.GENERAL_ERROR
+  );
+  isTablePageLoading$ = this.select(
+    (state) => state.tablePageRequestState === LoadingState.LOADING
   );
 
   users$ = this.select((state) => state.users);
@@ -69,8 +76,15 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
   readonly getUsers = this.effect((trigger$: Observable<void>) =>
     trigger$.pipe(
       withLatestFrom(this.state$),
-      tap(() => {
-        this.setLoading(LoadingState.LOADING);
+      tap(([, state]) => {
+        if (state.hasInitialPageLoaded === false) {
+          this.setLoading(LoadingState.LOADING);
+        }
+
+        this.patchState({
+          tablePageRequestState: LoadingState.LOADING,
+          users: [],
+        });
       }),
       switchMap(([, state]) =>
         this.httpClient
@@ -81,12 +95,30 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
           .pipe(
             tapResponse(
               (response) => {
-                this.setLoading(LoadingState.LOADED);
+                if (state.hasInitialPageLoaded === false) {
+                  this.patchState({
+                    requestState: LoadingState.LOADED,
+                    hasInitialPageLoaded: true,
+                  });
+                }
+
+                this.patchState({
+                  tablePageRequestState: LoadingState.LOADED,
+                });
 
                 this.updateUsers(response);
               },
               () => {
-                this.setLoading(LoadingState.LOADED);
+                if (state.hasInitialPageLoaded === false) {
+                  this.patchState({
+                    requestState: LoadingState.LOADED,
+                    hasInitialPageLoaded: true,
+                  });
+                }
+
+                this.patchState({
+                  tablePageRequestState: LoadingState.LOADED,
+                });
 
                 this.handleError();
               }
@@ -133,7 +165,11 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     this.patchState({ requestState: ErrorState.GENERAL_ERROR });
   };
 
-  private resetState = () => this.setState(initialState);
+  readonly reloadInitialPage = () => {
+    this.patchState({ hasInitialPageLoaded: false });
+
+    this.getUsers();
+  };
 
   ngrxOnStoreInit(): void {
     this.getUsers();

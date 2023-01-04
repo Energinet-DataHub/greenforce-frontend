@@ -24,8 +24,14 @@ h4 {
   margin: 0;
 }
 
-.card-title-container {
+.card-title__container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.users-table__spinner {
+  display: flex;
+  justify-content: center;
+  padding: var(--watt-space-l) 0;
 }

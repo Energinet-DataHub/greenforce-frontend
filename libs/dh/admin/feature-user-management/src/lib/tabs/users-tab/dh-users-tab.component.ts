@@ -26,6 +26,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 
@@ -41,6 +42,7 @@ import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
     CommonModule,
     TranslocoModule,
     WattCardModule,
+    WattSpinnerModule,
     DhUsersTabTableComponent,
     DhSharedUiPaginatorComponent,
   ],
@@ -48,6 +50,8 @@ import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
 export class DhUsersTabComponent {
   @Input() users: UserOverviewItemDto[] = [];
   @Input() totalUserCount!: number;
+
+  @Input() isTablePageLoading!: boolean;
 
   @Input() pageSize!: number;
   @Input() pageIndex!: number;

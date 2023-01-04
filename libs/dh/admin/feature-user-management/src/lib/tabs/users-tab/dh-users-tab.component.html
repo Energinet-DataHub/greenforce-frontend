@@ -17,7 +17,7 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
   <watt-card>
     <watt-card-title>
-      <div class="card-title-container">
+      <div class="card-title__container">
         <ng-container
           *ngTemplateOutlet="
             usersHeadline;
@@ -38,6 +38,10 @@ limitations under the License.
     </watt-card-title>
 
     <dh-users-tab-table></dh-users-tab-table>
+
+    <div *ngIf="isTablePageLoading" class="users-table__spinner">
+      <watt-spinner></watt-spinner>
+    </div>
   </watt-card>
 </ng-container>
 

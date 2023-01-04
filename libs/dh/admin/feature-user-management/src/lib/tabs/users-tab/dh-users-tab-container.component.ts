@@ -66,6 +66,7 @@ export class DhUsersTabContainerComponent {
   users$ = this.store.users$;
   totalUserCount$ = this.store.totalUserCount$;
 
+  isTablePageLoading$ = this.store.isTablePageLoading$;
   pageIndex$ = this.store.paginatorPageIndex$;
   pageSize$ = this.store.pageSize$;
 
@@ -79,7 +80,7 @@ export class DhUsersTabContainerComponent {
     });
   }
 
-  reloadUsers(): void {
-    this.store.getUsers();
+  reloadInitialPage(): void {
+    this.store.reloadInitialPage();
   }
 }
