@@ -18,13 +18,13 @@
 import { Inject, Injectable } from '@angular/core';
 import { MarketParticipantActorQueryHttp } from '@energinet-datahub/dh/shared/domain';
 import { ComponentStore } from '@ngrx/component-store';
-import { Observable, switchMap, tap } from 'rxjs';
+import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import { ActorStorage, actorStorageToken } from './actor-storage';
 
 export type SelectedActorState = {
   isLoading: boolean;
   actorGroups: ActorGroup[];
-  selectedActor: Actor;
+  selectedActor: Actor | null;
 };
 
 export type ActorGroup = {
@@ -41,29 +41,28 @@ export type Actor = {
   [key: string]: unknown;
 };
 
+const initialState = {
+  isLoading: true,
+  actorGroups: [],
+  selectedActor: null,
+};
+
 @Injectable({
   providedIn: 'root',
 })
 export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
   actorGroups$ = this.select((state) => state.actorGroups);
-  selectedActor$ = this.select((state) => state.selectedActor);
+  selectedActor$ = this.select((state) => state.selectedActor).pipe(
+    filter((actor) => !!actor),
+    map((actor) => actor as Actor)
+  );
   isLoading$ = this.select((state) => state.isLoading);
 
   constructor(
     private client: MarketParticipantActorQueryHttp,
     @Inject(actorStorageToken) private actorStorage: ActorStorage
   ) {
-    super({
-      isLoading: true,
-      actorGroups: [],
-      selectedActor: {
-        id: '',
-        gln: '',
-        actorName: '',
-        organizationName: '',
-        selected: false,
-      },
-    });
+    super(initialState);
   }
 
   readonly init = this.effect((trigger$: Observable<void>) => {
