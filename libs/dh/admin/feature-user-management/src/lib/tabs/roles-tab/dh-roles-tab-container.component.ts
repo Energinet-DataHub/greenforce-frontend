@@ -43,7 +43,7 @@ export class DhRolesTabContainerComponent {
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
-  reloadUsers(): void {
-    this.store.getUsers();
+  getRoles(): void {
+    this.store.getRoles();
   }
 }
