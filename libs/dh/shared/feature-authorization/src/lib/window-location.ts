@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { InjectionToken } from "@angular/core";
+import { InjectionToken } from '@angular/core';
 
 export const windowLocationToken = new InjectionToken<Location>(
   'windowLocationToken',
