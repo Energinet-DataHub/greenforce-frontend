@@ -14,15 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  ElementRef,
-  ViewChild,
-  Renderer2,
-  HostListener,
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LetModule, PushModule } from '@rx-angular/template';
+import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 
 import { DhSelectedActorStore, Actor } from './dh-selected-actor.store';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
@@ -32,47 +27,27 @@ import { WattIconModule } from '@energinet-datahub/watt/icon';
   styleUrls: ['./dh-selected-actor.component.scss'],
   templateUrl: './dh-selected-actor.component.html',
   standalone: true,
-  imports: [CommonModule, LetModule, PushModule, WattIconModule],
+  imports: [CommonModule, LetModule, PushModule, WattIconModule, OverlayModule],
 })
 export class DhSelectedActorComponent {
   actorGroups$ = this.store.actorGroups$;
   selectedActor$ = this.store.selectedActor$;
   isLoading$ = this.store.isLoading$;
+  isOpen = false;
+  positionPairs: ConnectionPositionPair[] = [
+    {
+      offsetX: 0,
+      offsetY: -8,
+      originX: 'start',
+      originY: 'top',
+      overlayX: 'start',
+      overlayY: 'bottom',
+    },
+  ];
 
-  @ViewChild('dropup') dropupRef!: ElementRef;
-  @ViewChild('dropupButton') dropupButtonRef!: ElementRef;
-
-  constructor(
-    private store: DhSelectedActorStore,
-    private renderer: Renderer2
-  ) {
+  constructor(private store: DhSelectedActorStore) {
     this.store.init();
   }
 
-  @HostListener('document:click', ['$event']) onDocumentClick() {
-    const dropup = this.dropupRef.nativeElement as HTMLElement;
-    this.renderer.setStyle(dropup, 'display', 'none');
-  }
-
   selectActor = (actor: Actor) => this.store.setSelectedActor(actor.id);
-
-  onClick = (event: Event) => {
-    // don't propagate as host listener will close the popup immediately
-    event.stopImmediatePropagation();
-
-    const dropup = this.dropupRef.nativeElement as HTMLElement;
-    const dropupButton = this.dropupButtonRef.nativeElement as HTMLElement;
-
-    const buttonBounds = dropupButton.getBoundingClientRect();
-
-    this.renderer.setStyle(dropup, 'display', 'block');
-    this.renderer.setStyle(dropup, 'left', `${buttonBounds.left}px`);
-
-    const dropupBounds = dropup.getBoundingClientRect();
-    this.renderer.setStyle(
-      dropup,
-      'top',
-      `${buttonBounds.top - dropupBounds.height - 8}px`
-    );
-  };
 }
