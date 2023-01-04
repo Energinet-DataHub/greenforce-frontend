@@ -14,21 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
-import { DhTabsComponent } from './tabs/dh-tabs.component';
-
-@Component({
-  selector: 'dh-admin-feature-user-management',
-  template: `<dh-tabs></dh-tabs>`,
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  standalone: true,
-  imports: [DhTabsComponent],
-})
-export class DhAdminFeatureUserManagementComponent {}
+@Injectable({ providedIn: 'root' })
+export class WattPaginatorIntlService {
+  readonly changes: Subject<void> = new Subject<void>();
+  description = 'Select page';
+  itemsPerPage = 'Results per page';
+  nextPage = 'Next page';
+  previousPage = 'Previous page';
+  firstPage = 'First page';
+  lastPage = 'Last page';
+  of = 'of';
+}

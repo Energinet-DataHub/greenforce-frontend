@@ -23,9 +23,9 @@ import { DhUsersTabContainerComponent } from './users-tab/dh-users-tab-container
 import { DhRolesTabContainerComponent } from './roles-tab/dh-roles-tab-container.component';
 
 @Component({
-  selector: 'dh-user-management-tabs',
+  selector: 'dh-tabs',
   standalone: true,
-  templateUrl: './dh-user-management-tabs.component.html',
+  templateUrl: './dh-tabs.component.html',
   styles: [
     `
       :host {
@@ -35,4 +35,4 @@ import { DhRolesTabContainerComponent } from './roles-tab/dh-roles-tab-container
   ],
   imports: [TranslocoModule, WattTabsModule, DhUsersTabContainerComponent, DhRolesTabContainerComponent],
 })
-export class DhUserManagementTabsComponent {}
+export class DhTabsComponent {}

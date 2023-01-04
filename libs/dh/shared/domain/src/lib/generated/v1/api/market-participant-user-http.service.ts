@@ -233,10 +233,10 @@ export class MarketParticipantUserHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserGetUserHistoryGet(userId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<UserAuditLogsDto>;
-    public v1MarketParticipantUserGetUserHistoryGet(userId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<UserAuditLogsDto>>;
-    public v1MarketParticipantUserGetUserHistoryGet(userId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<UserAuditLogsDto>>;
-    public v1MarketParticipantUserGetUserHistoryGet(userId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserGetUserAuditLogsGet(userId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<UserAuditLogsDto>;
+    public v1MarketParticipantUserGetUserAuditLogsGet(userId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<UserAuditLogsDto>>;
+    public v1MarketParticipantUserGetUserAuditLogsGet(userId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<UserAuditLogsDto>>;
+    public v1MarketParticipantUserGetUserAuditLogsGet(userId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (userId !== undefined && userId !== null) {
@@ -284,7 +284,7 @@ export class MarketParticipantUserHttp {
             }
         }
 
-        let localVarPath = `/v1/MarketParticipantUser/GetUserHistory`;
+        let localVarPath = `/v1/MarketParticipantUser/GetUserAuditLogs`;
         return this.httpClient.request<UserAuditLogsDto>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,

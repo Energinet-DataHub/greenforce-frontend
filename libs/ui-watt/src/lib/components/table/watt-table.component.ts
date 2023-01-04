@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { SelectionModel } from '@angular/cdk/collections';
+import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { CommonModule, KeyValue } from '@angular/common';
 import {
   AfterViewInit,
@@ -44,7 +44,6 @@ import {
 import { MatTableModule } from '@angular/material/table';
 import { map, type Subscription } from 'rxjs';
 import { WattCheckboxModule } from '../checkbox';
-import { WattTableDataSource } from './watt-table-data-source';
 
 export interface WattTableColumn<T> {
   /**
@@ -120,6 +119,12 @@ export class WattTableCellDirective<T> {
   }
 }
 
+export interface WattSortableDataSource<T> extends DataSource<T> {
+  filteredData: T[];
+  sort?: MatSort | null;
+  sortingDataAccessor?: (row: T, sortHeaderId: string) => string | number;
+}
+
 /**
  * Usage:
  * `import { WATT_TABLE } from '@energinet-datahub/watt/table';`
@@ -145,7 +150,7 @@ export class WattTableComponent<T>
    * The table's source of data. Property should not be changed after
    * initialization, instead update the data on the instance itself.
    */
-  @Input() dataSource!: WattTableDataSource<T>;
+  @Input() dataSource!: WattSortableDataSource<T>;
 
   /**
    * Column definition record with keys representing the column identifiers

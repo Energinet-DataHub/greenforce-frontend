@@ -14,21 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import 'jest-preset-angular/setup-jest';
 
-import { DhTabsComponent } from './tabs/dh-tabs.component';
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-@Component({
-  selector: 'dh-admin-feature-user-management',
-  template: `<dh-tabs></dh-tabs>`,
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  standalone: true,
-  imports: [DhTabsComponent],
-})
-export class DhAdminFeatureUserManagementComponent {}
+setUpTestbed();
