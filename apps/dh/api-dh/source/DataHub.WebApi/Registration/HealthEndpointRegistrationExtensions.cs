@@ -23,16 +23,24 @@ namespace Energinet.DataHub.WebApi.Registration
         public static IServiceCollection SetupHealthEndpoints(this IServiceCollection services, ApiClientSettings apiClientSettingsService)
         {
             const string liveEndpointPath = "/monitor/live";
+            var chargesLiveHealthUrl = apiClientSettingsService.ChargesBaseUrl == string.Empty
+                ? throw new ArgumentException()
+                : new Uri(apiClientSettingsService.ChargesBaseUrl + liveEndpointPath);
             var marketParticipantLiveHealthUrl = apiClientSettingsService.MarketParticipantBaseUrl == string.Empty
                 ? throw new ArgumentException()
                 : new Uri(apiClientSettingsService.MarketParticipantBaseUrl + liveEndpointPath);
+            var messageArchiveLiveHealthUrl = apiClientSettingsService.MessageArchiveBaseUrl == string.Empty
+                ? throw new ArgumentException()
+                : new Uri(apiClientSettingsService.MessageArchiveBaseUrl + liveEndpointPath);
             var wholesaleLiveHealthUrl = apiClientSettingsService.WholesaleBaseUrl == string.Empty
                 ? throw new ArgumentException()
                 : new Uri(apiClientSettingsService.WholesaleBaseUrl + liveEndpointPath);
 
             services.AddHealthChecks()
                 .AddLiveCheck()
+                .AddServiceHealthCheck("charges", chargesLiveHealthUrl)
                 .AddServiceHealthCheck("marketParticipant", marketParticipantLiveHealthUrl)
+                .AddServiceHealthCheck("messageArchive", messageArchiveLiveHealthUrl)
                 .AddServiceHealthCheck("wholesale", wholesaleLiveHealthUrl);
 
             return services;
