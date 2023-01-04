@@ -20,6 +20,7 @@ import { MarketParticipantActorQueryHttp } from '@energinet-datahub/dh/shared/do
 import { ComponentStore } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import { ActorStorage, actorStorageToken } from './actor-storage';
+import { windowLocationToken } from './window-location';
 
 export type SelectedActorState = {
   isLoading: boolean;
@@ -60,7 +61,8 @@ export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
 
   constructor(
     private client: MarketParticipantActorQueryHttp,
-    @Inject(actorStorageToken) private actorStorage: ActorStorage
+    @Inject(actorStorageToken) private actorStorage: ActorStorage,
+    @Inject(windowLocationToken) private windowLocation: Location
   ) {
     super(initialState);
   }
@@ -115,7 +117,7 @@ export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
 
   public setSelectedActor(actorId: string) {
     this.actorStorage.setSelectedActor(actorId);
-    window.location.reload();
+    this.windowLocation.reload();
   }
 
   // todo mjm: shared helper function maybe?
