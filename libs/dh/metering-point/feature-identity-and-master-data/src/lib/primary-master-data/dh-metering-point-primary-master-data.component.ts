@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -44,18 +39,13 @@ export type PrimaryMasterData = Pick<
 >;
 
 @Component({
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-primary-master-data',
   styleUrls: ['./dh-metering-point-primary-master-data.component.scss'],
   templateUrl: './dh-metering-point-primary-master-data.component.html',
+  imports: [CommonModule, TranslocoModule, DhEmDashFallbackPipeScam],
 })
 export class DhMeteringPointPrimaryMasterDataComponent {
   @Input() primaryMasterData?: PrimaryMasterData;
 }
-
-@NgModule({
-  declarations: [DhMeteringPointPrimaryMasterDataComponent],
-  imports: [CommonModule, TranslocoModule, DhEmDashFallbackPipeScam],
-  exports: [DhMeteringPointPrimaryMasterDataComponent],
-})
-export class DhMeteringPointPrimaryMasterDataScam {}
