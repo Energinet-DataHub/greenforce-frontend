@@ -29,7 +29,6 @@ import { emDash } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   DhMeteringPointPrimaryMasterDataComponent,
-  DhMeteringPointPrimaryMasterDataScam,
   PrimaryMasterData,
 } from './dh-metering-point-primary-master-data.component';
 
@@ -57,11 +56,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
         componentProperties: {
           primaryMasterData,
         },
-        imports: [
-          NoopAnimationsModule,
-          getTranslocoTestingModule(),
-          DhMeteringPointPrimaryMasterDataScam,
-        ],
+        imports: [NoopAnimationsModule, getTranslocoTestingModule()],
       }
     );
 
