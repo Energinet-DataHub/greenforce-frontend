@@ -31,10 +31,7 @@ import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { emDash } from '@energinet-datahub/dh/shared/ui-util';
 
-import {
-  DhSecondaryMasterDataComponent,
-  DhSecondaryMasterDataComponentScam,
-} from './dh-secondary-master-data.component';
+import { DhSecondaryMasterDataComponent } from './dh-secondary-master-data.component';
 
 const meteringPointMock = {
   meteringPointType: MeteringPointType.E17,
@@ -48,10 +45,7 @@ describe(DhSecondaryMasterDataComponent.name, () => {
       componentProperties: {
         secondaryMasterData,
       },
-      imports: [
-        DhSecondaryMasterDataComponentScam,
-        getTranslocoTestingModule(),
-      ],
+      imports: [getTranslocoTestingModule()],
     });
 
     runOnPushChangeDetection(fixture);
