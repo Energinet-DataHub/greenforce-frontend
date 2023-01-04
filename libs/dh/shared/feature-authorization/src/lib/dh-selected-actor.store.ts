@@ -81,7 +81,7 @@ export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
               .map((x) => ({
                 id: x.id,
                 gln: x.gln,
-                actorName: actor.actorName,
+                actorName: x.actorName,
                 organizationName: x.organizationName,
                 selected: x.id === actorId,
               }))
