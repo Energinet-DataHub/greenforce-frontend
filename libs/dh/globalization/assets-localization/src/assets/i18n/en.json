@@ -830,8 +830,8 @@
       },
       "topBarTitle": "User management",
       "tabs": {
-        "basicdata": {
-          "tabLabel": "Basicdata",
+        "masterData": {
+          "tabLabel": "Master data",
           "name": "Name",
           "email": "Email",
           "phone": "Phone"

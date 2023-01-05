@@ -18,16 +18,15 @@ import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
-
-import { DhUserBasicdataComponent } from './content/dh-user-basicdata.component';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
+import { DhUserMasterDataComponent } from './content/dh-user-master-data.component';
+
 @Component({
-  selector: 'dh-user-management-drawer-tabs',
+  selector: 'dh-drawer-tabs',
   standalone: true,
-  templateUrl: './dh-tabs.component.html',
-  styles: [``],
-  imports: [TranslocoModule, WattTabsModule, DhUserBasicdataComponent],
+  templateUrl: './dh-drawer-tabs.component.html',
+  imports: [TranslocoModule, WattTabsModule, DhUserMasterDataComponent],
 })
 export class DhTabsComponent {
   @Input() user: UserOverviewItemDto | null = null;
