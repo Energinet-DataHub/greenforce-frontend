@@ -833,6 +833,10 @@
         "active": "aktiv"
       },
       "topBarTitle": "Brugeradministration",
+      "userStatus": {
+        "active": "Aktiv",
+        "inactive": "Inaktiv"
+      },
       "tabs": {
         "masterData": {
           "tabLabel": "Stamdata",
@@ -848,10 +852,6 @@
           "usersHeadline": {
             "singular": "{{ usersCount }} bruger",
             "plural": "{{ usersCount }} brugere"
-          },
-          "userStatus": {
-            "active": "Aktiv",
-            "inactive": "Inaktiv"
           },
           "table": {
             "columns": {
