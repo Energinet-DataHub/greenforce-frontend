@@ -19,7 +19,7 @@ limitations under the License.
   name="search-form"
   (ngSubmit)="onSubmit()"
 >
-  <watt-form-field size="large">
+  <watt-form-field>
     <watt-label>{{ transloco("searchLabel") }}</watt-label>
     <watt-icon name="search" wattPrefix></watt-icon>
     <input
@@ -42,11 +42,7 @@ limitations under the License.
       (click)="onSearchInputClear()"
     ></watt-button>
   </watt-form-field>
-  <watt-button
-    variant="primary"
-    type="submit"
-    size="large"
-    [loading]="loading"
-    >{{ transloco("searchButton") }}</watt-button
-  >
+  <watt-button variant="primary" type="submit" [loading]="loading">{{
+    transloco("searchButton")
+  }}</watt-button>
 </form>

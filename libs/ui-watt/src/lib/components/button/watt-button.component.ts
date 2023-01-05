@@ -30,7 +30,6 @@ export const WattButtonTypes = [
   'icon',
 ] as const;
 export type WattButtonVariant = typeof WattButtonTypes[number];
-export type WattButtonSize = 'normal' | 'large';
 export type WattButtonType = 'button' | 'reset' | 'submit';
 
 @Component({
@@ -39,7 +38,7 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
   template: `
     <button
       mat-button
-      class="watt-button--{{ variant }} watt-button--{{ size }}"
+      class="watt-button--{{ variant }}"
       [disabled]="disabled"
       [type]="type"
     >
@@ -61,7 +60,6 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
 export class WattButtonComponent {
   @Input() icon?: WattIcon;
   @Input() variant: WattButtonVariant = 'primary';
-  @Input() size: WattButtonSize = 'normal';
   @Input() type: WattButtonType = 'button';
   @Input() disabled = false;
   @Input() loading = false;
