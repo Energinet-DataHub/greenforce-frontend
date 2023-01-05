@@ -23,6 +23,7 @@ import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { DhUserRolesTabComponent } from "./dh-roles-tab.component";
 import { DhTabDataGeneralErrorComponent } from "../general-error/dh-tab-data-general-error.component";
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
     selector: 'dh-roles-tab-container',
@@ -63,11 +64,18 @@ export class DhRolesTabContainerComponent {
 
   roles$ = this.store.roles$;
   totalUserRolesCount$ = this.store.totalUserCount$;
-  pageSize = this.store.pageSize$;
-  pageNumber = this.store.paginatorPageIndex$;
+  pageSize$ = this.store.pageSize$;
+  pageNumber$ = this.store.paginatorPageIndex$;
 
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
+
+  onPageChange(event: PageEvent): void {
+    this.store.updatePageMetadata({
+      pageIndex: event.pageIndex,
+      pageSize: event.pageSize,
+    });
+  }
 
   reloadRoles(): void {
     this.store.getRoles();
