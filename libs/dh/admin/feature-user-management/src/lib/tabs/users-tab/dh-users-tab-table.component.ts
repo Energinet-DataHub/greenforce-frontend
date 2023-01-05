@@ -35,6 +35,10 @@ import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
       :host {
         display: block;
       }
+
+      ::ng-deep .mat-row.clickable:hover {
+        background-color: var(--watt-color-neutral-grey-100);
+      }
     `,
   ],
   // Using `OnPush` causes issues with table's header row translations

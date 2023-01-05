@@ -46,6 +46,7 @@ limitations under the License.
 
     <mat-row
       *matRowDef="let row; columns: displayedColumns"
+      class="clickable"
       (click)="onRowClick(row)"
     ></mat-row>
   </mat-table>
