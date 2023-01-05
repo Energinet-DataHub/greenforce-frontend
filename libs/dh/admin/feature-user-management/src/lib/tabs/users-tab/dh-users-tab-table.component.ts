@@ -23,7 +23,7 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { DhCustomDataSource } from '@energinet-datahub/dh/admin/data-access-api';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
-import { DhUserStatusComponent } from './dh-user-status.component';
+import { DhUserStatusComponent } from '../../shared/dh-user-status.component';
 import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
 
 @Component({

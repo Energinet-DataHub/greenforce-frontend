@@ -16,16 +16,21 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.drawer'">
   <watt-drawer #drawer size="large" (closed)="onClose()">
-    <watt-drawer-topbar>
-      <watt-badge type="success">{{ t("active") }}</watt-badge>
-    </watt-drawer-topbar>
+    <watt-drawer-topbar></watt-drawer-topbar>
 
     <watt-drawer-actions>
       <watt-button variant="secondary">{{ t("edit") }}</watt-button>
     </watt-drawer-actions>
 
     <watt-drawer-content *ngIf="drawer.opened">
-      <h1>{{ selectedUser?.name }}</h1>
+      <div class="user-name__grid">
+        <h2 class="user-name__headline">{{ selectedUser?.name }}</h2>
+        <dh-user-status
+          *ngIf="selectedUser"
+          [isActive]="selectedUser.active"
+        ></dh-user-status>
+      </div>
+
       <dh-drawer-tabs [user]="selectedUser"></dh-drawer-tabs>
     </watt-drawer-content>
   </watt-drawer>

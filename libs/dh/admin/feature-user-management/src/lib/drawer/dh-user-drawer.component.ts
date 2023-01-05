@@ -23,10 +23,10 @@ import {
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
+import { DhUserStatusComponent } from '../shared/dh-user-status.component';
 
 @Component({
   selector: 'dh-user-drawer',
@@ -34,8 +34,15 @@ import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
   templateUrl: './dh-user-drawer.component.html',
   styles: [
     `
-      h1 {
-        margin-top: 0;
+      .user-name__grid {
+        display: flex;
+        align-items: center;
+        gap: var(--watt-space-s);
+        margin-bottom: 28px; /* Magic UX number */
+      }
+
+      .user-name__headline {
+        margin: 0;
       }
     `,
   ],
@@ -45,7 +52,7 @@ import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
     WattDrawerModule,
     WattButtonModule,
     DhTabsComponent,
-    WattBadgeComponent,
+    DhUserStatusComponent,
   ],
 })
 export class DhUserDrawerComponent {
