@@ -19,31 +19,57 @@ import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { LetModule, PushModule } from '@rx-angular/template';
 
-import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { DhUserRolesTabComponent } from "./dh-roles-tab.component";
+import { DhTabDataGeneralErrorComponent } from "../general-error/dh-tab-data-general-error.component";
 
 @Component({
-  selector: 'dh-roles-tab-container',
-  standalone: true,
-  templateUrl: './dh-roles-tab-container.component.html',
-  styles: [],
-  providers: [provideComponentStore(DhAdminUserManagementDataAccessApiStore)],
-  imports: [
-    CommonModule,
-    LetModule,
-    PushModule,
-    WattSpinnerModule
-  ],
+    selector: 'dh-roles-tab-container',
+    standalone: true,
+    templateUrl: './dh-roles-tab-container.component.html',
+    styles: [
+        `
+        :host {
+          background-color: var(--watt-color-neutral-white);
+          display: block;
+        }
+
+        .user-roles {
+          &__spinner {
+            display: flex;
+            justify-content: center;
+            padding: var(--watt-space-l) 0;
+          }
+
+          &__error {
+            padding: var(--watt-space-xl) 0;
+          }
+        }
+      `,
+    ],
+    providers: [provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore)],
+    imports: [
+        CommonModule,
+        LetModule,
+        PushModule,
+        WattSpinnerModule,
+        DhUserRolesTabComponent,
+        DhTabDataGeneralErrorComponent
+    ]
 })
 export class DhRolesTabContainerComponent {
-  private readonly store = inject(DhAdminUserManagementDataAccessApiStore);
+  private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
 
-  roles$ = ['role1', 'role2'];
+  roles$ = this.store.roles$;
+  totalUserRolesCount$ = this.store.totalUserCount$;
+  pageSize = this.store.pageSize$;
+  pageNumber = this.store.paginatorPageIndex$;
 
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
-  getRoles(): void {
+  reloadRoles(): void {
     this.store.getRoles();
   }
 }

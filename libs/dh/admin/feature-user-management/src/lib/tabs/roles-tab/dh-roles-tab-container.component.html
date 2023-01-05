@@ -15,17 +15,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *rxLet="isLoading$ as isLoading">
-  <div *ngIf="isLoading">
+  <div *ngIf="isLoading" class="user-roles__spinner">
     <watt-spinner></watt-spinner>
   </div>
 
   <ng-container *ngIf="!isLoading">
-    test
+    <dh-roles-tab
+      [roles]="roles$ | push"
+      [totalUserRolesCount]="totalUserRolesCount$ | push"
+      [pageIndex]="pageNumber | push"
+      [pageSize]="pageSize | push">
+    </dh-roles-tab>
   </ng-container>
 </ng-container>
 
 <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
-  <div *ngIf="hasGeneralError" >
-  Error
+  <div *ngIf="hasGeneralError" class="user-roles__error">
+    <dh-tab-data-general-error
+      (reload)="reloadRoles()"
+    ></dh-tab-data-general-error>
   </div>
 </ng-container>

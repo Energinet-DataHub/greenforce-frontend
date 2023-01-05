@@ -857,10 +857,26 @@
           }
         },
         "roles": {
-          "tabLabel": "Roller"
+          "tabLabel": "Roller",
+          "rolesHeadline": "Brugerroller",
+          "table": {
+            "columns": {
+              "name": "Navn",
+              "description": "Beskrivelse",
+              "marketrole": "Marketsrolle",
+              "status": "Status"
+            }
+          }
         },
         "permissions": {
           "tabLabel": "Rettigheder"
+        },
+        "errors": {
+          "generalError": {
+            "title": "Ups! Der opstod en fejl",
+            "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger.",
+            "button": "Prøv igen"
+          }
         }
       }
     }

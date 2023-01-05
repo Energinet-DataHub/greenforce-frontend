@@ -14,6 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-admin-user-management-data-access-api.store';
-export * from './lib/dh-admin-user-roles-management-data-access-api.store';
-export * from './lib/dh-custom-data-source';
+ :host {
+  display: block;
+  // TODO: Add spacing variable for 24px
+  margin: 24px var(--watt-space-s);
+}
+
+h4 {
+  margin: 0;
+}
+
+.card-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
