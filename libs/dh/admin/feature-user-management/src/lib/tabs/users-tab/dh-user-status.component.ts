@@ -14,28 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattCardModule } from '@energinet-datahub/watt/card';
-import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
-
-import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 
 @Component({
-  selector: 'dh-users-tab',
-  templateUrl: './dh-users-tab.component.html',
-  styleUrls: ['./dh-users-tab.component.scss'],
+  selector: 'dh-user-status',
   standalone: true,
+  template: `<ng-container
+    *transloco="let t; read: 'admin.userManagement.tabs.users.userStatus'"
+  >
+    <watt-badge *ngIf="isActive" type="info">{{ t('active') }}</watt-badge>
+
+    <watt-badge *ngIf="!isActive" type="warning">{{
+      t('inactive')
+    }}</watt-badge>
+  </ng-container>`,
+  imports: [CommonModule, TranslocoModule, WattBadgeComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    WattCardModule,
-    DhUsersTabTableComponent,
-  ],
 })
-export class DhUsersTabComponent {
-  @Input() users: UserOverviewItemDto[] = [];
+export class DhUserStatusComponent {
+  @Input() isActive!: boolean;
 }

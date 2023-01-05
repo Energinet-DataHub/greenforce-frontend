@@ -17,6 +17,7 @@
 import {
   BatchDto,
   BatchState,
+  GridAreaDto,
   PriceAreaCode,
   ProcessStepMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain';
@@ -43,41 +44,157 @@ const periodEnd = '2021-12-02T23:00:00Z';
 const executionTimeStart = '2021-12-01T23:00:00Z';
 const executionTimeEnd = '2021-12-02T23:00:00Z';
 
+const mockedGridAreas: GridAreaDto[] = [
+  {
+    id: '1',
+    code: '805',
+    name: 'hello',
+    priceAreaCode: PriceAreaCode.Dk1,
+    validFrom: '11-11-2022',
+  },
+  {
+    id: '2',
+    code: '806',
+    name: 'hello again',
+    priceAreaCode: PriceAreaCode.Dk1,
+    validFrom: '11-11-2022',
+  },
+];
+
+const mockedBatches: BatchDto[] = [
+  {
+    batchId: '123',
+    periodStart,
+    periodEnd,
+    executionTimeStart,
+    executionTimeEnd: null,
+    executionState: BatchState.Pending,
+    isBasisDataDownloadAvailable: false,
+    gridAreas: mockedGridAreas,
+  },
+  {
+    batchId: '234',
+    periodStart,
+    periodEnd,
+    executionTimeStart,
+    executionTimeEnd: null,
+    executionState: BatchState.Executing,
+    isBasisDataDownloadAvailable: false,
+    gridAreas: [],
+  },
+  {
+    batchId: '345',
+    periodStart,
+    periodEnd,
+    executionTimeStart,
+    executionTimeEnd,
+    executionState: BatchState.Completed,
+    isBasisDataDownloadAvailable: true,
+    gridAreas: [],
+  },
+  {
+    batchId: '567',
+    periodStart,
+    periodEnd,
+    executionTimeStart,
+    executionTimeEnd,
+    executionState: BatchState.Failed,
+    isBasisDataDownloadAvailable: false,
+    gridAreas: mockedGridAreas,
+  },
+  {
+    batchId: '8910',
+    periodStart,
+    periodEnd,
+    executionTimeStart,
+    executionTimeEnd: null,
+    executionState: BatchState.Pending,
+    isBasisDataDownloadAvailable: false,
+    gridAreas: [],
+  },
+  {
+    batchId: '1011',
+    periodStart,
+    periodEnd,
+    executionTimeStart,
+    executionTimeEnd: null,
+    executionState: BatchState.Executing,
+    isBasisDataDownloadAvailable: false,
+    gridAreas: [],
+  },
+  {
+    batchId: '1112',
+    periodStart,
+    periodEnd,
+    executionTimeStart,
+    executionTimeEnd,
+    executionState: BatchState.Completed,
+    isBasisDataDownloadAvailable: true,
+    gridAreas: [],
+  },
+  {
+    batchId: '1314',
+    periodStart,
+    periodEnd,
+    executionTimeStart,
+    executionTimeEnd,
+    executionState: BatchState.Failed,
+    isBasisDataDownloadAvailable: false,
+    gridAreas: [],
+  },
+  {
+    batchId: '1516',
+    periodStart,
+    periodEnd,
+    executionTimeStart,
+    executionTimeEnd: null,
+    executionState: BatchState.Pending,
+    isBasisDataDownloadAvailable: false,
+    gridAreas: [],
+  },
+  {
+    batchId: '1718',
+    periodStart,
+    periodEnd,
+    executionTimeStart,
+    executionTimeEnd: null,
+    executionState: BatchState.Executing,
+    isBasisDataDownloadAvailable: false,
+    gridAreas: [],
+  },
+  {
+    batchId: '1920',
+    periodStart,
+    periodEnd,
+    executionTimeStart,
+    executionTimeEnd,
+    executionState: BatchState.Completed,
+    isBasisDataDownloadAvailable: true,
+    gridAreas: [],
+  },
+  {
+    batchId: '2021',
+    periodStart,
+    periodEnd,
+    executionTimeStart,
+    executionTimeEnd,
+    executionState: BatchState.Failed,
+    isBasisDataDownloadAvailable: false,
+    gridAreas: [],
+  },
+];
+
 function getWholesaleSearchBatch(apiBase: string) {
   return rest.get(`${apiBase}/v1/WholesaleBatch/Batch`, (req, res, ctx) => {
     const batchId = req.url.searchParams.get('batchId') || '';
-    const batch: BatchDto = {
-      batchId: batchId,
-      periodStart,
-      periodEnd,
-      executionTimeStart,
-      executionTimeEnd: null,
-      executionState: BatchState.Pending,
-      isBasisDataDownloadAvailable: false,
-      gridAreas: [
-        {
-          id: '1',
-          code: '805',
-          name: 'hello',
-          priceAreaCode: PriceAreaCode.Dk1,
-          validFrom: '01-11-2022',
-        },
-        {
-          id: '2',
-          code: '806',
-          name: 'hello again',
-          priceAreaCode: PriceAreaCode.Dk1,
-          validFrom: '01-11-2022',
-        },
-      ],
-    };
-    return res(ctx.status(200), ctx.json(batch));
+    const batch = mockedBatches.find((b) => b.batchId === batchId);
+    return res(ctx.delay(300), ctx.status(200), ctx.json(batch));
   });
 }
 
 function downloadBasisData(apiBase: string) {
   return rest.get(
-    `${apiBase}/v1/WholesaleBatch/ZippedBasisDataStream?batchId=123`,
+    `${apiBase}/v1/WholesaleBatch/ZippedBasisDataStream`,
     async (req, res, ctx) => {
       return res(ctx.status(500));
 
@@ -99,145 +216,7 @@ function downloadBasisData(apiBase: string) {
 
 function getWholesaleSearchBatches(apiBase: string) {
   return rest.post(`${apiBase}/v1/WholesaleBatch/search`, (req, res, ctx) => {
-    const mockData: BatchDto[] = [
-      {
-        batchId: '123',
-        periodStart,
-        periodEnd,
-        executionTimeStart,
-        executionTimeEnd: null,
-        executionState: BatchState.Pending,
-        isBasisDataDownloadAvailable: false,
-        gridAreas: [
-          {
-            id: '1',
-            code: '805',
-            name: 'hello',
-            priceAreaCode: PriceAreaCode.Dk1,
-            validFrom: '11-11-2022',
-          },
-          {
-            id: '2',
-            code: '806',
-            name: 'hello again',
-            priceAreaCode: PriceAreaCode.Dk1,
-            validFrom: '11-11-2022',
-          },
-        ],
-      },
-      {
-        batchId: '234',
-        periodStart,
-        periodEnd,
-        executionTimeStart,
-        executionTimeEnd: null,
-        executionState: BatchState.Executing,
-        isBasisDataDownloadAvailable: false,
-        gridAreas: [],
-      },
-      {
-        batchId: '345',
-        periodStart,
-        periodEnd,
-        executionTimeStart,
-        executionTimeEnd,
-        executionState: BatchState.Completed,
-        isBasisDataDownloadAvailable: true,
-        gridAreas: [],
-      },
-      {
-        batchId: '567',
-        periodStart,
-        periodEnd,
-        executionTimeStart,
-        executionTimeEnd,
-        executionState: BatchState.Failed,
-        isBasisDataDownloadAvailable: false,
-        gridAreas: [],
-      },
-      {
-        batchId: '8910',
-        periodStart,
-        periodEnd,
-        executionTimeStart,
-        executionTimeEnd: null,
-        executionState: BatchState.Pending,
-        isBasisDataDownloadAvailable: false,
-        gridAreas: [],
-      },
-      {
-        batchId: '1011',
-        periodStart,
-        periodEnd,
-        executionTimeStart,
-        executionTimeEnd: null,
-        executionState: BatchState.Executing,
-        isBasisDataDownloadAvailable: false,
-        gridAreas: [],
-      },
-      {
-        batchId: '1112',
-        periodStart,
-        periodEnd,
-        executionTimeStart,
-        executionTimeEnd,
-        executionState: BatchState.Completed,
-        isBasisDataDownloadAvailable: true,
-        gridAreas: [],
-      },
-      {
-        batchId: '1314',
-        periodStart,
-        periodEnd,
-        executionTimeStart,
-        executionTimeEnd,
-        executionState: BatchState.Failed,
-        isBasisDataDownloadAvailable: false,
-        gridAreas: [],
-      },
-      {
-        batchId: '1516',
-        periodStart,
-        periodEnd,
-        executionTimeStart,
-        executionTimeEnd: null,
-        executionState: BatchState.Pending,
-        isBasisDataDownloadAvailable: false,
-        gridAreas: [],
-      },
-      {
-        batchId: '1718',
-        periodStart,
-        periodEnd,
-        executionTimeStart,
-        executionTimeEnd: null,
-        executionState: BatchState.Executing,
-        isBasisDataDownloadAvailable: false,
-        gridAreas: [],
-      },
-      {
-        batchId: '1920',
-        periodStart,
-        periodEnd,
-        executionTimeStart,
-        executionTimeEnd,
-        executionState: BatchState.Completed,
-        isBasisDataDownloadAvailable: true,
-        gridAreas: [],
-      },
-      {
-        batchId: '2021',
-        periodStart,
-        periodEnd,
-        executionTimeStart,
-        executionTimeEnd,
-        executionState: BatchState.Failed,
-        isBasisDataDownloadAvailable: false,
-        gridAreas: [],
-      },
-    ];
-
-    return res(ctx.delay(300), ctx.status(200), ctx.json(mockData));
+    return res(ctx.delay(300), ctx.status(200), ctx.json(mockedBatches));
     //return res(ctx.delay(300), ctx.status(200), ctx.json([]));
     //return res(ctx.delay(2000), ctx.status(500));
   });

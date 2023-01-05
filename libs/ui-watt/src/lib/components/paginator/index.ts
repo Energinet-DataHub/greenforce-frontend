@@ -14,10 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-export type Permission =
-  | 'organization:view'
-  | 'organization:manage'
-  | 'gridareas:manage'
-  | 'actor:manage'
-  | 'users:manage';
+export { WattPaginatorComponent } from './watt-paginator.component';
+export { WattPaginatorIntlService } from './watt-paginator-intl.service';

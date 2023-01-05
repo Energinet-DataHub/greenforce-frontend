@@ -14,25 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  Input,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
+import { MatTableModule } from '@angular/material/table';
 
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { DhCustomDataSource } from '@energinet-datahub/dh/admin/data-access-api';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
-import {
-  WattTableDataSource,
-  WattTableColumnDef,
-  WATT_TABLE,
-} from '@energinet-datahub/watt/table';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 
+import { DhUserStatusComponent } from './dh-user-status.component';
 import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
+
 @Component({
   selector: 'dh-users-tab-table',
   standalone: true,
@@ -50,42 +43,19 @@ import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
     CommonModule,
     TranslocoModule,
     DhEmDashFallbackPipeScam,
-    WATT_TABLE,
+    MatTableModule,
+    DhUserStatusComponent,
     DhUserDrawerComponent,
   ],
 })
 export class DhUsersTabTableComponent {
-  private transloco = inject(TranslocoService);
+  dataSource = new DhCustomDataSource();
+  displayedColumns = ['name', 'email', 'phone', 'status'];
+
   @ViewChild(DhUserDrawerComponent)
   drawer!: DhUserDrawerComponent;
 
-  dataSource = new WattTableDataSource<UserOverviewItemDto>();
-
-  columns: WattTableColumnDef<UserOverviewItemDto> = {
-    name: { accessor: 'name' },
-    email: { accessor: 'email' },
-    phoneNumber: { accessor: 'phoneNumber' },
-    active: { accessor: 'active' },
-  };
-
-  @Input() set users(usersData: UserOverviewItemDto[]) {
-    this.dataSource.data = usersData;
-  }
-
-  onRowClick(row: UserOverviewItemDto) {
+  onRowClick(row: UserOverviewItemDto): void {
     this.drawer.open(row);
   }
-
-  translateHeader = (columnId: string): string => {
-    const baseKey = 'admin.userManagement.tabs.users.table.headers';
-
-    switch (columnId) {
-      case 'phoneNumber':
-        return this.transloco.translate(`${baseKey}.phone`);
-      case 'active':
-        return this.transloco.translate(`${baseKey}.status`);
-      default:
-        return this.transloco.translate(`${baseKey}.${columnId}`);
-    }
-  };
 }

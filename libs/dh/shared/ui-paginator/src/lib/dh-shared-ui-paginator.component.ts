@@ -41,6 +41,7 @@ import { Subject, takeUntil } from 'rxjs';
       (page)="handlePageEvent($event)"
       [length]="length"
       [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
       [pageSizeOptions]="pageSizeOptions"
       [showFirstLastButtons]="true"
       [attr.aria-label]="ariaLabel"
@@ -54,7 +55,8 @@ export class DhSharedUiPaginatorComponent implements OnDestroy {
   @Input() length = 0;
   @Input() pageSizeOptions: number[] = [50, 100, 150, 200, 250];
   @Input() pageSize = 50;
-  @Output() changed = new EventEmitter();
+  @Input() pageIndex = 0;
+  @Output() changed = new EventEmitter<PageEvent>();
 
   ariaLabel?: string;
 

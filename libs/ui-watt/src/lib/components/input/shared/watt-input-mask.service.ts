@@ -67,6 +67,7 @@ export class WattInputMaskService {
       onBeforePaste,
       onincomplete: () => this.setInputColor(element, inputMask),
       clearIncomplete: true,
+      prefillYear: false,
     });
 
     inputMask = im.mask(element);

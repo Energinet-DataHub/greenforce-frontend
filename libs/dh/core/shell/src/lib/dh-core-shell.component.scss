@@ -20,9 +20,20 @@
   display: block;
 }
 
+.sidenav-container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
 .sidenav {
   display: flex;
   justify-content: center;
+}
+
+.selected-actor-container {
+  margin-top: auto;
+  padding: var(--watt-space-m);
 }
 
 .logo--sidenav {

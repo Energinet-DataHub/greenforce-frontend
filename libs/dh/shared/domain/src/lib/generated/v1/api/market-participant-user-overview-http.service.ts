@@ -19,7 +19,7 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { UserOverviewItemDto } from '../model/user-overview-item-dto';
+import { UserOverviewResultDto } from '../model/user-overview-result-dto';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -94,13 +94,14 @@ export class MarketParticipantUserOverviewHttp {
     /**
      * @param pageNumber 
      * @param pageSize 
+     * @param searchText 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserOverviewGet(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<UserOverviewItemDto>>;
-    public v1MarketParticipantUserOverviewGet(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<UserOverviewItemDto>>>;
-    public v1MarketParticipantUserOverviewGet(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<UserOverviewItemDto>>>;
-    public v1MarketParticipantUserOverviewGet(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserOverviewGetUserOverviewGet(pageNumber?: number, pageSize?: number, searchText?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<UserOverviewResultDto>;
+    public v1MarketParticipantUserOverviewGetUserOverviewGet(pageNumber?: number, pageSize?: number, searchText?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<UserOverviewResultDto>>;
+    public v1MarketParticipantUserOverviewGetUserOverviewGet(pageNumber?: number, pageSize?: number, searchText?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<UserOverviewResultDto>>;
+    public v1MarketParticipantUserOverviewGetUserOverviewGet(pageNumber?: number, pageSize?: number, searchText?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -110,6 +111,10 @@ export class MarketParticipantUserOverviewHttp {
         if (pageSize !== undefined && pageSize !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>pageSize, 'pageSize');
+        }
+        if (searchText !== undefined && searchText !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>searchText, 'searchText');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -152,8 +157,8 @@ export class MarketParticipantUserOverviewHttp {
             }
         }
 
-        let localVarPath = `/v1/MarketParticipantUserOverview`;
-        return this.httpClient.request<Array<UserOverviewItemDto>>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/v1/MarketParticipantUserOverview/GetUserOverview`;
+        return this.httpClient.request<UserOverviewResultDto>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

@@ -22,7 +22,7 @@ import { permissionGuardCore } from './permission.guard';
 
 describe(PermissionService.name, () => {
   const permissionService: Partial<PermissionService> = {
-    hasPermission: (permission) => of(permission === 'organization:view'),
+    hasPermission: (permission) => of(permission === 'actor:manage'),
   };
 
   test('should return true if one of the permissions is present', async () => {
@@ -36,7 +36,7 @@ describe(PermissionService.name, () => {
     // act
     const actual = await firstValueFrom(
       target(
-        ['gridareas:manage', 'organization:view'],
+        ['gridareas:manage', 'actor:manage'],
         permissionService as PermissionService
       )
     );

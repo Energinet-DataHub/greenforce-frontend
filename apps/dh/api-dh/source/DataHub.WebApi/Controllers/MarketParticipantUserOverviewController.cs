@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
@@ -32,9 +31,10 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         [HttpGet]
-        public Task<ActionResult<IEnumerable<UserOverviewItemDto>>> GetUserOverviewAsync(int pageNumber, int pageSize)
+        [Route("GetUserOverview")]
+        public Task<ActionResult<UserOverviewResultDto>> GetUserOverviewAsync(int pageNumber, int pageSize, string? searchText)
         {
-            return HandleExceptionAsync(() => _client.GetUserOverviewAsync(pageNumber, pageSize));
+            return HandleExceptionAsync(() => _client.GetUserOverviewAsync(pageNumber, pageSize, searchText));
         }
     }
 }

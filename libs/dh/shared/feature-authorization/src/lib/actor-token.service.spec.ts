@@ -27,12 +27,14 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { firstValueFrom, of } from 'rxjs';
+import { ActorStorage } from './actor-storage';
+import { LocalStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
 
 describe(ActorTokenService.name, () => {
   const createActorsRequest = () =>
     new HttpRequest<string>(
       'GET',
-      'https://localhost:5000/v1/MarketParticipantUser/Actors',
+      'https://localhost:5000/v1/MarketParticipantUser/GetUserActors',
       {
         headers: new HttpHeaders({ Authorization: 'Bearer xyz' }),
       }
@@ -44,7 +46,8 @@ describe(ActorTokenService.name, () => {
 
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
-      {} as TokenHttp
+      {} as TokenHttp,
+      new ActorStorage(new LocalStorageFake())
     );
 
     // act
@@ -63,7 +66,8 @@ describe(ActorTokenService.name, () => {
 
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
-      {} as TokenHttp
+      {} as TokenHttp,
+      new ActorStorage(new LocalStorageFake())
     );
 
     // act
@@ -82,7 +86,8 @@ describe(ActorTokenService.name, () => {
 
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
-      {} as TokenHttp
+      {} as TokenHttp,
+      new ActorStorage(new LocalStorageFake())
     );
 
     // act
@@ -101,7 +106,8 @@ describe(ActorTokenService.name, () => {
 
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
-      {} as TokenHttp
+      {} as TokenHttp,
+      new ActorStorage(new LocalStorageFake())
     );
 
     // act
@@ -125,7 +131,8 @@ describe(ActorTokenService.name, () => {
 
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
-      {} as TokenHttp
+      {} as TokenHttp,
+      new ActorStorage(new LocalStorageFake())
     );
 
     // act
@@ -152,7 +159,8 @@ describe(ActorTokenService.name, () => {
 
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
-      {} as TokenHttp
+      {} as TokenHttp,
+      new ActorStorage(new LocalStorageFake())
     );
 
     // act
@@ -182,7 +190,7 @@ describe(ActorTokenService.name, () => {
     const requestA = createActorsRequest();
     const requestB = new HttpRequest<string>(
       'GET',
-      'https://localhost:5000/v1/MarketParticipantUser/Actors',
+      'https://localhost:5000/v1/MarketParticipantUser/GetUserActors',
       {
         headers: new HttpHeaders({ Authorization: 'Bearer abc' }),
       }
@@ -197,7 +205,8 @@ describe(ActorTokenService.name, () => {
 
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
-      {} as TokenHttp
+      {} as TokenHttp,
+      new ActorStorage(new LocalStorageFake())
     );
 
     // act

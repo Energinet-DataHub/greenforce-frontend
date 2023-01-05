@@ -31,9 +31,10 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
-import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
+import { BatchState } from '@energinet-datahub/dh/shared/domain';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import { DhWholesaleProductionPerGridareaComponent } from './steps/25-production-per-gridarea.component';
+import { DhWholesaleProductionPerGridareaComponent } from './steps/production-per-gridarea.component';
+import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
 
 @Component({
   templateUrl: './dh-wholesale-calculation-steps.component.html',
@@ -61,9 +62,17 @@ export class DhWholesaleCalculationStepsComponent {
 
   batch$ = this.store.selectedBatch$.pipe(
     tap((batch) => {
-      if (!batch) this.store.getBatch(this.route.snapshot.params['batchId']);
+      // Get batch if not already in store
+      if (!batch) {
+        this.store.getBatch(this.route.snapshot.params['batchId']);
+      }
+
+      // Redirect user to search batch page if batch is failed
+      if ((batch as batch)?.executionState === BatchState.Failed)
+        this.navigateToSearchBatch(batch);
     })
   );
+  loadingBatchErrorTrigger$ = this.store.loadingBatchErrorTrigger$;
 
   gridArea$ = this.store.getGridArea$(
     this.route.snapshot.params['gridAreaCode']

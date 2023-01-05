@@ -19,7 +19,11 @@ limitations under the License.
   *transloco="let t; read: 'marketParticipant.gridAreas.changeGridArea'"
 >
   <div class="top-btns">
-    <watt-button (click)="openEditModal()">{{ t("editGridArea") }}</watt-button>
+    <ng-container *dhPermissionRequired="['gridareas:manage']">
+      <watt-button (click)="openEditModal()">{{
+        t("editGridArea")
+      }}</watt-button>
+    </ng-container>
   </div>
   <ng-container>
     <watt-modal

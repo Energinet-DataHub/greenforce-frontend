@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import { Observable, switchMap, tap, withLatestFrom } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -25,16 +25,23 @@ import {
 import {
   MarketParticipantUserOverviewHttp,
   UserOverviewItemDto,
+  UserOverviewResultDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserManagementState {
-  readonly users: UserOverviewItemDto[] | null;
+  readonly users: UserOverviewItemDto[];
+  readonly totalUserCount: number;
   readonly requestState: LoadingState | ErrorState;
+  readonly pageNumber: number;
+  readonly pageSize: number;
 }
 
 const initialState: DhUserManagementState = {
-  users: null,
+  users: [],
+  totalUserCount: 0,
   requestState: LoadingState.INIT,
+  pageNumber: 1,
+  pageSize: 50,
 };
 
 @Injectable()
@@ -47,12 +54,13 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     (state) => state.requestState === ErrorState.GENERAL_ERROR
   );
 
-  users$: Observable<UserOverviewItemDto[]> = this.select(
-    (state) => state.users
-  ).pipe(
-    filter((users) => !!users),
-    map((users) => users as UserOverviewItemDto[])
-  );
+  users$ = this.select((state) => state.users);
+  totalUserCount$ = this.select((state) => state.totalUserCount);
+
+  // 1 needs to be substracted here because our endpoint's `pageNumber` param starts at `1`
+  // whereas the paginator's `pageIndex` property starts at `0`
+  paginatorPageIndex$ = this.select((state) => state.pageNumber - 1);
+  pageSize$ = this.select((state) => state.pageSize);
 
   constructor(private httpClient: MarketParticipantUserOverviewHttp) {
     super(initialState);
@@ -60,37 +68,55 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
 
   readonly getUsers = this.effect((trigger$: Observable<void>) =>
     trigger$.pipe(
+      withLatestFrom(this.state$),
       tap(() => {
-        this.resetState();
-
         this.setLoading(LoadingState.LOADING);
       }),
-      switchMap(() =>
-        this.httpClient.v1MarketParticipantUserOverviewGet().pipe(
-          tapResponse(
-            (users) => {
-              this.setLoading(LoadingState.LOADED);
-
-              this.updateUsers(users);
-            },
-            () => {
-              this.setLoading(LoadingState.LOADED);
-
-              this.handleError();
-            }
+      switchMap(([, state]) =>
+        this.httpClient
+          .v1MarketParticipantUserOverviewGetUserOverviewGet(
+            state.pageNumber,
+            state.pageSize
           )
-        )
+          .pipe(
+            tapResponse(
+              (response) => {
+                this.setLoading(LoadingState.LOADED);
+
+                this.updateUsers(response);
+              },
+              () => {
+                this.setLoading(LoadingState.LOADED);
+
+                this.handleError();
+              }
+            )
+          )
       )
     )
+  );
+
+  readonly updatePageMetadata = this.effect(
+    (trigger$: Observable<{ pageIndex: number; pageSize: number }>) =>
+      trigger$.pipe(
+        tap(({ pageIndex, pageSize }) => {
+          // 1 needs to be added here because the paginator's `pageIndex` property starts at `0`
+          // whereas our endpoint's `pageNumber` param starts at `1`
+          this.patchState({ pageNumber: pageIndex + 1, pageSize });
+
+          this.getUsers();
+        })
+      )
   );
 
   private updateUsers = this.updater(
     (
       state: DhUserManagementState,
-      users: UserOverviewItemDto[] | null
+      response: UserOverviewResultDto
     ): DhUserManagementState => ({
       ...state,
-      users,
+      users: response.users,
+      totalUserCount: response.totalUserCount,
     })
   );
 
@@ -102,7 +128,7 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
   );
 
   private handleError = () => {
-    this.updateUsers(null);
+    this.updateUsers({ users: [], totalUserCount: 0 });
 
     this.patchState({ requestState: ErrorState.GENERAL_ERROR });
   };

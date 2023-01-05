@@ -14,10 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
+import { rest } from 'msw';
+
+import marketParticipantUserActors from './data/marketParticipantUserActors.json';
+
+export function marketParticipantUserMocks(apiBase: string) {
+  return [getActors(apiBase)];
 }
 
-h4 {
-  margin: 0;
+function getActors(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipantUser/GetUserActors`,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(marketParticipantUserActors));
+    }
+  );
 }
