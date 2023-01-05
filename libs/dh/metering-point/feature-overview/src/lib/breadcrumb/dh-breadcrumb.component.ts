@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  NgModule,
-  Component,
-  Input,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -35,10 +30,18 @@ export interface MeteringPointTranslationKeys {
 }
 
 @Component({
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-breadcrumb',
   templateUrl: './dh-breadcrumb.component.html',
   styleUrls: ['./dh-breadcrumb.component.scss'],
+  imports: [
+    CommonModule,
+    RouterModule,
+    TranslocoModule,
+    WattIconModule,
+    DhIsParentPipeScam,
+  ],
 })
 export class DhBreadcrumbComponent {
   #meteringPoint: MeteringPointCimDto | undefined;
@@ -83,16 +86,3 @@ export class DhBreadcrumbComponent {
     };
   }
 }
-
-@NgModule({
-  declarations: [DhBreadcrumbComponent],
-  exports: [DhBreadcrumbComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    TranslocoModule,
-    WattIconModule,
-    DhIsParentPipeScam,
-  ],
-})
-export class DhBreadcrumbScam {}
