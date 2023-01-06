@@ -787,6 +787,7 @@
     "processStepResults": {
       "step": "Step {{step}}",
       "aggregatedProductionPerGridArea": "Aggregated production per grid area",
+      "aggregatedConsumptionPerEnergySupplier": "Aggregated consumption per energy supplier",
       "open": "Open",
       "gridArea": "Grid area",
       "loadProcessStepResultsErrorTitle": "Oops! There was an error",

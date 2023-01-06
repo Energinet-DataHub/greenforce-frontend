@@ -75,7 +75,7 @@ const template = `
     *ngIf ensures the content are not loaded before the drawer is open,
     and make sure it's getting destroyed when drawer is closed
   -->
-  <watt-drawer-content *ngIf="drawer.opened">
+  <watt-drawer-content *ngIf="drawer.isOpen">
     <watt-storybook-drawer-content></watt-storybook-drawer-content>
   </watt-drawer-content>
 </watt-drawer>
