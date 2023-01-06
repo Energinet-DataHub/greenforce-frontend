@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
+import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 
 @Component({
   selector: 'dh-roles-tab-table',
@@ -39,14 +40,27 @@ import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
     CommonModule,
     TranslocoModule,
     DhEmDashFallbackPipeScam,
-    MatTableModule
+    MatTableModule,
+    DhSharedUiPaginatorComponent
   ],
 })
-export class DhRolesTabTableComponent implements OnChanges {
+export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   @Input() roles: UserRoleInfoDto[] = [];
-  dataSource = this.roles;
   displayedColumns = ['name', 'description', 'marketrole', 'status'];
-  ngOnChanges(changes: SimpleChanges): void {
-    this.dataSource = this.roles;
+
+  @ViewChild(DhSharedUiPaginatorComponent)
+  paginator!: DhSharedUiPaginatorComponent;
+
+  readonly dataSource: MatTableDataSource<UserRoleInfoDto> =
+  new MatTableDataSource<UserRoleInfoDto>();
+
+  ngOnChanges() {
+    this.dataSource.data = this.roles;
+    this.dataSource.paginator = this.paginator?.instance;
   }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator.instance;
+  }
+
 }

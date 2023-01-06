@@ -18,31 +18,12 @@ limitations under the License.
   <watt-card>
     <watt-card-title>
       <div class="card-title-container">
-        <ng-container
-          *ngTemplateOutlet="
-          userRolesHeadline;
-            context: {
-              $implicit: totalUserRolesCount
-            }
-          "
-        ></ng-container>
-
-        <dh-shared-ui-paginator
-          [length]="totalUserRolesCount"
-          (changed)="pageChange.emit($event)"
-          [pageSize]="pageSize"
-          [pageIndex]="pageIndex"
-        >
-        </dh-shared-ui-paginator>
+        <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles'">
+          <h4>{{ t("rolesHeadline") }}</h4>
+        </ng-container>
       </div>
     </watt-card-title>
 
-    <dh-roles-tab-table [roles]="roles" ></dh-roles-tab-table>
+    <dh-roles-tab-table [roles]="roles"></dh-roles-tab-table>
   </watt-card>
 </ng-container>
-
-<ng-template #userRolesHeadline let-usersCount>
-  <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles'">
-    <h4>{{ t("rolesHeadline") }} {{ usersCount }}</h4>
-  </ng-container>
-</ng-template>

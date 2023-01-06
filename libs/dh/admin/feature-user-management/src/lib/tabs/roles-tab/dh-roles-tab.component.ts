@@ -47,10 +47,5 @@ import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
 })
 export class DhUserRolesTabComponent {
   @Input() roles: UserRoleInfoDto[] = [];
-  @Input() totalUserRolesCount!: number;
 
-  @Input() pageSize!: number;
-  @Input() pageIndex!: number;
-
-  @Output() pageChange = new EventEmitter<PageEvent>();
 }

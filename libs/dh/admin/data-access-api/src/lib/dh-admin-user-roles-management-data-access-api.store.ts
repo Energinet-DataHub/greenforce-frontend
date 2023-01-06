@@ -29,18 +29,12 @@ import {
 
 interface DhUserRolesManagementState {
   readonly roles: UserRoleInfoDto[]
-  readonly totalUserRolesCount: number;
   readonly requestState: LoadingState | ErrorState;
-  readonly pageNumber: number;
-  readonly pageSize: number;
 }
 
 const initialState: DhUserRolesManagementState = {
   roles: [],
-  totalUserRolesCount: 0,
   requestState: LoadingState.INIT,
-  pageNumber: 1,
-  pageSize: 50,
 };
 
 @Injectable()
@@ -54,12 +48,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   );
 
   roles$ = this.select((state) => state.roles);
-  totalUserCount$ = this.select((state) => state.totalUserRolesCount);
 
-  // 1 needs to be substracted here because our endpoint's `pageNumber` param starts at `1`
-  // whereas the paginator's `pageIndex` property starts at `0`
-  paginatorPageIndex$ = this.select((state) => state.pageNumber - 1);
-  pageSize$ = this.select((state) => state.pageSize);
 
   constructor(
     private httpClientUserRole: MarketParticipantUserRoleHttp) {
@@ -198,17 +187,6 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
     )
   );
 
-  readonly updatePageMetadata = this.effect(
-    (trigger$: Observable<{ pageIndex: number; pageSize: number }>) =>
-      trigger$.pipe(
-        tap(({ pageIndex, pageSize }) => {
-          // 1 needs to be added here because the paginator's `pageIndex` property starts at `0`
-          // whereas our endpoint's `pageNumber` param starts at `1`
-          this.patchState({ pageNumber: pageIndex + 1, pageSize });
-        })
-      )
-  );
-
   private updateUserRoles = this.updater(
     (
       state: DhUserRolesManagementState,
@@ -216,8 +194,6 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
     ): DhUserRolesManagementState => ({
       ...state,
       roles: response,
-      totalUserRolesCount: response.length,
-      pageNumber: 1
     })
   );
 

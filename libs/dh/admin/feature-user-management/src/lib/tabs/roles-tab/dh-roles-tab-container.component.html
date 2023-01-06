@@ -21,10 +21,7 @@ limitations under the License.
 
   <ng-container *ngIf="!isLoading">
     <dh-roles-tab
-      [roles]="roles$ | push"
-      [totalUserRolesCount]="totalUserRolesCount$ | push"
-      [pageIndex]="pageNumber$ | push"
-      [pageSize]="pageSize$ | push">
+      [roles]="roles$ | push">
     </dh-roles-tab>
   </ng-container>
 </ng-container>

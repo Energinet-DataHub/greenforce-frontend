@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, OnChanges, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { LetModule, PushModule } from '@rx-angular/template';
@@ -24,6 +24,9 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { DhUserRolesTabComponent } from "./dh-roles-tab.component";
 import { DhTabDataGeneralErrorComponent } from "../general-error/dh-tab-data-general-error.component";
 import { PageEvent } from '@angular/material/paginator';
+import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
     selector: 'dh-roles-tab-container',
@@ -61,21 +64,10 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class DhRolesTabContainerComponent {
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
-
   roles$ = this.store.roles$;
-  totalUserRolesCount$ = this.store.totalUserCount$;
-  pageSize$ = this.store.pageSize$;
-  pageNumber$ = this.store.paginatorPageIndex$;
 
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
-
-  onPageChange(event: PageEvent): void {
-    this.store.updatePageMetadata({
-      pageIndex: event.pageIndex,
-      pageSize: event.pageSize,
-    });
-  }
 
   reloadRoles(): void {
     this.store.getRoles();
