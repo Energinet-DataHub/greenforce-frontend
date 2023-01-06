@@ -130,7 +130,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
               () => {
                 this.creatingBatchErrorTrigger$.next();
                 this.setLoadingCreatingBatch(false);
-              },
+              }
             )
           );
         })

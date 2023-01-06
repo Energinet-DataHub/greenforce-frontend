@@ -91,7 +91,13 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   });
 
   optionsGridAreas: WattDropdownOption[] = [
-    '351', '512', '533', '543', '584', '805', '806',
+    '351',
+    '512',
+    '533',
+    '543',
+    '584',
+    '805',
+    '806',
   ].map((gridAreaCode) => ({
     displayValue: gridAreaCode,
     value: gridAreaCode,

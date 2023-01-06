@@ -43,7 +43,9 @@ limitations under the License.
     </watt-error>
   </watt-form-field>
 
-  <watt-button type="submit" [disabled]="createBatchForm.invalid || (loadingCreatingBatch$ | push)"
+  <watt-button
+    type="submit"
+    [disabled]="createBatchForm.invalid || (loadingCreatingBatch$ | push)"
     >{{ transloco("startBatch.startLabel") }}
   </watt-button>
 </form>
