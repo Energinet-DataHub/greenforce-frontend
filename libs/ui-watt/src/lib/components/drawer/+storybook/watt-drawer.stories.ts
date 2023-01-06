@@ -31,7 +31,7 @@ export default {
   argTypes: {
     size: { control: false },
     loading: { control: false },
-    opened: { control: false },
+    isOpen: { control: false },
     closed: {
       table: { category: 'Outputs' },
       control: false,
@@ -124,13 +124,13 @@ export const Multiple: Story<WattDrawerComponent> = (args) => ({
   props: args,
   template: `
     <watt-drawer #first (closed)="closed()">
-      <watt-drawer-content *ngIf="first.opened">
+      <watt-drawer-content *ngIf="first.isOpen">
         First drawer
       </watt-drawer-content>
     </watt-drawer>
 
     <watt-drawer #second (closed)="closed()">
-      <watt-drawer-content *ngIf="second.opened">
+      <watt-drawer-content *ngIf="second.isOpen">
         Second drawer
       </watt-drawer-content>
     </watt-drawer>
