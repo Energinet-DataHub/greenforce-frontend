@@ -17,8 +17,7 @@ limitations under the License.
 <ng-container
   *transloco="let t; read: 'admin.userManagement.tabs.roles.table.columns'"
 >
-  <dh-shared-ui-paginator [length]="roles.length">
-  </dh-shared-ui-paginator>
+  <dh-shared-ui-paginator [length]="roles.length"> </dh-shared-ui-paginator>
 
   <mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="name">
@@ -27,7 +26,9 @@ limitations under the License.
     </ng-container>
 
     <ng-container matColumnDef="description">
-      <mat-header-cell *matHeaderCellDef>{{ t("description") }}</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{
+        t("description")
+      }}</mat-header-cell>
       <mat-cell *matCellDef="let role">{{ role.description }}</mat-cell>
     </ng-container>
 

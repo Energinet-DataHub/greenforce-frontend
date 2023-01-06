@@ -28,7 +28,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserRolesManagementState {
-  readonly roles: UserRoleInfoDto[]
+  readonly roles: UserRoleInfoDto[];
   readonly requestState: LoadingState | ErrorState;
 }
 
@@ -49,8 +49,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
 
   roles$ = this.select((state) => state.roles);
 
-  constructor(
-    private httpClientUserRole: MarketParticipantUserRoleHttp) {
+  constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
     super(initialState);
   }
 
@@ -62,21 +61,19 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
         this.setLoading(LoadingState.LOADING);
       }),
       switchMap(([, state]) =>
-        this.httpClientUserRole
-          .v1MarketParticipantUserRoleGetAllGet()
-          .pipe(
-            tapResponse(
-              (response) => {
-                this.updateUserRoles(response)
-                this.setLoading(LoadingState.LOADED);
-              },
-              () => {
-                this.setLoading(LoadingState.LOADED);
-                this.updateUserRoles([])
-                this.handleError();
-              }
-            )
+        this.httpClientUserRole.v1MarketParticipantUserRoleGetAllGet().pipe(
+          tapResponse(
+            (response) => {
+              this.updateUserRoles(response);
+              this.setLoading(LoadingState.LOADED);
+            },
+            () => {
+              this.setLoading(LoadingState.LOADED);
+              this.updateUserRoles([]);
+              this.handleError();
+            }
           )
+        )
       )
     )
   );

@@ -31,10 +31,7 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ng-container
-      *transloco="
-        let t;
-        read: 'admin.userManagement.tabs.errors.generalError'
-      "
+      *transloco="let t; read: 'admin.userManagement.tabs.errors.generalError'"
     >
       <watt-empty-state
         icon="custom-power"

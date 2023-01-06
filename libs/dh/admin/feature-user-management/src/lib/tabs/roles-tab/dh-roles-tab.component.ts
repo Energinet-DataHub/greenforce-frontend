@@ -47,5 +47,4 @@ import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
 })
 export class DhUserRolesTabComponent {
   @Input() roles: UserRoleInfoDto[] = [];
-
 }

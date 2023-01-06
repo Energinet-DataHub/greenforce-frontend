@@ -14,53 +14,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AfterViewInit, Component, inject, OnChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  OnChanges,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { LetModule, PushModule } from '@rx-angular/template';
 
 import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { DhUserRolesTabComponent } from "./dh-roles-tab.component";
-import { DhTabDataGeneralErrorComponent } from "../general-error/dh-tab-data-general-error.component";
+import { DhUserRolesTabComponent } from './dh-roles-tab.component';
+import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-general-error.component';
 import { PageEvent } from '@angular/material/paginator';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
-    selector: 'dh-roles-tab-container',
-    standalone: true,
-    templateUrl: './dh-roles-tab-container.component.html',
-    styles: [
-        `
-        :host {
-          background-color: var(--watt-color-neutral-white);
-          display: block;
+  selector: 'dh-roles-tab-container',
+  standalone: true,
+  templateUrl: './dh-roles-tab-container.component.html',
+  styles: [
+    `
+      :host {
+        background-color: var(--watt-color-neutral-white);
+        display: block;
+      }
+
+      .user-roles {
+        &__spinner {
+          display: flex;
+          justify-content: center;
+          padding: var(--watt-space-l) 0;
         }
 
-        .user-roles {
-          &__spinner {
-            display: flex;
-            justify-content: center;
-            padding: var(--watt-space-l) 0;
-          }
-
-          &__error {
-            padding: var(--watt-space-xl) 0;
-          }
+        &__error {
+          padding: var(--watt-space-xl) 0;
         }
-      `,
-    ],
-    providers: [provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore)],
-    imports: [
-        CommonModule,
-        LetModule,
-        PushModule,
-        WattSpinnerModule,
-        DhUserRolesTabComponent,
-        DhTabDataGeneralErrorComponent
-    ]
+      }
+    `,
+  ],
+  providers: [
+    provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
+  ],
+  imports: [
+    CommonModule,
+    LetModule,
+    PushModule,
+    WattSpinnerModule,
+    DhUserRolesTabComponent,
+    DhTabDataGeneralErrorComponent,
+  ],
 })
 export class DhRolesTabContainerComponent {
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);

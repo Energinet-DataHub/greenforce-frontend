@@ -27,7 +27,9 @@ import { UserRoleStatus } from '@energinet-datahub/dh/shared/domain';
   template: `<ng-container
     *transloco="let t; read: 'admin.userManagement.roleStatus'"
   >
-    <watt-badge *ngIf="status === 'Active'" type="info">{{ t('active') }}</watt-badge>
+    <watt-badge *ngIf="status === 'Active'" type="info">{{
+      t('active')
+    }}</watt-badge>
 
     <watt-badge *ngIf="status === 'Inactive'" type="warning">{{
       t('inactive')

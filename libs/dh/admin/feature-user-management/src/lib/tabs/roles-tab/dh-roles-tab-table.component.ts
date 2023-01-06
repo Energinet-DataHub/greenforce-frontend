@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -43,7 +50,7 @@ import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
     DhEmDashFallbackPipeScam,
     MatTableModule,
     DhSharedUiPaginatorComponent,
-    DhRoleStatusComponent
+    DhRoleStatusComponent,
   ],
 })
 export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
@@ -54,7 +61,7 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   paginator!: DhSharedUiPaginatorComponent;
 
   readonly dataSource: MatTableDataSource<UserRoleInfoDto> =
-  new MatTableDataSource<UserRoleInfoDto>();
+    new MatTableDataSource<UserRoleInfoDto>();
 
   ngOnChanges() {
     this.dataSource.data = this.roles;
@@ -64,5 +71,4 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator.instance;
   }
-
 }
