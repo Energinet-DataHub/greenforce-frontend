@@ -14,15 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-watt-card {
-  padding: 0 var(--watt-space-m);
-  height: var(--watt-space-xl);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--watt-color-neutral-white);
-  cursor: pointer;
-}
 
 .headline,
 .sub-headline {
