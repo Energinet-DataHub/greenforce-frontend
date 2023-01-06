@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -26,9 +26,11 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 @Component({
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-not-found',
   templateUrl: './dh-metering-point-not-found.component.html',
+  imports: [TranslocoModule, WattButtonModule, WattEmptyStateModule],
 })
 export class DhMeteringPointNotFoundComponent {
   constructor(private router: Router) {}
@@ -42,10 +44,3 @@ export class DhMeteringPointNotFoundComponent {
     this.router.navigateByUrl(url);
   }
 }
-
-@NgModule({
-  declarations: [DhMeteringPointNotFoundComponent],
-  exports: [DhMeteringPointNotFoundComponent],
-  imports: [TranslocoModule, WattButtonModule, WattEmptyStateModule],
-})
-export class DhMeteringPointNotFoundScam {}

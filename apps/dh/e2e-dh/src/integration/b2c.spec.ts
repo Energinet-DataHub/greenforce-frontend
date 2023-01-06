@@ -29,14 +29,6 @@ const environments = [
     name: 'T001',
     url: 'https://lively-river-0f22ad403.azurestaticapps.net',
   },
-  {
-    name: 'B001',
-    url: 'https://blue-rock-05b7e5e03.azurestaticapps.net',
-  },
-  {
-    name: 'B002',
-    url: 'https://purple-forest-07e41fb03.azurestaticapps.net',
-  },
 ];
 
 environments.forEach((env) => {

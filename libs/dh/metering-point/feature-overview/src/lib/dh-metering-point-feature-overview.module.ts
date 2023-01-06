@@ -22,10 +22,7 @@ import {
   DhMeteringPointOverviewGuard,
 } from '@energinet-datahub/dh/metering-point/routing';
 
-import {
-  DhMeteringPointOverviewComponent,
-  DhMeteringPointOverviewScam,
-} from './dh-metering-point-overview.component';
+import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
 
 const routes: Routes = [
   {
@@ -42,6 +39,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [DhMeteringPointOverviewScam, RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes)],
 })
 export class DhMeteringPointFeatureOverviewModule {}

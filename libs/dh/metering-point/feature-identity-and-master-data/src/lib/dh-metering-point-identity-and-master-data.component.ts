@@ -19,9 +19,9 @@ import { CommonModule } from '@angular/common';
 
 import { LetModule } from '@rx-angular/template';
 
-import { DhMeteringPointIdentityScam } from './identity/dh-metering-point-identity.component';
-import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-metering-point-primary-master-data.component';
-import { DhSecondaryMasterDataComponentScam } from './secondary-master-data/dh-secondary-master-data.component';
+import { DhMeteringPointIdentityComponent } from './identity/dh-metering-point-identity.component';
+import { DhMeteringPointPrimaryMasterDataComponent } from './primary-master-data/dh-metering-point-primary-master-data.component';
+import { DhSecondaryMasterDataComponent } from './secondary-master-data/dh-secondary-master-data.component';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
 @Component({
@@ -40,9 +40,9 @@ export class DhMeteringPointIdentityAndMasterDataComponent {
   imports: [
     CommonModule,
     LetModule,
-    DhMeteringPointIdentityScam,
-    DhMeteringPointPrimaryMasterDataScam,
-    DhSecondaryMasterDataComponentScam,
+    DhMeteringPointIdentityComponent,
+    DhMeteringPointPrimaryMasterDataComponent,
+    DhSecondaryMasterDataComponent,
   ],
 })
 export class DhMeteringPointIdentityAndMasterDataScam {}

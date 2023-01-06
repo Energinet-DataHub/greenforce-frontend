@@ -17,14 +17,9 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { DhAppEnvironment } from '@energinet-datahub/dh/shared/environments';
 
-export type DhFeatureFlagEnvironment = Exclude<
-  DhAppEnvironment,
-  DhAppEnvironment.preProd
->;
-
 export type DhFeatureFlag = {
   created: string;
-  disabledEnvironments: DhFeatureFlagEnvironment[];
+  disabledEnvironments: DhAppEnvironment[];
 };
 
 function satisfies<A>() {
@@ -44,19 +39,19 @@ const makeFeatureFlags = satisfies<FeatureFlagConfig>();
 export const dhFeatureFlagsConfig = makeFeatureFlags({
   start_wholesale_process_feature_flag: {
     created: '19-12-2022',
-    disabledEnvironments: [DhAppEnvironment.prod],
+    disabledEnvironments: [],
   },
   charges_price_date_chips_feature_flag: {
     created: '19-12-2022',
-    disabledEnvironments: [DhAppEnvironment.prod],
+    disabledEnvironments: [],
   },
   charge_prices_download_button_feature_flag: {
     created: '19-12-2022',
-    disabledEnvironments: [DhAppEnvironment.prod],
+    disabledEnvironments: [],
   },
   create_charge_prices_page_feature_flag: {
     created: '19-12-2022',
-    disabledEnvironments: [DhAppEnvironment.prod],
+    disabledEnvironments: [],
   },
 });
 

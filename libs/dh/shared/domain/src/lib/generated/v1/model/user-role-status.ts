@@ -11,11 +11,10 @@
  */
 
 
-export interface SelectionActorDto { 
-    id: string;
-    gln: string;
-    actorName: string;
-    organizationName: string;
-}
+export type UserRoleStatus = 'Active' | 'Inactive';
 
+export const UserRoleStatus = {
+    Active: 'Active' as UserRoleStatus,
+    Inactive: 'Inactive' as UserRoleStatus
+};
 
