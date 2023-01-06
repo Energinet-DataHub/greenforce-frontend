@@ -39,7 +39,6 @@ describe(DhFeatureFlagDirective.name, () => {
         DhAppEnvironment.local,
         DhAppEnvironment.dev,
         DhAppEnvironment.test,
-        DhAppEnvironment.prod,
       ],
     },
   };
@@ -51,7 +50,7 @@ describe(DhFeatureFlagDirective.name, () => {
         providers: [
           {
             provide: dhAppEnvironmentToken,
-            useValue: { current: DhAppEnvironment.prod },
+            useValue: { current: DhAppEnvironment.test },
           },
           { provide: dhFeatureFlagsToken, useValue: featureFlagsConfigMock },
         ],
