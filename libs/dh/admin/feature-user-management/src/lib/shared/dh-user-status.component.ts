@@ -24,7 +24,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
   selector: 'dh-user-status',
   standalone: true,
   template: `<ng-container
-    *transloco="let t; read: 'admin.userManagement.tabs.users.userStatus'"
+    *transloco="let t; read: 'admin.userManagement.userStatus'"
   >
     <watt-badge *ngIf="isActive" type="info">{{ t('active') }}</watt-badge>
 
