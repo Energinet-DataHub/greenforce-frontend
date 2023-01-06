@@ -19,6 +19,7 @@
 @mixin primary-hover {
   background: var(--watt-color-primary-dark);
 }
+
 @mixin primary-focus {
   @include primary-hover;
   outline: 2px solid var(--watt-color-secondary);
@@ -62,14 +63,7 @@ watt-button {
 
   &.mat-button {
     min-width: 44px; // Magic UX width
-  }
-
-  &.watt-button--normal {
     height: 44px; // Magic UX normal height
-  }
-
-  &.watt-button--large {
-    height: 56px; // Magic UX large height
   }
 
   watt-spinner {

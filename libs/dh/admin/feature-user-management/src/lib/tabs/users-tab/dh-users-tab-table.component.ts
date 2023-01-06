@@ -14,15 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatTableModule } from '@angular/material/table';
 
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { DhCustomDataSource } from '@energinet-datahub/dh/admin/data-access-api';
+import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
-import { DhUserStatusComponent } from './dh-user-status.component';
+import { DhUserStatusComponent } from '../../shared/dh-user-status.component';
+import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
 
 @Component({
   selector: 'dh-users-tab-table',
@@ -32,6 +34,10 @@ import { DhUserStatusComponent } from './dh-user-status.component';
     `
       :host {
         display: block;
+      }
+
+      ::ng-deep .mat-row.clickable:hover {
+        background-color: var(--watt-color-neutral-grey-100);
       }
     `,
   ],
@@ -43,9 +49,17 @@ import { DhUserStatusComponent } from './dh-user-status.component';
     DhEmDashFallbackPipeScam,
     MatTableModule,
     DhUserStatusComponent,
+    DhUserDrawerComponent,
   ],
 })
 export class DhUsersTabTableComponent {
   dataSource = new DhCustomDataSource();
   displayedColumns = ['name', 'email', 'phone', 'status'];
+
+  @ViewChild(DhUserDrawerComponent)
+  drawer!: DhUserDrawerComponent;
+
+  onRowClick(row: UserOverviewItemDto): void {
+    this.drawer.open(row);
+  }
 }
