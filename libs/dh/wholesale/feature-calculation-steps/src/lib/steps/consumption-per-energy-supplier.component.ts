@@ -14,5 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhWholesaleCalculationStepsComponent } from './lib/dh-wholesale-calculation-steps.component';
-export { DhWholesaleCalculationStepsRoutes } from './lib/dh-wholesale-calculation-steps.routes';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'dh-wholesale-consumption-per-energy-supplier',
+  templateUrl: './consumption-per-energy-supplier.component.html',
+  styleUrls: ['./consumption-per-energy-supplier.component.scss'],
+  standalone: true,
+  imports: [],
+})
+export class DhWholesaleConsumptionPerEnergySupplierComponent {}
