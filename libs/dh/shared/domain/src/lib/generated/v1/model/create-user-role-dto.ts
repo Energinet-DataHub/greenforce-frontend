@@ -13,12 +13,12 @@ import { EicFunction } from './eic-function';
 import { UserRoleStatus } from './user-role-status';
 
 
-export interface UserRoleInfoDto { 
-    id: string;
+export interface CreateUserRoleDto { 
     name: string;
     description: string;
-    eicFunction: EicFunction;
     status: UserRoleStatus;
+    eicFunction: EicFunction;
+    permissions: Array<string>;
 }
 
 
