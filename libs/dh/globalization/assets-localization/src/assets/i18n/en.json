@@ -833,6 +833,10 @@
         "active": "Aktiv",
         "inactive": "Inactive"
       },
+      "roleStatus": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
       "tabs": {
         "masterData": {
           "tabLabel": "Master data",

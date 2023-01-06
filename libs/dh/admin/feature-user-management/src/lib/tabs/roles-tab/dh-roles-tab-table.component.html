@@ -38,7 +38,9 @@ limitations under the License.
 
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef>{{ t("status") }}</mat-header-cell>
-      <mat-cell *matCellDef="let role">{{ role.status }}</mat-cell>
+      <mat-cell *matCellDef="let role">
+        <dh-role-status [status]="role.status"></dh-role-status>
+      </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

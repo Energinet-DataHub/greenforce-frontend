@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -22,6 +22,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
+import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 
 @Component({
   selector: 'dh-roles-tab-table',
@@ -41,7 +42,8 @@ import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-pa
     TranslocoModule,
     DhEmDashFallbackPipeScam,
     MatTableModule,
-    DhSharedUiPaginatorComponent
+    DhSharedUiPaginatorComponent,
+    DhRoleStatusComponent
   ],
 })
 export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
