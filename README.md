@@ -170,12 +170,13 @@ It is located in `libs/ui-watt` and can be imported from
 The design system is showcased using [Storybook](https://storybook.js.org),
 which is currently deployed to four different environments:
 
-| Development         | Test                |
-| ------------------- | ------------------- |
-| [U-001][watt-u-001] | [T-001][watt-t-001] |
+| Development         | Test                | Pre-production      |
+| ------------------- | ------------------- | ------------------- |
+| [U-001][watt-u-001] | [T-001][watt-t-001] | [B-001][watt-b-001] |
 
 [watt-u-001]: https://lively-ocean-04c4e1403.1.azurestaticapps.net
 [watt-t-001]: https://green-hill-085d93003.1.azurestaticapps.net/
+[watt-b-001]: https://calm-tree-090e25403.1.azurestaticapps.net/
 
 _Note: There is currently no differences between the environments, but this
 might change in the future._
