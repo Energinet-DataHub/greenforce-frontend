@@ -77,10 +77,7 @@ jobs:
   #
 
   dispatch_failed:
-    needs:
-      [
-        chromatic_deployment
-      ]
+    needs: [chromatic_deployment]
     if: |
       always() &&
       contains(needs.*.result, 'failure')
