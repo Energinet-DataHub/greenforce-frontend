@@ -737,7 +737,10 @@
       "startLabel": "Start",
       "dateRangeRequired": "Date range is required",
       "dateRangeLabel": "Period",
-      "gridAreaDropDownLabel": "Grid Areas"
+      "gridAreaDropDownLabel": "Grid Areas",
+      "creatingBatch": "Starting batch...",
+      "creatingBatchSuccess": "The batch has been started.",
+      "creatingBatchError": "Oops! There was an error."
     },
     "searchBatch": {
       "topBarTitle": "Search Batch",

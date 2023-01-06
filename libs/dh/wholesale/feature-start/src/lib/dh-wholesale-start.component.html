@@ -14,35 +14,36 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
-  <ng-container *transloco="let transloco; read: 'wholesale'">
-    <div class="date-range-width">
-      <watt-form-field>
-        <watt-label>{{
-          transloco("startBatch.gridAreaDropDownLabel")
-        }}</watt-label>
-        <watt-dropdown
-          [formControl]="formControlGridArea"
-          [options]="optionsGridAreas"
-          [showResetOption]="false"
-          [multiple]="true"
-        ></watt-dropdown>
-      </watt-form-field>
-      <watt-form-field>
-        <watt-label>{{ transloco("startBatch.dateRangeLabel") }}</watt-label>
-        <watt-datepicker
-          [formControl]="formControlRange"
-          [range]="true"
-        ></watt-datepicker>
-        <watt-error *ngIf="formControlRange?.errors?.rangeRequired">
-          {{ transloco("startBatch.dateRangeRequired") }}
-        </watt-error>
-      </watt-form-field>
-    </div>
-    <watt-button
-      (click)="createBatch()"
-      [disabled]="formControlRange.invalid || formControlGridArea.invalid"
-      >{{ transloco("startBatch.startLabel") }}
-    </watt-button>
-  </ng-container>
-</ng-container>
+<form
+  [formGroup]="createBatchForm"
+  *transloco="let transloco; read: 'wholesale'"
+  (ngSubmit)="createBatch()"
+  novalidate
+>
+  <!-- Grid areas -->
+  <watt-form-field>
+    <watt-label>{{ transloco("startBatch.gridAreaDropDownLabel") }}</watt-label>
+    <watt-dropdown
+      formControlName="gridAreas"
+      [options]="optionsGridAreas"
+      [showResetOption]="false"
+      [multiple]="true"
+    ></watt-dropdown>
+  </watt-form-field>
+
+  <!-- Date range -->
+  <watt-form-field>
+    <watt-label>{{ transloco("startBatch.dateRangeLabel") }}</watt-label>
+    <watt-datepicker
+      formControlName="dateRange"
+      [range]="true"
+    ></watt-datepicker>
+    <watt-error *ngIf="createBatchForm.controls.gridAreas.errors?.required">
+      {{ transloco("startBatch.dateRangeRequired") }}
+    </watt-error>
+  </watt-form-field>
+
+  <watt-button type="submit" [disabled]="createBatchForm.invalid || (loadingCreatingBatch$ | push)"
+    >{{ transloco("startBatch.startLabel") }}
+  </watt-button>
+</form>
