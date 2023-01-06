@@ -16,15 +16,15 @@
  */
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import {
-  DhAppEnvironmentConfig,
   DhAppEnvironment,
+  DhAppEnvironmentConfig,
   dhAppEnvironmentToken,
 } from '@energinet-datahub/dh/shared/environments';
+
 import {
   dhFeatureFlagsConfig,
   DhFeatureFlags,
   FeatureFlagConfig,
-  DhFeatureFlagEnvironment,
 } from './feature-flags';
 
 export const dhFeatureFlagsToken = new InjectionToken<FeatureFlagConfig>(
@@ -40,7 +40,7 @@ export const dhFeatureFlagsToken = new InjectionToken<FeatureFlagConfig>(
   providedIn: 'root',
 })
 export class DhFeatureFlagsService {
-  private environment: DhFeatureFlagEnvironment;
+  private environment: DhAppEnvironment;
 
   constructor(
     @Inject(dhAppEnvironmentToken)
@@ -50,10 +50,7 @@ export class DhFeatureFlagsService {
     /**
      * Treat pre-prod as prod
      */
-    this.environment =
-      dhEnvironment.current === DhAppEnvironment.preProd
-        ? DhAppEnvironment.prod
-        : dhEnvironment.current;
+    this.environment = dhEnvironment.current;
   }
 
   isEnabled(flagName?: DhFeatureFlags): boolean {
