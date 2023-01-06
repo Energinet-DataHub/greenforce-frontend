@@ -775,6 +775,7 @@
       }
     },
     "calculationSteps": {
+      "open": "Open",
       "topBarTitle": "See accumulated time series",
       "sidebarTitle": "Details",
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
@@ -788,7 +789,6 @@
       "step": "Step {{step}}",
       "aggregatedProductionPerGridArea": "Aggregated production per grid area",
       "aggregatedConsumptionPerEnergySupplier": "Aggregated consumption per energy supplier",
-      "open": "Open",
       "gridArea": "Grid area",
       "loadProcessStepResultsErrorTitle": "Oops! There was an error",
       "loadProcessStepResultsErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information",
