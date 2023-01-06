@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 import { EicFunction } from './eic-function';
+import { UserRoleStatus } from './user-role-status';
 
 
 export interface UserRoleInfoDto { 
@@ -17,7 +18,7 @@ export interface UserRoleInfoDto {
     name: string;
     description: string;
     eicFunction: EicFunction;
-    status: number;
+    status: UserRoleStatus;
 }
 
 

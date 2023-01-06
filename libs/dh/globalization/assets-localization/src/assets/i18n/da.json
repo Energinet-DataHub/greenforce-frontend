@@ -828,17 +828,30 @@
   },
   "admin": {
     "userManagement": {
+      "drawer": {
+        "edit": "Rediger",
+        "active": "aktiv"
+      },
       "topBarTitle": "Brugeradministration",
+      "userStatus": {
+        "active": "Aktiv",
+        "inactive": "Inaktiv"
+      },
       "tabs": {
+        "masterData": {
+          "tabLabel": "Stamdata",
+          "name": "Navn",
+          "email": "Email",
+          "phone": "Telefon"
+        },
+        "history": {
+          "tabLabel": "Historik"
+        },
         "users": {
           "tabLabel": "Brugere",
           "usersHeadline": {
             "singular": "{{ usersCount }} bruger",
             "plural": "{{ usersCount }} brugere"
-          },
-          "userStatus": {
-            "active": "Aktiv",
-            "inactive": "Inaktiv"
           },
           "table": {
             "columns": {

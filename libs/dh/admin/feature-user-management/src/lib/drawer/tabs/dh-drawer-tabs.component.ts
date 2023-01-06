@@ -14,24 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+
+import { DhUserMasterDataComponent } from './content/dh-user-master-data.component';
 
 @Component({
+  selector: 'dh-drawer-tabs',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'dh-metering-point-general-error',
-  templateUrl: './dh-metering-point-general-error.component.html',
-  imports: [TranslocoModule, WattButtonModule, WattEmptyStateModule],
+  templateUrl: './dh-drawer-tabs.component.html',
+  imports: [TranslocoModule, WattTabsModule, DhUserMasterDataComponent],
 })
-export class DhMeteringPointGeneralErrorComponent {
-  @Output() reload = new EventEmitter<void>();
+export class DhTabsComponent {
+  @Input() user: UserOverviewItemDto | null = null;
 }

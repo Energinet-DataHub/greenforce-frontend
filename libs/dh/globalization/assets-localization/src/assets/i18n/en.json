@@ -824,18 +824,32 @@
   },
   "admin": {
     "userManagement": {
+      "drawer": {
+        "edit": "Edit",
+        "active": "Active"
+      },
       "topBarTitle": "User management",
+      "userStatus": {
+        "active": "Aktiv",
+        "inactive": "Inactive"
+      },
       "tabs": {
+        "masterData": {
+          "tabLabel": "Master data",
+          "name": "Name",
+          "email": "Email",
+          "phone": "Phone"
+        },
+        "history": {
+          "tabLabel": "History"
+        },
         "users": {
           "tabLabel": "Users",
           "usersHeadline": {
             "singular": "{{ usersCount }} user",
             "plural": "{{ usersCount }} users"
           },
-          "userStatus": {
-            "active": "Aktiv",
-            "inactive": "Inactive"
-          },
+
           "table": {
             "columns": {
               "name": "Name",
