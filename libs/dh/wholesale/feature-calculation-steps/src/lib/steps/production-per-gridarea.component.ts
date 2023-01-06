@@ -14,14 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  Input,
-  ViewChild,
-  inject,
-  AfterViewInit,
-} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, ViewChild, inject, AfterViewInit } from '@angular/core';
 import { LetModule } from '@rx-angular/template';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -37,16 +30,11 @@ import {
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
 
-import { batch } from '@energinet-datahub/dh/wholesale/domain';
-import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
-import {
-  GridAreaDto,
-  ProcessStepType,
-} from '@energinet-datahub/dh/shared/domain';
+import { ProcessStepType } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
-import { combineLatest, switchMap } from 'rxjs';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'dh-wholesale-production-per-gridarea',
