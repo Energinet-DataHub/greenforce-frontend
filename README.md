@@ -62,15 +62,14 @@ over the Angular CLI._
 
 The application is deployed to five different environments as listed below:
 
-| Development       | Development\*     | Test              | Pre-production    | Production        |
-| ----------------- | ----------------- | ----------------- | ----------------- | ----------------- |
-| [U-001][dh-u-001] | [U-002][dh-u-002] | [T-001][dh-t-001] | [B-001][dh-b-001] | [B-002][dh-b-002] |
+| Development       | Development\*     | Test              | Pre-production    |
+| ----------------- | ----------------- | ----------------- | ----------------- |
+| [U-001][dh-u-001] | [U-002][dh-u-002] | [T-001][dh-t-001] | [B-001][dh-b-001] |
 
 [dh-u-001]: https://jolly-sand-03f839703.azurestaticapps.net
 [dh-u-002]: https://wonderful-field-057109603.1.azurestaticapps.net
 [dh-t-001]: https://lively-river-0f22ad403.azurestaticapps.net
 [dh-b-001]: https://blue-rock-05b7e5e03.azurestaticapps.net
-[dh-b-002]: https://purple-forest-07e41fb03.azurestaticapps.net
 
 <sub>\* This is identical to **U-001**, except it also hosts
 [B2C](https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/).
@@ -171,14 +170,12 @@ It is located in `libs/ui-watt` and can be imported from
 The design system is showcased using [Storybook](https://storybook.js.org),
 which is currently deployed to four different environments:
 
-| Development         | Test                | Pre-production      | Production          |
-| ------------------- | ------------------- | ------------------- | ------------------- |
-| [U-001][watt-u-001] | [T-001][watt-t-001] | [B-001][watt-b-001] | [B-002][watt-b-002] |
+| Development         | Test                |
+| ------------------- | ------------------- |
+| [U-001][watt-u-001] | [T-001][watt-t-001] |
 
 [watt-u-001]: https://lively-ocean-04c4e1403.1.azurestaticapps.net
 [watt-t-001]: https://green-hill-085d93003.1.azurestaticapps.net/
-[watt-b-001]: https://calm-tree-090e25403.1.azurestaticapps.net/
-[watt-b-002]: https://wonderful-rock-021a80803.1.azurestaticapps.net/
 
 _Note: There is currently no differences between the environments, but this
 might change in the future._
