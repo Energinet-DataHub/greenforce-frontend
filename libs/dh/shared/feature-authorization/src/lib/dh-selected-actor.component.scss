@@ -62,6 +62,11 @@
   cursor: pointer;
 }
 
+.selected-actor-container-spinner {
+  align-self: center;
+  padding: var(--watt-space-s) var(--watt-space-m);
+}
+
 .selected-organization-name-label {
   color: var(--watt-on-dark-medium-emphasis);
 }

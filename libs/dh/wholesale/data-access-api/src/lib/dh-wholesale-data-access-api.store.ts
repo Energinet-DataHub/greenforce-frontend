@@ -17,7 +17,7 @@
 import { Injectable, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, switchMap, Subject, map } from 'rxjs';
+import { Observable, switchMap, Subject, map, tap } from 'rxjs';
 
 import {
   WholesaleBatchHttp,
@@ -239,6 +239,13 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     })
   );
 
+  readonly setSelectedGridArea = this.updater(
+    (state, gridArea: GridAreaDto | undefined): State => ({
+      ...state,
+      selectedGridArea: gridArea,
+    })
+  );
+
   readonly getGridArea$ = (
     gridAreaCode: string
   ): Observable<GridAreaDto | undefined> => {
@@ -247,7 +254,8 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
         return x?.gridAreas.filter(
           (gridArea: GridAreaDto) => gridArea.code === gridAreaCode
         )[0];
-      })
+      }),
+      tap((gridArea) => this.setSelectedGridArea(gridArea))
     );
   };
 

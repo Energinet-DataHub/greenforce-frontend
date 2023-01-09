@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { tap } from 'rxjs';
@@ -25,6 +25,7 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -35,6 +36,10 @@ import { BatchState } from '@energinet-datahub/dh/shared/domain';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleProductionPerGridareaComponent } from './steps/production-per-gridarea.component';
 import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
+import {
+  WattDrawerComponent,
+  WattDrawerModule,
+} from '@energinet-datahub/watt/drawer';
 
 @Component({
   templateUrl: './dh-wholesale-calculation-steps.component.html',
@@ -47,8 +52,11 @@ import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/
     DhSharedUiDateTimeModule,
     LetModule,
     TranslocoModule,
+    RouterModule,
     WattBadgeComponent,
+    WattButtonModule,
     WattCardModule,
+    WattDrawerModule,
     WattEmptyStateModule,
     WattSpinnerModule,
     WattTopBarComponent,
@@ -59,6 +67,8 @@ export class DhWholesaleCalculationStepsComponent {
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+
+  @ViewChild('drawer') drawer!: WattDrawerComponent;
 
   batch$ = this.store.selectedBatch$.pipe(
     tap((batch) => {
@@ -72,11 +82,26 @@ export class DhWholesaleCalculationStepsComponent {
         this.navigateToSearchBatch(batch);
     })
   );
+
   loadingBatchErrorTrigger$ = this.store.loadingBatchErrorTrigger$;
 
   gridArea$ = this.store.getGridArea$(
     this.route.snapshot.params['gridAreaCode']
   );
+
+  getCurrentStep() {
+    // TODO: Is there a better way? This seems a little hacky.
+    return this.route.firstChild?.routeConfig?.path;
+  }
+
+  openDrawer(step: number) {
+    this.router.navigate([step], { relativeTo: this.route });
+    this.drawer.open();
+  }
+
+  onDrawerClosed() {
+    this.router.navigate(['./'], { relativeTo: this.route });
+  }
 
   navigateToSearchBatch(batch?: batch): void {
     navigateToWholesaleSearchBatch(this.router, batch?.batchId);
