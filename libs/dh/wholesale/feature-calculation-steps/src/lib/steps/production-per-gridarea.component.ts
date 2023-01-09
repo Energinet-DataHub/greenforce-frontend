@@ -14,14 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  Input,
-  ViewChild,
-  inject,
-  AfterViewInit,
-} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, ViewChild, inject, AfterViewInit } from '@angular/core';
 import { LetModule } from '@rx-angular/template';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -37,15 +30,11 @@ import {
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
 
-import { batch } from '@energinet-datahub/dh/wholesale/domain';
-import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
-import {
-  GridAreaDto,
-  ProcessStepType,
-} from '@energinet-datahub/dh/shared/domain';
+import { ProcessStepType } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'dh-wholesale-production-per-gridarea',
@@ -70,48 +59,27 @@ import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-w
 export class DhWholesaleProductionPerGridareaComponent
   implements AfterViewInit
 {
-  @Input() batch!: batch;
-  @Input() gridArea!: GridAreaDto;
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
   private store = inject(DhWholesaleBatchDataAccessApiStore);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
 
+  batch$ = this.store.selectedBatch$;
+  gridArea$ = this.store.selectedGridArea$;
   processStepResults$ = this.store.processStepResults$;
   loadingProcessStepResultsErrorTrigger$ =
     this.store.loadingProcessStepResultsErrorTrigger$;
 
   ngAfterViewInit(): void {
-    const selectedStep = this.route.snapshot.queryParams['step'];
-    if (selectedStep) {
-      this.openDetails();
-    }
-  }
-
-  openDetails(): void {
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { step: 1 },
-    });
-
-    this.drawer.open();
-
-    this.store.getProcessStepResults({
-      batchId: this.batch.batchId,
-      gridAreaCode: this.gridArea.code,
-      processStepResult: ProcessStepType.AggregateProductionPerGridArea,
-    });
-  }
-
-  onDrawerClosed(): void {
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { step: null },
-    });
-  }
-
-  navigateToSearchBatch(batchId?: string): void {
-    navigateToWholesaleSearchBatch(this.router, batchId);
+    combineLatest([this.batch$, this.gridArea$]).subscribe(
+      ([batch, gridArea]) => {
+        if (batch && gridArea) {
+          this.store.getProcessStepResults({
+            batchId: batch.batchId,
+            gridAreaCode: gridArea.code,
+            processStepResult: ProcessStepType.AggregateProductionPerGridArea,
+          });
+        }
+      }
+    );
   }
 }
