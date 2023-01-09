@@ -2,7 +2,7 @@
 
 ## Reason
 
-To make it easier to run and debugge our microservices. A backend directory has been added to the greenforce frontend monorepo where it is possible to clone the microservices that the BFF uses.
+To make it easier to run and debug our microservices. A backend directory has been added to the greenforce frontend monorepo where it is possible to clone the microservices that the BFF uses.
 
 ## Supported projects
 
