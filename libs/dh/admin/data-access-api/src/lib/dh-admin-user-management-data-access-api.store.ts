@@ -95,12 +95,7 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
           .pipe(
             tapResponse(
               (response) => {
-                if (state.hasInitialPageLoaded === false) {
-                  this.patchState({
-                    requestState: LoadingState.LOADED,
-                    hasInitialPageLoaded: true,
-                  });
-                }
+                this.setInitialPageLoaded(state);
 
                 this.patchState({
                   tablePageRequestState: LoadingState.LOADED,
@@ -109,12 +104,7 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
                 this.updateUsers(response);
               },
               () => {
-                if (state.hasInitialPageLoaded === false) {
-                  this.patchState({
-                    requestState: LoadingState.LOADED,
-                    hasInitialPageLoaded: true,
-                  });
-                }
+                this.setInitialPageLoaded(state);
 
                 this.patchState({
                   tablePageRequestState: LoadingState.LOADED,
@@ -170,6 +160,15 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
 
     this.getUsers();
   };
+
+  private setInitialPageLoaded(state: DhUserManagementState) {
+    if (state.hasInitialPageLoaded === false) {
+      this.patchState({
+        requestState: LoadingState.LOADED,
+        hasInitialPageLoaded: true,
+      });
+    }
+  }
 
   ngrxOnStoreInit(): void {
     this.getUsers();
