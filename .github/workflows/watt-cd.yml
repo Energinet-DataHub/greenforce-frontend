@@ -37,13 +37,6 @@ jobs:
   # Frontend
   #
 
-  frontend_promote_prerelease:
-    needs: changes
-    if: ${{ needs.changes.outputs.frontend == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v9
-    with:
-      RELEASE_NAME_PREFIX: watt_frontend
-
   chromatic_deployment:
     name: Deploy to Chromatic
     needs: changes
@@ -80,52 +73,11 @@ jobs:
           buildScriptName: 'designsystem:build'
 
   #
-  # Dispatch deployment request
-  #
-
-  dispatch_deploment_event:
-    runs-on: ubuntu-latest
-    needs: [
-        # Necessary to be able to use its outputs in the dispatch event
-        changes,
-        # Frontend
-        frontend_promote_prerelease,
-        chromatic_deployment,
-      ]
-    if: |
-      always() &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      !(
-        needs.frontend_promote_prerelease.result == 'skipped' &&
-        needs.chromatic_deployment.result == 'skipped'
-      )
-    steps:
-      - run: echo "${{ toJSON(needs) }}"
-
-      - name: Find associated pull request
-        uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@v9
-        id: find_pull_request
-
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.PAT_TOKEN }}
-          repository: '${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}'
-          event-type: 'watt-deployment-request-domain'
-          client-payload: '{"domain_pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "frontend_deploy": "${{ needs.changes.outputs.frontend }}"}'
-
-  #
   # Send notification to teams channel if deployment dispatch failed
   #
 
   dispatch_failed:
-    needs:
-      [
-        frontend_promote_prerelease,
-        chromatic_deployment,
-        dispatch_deploment_event,
-      ]
+    needs: [chromatic_deployment]
     if: |
       always() &&
       contains(needs.*.result, 'failure')
