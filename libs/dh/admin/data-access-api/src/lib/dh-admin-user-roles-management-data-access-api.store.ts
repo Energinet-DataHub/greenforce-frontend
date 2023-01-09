@@ -60,7 +60,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
         this.resetState();
         this.setLoading(LoadingState.LOADING);
       }),
-      switchMap(([, state]) =>
+      switchMap(() =>
         this.httpClientUserRole.v1MarketParticipantUserRoleGetAllGet().pipe(
           tapResponse(
             (response) => {
