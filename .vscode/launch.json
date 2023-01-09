@@ -8,7 +8,7 @@
       "name": "Launch BFF",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build",
+      "preLaunchTask": "build bff",
       "program": "${workspaceFolder}/apps/dh/api-dh/source/DataHub.WebApi/bin/Debug/net6.0/Energinet.DataHub.WebApi.dll",
       "args": [],
       "cwd": "${workspaceFolder}/apps/dh/api-dh/source/DataHub.WebApi",
@@ -19,6 +19,48 @@
       },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
+    },
+    {
+      "name": "Launch Message Archive",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build message archive",
+      "program": "${workspaceFolder}/backend/geh-message-archive/source/Energinet.DataHub.MessageArchive.EntryPoint.WebApi/bin/Debug/net6.0/Energinet.DataHub.MessageArchive.EntryPoint.WebApi.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/geh-message-archive/source/Energinet.DataHub.MessageArchive.EntryPoint.WebApi",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:6000"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
+    },
+    {
+      "name": "Launch Market Participant",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build market participant",
+      "program": "${workspaceFolder}/backend/geh-market-participant/source/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi/bin/Debug/net6.0/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/geh-market-participant/source/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:6001"
       },
       "sourceFileMap": {
         "/Views": "${workspaceFolder}/Views"
