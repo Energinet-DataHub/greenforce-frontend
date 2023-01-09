@@ -46,22 +46,19 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
   private static currentDrawer?: WattDrawerComponent;
 
   /** Used to adjust drawer size to best fit the content. */
-  @Input()
-  size: WattDrawerSize = 'normal';
+  @Input() size: WattDrawerSize = 'normal';
 
-  @Input()
-  loading = false;
+  /** Whether the drawer is open.  */
+  @Input() isOpen = false;
 
-  @Output()
-  closed = new EventEmitter<void>();
+  /** Whether the drawer should show a loading state.  */
+  @Input() loading = false;
+
+  /** Emits whenever the drawer is closed. */
+  @Output() closed = new EventEmitter<void>();
 
   @ViewChild(CdkTrapFocus)
   cdkTrapFocus!: CdkTrapFocus;
-
-  /**
-   * Is the drawer opened
-   */
-  opened = false;
 
   /** @ignore */
   bypassClickCheck = false;
@@ -136,10 +133,10 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
       this.bypassClickCheck = false;
     }, 0);
 
-    if (!this.opened) {
+    if (!this.isOpen) {
       WattDrawerComponent.currentDrawer?.close();
       WattDrawerComponent.currentDrawer = this;
-      this.opened = true;
+      this.isOpen = true;
       this.cdr.detectChanges();
     }
   }
@@ -148,9 +145,9 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
    * Closes the drawer
    */
   close() {
-    if (this.opened) {
+    if (this.isOpen) {
       WattDrawerComponent.currentDrawer = undefined;
-      this.opened = false;
+      this.isOpen = false;
       this.closed.emit();
     }
   }
