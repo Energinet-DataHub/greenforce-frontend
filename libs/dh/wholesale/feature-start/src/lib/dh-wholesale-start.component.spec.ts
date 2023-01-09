@@ -49,21 +49,28 @@ describe(DhWholesaleStartComponent.name, () => {
   }
 
   function setPeriod(startDate: string, endDate: string) {
-    const periodStart: HTMLInputElement = screen.getByRole('textbox', { name: 'start-date-input' });
-    const periodEnd: HTMLInputElement = screen.getByRole('textbox', { name: 'end-date-input' });
+    const periodStart: HTMLInputElement = screen.getByRole('textbox', {
+      name: 'start-date-input',
+    });
+    const periodEnd: HTMLInputElement = screen.getByRole('textbox', {
+      name: 'end-date-input',
+    });
 
     periodStart.setSelectionRange(0, 0);
     periodEnd.setSelectionRange(0, 0);
 
     userEvent.type(periodStart, startDate);
     userEvent.type(periodEnd, endDate);
-  };
+  }
 
-  async function selectGridArea(harnessLoader: HarnessLoader, gridArea: string) {
+  async function selectGridArea(
+    harnessLoader: HarnessLoader,
+    gridArea: string
+  ) {
     const selectHarness = await harnessLoader.getHarness(MatSelectHarness);
     await selectHarness.open();
     await selectHarness.clickOptions({ text: gridArea });
-  };
+  }
 
   it('start button should be disabled until dateRange and gridAreaDropbox both have data', async () => {
     // Arrange
