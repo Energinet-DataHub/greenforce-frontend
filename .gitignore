@@ -450,3 +450,7 @@ playwright-storage-state.json
 apps/dh/e2e-dh/.env.local
 
 .yarnrc
+
+#Poor man monorepo
+backend/*
+!backend/readme.md

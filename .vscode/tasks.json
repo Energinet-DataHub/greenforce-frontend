@@ -2,12 +2,36 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build",
+      "label": "build bff",
       "command": "dotnet",
       "type": "process",
       "args": [
         "build",
         "${workspaceFolder}/apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build message archive",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/backend/geh-message-archive/source/Energinet.DataHub.MessageArchive.EntryPoint.WebApi/Energinet.DataHub.MessageArchive.EntryPoint.WebApi.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build market participant",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/backend/geh-market-participant/source/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],

@@ -45,12 +45,14 @@ export const WHOLESALE_SHELL: Route[] = [
   },
   {
     path: `${WHOLESALE_CALCULATION_STEPS_PATH}/:batchId/:gridAreaCode`,
+    data: { titleTranslationKey: 'wholesale.calculationSteps.topBarTitle' },
     loadComponent: () =>
       import('@energinet-datahub/dh/wholesale/feature-calculation-steps').then(
         (m) => m.DhWholesaleCalculationStepsComponent
       ),
-    data: {
-      titleTranslationKey: 'wholesale.calculationSteps.topBarTitle',
-    },
+    loadChildren: () =>
+      import('@energinet-datahub/dh/wholesale/feature-calculation-steps').then(
+        (m) => m.DhWholesaleCalculationStepsRoutes
+      ),
   },
 ];

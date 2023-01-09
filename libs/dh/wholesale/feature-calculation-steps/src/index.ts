@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export { DhWholesaleCalculationStepsComponent } from './lib/dh-wholesale-calculation-steps.component';
+export { DhWholesaleCalculationStepsRoutes } from './lib/dh-wholesale-calculation-steps.routes';

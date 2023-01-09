@@ -779,6 +779,7 @@
       }
     },
     "calculationSteps": {
+      "open": "Åbn",
       "topBarTitle": "Se akkumulerede tidsserier",
       "sidebarTitle": "Detaljer",
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
@@ -791,7 +792,7 @@
     "processStepResults": {
       "step": "Trin {{step}}",
       "aggregatedProductionPerGridArea": "Aggregeret produktion per netområde",
-      "open": "Åbn",
+      "aggregatedConsumptionPerEnergySupplier": "Aggregeret forbrug per elleverandør",
       "gridArea": "Netområde",
       "loadProcessStepResultsErrorTitle": "Ups! Der opstod en fejl",
       "loadProcessStepResultsErrorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
@@ -828,17 +829,30 @@
   },
   "admin": {
     "userManagement": {
+      "drawer": {
+        "edit": "Rediger",
+        "active": "aktiv"
+      },
       "topBarTitle": "Brugeradministration",
+      "userStatus": {
+        "active": "Aktiv",
+        "inactive": "Inaktiv"
+      },
       "tabs": {
+        "masterData": {
+          "tabLabel": "Stamdata",
+          "name": "Navn",
+          "email": "Email",
+          "phone": "Telefon"
+        },
+        "history": {
+          "tabLabel": "Historik"
+        },
         "users": {
           "tabLabel": "Brugere",
           "usersHeadline": {
             "singular": "{{ usersCount }} bruger",
             "plural": "{{ usersCount }} brugere"
-          },
-          "userStatus": {
-            "active": "Aktiv",
-            "inactive": "Inaktiv"
           },
           "table": {
             "columns": {
