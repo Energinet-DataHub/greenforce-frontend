@@ -66,7 +66,7 @@ export class DhAdminUserManagementAuditLogsDataAccessApiStore extends ComponentS
       tap(() => {
         this.setLoading(LoadingState.LOADING);
       }),
-      switchMap(([userId, _]) =>
+      switchMap(([userId]) =>
         this.httpClient.v1MarketParticipantUserGetUserAuditLogsGet(userId).pipe(
           tapResponse(
             (response) => {
