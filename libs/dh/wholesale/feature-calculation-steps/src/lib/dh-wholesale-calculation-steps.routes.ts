@@ -14,5 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhWholesaleCalculationStepsComponent } from './lib/dh-wholesale-calculation-steps.component';
-export { DhWholesaleCalculationStepsRoutes } from './lib/dh-wholesale-calculation-steps.routes';
+import { Routes } from '@angular/router';
+import { DhWholesaleProductionPerGridareaComponent } from './steps/production-per-gridarea.component';
+import { DhWholesaleConsumptionPerEnergySupplierComponent } from './steps/consumption-per-energy-supplier.component';
+
+export const DhWholesaleCalculationStepsRoutes: Routes = [
+  { path: '1', component: DhWholesaleProductionPerGridareaComponent },
+  { path: '2', component: DhWholesaleConsumptionPerEnergySupplierComponent },
+];
