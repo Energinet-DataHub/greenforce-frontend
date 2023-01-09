@@ -14,23 +14,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *rxLet="isLoading$ as isLoading">
-  <div *ngIf="isLoading" class="users-overview__spinner">
-    <watt-spinner></watt-spinner>
-  </div>
-
-  <ng-container *ngIf="!isLoading">
-    <dh-users-tab
-      [users]="users$ | push"
-      [totalUserCount]="totalUserCount$ | push"
-    ></dh-users-tab>
-  </ng-container>
-</ng-container>
-
-<ng-container *rxLet="hasGeneralError$ as hasGeneralError">
-  <div *ngIf="hasGeneralError" class="users-overview__error">
-    <dh-users-tab-general-error
-      (reload)="reloadUsers()"
-    ></dh-users-tab-general-error>
-  </div>
+<ng-container *transloco="let t; read: 'admin.userManagement.tabs.masterData'">
+  <watt-card>
+    <ul class="master-data-list">
+      <li>
+        <span class="watt-label">{{ t("name") }}</span>
+        <span class="watt-text-s">{{ user?.name }}</span>
+      </li>
+      <li>
+        <span class="watt-label">{{ t("email") }}</span>
+        <span class="watt-text-s">{{ user?.email }}</span>
+      </li>
+      <li>
+        <span class="watt-label">{{ t("phone") }}</span>
+        <span class="watt-text-s">{{ user?.phoneNumber }}</span>
+      </li>
+    </ul>
+  </watt-card>
 </ng-container>

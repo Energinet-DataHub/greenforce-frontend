@@ -14,29 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
-import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
+import { DhUserMasterDataComponent } from './content/dh-user-master-data.component';
 
 @Component({
-  selector: 'dh-users-tab',
-  templateUrl: './dh-users-tab.component.html',
-  styleUrls: ['./dh-users-tab.component.scss'],
+  selector: 'dh-drawer-tabs',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    WattCardModule,
-    DhUsersTabTableComponent,
-  ],
+  templateUrl: './dh-drawer-tabs.component.html',
+  imports: [TranslocoModule, WattTabsModule, DhUserMasterDataComponent],
 })
-export class DhUsersTabComponent {
-  @Input() users: UserOverviewItemDto[] = [];
-  @Input() totalUserCount!: number;
+export class DhTabsComponent {
+  @Input() user: UserOverviewItemDto | null = null;
 }

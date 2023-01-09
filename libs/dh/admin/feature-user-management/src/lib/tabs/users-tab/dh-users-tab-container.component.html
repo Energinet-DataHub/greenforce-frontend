@@ -1,0 +1,39 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *rxLet="isLoading$ as isLoading">
+  <div *ngIf="isLoading" class="users-overview__spinner">
+    <watt-spinner></watt-spinner>
+  </div>
+
+  <ng-container *ngIf="!isLoading">
+    <dh-users-tab
+      [users]="users$ | push"
+      [totalUserCount]="totalUserCount$ | push"
+      [pageIndex]="pageIndex$ | push"
+      [pageSize]="pageSize$ | push"
+      (pageChange)="onPageChange($event)"
+    ></dh-users-tab>
+  </ng-container>
+</ng-container>
+
+<ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+  <div *ngIf="hasGeneralError" class="users-overview__error">
+    <dh-users-tab-general-error
+      (reload)="reloadUsers()"
+    ></dh-users-tab-general-error>
+  </div>
+</ng-container>

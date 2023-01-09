@@ -14,22 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
+import { MatTableModule } from '@angular/material/table';
 
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { DhCustomDataSource } from '@energinet-datahub/dh/admin/data-access-api';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
-import {
-  WattTableDataSource,
-  WattTableColumnDef,
-  WATT_TABLE,
-} from '@energinet-datahub/watt/table';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+
+import { DhUserStatusComponent } from '../../shared/dh-user-status.component';
+import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
 
 @Component({
   selector: 'dh-users-tab-table',
@@ -40,6 +35,10 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/s
       :host {
         display: block;
       }
+
+      ::ng-deep .mat-row.clickable:hover {
+        background-color: var(--watt-color-neutral-grey-100);
+      }
     `,
   ],
   // Using `OnPush` causes issues with table's header row translations
@@ -48,28 +47,19 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/s
     CommonModule,
     TranslocoModule,
     DhEmDashFallbackPipeScam,
-    WATT_TABLE,
+    MatTableModule,
+    DhUserStatusComponent,
+    DhUserDrawerComponent,
   ],
 })
 export class DhUsersTabTableComponent {
-  private transloco = inject(TranslocoService);
+  dataSource = new DhCustomDataSource();
+  displayedColumns = ['name', 'email', 'phone', 'status'];
 
-  dataSource = new WattTableDataSource<UserOverviewItemDto>();
+  @ViewChild(DhUserDrawerComponent)
+  drawer!: DhUserDrawerComponent;
 
-  columns: WattTableColumnDef<UserOverviewItemDto> = {
-    name: { accessor: 'name' },
-    email: { accessor: 'email' },
-    phone: { accessor: 'phoneNumber' },
-    status: { accessor: 'active' },
-  };
-
-  @Input() set users(usersData: UserOverviewItemDto[]) {
-    this.dataSource.data = usersData;
+  onRowClick(row: UserOverviewItemDto): void {
+    this.drawer.open(row);
   }
-
-  translateHeader = (columnId: string): string => {
-    const baseKey = 'admin.userManagement.tabs.users.table.columns';
-
-    return this.transloco.translate(`${baseKey}.${columnId}`);
-  };
 }

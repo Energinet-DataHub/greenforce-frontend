@@ -32,8 +32,8 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         [HttpPut]
-        [Route("users/roles")]
-        public Task UpdateAssignmentsAsync(Guid actorId, Guid userId, UpdateUserRoleAssignmentsDto assignments)
+        [Route("UpdateAssignments")]
+        public Task<ActionResult> UpdateAssignmentsAsync(Guid actorId, Guid userId, UpdateUserRoleAssignmentsDto assignments)
         {
             return HandleExceptionAsync(() => _client.UpdateUserRoleAssignmentsAsync(actorId, userId, assignments));
         }

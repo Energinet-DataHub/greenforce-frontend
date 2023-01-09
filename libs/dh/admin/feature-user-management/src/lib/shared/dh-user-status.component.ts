@@ -14,24 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
-
-import { DhUsersTabContainerComponent } from './users-tab/dh-users-tab-container.component';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 
 @Component({
-  selector: 'dh-user-management-tabs',
+  selector: 'dh-user-status',
   standalone: true,
-  templateUrl: './dh-user-management-tabs.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  imports: [TranslocoModule, WattTabsModule, DhUsersTabContainerComponent],
+  template: `<ng-container
+    *transloco="let t; read: 'admin.userManagement.userStatus'"
+  >
+    <watt-badge *ngIf="isActive" type="info">{{ t('active') }}</watt-badge>
+
+    <watt-badge *ngIf="!isActive" type="warning">{{
+      t('inactive')
+    }}</watt-badge>
+  </ng-container>`,
+  imports: [CommonModule, TranslocoModule, WattBadgeComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhUserManagementTabsComponent {}
+export class DhUserStatusComponent {
+  @Input() isActive!: boolean;
+}

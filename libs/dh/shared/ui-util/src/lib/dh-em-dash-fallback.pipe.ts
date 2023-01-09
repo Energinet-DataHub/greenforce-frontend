@@ -21,7 +21,9 @@ import { emDash } from './em-dash';
 export type TValue = string | number | undefined | null;
 export const pipeName = 'dhEmDashFallback';
 
-@Pipe({ name: pipeName })
+@Pipe({
+  name: pipeName,
+})
 export class DhEmDashFallbackPipe implements PipeTransform {
   transform(value: TValue): string | number {
     if (this.isFalsy(value)) {

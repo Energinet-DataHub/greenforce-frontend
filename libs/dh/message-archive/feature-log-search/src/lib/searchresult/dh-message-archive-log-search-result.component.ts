@@ -28,7 +28,7 @@ import {
 import { LetModule } from '@rx-angular/template';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { MessageArchiveSearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
@@ -49,7 +49,7 @@ import { DhMessageArchiveDrawerComponent } from '../drawer/dh-message-archive-dr
 
 import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
 import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeName.pipe';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
 
 @Component({
@@ -83,7 +83,6 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
 export class DhMessageArchiveLogSearchResultComponent
   implements AfterViewInit, OnChanges
 {
-  private _translateScrope = 'messageArchive.search';
   activeRow: MessageArchiveSearchResultItemDto | undefined;
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(DhMessageArchiveDrawerComponent)
@@ -104,7 +103,7 @@ export class DhMessageArchiveLogSearchResultComponent
   readonly dataSource: MatTableDataSource<MessageArchiveSearchResultItemDto> =
     new MatTableDataSource<MessageArchiveSearchResultItemDto>();
 
-  constructor(private translocoService: TranslocoService) {
+  constructor() {
     this.columns = {
       messageId: {
         accessor: 'messageId',

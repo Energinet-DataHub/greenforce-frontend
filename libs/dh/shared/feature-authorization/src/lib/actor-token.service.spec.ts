@@ -34,7 +34,7 @@ describe(ActorTokenService.name, () => {
   const createActorsRequest = () =>
     new HttpRequest<string>(
       'GET',
-      'https://localhost:5000/v1/MarketParticipantUser/Actors',
+      'https://localhost:5000/v1/MarketParticipantUser/GetUserActors',
       {
         headers: new HttpHeaders({ Authorization: 'Bearer xyz' }),
       }
@@ -190,7 +190,7 @@ describe(ActorTokenService.name, () => {
     const requestA = createActorsRequest();
     const requestB = new HttpRequest<string>(
       'GET',
-      'https://localhost:5000/v1/MarketParticipantUser/Actors',
+      'https://localhost:5000/v1/MarketParticipantUser/GetUserActors',
       {
         headers: new HttpHeaders({ Authorization: 'Bearer abc' }),
       }
