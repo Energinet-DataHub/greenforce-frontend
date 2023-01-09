@@ -14,12 +14,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-card *transloco="let transloco; read: 'wholesale.gridAreas'">
+<watt-card
+  *transloco="let transloco; read: 'wholesale.gridAreas'"
+  [ngClass]="{ empty: _data.data.length === 0 }"
+>
   <watt-card-title>
     <h3 class="watt-on-light--high-emphasis">
       {{ transloco("header", { total: _data.data.length }) }}
     </h3>
-    <dh-shared-ui-paginator></dh-shared-ui-paginator>
   </watt-card-title>
 
   <!-- Table -->
@@ -42,4 +44,6 @@ limitations under the License.
     [title]="transloco('noGridAreasFound')"
   >
   </watt-empty-state>
+
+  <watt-paginator></watt-paginator>
 </watt-card>

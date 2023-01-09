@@ -43,6 +43,7 @@ watt-table .mat-table {
     height: auto;
     background: var(--watt-color-primary-ultralight);
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    z-index: 2;
   }
 
   td.mat-cell {

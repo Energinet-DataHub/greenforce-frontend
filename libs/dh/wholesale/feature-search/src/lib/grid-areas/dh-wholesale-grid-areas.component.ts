@@ -32,7 +32,7 @@ import {
 } from '@energinet-datahub/watt/table';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
@@ -45,8 +45,8 @@ import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
     MatSortModule,
     TranslocoModule,
     WattEmptyStateModule,
-    DhSharedUiPaginatorComponent,
     WattCardModule,
+    WattPaginatorComponent,
   ],
   selector: 'dh-wholesale-grid-areas',
   templateUrl: './dh-wholesale-grid-areas.component.html',
@@ -55,12 +55,12 @@ import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 })
 export class DhWholesaleGridAreasComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(DhSharedUiPaginatorComponent)
-  paginator!: DhSharedUiPaginatorComponent;
+  @ViewChild(WattPaginatorComponent)
+  paginator!: WattPaginatorComponent;
 
   @Input() set data(gridAreas: GridAreaDto[]) {
     this._data = new WattTableDataSource(gridAreas);
-    this._data.paginator = this.paginator?.instance;
+    this._data.paginator = this.paginator;
   }
 
   @Input() disabled = false;
