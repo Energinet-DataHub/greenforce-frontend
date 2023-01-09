@@ -14,38 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render, screen } from '@testing-library/angular';
-import userEvent from '@testing-library/user-event';
+import { HarnessLoader } from '@angular/cdk/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatSelectHarness } from '@angular/material/select/testing';
+import { render, screen } from '@testing-library/angular';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import userEvent from '@testing-library/user-event';
 
+import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
-
-import { DhWholesaleStartComponent } from './dh-wholesale-start.component';
 import { WattToastModule } from '@energinet-datahub/watt/toast';
 
-import { HarnessLoader } from '@angular/cdk/testing';
+import { DhWholesaleStartComponent } from './dh-wholesale-start.component';
 
 describe(DhWholesaleStartComponent.name, () => {
   async function setup() {
     const { fixture } = await render(DhWholesaleStartComponent, {
       imports: [
+        DhApiModule.forRoot(),
+        getTranslocoTestingModule(),
+        HttpClientModule,
         WattDanishDatetimeModule.forRoot(),
         WattToastModule.forRoot(),
-        getTranslocoTestingModule(),
-        DhApiModule.forRoot(),
-        HttpClientModule,
       ],
     });
 
-    const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+    const harnessLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
 
     return {
-      loader,
+      harnessLoader,
     };
   }
 
@@ -60,22 +59,22 @@ describe(DhWholesaleStartComponent.name, () => {
     userEvent.type(periodEnd, endDate);
   };
 
-  async function selectGridArea(loader: HarnessLoader, gridArea: string) {
-    const selectHarness = await loader.getHarness(MatSelectHarness);
+  async function selectGridArea(harnessLoader: HarnessLoader, gridArea: string) {
+    const selectHarness = await harnessLoader.getHarness(MatSelectHarness);
     await selectHarness.open();
     await selectHarness.clickOptions({ text: gridArea });
   };
 
   it('start button should be disabled until dateRange and gridAreaDropbox both have data', async () => {
     // Arrange
-    const { loader } = await setup();
+    const { harnessLoader } = await setup();
     const submit = screen.getByRole('button', {
       name: enTranslations.wholesale.startBatch.startLabel,
     });
     expect(submit).toBeDisabled();
 
     // Act
-    await selectGridArea(loader, '806');
+    await selectGridArea(harnessLoader, '806');
     setPeriod('09032022', '09032022');
 
     // Assert
