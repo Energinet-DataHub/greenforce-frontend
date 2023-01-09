@@ -60,6 +60,7 @@ export class DhUserRolesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.user);
     if (this.user?.id) {
       this.store.getUserRoleView(this.user.id);
     }

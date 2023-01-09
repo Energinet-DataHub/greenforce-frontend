@@ -1,0 +1,65 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TranslocoModule } from '@ngneat/transloco';
+import { MatTableModule } from '@angular/material/table';
+
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { DhCustomDataSource } from '@energinet-datahub/dh/admin/data-access-api';
+import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+
+import { DhUserStatusComponent } from '../../shared/dh-user-status.component';
+import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
+
+@Component({
+  selector: 'dh-users-tab-table',
+  standalone: true,
+  templateUrl: './dh-users-tab-table.component.html',
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      ::ng-deep .mat-row.clickable:hover {
+        background-color: var(--watt-color-neutral-grey-100);
+      }
+    `,
+  ],
+  // Using `OnPush` causes issues with table's header row translations
+  changeDetection: ChangeDetectionStrategy.Default,
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    DhEmDashFallbackPipeScam,
+    MatTableModule,
+    DhUserStatusComponent,
+    DhUserDrawerComponent,
+  ],
+})
+export class DhUsersTabTableComponent {
+  dataSource = new DhCustomDataSource();
+  displayedColumns = ['name', 'email', 'phone', 'status'];
+
+  @ViewChild(DhUserDrawerComponent)
+  drawer!: DhUserDrawerComponent;
+
+  onRowClick(row: UserOverviewItemDto): void {
+    this.drawer.open(row);
+  }
+}

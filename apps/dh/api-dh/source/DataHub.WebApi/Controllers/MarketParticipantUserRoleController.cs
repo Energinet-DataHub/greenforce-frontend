@@ -47,7 +47,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [Route("GetAll")]
         public Task<ActionResult<IEnumerable<UserRoleInfoDto>>> GetAllAsync()
         {
-            return HandleExceptionAsync(() => _client.GetAllAsync());
+            return HandleExceptionAsync(() => _userRoleClient.GetAllAsync());
         }
 
         [HttpGet]
@@ -57,7 +57,8 @@ namespace Energinet.DataHub.WebApi.Controllers
             return HandleExceptionAsync(() => _userRoleClient.GetAssignableAsync(actorId));
         }
 
-        [HttpGet("{userId:guid}/")]
+        [HttpGet]
+        [Route("GetUserRoleView")]
         public async Task<ActionResult<UserRoleView>> GetUserRoleViewAsync(Guid userId)
         {
             var allOrganizations = await _client.GetOrganizationsAsync();
@@ -108,7 +109,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [Route("Create")]
         public Task<ActionResult<Guid>> CreateAsync(CreateUserRoleDto userRole)
         {
-            return HandleExceptionAsync(() => _client.CreateAsync(userRole));
+            return HandleExceptionAsync(() => _userRoleClient.CreateAsync(userRole));
         }
     }
 }

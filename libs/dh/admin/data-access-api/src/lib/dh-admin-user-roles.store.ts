@@ -64,22 +64,26 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
         this.resetState();
         this.setLoading(LoadingState.LOADING);
       }),
-      switchMap((userId) =>
-        this.httpClient.v1MarketParticipantUserRoleUserIdGet(userId).pipe(
-          tapResponse(
-            (userRoleView) => {
-              this.setLoading(LoadingState.LOADED);
+      switchMap((userId) => {
+        console.log({ userId });
+        return this.httpClient
+          .v1MarketParticipantUserRoleGetUserRoleViewGet(userId)
+          .pipe(
+            tapResponse(
+              (userRoleView) => {
+                console.log({ userRoleView });
+                this.setLoading(LoadingState.LOADED);
 
-              this.updateRoles(userRoleView);
-            },
-            () => {
-              this.setLoading(LoadingState.LOADED);
+                this.updateRoles(userRoleView);
+              },
+              () => {
+                this.setLoading(LoadingState.LOADED);
 
-              this.handleError();
-            }
-          )
-        )
-      )
+                this.handleError();
+              }
+            )
+          );
+      })
     )
   );
 

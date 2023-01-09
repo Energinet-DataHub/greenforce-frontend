@@ -21,12 +21,18 @@ import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhUserMasterDataComponent } from './content/dh-user-master-data.component';
+import { DhUserRolesComponent } from './content/dh-user-roles.component';
 
 @Component({
   selector: 'dh-drawer-tabs',
   standalone: true,
   templateUrl: './dh-drawer-tabs.component.html',
-  imports: [TranslocoModule, WattTabsModule, DhUserMasterDataComponent],
+  imports: [
+    TranslocoModule,
+    WattTabsModule,
+    DhUserMasterDataComponent,
+    DhUserRolesComponent,
+  ],
 })
 export class DhTabsComponent {
   @Input() user: UserOverviewItemDto | null = null;
