@@ -872,6 +872,12 @@
         "permissions": {
           "tabLabel": "Permissions"
         }
+      },
+      "createrole": {
+        "title": "Create Userrole",
+        "tabs": {
+          "title": "Create Userrole"
+        }
       }
     }
   }

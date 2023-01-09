@@ -875,6 +875,14 @@
         "permissions": {
           "tabLabel": "Rettigheder"
         }
+      },
+      "createrole": {
+        "title": "Create Userrole",
+        "tabs": {
+          "masterdata": {
+            "title": "Stamdata"
+          }
+        }
       }
     }
   }
