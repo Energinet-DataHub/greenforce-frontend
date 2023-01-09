@@ -182,6 +182,9 @@
       "@energinet-datahub/dh/shared/ui-paginator": [
         "libs/dh/shared/ui-paginator/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/ui-util": [
+        "libs/dh/shared/ui-util/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/util-application-insights": [
         "libs/dh/shared/util-application-insights/src/index.ts"
       ],
@@ -348,6 +351,9 @@
       ],
       "@energinet-datahub/watt/modal": [
         "libs/ui-watt/src/lib/components/modal/index.ts"
+      ],
+      "@energinet-datahub/watt/paginator": [
+        "libs/ui-watt/src/lib/components/paginator/index.ts"
       ],
       "@energinet-datahub/watt/resize-observer": [
         "libs/ui-watt/src/lib/utils/resize-observer/index.ts"

@@ -26,22 +26,15 @@ import {
   MarketParticipantUserHttp,
   TokenHttp,
 } from '@energinet-datahub/dh/shared/domain';
-import { map, Observable, of, switchMap, tap } from 'rxjs';
+import { map, Observable, ReplaySubject, switchMap, tap } from 'rxjs';
 import { ActorStorage, actorStorageToken } from './actor-storage';
 
-type CachedEntry = { token: string; value: string };
+type CachedEntry = { token: string; value: Observable<string> } | undefined;
 
 @Injectable({ providedIn: 'root' })
 export class ActorTokenService {
-  private _internalActors: CachedEntry = {
-    token: '',
-    value: '',
-  };
-
-  private _internalToken: CachedEntry = {
-    token: '',
-    value: '',
-  };
+  private _internalActors: CachedEntry;
+  private _internalToken: CachedEntry;
 
   constructor(
     private marketParticipantUserHttp: MarketParticipantUserHttp,
@@ -80,7 +73,7 @@ export class ActorTokenService {
 
   public acquireToken = (): Observable<string> => {
     return this.marketParticipantUserHttp
-      .v1MarketParticipantUserActorsGet()
+      .v1MarketParticipantUserGetUserActorsGet()
       .pipe(
         tap((x) => this.actorStorage.setUserAssociatedActors(x.actorIds)),
         switchMap(() => {
@@ -105,28 +98,39 @@ export class ActorTokenService {
       );
 
     const cachedEntry = readCache();
-    if (cachedEntry.token === externalToken) {
+    if (cachedEntry && cachedEntry.token === externalToken) {
       return this.createCachedResponse(cachedEntry.value);
     }
 
+    const subject = new ReplaySubject<string>();
+    writeCache({ token: externalToken, value: subject });
+
     return nextHandler.handle(request).pipe(
-      tap((event) => {
-        const response = event as HttpResponse<string>;
-        if (response.status === 200 && response.body) {
-          writeCache({ token: externalToken, value: response.body });
-        }
+      tap({
+        next: (event) => {
+          const response = event as HttpResponse<string>;
+          if (response.status === 200 && response.body) {
+            subject.next(response.body);
+            subject.complete();
+          }
+        },
+        error: (error) => {
+          subject.error(error);
+        },
       })
     );
   }
 
   private createCachedResponse(
-    cachedValue: string
+    cache: Observable<string>
   ): Observable<HttpResponse<string>> {
-    return of(new HttpResponse<string>({ body: cachedValue, status: 200 }));
+    return cache.pipe(
+      map((value) => new HttpResponse<string>({ body: value, status: 200 }))
+    );
   }
 
   private isUserActorsRequest(request: HttpRequest<unknown>): boolean {
-    return request.url.endsWith('/v1/MarketParticipantUser/Actors');
+    return request.url.endsWith('/v1/MarketParticipantUser/GetUserActors');
   }
 
   private isTokenRequest(request: HttpRequest<unknown>): boolean {

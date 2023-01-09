@@ -16,18 +16,17 @@
  */
 import { Component, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
+import { CommonModule } from '@angular/common';
+
 import {
   WattDrawerComponent,
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
-
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-
-import { DhTabsComponent } from './tabs/dh-tabs.component';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
-import { CommonModule } from '@angular/common';
+
+import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
+import { DhUserStatusComponent } from '../shared/dh-user-status.component';
 
 @Component({
   selector: 'dh-user-drawer',
@@ -35,27 +34,39 @@ import { CommonModule } from '@angular/common';
   templateUrl: './dh-user-drawer.component.html',
   styles: [
     `
-      h1 {
-        margin-top: 0;
+      .user-name__grid {
+        display: flex;
+        align-items: center;
+        gap: var(--watt-space-s);
+        margin-bottom: 28px; /* Magic UX number */
+      }
+
+      .user-name__headline {
+        margin: 0;
       }
     `,
   ],
   imports: [
+    CommonModule,
     TranslocoModule,
     WattDrawerModule,
     WattButtonModule,
     DhTabsComponent,
-    WattBadgeComponent,
-    CommonModule,
+    DhUserStatusComponent,
   ],
 })
 export class DhUserDrawerComponent {
-  @ViewChild('drawer') drawer!: WattDrawerComponent;
+  @ViewChild('drawer')
+  drawer!: WattDrawerComponent;
+
   selectedUser: UserOverviewItemDto | null = null;
-  onClose() {
+
+  onClose(): void {
     this.drawer.close();
+    this.selectedUser = null;
   }
-  open(user: UserOverviewItemDto) {
+
+  open(user: UserOverviewItemDto): void {
     this.selectedUser = user;
     this.drawer.open();
   }

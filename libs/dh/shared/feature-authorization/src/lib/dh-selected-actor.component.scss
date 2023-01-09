@@ -14,18 +14,73 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+.actors-dropup-container {
+  background-color: var(--watt-color-neutral-white);
+  max-height: 512px;
+  min-width: 312px;
+  border-radius: 4px;
+  overflow-y: auto;
+}
+
+.actor-group-container:not(:last-child) {
+  padding-bottom: var(--watt-space-m);
+}
+
+.organization-name-header {
+  color: var(--watt-color-neutral-black);
+  padding-top: var(--watt-space-s);
+  padding-right: var(--watt-space-m);
+  padding-left: var(--watt-space-m);
+}
+
+.actor-container {
+  padding: var(--watt-space-s) var(--watt-space-m);
+  cursor: pointer;
+}
+
+.actor-container-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.actor-selected-icon {
+  margin-left: auto;
+  color: var(--watt-color-primary);
+}
+
+.actor-container:hover {
+  background-color: var(--watt-color-primary-ultralight);
+}
+
 .selected-actor-container {
   display: flex;
   flex-direction: column;
   background-color: var(--watt-on-light-low-emphasis);
-  padding: 12px 16px;
+  padding: var(--watt-space-s) var(--watt-space-m);
   border-radius: 8px;
+  cursor: pointer;
 }
 
-.organization-name-label {
-  color: var(--watt-on-dark-low-emphasis);
+.selected-organization-name-label {
+  color: var(--watt-on-dark-medium-emphasis);
+}
+
+.selected-gln-label {
+  color: var(--watt-on-dark-high-emphasis);
+}
+
+.selected-actor-name-label {
+  color: var(--watt-on-dark-high-emphasis);
+  font-weight: 400;
+  text-transform: none;
+}
+
+.actor-name-label {
+  color: var(--watt-on-light-medium-emphasis);
 }
 
 .gln-label {
-  color: var(--watt-on-dark-medium-emphasis);
+  color: var(--watt-color-neutral-black);
+  font-weight: 400;
 }

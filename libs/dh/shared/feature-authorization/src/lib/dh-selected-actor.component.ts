@@ -17,21 +17,37 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LetModule, PushModule } from '@rx-angular/template';
+import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 
-import { DhSelectedActorStore } from './dh-selected-actor.store';
+import { DhSelectedActorStore, Actor } from './dh-selected-actor.store';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
 
 @Component({
   selector: 'dh-selected-actor',
   styleUrls: ['./dh-selected-actor.component.scss'],
   templateUrl: './dh-selected-actor.component.html',
   standalone: true,
-  imports: [CommonModule, LetModule, PushModule],
+  imports: [CommonModule, LetModule, PushModule, WattIconModule, OverlayModule],
 })
 export class DhSelectedActorComponent {
+  actorGroups$ = this.store.actorGroups$;
   selectedActor$ = this.store.selectedActor$;
   isLoading$ = this.store.isLoading$;
+  isOpen = false;
+  positionPairs: ConnectionPositionPair[] = [
+    {
+      offsetX: 0,
+      offsetY: -8,
+      originX: 'start',
+      originY: 'top',
+      overlayX: 'start',
+      overlayY: 'bottom',
+    },
+  ];
 
   constructor(private store: DhSelectedActorStore) {
     this.store.init();
   }
+
+  selectActor = (actor: Actor) => this.store.setSelectedActor(actor.id);
 }

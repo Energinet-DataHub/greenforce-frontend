@@ -49,7 +49,7 @@ import { DhMessageArchiveDrawerComponent } from '../drawer/dh-message-archive-dr
 
 import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
 import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeName.pipe';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
 
 @Component({

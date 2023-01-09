@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
@@ -26,16 +26,27 @@ import { DhMeteringPointFeatureIdentityAndMasterDataModule } from '@energinet-da
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { DhMeteringPointFeatureTabsModule } from '@energinet-datahub/dh/metering-point/feature-tabs';
 
-import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
-import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-found.component';
-import { DhMeteringPointGeneralErrorScam } from './general-error/dh-metering-point-general-error.component';
+import { DhBreadcrumbComponent } from './breadcrumb/dh-breadcrumb.component';
+import { DhMeteringPointNotFoundComponent } from './not-found/dh-metering-point-not-found.component';
+import { DhMeteringPointGeneralErrorComponent } from './general-error/dh-metering-point-general-error.component';
 
 @Component({
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-overview',
   styleUrls: ['./dh-metering-point-overview.component.scss'],
   templateUrl: './dh-metering-point-overview.component.html',
   providers: [DhMeteringPointDataAccessApiStore],
+  imports: [
+    CommonModule,
+    DhBreadcrumbComponent,
+    DhMeteringPointFeatureIdentityAndMasterDataModule,
+    DhMeteringPointNotFoundComponent,
+    DhMeteringPointGeneralErrorComponent,
+    LetModule,
+    WattSpinnerModule,
+    DhMeteringPointFeatureTabsModule,
+  ],
 })
 export class DhMeteringPointOverviewComponent {
   meteringPointId$ = this.route.params.pipe(
@@ -57,18 +68,3 @@ export class DhMeteringPointOverviewComponent {
     this.store.loadMeteringPointData(this.meteringPointId$);
   }
 }
-
-@NgModule({
-  declarations: [DhMeteringPointOverviewComponent],
-  imports: [
-    CommonModule,
-    DhBreadcrumbScam,
-    DhMeteringPointFeatureIdentityAndMasterDataModule,
-    DhMeteringPointNotFoundScam,
-    DhMeteringPointGeneralErrorScam,
-    LetModule,
-    WattSpinnerModule,
-    DhMeteringPointFeatureTabsModule,
-  ],
-})
-export class DhMeteringPointOverviewScam {}

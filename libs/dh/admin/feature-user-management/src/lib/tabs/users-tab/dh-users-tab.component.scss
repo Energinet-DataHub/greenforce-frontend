@@ -16,8 +16,16 @@
  */
 :host {
   display: block;
+  // TODO: Add spacing variable for 24px
+  margin: 24px var(--watt-space-s);
 }
 
 h4 {
   margin: 0;
+}
+
+.card-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

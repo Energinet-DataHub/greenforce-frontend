@@ -778,7 +778,9 @@
       "topBarTitle": "See accumulated time series",
       "sidebarTitle": "Details",
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
-      "subHeading": "Grid Area Code {{gridAreaCode}}",
+      "gridAreaCode": "Grid Area Code",
+      "type": "Type",
+      "balanceFixing": "Balance fixing",
       "loadCalculationStepsFailedTitle": "Oops! There was an error",
       "loadCalculationStepsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information"
     },
@@ -787,6 +789,8 @@
       "aggregatedProductionPerGridArea": "Aggregated production per grid area",
       "open": "Open",
       "gridArea": "Grid area",
+      "loadProcessStepResultsErrorTitle": "Oops! There was an error",
+      "loadProcessStepResultsErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information",
       "meteringPointType": "Metering point type",
       "messageId": "Message ID",
       "calculationPeriod": "Calculation period",
@@ -805,7 +809,11 @@
     "batchDetails": {
       "headline": "Batch: {{batchId}}",
       "calculationPeriod": "Calculation period",
-      "executionTime": "Execution time"
+      "executionTime": "Execution time",
+      "executionType": "Execution type",
+      "executionTypeActual": "Actual",
+      "errorTitle": "Oops! There was an error",
+      "errorMessage": "Unfortunately, an error occurred while retrieving the necessary information"
     },
     "gridAreas": {
       "header": "{{total}} Grid Areas",
@@ -820,10 +828,18 @@
         "edit": "Edit",
         "active": "Active"
       },
+      "drawer": {
+        "edit": "Edit",
+        "active": "Active"
+      },
       "topBarTitle": "User management",
+      "userStatus": {
+        "active": "Aktiv",
+        "inactive": "Inactive"
+      },
       "tabs": {
-        "basicdata": {
-          "tabLabel": "Basicdata",
+        "masterData": {
+          "tabLabel": "Master data",
           "name": "Name",
           "email": "Email",
           "phone": "Phone"
@@ -837,6 +853,7 @@
             "singular": "{{ usersCount }} user",
             "plural": "{{ usersCount }} users"
           },
+
           "table": {
             "columns": {
               "name": "Name",

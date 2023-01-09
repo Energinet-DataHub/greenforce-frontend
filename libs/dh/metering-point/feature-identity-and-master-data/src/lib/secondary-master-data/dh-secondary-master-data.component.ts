@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import {
@@ -26,11 +26,11 @@ import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattExpansionModule } from '@energinet-datahub/watt/expansion';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import {
-  DhEmDashFallbackPipeScam,
   DhIsParentPipeScam,
   DhShowForMeteringPointTypeDirectiveScam,
   DhYesNoPipeScam,
 } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 
 export interface MeteringPointIdentityTranslationKeys {
   unit: string;
@@ -44,9 +44,21 @@ export interface MeteringPointIdentityTranslationKeys {
 }
 
 @Component({
+  standalone: true,
   selector: 'dh-secondary-master-data',
   templateUrl: './dh-secondary-master-data.component.html',
   styleUrls: ['./dh-secondary-master-data.component.scss'],
+  imports: [
+    WattExpansionModule,
+    CommonModule,
+    TranslocoModule,
+    WattIconModule,
+    DhYesNoPipeScam,
+    DhSharedUiDateTimeModule,
+    DhShowForMeteringPointTypeDirectiveScam,
+    DhIsParentPipeScam,
+    DhEmDashFallbackPipeScam,
+  ],
 })
 export class DhSecondaryMasterDataComponent {
   #secondaryMasterData: MeteringPointCimDto | undefined;
@@ -138,20 +150,3 @@ export class DhSecondaryMasterDataComponent {
     return translationKeys;
   }
 }
-
-@NgModule({
-  declarations: [DhSecondaryMasterDataComponent],
-  imports: [
-    WattExpansionModule,
-    CommonModule,
-    TranslocoModule,
-    WattIconModule,
-    DhYesNoPipeScam,
-    DhSharedUiDateTimeModule,
-    DhShowForMeteringPointTypeDirectiveScam,
-    DhIsParentPipeScam,
-    DhEmDashFallbackPipeScam,
-  ],
-  exports: [DhSecondaryMasterDataComponent],
-})
-export class DhSecondaryMasterDataComponentScam {}

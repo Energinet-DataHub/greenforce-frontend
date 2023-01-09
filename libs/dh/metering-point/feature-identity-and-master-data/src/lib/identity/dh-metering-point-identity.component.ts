@@ -15,19 +15,14 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/domain';
 import { DhMeteringPointIdentityTextFieldWithIconComponent } from './identity-text-field/dh-metering-point-identity-text-field-with-icon.component';
 import { DhMeteringPointStatusBadgeScam } from '@energinet-datahub/dh/metering-point/ui-status-badge';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 
 export interface MeteringPointIdentityTranslationKeys {
   meteringMethod: string;
@@ -39,10 +34,19 @@ export interface MeteringPointIdentityTranslationKeys {
 }
 
 @Component({
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-identity',
   styleUrls: ['./dh-metering-point-identity.component.scss'],
   templateUrl: './dh-metering-point-identity.component.html',
+  imports: [
+    DhMeteringPointIdentityTextFieldWithIconComponent,
+    DhMeteringPointStatusBadgeScam,
+    DhEmDashFallbackPipeScam,
+    DhSharedUiDateTimeModule,
+    CommonModule,
+    TranslocoModule,
+  ],
 })
 export class DhMeteringPointIdentityComponent {
   identityDetails!: MeteringPointCimDto;
@@ -97,17 +101,3 @@ export class DhMeteringPointIdentityComponent {
     }),
   });
 }
-
-@NgModule({
-  declarations: [DhMeteringPointIdentityComponent],
-  exports: [DhMeteringPointIdentityComponent],
-  imports: [
-    DhMeteringPointIdentityTextFieldWithIconComponent,
-    DhMeteringPointStatusBadgeScam,
-    DhEmDashFallbackPipeScam,
-    DhSharedUiDateTimeModule,
-    CommonModule,
-    TranslocoModule,
-  ],
-})
-export class DhMeteringPointIdentityScam {}

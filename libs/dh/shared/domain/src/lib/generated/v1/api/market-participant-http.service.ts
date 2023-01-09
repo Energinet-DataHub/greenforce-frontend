@@ -106,14 +106,353 @@ export class MarketParticipantHttp {
     }
 
     /**
-     * Retrieves all organizations
+     * Updates an Actor in an organization
+     * @param orgId 
+     * @param createActorDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantOrganizationGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<OrganizationDto>>;
-    public v1MarketParticipantOrganizationGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<OrganizationDto>>>;
-    public v1MarketParticipantOrganizationGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<OrganizationDto>>>;
-    public v1MarketParticipantOrganizationGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantOrganizationCreateActorPost(orgId?: string, createActorDto?: CreateActorDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
+    public v1MarketParticipantOrganizationCreateActorPost(orgId?: string, createActorDto?: CreateActorDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
+    public v1MarketParticipantOrganizationCreateActorPost(orgId?: string, createActorDto?: CreateActorDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
+    public v1MarketParticipantOrganizationCreateActorPost(orgId?: string, createActorDto?: CreateActorDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (orgId !== undefined && orgId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>orgId, 'orgId');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (Bearer) required
+        localVarCredential = this.configuration.lookupCredential('Bearer');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json',
+            'text/json',
+            'application/*+json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/v1/MarketParticipant/Organization/CreateActor`;
+        return this.httpClient.request<string>('post', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: createActorDto,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Creates a contact for the actor.
+     * @param orgId 
+     * @param actorId 
+     * @param createActorContactDto 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public v1MarketParticipantOrganizationCreateContactPost(orgId?: string, actorId?: string, createActorContactDto?: CreateActorContactDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
+    public v1MarketParticipantOrganizationCreateContactPost(orgId?: string, actorId?: string, createActorContactDto?: CreateActorContactDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
+    public v1MarketParticipantOrganizationCreateContactPost(orgId?: string, actorId?: string, createActorContactDto?: CreateActorContactDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
+    public v1MarketParticipantOrganizationCreateContactPost(orgId?: string, actorId?: string, createActorContactDto?: CreateActorContactDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (orgId !== undefined && orgId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>orgId, 'orgId');
+        }
+        if (actorId !== undefined && actorId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>actorId, 'actorId');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (Bearer) required
+        localVarCredential = this.configuration.lookupCredential('Bearer');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json',
+            'text/json',
+            'application/*+json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/v1/MarketParticipant/Organization/CreateContact`;
+        return this.httpClient.request<string>('post', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: createActorContactDto,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Creates an organization
+     * @param createOrganizationDto 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public v1MarketParticipantOrganizationCreateOrganizationPost(createOrganizationDto?: CreateOrganizationDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
+    public v1MarketParticipantOrganizationCreateOrganizationPost(createOrganizationDto?: CreateOrganizationDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
+    public v1MarketParticipantOrganizationCreateOrganizationPost(createOrganizationDto?: CreateOrganizationDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
+    public v1MarketParticipantOrganizationCreateOrganizationPost(createOrganizationDto?: CreateOrganizationDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (Bearer) required
+        localVarCredential = this.configuration.lookupCredential('Bearer');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json',
+            'text/json',
+            'application/*+json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/v1/MarketParticipant/Organization/CreateOrganization`;
+        return this.httpClient.request<string>('post', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: createOrganizationDto,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Removes a contact from an actor.
+     * @param orgId 
+     * @param actorId 
+     * @param contactId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public v1MarketParticipantOrganizationDeleteContactDelete(orgId?: string, actorId?: string, contactId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public v1MarketParticipantOrganizationDeleteContactDelete(orgId?: string, actorId?: string, contactId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public v1MarketParticipantOrganizationDeleteContactDelete(orgId?: string, actorId?: string, contactId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public v1MarketParticipantOrganizationDeleteContactDelete(orgId?: string, actorId?: string, contactId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (orgId !== undefined && orgId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>orgId, 'orgId');
+        }
+        if (actorId !== undefined && actorId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>actorId, 'actorId');
+        }
+        if (contactId !== undefined && contactId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>contactId, 'contactId');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (Bearer) required
+        localVarCredential = this.configuration.lookupCredential('Bearer');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/v1/MarketParticipant/Organization/DeleteContact`;
+        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Retrieves a single actor to a specific organization
+     * @param orgId 
+     * @param actorId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public v1MarketParticipantOrganizationGetActorGet(orgId?: string, actorId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<ActorDto>;
+    public v1MarketParticipantOrganizationGetActorGet(orgId?: string, actorId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<ActorDto>>;
+    public v1MarketParticipantOrganizationGetActorGet(orgId?: string, actorId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<ActorDto>>;
+    public v1MarketParticipantOrganizationGetActorGet(orgId?: string, actorId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (orgId !== undefined && orgId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>orgId, 'orgId');
+        }
+        if (actorId !== undefined && actorId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>actorId, 'actorId');
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -155,10 +494,11 @@ export class MarketParticipantHttp {
             }
         }
 
-        let localVarPath = `/v1/MarketParticipant/organization`;
-        return this.httpClient.request<Array<OrganizationDto>>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/v1/MarketParticipant/Organization/GetActor`;
+        return this.httpClient.request<ActorDto>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -169,25 +509,20 @@ export class MarketParticipantHttp {
     }
 
     /**
-     * Removes a contact from an actor.
+     * Retrieves all actors to a single organization
      * @param orgId 
-     * @param actorId 
-     * @param contactId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantOrganizationOrgIdActorActorIdContactContactIdDelete(orgId: string, actorId: string, contactId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1MarketParticipantOrganizationOrgIdActorActorIdContactContactIdDelete(orgId: string, actorId: string, contactId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1MarketParticipantOrganizationOrgIdActorActorIdContactContactIdDelete(orgId: string, actorId: string, contactId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1MarketParticipantOrganizationOrgIdActorActorIdContactContactIdDelete(orgId: string, actorId: string, contactId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
-        if (orgId === null || orgId === undefined) {
-            throw new Error('Required parameter orgId was null or undefined when calling v1MarketParticipantOrganizationOrgIdActorActorIdContactContactIdDelete.');
-        }
-        if (actorId === null || actorId === undefined) {
-            throw new Error('Required parameter actorId was null or undefined when calling v1MarketParticipantOrganizationOrgIdActorActorIdContactContactIdDelete.');
-        }
-        if (contactId === null || contactId === undefined) {
-            throw new Error('Required parameter contactId was null or undefined when calling v1MarketParticipantOrganizationOrgIdActorActorIdContactContactIdDelete.');
+    public v1MarketParticipantOrganizationGetActorsGet(orgId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<ActorDto>>;
+    public v1MarketParticipantOrganizationGetActorsGet(orgId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<ActorDto>>>;
+    public v1MarketParticipantOrganizationGetActorsGet(orgId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<ActorDto>>>;
+    public v1MarketParticipantOrganizationGetActorsGet(orgId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (orgId !== undefined && orgId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>orgId, 'orgId');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -203,6 +538,9 @@ export class MarketParticipantHttp {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -227,8 +565,72 @@ export class MarketParticipantHttp {
             }
         }
 
-        let localVarPath = `/v1/MarketParticipant/organization/${this.configuration.encodeParam({name: "orgId", value: orgId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/actor/${this.configuration.encodeParam({name: "actorId", value: actorId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/contact/${this.configuration.encodeParam({name: "contactId", value: contactId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
-        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/v1/MarketParticipant/Organization/GetActors`;
+        return this.httpClient.request<Array<ActorDto>>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Retrieves all organizations
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public v1MarketParticipantOrganizationGetAllOrganizationsGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<OrganizationDto>>;
+    public v1MarketParticipantOrganizationGetAllOrganizationsGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<OrganizationDto>>>;
+    public v1MarketParticipantOrganizationGetAllOrganizationsGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<OrganizationDto>>>;
+    public v1MarketParticipantOrganizationGetAllOrganizationsGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (Bearer) required
+        localVarCredential = this.configuration.lookupCredential('Bearer');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/v1/MarketParticipant/Organization/GetAllOrganizations`;
+        return this.httpClient.request<Array<OrganizationDto>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -247,15 +649,19 @@ export class MarketParticipantHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantOrganizationOrgIdActorActorIdContactGet(orgId: string, actorId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<ActorContactDto>>;
-    public v1MarketParticipantOrganizationOrgIdActorActorIdContactGet(orgId: string, actorId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<ActorContactDto>>>;
-    public v1MarketParticipantOrganizationOrgIdActorActorIdContactGet(orgId: string, actorId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<ActorContactDto>>>;
-    public v1MarketParticipantOrganizationOrgIdActorActorIdContactGet(orgId: string, actorId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
-        if (orgId === null || orgId === undefined) {
-            throw new Error('Required parameter orgId was null or undefined when calling v1MarketParticipantOrganizationOrgIdActorActorIdContactGet.');
+    public v1MarketParticipantOrganizationGetContactsGet(orgId?: string, actorId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<ActorContactDto>>;
+    public v1MarketParticipantOrganizationGetContactsGet(orgId?: string, actorId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<ActorContactDto>>>;
+    public v1MarketParticipantOrganizationGetContactsGet(orgId?: string, actorId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<ActorContactDto>>>;
+    public v1MarketParticipantOrganizationGetContactsGet(orgId?: string, actorId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (orgId !== undefined && orgId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>orgId, 'orgId');
         }
-        if (actorId === null || actorId === undefined) {
-            throw new Error('Required parameter actorId was null or undefined when calling v1MarketParticipantOrganizationOrgIdActorActorIdContactGet.');
+        if (actorId !== undefined && actorId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>actorId, 'actorId');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -298,10 +704,11 @@ export class MarketParticipantHttp {
             }
         }
 
-        let localVarPath = `/v1/MarketParticipant/organization/${this.configuration.encodeParam({name: "orgId", value: orgId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/actor/${this.configuration.encodeParam({name: "actorId", value: actorId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/contact`;
+        let localVarPath = `/v1/MarketParticipant/Organization/GetContacts`;
         return this.httpClient.request<Array<ActorContactDto>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -312,105 +719,20 @@ export class MarketParticipantHttp {
     }
 
     /**
-     * Creates a contact for the actor.
+     * Retrieves a single organization
      * @param orgId 
-     * @param actorId 
-     * @param createActorContactDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantOrganizationOrgIdActorActorIdContactPost(orgId: string, actorId: string, createActorContactDto?: CreateActorContactDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
-    public v1MarketParticipantOrganizationOrgIdActorActorIdContactPost(orgId: string, actorId: string, createActorContactDto?: CreateActorContactDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
-    public v1MarketParticipantOrganizationOrgIdActorActorIdContactPost(orgId: string, actorId: string, createActorContactDto?: CreateActorContactDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
-    public v1MarketParticipantOrganizationOrgIdActorActorIdContactPost(orgId: string, actorId: string, createActorContactDto?: CreateActorContactDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
-        if (orgId === null || orgId === undefined) {
-            throw new Error('Required parameter orgId was null or undefined when calling v1MarketParticipantOrganizationOrgIdActorActorIdContactPost.');
-        }
-        if (actorId === null || actorId === undefined) {
-            throw new Error('Required parameter actorId was null or undefined when calling v1MarketParticipantOrganizationOrgIdActorActorIdContactPost.');
-        }
+    public v1MarketParticipantOrganizationGetOrganizationGet(orgId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<OrganizationDto>;
+    public v1MarketParticipantOrganizationGetOrganizationGet(orgId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<OrganizationDto>>;
+    public v1MarketParticipantOrganizationGetOrganizationGet(orgId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<OrganizationDto>>;
+    public v1MarketParticipantOrganizationGetOrganizationGet(orgId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (Bearer) required
-        localVarCredential = this.configuration.lookupCredential('Bearer');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'text/plain',
-                'application/json',
-                'text/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/*+json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/v1/MarketParticipant/organization/${this.configuration.encodeParam({name: "orgId", value: orgId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/actor/${this.configuration.encodeParam({name: "actorId", value: actorId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/contact`;
-        return this.httpClient.request<string>('post', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: createActorContactDto,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Retrieves a single actor to a specific organization
-     * @param orgId 
-     * @param actorId 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public v1MarketParticipantOrganizationOrgIdActorActorIdGet(orgId: string, actorId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<ActorDto>;
-    public v1MarketParticipantOrganizationOrgIdActorActorIdGet(orgId: string, actorId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<ActorDto>>;
-    public v1MarketParticipantOrganizationOrgIdActorActorIdGet(orgId: string, actorId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<ActorDto>>;
-    public v1MarketParticipantOrganizationOrgIdActorActorIdGet(orgId: string, actorId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
-        if (orgId === null || orgId === undefined) {
-            throw new Error('Required parameter orgId was null or undefined when calling v1MarketParticipantOrganizationOrgIdActorActorIdGet.');
-        }
-        if (actorId === null || actorId === undefined) {
-            throw new Error('Required parameter actorId was null or undefined when calling v1MarketParticipantOrganizationOrgIdActorActorIdGet.');
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (orgId !== undefined && orgId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>orgId, 'orgId');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -453,10 +775,11 @@ export class MarketParticipantHttp {
             }
         }
 
-        let localVarPath = `/v1/MarketParticipant/organization/${this.configuration.encodeParam({name: "orgId", value: orgId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/actor/${this.configuration.encodeParam({name: "actorId", value: actorId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
-        return this.httpClient.request<ActorDto>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/v1/MarketParticipant/Organization/GetOrganization`;
+        return this.httpClient.request<OrganizationDto>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -474,15 +797,19 @@ export class MarketParticipantHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantOrganizationOrgIdActorActorIdPut(orgId: string, actorId: string, changeActorDto?: ChangeActorDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1MarketParticipantOrganizationOrgIdActorActorIdPut(orgId: string, actorId: string, changeActorDto?: ChangeActorDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1MarketParticipantOrganizationOrgIdActorActorIdPut(orgId: string, actorId: string, changeActorDto?: ChangeActorDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1MarketParticipantOrganizationOrgIdActorActorIdPut(orgId: string, actorId: string, changeActorDto?: ChangeActorDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
-        if (orgId === null || orgId === undefined) {
-            throw new Error('Required parameter orgId was null or undefined when calling v1MarketParticipantOrganizationOrgIdActorActorIdPut.');
+    public v1MarketParticipantOrganizationUpdateActorPut(orgId?: string, actorId?: string, changeActorDto?: ChangeActorDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public v1MarketParticipantOrganizationUpdateActorPut(orgId?: string, actorId?: string, changeActorDto?: ChangeActorDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public v1MarketParticipantOrganizationUpdateActorPut(orgId?: string, actorId?: string, changeActorDto?: ChangeActorDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public v1MarketParticipantOrganizationUpdateActorPut(orgId?: string, actorId?: string, changeActorDto?: ChangeActorDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (orgId !== undefined && orgId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>orgId, 'orgId');
         }
-        if (actorId === null || actorId === undefined) {
-            throw new Error('Required parameter actorId was null or undefined when calling v1MarketParticipantOrganizationOrgIdActorActorIdPut.');
+        if (actorId !== undefined && actorId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>actorId, 'actorId');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -533,301 +860,12 @@ export class MarketParticipantHttp {
             }
         }
 
-        let localVarPath = `/v1/MarketParticipant/organization/${this.configuration.encodeParam({name: "orgId", value: orgId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/actor/${this.configuration.encodeParam({name: "actorId", value: actorId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
+        let localVarPath = `/v1/MarketParticipant/Organization/UpdateActor`;
         return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: changeActorDto,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Retrieves all actors to a single organization
-     * @param orgId 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public v1MarketParticipantOrganizationOrgIdActorGet(orgId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<ActorDto>>;
-    public v1MarketParticipantOrganizationOrgIdActorGet(orgId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<ActorDto>>>;
-    public v1MarketParticipantOrganizationOrgIdActorGet(orgId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<ActorDto>>>;
-    public v1MarketParticipantOrganizationOrgIdActorGet(orgId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
-        if (orgId === null || orgId === undefined) {
-            throw new Error('Required parameter orgId was null or undefined when calling v1MarketParticipantOrganizationOrgIdActorGet.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (Bearer) required
-        localVarCredential = this.configuration.lookupCredential('Bearer');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'text/plain',
-                'application/json',
-                'text/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/v1/MarketParticipant/organization/${this.configuration.encodeParam({name: "orgId", value: orgId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/actor`;
-        return this.httpClient.request<Array<ActorDto>>('get', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Updates an Actor in an organization
-     * @param orgId 
-     * @param createActorDto 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public v1MarketParticipantOrganizationOrgIdActorPost(orgId: string, createActorDto?: CreateActorDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
-    public v1MarketParticipantOrganizationOrgIdActorPost(orgId: string, createActorDto?: CreateActorDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
-    public v1MarketParticipantOrganizationOrgIdActorPost(orgId: string, createActorDto?: CreateActorDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
-    public v1MarketParticipantOrganizationOrgIdActorPost(orgId: string, createActorDto?: CreateActorDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
-        if (orgId === null || orgId === undefined) {
-            throw new Error('Required parameter orgId was null or undefined when calling v1MarketParticipantOrganizationOrgIdActorPost.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (Bearer) required
-        localVarCredential = this.configuration.lookupCredential('Bearer');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'text/plain',
-                'application/json',
-                'text/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/*+json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/v1/MarketParticipant/organization/${this.configuration.encodeParam({name: "orgId", value: orgId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/actor`;
-        return this.httpClient.request<string>('post', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: createActorDto,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Retrieves a single organization
-     * @param orgId 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public v1MarketParticipantOrganizationOrgIdGet(orgId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<OrganizationDto>;
-    public v1MarketParticipantOrganizationOrgIdGet(orgId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<OrganizationDto>>;
-    public v1MarketParticipantOrganizationOrgIdGet(orgId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<OrganizationDto>>;
-    public v1MarketParticipantOrganizationOrgIdGet(orgId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
-        if (orgId === null || orgId === undefined) {
-            throw new Error('Required parameter orgId was null or undefined when calling v1MarketParticipantOrganizationOrgIdGet.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (Bearer) required
-        localVarCredential = this.configuration.lookupCredential('Bearer');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'text/plain',
-                'application/json',
-                'text/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/v1/MarketParticipant/organization/${this.configuration.encodeParam({name: "orgId", value: orgId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
-        return this.httpClient.request<OrganizationDto>('get', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Creates an organization
-     * @param createOrganizationDto 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public v1MarketParticipantOrganizationPost(createOrganizationDto?: CreateOrganizationDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
-    public v1MarketParticipantOrganizationPost(createOrganizationDto?: CreateOrganizationDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
-    public v1MarketParticipantOrganizationPost(createOrganizationDto?: CreateOrganizationDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
-    public v1MarketParticipantOrganizationPost(createOrganizationDto?: CreateOrganizationDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (Bearer) required
-        localVarCredential = this.configuration.lookupCredential('Bearer');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'text/plain',
-                'application/json',
-                'text/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/*+json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/v1/MarketParticipant/organization`;
-        return this.httpClient.request<string>('post', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: createOrganizationDto,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -844,10 +882,10 @@ export class MarketParticipantHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantOrganizationPut(orgId?: string, changeOrganizationDto?: ChangeOrganizationDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1MarketParticipantOrganizationPut(orgId?: string, changeOrganizationDto?: ChangeOrganizationDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1MarketParticipantOrganizationPut(orgId?: string, changeOrganizationDto?: ChangeOrganizationDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1MarketParticipantOrganizationPut(orgId?: string, changeOrganizationDto?: ChangeOrganizationDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantOrganizationUpdateOrganizationPut(orgId?: string, changeOrganizationDto?: ChangeOrganizationDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public v1MarketParticipantOrganizationUpdateOrganizationPut(orgId?: string, changeOrganizationDto?: ChangeOrganizationDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public v1MarketParticipantOrganizationUpdateOrganizationPut(orgId?: string, changeOrganizationDto?: ChangeOrganizationDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public v1MarketParticipantOrganizationUpdateOrganizationPut(orgId?: string, changeOrganizationDto?: ChangeOrganizationDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (orgId !== undefined && orgId !== null) {
@@ -903,7 +941,7 @@ export class MarketParticipantHttp {
             }
         }
 
-        let localVarPath = `/v1/MarketParticipant/organization`;
+        let localVarPath = `/v1/MarketParticipant/Organization/UpdateOrganization`;
         return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
