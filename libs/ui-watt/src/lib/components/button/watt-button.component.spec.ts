@@ -20,7 +20,6 @@ import userEvent from '@testing-library/user-event';
 import { WattIcon } from '../../foundations/icon';
 import {
   WattButtonComponent,
-  WattButtonSize,
   WattButtonType,
   WattButtonTypes,
   WattButtonVariant,
@@ -33,7 +32,6 @@ interface WattButtonOptionsType {
   disabled?: boolean;
   text?: string;
   variant?: WattButtonVariant;
-  size?: WattButtonSize;
   type?: WattButtonType;
 }
 
@@ -42,7 +40,6 @@ describe(WattButtonComponent.name, () => {
     return await render(
       `<watt-button
          variant="${options.variant}"
-         size="${options.size}"
          icon="${options.icon}"
          type="${options.type}"
          [loading]="${options.loading}"
@@ -61,7 +58,6 @@ describe(WattButtonComponent.name, () => {
     });
 
     expect(screen.getByRole('button')).toHaveTextContent('Default button');
-    expect(screen.getByRole('button')).toHaveClass('watt-button--normal');
     expect(screen.getByRole('button')).toHaveClass('watt-button--primary');
     expect(screen.getByRole('button')).toHaveAttribute('type', 'button');
     expect(screen.getByRole('button')).not.toHaveClass('mat-button-disabled');
@@ -92,12 +88,6 @@ describe(WattButtonComponent.name, () => {
       expect(screen.getByRole('button')).toHaveClass('watt-button--' + variant);
     }
   );
-
-  it('renders size as a class', async () => {
-    await renderComponent({ size: 'large' });
-
-    expect(screen.getByRole('button')).toHaveClass('watt-button--large');
-  });
 
   it('renders type', async () => {
     await renderComponent({ type: 'reset' });
