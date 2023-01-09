@@ -14,66 +14,72 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *rxLet="selectedActor$ as selectedActor">
-  <!-- there's a bug when *ngIf is used on an element that acts as an overview trigger, hence the *ngIf in seperate ng-container -->
-  <ng-container *ngIf="!(isLoading$ | push)">
+<ng-container *rxLet="isLoading$ as isLoading">
+  <div
+    class="selected-actor-container"
+    (click)="isOpen = !isOpen && !isLoading"
+    cdkOverlayOrigin
+    #trigger="cdkOverlayOrigin"
+  >
+    <watt-spinner
+      class="selected-actor-container-spinner"
+      *ngIf="isLoading"
+    ></watt-spinner>
+    <ng-container *ngIf="!isLoading">
+      <ng-container *rxLet="selectedActor$ as selectedActor">
+        <div class="watt-label selected-organization-name-label">
+          {{ selectedActor.organizationName }}
+        </div>
+        <div class="watt-label selected-gln-label">{{ selectedActor.gln }}</div>
+        <div
+          [title]="selectedActor.actorName"
+          class="watt-label selected-actor-name-label"
+          *ngIf="selectedActor.actorName"
+        >
+          {{ selectedActor.actorName }}
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayPositions]="positionPairs"
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="isOpen"
+    (backdropClick)="isOpen = false"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    cdkConnectedOverlayBackdropClass="none"
+  >
     <div
-      class="selected-actor-container"
-      (click)="isOpen = !isOpen"
-      cdkOverlayOrigin
-      #trigger="cdkOverlayOrigin"
+      class="actors-dropup-container watt-elevation"
+      *rxLet="actorGroups$ as actorGroups"
     >
-      <div class="watt-label selected-organization-name-label">
-        {{ selectedActor.organizationName }}
-      </div>
-      <div class="watt-label selected-gln-label">{{ selectedActor.gln }}</div>
-      <div
-        class="watt-label selected-actor-name-label"
-        *ngIf="selectedActor.actorName"
-      >
-        {{ selectedActor.actorName }}
-      </div>
-    </div>
-    <ng-template
-      cdkConnectedOverlay
-      [cdkConnectedOverlayPositions]="positionPairs"
-      [cdkConnectedOverlayOrigin]="trigger"
-      [cdkConnectedOverlayOpen]="isOpen"
-      (backdropClick)="isOpen = false"
-      [cdkConnectedOverlayHasBackdrop]="true"
-      cdkConnectedOverlayBackdropClass="none"
-    >
-      <div
-        class="actors-dropup-container watt-elevation"
-        *rxLet="actorGroups$ as actorGroups"
-      >
-        <ng-container *ngFor="let actorGroup of actorGroups">
-          <div class="actor-group-container">
-            <div class="watt-label organization-name-header">
-              {{ actorGroup.organizationName }}
-            </div>
-            <div
-              class="actor-container"
-              *ngFor="let actor of actorGroup.actors"
-              (click)="selectActor(actor)"
-            >
-              <div class="actor-container-inner">
-                <div>
-                  <div class="watt-label gln-label">{{ actor.gln }}</div>
-                  <div class="watt-text-s actor-name-label">
-                    {{ actor.actorName }}
-                  </div>
+      <ng-container *ngFor="let actorGroup of actorGroups">
+        <div class="actor-group-container">
+          <div class="watt-label organization-name-header">
+            {{ actorGroup.organizationName }}
+          </div>
+          <div
+            class="actor-container"
+            *ngFor="let actor of actorGroup.actors"
+            (click)="selectActor(actor)"
+          >
+            <div class="actor-container-inner">
+              <div>
+                <div class="watt-label gln-label">{{ actor.gln }}</div>
+                <div class="watt-text-s actor-name-label">
+                  {{ actor.actorName }}
                 </div>
-                <watt-icon
-                  class="actor-selected-icon"
-                  name="checkmark"
-                  *ngIf="actor.selected"
-                ></watt-icon>
               </div>
+              <watt-icon
+                class="actor-selected-icon"
+                name="checkmark"
+                *ngIf="actor.selected"
+              ></watt-icon>
             </div>
           </div>
-        </ng-container>
-      </div>
-    </ng-template>
-  </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </ng-template>
 </ng-container>
