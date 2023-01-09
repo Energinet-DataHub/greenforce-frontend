@@ -830,7 +830,7 @@
       },
       "topBarTitle": "User management",
       "userStatus": {
-        "active": "Aktiv",
+        "active": "Active",
         "inactive": "Inactive"
       },
       "tabs": {
@@ -841,7 +841,24 @@
           "phone": "Phone"
         },
         "history": {
-          "tabLabel": "History"
+          "tabLabel": "History",
+          "noEntries": "No results",
+          "change": "{{ auditLogCount }} change",
+          "changes": "{{ auditLogCount }} changes",
+          "columns": {
+            "timestamp": "Time",
+            "entry": "Change"
+          },
+          "logs": {
+            "roles": {
+              "Added": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
+              "Removed": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>"
+            }
+          },
+          "generalError": {
+            "title": "An unexpected error occured",
+            "message": "Try again or contact your system administrator if you keep getting this error."
+          }
         },
         "users": {
           "tabLabel": "Users",
