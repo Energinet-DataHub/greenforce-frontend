@@ -21,13 +21,21 @@ import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 
 import { DhSelectedActorStore, Actor } from './dh-selected-actor.store';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 
 @Component({
   selector: 'dh-selected-actor',
   styleUrls: ['./dh-selected-actor.component.scss'],
   templateUrl: './dh-selected-actor.component.html',
   standalone: true,
-  imports: [CommonModule, LetModule, PushModule, WattIconModule, OverlayModule],
+  imports: [
+    CommonModule,
+    LetModule,
+    PushModule,
+    WattIconModule,
+    WattSpinnerModule,
+    OverlayModule,
+  ],
 })
 export class DhSelectedActorComponent {
   actorGroups$ = this.store.actorGroups$;
