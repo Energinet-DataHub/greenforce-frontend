@@ -15,11 +15,8 @@
  * limitations under the License.
  */
 import {
-  AfterViewInit,
   Component,
   inject,
-  OnChanges,
-  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
@@ -29,10 +26,6 @@ import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { DhUserRolesTabComponent } from './dh-roles-tab.component';
 import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-general-error.component';
-import { PageEvent } from '@angular/material/paginator';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-roles-tab-container',
