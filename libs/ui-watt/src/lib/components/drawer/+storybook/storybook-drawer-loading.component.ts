@@ -44,7 +44,7 @@ import { WattDrawerModule } from '../watt-drawer.module';
   template: `
     <watt-drawer #drawer size="small" [loading]="loading" (closed)="onClose()">
       <watt-drawer-topbar>
-        <span *ngIf="drawer.opened">Top bar</span>
+        <span *ngIf="drawer.isOpen">Top bar</span>
       </watt-drawer-topbar>
 
       <watt-drawer-actions>
@@ -52,7 +52,7 @@ import { WattDrawerModule } from '../watt-drawer.module';
         <watt-button>Primary action</watt-button>
       </watt-drawer-actions>
 
-      <watt-drawer-content *ngIf="drawer.opened">{{
+      <watt-drawer-content *ngIf="drawer.isOpen">{{
         content$ | push
       }}</watt-drawer-content>
     </watt-drawer>

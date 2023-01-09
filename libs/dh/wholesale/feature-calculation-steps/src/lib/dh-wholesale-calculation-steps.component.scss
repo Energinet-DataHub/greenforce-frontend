@@ -94,3 +94,17 @@ main {
 watt-card {
   background: var(--watt-color-neutral-white);
 }
+
+.steps watt-card {
+  padding: 0 var(--watt-space-m);
+  height: var(--watt-space-xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--watt-color-neutral-white);
+  cursor: pointer;
+
+  & h4 {
+    color: var(--watt-color-neutral-black);
+  }
+}

@@ -22,7 +22,7 @@ limitations under the License.
       <watt-button variant="secondary">{{ t("edit") }}</watt-button>
     </watt-drawer-actions>
 
-    <watt-drawer-content *ngIf="drawer.opened">
+    <watt-drawer-content *ngIf="drawer.isOpen">
       <div class="user-name__grid">
         <h2 class="user-name__headline">{{ selectedUser?.name }}</h2>
         <dh-user-status
