@@ -17,7 +17,7 @@
 import { Injectable, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, exhaustMap, switchMap, Subject, map } from 'rxjs';
+import { Observable, switchMap, Subject, map, tap } from 'rxjs';
 
 import {
   WholesaleBatchHttp,
@@ -40,10 +40,12 @@ interface State {
   loadingBatches: boolean;
   selectedBatch?: batch;
   selectedGridArea?: GridAreaDto;
+  loadingCreatingBatch: boolean;
 }
 
 const initialState: State = {
   loadingBatches: false,
+  loadingCreatingBatch: false,
 };
 
 @Injectable({
@@ -55,6 +57,10 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   selectedGridArea$ = this.select((x) => x.selectedGridArea);
   processStepResults$ = this.select((x) => x.processStepResults);
 
+  creatingBatchSuccessTrigger$: Subject<void> = new Subject();
+  creatingBatchErrorTrigger$: Subject<void> = new Subject();
+
+  loadingCreatingBatch$ = this.select((x) => x.loadingCreatingBatch);
   loadingBatches$ = this.select((x) => x.loadingBatches);
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
   loadingBatchErrorTrigger$: Subject<void> = new Subject();
@@ -68,26 +74,11 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     super(initialState);
   }
 
-  readonly createBatch = this.effect(
-    (
-      batch$: Observable<{
-        gridAreas: string[];
-        dateRange: { start: string; end: string };
-      }>
-    ) => {
-      return batch$.pipe(
-        exhaustMap((batch) => {
-          const batchRequest: BatchRequestDto = {
-            processType: ProcessType.BalanceFixing,
-            gridAreaCodes: batch.gridAreas,
-            startDate: batch.dateRange.start,
-            endDate: batch.dateRange.end,
-          };
-
-          return this.httpClient.v1WholesaleBatchPost(batchRequest);
-        })
-      );
-    }
+  readonly setLoadingCreatingBatch = this.updater(
+    (state, loadingCreatingBatch: boolean): State => ({
+      ...state,
+      loadingCreatingBatch,
+    })
   );
 
   readonly setBatches = this.updater(
@@ -110,6 +101,41 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       ...state,
       loadingBatches,
     })
+  );
+
+  readonly createBatch = this.effect(
+    (
+      batch$: Observable<{
+        gridAreas: string[];
+        dateRange: { start: string; end: string };
+      }>
+    ) => {
+      return batch$.pipe(
+        switchMap((batch) => {
+          this.setLoadingCreatingBatch(true);
+
+          const batchRequest: BatchRequestDto = {
+            processType: ProcessType.BalanceFixing,
+            gridAreaCodes: batch.gridAreas,
+            startDate: batch.dateRange.start,
+            endDate: batch.dateRange.end,
+          };
+
+          return this.httpClient.v1WholesaleBatchPost(batchRequest).pipe(
+            tapResponse(
+              () => {
+                this.creatingBatchSuccessTrigger$.next();
+                this.setLoadingCreatingBatch(false);
+              },
+              () => {
+                this.creatingBatchErrorTrigger$.next();
+                this.setLoadingCreatingBatch(false);
+              }
+            )
+          );
+        })
+      );
+    }
   );
 
   readonly getBatches = this.effect((filter$: Observable<BatchSearchDto>) => {
@@ -213,6 +239,13 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     })
   );
 
+  readonly setSelectedGridArea = this.updater(
+    (state, gridArea: GridAreaDto | undefined): State => ({
+      ...state,
+      selectedGridArea: gridArea,
+    })
+  );
+
   readonly getGridArea$ = (
     gridAreaCode: string
   ): Observable<GridAreaDto | undefined> => {
@@ -221,7 +254,8 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
         return x?.gridAreas.filter(
           (gridArea: GridAreaDto) => gridArea.code === gridAreaCode
         )[0];
-      })
+      }),
+      tap((gridArea) => this.setSelectedGridArea(gridArea))
     );
   };
 

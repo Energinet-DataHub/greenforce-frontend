@@ -14,5 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhWholesaleCalculationStepsComponent } from './lib/dh-wholesale-calculation-steps.component';
-export { DhWholesaleCalculationStepsRoutes } from './lib/dh-wholesale-calculation-steps.routes';
+:host {
+  display: block;
+  // TODO: Add spacing variable for 24px
+  margin: 24px var(--watt-space-s);
+}
+
+h4 {
+  margin: 0;
+}
+
+.card-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

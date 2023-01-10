@@ -737,7 +737,10 @@
       "startLabel": "Start",
       "dateRangeRequired": "Date range is required",
       "dateRangeLabel": "Period",
-      "gridAreaDropDownLabel": "Grid Areas"
+      "gridAreaDropDownLabel": "Grid Areas",
+      "creatingBatch": "Starting batch...",
+      "creatingBatchSuccess": "The batch has been started.",
+      "creatingBatchError": "Oops! There was an error."
     },
     "searchBatch": {
       "topBarTitle": "Search Batch",
@@ -775,6 +778,7 @@
       }
     },
     "calculationSteps": {
+      "open": "Open",
       "topBarTitle": "See accumulated time series",
       "sidebarTitle": "Details",
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
@@ -787,7 +791,7 @@
     "processStepResults": {
       "step": "Step {{step}}",
       "aggregatedProductionPerGridArea": "Aggregated production per grid area",
-      "open": "Open",
+      "aggregatedConsumptionPerEnergySupplier": "Aggregated consumption per energy supplier",
       "gridArea": "Grid area",
       "loadProcessStepResultsErrorTitle": "Oops! There was an error",
       "loadProcessStepResultsErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information",
@@ -830,6 +834,10 @@
       },
       "topBarTitle": "User management",
       "userStatus": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "roleStatus": {
         "active": "Active",
         "inactive": "Inactive"
       },
@@ -884,10 +892,26 @@
           }
         },
         "roles": {
-          "tabLabel": "Roles"
+          "tabLabel": "Roles",
+          "rolesHeadline": "Roles",
+          "table": {
+            "columns": {
+              "name": "Name",
+              "description": "Description",
+              "marketrole": "Market role",
+              "status": "Status"
+            }
+          }
         },
         "permissions": {
           "tabLabel": "Permissions"
+        },
+        "errors": {
+          "generalError": {
+            "title": "Oops! There was an error",
+            "message": "Unfortunately, an error occurred while retrieving the necessary information.",
+            "button": "Try again"
+          }
         }
       }
     }

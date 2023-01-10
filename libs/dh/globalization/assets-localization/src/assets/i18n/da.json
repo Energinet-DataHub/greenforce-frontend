@@ -741,7 +741,10 @@
       "startLabel": "Start",
       "dateRangeRequired": "Dato-periode påkrævet",
       "dateRangeLabel": "Periode",
-      "gridAreaDropDownLabel": "Netområder"
+      "gridAreaDropDownLabel": "Netområder",
+      "creatingBatch": "Starter batch...",
+      "creatingBatchSuccess": "Dit batch er startet.",
+      "creatingBatchError": "Ups! Der opstod en fejl."
     },
     "searchBatch": {
       "topBarTitle": "Søg batch",
@@ -779,6 +782,7 @@
       }
     },
     "calculationSteps": {
+      "open": "Åbn",
       "topBarTitle": "Se akkumulerede tidsserier",
       "sidebarTitle": "Detaljer",
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
@@ -791,7 +795,7 @@
     "processStepResults": {
       "step": "Trin {{step}}",
       "aggregatedProductionPerGridArea": "Aggregeret produktion per netområde",
-      "open": "Åbn",
+      "aggregatedConsumptionPerEnergySupplier": "Aggregeret forbrug per elleverandør",
       "gridArea": "Netområde",
       "loadProcessStepResultsErrorTitle": "Ups! Der opstod en fejl",
       "loadProcessStepResultsErrorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
@@ -834,6 +838,10 @@
       },
       "topBarTitle": "Brugeradministration",
       "userStatus": {
+        "active": "Aktiv",
+        "inactive": "Inaktiv"
+      },
+      "roleStatus": {
         "active": "Aktiv",
         "inactive": "Inaktiv"
       },
@@ -887,10 +895,26 @@
           }
         },
         "roles": {
-          "tabLabel": "Roller"
+          "tabLabel": "Roller",
+          "rolesHeadline": "Brugerroller",
+          "table": {
+            "columns": {
+              "name": "Navn",
+              "description": "Beskrivelse",
+              "marketrole": "Marketsrolle",
+              "status": "Status"
+            }
+          }
         },
         "permissions": {
           "tabLabel": "Rettigheder"
+        },
+        "errors": {
+          "generalError": {
+            "title": "Ups! Der opstod en fejl",
+            "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger.",
+            "button": "Prøv igen"
+          }
         }
       }
     }
