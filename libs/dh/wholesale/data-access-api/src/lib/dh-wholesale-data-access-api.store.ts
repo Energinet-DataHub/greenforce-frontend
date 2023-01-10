@@ -36,6 +36,7 @@ import type { WattBadgeType } from '@energinet-datahub-types/watt/badge';
 
 interface State {
   batches?: batch[];
+  gridAreas?: GridAreaDto[];
   processStepResults?: ProcessStepResultDto;
   loadingBatches: boolean;
   selectedBatch?: batch;
@@ -189,6 +190,23 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     );
   });
 
+  readonly getGridAreas = this.effect((period$: Observable<{start: string; end: string;}>) => {
+    return period$.pipe(
+      switchMap((period) => {
+        const {start, end} = period;
+        return this.httpClient.v1WholesaleBatchGridAreasGet(start, end).pipe(
+          tapResponse(
+            (gridAreas) => {
+              this.setGridAreas(gridAreas);
+            },
+            // TODO: Do proper error handling
+            () => console.log('error')
+          )
+        );
+      })
+    );
+  });
+
   readonly getProcessStepResults = this.effect(
     (options$: Observable<ProcessStepResultRequestDto>) => {
       return options$.pipe(
@@ -236,6 +254,13 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       ...state,
       selectedBatch: batch,
       processStepResults: undefined,
+    })
+  );
+
+  readonly setGridAreas = this.updater(
+    (state, gridAreas: GridAreaDto[]): State => ({
+      ...state,
+      gridAreas
     })
   );
 
