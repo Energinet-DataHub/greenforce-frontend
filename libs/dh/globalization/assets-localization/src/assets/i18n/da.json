@@ -833,8 +833,7 @@
   "admin": {
     "userManagement": {
       "drawer": {
-        "edit": "Rediger",
-        "active": "aktiv"
+        "edit": "Rediger"
       },
       "topBarTitle": "Brugeradministration",
       "userStatus": {
