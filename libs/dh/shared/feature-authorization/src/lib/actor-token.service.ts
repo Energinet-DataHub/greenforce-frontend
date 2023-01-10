@@ -90,7 +90,7 @@ export class ActorTokenService {
 
   public acquireToken = (): Observable<string> => {
     return this._interactionStatus.pipe(
-      skipWhile(x => x !== InteractionStatus.None),
+      skipWhile((x) => x !== InteractionStatus.None),
       take(1),
       switchMap(() =>
         this.marketParticipantUserHttp
