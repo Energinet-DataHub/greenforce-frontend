@@ -63,7 +63,8 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
-  readonly dataSource: WattTableDataSource<UserRoleInfoDto> = new WattTableDataSource<UserRoleInfoDto>();
+  readonly dataSource: WattTableDataSource<UserRoleInfoDto> =
+    new WattTableDataSource<UserRoleInfoDto>();
 
   columns: WattTableColumnDef<UserRoleInfoDto> = {
     name: { accessor: 'name' },

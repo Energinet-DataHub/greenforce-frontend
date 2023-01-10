@@ -22,14 +22,12 @@ limitations under the License.
     [columns]="columns"
     [resolveHeader]="translateHeader"
     sortBy="name"
-    sortDirection="asc">
-
+    sortDirection="asc"
+  >
     <ng-container *wattTableCell="columns['status']; let role">
       <dh-role-status [status]="role.status"></dh-role-status>
     </ng-container>
-
   </watt-table>
 
   <dh-shared-ui-paginator [length]="roles.length"> </dh-shared-ui-paginator>
-
 </ng-container>
