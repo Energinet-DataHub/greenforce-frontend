@@ -26,7 +26,7 @@ import {
   HttpHeaders,
   HttpResponse,
 } from '@angular/common/http';
-import { firstValueFrom, Observable, of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { ActorStorage } from './actor-storage';
 import { LocalStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
 import { MsalBroadcastService } from '@azure/msal-angular';
