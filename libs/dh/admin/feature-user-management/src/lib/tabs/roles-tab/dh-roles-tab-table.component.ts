@@ -23,13 +23,17 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslocoModule } from '@ngneat/transloco';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
+import {
+  WattTableDataSource,
+  WattTableColumnDef,
+  WATT_TABLE,
+} from '@energinet-datahub/watt/table';
 
 @Component({
   selector: 'dh-roles-tab-table',
@@ -45,23 +49,31 @@ import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
   // Using `OnPush` causes issues with table's header row translations
   changeDetection: ChangeDetectionStrategy.Default,
   imports: [
+    WATT_TABLE,
     CommonModule,
     TranslocoModule,
     DhEmDashFallbackPipeScam,
-    MatTableModule,
     DhSharedUiPaginatorComponent,
     DhRoleStatusComponent,
   ],
 })
 export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   @Input() roles: UserRoleInfoDto[] = [];
-  displayedColumns = ['name', 'description', 'marketrole', 'status'];
 
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
-  readonly dataSource: MatTableDataSource<UserRoleInfoDto> =
-    new MatTableDataSource<UserRoleInfoDto>();
+  readonly dataSource: WattTableDataSource<UserRoleInfoDto> = new WattTableDataSource<UserRoleInfoDto>();
+
+  columns: WattTableColumnDef<UserRoleInfoDto> = {
+    name: { accessor: 'name' },
+    description: { accessor: 'description' },
+    marketrole: { accessor: 'eicFunction' },
+    status: { accessor: 'status' },
+  };
+
+  translateHeader = (key: string) =>
+    translate(`admin.userManagement.tabs.roles.table.columns.${key}`);
 
   ngOnChanges() {
     this.dataSource.data = this.roles;
@@ -69,6 +81,6 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator.instance;
+    this.dataSource.paginator = this.paginator?.instance;
   }
 }

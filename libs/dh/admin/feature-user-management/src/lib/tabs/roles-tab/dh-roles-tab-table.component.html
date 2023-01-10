@@ -14,38 +14,22 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *transloco="let t; read: 'admin.userManagement.tabs.roles.table.columns'"
->
+<ng-container>
+  <watt-table
+    #table
+    description="user roles"
+    [dataSource]="dataSource"
+    [columns]="columns"
+    [resolveHeader]="translateHeader"
+    sortBy="name"
+    sortDirection="asc">
+
+    <ng-container *wattTableCell="columns['status']; let role">
+      <dh-role-status [status]="role.status"></dh-role-status>
+    </ng-container>
+
+  </watt-table>
+
   <dh-shared-ui-paginator [length]="roles.length"> </dh-shared-ui-paginator>
 
-  <mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef>{{ t("name") }}</mat-header-cell>
-      <mat-cell *matCellDef="let role">{{ role.name }}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="description">
-      <mat-header-cell *matHeaderCellDef>{{
-        t("description")
-      }}</mat-header-cell>
-      <mat-cell *matCellDef="let role">{{ role.description }}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="marketrole">
-      <mat-header-cell *matHeaderCellDef>{{ t("marketrole") }}</mat-header-cell>
-      <mat-cell *matCellDef="let role">{{ role.eicFunction }}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef>{{ t("status") }}</mat-header-cell>
-      <mat-cell *matCellDef="let role">
-        <dh-role-status [status]="role.status"></dh-role-status>
-      </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-  </mat-table>
 </ng-container>
