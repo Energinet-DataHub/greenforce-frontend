@@ -829,8 +829,7 @@
   "admin": {
     "userManagement": {
       "drawer": {
-        "edit": "Edit",
-        "active": "Active"
+        "edit": "Edit"
       },
       "topBarTitle": "User management",
       "userStatus": {

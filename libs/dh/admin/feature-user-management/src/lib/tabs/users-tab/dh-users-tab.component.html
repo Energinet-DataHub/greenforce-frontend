@@ -17,27 +17,41 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
   <watt-card>
     <watt-card-title>
-      <div class="card-title-container">
+      <div class="card-title__container">
         <ng-container
           *ngTemplateOutlet="
             usersHeadline;
             context: {
-              $implicit: totalUserCount
+              $implicit: totalUserCount$ | push
             }
           "
         ></ng-container>
 
         <dh-shared-ui-paginator
-          [length]="totalUserCount"
-          (changed)="pageChange.emit($event)"
-          [pageSize]="pageSize"
-          [pageIndex]="pageIndex"
+          [length]="totalUserCount$ | push"
+          [pageSize]="pageSize$ | push"
+          [pageIndex]="pageIndex$ | push"
+          (changed)="onPageChange($event)"
         >
         </dh-shared-ui-paginator>
       </div>
     </watt-card-title>
 
-    <dh-users-tab-table></dh-users-tab-table>
+    <ng-container *rxLet="isLoading$ as isLoading">
+      <dh-users-tab-table></dh-users-tab-table>
+
+      <div *ngIf="isLoading" class="users-overview__spinner">
+        <watt-spinner></watt-spinner>
+      </div>
+    </ng-container>
+
+    <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+      <div *ngIf="hasGeneralError" class="users-overview__error">
+        <dh-users-tab-general-error
+          (reload)="reloadUsers()"
+        ></dh-users-tab-general-error>
+      </div>
+    </ng-container>
   </watt-card>
 </ng-container>
 
