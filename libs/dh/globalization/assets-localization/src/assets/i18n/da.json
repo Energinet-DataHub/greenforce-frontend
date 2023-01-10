@@ -741,7 +741,10 @@
       "startLabel": "Start",
       "dateRangeRequired": "Dato-periode påkrævet",
       "dateRangeLabel": "Periode",
-      "gridAreaDropDownLabel": "Netområder"
+      "gridAreaDropDownLabel": "Netområder",
+      "creatingBatch": "Starter batch...",
+      "creatingBatchSuccess": "Dit batch er startet.",
+      "creatingBatchError": "Ups! Der opstod en fejl."
     },
     "searchBatch": {
       "topBarTitle": "Søg batch",
