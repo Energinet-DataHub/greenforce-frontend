@@ -85,6 +85,8 @@
   z-index: 1;
 }
 
+// Only make the top bar sticky if there is
+// a sufficiently large scrollable area
 @media screen and (min-height: 40rem) {
   .watt-top-bar {
     position: sticky;

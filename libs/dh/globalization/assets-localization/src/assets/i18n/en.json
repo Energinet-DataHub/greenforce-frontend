@@ -803,9 +803,10 @@
       }
     },
     "timeSeriesPoints": {
-      "header": "Quantities ​​in the period",
+      "header": "Quantities in the period",
       "time": "time",
-      "quantity": "quantity"
+      "quantity": "quantity",
+      "empty": "No quantities found"
     },
     "batchDetails": {
       "headline": "Batch: {{batchId}}",
