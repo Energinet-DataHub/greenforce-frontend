@@ -22,7 +22,7 @@ limitations under the License.
 
     <watt-drawer-actions> </watt-drawer-actions>
 
-    <watt-drawer-content *ngIf="drawer.opened">
+    <watt-drawer-content *ngIf="drawer.isOpen">
       <div class="container">
         <dh-market-participant-gridarea-edit
           [gridArea]="activeRow"
