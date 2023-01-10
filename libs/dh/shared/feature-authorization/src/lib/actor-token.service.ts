@@ -29,13 +29,13 @@ import {
   TokenHttp,
 } from '@energinet-datahub/dh/shared/domain';
 import {
-  filter,
   map,
   Observable,
-  of,
   ReplaySubject,
+  shareReplay,
+  skipWhile,
   switchMap,
-  takeUntil,
+  take,
   tap,
 } from 'rxjs';
 import { ActorStorage, actorStorageToken } from './actor-storage';
@@ -46,13 +46,18 @@ type CachedEntry = { token: string; value: Observable<string> } | undefined;
 export class ActorTokenService {
   private _internalActors: CachedEntry;
   private _internalToken: CachedEntry;
+  private _interactionStatus: Observable<InteractionStatus>;
 
   constructor(
     private marketParticipantUserHttp: MarketParticipantUserHttp,
     private tokenHttp: TokenHttp,
     @Inject(actorStorageToken) private actorStorage: ActorStorage,
     private msalBroadcastService: MsalBroadcastService
-  ) {}
+  ) {
+    this._interactionStatus = this.msalBroadcastService.inProgress$.pipe(
+      shareReplay(1)
+    );
+  }
 
   public isPartOfAuthFlow(request: HttpRequest<unknown>) {
     return this.isUserActorsRequest(request) || this.isTokenRequest(request);
@@ -84,12 +89,9 @@ export class ActorTokenService {
   }
 
   public acquireToken = (): Observable<string> => {
-    return of('').pipe(
-      takeUntil(
-        this.msalBroadcastService.inProgress$.pipe(
-          filter((status) => status === InteractionStatus.None)
-        )
-      ),
+    return this._interactionStatus.pipe(
+      skipWhile(x => x !== InteractionStatus.None),
+      take(1),
       switchMap(() =>
         this.marketParticipantUserHttp
           .v1MarketParticipantUserGetUserActorsGet()
