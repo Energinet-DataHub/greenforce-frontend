@@ -741,7 +741,10 @@
       "startLabel": "Start",
       "dateRangeRequired": "Dato-periode påkrævet",
       "dateRangeLabel": "Periode",
-      "gridAreaDropDownLabel": "Netområder"
+      "gridAreaDropDownLabel": "Netområder",
+      "creatingBatch": "Starter batch...",
+      "creatingBatchSuccess": "Dit batch er startet.",
+      "creatingBatchError": "Ups! Der opstod en fejl."
     },
     "searchBatch": {
       "topBarTitle": "Søg batch",
@@ -837,6 +840,10 @@
         "active": "Aktiv",
         "inactive": "Inaktiv"
       },
+      "roleStatus": {
+        "active": "Aktiv",
+        "inactive": "Inaktiv"
+      },
       "tabs": {
         "masterData": {
           "tabLabel": "Stamdata",
@@ -870,10 +877,26 @@
           }
         },
         "roles": {
-          "tabLabel": "Roller"
+          "tabLabel": "Roller",
+          "rolesHeadline": "Brugerroller",
+          "table": {
+            "columns": {
+              "name": "Navn",
+              "description": "Beskrivelse",
+              "marketrole": "Marketsrolle",
+              "status": "Status"
+            }
+          }
         },
         "permissions": {
           "tabLabel": "Rettigheder"
+        },
+        "errors": {
+          "generalError": {
+            "title": "Ups! Der opstod en fejl",
+            "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger.",
+            "button": "Prøv igen"
+          }
         }
       }
     }

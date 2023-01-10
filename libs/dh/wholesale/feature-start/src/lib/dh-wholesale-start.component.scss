@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.date-range-width {
-  width: 300px;
+:host {
+  display: block;
+  max-width: 300px;
 }

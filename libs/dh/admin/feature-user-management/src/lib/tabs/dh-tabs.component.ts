@@ -20,6 +20,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 
 import { DhUsersTabComponent } from './users-tab/dh-users-tab.component';
+import { DhRolesTabContainerComponent } from './roles-tab/dh-roles-tab-container.component';
 
 @Component({
   selector: 'dh-tabs',
@@ -32,6 +33,11 @@ import { DhUsersTabComponent } from './users-tab/dh-users-tab.component';
       }
     `,
   ],
-  imports: [TranslocoModule, WattTabsModule, DhUsersTabComponent],
+  imports: [
+    TranslocoModule,
+    WattTabsModule,
+    DhUsersTabComponent,
+    DhRolesTabContainerComponent,
+  ],
 })
 export class DhTabsComponent {}
