@@ -19,12 +19,15 @@ import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { PageEvent } from '@angular/material/paginator';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattCardModule } from '@energinet-datahub/watt/card';
 
-import { DhUsersTabComponent } from './dh-users-tab.component';
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
+import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
 
 @Component({
   selector: 'dh-users-tab-container',
@@ -35,6 +38,8 @@ import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-ge
       :host {
         background-color: var(--watt-color-neutral-white);
         display: block;
+        /* TODO: Add spacing variable for 24px */
+        margin: 24px var(--watt-space-s);
       }
 
       .users-overview {
@@ -48,6 +53,16 @@ import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-ge
           padding: var(--watt-space-xl) 0;
         }
       }
+
+      h4 {
+        margin: 0;
+      }
+
+      .card-title__container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
     `,
   ],
   providers: [provideComponentStore(DhAdminUserManagementDataAccessApiStore)],
@@ -55,8 +70,11 @@ import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-ge
     CommonModule,
     LetModule,
     PushModule,
+    TranslocoModule,
     WattSpinnerModule,
-    DhUsersTabComponent,
+    WattCardModule,
+    DhUsersTabTableComponent,
+    DhSharedUiPaginatorComponent,
     DhUsersTabGeneralErrorComponent,
   ],
 })
@@ -66,7 +84,6 @@ export class DhUsersTabContainerComponent {
   users$ = this.store.users$;
   totalUserCount$ = this.store.totalUserCount$;
 
-  isTablePageLoading$ = this.store.isTablePageLoading$;
   pageIndex$ = this.store.paginatorPageIndex$;
   pageSize$ = this.store.pageSize$;
 
@@ -80,7 +97,7 @@ export class DhUsersTabContainerComponent {
     });
   }
 
-  reloadInitialPage(): void {
-    this.store.reloadInitialPage();
+  reloadUsers(): void {
+    this.store.reloadUsers();
   }
 }
