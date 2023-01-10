@@ -847,8 +847,8 @@
         "history": {
           "tabLabel": "Historik",
           "noEntries": "Ingen resultater",
-          "change": "{{ auditLogCount }} ændring",
-          "changes": "{{ auditLogCount }} ændringer",
+          "changesSingular": "{{ auditLogCount }} ændring",
+          "changesPlural": "{{ auditLogCount }} ændringer",
           "columns": {
             "timestamp": "Tid",
             "entry": "Ændring"

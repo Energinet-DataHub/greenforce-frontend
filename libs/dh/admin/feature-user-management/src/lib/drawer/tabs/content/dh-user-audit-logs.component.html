@@ -27,13 +27,13 @@ limitations under the License.
             *ngIf="auditLogCount === 1 && !hasGeneralError"
             class="change-text"
           >
-            {{t("change", {auditLogCount})}}
+            {{t("changesSingular", {auditLogCount})}}
           </h4>
           <h4
             *ngIf="auditLogCount !== 1 && !hasGeneralError"
             class="change-text"
           >
-            {{t("changes", {auditLogCount})}}
+            {{t("changesPlural", {auditLogCount})}}
           </h4>
         </watt-card-title>
 

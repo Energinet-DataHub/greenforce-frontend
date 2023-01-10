@@ -37,7 +37,7 @@ describe(DhAdminUserManagementAuditLogsDataAccessApiStore.name, () => {
         changedByUserId: '03DCF8A7-9BFD-4023-A206-8FFBC92A2D28',
         changedByUserName: 'fake_value',
         userRoleId: 'D4C3508E-B949-4849-B5E6-BD818724C727',
-        userRoleName: 'fake_user_role_',
+        userRoleName: 'fake_user_role',
       },
     ];
     const expected: DhUserAuditLogEntry[] = [

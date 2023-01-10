@@ -843,8 +843,8 @@
         "history": {
           "tabLabel": "History",
           "noEntries": "No results",
-          "change": "{{ auditLogCount }} change",
-          "changes": "{{ auditLogCount }} changes",
+          "changesSingular": "{{ auditLogCount }} change",
+          "changesPlural": "{{ auditLogCount }} changes",
           "columns": {
             "timestamp": "Time",
             "entry": "Change"
