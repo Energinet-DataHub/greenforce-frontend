@@ -17,10 +17,21 @@
 :host {
   display: block;
   width: 100%;
+  height: 100%;
 }
 
 watt-empty-state {
-  margin-top: var(--watt-space-xl);
+  align-self: center;
+}
+
+watt-card {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100%;
+}
+
+watt-card.empty {
+  grid-template-rows: auto auto minmax(16em, 1fr) auto;
 }
 
 watt-card-title {
@@ -32,4 +43,9 @@ watt-card-title {
   h3 {
     margin: 0;
   }
+}
+
+watt-paginator {
+  margin: calc(-1.5 * var(--watt-space-m));
+  margin-top: 0;
 }

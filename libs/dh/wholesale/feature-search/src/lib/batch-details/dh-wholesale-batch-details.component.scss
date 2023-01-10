@@ -53,3 +53,9 @@ dl {
   top: 0;
   width: 100%;
 }
+
+watt-drawer-content {
+  display: grid;
+  height: 100%;
+  grid-template-rows: auto auto 1fr;
+}

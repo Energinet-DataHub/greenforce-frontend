@@ -28,16 +28,17 @@ import {
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import {
   WATT_TABLE,
   WattTableDataSource,
   WattTableColumnDef,
 } from '@energinet-datahub/watt/table';
+
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { PushModule } from '@rx-angular/template';
@@ -49,6 +50,7 @@ type wholesaleTableData = WattTableDataSource<batch>;
   standalone: true,
   imports: [
     WATT_TABLE,
+    WattPaginatorComponent,
     CommonModule,
     PushModule,
     DhSharedUiDateTimeModule,
@@ -56,7 +58,6 @@ type wholesaleTableData = WattTableDataSource<batch>;
     WattBadgeComponent,
     WattButtonModule,
     WattEmptyStateModule,
-    DhSharedUiPaginatorComponent,
     WattCardModule,
   ],
   selector: 'dh-wholesale-table',
@@ -69,11 +70,11 @@ export class DhWholesaleTableComponent implements AfterViewInit {
 
   selectedBatch$ = this.store.selectedBatch$;
 
-  @ViewChild(DhSharedUiPaginatorComponent)
-  paginator!: DhSharedUiPaginatorComponent;
+  @ViewChild(WattPaginatorComponent)
+  paginator!: WattPaginatorComponent;
 
   @Input() set data(batches: batch[]) {
-    this._data = new WattTableDataSource(batches);
+    this._data = new WattTableDataSource<batch>([]);
   }
 
   @Output() selectedRow: EventEmitter<batch> = new EventEmitter();
@@ -97,7 +98,7 @@ export class DhWholesaleTableComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     if (this._data === null) return;
-    this._data.paginator = this.paginator.instance;
+    this._data.paginator = this.paginator;
   }
 
   onDownload(event: Event, batch: batch) {

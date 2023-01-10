@@ -15,12 +15,25 @@
  * limitations under the License.
  */
 :host {
-  display: block;
-  width: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+watt-card {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100%;
+}
+
+watt-card.empty {
+  grid-template-rows: auto auto minmax(20rem, 1fr) auto;
 }
 
 watt-empty-state {
-  margin-top: var(--watt-space-xl);
+  align-self: center;
 }
 
 watt-card-title {
@@ -32,4 +45,9 @@ watt-card-title {
   h3 {
     margin: 0;
   }
+}
+
+watt-paginator {
+  margin: calc(-1.5 * var(--watt-space-m));
+  margin-top: 0;
 }
