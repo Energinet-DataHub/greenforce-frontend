@@ -15,10 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<watt-card *transloco="let transloco; read: 'wholesale.searchBatch'">
+<watt-card
+  *transloco="let transloco; read: 'wholesale.searchBatch'"
+  [ngClass]="{ empty: _data.data.length === 0 }"
+>
   <watt-card-title>
     <h3 class="watt-on-light--high-emphasis">{{ transloco("headline") }}</h3>
-    <dh-shared-ui-paginator></dh-shared-ui-paginator>
   </watt-card-title>
 
   <!-- Table -->
@@ -85,4 +87,6 @@ limitations under the License.
     [message]="transloco('noBatchesHelperText')"
   >
   </watt-empty-state>
+
+  <watt-paginator></watt-paginator>
 </watt-card>

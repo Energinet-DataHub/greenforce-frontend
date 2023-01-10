@@ -25,10 +25,10 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { TimeSeriesPointDto } from '@energinet-datahub/dh/shared/domain';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import {
   WattTableDataSource,
   WattTableColumnDef,
@@ -42,7 +42,7 @@ import {
     CommonModule,
     TranslocoModule,
     WattEmptyStateModule,
-    DhSharedUiPaginatorComponent,
+    WattPaginatorComponent,
     WattCardModule,
     DhSharedUiDateTimeModule,
   ],
@@ -52,12 +52,12 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleTimeSeriesPointsComponent implements AfterViewInit {
-  @ViewChild(DhSharedUiPaginatorComponent)
-  paginator!: DhSharedUiPaginatorComponent;
+  @ViewChild(WattPaginatorComponent)
+  paginator!: WattPaginatorComponent;
 
   @Input() set data(timeSeriesPoints: TimeSeriesPointDto[]) {
     this._data = new WattTableDataSource(timeSeriesPoints);
-    this._data.paginator = this.paginator?.instance;
+    this._data.paginator = this.paginator;
   }
 
   _data: WattTableDataSource<TimeSeriesPointDto> = new WattTableDataSource(
@@ -70,6 +70,6 @@ export class DhWholesaleTimeSeriesPointsComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     if (!this._data) return;
-    this._data.paginator = this.paginator?.instance;
+    this._data.paginator = this.paginator;
   }
 }

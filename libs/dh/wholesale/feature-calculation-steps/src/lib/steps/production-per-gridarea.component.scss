@@ -15,6 +15,12 @@
  * limitations under the License.
  */
 
+:host {
+  display: grid;
+  height: 100%;
+  grid-template-rows: auto auto auto minmax(24rem, 1fr);
+}
+
 .headline,
 .sub-headline {
   margin: 0;

@@ -37,7 +37,7 @@ limitations under the License.
     </div>
   </mat-sidenav>
 
-  <mat-sidenav-content>
+  <mat-sidenav-content class="watt-sidenav-content">
     <mat-toolbar class="watt-toolbar">
       <watt-button
         *ngIf="isHandset$ | async"
@@ -50,10 +50,14 @@ limitations under the License.
       <ng-content select="[watt-shell-toolbar]"></ng-content>
     </mat-toolbar>
 
-    <ng-content select="watt-top-bar-outlet"></ng-content>
+    <div class="watt-top-bar">
+      <ng-content select="watt-top-bar-outlet"></ng-content>
+    </div>
 
     <main class="watt-main-content">
-      <ng-content></ng-content>
+      <div>
+        <ng-content></ng-content>
+      </div>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

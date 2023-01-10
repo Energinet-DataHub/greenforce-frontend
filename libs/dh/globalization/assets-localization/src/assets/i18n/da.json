@@ -812,7 +812,8 @@
     "timeSeriesPoints": {
       "header": "Værdier i perioden",
       "time": "tid",
-      "quantity": "værdi"
+      "quantity": "værdi",
+      "empty": "Ingen værdier fundet"
     },
     "batchDetails": {
       "headline": "Batch: {{batchId}}",
