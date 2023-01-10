@@ -74,7 +74,7 @@ export class DhWholesaleTableComponent implements AfterViewInit {
   paginator!: WattPaginatorComponent;
 
   @Input() set data(batches: batch[]) {
-    this._data = new WattTableDataSource(batches);
+    this._data = new WattTableDataSource<batch>([]);
   }
 
   @Output() selectedRow: EventEmitter<batch> = new EventEmitter();
