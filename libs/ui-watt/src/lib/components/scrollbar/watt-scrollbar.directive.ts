@@ -15,18 +15,21 @@
  * limitations under the License.
  */
 import {
+  AfterViewInit,
   Directive,
   ElementRef,
   HostBinding,
   HostListener,
   inject,
 } from '@angular/core';
+import { tap } from 'rxjs';
+import { WattResizeObserverService } from '../../utils/resize-observer/watt-resize-observer.service';
 
 @Directive({
   standalone: true,
   selector: '[wattScrollbar]',
 })
-export class WattScrollbarDirective {
+export class WattScrollbarDirective implements AfterViewInit {
   @HostBinding('class') class = 'watt-scrollbar';
   @HostBinding('class.watt-scrollbar-visible') isVisible = false;
   @HostBinding('style.--watt-scrollbar-top') top = 0;
@@ -34,21 +37,30 @@ export class WattScrollbarDirective {
   @HostBinding('style.--watt-scrollbar-left') left = 0;
   @HostBinding('style.--watt-scrollbar-offset') offset = 0;
 
+  private resizeObserver = inject(WattResizeObserverService);
   private element: HTMLElement = inject(ElementRef).nativeElement;
   private ratio = 1;
   private isDragScroll = false;
   private isInside = false;
   private dragMin = 0;
 
+  ngAfterViewInit() {
+    this.resizeObserver
+      .observe(this.element)
+      .pipe(tap(console.log)) // takeUntil
+      .subscribe(() => {
+        this.ratio = this.element.clientHeight / this.element.scrollHeight;
+        this.height = this.element.clientHeight * this.ratio;
+        this.left = this.element.clientWidth + this.element.offsetLeft;
+        this.top = this.element.scrollTop * this.ratio;
+      });
+  }
+
   @HostListener('mouseenter')
   @HostListener('focusin')
   onEnter() {
     this.isInside = true;
     this.isVisible = true;
-    this.ratio = this.element.clientHeight / this.element.scrollHeight;
-    this.height = this.element.clientHeight * this.ratio;
-    this.left = this.element.clientWidth + this.element.offsetLeft;
-    this.top = this.element.scrollTop * this.ratio;
   }
 
   @HostListener('mouseleave')
