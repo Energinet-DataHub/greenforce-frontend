@@ -213,7 +213,7 @@ describe(WattDropdownModule.name, () => {
         await matSelect.open();
 
         const filterInput = getFilterInput();
-        userEvent.type(filterInput, 'mighty');
+        userEvent.type(filterInput, 'outlaws');
 
         // Number of options is 3:
         // Option 1. Filter input
@@ -397,7 +397,7 @@ describe(WattDropdownModule.name, () => {
         await matSelect.open();
 
         const filterInput = getFilterInput();
-        userEvent.type(filterInput, 'mighty');
+        userEvent.type(filterInput, 'outlaws');
 
         // Number of options is 3:
         // Option 1. Filter input
