@@ -4,28 +4,43 @@
       userRoleView$;
       let userRoleView;
       error: error;
-      complete: complete;
-      suspense: suspense
+      suspense: suspense;
+      errorTrg: hasGeneralError$
     "
   >
     <watt-card>
       <watt-card-title>
-        <h3 *rxLet="getNumberOfRoles(userRoleView); let numberOfRoles">
-          {{ numberOfRoles }} {{ numberOfRoles > 1 ? t("roles") : t("role") }}
+        <h3>
+          {{ userRoleView | userRoleCount }}
         </h3>
       </watt-card-title>
-      <ul
-        class="list watt-text-s"
-        *ngFor="let org of userRoleView.organizations"
-      >
-        <li>
-          <span>{{ org?.name }} | </span>
-        </li>
-      </ul>
+      <div class="userRoles" *ngFor="let org of userRoleView.organizations">
+        <ng-container *ngFor="let actor of org.actors">
+          <h6>
+            {{ org?.name }} | GLN {{ actor.actorNumber }} |
+            {{ actor.userRoles | joinUserRoles }}
+          </h6>
+          <mat-divider></mat-divider>
+          <ul class="watt-text-s">
+            <li *ngFor="let userRole of actor.userRoles">
+              <div>{{ userRole.name }}</div>
+              <div>Manglede beskrivelse</div>
+            </li>
+          </ul>
+        </ng-container>
+      </div>
     </watt-card>
   </ng-container>
 
-  <ng-template #suspense>spinner</ng-template>
-  <ng-template #error>fejl</ng-template>
-  <ng-template #complete>done</ng-template>
+  <ng-template #suspense>
+    <watt-spinner></watt-spinner>
+  </ng-template>
+  <ng-template #error>
+    <watt-empty-state
+      icon="custom-power"
+      [title]="t('errorTitle')"
+      [message]="t('errorMessage')"
+    >
+    </watt-empty-state>
+  </ng-template>
 </ng-container>

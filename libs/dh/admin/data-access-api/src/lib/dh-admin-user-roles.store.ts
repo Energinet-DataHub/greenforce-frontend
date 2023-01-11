@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import { filter, map, Observable, Subject, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -43,9 +43,7 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
   isLoading$ = this.select(
     (state) => state.requestState === LoadingState.LOADING
   );
-  hasGeneralError$ = this.select(
-    (state) => state.requestState === ErrorState.GENERAL_ERROR
-  );
+  hasGeneralError$ = new Subject<boolean>();
 
   userRoleView$: Observable<UserRoleView> = this.select(
     (state) => state.userRoleView
@@ -65,20 +63,16 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
         this.setLoading(LoadingState.LOADING);
       }),
       switchMap((userId) => {
-        console.log({ userId });
         return this.httpClient
           .v1MarketParticipantUserRoleGetUserRoleViewGet(userId)
           .pipe(
             tapResponse(
               (userRoleView) => {
-                console.log({ userRoleView });
                 this.setLoading(LoadingState.LOADED);
-
                 this.updateRoles(userRoleView);
               },
               () => {
                 this.setLoading(LoadingState.LOADED);
-
                 this.handleError();
               }
             )
@@ -106,8 +100,7 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
 
   private handleError = () => {
     this.updateRoles(null);
-
-    this.patchState({ requestState: ErrorState.GENERAL_ERROR });
+    this.hasGeneralError$.next(true);
   };
 
   private resetState = () => this.setState(initialState);

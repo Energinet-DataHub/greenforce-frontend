@@ -1,39 +1,22 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { DhAdminUserRolesStore } from '@energinet-datahub/dh/admin/data-access-api';
-import {
-  UserOverviewItemDto,
-  UserRoleView,
-} from '@energinet-datahub/dh/shared/domain';
+import { MatDividerModule } from '@angular/material/divider';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { UserRoleCountPipe } from '../../../shared/dh-user-role-count.pipe';
+import { JoinUserRoles } from '../../../shared/dh-join-user-roles.pipe';
+import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   providers: [DhAdminUserRolesStore],
   selector: 'dh-user-roles',
   standalone: true,
   templateUrl: './dh-user-roles.component.html',
-  styles: [
-    `
-      .list {
-        padding: 0;
-        margin: 0;
-        ul {
-          list-style: none;
-        }
-        li {
-          display: grid;
-          margin-top: var(--watt-space-s);
-          grid-template-columns: 20% 1fr;
-        }
-        li:not(:last-child) {
-          border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-        }
-      }
-    `,
-  ],
+  styleUrls: ['./dh-user-roles.component.scss'],
   imports: [
     CommonModule,
     LetModule,
@@ -41,9 +24,13 @@ import {
     WattSpinnerModule,
     WattCardModule,
     TranslocoModule,
+    UserRoleCountPipe,
+    JoinUserRoles,
+    MatDividerModule,
+    WattEmptyStateModule,
   ],
 })
-export class DhUserRolesComponent implements OnInit {
+export class DhUserRolesComponent implements OnChanges {
   private readonly store = inject(DhAdminUserRolesStore);
   @Input() user: UserOverviewItemDto | null = null;
 
@@ -51,16 +38,8 @@ export class DhUserRolesComponent implements OnInit {
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
-  getNumberOfRoles(userRoleView: UserRoleView | null): number {
-    const test = userRoleView?.organizations?.map((org) =>
-      org.actors?.map((actor) => actor.userRoles)
-    ).length;
-    console.log(test);
-    return test ?? 0;
-  }
-
-  ngOnInit(): void {
-    console.log(this.user);
+  ngOnChanges(): void {
+    this.isLoading$.subscribe(console.log);
     if (this.user?.id) {
       this.store.getUserRoleView(this.user.id);
     }
