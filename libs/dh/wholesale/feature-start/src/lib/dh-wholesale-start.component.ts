@@ -75,7 +75,7 @@ interface CreateBatchFormValues {
     WattDropdownModule,
     WattFormFieldModule,
     WattSpinnerModule,
-    WattEmptyStateModule
+    WattEmptyStateModule,
   ],
 })
 export class DhWholesaleStartComponent implements OnInit, OnDestroy {
@@ -86,18 +86,17 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
-  gridAreas$: Observable<WattDropdownOption[] | undefined> = this.store.gridAreas$.pipe(
-    map((gridAreas) => {
-      return (
-        gridAreas?.map((gridArea) => {
+  gridAreas$: Observable<WattDropdownOption[] | undefined> =
+    this.store.gridAreas$.pipe(
+      map((gridAreas) => {
+        return gridAreas?.map((gridArea) => {
           return {
             displayValue: `${gridArea?.name} (${gridArea?.code})`,
             value: gridArea?.code,
           };
-        })
-      );
-    })
-  );
+        });
+      })
+    );
 
   loadingCreatingBatch$ = this.store.loadingCreatingBatch$;
   loadingGridAreasErrorTrigger$ = this.store.loadingGridAreasErrorTrigger$;

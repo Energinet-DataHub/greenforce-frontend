@@ -199,18 +199,16 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     );
   });
 
-  readonly getGridAreas = this.effect(
-    () => {
-      return this.httpClient.v1WholesaleBatchGridAreasGet().pipe(
-        tapResponse(
-          (gridAreas) => {
-            this.setGridAreas(gridAreas);
-          },
-          () => this.loadingGridAreasErrorTrigger$.next()
-        )
-      );
-    }
-  );
+  readonly getGridAreas = this.effect(() => {
+    return this.httpClient.v1WholesaleBatchGridAreasGet().pipe(
+      tapResponse(
+        (gridAreas) => {
+          this.setGridAreas(gridAreas);
+        },
+        () => this.loadingGridAreasErrorTrigger$.next()
+      )
+    );
+  });
 
   readonly getProcessStepResults = this.effect(
     (options$: Observable<ProcessStepResultRequestDto>) => {
