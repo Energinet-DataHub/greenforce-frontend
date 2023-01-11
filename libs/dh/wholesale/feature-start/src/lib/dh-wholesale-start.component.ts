@@ -110,21 +110,8 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.getGridAreas();
-
-    // Close toast on navigation
-    this.router.events
-      .pipe(first((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.toast.dismiss();
-      });
-
-    this.store.creatingBatchSuccessTrigger$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.onBatchCreatedSuccess());
-
-    this.store.creatingBatchErrorTrigger$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.onBatchCreatedError());
+    this.toggleGridAreasControl();
+    this.initCreatingBatchListeners();
   }
 
   ngOnDestroy(): void {
@@ -147,6 +134,38 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
       type: 'loading',
       message: this.transloco.translate('wholesale.startBatch.creatingBatch'),
     });
+  }
+
+  private toggleGridAreasControl() {
+    // Disable grid areas when date range is invalid
+    this.createBatchForm.controls.dateRange.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        const gridAreasControl = this.createBatchForm.controls.gridAreas;
+        const disableGridAreas =
+          this.createBatchForm.controls.dateRange.invalid;
+
+        disableGridAreas
+          ? gridAreasControl.disable()
+          : gridAreasControl.enable();
+      });
+  }
+
+  private initCreatingBatchListeners() {
+    // Close toast on navigation
+    this.router.events
+      .pipe(first((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.toast.dismiss();
+      });
+
+    this.store.creatingBatchSuccessTrigger$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.onBatchCreatedSuccess());
+
+    this.store.creatingBatchErrorTrigger$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.onBatchCreatedError());
   }
 
   private onBatchCreatedSuccess() {
