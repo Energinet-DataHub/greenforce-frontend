@@ -99,7 +99,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get grid areas.
         /// </summary>
         [HttpGet("GridAreas")]
-        public async Task<ActionResult<IEnumerable<GridAreaDto>>> GetGridAreasAsync(DateTimeOffset startDate, DateTimeOffset endDate)
+        public async Task<ActionResult<IEnumerable<GridAreaDto>>> GetGridAreasAsync()
         {
             return (await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false)).ToList();
         }
