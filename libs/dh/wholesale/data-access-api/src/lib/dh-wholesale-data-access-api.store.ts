@@ -36,6 +36,7 @@ import type { WattBadgeType } from '@energinet-datahub-types/watt/badge';
 
 interface State {
   batches?: batch[];
+  gridAreas?: GridAreaDto[];
   processStepResults?: ProcessStepResultDto;
   loadingBatches: boolean;
   selectedBatch?: batch;
@@ -53,6 +54,7 @@ const initialState: State = {
 })
 export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   batches$ = this.select((x) => x.batches);
+  gridAreas$ = this.select((x) => x.gridAreas);
   selectedBatch$ = this.select((x) => x.selectedBatch);
   selectedGridArea$ = this.select((x) => x.selectedGridArea);
   processStepResults$ = this.select((x) => x.processStepResults);
@@ -62,6 +64,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
 
   loadingCreatingBatch$ = this.select((x) => x.loadingCreatingBatch);
   loadingBatches$ = this.select((x) => x.loadingBatches);
+  loadingGridAreasErrorTrigger$: Subject<void> = new Subject();
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
   loadingBatchErrorTrigger$: Subject<void> = new Subject();
   loadingBasisDataErrorTrigger$: Subject<void> = new Subject();
@@ -100,6 +103,13 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (state, loadingBatches: boolean): State => ({
       ...state,
       loadingBatches,
+    })
+  );
+
+  readonly setGridAreas = this.updater(
+    (state, gridAreas: GridAreaDto[]): State => ({
+      ...state,
+      gridAreas,
     })
   );
 
@@ -186,6 +196,17 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
           )
         );
       })
+    );
+  });
+
+  readonly getGridAreas = this.effect(() => {
+    return this.httpClient.v1WholesaleBatchGridAreasGet().pipe(
+      tapResponse(
+        (gridAreas) => {
+          this.setGridAreas(gridAreas);
+        },
+        () => this.loadingGridAreasErrorTrigger$.next()
+      )
     );
   });
 
