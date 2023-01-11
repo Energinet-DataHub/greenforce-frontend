@@ -14,7 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-admin-user-management-data-access-api.store';
-export * from './lib/dh-admin-user-management-audit-logs-data-access-api.store';
-export * from './lib/dh-admin-user-roles-management-data-access-api.store';
-export * from './lib/dh-custom-data-source';
+:host {
+  display: block;
+  margin: 24px var(--watt-space-s);
+}
+
+.change-text {
+  margin: 0;
+}
+
+.no-results-text {
+  text-align: center;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+}

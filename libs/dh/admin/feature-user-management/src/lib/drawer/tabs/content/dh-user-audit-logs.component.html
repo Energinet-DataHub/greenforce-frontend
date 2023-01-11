@@ -1,0 +1,77 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *rxLet="isLoading$ as isLoading">
+  <watt-card *transloco="let t; read: 'admin.userManagement.tabs.history'">
+    <div *ngIf="isLoading" class="spinner">
+      <watt-spinner></watt-spinner>
+    </div>
+
+    <ng-container *ngIf="!isLoading">
+      <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+        <watt-card-title *rxLet="auditLogCount$ as auditLogCount">
+          <h4
+            *ngIf="auditLogCount === 1 && !hasGeneralError"
+            class="change-text"
+          >
+            {{t("changesSingular", {auditLogCount})}}
+          </h4>
+          <h4
+            *ngIf="auditLogCount !== 1 && !hasGeneralError"
+            class="change-text"
+          >
+            {{t("changesPlural", {auditLogCount})}}
+          </h4>
+        </watt-card-title>
+
+        <watt-table
+          [columns]="columns"
+          [dataSource]="auditLogs$ | push"
+          sortBy="timestamp"
+          sortDirection="desc"
+          [sortClear]="false"
+          [resolveHeader]="translateHeader"
+          *ngIf="!hasGeneralError"
+        >
+          <ng-container *wattTableCell="columns['timestamp']; let element">
+            {{ element.timestamp | dhDateTime }}
+          </ng-container>
+
+          <ng-container *wattTableCell="columns['entry']; let element">
+            <div
+              [innerHTML]="
+                t('logs.roles.' + element.entry.assignmentType, element.entry)
+              "
+            ></div>
+          </ng-container>
+        </watt-table>
+
+        <watt-empty-state
+          *ngIf="hasGeneralError"
+          icon="custom-power"
+          [title]="t('generalError.title')"
+          [message]="t('generalError.message')"
+        ></watt-empty-state>
+
+        <ng-container *rxLet="auditLogCount$ as auditLogCount">
+          <h4 *ngIf="auditLogCount === 0" class="no-results-text">
+            {{ t("noEntries") }}
+          </h4>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </watt-card>
+</ng-container>
