@@ -150,11 +150,11 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     );
   }
 
-  readonly updateSearchText = (searchText: string) => {
+  updateSearchText(searchText: string) {
     const searchTextToSave = searchText === '' ? undefined : searchText;
 
     this.patchState({ searchText: searchTextToSave });
-  };
+  }
 
   readonly reloadUsers = () => {
     this.loadUsers(this.fetchUsersParams$);
