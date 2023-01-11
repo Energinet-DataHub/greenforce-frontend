@@ -62,7 +62,7 @@ limitations under the License.
         <watt-form-field>
           <watt-label>{{ t("validity") }}</watt-label>
           <watt-dropdown
-            disabled
+            [disabled]="true"
             [(ngModel)]="this.validityOption"
             [options]="validityOptions"
             name="validity"
