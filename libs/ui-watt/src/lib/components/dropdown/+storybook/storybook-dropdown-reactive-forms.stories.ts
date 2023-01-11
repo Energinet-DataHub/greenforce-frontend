@@ -29,7 +29,7 @@ import { WattDropdownComponent } from '../watt-dropdown.component';
 import { WattDropdownOption } from '../watt-dropdown-option';
 
 const dropdownOptions: WattDropdownOption[] = [
-  { value: 'mightyDucks', displayValue: 'Mighty Ducks' },
+  { value: 'outlaws', displayValue: 'The Outlaws' },
   { value: 'batman', displayValue: 'Batman' },
   { value: 'titans', displayValue: 'Titans' },
   { value: 'volt', displayValue: 'Volt' },
@@ -165,6 +165,25 @@ export const withValidation: Story<WattDropdownComponent> = () => ({
     <watt-error *ngIf="exampleFormControl.errors?.required">
       Field is required
     </watt-error>
+  </watt-form-field>`,
+});
+withValidation.parameters = {
+  docs: {
+    source: {
+      code: howToUseGuideBasic,
+    },
+  },
+};
+
+export const withFormControlDisabled: Story<WattDropdownComponent> = () => ({
+  props: {
+    exampleFormControl: new FormControl({ value: null, disabled: true }),
+    options: dropdownOptions,
+    placeholder: `I'm disabled`,
+  },
+  template: `<watt-form-field>
+    <watt-label>Label</watt-label>
+    <watt-dropdown [formControl]="exampleFormControl" [options]="options" [placeholder]="placeholder"></watt-dropdown>
   </watt-form-field>`,
 });
 withValidation.parameters = {
