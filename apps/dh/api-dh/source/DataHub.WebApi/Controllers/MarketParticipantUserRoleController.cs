@@ -90,6 +90,7 @@ namespace Energinet.DataHub.WebApi.Controllers
                         {
                             Id = actor.ActorId,
                             Name = actor.Name.Value,
+                            ActorNumber = actor.ActorNumber.Value,
                             UserRoles = userMarketRolesOnActor
                                 .SelectMany(mr => mr)
                                 .Where(mr => mr.UserActorId == actor.ActorId)

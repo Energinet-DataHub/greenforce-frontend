@@ -18,19 +18,12 @@ namespace Energinet.DataHub.WebApi.Dto.MarketParticipant
 {
     public class Actor
     {
-        public Guid Id
-        {
-            get; set;
-        }
+        public Guid Id { get; set; }
 
-        public string? Name
-        {
-            get; set;
-        }
+        public string? ActorNumber { get; set; }
 
-        public List<UserRole>? UserRoles
-        {
-            get; set;
-        }
+        public string? Name { get; set; }
+
+        public List<UserRole>? UserRoles { get; set; }
     }
 }

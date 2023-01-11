@@ -14,6 +14,7 @@ import { UserRole } from './user-role';
 
 export interface Actor { 
     id: string;
+    actorNumber?: string | null;
     name?: string | null;
     userRoles?: Array<UserRole> | null;
 }
