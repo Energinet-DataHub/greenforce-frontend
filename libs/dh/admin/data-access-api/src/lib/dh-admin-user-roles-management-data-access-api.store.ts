@@ -15,26 +15,44 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, tap, withLatestFrom } from 'rxjs';
+import { Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-
 import {
   ErrorState,
   LoadingState,
 } from '@energinet-datahub/dh/shared/data-access-api';
 import {
+  EicFunction,
   MarketParticipantUserRoleHttp,
   UserRoleInfoDto,
+  UserRoleStatus,
+  CreateUserRoleDto,
 } from '@energinet-datahub/dh/shared/domain';
 
+export interface UserRoleChanges {
+  name: string;
+  description: string;
+  status: UserRoleStatus;
+  eicFunction: EicFunction;
+  permissions: Array<string>;
+}
 interface DhUserRolesManagementState {
   readonly roles: UserRoleInfoDto[];
+  roleChanges: UserRoleChanges;
   readonly requestState: LoadingState | ErrorState;
+  validation?: { error: string };
 }
 
 const initialState: DhUserRolesManagementState = {
   roles: [],
   requestState: LoadingState.INIT,
+  roleChanges: {
+    name: '',
+    description: '',
+    status: UserRoleStatus.Active,
+    eicFunction: EicFunction.Consumer,
+    permissions: [],
+  },
 };
 
 @Injectable()
@@ -46,7 +64,8 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   hasGeneralError$ = this.select(
     (state) => state.requestState === ErrorState.GENERAL_ERROR
   );
-
+  roleChanges$ = this.select((state) => state.roleChanges);
+  validation$ = this.select((state) => state.validation);
   roles$ = this.select((state) => state.roles);
 
   constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
@@ -78,6 +97,28 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
     )
   );
 
+  readonly save = this.effect((onSaveCompletedFn$: Observable<() => void>) =>
+    onSaveCompletedFn$.pipe(
+      withLatestFrom(this.roleChanges$),
+      tap(() => this.setLoading(LoadingState.LOADING)),
+      switchMap(([onSaveCompletedFn, progress]) =>
+        of(progress).pipe(
+          switchMap((changes) => this.saveUserRole(changes)),
+          tapResponse(
+            () => {
+              this.setLoading(LoadingState.LOADED);
+              onSaveCompletedFn();
+            },
+            () => {
+              this.setLoading(LoadingState.LOADED);
+              this.handleError();
+            }
+          )
+        )
+      )
+    )
+  );
+
   private updateUserRoles = this.updater(
     (
       state: DhUserRolesManagementState,
@@ -94,6 +135,12 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
       requestState: loadingState,
     })
   );
+
+  private readonly saveUserRole = (roleChanges: UserRoleChanges) => {
+    return this.httpClientUserRole.v1MarketParticipantUserRoleCreateGet(
+      roleChanges as CreateUserRoleDto
+    );
+  };
 
   private handleError = () => {
     this.updateUserRoles([]);

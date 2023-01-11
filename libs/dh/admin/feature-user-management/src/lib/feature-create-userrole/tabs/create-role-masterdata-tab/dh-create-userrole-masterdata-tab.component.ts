@@ -18,6 +18,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Input,
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -25,6 +26,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
+import { UserRoleChanges } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   selector: 'dh-create-userrole-masterdata-tab',
@@ -40,4 +42,5 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 })
 export class DhCreateUserroleMasterdataTabComponent {
   @Output() roleCreated = new EventEmitter<PageEvent>();
+  @Input() changes!: UserRoleChanges;
 }

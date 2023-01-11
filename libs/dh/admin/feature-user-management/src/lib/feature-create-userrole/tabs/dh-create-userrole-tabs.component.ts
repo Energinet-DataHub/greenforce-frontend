@@ -14,18 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-
+import { LetModule, PushModule } from '@rx-angular/template';
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
-
-import { DhCreateUserroleMasterdataTabContainerComponent } from './create-role-masterdata-tab/dh-create-userrole-masterdata-tab-container.component';
-import { DhCreateUserrolePermissionsTabContainerComponent } from "./create-role-permissions-tab/dh-create-userrole-permissions-tab-container.component";
+import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
+import { DhCreateUserroleMasterdataTabComponent } from './create-role-masterdata-tab/dh-create-userrole-masterdata-tab.component';
+import { DhCreateUserrolePermissionsTabComponent } from "./create-role-permissions-tab/dh-create-userrole-permissions-tab.component";
+import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { WattCardModule } from '@energinet-datahub/watt/card';
+import { provideComponentStore } from '@ngrx/component-store';
 
 @Component({
     selector: 'dh-create-userrole-tabs',
     standalone: true,
     templateUrl: './dh-create-userrole-tabs.component.html',
+    providers: [
+      provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
+    ],
     styles: [
         `
       :host {
@@ -33,6 +39,12 @@ import { DhCreateUserrolePermissionsTabContainerComponent } from "./create-role-
       }
     `,
     ],
-    imports: [TranslocoModule, WattTabsModule, DhCreateUserroleMasterdataTabContainerComponent, DhCreateUserrolePermissionsTabContainerComponent]
+    imports: [TranslocoModule, PushModule, LetModule, WattTabsModule, WattValidationMessageModule, DhCreateUserroleMasterdataTabComponent, DhCreateUserrolePermissionsTabComponent, WattCardModule]
 })
-export class DhCreateUserroleTabsComponent {}
+export class DhCreateUserroleTabsComponent {
+  private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
+  isLoading$ = this.store.isLoading$;
+  hasGeneralError$ = this.store.hasGeneralError$;
+  validation$ = this.store.validation$;
+  roleChanges$ = this.store.roleChanges$;
+}

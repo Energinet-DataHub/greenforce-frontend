@@ -15,12 +15,29 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.createrole.tabs'">
+  <ng-container *rxLet="validation$ as validation">
+    <watt-validation-message
+      type="danger"
+      *ngIf="validation"
+      [label]="t('errorToastLabel')"
+      [message]="validation.error"
+    ></watt-validation-message>
+  </ng-container>
+
+  <watt-card>
+    <watt-card-title>
+      <div class="card-title-container">
+        <h4>{{ t("rolesHeadline") }}</h4>
+      </div>
+    </watt-card-title>
+  </watt-card>
+
   <watt-tabs>
     <watt-tab [label]="t('users.tabLabel')">
-      <dh-create-userrole-masterdata-tab-container></dh-create-userrole-masterdata-tab-container>
+      <dh-create-userrole-masterdata-tab [changes]="roleChanges$ | push" ></dh-create-userrole-masterdata-tab>
     </watt-tab>
     <watt-tab [label]="t('users.tabLabel')">
-      <dh-create-userrole-permissions-tab-container></dh-create-userrole-permissions-tab-container>
+      <dh-create-userrole-permissions-tab></dh-create-userrole-permissions-tab>
     </watt-tab>
   </watt-tabs>
 </ng-container>

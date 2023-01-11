@@ -53,7 +53,7 @@ namespace Energinet.DataHub.WebApi.Controllers
             return HandleExceptionAsync(() => _client.GetAssignableAsync(actorId));
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("Create")]
         public Task<ActionResult<Guid>> CreateAsync(CreateUserRoleDto userRole)
         {
