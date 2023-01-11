@@ -22,24 +22,26 @@ import {
   OnInit,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { first, Subject, takeUntil } from 'rxjs';
+import { first, map, Observable, Subject, takeUntil } from 'rxjs';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { PushModule } from '@rx-angular/template';
+import { LetModule, PushModule } from '@rx-angular/template';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
-import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import {
   WattDropdownModule,
   WattDropdownOption,
 } from '@energinet-datahub/watt/dropdown';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WattRangeValidators } from '@energinet-datahub/watt/validators';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
@@ -64,6 +66,7 @@ interface CreateBatchFormValues {
   imports: [
     CommonModule,
     DhFeatureFlagDirectiveModule,
+    LetModule,
     PushModule,
     ReactiveFormsModule,
     TranslocoModule,
@@ -71,6 +74,8 @@ interface CreateBatchFormValues {
     WattDatepickerModule,
     WattDropdownModule,
     WattFormFieldModule,
+    WattSpinnerModule,
+    WattEmptyStateModule,
   ],
 })
 export class DhWholesaleStartComponent implements OnInit, OnDestroy {
@@ -81,7 +86,20 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
+  gridAreas$: Observable<WattDropdownOption[] | undefined> =
+    this.store.gridAreas$.pipe(
+      map((gridAreas) => {
+        return gridAreas?.map((gridArea) => {
+          return {
+            displayValue: `${gridArea?.name} (${gridArea?.code})`,
+            value: gridArea?.code,
+          };
+        });
+      })
+    );
+
   loadingCreatingBatch$ = this.store.loadingCreatingBatch$;
+  loadingGridAreasErrorTrigger$ = this.store.loadingGridAreasErrorTrigger$;
 
   createBatchForm = new FormGroup<CreateBatchFormValues>({
     gridAreas: new FormControl(null, { validators: Validators.required }),
@@ -90,34 +108,10 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     }),
   });
 
-  optionsGridAreas: WattDropdownOption[] = [
-    '351',
-    '512',
-    '533',
-    '543',
-    '584',
-    '805',
-    '806',
-  ].map((gridAreaCode) => ({
-    displayValue: gridAreaCode,
-    value: gridAreaCode,
-  }));
-
   ngOnInit(): void {
-    // Close toast on navigation
-    this.router.events
-      .pipe(first((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.toast.dismiss();
-      });
-
-    this.store.creatingBatchSuccessTrigger$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.onBatchCreatedSuccess());
-
-    this.store.creatingBatchErrorTrigger$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.onBatchCreatedError());
+    this.store.getGridAreas();
+    this.toggleGridAreasControl();
+    this.initCreatingBatchListeners();
   }
 
   ngOnDestroy(): void {
@@ -140,6 +134,38 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
       type: 'loading',
       message: this.transloco.translate('wholesale.startBatch.creatingBatch'),
     });
+  }
+
+  private toggleGridAreasControl() {
+    // Disable grid areas when date range is invalid
+    this.createBatchForm.controls.dateRange.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        const gridAreasControl = this.createBatchForm.controls.gridAreas;
+        const disableGridAreas =
+          this.createBatchForm.controls.dateRange.invalid;
+
+        disableGridAreas
+          ? gridAreasControl.disable()
+          : gridAreasControl.enable();
+      });
+  }
+
+  private initCreatingBatchListeners() {
+    // Close toast on navigation
+    this.router.events
+      .pipe(first((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.toast.dismiss();
+      });
+
+    this.store.creatingBatchSuccessTrigger$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.onBatchCreatedSuccess());
+
+    this.store.creatingBatchErrorTrigger$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.onBatchCreatedError());
   }
 
   private onBatchCreatedSuccess() {

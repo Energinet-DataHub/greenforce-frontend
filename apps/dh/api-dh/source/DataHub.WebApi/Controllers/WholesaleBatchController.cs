@@ -96,6 +96,15 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
+        /// Get grid areas.
+        /// </summary>
+        [HttpGet("GridAreas")]
+        public async Task<ActionResult<IEnumerable<GridAreaDto>>> GetGridAreasAsync()
+        {
+            return (await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false)).ToList();
+        }
+
+        /// <summary>
         /// Get a batch.
         /// </summary>
         [HttpGet("Batch")]
