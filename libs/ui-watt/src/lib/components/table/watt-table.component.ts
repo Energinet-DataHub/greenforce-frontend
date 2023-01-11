@@ -44,6 +44,7 @@ import {
 import { MatTableModule } from '@angular/material/table';
 import { map, type Subscription } from 'rxjs';
 import { WattCheckboxModule } from '../checkbox';
+import { WattScrollbarDirective } from '../scrollbar';
 
 export interface WattTableColumn<T> {
   /**
@@ -137,6 +138,7 @@ export interface WattSortableDataSource<T> extends DataSource<T> {
     MatSortModule,
     MatTableModule,
     WattCheckboxModule,
+    WattScrollbarDirective,
   ],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-table',

@@ -34,3 +34,51 @@ body {
   margin: 0;
   font-family: "Open Sans", sans-serif;
 }
+
+.watt-scrollbar {
+  position: relative;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+
+  &::-webkit-scrollbar {
+    /* WebKit */
+    width: 0;
+    height: 0;
+  }
+}
+
+.watt-scrollbar::before,
+.watt-scrollbar::after {
+  content: "";
+  display: block;
+  position: absolute;
+  right: 0;
+  width: 12px;
+  z-index: 500;
+  transform: translateY(calc(var(--watt-scrollbar-offset) * 1px));
+}
+
+.watt-scrollbar::before {
+  height: 100%;
+}
+
+.watt-scrollbar::after {
+  top: calc(var(--watt-scrollbar-top) * 1px);
+  height: calc(var(--watt-scrollbar-height) * 1px);
+  padding: 2px;
+  border-radius: 6px;
+  background-clip: content-box !important;
+  background: var(--watt-color-neutral-black);
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.watt-scrollbar-visible::after {
+  position: fixed;
+  top: auto;
+  right: auto;
+  left: calc(var(--watt-scrollbar-left) * 1px);
+  transform: translate(-100%, calc(var(--watt-scrollbar-top) * 1px));
+  opacity: 0.4;
+}
