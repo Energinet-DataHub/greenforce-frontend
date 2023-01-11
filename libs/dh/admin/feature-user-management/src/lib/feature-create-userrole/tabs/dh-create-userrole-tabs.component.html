@@ -20,16 +20,19 @@ limitations under the License.
       type="danger"
       *ngIf="validation"
       [label]="t('errorToastLabel')"
-      [message]="validation.error"
+      [message]="validation!.error"
     ></watt-validation-message>
   </ng-container>
 
-  <watt-card>
+  <watt-card *rxLet="isLoading$ as isLoading">
     <watt-card-title>
       <div class="card-title-container">
         <h4>{{ t("rolesHeadline") }}</h4>
       </div>
     </watt-card-title>
+    <div class="spinner-container" *ngIf="isLoading">
+      <watt-spinner></watt-spinner>
+    </div>
   </watt-card>
 
   <watt-tabs>

@@ -14,32 +14,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
+import { Component, inject} from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { DhCreateUserroleMasterdataTabComponent } from './create-role-masterdata-tab/dh-create-userrole-masterdata-tab.component';
-import { DhCreateUserrolePermissionsTabComponent } from "./create-role-permissions-tab/dh-create-userrole-permissions-tab.component";
+import { DhCreateUserrolePermissionsTabComponent } from './create-role-permissions-tab/dh-create-userrole-permissions-tab.component';
 import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { provideComponentStore } from '@ngrx/component-store';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 
 @Component({
-    selector: 'dh-create-userrole-tabs',
-    standalone: true,
-    templateUrl: './dh-create-userrole-tabs.component.html',
-    providers: [
-      provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
-    ],
-    styles: [
-        `
+  selector: 'dh-create-userrole-tabs',
+  standalone: true,
+  templateUrl: './dh-create-userrole-tabs.component.html',
+  providers: [
+    provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
+  ],
+  styles: [
+    `
       :host {
         display: block;
       }
     `,
-    ],
-    imports: [TranslocoModule, PushModule, LetModule, WattTabsModule, WattValidationMessageModule, DhCreateUserroleMasterdataTabComponent, DhCreateUserrolePermissionsTabComponent, WattCardModule]
+  ],
+  imports: [
+    TranslocoModule,
+    CommonModule,
+    PushModule,
+    LetModule,
+    WattTabsModule,
+    WattValidationMessageModule,
+    DhCreateUserroleMasterdataTabComponent,
+    DhCreateUserrolePermissionsTabComponent,
+    WattCardModule,
+    WattSpinnerModule
+  ],
 })
 export class DhCreateUserroleTabsComponent {
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);

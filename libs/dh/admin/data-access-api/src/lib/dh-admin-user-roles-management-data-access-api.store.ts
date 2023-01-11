@@ -33,7 +33,7 @@ export interface UserRoleChanges {
   name: string;
   description: string;
   status: UserRoleStatus;
-  eicFunction: EicFunction;
+  eicFunction?: EicFunction;
   permissions: Array<string>;
 }
 interface DhUserRolesManagementState {
@@ -50,7 +50,7 @@ const initialState: DhUserRolesManagementState = {
     name: '',
     description: '',
     status: UserRoleStatus.Active,
-    eicFunction: EicFunction.Consumer,
+    eicFunction: undefined,
     permissions: [],
   },
 };
