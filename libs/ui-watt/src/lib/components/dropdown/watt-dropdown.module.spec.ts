@@ -26,7 +26,7 @@ import { WattDropdownOptions } from './watt-dropdown-option';
 import { WattDropdownModule } from './watt-dropdown.module';
 
 const dropdownOptions: WattDropdownOptions = [
-  { value: 'mightyDucks', displayValue: 'Mighty Ducks' },
+  { value: 'outlaws', displayValue: 'The Outlaws' },
   { value: 'batman', displayValue: 'Batman' },
   { value: 'titans', displayValue: 'Titans' },
   { value: 'volt', displayValue: 'Volt' },
