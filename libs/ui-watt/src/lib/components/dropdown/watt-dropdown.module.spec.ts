@@ -26,7 +26,7 @@ import { WattDropdownOptions } from './watt-dropdown-option';
 import { WattDropdownModule } from './watt-dropdown.module';
 
 const dropdownOptions: WattDropdownOptions = [
-  { value: 'mightyDucks', displayValue: 'Mighty Ducks' },
+  { value: 'outlaws', displayValue: 'The Outlaws' },
   { value: 'batman', displayValue: 'Batman' },
   { value: 'titans', displayValue: 'Titans' },
   { value: 'volt', displayValue: 'Volt' },
@@ -213,7 +213,7 @@ describe(WattDropdownModule.name, () => {
         await matSelect.open();
 
         const filterInput = getFilterInput();
-        userEvent.type(filterInput, 'mighty');
+        userEvent.type(filterInput, 'outlaws');
 
         // Number of options is 3:
         // Option 1. Filter input
@@ -397,7 +397,7 @@ describe(WattDropdownModule.name, () => {
         await matSelect.open();
 
         const filterInput = getFilterInput();
-        userEvent.type(filterInput, 'mighty');
+        userEvent.type(filterInput, 'outlaws');
 
         // Number of options is 3:
         // Option 1. Filter input

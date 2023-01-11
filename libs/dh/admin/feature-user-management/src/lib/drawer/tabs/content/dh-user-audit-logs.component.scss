@@ -14,5 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhWholesaleCalculationStepsComponent } from './lib/dh-wholesale-calculation-steps.component';
-export { DhWholesaleCalculationStepsRoutes } from './lib/dh-wholesale-calculation-steps.routes';
+:host {
+  display: block;
+  margin: 24px var(--watt-space-s);
+}
+
+.change-text {
+  margin: 0;
+}
+
+.no-results-text {
+  text-align: center;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+}

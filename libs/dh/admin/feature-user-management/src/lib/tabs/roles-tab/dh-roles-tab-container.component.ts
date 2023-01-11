@@ -18,18 +18,16 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { LetModule, PushModule } from '@rx-angular/template';
-import { PageEvent } from '@angular/material/paginator';
 
-import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-
-import { DhUsersTabComponent } from './dh-users-tab.component';
-import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
+import { DhUserRolesTabComponent } from './dh-roles-tab.component';
+import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-general-error.component';
 
 @Component({
-  selector: 'dh-users-tab-container',
+  selector: 'dh-roles-tab-container',
   standalone: true,
-  templateUrl: './dh-users-tab-container.component.html',
+  templateUrl: './dh-roles-tab-container.component.html',
   styles: [
     `
       :host {
@@ -37,7 +35,7 @@ import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-ge
         display: block;
       }
 
-      .users-overview {
+      .user-roles {
         &__spinner {
           display: flex;
           justify-content: center;
@@ -50,36 +48,26 @@ import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-ge
       }
     `,
   ],
-  providers: [provideComponentStore(DhAdminUserManagementDataAccessApiStore)],
+  providers: [
+    provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
+  ],
   imports: [
     CommonModule,
     LetModule,
     PushModule,
     WattSpinnerModule,
-    DhUsersTabComponent,
-    DhUsersTabGeneralErrorComponent,
+    DhUserRolesTabComponent,
+    DhTabDataGeneralErrorComponent,
   ],
 })
-export class DhUsersTabContainerComponent {
-  private readonly store = inject(DhAdminUserManagementDataAccessApiStore);
-
-  users$ = this.store.users$;
-  totalUserCount$ = this.store.totalUserCount$;
-
-  pageIndex$ = this.store.paginatorPageIndex$;
-  pageSize$ = this.store.pageSize$;
+export class DhRolesTabContainerComponent {
+  private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
+  roles$ = this.store.roles$;
 
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
-  onPageChange(event: PageEvent): void {
-    this.store.updatePageMetadata({
-      pageIndex: event.pageIndex,
-      pageSize: event.pageSize,
-    });
-  }
-
-  reloadUsers(): void {
-    this.store.getUsers();
+  reloadRoles(): void {
+    this.store.getRoles();
   }
 }

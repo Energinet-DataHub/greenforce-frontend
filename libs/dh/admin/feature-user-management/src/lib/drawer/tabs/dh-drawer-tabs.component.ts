@@ -22,6 +22,7 @@ import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhUserMasterDataComponent } from './content/dh-user-master-data.component';
 import { DhUserRolesComponent } from './content/dh-user-roles.component';
+import { DhUserAuditLogsComponent } from './content/dh-user-audit-logs.component';
 
 @Component({
   selector: 'dh-drawer-tabs',
@@ -32,6 +33,7 @@ import { DhUserRolesComponent } from './content/dh-user-roles.component';
     WattTabsModule,
     DhUserMasterDataComponent,
     DhUserRolesComponent,
+    DhUserAuditLogsComponent,
   ],
 })
 export class DhTabsComponent {

@@ -737,7 +737,10 @@
       "startLabel": "Start",
       "dateRangeRequired": "Date range is required",
       "dateRangeLabel": "Period",
-      "gridAreaDropDownLabel": "Grid Areas"
+      "gridAreaDropDownLabel": "Grid Areas",
+      "creatingBatch": "Starting batch...",
+      "creatingBatchSuccess": "The batch has been started.",
+      "creatingBatchError": "Oops! There was an error."
     },
     "searchBatch": {
       "topBarTitle": "Search Batch",
@@ -775,6 +778,7 @@
       }
     },
     "calculationSteps": {
+      "open": "Open",
       "topBarTitle": "See accumulated time series",
       "sidebarTitle": "Details",
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
@@ -787,7 +791,7 @@
     "processStepResults": {
       "step": "Step {{step}}",
       "aggregatedProductionPerGridArea": "Aggregated production per grid area",
-      "open": "Open",
+      "aggregatedConsumptionPerEnergySupplier": "Aggregated consumption per energy supplier",
       "gridArea": "Grid area",
       "loadProcessStepResultsErrorTitle": "Oops! There was an error",
       "loadProcessStepResultsErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information",
@@ -825,12 +829,15 @@
   "admin": {
     "userManagement": {
       "drawer": {
-        "edit": "Edit",
-        "active": "Active"
+        "edit": "Edit"
       },
       "topBarTitle": "User management",
       "userStatus": {
-        "active": "Aktiv",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "roleStatus": {
+        "active": "Active",
         "inactive": "Inactive"
       },
       "tabs": {
@@ -841,7 +848,24 @@
           "phone": "Phone"
         },
         "history": {
-          "tabLabel": "History"
+          "tabLabel": "History",
+          "noEntries": "No results",
+          "changesSingular": "{{ auditLogCount }} change",
+          "changesPlural": "{{ auditLogCount }} changes",
+          "columns": {
+            "timestamp": "Time",
+            "entry": "Change"
+          },
+          "logs": {
+            "roles": {
+              "Added": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
+              "Removed": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>"
+            }
+          },
+          "generalError": {
+            "title": "An unexpected error occured",
+            "message": "Try again or contact your system administrator if you keep getting this error."
+          }
         },
         "users": {
           "tabLabel": "Users",
@@ -871,10 +895,26 @@
           "roles": "Roles",
           "role": "Role",
           "errorTitle": "Oops! There was an error",
-          "errorMessage": "Unfortunately, an error occurred while retrieving the user roles."
+          "errorMessage": "Unfortunately, an error occurred while retrieving the user roles.",
+          "rolesHeadline": "Roles",
+          "table": {
+            "columns": {
+              "name": "Name",
+              "description": "Description",
+              "marketrole": "Market role",
+              "status": "Status"
+            }
+          }
         },
         "permissions": {
           "tabLabel": "Permissions"
+        },
+        "errors": {
+          "generalError": {
+            "title": "Oops! There was an error",
+            "message": "Unfortunately, an error occurred while retrieving the necessary information.",
+            "button": "Try again"
+          }
         }
       }
     }

@@ -741,7 +741,10 @@
       "startLabel": "Start",
       "dateRangeRequired": "Dato-periode påkrævet",
       "dateRangeLabel": "Periode",
-      "gridAreaDropDownLabel": "Netområder"
+      "gridAreaDropDownLabel": "Netområder",
+      "creatingBatch": "Starter batch...",
+      "creatingBatchSuccess": "Dit batch er startet.",
+      "creatingBatchError": "Ups! Der opstod en fejl."
     },
     "searchBatch": {
       "topBarTitle": "Søg batch",
@@ -779,6 +782,7 @@
       }
     },
     "calculationSteps": {
+      "open": "Åbn",
       "topBarTitle": "Se akkumulerede tidsserier",
       "sidebarTitle": "Detaljer",
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
@@ -791,7 +795,7 @@
     "processStepResults": {
       "step": "Trin {{step}}",
       "aggregatedProductionPerGridArea": "Aggregeret produktion per netområde",
-      "open": "Åbn",
+      "aggregatedConsumptionPerEnergySupplier": "Aggregeret forbrug per elleverandør",
       "gridArea": "Netområde",
       "loadProcessStepResultsErrorTitle": "Ups! Der opstod en fejl",
       "loadProcessStepResultsErrorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
@@ -829,11 +833,14 @@
   "admin": {
     "userManagement": {
       "drawer": {
-        "edit": "Rediger",
-        "active": "aktiv"
+        "edit": "Rediger"
       },
       "topBarTitle": "Brugeradministration",
       "userStatus": {
+        "active": "Aktiv",
+        "inactive": "Inaktiv"
+      },
+      "roleStatus": {
         "active": "Aktiv",
         "inactive": "Inaktiv"
       },
@@ -845,7 +852,24 @@
           "phone": "Telefon"
         },
         "history": {
-          "tabLabel": "Historik"
+          "tabLabel": "Historik",
+          "noEntries": "Ingen resultater",
+          "changesSingular": "{{ auditLogCount }} ændring",
+          "changesPlural": "{{ auditLogCount }} ændringer",
+          "columns": {
+            "timestamp": "Tid",
+            "entry": "Ændring"
+          },
+          "logs": {
+            "roles": {
+              "Added": "<b>{{ changedByUserName }}</b> tilføjede rollen <b>{{ userRoleName }}</b>",
+              "Removed": "<b>{{ changedByUserName }}</b> fjernede rollen <b>{{ userRoleName }}</b>"
+            }
+          },
+          "generalError": {
+            "title": "Der opstod en uventet fejl",
+            "message": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl."
+          }
         },
         "users": {
           "tabLabel": "Brugere",
@@ -874,10 +898,26 @@
           "roles": "Roller",
           "role": "Rolle",
           "errorTitle": "Ups! Der opstod en fejl",
-          "errorMessage": "Der opstod desværre en fejl, ved hentning af rollerne."
+          "errorMessage": "Der opstod desværre en fejl, ved hentning af rollerne.",
+          "rolesHeadline": "Brugerroller",
+          "table": {
+            "columns": {
+              "name": "Navn",
+              "description": "Beskrivelse",
+              "marketrole": "Marketsrolle",
+              "status": "Status"
+            }
+          }
         },
         "permissions": {
           "tabLabel": "Rettigheder"
+        },
+        "errors": {
+          "generalError": {
+            "title": "Ups! Der opstod en fejl",
+            "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger.",
+            "button": "Prøv igen"
+          }
         }
       }
     }
