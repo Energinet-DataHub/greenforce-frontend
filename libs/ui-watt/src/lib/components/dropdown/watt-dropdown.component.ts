@@ -123,7 +123,7 @@ export class WattDropdownComponent
   @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
 
   /**
-   * Wether the dropdown is disabled
+   * Whether the dropdown is disabled
    */
   @Input() disabled = false;
 
