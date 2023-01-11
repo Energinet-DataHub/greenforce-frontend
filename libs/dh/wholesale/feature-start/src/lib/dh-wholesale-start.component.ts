@@ -40,7 +40,7 @@ import {
 import { LetModule, PushModule } from '@rx-angular/template';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import isAfter from 'date-fns/isAfter';
-import isEqual from 'date-fns/isEqual'
+import isEqual from 'date-fns/isEqual';
 
 import {
   WattDropdownModule,
@@ -115,7 +115,10 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     map(([gridAreas, dateRange]) => {
       if (dateRange === null) return gridAreas;
       return gridAreas?.filter((gridArea) => {
-        return isAfter(new Date(gridArea.validFrom), new Date(dateRange.start)) || isEqual(new Date(dateRange.start), new Date(gridArea.validFrom));
+        return (
+          isAfter(new Date(gridArea.validFrom), new Date(dateRange.start)) ||
+          isEqual(new Date(dateRange.start), new Date(gridArea.validFrom))
+        );
       });
     }),
     map((gridAreas) => {
