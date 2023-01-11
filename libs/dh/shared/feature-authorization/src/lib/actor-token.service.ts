@@ -32,7 +32,6 @@ import {
   map,
   Observable,
   ReplaySubject,
-  shareReplay,
   skipWhile,
   switchMap,
   take,
@@ -46,7 +45,6 @@ type CachedEntry = { token: string; value: Observable<string> } | undefined;
 export class ActorTokenService {
   private _internalActors: CachedEntry;
   private _internalToken: CachedEntry;
-  private _interactionStatus: Observable<InteractionStatus>;
 
   constructor(
     private marketParticipantUserHttp: MarketParticipantUserHttp,
@@ -54,9 +52,6 @@ export class ActorTokenService {
     @Inject(actorStorageToken) private actorStorage: ActorStorage,
     private msalBroadcastService: MsalBroadcastService
   ) {
-    this._interactionStatus = this.msalBroadcastService.inProgress$.pipe(
-      shareReplay(1)
-    );
   }
 
   public isPartOfAuthFlow(request: HttpRequest<unknown>) {
@@ -89,7 +84,7 @@ export class ActorTokenService {
   }
 
   public acquireToken = (): Observable<string> => {
-    return this._interactionStatus.pipe(
+    return this.msalBroadcastService.inProgress$.pipe(
       skipWhile((x) => x !== InteractionStatus.None),
       take(1),
       switchMap(() =>
