@@ -14,43 +14,90 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { provideComponentStore } from '@ngrx/component-store';
+import { LetModule, PushModule } from '@rx-angular/template';
 import { PageEvent } from '@angular/material/paginator';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattCardModule } from '@energinet-datahub/watt/card';
-import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattCardModule } from '@energinet-datahub/watt/card';
 
+import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
 
 @Component({
   selector: 'dh-users-tab',
-  templateUrl: './dh-users-tab.component.html',
-  styleUrls: ['./dh-users-tab.component.scss'],
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './dh-users-tab.component.html',
+  styles: [
+    `
+      :host {
+        background-color: var(--watt-color-neutral-white);
+        display: block;
+        /* TODO: Add spacing variable for 24px */
+        margin: 24px var(--watt-space-s);
+      }
+
+      .users-overview {
+        &__spinner {
+          display: flex;
+          justify-content: center;
+          padding: var(--watt-space-l) 0;
+        }
+
+        &__error {
+          padding: var(--watt-space-xl) 0;
+        }
+      }
+
+      h4 {
+        margin: 0;
+      }
+
+      .card-title__container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    `,
+  ],
+  providers: [provideComponentStore(DhAdminUserManagementDataAccessApiStore)],
   imports: [
     CommonModule,
+    LetModule,
+    PushModule,
     TranslocoModule,
+    WattSpinnerModule,
     WattCardModule,
     DhUsersTabTableComponent,
     DhSharedUiPaginatorComponent,
+    DhUsersTabGeneralErrorComponent,
   ],
 })
 export class DhUsersTabComponent {
-  @Input() users: UserOverviewItemDto[] = [];
-  @Input() totalUserCount!: number;
+  private readonly store = inject(DhAdminUserManagementDataAccessApiStore);
 
-  @Input() pageSize!: number;
-  @Input() pageIndex!: number;
+  users$ = this.store.users$;
+  totalUserCount$ = this.store.totalUserCount$;
 
-  @Output() pageChange = new EventEmitter<PageEvent>();
+  pageIndex$ = this.store.paginatorPageIndex$;
+  pageSize$ = this.store.pageSize$;
+
+  isLoading$ = this.store.isLoading$;
+  hasGeneralError$ = this.store.hasGeneralError$;
+
+  onPageChange(event: PageEvent): void {
+    this.store.updatePageMetadata({
+      pageIndex: event.pageIndex,
+      pageSize: event.pageSize,
+    });
+  }
+
+  reloadUsers(): void {
+    this.store.reloadUsers();
+  }
 }
