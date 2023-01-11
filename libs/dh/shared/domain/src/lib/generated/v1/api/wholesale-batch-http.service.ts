@@ -176,25 +176,13 @@ export class WholesaleBatchHttp {
 
     /**
      * Get grid areas.
-     * @param startDate 
-     * @param endDate 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1WholesaleBatchGridAreasGet(startDate?: string, endDate?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<GridAreaDto>>;
-    public v1WholesaleBatchGridAreasGet(startDate?: string, endDate?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<GridAreaDto>>>;
-    public v1WholesaleBatchGridAreasGet(startDate?: string, endDate?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<GridAreaDto>>>;
-    public v1WholesaleBatchGridAreasGet(startDate?: string, endDate?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (startDate !== undefined && startDate !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>startDate, 'startDate');
-        }
-        if (endDate !== undefined && endDate !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>endDate, 'endDate');
-        }
+    public v1WholesaleBatchGridAreasGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<GridAreaDto>>;
+    public v1WholesaleBatchGridAreasGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<GridAreaDto>>>;
+    public v1WholesaleBatchGridAreasGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<GridAreaDto>>>;
+    public v1WholesaleBatchGridAreasGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -240,7 +228,6 @@ export class WholesaleBatchHttp {
         return this.httpClient.request<Array<GridAreaDto>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
