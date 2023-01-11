@@ -179,7 +179,7 @@ export const withFormControlDisabled: Story<WattDropdownComponent> = () => ({
   props: {
     exampleFormControl: new FormControl({ value: null, disabled: true }),
     options: dropdownOptions,
-    placeholder: `I'm disabled`
+    placeholder: `I'm disabled`,
   },
   template: `<watt-form-field>
     <watt-label>Label</watt-label>

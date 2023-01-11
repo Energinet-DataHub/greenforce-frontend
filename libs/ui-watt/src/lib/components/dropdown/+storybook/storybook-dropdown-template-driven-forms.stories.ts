@@ -182,7 +182,7 @@ export const disabled: Story<WattDropdownComponent> = () => ({
     singleSelectionModel: '',
     options: dropdownOptions,
     disabled: true,
-    placeholder: `I'm disabled`
+    placeholder: `I'm disabled`,
   },
   template: `<watt-form-field>
     <watt-label>Label</watt-label>
