@@ -829,12 +829,15 @@
   "admin": {
     "userManagement": {
       "drawer": {
-        "edit": "Edit",
-        "active": "Active"
+        "edit": "Edit"
       },
       "topBarTitle": "User management",
       "userStatus": {
         "active": "Aktiv",
+        "inactive": "Inactive"
+      },
+      "roleStatus": {
+        "active": "Active",
         "inactive": "Inactive"
       },
       "tabs": {
@@ -871,10 +874,26 @@
           }
         },
         "roles": {
-          "tabLabel": "Roles"
+          "tabLabel": "Roles",
+          "rolesHeadline": "Roles",
+          "table": {
+            "columns": {
+              "name": "Name",
+              "description": "Description",
+              "marketrole": "Market role",
+              "status": "Status"
+            }
+          }
         },
         "permissions": {
           "tabLabel": "Permissions"
+        },
+        "errors": {
+          "generalError": {
+            "title": "Oops! There was an error",
+            "message": "Unfortunately, an error occurred while retrieving the necessary information.",
+            "button": "Try again"
+          }
         }
       }
     }

@@ -15,4 +15,5 @@
  * limitations under the License.
  */
 export * from './lib/dh-admin-user-management-data-access-api.store';
+export * from './lib/dh-admin-user-roles-management-data-access-api.store';
 export * from './lib/dh-custom-data-source';
