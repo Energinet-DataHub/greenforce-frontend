@@ -15,10 +15,13 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
+import { MsalBroadcastService } from '@azure/msal-angular';
 
 @Component({
   selector: 'dh-app',
   styleUrls: ['./datahub-app.component.scss'],
   templateUrl: './datahub-app.component.html',
 })
-export class DataHubAppComponent {}
+export class DataHubAppComponent {
+  constructor(private _: MsalBroadcastService) {}
+}

@@ -19,9 +19,10 @@ import { DhCoreShellModule } from '@energinet-datahub/dh/core/shell';
 import { NgModule } from '@angular/core';
 
 import { DataHubAppComponent } from './datahub-app.component';
+import { MsalRedirectComponent } from '@azure/msal-angular';
 
 @NgModule({
-  bootstrap: [DataHubAppComponent],
+  bootstrap: [DataHubAppComponent, MsalRedirectComponent],
   declarations: [DataHubAppComponent],
   imports: [BrowserAnimationsModule, DhCoreShellModule],
 })

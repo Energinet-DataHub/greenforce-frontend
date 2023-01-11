@@ -29,6 +29,8 @@ import {
 import { firstValueFrom, of } from 'rxjs';
 import { ActorStorage } from './actor-storage';
 import { LocalStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
+import { MsalBroadcastService } from '@azure/msal-angular';
+import { InteractionStatus } from '@azure/msal-browser';
 
 describe(ActorTokenService.name, () => {
   const createActorsRequest = () =>
@@ -47,7 +49,10 @@ describe(ActorTokenService.name, () => {
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake())
+      new ActorStorage(new LocalStorageFake()),
+      {
+        inProgress$: of(InteractionStatus.None),
+      } as MsalBroadcastService
     );
 
     // act
@@ -67,7 +72,10 @@ describe(ActorTokenService.name, () => {
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake())
+      new ActorStorage(new LocalStorageFake()),
+      {
+        inProgress$: of(InteractionStatus.None),
+      } as MsalBroadcastService
     );
 
     // act
@@ -87,7 +95,10 @@ describe(ActorTokenService.name, () => {
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake())
+      new ActorStorage(new LocalStorageFake()),
+      {
+        inProgress$: of(InteractionStatus.None),
+      } as MsalBroadcastService
     );
 
     // act
@@ -107,7 +118,10 @@ describe(ActorTokenService.name, () => {
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake())
+      new ActorStorage(new LocalStorageFake()),
+      {
+        inProgress$: of(InteractionStatus.None),
+      } as MsalBroadcastService
     );
 
     // act
@@ -132,7 +146,10 @@ describe(ActorTokenService.name, () => {
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake())
+      new ActorStorage(new LocalStorageFake()),
+      {
+        inProgress$: of(InteractionStatus.None),
+      } as MsalBroadcastService
     );
 
     // act
@@ -160,7 +177,10 @@ describe(ActorTokenService.name, () => {
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake())
+      new ActorStorage(new LocalStorageFake()),
+      {
+        inProgress$: of(InteractionStatus.None),
+      } as MsalBroadcastService
     );
 
     // act
@@ -206,7 +226,10 @@ describe(ActorTokenService.name, () => {
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake())
+      new ActorStorage(new LocalStorageFake()),
+      {
+        inProgress$: of(InteractionStatus.None),
+      } as MsalBroadcastService
     );
 
     // act
