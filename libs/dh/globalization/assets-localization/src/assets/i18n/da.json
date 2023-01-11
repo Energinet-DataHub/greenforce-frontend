@@ -832,10 +832,6 @@
         "edit": "Rediger",
         "active": "aktiv"
       },
-      "drawer": {
-        "edit": "Rediger",
-        "active": "aktiv"
-      },
       "topBarTitle": "Brugeradministration",
       "userStatus": {
         "active": "Aktiv",
@@ -876,7 +872,9 @@
         "roles": {
           "tabLabel": "Roller",
           "roles": "Roller",
-          "role": "Rolle"
+          "role": "Rolle",
+          "errorTitle": "Ups! Der opstod en fejl",
+          "errorMessage": "Der opstod desværre en fejl, ved hentning af rollerne."
         },
         "permissions": {
           "tabLabel": "Rettigheder"

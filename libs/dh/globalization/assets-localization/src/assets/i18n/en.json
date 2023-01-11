@@ -828,10 +828,6 @@
         "edit": "Edit",
         "active": "Active"
       },
-      "drawer": {
-        "edit": "Edit",
-        "active": "Active"
-      },
       "topBarTitle": "User management",
       "userStatus": {
         "active": "Aktiv",
@@ -873,7 +869,9 @@
         "roles": {
           "tabLabel": "Roles",
           "roles": "Roles",
-          "role": "Role"
+          "role": "Role",
+          "errorTitle": "Oops! There was an error",
+          "errorMessage": "Unfortunately, an error occurred while retrieving the user roles."
         },
         "permissions": {
           "tabLabel": "Permissions"
