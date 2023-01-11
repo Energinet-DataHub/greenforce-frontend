@@ -69,7 +69,6 @@ export class DhUserRolesTabComponent {
 
   updateFilterEicFunction(eicFunctions: string[] | null) {
     const eicFunctionParsed = eicFunctions as EicFunction[];
-    console.log(eicFunctionParsed);
     this.store.setFilterEicFunction(eicFunctionParsed);
   }
 
