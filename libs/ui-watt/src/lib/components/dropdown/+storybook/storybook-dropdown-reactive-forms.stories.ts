@@ -174,3 +174,22 @@ withValidation.parameters = {
     },
   },
 };
+
+export const withFormControlDisabled: Story<WattDropdownComponent> = () => ({
+  props: {
+    exampleFormControl: new FormControl({ value: null, disabled: true }),
+    options: dropdownOptions,
+    placeholder: `I'm disabled`
+  },
+  template: `<watt-form-field>
+    <watt-label>Label</watt-label>
+    <watt-dropdown [formControl]="exampleFormControl" [options]="options" [placeholder]="placeholder"></watt-dropdown>
+  </watt-form-field>`,
+});
+withValidation.parameters = {
+  docs: {
+    source: {
+      code: howToUseGuideBasic,
+    },
+  },
+};
