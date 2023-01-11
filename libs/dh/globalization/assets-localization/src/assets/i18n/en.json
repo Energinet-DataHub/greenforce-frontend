@@ -829,12 +829,11 @@
   "admin": {
     "userManagement": {
       "drawer": {
-        "edit": "Edit",
-        "active": "Active"
+        "edit": "Edit"
       },
       "topBarTitle": "User management",
       "userStatus": {
-        "active": "Aktiv",
+        "active": "Active",
         "inactive": "Inactive"
       },
       "roleStatus": {
@@ -849,7 +848,24 @@
           "phone": "Phone"
         },
         "history": {
-          "tabLabel": "History"
+          "tabLabel": "History",
+          "noEntries": "No results",
+          "changesSingular": "{{ auditLogCount }} change",
+          "changesPlural": "{{ auditLogCount }} changes",
+          "columns": {
+            "timestamp": "Time",
+            "entry": "Change"
+          },
+          "logs": {
+            "roles": {
+              "Added": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
+              "Removed": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>"
+            }
+          },
+          "generalError": {
+            "title": "An unexpected error occured",
+            "message": "Try again or contact your system administrator if you keep getting this error."
+          }
         },
         "users": {
           "tabLabel": "Users",
