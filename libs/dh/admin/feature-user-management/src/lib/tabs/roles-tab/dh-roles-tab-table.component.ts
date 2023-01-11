@@ -56,7 +56,7 @@ import { PushModule } from '@rx-angular/template';
     DhEmDashFallbackPipeScam,
     DhSharedUiPaginatorComponent,
     DhRoleStatusComponent,
-    PushModule
+    PushModule,
   ],
 })
 export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {

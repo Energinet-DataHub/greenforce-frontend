@@ -17,7 +17,10 @@
 import { Component, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LetModule, PushModule } from '@rx-angular/template';
-import { EicFunction, UserRoleStatus } from '@energinet-datahub/dh/shared/domain';
+import {
+  EicFunction,
+  UserRoleStatus,
+} from '@energinet-datahub/dh/shared/domain';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import {
@@ -31,13 +34,15 @@ import { TranslocoModule } from '@ngneat/transloco';
   selector: 'dh-roles-tab-list-filter',
   standalone: true,
   templateUrl: './dh-roles-tab-list-filter.component.html',
-  styles: [`
-  :host {
-    display: flex;
-    width: 50%;
-    gap: 10px;
-  }
-`,],
+  styles: [
+    `
+      :host {
+        display: flex;
+        width: 50%;
+        gap: 10px;
+      }
+    `,
+  ],
   imports: [
     CommonModule,
     LetModule,
@@ -45,7 +50,7 @@ import { TranslocoModule } from '@ngneat/transloco';
     TranslocoModule,
     WattDropdownModule,
     WattFormFieldModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
 })
 export class DhRolesTabListFilterComponent {
@@ -64,20 +69,24 @@ export class DhRolesTabListFilterComponent {
     })
   );
 
-  eicFunctionListListOptions: WattDropdownOption[] = Object.keys(this.eicFunctionList$).map(
-    (key) => ({
-      displayValue: key,
-      value: key,
-    })
-  );
+  eicFunctionListListOptions: WattDropdownOption[] = Object.keys(
+    this.eicFunctionList$
+  ).map((key) => ({
+    displayValue: key,
+    value: key,
+  }));
 
   constructor() {
     this.init();
   }
 
   init = () => {
-    this.statusFormControl.valueChanges.subscribe(e => this.statusChanged.emit(e));
-    this.eicFunctionFormControl.valueChanges.subscribe(e => this.eicFunctionChanged.emit(e));
+    this.statusFormControl.valueChanges.subscribe((e) =>
+      this.statusChanged.emit(e)
+    );
+    this.eicFunctionFormControl.valueChanges.subscribe((e) =>
+      this.eicFunctionChanged.emit(e)
+    );
     this.statusFormControl.setValue(this.statusListOptions[0].value);
-  }
+  };
 }

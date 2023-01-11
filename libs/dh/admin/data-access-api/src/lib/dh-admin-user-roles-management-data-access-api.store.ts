@@ -35,8 +35,7 @@ interface DhUserRolesManagementState {
   readonly filterModel: RolesFilterModel;
 }
 
-export class RolesFilterModel
-{
+export class RolesFilterModel {
   status: UserRoleStatus = 'Active';
   eicFunctions: EicFunction[] = [];
 }
@@ -44,7 +43,7 @@ export class RolesFilterModel
 const initialState: DhUserRolesManagementState = {
   roles: [],
   requestState: LoadingState.INIT,
-  filterModel: new RolesFilterModel()
+  filterModel: new RolesFilterModel(),
 };
 
 @Injectable()
@@ -56,9 +55,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   hasGeneralError$ = this.select(
     (state) => state.requestState === ErrorState.GENERAL_ERROR
   );
-  filterModel$ = this.select(
-    (state) => state.filterModel
-  );
+  filterModel$ = this.select((state) => state.filterModel);
 
   roles$ = this.select((state) => state.roles);
 
@@ -67,9 +64,13 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
     this.filterModel$,
     (roles, filter) =>
       roles.filter(
-        r =>
-        (filter.status == null || r.status == filter.status) &&
-        (!filter.eicFunctions || filter.eicFunctions.length == 0 || filter.eicFunctions.includes(r.eicFunction))));
+        (r) =>
+          (filter.status == null || r.status == filter.status) &&
+          (!filter.eicFunctions ||
+            filter.eicFunctions.length == 0 ||
+            filter.eicFunctions.includes(r.eicFunction))
+      )
+  );
 
   constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
     super(initialState);
@@ -108,7 +109,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
       ...state,
       filterModel: {
         status: status,
-        eicFunctions: state.filterModel.eicFunctions
+        eicFunctions: state.filterModel.eicFunctions,
       },
     })
   );
@@ -121,7 +122,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
       ...state,
       filterModel: {
         status: state.filterModel.status,
-        eicFunctions: eicFunctions
+        eicFunctions: eicFunctions,
       },
     })
   );

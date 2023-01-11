@@ -23,34 +23,37 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 
 import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
-import { DhRolesTabListFilterComponent } from "./dh-roles-tab-list-filter.component";
-import { DhTabDataGeneralErrorComponent } from "../general-error/dh-tab-data-general-error.component";
+import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.component';
+import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-general-error.component';
 import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { LetModule, PushModule } from '@rx-angular/template';
-import { EicFunction, UserRoleStatus } from '@energinet-datahub/dh/shared/domain';
+import {
+  EicFunction,
+  UserRoleStatus,
+} from '@energinet-datahub/dh/shared/domain';
 
 @Component({
-    selector: 'dh-roles-tab',
-    templateUrl: './dh-roles-tab.component.html',
-    styleUrls: ['./dh-roles-tab.component.scss'],
-    standalone: true,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-      provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
-    ],
-    imports: [
-        CommonModule,
-        TranslocoModule,
-        WattCardModule,
-        WattSpinnerModule,
-        PushModule,
-        DhRolesTabTableComponent,
-        DhSharedUiPaginatorComponent,
-        DhRolesTabListFilterComponent,
-        DhTabDataGeneralErrorComponent,
-        LetModule
-    ]
+  selector: 'dh-roles-tab',
+  templateUrl: './dh-roles-tab.component.html',
+  styleUrls: ['./dh-roles-tab.component.scss'],
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
+  ],
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    WattCardModule,
+    WattSpinnerModule,
+    PushModule,
+    DhRolesTabTableComponent,
+    DhSharedUiPaginatorComponent,
+    DhRolesTabListFilterComponent,
+    DhTabDataGeneralErrorComponent,
+    LetModule,
+  ],
 })
 export class DhUserRolesTabComponent {
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
@@ -65,7 +68,7 @@ export class DhUserRolesTabComponent {
   }
 
   updateFilterEicFunction(eicFunctions: string[] | null) {
-    const eicFunctionParsed = eicFunctions as EicFunction[]
+    const eicFunctionParsed = eicFunctions as EicFunction[];
     console.log(eicFunctionParsed);
     this.store.setFilterEicFunction(eicFunctionParsed);
   }
