@@ -23,11 +23,13 @@ import {
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
-import { TranslocoModule } from '@ngneat/transloco';
+
+export const searchDebounceTimeMs = 250;
 
 @Component({
   selector: 'dh-users-tab-search',
@@ -72,7 +74,11 @@ export class DhUsersTabSearchComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.searchControl.valueChanges
-      .pipe(debounceTime(250), distinctUntilChanged(), takeUntil(this.destroy$))
+      .pipe(
+        debounceTime(searchDebounceTimeMs),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
       .subscribe((value) => this.search.emit(value));
   }
 
