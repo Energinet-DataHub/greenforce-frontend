@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, take, tap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -34,7 +34,13 @@ interface DhUserManagementState {
   readonly usersRequestState: LoadingState | ErrorState;
   readonly pageNumber: number;
   readonly pageSize: number;
+  readonly searchText: string | undefined;
 }
+
+type FetchUsersParams = Pick<
+  DhUserManagementState,
+  'pageSize' | 'pageNumber' | 'searchText'
+>;
 
 const initialState: DhUserManagementState = {
   users: [],
@@ -42,67 +48,87 @@ const initialState: DhUserManagementState = {
   usersRequestState: LoadingState.INIT,
   pageNumber: 1,
   pageSize: 50,
+  searchText: undefined,
 };
 
 @Injectable()
 export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUserManagementState> {
-  isInit$ = this.select(
+  readonly isInit$ = this.select(
     (state) => state.usersRequestState === LoadingState.INIT
   );
-  isLoading$ = this.select(
+  readonly isLoading$ = this.select(
     (state) => state.usersRequestState === LoadingState.LOADING
   );
-  hasGeneralError$ = this.select(
+  readonly hasGeneralError$ = this.select(
     (state) => state.usersRequestState === ErrorState.GENERAL_ERROR
   );
 
-  users$ = this.select((state) => state.users);
-  totalUserCount$ = this.select((state) => state.totalUserCount);
+  readonly users$ = this.select((state) => state.users);
+  readonly totalUserCount$ = this.select((state) => state.totalUserCount);
 
   // 1 needs to be substracted here because our endpoint's `pageNumber` param starts at `1`
   // whereas the paginator's `pageIndex` property starts at `0`
-  paginatorPageIndex$ = this.select((state) => state.pageNumber - 1);
-  pageSize$ = this.select((state) => state.pageSize);
+  readonly paginatorPageIndex$ = this.select((state) => state.pageNumber - 1);
+  readonly pageSize$ = this.select((state) => state.pageSize);
+
+  private readonly fetchUsersParams$: Observable<FetchUsersParams> =
+    this.select(
+      this.pageSize$,
+      this.select((state) => state.pageNumber),
+      this.select((state) => state.searchText),
+      (pageSize, pageNumber, searchText) => ({
+        pageSize,
+        pageNumber,
+        searchText,
+      }),
+      { debounce: true }
+    );
 
   constructor(private httpClient: MarketParticipantUserOverviewHttp) {
     super(initialState);
   }
 
-  readonly loadUsers = this.effect((trigger$: Observable<void>) =>
-    trigger$.pipe(
-      tap(() => {
-        this.patchState({ usersRequestState: LoadingState.LOADING, users: [] });
-      }),
-      switchMap(() =>
-        this.getUsers().pipe(
-          tapResponse(
-            (response) => {
-              this.patchState({ usersRequestState: LoadingState.LOADED });
+  private readonly loadUsers = this.effect(
+    (fetchUsersParams$: Observable<FetchUsersParams>) =>
+      fetchUsersParams$.pipe(
+        tap(() => {
+          this.patchState({
+            usersRequestState: LoadingState.LOADING,
+            users: [],
+          });
+        }),
+        switchMap((fetchUsersParams) =>
+          this.getUsers(fetchUsersParams).pipe(
+            tapResponse(
+              (response) => {
+                this.patchState({ usersRequestState: LoadingState.LOADED });
 
-              this.updateUsers(response);
-            },
-            () => {
-              this.updateUsers({ users: [], totalUserCount: 0 });
+                this.updateUsers(response);
+              },
+              () => {
+                this.updateUsers({ users: [], totalUserCount: 0 });
 
-              this.patchState({ usersRequestState: ErrorState.GENERAL_ERROR });
-            }
+                this.patchState({
+                  usersRequestState: ErrorState.GENERAL_ERROR,
+                });
+              }
+            )
           )
         )
       )
-    )
   );
 
-  readonly updatePageMetadata = this.effect(
-    (trigger$: Observable<{ pageIndex: number; pageSize: number }>) =>
-      trigger$.pipe(
-        tap(({ pageIndex, pageSize }) => {
-          // 1 needs to be added here because the paginator's `pageIndex` property starts at `0`
-          // whereas our endpoint's `pageNumber` param starts at `1`
-          this.patchState({ pageNumber: pageIndex + 1, pageSize });
-
-          this.loadUsers();
-        })
-      )
+  readonly updatePageMetadata = this.updater(
+    (
+      state: DhUserManagementState,
+      pageMetadata: { pageIndex: number; pageSize: number }
+    ): DhUserManagementState => ({
+      ...state,
+      pageSize: pageMetadata.pageSize,
+      // 1 needs to be added here because the paginator's `pageIndex` property starts at `0`
+      // whereas our endpoint's `pageNumber` param starts at `1`
+      pageNumber: pageMetadata.pageIndex + 1,
+    })
   );
 
   private updateUsers = this.updater(
@@ -116,23 +142,25 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     })
   );
 
-  private getUsers() {
-    return this.state$.pipe(
-      take(1),
-      switchMap(({ pageNumber, pageSize }) =>
-        this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
-          pageNumber,
-          pageSize
-        )
-      )
+  private getUsers({ pageNumber, pageSize, searchText }: FetchUsersParams) {
+    return this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
+      pageNumber,
+      pageSize,
+      searchText
     );
   }
 
+  updateSearchText(searchText: string) {
+    const searchTextToSave = searchText === '' ? undefined : searchText;
+
+    this.patchState({ searchText: searchTextToSave });
+  }
+
   readonly reloadUsers = () => {
-    this.loadUsers();
+    this.loadUsers(this.fetchUsersParams$);
   };
 
-  ngrxOnStoreInit(): void {
-    this.loadUsers();
+  ngrxOnStoreInit() {
+    this.loadUsers(this.fetchUsersParams$);
   }
 }

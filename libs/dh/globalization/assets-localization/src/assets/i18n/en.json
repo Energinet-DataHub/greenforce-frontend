@@ -869,11 +869,11 @@
         },
         "users": {
           "tabLabel": "Users",
+          "searchPlaceholder": "Search users",
           "usersHeadline": {
             "singular": "{{ usersCount }} user",
             "plural": "{{ usersCount }} users"
           },
-
           "table": {
             "columns": {
               "name": "Name",
