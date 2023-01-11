@@ -51,14 +51,14 @@ const mockedGridAreas: GridAreaDto[] = [
     code: '805',
     name: 'hello',
     priceAreaCode: PriceAreaCode.Dk1,
-    validFrom: '11-11-2022',
+    validFrom: '2023-01-11T23:00:00.000Z',
   },
   {
     id: '2',
     code: '806',
     name: 'hello again',
     priceAreaCode: PriceAreaCode.Dk1,
-    validFrom: '11-11-2022',
+    validFrom: '2023-01-10T23:00:00.000Z',
   },
 ];
 

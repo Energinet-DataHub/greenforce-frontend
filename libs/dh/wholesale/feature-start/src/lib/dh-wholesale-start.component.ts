@@ -22,7 +22,15 @@ import {
   OnInit,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { first, map, Observable, Subject, takeUntil } from 'rxjs';
+import {
+  combineLatest,
+  first,
+  map,
+  Observable,
+  startWith,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 import {
   FormControl,
   FormGroup,
@@ -31,6 +39,8 @@ import {
 } from '@angular/forms';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import isAfter from 'date-fns/isAfter';
+import isEqual from 'date-fns/isEqual'
 
 import {
   WattDropdownModule,
@@ -86,18 +96,6 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
-  gridAreas$: Observable<WattDropdownOption[] | undefined> =
-    this.store.gridAreas$.pipe(
-      map((gridAreas) => {
-        return gridAreas?.map((gridArea) => {
-          return {
-            displayValue: `${gridArea?.name} (${gridArea?.code})`,
-            value: gridArea?.code,
-          };
-        });
-      })
-    );
-
   loadingCreatingBatch$ = this.store.loadingCreatingBatch$;
   loadingGridAreasErrorTrigger$ = this.store.loadingGridAreasErrorTrigger$;
 
@@ -107,6 +105,30 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
       validators: WattRangeValidators.required(),
     }),
   });
+
+  onDateRangeChange$ =
+    this.createBatchForm.controls.dateRange.valueChanges.pipe(startWith(null));
+  gridAreas$: Observable<WattDropdownOption[]> = combineLatest([
+    this.store.gridAreas$,
+    this.onDateRangeChange$,
+  ]).pipe(
+    map(([gridAreas, dateRange]) => {
+      if (dateRange === null) return gridAreas;
+      return gridAreas?.filter((gridArea) => {
+        return isAfter(new Date(gridArea.validFrom), new Date(dateRange.start)) || isEqual(new Date(dateRange.start), new Date(gridArea.validFrom));
+      });
+    }),
+    map((gridAreas) => {
+      return (
+        gridAreas?.map((gridArea) => {
+          return {
+            displayValue: `${gridArea?.name} (${gridArea?.code})`,
+            value: gridArea?.code,
+          };
+        }) || []
+      );
+    })
+  );
 
   ngOnInit(): void {
     this.store.getGridAreas();
