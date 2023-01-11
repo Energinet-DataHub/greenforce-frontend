@@ -51,8 +51,7 @@ export class ActorTokenService {
     private tokenHttp: TokenHttp,
     @Inject(actorStorageToken) private actorStorage: ActorStorage,
     private msalBroadcastService: MsalBroadcastService
-  ) {
-  }
+  ) {}
 
   public isPartOfAuthFlow(request: HttpRequest<unknown>) {
     return this.isUserActorsRequest(request) || this.isTokenRequest(request);
