@@ -176,3 +176,28 @@ withValidation.parameters = {
     },
   },
 };
+
+export const disabled: Story<WattDropdownComponent> = () => ({
+  props: {
+    singleSelectionModel: '',
+    options: dropdownOptions,
+    disabled: true,
+    placeholder: `I'm disabled`,
+  },
+  template: `<watt-form-field>
+    <watt-label>Label</watt-label>
+    <watt-dropdown
+      #singleSelection="ngModel"
+      [(ngModel)]="singleSelectionModel"
+      [disabled]="disabled"
+      [placeholder]="placeholder"
+      [options]="options"></watt-dropdown>
+  </watt-form-field>`,
+});
+withValidation.parameters = {
+  docs: {
+    source: {
+      code: howToUseGuideBasic,
+    },
+  },
+};
