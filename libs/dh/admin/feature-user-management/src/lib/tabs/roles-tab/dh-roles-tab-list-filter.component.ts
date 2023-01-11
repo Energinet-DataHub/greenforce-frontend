@@ -25,6 +25,7 @@ import {
   WattDropdownOption,
 } from '@energinet-datahub/watt/dropdown';
 import { EventEmitter } from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'dh-roles-tab-list-filter',
@@ -34,13 +35,14 @@ import { EventEmitter } from '@angular/core';
   :host {
     display: flex;
     width: 50%;
-    background: transparent;
+    gap: 10px;
   }
 `,],
   imports: [
     CommonModule,
     LetModule,
     PushModule,
+    TranslocoModule,
     WattDropdownModule,
     WattFormFieldModule,
     ReactiveFormsModule

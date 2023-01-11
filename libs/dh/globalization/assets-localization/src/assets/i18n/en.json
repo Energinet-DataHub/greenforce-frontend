@@ -857,7 +857,6 @@
             "singular": "{{ usersCount }} user",
             "plural": "{{ usersCount }} users"
           },
-
           "table": {
             "columns": {
               "name": "Name",
@@ -877,6 +876,10 @@
         "roles": {
           "tabLabel": "Roles",
           "rolesHeadline": "Roles",
+          "filter": {
+            "status": "Status",
+            "marketRole": "Market role"
+          },
           "table": {
             "columns": {
               "name": "Name",

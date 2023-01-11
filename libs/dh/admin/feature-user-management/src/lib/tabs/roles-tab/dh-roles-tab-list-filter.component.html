@@ -14,9 +14,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container class="filter-container">
+<ng-container class="filter-container" *transloco="let t; read: 'admin.userManagement.tabs.roles.filter'">
   <watt-form-field>
-    <watt-label>Status</watt-label>
+    <watt-label>{{ t("status") }}</watt-label>
     <watt-dropdown
       [formControl]="statusFormControl"
       [options]="statusListOptions"
@@ -24,7 +24,7 @@ limitations under the License.
     ></watt-dropdown>
   </watt-form-field>
   <watt-form-field>
-    <watt-label>Markedsrolle</watt-label>
+    <watt-label>{{ t("marketRole") }}</watt-label>
     <watt-dropdown
       [formControl]="eicFunctionFormControl"
       [options]="eicFunctionListListOptions"
