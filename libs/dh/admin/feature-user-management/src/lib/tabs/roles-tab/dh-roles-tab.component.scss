@@ -16,8 +16,20 @@
  */
 :host {
   display: block;
-  // TODO: Add spacing variable for 24px
+  background-color: var(--watt-color-neutral-white);
   margin: 24px var(--watt-space-s);
+}
+
+.user-roles {
+  &__spinner {
+    display: flex;
+    justify-content: center;
+    padding: var(--watt-space-l) 0;
+  }
+
+  &__error {
+    padding: var(--watt-space-xl) 0;
+  }
 }
 
 h4 {

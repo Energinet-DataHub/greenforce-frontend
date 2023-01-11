@@ -14,20 +14,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *rxLet="isLoading$ as isLoading">
-  <div *ngIf="isLoading" class="user-roles__spinner">
-    <watt-spinner></watt-spinner>
-  </div>
-
-  <ng-container *ngIf="!isLoading">
-    <dh-roles-tab [roles]="roles$ | push"> </dh-roles-tab>
-  </ng-container>
-</ng-container>
-
-<ng-container *rxLet="hasGeneralError$ as hasGeneralError">
-  <div *ngIf="hasGeneralError" class="user-roles__error">
-    <dh-tab-data-general-error
-      (reload)="reloadRoles()"
-    ></dh-tab-data-general-error>
-  </div>
+<ng-container class="filter-container">
+  <watt-form-field>
+    <watt-label>Status</watt-label>
+    <watt-dropdown
+      [formControl]="statusFormControl"
+      [options]="statusListOptions"
+      [multiple]="false"
+    ></watt-dropdown>
+  </watt-form-field>
+  <watt-form-field>
+    <watt-label>Markedsrolle</watt-label>
+    <watt-dropdown
+      [formControl]="eicFunctionFormControl"
+      [options]="eicFunctionListListOptions"
+      [multiple]="true"
+    ></watt-dropdown>
+  </watt-form-field>
 </ng-container>

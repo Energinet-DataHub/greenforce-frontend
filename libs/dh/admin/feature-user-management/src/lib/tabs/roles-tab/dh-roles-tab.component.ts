@@ -14,30 +14,63 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { provideComponentStore } from '@ngrx/component-store';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 
 import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
+import { DhRolesTabListFilterComponent } from "./dh-roles-tab-list-filter.component";
+import { DhTabDataGeneralErrorComponent } from "../general-error/dh-tab-data-general-error.component";
+import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { LetModule, PushModule } from '@rx-angular/template';
+import { EicFunction, UserRoleStatus } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
-  selector: 'dh-roles-tab',
-  templateUrl: './dh-roles-tab.component.html',
-  styleUrls: ['./dh-roles-tab.component.scss'],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    WattCardModule,
-    DhRolesTabTableComponent,
-    DhSharedUiPaginatorComponent,
-  ],
+    selector: 'dh-roles-tab',
+    templateUrl: './dh-roles-tab.component.html',
+    styleUrls: ['./dh-roles-tab.component.scss'],
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+      provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
+    ],
+    imports: [
+        CommonModule,
+        TranslocoModule,
+        WattCardModule,
+        WattSpinnerModule,
+        PushModule,
+        DhRolesTabTableComponent,
+        DhSharedUiPaginatorComponent,
+        DhRolesTabListFilterComponent,
+        DhTabDataGeneralErrorComponent,
+        LetModule
+    ]
 })
 export class DhUserRolesTabComponent {
-  @Input() roles: UserRoleInfoDto[] = [];
+  private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
+  roles$ = this.store.rolesFiltered$;
+
+  isLoading$ = this.store.isLoading$;
+  hasGeneralError$ = this.store.hasGeneralError$;
+
+  updateFilterStatus(status: string | null) {
+    const statusParsed = status as UserRoleStatus;
+    this.store.setFilterStatus(statusParsed);
+  }
+
+  updateFilterEicFunction(eicFunctions: string[] | null) {
+    const eicFunctionParsed = eicFunctions as EicFunction[]
+    console.log(eicFunctionParsed);
+    this.store.setFilterEicFunction(eicFunctionParsed);
+  }
+
+  reloadRoles(): void {
+    this.store.getRoles();
+  }
 }

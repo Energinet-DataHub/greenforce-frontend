@@ -34,6 +34,7 @@ import {
   WattTableColumnDef,
   WATT_TABLE,
 } from '@energinet-datahub/watt/table';
+import { PushModule } from '@rx-angular/template';
 
 @Component({
   selector: 'dh-roles-tab-table',
@@ -55,6 +56,7 @@ import {
     DhEmDashFallbackPipeScam,
     DhSharedUiPaginatorComponent,
     DhRoleStatusComponent,
+    PushModule
   ],
 })
 export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
