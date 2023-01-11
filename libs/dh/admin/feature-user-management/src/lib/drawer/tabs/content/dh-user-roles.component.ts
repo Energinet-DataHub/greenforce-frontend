@@ -39,7 +39,6 @@ export class DhUserRolesComponent implements OnChanges {
   hasGeneralError$ = this.store.hasGeneralError$;
 
   ngOnChanges(): void {
-    this.isLoading$.subscribe(console.log);
     if (this.user?.id) {
       this.store.getUserRoleView(this.user.id);
     }
