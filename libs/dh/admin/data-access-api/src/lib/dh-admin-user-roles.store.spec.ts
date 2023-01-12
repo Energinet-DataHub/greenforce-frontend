@@ -18,7 +18,7 @@ import {
   MarketParticipantUserRoleHttp,
   UserRoleView,
 } from '@energinet-datahub/dh/shared/domain';
-import { firstValueFrom, Subject, withLatestFrom } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 import { DhAdminUserRolesStore } from './dh-admin-user-roles.store';
 
 describe('DhAdminUserRolesStore', () => {
