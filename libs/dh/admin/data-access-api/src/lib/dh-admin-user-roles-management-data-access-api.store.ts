@@ -35,7 +35,7 @@ interface DhUserRolesManagementState {
   readonly filterModel: RolesFilterModel;
 }
 
-export class RolesFilterModel {
+class RolesFilterModel {
   status: UserRoleStatus = 'Active';
   eicFunctions: EicFunction[] = [];
 }

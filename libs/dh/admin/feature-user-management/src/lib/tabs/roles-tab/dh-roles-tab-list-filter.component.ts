@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Output } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LetModule, PushModule } from '@rx-angular/template';
 import {
@@ -53,7 +53,7 @@ import { TranslocoModule } from '@ngneat/transloco';
     ReactiveFormsModule,
   ],
 })
-export class DhRolesTabListFilterComponent {
+export class DhRolesTabListFilterComponent implements OnInit {
   @Output() statusChanged = new EventEmitter<string | null>();
   @Output() eicFunctionChanged = new EventEmitter<string[] | null>();
 
@@ -76,11 +76,7 @@ export class DhRolesTabListFilterComponent {
     value: key,
   }));
 
-  constructor() {
-    this.init();
-  }
-
-  init = () => {
+  ngOnInit(): void {
     this.statusFormControl.valueChanges.subscribe((e) =>
       this.statusChanged.emit(e)
     );
@@ -88,5 +84,5 @@ export class DhRolesTabListFilterComponent {
       this.eicFunctionChanged.emit(e)
     );
     this.statusFormControl.setValue(this.statusListOptions[0].value);
-  };
+  }
 }
