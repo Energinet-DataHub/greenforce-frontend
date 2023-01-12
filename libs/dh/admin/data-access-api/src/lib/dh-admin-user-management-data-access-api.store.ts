@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, of, switchMap, take, tap } from 'rxjs';
+import { Observable, switchMap, take, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -26,10 +26,11 @@ import {
   MarketParticipantUserOverviewHttp,
   UserOverviewItemDto,
   UserOverviewResultDto,
+  UserStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
 export interface DhUserManagementUsersFilter {
-  userStatus: ('Active' | 'Inactive')[];
+  userStatus: UserStatus[];
   searchText: string | undefined;
 }
 
@@ -130,21 +131,12 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     return this.state$.pipe(
       take(1),
       switchMap(({ pageNumber, pageSize }) => {
-        const userStatus = this.filter.userStatus;
-        if (userStatus?.length > 0) {
-          return this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
-            pageNumber,
-            pageSize,
-            this.filter.searchText,
-            userStatus.length === 2
-              ? undefined // If both are selected, no filter is applied.
-              : userStatus[0] === 'Active'
-              ? true
-              : false
-          );
-        }
-
-        return of({ users: [], totalUserCount: 0 });
+        return this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
+          pageNumber,
+          pageSize,
+          this.filter.searchText,
+          this.filter.userStatus
+        );
       })
     );
   }

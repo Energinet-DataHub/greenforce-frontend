@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { LetModule, PushModule } from '@rx-angular/template';
@@ -35,6 +35,8 @@ import {
 } from '@energinet-datahub/watt/dropdown';
 import { FormsModule } from '@angular/forms';
 import { DhUsersTabSearchComponent } from './dh-users-tab-search.component';
+import { UserStatus } from '@energinet-datahub/dh/shared/domain';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'dh-users-tab',
@@ -93,36 +95,50 @@ import { DhUsersTabSearchComponent } from './dh-users-tab-search.component';
     DhUsersTabGeneralErrorComponent,
   ],
 })
-export class DhUsersTabComponent {
-  users$ = this.store.users$;
-  totalUserCount$ = this.store.totalUserCount$;
+export class DhUsersTabComponent implements OnInit, OnDestroy {
+  private readonly destroy$ = new Subject<void>();
 
-  pageIndex$ = this.store.paginatorPageIndex$;
-  pageSize$ = this.store.pageSize$;
+  readonly users$ = this.store.users$;
+  readonly totalUserCount$ = this.store.totalUserCount$;
 
-  isLoading$ = this.store.isLoading$;
-  hasGeneralError$ = this.store.hasGeneralError$;
+  readonly pageIndex$ = this.store.paginatorPageIndex$;
+  readonly pageSize$ = this.store.pageSize$;
+
+  readonly isLoading$ = this.store.isLoading$;
+  readonly hasGeneralError$ = this.store.hasGeneralError$;
 
   filter = this.store.filter;
-  userStatusOptions: WattDropdownOption[] = [
-    {
-      value: 'Active',
-      displayValue: this.trans.translate(
-        'admin.userManagement.userStatus.active'
-      ),
-    },
-    {
-      value: 'Inactive',
-      displayValue: this.trans.translate(
-        'admin.userManagement.userStatus.inactive'
-      ),
-    },
-  ];
+  userStatusOptions: WattDropdownOption[] = [];
 
   constructor(
     private store: DhAdminUserManagementDataAccessApiStore,
     private trans: TranslocoService
   ) {}
+
+  ngOnInit() {
+    this.buildUserStatusOptions();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
+  }
+
+  private buildUserStatusOptions() {
+    this.trans
+      .selectTranslateObject('admin.userManagement.userStatus')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (keys) => {
+          this.userStatusOptions = Object.keys(UserStatus).map((entry) => {
+            return {
+              value: entry,
+              displayValue: keys[entry.toLowerCase()],
+            };
+          });
+        },
+      });
+  }
 
   onPageChange(event: PageEvent): void {
     this.store.updatePageMetadata({
