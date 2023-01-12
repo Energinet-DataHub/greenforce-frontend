@@ -34,6 +34,7 @@ import {
   WattDropdownOption,
 } from '@energinet-datahub/watt/dropdown';
 import { FormsModule } from '@angular/forms';
+import { DhUsersTabSearchComponent } from './dh-users-tab-search.component';
 
 @Component({
   selector: 'dh-users-tab',
@@ -126,6 +127,10 @@ export class DhUsersTabComponent {
       pageIndex: event.pageIndex,
       pageSize: event.pageSize,
     });
+  }
+
+  onSearch(value: string): void {
+    this.store.updateSearchText(value);
   }
 
   reloadUsers(): void {

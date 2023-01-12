@@ -34,6 +34,7 @@ import {
   WattTableColumnDef,
   WATT_TABLE,
 } from '@energinet-datahub/watt/table';
+import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.component';
 
 @Component({
   selector: 'dh-roles-tab-table',
@@ -55,6 +56,7 @@ import {
     DhEmDashFallbackPipeScam,
     DhSharedUiPaginatorComponent,
     DhRoleStatusComponent,
+    DhRoleDrawerComponent,
   ],
 })
 export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
@@ -63,12 +65,14 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
+  @ViewChild(DhRoleDrawerComponent)
+  drawer!: DhRoleDrawerComponent;
+
   readonly dataSource: WattTableDataSource<UserRoleInfoDto> =
     new WattTableDataSource<UserRoleInfoDto>();
 
   columns: WattTableColumnDef<UserRoleInfoDto> = {
     name: { accessor: 'name' },
-    description: { accessor: 'description' },
     marketrole: { accessor: 'eicFunction' },
     status: { accessor: 'status' },
   };
@@ -83,5 +87,9 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator?.instance;
+  }
+
+  onRowClick(row: UserRoleInfoDto): void {
+    this.drawer.open(row);
   }
 }
