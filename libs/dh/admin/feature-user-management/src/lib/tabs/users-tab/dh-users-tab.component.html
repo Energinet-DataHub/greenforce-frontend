@@ -20,7 +20,7 @@ limitations under the License.
     <watt-form-field>
       <watt-label>{{ t("filter.status") }}</watt-label>
       <watt-dropdown
-        [(ngModel)]="this.filter.userStatus"
+        [(ngModel)]="filter.userStatus"
         (ngModelChange)="reloadUsers()"
         [options]="userStatusOptions"
         [multiple]="true"
