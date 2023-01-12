@@ -32,7 +32,7 @@ describe(DhUsersTabComponent.name, () => {
     const storeMock = MockProvider(
       DhAdminUserManagementDataAccessApiStore,
       {
-        updateSearchText: jest.fn(),
+        filter: { searchText: undefined },
       },
       'useValue'
     );
@@ -63,6 +63,6 @@ describe(DhUsersTabComponent.name, () => {
     userEvent.type(searchInput, inputValue);
     tick(searchDebounceTimeMs);
 
-    expect(store.updateSearchText).toHaveBeenCalledWith(inputValue);
+    expect(store.filter.searchText).toBe(inputValue);
   }));
 });
