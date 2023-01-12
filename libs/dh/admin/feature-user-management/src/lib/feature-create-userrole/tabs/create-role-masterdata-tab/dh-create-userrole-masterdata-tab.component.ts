@@ -17,16 +17,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PageEvent } from '@angular/material/paginator';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { UserRoleChanges } from '@energinet-datahub/dh/admin/data-access-api';
 import {
   FormControl,
   FormGroup,
@@ -72,20 +67,4 @@ export class DhCreateUserroleMasterdataTabComponent {
   });
 
   hasSubmitted = false;
-
-  createUserRole() {
-    this.hasSubmitted = true;
-
-    if (!this.userRole.valid) return;
-
-    //this.disableFormGroup();
-    const userRole = this.userRole.value;
-
-    // this.toastService.open({
-    //   message: this.translocoService.translate(
-    //     'charges.createPrices.loadingRequestText'
-    //   ),
-    //   type: 'loading',
-    // });
-  }
 }
