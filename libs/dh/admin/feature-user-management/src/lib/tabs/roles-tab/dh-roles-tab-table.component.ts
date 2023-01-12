@@ -34,34 +34,39 @@ import {
   WattTableColumnDef,
   WATT_TABLE,
 } from '@energinet-datahub/watt/table';
+import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.component';
 
 @Component({
-  selector: 'dh-roles-tab-table',
-  standalone: true,
-  templateUrl: './dh-roles-tab-table.component.html',
-  styles: [
-    `
+    selector: 'dh-roles-tab-table',
+    standalone: true,
+    templateUrl: './dh-roles-tab-table.component.html',
+    styles: [
+        `
       :host {
         display: block;
       }
     `,
-  ],
-  // Using `OnPush` causes issues with table's header row translations
-  changeDetection: ChangeDetectionStrategy.Default,
-  imports: [
-    WATT_TABLE,
-    CommonModule,
-    TranslocoModule,
-    DhEmDashFallbackPipeScam,
-    DhSharedUiPaginatorComponent,
-    DhRoleStatusComponent,
-  ],
+    ],
+    // Using `OnPush` causes issues with table's header row translations
+    changeDetection: ChangeDetectionStrategy.Default,
+    imports: [
+        WATT_TABLE,
+        CommonModule,
+        TranslocoModule,
+        DhEmDashFallbackPipeScam,
+        DhSharedUiPaginatorComponent,
+        DhRoleStatusComponent,
+        DhRoleDrawerComponent
+    ]
 })
 export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   @Input() roles: UserRoleInfoDto[] = [];
 
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
+
+  @ViewChild(DhRoleDrawerComponent)
+  drawer!: DhRoleDrawerComponent;
 
   readonly dataSource: WattTableDataSource<UserRoleInfoDto> =
     new WattTableDataSource<UserRoleInfoDto>();
@@ -83,5 +88,9 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator?.instance;
+  }
+
+  onRowClick(row: UserRoleInfoDto): void {
+    this.drawer.open(row);
   }
 }
