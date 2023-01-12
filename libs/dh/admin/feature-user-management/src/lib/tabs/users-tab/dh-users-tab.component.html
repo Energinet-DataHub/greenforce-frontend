@@ -17,15 +17,10 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
   <div class="filter-container">
     <dh-users-tab-search (search)="onSearch($event)"></dh-users-tab-search>
-    <watt-form-field>
-      <watt-label>{{ t("filter.status") }}</watt-label>
-      <watt-dropdown
-        [(ngModel)]="filter.userStatus"
-        (ngModelChange)="reloadUsers()"
-        [options]="userStatusOptions"
-        [multiple]="true"
-      ></watt-dropdown>
-    </watt-form-field>
+    <dh-users-tab-status-filter
+      [initialValue]="initialStatusFilter$ | push"
+      (changed)="onStatusChanged($event)"
+    ></dh-users-tab-status-filter>
   </div>
 
   <watt-card>

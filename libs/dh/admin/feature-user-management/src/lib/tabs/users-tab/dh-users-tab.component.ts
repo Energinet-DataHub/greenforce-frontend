@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { PageEvent } from '@angular/material/paginator';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
@@ -28,15 +28,9 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import {
-  WattDropdownModule,
-  WattDropdownOption,
-} from '@energinet-datahub/watt/dropdown';
-import { FormsModule } from '@angular/forms';
 import { DhUsersTabSearchComponent } from './dh-users-tab-search.component';
 import { UserStatus } from '@energinet-datahub/dh/shared/domain';
-import { Subject, takeUntil } from 'rxjs';
+import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.component';
 
 @Component({
   selector: 'dh-users-tab',
@@ -83,21 +77,17 @@ import { Subject, takeUntil } from 'rxjs';
     CommonModule,
     LetModule,
     PushModule,
-    FormsModule,
     TranslocoModule,
     WattSpinnerModule,
     WattCardModule,
-    WattFormFieldModule,
-    WattDropdownModule,
     DhUsersTabTableComponent,
     DhUsersTabSearchComponent,
+    DhUsersTabStatusFilterComponent,
     DhSharedUiPaginatorComponent,
     DhUsersTabGeneralErrorComponent,
   ],
 })
-export class DhUsersTabComponent implements OnInit, OnDestroy {
-  private readonly destroy$ = new Subject<void>();
-
+export class DhUsersTabComponent {
   readonly users$ = this.store.users$;
   readonly totalUserCount$ = this.store.totalUserCount$;
 
@@ -107,38 +97,11 @@ export class DhUsersTabComponent implements OnInit, OnDestroy {
   readonly isLoading$ = this.store.isLoading$;
   readonly hasGeneralError$ = this.store.hasGeneralError$;
 
-  filter = this.store.filter;
-  userStatusOptions: WattDropdownOption[] = [];
+  readonly initialStatusFilter$ = this.store.initialStatusFilter$;
 
   constructor(
     private store: DhAdminUserManagementDataAccessApiStore,
-    private trans: TranslocoService
   ) {}
-
-  ngOnInit() {
-    this.buildUserStatusOptions();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
-
-  private buildUserStatusOptions() {
-    this.trans
-      .selectTranslateObject('admin.userManagement.userStatus')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (keys) => {
-          this.userStatusOptions = Object.keys(UserStatus).map((entry) => {
-            return {
-              value: entry,
-              displayValue: keys[entry.toLowerCase()],
-            };
-          });
-        },
-      });
-  }
 
   onPageChange(event: PageEvent): void {
     this.store.updatePageMetadata({
@@ -148,8 +111,11 @@ export class DhUsersTabComponent implements OnInit, OnDestroy {
   }
 
   onSearch(value: string): void {
-    this.store.filter.searchText = value;
-    this.reloadUsers();
+    this.store.updateSearchText(value);
+  }
+
+  onStatusChanged(value: UserStatus[]): void {
+    this.store.updateStatusFilter(value);
   }
 
   reloadUsers(): void {

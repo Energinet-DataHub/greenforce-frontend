@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, take, tap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -29,10 +29,10 @@ import {
   UserStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
-export interface DhUserManagementUsersFilter {
-  userStatus: UserStatus[];
-  searchText: string | undefined;
-}
+type FetchUsersParams = Pick<
+  DhUserManagementState,
+  'pageSize' | 'pageNumber' | 'searchText' | 'statusFilter'
+>;
 
 interface DhUserManagementState {
   readonly users: UserOverviewItemDto[];
@@ -40,6 +40,8 @@ interface DhUserManagementState {
   readonly usersRequestState: LoadingState | ErrorState;
   readonly pageNumber: number;
   readonly pageSize: number;
+  readonly searchText: string | undefined;
+  readonly statusFilter: UserStatus[];
 }
 
 const initialState: DhUserManagementState = {
@@ -48,6 +50,8 @@ const initialState: DhUserManagementState = {
   usersRequestState: LoadingState.INIT,
   pageNumber: 1,
   pageSize: 50,
+  searchText: undefined,
+  statusFilter: ['Active'],
 };
 
 @Injectable()
@@ -62,6 +66,8 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     (state) => state.usersRequestState === ErrorState.GENERAL_ERROR
   );
 
+  readonly initialStatusFilter$ = this.select((state) => state.statusFilter);
+
   readonly users$ = this.select((state) => state.users);
   readonly totalUserCount$ = this.select((state) => state.totalUserCount);
 
@@ -70,37 +76,53 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
   readonly paginatorPageIndex$ = this.select((state) => state.pageNumber - 1);
   readonly pageSize$ = this.select((state) => state.pageSize);
 
-  readonly filter: DhUserManagementUsersFilter = {
-    userStatus: ['Active'],
-    searchText: undefined,
-  };
+  private readonly fetchUsersParams$: Observable<FetchUsersParams> =
+    this.select(
+      this.pageSize$,
+      this.select((state) => state.pageNumber),
+      this.select((state) => state.searchText),
+      this.select((state) => state.statusFilter),
+      (pageSize, pageNumber, searchText, statusFilter) => ({
+        pageSize,
+        pageNumber,
+        searchText,
+        statusFilter,
+      }),
+      { debounce: true }
+    );
 
   constructor(private httpClient: MarketParticipantUserOverviewHttp) {
     super(initialState);
   }
 
-  readonly loadUsers = this.effect((trigger$: Observable<void>) =>
-    trigger$.pipe(
-      tap(() => {
-        this.patchState({ usersRequestState: LoadingState.LOADING, users: [] });
-      }),
-      switchMap(() =>
-        this.getUsers().pipe(
-          tapResponse(
-            (response) => {
-              this.patchState({ usersRequestState: LoadingState.LOADED });
+  private readonly loadUsers = this.effect(
+    (fetchUsersParams$: Observable<FetchUsersParams>) =>
+      fetchUsersParams$.pipe(
+        tap(() => {
+          this.patchState({
+            usersRequestState: LoadingState.LOADING,
+            users: [],
+          });
+        }),
+        switchMap((fetchUsersParams) =>
+          this.getUsers(fetchUsersParams).pipe(
+            tapResponse(
+              (response) => {
+                this.patchState({ usersRequestState: LoadingState.LOADED });
 
-              this.updateUsers(response);
-            },
-            () => {
-              this.updateUsers({ users: [], totalUserCount: 0 });
+                this.updateUsers(response);
+              },
+              () => {
+                this.updateUsers({ users: [], totalUserCount: 0 });
 
-              this.patchState({ usersRequestState: ErrorState.GENERAL_ERROR });
-            }
+                this.patchState({
+                  usersRequestState: ErrorState.GENERAL_ERROR,
+                });
+              }
+            )
           )
         )
       )
-    )
   );
 
   readonly updatePageMetadata = this.updater(
@@ -127,25 +149,35 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     })
   );
 
-  private getUsers() {
-    return this.state$.pipe(
-      take(1),
-      switchMap(({ pageNumber, pageSize }) => {
-        return this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
-          pageNumber,
-          pageSize,
-          this.filter.searchText,
-          this.filter.userStatus
-        );
-      })
+  private getUsers({
+    pageNumber,
+    pageSize,
+    searchText,
+    statusFilter,
+  }: FetchUsersParams) {
+    return this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
+      pageNumber,
+      pageSize,
+      searchText,
+      statusFilter
     );
   }
 
+  updateSearchText(searchText: string) {
+    const searchTextToSave = searchText === '' ? undefined : searchText;
+
+    this.patchState({ searchText: searchTextToSave });
+  }
+
+  updateStatusFilter(userStatus: UserStatus[]) {
+    this.patchState({ statusFilter: userStatus });
+  }
+
   readonly reloadUsers = () => {
-    this.loadUsers();
+    this.loadUsers(this.fetchUsersParams$);
   };
 
   ngrxOnStoreInit() {
-    this.loadUsers();
+    this.loadUsers(this.fetchUsersParams$);
   }
 }

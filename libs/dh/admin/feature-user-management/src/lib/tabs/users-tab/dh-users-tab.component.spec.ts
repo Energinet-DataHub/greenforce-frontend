@@ -26,13 +26,16 @@ import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/a
 
 import { DhUsersTabComponent } from './dh-users-tab.component';
 import { searchDebounceTimeMs } from './dh-users-tab-search.component';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { MatSelectHarness } from '@angular/material/select/testing';
 
-describe(DhUsersTabComponent.name, () => {
+describe('DhUsersTabComponent.name', () => {
   async function setup() {
     const storeMock = MockProvider(
       DhAdminUserManagementDataAccessApiStore,
       {
-        filter: { searchText: undefined },
+        updateSearchText: jest.fn(),
+        updateStatusFilter: jest.fn(),
       },
       'useValue'
     );
@@ -48,9 +51,13 @@ describe(DhUsersTabComponent.name, () => {
 
     const store = TestBed.inject(DhAdminUserManagementDataAccessApiStore);
 
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    const matSelect = await loader.getHarness(MatSelectHarness);
+
     return {
       fixture,
       store,
+      matSelect,
     };
   }
 
@@ -63,6 +70,22 @@ describe(DhUsersTabComponent.name, () => {
     userEvent.type(searchInput, inputValue);
     tick(searchDebounceTimeMs);
 
-    expect(store.filter.searchText).toBe(inputValue);
+    expect(store.updateSearchText).toHaveBeenCalledWith(inputValue);
+  }));
+
+  it('forwards status filter value to store', fakeAsync(async () => {
+    const { store, matSelect } = await setup();
+
+    await matSelect.open();
+    const options = await matSelect.getOptions();
+
+    // TODO: Use list.
+    await options[1].click();
+    await options[2].click();
+
+    expect(store.updateStatusFilter).toHaveBeenCalledWith([
+      'Active',
+      'Inactive',
+    ]);
   }));
 });
