@@ -845,7 +845,9 @@
           "tabLabel": "Master data",
           "name": "Name",
           "email": "Email",
-          "phone": "Phone"
+          "phone": "Phone",
+          "description": "Description",
+          "marketRole": "Market role"
         },
         "history": {
           "tabLabel": "History",
@@ -867,13 +869,16 @@
             "message": "Try again or contact your system administrator if you keep getting this error."
           }
         },
+        "rights": {
+          "tabLabel": "Rights"
+        },
         "users": {
           "tabLabel": "Users",
+          "searchPlaceholder": "Search users",
           "usersHeadline": {
             "singular": "{{ usersCount }} user",
             "plural": "{{ usersCount }} users"
           },
-
           "table": {
             "columns": {
               "name": "Name",
