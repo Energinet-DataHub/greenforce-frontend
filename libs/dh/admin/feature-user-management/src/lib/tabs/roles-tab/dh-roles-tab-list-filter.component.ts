@@ -46,7 +46,7 @@ import {
       :host {
         display: flex;
         width: 50%;
-        gap: 10px;
+        gap: var(--watt-space-m);
       }
     `,
   ],
