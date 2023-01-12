@@ -73,7 +73,6 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
 
   columns: WattTableColumnDef<UserRoleInfoDto> = {
     name: { accessor: 'name' },
-    description: { accessor: 'description' },
     marketrole: { accessor: 'eicFunction' },
     status: { accessor: 'status' },
   };

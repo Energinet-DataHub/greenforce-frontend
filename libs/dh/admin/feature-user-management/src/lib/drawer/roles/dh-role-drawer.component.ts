@@ -26,6 +26,7 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { DhTabsComponent } from '.././tabs/dh-drawer-tabs.component';
 import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
 import { DhRoleStatusComponent } from "../../shared/dh-role-status.component";
+import { DhDrawerRoleTabsComponent } from "./tabs/dh-drawer-role-tabs.component";
 
 @Component({
     selector: 'dh-role-drawer',
@@ -51,7 +52,8 @@ import { DhRoleStatusComponent } from "../../shared/dh-role-status.component";
         WattDrawerModule,
         WattButtonModule,
         DhTabsComponent,
-        DhRoleStatusComponent
+        DhRoleStatusComponent,
+        DhDrawerRoleTabsComponent
     ]
 })
 export class DhRoleDrawerComponent {
