@@ -29,11 +29,6 @@ import {
   UserStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
-type FetchUsersParams = Pick<
-  DhUserManagementState,
-  'pageSize' | 'pageNumber' | 'searchText' | 'statusFilter'
->;
-
 interface DhUserManagementState {
   readonly users: UserOverviewItemDto[];
   readonly totalUserCount: number;
@@ -43,6 +38,11 @@ interface DhUserManagementState {
   readonly searchText: string | undefined;
   readonly statusFilter: UserStatus[];
 }
+
+type FetchUsersParams = Pick<
+  DhUserManagementState,
+  'pageSize' | 'pageNumber' | 'searchText' | 'statusFilter'
+>;
 
 const initialState: DhUserManagementState = {
   users: [],
