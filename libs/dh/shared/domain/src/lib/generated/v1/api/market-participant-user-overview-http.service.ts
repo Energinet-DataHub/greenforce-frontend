@@ -119,6 +119,12 @@ export class MarketParticipantUserOverviewHttp {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>searchText, 'searchText');
         }
+        if (userStatus) {
+            userStatus.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'userStatus');
+            })
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -149,17 +155,6 @@ export class MarketParticipantUserOverviewHttp {
         }
 
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/*+json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -175,7 +170,6 @@ export class MarketParticipantUserOverviewHttp {
         return this.httpClient.request<UserOverviewResultDto>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: userStatus,
                 params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
