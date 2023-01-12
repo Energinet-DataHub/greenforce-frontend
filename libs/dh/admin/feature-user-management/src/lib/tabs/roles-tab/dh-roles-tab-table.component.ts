@@ -22,10 +22,8 @@ import {
   OnChanges,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { translate, TranslocoModule } from '@ngneat/transloco';
+import { translate } from '@ngneat/transloco';
 
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
@@ -34,7 +32,6 @@ import {
   WattTableColumnDef,
   WATT_TABLE,
 } from '@energinet-datahub/watt/table';
-import { PushModule } from '@rx-angular/template';
 import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.component';
 
 @Component({
@@ -52,12 +49,8 @@ import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.compone
   changeDetection: ChangeDetectionStrategy.Default,
   imports: [
     WATT_TABLE,
-    CommonModule,
-    TranslocoModule,
-    DhEmDashFallbackPipeScam,
     DhSharedUiPaginatorComponent,
     DhRoleStatusComponent,
-    PushModule,
     DhRoleDrawerComponent,
   ],
 })
