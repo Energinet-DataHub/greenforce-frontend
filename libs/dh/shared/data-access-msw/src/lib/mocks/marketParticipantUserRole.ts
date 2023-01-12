@@ -14,8 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-admin-user-management-data-access-api.store';
-export * from './lib/dh-admin-user-roles.store';
-export * from './lib/dh-admin-user-management-audit-logs-data-access-api.store';
-export * from './lib/dh-admin-user-roles-management-data-access-api.store';
-export * from './lib/dh-custom-data-source';
+import { rest } from 'msw';
+
+import marketParticipantUserRoleView from './data/marketParticipantUserRoleView.json';
+
+export function marketParticipantUserRoleMocks(apiBase: string) {
+  return [GetUserRoleView(apiBase)];
+}
+
+function GetUserRoleView(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipantUserRole/GetUserRoleView`,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(marketParticipantUserRoleView));
+    }
+  );
+}
