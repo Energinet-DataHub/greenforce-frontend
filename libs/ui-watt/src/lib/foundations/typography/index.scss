@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use './typography.import' as typography;
+@use "./typography.import" as typography;
 
 body h1,
 .watt-headline-1 {
@@ -39,6 +39,11 @@ body h4,
 body h5,
 .watt-headline-5 {
   @include typography.watt-headline-5;
+}
+
+body h6,
+.watt-headline-6 {
+  @include typography.watt-headline-6;
 }
 
 .watt-text-l {
