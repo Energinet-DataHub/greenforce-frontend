@@ -14,11 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnDestroy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
 
 import {
   EicFunction,
@@ -53,7 +60,9 @@ import {
     ReactiveFormsModule,
   ],
 })
-export class DhRolesTabListFilterComponent implements OnInit {
+export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+
   @Output() statusChanged = new EventEmitter<string | null>();
   @Output() eicFunctionChanged = new EventEmitter<string[] | null>();
 
@@ -75,12 +84,19 @@ export class DhRolesTabListFilterComponent implements OnInit {
   }));
 
   ngOnInit(): void {
-    this.statusFormControl.valueChanges.subscribe((e) =>
-      this.statusChanged.emit(e)
-    );
-    this.eicFunctionFormControl.valueChanges.subscribe((e) =>
-      this.eicFunctionChanged.emit(e)
-    );
+    this.statusFormControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((e) => this.statusChanged.emit(e));
+
+    this.eicFunctionFormControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((e) => this.eicFunctionChanged.emit(e));
+
     this.statusFormControl.setValue(this.statusListOptions[0].value);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
