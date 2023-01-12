@@ -28,6 +28,7 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
+import { DhUsersTabSearchComponent } from './dh-users-tab-search.component';
 
 @Component({
   selector: 'dh-users-tab',
@@ -73,6 +74,7 @@ import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
     TranslocoModule,
     WattSpinnerModule,
     WattCardModule,
+    DhUsersTabSearchComponent,
     DhUsersTabTableComponent,
     DhSharedUiPaginatorComponent,
     DhUsersTabGeneralErrorComponent,
@@ -95,6 +97,10 @@ export class DhUsersTabComponent {
       pageIndex: event.pageIndex,
       pageSize: event.pageSize,
     });
+  }
+
+  onSearch(value: string): void {
+    this.store.updateSearchText(value);
   }
 
   reloadUsers(): void {
