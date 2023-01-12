@@ -57,12 +57,10 @@ export class DhRolesTabListFilterComponent implements OnInit {
   @Output() statusChanged = new EventEmitter<string | null>();
   @Output() eicFunctionChanged = new EventEmitter<string[] | null>();
 
-  eicFunctionList$ = EicFunction;
-  statusList$ = UserRoleStatus;
   statusFormControl = new FormControl<string | null>(null);
   eicFunctionFormControl = new FormControl<string[] | null>(null);
 
-  statusListOptions: WattDropdownOption[] = Object.keys(this.statusList$).map(
+  statusListOptions: WattDropdownOption[] = Object.keys(UserRoleStatus).map(
     (key) => ({
       displayValue: key,
       value: key,
@@ -70,7 +68,7 @@ export class DhRolesTabListFilterComponent implements OnInit {
   );
 
   eicFunctionListListOptions: WattDropdownOption[] = Object.keys(
-    this.eicFunctionList$
+    EicFunction
   ).map((key) => ({
     displayValue: key,
     value: key,
