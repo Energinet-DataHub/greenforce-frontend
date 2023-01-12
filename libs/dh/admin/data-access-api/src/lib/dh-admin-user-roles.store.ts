@@ -43,7 +43,7 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
   isLoading$ = this.select(
     (state) => state.requestState === LoadingState.LOADING
   );
-  hasGeneralError$ = new Subject<boolean>();
+  hasGeneralError$ = new Subject<void>();
 
   userRoleView$: Observable<UserRoleView> = this.select(
     (state) => state.userRoleView
@@ -100,7 +100,8 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
 
   private handleError = () => {
     this.updateRoles(null);
-    this.hasGeneralError$.next(true);
+    console.log('Error');
+    this.hasGeneralError$.next();
   };
 
   private resetState = () => this.setState(initialState);

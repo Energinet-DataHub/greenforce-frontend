@@ -18,7 +18,7 @@ import {
   MarketParticipantUserRoleHttp,
   UserRoleView,
 } from '@energinet-datahub/dh/shared/domain';
-import { firstValueFrom, Subject } from 'rxjs';
+import { firstValueFrom, Subject, withLatestFrom } from 'rxjs';
 import { DhAdminUserRolesStore } from './dh-admin-user-roles.store';
 
 describe('DhAdminUserRolesStore', () => {
@@ -75,13 +75,14 @@ describe('DhAdminUserRolesStore', () => {
 
     const store = new DhAdminUserRolesStore(httpClient);
 
+    const spyOnCall = jest.spyOn(store.hasGeneralError$, 'next');
+
     store.getUserRoleView('1');
     observable.next(userRoleView);
     observable.complete();
 
     // Act
-    const result = await firstValueFrom(store.hasGeneralError$);
-    expect(result).toBeFalsy();
+    expect(spyOnCall).not.toHaveBeenCalled();
   });
 
   test('complete with errors', async () => {
@@ -94,12 +95,13 @@ describe('DhAdminUserRolesStore', () => {
 
     const store = new DhAdminUserRolesStore(httpClient);
 
+    const spyOnCall = jest.spyOn(store.hasGeneralError$, 'next');
+
     store.getUserRoleView('1');
     observable.error('error');
     observable.complete();
 
     // Act
-    const result = await firstValueFrom(store.hasGeneralError$);
-    expect(result).toBeTruthy();
+    expect(spyOnCall).toHaveBeenCalled();
   });
 });
