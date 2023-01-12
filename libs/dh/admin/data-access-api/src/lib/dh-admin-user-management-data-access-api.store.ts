@@ -30,6 +30,7 @@ import {
 
 export interface DhUserManagementUsersFilter {
   userStatus: ('Active' | 'Inactive')[];
+  searchText: string | undefined;
 }
 
 interface DhUserManagementState {
@@ -38,13 +39,7 @@ interface DhUserManagementState {
   readonly usersRequestState: LoadingState | ErrorState;
   readonly pageNumber: number;
   readonly pageSize: number;
-  readonly searchText: string | undefined;
 }
-
-type FetchUsersParams = Pick<
-  DhUserManagementState,
-  'pageSize' | 'pageNumber' | 'searchText'
->;
 
 const initialState: DhUserManagementState = {
   users: [],
@@ -52,7 +47,6 @@ const initialState: DhUserManagementState = {
   usersRequestState: LoadingState.INIT,
   pageNumber: 1,
   pageSize: 50,
-  searchText: undefined,
 };
 
 @Injectable()
@@ -75,7 +69,10 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
   readonly paginatorPageIndex$ = this.select((state) => state.pageNumber - 1);
   readonly pageSize$ = this.select((state) => state.pageSize);
 
-  filter: DhUserManagementUsersFilter = { userStatus: ['Active'] };
+  readonly filter: DhUserManagementUsersFilter = {
+    userStatus: ['Active'],
+    searchText: undefined,
+  };
 
   constructor(private httpClient: MarketParticipantUserOverviewHttp) {
     super(initialState);
@@ -138,7 +135,7 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
           return this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
             pageNumber,
             pageSize,
-            undefined,
+            this.filter.searchText,
             userStatus.length === 2
               ? undefined // If both are selected, no filter is applied.
               : userStatus[0] === 'Active'
@@ -152,17 +149,11 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     );
   }
 
-  updateSearchText(searchText: string) {
-    const searchTextToSave = searchText === '' ? undefined : searchText;
-
-    this.patchState({ searchText: searchTextToSave });
-  }
-
   readonly reloadUsers = () => {
-    this.loadUsers(this.fetchUsersParams$);
+    this.loadUsers();
   };
 
   ngrxOnStoreInit() {
-    this.loadUsers(this.fetchUsersParams$);
+    this.loadUsers();
   }
 }

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { LetModule, PushModule } from '@rx-angular/template';
@@ -50,6 +50,7 @@ import { DhUsersTabSearchComponent } from './dh-users-tab-search.component';
 
       .filter-container {
         display: inline-flex;
+        gap: var(--watt-space-m);
       }
 
       .users-overview {
@@ -87,6 +88,7 @@ import { DhUsersTabSearchComponent } from './dh-users-tab-search.component';
     WattFormFieldModule,
     WattDropdownModule,
     DhUsersTabTableComponent,
+    DhUsersTabSearchComponent,
     DhSharedUiPaginatorComponent,
     DhUsersTabGeneralErrorComponent,
   ],
@@ -130,7 +132,8 @@ export class DhUsersTabComponent {
   }
 
   onSearch(value: string): void {
-    this.store.updateSearchText(value);
+    this.store.filter.searchText = value;
+    this.reloadUsers();
   }
 
   reloadUsers(): void {
