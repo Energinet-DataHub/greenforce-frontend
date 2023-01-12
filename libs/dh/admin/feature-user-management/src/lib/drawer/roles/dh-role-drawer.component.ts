@@ -25,15 +25,15 @@ import {
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { DhTabsComponent } from '.././tabs/dh-drawer-tabs.component';
 import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
-import { DhRoleStatusComponent } from "../../shared/dh-role-status.component";
-import { DhDrawerRoleTabsComponent } from "./tabs/dh-drawer-role-tabs.component";
+import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
+import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component';
 
 @Component({
-    selector: 'dh-role-drawer',
-    standalone: true,
-    templateUrl: './dh-role-drawer.component.html',
-    styles: [
-        `
+  selector: 'dh-role-drawer',
+  standalone: true,
+  templateUrl: './dh-role-drawer.component.html',
+  styles: [
+    `
       .role-name__grid {
         display: flex;
         align-items: center;
@@ -45,16 +45,16 @@ import { DhDrawerRoleTabsComponent } from "./tabs/dh-drawer-role-tabs.component"
         margin: 0;
       }
     `,
-    ],
-    imports: [
-        CommonModule,
-        TranslocoModule,
-        WattDrawerModule,
-        WattButtonModule,
-        DhTabsComponent,
-        DhRoleStatusComponent,
-        DhDrawerRoleTabsComponent
-    ]
+  ],
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    WattDrawerModule,
+    WattButtonModule,
+    DhTabsComponent,
+    DhRoleStatusComponent,
+    DhDrawerRoleTabsComponent,
+  ],
 })
 export class DhRoleDrawerComponent {
   @ViewChild('drawer')

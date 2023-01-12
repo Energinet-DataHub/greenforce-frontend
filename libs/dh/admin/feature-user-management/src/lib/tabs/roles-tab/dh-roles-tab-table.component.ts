@@ -37,27 +37,27 @@ import {
 import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.component';
 
 @Component({
-    selector: 'dh-roles-tab-table',
-    standalone: true,
-    templateUrl: './dh-roles-tab-table.component.html',
-    styles: [
-        `
+  selector: 'dh-roles-tab-table',
+  standalone: true,
+  templateUrl: './dh-roles-tab-table.component.html',
+  styles: [
+    `
       :host {
         display: block;
       }
     `,
-    ],
-    // Using `OnPush` causes issues with table's header row translations
-    changeDetection: ChangeDetectionStrategy.Default,
-    imports: [
-        WATT_TABLE,
-        CommonModule,
-        TranslocoModule,
-        DhEmDashFallbackPipeScam,
-        DhSharedUiPaginatorComponent,
-        DhRoleStatusComponent,
-        DhRoleDrawerComponent
-    ]
+  ],
+  // Using `OnPush` causes issues with table's header row translations
+  changeDetection: ChangeDetectionStrategy.Default,
+  imports: [
+    WATT_TABLE,
+    CommonModule,
+    TranslocoModule,
+    DhEmDashFallbackPipeScam,
+    DhSharedUiPaginatorComponent,
+    DhRoleStatusComponent,
+    DhRoleDrawerComponent,
+  ],
 })
 export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   @Input() roles: UserRoleInfoDto[] = [];
