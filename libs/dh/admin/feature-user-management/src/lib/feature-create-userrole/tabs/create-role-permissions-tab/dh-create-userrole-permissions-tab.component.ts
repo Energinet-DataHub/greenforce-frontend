@@ -17,11 +17,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PageEvent } from '@angular/material/paginator';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
@@ -39,5 +36,4 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
   ],
 })
 export class DhCreateUserrolePermissionsTabComponent {
-  @Output() roleCreated = new EventEmitter<PageEvent>();
 }

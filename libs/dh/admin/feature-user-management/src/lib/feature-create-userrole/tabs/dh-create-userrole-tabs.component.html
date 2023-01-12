@@ -26,21 +26,18 @@ limitations under the License.
 
   <watt-card *rxLet="isLoading$ as isLoading">
     <watt-card-title>
-      <div class="card-title-container">
         <h4>{{ t("rolesHeadline") }}</h4>
-      </div>
     </watt-card-title>
     <div class="spinner-container" *ngIf="isLoading">
       <watt-spinner></watt-spinner>
     </div>
+    <watt-tabs>
+      <watt-tab [label]="t('users.tabLabel')">
+        <dh-create-userrole-masterdata-tab></dh-create-userrole-masterdata-tab>
+      </watt-tab>
+      <watt-tab [label]="t('users.tabLabel')">
+        <dh-create-userrole-permissions-tab></dh-create-userrole-permissions-tab>
+      </watt-tab>
+    </watt-tabs>
   </watt-card>
-
-  <watt-tabs>
-    <watt-tab [label]="t('users.tabLabel')">
-      <dh-create-userrole-masterdata-tab [changes]="roleChanges$ | push" ></dh-create-userrole-masterdata-tab>
-    </watt-tab>
-    <watt-tab [label]="t('users.tabLabel')">
-      <dh-create-userrole-permissions-tab></dh-create-userrole-permissions-tab>
-    </watt-tab>
-  </watt-tabs>
 </ng-container>

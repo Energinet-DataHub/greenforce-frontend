@@ -26,6 +26,10 @@ limitations under the License.
       </div>
     </watt-card-title>
 
+    <watt-button variant="primary" (click)="createUserRole()"
+      >{{ t("createOrganization") }}
+    </watt-button>
+
     <dh-roles-tab-table [roles]="roles"></dh-roles-tab-table>
   </watt-card>
 </ng-container>

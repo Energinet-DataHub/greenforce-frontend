@@ -22,22 +22,23 @@ import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { DhUsersTabComponent } from './users-tab/dh-users-tab.component';
 import { DhRolesTabContainerComponent } from './roles-tab/dh-roles-tab-container.component';
 
+
 @Component({
-  selector: 'dh-tabs',
-  standalone: true,
-  templateUrl: './dh-tabs.component.html',
-  styles: [
-    `
+    selector: 'dh-tabs',
+    standalone: true,
+    templateUrl: './dh-tabs.component.html',
+    styles: [
+        `
       :host {
         display: block;
       }
     `,
-  ],
-  imports: [
-    TranslocoModule,
-    WattTabsModule,
-    DhUsersTabComponent,
-    DhRolesTabContainerComponent,
-  ],
+    ],
+    imports: [
+        TranslocoModule,
+        WattTabsModule,
+        DhUsersTabComponent,
+        DhRolesTabContainerComponent,
+    ]
 })
 export class DhTabsComponent {}

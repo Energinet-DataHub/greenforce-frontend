@@ -27,6 +27,23 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { UserRoleChanges } from '@energinet-datahub/dh/admin/data-access-api';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import {
+  WattDropdownModule,
+  WattDropdownOptions,
+} from '@energinet-datahub/watt/dropdown';
+import {
+  EicFunction,
+  UserRoleStatus,
+} from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-create-userrole-masterdata-tab',
@@ -37,10 +54,38 @@ import { UserRoleChanges } from '@energinet-datahub/dh/admin/data-access-api';
   imports: [
     CommonModule,
     TranslocoModule,
-    WattCardModule
+    WattCardModule,
+    ReactiveFormsModule,
+    FormsModule,
+    WattInputModule,
+    WattFormFieldModule,
+    WattDropdownModule,
   ],
 })
 export class DhCreateUserroleMasterdataTabComponent {
-  @Output() roleCreated = new EventEmitter<PageEvent>();
-  @Input() changes!: UserRoleChanges;
+  userRoleStatusOptions: WattDropdownOptions = [];
+  userRole = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.maxLength(250)]),
+    description: new FormControl('', Validators.required),
+    status: new FormControl(UserRoleStatus.Inactive, Validators.required),
+    eicFunction: new FormControl(EicFunction.Consumer, Validators.required),
+  });
+
+  hasSubmitted = false;
+
+  createUserRole() {
+    this.hasSubmitted = true;
+
+    if (!this.userRole.valid) return;
+
+    //this.disableFormGroup();
+    const userRole = this.userRole.value;
+
+    // this.toastService.open({
+    //   message: this.translocoService.translate(
+    //     'charges.createPrices.loadingRequestText'
+    //   ),
+    //   type: 'loading',
+    // });
+  }
 }
