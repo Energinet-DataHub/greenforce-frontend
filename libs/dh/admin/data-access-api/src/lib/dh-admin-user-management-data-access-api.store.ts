@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, take, tap } from 'rxjs';
+import { Observable, of, switchMap, take, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -27,6 +27,10 @@ import {
   UserOverviewItemDto,
   UserOverviewResultDto,
 } from '@energinet-datahub/dh/shared/domain';
+
+export interface DhUserManagementUsersFilter {
+  userStatus: ('Active' | 'Inactive')[];
+}
 
 interface DhUserManagementState {
   readonly users: UserOverviewItemDto[];
@@ -63,6 +67,8 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
   // whereas the paginator's `pageIndex` property starts at `0`
   paginatorPageIndex$ = this.select((state) => state.pageNumber - 1);
   pageSize$ = this.select((state) => state.pageSize);
+
+  filter: DhUserManagementUsersFilter = { userStatus: ['Active'] };
 
   constructor(private httpClient: MarketParticipantUserOverviewHttp) {
     super(initialState);
@@ -119,12 +125,23 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
   private getUsers() {
     return this.state$.pipe(
       take(1),
-      switchMap(({ pageNumber, pageSize }) =>
-        this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
-          pageNumber,
-          pageSize
-        )
-      )
+      switchMap(({ pageNumber, pageSize }) => {
+        const userStatus = this.filter.userStatus;
+        if (userStatus?.length > 0) {
+          return this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
+            pageNumber,
+            pageSize,
+            undefined,
+            userStatus.length === 2
+              ? undefined // If both are selected, no filter is applied.
+              : userStatus[0] === 'Active'
+              ? true
+              : false
+          );
+        }
+
+        return of({ users: [], totalUserCount: 0 });
+      })
     );
   }
 

@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { PageEvent } from '@angular/material/paginator';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
@@ -28,6 +28,12 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import {
+  WattDropdownModule,
+  WattDropdownOption,
+} from '@energinet-datahub/watt/dropdown';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'dh-users-tab',
@@ -36,10 +42,13 @@ import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
   styles: [
     `
       :host {
-        background-color: var(--watt-color-neutral-white);
         display: block;
         /* TODO: Add spacing variable for 24px */
         margin: 24px var(--watt-space-s);
+      }
+
+      .filter-container {
+        display: inline-flex;
       }
 
       .users-overview {
@@ -70,17 +79,18 @@ import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
     CommonModule,
     LetModule,
     PushModule,
+    FormsModule,
     TranslocoModule,
     WattSpinnerModule,
     WattCardModule,
+    WattFormFieldModule,
+    WattDropdownModule,
     DhUsersTabTableComponent,
     DhSharedUiPaginatorComponent,
     DhUsersTabGeneralErrorComponent,
   ],
 })
 export class DhUsersTabComponent {
-  private readonly store = inject(DhAdminUserManagementDataAccessApiStore);
-
   users$ = this.store.users$;
   totalUserCount$ = this.store.totalUserCount$;
 
@@ -89,6 +99,27 @@ export class DhUsersTabComponent {
 
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
+
+  filter = this.store.filter;
+  userStatusOptions: WattDropdownOption[] = [
+    {
+      value: 'Active',
+      displayValue: this.trans.translate(
+        'admin.userManagement.userStatus.active'
+      ),
+    },
+    {
+      value: 'Inactive',
+      displayValue: this.trans.translate(
+        'admin.userManagement.userStatus.inactive'
+      ),
+    },
+  ];
+
+  constructor(
+    private store: DhAdminUserManagementDataAccessApiStore,
+    private trans: TranslocoService
+  ) {}
 
   onPageChange(event: PageEvent): void {
     this.store.updatePageMetadata({

@@ -15,6 +15,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
+  <div class="filter-container">
+    <watt-form-field>
+      <watt-label>{{ t("filter.status") }}</watt-label>
+      <watt-dropdown
+        [(ngModel)]="this.filter.userStatus"
+        (ngModelChange)="this.reloadUsers()"
+        [options]="userStatusOptions"
+        [multiple]="true"
+      ></watt-dropdown>
+    </watt-form-field>
+  </div>
+
   <watt-card>
     <watt-card-title>
       <div class="card-title__container">
@@ -63,7 +75,7 @@ limitations under the License.
       {{ t("singular", { usersCount: usersCount }) }}
     </h4>
 
-    <h4 *ngIf="usersCount === 0 || usersCount > 0">
+    <h4 *ngIf="usersCount !== 1">
       {{ t("plural", { usersCount: usersCount }) }}
     </h4>
   </ng-container>

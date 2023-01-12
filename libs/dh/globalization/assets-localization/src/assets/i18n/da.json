@@ -873,6 +873,9 @@
         },
         "users": {
           "tabLabel": "Brugere",
+          "filter": {
+            "status": "Status"
+          },
           "usersHeadline": {
             "singular": "{{ usersCount }} bruger",
             "plural": "{{ usersCount }} brugere"

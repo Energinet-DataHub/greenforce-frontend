@@ -873,7 +873,9 @@
             "singular": "{{ usersCount }} user",
             "plural": "{{ usersCount }} users"
           },
-
+          "filter": {
+            "status": "Status"
+          },
           "table": {
             "columns": {
               "name": "Name",
