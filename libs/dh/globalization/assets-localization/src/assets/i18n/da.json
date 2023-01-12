@@ -896,6 +896,10 @@
         },
         "roles": {
           "tabLabel": "Roller",
+          "roles": "Roller",
+          "role": "Rolle",
+          "errorTitle": "Ups! Der opstod en fejl",
+          "errorMessage": "Der opstod desværre en fejl, ved hentning af rollerne.",
           "rolesHeadline": "Brugerroller",
           "table": {
             "columns": {
