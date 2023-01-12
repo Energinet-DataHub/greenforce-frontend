@@ -14,21 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LetModule, PushModule } from '@rx-angular/template';
+import { TranslocoModule } from '@ngneat/transloco';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
 import {
   EicFunction,
   UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import {
   WattDropdownModule,
   WattDropdownOption,
 } from '@energinet-datahub/watt/dropdown';
-import { EventEmitter } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'dh-roles-tab-list-filter',
