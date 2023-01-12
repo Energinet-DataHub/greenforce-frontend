@@ -873,6 +873,7 @@
         },
         "users": {
           "tabLabel": "Brugere",
+          "searchPlaceholder": "Søg brugere",
           "usersHeadline": {
             "singular": "{{ usersCount }} bruger",
             "plural": "{{ usersCount }} brugere"
