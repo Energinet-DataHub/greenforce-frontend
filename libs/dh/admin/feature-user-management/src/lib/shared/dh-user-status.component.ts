@@ -19,6 +19,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { UserStatus } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-user-status',
@@ -26,9 +27,11 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
   template: `<ng-container
     *transloco="let t; read: 'admin.userManagement.userStatus'"
   >
-    <watt-badge *ngIf="isActive" type="info">{{ t('active') }}</watt-badge>
+    <watt-badge *ngIf="status === 'Active'" type="info">{{
+      t('active')
+    }}</watt-badge>
 
-    <watt-badge *ngIf="!isActive" type="warning">{{
+    <watt-badge *ngIf="status !== 'Active'" type="warning">{{
       t('inactive')
     }}</watt-badge>
   </ng-container>`,
@@ -36,5 +39,5 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhUserStatusComponent {
-  @Input() isActive!: boolean;
+  @Input() status!: UserStatus;
 }
