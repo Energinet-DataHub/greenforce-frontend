@@ -40,7 +40,6 @@ limitations under the License.
 
   <ItemGroup>
     <PackageReference Condition="!Exists('$(WholesaleClientProjectReference)')" Include="Energinet.DataHub.Wholesale.Client" Version="4.0.0" />
-    <PackageReference Include="Energinet.DataHub.Wholesale.Client" Version="4.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients" Version="6.1.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients.Registration" Version="6.1.0" />
