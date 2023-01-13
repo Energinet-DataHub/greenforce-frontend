@@ -23,10 +23,15 @@ import { DhRolePermissionsComponent } from './content/dh-role-permissions.compon
 import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
-    selector: 'dh-drawer-role-tabs',
-    standalone: true,
-    templateUrl: './dh-drawer-role-tabs.component.html',
-    imports: [TranslocoModule, WattTabsModule, DhRoleMasterDataComponent, DhRolePermissionsComponent]
+  selector: 'dh-drawer-role-tabs',
+  standalone: true,
+  templateUrl: './dh-drawer-role-tabs.component.html',
+  imports: [
+    TranslocoModule,
+    WattTabsModule,
+    DhRoleMasterDataComponent,
+    DhRolePermissionsComponent,
+  ],
 })
 export class DhDrawerRoleTabsComponent {
   @Input() role: UserRoleWithPermissionsDto | null = null;

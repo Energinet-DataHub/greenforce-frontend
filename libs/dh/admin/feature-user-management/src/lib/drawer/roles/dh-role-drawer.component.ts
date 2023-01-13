@@ -69,7 +69,9 @@ import { DhTabDataGeneralErrorComponent } from "../../tabs/general-error/dh-tab-
     ]
 })
 export class DhRoleDrawerComponent {
-  private readonly store = inject(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore);
+  private readonly store = inject(
+    DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
+  );
 
   userRoleWithPermissions$ = this.store.userRole$;
 
