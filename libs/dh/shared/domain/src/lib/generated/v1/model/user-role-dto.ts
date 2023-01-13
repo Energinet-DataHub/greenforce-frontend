@@ -9,11 +9,16 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { EicFunction } from './eic-function';
+import { UserRoleStatus } from './user-role-status';
 
 
 export interface UserRoleDto { 
     id: string;
     name: string;
+    description: string;
+    eicFunction: EicFunction;
+    status: UserRoleStatus;
 }
 
 

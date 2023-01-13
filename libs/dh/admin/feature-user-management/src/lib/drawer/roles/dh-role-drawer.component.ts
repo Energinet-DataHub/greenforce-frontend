@@ -24,7 +24,7 @@ import {
 } from '@energinet-datahub/watt/drawer';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { DhTabsComponent } from '.././tabs/dh-drawer-tabs.component';
-import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
+import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component';
 
@@ -60,14 +60,14 @@ export class DhRoleDrawerComponent {
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
 
-  selectedRole: UserRoleInfoDto | null = null;
+  selectedRole: UserRoleDto | null = null;
 
   onClose(): void {
     this.drawer.close();
     this.selectedRole = null;
   }
 
-  open(role: UserRoleInfoDto): void {
+  open(role: UserRoleDto): void {
     this.selectedRole = role;
     this.drawer.open();
   }

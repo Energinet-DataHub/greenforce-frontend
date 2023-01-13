@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, tap } from 'rxjs';
+import { Observable, of, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -26,6 +26,7 @@ import {
   MarketParticipantUserOverviewHttp,
   UserOverviewItemDto,
   UserOverviewResultDto,
+  UserStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserManagementState {
@@ -35,11 +36,12 @@ interface DhUserManagementState {
   readonly pageNumber: number;
   readonly pageSize: number;
   readonly searchText: string | undefined;
+  readonly statusFilter: UserStatus[];
 }
 
 type FetchUsersParams = Pick<
   DhUserManagementState,
-  'pageSize' | 'pageNumber' | 'searchText'
+  'pageSize' | 'pageNumber' | 'searchText' | 'statusFilter'
 >;
 
 const initialState: DhUserManagementState = {
@@ -49,6 +51,7 @@ const initialState: DhUserManagementState = {
   pageNumber: 1,
   pageSize: 50,
   searchText: undefined,
+  statusFilter: ['Active'],
 };
 
 @Injectable()
@@ -63,6 +66,8 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     (state) => state.usersRequestState === ErrorState.GENERAL_ERROR
   );
 
+  readonly initialStatusFilter$ = this.select((state) => state.statusFilter);
+
   readonly users$ = this.select((state) => state.users);
   readonly totalUserCount$ = this.select((state) => state.totalUserCount);
 
@@ -76,10 +81,12 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
       this.pageSize$,
       this.select((state) => state.pageNumber),
       this.select((state) => state.searchText),
-      (pageSize, pageNumber, searchText) => ({
+      this.select((state) => state.statusFilter),
+      (pageSize, pageNumber, searchText, statusFilter) => ({
         pageSize,
         pageNumber,
         searchText,
+        statusFilter,
       }),
       { debounce: true }
     );
@@ -142,11 +149,20 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     })
   );
 
-  private getUsers({ pageNumber, pageSize, searchText }: FetchUsersParams) {
+  private getUsers({
+    pageNumber,
+    pageSize,
+    searchText,
+    statusFilter,
+  }: FetchUsersParams) {
+    if (!statusFilter || statusFilter.length == 0)
+      return of({ users: [], totalUserCount: 0 });
+
     return this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
       pageNumber,
       pageSize,
-      searchText
+      searchText,
+      statusFilter
     );
   }
 
@@ -154,6 +170,10 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     const searchTextToSave = searchText === '' ? undefined : searchText;
 
     this.patchState({ searchText: searchTextToSave });
+  }
+
+  updateStatusFilter(userStatus: UserStatus[]) {
+    this.patchState({ statusFilter: userStatus });
   }
 
   readonly reloadUsers = () => {

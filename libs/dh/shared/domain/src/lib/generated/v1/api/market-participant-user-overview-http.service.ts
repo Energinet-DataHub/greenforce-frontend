@@ -20,6 +20,8 @@ import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
 import { UserOverviewResultDto } from '../model/user-overview-result-dto';
+// @ts-ignore
+import { UserStatus } from '../model/user-status';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -95,13 +97,14 @@ export class MarketParticipantUserOverviewHttp {
      * @param pageNumber 
      * @param pageSize 
      * @param searchText 
+     * @param userStatus 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserOverviewGetUserOverviewGet(pageNumber?: number, pageSize?: number, searchText?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<UserOverviewResultDto>;
-    public v1MarketParticipantUserOverviewGetUserOverviewGet(pageNumber?: number, pageSize?: number, searchText?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<UserOverviewResultDto>>;
-    public v1MarketParticipantUserOverviewGetUserOverviewGet(pageNumber?: number, pageSize?: number, searchText?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<UserOverviewResultDto>>;
-    public v1MarketParticipantUserOverviewGetUserOverviewGet(pageNumber?: number, pageSize?: number, searchText?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserOverviewGetUserOverviewGet(pageNumber?: number, pageSize?: number, searchText?: string, userStatus?: Array<UserStatus>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<UserOverviewResultDto>;
+    public v1MarketParticipantUserOverviewGetUserOverviewGet(pageNumber?: number, pageSize?: number, searchText?: string, userStatus?: Array<UserStatus>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<UserOverviewResultDto>>;
+    public v1MarketParticipantUserOverviewGetUserOverviewGet(pageNumber?: number, pageSize?: number, searchText?: string, userStatus?: Array<UserStatus>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<UserOverviewResultDto>>;
+    public v1MarketParticipantUserOverviewGetUserOverviewGet(pageNumber?: number, pageSize?: number, searchText?: string, userStatus?: Array<UserStatus>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -115,6 +118,12 @@ export class MarketParticipantUserOverviewHttp {
         if (searchText !== undefined && searchText !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>searchText, 'searchText');
+        }
+        if (userStatus) {
+            userStatus.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'userStatus');
+            })
         }
 
         let localVarHeaders = this.defaultHeaders;

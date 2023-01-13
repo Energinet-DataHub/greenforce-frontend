@@ -25,7 +25,7 @@ import {
   DhUserAuditLogEntry,
 } from '@energinet-datahub/dh/admin/data-access-api';
 
-describe('DhUserAuditLogsComponent.name', () => {
+describe(DhUserAuditLogsComponent.name, () => {
   async function setup(
     store: Partial<DhAdminUserManagementAuditLogsDataAccessApiStore>
   ) {
@@ -47,8 +47,8 @@ describe('DhUserAuditLogsComponent.name', () => {
 
     fixture.componentInstance.user = {
       id: '4E19432C-1E46-43BE-9AB4-7A5984C66100',
+      status: 'Active',
       email: 'fake@value',
-      active: true,
       createdDate: '2023-01-10T10:12:06+00:00',
       name: 'fake value',
     };
