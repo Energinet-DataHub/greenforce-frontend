@@ -92,7 +92,9 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((e) => this.eicFunctionChanged.emit(e));
 
-    this.statusFormControl.setValue(this.statusListOptions[0].value as UserRoleStatus);
+    this.statusFormControl.setValue(
+      this.statusListOptions[0].value as UserRoleStatus
+    );
   }
 
   ngOnDestroy(): void {

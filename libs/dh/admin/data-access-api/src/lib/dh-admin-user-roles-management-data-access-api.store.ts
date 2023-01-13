@@ -32,13 +32,16 @@ import {
 interface DhUserRolesManagementState {
   readonly roles: UserRoleDto[];
   readonly requestState: LoadingState | ErrorState;
-  readonly filterModel: { status: UserRoleStatus | null, eicFunctions: EicFunction[] | null };
+  readonly filterModel: {
+    status: UserRoleStatus | null;
+    eicFunctions: EicFunction[] | null;
+  };
 }
 
 const initialState: DhUserRolesManagementState = {
   roles: [],
   requestState: LoadingState.INIT,
-  filterModel: { status: 'Active', eicFunctions: [] }
+  filterModel: { status: 'Active', eicFunctions: [] },
 };
 
 @Injectable()
