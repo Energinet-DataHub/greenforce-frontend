@@ -20,6 +20,7 @@ import { provideComponentStore } from '@ngrx/component-store';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
+import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 
 import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
