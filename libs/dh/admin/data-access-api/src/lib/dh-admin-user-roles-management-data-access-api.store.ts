@@ -22,10 +22,10 @@ import {
   LoadingState,
 } from '@energinet-datahub/dh/shared/data-access-api';
 import {
-  EicFunction,
   MarketParticipantUserRoleHttp,
-  UserRoleStatus,
   CreateUserRoleDto,
+  EicFunction,
+  UserRoleStatus,
   UserRoleDto,
 } from '@energinet-datahub/dh/shared/domain';
 
@@ -41,6 +41,10 @@ interface DhUserRolesManagementState {
   roleChanges: UserRoleChanges;
   readonly requestState: LoadingState | ErrorState;
   validation?: { error: string };
+  readonly filterModel: {
+    status: UserRoleStatus | null;
+    eicFunctions: EicFunction[] | null;
+  };
 }
 
 const initialState: DhUserRolesManagementState = {
@@ -53,6 +57,7 @@ const initialState: DhUserRolesManagementState = {
     eicFunction: undefined,
     permissions: [],
   },
+  filterModel: { status: 'Active', eicFunctions: [] },
 };
 
 @Injectable()
@@ -64,10 +69,25 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   hasGeneralError$ = this.select(
     (state) => state.requestState === ErrorState.GENERAL_ERROR
   );
-  roleChanges$ = this.select((state) => state.roleChanges);
-  validation$ = this.select((state) => state.validation);
+  filterModel$ = this.select((state) => state.filterModel);
+
   roles$ = this.select((state) => state.roles);
 
+  rolesFiltered$ = this.select(
+    this.roles$,
+    this.filterModel$,
+    (roles, filter) =>
+      roles.filter(
+        (r) =>
+          (filter.status == null || r.status == filter.status) &&
+          (!filter.eicFunctions ||
+            filter.eicFunctions.length == 0 ||
+            filter.eicFunctions.includes(r.eicFunction))
+      )
+  );
+
+  roleChanges$ = this.select((state) => state.roleChanges);
+  validation$ =this.select((state) => state.validation);
   constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
     super(initialState);
   }
@@ -117,6 +137,32 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
         )
       )
     )
+  );
+
+  readonly setFilterStatus = this.updater(
+    (
+      state: DhUserRolesManagementState,
+      statusUpdate: UserRoleStatus | null
+    ): DhUserRolesManagementState => ({
+      ...state,
+      filterModel: {
+        status: statusUpdate,
+        eicFunctions: state.filterModel.eicFunctions,
+      },
+    })
+  );
+
+  readonly setFilterEicFunction = this.updater(
+    (
+      state: DhUserRolesManagementState,
+      eicFunctions: EicFunction[] | null
+    ): DhUserRolesManagementState => ({
+      ...state,
+      filterModel: {
+        status: state.filterModel.status,
+        eicFunctions: eicFunctions,
+      },
+    })
   );
 
   private updateUserRoles = this.updater(

@@ -14,18 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { provideComponentStore } from '@ngrx/component-store';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 
 import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
 import { Router } from '@angular/router';
 import { dhAdminPath, dhAdminUserManagementPath, dhAdminUserRoleManagementCreatePath } from '@energinet-datahub/dh/admin/routing';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.component';
+import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-general-error.component';
+import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { LetModule, PushModule } from '@rx-angular/template';
+import {
+  EicFunction,
+  UserRoleDto,
+  UserRoleStatus,
+} from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-roles-tab',
@@ -33,13 +43,21 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
   styleUrls: ['./dh-roles-tab.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
+  ],
   imports: [
     CommonModule,
     TranslocoModule,
     WattCardModule,
+    WattSpinnerModule,
+    PushModule,
     DhRolesTabTableComponent,
     DhSharedUiPaginatorComponent,
-    WattButtonModule
+    WattButtonModule,
+    DhRolesTabListFilterComponent,
+    DhTabDataGeneralErrorComponent,
+    LetModule,
   ],
 })
 export class DhUserRolesTabComponent {
@@ -47,6 +65,24 @@ export class DhUserRolesTabComponent {
   constructor(
     private router: Router
   ) {}
+
+  private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
+  roles$ = this.store.rolesFiltered$;
+
+  isLoading$ = this.store.isLoading$;
+  hasGeneralError$ = this.store.hasGeneralError$;
+
+  updateFilterStatus(status: UserRoleStatus | null) {
+    this.store.setFilterStatus(status);
+  }
+
+  updateFilterEicFunction(eicFunctions: EicFunction[] | null) {
+    this.store.setFilterEicFunction(eicFunctions);
+  }
+
+  reloadRoles(): void {
+    this.store.getRoles();
+  }
 
   readonly createUserRole = () => {
     const url = this.router.createUrlTree([

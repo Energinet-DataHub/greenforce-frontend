@@ -905,6 +905,10 @@
         "roles": {
           "tabLabel": "Roller",
           "rolesHeadline": "Brugerroller",
+          "filter": {
+            "status": "Status",
+            "marketRole": "Markedsrolle"
+          },
           "table": {
             "columns": {
               "name": "Navn",
