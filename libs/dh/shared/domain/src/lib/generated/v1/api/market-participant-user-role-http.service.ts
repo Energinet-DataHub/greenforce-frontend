@@ -22,8 +22,6 @@ import { Observable }                                        from 'rxjs';
 import { CreateUserRoleDto } from '../model/create-user-role-dto';
 // @ts-ignore
 import { UserRoleDto } from '../model/user-role-dto';
-// @ts-ignore
-import { UserRoleInfoDto } from '../model/user-role-info-dto';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -174,9 +172,9 @@ export class MarketParticipantUserRoleHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserRoleGetAllGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<UserRoleInfoDto>>;
-    public v1MarketParticipantUserRoleGetAllGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<UserRoleInfoDto>>>;
-    public v1MarketParticipantUserRoleGetAllGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<UserRoleInfoDto>>>;
+    public v1MarketParticipantUserRoleGetAllGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<UserRoleDto>>;
+    public v1MarketParticipantUserRoleGetAllGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<UserRoleDto>>>;
+    public v1MarketParticipantUserRoleGetAllGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<UserRoleDto>>>;
     public v1MarketParticipantUserRoleGetAllGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
@@ -220,7 +218,7 @@ export class MarketParticipantUserRoleHttp {
         }
 
         let localVarPath = `/v1/MarketParticipantUserRole/GetAll`;
-        return this.httpClient.request<Array<UserRoleInfoDto>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Array<UserRoleDto>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

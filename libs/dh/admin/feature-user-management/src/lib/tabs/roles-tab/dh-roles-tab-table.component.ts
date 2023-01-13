@@ -26,7 +26,7 @@ import { CommonModule } from '@angular/common';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
-import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
+import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import {
@@ -60,7 +60,7 @@ import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.compone
   ],
 })
 export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
-  @Input() roles: UserRoleInfoDto[] = [];
+  @Input() roles: UserRoleDto[] = [];
 
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
@@ -68,10 +68,10 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   @ViewChild(DhRoleDrawerComponent)
   drawer!: DhRoleDrawerComponent;
 
-  readonly dataSource: WattTableDataSource<UserRoleInfoDto> =
-    new WattTableDataSource<UserRoleInfoDto>();
+  readonly dataSource: WattTableDataSource<UserRoleDto> =
+    new WattTableDataSource<UserRoleDto>();
 
-  columns: WattTableColumnDef<UserRoleInfoDto> = {
+  columns: WattTableColumnDef<UserRoleDto> = {
     name: { accessor: 'name' },
     marketrole: { accessor: 'eicFunction' },
     status: { accessor: 'status' },
@@ -89,7 +89,7 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
     this.dataSource.paginator = this.paginator?.instance;
   }
 
-  onRowClick(row: UserRoleInfoDto): void {
+  onRowClick(row: UserRoleDto): void {
     this.drawer.open(row);
   }
 }
