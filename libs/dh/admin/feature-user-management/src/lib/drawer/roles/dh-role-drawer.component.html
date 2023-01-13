@@ -24,14 +24,13 @@ limitations under the License.
 
     <watt-drawer-content *ngIf="drawer.isOpen">
       <div class="role-name__grid">
-        <h2 class="role-name__headline">{{ selectedRole?.name }}</h2>
+        <h2 class="role-name__headline">{{ basicUserRole?.name }}</h2>
         <dh-role-status
-          *ngIf="selectedRole"
-          [status]="selectedRole.status"
+          *ngIf="basicUserRole"
+          [status]="basicUserRole.status"
         ></dh-role-status>
       </div>
-
-      <dh-drawer-role-tabs [role]="selectedRole"></dh-drawer-role-tabs>
+      <dh-drawer-role-tabs [role]="this.userRoleWithPermissions$ | push"></dh-drawer-role-tabs>
     </watt-drawer-content>
   </watt-drawer>
 </ng-container>

@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
+import { provideComponentStore } from '@ngrx/component-store';
 
 import {
   WattDrawerComponent,
@@ -27,6 +28,8 @@ import { DhTabsComponent } from '.././tabs/dh-drawer-tabs.component';
 import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component';
+import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { PushModule } from '@rx-angular/template';
 
 @Component({
   selector: 'dh-role-drawer',
@@ -46,6 +49,9 @@ import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component'
       }
     `,
   ],
+  providers: [
+    provideComponentStore(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore),
+  ],
   imports: [
     CommonModule,
     TranslocoModule,
@@ -54,21 +60,30 @@ import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component'
     DhTabsComponent,
     DhRoleStatusComponent,
     DhDrawerRoleTabsComponent,
+    PushModule
   ],
 })
 export class DhRoleDrawerComponent {
+  private readonly store = inject(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore);
+
+  userRoleWithPermissions$ = this.store.userRole$;
+
+  isLoading$ = this.store.isLoading$;
+  hasGeneralError$ = this.store.hasGeneralError$;
+
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
 
-  selectedRole: UserRoleDto | null = null;
+  basicUserRole: UserRoleDto | null = null;
 
   onClose(): void {
     this.drawer.close();
-    this.selectedRole = null;
+    this.basicUserRole = null;
   }
 
   open(role: UserRoleDto): void {
-    this.selectedRole = role;
+    this.basicUserRole = role;
     this.drawer.open();
+    this.store.getUserRole(this.basicUserRole.id);
   }
 }
