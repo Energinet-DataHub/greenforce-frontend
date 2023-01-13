@@ -99,9 +99,7 @@ export class DhUsersTabComponent {
 
   readonly initialStatusFilter$ = this.store.initialStatusFilter$;
 
-  constructor(
-    private store: DhAdminUserManagementDataAccessApiStore,
-  ) {}
+  constructor(private store: DhAdminUserManagementDataAccessApiStore) {}
 
   onPageChange(event: PageEvent): void {
     this.store.updatePageMetadata({
