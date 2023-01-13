@@ -98,10 +98,10 @@ export class MarketParticipantUserRoleHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserRoleCreateGet(createUserRoleDto?: CreateUserRoleDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
-    public v1MarketParticipantUserRoleCreateGet(createUserRoleDto?: CreateUserRoleDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
-    public v1MarketParticipantUserRoleCreateGet(createUserRoleDto?: CreateUserRoleDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
-    public v1MarketParticipantUserRoleCreateGet(createUserRoleDto?: CreateUserRoleDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserRoleCreatePost(createUserRoleDto?: CreateUserRoleDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
+    public v1MarketParticipantUserRoleCreatePost(createUserRoleDto?: CreateUserRoleDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
+    public v1MarketParticipantUserRoleCreatePost(createUserRoleDto?: CreateUserRoleDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
+    public v1MarketParticipantUserRoleCreatePost(createUserRoleDto?: CreateUserRoleDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -155,7 +155,7 @@ export class MarketParticipantUserRoleHttp {
         }
 
         let localVarPath = `/v1/MarketParticipantUserRole/Create`;
-        return this.httpClient.request<string>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<string>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: createUserRoleDto,
