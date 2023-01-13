@@ -31,14 +31,14 @@ import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component'
 import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { DhTabDataGeneralErrorComponent } from "../../tabs/general-error/dh-tab-data-general-error.component";
+import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-data-general-error.component';
 
 @Component({
-    selector: 'dh-role-drawer',
-    standalone: true,
-    templateUrl: './dh-role-drawer.component.html',
-    styles: [
-        `
+  selector: 'dh-role-drawer',
+  standalone: true,
+  templateUrl: './dh-role-drawer.component.html',
+  styles: [
+    `
       .role-name__grid {
         display: flex;
         align-items: center;
@@ -50,23 +50,25 @@ import { DhTabDataGeneralErrorComponent } from "../../tabs/general-error/dh-tab-
         margin: 0;
       }
     `,
-    ],
-    providers: [
-        provideComponentStore(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore),
-    ],
-    imports: [
-        CommonModule,
-        TranslocoModule,
-        WattDrawerModule,
-        WattButtonModule,
-        DhTabsComponent,
-        DhRoleStatusComponent,
-        DhDrawerRoleTabsComponent,
-        PushModule,
-        LetModule,
-        WattSpinnerModule,
-        DhTabDataGeneralErrorComponent
-    ]
+  ],
+  providers: [
+    provideComponentStore(
+      DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
+    ),
+  ],
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    WattDrawerModule,
+    WattButtonModule,
+    DhTabsComponent,
+    DhRoleStatusComponent,
+    DhDrawerRoleTabsComponent,
+    PushModule,
+    LetModule,
+    WattSpinnerModule,
+    DhTabDataGeneralErrorComponent,
+  ],
 })
 export class DhRoleDrawerComponent {
   private readonly store = inject(
@@ -95,7 +97,7 @@ export class DhRoleDrawerComponent {
   }
 
   loadUserRoleWithPermissions() {
-    if(this.basicUserRole) {
+    if (this.basicUserRole) {
       this.store.getUserRole(this.basicUserRole.id);
     }
   }

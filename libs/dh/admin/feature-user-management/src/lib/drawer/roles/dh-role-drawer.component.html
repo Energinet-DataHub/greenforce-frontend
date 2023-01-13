@@ -32,7 +32,10 @@ limitations under the License.
       </div>
       <ng-container *rxLet="isLoading$ as isLoading">
         <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
-          <dh-drawer-role-tabs *ngIf="!isLoading && !hasGeneralError" [role]="this.userRoleWithPermissions$ | push"></dh-drawer-role-tabs>
+          <dh-drawer-role-tabs
+            *ngIf="!isLoading && !hasGeneralError"
+            [role]="this.userRoleWithPermissions$ | push"
+          ></dh-drawer-role-tabs>
 
           <div *ngIf="isLoading" class="user-roles__spinner">
             <watt-spinner></watt-spinner>
