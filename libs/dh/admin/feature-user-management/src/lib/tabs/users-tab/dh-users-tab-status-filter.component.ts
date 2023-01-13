@@ -53,10 +53,6 @@ import { UserStatus } from '@energinet-datahub/dh/shared/domain';
       :host {
         display: block;
       }
-
-      .search-field {
-        width: 20rem;
-      }
     `,
   ],
   imports: [
