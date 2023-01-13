@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -29,11 +26,6 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
   styleUrls: ['./dh-create-userrole-permissions-tab.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    WattCardModule
-  ],
+  imports: [CommonModule, TranslocoModule, WattCardModule],
 })
-export class DhCreateUserrolePermissionsTabComponent {
-}
+export class DhCreateUserrolePermissionsTabComponent {}

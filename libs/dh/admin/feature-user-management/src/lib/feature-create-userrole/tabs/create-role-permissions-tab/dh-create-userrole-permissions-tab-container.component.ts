@@ -54,5 +54,4 @@ import { DhCreateUserrolePermissionsTabComponent } from './dh-create-userrole-pe
     DhCreateUserrolePermissionsTabComponent,
   ],
 })
-export class DhCreateUserrolePermissionsTabContainerComponent {
-}
+export class DhCreateUserrolePermissionsTabContainerComponent {}

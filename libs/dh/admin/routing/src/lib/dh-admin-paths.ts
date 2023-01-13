@@ -16,4 +16,4 @@
  */
 export const dhAdminPath = 'admin';
 export const dhAdminUserManagementPath = 'user-management';
-export const dhAdminUserRoleManagementCreatePath = 'create-userrole'
+export const dhAdminUserRoleManagementCreatePath = 'create-userrole';

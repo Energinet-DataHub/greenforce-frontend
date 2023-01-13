@@ -929,19 +929,19 @@
         "headline": "Create Userrole",
         "tabs": {
           "masterdata": {
-              "tabLabel":"Master data",
-              "fieldRequiredErrorText": "Field is required.",
-              "nameMaxLengthErrorText": "Name field must be under 250 characters",
-              "name": "Name",
-              "description": "Description",
-              "roleStatus": "Status",
-              "selectUserroleStatus": "Select status",
-              "eicFunction": "Market role",
-              "selectEicFunctionStatus": "Select market role"
+            "tabLabel": "Master data",
+            "fieldRequiredErrorText": "Field is required.",
+            "nameMaxLengthErrorText": "Name field must be under 250 characters",
+            "name": "Name",
+            "description": "Description",
+            "roleStatus": "Status",
+            "selectUserroleStatus": "Select status",
+            "eicFunction": "Market role",
+            "selectEicFunctionStatus": "Select market role"
           },
           "permissions": {
-            "tabLabel":"Permissions",
-            "fieldRequiredErrorText":"Field is required."
+            "tabLabel": "Permissions",
+            "fieldRequiredErrorText": "Field is required."
           }
         }
       }

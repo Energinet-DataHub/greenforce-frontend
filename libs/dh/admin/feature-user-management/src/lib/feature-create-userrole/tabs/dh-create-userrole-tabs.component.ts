@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule, PushModule } from '@rx-angular/template';
@@ -52,7 +52,7 @@ import { EicFunction } from '@energinet-datahub/dh/shared/domain';
     DhCreateUserroleMasterdataTabComponent,
     DhCreateUserrolePermissionsTabComponent,
     WattCardModule,
-    WattSpinnerModule
+    WattSpinnerModule,
   ],
 })
 export class DhCreateUserroleTabsComponent {
@@ -64,5 +64,5 @@ export class DhCreateUserroleTabsComponent {
 
   onEicFunctionSelected = (eic: EicFunction) => {
     console.log(eic);
-  }
+  };
 }

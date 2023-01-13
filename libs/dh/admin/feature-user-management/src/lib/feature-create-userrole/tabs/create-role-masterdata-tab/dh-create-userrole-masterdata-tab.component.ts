@@ -62,25 +62,30 @@ import { Subject, takeUntil } from 'rxjs';
     WattDropdownModule,
   ],
 })
-export class DhCreateUserroleMasterdataTabComponent implements OnInit, OnDestroy {
+export class DhCreateUserroleMasterdataTabComponent
+  implements OnInit, OnDestroy
+{
   @Output() eicFunctionSelected = new EventEmitter<EicFunction>();
 
   userRoleStatusOptions: WattDropdownOptions = [];
   eicFunctionOptions: WattDropdownOptions = [];
-  eicFunctionControl = new FormControl<EicFunction>(EicFunction.Consumer, { validators: [Validators.required], nonNullable: true })
+  eicFunctionControl = new FormControl<EicFunction>(EicFunction.Consumer, {
+    validators: [Validators.required],
+    nonNullable: true,
+  });
   userRole = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.maxLength(250)]),
     description: new FormControl('', Validators.required),
-    roleStatus: new FormControl<UserRoleStatus>(UserRoleStatus.Inactive, Validators.required),
-    eicFunction: this.eicFunctionControl
+    roleStatus: new FormControl<UserRoleStatus>(
+      UserRoleStatus.Inactive,
+      Validators.required
+    ),
+    eicFunction: this.eicFunctionControl,
   });
-
 
   private destroy$ = new Subject<void>();
 
-  constructor(
-    private trans: TranslocoService,
-  ) {}
+  constructor(private trans: TranslocoService) {}
 
   ngOnInit(): void {
     this.buildUserRoleStatusOptions();
@@ -95,39 +100,39 @@ export class DhCreateUserroleMasterdataTabComponent implements OnInit, OnDestroy
     this.destroy$.complete();
   }
 
-  private buildUserRoleStatusOptions()
-  {
+  private buildUserRoleStatusOptions() {
     this.trans
-    .selectTranslateObject('admin.userManagement.roleStatus')
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (keys) => {
-        this.userRoleStatusOptions = Object.keys(UserRoleStatus).map((entry) => {
-          return {
-            value: entry,
-            displayValue: keys[entry.toLowerCase()],
-          };
-        })
-        .sort((a, b) => a.displayValue.localeCompare(b.displayValue));;
-      },
-    });
+      .selectTranslateObject('admin.userManagement.roleStatus')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (keys) => {
+          this.userRoleStatusOptions = Object.keys(UserRoleStatus)
+            .map((entry) => {
+              return {
+                value: entry,
+                displayValue: keys[entry.toLowerCase()],
+              };
+            })
+            .sort((a, b) => a.displayValue.localeCompare(b.displayValue));
+        },
+      });
   }
 
-  private buildEicFunctionOptions()
-  {
+  private buildEicFunctionOptions() {
     this.trans
-    .selectTranslateObject('marketParticipant.marketRoles')
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (keys) => {
-        this.eicFunctionOptions = Object.keys(EicFunction).map((entry) => {
-          return {
-            value: entry,
-            displayValue: keys[entry],
-          };
-        })
-        .sort((a, b) => a.displayValue.localeCompare(b.displayValue));;
-      },
-    });
+      .selectTranslateObject('marketParticipant.marketRoles')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (keys) => {
+          this.eicFunctionOptions = Object.keys(EicFunction)
+            .map((entry) => {
+              return {
+                value: entry,
+                displayValue: keys[entry],
+              };
+            })
+            .sort((a, b) => a.displayValue.localeCompare(b.displayValue));
+        },
+      });
   }
 }

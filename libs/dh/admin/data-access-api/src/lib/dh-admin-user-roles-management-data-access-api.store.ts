@@ -87,7 +87,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   );
 
   roleChanges$ = this.select((state) => state.roleChanges);
-  validation$ =this.select((state) => state.validation);
+  validation$ = this.select((state) => state.validation);
   constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
     super(initialState);
   }

@@ -26,7 +26,7 @@ limitations under the License.
 
   <watt-card *rxLet="isLoading$ as isLoading">
     <watt-card-title>
-        <h4>{{ t("headline") }}</h4>
+      <h4>{{ t("headline") }}</h4>
     </watt-card-title>
     <div class="spinner-container" *ngIf="isLoading">
       <watt-spinner></watt-spinner>
@@ -34,7 +34,7 @@ limitations under the License.
     <watt-tabs>
       <watt-tab [label]="t('tabs.masterdata.tabLabel')">
         <dh-create-userrole-masterdata-tab
-        (eicFunctionSelected)="onEicFunctionSelected($event)"
+          (eicFunctionSelected)="onEicFunctionSelected($event)"
         ></dh-create-userrole-masterdata-tab>
       </watt-tab>
       <watt-tab [label]="t('tabs.permissions.tabLabel')">

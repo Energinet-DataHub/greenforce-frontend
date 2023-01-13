@@ -16,19 +16,19 @@
  */
 import { Component } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { DhCreateUserroleTabsComponent } from "./tabs/dh-create-userrole-tabs.component";
+import { DhCreateUserroleTabsComponent } from './tabs/dh-create-userrole-tabs.component';
 
 @Component({
-    selector: 'dh-admin-create-userrole',
-    standalone: true,
-    template: `<dh-create-userrole-tabs></dh-create-userrole-tabs>`,
-    styles: [
-        `
+  selector: 'dh-admin-create-userrole',
+  standalone: true,
+  template: `<dh-create-userrole-tabs></dh-create-userrole-tabs>`,
+  styles: [
+    `
       :host {
         display: block;
       }
     `,
-    ],
-    imports: [TranslocoModule, DhCreateUserroleTabsComponent]
+  ],
+  imports: [TranslocoModule, DhCreateUserroleTabsComponent],
 })
 export class DhAdminCreateUserRoleComponent {}

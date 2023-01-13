@@ -22,13 +22,12 @@ import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { DhUsersTabComponent } from './users-tab/dh-users-tab.component';
 import { DhUserRolesTabComponent } from './roles-tab/dh-roles-tab.component';
 
-
 @Component({
-    selector: 'dh-tabs',
-    standalone: true,
-    templateUrl: './dh-tabs.component.html',
-    styles: [
-        `
+  selector: 'dh-tabs',
+  standalone: true,
+  templateUrl: './dh-tabs.component.html',
+  styles: [
+    `
       :host {
         display: block;
       }

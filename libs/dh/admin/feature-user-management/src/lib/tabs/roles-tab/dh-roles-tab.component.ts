@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -24,7 +29,11 @@ import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-pa
 
 import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
 import { Router } from '@angular/router';
-import { dhAdminPath, dhAdminUserManagementPath, dhAdminUserRoleManagementCreatePath } from '@energinet-datahub/dh/admin/routing';
+import {
+  dhAdminPath,
+  dhAdminUserManagementPath,
+  dhAdminUserRoleManagementCreatePath,
+} from '@energinet-datahub/dh/admin/routing';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.component';
 import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-general-error.component';
@@ -62,9 +71,7 @@ import {
 })
 export class DhUserRolesTabComponent {
   @Input() roles: UserRoleDto[] = [];
-  constructor(
-    private router: Router
-  ) {}
+  constructor(private router: Router) {}
 
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
   roles$ = this.store.rolesFiltered$;
@@ -93,5 +100,4 @@ export class DhUserRolesTabComponent {
 
     this.router.navigateByUrl(url);
   };
-
 }
