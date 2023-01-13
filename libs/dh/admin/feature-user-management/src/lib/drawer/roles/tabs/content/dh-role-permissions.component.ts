@@ -30,20 +30,15 @@ import {
   selector: 'dh-role-permissions',
   standalone: true,
   templateUrl: './dh-role-permissions.component.html',
-  styles: [
-    `
-    `,
-  ],
-  imports: [
-    WATT_TABLE,
-    WattCardModule,
-    TranslocoModule],
+  styles: [``],
+  imports: [WATT_TABLE, WattCardModule, TranslocoModule],
 })
 export class DhRolePermissionsComponent implements OnChanges {
   @Input() role: UserRoleWithPermissionsDto | null = null;
 
-  readonly dataSource: WattTableDataSource<string> =
-    new WattTableDataSource(undefined);
+  readonly dataSource: WattTableDataSource<string> = new WattTableDataSource(
+    undefined
+  );
 
   columns: WattTableColumnDef<string> = {
     name: { accessor: 0, cell: (row: string) => row },

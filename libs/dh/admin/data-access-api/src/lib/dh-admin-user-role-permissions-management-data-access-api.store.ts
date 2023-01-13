@@ -61,19 +61,21 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
         this.setLoading(LoadingState.LOADING);
       }),
       switchMap(() =>
-        this.httpClientUserRole.v1MarketParticipantUserRoleGetUserRoleWithPermissionsGet().pipe(
-          tapResponse(
-            (response) => {
-              this.updateUserRole(response);
-              this.setLoading(LoadingState.LOADED);
-            },
-            () => {
-              this.setLoading(LoadingState.LOADED);
-              this.updateUserRole(null);
-              this.handleError();
-            }
+        this.httpClientUserRole
+          .v1MarketParticipantUserRoleGetUserRoleWithPermissionsGet()
+          .pipe(
+            tapResponse(
+              (response) => {
+                this.updateUserRole(response);
+                this.setLoading(LoadingState.LOADED);
+              },
+              () => {
+                this.setLoading(LoadingState.LOADED);
+                this.updateUserRole(null);
+                this.handleError();
+              }
+            )
           )
-        )
       )
     )
   );
@@ -89,7 +91,10 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
   );
 
   private setLoading = this.updater(
-    (state, loadingState: LoadingState): DhUserRoleWithPermissionsManagementState => ({
+    (
+      state,
+      loadingState: LoadingState
+    ): DhUserRoleWithPermissionsManagementState => ({
       ...state,
       requestState: loadingState,
     })

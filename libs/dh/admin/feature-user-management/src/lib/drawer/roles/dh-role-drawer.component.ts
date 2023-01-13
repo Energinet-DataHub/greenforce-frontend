@@ -50,7 +50,9 @@ import { PushModule } from '@rx-angular/template';
     `,
   ],
   providers: [
-    provideComponentStore(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore),
+    provideComponentStore(
+      DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
+    ),
   ],
   imports: [
     CommonModule,
@@ -60,11 +62,13 @@ import { PushModule } from '@rx-angular/template';
     DhTabsComponent,
     DhRoleStatusComponent,
     DhDrawerRoleTabsComponent,
-    PushModule
+    PushModule,
   ],
 })
 export class DhRoleDrawerComponent {
-  private readonly store = inject(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore);
+  private readonly store = inject(
+    DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
+  );
 
   userRoleWithPermissions$ = this.store.userRole$;
 
