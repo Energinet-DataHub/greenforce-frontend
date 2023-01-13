@@ -29,14 +29,16 @@ import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component';
 import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
-import { PushModule } from '@rx-angular/template';
+import { LetModule, PushModule } from '@rx-angular/template';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { DhTabDataGeneralErrorComponent } from "../../tabs/general-error/dh-tab-data-general-error.component";
 
 @Component({
-  selector: 'dh-role-drawer',
-  standalone: true,
-  templateUrl: './dh-role-drawer.component.html',
-  styles: [
-    `
+    selector: 'dh-role-drawer',
+    standalone: true,
+    templateUrl: './dh-role-drawer.component.html',
+    styles: [
+        `
       .role-name__grid {
         display: flex;
         align-items: center;
@@ -48,20 +50,23 @@ import { PushModule } from '@rx-angular/template';
         margin: 0;
       }
     `,
-  ],
-  providers: [
-    provideComponentStore(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore),
-  ],
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    WattDrawerModule,
-    WattButtonModule,
-    DhTabsComponent,
-    DhRoleStatusComponent,
-    DhDrawerRoleTabsComponent,
-    PushModule
-  ],
+    ],
+    providers: [
+        provideComponentStore(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore),
+    ],
+    imports: [
+        CommonModule,
+        TranslocoModule,
+        WattDrawerModule,
+        WattButtonModule,
+        DhTabsComponent,
+        DhRoleStatusComponent,
+        DhDrawerRoleTabsComponent,
+        PushModule,
+        LetModule,
+        WattSpinnerModule,
+        DhTabDataGeneralErrorComponent
+    ]
 })
 export class DhRoleDrawerComponent {
   private readonly store = inject(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore);
@@ -84,6 +89,12 @@ export class DhRoleDrawerComponent {
   open(role: UserRoleDto): void {
     this.basicUserRole = role;
     this.drawer.open();
-    this.store.getUserRole(this.basicUserRole.id);
+    this.loadUserRoleWithPermissions();
+  }
+
+  loadUserRoleWithPermissions() {
+    if(this.basicUserRole) {
+      this.store.getUserRole(this.basicUserRole.id);
+    }
   }
 }

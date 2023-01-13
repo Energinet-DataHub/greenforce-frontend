@@ -30,7 +30,21 @@ limitations under the License.
           [status]="basicUserRole.status"
         ></dh-role-status>
       </div>
-      <dh-drawer-role-tabs [role]="this.userRoleWithPermissions$ | push"></dh-drawer-role-tabs>
+      <ng-container *rxLet="isLoading$ as isLoading">
+        <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+          <dh-drawer-role-tabs *ngIf="!isLoading && !hasGeneralError" [role]="this.userRoleWithPermissions$ | push"></dh-drawer-role-tabs>
+
+          <div *ngIf="isLoading" class="user-roles__spinner">
+            <watt-spinner></watt-spinner>
+          </div>
+
+          <div *ngIf="!isLoading && hasGeneralError" class="user-roles__error">
+            <dh-tab-data-general-error
+              (reload)="loadUserRoleWithPermissions()"
+            ></dh-tab-data-general-error>
+          </div>
+        </ng-container>
+      </ng-container>
     </watt-drawer-content>
   </watt-drawer>
 </ng-container>
