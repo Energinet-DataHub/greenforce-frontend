@@ -24,11 +24,11 @@ import {
 } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
-  UserRoleInfoDto,
+  UserRoleDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserRolesManagementState {
-  readonly roles: UserRoleInfoDto[];
+  readonly roles: UserRoleDto[];
   readonly requestState: LoadingState | ErrorState;
 }
 
@@ -81,7 +81,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   private updateUserRoles = this.updater(
     (
       state: DhUserRolesManagementState,
-      response: UserRoleInfoDto[]
+      response: UserRoleDto[]
     ): DhUserRolesManagementState => ({
       ...state,
       roles: response,
