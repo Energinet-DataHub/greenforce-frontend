@@ -15,12 +15,11 @@
  * limitations under the License.
  */
 import { BrowserUtils } from '@azure/msal-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
   MsalGuard,
-  MsalInterceptor,
   MsalModule,
   MsalService,
   MSAL_GUARD_CONFIG,
@@ -51,8 +50,8 @@ import { WattToastModule } from '@energinet-datahub/watt/toast';
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
 import { WHOLESALE_BASE_PATH } from '@energinet-datahub/dh/wholesale/routing';
-import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhAdminPath } from '@energinet-datahub/dh/admin/routing';
+import { dhAuthorizationInterceptor, guardedMsalInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 
 const routes: Routes = [
   {
@@ -145,12 +144,8 @@ const routes: Routes = [
   ],
   providers: [
     MsalService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MsalInterceptor,
-      multi: true,
-    },
     // dhAuthorizationInterceptor must be registered after Msal
+    guardedMsalInterceptor,
     dhAuthorizationInterceptor,
     {
       provide: MSAL_INSTANCE,
