@@ -31,7 +31,7 @@ import { UserStatus } from '@energinet-datahub/dh/shared/domain';
       t('active')
     }}</watt-badge>
 
-    <watt-badge *ngIf="status !== 'Active'" type="warning">{{
+    <watt-badge *ngIf="status === 'Inactive'" type="warning">{{
       t('inactive')
     }}</watt-badge>
   </ng-container>`,
