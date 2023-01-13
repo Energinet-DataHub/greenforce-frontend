@@ -40,7 +40,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("Get")]
+        [Route("GetUserRoleWithPermissions")]
         public Task<ActionResult<UserRoleWithPermissionsDto>> GetUserRoleWithPermissionsAsync(Guid userRoleId)
         {
             return HandleExceptionAsync(() => _client.GetAsync(userRoleId));
