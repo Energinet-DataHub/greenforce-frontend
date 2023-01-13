@@ -51,7 +51,10 @@ import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
 import { WHOLESALE_BASE_PATH } from '@energinet-datahub/dh/wholesale/routing';
 import { dhAdminPath } from '@energinet-datahub/dh/admin/routing';
-import { dhAuthorizationInterceptor, guardedMsalInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  dhAuthorizationInterceptor,
+  guardedMsalInterceptor,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 
 const routes: Routes = [
   {
