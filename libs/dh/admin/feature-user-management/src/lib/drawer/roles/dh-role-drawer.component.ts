@@ -18,7 +18,6 @@ import { Component, inject, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
-
 import {
   WattDrawerComponent,
   WattDrawerModule,
@@ -48,6 +47,18 @@ import { DhTabDataGeneralErrorComponent } from "../../tabs/general-error/dh-tab-
 
       .role-name__headline {
         margin: 0;
+      }
+
+      .user-role {
+        &__spinner {
+          display: flex;
+          justify-content: center;
+          padding: var(--watt-space-l) 0;
+        }
+
+        &__error {
+          padding: var(--watt-space-xl) 0;
+        }
       }
     `,
     ],

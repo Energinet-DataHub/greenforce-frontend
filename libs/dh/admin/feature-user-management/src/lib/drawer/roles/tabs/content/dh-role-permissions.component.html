@@ -17,9 +17,7 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.rights'">
   <watt-card>
     <watt-card-title>
-      <div class="card-title-container">
-        <h4>{{ t("tabLabel") }} ({{ role?.permissions?.length }})</h4>
-      </div>
+      <h4>{{ t("tabLabel") }} ({{ role?.permissions?.length }})</h4>
     </watt-card-title>
 
     <watt-table
