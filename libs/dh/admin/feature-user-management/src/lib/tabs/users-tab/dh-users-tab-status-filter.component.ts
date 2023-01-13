@@ -63,7 +63,6 @@ import { UserStatus } from '@energinet-datahub/dh/shared/domain';
     TranslocoModule,
     ReactiveFormsModule,
     WattFormFieldModule,
-    WattFormFieldModule,
     WattDropdownModule,
   ],
 })

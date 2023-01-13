@@ -28,8 +28,9 @@ import { DhUsersTabComponent } from './dh-users-tab.component';
 import { searchDebounceTimeMs } from './dh-users-tab-search.component';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatSelectHarness } from '@angular/material/select/testing';
+import { UserStatus } from '@energinet-datahub/dh/shared/domain';
 
-describe('DhUsersTabComponent.name', () => {
+describe(DhUsersTabComponent.name, () => {
   async function setup() {
     const storeMock = MockProvider(
       DhAdminUserManagementDataAccessApiStore,
@@ -79,13 +80,13 @@ describe('DhUsersTabComponent.name', () => {
     await matSelect.open();
     const options = await matSelect.getOptions();
 
-    // TODO: Use list.
-    await options[1].click();
-    await options[2].click();
+    for (const option of options) {
+      // Skip empty placeholder.
+      if ((await option.getText()) === '') continue;
+      await option.click();
+    }
 
-    expect(store.updateStatusFilter).toHaveBeenCalledWith([
-      'Active',
-      'Inactive',
-    ]);
+    const allOptions = Object.keys(UserStatus);
+    expect(store.updateStatusFilter).toHaveBeenCalledWith(allOptions);
   }));
 });
