@@ -62,14 +62,12 @@ export class DhUserRolesTabComponent {
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
-  updateFilterStatus(status: string | null) {
-    const statusParsed = status as UserRoleStatus;
-    this.store.setFilterStatus(statusParsed);
+  updateFilterStatus(status: UserRoleStatus | null) {
+    this.store.setFilterStatus(status);
   }
 
-  updateFilterEicFunction(eicFunctions: string[] | null) {
-    const eicFunctionParsed = eicFunctions as EicFunction[];
-    this.store.setFilterEicFunction(eicFunctionParsed);
+  updateFilterEicFunction(eicFunctions: EicFunction[] | null) {
+    this.store.setFilterEicFunction(eicFunctions);
   }
 
   reloadRoles(): void {

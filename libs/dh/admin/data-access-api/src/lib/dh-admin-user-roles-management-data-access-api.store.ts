@@ -32,18 +32,13 @@ import {
 interface DhUserRolesManagementState {
   readonly roles: UserRoleInfoDto[];
   readonly requestState: LoadingState | ErrorState;
-  readonly filterModel: RolesFilterModel;
-}
-
-class RolesFilterModel {
-  status: UserRoleStatus = 'Active';
-  eicFunctions: EicFunction[] = [];
+  readonly filterModel: { status: UserRoleStatus | null, eicFunctions: EicFunction[] | null };
 }
 
 const initialState: DhUserRolesManagementState = {
   roles: [],
   requestState: LoadingState.INIT,
-  filterModel: new RolesFilterModel(),
+  filterModel: { status: 'Active', eicFunctions: [] }
 };
 
 @Injectable()
@@ -104,11 +99,11 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   readonly setFilterStatus = this.updater(
     (
       state: DhUserRolesManagementState,
-      status: UserRoleStatus
+      statusUpdate: UserRoleStatus | null
     ): DhUserRolesManagementState => ({
       ...state,
       filterModel: {
-        status: status,
+        status: statusUpdate,
         eicFunctions: state.filterModel.eicFunctions,
       },
     })
@@ -117,7 +112,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   readonly setFilterEicFunction = this.updater(
     (
       state: DhUserRolesManagementState,
-      eicFunctions: EicFunction[]
+      eicFunctions: EicFunction[] | null
     ): DhUserRolesManagementState => ({
       ...state,
       filterModel: {

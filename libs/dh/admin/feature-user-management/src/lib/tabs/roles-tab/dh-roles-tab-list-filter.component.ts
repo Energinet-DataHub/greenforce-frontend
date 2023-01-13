@@ -63,11 +63,11 @@ import {
 export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
-  @Output() statusChanged = new EventEmitter<string | null>();
-  @Output() eicFunctionChanged = new EventEmitter<string[] | null>();
+  @Output() statusChanged = new EventEmitter<UserRoleStatus | null>();
+  @Output() eicFunctionChanged = new EventEmitter<EicFunction[] | null>();
 
-  statusFormControl = new FormControl<string | null>(null);
-  eicFunctionFormControl = new FormControl<string[] | null>(null);
+  statusFormControl = new FormControl<UserRoleStatus | null>(null);
+  eicFunctionFormControl = new FormControl<EicFunction[] | null>(null);
 
   statusListOptions: WattDropdownOption[] = Object.keys(UserRoleStatus).map(
     (key) => ({
@@ -92,7 +92,7 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((e) => this.eicFunctionChanged.emit(e));
 
-    this.statusFormControl.setValue(this.statusListOptions[0].value);
+    this.statusFormControl.setValue(this.statusListOptions[0].value as UserRoleStatus);
   }
 
   ngOnDestroy(): void {
