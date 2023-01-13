@@ -26,6 +26,9 @@ import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/a
 
 import { DhUsersTabComponent } from './dh-users-tab.component';
 import { searchDebounceTimeMs } from './dh-users-tab-search.component';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { MatSelectHarness } from '@angular/material/select/testing';
+import { UserStatus } from '@energinet-datahub/dh/shared/domain';
 
 describe(DhUsersTabComponent.name, () => {
   async function setup() {
@@ -33,6 +36,7 @@ describe(DhUsersTabComponent.name, () => {
       DhAdminUserManagementDataAccessApiStore,
       {
         updateSearchText: jest.fn(),
+        updateStatusFilter: jest.fn(),
       },
       'useValue'
     );
@@ -48,9 +52,13 @@ describe(DhUsersTabComponent.name, () => {
 
     const store = TestBed.inject(DhAdminUserManagementDataAccessApiStore);
 
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    const matSelect = await loader.getHarness(MatSelectHarness);
+
     return {
       fixture,
       store,
+      matSelect,
     };
   }
 
@@ -64,5 +72,21 @@ describe(DhUsersTabComponent.name, () => {
     tick(searchDebounceTimeMs);
 
     expect(store.updateSearchText).toHaveBeenCalledWith(inputValue);
+  }));
+
+  it('forwards status filter value to store', fakeAsync(async () => {
+    const { store, matSelect } = await setup();
+
+    await matSelect.open();
+    const options = await matSelect.getOptions();
+
+    for (const option of options) {
+      // Skip empty placeholder.
+      if ((await option.getText()) === '') continue;
+      await option.click();
+    }
+
+    const allOptions = Object.keys(UserStatus);
+    expect(store.updateStatusFilter).toHaveBeenCalledWith(allOptions);
   }));
 });

@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
+import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 
 import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
@@ -43,8 +43,7 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
   ],
 })
 export class DhUserRolesTabComponent {
-  @Input() roles: UserRoleInfoDto[] = [];
-
+  @Input() roles: UserRoleDto[] = [];
   constructor(
     private router: Router
   ) {}
@@ -53,9 +52,10 @@ export class DhUserRolesTabComponent {
     const url = this.router.createUrlTree([
       dhAdminPath,
       dhAdminUserManagementPath,
-      dhAdminUserRoleManagementCreatePath,
     ]);
+      dhAdminUserRoleManagementCreatePath,
 
     this.router.navigateByUrl(url);
   };
+
 }

@@ -14,9 +14,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<dh-users-tab-search (search)="onSearch($event)"></dh-users-tab-search>
-
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
+  <div class="filter-container">
+    <dh-users-tab-search (search)="onSearch($event)"></dh-users-tab-search>
+    <dh-users-tab-status-filter
+      [initialValue]="initialStatusFilter$ | push"
+      (changed)="onStatusChanged($event)"
+    ></dh-users-tab-status-filter>
+  </div>
+
   <watt-card>
     <watt-card-title>
       <div class="card-title__container">
@@ -65,7 +71,7 @@ limitations under the License.
       {{ t("singular", { usersCount: usersCount }) }}
     </h4>
 
-    <h4 *ngIf="usersCount === 0 || usersCount > 0">
+    <h4 *ngIf="usersCount !== 1">
       {{ t("plural", { usersCount: usersCount }) }}
     </h4>
   </ng-container>

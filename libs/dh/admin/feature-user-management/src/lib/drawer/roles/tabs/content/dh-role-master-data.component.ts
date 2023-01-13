@@ -18,7 +18,7 @@ import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
+import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-role-master-data',
@@ -49,5 +49,5 @@ import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
   imports: [WattCardModule, TranslocoModule],
 })
 export class DhRoleMasterDataComponent {
-  @Input() role: UserRoleInfoDto | null = null;
+  @Input() role: UserRoleDto | null = null;
 }

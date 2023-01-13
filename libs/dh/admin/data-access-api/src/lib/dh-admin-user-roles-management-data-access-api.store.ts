@@ -24,9 +24,9 @@ import {
 import {
   EicFunction,
   MarketParticipantUserRoleHttp,
-  UserRoleInfoDto,
   UserRoleStatus,
   CreateUserRoleDto,
+  UserRoleDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 export interface UserRoleChanges {
@@ -37,7 +37,7 @@ export interface UserRoleChanges {
   permissions: Array<string>;
 }
 interface DhUserRolesManagementState {
-  readonly roles: UserRoleInfoDto[];
+  readonly roles: UserRoleDto[];
   roleChanges: UserRoleChanges;
   readonly requestState: LoadingState | ErrorState;
   validation?: { error: string };
@@ -122,7 +122,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   private updateUserRoles = this.updater(
     (
       state: DhUserRolesManagementState,
-      response: UserRoleInfoDto[]
+      response: UserRoleDto[]
     ): DhUserRolesManagementState => ({
       ...state,
       roles: response,
