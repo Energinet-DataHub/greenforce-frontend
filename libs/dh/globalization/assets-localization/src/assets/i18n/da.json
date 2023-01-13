@@ -926,10 +926,21 @@
         }
       },
       "createrole": {
-        "title": "Create Userrole",
+        "headline": "Create Userrole",
         "tabs": {
           "masterdata": {
-            "title": "Stamdata"
+            "tabLabel":"Master data",
+            "fieldRequiredErrorText": "Field is required.",
+            "nameMaxLengthErrorText": "Name field must be under 250 characters",
+            "name": "Name",
+            "description": "Description",
+            "roleStatus": "Status",
+            "selectUserroleStatus": "Select status",
+            "eicFunction": "Market role",
+            "selectEicFunctionStatus": "Select market role"
+          },
+          "permissions": {
+            "tabLabel":"Permissions"
           }
         }
       }

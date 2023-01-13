@@ -17,7 +17,10 @@
 import { Routes } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { dhAdminUserManagementPath, dhAdminUserRoleManagementCreatePath } from '@energinet-datahub/dh/admin/routing';
+import {
+  dhAdminUserManagementPath,
+  dhAdminUserRoleManagementCreatePath,
+} from '@energinet-datahub/dh/admin/routing';
 import { DhAdminCreateUserRoleComponent } from '@energinet-datahub/dh/admin/feature-user-management';
 
 export const routes: Routes = [
@@ -28,18 +31,24 @@ export const routes: Routes = [
   },
   {
     path: dhAdminUserManagementPath,
-    loadComponent: () =>
-      import('@energinet-datahub/dh/admin/feature-user-management').then(
-        (m) => m.DhAdminFeatureUserManagementComponent
-      ),
-    canActivate: [PermissionGuard(['users:manage'])],
-    data: {
-      titleTranslationKey: 'admin.userManagement.topBarTitle',
-    },
-  },
-  {
-    path: dhAdminUserRoleManagementCreatePath,
-    canActivate: [PermissionGuard(['users:manage'])],
-    component: DhAdminCreateUserRoleComponent,
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        loadComponent: () =>
+          import('@energinet-datahub/dh/admin/feature-user-management').then(
+            (m) => m.DhAdminFeatureUserManagementComponent
+          ),
+        canActivate: [PermissionGuard(['users:manage'])],
+        data: {
+          titleTranslationKey: 'admin.userManagement.topBarTitle',
+        },
+      },
+      {
+        path: dhAdminUserRoleManagementCreatePath,
+        canActivate: [PermissionGuard(['users:manage'])],
+        component: DhAdminCreateUserRoleComponent,
+      },
+    ],
   },
 ];

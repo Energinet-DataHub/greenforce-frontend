@@ -18,16 +18,10 @@ limitations under the License.
   *transloco="let t; read: 'admin.userManagement.createrole.tabs.masterdata'"
 >
   <watt-card>
-    <watt-card-title>
-        <h4>
-          {{ t("title") }}
-        </h4>
-    </watt-card-title>
-    <div class="form">
-      <div class="form-container">
+    <div [formGroup]="userRole">
         <!-- Name -->
-        <watt-form-field class="charge-type">
-          <watt-label>{{ t("name") }} *</watt-label>
+        <watt-form-field>
+          <watt-label>{{ t("name") }}</watt-label>
           <input wattInput type="text" formControlName="name" required />
           <watt-error *ngIf="userRole.controls['name'].hasError('required')">
             {{ t("fieldRequiredErrorText") }}
@@ -37,8 +31,8 @@ limitations under the License.
           </watt-error>
         </watt-form-field>
         <!-- Description -->
-        <watt-form-field class="charge-type">
-          <watt-label>{{ t("description") }} *</watt-label>
+        <watt-form-field>
+          <watt-label>{{ t("description") }}</watt-label>
           <input wattInput type="text" formControlName="description" required />
           <watt-error
             *ngIf="userRole.controls['description'].hasError('required')"
@@ -47,21 +41,35 @@ limitations under the License.
           </watt-error>
         </watt-form-field>
         <!-- Userrole status -->
-        <watt-form-field class="charge-type">
-          <watt-label>{{ t("status") }} *</watt-label>
+        <watt-form-field>
+          <watt-label>{{ t("roleStatus") }}</watt-label>
           <watt-dropdown
-            formControlName="status"
+            formControlName="roleStatus"
             [options]="userRoleStatusOptions"
-            name="chargeType"
+            name="status"
             [showResetOption]="false"
             [placeholder]="t('selectUserroleStatus')"
           >
           </watt-dropdown>
-          <watt-error *ngIf="userRole.controls['status'].hasError('required')">
+          <watt-error *ngIf="userRole.controls['roleStatus'].hasError('required')">
             {{ t("fieldRequiredErrorText") }}
           </watt-error>
         </watt-form-field>
-      </div>
+         <!-- Eic Function -->
+         <watt-form-field>
+          <watt-label>{{ t("eicFunction") }}</watt-label>
+          <watt-dropdown
+            formControlName="eicFunction"
+            [options]="eicFunctionOptions"
+            name="eicFunction"
+            [showResetOption]="false"
+            [placeholder]="t('selectEicFunctionStatus')"
+          >
+          </watt-dropdown>
+          <watt-error *ngIf="userRole.controls['eicFunction'].hasError('required')">
+            {{ t("fieldRequiredErrorText") }}
+          </watt-error>
+        </watt-form-field>
     </div>
   </watt-card>
 </ng-container>

@@ -52,8 +52,8 @@ export class DhUserRolesTabComponent {
     const url = this.router.createUrlTree([
       dhAdminPath,
       dhAdminUserManagementPath,
-    ]);
       dhAdminUserRoleManagementCreatePath,
+    ]);
 
     this.router.navigateByUrl(url);
   };

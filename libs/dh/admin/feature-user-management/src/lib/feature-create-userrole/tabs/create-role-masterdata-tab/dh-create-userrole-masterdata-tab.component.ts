@@ -17,9 +17,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import {
@@ -39,6 +43,7 @@ import {
   EicFunction,
   UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'dh-create-userrole-masterdata-tab',
@@ -57,14 +62,72 @@ import {
     WattDropdownModule,
   ],
 })
-export class DhCreateUserroleMasterdataTabComponent {
+export class DhCreateUserroleMasterdataTabComponent implements OnInit, OnDestroy {
+  @Output() eicFunctionSelected = new EventEmitter<EicFunction>();
+
   userRoleStatusOptions: WattDropdownOptions = [];
+  eicFunctionOptions: WattDropdownOptions = [];
+  eicFunctionControl = new FormControl<EicFunction>(EicFunction.Consumer, { validators: [Validators.required], nonNullable: true })
   userRole = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.maxLength(250)]),
     description: new FormControl('', Validators.required),
-    status: new FormControl(UserRoleStatus.Inactive, Validators.required),
-    eicFunction: new FormControl(EicFunction.Consumer, Validators.required),
+    roleStatus: new FormControl<UserRoleStatus>(UserRoleStatus.Inactive, Validators.required),
+    eicFunction: this.eicFunctionControl
   });
 
-  hasSubmitted = false;
+
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    private trans: TranslocoService,
+  ) {}
+
+  ngOnInit(): void {
+    this.buildUserRoleStatusOptions();
+    this.buildEicFunctionOptions();
+    this.eicFunctionControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => this.eicFunctionSelected.emit(value));
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private buildUserRoleStatusOptions()
+  {
+    this.trans
+    .selectTranslateObject('admin.userManagement.roleStatus')
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (keys) => {
+        this.userRoleStatusOptions = Object.keys(UserRoleStatus).map((entry) => {
+          return {
+            value: entry,
+            displayValue: keys[entry.toLowerCase()],
+          };
+        })
+        .sort((a, b) => a.displayValue.localeCompare(b.displayValue));;
+      },
+    });
+  }
+
+  private buildEicFunctionOptions()
+  {
+    this.trans
+    .selectTranslateObject('marketParticipant.marketRoles')
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (keys) => {
+        this.eicFunctionOptions = Object.keys(EicFunction).map((entry) => {
+          return {
+            value: entry,
+            displayValue: keys[entry],
+          };
+        })
+        .sort((a, b) => a.displayValue.localeCompare(b.displayValue));;
+      },
+    });
+  }
 }

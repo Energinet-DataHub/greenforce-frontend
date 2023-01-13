@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'admin.userManagement.createrole.tabs'">
+<ng-container *transloco="let t; read: 'admin.userManagement.createrole'">
   <ng-container *rxLet="validation$ as validation">
     <watt-validation-message
       type="danger"
@@ -26,16 +26,18 @@ limitations under the License.
 
   <watt-card *rxLet="isLoading$ as isLoading">
     <watt-card-title>
-        <h4>{{ t("rolesHeadline") }}</h4>
+        <h4>{{ t("headline") }}</h4>
     </watt-card-title>
     <div class="spinner-container" *ngIf="isLoading">
       <watt-spinner></watt-spinner>
     </div>
     <watt-tabs>
-      <watt-tab [label]="t('users.tabLabel')">
-        <dh-create-userrole-masterdata-tab></dh-create-userrole-masterdata-tab>
+      <watt-tab [label]="t('tabs.masterdata.tabLabel')">
+        <dh-create-userrole-masterdata-tab
+        (eicFunctionSelected)="onEicFunctionSelected($event)"
+        ></dh-create-userrole-masterdata-tab>
       </watt-tab>
-      <watt-tab [label]="t('users.tabLabel')">
+      <watt-tab [label]="t('tabs.permissions.tabLabel')">
         <dh-create-userrole-permissions-tab></dh-create-userrole-permissions-tab>
       </watt-tab>
     </watt-tabs>

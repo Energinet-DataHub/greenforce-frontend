@@ -26,6 +26,7 @@ import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { provideComponentStore } from '@ngrx/component-store';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-create-userrole-tabs',
@@ -60,4 +61,8 @@ export class DhCreateUserroleTabsComponent {
   hasGeneralError$ = this.store.hasGeneralError$;
   validation$ = this.store.validation$;
   roleChanges$ = this.store.roleChanges$;
+
+  onEicFunctionSelected = (eic: EicFunction) => {
+    console.log(eic);
+  }
 }
