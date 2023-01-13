@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, tap } from 'rxjs';
+import { Observable, of, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -155,6 +155,9 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     searchText,
     statusFilter,
   }: FetchUsersParams) {
+    if (!statusFilter || statusFilter.length == 0)
+      return of({ users: [], totalUserCount: 0 });
+
     return this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
       pageNumber,
       pageSize,
