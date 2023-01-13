@@ -9,16 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { UserStatus } from './user-status';
 
 
-export interface UserOverviewItemDto { 
-    id: string;
-    status: UserStatus;
-    name: string;
-    email: string;
-    phoneNumber?: string | null;
-    createdDate: string;
-}
+export type UserStatus = 'Active' | 'Inactive';
 
+export const UserStatus = {
+    Active: 'Active' as UserStatus,
+    Inactive: 'Inactive' as UserStatus
+};
 
