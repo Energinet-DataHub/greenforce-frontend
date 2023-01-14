@@ -31,7 +31,7 @@ limitations under the License.
     <div class="spinner-container" *ngIf="isLoading">
       <watt-spinner></watt-spinner>
     </div>
-    <form (ngSubmit)="onSubmit()">
+    <form [formGroup]="createRoleForm" (ngSubmit)="onSubmit()">
       <watt-tabs>
         <watt-tab [label]="t('tabs.masterdata.tabLabel')">
           <dh-create-userrole-masterdata-tab

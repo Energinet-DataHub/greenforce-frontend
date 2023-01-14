@@ -40,8 +40,8 @@ import {
   WattDropdownOptions,
 } from '@energinet-datahub/watt/dropdown';
 import {
+  CreateUserRoleDto,
   EicFunction,
-  UserRoleDto,
   UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { defer, map, of, startWith, Subject, takeUntil } from 'rxjs';
@@ -92,7 +92,7 @@ export class DhCreateUserroleMasterdataTabComponent
     this.userRoleForm.valueChanges.pipe(
       startWith(this.userRoleForm.value),
       map(
-        (formValue): Partial<UserRoleDto> => ({
+        (formValue): Partial<CreateUserRoleDto> => ({
           name: formValue.name,
           description: formValue.description,
           eicFunction: formValue.eicFunction,

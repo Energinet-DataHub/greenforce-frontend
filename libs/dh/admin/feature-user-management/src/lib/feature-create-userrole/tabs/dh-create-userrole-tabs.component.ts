@@ -26,16 +26,15 @@ import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { provideComponentStore } from '@ngrx/component-store';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { EicFunction, UserRoleDto } from '@energinet-datahub/dh/shared/domain';
+import { CreateUserRoleDto, EicFunction} from '@energinet-datahub/dh/shared/domain';
 import { Router } from '@angular/router';
 import {
   dhAdminPath,
   dhAdminUserManagementPath,
 } from '@energinet-datahub/dh/admin/routing';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { ObservedValueOf } from 'rxjs';
-import { FormBuilder } from '@angular/forms';
-import { UserRoleInfoDto } from '../../../../../../shared/domain/src/lib/generated/v1/model/user-role-info-dto';
+import { ObservedValueOf} from 'rxjs';
+import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 interface CreateRoleForm {
   masterData?: ObservedValueOf<
@@ -68,6 +67,8 @@ interface CreateRoleForm {
     WattCardModule,
     WattSpinnerModule,
     WattButtonModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
 })
 export class DhCreateUserroleTabsComponent implements OnInit {
@@ -75,9 +76,8 @@ export class DhCreateUserroleTabsComponent implements OnInit {
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
   validation$ = this.store.validation$;
-  roleChanges$ = this.store.roleChanges$;
   createRoleForm = this.fb.group<CreateRoleForm>({});
-  userRole?: UserRoleDto;
+  userRole?: CreateUserRoleDto;
 
   onEicFunctionSelected = (eic: EicFunction) => {
     console.log(eic);
@@ -86,7 +86,13 @@ export class DhCreateUserroleTabsComponent implements OnInit {
   constructor(private router: Router, private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.userRole = { name: '', description: '', id: '', eicFunction: 'Agent', status: 'Active' };
+    this.userRole = {
+      name: '',
+      description: '',
+      eicFunction: 'Agent',
+      status: 'Active',
+      permissions: []
+    };
   }
 
   private readonly backToOverview = () => {
@@ -99,11 +105,11 @@ export class DhCreateUserroleTabsComponent implements OnInit {
   };
 
   onSubmit() {
-    if (!this.userRole) throw new Error("Missing user");
-    Object.assign(this.roleChanges$, this.userRole)
+    if (!this.userRole) throw new Error('Missing user');
+    console.log(this.userRole);
+    //Object.assign(this.roleChanges$, this.userRole);
     this.store.save(this.backToOverview);
   }
-
 
   addChildForm<K extends keyof CreateRoleForm>(
     name: K,
@@ -112,9 +118,8 @@ export class DhCreateUserroleTabsComponent implements OnInit {
     this.createRoleForm.setControl(name, group);
   }
 
-  patchUserRole(patch: Partial<UserRoleDto>) {
-    if (!this.userRole) throw new Error("Missing user");
-    console.log(patch);
+  patchUserRole(patch: Partial<CreateUserRoleDto>) {
+    if (!this.userRole) throw new Error('Missing user');
     this.userRole = { ...this.userRole, ...patch };
   }
 }
