@@ -27,6 +27,9 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { provideComponentStore } from '@ngrx/component-store';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain';
+import { Router } from '@angular/router';
+import { dhAdminPath, dhAdminUserManagementPath } from '@energinet-datahub/dh/admin/routing';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 @Component({
   selector: 'dh-create-userrole-tabs',
@@ -53,6 +56,7 @@ import { EicFunction } from '@energinet-datahub/dh/shared/domain';
     DhCreateUserrolePermissionsTabComponent,
     WattCardModule,
     WattSpinnerModule,
+    WattButtonModule
   ],
 })
 export class DhCreateUserroleTabsComponent {
@@ -61,8 +65,24 @@ export class DhCreateUserroleTabsComponent {
   hasGeneralError$ = this.store.hasGeneralError$;
   validation$ = this.store.validation$;
   roleChanges$ = this.store.roleChanges$;
-
   onEicFunctionSelected = (eic: EicFunction) => {
     console.log(eic);
+  }
+
+  constructor(
+    private router: Router
+  ) {}
+
+  private readonly backToOverview = () => {
+    const url = this.router.createUrlTree([
+      dhAdminPath,
+      dhAdminUserManagementPath
+    ]);
+
+    this.router.navigateByUrl(url);
   };
+
+  createUserole() {
+    this.store.save(this.backToOverview);
+  }
 }

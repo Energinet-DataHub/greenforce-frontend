@@ -931,6 +931,7 @@
       },
       "createrole": {
         "headline": "Create Userrole",
+        "save": "Save",
         "tabs": {
           "masterdata": {
             "tabLabel": "Master data",

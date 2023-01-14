@@ -54,7 +54,7 @@ const initialState: DhUserRolesManagementState = {
     name: '',
     description: '',
     status: UserRoleStatus.Active,
-    eicFunction: undefined,
+    eicFunction: 'Consumer',
     permissions: [],
   },
   filterModel: { status: 'Active', eicFunctions: [] },

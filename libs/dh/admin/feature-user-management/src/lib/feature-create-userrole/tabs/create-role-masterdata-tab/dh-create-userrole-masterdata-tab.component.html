@@ -18,15 +18,15 @@ limitations under the License.
   *transloco="let t; read: 'admin.userManagement.createrole.tabs.masterdata'"
 >
   <watt-card>
-    <div [formGroup]="userRole">
+    <div [formGroup]="userRoleForm">
       <!-- Name -->
       <watt-form-field>
         <watt-label>{{ t("name") }}</watt-label>
         <input wattInput type="text" formControlName="name" required />
-        <watt-error *ngIf="userRole.controls['name'].hasError('required')">
+        <watt-error *ngIf="userRoleForm.controls.name.hasError('required')">
           {{ t("fieldRequiredErrorText") }}
         </watt-error>
-        <watt-error *ngIf="userRole.controls['name'].hasError('maxlength')">
+        <watt-error *ngIf="userRoleForm.controls.name.hasError('maxlength')">
           {{ t("nameMaxLengthErrorText") }}
         </watt-error>
       </watt-form-field>
@@ -35,7 +35,7 @@ limitations under the License.
         <watt-label>{{ t("description") }}</watt-label>
         <input wattInput type="text" formControlName="description" required />
         <watt-error
-          *ngIf="userRole.controls['description'].hasError('required')"
+          *ngIf="userRoleForm.controls.description.hasError('required')"
         >
           {{ t("fieldRequiredErrorText") }}
         </watt-error>
@@ -52,7 +52,7 @@ limitations under the License.
         >
         </watt-dropdown>
         <watt-error
-          *ngIf="userRole.controls['roleStatus'].hasError('required')"
+          *ngIf="userRoleForm.controls.roleStatus.hasError('required')"
         >
           {{ t("fieldRequiredErrorText") }}
         </watt-error>
@@ -69,7 +69,7 @@ limitations under the License.
         >
         </watt-dropdown>
         <watt-error
-          *ngIf="userRole.controls['eicFunction'].hasError('required')"
+          *ngIf="userRoleForm.controls.eicFunction.hasError('required')"
         >
           {{ t("fieldRequiredErrorText") }}
         </watt-error>
