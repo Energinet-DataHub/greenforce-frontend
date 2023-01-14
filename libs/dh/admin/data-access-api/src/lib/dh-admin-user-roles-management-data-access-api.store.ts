@@ -15,7 +15,12 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
+import {
+  Observable,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   ErrorState,
@@ -30,7 +35,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 
 export interface UserRoleCreate {
-  onSaveCompletedFn$: Observable<() => void>;
+  onSaveCompletedFn: () => void;
   createRole: CreateUserRoleDto;
 }
 interface DhUserRolesManagementState {
@@ -105,49 +110,26 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
     )
   );
 
-  readonly save = this.effect((onSaveCompletedFn$: Observable<() => void>) =>
-    onSaveCompletedFn$.pipe(
-      withLatestFrom(this.filterModel$),
-      tap(() => this.setLoading(LoadingState.LOADING)),
-      switchMap(([onSaveCompletedFn, progress]) =>
-        of(progress).pipe(
-          switchMap((changes) => EMPTY),
-          tapResponse(
-            () => {
-              this.setLoading(LoadingState.LOADED);
-              onSaveCompletedFn();
-            },
-            () => {
-              this.setLoading(LoadingState.LOADED);
-              this.handleError();
-            }
-          )
-        )
-      )
-    )
-  );
-
-  readonly saveTest = this.effect(
-    (userRoleCreateDto: Observable<UserRoleCreate>) =>
-      userRoleCreateDto.pipe(
+  readonly createUserRole = this.effect(
+    (userRoleCreateDto: Observable<UserRoleCreate>) => {
+      return  userRoleCreateDto.pipe(
         tap(() => this.setLoading(LoadingState.LOADING)),
-        switchMap((x) =>
-          x.onSaveCompletedFn$.pipe(
-            switchMap((onSaveCompletedFn) => this.saveUserRole(x.createRole)),
-            tapResponse(
-              () => {
-                this.setLoading(LoadingState.LOADED);
-                //x.onSaveCompletedFn();
-              },
-              () => {
-                this.setLoading(LoadingState.LOADED);
-                this.handleError();
-              }
+        switchMap((userRole =>
+          this.saveUserRole(userRole.createRole).pipe(
+              tapResponse(
+                ()  => {
+                  this.setLoading(LoadingState.LOADED);
+                  userRole.onSaveCompletedFn();
+                },
+                () => {
+                  this.setLoading(LoadingState.LOADED);
+                  this.handleError();
+                }
+              )
+
             )
-          )
-        )
-      )
-  );
+          ))
+      );});
 
   readonly setFilterStatus = this.updater(
     (

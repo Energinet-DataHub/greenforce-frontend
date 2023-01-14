@@ -26,17 +26,14 @@ import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { provideComponentStore } from '@ngrx/component-store';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import {
-  CreateUserRoleDto,
-  EicFunction,
-} from '@energinet-datahub/dh/shared/domain';
+import { CreateUserRoleDto, EicFunction} from '@energinet-datahub/dh/shared/domain';
 import { Router } from '@angular/router';
 import {
   dhAdminPath,
   dhAdminUserManagementPath,
 } from '@energinet-datahub/dh/admin/routing';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { ObservedValueOf } from 'rxjs';
+import { ObservedValueOf} from 'rxjs';
 import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 interface CreateRoleForm {
@@ -71,7 +68,7 @@ interface CreateRoleForm {
     WattSpinnerModule,
     WattButtonModule,
     ReactiveFormsModule,
-    FormsModule,
+    FormsModule
   ],
 })
 export class DhCreateUserroleTabsComponent implements OnInit {
@@ -94,7 +91,7 @@ export class DhCreateUserroleTabsComponent implements OnInit {
       description: '',
       eicFunction: 'Agent',
       status: 'Active',
-      permissions: [],
+      permissions: []
     };
   }
 
@@ -108,10 +105,8 @@ export class DhCreateUserroleTabsComponent implements OnInit {
   };
 
   onSubmit() {
-    if (!this.userRole) throw new Error('Missing user');
-    console.log(this.userRole);
-    //Object.assign(this.roleChanges$, this.userRole);
-    this.store.save(this.backToOverview);
+    if (!this.userRole) throw new Error('Missing user role');
+    this.store.createUserRole({createRole: this.userRole, onSaveCompletedFn: this.backToOverview});
   }
 
   addChildForm<K extends keyof CreateRoleForm>(
