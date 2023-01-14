@@ -15,14 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import {
-  EMPTY,
-  Observable,
-  of,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs';
+import { EMPTY, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   ErrorState,
@@ -138,23 +131,23 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
     (userRoleCreateDto: Observable<UserRoleCreate>) =>
       userRoleCreateDto.pipe(
         tap(() => this.setLoading(LoadingState.LOADING)),
-        switchMap((x) => x.onSaveCompletedFn$.pipe(
-          switchMap((onSaveCompletedFn) =>
-            this.saveUserRole(x.createRole)
-          ),
-          tapResponse(
-            () => {
-              this.setLoading(LoadingState.LOADED);
-              //x.onSaveCompletedFn();
-            },
-            () => {
-              this.setLoading(LoadingState.LOADED);
-              this.handleError();
-            }
-
+        switchMap((x) =>
+          x.onSaveCompletedFn$.pipe(
+            switchMap((onSaveCompletedFn) => this.saveUserRole(x.createRole)),
+            tapResponse(
+              () => {
+                this.setLoading(LoadingState.LOADED);
+                //x.onSaveCompletedFn();
+              },
+              () => {
+                this.setLoading(LoadingState.LOADED);
+                this.handleError();
+              }
+            )
+          )
         )
-      ))
-  ));
+      )
+  );
 
   readonly setFilterStatus = this.updater(
     (
