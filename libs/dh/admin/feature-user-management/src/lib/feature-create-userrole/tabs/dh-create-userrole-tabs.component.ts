@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule, PushModule } from '@rx-angular/template';
@@ -26,11 +26,22 @@ import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { provideComponentStore } from '@ngrx/component-store';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain';
+import { EicFunction, UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { Router } from '@angular/router';
-import { dhAdminPath, dhAdminUserManagementPath } from '@energinet-datahub/dh/admin/routing';
+import {
+  dhAdminPath,
+  dhAdminUserManagementPath,
+} from '@energinet-datahub/dh/admin/routing';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { ObservedValueOf } from 'rxjs';
+import { FormBuilder } from '@angular/forms';
+import { UserRoleInfoDto } from '../../../../../../shared/domain/src/lib/generated/v1/model/user-role-info-dto';
 
+interface CreateRoleForm {
+  masterData?: ObservedValueOf<
+    DhCreateUserroleMasterdataTabComponent['formReady']
+  >;
+}
 @Component({
   selector: 'dh-create-userrole-tabs',
   standalone: true,
@@ -56,33 +67,54 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
     DhCreateUserrolePermissionsTabComponent,
     WattCardModule,
     WattSpinnerModule,
-    WattButtonModule
+    WattButtonModule,
   ],
 })
-export class DhCreateUserroleTabsComponent {
+export class DhCreateUserroleTabsComponent implements OnInit {
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
   validation$ = this.store.validation$;
   roleChanges$ = this.store.roleChanges$;
+  createRoleForm = this.fb.group<CreateRoleForm>({});
+  userRole?: UserRoleDto;
+
   onEicFunctionSelected = (eic: EicFunction) => {
     console.log(eic);
-  }
+  };
 
-  constructor(
-    private router: Router
-  ) {}
+  constructor(private router: Router, private fb: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.userRole = { name: '', description: '', id: '', eicFunction: 'Agent', status: 'Active' };
+  }
 
   private readonly backToOverview = () => {
     const url = this.router.createUrlTree([
       dhAdminPath,
-      dhAdminUserManagementPath
+      dhAdminUserManagementPath,
     ]);
 
     this.router.navigateByUrl(url);
   };
 
-  createUserole() {
+  onSubmit() {
+    if (!this.userRole) throw new Error("Missing user");
+    Object.assign(this.roleChanges$, this.userRole)
     this.store.save(this.backToOverview);
+  }
+
+
+  addChildForm<K extends keyof CreateRoleForm>(
+    name: K,
+    group: Exclude<CreateRoleForm[K], undefined>
+  ) {
+    this.createRoleForm.setControl(name, group);
+  }
+
+  patchUserRole(patch: Partial<UserRoleDto>) {
+    if (!this.userRole) throw new Error("Missing user");
+    console.log(patch);
+    this.userRole = { ...this.userRole, ...patch };
   }
 }

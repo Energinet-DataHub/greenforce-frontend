@@ -183,7 +183,8 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   );
 
   private readonly saveUserRole = (roleChanges: UserRoleChanges) => {
-    return this.httpClientUserRole.v1MarketParticipantUserRoleCreateGet(
+    console.log(roleChanges);
+    return this.httpClientUserRole.v1MarketParticipantUserRoleCreatePost(
       roleChanges as CreateUserRoleDto
     );
   };

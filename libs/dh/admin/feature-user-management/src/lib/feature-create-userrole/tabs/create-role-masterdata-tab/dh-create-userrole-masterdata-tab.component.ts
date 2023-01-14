@@ -41,18 +41,17 @@ import {
 } from '@energinet-datahub/watt/dropdown';
 import {
   EicFunction,
+  UserRoleDto,
   UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { of, Subject, takeUntil } from 'rxjs';
+import { defer, map, of, startWith, Subject, takeUntil } from 'rxjs';
 
-
-interface UserRoleForm
-{
-    name: FormControl<string>;
-    description: FormControl<string>;
-    eicFunction: FormControl<EicFunction>;
-    roleStatus: FormControl<UserRoleStatus>;
-  }
+interface UserRoleForm {
+  name: FormControl<string>;
+  description: FormControl<string>;
+  eicFunction: FormControl<EicFunction>;
+  roleStatus: FormControl<UserRoleStatus>;
+}
 
 @Component({
   selector: 'dh-create-userrole-masterdata-tab',
@@ -74,17 +73,34 @@ interface UserRoleForm
 export class DhCreateUserroleMasterdataTabComponent
   implements OnInit, OnDestroy
 {
-
   userRoleForm = this.fb.nonNullable.group<UserRoleForm>({
     name: this.fb.nonNullable.control('', Validators.required),
     description: this.fb.nonNullable.control('', Validators.required),
-    eicFunction: this.fb.nonNullable.control(EicFunction.Agent, Validators.required),
-    roleStatus: this.fb.nonNullable.control(UserRoleStatus.Active, Validators.required),
+    eicFunction: this.fb.nonNullable.control(
+      EicFunction.Agent,
+      Validators.required
+    ),
+    roleStatus: this.fb.nonNullable.control(
+      UserRoleStatus.Active,
+      Validators.required
+    ),
   });
 
   @Output() formReady = of(this.userRoleForm);
-
   @Output() eicFunctionSelected = new EventEmitter<EicFunction>();
+  @Output() valueChange = defer(() =>
+    this.userRoleForm.valueChanges.pipe(
+      startWith(this.userRoleForm.value),
+      map(
+        (formValue): Partial<UserRoleDto> => ({
+          name: formValue.name,
+          description: formValue.description,
+          eicFunction: formValue.eicFunction,
+          status: formValue.roleStatus,
+        })
+      )
+    )
+  );
 
   userRoleStatusOptions: WattDropdownOptions = [];
   eicFunctionOptions: WattDropdownOptions = [];
