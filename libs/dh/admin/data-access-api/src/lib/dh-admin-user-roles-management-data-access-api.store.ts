@@ -113,10 +113,10 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   readonly createUserRole = this.effect(
     (userRoleCreateDto: Observable<UserRoleCreate>) => {
       return userRoleCreateDto.pipe(
-        tap(() =>{
-          this.setLoading(LoadingState.LOADING)
-          this.setCreateState(LoadingState.INIT)
-        } ),
+        tap(() => {
+          this.setLoading(LoadingState.LOADING);
+          this.setCreateState(LoadingState.INIT);
+        }),
         switchMap((userRole) =>
           this.saveUserRole(userRole.createRole).pipe(
             tapResponse(
@@ -179,7 +179,10 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   );
 
   private setCreateState = this.updater(
-    (state, createState: ErrorState | LoadingState): DhUserRolesManagementState => ({
+    (
+      state,
+      createState: ErrorState | LoadingState
+    ): DhUserRolesManagementState => ({
       ...state,
       createRequestState: createState,
     })

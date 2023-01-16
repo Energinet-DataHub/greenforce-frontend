@@ -88,7 +88,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
     private router: Router,
     private fb: FormBuilder,
     private toastService: WattToastService,
-    private translocoService: TranslocoService,
+    private translocoService: TranslocoService
   ) {}
 
   ngOnInit(): void {
