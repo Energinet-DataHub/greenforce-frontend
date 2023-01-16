@@ -24,14 +24,30 @@ limitations under the License.
 
     <watt-drawer-content *ngIf="drawer.isOpen">
       <div class="role-name__grid">
-        <h2 class="role-name__headline">{{ selectedRole?.name }}</h2>
+        <h2 class="role-name__headline">{{ basicUserRole?.name }}</h2>
         <dh-role-status
-          *ngIf="selectedRole"
-          [status]="selectedRole.status"
+          *ngIf="basicUserRole"
+          [status]="basicUserRole.status"
         ></dh-role-status>
       </div>
+      <ng-container *rxLet="isLoading$ as isLoading">
+        <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+          <dh-drawer-role-tabs
+            *ngIf="!isLoading && !hasGeneralError"
+            [role]="userRoleWithPermissions$ | push"
+          ></dh-drawer-role-tabs>
 
-      <dh-drawer-role-tabs [role]="selectedRole"></dh-drawer-role-tabs>
+          <div *ngIf="isLoading" class="user-role__spinner">
+            <watt-spinner></watt-spinner>
+          </div>
+
+          <div *ngIf="!isLoading && hasGeneralError" class="user-role__error">
+            <dh-tab-data-general-error
+              (reload)="loadUserRoleWithPermissions()"
+            ></dh-tab-data-general-error>
+          </div>
+        </ng-container>
+      </ng-container>
     </watt-drawer-content>
   </watt-drawer>
 </ng-container>
