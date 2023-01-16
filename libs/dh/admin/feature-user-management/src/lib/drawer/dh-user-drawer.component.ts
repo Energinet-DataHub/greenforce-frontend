@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 
@@ -61,8 +61,11 @@ export class DhUserDrawerComponent {
 
   selectedUser: UserOverviewItemDto | null = null;
 
+  @Output() closed = new EventEmitter<void>();
+
   onClose(): void {
     this.drawer.close();
+    this.closed.emit();
     this.selectedUser = null;
   }
 
