@@ -17,11 +17,13 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs'">
   <watt-tabs>
     <watt-tab [label]="t('masterData.tabLabel')">
-      <dh-user-master-data [user]="user"></dh-user-master-data>
+      <dh-role-master-data [role]="role"></dh-role-master-data>
     </watt-tab>
-    <watt-tab [label]="t('roles.tabLabel')"></watt-tab>
+    <watt-tab [label]="t('rights.tabLabel')">
+      <dh-role-permissions [role]="role"></dh-role-permissions>
+    </watt-tab>
     <watt-tab [label]="t('history.tabLabel')">
-      <dh-user-audit-logs [user]="user"></dh-user-audit-logs>
+      <!--<dh-role-audit-logs [role]="role"></dh-role-audit-logs>-->
     </watt-tab>
   </watt-tabs>
 </ng-container>

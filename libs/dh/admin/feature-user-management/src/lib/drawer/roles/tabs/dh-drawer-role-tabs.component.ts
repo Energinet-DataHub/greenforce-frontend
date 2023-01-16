@@ -18,22 +18,21 @@ import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
-import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
-
-import { DhUserMasterDataComponent } from './content/dh-user-master-data.component';
-import { DhUserAuditLogsComponent } from './content/dh-user-audit-logs.component';
+import { DhRoleMasterDataComponent } from './content/dh-role-master-data.component';
+import { DhRolePermissionsComponent } from './content/dh-role-permissions.component';
+import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
-  selector: 'dh-drawer-tabs',
+  selector: 'dh-drawer-role-tabs',
   standalone: true,
-  templateUrl: './dh-drawer-tabs.component.html',
+  templateUrl: './dh-drawer-role-tabs.component.html',
   imports: [
     TranslocoModule,
     WattTabsModule,
-    DhUserMasterDataComponent,
-    DhUserAuditLogsComponent,
+    DhRoleMasterDataComponent,
+    DhRolePermissionsComponent,
   ],
 })
-export class DhTabsComponent {
-  @Input() user: UserOverviewItemDto | null = null;
+export class DhDrawerRoleTabsComponent {
+  @Input() role: UserRoleWithPermissionsDto | null = null;
 }

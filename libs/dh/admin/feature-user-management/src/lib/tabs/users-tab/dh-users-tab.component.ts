@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { LetModule, PushModule } from '@rx-angular/template';
@@ -28,6 +28,9 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
+import { DhUsersTabSearchComponent } from './dh-users-tab-search.component';
+import { UserStatus } from '@energinet-datahub/dh/shared/domain';
+import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.component';
 
 @Component({
   selector: 'dh-users-tab',
@@ -36,10 +39,14 @@ import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
   styles: [
     `
       :host {
-        background-color: var(--watt-color-neutral-white);
         display: block;
         /* TODO: Add spacing variable for 24px */
         margin: 24px var(--watt-space-s);
+      }
+
+      .filter-container {
+        display: inline-flex;
+        gap: var(--watt-space-m);
       }
 
       .users-overview {
@@ -74,27 +81,39 @@ import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
     WattSpinnerModule,
     WattCardModule,
     DhUsersTabTableComponent,
+    DhUsersTabSearchComponent,
+    DhUsersTabStatusFilterComponent,
     DhSharedUiPaginatorComponent,
     DhUsersTabGeneralErrorComponent,
   ],
 })
 export class DhUsersTabComponent {
-  private readonly store = inject(DhAdminUserManagementDataAccessApiStore);
+  readonly users$ = this.store.users$;
+  readonly totalUserCount$ = this.store.totalUserCount$;
 
-  users$ = this.store.users$;
-  totalUserCount$ = this.store.totalUserCount$;
+  readonly pageIndex$ = this.store.paginatorPageIndex$;
+  readonly pageSize$ = this.store.pageSize$;
 
-  pageIndex$ = this.store.paginatorPageIndex$;
-  pageSize$ = this.store.pageSize$;
+  readonly isLoading$ = this.store.isLoading$;
+  readonly hasGeneralError$ = this.store.hasGeneralError$;
 
-  isLoading$ = this.store.isLoading$;
-  hasGeneralError$ = this.store.hasGeneralError$;
+  readonly initialStatusFilter$ = this.store.initialStatusFilter$;
+
+  constructor(private store: DhAdminUserManagementDataAccessApiStore) {}
 
   onPageChange(event: PageEvent): void {
     this.store.updatePageMetadata({
       pageIndex: event.pageIndex,
       pageSize: event.pageSize,
     });
+  }
+
+  onSearch(value: string): void {
+    this.store.updateSearchText(value);
+  }
+
+  onStatusChanged(value: UserStatus[]): void {
+    this.store.updateStatusFilter(value);
   }
 
   reloadUsers(): void {
