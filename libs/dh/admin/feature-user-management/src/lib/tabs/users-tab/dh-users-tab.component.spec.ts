@@ -46,7 +46,7 @@ const users: UserOverviewItemDto[] = [
   },
 ];
 
-describe('DhUsersTabComponent.name', () => {
+describe(DhUsersTabComponent.name, () => {
   async function setup(mockUsers: UserOverviewItemDto[] = []) {
     const storeMock = MockProvider(
       DhAdminUserManagementDataAccessApiStore,
