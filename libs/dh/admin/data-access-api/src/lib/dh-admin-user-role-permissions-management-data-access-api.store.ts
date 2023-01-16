@@ -59,9 +59,9 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
         this.resetState();
         this.setLoading(LoadingState.LOADING);
       }),
-      switchMap(() =>
+      switchMap((userRoleId) =>
         this.httpClientUserRole
-          .v1MarketParticipantUserRoleGetUserRoleWithPermissionsGet()
+          .v1MarketParticipantUserRoleGetUserRoleWithPermissionsGet(userRoleId)
           .pipe(
             tapResponse(
               (response) => {
