@@ -18,7 +18,8 @@ import { CommonModule } from '@angular/common';
 import { Component, NgModule, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule, PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
+import { LetModule } from '@rx-angular/template/let';
 import { map } from 'rxjs';
 
 import {

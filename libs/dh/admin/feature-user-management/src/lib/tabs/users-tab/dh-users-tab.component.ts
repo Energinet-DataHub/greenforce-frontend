@@ -17,7 +17,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
-import { LetModule, PushModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
+import { PushModule } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
 import { TranslocoModule } from '@ngneat/transloco';
 
