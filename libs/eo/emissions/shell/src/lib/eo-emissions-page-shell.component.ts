@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 import { EoEmissionsPageCo2ReductionComponent } from './eo-emissions-page-co2-reduction';
 import { EoEmissionsPageGreenhouseGassesComponent } from './eo-emissions-page-greenhouse-gasses.component';
 import { EoEmissionsPageInfoComponent } from './eo-emissions-page-info.component';

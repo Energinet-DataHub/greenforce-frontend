@@ -17,7 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 import { EoMeteringPointListComponent } from './eo-metering-point-list.component';
 import { EoMeteringPointsStore } from './eo-metering-points.store';
 

@@ -20,7 +20,7 @@ import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 import { map, tap } from 'rxjs';
 import { EoCertificatesStore } from '../eo-certificates.store';
 

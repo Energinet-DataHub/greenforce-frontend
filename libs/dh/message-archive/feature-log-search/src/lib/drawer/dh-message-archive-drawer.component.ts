@@ -32,7 +32,7 @@ import { DhMessageArchiveDataAccessBlobApiStore } from '@energinet-datahub/dh/me
 
 import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
 import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeName.pipe';
-import { PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 
 import { findLogName } from '../shared/findLogname';
