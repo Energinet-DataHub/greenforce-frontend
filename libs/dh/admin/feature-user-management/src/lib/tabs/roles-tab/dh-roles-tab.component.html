@@ -27,15 +27,17 @@ limitations under the License.
       >
       </dh-roles-tab-list-filter>
 
-      <watt-button variant="primary" (click)="createUserRole()"
-        >{{ t("createuserrole") }}
-      </watt-button>
-
       <watt-card>
         <watt-card-title>
-          <h4>{{ t("rolesHeadline") }}</h4>
+          <div class="create-role-header-container">
+              <h4>{{ t("rolesHeadline") }}</h4>
+            <div class="create-role-table-buttons">
+              <watt-button icon="plus" variant="secondary" (click)="createUserRole()"
+                >{{ t("createuserrole") }}
+              </watt-button>
+            </div>
+          </div>
         </watt-card-title>
-
         <dh-roles-tab-table [roles]="roles$ | push"></dh-roles-tab-table>
       </watt-card>
     </ng-container>

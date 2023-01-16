@@ -912,7 +912,8 @@
               "marketrole": "Market role",
               "status": "Status"
             }
-          }
+          },
+          "createuserrole": "Create"
         },
         "permissions": {
           "tabLabel": "Permissions"
@@ -928,6 +929,7 @@
       "createrole": {
         "headline": "Create Userrole",
         "save": "Save",
+        "createRoleRequestText": "Creating userrole",
         "tabs": {
           "masterdata": {
             "tabLabel": "Master data",
@@ -942,7 +944,8 @@
           },
           "permissions": {
             "tabLabel": "Permissions",
-            "fieldRequiredErrorText": "Field is required."
+            "fieldRequiredErrorText": "Field is required.",
+            "title": "Permissions"
           }
         }
       }

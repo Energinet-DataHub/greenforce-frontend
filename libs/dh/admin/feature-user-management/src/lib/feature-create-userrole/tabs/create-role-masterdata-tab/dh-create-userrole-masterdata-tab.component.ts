@@ -74,7 +74,7 @@ export class DhCreateUserroleMasterdataTabComponent
   implements OnInit, OnDestroy
 {
   userRoleForm = this.fb.nonNullable.group<UserRoleForm>({
-    name: this.fb.nonNullable.control('', Validators.required),
+    name: this.fb.nonNullable.control('', [Validators.required, Validators.maxLength(250)]),
     description: this.fb.nonNullable.control('', Validators.required),
     eicFunction: this.fb.nonNullable.control(
       EicFunction.Agent,

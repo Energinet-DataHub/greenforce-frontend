@@ -916,7 +916,8 @@
               "marketrole": "Marketsrolle",
               "status": "Status"
             }
-          }
+          },
+          "createuserrole": "Opret"
         },
         "permissions": {
           "tabLabel": "Rettigheder"
@@ -930,22 +931,24 @@
         }
       },
       "createrole": {
-        "headline": "Create Userrole",
-        "save": "Save",
+        "headline": "Opret brugerrolle",
+        "save": "Gem",
+        "createRoleRequestText": "Opretter brugerrolle",
         "tabs": {
           "masterdata": {
-            "tabLabel": "Master data",
-            "fieldRequiredErrorText": "Field is required.",
-            "nameMaxLengthErrorText": "Name field must be under 250 characters",
-            "name": "Name",
-            "description": "Description",
+            "tabLabel": "Stamdata",
+            "fieldRequiredErrorText": "Feltet er påkrævet.",
+            "nameMaxLengthErrorText": "Navn skal være under 250 karakterer",
+            "name": "Navn",
+            "description": "Beskrivelse",
             "roleStatus": "Status",
-            "selectUserroleStatus": "Select status",
-            "eicFunction": "Market role",
-            "selectEicFunctionStatus": "Select market role"
+            "selectUserroleStatus": "Vælg status",
+            "eicFunction": "Markedsrolle",
+            "selectEicFunctionStatus": "Vælg markedsrolle"
           },
           "permissions": {
-            "tabLabel": "Permissions"
+            "tabLabel": "Rettigheder",
+            "title": "Rettigheder"
           }
         }
       }

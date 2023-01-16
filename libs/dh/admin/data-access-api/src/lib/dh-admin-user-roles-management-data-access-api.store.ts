@@ -36,6 +36,7 @@ export interface UserRoleCreate {
 interface DhUserRolesManagementState {
   readonly roles: UserRoleDto[];
   readonly requestState: LoadingState | ErrorState;
+  readonly createRequestState: LoadingState | ErrorState;
   validation?: { error: string };
   readonly filterModel: {
     status: UserRoleStatus | null;
@@ -46,6 +47,7 @@ interface DhUserRolesManagementState {
 const initialState: DhUserRolesManagementState = {
   roles: [],
   requestState: LoadingState.INIT,
+  createRequestState: LoadingState.INIT,
   filterModel: { status: 'Active', eicFunctions: [] },
 };
 
@@ -57,6 +59,9 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   );
   hasGeneralError$ = this.select(
     (state) => state.requestState === ErrorState.GENERAL_ERROR
+  );
+  createRequestHasError$ = this.select(
+    (state) => state.createRequestState === ErrorState.GENERAL_ERROR
   );
   filterModel$ = this.select((state) => state.filterModel);
 
@@ -108,7 +113,10 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   readonly createUserRole = this.effect(
     (userRoleCreateDto: Observable<UserRoleCreate>) => {
       return userRoleCreateDto.pipe(
-        tap(() => this.setLoading(LoadingState.LOADING)),
+        tap(() =>{
+          this.setLoading(LoadingState.LOADING)
+          this.setCreateState(LoadingState.INIT)
+        } ),
         switchMap((userRole) =>
           this.saveUserRole(userRole.createRole).pipe(
             tapResponse(
@@ -118,7 +126,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
               },
               () => {
                 this.setLoading(LoadingState.LOADED);
-                this.handleError();
+                this.setCreateState(ErrorState.GENERAL_ERROR);
               }
             )
           )
@@ -170,8 +178,14 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
     })
   );
 
+  private setCreateState = this.updater(
+    (state, createState: ErrorState | LoadingState): DhUserRolesManagementState => ({
+      ...state,
+      createRequestState: createState,
+    })
+  );
+
   private readonly saveUserRole = (newRole: CreateUserRoleDto) => {
-    console.log(newRole);
     return this.httpClientUserRole.v1MarketParticipantUserRoleCreatePost(
       newRole
     );
