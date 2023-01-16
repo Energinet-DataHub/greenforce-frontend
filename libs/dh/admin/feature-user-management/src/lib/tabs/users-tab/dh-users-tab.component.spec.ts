@@ -16,25 +16,43 @@
  */
 import { HttpClientModule } from '@angular/common/http';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { MatSelectHarness } from '@angular/material/select/testing';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/angular';
 import { MockProvider } from 'ng-mocks';
 
+import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import {
+  UserOverviewItemDto,
+  UserStatus,
+} from '@energinet-datahub/dh/shared/domain';
 
 import { DhUsersTabComponent } from './dh-users-tab.component';
 import { searchDebounceTimeMs } from './dh-users-tab-search.component';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { MatSelectHarness } from '@angular/material/select/testing';
-import { UserStatus } from '@energinet-datahub/dh/shared/domain';
+import { of } from 'rxjs';
 
-describe(DhUsersTabComponent.name, () => {
-  async function setup() {
+const users: UserOverviewItemDto[] = [
+  {
+    id: '3ec41d91-fc6d-4364-ade6-b85576a91d04',
+    email: 'testuser1@test.dk',
+    name: 'Test User 1',
+    phoneNumber: '11111111',
+    createdDate: '2022-01-01T23:00:00Z',
+    status: 'Active',
+  },
+];
+
+describe('DhUsersTabComponent.name', () => {
+  async function setup(mockUsers: UserOverviewItemDto[] = []) {
     const storeMock = MockProvider(
       DhAdminUserManagementDataAccessApiStore,
       {
+        users$: of(mockUsers),
+        isLoading$: false,
         updateSearchText: jest.fn(),
         updateStatusFilter: jest.fn(),
       },
@@ -62,6 +80,33 @@ describe(DhUsersTabComponent.name, () => {
     };
   }
 
+  it('displays user data', async () => {
+    await setup(users);
+
+    const [testUser] = users;
+
+    const name = screen.getByRole('cell', {
+      name: new RegExp(testUser.name, 'i'),
+    });
+    const email = screen.getByRole('cell', {
+      name: new RegExp(testUser.email, 'i'),
+    });
+    const phone = screen.getByRole('cell', {
+      name: new RegExp(testUser.phoneNumber ?? '', 'i'),
+    });
+    const status = screen.getByRole('cell', {
+      name: new RegExp(
+        enTranslations.admin.userManagement.userStatus.active,
+        'i'
+      ),
+    });
+
+    expect(name).toBeInTheDocument();
+    expect(email).toBeInTheDocument();
+    expect(phone).toBeInTheDocument();
+    expect(status).toBeInTheDocument();
+  });
+
   it('forwards search input value to store', fakeAsync(async () => {
     const { store } = await setup();
 
@@ -74,7 +119,7 @@ describe(DhUsersTabComponent.name, () => {
     expect(store.updateSearchText).toHaveBeenCalledWith(inputValue);
   }));
 
-  it('forwards status filter value to store', fakeAsync(async () => {
+  it('forwards status filter value to store', async () => {
     const { store, matSelect } = await setup();
 
     await matSelect.open();
@@ -88,5 +133,5 @@ describe(DhUsersTabComponent.name, () => {
 
     const allOptions = Object.keys(UserStatus);
     expect(store.updateStatusFilter).toHaveBeenCalledWith(allOptions);
-  }));
+  });
 });
