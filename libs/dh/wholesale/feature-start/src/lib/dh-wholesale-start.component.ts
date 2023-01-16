@@ -40,7 +40,7 @@ import {
 import { LetModule, PushModule } from '@rx-angular/template';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import isAfter from 'date-fns/isAfter';
-import isEqual from 'date-fns/isEqual'
+import isEqual from 'date-fns/isEqual';
 
 import {
   WattDropdownModule,
@@ -57,13 +57,16 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { CommonModule } from '@angular/common';
+import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+
+interface DateRange {
+  start: string;
+  end: string;
+}
 
 interface CreateBatchFormValues {
   gridAreas: FormControl<string[] | null>;
-  dateRange: FormControl<{
-    start: string;
-    end: string;
-  } | null>;
+  dateRange: FormControl<DateRange | null>;
 }
 
 @Component({
@@ -108,26 +111,13 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
 
   onDateRangeChange$ =
     this.createBatchForm.controls.dateRange.valueChanges.pipe(startWith(null));
+
   gridAreas$: Observable<WattDropdownOption[]> = combineLatest([
     this.store.gridAreas$,
     this.onDateRangeChange$,
   ]).pipe(
-    map(([gridAreas, dateRange]) => {
-      if (dateRange === null) return gridAreas;
-      return gridAreas?.filter((gridArea) => {
-        return isAfter(new Date(gridArea.validFrom), new Date(dateRange.start)) || isEqual(new Date(dateRange.start), new Date(gridArea.validFrom));
-      });
-    }),
-    map((gridAreas) => {
-      return (
-        gridAreas?.map((gridArea) => {
-          return {
-            displayValue: `${gridArea?.name} (${gridArea?.code})`,
-            value: gridArea?.code,
-          };
-        }) || []
-      );
-    })
+    map(([gridAreas, dateRange]) => this.filterValidGridAreas(gridAreas || [], dateRange)),
+    map((gridAreas) => this.mapGridAreasToDropdownOptions(gridAreas))
   );
 
   ngOnInit(): void {
@@ -158,9 +148,31 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     });
   }
 
+  private mapGridAreasToDropdownOptions(gridAreas: GridAreaDto[]): WattDropdownOption[] {
+    return gridAreas?.map((gridArea) => {
+      return {
+        displayValue: `${gridArea?.name} (${gridArea?.code})`,
+        value: gridArea?.code,
+      };
+    }) || []
+  }
+
+  private filterValidGridAreas(
+    gridAreas: GridAreaDto[],
+    dateRange: DateRange | null
+  ): GridAreaDto[] {
+    if (dateRange === null) return gridAreas;
+    return gridAreas?.filter((gridArea) => {
+      return (
+        isAfter(new Date(gridArea.validFrom), new Date(dateRange.start)) ||
+        isEqual(new Date(dateRange.start), new Date(gridArea.validFrom))
+      );
+    });
+  }
+
   private toggleGridAreasControl() {
     // Disable grid areas when date range is invalid
-    this.createBatchForm.controls.dateRange.valueChanges
+    this.onDateRangeChange$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         const gridAreasControl = this.createBatchForm.controls.gridAreas;

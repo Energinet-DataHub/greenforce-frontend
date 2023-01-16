@@ -70,6 +70,11 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WattDatepickerComponent extends WattPickerBase {
+  currentYear = new Date().getFullYear();
+  min = new Date(this.currentYear - 1, 0, 1);
+  max = new Date(this.currentYear + 1, 11, 31);
+
+
   /**
    * @ignore
    */
