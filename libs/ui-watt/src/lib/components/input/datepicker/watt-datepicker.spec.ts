@@ -34,6 +34,9 @@ import Meta, {
   WattDatepickerStoryConfig,
 } from './+storybook/watt-datepicker-reactive-forms.stories';
 import { danishTimeZoneIdentifier } from './watt-datepicker.component';
+import { WattDatepickerResetFormComponent } from './test/watt-datepicker-reset-form.component';
+import { WattDatepickerModule } from './watt-datepicker.module';
+import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 
 const withFormControl = composeStory(WithFormControl, Meta);
 const withInitialValue = composeStory(WithInitialValue, Meta);
@@ -322,6 +325,38 @@ describe('Datepicker', () => {
         userEvent.type(startDateInput, startDateWithoutSeperators + '04');
 
         expect(endDateInput).toHaveFocus();
+      });
+    });
+  });
+
+  describe('Test reset form component', () => {
+    it('should have initial start and end date, if form is reset', async () => {
+      const { fixture } = await render(WattDatepickerResetFormComponent, {
+        imports: [WattDatepickerModule, WattDanishDatetimeModule.forRoot()],
+      });
+
+      const startDate = initialValueRangeStart;
+      const endDate = initialValueRangeEnd_EndOfDay;
+
+      fixture.componentInstance.formGroup.controls.dateRange.setValue({
+        start: startDate,
+        end: endDate,
+      });
+
+      expect(fixture.componentInstance.formGroup.value).toStrictEqual({
+        dateRange: {
+          start: startDate,
+          end: endDate,
+        },
+      });
+
+      (await screen.findByTestId('resetButton')).click();
+
+      expect(fixture.componentInstance.formGroup.value).toStrictEqual({
+        dateRange: {
+          start: '',
+          end: '',
+        },
       });
     });
   });
