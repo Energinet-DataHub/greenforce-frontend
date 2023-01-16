@@ -43,7 +43,7 @@ interface DhUserManagementState {
   readonly statusFilter: UserStatus[];
 }
 
-type FetchUsersParams = Pick<
+export type FetchUsersParams = Pick<
   DhUserManagementState,
   'pageSize' | 'pageNumber' | 'searchText' | 'statusFilter'
 >;
