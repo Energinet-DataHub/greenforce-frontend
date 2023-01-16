@@ -18,7 +18,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
-import { PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
 import {
   delay,
   distinctUntilChanged,
