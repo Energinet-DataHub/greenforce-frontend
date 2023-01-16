@@ -14,14 +14,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'admin.userManagement.tabs'">
-  <watt-tabs>
-    <watt-tab [label]="t('masterData.tabLabel')">
-      <dh-user-master-data [user]="user"></dh-user-master-data>
-    </watt-tab>
-    <watt-tab [label]="t('roles.tabLabel')"></watt-tab>
-    <watt-tab [label]="t('history.tabLabel')">
-      <dh-user-audit-logs [user]="user"></dh-user-audit-logs>
-    </watt-tab>
-  </watt-tabs>
+<ng-container *transloco="let t; read: 'admin.userManagement.tabs.masterData'">
+  <watt-card>
+    <ul class="master-data-list">
+      <li>
+        <span class="watt-label">{{ t("name") }}</span>
+        <span class="watt-text-s">{{ role?.name }}</span>
+      </li>
+      <li>
+        <span class="watt-label">{{ t("description") }}</span>
+        <span class="watt-text-s">{{ role?.description }}</span>
+      </li>
+      <li>
+        <span class="watt-label">{{ t("marketRole") }}</span>
+        <span class="watt-text-s">{{ role?.eicFunction }}</span>
+      </li>
+    </ul>
+  </watt-card>
 </ng-container>

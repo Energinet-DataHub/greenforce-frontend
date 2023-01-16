@@ -81,6 +81,7 @@ export * from './user-overview-result-dto';
 export * from './user-role-assignment-audit-log-dto';
 export * from './user-role-assignment-type-audit-log';
 export * from './user-role-dto';
-export * from './user-role-info-dto';
 export * from './user-role-status';
+export * from './user-role-with-permissions-dto';
+export * from './user-status';
 export * from './vat-classification';

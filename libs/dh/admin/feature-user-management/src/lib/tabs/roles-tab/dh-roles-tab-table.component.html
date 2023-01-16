@@ -23,6 +23,7 @@ limitations under the License.
     [resolveHeader]="translateHeader"
     sortBy="name"
     sortDirection="asc"
+    (rowClick)="onRowClick($event)"
   >
     <ng-container *wattTableCell="columns['status']; let role">
       <dh-role-status [status]="role.status"></dh-role-status>
@@ -31,3 +32,5 @@ limitations under the License.
 
   <dh-shared-ui-paginator [length]="roles.length"> </dh-shared-ui-paginator>
 </ng-container>
+
+<dh-role-drawer></dh-role-drawer>

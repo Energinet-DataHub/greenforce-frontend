@@ -849,13 +849,39 @@
           "tabLabel": "Stamdata",
           "name": "Navn",
           "email": "Email",
-          "phone": "Telefon"
+          "phone": "Telefon",
+          "description": "Beskrivelse",
+          "marketRole": "Markedsrolle"
         },
         "history": {
-          "tabLabel": "Historik"
+          "tabLabel": "Historik",
+          "noEntries": "Ingen resultater",
+          "changesSingular": "{{ auditLogCount }} ændring",
+          "changesPlural": "{{ auditLogCount }} ændringer",
+          "columns": {
+            "timestamp": "Tid",
+            "entry": "Ændring"
+          },
+          "logs": {
+            "roles": {
+              "Added": "<b>{{ changedByUserName }}</b> tilføjede rollen <b>{{ userRoleName }}</b>",
+              "Removed": "<b>{{ changedByUserName }}</b> fjernede rollen <b>{{ userRoleName }}</b>"
+            }
+          },
+          "generalError": {
+            "title": "Der opstod en uventet fejl",
+            "message": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl."
+          }
+        },
+        "rights": {
+          "tabLabel": "Rettigheder"
         },
         "users": {
           "tabLabel": "Brugere",
+          "filter": {
+            "status": "Status"
+          },
+          "searchPlaceholder": "Søg brugere",
           "usersHeadline": {
             "singular": "{{ usersCount }} bruger",
             "plural": "{{ usersCount }} brugere"
@@ -879,6 +905,10 @@
         "roles": {
           "tabLabel": "Roller",
           "rolesHeadline": "Brugerroller",
+          "filter": {
+            "status": "Status",
+            "marketRole": "Markedsrolle"
+          },
           "table": {
             "columns": {
               "name": "Navn",
