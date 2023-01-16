@@ -16,7 +16,11 @@
  */
 import { Injectable } from '@angular/core';
 import { Observable, of, switchMap, tap } from 'rxjs';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import {
+  ComponentStore,
+  OnStoreInit,
+  tapResponse,
+} from '@ngrx/component-store';
 
 import {
   ErrorState,
@@ -55,7 +59,10 @@ const initialState: DhUserManagementState = {
 };
 
 @Injectable()
-export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUserManagementState> {
+export class DhAdminUserManagementDataAccessApiStore
+  extends ComponentStore<DhUserManagementState>
+  implements OnStoreInit
+{
   readonly isInit$ = this.select(
     (state) => state.usersRequestState === LoadingState.INIT
   );
