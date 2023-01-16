@@ -29,17 +29,19 @@ import {
 } from '@angular/common/http';
 import { Location, DOCUMENT } from '@angular/common';
 import { Observable, EMPTY, of } from 'rxjs';
-import { switchMap, catchError } from 'rxjs/operators';
+import { switchMap, catchError, filter } from 'rxjs/operators';
 import {
   AccountInfo,
   AuthenticationResult,
   BrowserConfigurationAuthError,
+  InteractionStatus,
   InteractionType,
   StringUtils,
   UrlString,
 } from '@azure/msal-browser';
 import { Injectable, Inject, ClassProvider } from '@angular/core';
 import {
+  MsalBroadcastService,
   MsalInterceptorAuthRequest,
   MsalInterceptorConfiguration,
   ProtectedResourceScopes,
@@ -50,13 +52,13 @@ import { MatchingResources } from '@azure/msal-angular/msal.interceptor.config';
 @Injectable()
 export class GuardedMsalInterceptor implements HttpInterceptor {
   private _document?: Document;
-  private _redirectGuard = false;
 
   constructor(
     @Inject(MSAL_INTERCEPTOR_CONFIG)
     private msalInterceptorConfig: MsalInterceptorConfiguration,
     private authService: MsalService,
     private location: Location,
+    private msalBroadcastService: MsalBroadcastService,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
     @Inject(DOCUMENT) document?: any
   ) {
@@ -168,30 +170,33 @@ export class GuardedMsalInterceptor implements HttpInterceptor {
     authRequest: MsalInterceptorAuthRequest,
     scopes: string[]
   ): Observable<AuthenticationResult> {
-    if (this._redirectGuard) return EMPTY;
-
-    this._redirectGuard = true;
-
-    if (this.msalInterceptorConfig.interactionType === InteractionType.Popup) {
-      this.authService
-        .getLogger()
-        .verbose(
-          'Interceptor - error acquiring token silently, acquiring by popup'
-        );
-      return this.authService.acquireTokenPopup({ ...authRequest, scopes });
-    }
-    this.authService
-      .getLogger()
-      .verbose(
-        'Interceptor - error acquiring token silently, acquiring by redirect'
-      );
-    const redirectStartPage = window.location.href;
-    this.authService.acquireTokenRedirect({
-      ...authRequest,
-      scopes,
-      redirectStartPage,
-    });
-    return EMPTY;
+    return this.msalBroadcastService.inProgress$.pipe(
+      filter((x) => x === InteractionStatus.None),
+      switchMap(() => {
+        if (
+          this.msalInterceptorConfig.interactionType === InteractionType.Popup
+        ) {
+          this.authService
+            .getLogger()
+            .verbose(
+              'Interceptor - error acquiring token silently, acquiring by popup'
+            );
+          return this.authService.acquireTokenPopup({ ...authRequest, scopes });
+        }
+        this.authService
+          .getLogger()
+          .verbose(
+            'Interceptor - error acquiring token silently, acquiring by redirect'
+          );
+        const redirectStartPage = window.location.href;
+        this.authService.acquireTokenRedirect({
+          ...authRequest,
+          scopes,
+          redirectStartPage,
+        });
+        return EMPTY;
+      })
+    );
   }
 
   /**
