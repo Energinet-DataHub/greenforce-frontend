@@ -162,8 +162,9 @@ export class DhAdminUserManagementDataAccessApiStore
     searchText,
     statusFilter,
   }: FetchUsersParams) {
-    if (!statusFilter || statusFilter.length == 0)
+    if (!statusFilter || statusFilter.length == 0) {
       return of({ users: [], totalUserCount: 0 });
+    }
 
     return this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
       pageNumber,
