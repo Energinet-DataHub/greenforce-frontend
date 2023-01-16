@@ -55,7 +55,6 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
 
   readonly getUserRole = this.effect((userId$: Observable<string>) =>
     userId$.pipe(
-      withLatestFrom(this.state$),
       tap(() => {
         this.resetState();
         this.setLoading(LoadingState.LOADING);

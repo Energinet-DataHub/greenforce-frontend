@@ -34,7 +34,7 @@ limitations under the License.
         <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
           <dh-drawer-role-tabs
             *ngIf="!isLoading && !hasGeneralError"
-            [role]="this.userRoleWithPermissions$ | push"
+            [role]="userRoleWithPermissions$ | push"
           ></dh-drawer-role-tabs>
 
           <div *ngIf="isLoading" class="user-role__spinner">
