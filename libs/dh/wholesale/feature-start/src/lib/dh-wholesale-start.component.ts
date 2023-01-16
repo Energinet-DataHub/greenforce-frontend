@@ -21,6 +21,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import {
   combineLatest,
@@ -39,8 +40,6 @@ import {
 } from '@angular/forms';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import isAfter from 'date-fns/isAfter';
-import isEqual from 'date-fns/isEqual';
 
 import {
   WattDropdownModule,
@@ -56,13 +55,8 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { CommonModule } from '@angular/common';
-import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
-
-interface DateRange {
-  start: string;
-  end: string;
-}
+import { DateRange, GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { filterValidGridAreas } from '@energinet-datahub/dh/wholesale/domain';
 
 interface CreateBatchFormValues {
   gridAreas: FormControl<string[] | null>;
@@ -116,7 +110,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     this.store.gridAreas$,
     this.onDateRangeChange$,
   ]).pipe(
-    map(([gridAreas, dateRange]) => this.filterValidGridAreas(gridAreas || [], dateRange)),
+    map(([gridAreas, dateRange]) => filterValidGridAreas(gridAreas || [], dateRange)),
     map((gridAreas) => this.mapGridAreasToDropdownOptions(gridAreas))
   );
 
@@ -155,19 +149,6 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
         value: gridArea?.code,
       };
     }) || []
-  }
-
-  private filterValidGridAreas(
-    gridAreas: GridAreaDto[],
-    dateRange: DateRange | null
-  ): GridAreaDto[] {
-    if (dateRange === null) return gridAreas;
-    return gridAreas?.filter((gridArea) => {
-      return (
-        isAfter(new Date(gridArea.validFrom), new Date(dateRange.start)) ||
-        isEqual(new Date(dateRange.start), new Date(gridArea.validFrom))
-      );
-    });
   }
 
   private toggleGridAreasControl() {
