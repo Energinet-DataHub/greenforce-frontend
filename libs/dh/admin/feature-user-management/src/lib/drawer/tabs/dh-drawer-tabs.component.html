@@ -19,7 +19,9 @@ limitations under the License.
     <watt-tab [label]="t('masterData.tabLabel')">
       <dh-user-master-data [user]="user"></dh-user-master-data>
     </watt-tab>
-    <watt-tab [label]="t('roles.tabLabel')"></watt-tab>
+    <watt-tab [label]="t('roles.tabLabel')">
+      <dh-user-roles [user]="user"></dh-user-roles>
+    </watt-tab>
     <watt-tab [label]="t('history.tabLabel')">
       <dh-user-audit-logs [user]="user"></dh-user-audit-logs>
     </watt-tab>
