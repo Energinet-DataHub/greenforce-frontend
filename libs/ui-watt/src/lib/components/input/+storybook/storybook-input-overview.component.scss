@@ -15,10 +15,8 @@
  * limitations under the License.
  */
 :host {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  max-width: 1030px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
 }
 
 .showcases {
@@ -27,25 +25,20 @@
 
 .headers,
 .examples {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-
-  * {
-    width: 100%;
-
-    @media (min-width: 1030px) {
-      width: 50%;
-      padding-right: 56px;
-    }
-  }
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
 }
 
 .headers {
   display: none;
+
   @media (min-width: 1030px) {
     display: flex;
   }
+}
+
+section {
+  margin: 1rem 0 4rem;
 }
 
 h1 {
