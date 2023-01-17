@@ -20,7 +20,7 @@ import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { EoLineChartComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 import { map } from 'rxjs';
 import { EoConsumptionStore } from './eo-consumption.store';
 

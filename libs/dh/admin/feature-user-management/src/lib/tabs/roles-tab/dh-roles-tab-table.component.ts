@@ -22,11 +22,9 @@ import {
   OnChanges,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { translate, TranslocoModule } from '@ngneat/transloco';
+import { translate } from '@ngneat/transloco';
 
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
-import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
+import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import {
@@ -34,6 +32,7 @@ import {
   WattTableColumnDef,
   WATT_TABLE,
 } from '@energinet-datahub/watt/table';
+import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.component';
 
 @Component({
   selector: 'dh-roles-tab-table',
@@ -50,25 +49,25 @@ import {
   changeDetection: ChangeDetectionStrategy.Default,
   imports: [
     WATT_TABLE,
-    CommonModule,
-    TranslocoModule,
-    DhEmDashFallbackPipeScam,
     DhSharedUiPaginatorComponent,
     DhRoleStatusComponent,
+    DhRoleDrawerComponent,
   ],
 })
 export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
-  @Input() roles: UserRoleInfoDto[] = [];
+  @Input() roles: UserRoleDto[] = [];
 
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
-  readonly dataSource: WattTableDataSource<UserRoleInfoDto> =
-    new WattTableDataSource<UserRoleInfoDto>();
+  @ViewChild(DhRoleDrawerComponent)
+  drawer!: DhRoleDrawerComponent;
 
-  columns: WattTableColumnDef<UserRoleInfoDto> = {
+  readonly dataSource: WattTableDataSource<UserRoleDto> =
+    new WattTableDataSource<UserRoleDto>();
+
+  columns: WattTableColumnDef<UserRoleDto> = {
     name: { accessor: 'name' },
-    description: { accessor: 'description' },
     marketrole: { accessor: 'eicFunction' },
     status: { accessor: 'status' },
   };
@@ -83,5 +82,9 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator?.instance;
+  }
+
+  onRowClick(row: UserRoleDto): void {
+    this.drawer.open(row);
   }
 }

@@ -23,7 +23,7 @@ import { DhAdminUserRolesStore } from './dh-admin-user-roles.store';
 
 describe('DhAdminUserRolesStore', () => {
   // Arrange
-  const userRoleView = {
+  const userRoleView: UserRoleView = {
     organizations: [
       {
         id: '1',
@@ -44,7 +44,7 @@ describe('DhAdminUserRolesStore', () => {
         ],
       },
     ],
-  } as UserRoleView;
+  };
 
   test('should return user role view', async () => {
     const observable = new Subject<UserRoleView>();

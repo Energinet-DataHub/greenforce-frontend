@@ -29,7 +29,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';

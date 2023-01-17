@@ -9,15 +9,16 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { UserStatus } from './user-status';
 
 
 export interface UserOverviewItemDto { 
     id: string;
-    email: string;
+    status: UserStatus;
     name: string;
+    email: string;
     phoneNumber?: string | null;
     createdDate: string;
-    active: boolean;
 }
 
 

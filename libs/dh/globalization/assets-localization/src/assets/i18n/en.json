@@ -845,7 +845,9 @@
           "tabLabel": "Master data",
           "name": "Name",
           "email": "Email",
-          "phone": "Phone"
+          "phone": "Phone",
+          "description": "Description",
+          "marketRole": "Market role"
         },
         "history": {
           "tabLabel": "History",
@@ -867,12 +869,18 @@
             "message": "Try again or contact your system administrator if you keep getting this error."
           }
         },
+        "rights": {
+          "tabLabel": "Rights"
+        },
         "users": {
           "tabLabel": "Users",
           "searchPlaceholder": "Search users",
           "usersHeadline": {
             "singular": "{{ usersCount }} user",
             "plural": "{{ usersCount }} users"
+          },
+          "filter": {
+            "status": "Status"
           },
           "table": {
             "columns": {
@@ -897,6 +905,10 @@
           "errorTitle": "Oops! There was an error",
           "errorMessage": "Unfortunately, an error occurred while retrieving the user roles.",
           "rolesHeadline": "Roles",
+          "filter": {
+            "status": "Status",
+            "marketRole": "Market role"
+          },
           "table": {
             "columns": {
               "name": "Name",

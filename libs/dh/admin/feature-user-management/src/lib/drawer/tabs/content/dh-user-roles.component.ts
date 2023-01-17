@@ -17,7 +17,8 @@
 import { Component, inject, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule, PushModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
+import { PushModule } from '@rx-angular/template/push';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { DhAdminUserRolesStore } from '@energinet-datahub/dh/admin/data-access-api';

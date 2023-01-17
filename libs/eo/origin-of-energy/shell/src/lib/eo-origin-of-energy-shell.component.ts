@@ -19,7 +19,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoMediaModule } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 import { EoOriginOfEnergyChartCardComponent } from './eo-origin-of-energy-chart-card.component';
 import { EoOriginOfEnergyChartTipsComponent } from './eo-origin-of-energy-chart-tips.component';
 import { EoOriginOfEnergyGlobalGoalsMediaComponent } from './eo-origin-of-energy-global-goals-media.component';

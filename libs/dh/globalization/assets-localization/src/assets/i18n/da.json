@@ -849,7 +849,9 @@
           "tabLabel": "Stamdata",
           "name": "Navn",
           "email": "Email",
-          "phone": "Telefon"
+          "phone": "Telefon",
+          "description": "Beskrivelse",
+          "marketRole": "Markedsrolle"
         },
         "history": {
           "tabLabel": "Historik",
@@ -871,8 +873,14 @@
             "message": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl."
           }
         },
+        "rights": {
+          "tabLabel": "Rettigheder"
+        },
         "users": {
           "tabLabel": "Brugere",
+          "filter": {
+            "status": "Status"
+          },
           "searchPlaceholder": "Søg brugere",
           "usersHeadline": {
             "singular": "{{ usersCount }} bruger",
@@ -901,6 +909,10 @@
           "errorTitle": "Ups! Der opstod en fejl",
           "errorMessage": "Der opstod desværre en fejl, ved hentning af rollerne.",
           "rolesHeadline": "Brugerroller",
+          "filter": {
+            "status": "Status",
+            "marketRole": "Markedsrolle"
+          },
           "table": {
             "columns": {
               "name": "Navn",

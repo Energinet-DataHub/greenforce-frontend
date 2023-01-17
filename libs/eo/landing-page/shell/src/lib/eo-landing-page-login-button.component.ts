@@ -16,7 +16,7 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 import { EoLandingPageStore } from './eo-landing-page.store';
 
 @Component({
