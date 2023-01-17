@@ -24,7 +24,7 @@ import {
 } from '@angular/core';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { WattIconModule } from '@energinet-datahub/watt/icon';

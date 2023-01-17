@@ -17,7 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 import { map } from 'rxjs';
 
 import { DhProcessesDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';

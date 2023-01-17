@@ -18,7 +18,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 import { tap } from 'rxjs';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';

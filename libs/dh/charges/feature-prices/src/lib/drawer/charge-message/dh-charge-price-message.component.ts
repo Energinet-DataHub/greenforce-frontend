@@ -24,7 +24,8 @@ import {
   MessageArchiveSearchCriteria,
   MessageArchiveSearchResultItemDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { LetModule, PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
+import { LetModule } from '@rx-angular/template/let';
 import { Subject, take, takeUntil } from 'rxjs';
 import { DhChargesPricesDrawerService } from '../dh-charges-prices-drawer.service';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
