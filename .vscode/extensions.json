@@ -7,6 +7,7 @@
     "nrwl.angular-console",
     "esbenp.prettier-vscode",
     "firsttris.vscode-jest-runner",
-    "ms-playwright.playwright"
+    "ms-playwright.playwright",
+    "ms-vsliveshare.vsliveshare"
   ]
 }
