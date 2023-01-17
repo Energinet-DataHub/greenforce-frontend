@@ -24,7 +24,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
-import { PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
 
 import {
   WattDrawerModule,
