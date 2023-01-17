@@ -44,14 +44,7 @@ import {
   EicFunction,
   UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import {
-  defer,
-  map,
-  of,
-  Subject,
-  takeUntil,
-  startWith,
-} from 'rxjs';
+import { defer, map, of, Subject, takeUntil, startWith } from 'rxjs';
 
 interface UserRoleForm {
   name: FormControl<string>;
