@@ -3,11 +3,11 @@ import { add, sub } from 'date-fns';
 import { filterValidGridAreas } from './grid-areas';
 
 describe(filterValidGridAreas.name, () => {
-  const initialISOString = '1970-01-01T00:00:00.000Z';
+  const initialDateOffset = '0001-01-01T00:00:00+00:00';
   const gridAreas = [
-    { validFrom: initialISOString },
-    { validFrom: '1970-01-02T00:00:00.000Z' },
-    { validFrom: '1970-01-03T00:00:00.000Z' },
+    { validFrom: initialDateOffset },
+    { validFrom: '1970-01-02T00:00:00+00:00' },
+    { validFrom: '1970-01-03T00:00:00+00:00' },
   ] as GridAreaDto[];
 
   it('should return all grid areas when date range is null', () => {
@@ -17,8 +17,8 @@ describe(filterValidGridAreas.name, () => {
   });
 
   it('validFrom should be before or equal selected end date', () => {
-    const selectedDateRange = { start: '1970-01-01', end: '1970-01-02' };
-    const expectedGridAreas = [initialISOString, '1970-01-02T00:00:00.000Z'];
+    const selectedDateRange = { start: '1970/01/01', end: '1970/01/03' };
+    const expectedGridAreas = [initialDateOffset, '1970-01-02T00:00:00+00:00'];
     const result = filterValidGridAreas(gridAreas, selectedDateRange);
     expect(result).toEqual(expectedGridAreas.map((x) => ({ validFrom: x })));
   });
@@ -50,7 +50,7 @@ describe(filterValidGridAreas.name, () => {
     ]
     // We map the validFrom property since it is required by the filterValidGridAreas function and we don't care about it in this test
     .map((x) => {
-      return { ...x, validFrom: initialISOString } as GridAreaDto;
+      return { ...x, validFrom: initialDateOffset } as GridAreaDto;
     });
     const expectedGridAreas = [
       gridAreas[1],
