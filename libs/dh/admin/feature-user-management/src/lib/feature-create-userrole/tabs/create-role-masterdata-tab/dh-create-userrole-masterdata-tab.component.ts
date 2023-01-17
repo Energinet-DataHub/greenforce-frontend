@@ -90,10 +90,7 @@ export class DhCreateUserroleMasterdataTabComponent
   });
 
   @Output() formReady = of(this.userRoleForm);
-  @Output() eicFunctionSelected =
-    this.userRoleForm.controls.eicFunction.valueChanges.pipe(
-      map((value) => value)
-    );
+  @Output() eicFunctionSelected = new EventEmitter<EicFunction>();
   @Output() valueChange = new EventEmitter<Partial<CreateUserRoleDto>>();
 
   userRoleStatusOptions: WattDropdownOptions = [];
@@ -124,6 +121,10 @@ export class DhCreateUserroleMasterdataTabComponent
         takeUntil(this.destroy$)
       )
       .subscribe((value) => this.valueChange.emit(value));
+
+    this.userRoleForm.controls.eicFunction.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => this.eicFunctionSelected.emit(value));
   }
 
   ngOnDestroy(): void {
