@@ -44,7 +44,15 @@ import {
   EicFunction,
   UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { defer, map, of, startWith, Subject, takeUntil } from 'rxjs';
+import {
+  defer,
+  map,
+  of,
+  Subject,
+  takeUntil,
+  startWith,
+  distinctUntilChanged,
+} from 'rxjs';
 
 interface UserRoleForm {
   name: FormControl<string>;
@@ -73,24 +81,27 @@ interface UserRoleForm {
 export class DhCreateUserroleMasterdataTabComponent
   implements OnInit, OnDestroy
 {
-  userRoleForm = this.fb.nonNullable.group<UserRoleForm>({
-    name: this.fb.nonNullable.control('', [
+  userRoleForm = this.formBuilder.nonNullable.group<UserRoleForm>({
+    name: this.formBuilder.nonNullable.control('', [
       Validators.required,
       Validators.maxLength(250),
     ]),
-    description: this.fb.nonNullable.control('', Validators.required),
-    eicFunction: this.fb.nonNullable.control(
+    description: this.formBuilder.nonNullable.control('', Validators.required),
+    eicFunction: this.formBuilder.nonNullable.control(
       EicFunction.Agent,
       Validators.required
     ),
-    roleStatus: this.fb.nonNullable.control(
+    roleStatus: this.formBuilder.nonNullable.control(
       UserRoleStatus.Active,
       Validators.required
     ),
   });
 
   @Output() formReady = of(this.userRoleForm);
-  @Output() eicFunctionSelected = new EventEmitter<EicFunction>();
+  @Output() eicFunctionSelected =
+    this.userRoleForm.controls.eicFunction.valueChanges.pipe(
+      map((value) => value)
+    );
   @Output() valueChange = defer(() =>
     this.userRoleForm.valueChanges.pipe(
       startWith(this.userRoleForm.value),
@@ -110,15 +121,14 @@ export class DhCreateUserroleMasterdataTabComponent
 
   private destroy$ = new Subject<void>();
 
-  constructor(private trans: TranslocoService, private fb: FormBuilder) {}
+  constructor(
+    private trans: TranslocoService,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.buildUserRoleStatusOptions();
     this.buildEicFunctionOptions();
-
-    this.userRoleForm.controls.eicFunction.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((value) => this.eicFunctionSelected.emit(value));
   }
 
   ngOnDestroy(): void {

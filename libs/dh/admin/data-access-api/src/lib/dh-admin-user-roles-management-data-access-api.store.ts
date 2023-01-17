@@ -29,7 +29,7 @@ import {
   UserRoleDto,
 } from '@energinet-datahub/dh/shared/domain';
 
-export interface UserRoleCreate {
+interface UserRoleCreate {
   onSaveCompletedFn: () => void;
   createRole: CreateUserRoleDto;
 }
@@ -122,6 +122,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
             tapResponse(
               () => {
                 this.setLoading(LoadingState.LOADED);
+                this.setCreateState(LoadingState.LOADED);
                 userRole.onSaveCompletedFn();
               },
               () => {

@@ -80,14 +80,14 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
   isLoading$ = this.store.isLoading$;
   validation$ = this.store.validation$;
-  createRoleForm = this.fb.group<CreateRoleForm>({});
+  createRoleForm = this.formBuilder.group<CreateRoleForm>({});
   userRole?: CreateUserRoleDto;
 
   private destroy$ = new Subject<void>();
 
   constructor(
     private router: Router,
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private toastService: WattToastService,
     private translocoService: TranslocoService
   ) {}
