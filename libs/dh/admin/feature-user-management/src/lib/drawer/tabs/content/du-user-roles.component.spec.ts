@@ -28,7 +28,7 @@ describe('UserRolesComponent', () => {
         user: {
           id: '47a76eb8-3814-4bc1-96a9-a9a5b9adf843',
           email: 'fake@value',
-          active: true,
+          status: 'Active',
           createdDate: '2023-01-10T10:12:06+00:00',
           name: 'fake value',
         },
