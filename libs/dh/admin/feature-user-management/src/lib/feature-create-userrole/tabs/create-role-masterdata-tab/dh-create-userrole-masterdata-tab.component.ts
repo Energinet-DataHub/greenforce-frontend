@@ -44,7 +44,7 @@ import {
   EicFunction,
   UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { defer, map, of, Subject, takeUntil, startWith } from 'rxjs';
+import { map, of, Subject, takeUntil, startWith } from 'rxjs';
 
 interface UserRoleForm {
   name: FormControl<string>;
@@ -94,19 +94,7 @@ export class DhCreateUserroleMasterdataTabComponent
     this.userRoleForm.controls.eicFunction.valueChanges.pipe(
       map((value) => value)
     );
-  @Output() valueChange = defer(() =>
-    this.userRoleForm.valueChanges.pipe(
-      startWith(this.userRoleForm.value),
-      map(
-        (formValue): Partial<CreateUserRoleDto> => ({
-          name: formValue.name,
-          description: formValue.description,
-          eicFunction: formValue.eicFunction,
-          status: formValue.roleStatus,
-        })
-      )
-    )
-  );
+  @Output() valueChange = new EventEmitter<Partial<CreateUserRoleDto>>();
 
   userRoleStatusOptions: WattDropdownOptions = [];
   eicFunctionOptions: WattDropdownOptions = [];
@@ -121,6 +109,21 @@ export class DhCreateUserroleMasterdataTabComponent
   ngOnInit(): void {
     this.buildUserRoleStatusOptions();
     this.buildEicFunctionOptions();
+
+    this.userRoleForm.valueChanges
+      .pipe(
+        startWith(this.userRoleForm.value),
+        map(
+          (formValue): Partial<CreateUserRoleDto> => ({
+            name: formValue.name,
+            description: formValue.description,
+            eicFunction: formValue.eicFunction,
+            status: formValue.roleStatus,
+          })
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((value) => this.valueChange.emit(value));
   }
 
   ngOnDestroy(): void {
