@@ -47,8 +47,8 @@ export const typographyHtmlSnippets = {
     mixin: mixinSnippet('headline-5'),
   },
   h6: {
-    tag: '<h6>headline-5</h6>',
-    class: '<p class="watt-headline-6">headline-5</p>',
+    tag: '<h6>headline-6</h6>',
+    class: '<p class="watt-headline-6">headline-6</p>',
     mixin: mixinSnippet('headline-6'),
   },
   textL: {
