@@ -14,70 +14,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<h1>Text Field</h1>
 <div>
-  <p class="watt-label">Size</p>
-  <ul>
-    <li>Default</li>
-    <li>Large</li>
-  </ul>
-
-  <p class="watt-label">State</p>
-  <ul>
-    <li>Default</li>
-    <li>Focus</li>
-    <li>Disabled</li>
-  </ul>
-
-  <p class="watt-label">Placeholder text</p>
-  <ul>
-    <li>Placeholder</li>
-    <li>No Placeholder</li>
-  </ul>
-
-  <p class="watt-label">Icon</p>
-  <ul>
-    <li>Leading icon</li>
-    <li>Trailing icon</li>
-  </ul>
-
-  <p class="watt-label">Helper</p>
-  <ul>
-    <li>Assistive</li>
-    <li>Required</li>
-    <li>Error</li>
-  </ul>
-</div>
-
-<div class="showcases">
-  <div class="headers">
-    <h2>Default</h2>
-    <h2>Large</h2>
-  </div>
-
   <!-- States -->
   <section>
     <h3>States</h3>
     <p>Default</p>
     <div class="examples">
       <storybook-input-wrapper></storybook-input-wrapper>
-      <storybook-input-wrapper size="large"></storybook-input-wrapper>
     </div>
     <p>Focused</p>
     <div class="examples">
       <storybook-input-wrapper [focused]="true"></storybook-input-wrapper>
-      <storybook-input-wrapper
-        size="large"
-        [focused]="true"
-      ></storybook-input-wrapper>
     </div>
     <p>Disabled</p>
     <div class="examples">
       <storybook-input-wrapper [disabled]="true"></storybook-input-wrapper>
-      <storybook-input-wrapper
-        size="large"
-        [disabled]="true"
-      ></storybook-input-wrapper>
     </div>
   </section>
   <!-- Placeholder text -->
@@ -85,10 +36,6 @@ limitations under the License.
     <h3>Placeholder text</h3>
     <div class="examples">
       <storybook-input-wrapper
-        placeholder="Placeholder text"
-      ></storybook-input-wrapper>
-      <storybook-input-wrapper
-        size="large"
         placeholder="Placeholder text"
       ></storybook-input-wrapper>
     </div>
@@ -99,18 +46,10 @@ limitations under the License.
     <p>Trailing icon</p>
     <div class="examples">
       <storybook-input-wrapper [hasSuffix]="true"></storybook-input-wrapper>
-      <storybook-input-wrapper
-        size="large"
-        [hasSuffix]="true"
-      ></storybook-input-wrapper>
     </div>
     <p>Leading icon</p>
     <div class="examples">
       <storybook-input-wrapper [hasPrefix]="true"></storybook-input-wrapper>
-      <storybook-input-wrapper
-        size="large"
-        [hasPrefix]="true"
-      ></storybook-input-wrapper>
     </div>
   </section>
   <!-- Helper -->
@@ -119,27 +58,14 @@ limitations under the License.
     <p>Assistive text</p>
     <div class="examples">
       <storybook-input-wrapper [hasHint]="true"></storybook-input-wrapper>
-      <storybook-input-wrapper
-        size="large"
-        [hasHint]="true"
-      ></storybook-input-wrapper>
     </div>
     <p>Required field</p>
     <div class="examples">
       <storybook-input-wrapper [required]="true"></storybook-input-wrapper>
-      <storybook-input-wrapper
-        size="large"
-        [required]="true"
-      ></storybook-input-wrapper>
     </div>
     <p>Error</p>
     <div class="examples">
       <storybook-input-wrapper
-        [hasError]="true"
-        [required]="true"
-      ></storybook-input-wrapper>
-      <storybook-input-wrapper
-        size="large"
         [hasError]="true"
         [required]="true"
       ></storybook-input-wrapper>
