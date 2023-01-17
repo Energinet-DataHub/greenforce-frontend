@@ -17,7 +17,8 @@
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { LetModule, PushModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
+import { PushModule } from '@rx-angular/template/push';
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { DhCreateUserroleMasterdataTabComponent } from './create-role-masterdata-tab/dh-create-userrole-masterdata-tab.component';
