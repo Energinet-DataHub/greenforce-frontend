@@ -98,7 +98,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
       description: '',
       eicFunction: 'Agent',
       status: 'Active',
-      permissions: [],
+      permissions: ['organization:manage'], //TODO: Replace with correct ones once permissions are implemented
     };
 
     this.store.createRequestHasError$
