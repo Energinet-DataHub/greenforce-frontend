@@ -1,3 +1,19 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { add, sub } from 'date-fns';
 import { filterValidGridAreas } from './grid-areas';
@@ -48,14 +64,11 @@ describe(filterValidGridAreas.name, () => {
         }).toISOString(), // INVALID
       },
     ]
-    // We map the validFrom property since it is required by the filterValidGridAreas function and we don't care about it in this test
-    .map((x) => {
-      return { ...x, validFrom: initialDateOffset } as GridAreaDto;
-    });
-    const expectedGridAreas = [
-      gridAreas[1],
-      gridAreas[2],
-    ];
+      // We map the validFrom property since it is required by the filterValidGridAreas function and we don't care about it in this test
+      .map((x) => {
+        return { ...x, validFrom: initialDateOffset } as GridAreaDto;
+      });
+    const expectedGridAreas = [gridAreas[1], gridAreas[2]];
 
     /**
      * Act
