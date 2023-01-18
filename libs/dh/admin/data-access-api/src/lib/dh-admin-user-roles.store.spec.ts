@@ -16,14 +16,14 @@
  */
 import {
   MarketParticipantUserRoleHttp,
-  UserRoleView,
+  UserRolesViewDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { firstValueFrom, Subject } from 'rxjs';
 import { DhAdminUserRolesStore } from './dh-admin-user-roles.store';
 
 describe('DhAdminUserRolesStore', () => {
   // Arrange
-  const userRoleView: UserRoleView = {
+  const userRoleView: UserRolesViewDto = {
     organizations: [
       {
         id: '1',
@@ -47,7 +47,7 @@ describe('DhAdminUserRolesStore', () => {
   };
 
   test('should return user role view', async () => {
-    const observable = new Subject<UserRoleView>();
+    const observable = new Subject<UserRolesViewDto>();
 
     const httpClient = {
       v1MarketParticipantUserRoleGetUserRoleViewGet: () =>
@@ -56,7 +56,7 @@ describe('DhAdminUserRolesStore', () => {
 
     const store = new DhAdminUserRolesStore(httpClient);
 
-    store.getUserRoleView('1');
+    store.getUserRolesView('1');
     observable.next(userRoleView);
     observable.complete();
 
@@ -66,7 +66,7 @@ describe('DhAdminUserRolesStore', () => {
   });
 
   test('complete with no errors', async () => {
-    const observable = new Subject<UserRoleView>();
+    const observable = new Subject<UserRolesViewDto>();
 
     const httpClient = {
       v1MarketParticipantUserRoleGetUserRoleViewGet: () =>
@@ -77,7 +77,7 @@ describe('DhAdminUserRolesStore', () => {
 
     const spyOnCall = jest.spyOn(store.hasGeneralError$, 'next');
 
-    store.getUserRoleView('1');
+    store.getUserRolesView('1');
     observable.next(userRoleView);
     observable.complete();
 
@@ -86,7 +86,7 @@ describe('DhAdminUserRolesStore', () => {
   });
 
   test('complete with errors', async () => {
-    const observable = new Subject<UserRoleView>();
+    const observable = new Subject<UserRolesViewDto>();
 
     const httpClient = {
       v1MarketParticipantUserRoleGetUserRoleViewGet: () =>
@@ -97,7 +97,7 @@ describe('DhAdminUserRolesStore', () => {
 
     const spyOnCall = jest.spyOn(store.hasGeneralError$, 'next');
 
-    store.getUserRoleView('1');
+    store.getUserRolesView('1');
     observable.error('error');
     observable.complete();
 
