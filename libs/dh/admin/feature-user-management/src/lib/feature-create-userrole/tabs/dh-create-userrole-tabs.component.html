@@ -28,9 +28,6 @@ limitations under the License.
     <watt-card-title>
       <h4>{{ t("headline") }}</h4>
     </watt-card-title>
-    <div class="spinner-container" *ngIf="isLoading">
-      <watt-spinner></watt-spinner>
-    </div>
     <form [formGroup]="createRoleForm" (ngSubmit)="onSubmit()">
       <watt-tabs>
         <watt-tab [label]="t('tabs.masterdata.tabLabel')">
