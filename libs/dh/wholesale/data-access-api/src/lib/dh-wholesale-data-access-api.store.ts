@@ -21,6 +21,7 @@ import { Observable, switchMap, Subject, map, tap } from 'rxjs';
 
 import {
   WholesaleBatchHttp,
+  MarketParticipantGridAreaHttp,
   BatchRequestDto,
   ProcessType,
   BatchSearchDto,
@@ -72,6 +73,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
 
   private document = inject(DOCUMENT);
   private httpClient = inject(WholesaleBatchHttp);
+  private marketParticipantGridAreaHttpClient = inject(MarketParticipantGridAreaHttp);
 
   constructor() {
     super(initialState);
@@ -200,7 +202,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   });
 
   readonly getGridAreas = this.effect(() => {
-    return this.httpClient.v1WholesaleBatchGridAreasGet().pipe(
+    return this.marketParticipantGridAreaHttpClient.v1MarketParticipantGridAreaGetAllGridAreasGet().pipe(
       tapResponse(
         (gridAreas) => {
           this.setGridAreas(gridAreas);
