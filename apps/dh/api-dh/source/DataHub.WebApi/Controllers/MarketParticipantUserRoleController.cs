@@ -18,8 +18,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
-using Energinet.DataHub.WebApi.Dto.MarketParticipant;
 using Microsoft.AspNetCore.Mvc;
+using ViewModels = Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 
 namespace Energinet.DataHub.WebApi.Controllers
 {
@@ -47,7 +47,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [Route("GetUserRoleWithPermissions")]
         public Task<ActionResult<UserRoleWithPermissionsDto>> GetUserRoleWithPermissionsAsync(Guid userRoleId)
         {
-            return HandleExceptionAsync(() => _client.GetAsync(userRoleId));
+            return HandleExceptionAsync(() => _userRoleClient.GetAsync(userRoleId));
         }
 
         [HttpGet]
@@ -66,7 +66,7 @@ namespace Energinet.DataHub.WebApi.Controllers
 
         [HttpGet]
         [Route("GetUserRoleView")]
-        public async Task<ActionResult<UserRoleView>> GetUserRoleViewAsync(Guid userId)
+        public async Task<ActionResult<ViewModels.UserRoleViewDto>> GetUserRoleViewAsync(Guid userId)
         {
             var allOrganizations = await _client.GetOrganizationsAsync();
             var allActors = allOrganizations.SelectMany(o => o.Actors);
@@ -77,39 +77,24 @@ namespace Energinet.DataHub.WebApi.Controllers
             var userMarketRolesOnActorTasks = userActorsIds
                                                 .Select(async userActorId =>
                                                     (await _userRoleClient.GetAsync(userActorId, userId))
-                                                        .Select(role => new UserRole()
-                                                        {
-                                                            Id = role.Id,
-                                                            Name = role.Name,
-                                                            UserActorId = userActorId,
-                                                        }));
+                                                        .Select(role => new ViewModels.UserRoleDto(role.Id, role.Name, userActorId)));
             var userMarketRolesOnActor = await Task.WhenAll(userMarketRolesOnActorTasks);
 
-            var userRoleView = new UserRoleView
-            {
-                Organizations = userOrganizations.Select(org => new Organization
-                {
-                    Id = org.OrganizationId,
-                    Name = org.Name,
-                    Actors = userActors
+            var userRoleView = new ViewModels.UserRoleViewDto(
+                userOrganizations.Select(org => new ViewModels.OrganizationDto(
+                    org.OrganizationId,
+                    org.Name,
+                    userActors
                         .Where(actor => org.Actors.Any(a => a.ActorId == actor.ActorId))
-                        .Select(actor => new Actor
-                        {
-                            Id = actor.ActorId,
-                            Name = actor.Name.Value,
-                            ActorNumber = actor.ActorNumber.Value,
-                            UserRoles = userMarketRolesOnActor
-                                .SelectMany(mr => mr)
-                                .Where(mr => mr.UserActorId == actor.ActorId)
-                                .Select(mr => new UserRole
-                                {
-                                    Id = mr.Id,
-                                    Name = mr.Name,
-                                    UserActorId = mr.UserActorId,
-                                }).ToList(),
-                        }).ToList(),
-                }).ToList(),
-            };
+                        .Select(actor =>
+                            new ViewModels.ActorDto(
+                                actor.ActorId,
+                                actor.Name.Value,
+                                actor.ActorNumber.Value,
+                                userMarketRolesOnActor
+                                    .SelectMany(mr => mr)
+                                    .Where(mr => mr.UserActorId == actor.ActorId)
+                                    .Select(mr => new ViewModels.UserRoleDto(mr.Id, mr.Name, mr.UserActorId)))))));
             return userRoleView;
         }
 

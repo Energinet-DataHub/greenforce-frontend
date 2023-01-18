@@ -12,24 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System;
+using System.Collections.Generic;
 
-namespace Energinet.DataHub.WebApi.Dto.MarketParticipant
+namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
 {
-    public class UserRole
-    {
-        public Guid Id
-        {
-            get; set;
-        }
-
-        public string? Name
-        {
-            get; set;
-        }
-
-        public Guid? UserActorId
-        {
-            get; set;
-        }
-    }
+    public sealed record OrganizationDto(Guid Id, string Name, IEnumerable<ActorDto> Actors);
 }

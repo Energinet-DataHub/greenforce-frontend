@@ -14,23 +14,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Energinet.DataHub.WebApi.Dto.MarketParticipant
+namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
 {
-    public class Organization
-    {
-        public Guid Id
-        {
-            get; set;
-        }
-
-        public string? Name
-        {
-            get; set;
-        }
-
-        public List<Actor>? Actors
-        {
-            get; set;
-        }
-    }
+    public sealed record ActorDto(Guid Id, string ActorNumber, string Name, IEnumerable<UserRoleDto> UserRoles);
 }
