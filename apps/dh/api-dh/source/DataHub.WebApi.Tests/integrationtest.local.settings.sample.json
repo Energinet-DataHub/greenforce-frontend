@@ -1,4 +1,7 @@
 ﻿{
   "AZURE_KEYVAULT_URL": "<Integration test key vault url>",
-  "AZURE_SECRETS_KEYVAULT_URL": "<Key vault with secrets url>"
+
+  // B2C information that allows us to retrieve an access token from tests:
+  // => Key vault containing relevant B2C information (url's, usernames, secrets etc.)
+  "AZURE_B2CSECRETS_KEYVAULT_URL": "<B2C information key vault url>",
 }
