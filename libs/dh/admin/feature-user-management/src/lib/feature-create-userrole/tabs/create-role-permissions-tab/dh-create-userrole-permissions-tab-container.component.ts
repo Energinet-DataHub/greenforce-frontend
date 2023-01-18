@@ -16,7 +16,8 @@
  */
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LetModule, PushModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
+import { PushModule } from '@rx-angular/template/push';
 
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 
