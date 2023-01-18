@@ -113,6 +113,13 @@ $font-sizes: (
   letter-spacing: 0;
 }
 
+@mixin watt-headline-6 {
+  @include font-size("s");
+  @include font-weight("semi-bold");
+  text-transform: none;
+  letter-spacing: 0;
+}
+
 @mixin watt-text-s {
   @include font-size("s");
   @include font-weight("regular");
