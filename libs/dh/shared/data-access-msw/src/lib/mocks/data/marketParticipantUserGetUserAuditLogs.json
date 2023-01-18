@@ -1,0 +1,22 @@
+{
+  "roleAssignmentAuditLogs": [
+    {
+      "actorId": "00000000-0000-0000-0000-000000000001",
+      "userRoleId": "3f4c5be3-1e12-4ed4-9d34-05fee4763127",
+      "userRoleName": "Balanceansvarlig",
+      "changedByUserId": "25499d8c-8d8a-45e1-93a3-74011c07b1b3",
+      "changedByUserName": "Test User",
+      "timestamp": "2023-01-02T12:47:03.4871748+00:00",
+      "assignmentType": "Added"
+    },
+    {
+      "actorId": "00000000-0000-0000-0000-000000000001",
+      "userRoleId": "3f4c5be3-1e12-4ed4-9d34-05fee4763127",
+      "userRoleName": "Balanceansvarlig",
+      "changedByUserId": "25499d8c-8d8a-45e1-93a3-74011c07b1b3",
+      "changedByUserName": "Test User",
+      "timestamp": "2023-01-02T12:48:38.0587304+00:00",
+      "assignmentType": "Removed"
+    }
+  ]
+}
