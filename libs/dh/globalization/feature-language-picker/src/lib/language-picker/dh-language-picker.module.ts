@@ -16,7 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 
 import { DhLanguageButtonModule } from '../language-button/dh-language-button.module';
 import { DhLanguagePickerComponent } from './dh-language-picker.component';

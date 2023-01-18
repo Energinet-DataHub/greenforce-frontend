@@ -43,7 +43,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 
-import { PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
 import { DhChargesPricesResultComponent } from './search-result/dh-charges-prices-result.component';
 import {
   DhChargesDataAccessApiStore,

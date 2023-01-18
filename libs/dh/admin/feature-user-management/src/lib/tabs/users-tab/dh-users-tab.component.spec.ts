@@ -85,16 +85,16 @@ describe(DhUsersTabComponent.name, () => {
 
     const [testUser] = users;
 
-    const name = screen.getByRole('cell', {
+    const name = screen.getByRole('gridcell', {
       name: new RegExp(testUser.name, 'i'),
     });
-    const email = screen.getByRole('cell', {
+    const email = screen.getByRole('gridcell', {
       name: new RegExp(testUser.email, 'i'),
     });
-    const phone = screen.getByRole('cell', {
+    const phone = screen.getByRole('gridcell', {
       name: new RegExp(testUser.phoneNumber ?? '', 'i'),
     });
-    const status = screen.getByRole('cell', {
+    const status = screen.getByRole('gridcell', {
       name: new RegExp(
         enTranslations.admin.userManagement.userStatus.active,
         'i'

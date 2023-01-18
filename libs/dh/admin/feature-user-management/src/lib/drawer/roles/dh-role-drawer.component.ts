@@ -28,7 +28,8 @@ import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component';
 import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
-import { LetModule, PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
+import { LetModule } from '@rx-angular/template/let';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-data-general-error.component';
 

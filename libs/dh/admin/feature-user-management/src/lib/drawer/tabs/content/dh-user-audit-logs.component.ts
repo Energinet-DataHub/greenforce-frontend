@@ -16,7 +16,8 @@
  */
 import { Component, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LetModule, PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
+import { LetModule } from '@rx-angular/template/let';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import {
   DhAdminUserManagementAuditLogsDataAccessApiStore,

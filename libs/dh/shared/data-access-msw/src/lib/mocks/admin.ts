@@ -18,11 +18,13 @@ import { rest } from 'msw';
 
 import marketParticipantUserOverviewData from './data/marketParticipantUserOverview.json';
 import marketParticipantActorQuerySelectionActors from './data/marketParticipantActorQuerySelectionActors.json';
+import marketParticipantUserRoleGetAll from './data/marketParticipantUserRoleGetAll.json';
 
 export function adminMocks(apiBase: string) {
   return [
     getMarketParticipantUserOverview(apiBase),
     getMarketParticipantActorQuerySelectionActors(apiBase),
+    getMarketParticipantUserRoleGetAll(apiBase),
   ];
 }
 
@@ -40,6 +42,15 @@ function getMarketParticipantActorQuerySelectionActors(apiBase: string) {
     `${apiBase}/v1/MarketParticipantActorQuery/GetSelectionActors`,
     (req, res, ctx) => {
       return res(ctx.json(marketParticipantActorQuerySelectionActors));
+    }
+  );
+}
+
+function getMarketParticipantUserRoleGetAll(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipantUserRole/GetAll`,
+    (req, res, ctx) => {
+      return res(ctx.json(marketParticipantUserRoleGetAll));
     }
   );
 }

@@ -38,8 +38,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { LetModule, PushModule } from '@rx-angular/template';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { LetModule } from '@rx-angular/template/let';
+import { PushModule } from '@rx-angular/template/push';
 
 import {
   WattDropdownModule,

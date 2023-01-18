@@ -14,14 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { MatTableModule } from '@angular/material/table';
 
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
-import { DhCustomDataSource } from '@energinet-datahub/dh/admin/data-access-api';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  WattTableColumnDef,
+  WattTableDataSource,
+  WATT_TABLE,
+} from '@energinet-datahub/watt/table';
 
 import { DhUserStatusComponent } from '../../shared/dh-user-status.component';
 import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
@@ -35,31 +42,42 @@ import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
       :host {
         display: block;
       }
-
-      ::ng-deep .mat-row.clickable:hover {
-        background-color: var(--watt-color-neutral-grey-100);
-      }
     `,
   ],
   // Using `OnPush` causes issues with table's header row translations
   changeDetection: ChangeDetectionStrategy.Default,
   imports: [
-    CommonModule,
+    WATT_TABLE,
     TranslocoModule,
     DhEmDashFallbackPipeScam,
-    MatTableModule,
     DhUserStatusComponent,
     DhUserDrawerComponent,
   ],
 })
 export class DhUsersTabTableComponent {
-  dataSource = new DhCustomDataSource();
-  displayedColumns = ['name', 'email', 'phone', 'status'];
+  columns: WattTableColumnDef<UserOverviewItemDto> = {
+    name: { accessor: 'name' },
+    email: { accessor: 'email' },
+    phone: { accessor: 'phoneNumber' },
+    status: { accessor: 'status' },
+  };
+
+  dataSource = new WattTableDataSource<UserOverviewItemDto>();
+  activeRow: UserOverviewItemDto | undefined = undefined;
+
+  @Input() set users(value: UserOverviewItemDto[]) {
+    this.dataSource.data = value;
+  }
 
   @ViewChild(DhUserDrawerComponent)
   drawer!: DhUserDrawerComponent;
 
   onRowClick(row: UserOverviewItemDto): void {
+    this.activeRow = row;
     this.drawer.open(row);
+  }
+
+  onClosed(): void {
+    this.activeRow = undefined;
   }
 }

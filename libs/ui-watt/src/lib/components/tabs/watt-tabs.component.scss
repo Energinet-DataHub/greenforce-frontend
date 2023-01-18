@@ -31,7 +31,8 @@ watt-tabs .mat-tab-label {
     @include watt.typography-watt-button;
   }
 
-  &.mat-tab-label-active {
+  &.mat-tab-label-active,
+  &.mat-tab-label:hover {
     background: var(--watt-color-primary);
 
     .mat-tab-label-content {

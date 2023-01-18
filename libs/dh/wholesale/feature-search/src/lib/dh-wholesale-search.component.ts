@@ -24,7 +24,8 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { first, of, Subject } from 'rxjs';
-import { LetModule, PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
+import { LetModule } from '@rx-angular/template/let';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 

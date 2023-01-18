@@ -41,7 +41,7 @@ import {
   ChargePriceSortColumnName,
 } from '@energinet-datahub/dh/shared/domain';
 import { Subject, takeUntil } from 'rxjs';
-import { PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import {
   WattTableDataSource,
