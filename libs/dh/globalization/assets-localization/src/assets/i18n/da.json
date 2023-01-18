@@ -904,6 +904,10 @@
         },
         "roles": {
           "tabLabel": "Roller",
+          "roles": "Roller",
+          "role": "Rolle",
+          "errorTitle": "Ups! Der opstod en fejl",
+          "errorMessage": "Der opstod desværre en fejl, ved hentning af rollerne.",
           "rolesHeadline": "Brugerroller",
           "filter": {
             "status": "Status",
@@ -916,6 +920,10 @@
               "marketrole": "Marketsrolle",
               "status": "Status"
             }
+          },
+          "userRolesHeadline": {
+            "singular": "{{ userRolesCount }} rolle",
+            "plural": "{{ userRolesCount }} roller"
           }
         },
         "permissions": {
