@@ -18,8 +18,14 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Energinet.DataHub.Core.App.WebApp.Authentication;
 using Energinet.DataHub.Core.App.WebApp.Diagnostics.HealthChecks;
-using Energinet.DataHub.Core.App.WebApp.Middleware;
+using Energinet.DataHub.WebApi.GraphQL;
 using Energinet.DataHub.WebApi.Registration;
+using GraphQL;
+using GraphQL.MicrosoftDI;
+using GraphQL.Server;
+using GraphQL.Server.Ui.Playground;
+using GraphQL.SystemTextJson;
+using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -109,6 +115,17 @@ namespace Energinet.DataHub.WebApi
             var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>()
                                     ?? new ApiClientSettings();
             services.AddDomainClients(apiClientSettings);
+            services.AddGraphQLSchema();
+            services.AddGraphQL(options =>
+                    options.ConfigureExecution((opt, next) =>
+                    {
+                        opt.ThrowOnUnhandledException = true;
+                        opt.EnableMetrics = true;
+                        return next(opt);
+                    })
+                    .AddSystemTextJson()
+                    .AddErrorInfoProvider(opts =>
+                        opts.ExposeExceptionDetails = true));
 
             SetupHealthEndpoints(services, apiClientSettings);
         }
@@ -151,6 +168,15 @@ namespace Energinet.DataHub.WebApi
                 endpoints.MapLiveHealthChecks();
                 endpoints.MapReadyHealthChecks();
             });
+
+            app.UseGraphQL("/graphql");            // url to host GraphQL endpoint
+            app.UseGraphQLPlayground(
+                "/",                               // url to host Playground at
+                new PlaygroundOptions
+                {
+                    GraphQLEndPoint = "/graphql",         // url of GraphQL endpoint
+                    SubscriptionsEndPoint = "/graphql",   // url of GraphQL endpoint
+                });
         }
 
         protected virtual void SetupHealthEndpoints(IServiceCollection services, ApiClientSettings apiClientSettingsService)
