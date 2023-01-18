@@ -916,6 +916,10 @@
               "marketrole": "Market role",
               "status": "Status"
             }
+          },
+          "userRolesHeadline": {
+            "singular": "{{ userRolesCount }} role",
+            "plural": "{{ userRolesCount }} roles"
           }
         },
         "permissions": {

@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { Pipe, PipeTransform } from '@angular/core';
-import { UserRole } from '@energinet-datahub/dh/shared/domain';
+import { UserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
 
 @Pipe({ name: 'joinUserRoles', standalone: true })
 export class JoinUserRoles implements PipeTransform {
-  transform(userRoles: UserRole[] | null | undefined) {
+  transform(userRoles: UserRoleViewDto[] | null | undefined) {
     return userRoles?.map((userRole) => userRole.name).join(', ') ?? '';
   }
 }

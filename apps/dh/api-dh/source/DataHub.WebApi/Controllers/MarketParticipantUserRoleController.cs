@@ -66,7 +66,7 @@ namespace Energinet.DataHub.WebApi.Controllers
 
         [HttpGet]
         [Route("GetUserRoleView")]
-        public async Task<ActionResult<ViewModels.UserRoleViewDto>> GetUserRoleViewAsync(Guid userId)
+        public async Task<ActionResult<ViewModels.UserRolesViewDto>> GetUserRoleViewAsync(Guid userId)
         {
             var allOrganizations = await _client.GetOrganizationsAsync();
             var allActors = allOrganizations.SelectMany(o => o.Actors);
@@ -77,24 +77,24 @@ namespace Energinet.DataHub.WebApi.Controllers
             var userMarketRolesOnActorTasks = userActorsIds
                                                 .Select(async userActorId =>
                                                     (await _userRoleClient.GetAsync(userActorId, userId))
-                                                        .Select(role => new ViewModels.UserRoleDto(role.Id, role.Name, userActorId)));
+                                                        .Select(role => new ViewModels.UserRoleViewDto(role.Id, role.Name, userActorId)));
             var userMarketRolesOnActor = await Task.WhenAll(userMarketRolesOnActorTasks);
 
-            var userRoleView = new ViewModels.UserRoleViewDto(
-                userOrganizations.Select(org => new ViewModels.OrganizationDto(
+            var userRoleView = new ViewModels.UserRolesViewDto(
+                userOrganizations.Select(org => new ViewModels.OrganizationViewDto(
                     org.OrganizationId,
                     org.Name,
                     userActors
                         .Where(actor => org.Actors.Any(a => a.ActorId == actor.ActorId))
                         .Select(actor =>
-                            new ViewModels.ActorDto(
+                            new ViewModels.ActorViewDto(
                                 actor.ActorId,
                                 actor.Name.Value,
                                 actor.ActorNumber.Value,
                                 userMarketRolesOnActor
                                     .SelectMany(mr => mr)
                                     .Where(mr => mr.UserActorId == actor.ActorId)
-                                    .Select(mr => new ViewModels.UserRoleDto(mr.Id, mr.Name, mr.UserActorId)))))));
+                                    .Select(mr => new ViewModels.UserRoleViewDto(mr.Id, mr.Name, mr.UserActorId)))))));
             return userRoleView;
         }
 

@@ -26,9 +26,14 @@ limitations under the License.
   >
     <watt-card>
       <watt-card-title>
-        <h3>
-          {{ userRoleView | userRoleCount }}
-        </h3>
+        <ng-container
+          *ngTemplateOutlet="
+            userRolesHeadline;
+            context: {
+              $implicit: numberOfRoles$ | push
+            }
+          "
+        ></ng-container>
       </watt-card-title>
       <div class="userRoles" *ngFor="let org of userRoleView.organizations">
         <ng-container *ngFor="let actor of org.actors">
@@ -60,3 +65,20 @@ limitations under the License.
     </watt-empty-state>
   </ng-template>
 </ng-container>
+
+<ng-template #userRolesHeadline let-userRolesCount>
+  <ng-container
+    *transloco="
+      let t;
+      read: 'admin.userManagement.tabs.roles.userRolesHeadline'
+    "
+  >
+    <h4 *ngIf="userRolesCount === 1">
+      {{ t("singular", { userRolesCount }) }}
+    </h4>
+
+    <h4 *ngIf="userRolesCount !== 1">
+      {{ t("plural", { userRolesCount }) }}
+    </h4>
+  </ng-container>
+</ng-template>

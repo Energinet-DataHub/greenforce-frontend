@@ -24,17 +24,19 @@ import {
 } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
-  UserRoleView,
+  UserRolesViewDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserManagementState {
-  readonly userRoleView: UserRoleView | null;
+  readonly userRolesView: UserRolesViewDto | null;
   readonly requestState: LoadingState | ErrorState;
+  readonly numberOfRoles: number;
 }
 
 const initialState: DhUserManagementState = {
-  userRoleView: null,
+  userRolesView: null,
   requestState: LoadingState.INIT,
+  numberOfRoles: 0,
 };
 
 @Injectable()
@@ -45,18 +47,20 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
   );
   hasGeneralError$ = new Subject<void>();
 
-  userRoleView$: Observable<UserRoleView> = this.select(
-    (state) => state.userRoleView
+  userRoleView$: Observable<UserRolesViewDto> = this.select(
+    (state) => state.userRolesView
   ).pipe(
-    filter((userRoleView) => !!userRoleView),
-    map((userRoleView) => userRoleView as UserRoleView)
+    filter((userRolesView) => !!userRolesView),
+    map((userRolesView) => userRolesView as UserRolesViewDto)
   );
+
+  numberOfRoles$ = this.select((state) => state.numberOfRoles);
 
   constructor(private httpClient: MarketParticipantUserRoleHttp) {
     super(initialState);
   }
 
-  readonly getUserRoleView = this.effect((trigger$: Observable<string>) =>
+  readonly getUserRolesView = this.effect((trigger$: Observable<string>) =>
     trigger$.pipe(
       tap(() => {
         this.resetState();
@@ -84,10 +88,14 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
   private updateRoles = this.updater(
     (
       state: DhUserManagementState,
-      userRoleView: UserRoleView | null
+      userRolesView: UserRolesViewDto | null
     ): DhUserManagementState => ({
       ...state,
-      userRoleView,
+      numberOfRoles:
+        userRolesView?.organizations.flatMap((org) =>
+          org.actors.flatMap((actor) => actor.userRoles)
+        ).length ?? 0,
+      userRolesView: userRolesView,
     })
   );
 

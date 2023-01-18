@@ -920,6 +920,10 @@
               "marketrole": "Marketsrolle",
               "status": "Status"
             }
+          },
+          "userRolesHeadline": {
+            "singular": "{{ userRolesCount }} rolle",
+            "plural": "{{ userRolesCount }} roller"
           }
         },
         "permissions": {

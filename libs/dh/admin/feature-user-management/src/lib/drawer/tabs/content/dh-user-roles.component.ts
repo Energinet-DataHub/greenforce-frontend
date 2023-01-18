@@ -24,7 +24,6 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { DhAdminUserRolesStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { MatDividerModule } from '@angular/material/divider';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { UserRoleCountPipe } from '../../../shared/dh-user-role-count.pipe';
 import { JoinUserRoles } from '../../../shared/dh-join-user-roles.pipe';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
@@ -41,7 +40,6 @@ import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
     WattSpinnerModule,
     WattCardModule,
     TranslocoModule,
-    UserRoleCountPipe,
     JoinUserRoles,
     MatDividerModule,
     WattEmptyStateModule,
@@ -53,11 +51,12 @@ export class DhUserRolesComponent implements OnChanges {
 
   userRoleView$ = this.store.userRoleView$;
   isLoading$ = this.store.isLoading$;
+  numberOfRoles$ = this.store.numberOfRoles$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
   ngOnChanges(): void {
     if (this.user?.id) {
-      this.store.getUserRoleView(this.user.id);
+      this.store.getUserRolesView(this.user.id);
     }
   }
 }
