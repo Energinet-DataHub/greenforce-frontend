@@ -38,6 +38,14 @@ export class EoMeteringPointsService {
     );
   }
 
+  startGCContract(gsrn: string) {
+    return this.http.post(
+      `${this.#apiBase}/contract`,
+      { gsrn, startDate: new Date().getTime() },
+      { withCredentials: true }
+    );
+  }
+
   constructor(
     private http: HttpClient,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
