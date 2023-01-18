@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/generated/v1';
-export * from './lib/permission';
-export * from './lib/date-range';
+export interface DateRange {
+  start: string;
+  end: string;
+}

@@ -30,6 +30,7 @@ export function wholesaleMocks(apiBase: string) {
     getWholesaleSearchBatches(apiBase),
     downloadBasisData(apiBase),
     postWholesaleBatchProcessStepResult(apiBase),
+    getWholeSaleGetGridAreas(apiBase),
   ];
 }
 
@@ -44,20 +45,20 @@ const periodEnd = '2021-12-02T23:00:00Z';
 const executionTimeStart = '2021-12-01T23:00:00Z';
 const executionTimeEnd = '2021-12-02T23:00:00Z';
 
-const mockedGridAreas: GridAreaDto[] = [
+export const mockedGridAreas: GridAreaDto[] = [
   {
     id: '1',
     code: '805',
     name: 'hello',
     priceAreaCode: PriceAreaCode.Dk1,
-    validFrom: '11-11-2022',
+    validFrom: '0001-01-01T00:00:00+00:00',
   },
   {
     id: '2',
     code: '806',
     name: 'hello again',
     priceAreaCode: PriceAreaCode.Dk1,
-    validFrom: '11-11-2022',
+    validFrom: '0001-01-01T00:00:00+00:00',
   },
 ];
 
@@ -256,4 +257,10 @@ function postWholesaleBatchProcessStepResult(apiBase: string) {
       );
     }
   );
+}
+
+function getWholeSaleGetGridAreas(apiBase: string) {
+  return rest.get(`${apiBase}/v1/WholesaleBatch/GridAreas`, (req, res, ctx) => {
+    return res(ctx.delay(1000), ctx.status(200), ctx.json(mockedGridAreas));
+  });
 }
