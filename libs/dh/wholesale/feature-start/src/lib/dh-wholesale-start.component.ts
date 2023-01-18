@@ -111,8 +111,13 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     this.store.gridAreas$,
     this.onDateRangeChange$,
   ]).pipe(
-    map(([gridAreas, dateRange]) => filterValidGridAreas(gridAreas || [], dateRange)),
-    map((gridAreas) => this.mapGridAreasToDropdownOptions(gridAreas))
+    map(([gridAreas, dateRange]) =>
+      filterValidGridAreas(gridAreas || [], dateRange)
+    ),
+    map((gridAreas) => {
+      this.validatePeriod(gridAreas);
+      return this.mapGridAreasToDropdownOptions(gridAreas);
+    })
   );
 
   ngOnInit(): void {
@@ -143,28 +148,27 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     });
   }
 
-  private mapGridAreasToDropdownOptions(gridAreas: GridAreaDto[]): WattDropdownOption[] {
-    return gridAreas?.map((gridArea) => {
-      return {
-        displayValue: `${gridArea?.name} (${gridArea?.code})`,
-        value: gridArea?.code,
-      };
-    }) || []
+  private mapGridAreasToDropdownOptions(
+    gridAreas: GridAreaDto[]
+  ): WattDropdownOption[] {
+    return (
+      gridAreas?.map((gridArea) => {
+        return {
+          displayValue: `${gridArea?.name} (${gridArea?.code})`,
+          value: gridArea?.code,
+        };
+      }) || []
+    );
   }
 
   private toggleGridAreasControl() {
     // Disable grid areas when date range is invalid
-    this.onDateRangeChange$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        const gridAreasControl = this.createBatchForm.controls.gridAreas;
-        const disableGridAreas =
-          this.createBatchForm.controls.dateRange.invalid;
+    this.onDateRangeChange$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      const gridAreasControl = this.createBatchForm.controls.gridAreas;
+      const disableGridAreas = this.createBatchForm.controls.dateRange.invalid;
 
-        disableGridAreas
-          ? gridAreasControl.disable()
-          : gridAreasControl.enable();
-      });
+      disableGridAreas ? gridAreasControl.disable() : gridAreasControl.enable();
+    });
   }
 
   private initCreatingBatchListeners() {
@@ -200,5 +204,14 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
         'wholesale.startBatch.creatingBatchError'
       ),
     });
+  }
+
+  private validatePeriod(gridAreas: GridAreaDto[]) {
+    if (gridAreas.length === 0) {
+      this.createBatchForm.controls.dateRange.setErrors({
+        ...this.createBatchForm.controls.dateRange.errors,
+        invalidPeriod: true,
+      });
+    }
   }
 }

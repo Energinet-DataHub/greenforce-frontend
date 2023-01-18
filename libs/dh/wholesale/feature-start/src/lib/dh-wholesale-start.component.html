@@ -20,7 +20,7 @@ limitations under the License.
     let gridAreas;
     suspense: loading;
     error: error;
-    errorTrg: loadingGridAreasErrorTrigger$
+    errorTrigger: loadingGridAreasErrorTrigger$
   "
 >
   <form
@@ -36,8 +36,11 @@ limitations under the License.
         formControlName="dateRange"
         [range]="true"
       ></watt-datepicker>
-      <watt-error *ngIf="createBatchForm.controls.gridAreas.errors?.required">
+      <watt-error *ngIf="createBatchForm.controls.dateRange.errors?.rangeRequired">
         {{ transloco("startBatch.dateRangeRequired") }}
+      </watt-error>
+      <watt-error *ngIf="createBatchForm.controls.dateRange.errors?.invalidPeriod && !createBatchForm.controls.dateRange.errors?.rangeRequired">
+        {{ transloco("startBatch.invalidPeriod") }}
       </watt-error>
     </watt-form-field>
 
