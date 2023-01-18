@@ -36,10 +36,17 @@ limitations under the License.
         formControlName="dateRange"
         [range]="true"
       ></watt-datepicker>
-      <watt-error *ngIf="createBatchForm.controls.dateRange.errors?.rangeRequired">
+      <watt-error
+        *ngIf="createBatchForm.controls.dateRange.errors?.rangeRequired"
+      >
         {{ transloco("startBatch.dateRangeRequired") }}
       </watt-error>
-      <watt-error *ngIf="createBatchForm.controls.dateRange.errors?.invalidPeriod && !createBatchForm.controls.dateRange.errors?.rangeRequired">
+      <watt-error
+        *ngIf="
+          createBatchForm.controls.dateRange.errors?.invalidPeriod &&
+          !createBatchForm.controls.dateRange.errors?.rangeRequired
+        "
+      >
         {{ transloco("startBatch.invalidPeriod") }}
       </watt-error>
     </watt-form-field>
