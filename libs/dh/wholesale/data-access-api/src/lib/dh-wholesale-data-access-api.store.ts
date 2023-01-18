@@ -73,7 +73,9 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
 
   private document = inject(DOCUMENT);
   private httpClient = inject(WholesaleBatchHttp);
-  private marketParticipantGridAreaHttpClient = inject(MarketParticipantGridAreaHttp);
+  private marketParticipantGridAreaHttpClient = inject(
+    MarketParticipantGridAreaHttp
+  );
 
   constructor() {
     super(initialState);
@@ -202,14 +204,16 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   });
 
   readonly getGridAreas = this.effect(() => {
-    return this.marketParticipantGridAreaHttpClient.v1MarketParticipantGridAreaGetAllGridAreasGet().pipe(
-      tapResponse(
-        (gridAreas) => {
-          this.setGridAreas(gridAreas);
-        },
-        () => this.loadingGridAreasErrorTrigger$.next()
-      )
-    );
+    return this.marketParticipantGridAreaHttpClient
+      .v1MarketParticipantGridAreaGetAllGridAreasGet()
+      .pipe(
+        tapResponse(
+          (gridAreas) => {
+            this.setGridAreas(gridAreas);
+          },
+          () => this.loadingGridAreasErrorTrigger$.next()
+        )
+      );
   });
 
   readonly getProcessStepResults = this.effect(

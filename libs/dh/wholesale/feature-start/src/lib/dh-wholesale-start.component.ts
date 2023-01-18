@@ -111,7 +111,9 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     this.store.gridAreas$,
     this.onDateRangeChange$,
   ]).pipe(
-    map(([gridAreas, dateRange]) => filterValidGridAreas(gridAreas || [], dateRange)),
+    map(([gridAreas, dateRange]) =>
+      filterValidGridAreas(gridAreas || [], dateRange)
+    ),
     map((gridAreas) => this.mapGridAreasToDropdownOptions(gridAreas))
   );
 
@@ -143,28 +145,27 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     });
   }
 
-  private mapGridAreasToDropdownOptions(gridAreas: GridAreaDto[]): WattDropdownOption[] {
-    return gridAreas?.map((gridArea) => {
-      return {
-        displayValue: `${gridArea?.name} (${gridArea?.code})`,
-        value: gridArea?.code,
-      };
-    }) || []
+  private mapGridAreasToDropdownOptions(
+    gridAreas: GridAreaDto[]
+  ): WattDropdownOption[] {
+    return (
+      gridAreas?.map((gridArea) => {
+        return {
+          displayValue: `${gridArea?.name} (${gridArea?.code})`,
+          value: gridArea?.code,
+        };
+      }) || []
+    );
   }
 
   private toggleGridAreasControl() {
     // Disable grid areas when date range is invalid
-    this.onDateRangeChange$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        const gridAreasControl = this.createBatchForm.controls.gridAreas;
-        const disableGridAreas =
-          this.createBatchForm.controls.dateRange.invalid;
+    this.onDateRangeChange$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      const gridAreasControl = this.createBatchForm.controls.gridAreas;
+      const disableGridAreas = this.createBatchForm.controls.dateRange.invalid;
 
-        disableGridAreas
-          ? gridAreasControl.disable()
-          : gridAreasControl.enable();
-      });
+      disableGridAreas ? gridAreasControl.disable() : gridAreasControl.enable();
+    });
   }
 
   private initCreatingBatchListeners() {

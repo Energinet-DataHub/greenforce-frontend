@@ -74,7 +74,6 @@ export class WattDatepickerComponent extends WattPickerBase {
   min = new Date(this.currentYear - 1, 0, 1);
   max = new Date(this.currentYear + 1, 11, 31);
 
-
   /**
    * @ignore
    */

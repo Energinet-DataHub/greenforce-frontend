@@ -48,14 +48,11 @@ describe(filterValidGridAreas.name, () => {
         }).toISOString(), // INVALID
       },
     ]
-    // We map the validFrom property since it is required by the filterValidGridAreas function and we don't care about it in this test
-    .map((x) => {
-      return { ...x, validFrom: initialDateOffset } as GridAreaDto;
-    });
-    const expectedGridAreas = [
-      gridAreas[1],
-      gridAreas[2],
-    ];
+      // We map the validFrom property since it is required by the filterValidGridAreas function and we don't care about it in this test
+      .map((x) => {
+        return { ...x, validFrom: initialDateOffset } as GridAreaDto;
+      });
+    const expectedGridAreas = [gridAreas[1], gridAreas[2]];
 
     /**
      * Act
