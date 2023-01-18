@@ -25,7 +25,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public MarketParticipantQuery(IMarketParticipantClient client)
         {
             _client = client;
-            Field<OrganizationDtoType>("organizations").ResolveAsync(async context => await _client.GetOrganizationsAsync().ConfigureAwait(false));
+            Field<ListGraphType<OrganizationDtoType>>("organizations")
+                .ResolveAsync(async context => await _client.GetOrganizationsAsync().ConfigureAwait(false));
         }
     }
 }

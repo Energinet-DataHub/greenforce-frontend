@@ -23,7 +23,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public OrganizationDtoType()
         {
             Name = "Organization";
-            Field(x => x.OrganizationId, type: typeof(IdGraphType)).Description("The ID of the organization.");
+            Field(x => x.OrganizationId).Description("The ID of the organization.");
             Field(x => x.Name).Description("The name of the organization.");
         }
     }
