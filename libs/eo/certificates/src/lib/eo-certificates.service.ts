@@ -36,7 +36,7 @@ interface EoCertificateResponse {
   result: EoCertificate[];
 }
 
-export interface EoContract {
+export interface EoCertificateContract {
   id: string;
   gsrn: string;
   startDate: number;
@@ -44,7 +44,7 @@ export interface EoContract {
 }
 
 interface EoContractResponse {
-  result: EoContract[];
+  result: EoCertificateContract[];
 }
 
 @Injectable({
@@ -84,7 +84,7 @@ export class EoCertificatesService {
    * Sends request to create a GC contract for a specific meteringpoint
    */
   createContract(gsrn: string) {
-    return this.http.post(
+    return this.http.post<EoCertificateContract>(
       `${this.#apiBase}/certificates/contracts`,
       { gsrn, startDate: Math.floor(new Date().getTime() / 1000) },
       { withCredentials: true }

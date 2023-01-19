@@ -26,8 +26,8 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { FeatureFlagService } from '@energinet-datahub/eo/shared/services';
 import {
+  EoCertificateContract,
   EoCertificatesService,
-  EoContract,
 } from 'libs/eo/certificates/src/lib/eo-certificates.service';
 import {
   EoMeteringPoint,
@@ -137,7 +137,7 @@ export class EoMeteringPointListComponent implements AfterViewInit {
   meteringPoints$ = this.store.meteringPoints$;
   dataSource: MatTableDataSource<EoMeteringPoint> = new MatTableDataSource();
   displayedColumns: Array<string> = ['gsrn', 'address', 'tags'];
-  activeContracts: Array<EoContract> = [];
+  activeContracts: Array<EoCertificateContract> = [];
 
   constructor(
     private store: EoMeteringPointsStore,
@@ -150,15 +150,12 @@ export class EoMeteringPointListComponent implements AfterViewInit {
     this.store.meteringPoints$.subscribe({
       next: (meteringPoints) => (this.dataSource.data = meteringPoints),
     });
-
-    this.certificatesService.getContracts().subscribe({
-      next: (res) => (this.activeContracts = res?.result),
-    });
   }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.matSort;
   }
+
   hasActiveContract(gsrn: string): boolean {
     return (
       this.activeContracts?.some((contract) => contract.gsrn === gsrn) ?? false
@@ -167,7 +164,7 @@ export class EoMeteringPointListComponent implements AfterViewInit {
 
   createContract(gsrn: string) {
     this.certificatesService.createContract(gsrn).subscribe({
-      next: (res) => console.log('create', res),
+      next: (contract) => this.activeContracts.push(contract),
     });
   }
 }

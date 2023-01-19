@@ -17,30 +17,19 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { take } from 'rxjs';
-import { EoMeteringPointsService } from './eo-metering-points.service';
+import {
+  EoCertificateContract,
+  EoCertificatesService,
+} from 'libs/eo/certificates/src/lib/eo-certificates.service';
+import { forkJoin } from 'rxjs';
+import {
+  EoMeteringPointsService,
+  MeteringPoint,
+} from './eo-metering-points.service';
 
-export interface EoMeteringPoint {
-  /** Unique ID of the metering point - Global Service Relation Number */
-  gsrn: string;
-  /** Name of the area the metering point is registered in */
-  gridArea: string;
-  /** Type of metering point, ie. consumption or production */
-  type: string;
-  address: {
-    /** Address line, ie. 'Dieselstraße 28' */
-    address1: string;
-    /** Extra address line for floor, side and such, ie. '3. Stock */
-    address2: string | null;
-    /** Local area description, ie. 'Niedersachsen' */
-    locality: string | null;
-    /** City name, ie. 'Wolfsburg' */
-    city: string;
-    /** Postcode, ie. '38446' */
-    postalCode: string;
-    /** Country-code, ie. 'DE' */
-    country: string;
-  };
+export interface EoMeteringPoint extends MeteringPoint {
+  /** Granular certificate contract on metering point */
+  contract?: EoCertificateContract;
 }
 
 interface EoMeteringPointsState {
@@ -53,7 +42,10 @@ interface EoMeteringPointsState {
   providedIn: 'root',
 })
 export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState> {
-  constructor(private service: EoMeteringPointsService) {
+  constructor(
+    private service: EoMeteringPointsService,
+    private certService: EoCertificatesService
+  ) {
     super({
       loadingDone: false,
       meteringPoints: [],
@@ -89,19 +81,26 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   );
 
   loadData() {
-    this.service
-      .getMeteringPoints()
-      .pipe(take(1))
-      .subscribe({
-        next: (response) => {
-          this.setEnergySources(response.meteringPoints);
-          this.setError(null);
-          this.setLoadingDone(true);
-        },
-        error: (error) => {
-          this.setError(error);
-          this.setLoadingDone(true);
-        },
-      });
+    forkJoin([
+      this.certService.getContracts(),
+      this.service.getMeteringPoints(),
+    ]).subscribe({
+      next: ([contractList, mpList]) => {
+        this.setEnergySources(
+          mpList.meteringPoints.map((mp: MeteringPoint) => ({
+            ...mp,
+            contract: contractList.result.find(
+              (contract) => contract.gsrn === mp.gsrn
+            ),
+          }))
+        );
+        this.setError(null);
+        this.setLoadingDone(true);
+      },
+      error: (error) => {
+        this.setError(error);
+        this.setLoadingDone(true);
+      },
+    });
   }
 }
