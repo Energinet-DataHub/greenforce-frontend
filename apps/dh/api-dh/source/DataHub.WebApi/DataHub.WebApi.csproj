@@ -30,6 +30,7 @@ limitations under the License.
     <MarketingParticipantProjectReference>../../../../../backend/geh-market-participant/source/Energinet.DataHub.MarketParticipant.Client/source/Energinet.DataHub.MarketParticipant.Client/Energinet.DataHub.MarketParticipant.Client.csproj</MarketingParticipantProjectReference>
     <MessageArchiveClientAbstractionsProjectReference>../../../../../backend/geh-message-archive/source/Energinet.DataHub.MessageArchive.Client.Abstractions/Energinet.DataHub.MessageArchive.Client.Abstractions.csproj</MessageArchiveClientAbstractionsProjectReference>
     <MessageArchiveClientProjectReference>../../../../../backend/geh-message-archive/source/Energinet.DataHub.MessageArchive.Client/Energinet.DataHub.MessageArchive.Client.csproj</MessageArchiveClientProjectReference>
+    <WholesaleClientProjectReference>../../../../../backend/opengeh-wholesale/source/dotnet/Packages/Client/Client.csproj</WholesaleClientProjectReference>
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
@@ -38,7 +39,7 @@ limitations under the License.
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="Energinet.DataHub.Wholesale.Client" Version="4.0.0" />
+    <PackageReference Condition="!Exists('$(WholesaleClientProjectReference)')" Include="Energinet.DataHub.Wholesale.Client" Version="4.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients" Version="6.1.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients.Registration" Version="6.1.0" />
@@ -64,6 +65,7 @@ limitations under the License.
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Condition="Exists('$(WholesaleClientProjectReference)')" Include="$(WholesaleClientProjectReference)" />
     <ProjectReference Condition="Exists('$(MarketingParticipantProjectReference)')" Include="$(MarketingParticipantProjectReference)" />
     <ProjectReference Condition="Exists('$(MessageArchiveClientAbstractionsProjectReference)')" Include="$(MessageArchiveClientAbstractionsProjectReference)" />
     <ProjectReference Condition="Exists('$(MessageArchiveClientProjectReference)')" Include="$(MessageArchiveClientProjectReference)" />
