@@ -49,7 +49,7 @@ import { WattModalModule } from '@energinet-datahub/watt/modal';
         padding-top: var(--watt-space-m);
         border-top: 1px solid var(--watt-color-primary-light);
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
       }
     `,
   ],
