@@ -105,7 +105,6 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
             ),
           }))
         );
-        this.setError(null);
         this.setLoadingDone(true);
       },
       error: (error) => {
@@ -118,6 +117,10 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   createCertificateContract(gsrn: string) {
     this.certService.createContract(gsrn).subscribe({
       next: (contract) => this.setCertificateContract(contract),
+      error: (error) => {
+        this.setError(error);
+        this.loadData();
+      },
     });
   }
 }
