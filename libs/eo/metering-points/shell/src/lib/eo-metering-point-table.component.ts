@@ -24,7 +24,6 @@ import {
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { EoCertificateContract } from '@energinet-datahub/eo/certificates';
 import { FeatureFlagService } from '@energinet-datahub/eo/shared/services';
 import {
   EoMeteringPoint,
@@ -131,7 +130,6 @@ export class EoMeteringPointListComponent implements AfterViewInit {
   meteringPoints$ = this.store.meteringPoints$;
   dataSource: MatTableDataSource<EoMeteringPoint> = new MatTableDataSource();
   displayedColumns: Array<string> = ['gsrn', 'address', 'tags'];
-  activeContracts: Array<EoCertificateContract> = [];
 
   constructor(
     private store: EoMeteringPointsStore,
