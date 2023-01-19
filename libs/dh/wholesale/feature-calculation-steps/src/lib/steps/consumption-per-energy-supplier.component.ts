@@ -25,6 +25,7 @@ import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholes
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
 import { TimeSeriesType } from '@energinet-datahub/dh/shared/domain';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -43,6 +44,7 @@ export class DhWholesaleConsumptionPerEnergySupplierComponent
   implements AfterViewInit
 {
   private store = inject(DhWholesaleBatchDataAccessApiStore);
+  private route = inject(ActivatedRoute);
 
   vm$ = combineLatest({
     batch: this.store.selectedBatch$.pipe(exists()),
@@ -60,7 +62,7 @@ export class DhWholesaleConsumptionPerEnergySupplierComponent
           batchId: vm.batch.batchId,
           gridAreaCode: vm.gridArea.code,
           timeSeriesType: TimeSeriesType.NonProfiled,
-          gln: '1',
+          gln: this.route.snapshot.params['gln'],
         }))
       )
     );

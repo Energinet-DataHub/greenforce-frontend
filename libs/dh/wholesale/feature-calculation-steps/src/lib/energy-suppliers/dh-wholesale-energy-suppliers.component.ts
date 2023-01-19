@@ -1,24 +1,19 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { BatchActorDto } from '@energinet-datahub/dh/shared/domain';
+import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import {
   WattTableColumnDef,
   WattTableDataSource,
   WATT_TABLE,
 } from '@energinet-datahub/watt/table';
-
-// replace with generated dto
-type EnergySupplier = {
-  id: string;
-};
-
-const mock: EnergySupplier[] = [
-  {
-    id: '123456',
-  },
-  {
-    id: '7891011',
-  },
-];
 
 @Component({
   standalone: true,
@@ -27,10 +22,29 @@ const mock: EnergySupplier[] = [
   templateUrl: './dh-wholesale-energy-suppliers.component.html',
   styleUrls: ['./dh-wholesale-energy-suppliers.component.scss'],
 })
-export class DhWholesaleEnergySuppliersComponent {
-  @Output() rowClick = new EventEmitter<EnergySupplier>();
-  _dataSource = new WattTableDataSource<EnergySupplier>(mock);
-  _columns: WattTableColumnDef<EnergySupplier> = {
-    name: { accessor: 'id' },
+export class DhWholesaleEnergySuppliersComponent implements OnInit {
+  private store = inject(DhWholesaleBatchDataAccessApiStore);
+
+  @Input() batchId!: string;
+  @Input() gridAreaCode!: string;
+
+  @Output() rowClick = new EventEmitter<BatchActorDto>();
+  _dataSource = new WattTableDataSource<BatchActorDto>();
+  _columns: WattTableColumnDef<BatchActorDto> = {
+    name: { accessor: 'gln' },
   };
+
+  energySuppliersForConsumption$ = this.store.energySuppliersForConsumption$;
+
+  ngOnInit() {
+    this.energySuppliersForConsumption$.subscribe((energySupplier) => {
+      if (energySupplier) {
+        this._dataSource.data = energySupplier;
+      }
+    });
+    this.store.getEnergySuppliersForConsumption({
+      batchId: this.batchId,
+      gridAreaCode: this.gridAreaCode,
+    });
+  }
 }

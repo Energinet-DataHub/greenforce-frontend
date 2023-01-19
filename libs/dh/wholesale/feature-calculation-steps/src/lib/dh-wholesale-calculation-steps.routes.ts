@@ -21,7 +21,7 @@ import { DhWholesaleConsumptionPerEnergySupplierComponent } from './steps/consum
 export const DhWholesaleCalculationStepsRoutes: Routes = [
   { path: '1', component: DhWholesaleProductionPerGridareaComponent },
   {
-    path: '2/:supplier',
+    path: '2/:gln',
     component: DhWholesaleConsumptionPerEnergySupplierComponent,
   },
 ];
