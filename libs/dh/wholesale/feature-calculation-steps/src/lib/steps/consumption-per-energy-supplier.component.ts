@@ -17,14 +17,14 @@
 import { AfterViewInit, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 import { combineLatest, map } from 'rxjs';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
-import { ProcessStepType } from '@energinet-datahub/dh/shared/domain';
+import { TimeSeriesType } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   standalone: true,
@@ -59,7 +59,8 @@ export class DhWholesaleConsumptionPerEnergySupplierComponent
         map((vm) => ({
           batchId: vm.batch.batchId,
           gridAreaCode: vm.gridArea.code,
-          processStepResult: ProcessStepType.AggregateProductionPerGridArea,
+          timeSeriesType: TimeSeriesType.NonProfiled,
+          gln: '1',
         }))
       )
     );

@@ -31,7 +31,7 @@ import {
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
 
-import { ProcessStepType } from '@energinet-datahub/dh/shared/domain';
+import { TimeSeriesType } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
@@ -79,7 +79,7 @@ export class DhWholesaleProductionPerGridareaComponent
         map((vm) => ({
           batchId: vm.batch.batchId,
           gridAreaCode: vm.gridArea.code,
-          processStepResult: ProcessStepType.AggregateProductionPerGridArea,
+          timeSeriesType: TimeSeriesType.Production,
         }))
       )
     );

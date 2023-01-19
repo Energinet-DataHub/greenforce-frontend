@@ -72,6 +72,14 @@ export class DhWholesaleCalculationStepsComponent {
 
   @ViewChild('drawer') drawer!: WattDrawerComponent;
 
+  constructor() {
+    this.store.getActors({
+      batchId: this.route.snapshot.params['batchId'],
+      gridAreaCode: this.route.snapshot.params['gridAreaCode'],
+      actorType: 'EnergySupplier',
+    });
+  }
+
   batch$ = this.store.selectedBatch$.pipe(
     tap((batch) => {
       // Get batch if not already in store

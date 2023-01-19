@@ -19,7 +19,9 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { ActorType } from '../model/actor-type';
+import { BatchActorDto } from '../model/batch-actor-dto';
+// @ts-ignore
+import { BatchActorsRequestDto } from '../model/batch-actors-request-dto';
 // @ts-ignore
 import { BatchDto } from '../model/batch-dto';
 // @ts-ignore
@@ -105,30 +107,14 @@ export class WholesaleBatchHttp {
 
     /**
      * Get a list of actors.
-     * @param batchId 
-     * @param gridAreaCode 
-     * @param actorType 
+     * @param batchActorsRequestDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1WholesaleBatchActorsGet(batchId?: string, gridAreaCode?: string, actorType?: ActorType, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<number>>;
-    public v1WholesaleBatchActorsGet(batchId?: string, gridAreaCode?: string, actorType?: ActorType, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<number>>>;
-    public v1WholesaleBatchActorsGet(batchId?: string, gridAreaCode?: string, actorType?: ActorType, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<number>>>;
-    public v1WholesaleBatchActorsGet(batchId?: string, gridAreaCode?: string, actorType?: ActorType, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (batchId !== undefined && batchId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>batchId, 'batchId');
-        }
-        if (gridAreaCode !== undefined && gridAreaCode !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>gridAreaCode, 'gridAreaCode');
-        }
-        if (actorType !== undefined && actorType !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>actorType, 'actorType');
-        }
+    public v1WholesaleBatchActorsPost(batchActorsRequestDto?: BatchActorsRequestDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<BatchActorDto>>;
+    public v1WholesaleBatchActorsPost(batchActorsRequestDto?: BatchActorsRequestDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<BatchActorDto>>>;
+    public v1WholesaleBatchActorsPost(batchActorsRequestDto?: BatchActorsRequestDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<BatchActorDto>>>;
+    public v1WholesaleBatchActorsPost(batchActorsRequestDto?: BatchActorsRequestDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -159,6 +145,17 @@ export class WholesaleBatchHttp {
         }
 
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json',
+            'text/json',
+            'application/*+json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -171,10 +168,10 @@ export class WholesaleBatchHttp {
         }
 
         let localVarPath = `/v1/WholesaleBatch/Actors`;
-        return this.httpClient.request<Array<number>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Array<BatchActorDto>>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                params: localVarQueryParameters,
+                body: batchActorsRequestDto,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

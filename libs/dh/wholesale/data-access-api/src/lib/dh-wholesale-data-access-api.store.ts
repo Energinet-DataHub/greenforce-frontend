@@ -27,8 +27,9 @@ import {
   BatchState,
   BatchDto,
   GridAreaDto,
-  ProcessStepResultRequestDto,
+  ProcessResultRequestDto,
   ProcessStepResultDto,
+  BatchActorsRequestDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
@@ -190,11 +191,11 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   });
 
   readonly getProcessStepResults = this.effect(
-    (options$: Observable<ProcessStepResultRequestDto>) => {
+    (options$: Observable<ProcessResultRequestDto>) => {
       return options$.pipe(
         switchMap((options) => {
           return this.httpClient
-            .v1WholesaleBatchProcessStepResultPost(options)
+            .v1WholesaleBatchProcessResultPost(options)
             .pipe(
               tapResponse(
                 (stepResults: ProcessStepResultDto) =>
@@ -202,6 +203,25 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
                 () => this.loadingProcessStepResultsErrorTrigger$.next()
               )
             );
+        })
+      );
+    }
+  );
+
+  readonly getActors = this.effect(
+    (options$: Observable<BatchActorsRequestDto>) => {
+      return options$.pipe(
+        switchMap((options) => {
+          return this.httpClient.v1WholesaleBatchActorsPost(options).pipe(
+            tap((result) => {
+              console.log(result);
+            })
+            // tapResponse(
+            //   (stepResults: number[]) =>
+            //     this.setProcessStepResults(stepResults),
+            //   () => this.loadingProcessStepResultsErrorTrigger$.next()
+            // )
+          );
         })
       );
     }
