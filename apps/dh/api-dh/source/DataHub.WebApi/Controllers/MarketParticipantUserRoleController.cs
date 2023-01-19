@@ -28,12 +28,14 @@ namespace Energinet.DataHub.WebApi.Controllers
     public class MarketParticipantUserRoleController : MarketParticipantControllerBase
     {
         private readonly IMarketParticipantUserRoleClient _userRoleClient;
-        private readonly IMarketParticipantClient _client;
+        private readonly IMarketParticipantClient _marketParticipantClient;
 
-        public MarketParticipantUserRoleController(IMarketParticipantUserRoleClient userRoleClient, IMarketParticipantClient client)
+        public MarketParticipantUserRoleController(
+            IMarketParticipantUserRoleClient userRoleClient,
+            IMarketParticipantClient marketParticipantClient)
         {
             _userRoleClient = userRoleClient;
-            _client = client;
+            _marketParticipantClient = marketParticipantClient;
         }
 
         [HttpGet]
@@ -68,9 +70,9 @@ namespace Energinet.DataHub.WebApi.Controllers
         [Route("GetUserRoleView")]
         public async Task<ActionResult<ViewModels.UserRolesViewDto>> GetUserRoleViewAsync(Guid userId)
         {
-            var allOrganizations = await _client.GetOrganizationsAsync();
+            var allOrganizations = await _marketParticipantClient.GetOrganizationsAsync();
             var allActors = allOrganizations.SelectMany(o => o.Actors);
-            var userActorsIds = (await _client.GetUserActorsAsync(userId)).ActorIds;
+            var userActorsIds = (await _marketParticipantClient.GetUserActorsAsync(userId)).ActorIds;
 
             var userOrganizations = allOrganizations.Where(org => org.Actors.Any(a => userActorsIds.Any(userActor => userActor == a.ActorId)));
             var userActors = allActors.Where(actor => userActorsIds.Any(userActor => userActor == actor.ActorId));
@@ -103,6 +105,40 @@ namespace Energinet.DataHub.WebApi.Controllers
         public Task<ActionResult<Guid>> CreateAsync(CreateUserRoleDto userRole)
         {
             return HandleExceptionAsync(() => _userRoleClient.CreateAsync(userRole));
+        }
+
+        /// <summary>
+        ///     Retrieves the audit log history for the specified user role.
+        /// </summary>
+        [HttpGet]
+        [Route("GetUserRoleAuditLogs")]
+        public Task<ActionResult<MarketParticipant.Dto.UserRoleAuditLogsDto>> GetUserRoleAuditLogsAsync(Guid userRoleId)
+        {
+            return HandleExceptionAsync(async () =>
+            {
+                var userRoleAuditLogsResult = await _userRoleClient
+                    .GetUserRoleAuditLogsAsync(userRoleId)
+                    .ConfigureAwait(false);
+
+                var userRoleAuditLogs = new List<MarketParticipant.Dto.UserRoleAuditLogDto>();
+
+                foreach (var auditLog in userRoleAuditLogsResult)
+                {
+                    var userDto = await _marketParticipantClient
+                        .GetUserAsync(auditLog.ChangedByUserId)
+                        .ConfigureAwait(false);
+
+                    userRoleAuditLogs.Add(new MarketParticipant.Dto.UserRoleAuditLogDto(
+                        auditLog.UserRoleId,
+                        auditLog.ChangedByUserId,
+                        userDto.Name,
+                        auditLog.Timestamp,
+                        auditLog.UserRoleChangeType,
+                        auditLog.ChangeDescriptionJson));
+                }
+
+                return new MarketParticipant.Dto.UserRoleAuditLogsDto(userRoleAuditLogs);
+            });
         }
     }
 }
