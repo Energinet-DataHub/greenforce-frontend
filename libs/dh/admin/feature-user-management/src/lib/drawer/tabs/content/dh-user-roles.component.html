@@ -1,0 +1,84 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles'">
+  <ng-container
+    *rxLet="
+      userRoleView$;
+      let userRoleView;
+      error: error;
+      suspense: suspense;
+      errorTrigger: hasGeneralError$
+    "
+  >
+    <watt-card>
+      <watt-card-title>
+        <ng-container
+          *ngTemplateOutlet="
+            userRolesHeadline;
+            context: {
+              $implicit: numberOfRoles$ | push
+            }
+          "
+        ></ng-container>
+      </watt-card-title>
+      <div class="userRoles" *ngFor="let org of userRoleView.organizations">
+        <ng-container *ngFor="let actor of org.actors">
+          <h6>
+            {{ org?.name }} | GLN {{ actor.actorNumber }} |
+            {{ actor.userRoles | joinUserRoles }}
+          </h6>
+          <mat-divider></mat-divider>
+          <ul class="watt-text-s">
+            <li *ngFor="let userRole of actor.userRoles">
+              <div>{{ userRole.name }}</div>
+              <div>Manglede beskrivelse</div>
+            </li>
+          </ul>
+        </ng-container>
+      </div>
+    </watt-card>
+  </ng-container>
+
+  <ng-template #suspense>
+    <watt-spinner></watt-spinner>
+  </ng-template>
+  <ng-template #error>
+    <watt-empty-state
+      icon="custom-power"
+      [title]="t('errorTitle')"
+      [message]="t('errorMessage')"
+    >
+    </watt-empty-state>
+  </ng-template>
+</ng-container>
+
+<ng-template #userRolesHeadline let-userRolesCount>
+  <ng-container
+    *transloco="
+      let t;
+      read: 'admin.userManagement.tabs.roles.userRolesHeadline'
+    "
+  >
+    <h4 *ngIf="userRolesCount === 1">
+      {{ t("singular", { userRolesCount }) }}
+    </h4>
+
+    <h4 *ngIf="userRolesCount !== 1">
+      {{ t("plural", { userRolesCount }) }}
+    </h4>
+  </ng-container>
+</ng-template>
