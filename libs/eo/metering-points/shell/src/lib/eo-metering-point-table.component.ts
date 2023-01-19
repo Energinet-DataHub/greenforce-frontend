@@ -26,6 +26,10 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { FeatureFlagService } from '@energinet-datahub/eo/shared/services';
 import {
+  EoCertificatesService,
+  EoContract,
+} from 'libs/eo/certificates/src/lib/eo-certificates.service';
+import {
   EoMeteringPoint,
   EoMeteringPointsStore,
 } from './eo-metering-points.store';
@@ -97,8 +101,22 @@ import {
         <mat-header-cell *matHeaderCellDef
           >Granular Certificates</mat-header-cell
         >
-        <mat-cell *matCellDef="let element"
-          ><a class="link">Enable</a></mat-cell
+        <mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.type === 'production'">
+            <span *ngIf="hasActiveContract(element.gsrn) === true">Active</span>
+            <ng-container *ngIf="hasActiveContract(element.gsrn) === false">
+              <a
+                *ngIf="element.gsrn.length === 18"
+                class="link"
+                (click)="createContract(element.gsrn)"
+              >
+                Enable
+              </a>
+              <span *ngIf="element.gsrn.length !== 18">
+                Not eligible for GC contracting
+              </span>
+            </ng-container>
+          </ng-container></mat-cell
         >
       </ng-container>
 
@@ -119,20 +137,37 @@ export class EoMeteringPointListComponent implements AfterViewInit {
   meteringPoints$ = this.store.meteringPoints$;
   dataSource: MatTableDataSource<EoMeteringPoint> = new MatTableDataSource();
   displayedColumns: Array<string> = ['gsrn', 'address', 'tags'];
+  activeContracts: Array<EoContract> = [];
 
   constructor(
     private store: EoMeteringPointsStore,
+    private certificatesService: EoCertificatesService,
     private featureFlagService: FeatureFlagService
   ) {
     this.featureFlagService.isFlagEnabled('certificates') &&
       this.displayedColumns.push('granular certificates');
 
-    this.store.meteringPoints$.subscribe(
-      (meteringPoints) => (this.dataSource.data = meteringPoints)
-    );
+    this.store.meteringPoints$.subscribe({
+      next: (meteringPoints) => (this.dataSource.data = meteringPoints),
+    });
+
+    this.certificatesService.getContracts().subscribe({
+      next: (res) => (this.activeContracts = res?.result),
+    });
   }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.matSort;
+  }
+  hasActiveContract(gsrn: string): boolean {
+    return (
+      this.activeContracts?.some((contract) => contract.gsrn === gsrn) ?? false
+    );
+  }
+
+  createContract(gsrn: string) {
+    this.certificatesService.createContract(gsrn).subscribe({
+      next: (res) => console.log('create', res),
+    });
   }
 }

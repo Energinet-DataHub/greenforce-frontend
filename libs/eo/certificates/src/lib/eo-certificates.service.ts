@@ -36,6 +36,17 @@ interface EoCertificateResponse {
   result: EoCertificate[];
 }
 
+export interface EoContract {
+  id: string;
+  gsrn: string;
+  startDate: number;
+  created: number;
+}
+
+interface EoContractResponse {
+  result: EoContract[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -52,6 +63,30 @@ export class EoCertificatesService {
   getCertificates() {
     return this.http.get<EoCertificateResponse>(
       `${this.#apiBase}/certificates`,
+      { withCredentials: true }
+    );
+  }
+
+  /**
+   * Array of all the user's contracts for issuing granular certificates
+   */
+  getContracts() {
+    return this.http.get<EoContractResponse>(
+      `${this.#apiBase}/certificates/contracts`,
+      {
+        withCredentials: true,
+      }
+    );
+  }
+
+  /**
+   * @param gsrn ID of meteringpoint
+   * Sends request to create a GC contract for a specific meteringpoint
+   */
+  createContract(gsrn: string) {
+    return this.http.post(
+      `${this.#apiBase}/certificates/contracts`,
+      { gsrn, startDate: Math.floor(new Date().getTime() / 1000) },
       { withCredentials: true }
     );
   }
