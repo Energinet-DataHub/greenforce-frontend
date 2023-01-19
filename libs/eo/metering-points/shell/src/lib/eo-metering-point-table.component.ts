@@ -24,8 +24,8 @@ import {
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { EoCertificateContract } from '@energinet-datahub/eo/certificates';
 import { FeatureFlagService } from '@energinet-datahub/eo/shared/services';
-import { EoCertificateContract } from 'libs/eo/certificates/src/lib/eo-certificates.service';
 import {
   EoMeteringPoint,
   EoMeteringPointsStore,

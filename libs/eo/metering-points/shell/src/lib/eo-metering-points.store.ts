@@ -16,11 +16,11 @@
  */
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ComponentStore } from '@ngrx/component-store';
 import {
   EoCertificateContract,
   EoCertificatesService,
-} from 'libs/eo/certificates/src/lib/eo-certificates.service';
+} from '@energinet-datahub/eo/certificates';
+import { ComponentStore } from '@ngrx/component-store';
 import { forkJoin } from 'rxjs';
 import {
   EoMeteringPointsService,
@@ -100,9 +100,9 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
         this.setMeteringPoints(
           mpList.meteringPoints.map((mp: MeteringPoint) => ({
             ...mp,
-            contract: contractList.result.find(
+            /*contract: contractList.result.find(
               (contract) => contract.gsrn === mp.gsrn
-            ),
+            ),*/
           }))
         );
         this.setLoadingDone(true);
