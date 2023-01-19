@@ -146,6 +146,8 @@ export class EoMeteringPointListComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.sortingDataAccessor = (item, property) => {
+      const itemHasActiveContract = item.contract ? 'active' : 'enable';
+
       switch (property) {
         case 'tags':
           return item.type;
@@ -153,9 +155,7 @@ export class EoMeteringPointListComponent implements AfterViewInit {
           return item.address.address1.toLowerCase();
         case 'granular certificates':
           return item.type === 'production' && item.gsrn.length === 18
-            ? item.contract
-              ? 'active'
-              : 'enable'
+            ? itemHasActiveContract
             : '';
         default:
           return item[property as keyof unknown];
