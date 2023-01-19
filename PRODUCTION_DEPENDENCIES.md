@@ -14,11 +14,11 @@
 | [angular/platform-browser-dynamic](https://github.com/angular/angular) | 14.2.12 | MIT |
 | [angular/platform-browser](https://github.com/angular/angular) | 14.2.12 | MIT |
 | [angular/router](https://github.com/angular/angular) | 14.2.12 | MIT |
-| [azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 2.4.6 | MIT |
-| [azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 2.31.0 | MIT |
+| [azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 2.5.1 | MIT |
+| [azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 2.32.1 | MIT |
 | [microsoft/applicationinsights-angularplugin-js](undefined) | 3.0.0 | MIT* |
 | [microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.9 | MIT |
-| [ngneat/transloco](https://github.com/ngneat/transloco) | 4.1.1 | MIT |
+| [ngneat/transloco](https://github.com/ngneat/transloco) | 4.2.2 | MIT |
 | [ngrx/component-store](https://github.com/ngrx/platform) | 14.3.2 | MIT |
 | [popperjs/core](https://github.com/popperjs/popper-core) | 2.11.6 | MIT |
 | [rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 1.0.0-rc.4 | MIT |
