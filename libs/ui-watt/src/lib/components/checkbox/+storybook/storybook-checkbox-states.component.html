@@ -1,0 +1,65 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<section>
+  <p></p>
+  <p><strong>Enabled</strong></p>
+  <p><strong>Hover</strong></p>
+  <p><strong>Focused</strong></p>
+  <p><strong>Pressed</strong></p>
+  <p><strong>Disabled</strong></p>
+  <p><strong>Error</strong></p>
+</section>
+
+<section>
+  <p><strong>Unselected</strong></p>
+  <mat-checkbox> Text </mat-checkbox>
+  <mat-checkbox class="hover"> Text </mat-checkbox>
+  <p></p>
+  <mat-checkbox class="hover"> Text </mat-checkbox>
+  <mat-checkbox disabled> Text </mat-checkbox>
+  <mat-checkbox class="error"> Text </mat-checkbox>
+</section>
+
+<section>
+  <p><strong>Selected</strong></p>
+  <mat-checkbox checked> Text </mat-checkbox>
+  <mat-checkbox class="hover" checked> Text </mat-checkbox>
+  <p></p>
+  <mat-checkbox checked class="hover"> Text </mat-checkbox>
+  <mat-checkbox checked disabled> Text </mat-checkbox>
+  <p></p>
+</section>
+
+<section>
+  <p><strong>Indeterminate</strong></p>
+  <mat-checkbox indeterminate> Text </mat-checkbox>
+  <mat-checkbox class="hover" indeterminate> Text </mat-checkbox>
+  <p></p>
+  <mat-checkbox indeterminate class="hover"> Text </mat-checkbox>
+  <mat-checkbox indeterminate disabled> Text </mat-checkbox>
+  <p></p>
+</section>
+
+<section>
+  <p style="align-self: baseline"><strong>Group</strong></p>
+  <div style="display: grid">
+    <p>LABEL</p>
+    <mat-checkbox> One </mat-checkbox>
+    <mat-checkbox> Two </mat-checkbox>
+    <mat-checkbox> Three </mat-checkbox>
+  </div>
+</section>
