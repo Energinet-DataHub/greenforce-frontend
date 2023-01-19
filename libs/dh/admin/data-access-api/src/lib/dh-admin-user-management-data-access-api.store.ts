@@ -16,7 +16,11 @@
  */
 import { Injectable } from '@angular/core';
 import { Observable, of, switchMap, tap } from 'rxjs';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import {
+  ComponentStore,
+  OnStoreInit,
+  tapResponse,
+} from '@ngrx/component-store';
 
 import {
   ErrorState,
@@ -39,7 +43,7 @@ interface DhUserManagementState {
   readonly statusFilter: UserStatus[];
 }
 
-type FetchUsersParams = Pick<
+export type FetchUsersParams = Pick<
   DhUserManagementState,
   'pageSize' | 'pageNumber' | 'searchText' | 'statusFilter'
 >;
@@ -55,7 +59,10 @@ const initialState: DhUserManagementState = {
 };
 
 @Injectable()
-export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUserManagementState> {
+export class DhAdminUserManagementDataAccessApiStore
+  extends ComponentStore<DhUserManagementState>
+  implements OnStoreInit
+{
   readonly isInit$ = this.select(
     (state) => state.usersRequestState === LoadingState.INIT
   );
@@ -155,8 +162,9 @@ export class DhAdminUserManagementDataAccessApiStore extends ComponentStore<DhUs
     searchText,
     statusFilter,
   }: FetchUsersParams) {
-    if (!statusFilter || statusFilter.length == 0)
+    if (!statusFilter || statusFilter.length == 0) {
       return of({ users: [], totalUserCount: 0 });
+    }
 
     return this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
       pageNumber,

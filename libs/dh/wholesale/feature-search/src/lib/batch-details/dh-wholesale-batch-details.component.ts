@@ -25,7 +25,7 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 import { map } from 'rxjs';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';

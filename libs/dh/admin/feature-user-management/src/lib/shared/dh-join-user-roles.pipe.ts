@@ -14,21 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DataSource } from '@angular/cdk/collections';
-import { inject } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
+import { UserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
 
-import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
-
-import { DhAdminUserManagementDataAccessApiStore } from './dh-admin-user-management-data-access-api.store';
-
-export class DhCustomDataSource implements DataSource<UserOverviewItemDto> {
-  private readonly store = inject(DhAdminUserManagementDataAccessApiStore);
-
-  connect() {
-    return this.store.users$;
-  }
-
-  disconnect(): void {
-    // Intentionally left empty.
+@Pipe({ name: 'joinUserRoles', standalone: true })
+export class JoinUserRoles implements PipeTransform {
+  transform(userRoles: UserRoleViewDto[] | null | undefined) {
+    return userRoles?.map((userRole) => userRole.name).join(', ') ?? '';
   }
 }

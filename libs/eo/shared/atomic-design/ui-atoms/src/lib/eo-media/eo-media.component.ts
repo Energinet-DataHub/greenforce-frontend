@@ -20,7 +20,7 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
 
 import { EoMediaPresenter } from './eo-media.presenter';
 

@@ -56,7 +56,7 @@ import {
   VatClassification,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
 import { Router } from '@angular/router';
 import {
   dhChargesPath,
