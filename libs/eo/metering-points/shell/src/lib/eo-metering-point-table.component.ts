@@ -145,7 +145,7 @@ export class EoMeteringPointListComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
-    this.dataSource.sortingDataAccessor = (item: any, property: string) => {
+    this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
         case 'tags':
           return item.type;
@@ -158,7 +158,7 @@ export class EoMeteringPointListComponent implements AfterViewInit {
               : 'enable'
             : '';
         default:
-          return item[property];
+          return item[property as keyof unknown];
       }
     };
   }

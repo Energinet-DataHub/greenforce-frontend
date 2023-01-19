@@ -73,9 +73,7 @@ export class EoCertificatesService {
   getContracts() {
     return this.http.get<EoContractResponse>(
       `${this.#apiBase}/certificates/contracts`,
-      {
-        withCredentials: true,
-      }
+      { withCredentials: true }
     );
   }
 
