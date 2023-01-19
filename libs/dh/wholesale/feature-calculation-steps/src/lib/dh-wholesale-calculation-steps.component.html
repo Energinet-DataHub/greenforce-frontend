@@ -103,7 +103,7 @@ limitations under the License.
       <main>
         <ul class="steps" *ngIf="batch && gridArea">
           <li>
-            <watt-card (click)="openDrawer(1)">
+            <watt-card (click)="openDrawer([1])">
               <h4>
                 <watt-badge size="large" class="watt-space-inline-m"
                   >1</watt-badge
@@ -115,7 +115,7 @@ limitations under the License.
               </watt-button>
             </watt-card>
           </li>
-          <!-- <li>
+          <li>
             <watt-expandable-card>
               <watt-expandable-card-title>
                 <watt-badge size="large">2</watt-badge>
@@ -123,9 +123,11 @@ limitations under the License.
                   t("processStepResults.aggregatedConsumptionPerEnergySupplier")
                 }}
               </watt-expandable-card-title>
-              <button (click)="openDrawer(2)">Open drawer</button>
+              <dh-wholesale-energy-suppliers
+                (rowClick)="openDrawer([2, $event.id])"
+              ></dh-wholesale-energy-suppliers>
             </watt-expandable-card>
-          </li> -->
+          </li>
         </ul>
 
         <aside class="details">
