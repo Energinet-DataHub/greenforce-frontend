@@ -56,24 +56,35 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   }
 
   readonly loadingDone$ = this.select((state) => state.loadingDone);
-  readonly meteringPoints$ = this.select((state) => state.meteringPoints);
-  readonly error$ = this.select((state) => state.error);
-
-  readonly setLoadingDone = this.updater(
+  private readonly setLoadingDone = this.updater(
     (state, loadingDone: boolean): EoMeteringPointsState => ({
       ...state,
       loadingDone,
     })
   );
 
-  readonly setEnergySources = this.updater(
+  readonly meteringPoints$ = this.select((state) => state.meteringPoints);
+  private readonly setMeteringPoints = this.updater(
     (state, meteringPoints: EoMeteringPoint[]): EoMeteringPointsState => ({
       ...state,
       meteringPoints,
     })
   );
 
-  readonly setError = this.updater(
+  private readonly setCertificateContract = this.updater(
+    (state, contract: EoCertificateContract): EoMeteringPointsState => ({
+      ...state,
+      meteringPoints: state.meteringPoints.map((mp) => {
+        if (mp.gsrn === contract.gsrn) {
+          mp.contract = contract;
+        }
+        return mp;
+      }),
+    })
+  );
+
+  readonly error$ = this.select((state) => state.error);
+  private readonly setError = this.updater(
     (state, error: HttpErrorResponse | null): EoMeteringPointsState => ({
       ...state,
       error,
@@ -86,7 +97,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
       this.service.getMeteringPoints(),
     ]).subscribe({
       next: ([contractList, mpList]) => {
-        this.setEnergySources(
+        this.setMeteringPoints(
           mpList.meteringPoints.map((mp: MeteringPoint) => ({
             ...mp,
             contract: contractList.result.find(
@@ -101,6 +112,12 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
         this.setError(error);
         this.setLoadingDone(true);
       },
+    });
+  }
+
+  createCertificateContract(gsrn: string) {
+    this.certService.createContract(gsrn).subscribe({
+      next: (contract) => this.setCertificateContract(contract),
     });
   }
 }
