@@ -95,7 +95,7 @@ import {
 
       <!-- GC column -->
       <ng-container matColumnDef="granular certificates">
-        <mat-header-cell *matHeaderCellDef
+        <mat-header-cell *matHeaderCellDef mat-sort-header
           >Granular Certificates</mat-header-cell
         >
         <mat-cell *matCellDef="let element">
@@ -109,9 +109,6 @@ import {
               >
                 Enable
               </a>
-              <span *ngIf="element.gsrn.length !== 18">
-                Not eligible for GC contracting
-              </span>
             </ng-container>
           </ng-container></mat-cell
         >
@@ -150,14 +147,20 @@ export class EoMeteringPointListComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
-    this.dataSource.sortingDataAccessor = (item: any, property) => {
+    this.dataSource.sortingDataAccessor = (item: any, property: string) => {
       switch (property) {
         case 'tags':
           return item.type;
         case 'address':
           return item.address.address1.toLowerCase();
+        case 'granular certificates':
+          return item.type === 'production' && item.gsrn.length === 18
+            ? item.contract
+              ? 'active'
+              : 'enable'
+            : '';
         default:
-          item[property];
+          return item[property];
       }
     };
   }
