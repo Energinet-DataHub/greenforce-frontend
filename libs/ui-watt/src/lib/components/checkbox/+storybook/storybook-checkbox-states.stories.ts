@@ -17,7 +17,7 @@
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { WattCheckboxComponent } from '../watt-checkbox.component';
-import { WattCheckboxOverviewModule } from './storybook-checkbox-overview.module';
+import { WattCheckboxStatesModule } from './storybook-checkbox-states.module';
 import { WattCheckboxModule } from '../watt-checkbox.module';
 import { WattCardModule } from '../../card';
 
@@ -26,7 +26,7 @@ export default {
   component: WattCheckboxComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattCheckboxModule, WattCheckboxOverviewModule, WattCardModule],
+      imports: [WattCheckboxModule, WattCheckboxStatesModule, WattCardModule],
     }),
   ],
 } as Meta<WattCheckboxComponent>;
@@ -34,7 +34,7 @@ export default {
 const statesTemplate: Story = () => ({
   template: `
   <watt-card>
-    <storybook-checkbox-overview></storybook-checkbox-overview>
+    <storybook-checkbox-states></storybook-checkbox-states>
   </watt-card>`,
 });
 

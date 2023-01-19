@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 
-import { StorybookCheckboxOverviewComponent } from './storybook-checkbox-overview.component';
+import { Component, ViewEncapsulation } from '@angular/core';
 
-@NgModule({
-  declarations: [StorybookCheckboxOverviewComponent],
-  exports: [StorybookCheckboxOverviewComponent],
-  imports: [MatCheckboxModule, ReactiveFormsModule],
+@Component({
+  encapsulation: ViewEncapsulation.None,
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'storybook-checkbox-states',
+  styleUrls: ['./storybook-checkbox-states.component.scss'],
+  templateUrl: './storybook-checkbox-states.component.html',
 })
-export class WattCheckboxOverviewModule {}
+export class StorybookCheckboxStatesComponent {}
