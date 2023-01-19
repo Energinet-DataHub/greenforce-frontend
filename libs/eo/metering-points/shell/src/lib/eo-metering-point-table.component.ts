@@ -128,7 +128,7 @@ import {
   `,
 })
 export class EoMeteringPointListComponent implements AfterViewInit {
-  @ViewChild(MatSort) matSort!: MatSort;
+  @ViewChild(MatSort) sort!: MatSort;
 
   loadingDone$ = this.store.loadingDone$;
   meteringPoints$ = this.store.meteringPoints$;
@@ -149,7 +149,17 @@ export class EoMeteringPointListComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.dataSource.sort = this.matSort;
+    this.dataSource.sort = this.sort;
+    this.dataSource.sortingDataAccessor = (item: any, property) => {
+      switch (property) {
+        case 'tags':
+          return item.type;
+        case 'address':
+          return item.address.address1.toLowerCase();
+        default:
+          item[property];
+      }
+    };
   }
 
   createContract(gsrn: string) {
