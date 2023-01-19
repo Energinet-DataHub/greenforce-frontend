@@ -5,6 +5,7 @@ export * from './actor-market-role-dto';
 export * from './actor-name-dto';
 export * from './actor-number-dto';
 export * from './actor-status';
+export * from './actor-type';
 export * from './address-dto';
 export * from './asset-type';
 export * from './batch-dto';

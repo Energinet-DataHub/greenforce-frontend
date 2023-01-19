@@ -126,5 +126,15 @@ namespace Energinet.DataHub.WebApi.Controllers
             var dto = await _client.GetProcessResultAsync(processResultRequestDto).ConfigureAwait(false);
             return Ok(dto);
         }
+
+        /// <summary>
+        /// Get a list of actors.
+        /// </summary>
+        [HttpGet("Actors")]
+        public async Task<ActionResult<int[]>> GetAsync(Guid batchId, string gridAreaCode, ActorType actorType)
+        {
+            var dto = await _client.GetActorsAsync(batchId, gridAreaCode, actorType).ConfigureAwait(false);
+            return Ok(dto);
+        }
     }
 }
