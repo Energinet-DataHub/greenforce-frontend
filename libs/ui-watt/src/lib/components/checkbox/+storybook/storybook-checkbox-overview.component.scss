@@ -1,0 +1,19 @@
+@use "@energinet-datahub/watt/utils" as watt;
+
+.mat-checkbox.error {
+  .mat-checkbox-frame {
+    border-color: red !important;
+  }
+
+  .mat-checkbox-label {
+    color: red !important;
+  }
+}
+
+section {
+  pointer-events: none;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 2rem;
+  align-items: center
+}
