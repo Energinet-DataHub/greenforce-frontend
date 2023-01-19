@@ -23,6 +23,7 @@ import { marketParticipantMocks } from './mocks/marketParticipant';
 import { messageArchiveMocks } from './mocks/messageArchive';
 import { adminMocks } from './mocks/admin';
 import { marketParticipantUserMocks } from './mocks/marketParticipantUser';
+import { marketParticipantUserRoleMocks } from './mocks/marketParticipantUserRole';
 import { tokenMocks } from './mocks/token';
 
 export function handlers(apiBase: string) {
@@ -34,6 +35,7 @@ export function handlers(apiBase: string) {
     ...messageArchiveMocks(apiBase),
     ...adminMocks(apiBase),
     ...marketParticipantUserMocks(apiBase),
+    ...marketParticipantUserRoleMocks(apiBase),
     ...tokenMocks(apiBase),
   ] as RequestHandler[];
 }
