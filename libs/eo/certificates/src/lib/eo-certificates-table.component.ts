@@ -87,7 +87,7 @@ import { EoCertificatesStore } from './eo-certificates.store';
 
       <!-- Action column -->
       <ng-container matColumnDef="action">
-        <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let element"
           ><h4>
             <a

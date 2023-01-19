@@ -17,30 +17,19 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { take } from 'rxjs';
-import { EoMeteringPointsService } from './eo-metering-points.service';
+import {
+  EoCertificateContract,
+  EoCertificatesService,
+} from 'libs/eo/certificates/src/lib/eo-certificates.service';
+import { forkJoin } from 'rxjs';
+import {
+  EoMeteringPointsService,
+  MeteringPoint,
+} from './eo-metering-points.service';
 
-export interface EoMeteringPoint {
-  /** Unique ID of the metering point - Global Service Relation Number */
-  gsrn: string;
-  /** Name of the area the metering point is registered in */
-  gridArea: string;
-  /** Type of metering point, ie. consumption or production */
-  type: string;
-  address: {
-    /** Address line, ie. 'Dieselstraße 28' */
-    address1: string;
-    /** Extra address line for floor, side and such, ie. '3. Stock */
-    address2: string | null;
-    /** Local area description, ie. 'Niedersachsen' */
-    locality: string | null;
-    /** City name, ie. 'Wolfsburg' */
-    city: string;
-    /** Postcode, ie. '38446' */
-    postalCode: string;
-    /** Country-code, ie. 'DE' */
-    country: string;
-  };
+export interface EoMeteringPoint extends MeteringPoint {
+  /** Granular certificate contract on metering point */
+  contract?: EoCertificateContract;
 }
 
 interface EoMeteringPointsState {
@@ -53,7 +42,10 @@ interface EoMeteringPointsState {
   providedIn: 'root',
 })
 export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState> {
-  constructor(private service: EoMeteringPointsService) {
+  constructor(
+    private service: EoMeteringPointsService,
+    private certService: EoCertificatesService
+  ) {
     super({
       loadingDone: false,
       meteringPoints: [],
@@ -64,24 +56,35 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   }
 
   readonly loadingDone$ = this.select((state) => state.loadingDone);
-  readonly meteringPoints$ = this.select((state) => state.meteringPoints);
-  readonly error$ = this.select((state) => state.error);
-
-  readonly setLoadingDone = this.updater(
+  private readonly setLoadingDone = this.updater(
     (state, loadingDone: boolean): EoMeteringPointsState => ({
       ...state,
       loadingDone,
     })
   );
 
-  readonly setEnergySources = this.updater(
+  readonly meteringPoints$ = this.select((state) => state.meteringPoints);
+  private readonly setMeteringPoints = this.updater(
     (state, meteringPoints: EoMeteringPoint[]): EoMeteringPointsState => ({
       ...state,
       meteringPoints,
     })
   );
 
-  readonly setError = this.updater(
+  private readonly setCertificateContract = this.updater(
+    (state, contract: EoCertificateContract): EoMeteringPointsState => ({
+      ...state,
+      meteringPoints: state.meteringPoints.map((mp) => {
+        if (mp.gsrn === contract.gsrn) {
+          mp.contract = contract;
+        }
+        return mp;
+      }),
+    })
+  );
+
+  readonly error$ = this.select((state) => state.error);
+  private readonly setError = this.updater(
     (state, error: HttpErrorResponse | null): EoMeteringPointsState => ({
       ...state,
       error,
@@ -89,19 +92,35 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   );
 
   loadData() {
-    this.service
-      .getMeteringPoints()
-      .pipe(take(1))
-      .subscribe({
-        next: (response) => {
-          this.setEnergySources(response.meteringPoints);
-          this.setError(null);
-          this.setLoadingDone(true);
-        },
-        error: (error) => {
-          this.setError(error);
-          this.setLoadingDone(true);
-        },
-      });
+    forkJoin([
+      this.certService.getContracts(),
+      this.service.getMeteringPoints(),
+    ]).subscribe({
+      next: ([contractList, mpList]) => {
+        this.setMeteringPoints(
+          mpList.meteringPoints.map((mp: MeteringPoint) => ({
+            ...mp,
+            contract: contractList.result.find(
+              (contract) => contract.gsrn === mp.gsrn
+            ),
+          }))
+        );
+        this.setLoadingDone(true);
+      },
+      error: (error) => {
+        this.setError(error);
+        this.setLoadingDone(true);
+      },
+    });
+  }
+
+  createCertificateContract(gsrn: string) {
+    this.certService.createContract(gsrn).subscribe({
+      next: (contract) => this.setCertificateContract(contract),
+      error: (error) => {
+        this.setError(error);
+        this.loadData();
+      },
+    });
   }
 }
