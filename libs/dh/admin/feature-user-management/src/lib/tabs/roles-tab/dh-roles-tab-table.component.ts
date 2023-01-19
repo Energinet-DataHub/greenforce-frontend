@@ -55,6 +55,8 @@ import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.compone
   ],
 })
 export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
+  activeRow: UserRoleDto | undefined = undefined;
+
   @Input() roles: UserRoleDto[] = [];
 
   @ViewChild(DhSharedUiPaginatorComponent)
@@ -86,5 +88,10 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
 
   onRowClick(row: UserRoleDto): void {
     this.drawer.open(row);
+    this.activeRow = row;
+  }
+
+  onClosed(): void {
+    this.activeRow = undefined;
   }
 }

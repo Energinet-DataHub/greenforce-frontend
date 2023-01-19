@@ -16,7 +16,7 @@
  */
 import { ChangeDetectionStrategy, Component, Output } from '@angular/core';
 import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
 import { Observable } from 'rxjs';
 import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
 

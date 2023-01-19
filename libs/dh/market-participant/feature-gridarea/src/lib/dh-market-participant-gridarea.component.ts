@@ -27,7 +27,7 @@ import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { DhMarketParticipantGridAreaOverviewScam } from './overview/dh-market-participant-gridarea-overview.component';
-import { PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
 
 @Component({
   selector: 'dh-market-participant-gridarea',

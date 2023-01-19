@@ -34,7 +34,7 @@ import {
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
 import { DhMarketParticipantOrganizationOverviewScam } from './overview/dh-market-participant-organization-overview.component';
-import { PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({

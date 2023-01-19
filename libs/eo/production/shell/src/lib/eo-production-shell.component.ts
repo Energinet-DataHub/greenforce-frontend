@@ -27,7 +27,7 @@ import {
   CalendarDateRange,
   EoFeatureFlagDirective,
 } from '@energinet-datahub/eo/shared/services';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 import { EoProductionLineChartComponent } from './eo-production-chart-card.component';
 import { EoProductionInfoComponent } from './eo-production-info.component';
 import { EoProductionTipComponent } from './eo-production-tip.component';

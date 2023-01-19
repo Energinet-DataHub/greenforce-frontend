@@ -14,19 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
+import { provideComponentStore } from '@ngrx/component-store';
+import { PushModule } from '@rx-angular/template/push';
+import { LetModule } from '@rx-angular/template/let';
 
 import {
   WattDrawerComponent,
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { DhTabsComponent } from '.././tabs/dh-drawer-tabs.component';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
-import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
+import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+
 import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component';
+import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
+import { DhTabsComponent } from '.././tabs/dh-drawer-tabs.component';
+import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-data-general-error.component';
 
 @Component({
   selector: 'dh-role-drawer',
@@ -44,7 +57,24 @@ import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component'
       .role-name__headline {
         margin: 0;
       }
+
+      .user-role {
+        &__spinner {
+          display: flex;
+          justify-content: center;
+          padding: var(--watt-space-l) 0;
+        }
+
+        &__error {
+          padding: var(--watt-space-xl) 0;
+        }
+      }
     `,
+  ],
+  providers: [
+    provideComponentStore(
+      DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
+    ),
   ],
   imports: [
     CommonModule,
@@ -54,21 +84,44 @@ import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component'
     DhTabsComponent,
     DhRoleStatusComponent,
     DhDrawerRoleTabsComponent,
+    PushModule,
+    LetModule,
+    WattSpinnerModule,
+    DhTabDataGeneralErrorComponent,
   ],
 })
 export class DhRoleDrawerComponent {
+  private readonly store = inject(
+    DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
+  );
+
+  userRoleWithPermissions$ = this.store.userRole$;
+
+  isLoading$ = this.store.isLoading$;
+  hasGeneralError$ = this.store.hasGeneralError$;
+
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
 
-  selectedRole: UserRoleDto | null = null;
+  basicUserRole: UserRoleDto | null = null;
+
+  @Output() closed = new EventEmitter<void>();
 
   onClose(): void {
     this.drawer.close();
-    this.selectedRole = null;
+    this.closed.emit();
+    this.basicUserRole = null;
   }
 
   open(role: UserRoleDto): void {
-    this.selectedRole = role;
+    this.basicUserRole = role;
     this.drawer.open();
+    this.loadUserRoleWithPermissions();
+  }
+
+  loadUserRoleWithPermissions() {
+    if (this.basicUserRole) {
+      this.store.getUserRole(this.basicUserRole.id);
+    }
   }
 }

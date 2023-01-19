@@ -17,39 +17,34 @@ limitations under the License.
 <ng-container
   *transloco="let t; read: 'admin.userManagement.tabs.users.table.columns'"
 >
-  <mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef>{{ t("name") }}</mat-header-cell>
-      <mat-cell *matCellDef="let user">{{ user.name }}</mat-cell>
+  <watt-table
+    [dataSource]="dataSource"
+    [columns]="columns"
+    (rowClick)="onRowClick($event)"
+    [activeRow]="activeRow"
+  >
+    <ng-container *wattTableCell="columns.name; header: t('name'); let element">
+      {{ element.name }}
     </ng-container>
 
-    <ng-container matColumnDef="email">
-      <mat-header-cell *matHeaderCellDef>{{ t("email") }}</mat-header-cell>
-      <mat-cell *matCellDef="let user">{{ user.email }}</mat-cell>
+    <ng-container
+      *wattTableCell="columns.email; header: t('email'); let element"
+    >
+      {{ element.email }}
     </ng-container>
 
-    <ng-container matColumnDef="phone">
-      <mat-header-cell *matHeaderCellDef>{{ t("phone") }}</mat-header-cell>
-      <mat-cell *matCellDef="let user">{{
-        user.phoneNumber | dhEmDashFallback
-      }}</mat-cell>
+    <ng-container
+      *wattTableCell="columns.phone; header: t('phone'); let element"
+    >
+      {{ element.phoneNumber | dhEmDashFallback }}
     </ng-container>
 
-    <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef>{{ t("status") }}</mat-header-cell>
-      <mat-cell *matCellDef="let user">
-        <dh-user-status [status]="user.status"></dh-user-status>
-      </mat-cell>
+    <ng-container
+      *wattTableCell="columns.status; header: t('status'); let element"
+    >
+      <dh-user-status [status]="element.status"></dh-user-status>
     </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-
-    <mat-row
-      *matRowDef="let row; columns: displayedColumns"
-      class="clickable"
-      (click)="onRowClick(row)"
-    ></mat-row>
-  </mat-table>
+  </watt-table>
 </ng-container>
 
-<dh-user-drawer></dh-user-drawer>
+<dh-user-drawer (closed)="onClosed()"></dh-user-drawer>

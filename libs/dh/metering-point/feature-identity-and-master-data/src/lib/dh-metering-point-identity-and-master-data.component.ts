@@ -16,8 +16,7 @@
  */
 import { Component, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 
 import { DhMeteringPointIdentityComponent } from './identity/dh-metering-point-identity.component';
 import { DhMeteringPointPrimaryMasterDataComponent } from './primary-master-data/dh-metering-point-primary-master-data.component';
