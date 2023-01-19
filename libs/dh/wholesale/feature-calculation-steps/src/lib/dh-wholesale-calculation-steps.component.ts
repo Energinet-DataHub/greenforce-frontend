@@ -76,6 +76,7 @@ export class DhWholesaleCalculationStepsComponent {
     this.store.getActors({
       batchId: this.route.snapshot.params['batchId'],
       gridAreaCode: this.route.snapshot.params['gridAreaCode'],
+      timeSeriesType: 'NonProfiled',
       actorType: 'EnergySupplier',
     });
   }

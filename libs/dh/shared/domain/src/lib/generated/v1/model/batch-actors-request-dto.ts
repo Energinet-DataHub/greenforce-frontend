@@ -9,12 +9,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { TimeSeriesType } from './time-series-type';
 import { BatchActorType } from './batch-actor-type';
 
 
 export interface BatchActorsRequestDto { 
     batchId: string;
     gridAreaCode: string;
+    timeSeriesType: TimeSeriesType;
     actorType: BatchActorType;
 }
 
