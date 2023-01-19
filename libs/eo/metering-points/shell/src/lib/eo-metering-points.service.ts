@@ -21,6 +21,29 @@ import {
   eoApiEnvironmentToken,
 } from '@energinet-datahub/eo/shared/environments';
 
+export interface MeteringPoint {
+  /** Unique ID of the metering point - Global Service Relation Number */
+  gsrn: string;
+  /** Name of the area the metering point is registered in */
+  gridArea: string;
+  /** Type of metering point, ie. consumption or production */
+  type: string;
+  address: {
+    /** Address line, ie. 'Dieselstraße 28' */
+    address1: string;
+    /** Extra address line for floor, side and such, ie. '3. Stock */
+    address2: string | null;
+    /** Local area description, ie. 'Niedersachsen' */
+    locality: string | null;
+    /** City name, ie. 'Wolfsburg' */
+    city: string;
+    /** Postcode, ie. '38446' */
+    postalCode: string;
+    /** Country-code, ie. 'DE' */
+    country: string;
+  };
+}
+
 interface MeteringPointsResponse {
   meteringPoints: [];
 }
