@@ -27,7 +27,8 @@ import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.compon
 import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-general-error.component';
 import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { LetModule, PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
+import { LetModule } from '@rx-angular/template/let';
 import {
   EicFunction,
   UserRoleStatus,

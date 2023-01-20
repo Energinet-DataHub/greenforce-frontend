@@ -16,7 +16,8 @@
  */
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LetModule, PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
+import { LetModule } from '@rx-angular/template/let';
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 
 import { DhSelectedActorStore, Actor } from './dh-selected-actor.store';

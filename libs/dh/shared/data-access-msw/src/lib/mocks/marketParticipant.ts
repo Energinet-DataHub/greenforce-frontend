@@ -22,6 +22,7 @@ import gridAreaOverviewData from './data/marketParticipantGridAreaOverview.json'
 import actorData from './data/marketPaticipantActor.json';
 import actorContactsData from './data/marketPaticipantActorContacts.json';
 import organizationData from './data/marketPaticipantOrganization.json';
+import userRoleData from './data/marketParticipantUserRoleTemplates.json';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
@@ -31,6 +32,7 @@ export function marketParticipantMocks(apiBase: string) {
     getActor(apiBase),
     getActorContact(apiBase),
     getOrganization(apiBase),
+    getUserRoles(apiBase),
   ];
 }
 
@@ -94,6 +96,15 @@ function getActorContact(apiBase: string) {
     `${apiBase}/v1/MarketParticipant/Organization/GetContacts`,
     (req, res, ctx) => {
       return res(ctx.json(actorContactsData));
+    }
+  );
+}
+
+function getUserRoles(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipantUserRoleTemplate/users`,
+    (req, res, ctx) => {
+      return res(ctx.json(userRoleData));
     }
   );
 }

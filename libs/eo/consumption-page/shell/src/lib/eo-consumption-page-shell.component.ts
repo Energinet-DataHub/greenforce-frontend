@@ -27,7 +27,7 @@ import {
   CalendarDateRange,
   EoFeatureFlagDirective,
 } from '@energinet-datahub/eo/shared/services';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 import { EoConsumptionLineChartComponent } from './eo-consumption-chart-card.component';
 import { EoConsumptionPageEnergyConsumptionComponent } from './eo-consumption-page-energy-consumption.component';
 import { EoConsumptionPageInfoComponent } from './eo-consumption-page-info.component';

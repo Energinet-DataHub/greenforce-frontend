@@ -35,7 +35,7 @@ jobs:
   dotnet_update_coverage_report:
     needs: changes
     if: ${{ needs.changes.outputs.dotnet == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v9
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v10
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       ENVIRONMENT: AzureAuth
@@ -44,12 +44,12 @@ jobs:
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       AZURE_SPN_ID: ${{ secrets.AZURE_SPN_ID_OIDC }}
       AZURE_KEYVAULT_URL: ${{ secrets.AZURE_KEYVAULT_URL }}
-      AZURE_SECRETS_KEYVAULT_URL: ${{ secrets.AZURE_SECRETS_KEYVAULT_URL }}
+      AZURE_B2CSECRETS_KEYVAULT_URL: ${{ secrets.AZURE_B2CSECRETS_KEYVAULT_URL }}
 
   dotnet_promote_prerelease:
     needs: changes
     if: ${{ needs.changes.outputs.dotnet == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v9
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v10
     with:
       RELEASE_NAME_PREFIX: ui_dotnet
 
@@ -60,7 +60,7 @@ jobs:
   frontend_promote_prerelease:
     needs: changes
     if: ${{ needs.changes.outputs.frontend == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v9
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v10
     with:
       RELEASE_NAME_PREFIX: ui_frontend
 
@@ -90,7 +90,7 @@ jobs:
       - run: echo "${{ toJSON(needs) }}"
 
       - name: Find associated pull request
-        uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@v9
+        uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@v10
         id: find_pull_request
 
       - name: Repository Dispatch
@@ -115,7 +115,7 @@ jobs:
     if: |
       always() &&
       contains(needs.*.result, 'failure')
-    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v9
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v10
     with:
       TEAM_NAME: 'TexasRangers'
       SUBJECT: 'Deployment dispatch failed: UI + BFF'
