@@ -25,6 +25,11 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Name = "Organization";
             Field(x => x.OrganizationId).Description("The ID of the organization.");
             Field(x => x.Name).Description("The name of the organization.");
+            Field(x => x.BusinessRegisterIdentifier).Description("The business register identifier of the organization.");
+            Field(x => x.Status).Description("The status of the organization.");
+            Field(x => x.Comment).Description("The comment of the organization.");
+            Field(x => x.Address).Description("The address of the organization.");
+            Field(x => x.Actors).Description("The actors of the organization.");
         }
     }
 }

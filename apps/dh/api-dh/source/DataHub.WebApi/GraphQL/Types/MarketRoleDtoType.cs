@@ -12,19 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL;
-using GraphQL.MicrosoftDI;
+using Energinet.DataHub.MarketParticipant.Client.Models;
 using GraphQL.Types;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Energinet.DataHub.WebApi.Registration
+namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public static class GraphQLRegistrationExtensions
+    public class MarketRoleDtoType : ObjectGraphType<MarketRoleDto>
     {
-        public static IServiceCollection AddGraphQLSchema(this IServiceCollection services)
+        public MarketRoleDtoType()
         {
-            services.AddScoped<ISchema, MarketParticipantSchema>(services => new MarketParticipantSchema(new SelfActivatingServiceProvider(services)));
-            return services;
+            Field(x => x.EicFunction).Description("The EIC function of the market role.");
         }
     }
 }

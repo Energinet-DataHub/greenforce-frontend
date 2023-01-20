@@ -119,11 +119,11 @@ namespace Energinet.DataHub.WebApi
             services.AddGraphQL(options =>
                     options.ConfigureExecution((opt, next) =>
                     {
-                        opt.ThrowOnUnhandledException = true;
                         opt.EnableMetrics = true;
                         return next(opt);
                     })
                     .AddSystemTextJson()
+                    .AddSchema<MarketParticipantSchema>()
                     .AddErrorInfoProvider(opts =>
                         opts.ExposeExceptionDetails = true));
 

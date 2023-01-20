@@ -14,6 +14,7 @@
 
 using System;
 using Energinet.DataHub.MarketParticipant.Client;
+using GraphQL;
 using GraphQL.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
@@ -27,6 +28,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
             _client = client;
             Field<ListGraphType<OrganizationDtoType>>("organizations")
                 .ResolveAsync(async context => await _client.GetOrganizationsAsync().ConfigureAwait(false));
+
+            Field<OrganizationDtoType>("organization")
+                .Argument<IdGraphType>("id", "The id of the organization")
+                .ResolveAsync(async context =>
+                {
+                    var id = context.GetArgument<Guid>("id");
+                    return await _client.GetOrganizationAsync(id).ConfigureAwait(false);
+                });
         }
     }
 }

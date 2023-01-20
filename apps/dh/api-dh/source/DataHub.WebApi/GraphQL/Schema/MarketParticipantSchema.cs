@@ -13,6 +13,8 @@
 // limitations under the License.
 
 using System;
+using Energinet.DataHub.MarketParticipant.Client.Models;
+using GraphQL;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,6 +25,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public MarketParticipantSchema(IServiceProvider provider)
             : base(provider)
         {
+            this.RegisterTypeMapping<AddressDto, ActorDtoType>();
+            this.RegisterTypeMapping<OrganizationDto, OrganizationDtoType>();
+            this.RegisterTypeMapping<ActorDto, ActorDtoType>();
+            this.RegisterTypeMapping<MarketRoleDto, MarketRoleDtoType>();
+            this.RegisterTypeMapping<ActorNumberDto, ActorNumberDtoType>();
+            this.RegisterTypeMapping<ActorNameDto, ActorNameDtoType>();
+            this.RegisterTypeMapping<ActorMarketRoleDto, ActorMarketRoleDtoType>();
+            this.RegisterTypeMapping<ActorGridAreaDto, ActorGridAreaDtoType>();
             Query = provider.GetRequiredService<MarketParticipantQuery>();
         }
     }

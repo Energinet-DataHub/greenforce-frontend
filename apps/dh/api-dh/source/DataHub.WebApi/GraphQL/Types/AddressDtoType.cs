@@ -12,19 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL;
-using GraphQL.MicrosoftDI;
+using Energinet.DataHub.MarketParticipant.Client.Models;
 using GraphQL.Types;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Energinet.DataHub.WebApi.Registration
+namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public static class GraphQLRegistrationExtensions
+    public class AddressDtoType : ObjectGraphType<AddressDto>
     {
-        public static IServiceCollection AddGraphQLSchema(this IServiceCollection services)
+        public AddressDtoType()
         {
-            services.AddScoped<ISchema, MarketParticipantSchema>(services => new MarketParticipantSchema(new SelfActivatingServiceProvider(services)));
-            return services;
+            Name = "Address";
+            Field(x => x.City).Description("The city of the address.");
+            Field(x => x.Country).Description("The country of the address.");
+            Field(x => x.Number).Description("The number of the address.");
+            Field(x => x.StreetName).Description("The street name of the address.");
+            Field(x => x.ZipCode).Description("The zip code of the address.");
         }
     }
 }
