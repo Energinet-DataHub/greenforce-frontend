@@ -22,11 +22,11 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public AddressDtoType()
         {
             Name = "Address";
-            Field(x => x.City).Description("The city of the address.");
+            Field(x => x.City, nullable: true).Description("The city of the address.");
             Field(x => x.Country).Description("The country of the address.");
-            Field(x => x.Number).Description("The number of the address.");
-            Field(x => x.StreetName).Description("The street name of the address.");
-            Field(x => x.ZipCode).Description("The zip code of the address.");
+            Field(x => x.Number, nullable: true).Description("The number of the address.");
+            Field(x => x.StreetName, nullable: true).Description("The street name of the address.");
+            Field(x => x.ZipCode, nullable: true).Description("The zip code of the address.");
         }
     }
 }

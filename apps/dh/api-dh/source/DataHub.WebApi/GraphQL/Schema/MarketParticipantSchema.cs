@@ -25,7 +25,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public MarketParticipantSchema(IServiceProvider provider)
             : base(provider)
         {
-            this.RegisterTypeMapping<AddressDto, ActorDtoType>();
+            this.RegisterTypeMapping<AddressDto, AddressDtoType>();
             this.RegisterTypeMapping<OrganizationDto, OrganizationDtoType>();
             this.RegisterTypeMapping<ActorDto, ActorDtoType>();
             this.RegisterTypeMapping<MarketRoleDto, MarketRoleDtoType>();
