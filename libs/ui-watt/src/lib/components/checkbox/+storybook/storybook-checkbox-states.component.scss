@@ -16,18 +16,18 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
-.mat-checkbox.error {
+.error {
   .mat-checkbox-frame {
-    border-color: red !important;
+    border-color: var(--watt-color-state-danger)
   }
 
   .mat-checkbox-label {
-    color: red !important;
+    color: var(--watt-color-state-danger)
   }
 }
 
 section {
-  pointer-events: none;
+  // pointer-events: none;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   margin-bottom: 2rem;
