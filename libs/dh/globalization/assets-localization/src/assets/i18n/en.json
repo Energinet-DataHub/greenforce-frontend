@@ -901,6 +901,10 @@
         },
         "roles": {
           "tabLabel": "Roles",
+          "roles": "Roles",
+          "role": "Role",
+          "errorTitle": "Oops! There was an error",
+          "errorMessage": "Unfortunately, an error occurred while retrieving the user roles.",
           "rolesHeadline": "Roles",
           "filter": {
             "status": "Status",
@@ -913,6 +917,10 @@
               "marketrole": "Market role",
               "status": "Status"
             }
+          },
+          "userRolesHeadline": {
+            "singular": "{{ userRolesCount }} role",
+            "plural": "{{ userRolesCount }} roles"
           }
         },
         "permissions": {
