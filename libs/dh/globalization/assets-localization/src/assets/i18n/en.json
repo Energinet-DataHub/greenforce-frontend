@@ -852,16 +852,6 @@
                 },
                 "noEntries": "No results"
               },
-              "logs": {
-                "roles": {
-                  "Created": "Role created by <b>{{ changedByUserName }}</b>",
-                  "NameChange": "<b>{{ changedByUserName }}</b> changed role name to <b>{{ changeDescriptionJson }}</b>",
-                  "DescriptionChange": "<b>{{ changedByUserName }}</b> changed description to <b>{{ changeDescriptionJson }}</b>",
-                  "EicFunctionChange": "<b>{{ changedByUserName }}</b> changed eic function to <b>{{ changeDescriptionJson }}</b>",
-                  "StatusChange": "<b>{{ changedByUserName }}</b> changed status to <b>{{ changeDescriptionJson }}</b>",
-                  "PermissionsChange": "<b>{{ changedByUserName }}</b> changed permissions to <b>{{ changeDescriptionJson }}</b>"
-                }
-              },
               "generalError": {
                 "title": "An unexpected error occured",
                 "message": "Try again or contact your system administrator if you keep getting this error."
