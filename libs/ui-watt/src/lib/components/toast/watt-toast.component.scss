@@ -25,6 +25,7 @@
   border-radius: 4px;
   padding: var(--watt-space-s) var(--watt-space-m);
   max-width: 704px;
+  min-height: 4rem;
 
   &--success {
     border-color: var(--watt-color-state-success);
