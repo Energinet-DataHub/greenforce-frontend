@@ -101,11 +101,7 @@ import {
           <ng-container *ngIf="element.type === 'production'">
             <span *ngIf="element.contract">Active</span>
             <ng-container *ngIf="!element.contract">
-              <a
-                *ngIf="element.gsrn.length === 18"
-                class="link"
-                (click)="createContract(element.gsrn)"
-              >
+              <a class="link" (click)="createContract(element.gsrn)">
                 Enable
               </a>
             </ng-container>
@@ -154,9 +150,7 @@ export class EoMeteringPointListComponent implements AfterViewInit {
         case 'address':
           return item.address.address1.toLowerCase();
         case 'granular certificates':
-          return item.type === 'production' && item.gsrn.length === 18
-            ? itemHasActiveContract
-            : '';
+          return item.type === 'production' ? itemHasActiveContract : '';
         default:
           return item[property as keyof unknown];
       }
