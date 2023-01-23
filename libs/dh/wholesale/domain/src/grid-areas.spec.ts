@@ -23,7 +23,7 @@ describe(filterValidGridAreas.name, () => {
   const gridAreas = [
     { validFrom: initialDateOffset },
     { validFrom: '1970-01-02T00:00:00+00:00' },
-    { validFrom: '1970-01-03T00:00:00+00:00' },
+    { validFrom: '1970-01-04T00:00:00+00:00' },
   ] as GridAreaDto[];
 
   it('should return all grid areas when date range is null', () => {
@@ -33,7 +33,7 @@ describe(filterValidGridAreas.name, () => {
   });
 
   it('validFrom should be before or equal selected end date', () => {
-    const selectedDateRange = { start: '1970/01/01', end: '1970/01/03' };
+    const selectedDateRange = { start: '1970-01-02T23:00:00.000Z', end: '1970-01-03T22:59:59.999Z' };
     const expectedGridAreas = [initialDateOffset, '1970-01-02T00:00:00+00:00'];
     const result = filterValidGridAreas(gridAreas, selectedDateRange);
     expect(result).toEqual(expectedGridAreas.map((x) => ({ validFrom: x })));
