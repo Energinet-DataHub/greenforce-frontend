@@ -30,7 +30,6 @@ export function wholesaleMocks(apiBase: string) {
     getWholesaleSearchBatches(apiBase),
     downloadBasisData(apiBase),
     postWholesaleBatchProcessStepResult(apiBase),
-    getWholeSaleGetGridAreas(apiBase),
   ];
 }
 
@@ -257,10 +256,4 @@ function postWholesaleBatchProcessStepResult(apiBase: string) {
       );
     }
   );
-}
-
-function getWholeSaleGetGridAreas(apiBase: string) {
-  return rest.get(`${apiBase}/v1/WholesaleBatch/GridAreas`, (req, res, ctx) => {
-    return res(ctx.delay(1000), ctx.status(200), ctx.json(mockedGridAreas));
-  });
 }
