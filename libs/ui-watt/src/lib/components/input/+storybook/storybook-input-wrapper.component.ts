@@ -27,7 +27,7 @@ import { FormControl } from '@angular/forms';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'storybook-input-wrapper',
   styleUrls: ['./storybook-input-wrapper.component.scss'],
-  template: `<watt-form-field [size]="size">
+  template: `<watt-form-field>
     <watt-label>{{ label }}</watt-label>
     <watt-icon
       *ngIf="hasPrefix"
@@ -80,7 +80,6 @@ export class StorybookInputWrapperComponent implements OnChanges {
   @Input() required = false;
   @Input() hasError = false;
   @Input() isTextArea = false;
-  @Input() size: 'normal' | 'large' = 'normal';
 
   /**
    * @ignore

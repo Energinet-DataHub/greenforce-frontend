@@ -105,77 +105,17 @@ overview.parameters = {
   controls: { hideNoControlsWarning: true },
   docs: {
     source: {
-      code: 'Nothing to see here.',
-    },
-  },
-};
-
-export const disabled = Template.bind({});
-disabled.args = {
-  disabled: true,
-};
-disabled.parameters = {
-  docs: {
-    source: {
-      code: `// HTML:
+      code: `HTML:
 <watt-form-field>
   <watt-label>label</watt-label>
   <input wattInput [formControl]="exampleFormControl" />
+  <watt-hint>Some hint</watt-hint>
+  <watt-hint align="end">{{exampleFormControl.value.length}} / 256</watt-hint>
 </watt-form-field>
 
-// TypeScript (should be done via ReactiveForms and not by attribute):
-exampleFormControl = new FormControl({value: '', disabled: true});`,
-    },
-  },
-};
-
-export const sizeLarge = Template.bind({});
-sizeLarge.args = {
-  size: 'large',
-};
-sizeLarge.parameters = {
-  docs: {
-    source: {
-      code: `<watt-form-field size="large">
-  <watt-label>label</watt-label>
-  <input wattInput [formControl]="exampleFormControl" />
-</watt-form-field>`,
-    },
-  },
-};
-
-export const leadingIcon = Template.bind({});
-leadingIcon.args = {
-  hasPrefix: true,
-};
-leadingIcon.parameters = {
-  docs: {
-    source: {
-      code: `<watt-form-field>
-  <watt-label>label</watt-label>
-  <button wattPrefix aria-label="some meaningful description">
-    icon
-  </button>
-  <input wattInput />
-</watt-form-field>`,
-    },
-  },
-};
-
-export const trailingIcon = Template.bind({});
-trailingIcon.args = {
-  hasSuffix: true,
-};
-trailingIcon.parameters = {
-  docs: {
-    source: {
-      code: `<watt-form-field>
-  <watt-label>label</watt-label>
-  <input wattInput />
-  <button wattSuffix aria-label="some meaningful description">
-    icon
-  </button>
-</watt-form-field>`,
+TypeScript:
+exampleFormControl = new FormControl('');
+`,
     },
   },
 };
@@ -198,47 +138,6 @@ assistiveText.parameters = {
 TypeScript:
 exampleFormControl = new FormControl('');
 `,
-    },
-  },
-};
-
-export const error = Template.bind({});
-error.args = {
-  hasError: true,
-};
-error.parameters = {
-  docs: {
-    source: {
-      code: `HTML:
-<watt-form-field>
-  <watt-label>label</watt-label>
-  <input wattInput [formControl]="exampleFormControl" required />
-  <watt-error *ngIf="exampleFormControl.hasError('required')">
-    This field is required
-  </watt-error>
-</watt-form-field>
-
-TypeScript:
-exampleFormControl = new FormControl('', [
-  Validators.required
-]);
-`,
-    },
-  },
-};
-
-export const textArea = Template.bind({});
-textArea.args = {
-  isTextArea: true,
-};
-textArea.parameters = {
-  docs: {
-    source: {
-      code: `
-<watt-form-field>
-  <watt-label>label</watt-label>
-  <textarea wattInput [formControl]="exampleFormControl" />
-</watt-form-field>`,
     },
   },
 };
