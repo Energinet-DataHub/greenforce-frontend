@@ -14,12 +14,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'admin.userManagement.tabs'">
+<ng-container
+  *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs'"
+>
   <watt-tabs>
     <watt-tab [label]="t('masterData.tabLabel')">
       <dh-role-master-data [role]="role"></dh-role-master-data>
     </watt-tab>
-    <watt-tab [label]="t('rights.tabLabel')">
+    <watt-tab [label]="t('permissions.tabLabel')">
       <dh-role-permissions [role]="role"></dh-role-permissions>
     </watt-tab>
     <watt-tab [label]="t('history.tabLabel')">
