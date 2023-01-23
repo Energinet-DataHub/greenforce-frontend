@@ -830,7 +830,21 @@
   "admin": {
     "userManagement": {
       "drawer": {
-        "edit": "Edit"
+        "edit": "Edit",
+        "roles": {
+          "tabs": {
+            "masterData": {
+              "tabLabel": "Master data"
+            },
+            "permissions": {
+              "tabLabel": "Permissions",
+              "headline": "Permissions"
+            },
+            "history": {
+              "tabLabel": "History"
+            }
+          }
+        }
       },
       "topBarTitle": "User management",
       "userStatus": {
@@ -869,9 +883,6 @@
             "title": "An unexpected error occured",
             "message": "Try again or contact your system administrator if you keep getting this error."
           }
-        },
-        "rights": {
-          "tabLabel": "Rights"
         },
         "users": {
           "tabLabel": "Users",
