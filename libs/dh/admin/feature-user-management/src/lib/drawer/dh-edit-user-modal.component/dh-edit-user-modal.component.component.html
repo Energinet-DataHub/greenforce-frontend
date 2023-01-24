@@ -1,0 +1,19 @@
+<ng-container *transloco="let t; read: 'admin.userManagement.editUser'">
+  <watt-modal [title]="user?.name ?? ''" #editUserModal>
+    <watt-tabs>
+      <watt-tab [label]="t('tab.actor')"> aktør </watt-tab>
+      <watt-tab [label]="t('tab.roles')"> roller </watt-tab>
+    </watt-tabs>
+    <watt-modal-actions>
+      <watt-button variant="secondary" (click)="editUserModal.close(true)">
+        {{ t("cancel") }}
+      </watt-button>
+      <watt-button variant="primary" (click)="save()">
+        {{ t("save") }}
+      </watt-button>
+      <watt-button variant="secondary" (click)="deactivedUser()">
+        {{ t("deactivateUser") }}
+      </watt-button>
+    </watt-modal-actions>
+  </watt-modal>
+</ng-container>

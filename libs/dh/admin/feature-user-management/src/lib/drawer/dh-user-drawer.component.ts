@@ -24,9 +24,11 @@ import {
 } from '@energinet-datahub/watt/drawer';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import { WattModalModule } from '@energinet-datahub/watt/modal';
 
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
 import { DhUserStatusComponent } from '../shared/dh-user-status.component';
+import { DhEditUserModalComponentComponent } from './dh-edit-user-modal.component/dh-edit-user-modal.component.component';
 
 @Component({
   selector: 'dh-user-drawer',
@@ -53,6 +55,8 @@ import { DhUserStatusComponent } from '../shared/dh-user-status.component';
     WattButtonModule,
     DhTabsComponent,
     DhUserStatusComponent,
+    WattModalModule,
+    DhEditUserModalComponentComponent,
   ],
 })
 export class DhUserDrawerComponent {
