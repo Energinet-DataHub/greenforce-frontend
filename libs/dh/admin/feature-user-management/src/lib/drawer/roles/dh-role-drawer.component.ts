@@ -38,7 +38,6 @@ import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@ene
 
 import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component';
 import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
-import { DhTabsComponent } from '.././tabs/dh-drawer-tabs.component';
 import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-data-general-error.component';
 
 @Component({
@@ -81,7 +80,6 @@ import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-
     TranslocoModule,
     WattDrawerModule,
     WattButtonModule,
-    DhTabsComponent,
     DhRoleStatusComponent,
     DhDrawerRoleTabsComponent,
     PushModule,
