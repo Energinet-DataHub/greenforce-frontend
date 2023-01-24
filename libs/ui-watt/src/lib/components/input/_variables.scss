@@ -14,16 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "../datepicker" as *;
-
-watt-datepicker {
-  @extend %datepicker;
-}
-
-watt-form-field {
-  @extend %datepicker-form-field;
-}
-
-.mat-calendar .mat-calendar-header {
-  margin-top: -10px;
-}
+$placeholder-color: var(--watt-color-neutral-grey-500);
+$input-height-normal: 42px;
+$input-height-large: 56px;
