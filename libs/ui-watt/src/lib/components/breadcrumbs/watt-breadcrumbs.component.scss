@@ -32,9 +32,18 @@ watt-breadcrumbs {
     &.interactive {
       cursor: pointer;
     }
+
     &:not(:last-child) {
       color: var(--watt-color-primary);
       text-decoration: none;
     }
+  }
+
+  mat-icon {
+    &:hover {
+      color: var(--watt-color-primary-dark);
+    }
+
+    color: var(--watt-color-neutral-black);
   }
 }
