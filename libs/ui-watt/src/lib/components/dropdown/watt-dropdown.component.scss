@@ -24,7 +24,7 @@ watt-dropdown {
   }
 
   .mat-select-value {
-    color: var(--watt-color-primary-dark);
+    color: var(--watt-color-neutral-black);
   }
 
   .mat-select.mat-select-invalid.ng-pristine .mat-select-arrow {
@@ -63,7 +63,7 @@ watt-dropdown {
   }
 
   .mat-option.mat-option {
-    color: var(--watt-color-primary-dark);
+    color: var(--watt-color-neutral-black);
 
     &.mat-active,
     &.mat-selected:not(.mat-option-multiple),
@@ -79,7 +79,7 @@ watt-dropdown {
   }
 
   .mat-select-search-input:not(.mat-select-search-hidden) {
-    color: var(--watt-color-primary-dark);
+    color: var(--watt-color-neutral-black);
   }
 
   .mat-select-search-clear {
