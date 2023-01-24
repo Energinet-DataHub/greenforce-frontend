@@ -960,6 +960,15 @@
             "button": "Try again"
           }
         }
+      },
+      "editUser": {
+        "cancel": "Cancel",
+        "save": "Save",
+        "deactivateUser": "Deactivate user",
+        "tab": {
+          "actor": "Actor",
+          "roles": "Roles"
+        }
       }
     }
   }

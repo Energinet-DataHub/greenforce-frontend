@@ -964,6 +964,15 @@
             "button": "Prøv igen"
           }
         }
+      },
+      "editUser": {
+        "cancel": "Fortryd",
+        "save": "Gem",
+        "deactivateUser": "Deaktiver bruger",
+        "tab": {
+          "actor": "Aktør",
+          "roles": "Roller"
+        }
       }
     }
   }
