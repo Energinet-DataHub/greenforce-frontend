@@ -959,7 +959,7 @@
             "tabLabel": "Rettigheder",
             "title": "Rettigheder",
             "table": {
-              "columns":{
+              "columns": {
                 "name": "Navn",
                 "description": "Beskrivelse"
               }

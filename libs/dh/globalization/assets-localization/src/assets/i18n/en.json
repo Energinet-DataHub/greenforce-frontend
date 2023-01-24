@@ -954,8 +954,8 @@
           "permissions": {
             "tabLabel": "Permissions",
             "title": "Permissions",
-            "table":{
-              "columns":{
+            "table": {
+              "columns": {
                 "name": "Name",
                 "description": "Description"
               }
