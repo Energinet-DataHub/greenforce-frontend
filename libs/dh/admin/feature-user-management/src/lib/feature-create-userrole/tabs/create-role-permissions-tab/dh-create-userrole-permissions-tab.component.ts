@@ -14,11 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
+import { DhCreateRolePermissionTabTableComponent } from './dh-create-userrole-permissions-tab-table.component';
+import { CreateUserRoleDto} from '@energinet-datahub/dh/shared/domain';
+import { SelectablePermissionsDto } from '../../../../../../../shared/domain/src/lib/generated/v1/model/selectable-permissions-dto';
+import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { PushModule } from '@rx-angular/template/push';
 
 @Component({
   selector: 'dh-create-userrole-permissions-tab',
@@ -26,6 +31,17 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
   styleUrls: ['./dh-create-userrole-permissions-tab.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, TranslocoModule, WattCardModule],
+  imports: [CommonModule, TranslocoModule, WattCardModule, DhCreateRolePermissionTabTableComponent, PushModule],
 })
-export class DhCreateUserrolePermissionsTabComponent {}
+export class DhCreateUserrolePermissionsTabComponent {
+  @Output() valueChange = new EventEmitter<Partial<CreateUserRoleDto>>();
+
+  private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
+  permissions$ = this.store.selectablePermissions$;
+
+  onSelectionChange(selections: SelectablePermissionsDto[]): void {
+    this.valueChange.emit({
+      permissions: selections.map(perm => perm.name)
+    })
+  }
+}

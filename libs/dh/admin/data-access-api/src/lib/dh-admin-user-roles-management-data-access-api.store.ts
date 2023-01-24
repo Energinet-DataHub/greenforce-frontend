@@ -17,6 +17,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, switchMap, tap, withLatestFrom } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { SelectablePermissionsDto } from '../../../../shared/domain/src/lib/generated/v1/model/selectable-permissions-dto';
 import {
   ErrorState,
   LoadingState,
@@ -42,6 +43,7 @@ interface DhUserRolesManagementState {
     status: UserRoleStatus | null;
     eicFunctions: EicFunction[] | null;
   };
+  readonly selectablePermissions: SelectablePermissionsDto[];
 }
 
 const initialState: DhUserRolesManagementState = {
@@ -49,6 +51,7 @@ const initialState: DhUserRolesManagementState = {
   requestState: LoadingState.INIT,
   createRequestState: LoadingState.INIT,
   filterModel: { status: 'Active', eicFunctions: [] },
+  selectablePermissions: []
 };
 
 @Injectable()
@@ -80,6 +83,8 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
       )
   );
 
+  selectablePermissions$ = this.select((state) => state.selectablePermissions);
+
   validation$ = this.select((state) => state.validation);
   constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
     super(initialState);
@@ -102,6 +107,26 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
             () => {
               this.setLoading(LoadingState.LOADED);
               this.updateUserRoles([]);
+              this.handleError();
+            }
+          )
+        )
+      )
+    )
+  );
+
+  private readonly getSelectablePermissions = this.effect((trigger$: Observable<void>) =>
+    trigger$.pipe(
+      switchMap(() =>
+        this.httpClientUserRole.v1MarketParticipantUserRolePermissionsGet().pipe(
+          tapResponse(
+            (response) => {
+              this.updatePermissions(response);
+              this.setLoading(LoadingState.LOADED);
+            },
+            () => {
+              this.setLoading(LoadingState.LOADED);
+              this.updatePermissions([]);
               this.handleError();
             }
           )
@@ -172,6 +197,16 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
     })
   );
 
+  private updatePermissions = this.updater(
+    (
+      state: DhUserRolesManagementState,
+      response: SelectablePermissionsDto[]
+    ): DhUserRolesManagementState => ({
+      ...state,
+      selectablePermissions: response,
+    })
+  );
+
   private setLoading = this.updater(
     (state, loadingState: LoadingState): DhUserRolesManagementState => ({
       ...state,
@@ -204,5 +239,6 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
 
   ngrxOnStoreInit(): void {
     this.getRoles();
+    this.getSelectablePermissions();
   }
 }

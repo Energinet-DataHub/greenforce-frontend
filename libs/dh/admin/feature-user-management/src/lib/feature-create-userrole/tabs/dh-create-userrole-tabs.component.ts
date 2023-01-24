@@ -81,7 +81,8 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   isLoading$ = this.store.isLoading$;
   validation$ = this.store.validation$;
   createRoleForm = this.formBuilder.group<CreateRoleForm>({});
-  userRole?: CreateUserRoleDto;
+  userRole: CreateUserRoleDto;
+  selectablePermissions$ = this.store.selectablePermissions$;
 
   private destroy$ = new Subject<void>();
 
@@ -90,16 +91,17 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private toastService: WattToastService,
     private translocoService: TranslocoService
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.userRole = {
       name: '',
       description: '',
       eicFunction: 'Agent',
       status: 'Active',
-      permissions: ['organization:manage'], //TODO: Replace with correct ones once permissions are implemented
+      permissions: [],
     };
+  }
+
+  ngOnInit(): void {
 
     this.store.createRequestHasError$
       .pipe(takeUntil(this.destroy$))
@@ -107,7 +109,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
         if (hasError) {
           this.toastService.open({
             message: this.translocoService.translate(
-              'charges.createPrices.createPriceError'
+              'admin.userManagement.createrole.createRoleRequestError'
             ),
             type: 'danger',
           });
@@ -165,6 +167,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
 
   patchUserRole(patch: Partial<CreateUserRoleDto>) {
     if (!this.userRole) throw new Error('Missing user role');
+    console.log(patch);
     this.userRole = { ...this.userRole, ...patch };
   }
 

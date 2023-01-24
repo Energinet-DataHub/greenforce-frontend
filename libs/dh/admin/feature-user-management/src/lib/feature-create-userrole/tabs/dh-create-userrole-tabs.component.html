@@ -38,10 +38,10 @@ limitations under the License.
           ></dh-create-userrole-masterdata-tab>
         </watt-tab>
         <watt-tab [label]="t('tabs.permissions.tabLabel')">
-          <dh-create-userrole-permissions-tab></dh-create-userrole-permissions-tab>
+          <dh-create-userrole-permissions-tab (valueChange)="patchUserRole($event)"></dh-create-userrole-permissions-tab>
         </watt-tab>
       </watt-tabs>
-      <watt-button type="submit" [disabled]="createRoleForm.invalid"
+      <watt-button type="submit" [disabled]="(this.userRole.permissions.length <= 0 || createRoleForm.invalid)"
         >{{ t("save") }}
       </watt-button>
     </form>
