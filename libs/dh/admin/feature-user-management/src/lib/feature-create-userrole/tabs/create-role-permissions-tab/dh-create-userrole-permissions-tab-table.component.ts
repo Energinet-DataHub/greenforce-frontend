@@ -48,7 +48,7 @@ import { SelectablePermissionsDto } from '@energinet-datahub/dh/shared/domain';
 })
 export class DhCreateRolePermissionTabTableComponent implements OnChanges {
   @Output() selectionChanged = new EventEmitter<SelectablePermissionsDto[]>();
-  @Input() permissions:SelectablePermissionsDto[] = [];
+  @Input() permissions: SelectablePermissionsDto[] = [];
 
   readonly dataSource: WattTableDataSource<SelectablePermissionsDto> =
     new WattTableDataSource<SelectablePermissionsDto>();
@@ -63,11 +63,11 @@ export class DhCreateRolePermissionTabTableComponent implements OnChanges {
       `admin.userManagement.createrole.tabs.permissions.table.columns.${key}`
     );
 
-    ngOnChanges() {
-      this.dataSource.data = this.permissions;
-    }
+  ngOnChanges() {
+    this.dataSource.data = this.permissions;
+  }
 
   onSelectionChange(selections: SelectablePermissionsDto[]): void {
-   this.selectionChanged.emit(selections.map(perm => perm ));
+    this.selectionChanged.emit(selections.map((perm) => perm));
   }
 }
