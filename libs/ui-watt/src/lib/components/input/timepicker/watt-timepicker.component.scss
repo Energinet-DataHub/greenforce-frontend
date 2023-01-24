@@ -21,7 +21,7 @@ watt-timepicker {
 }
 
 watt-form-field {
-  @extend %datepicker-form-field
+  @extend %datepicker-form-field;
 }
 
 .watt-timepicker-slider {

@@ -21,7 +21,7 @@ watt-datepicker {
 }
 
 watt-form-field {
-  @extend %datepicker-form-field
+  @extend %datepicker-form-field;
 }
 
 .mat-calendar .mat-calendar-header {
