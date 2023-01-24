@@ -25,16 +25,16 @@ watt-dropdown {
   }
 
   .mat-select-arrow::before {
-    width: .6em;
-    height: .6em;
-    bottom: .2em;
+    width: 0.6em;
+    height: 0.6em;
+    bottom: 0.2em;
     position: relative;
     display: inline-block;
     border-style: solid;
-    border-width: 0 0 .15em .15em;
+    border-width: 0 0 0.15em 0.15em;
     transform: rotate(315deg);
 
-    content: '';
+    content: "";
   }
 
   .mat-select-trigger {
