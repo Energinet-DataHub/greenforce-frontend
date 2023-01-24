@@ -19,7 +19,11 @@ limitations under the License.
     <watt-drawer-topbar></watt-drawer-topbar>
 
     <watt-drawer-actions>
-      <watt-button variant="secondary">{{ t("edit") }}</watt-button>
+      <watt-button
+        variant="secondary"
+        (click)="editUserModal.open(selectedUser)"
+        >{{ t("edit") }}</watt-button
+      >
     </watt-drawer-actions>
 
     <watt-drawer-content *ngIf="drawer.isOpen">
@@ -34,4 +38,5 @@ limitations under the License.
       <dh-drawer-tabs [user]="selectedUser"></dh-drawer-tabs>
     </watt-drawer-content>
   </watt-drawer>
+  <dh-edit-user-modal #editUserModal></dh-edit-user-modal>
 </ng-container>
