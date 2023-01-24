@@ -938,6 +938,7 @@
         "headline": "Create Userrole",
         "save": "Save",
         "createRoleRequestText": "Creating userrole",
+        "createRoleRequestError": "Unfortunately, an error occurred while creating the role.",
         "tabs": {
           "masterdata": {
             "tabLabel": "Master data",
@@ -952,8 +953,13 @@
           },
           "permissions": {
             "tabLabel": "Permissions",
-            "fieldRequiredErrorText": "Field is required.",
-            "title": "Permissions"
+            "title": "Permissions",
+            "table":{
+              "columns":{
+                "name": "Name",
+                "description": "Description"
+              }
+            }
           }
         }
       }

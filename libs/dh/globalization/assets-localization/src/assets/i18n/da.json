@@ -942,6 +942,7 @@
         "headline": "Opret brugerrolle",
         "save": "Gem",
         "createRoleRequestText": "Opretter brugerrolle",
+        "createRoleRequestError": "Der opstod desværre en fejl, da vi skulle oprette bruger rollen.",
         "tabs": {
           "masterdata": {
             "tabLabel": "Stamdata",
@@ -956,7 +957,13 @@
           },
           "permissions": {
             "tabLabel": "Rettigheder",
-            "title": "Rettigheder"
+            "title": "Rettigheder",
+            "table": {
+              "columns":{
+                "name": "Navn",
+                "description": "Beskrivelse"
+              }
+            }
           }
         }
       }
