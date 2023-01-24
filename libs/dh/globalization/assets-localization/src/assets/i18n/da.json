@@ -833,7 +833,36 @@
   "admin": {
     "userManagement": {
       "drawer": {
-        "edit": "Rediger"
+        "edit": "Rediger",
+        "roles": {
+          "tabs": {
+            "masterData": {
+              "tabLabel": "Stamdata"
+            },
+            "permissions": {
+              "tabLabel": "Rettigheder",
+              "headline": "Rettigheder"
+            },
+            "history": {
+              "tabLabel": "Historik",
+              "changes": {
+                "singular": "{{ auditLogCount }} ændring",
+                "plural": "{{ auditLogCount }} ændringer"
+              },
+              "table": {
+                "columns": {
+                  "timestamp": "Tid",
+                  "entry": "Ændring"
+                },
+                "noEntries": "Ingen resultater"
+              },
+              "generalError": {
+                "title": "Der opstod en uventet fejl",
+                "message": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl."
+              }
+            }
+          }
+        }
       },
       "topBarTitle": "Brugeradministration",
       "userStatus": {
@@ -872,9 +901,6 @@
             "title": "Der opstod en uventet fejl",
             "message": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl."
           }
-        },
-        "rights": {
-          "tabLabel": "Rettigheder"
         },
         "users": {
           "tabLabel": "Brugere",
