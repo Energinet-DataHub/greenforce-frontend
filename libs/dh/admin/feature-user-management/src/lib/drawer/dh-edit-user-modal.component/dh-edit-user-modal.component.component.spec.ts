@@ -8,9 +8,8 @@ describe('DhEditUserModalComponentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ DhEditUserModalComponentComponent ]
-    })
-    .compileComponents();
+      imports: [DhEditUserModalComponentComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DhEditUserModalComponentComponent);
     component = fixture.componentInstance;
