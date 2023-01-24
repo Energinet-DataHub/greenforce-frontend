@@ -937,8 +937,12 @@
       "createrole": {
         "headline": "Create Userrole",
         "save": "Save",
-        "createRoleRequestText": "Creating userrole",
-        "createRoleRequestError": "Unfortunately, an error occurred while creating the role.",
+        "cancel": "Cancel",
+        "createRoleRequest": {
+          "start": "Creating userrole",
+          "error": "Unfortunately, an error occurred while creating the role.",
+          "success": "User role created."
+        },
         "tabs": {
           "masterdata": {
             "tabLabel": "Master data",

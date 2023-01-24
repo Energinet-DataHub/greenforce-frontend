@@ -24,12 +24,12 @@ import {
 import { translate } from '@ngneat/transloco';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { OnChanges } from '@angular/core';
-import { SelectablePermissionsDto } from '../../../../../../../shared/domain/src/lib/generated/v1/model/selectable-permissions-dto';
 import {
   WattTableDataSource,
   WattTableColumnDef,
   WATT_TABLE,
 } from '@energinet-datahub/watt/table';
+import { SelectablePermissionsDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-create-userrole-permissions-tab-table',

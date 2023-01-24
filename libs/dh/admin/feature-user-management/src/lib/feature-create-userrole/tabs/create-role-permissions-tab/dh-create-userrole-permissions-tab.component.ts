@@ -20,8 +20,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { DhCreateRolePermissionTabTableComponent } from './dh-create-userrole-permissions-tab-table.component';
-import { CreateUserRoleDto} from '@energinet-datahub/dh/shared/domain';
-import { SelectablePermissionsDto } from '../../../../../../../shared/domain/src/lib/generated/v1/model/selectable-permissions-dto';
+import { CreateUserRoleDto, SelectablePermissionsDto} from '@energinet-datahub/dh/shared/domain';
 import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { PushModule } from '@rx-angular/template/push';
 

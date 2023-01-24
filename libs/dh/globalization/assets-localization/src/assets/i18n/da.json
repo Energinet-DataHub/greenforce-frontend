@@ -941,8 +941,12 @@
       "createrole": {
         "headline": "Opret brugerrolle",
         "save": "Gem",
-        "createRoleRequestText": "Opretter brugerrolle",
-        "createRoleRequestError": "Der opstod desværre en fejl, da vi skulle oprette bruger rollen.",
+        "cancel": "Fortryd",
+        "createRoleRequest": {
+          "start": "Opretter brugerrolle",
+          "error": "Der opstod desværre en fejl, da vi skulle oprette bruger rollen.",
+          "success": "Bruger rollen er oprettet"
+        },
         "tabs": {
           "masterdata": {
             "tabLabel": "Stamdata",

@@ -109,7 +109,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
         if (hasError) {
           this.toastService.open({
             message: this.translocoService.translate(
-              'admin.userManagement.createrole.createRoleRequestError'
+              'admin.userManagement.createrole.createRoleRequest.error'
             ),
             type: 'danger',
           });
@@ -133,12 +133,12 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
     this.disableControls();
     this.store.createUserRole({
       createRole: this.userRole,
-      onSaveCompletedFn: this.backToOverview,
+      onSaveCompletedFn: this.backToOverviewAfterSave,
     });
 
     this.toastService.open({
       message: this.translocoService.translate(
-        'admin.userManagement.createrole.createRoleRequestText'
+        'admin.userManagement.createrole.createRoleRequest.start'
       ),
       type: 'loading',
     });
@@ -167,12 +167,29 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
 
   patchUserRole(patch: Partial<CreateUserRoleDto>) {
     if (!this.userRole) throw new Error('Missing user role');
-    console.log(patch);
     this.userRole = { ...this.userRole, ...patch };
   }
 
-  private readonly backToOverview = () => {
+  private readonly backToOverviewAfterSave = () => {
+
+    this.toastService.open({
+      message: this.translocoService.translate(
+        'admin.userManagement.createrole.createRoleRequest.success'
+      ),
+      type: 'success',
+    });
+
     const url = this.router.createUrlTree([
+      dhAdminPath,
+      dhAdminUserManagementPath,
+    ]);
+
+    this.router.navigateByUrl(url);
+  };
+
+  readonly backToOverview = () => {
+
+      const url = this.router.createUrlTree([
       dhAdminPath,
       dhAdminUserManagementPath,
     ]);

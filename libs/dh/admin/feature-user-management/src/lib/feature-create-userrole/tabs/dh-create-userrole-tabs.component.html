@@ -44,6 +44,7 @@ limitations under the License.
       <watt-button type="submit" [disabled]="(this.userRole.permissions.length <= 0 || createRoleForm.invalid)"
         >{{ t("save") }}
       </watt-button>
+      <watt-button type="button" (click)="backToOverview()" variant="secondary" >{{ t("cancel") }}</watt-button>
     </form>
   </watt-card>
 </ng-container>
