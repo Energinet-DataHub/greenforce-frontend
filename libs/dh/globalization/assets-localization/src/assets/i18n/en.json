@@ -736,6 +736,7 @@
       "topBarTitle": "Start Batch",
       "startLabel": "Start",
       "dateRangeRequired": "Date range is required",
+      "gridAreaRequired": "Grid area is required",
       "invalidPeriod": "Invalid period",
       "dateRangeLabel": "Period",
       "gridAreaDropDownLabel": "Grid Areas",

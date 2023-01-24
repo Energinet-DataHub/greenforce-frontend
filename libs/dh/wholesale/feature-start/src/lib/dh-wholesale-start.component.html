@@ -62,6 +62,11 @@ limitations under the License.
         [showResetOption]="false"
         [multiple]="true"
       ></watt-dropdown>
+      <watt-error
+        *ngIf="createBatchForm.controls.gridAreas.errors?.required"
+      >
+        {{ transloco("startBatch.gridAreaRequired") }}
+      </watt-error>
     </watt-form-field>
 
     <watt-button
