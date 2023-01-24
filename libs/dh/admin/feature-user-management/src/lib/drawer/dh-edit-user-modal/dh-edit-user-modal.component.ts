@@ -35,10 +35,10 @@ import {
     TranslocoModule,
     WattTabsModule,
   ],
-  templateUrl: './dh-edit-user-modal.component.component.html',
-  styleUrls: ['./dh-edit-user-modal.component.component.scss'],
+  templateUrl: './dh-edit-user-modal.component.html',
+  styleUrls: ['./dh-edit-user-modal.component.scss'],
 })
-export class DhEditUserModalComponentComponent {
+export class DhEditUserModalComponent {
   user: UserOverviewItemDto | null = null;
   @ViewChild('editUserModal') editUserModal!: WattModalComponent;
 
