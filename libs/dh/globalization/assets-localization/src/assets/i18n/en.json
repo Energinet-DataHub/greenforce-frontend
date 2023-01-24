@@ -842,7 +842,22 @@
               "headline": "Permissions"
             },
             "history": {
-              "tabLabel": "History"
+              "tabLabel": "History",
+              "changes": {
+                "singular": "{{ auditLogCount }} change",
+                "plural": "{{ auditLogCount }} changes"
+              },
+              "table": {
+                "columns": {
+                  "timestamp": "Time",
+                  "entry": "Change"
+                },
+                "noEntries": "No results"
+              },
+              "generalError": {
+                "title": "An unexpected error occured",
+                "message": "Try again or contact your system administrator if you keep getting this error."
+              }
             }
           }
         }
