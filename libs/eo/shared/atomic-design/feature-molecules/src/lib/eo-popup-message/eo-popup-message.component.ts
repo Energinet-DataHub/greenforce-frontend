@@ -85,8 +85,6 @@ import { MatIconModule } from '@angular/material/icon';
 
       .see-details {
         display: inline-flex;
-        position: absolute;
-        right: var(--watt-space-m);
         text-decoration: none;
       }
 
@@ -108,30 +106,34 @@ import { MatIconModule } from '@angular/material/icon';
       <img alt="Danger icon" src="/assets/icons/danger.svg" />
       <div class="content">
         <h4 class="watt-space-stack-s">Oops! Something went wrong...</h4>
-        <p class="watt-space-stack-m">
+        <p>
           We apologize for the inconvenience, please reload the page or try
-          again. <br />
+          again.
+        </p>
+        <p class="watt-space-stack-m">
           If you still experience issues, you are welcome to contact customer
           service, and we will help you proceed.
         </p>
-        <p class="inline">
-          <a
-            href="mailto:datahub@energinet.dk?subject=Error on energioprindelse.dk&body=**Write your message here, but please keep the lines below intact for our internal investigations**%0D%0A%0D%0AError code:{{
-              errorMessage?.status
-            }}%0D%0A{{ errorMessage?.message }}"
-            >Contact customer service</a
-          >
-        </p>
+        <div style="display: flex; justify-content: space-between">
+          <p class="inline">
+            <a
+              href="mailto:datahub@energinet.dk?subject=Error on energioprindelse.dk&body=**Write your message here, but please keep the lines below intact for our internal investigations**%0D%0A%0D%0AError code:{{
+                errorMessage?.status
+              }}%0D%0A{{ errorMessage?.message }}"
+              >Contact customer service</a
+            >
+          </p>
 
-        <a
-          *ngIf="errorMessage"
-          class="see-details"
-          (click)="errorCollapsed = !errorCollapsed"
-        >
-          See details
-          <mat-icon *ngIf="errorCollapsed">expand_more</mat-icon>
-          <mat-icon *ngIf="!errorCollapsed">expand_less</mat-icon>
-        </a>
+          <a
+            *ngIf="errorMessage"
+            class="see-details"
+            (click)="errorCollapsed = !errorCollapsed"
+          >
+            See details
+            <mat-icon *ngIf="errorCollapsed">expand_more</mat-icon>
+            <mat-icon *ngIf="!errorCollapsed">expand_less</mat-icon>
+          </a>
+        </div>
 
         <div
           *ngIf="errorMessage"
