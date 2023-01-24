@@ -27,6 +27,7 @@ import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
 import { DhUserStatusComponent } from '../shared/dh-user-status.component';
+import { DhEditUserModalComponent } from './dh-edit-user-modal/dh-edit-user-modal.component';
 
 @Component({
   selector: 'dh-user-drawer',
@@ -53,6 +54,7 @@ import { DhUserStatusComponent } from '../shared/dh-user-status.component';
     WattButtonModule,
     DhTabsComponent,
     DhUserStatusComponent,
+    DhEditUserModalComponent,
   ],
 })
 export class DhUserDrawerComponent {
