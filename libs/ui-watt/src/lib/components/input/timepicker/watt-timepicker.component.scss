@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 @use "@energinet-datahub/watt/utils" as watt;
+@use "../variables" as *;
 
 $placeholder-color: var(--watt-color-neutral-grey-500);
 $input-height-normal: 44px;
