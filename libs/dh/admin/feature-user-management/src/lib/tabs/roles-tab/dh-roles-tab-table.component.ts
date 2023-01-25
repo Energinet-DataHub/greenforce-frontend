@@ -59,8 +59,7 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
 
   @Input() roles: UserRoleDto[] = [];
 
-  @ViewChild(DhSharedUiPaginatorComponent)
-  paginator!: DhSharedUiPaginatorComponent;
+  @Input() paginator!: DhSharedUiPaginatorComponent;
 
   @ViewChild(DhRoleDrawerComponent)
   drawer!: DhRoleDrawerComponent;

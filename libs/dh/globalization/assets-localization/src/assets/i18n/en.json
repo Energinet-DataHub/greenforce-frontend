@@ -830,6 +830,7 @@
   },
   "admin": {
     "userManagement": {
+      "download": "Download",
       "drawer": {
         "edit": "Edit",
         "roles": {
