@@ -100,7 +100,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
         this.setMeteringPoints(
           mpList.meteringPoints.map((mp: MeteringPoint) => ({
             ...mp,
-            contract: contractList.result.find(
+            contract: contractList?.result.find(
               (contract) => contract.gsrn === mp.gsrn
             ),
           }))
