@@ -32,6 +32,7 @@ import {
 
 import { DhUserStatusComponent } from '../../shared/dh-user-status.component';
 import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 @Component({
   selector: 'dh-users-tab-table',
@@ -49,6 +50,7 @@ import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
   imports: [
     WATT_TABLE,
     TranslocoModule,
+    DhSharedUiDateTimeModule,
     DhEmDashFallbackPipeScam,
     DhUserStatusComponent,
     DhUserDrawerComponent,
@@ -60,6 +62,7 @@ export class DhUsersTabTableComponent {
     email: { accessor: 'email' },
     phone: { accessor: 'phoneNumber' },
     status: { accessor: 'status' },
+    createdDate: { accessor: 'createdDate' },
   };
 
   dataSource = new WattTableDataSource<UserOverviewItemDto>();

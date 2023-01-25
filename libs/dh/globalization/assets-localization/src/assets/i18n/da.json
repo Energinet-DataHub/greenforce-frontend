@@ -919,7 +919,8 @@
               "name": "Navn",
               "email": "Email",
               "phone": "Telefon",
-              "status": "Status"
+              "status": "Status",
+              "createdDate": "Oprettet"
             }
           },
           "errors": {
