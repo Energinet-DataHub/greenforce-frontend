@@ -22,7 +22,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
-import { TranslocoModule } from '@ngneat/transloco';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
@@ -46,6 +46,8 @@ import {
   UserRoleDto,
   UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'dh-roles-tab',
@@ -59,6 +61,7 @@ import {
   imports: [
     CommonModule,
     TranslocoModule,
+    WattButtonModule,
     WattCardModule,
     WattSpinnerModule,
     PushModule,
@@ -75,8 +78,8 @@ export class DhUserRolesTabComponent {
   constructor(private router: Router) {}
 
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
-  roles$ = this.store.rolesFiltered$;
 
+  roles$ = this.store.rolesFiltered$;
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
@@ -90,6 +93,27 @@ export class DhUserRolesTabComponent {
 
   reloadRoles(): void {
     this.store.getRoles();
+  }
+
+  async download() {
+    this.roles$.pipe(take(1)).subscribe((roles) => {
+      const basePath = 'admin.userManagement.tabs.roles.table.columns.';
+
+      const header = `${translate(basePath + 'name')};${translate(
+        basePath + 'marketrole'
+      )};${translate(basePath + 'status')}`;
+
+      const csv = roles
+        .map((x) => `${x.name};${x.eicFunction};${x.status}`)
+        .join('\n');
+
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(
+        new Blob([`${header}\n${csv}`], { type: 'text/csv;charset=utf-8;' })
+      );
+      a.download = 'result.csv';
+      a.click();
+    });
   }
 
   readonly createUserRole = () => {
