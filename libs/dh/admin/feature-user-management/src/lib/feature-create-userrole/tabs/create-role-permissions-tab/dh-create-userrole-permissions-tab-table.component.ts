@@ -68,6 +68,6 @@ export class DhCreateRolePermissionTabTableComponent implements OnChanges {
   }
 
   onSelectionChange(selections: SelectablePermissionsDto[]): void {
-    this.selectionChanged.emit(selections.map((perm) => perm));
+    this.selectionChanged.emit(selections);
   }
 }

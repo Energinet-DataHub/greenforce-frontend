@@ -55,7 +55,7 @@ export class DhCreateUserrolePermissionsTabComponent {
 
   onSelectionChange(selections: SelectablePermissionsDto[]): void {
     this.valueChange.emit({
-      permissions: selections.map((perm) => perm.name),
+      permissions: selections.map((perm) => perm.id),
     });
   }
 }
