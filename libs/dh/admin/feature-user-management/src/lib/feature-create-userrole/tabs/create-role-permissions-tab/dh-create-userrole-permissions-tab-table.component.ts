@@ -20,7 +20,7 @@ import {
   EventEmitter,
   Input,
   Output,
-  OnChanges
+  OnChanges,
 } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
