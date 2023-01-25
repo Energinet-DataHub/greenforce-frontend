@@ -24,7 +24,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -70,13 +70,9 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
   statusFormControl = new FormControl<UserRoleStatus | null>(null);
   eicFunctionFormControl = new FormControl<EicFunction[] | null>(null);
 
-  statusListOptions: WattDropdownOption[] = Object.keys(UserRoleStatus).map(
-    (key) => ({
-      displayValue: key,
-      value: key,
-    })
-  );
+  constructor(private trans: TranslocoService) {}
 
+  statusListOptions: WattDropdownOption[] = [];
   eicFunctionListListOptions: WattDropdownOption[] = Object.keys(
     EicFunction
   ).map((key) => ({
@@ -85,6 +81,8 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
   }));
 
   ngOnInit(): void {
+    this.buildStatusListOptions();
+
     this.statusFormControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((e) => this.statusChanged.emit(e));
@@ -101,5 +99,21 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private buildStatusListOptions() {
+    this.trans
+      .selectTranslateObject('admin.userManagement.roleStatus')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (keys) => {
+          this.statusListOptions = Object.keys(UserRoleStatus).map((entry) => {
+            return {
+              value: entry,
+              displayValue: keys[entry.toLowerCase()],
+            };
+          });
+        },
+      });
   }
 }

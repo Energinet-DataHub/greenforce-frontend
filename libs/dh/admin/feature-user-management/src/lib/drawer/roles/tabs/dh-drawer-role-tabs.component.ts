@@ -18,9 +18,11 @@ import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
+
 import { DhRoleMasterDataComponent } from './content/dh-role-master-data.component';
 import { DhRolePermissionsComponent } from './content/dh-role-permissions.component';
-import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
+import { DhRoleAuditLogsComponent } from './content/dh-role-audit-logs.component';
 
 @Component({
   selector: 'dh-drawer-role-tabs',
@@ -31,6 +33,7 @@ import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain'
     WattTabsModule,
     DhRoleMasterDataComponent,
     DhRolePermissionsComponent,
+    DhRoleAuditLogsComponent,
   ],
 })
 export class DhDrawerRoleTabsComponent {
