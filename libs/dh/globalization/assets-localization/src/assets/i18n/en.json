@@ -736,6 +736,8 @@
       "topBarTitle": "Start Batch",
       "startLabel": "Start",
       "dateRangeRequired": "Date range is required",
+      "gridAreaRequired": "Grid area is required",
+      "invalidPeriod": "Invalid period",
       "dateRangeLabel": "Period",
       "gridAreaDropDownLabel": "Grid Areas",
       "creatingBatch": "Starting batch...",
@@ -852,6 +854,16 @@
                 },
                 "noEntries": "No results"
               },
+              "logs": {
+                "roles": {
+                  "Created": "Role created by <b>{{ changedByUserName }}</b>",
+                  "NameChange": "<b>{{ changedByUserName }}</b> changed role name to <b>{{ changedValueTo }}</b>",
+                  "DescriptionChange": "<b>{{ changedByUserName }}</b> changed description to <b>{{ changedValueTo }}</b>",
+                  "EicFunctionChange": "<b>{{ changedByUserName }}</b> changed eic function to <b>{{ changedValueTo }}</b>",
+                  "StatusChange": "<b>{{ changedByUserName }}</b> changed status to <b>{{ changedValueTo }}</b>",
+                  "PermissionsChange": "<b>{{ changedByUserName }}</b> changed permissions to <b>{{ changedValueTo }}</b>"
+                }
+              },
               "generalError": {
                 "title": "An unexpected error occured",
                 "message": "Try again or contact your system administrator if you keep getting this error."
@@ -913,7 +925,8 @@
               "name": "Name",
               "email": "Email",
               "phone": "Phone",
-              "status": "Status"
+              "status": "Status",
+              "createdDate": "Created"
             }
           },
           "errors": {
