@@ -736,6 +736,8 @@
       "topBarTitle": "Start Batch",
       "startLabel": "Start",
       "dateRangeRequired": "Date range is required",
+      "gridAreaRequired": "Grid area is required",
+      "invalidPeriod": "Invalid period",
       "dateRangeLabel": "Period",
       "gridAreaDropDownLabel": "Grid Areas",
       "creatingBatch": "Starting batch...",
@@ -913,7 +915,8 @@
               "name": "Name",
               "email": "Email",
               "phone": "Phone",
-              "status": "Status"
+              "status": "Status",
+              "createdDate": "Created"
             }
           },
           "errors": {
