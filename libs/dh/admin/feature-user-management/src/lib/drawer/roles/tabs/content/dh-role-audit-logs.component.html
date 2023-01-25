@@ -49,7 +49,9 @@ limitations under the License.
                 header: t('table.columns.timestamp');
                 let element
               "
-            ></ng-container>
+            >
+              {{ element.timestamp | dhDateTime }}
+            </ng-container>
 
             <ng-container
               *wattTableCell="
@@ -57,7 +59,16 @@ limitations under the License.
                 header: t('table.columns.entry');
                 let element
               "
-            ></ng-container>
+            >
+              <div
+                [innerHTML]="
+                  t(
+                    'logs.roles.' + element.entry.userRoleChangeType,
+                    element.entry
+                  )
+                "
+              ></div>
+            </ng-container>
           </watt-table>
 
           <ng-container *rxLet="auditLogCount$ as auditLogCount">
