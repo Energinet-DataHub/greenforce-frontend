@@ -740,6 +740,8 @@
       "topBarTitle": "Start batch",
       "startLabel": "Start",
       "dateRangeRequired": "Dato-periode påkrævet",
+      "gridAreaRequired": "Netområde påkrævet",
+      "invalidPeriod": "Ugyldig periode",
       "dateRangeLabel": "Periode",
       "gridAreaDropDownLabel": "Netområder",
       "creatingBatch": "Starter batch...",
