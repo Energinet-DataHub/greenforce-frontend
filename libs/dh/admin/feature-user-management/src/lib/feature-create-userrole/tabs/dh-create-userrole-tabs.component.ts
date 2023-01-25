@@ -123,7 +123,6 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-
   onSubmit() {
     if (!this.userRole) throw new Error('Missing user role');
     this.disableControls();

@@ -36,7 +36,10 @@ function Permissions(apiBase: string) {
   return rest.get(
     `${apiBase}/v1/MarketParticipantUserRole/Permissions`,
     (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(marketParticipantUserRolePermissions));
+      return res(
+        ctx.status(200),
+        ctx.json(marketParticipantUserRolePermissions)
+      );
     }
   );
 }

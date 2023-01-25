@@ -40,18 +40,18 @@ limitations under the License.
               </watt-button>
             </div>
           </div>
-            <div class="paginator-container">
-              <watt-button
-                *transloco="let t; read: 'admin.userManagement'"
-                icon="openInNew"
-                variant="text"
-                (click)="download()"
-                >{{ t("download") }}</watt-button
-              >
+          <div class="paginator-container">
+            <watt-button
+              *transloco="let t; read: 'admin.userManagement'"
+              icon="openInNew"
+              variant="text"
+              (click)="download()"
+              >{{ t("download") }}</watt-button
+            >
 
-              <dh-shared-ui-paginator #paginator [length]="roles.length">
-              </dh-shared-ui-paginator>
-            </div>
+            <dh-shared-ui-paginator #paginator [length]="roles.length">
+            </dh-shared-ui-paginator>
+          </div>
         </watt-card-title>
         <dh-roles-tab-table
           [roles]="roles"
