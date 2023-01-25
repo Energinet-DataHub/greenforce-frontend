@@ -740,6 +740,8 @@
       "topBarTitle": "Start batch",
       "startLabel": "Start",
       "dateRangeRequired": "Dato-periode påkrævet",
+      "gridAreaRequired": "Netområde påkrævet",
+      "invalidPeriod": "Ugyldig periode",
       "dateRangeLabel": "Periode",
       "gridAreaDropDownLabel": "Netområder",
       "creatingBatch": "Starter batch...",
@@ -856,6 +858,16 @@
                 },
                 "noEntries": "Ingen resultater"
               },
+              "logs": {
+                "roles": {
+                  "Created": "<b>{{ changedByUserName }}</b> oprettede rollen",
+                  "NameChange": "<b>{{ changedByUserName }}</b> ændrede navn på rollen til <b>{{ changedValueTo }}</b>",
+                  "DescriptionChange": "<b>{{ changedByUserName }}</b> ændrede beskrivelse til <b>{{ changedValueTo }}</b>",
+                  "EicFunctionChange": "<b>{{ changedByUserName }}</b> ændrede eic function til <b>{{ changedValueTo }}</b>",
+                  "StatusChange": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ changedValueTo }}</b>",
+                  "PermissionsChange": "<b>{{ changedByUserName }}</b> ændrede rettigheder på rollen til <b>{{ changedValueTo }}</b>"
+                }
+              },
               "generalError": {
                 "title": "Der opstod en uventet fejl",
                 "message": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl."
@@ -917,7 +929,8 @@
               "name": "Navn",
               "email": "Email",
               "phone": "Telefon",
-              "status": "Status"
+              "status": "Status",
+              "createdDate": "Oprettet"
             }
           },
           "errors": {

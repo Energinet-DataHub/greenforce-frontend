@@ -22,6 +22,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { provideComponentStore } from '@ngrx/component-store';
 import { takeUntil } from 'rxjs';
 
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import {
   DhAdminUserRoleAuditLogsDataAccessApiStore,
   DhRoleAuditLogEntry,
@@ -74,6 +75,7 @@ import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain'
     WattSpinnerModule,
     WattEmptyStateModule,
     WATT_TABLE,
+    DhSharedUiDateTimeModule,
   ],
 })
 export class DhRoleAuditLogsComponent implements OnInit, OnChanges {
