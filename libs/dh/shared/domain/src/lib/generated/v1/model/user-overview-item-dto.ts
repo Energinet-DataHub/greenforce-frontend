@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { AssignedActorDto } from './assigned-actor-dto';
 import { UserStatus } from './user-status';
 
 
@@ -19,6 +20,7 @@ export interface UserOverviewItemDto {
     email: string;
     phoneNumber?: string | null;
     createdDate: string;
+    assignedActors: Array<AssignedActorDto>;
 }
 
 
