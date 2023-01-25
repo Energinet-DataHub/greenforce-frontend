@@ -51,7 +51,7 @@ const initialState: DhUserRolesManagementState = {
   requestState: LoadingState.INIT,
   createRequestState: LoadingState.INIT,
   filterModel: { status: 'Active', eicFunctions: [] },
-  selectablePermissions: []
+  selectablePermissions: [],
 };
 
 @Injectable()
@@ -115,24 +115,27 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
     )
   );
 
-  private readonly getSelectablePermissions = this.effect((trigger$: Observable<void>) =>
-    trigger$.pipe(
-      switchMap(() =>
-        this.httpClientUserRole.v1MarketParticipantUserRolePermissionsGet().pipe(
-          tapResponse(
-            (response) => {
-              this.updatePermissions(response);
-              this.setLoading(LoadingState.LOADED);
-            },
-            () => {
-              this.setLoading(LoadingState.LOADED);
-              this.updatePermissions([]);
-              this.handleError();
-            }
-          )
+  private readonly getSelectablePermissions = this.effect(
+    (trigger$: Observable<void>) =>
+      trigger$.pipe(
+        switchMap(() =>
+          this.httpClientUserRole
+            .v1MarketParticipantUserRolePermissionsGet()
+            .pipe(
+              tapResponse(
+                (response) => {
+                  this.updatePermissions(response);
+                  this.setLoading(LoadingState.LOADED);
+                },
+                () => {
+                  this.setLoading(LoadingState.LOADED);
+                  this.updatePermissions([]);
+                  this.handleError();
+                }
+              )
+            )
         )
       )
-    )
   );
 
   readonly createUserRole = this.effect(

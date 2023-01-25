@@ -102,7 +102,6 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     this.store.createRequestHasError$
       .pipe(takeUntil(this.destroy$))
       .subscribe((hasError) => {
@@ -171,7 +170,6 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   }
 
   private readonly backToOverviewAfterSave = () => {
-
     this.toastService.open({
       message: this.translocoService.translate(
         'admin.userManagement.createrole.createRoleRequest.success'
@@ -188,8 +186,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   };
 
   readonly backToOverview = () => {
-
-      const url = this.router.createUrlTree([
+    const url = this.router.createUrlTree([
       dhAdminPath,
       dhAdminUserManagementPath,
     ]);
