@@ -17,7 +17,7 @@
 import { Injectable, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, switchMap, Subject, map, tap } from 'rxjs';
+import { Observable, switchMap, Subject, map, tap, filter } from 'rxjs';
 
 import {
   WholesaleBatchHttp,
@@ -55,7 +55,10 @@ const initialState: State = {
 })
 export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   batches$ = this.select((x) => x.batches);
-  gridAreas$ = this.select((x) => x.gridAreas);
+  gridAreas$ = this.select((x) => x.gridAreas).pipe(
+    // Ensure gridAreas$ will not emit undefined, which will cause no loading indicator to be shown
+    filter((x) => !!x)
+  );
   selectedBatch$ = this.select((x) => x.selectedBatch);
   selectedGridArea$ = this.select((x) => x.selectedGridArea);
   processStepResults$ = this.select((x) => x.processStepResults);
