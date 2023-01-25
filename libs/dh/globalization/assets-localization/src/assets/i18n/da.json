@@ -832,6 +832,7 @@
   },
   "admin": {
     "userManagement": {
+      "download": "Download",
       "drawer": {
         "edit": "Rediger"
       },
@@ -917,7 +918,7 @@
             "columns": {
               "name": "Navn",
               "description": "Beskrivelse",
-              "marketrole": "Marketsrolle",
+              "marketrole": "Markedsrolle",
               "status": "Status"
             }
           },
