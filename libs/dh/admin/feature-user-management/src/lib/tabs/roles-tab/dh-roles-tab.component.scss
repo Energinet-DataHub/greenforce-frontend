@@ -34,3 +34,14 @@
 h4 {
   margin: 0;
 }
+
+.card-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.paginator-container {
+  display: flex;
+  align-items: center;
+}
