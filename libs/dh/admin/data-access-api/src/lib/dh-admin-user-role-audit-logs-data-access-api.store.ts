@@ -28,9 +28,15 @@ import {
   UserRoleAuditLogsDto,
 } from '@energinet-datahub/dh/shared/domain';
 
+import { mapChangeDescriptionJson } from './util/map-change-description-json';
+
+type UserRoleAuditLogExtended = UserRoleAuditLogDto & {
+  changedValueTo: string;
+};
+
 export interface DhRoleAuditLogEntry {
   readonly timestamp: string;
-  readonly entry: UserRoleAuditLogDto;
+  readonly entry: UserRoleAuditLogExtended;
 }
 
 interface DhUserRoleAuditLogsState {
@@ -70,9 +76,7 @@ export class DhAdminUserRoleAuditLogsDataAccessApiStore extends ComponentStore<D
           .v1MarketParticipantUserRoleGetUserRoleAuditLogsGet(userRoleId)
           .pipe(
             tapResponse(
-              () => {
-                const response = { auditLogs: [] };
-
+              (response) => {
                 this.assignAuditLogs(response);
                 this.setLoading(LoadingState.LOADED);
               },
@@ -86,10 +90,18 @@ export class DhAdminUserRoleAuditLogsDataAccessApiStore extends ComponentStore<D
   );
 
   private assignAuditLogs = (response: UserRoleAuditLogsDto) => {
-    const auditLogs = response.auditLogs.map((entry) => ({
-      entry,
-      timestamp: entry.timestamp,
-    }));
+    const auditLogs: DhRoleAuditLogEntry[] = response.auditLogs.map(
+      (entry) => ({
+        entry: {
+          ...entry,
+          changedValueTo: mapChangeDescriptionJson(
+            entry.userRoleChangeType,
+            this.parseChangeDescriptionJson(entry.changeDescriptionJson)
+          ),
+        },
+        timestamp: entry.timestamp,
+      })
+    );
 
     this.patchState({ auditLogs });
   };
@@ -102,4 +114,12 @@ export class DhAdminUserRoleAuditLogsDataAccessApiStore extends ComponentStore<D
     this.assignAuditLogs({ auditLogs: [] });
     this.patchState({ requestState: ErrorState.GENERAL_ERROR });
   };
+
+  private parseChangeDescriptionJson(changeDescriptionJson: string) {
+    try {
+      return JSON.parse(changeDescriptionJson);
+    } catch (error) {
+      throw new Error(`Invalid JSON: ${JSON.stringify(changeDescriptionJson)}`);
+    }
+  }
 }
