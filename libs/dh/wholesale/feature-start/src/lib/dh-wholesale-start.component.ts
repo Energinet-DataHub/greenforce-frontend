@@ -152,7 +152,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     gridAreas: GridAreaDto[]
   ): WattDropdownOption[] {
     return (
-      gridAreas?.map((gridArea) => {
+      gridAreas.map((gridArea) => {
         return {
           displayValue: `${gridArea?.name} (${gridArea?.code})`,
           value: gridArea?.code,
