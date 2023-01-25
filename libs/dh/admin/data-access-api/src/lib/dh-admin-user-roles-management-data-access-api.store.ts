@@ -17,7 +17,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, switchMap, tap, withLatestFrom } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { SelectablePermissionsDto } from '../../../../shared/domain/src/lib/generated/v1/model/selectable-permissions-dto';
 import {
   ErrorState,
   LoadingState,
@@ -28,6 +27,7 @@ import {
   EicFunction,
   UserRoleStatus,
   UserRoleDto,
+  SelectablePermissionsDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface UserRoleCreate {
