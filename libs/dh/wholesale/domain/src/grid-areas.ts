@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { DateRange, GridAreaDto } from '@energinet-datahub/dh/shared/domain';
-import { isAfter, isBefore, isEqual } from 'date-fns';
 
 export function filterValidGridAreas(
   gridAreas: GridAreaDto[],
@@ -24,14 +23,15 @@ export function filterValidGridAreas(
   if (dateRange === null) return gridAreas;
   return gridAreas.filter((gridArea) => {
     const { validTo, validFrom } = gridArea;
-    const isValidFrom =
-      isBefore(new Date(validFrom), new Date(dateRange.end)) ||
-      isEqual(new Date(validFrom), new Date(dateRange.end));
 
+    // Is valid from before the end of the date range
+    const isValidFrom =
+      new Date(validFrom).getTime() <= new Date(dateRange.end).getTime();
+
+    // Is valid to after the start of the date range
     const isValidTo = !validTo
       ? true
-      : isAfter(new Date(validTo), new Date(dateRange.start)) ||
-        isEqual(new Date(validTo), new Date(dateRange.start));
+      : new Date(validTo).getTime() >= new Date(dateRange.start).getTime();
 
     return isValidTo && isValidFrom;
   });
