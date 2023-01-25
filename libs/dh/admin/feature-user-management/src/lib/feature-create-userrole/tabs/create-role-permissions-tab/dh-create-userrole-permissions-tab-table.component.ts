@@ -20,10 +20,10 @@ import {
   EventEmitter,
   Input,
   Output,
+  OnChanges
 } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { OnChanges } from '@angular/core';
 import {
   WattTableDataSource,
   WattTableColumnDef,
