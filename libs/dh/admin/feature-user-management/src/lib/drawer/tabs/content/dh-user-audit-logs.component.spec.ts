@@ -51,7 +51,7 @@ describe(DhUserAuditLogsComponent.name, () => {
       email: 'fake@value',
       createdDate: '2023-01-10T10:12:06+00:00',
       name: 'fake value',
-      assignedActors: []
+      assignedActors: [],
     };
 
     return { fixture };
