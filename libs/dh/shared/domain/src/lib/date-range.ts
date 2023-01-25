@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-  max-width: 300px;
-}
-
-watt-form-field:not(:last-of-type) {
-  margin-bottom: var(--watt-space-l);
+export interface DateRange {
+  start: string;
+  end: string;
 }
