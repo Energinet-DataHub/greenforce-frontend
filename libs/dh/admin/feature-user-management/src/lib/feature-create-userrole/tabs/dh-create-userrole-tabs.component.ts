@@ -123,9 +123,6 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  onEicFunctionSelected = (eic: EicFunction) => {
-    console.log(eic);
-  };
 
   onSubmit() {
     if (!this.userRole) throw new Error('Missing user role');

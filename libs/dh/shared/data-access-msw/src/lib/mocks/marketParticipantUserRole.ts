@@ -17,9 +17,10 @@
 import { rest } from 'msw';
 
 import marketParticipantUserRoleView from './data/marketParticipantUserRoleView.json';
+import marketParticipantUserRolePermissions from './data/marketParticipantUserRolePermissions.json';
 
 export function marketParticipantUserRoleMocks(apiBase: string) {
-  return [GetUserRoleView(apiBase)];
+  return [GetUserRoleView(apiBase), Permissions(apiBase)];
 }
 
 function GetUserRoleView(apiBase: string) {
@@ -27,6 +28,15 @@ function GetUserRoleView(apiBase: string) {
     `${apiBase}/v1/MarketParticipantUserRole/GetUserRoleView`,
     (req, res, ctx) => {
       return res(ctx.status(200), ctx.json(marketParticipantUserRoleView));
+    }
+  );
+}
+
+function Permissions(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipantUserRole/Permissions`,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(marketParticipantUserRolePermissions));
     }
   );
 }
