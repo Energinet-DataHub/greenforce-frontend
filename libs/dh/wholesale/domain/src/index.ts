@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export { batch } from './batch';
+export * from './grid-areas';

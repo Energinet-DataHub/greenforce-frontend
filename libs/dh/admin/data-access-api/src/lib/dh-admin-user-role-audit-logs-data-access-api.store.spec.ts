@@ -24,35 +24,82 @@ import {
 import { fakeAsync, tick } from '@angular/core/testing';
 
 import {
+  EicFunction,
   MarketParticipantUserRoleHttp,
+  UserRoleAuditLogDto,
   UserRoleAuditLogsDto,
+  UserRoleChangeType,
+  UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
-import { DhAdminUserRoleAuditLogsDataAccessApiStore } from './dh-admin-user-role-audit-logs-data-access-api.store';
+import {
+  DhAdminUserRoleAuditLogsDataAccessApiStore,
+  DhRoleAuditLogEntry,
+} from './dh-admin-user-role-audit-logs-data-access-api.store';
 
 const testUserRoleId = 'ff029a48-b06f-4300-8ec0-84d121a4b83f';
-const mockResponse: UserRoleAuditLogsDto = {
-  auditLogs: [
-    {
-      userRoleId: '',
-      changedByUserId: '',
-      changedByUserName: '',
-      timestamp: '',
-      userRoleChangeType: 'Created',
-      changeDescriptionJson: '',
-    },
-  ],
+const changeDescriptionJsonMock = {
+  Name: 'New name',
+  Description: 'New description',
+  EicFunction: EicFunction.BalanceResponsibleParty,
+  Status: UserRoleStatus.Inactive,
+  Permissions: ['UsersManage', 'UsersView'],
 };
+
+function generateUserRoleAuditLog(
+  userRoleChangeType: UserRoleChangeType,
+  changeDescriptionJson: string
+): UserRoleAuditLogDto {
+  return {
+    userRoleId: '',
+    changedByUserId: '',
+    changedByUserName: '',
+    timestamp: '',
+    userRoleChangeType,
+    changeDescriptionJson,
+  };
+}
+
+function generateMockResponse(): UserRoleAuditLogsDto {
+  return {
+    auditLogs: [
+      generateUserRoleAuditLog(
+        'Created',
+        JSON.stringify(changeDescriptionJsonMock)
+      ),
+      generateUserRoleAuditLog(
+        'NameChange',
+        JSON.stringify({ Name: changeDescriptionJsonMock.Name })
+      ),
+      generateUserRoleAuditLog(
+        'DescriptionChange',
+        JSON.stringify({ Description: changeDescriptionJsonMock.Description })
+      ),
+      generateUserRoleAuditLog(
+        'EicFunctionChange',
+        JSON.stringify({ EicFunction: changeDescriptionJsonMock.EicFunction })
+      ),
+      generateUserRoleAuditLog(
+        'StatusChange',
+        JSON.stringify({ Status: changeDescriptionJsonMock.Status })
+      ),
+      generateUserRoleAuditLog(
+        'PermissionsChange',
+        JSON.stringify({ Permissions: changeDescriptionJsonMock.Permissions })
+      ),
+    ],
+  };
+}
 
 const scheduleObservable = (value: Observable<UserRoleAuditLogsDto>) => {
   return scheduled(value, asyncScheduler);
 };
 
-describe('DhAdminUserRoleAuditLogsDataAccessApiStore.name', () => {
+describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
   it('calls the API with correct param', () => {
     const httpClient = {
       v1MarketParticipantUserRoleGetUserRoleAuditLogsGet: jest.fn(() =>
-        scheduleObservable(of(mockResponse))
+        scheduleObservable(of({ auditLogs: [] }))
       ),
     } as unknown as MarketParticipantUserRoleHttp;
 
@@ -64,7 +111,9 @@ describe('DhAdminUserRoleAuditLogsDataAccessApiStore.name', () => {
     ).toHaveBeenCalledWith(testUserRoleId);
   });
 
-  test('`auditLogs$` should always return an empty array', fakeAsync(async () => {
+  test('`auditLogs$` returns a mapped response', fakeAsync(async () => {
+    const mockResponse = generateMockResponse();
+
     const httpClient = {
       v1MarketParticipantUserRoleGetUserRoleAuditLogsGet: jest.fn(() =>
         scheduleObservable(of(mockResponse))
@@ -76,9 +125,59 @@ describe('DhAdminUserRoleAuditLogsDataAccessApiStore.name', () => {
 
     tick();
 
+    const expectedValue: DhRoleAuditLogEntry[] = [
+      {
+        timestamp: '',
+        entry: {
+          ...mockResponse.auditLogs[0],
+          userRoleChangeType: UserRoleChangeType.Created,
+          changedValueTo: '',
+        },
+      },
+      {
+        timestamp: '',
+        entry: {
+          ...mockResponse.auditLogs[1],
+          userRoleChangeType: UserRoleChangeType.NameChange,
+          changedValueTo: changeDescriptionJsonMock.Name,
+        },
+      },
+      {
+        timestamp: '',
+        entry: {
+          ...mockResponse.auditLogs[2],
+          userRoleChangeType: UserRoleChangeType.DescriptionChange,
+          changedValueTo: changeDescriptionJsonMock.Description,
+        },
+      },
+      {
+        timestamp: '',
+        entry: {
+          ...mockResponse.auditLogs[3],
+          userRoleChangeType: UserRoleChangeType.EicFunctionChange,
+          changedValueTo: changeDescriptionJsonMock.EicFunction,
+        },
+      },
+      {
+        timestamp: '',
+        entry: {
+          ...mockResponse.auditLogs[4],
+          userRoleChangeType: UserRoleChangeType.StatusChange,
+          changedValueTo: changeDescriptionJsonMock.Status,
+        },
+      },
+      {
+        timestamp: '',
+        entry: {
+          ...mockResponse.auditLogs[5],
+          userRoleChangeType: UserRoleChangeType.PermissionsChange,
+          changedValueTo: `${changeDescriptionJsonMock.Permissions[0]}, ${changeDescriptionJsonMock.Permissions[1]}`,
+        },
+      },
+    ];
     const actualValue = await firstValueFrom(store.auditLogs$);
 
-    expect(actualValue).toStrictEqual([]);
+    expect(actualValue).toStrictEqual(expectedValue);
     expect(
       httpClient.v1MarketParticipantUserRoleGetUserRoleAuditLogsGet
     ).toHaveBeenCalled();
