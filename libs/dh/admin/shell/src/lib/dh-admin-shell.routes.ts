@@ -21,7 +21,6 @@ import {
   dhAdminUserManagementPath,
   dhAdminUserRoleManagementCreatePath,
 } from '@energinet-datahub/dh/admin/routing';
-import { DhAdminCreateUserRoleComponent } from '@energinet-datahub/dh/admin/feature-user-management';
 
 export const routes: Routes = [
   {
