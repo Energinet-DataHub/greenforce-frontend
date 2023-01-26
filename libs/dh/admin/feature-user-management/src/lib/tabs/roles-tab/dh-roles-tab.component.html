@@ -33,24 +33,23 @@ limitations under the License.
             <h4>{{ t("rolesHeadline") }}</h4>
             <div class="create-role-table-buttons">
               <watt-button
+                *transloco="let t; read: 'admin.userManagement'"
+                icon="openInNew"
+                variant="text"
+                (click)="download()"
+                >{{ t("download") }}</watt-button
+              >
+
+              <dh-shared-ui-paginator #paginator [length]="roles.length">
+              </dh-shared-ui-paginator>
+
+              <watt-button
                 icon="plus"
                 variant="secondary"
                 (click)="createUserRole()"
                 >{{ t("createuserrole") }}
               </watt-button>
             </div>
-          </div>
-          <div class="paginator-container">
-            <watt-button
-              *transloco="let t; read: 'admin.userManagement'"
-              icon="openInNew"
-              variant="text"
-              (click)="download()"
-              >{{ t("download") }}</watt-button
-            >
-
-            <dh-shared-ui-paginator #paginator [length]="roles.length">
-            </dh-shared-ui-paginator>
           </div>
         </watt-card-title>
         <dh-roles-tab-table

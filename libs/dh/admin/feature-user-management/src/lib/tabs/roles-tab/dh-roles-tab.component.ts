@@ -46,7 +46,6 @@ import {
   UserRoleDto,
   UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { take } from 'rxjs';
 
 @Component({
