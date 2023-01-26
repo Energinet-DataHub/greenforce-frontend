@@ -503,7 +503,7 @@
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
         "masterData": {
-          "labelActorNumber": "Aktørnummer",
+          "labelActorNumber": "Aktør id",
           "labelStatus": "Status",
           "labelActorName": "Aktørnavn",
           "fieldRequiredErrorText": "Feltet er påkrævet.",
@@ -583,7 +583,7 @@
       "topBarTitle": "Organisationer",
       "columns": {
         "organization": "Organisation",
-        "gln": "Aktørnummer",
+        "gln": "Aktør id",
         "status": "Aktørstatus",
         "marketRoles": "Markedsroller",
         "gridAreas": "Netområder",
@@ -620,7 +620,7 @@
           "organizationNameLabel": "Navn",
           "businessRegistrationIdetifierLabel": "CVR-nr.",
           "streetNameLabel": "Vejnavn",
-          "streetNumberLabel": "Vej nr.",
+          "streetNumberLabel": "Husnummer",
           "zipCodeLabel": "Post nr.",
           "cityLabel": "By",
           "countryLabel": "Land",
@@ -693,20 +693,20 @@
       "noGridAreas": "Ingen netområder fundet",
       "columns": {
         "name": "Netområde",
-        "code": "Kode",
+        "code": "Netområde nr.",
         "actorName": "Netvirksomhed",
-        "actorNumber": "Netvirksomhed nr.",
+        "actorNumber": "Aktør id",
         "priceAreaCode": "Prisområde",
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til"
       },
       "detailsHeader": {
-        "code": "Netområde ID",
-        "actorId": "Aktørnummer",
+        "code": "Netområde nr.",
+        "actorId": "Aktør id",
         "fullFlexDate": "Overgang til fuld flex",
         "priceAreaCode": "Prisområde",
         "lossMeteringPoint": "Nettabsmålepunkt",
-        "correctionMeteringPoint": "Systemkorrek. målepunkt",
+        "correctionMeteringPoint": "Systemkorrektionsmålepunkt",
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til"
       },
