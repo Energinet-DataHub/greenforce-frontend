@@ -27,9 +27,7 @@ import { DhAdminCreateUserRoleManagementDataAccessApiStore } from '@energinet-da
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { provideComponentStore } from '@ngrx/component-store';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import {
-  CreateUserRoleDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { CreateUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { Router } from '@angular/router';
 import {
   dhAdminPath,
@@ -77,7 +75,9 @@ interface CreateRoleForm {
   ],
 })
 export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
-  private readonly store = inject(DhAdminCreateUserRoleManagementDataAccessApiStore);
+  private readonly store = inject(
+    DhAdminCreateUserRoleManagementDataAccessApiStore
+  );
   isLoading$ = this.store.isLoading$;
   createRoleForm = this.formBuilder.group<CreateRoleForm>({});
   userRole: CreateUserRoleDto;

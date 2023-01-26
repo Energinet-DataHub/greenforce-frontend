@@ -41,7 +41,7 @@ interface DhUserRolesManagementState {
 const initialState: DhUserRolesManagementState = {
   roles: [],
   requestState: LoadingState.INIT,
-  filterModel: { status: 'Active', eicFunctions: [] }
+  filterModel: { status: 'Active', eicFunctions: [] },
 };
 
 @Injectable()
