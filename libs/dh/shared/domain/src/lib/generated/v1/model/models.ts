@@ -78,6 +78,7 @@ export * from './stream';
 export * from './time-series-point-dto';
 export * from './unit';
 export * from './update-user-role-assignments-dto';
+export * from './update-user-role-dto';
 export * from './user-audit-logs-dto';
 export * from './user-overview-item-actor-dto';
 export * from './user-overview-item-dto';
