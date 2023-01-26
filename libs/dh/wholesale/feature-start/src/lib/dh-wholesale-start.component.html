@@ -35,6 +35,8 @@ limitations under the License.
       <watt-datepicker
         formControlName="dateRange"
         [range]="true"
+        [min]="minDate"
+        [max]="maxDate"
       ></watt-datepicker>
       <watt-error
         *ngIf="createBatchForm.controls.dateRange.errors?.rangeRequired"
