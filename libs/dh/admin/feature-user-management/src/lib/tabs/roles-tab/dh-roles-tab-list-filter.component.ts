@@ -119,12 +119,14 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (keys) => {
-          this.eicFunctionListListOptions= Object.keys(EicFunction).map((entry) => {
-            return {
-              value: entry,
-              displayValue: keys[entry],
-            };
-          });
+          this.eicFunctionListListOptions = Object.keys(EicFunction).map(
+            (entry) => {
+              return {
+                value: entry,
+                displayValue: keys[entry],
+              };
+            }
+          );
         },
       });
   }
