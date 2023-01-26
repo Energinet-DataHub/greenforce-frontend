@@ -18,7 +18,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MsalService } from '@azure/msal-angular';
-import { PushModule } from '@rx-angular/template';
+import { PushModule } from '@rx-angular/template/push';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { WattButtonModule } from '@energinet-datahub/watt/button';

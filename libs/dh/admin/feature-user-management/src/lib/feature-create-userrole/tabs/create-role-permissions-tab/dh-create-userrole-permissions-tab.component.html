@@ -23,5 +23,10 @@ limitations under the License.
         {{ t("title") }}
       </h4>
     </watt-card-title>
+
+    <dh-create-userrole-permissions-tab-table
+      [permissions]="permissions$ | push"
+      (selectionChanged)="onSelectionChange($event)"
+    ></dh-create-userrole-permissions-tab-table>
   </watt-card>
 </ng-container>

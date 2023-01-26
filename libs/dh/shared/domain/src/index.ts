@@ -16,3 +16,4 @@
  */
 export * from './lib/generated/v1';
 export * from './lib/permission';
+export * from './lib/date-range';

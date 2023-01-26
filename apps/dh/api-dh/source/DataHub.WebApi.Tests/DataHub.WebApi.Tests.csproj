@@ -31,8 +31,8 @@ limitations under the License.
 
   <ItemGroup>
     <PackageReference Include="WireMock.Net" Version="1.5.13" />
-    <PackageReference Include="Energinet.DataHub.Core.TestCommon" Version="3.5.1" />
-    <PackageReference Include="Energinet.DataHub.Core.FunctionApp.TestCommon" Version="3.5.1" />
+    <PackageReference Include="Energinet.DataHub.Core.TestCommon" Version="4.0.0" />
+    <PackageReference Include="Energinet.DataHub.Core.FunctionApp.TestCommon" Version="4.0.0" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="3.0.1" />
     <PackageReference Include="FluentAssertions" Version="6.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.12" />

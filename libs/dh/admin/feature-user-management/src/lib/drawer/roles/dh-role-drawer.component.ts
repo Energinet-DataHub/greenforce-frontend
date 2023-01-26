@@ -14,22 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
+import { PushModule } from '@rx-angular/template/push';
+import { LetModule } from '@rx-angular/template/let';
+
 import {
   WattDrawerComponent,
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { DhTabsComponent } from '.././tabs/dh-drawer-tabs.component';
-import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
-import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
-import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component';
-import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
-import { LetModule, PushModule } from '@rx-angular/template';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
+import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+
+import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component';
+import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-data-general-error.component';
 
 @Component({
@@ -72,7 +80,6 @@ import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-
     TranslocoModule,
     WattDrawerModule,
     WattButtonModule,
-    DhTabsComponent,
     DhRoleStatusComponent,
     DhDrawerRoleTabsComponent,
     PushModule,
@@ -96,8 +103,11 @@ export class DhRoleDrawerComponent {
 
   basicUserRole: UserRoleDto | null = null;
 
+  @Output() closed = new EventEmitter<void>();
+
   onClose(): void {
     this.drawer.close();
+    this.closed.emit();
     this.basicUserRole = null;
   }
 

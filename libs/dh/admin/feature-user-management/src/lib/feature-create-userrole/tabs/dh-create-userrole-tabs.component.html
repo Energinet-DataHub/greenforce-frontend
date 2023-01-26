@@ -28,25 +28,33 @@ limitations under the License.
     <watt-card-title>
       <h4>{{ t("headline") }}</h4>
     </watt-card-title>
-    <div class="spinner-container" *ngIf="isLoading">
-      <watt-spinner></watt-spinner>
-    </div>
     <form [formGroup]="createRoleForm" (ngSubmit)="onSubmit()">
       <watt-tabs>
         <watt-tab [label]="t('tabs.masterdata.tabLabel')">
           <dh-create-userrole-masterdata-tab
             (formReady)="addChildForm('masterData', $event)"
-            (eicFunctionSelected)="onEicFunctionSelected($event)"
             (valueChange)="patchUserRole($event)"
           ></dh-create-userrole-masterdata-tab>
         </watt-tab>
         <watt-tab [label]="t('tabs.permissions.tabLabel')">
-          <dh-create-userrole-permissions-tab></dh-create-userrole-permissions-tab>
+          <dh-create-userrole-permissions-tab
+            (valueChange)="patchUserRole($event)"
+          ></dh-create-userrole-permissions-tab>
         </watt-tab>
       </watt-tabs>
-      <watt-button type="submit" [disabled]="createRoleForm.invalid"
+      <watt-button
+        type="submit"
+        [disabled]="
+          this.userRole.permissions.length <= 0 || createRoleForm.invalid
+        "
         >{{ t("save") }}
       </watt-button>
+      <watt-button
+        type="button"
+        (click)="backToOverview()"
+        variant="secondary"
+        >{{ t("cancel") }}</watt-button
+      >
     </form>
   </watt-card>
 </ng-container>

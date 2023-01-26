@@ -46,6 +46,11 @@ export const typographyHtmlSnippets = {
     class: '<p class="watt-headline-5">headline-5</p>',
     mixin: mixinSnippet('headline-5'),
   },
+  h6: {
+    tag: '<h6>headline-6</h6>',
+    class: '<p class="watt-headline-6">headline-6</p>',
+    mixin: mixinSnippet('headline-6'),
+  },
   textL: {
     class: '<p class="watt-text-l">large</p>',
     mixin: mixinSnippet('text-l'),

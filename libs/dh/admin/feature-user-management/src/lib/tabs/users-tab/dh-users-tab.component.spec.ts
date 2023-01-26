@@ -43,6 +43,7 @@ const users: UserOverviewItemDto[] = [
     phoneNumber: '11111111',
     createdDate: '2022-01-01T23:00:00Z',
     status: 'Active',
+    assignedActors: [],
   },
 ];
 

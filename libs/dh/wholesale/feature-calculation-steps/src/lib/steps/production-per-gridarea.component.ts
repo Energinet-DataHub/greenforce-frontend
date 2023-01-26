@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, ViewChild, inject, AfterViewInit } from '@angular/core';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 

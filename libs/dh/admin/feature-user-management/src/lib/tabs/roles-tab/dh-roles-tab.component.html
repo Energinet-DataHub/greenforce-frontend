@@ -27,7 +27,7 @@ limitations under the License.
       >
       </dh-roles-tab-list-filter>
 
-      <watt-card>
+      <watt-card *rxLet="roles$ as roles">
         <watt-card-title>
           <div class="create-role-header-container">
             <h4>{{ t("rolesHeadline") }}</h4>
@@ -40,8 +40,23 @@ limitations under the License.
               </watt-button>
             </div>
           </div>
+          <div class="paginator-container">
+            <watt-button
+              *transloco="let t; read: 'admin.userManagement'"
+              icon="openInNew"
+              variant="text"
+              (click)="download()"
+              >{{ t("download") }}</watt-button
+            >
+
+            <dh-shared-ui-paginator #paginator [length]="roles.length">
+            </dh-shared-ui-paginator>
+          </div>
         </watt-card-title>
-        <dh-roles-tab-table [roles]="roles$ | push"></dh-roles-tab-table>
+        <dh-roles-tab-table
+          [roles]="roles"
+          [paginator]="paginator"
+        ></dh-roles-tab-table>
       </watt-card>
     </ng-container>
   </ng-container>

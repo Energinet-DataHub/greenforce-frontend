@@ -17,7 +17,7 @@
 import { Component, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 import { map, Observable } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 

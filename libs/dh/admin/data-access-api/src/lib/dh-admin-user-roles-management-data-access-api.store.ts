@@ -27,9 +27,10 @@ import {
   EicFunction,
   UserRoleStatus,
   UserRoleDto,
+  SelectablePermissionsDto,
 } from '@energinet-datahub/dh/shared/domain';
 
-export interface UserRoleCreate {
+interface UserRoleCreate {
   onSaveCompletedFn: () => void;
   createRole: CreateUserRoleDto;
 }
@@ -42,6 +43,7 @@ interface DhUserRolesManagementState {
     status: UserRoleStatus | null;
     eicFunctions: EicFunction[] | null;
   };
+  readonly selectablePermissions: SelectablePermissionsDto[];
 }
 
 const initialState: DhUserRolesManagementState = {
@@ -49,6 +51,7 @@ const initialState: DhUserRolesManagementState = {
   requestState: LoadingState.INIT,
   createRequestState: LoadingState.INIT,
   filterModel: { status: 'Active', eicFunctions: [] },
+  selectablePermissions: [],
 };
 
 @Injectable()
@@ -80,6 +83,8 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
       )
   );
 
+  selectablePermissions$ = this.select((state) => state.selectablePermissions);
+
   validation$ = this.select((state) => state.validation);
   constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
     super(initialState);
@@ -110,6 +115,29 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
     )
   );
 
+  private readonly getSelectablePermissions = this.effect(
+    (trigger$: Observable<void>) =>
+      trigger$.pipe(
+        switchMap(() =>
+          this.httpClientUserRole
+            .v1MarketParticipantUserRolePermissionsGet()
+            .pipe(
+              tapResponse(
+                (response) => {
+                  this.updatePermissions(response);
+                  this.setLoading(LoadingState.LOADED);
+                },
+                () => {
+                  this.setLoading(LoadingState.LOADED);
+                  this.updatePermissions([]);
+                  this.handleError();
+                }
+              )
+            )
+        )
+      )
+  );
+
   readonly createUserRole = this.effect(
     (userRoleCreateDto: Observable<UserRoleCreate>) => {
       return userRoleCreateDto.pipe(
@@ -122,6 +150,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
             tapResponse(
               () => {
                 this.setLoading(LoadingState.LOADED);
+                this.setCreateState(LoadingState.LOADED);
                 userRole.onSaveCompletedFn();
               },
               () => {
@@ -171,6 +200,16 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
     })
   );
 
+  private updatePermissions = this.updater(
+    (
+      state: DhUserRolesManagementState,
+      response: SelectablePermissionsDto[]
+    ): DhUserRolesManagementState => ({
+      ...state,
+      selectablePermissions: response,
+    })
+  );
+
   private setLoading = this.updater(
     (state, loadingState: LoadingState): DhUserRolesManagementState => ({
       ...state,
@@ -203,5 +242,6 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
 
   ngrxOnStoreInit(): void {
     this.getRoles();
+    this.getSelectablePermissions();
   }
 }

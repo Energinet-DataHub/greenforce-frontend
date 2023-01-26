@@ -18,11 +18,19 @@ import { rest } from 'msw';
 
 import marketParticipantUserOverviewData from './data/marketParticipantUserOverview.json';
 import marketParticipantActorQuerySelectionActors from './data/marketParticipantActorQuerySelectionActors.json';
+import marketParticipantUserRoleGetAll from './data/marketParticipantUserRoleGetAll.json';
+import marketParticipantUserGetUserAuditLogs from './data/marketParticipantUserGetUserAuditLogs.json';
+import marketParticipantUserRoleGetUserRoleWithPermissions from './data/marketParticipantUserRoleGetUserRoleWithPermissions.json';
+import marketParticipantUserRoleGetUserRoleAuditLogs from './data/marketParticipantUserRoleGetUserRoleAuditLogs.json';
 
 export function adminMocks(apiBase: string) {
   return [
     getMarketParticipantUserOverview(apiBase),
     getMarketParticipantActorQuerySelectionActors(apiBase),
+    getMarketParticipantUserRoleGetAll(apiBase),
+    getMarketParticipantUserGetUserAuditLogs(apiBase),
+    getMarketParticipantUserRoleGetUserRoleWithPermissions(apiBase),
+    getMarketParticipantUserRoleGetUserRoleAuditLogs(apiBase),
   ];
 }
 
@@ -40,6 +48,50 @@ function getMarketParticipantActorQuerySelectionActors(apiBase: string) {
     `${apiBase}/v1/MarketParticipantActorQuery/GetSelectionActors`,
     (req, res, ctx) => {
       return res(ctx.json(marketParticipantActorQuerySelectionActors));
+    }
+  );
+}
+
+function getMarketParticipantUserRoleGetAll(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipantUserRole/GetAll`,
+    (req, res, ctx) => {
+      return res(ctx.json(marketParticipantUserRoleGetAll));
+    }
+  );
+}
+
+function getMarketParticipantUserGetUserAuditLogs(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipantUser/GetUserAuditLogs`,
+    (req, res, ctx) => {
+      return res(ctx.json(marketParticipantUserGetUserAuditLogs));
+    }
+  );
+}
+
+function getMarketParticipantUserRoleGetUserRoleWithPermissions(
+  apiBase: string
+) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipantUserRole/GetUserRoleWithPermissions`,
+    (req, res, ctx) => {
+      const userRoleId = req.url.searchParams.get('userRoleId');
+
+      const userRole = marketParticipantUserRoleGetUserRoleWithPermissions.find(
+        (userRole) => userRole.id === userRoleId
+      );
+
+      return res(ctx.json(userRole));
+    }
+  );
+}
+
+function getMarketParticipantUserRoleGetUserRoleAuditLogs(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipantUserRole/GetUserRoleAuditLogs`,
+    (req, res, ctx) => {
+      return res(ctx.json(marketParticipantUserRoleGetUserRoleAuditLogs));
     }
   );
 }

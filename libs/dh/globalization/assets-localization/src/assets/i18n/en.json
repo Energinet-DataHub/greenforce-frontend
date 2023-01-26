@@ -736,6 +736,8 @@
       "topBarTitle": "Start Batch",
       "startLabel": "Start",
       "dateRangeRequired": "Date range is required",
+      "gridAreaRequired": "Grid area is required",
+      "invalidPeriod": "Invalid period",
       "dateRangeLabel": "Period",
       "gridAreaDropDownLabel": "Grid Areas",
       "creatingBatch": "Starting batch...",
@@ -828,8 +830,48 @@
   },
   "admin": {
     "userManagement": {
+      "download": "Download",
       "drawer": {
-        "edit": "Edit"
+        "edit": "Edit",
+        "roles": {
+          "tabs": {
+            "masterData": {
+              "tabLabel": "Master data"
+            },
+            "permissions": {
+              "tabLabel": "Permissions",
+              "headline": "Permissions"
+            },
+            "history": {
+              "tabLabel": "History",
+              "changes": {
+                "singular": "{{ auditLogCount }} change",
+                "plural": "{{ auditLogCount }} changes"
+              },
+              "table": {
+                "columns": {
+                  "timestamp": "Time",
+                  "entry": "Change"
+                },
+                "noEntries": "No results"
+              },
+              "logs": {
+                "roles": {
+                  "Created": "Role created by <b>{{ changedByUserName }}</b>",
+                  "NameChange": "<b>{{ changedByUserName }}</b> changed role name to <b>{{ changedValueTo }}</b>",
+                  "DescriptionChange": "<b>{{ changedByUserName }}</b> changed description to <b>{{ changedValueTo }}</b>",
+                  "EicFunctionChange": "<b>{{ changedByUserName }}</b> changed eic function to <b>{{ changedValueTo }}</b>",
+                  "StatusChange": "<b>{{ changedByUserName }}</b> changed status to <b>{{ changedValueTo }}</b>",
+                  "PermissionsChange": "<b>{{ changedByUserName }}</b> changed permissions to <b>{{ changedValueTo }}</b>"
+                }
+              },
+              "generalError": {
+                "title": "An unexpected error occured",
+                "message": "Try again or contact your system administrator if you keep getting this error."
+              }
+            }
+          }
+        }
       },
       "topBarTitle": "User management",
       "userStatus": {
@@ -869,9 +911,6 @@
             "message": "Try again or contact your system administrator if you keep getting this error."
           }
         },
-        "rights": {
-          "tabLabel": "Rights"
-        },
         "users": {
           "tabLabel": "Users",
           "searchPlaceholder": "Search users",
@@ -887,7 +926,8 @@
               "name": "Name",
               "email": "Email",
               "phone": "Phone",
-              "status": "Status"
+              "status": "Status",
+              "createdDate": "Created"
             }
           },
           "errors": {
@@ -900,6 +940,10 @@
         },
         "roles": {
           "tabLabel": "Roles",
+          "roles": "Roles",
+          "role": "Role",
+          "errorTitle": "Oops! There was an error",
+          "errorMessage": "Unfortunately, an error occurred while retrieving the user roles.",
           "rolesHeadline": "Roles",
           "filter": {
             "status": "Status",
@@ -913,7 +957,11 @@
               "status": "Status"
             }
           },
-          "createuserrole": "Create"
+          "createuserrole": "Create",
+          "userRolesHeadline": {
+            "singular": "{{ userRolesCount }} role",
+            "plural": "{{ userRolesCount }} roles"
+          }
         },
         "permissions": {
           "tabLabel": "Permissions"
@@ -929,7 +977,12 @@
       "createrole": {
         "headline": "Create Userrole",
         "save": "Save",
-        "createRoleRequestText": "Creating userrole",
+        "cancel": "Cancel",
+        "createRoleRequest": {
+          "start": "Creating userrole",
+          "error": "Unfortunately, an error occurred while creating the role.",
+          "success": "User role created."
+        },
         "tabs": {
           "masterdata": {
             "tabLabel": "Master data",
@@ -944,9 +997,23 @@
           },
           "permissions": {
             "tabLabel": "Permissions",
-            "fieldRequiredErrorText": "Field is required.",
-            "title": "Permissions"
+            "title": "Permissions",
+            "table": {
+              "columns": {
+                "name": "Name",
+                "description": "Description"
+              }
+            }
           }
+        }
+      },
+      "editUser": {
+        "cancel": "Cancel",
+        "save": "Save",
+        "deactivateUser": "Deactivate user",
+        "tab": {
+          "actor": "Actor",
+          "roles": "Roles"
         }
       }
     }

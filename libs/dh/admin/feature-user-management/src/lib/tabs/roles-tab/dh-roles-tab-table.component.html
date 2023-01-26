@@ -24,13 +24,12 @@ limitations under the License.
     sortBy="name"
     sortDirection="asc"
     (rowClick)="onRowClick($event)"
+    [activeRow]="activeRow"
   >
     <ng-container *wattTableCell="columns['status']; let role">
       <dh-role-status [status]="role.status"></dh-role-status>
     </ng-container>
   </watt-table>
-
-  <dh-shared-ui-paginator [length]="roles.length"> </dh-shared-ui-paginator>
 </ng-container>
 
-<dh-role-drawer></dh-role-drawer>
+<dh-role-drawer (closed)="onClosed()"></dh-role-drawer>

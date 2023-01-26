@@ -44,7 +44,7 @@ import {
   EicFunction,
   UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { defer, map, of, startWith, Subject, takeUntil } from 'rxjs';
+import { map, of, Subject, takeUntil, startWith } from 'rxjs';
 
 interface UserRoleForm {
   name: FormControl<string>;
@@ -73,17 +73,17 @@ interface UserRoleForm {
 export class DhCreateUserroleMasterdataTabComponent
   implements OnInit, OnDestroy
 {
-  userRoleForm = this.fb.nonNullable.group<UserRoleForm>({
-    name: this.fb.nonNullable.control('', [
+  userRoleForm = this.formBuilder.nonNullable.group<UserRoleForm>({
+    name: this.formBuilder.nonNullable.control('', [
       Validators.required,
       Validators.maxLength(250),
     ]),
-    description: this.fb.nonNullable.control('', Validators.required),
-    eicFunction: this.fb.nonNullable.control(
+    description: this.formBuilder.nonNullable.control('', Validators.required),
+    eicFunction: this.formBuilder.nonNullable.control(
       EicFunction.Agent,
       Validators.required
     ),
-    roleStatus: this.fb.nonNullable.control(
+    roleStatus: this.formBuilder.nonNullable.control(
       UserRoleStatus.Active,
       Validators.required
     ),
@@ -91,30 +91,36 @@ export class DhCreateUserroleMasterdataTabComponent
 
   @Output() formReady = of(this.userRoleForm);
   @Output() eicFunctionSelected = new EventEmitter<EicFunction>();
-  @Output() valueChange = defer(() =>
-    this.userRoleForm.valueChanges.pipe(
-      startWith(this.userRoleForm.value),
-      map(
-        (formValue): Partial<CreateUserRoleDto> => ({
-          name: formValue.name,
-          description: formValue.description,
-          eicFunction: formValue.eicFunction,
-          status: formValue.roleStatus,
-        })
-      )
-    )
-  );
+  @Output() valueChange = new EventEmitter<Partial<CreateUserRoleDto>>();
 
   userRoleStatusOptions: WattDropdownOptions = [];
   eicFunctionOptions: WattDropdownOptions = [];
 
   private destroy$ = new Subject<void>();
 
-  constructor(private trans: TranslocoService, private fb: FormBuilder) {}
+  constructor(
+    private trans: TranslocoService,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.buildUserRoleStatusOptions();
     this.buildEicFunctionOptions();
+
+    this.userRoleForm.valueChanges
+      .pipe(
+        startWith(this.userRoleForm.value),
+        map(
+          (formValue): Partial<CreateUserRoleDto> => ({
+            name: formValue.name,
+            description: formValue.description,
+            eicFunction: formValue.eicFunction,
+            status: formValue.roleStatus,
+          })
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((value) => this.valueChange.emit(value));
 
     this.userRoleForm.controls.eicFunction.valueChanges
       .pipe(takeUntil(this.destroy$))
