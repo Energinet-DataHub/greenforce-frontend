@@ -19,6 +19,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'dh-role-master-data',
@@ -46,7 +47,7 @@ import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain'
       }
     `,
   ],
-  imports: [WattCardModule, TranslocoModule],
+  imports: [WattCardModule, TranslocoModule, NgIf],
 })
 export class DhRoleMasterDataComponent {
   @Input() role: UserRoleWithPermissionsDto | null = null;

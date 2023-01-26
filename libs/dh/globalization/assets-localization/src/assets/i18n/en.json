@@ -567,13 +567,17 @@
       "ResourceAggregator": "Resource aggregator",
       "ResourceCapacityMechanismOperator": "Resource capacity mechanism operator",
       "ResourceProvider": "Resource provider",
-      "Scheduling": "Scheduling",
+      "Scheduling": "Scheduling agent",
       "Agent": "Agent",
       "SchedulingAreaResponsible": "Scheduling area responsible",
       "SystemOperator": "System operator",
       "TradeResponsibleParty": "Trade responsible party",
       "TransmissionCapacityAllocator": "Transmission capacity allocator",
-      "DanishEnergyAgency": "Danish energy agency"
+      "DanishEnergyAgency": "Danish energy agency",
+      "ElOverblik": "ElOverblik",
+      "DataHubAdministrator": "DataHub administrator",
+      "IndependentAggregator": "Independent aggregator",
+      "SerialEnergyTrader": "Serial energy trader"
     },
     "organization": {
       "topBarTitle": "Organisations",
