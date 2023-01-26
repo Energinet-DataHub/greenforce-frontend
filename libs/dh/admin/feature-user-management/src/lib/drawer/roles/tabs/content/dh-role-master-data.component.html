@@ -16,18 +16,22 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.masterData'">
   <watt-card>
-    <ul class="master-data-list">
+    <ul class="master-data-list" *ngIf="role">
       <li>
         <span class="watt-label">{{ t("name") }}</span>
-        <span class="watt-text-s">{{ role?.name }}</span>
+        <span class="watt-text-s">{{ role.name }}</span>
       </li>
       <li>
         <span class="watt-label">{{ t("description") }}</span>
-        <span class="watt-text-s">{{ role?.description }}</span>
+        <span class="watt-text-s">{{ role.description }}</span>
       </li>
       <li>
         <span class="watt-label">{{ t("marketRole") }}</span>
-        <span class="watt-text-s">{{ role?.eicFunction }}</span>
+        <span
+          *transloco="let t; read: 'marketParticipant.marketRoles'"
+          class="watt-text-s"
+          >{{ t(role.eicFunction) }}</span
+        >
       </li>
     </ul>
   </watt-card>
