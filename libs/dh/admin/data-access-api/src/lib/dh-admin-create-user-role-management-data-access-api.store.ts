@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, tap} from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   ErrorState,
@@ -114,7 +114,10 @@ export class DhAdminCreateUserRoleManagementDataAccessApiStore extends Component
   );
 
   private setLoading = this.updater(
-    (state, loadingState: LoadingState | ErrorState): DhCreateUserRoleManagementState => ({
+    (
+      state,
+      loadingState: LoadingState | ErrorState
+    ): DhCreateUserRoleManagementState => ({
       ...state,
       requestState: loadingState,
     })

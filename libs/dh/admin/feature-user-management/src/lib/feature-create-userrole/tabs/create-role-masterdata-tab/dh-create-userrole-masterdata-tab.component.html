@@ -21,11 +21,7 @@ limitations under the License.
     <!-- Name -->
     <watt-form-field>
       <watt-label>{{ t("name") }}</watt-label>
-      <input
-        wattInput
-        type="text"
-        [formControl]="userRoleForm.controls.name"
-      />
+      <input wattInput type="text" [formControl]="userRoleForm.controls.name" />
       <watt-error *ngIf="userRoleForm.controls.name.hasError('required')">
         {{ t("fieldRequiredErrorText") }}
       </watt-error>

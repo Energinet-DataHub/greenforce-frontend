@@ -30,7 +30,7 @@ import {
   CreateUserRoleDto,
   SelectablePermissionsDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { DhAdminCreateUserRoleManagementDataAccessApiStore} from '@energinet-datahub/dh/admin/data-access-api';
+import { DhAdminCreateUserRoleManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { PushModule } from '@rx-angular/template/push';
 
 @Component({
@@ -50,7 +50,9 @@ import { PushModule } from '@rx-angular/template/push';
 export class DhCreateUserrolePermissionsTabComponent {
   @Output() valueChange = new EventEmitter<Partial<CreateUserRoleDto>>();
 
-  private readonly store = inject(DhAdminCreateUserRoleManagementDataAccessApiStore);
+  private readonly store = inject(
+    DhAdminCreateUserRoleManagementDataAccessApiStore
+  );
   permissions$ = this.store.selectablePermissions$;
 
   onSelectionChange(selections: SelectablePermissionsDto[]): void {
