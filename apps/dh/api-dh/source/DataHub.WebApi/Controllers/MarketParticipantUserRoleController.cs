@@ -107,6 +107,13 @@ namespace Energinet.DataHub.WebApi.Controllers
             return HandleExceptionAsync(() => _userRoleClient.CreateAsync(userRole));
         }
 
+        [HttpPut]
+        [Route("Update")]
+        public Task<ActionResult> UpdateAsync(Guid userRoleId, UpdateUserRoleDto userRole)
+        {
+            return HandleExceptionAsync(() => _userRoleClient.UpdateAsync(userRoleId, userRole));
+        }
+
         /// <summary>
         ///     Retrieves the audit log history for the specified user role.
         /// </summary>
