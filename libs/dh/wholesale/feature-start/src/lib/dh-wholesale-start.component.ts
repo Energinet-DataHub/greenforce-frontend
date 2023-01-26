@@ -153,7 +153,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   }
 
   private setMinDate(gridAreas: GridAreaDto[]) {
-    if(gridAreas.length === 0) return;
+    if (gridAreas.length === 0) return;
     const validFromDates: number[] = gridAreas.map((gridArea) => {
       return new Date(gridArea.validFrom).getTime();
     });
