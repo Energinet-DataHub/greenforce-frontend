@@ -36,7 +36,7 @@ import { map, take, tap, timer } from 'rxjs';
       }
 
       .modal-close {
-        justify-self: end;
+        justify-self: flex-end;
         color: var(--watt-color-primary);
       }
 
@@ -59,7 +59,7 @@ import { map, take, tap, timer } from 'rxjs';
         display: flex;
         grid-column: span 2;
         gap: var(--watt-space-m);
-        justify-content: end;
+        justify-content: flex-end;
       }
     `,
   ],

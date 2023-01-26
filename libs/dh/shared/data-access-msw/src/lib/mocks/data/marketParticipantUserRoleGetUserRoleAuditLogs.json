@@ -1,0 +1,52 @@
+{
+  "auditLogs": [
+    {
+      "userRoleId": "3f4c5be3-1e12-4ed4-9d34-05fee4763127",
+      "changedByUserId": "25499d8c-8d8a-45e1-93a3-74011c07b1b3",
+      "changedByUserName": "Test User",
+      "timestamp": "2023-01-01T12:47:03.4871748+00:00",
+      "userRoleChangeType": "Created",
+      "changeDescriptionJson": "{\"Name\":\"NewRole\",\"Description\":\"New description\",\"EicFunction\":\"BalanceResponsibleParty\",\"Status\":\"Active\",\"Permissions\":[\"UsersManage\"]}"
+    },
+    {
+      "userRoleId": "3f4c5be3-1e12-4ed4-9d34-05fee4763127",
+      "changedByUserId": "25499d8c-8d8a-45e1-93a3-74011c07b1b3",
+      "changedByUserName": "Test User",
+      "timestamp": "2023-01-02T12:48:38.0587304+00:00",
+      "userRoleChangeType": "NameChange",
+      "changeDescriptionJson": "{\"Name\":\"Nyt navn\"}"
+    },
+    {
+      "userRoleId": "3f4c5be3-1e12-4ed4-9d34-05fee4763127",
+      "changedByUserId": "25499d8c-8d8a-45e1-93a3-74011c07b1b3",
+      "changedByUserName": "Test User",
+      "timestamp": "2023-01-03T12:48:38.0587304+00:00",
+      "userRoleChangeType": "DescriptionChange",
+      "changeDescriptionJson": "{\"Description\":\"Nyt beskrivelse\"}"
+    },
+    {
+      "userRoleId": "3f4c5be3-1e12-4ed4-9d34-05fee4763127",
+      "changedByUserId": "25499d8c-8d8a-45e1-93a3-74011c07b1b3",
+      "changedByUserName": "Test User",
+      "timestamp": "2023-01-04T12:48:38.0587304+00:00",
+      "userRoleChangeType": "EicFunctionChange",
+      "changeDescriptionJson": "{\"EicFunction\":\"MarketOperator\"}"
+    },
+    {
+      "userRoleId": "3f4c5be3-1e12-4ed4-9d34-05fee4763127",
+      "changedByUserId": "25499d8c-8d8a-45e1-93a3-74011c07b1b3",
+      "changedByUserName": "Test User",
+      "timestamp": "2023-01-05T12:48:38.0587304+00:00",
+      "userRoleChangeType": "StatusChange",
+      "changeDescriptionJson": "{\"Status\":\"Inactive\"}"
+    },
+    {
+      "userRoleId": "3f4c5be3-1e12-4ed4-9d34-05fee4763127",
+      "changedByUserId": "25499d8c-8d8a-45e1-93a3-74011c07b1b3",
+      "changedByUserName": "Test User",
+      "timestamp": "2023-01-06T12:48:38.0587304+00:00",
+      "userRoleChangeType": "PermissionsChange",
+      "changeDescriptionJson": "{\"Permissions\": [\"UsersManage\",\"UsersView\"]}"
+    }
+  ]
+}
