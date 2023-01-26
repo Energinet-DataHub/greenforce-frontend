@@ -961,6 +961,7 @@
               "status": "Status"
             }
           },
+          "createuserrole": "Create",
           "userRolesHeadline": {
             "singular": "{{ userRolesCount }} role",
             "plural": "{{ userRolesCount }} roles"
@@ -974,6 +975,39 @@
             "title": "Oops! There was an error",
             "message": "Unfortunately, an error occurred while retrieving the necessary information.",
             "button": "Try again"
+          }
+        }
+      },
+      "createrole": {
+        "headline": "Create Userrole",
+        "save": "Save",
+        "cancel": "Cancel",
+        "createRoleRequest": {
+          "start": "Creating userrole",
+          "error": "Unfortunately, an error occurred while creating the role.",
+          "success": "User role created."
+        },
+        "tabs": {
+          "masterdata": {
+            "tabLabel": "Master data",
+            "fieldRequiredErrorText": "Field is required.",
+            "nameMaxLengthErrorText": "Name field must be under 250 characters",
+            "name": "Name",
+            "description": "Description",
+            "roleStatus": "Status",
+            "selectUserroleStatus": "Select status",
+            "eicFunction": "Market role",
+            "selectEicFunctionStatus": "Select market role"
+          },
+          "permissions": {
+            "tabLabel": "Permissions",
+            "title": "Permissions",
+            "table": {
+              "columns": {
+                "name": "Name",
+                "description": "Description"
+              }
+            }
           }
         }
       },
