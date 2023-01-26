@@ -27,7 +27,7 @@ function GetUserRoleView(apiBase: string) {
   return rest.get(
     `${apiBase}/v1/MarketParticipantUserRole/GetUserRoleView`,
     (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(marketParticipantUserRoleView));
+      return res(ctx.json(marketParticipantUserRoleView));
     }
   );
 }
@@ -36,10 +36,7 @@ function Permissions(apiBase: string) {
   return rest.get(
     `${apiBase}/v1/MarketParticipantUserRole/Permissions`,
     (req, res, ctx) => {
-      return res(
-        ctx.status(200),
-        ctx.json(marketParticipantUserRolePermissions)
-      );
+      return res(ctx.json(marketParticipantUserRolePermissions));
     }
   );
 }

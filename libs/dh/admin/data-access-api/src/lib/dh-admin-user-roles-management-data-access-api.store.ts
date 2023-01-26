@@ -23,35 +23,25 @@ import {
 } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
-  CreateUserRoleDto,
   EicFunction,
   UserRoleStatus,
   UserRoleDto,
-  SelectablePermissionsDto,
 } from '@energinet-datahub/dh/shared/domain';
 
-interface UserRoleCreate {
-  onSaveCompletedFn: () => void;
-  createRole: CreateUserRoleDto;
-}
 interface DhUserRolesManagementState {
   readonly roles: UserRoleDto[];
   readonly requestState: LoadingState | ErrorState;
-  readonly createRequestState: LoadingState | ErrorState;
   validation?: { error: string };
   readonly filterModel: {
     status: UserRoleStatus | null;
     eicFunctions: EicFunction[] | null;
   };
-  readonly selectablePermissions: SelectablePermissionsDto[];
 }
 
 const initialState: DhUserRolesManagementState = {
   roles: [],
   requestState: LoadingState.INIT,
-  createRequestState: LoadingState.INIT,
-  filterModel: { status: 'Active', eicFunctions: [] },
-  selectablePermissions: [],
+  filterModel: { status: 'Active', eicFunctions: [] }
 };
 
 @Injectable()
@@ -62,9 +52,6 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   );
   hasGeneralError$ = this.select(
     (state) => state.requestState === ErrorState.GENERAL_ERROR
-  );
-  createRequestHasError$ = this.select(
-    (state) => state.createRequestState === ErrorState.GENERAL_ERROR
   );
   filterModel$ = this.select((state) => state.filterModel);
 
@@ -82,8 +69,6 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
             filter.eicFunctions.includes(r.eicFunction))
       )
   );
-
-  selectablePermissions$ = this.select((state) => state.selectablePermissions);
 
   validation$ = this.select((state) => state.validation);
   constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
@@ -113,55 +98,6 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
         )
       )
     )
-  );
-
-  private readonly getSelectablePermissions = this.effect(
-    (trigger$: Observable<void>) =>
-      trigger$.pipe(
-        switchMap(() =>
-          this.httpClientUserRole
-            .v1MarketParticipantUserRolePermissionsGet()
-            .pipe(
-              tapResponse(
-                (response) => {
-                  this.updatePermissions(response);
-                  this.setLoading(LoadingState.LOADED);
-                },
-                () => {
-                  this.setLoading(LoadingState.LOADED);
-                  this.updatePermissions([]);
-                  this.handleError();
-                }
-              )
-            )
-        )
-      )
-  );
-
-  readonly createUserRole = this.effect(
-    (userRoleCreateDto: Observable<UserRoleCreate>) => {
-      return userRoleCreateDto.pipe(
-        tap(() => {
-          this.setLoading(LoadingState.LOADING);
-          this.setCreateState(LoadingState.INIT);
-        }),
-        switchMap((userRole) =>
-          this.saveUserRole(userRole.createRole).pipe(
-            tapResponse(
-              () => {
-                this.setLoading(LoadingState.LOADED);
-                this.setCreateState(LoadingState.LOADED);
-                userRole.onSaveCompletedFn();
-              },
-              () => {
-                this.setLoading(LoadingState.LOADED);
-                this.setCreateState(ErrorState.GENERAL_ERROR);
-              }
-            )
-          )
-        )
-      );
-    }
   );
 
   readonly setFilterStatus = this.updater(
@@ -200,38 +136,12 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
     })
   );
 
-  private updatePermissions = this.updater(
-    (
-      state: DhUserRolesManagementState,
-      response: SelectablePermissionsDto[]
-    ): DhUserRolesManagementState => ({
-      ...state,
-      selectablePermissions: response,
-    })
-  );
-
   private setLoading = this.updater(
     (state, loadingState: LoadingState): DhUserRolesManagementState => ({
       ...state,
       requestState: loadingState,
     })
   );
-
-  private setCreateState = this.updater(
-    (
-      state,
-      createState: ErrorState | LoadingState
-    ): DhUserRolesManagementState => ({
-      ...state,
-      createRequestState: createState,
-    })
-  );
-
-  private readonly saveUserRole = (newRole: CreateUserRoleDto) => {
-    return this.httpClientUserRole.v1MarketParticipantUserRoleCreatePost(
-      newRole
-    );
-  };
 
   private handleError = () => {
     this.updateUserRoles([]);
@@ -242,6 +152,5 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
 
   ngrxOnStoreInit(): void {
     this.getRoles();
-    this.getSelectablePermissions();
   }
 }

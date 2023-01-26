@@ -15,15 +15,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.createrole'">
-  <ng-container *rxLet="validation$ as validation">
-    <watt-validation-message
-      type="danger"
-      *ngIf="validation"
-      [label]="t('errorToastLabel')"
-      [message]="validation!.error"
-    ></watt-validation-message>
-  </ng-container>
-
   <watt-card *rxLet="isLoading$ as isLoading">
     <watt-card-title>
       <h4>{{ t("headline") }}</h4>
@@ -42,19 +33,21 @@ limitations under the License.
           ></dh-create-userrole-permissions-tab>
         </watt-tab>
       </watt-tabs>
-      <watt-button
-        type="submit"
-        [disabled]="
-          this.userRole.permissions.length <= 0 || createRoleForm.invalid
-        "
-        >{{ t("save") }}
-      </watt-button>
-      <watt-button
-        type="button"
-        (click)="backToOverview()"
-        variant="secondary"
-        >{{ t("cancel") }}</watt-button
-      >
+      <div class="buttons">
+        <watt-button
+          type="submit"
+          [disabled]="
+            this.userRole.permissions.length <= 0 || createRoleForm.invalid
+          "
+          >{{ t("save") }}
+        </watt-button>
+        <watt-button
+          type="button"
+          (click)="backToOverview()"
+          variant="secondary"
+          >{{ t("cancel") }}</watt-button
+        >
+      </div>
     </form>
   </watt-card>
 </ng-container>

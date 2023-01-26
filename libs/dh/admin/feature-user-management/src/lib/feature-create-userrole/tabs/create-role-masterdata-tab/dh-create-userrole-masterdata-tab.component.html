@@ -25,7 +25,6 @@ limitations under the License.
         wattInput
         type="text"
         [formControl]="userRoleForm.controls.name"
-        required
       />
       <watt-error *ngIf="userRoleForm.controls.name.hasError('required')">
         {{ t("fieldRequiredErrorText") }}
@@ -41,7 +40,6 @@ limitations under the License.
         wattInput
         type="text"
         [formControl]="userRoleForm.controls.description"
-        required
       />
       <watt-error
         *ngIf="userRoleForm.controls.description.hasError('required')"

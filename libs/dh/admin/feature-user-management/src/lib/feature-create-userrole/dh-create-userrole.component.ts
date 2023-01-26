@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
 import { DhCreateUserroleTabsComponent } from './tabs/dh-create-userrole-tabs.component';
 
 @Component({
@@ -29,6 +28,6 @@ import { DhCreateUserroleTabsComponent } from './tabs/dh-create-userrole-tabs.co
       }
     `,
   ],
-  imports: [TranslocoModule, DhCreateUserroleTabsComponent],
+  imports: [DhCreateUserroleTabsComponent],
 })
 export class DhAdminCreateUserRoleComponent {}

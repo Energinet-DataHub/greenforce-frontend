@@ -23,7 +23,6 @@ import {
   OnChanges,
 } from '@angular/core';
 import { translate } from '@ngneat/transloco';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import {
   WattTableDataSource,
   WattTableColumnDef,
@@ -44,7 +43,7 @@ import { SelectablePermissionsDto } from '@energinet-datahub/dh/shared/domain';
   ],
   // Using `OnPush` causes issues with table's header row translations
   changeDetection: ChangeDetectionStrategy.Default,
-  imports: [WATT_TABLE, DhSharedUiPaginatorComponent],
+  imports: [WATT_TABLE],
 })
 export class DhCreateRolePermissionTabTableComponent implements OnChanges {
   @Output() selectionChanged = new EventEmitter<SelectablePermissionsDto[]>();

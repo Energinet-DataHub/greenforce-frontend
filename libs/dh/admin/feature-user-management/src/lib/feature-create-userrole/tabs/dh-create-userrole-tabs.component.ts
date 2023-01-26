@@ -23,13 +23,12 @@ import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { DhCreateUserroleMasterdataTabComponent } from './create-role-masterdata-tab/dh-create-userrole-masterdata-tab.component';
 import { DhCreateUserrolePermissionsTabComponent } from './create-role-permissions-tab/dh-create-userrole-permissions-tab.component';
-import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhAdminCreateUserRoleManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { provideComponentStore } from '@ngrx/component-store';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import {
   CreateUserRoleDto,
-  EicFunction,
 } from '@energinet-datahub/dh/shared/domain';
 import { Router } from '@angular/router';
 import {
@@ -50,8 +49,9 @@ interface CreateRoleForm {
   selector: 'dh-create-userrole-tabs',
   standalone: true,
   templateUrl: './dh-create-userrole-tabs.component.html',
+  styleUrls: ['./dh-create-userrole-tabs.component.scss'],
   providers: [
-    provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
+    provideComponentStore(DhAdminCreateUserRoleManagementDataAccessApiStore),
   ],
   styles: [
     `
@@ -77,9 +77,8 @@ interface CreateRoleForm {
   ],
 })
 export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
-  private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
+  private readonly store = inject(DhAdminCreateUserRoleManagementDataAccessApiStore);
   isLoading$ = this.store.isLoading$;
-  validation$ = this.store.validation$;
   createRoleForm = this.formBuilder.group<CreateRoleForm>({});
   userRole: CreateUserRoleDto;
   selectablePermissions$ = this.store.selectablePermissions$;
@@ -102,7 +101,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.createRequestHasError$
+    this.store.hasGeneralError$
       .pipe(takeUntil(this.destroy$))
       .subscribe((hasError) => {
         if (hasError) {
@@ -113,7 +112,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
             type: 'danger',
           });
 
-          this.enableControls();
+          this.createRoleForm.enable();
         }
       });
   }
@@ -125,7 +124,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (!this.userRole) throw new Error('Missing user role');
-    this.disableControls();
+    this.createRoleForm.disable();
     this.store.createUserRole({
       createRole: this.userRole,
       onSaveCompletedFn: this.backToOverviewAfterSave,
@@ -137,20 +136,6 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
       ),
       type: 'loading',
     });
-  }
-
-  disableControls() {
-    this.createRoleForm.controls.masterData?.controls.description.disable();
-    this.createRoleForm.controls.masterData?.controls.eicFunction.disable();
-    this.createRoleForm.controls.masterData?.controls.name.disable();
-    this.createRoleForm.controls.masterData?.controls.roleStatus.disable();
-  }
-
-  enableControls() {
-    this.createRoleForm.controls.masterData?.controls.description.enable();
-    this.createRoleForm.controls.masterData?.controls.eicFunction.enable();
-    this.createRoleForm.controls.masterData?.controls.name.enable();
-    this.createRoleForm.controls.masterData?.controls.roleStatus.enable();
   }
 
   addChildForm<K extends keyof CreateRoleForm>(
