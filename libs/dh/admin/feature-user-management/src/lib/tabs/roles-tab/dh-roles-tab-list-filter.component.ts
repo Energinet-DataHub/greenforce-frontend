@@ -73,15 +73,11 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
   constructor(private trans: TranslocoService) {}
 
   statusListOptions: WattDropdownOption[] = [];
-  eicFunctionListListOptions: WattDropdownOption[] = Object.keys(
-    EicFunction
-  ).map((key) => ({
-    displayValue: key,
-    value: key,
-  }));
+  eicFunctionListListOptions: WattDropdownOption[] = [];
 
   ngOnInit(): void {
     this.buildStatusListOptions();
+    this.buildMarketRoleListOptions();
 
     this.statusFormControl.valueChanges
       .pipe(takeUntil(this.destroy$))
@@ -113,6 +109,24 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
               displayValue: keys[entry.toLowerCase()],
             };
           });
+        },
+      });
+  }
+
+  private buildMarketRoleListOptions() {
+    this.trans
+      .selectTranslateObject('marketParticipant.marketRoles')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (keys) => {
+          this.eicFunctionListListOptions = Object.keys(EicFunction).map(
+            (entry) => {
+              return {
+                value: entry,
+                displayValue: keys[entry],
+              };
+            }
+          );
         },
       });
   }
