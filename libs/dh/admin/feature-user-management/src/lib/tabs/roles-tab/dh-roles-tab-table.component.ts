@@ -36,7 +36,6 @@ import {
 } from '@energinet-datahub/watt/table';
 import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.component';
 import { Subject, takeUntil } from 'rxjs';
-import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'dh-roles-tab-table',
