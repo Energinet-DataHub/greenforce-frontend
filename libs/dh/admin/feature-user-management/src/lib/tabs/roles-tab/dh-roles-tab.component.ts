@@ -101,8 +101,6 @@ export class DhUserRolesTabComponent {
   }
 
   async download(sort: string, direction: SortDirection) {
-    console.log(sort, direction);
-
     this.trans
       .selectTranslateObject('marketParticipant.marketRoles')
       .pipe(take(1))
