@@ -36,6 +36,7 @@ import {
 } from '@energinet-datahub/watt/table';
 import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.component';
 import { Subject, takeUntil } from 'rxjs';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'dh-roles-tab-table',
@@ -111,11 +112,11 @@ export class DhRolesTabTableComponent
   }
 
   private updateFilteredAndSortedData() {
-    this.filteredAndSortedData = this.dataSource.sortData(
-      this.dataSource.filteredData,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.dataSource.sort!
-    );
+    if (this.dataSource.sort)
+      this.filteredAndSortedData = this.dataSource.sortData(
+        this.dataSource.filteredData,
+        this.dataSource.sort
+      );
   }
 
   onRowClick(row: UserRoleDto): void {
