@@ -100,11 +100,18 @@ namespace Energinet.DataHub.WebApi.Controllers
             return userRoleView;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("Create")]
         public Task<ActionResult<Guid>> CreateAsync(CreateUserRoleDto userRole)
         {
             return HandleExceptionAsync(() => _userRoleClient.CreateAsync(userRole));
+        }
+
+        [HttpPut]
+        [Route("Update")]
+        public Task<ActionResult> UpdateAsync(Guid userRoleId, UpdateUserRoleDto userRole)
+        {
+            return HandleExceptionAsync(() => _userRoleClient.UpdateAsync(userRoleId, userRole));
         }
 
         /// <summary>
@@ -139,6 +146,13 @@ namespace Energinet.DataHub.WebApi.Controllers
 
                 return new MarketParticipant.Dto.UserRoleAuditLogsDto(userRoleAuditLogs);
             });
+        }
+
+        [HttpGet]
+        [Route("Permissions")]
+        public Task<ActionResult<IEnumerable<SelectablePermissionsDto>>> GetSelectablePermissionsAsync()
+        {
+            return HandleExceptionAsync(() => _userRoleClient.GetSelectablePermissionsAsync());
         }
     }
 }

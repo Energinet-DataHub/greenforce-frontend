@@ -18,13 +18,32 @@ watt-dropdown {
   display: block;
   width: 100%;
 
+  .mat-select-arrow {
+    border: none;
+    width: auto;
+    height: auto;
+  }
+
+  .mat-select-arrow::before {
+    width: 0.6em;
+    height: 0.6em;
+    bottom: 0.2em;
+    position: relative;
+    display: inline-block;
+    border-style: solid;
+    border-width: 0 0 0.15em 0.15em;
+    transform: rotate(315deg);
+
+    content: "";
+  }
+
   .mat-select-trigger {
     line-height: 44px;
     padding: 0 var(--watt-space-m);
   }
 
   .mat-select-value {
-    color: var(--watt-color-primary-dark);
+    color: var(--watt-color-neutral-black);
   }
 
   .mat-select.mat-select-invalid.ng-pristine .mat-select-arrow {
@@ -63,7 +82,7 @@ watt-dropdown {
   }
 
   .mat-option.mat-option {
-    color: var(--watt-color-primary-dark);
+    color: var(--watt-color-neutral-black);
 
     &.mat-active,
     &.mat-selected:not(.mat-option-multiple),
@@ -79,7 +98,7 @@ watt-dropdown {
   }
 
   .mat-select-search-input:not(.mat-select-search-hidden) {
-    color: var(--watt-color-primary-dark);
+    color: var(--watt-color-neutral-black);
   }
 
   .mat-select-search-clear {

@@ -1,0 +1,82 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@use "@energinet-datahub/watt/utils" as watt;
+@use "./variables" as *;
+
+%datepicker {
+  display: flex;
+  align-items: center;
+  font-family: watt.$typography-monospace-font-family;
+
+  input.mat-date-range-input-inner,
+  input.mat-input-element {
+    caret-color: var(--watt-color-neutral-black);
+    letter-spacing: -0.03em;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  // The following style fixes alignment on smaller devices / iOS / Safari
+  .mat-date-range-input-container {
+    align-items: initial;
+  }
+
+  .mat-date-range-input-start-wrapper,
+  .mat-date-range-input-end-wrapper {
+    max-width: calc(50% - var(--watt-space-s));
+    overflow: visible;
+    position: relative;
+  }
+
+  .mat-date-range-input-separator {
+    display: flex;
+    align-items: center;
+  }
+
+  .mat-date-range-input-separator-hidden {
+    opacity: 1 !important;
+  }
+
+  .mat-date-range-input-inner::-webkit-input-placeholder,
+  .mat-date-range-input-hide-placeholders
+    .mat-date-range-input-inner::-webkit-input-placeholder {
+    color: $placeholder-color !important;
+    -webkit-text-fill-color: $placeholder-color;
+  }
+}
+
+%datepicker-form-field {
+  &.watt-form-field-normal {
+    watt-datepicker {
+      input.mat-datepicker-input,
+      input.mat-date-range-input-inner {
+        height: $input-height-normal;
+      }
+    }
+  }
+
+  &.watt-form-field-large {
+    watt-datepicker {
+      input.mat-datepicker-input,
+      input.mat-date-range-input-inner {
+        height: $input-height-large;
+      }
+    }
+  }
+}

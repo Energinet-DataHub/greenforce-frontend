@@ -44,6 +44,16 @@ limitations under the License.
     >
       <dh-user-status [status]="element.status"></dh-user-status>
     </ng-container>
+
+    <ng-container
+      *wattTableCell="
+        columns.createdDate;
+        header: t('createdDate');
+        let element
+      "
+    >
+      {{ element.createdDate | dhDateTime }}
+    </ng-container>
   </watt-table>
 </ng-container>
 

@@ -22,7 +22,7 @@ import {
   OnChanges,
   ViewChild,
 } from '@angular/core';
-import { translate } from '@ngneat/transloco';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
@@ -52,6 +52,7 @@ import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.compone
     DhSharedUiPaginatorComponent,
     DhRoleStatusComponent,
     DhRoleDrawerComponent,
+    TranslocoModule,
   ],
 })
 export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
@@ -59,8 +60,7 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
 
   @Input() roles: UserRoleDto[] = [];
 
-  @ViewChild(DhSharedUiPaginatorComponent)
-  paginator!: DhSharedUiPaginatorComponent;
+  @Input() paginator!: DhSharedUiPaginatorComponent;
 
   @ViewChild(DhRoleDrawerComponent)
   drawer!: DhRoleDrawerComponent;
