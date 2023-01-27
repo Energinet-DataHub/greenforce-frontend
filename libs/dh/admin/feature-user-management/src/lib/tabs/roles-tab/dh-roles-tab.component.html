@@ -29,10 +29,9 @@ limitations under the License.
 
       <watt-card *rxLet="roles$ as roles">
         <watt-card-title>
-          <div class="card-title-container">
+          <div class="create-role-header-container">
             <h4>{{ t("rolesHeadline") }}</h4>
-
-            <div class="paginator-container">
+            <div class="create-role-table-buttons">
               <watt-button
                 *transloco="let t; read: 'admin.userManagement'"
                 icon="openInNew"
@@ -43,6 +42,13 @@ limitations under the License.
 
               <dh-shared-ui-paginator #paginator [length]="roles.length">
               </dh-shared-ui-paginator>
+
+              <watt-button
+                icon="plus"
+                variant="secondary"
+                (click)="createUserRole()"
+                >{{ t("createuserrole") }}
+              </watt-button>
             </div>
           </div>
         </watt-card-title>
