@@ -35,7 +35,6 @@ import {
   WattTableComponent,
 } from '@energinet-datahub/watt/table';
 import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.component';
-import { SortDirection } from '@angular/material/sort';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -85,11 +84,7 @@ export class DhRolesTabTableComponent
     status: { accessor: 'status' },
   };
 
-  readonly defaultSort = 'name';
-  readonly defaultSortDirection: SortDirection = 'asc';
-
-  currentSort = this.defaultSort;
-  currentSortDirection: SortDirection = this.defaultSortDirection;
+  filteredAndSortedData: UserRoleDto[] = [];
 
   translateHeader = (key: string) =>
     translate(`admin.userManagement.tabs.roles.table.columns.${key}`);
@@ -97,12 +92,12 @@ export class DhRolesTabTableComponent
   ngOnChanges() {
     this.dataSource.data = this.roles;
     this.dataSource.paginator = this.paginator?.instance;
+    this.updateFilteredAndSortedData();
   }
 
   ngAfterViewInit() {
-    this.table.sortChange.pipe(takeUntil(this.destroy$)).subscribe((x) => {
-      this.currentSort = x.active;
-      this.currentSortDirection = x.direction;
+    this.table.sortChange.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.updateFilteredAndSortedData();
     });
 
     this.dataSource.paginator = this.paginator?.instance;
@@ -111,6 +106,16 @@ export class DhRolesTabTableComponent
       header === 'marketRole'
         ? translate(`marketParticipant.marketRoles.${data.eicFunction}`)
         : (data as unknown as { [index: string]: string })[header];
+
+    this.updateFilteredAndSortedData();
+  }
+
+  private updateFilteredAndSortedData() {
+    this.filteredAndSortedData = this.dataSource.sortData(
+      this.dataSource.filteredData,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      this.dataSource.sort!
+    );
   }
 
   onRowClick(row: UserRoleDto): void {

@@ -36,12 +36,7 @@ limitations under the License.
                 *transloco="let t; read: 'admin.userManagement'"
                 icon="openInNew"
                 variant="text"
-                (click)="
-                  download(
-                    rolesTable.currentSort,
-                    rolesTable.currentSortDirection
-                  )
-                "
+                (click)="download(rolesTable.filteredAndSortedData)"
                 >{{ t("download") }}</watt-button
               >
 
