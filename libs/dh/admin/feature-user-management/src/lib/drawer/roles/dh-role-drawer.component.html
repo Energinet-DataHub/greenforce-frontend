@@ -19,7 +19,11 @@ limitations under the License.
     <watt-drawer-topbar></watt-drawer-topbar>
 
     <watt-drawer-actions>
-      <watt-button variant="secondary">{{ t("edit") }}</watt-button>
+      <watt-button
+        variant="secondary"
+        (click)="isEditUserRoleModalVisible = true"
+        >{{ t("edit") }}</watt-button
+      >
     </watt-drawer-actions>
 
     <watt-drawer-content *ngIf="drawer.isOpen">
@@ -50,4 +54,9 @@ limitations under the License.
       </ng-container>
     </watt-drawer-content>
   </watt-drawer>
+
+  <dh-edit-user-role-modal
+    *ngIf="isEditUserRoleModalVisible"
+    (closed)="isEditUserRoleModalVisible = false"
+  ></dh-edit-user-role-modal>
 </ng-container>

@@ -957,7 +957,7 @@
             "columns": {
               "name": "Name",
               "description": "Description",
-              "marketrole": "Market role",
+              "marketRole": "Market role",
               "status": "Status"
             }
           },
@@ -1018,6 +1018,13 @@
         "tab": {
           "actor": "Actor",
           "roles": "Roles"
+        }
+      },
+      "editUserRole": {
+        "cancel": "Cancel",
+        "tab": {
+          "masterData": "Master data",
+          "permissions": "Permissions"
         }
       }
     }

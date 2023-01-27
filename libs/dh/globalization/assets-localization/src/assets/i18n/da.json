@@ -961,7 +961,7 @@
             "columns": {
               "name": "Navn",
               "description": "Beskrivelse",
-              "marketrole": "Markedsrolle",
+              "marketRole": "Markedsrolle",
               "status": "Status"
             }
           },
@@ -1022,6 +1022,13 @@
         "tab": {
           "actor": "Aktør",
           "roles": "Roller"
+        }
+      },
+      "editUserRole": {
+        "cancel": "Fortryd",
+        "tab": {
+          "masterData": "Stamdata",
+          "permissions": "Rettigheder"
         }
       }
     }

@@ -22,6 +22,7 @@ limitations under the License.
     [columns]="columns"
     (rowClick)="onRowClick($event)"
     [activeRow]="activeRow"
+    [sortClear]="false"
   >
     <ng-container *wattTableCell="columns.name; header: t('name'); let element">
       {{ element.name }}
