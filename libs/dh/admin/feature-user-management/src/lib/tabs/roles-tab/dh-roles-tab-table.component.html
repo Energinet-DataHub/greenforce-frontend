@@ -25,6 +25,7 @@ limitations under the License.
     sortDirection="asc"
     (rowClick)="onRowClick($event)"
     [activeRow]="activeRow"
+    [sortClear]="false"
   >
     <ng-container *wattTableCell="columns['marketRole']; let mr">
       {{ t(mr.eicFunction) }}
