@@ -957,7 +957,7 @@
             "columns": {
               "name": "Name",
               "description": "Description",
-              "marketrole": "Market role",
+              "marketRole": "Market role",
               "status": "Status"
             }
           },
