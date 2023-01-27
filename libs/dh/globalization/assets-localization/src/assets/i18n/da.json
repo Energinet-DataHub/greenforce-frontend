@@ -961,7 +961,7 @@
             "columns": {
               "name": "Navn",
               "description": "Beskrivelse",
-              "marketrole": "Markedsrolle",
+              "marketRole": "Markedsrolle",
               "status": "Status"
             }
           },

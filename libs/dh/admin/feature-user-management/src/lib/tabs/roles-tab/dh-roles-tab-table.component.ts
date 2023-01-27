@@ -20,6 +20,7 @@ import {
   Component,
   Input,
   OnChanges,
+  OnDestroy,
   ViewChild,
 } from '@angular/core';
 import { translate, TranslocoModule } from '@ngneat/transloco';
@@ -31,8 +32,10 @@ import {
   WattTableDataSource,
   WattTableColumnDef,
   WATT_TABLE,
+  WattTableComponent,
 } from '@energinet-datahub/watt/table';
 import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'dh-roles-tab-table',
@@ -55,7 +58,11 @@ import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.compone
     TranslocoModule,
   ],
 })
-export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
+export class DhRolesTabTableComponent
+  implements OnChanges, AfterViewInit, OnDestroy
+{
+  private readonly destroy$ = new Subject<void>();
+
   activeRow: UserRoleDto | undefined = undefined;
 
   @Input() roles: UserRoleDto[] = [];
@@ -65,14 +72,19 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   @ViewChild(DhRoleDrawerComponent)
   drawer!: DhRoleDrawerComponent;
 
+  @ViewChild(WattTableComponent<UserRoleDto>)
+  table!: WattTableComponent<UserRoleDto>;
+
   readonly dataSource: WattTableDataSource<UserRoleDto> =
     new WattTableDataSource<UserRoleDto>();
 
   columns: WattTableColumnDef<UserRoleDto> = {
     name: { accessor: 'name' },
-    marketrole: { accessor: 'eicFunction' },
+    marketRole: { accessor: 'eicFunction' },
     status: { accessor: 'status' },
   };
+
+  filteredAndSortedData: UserRoleDto[] = [];
 
   translateHeader = (key: string) =>
     translate(`admin.userManagement.tabs.roles.table.columns.${key}`);
@@ -80,10 +92,30 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   ngOnChanges() {
     this.dataSource.data = this.roles;
     this.dataSource.paginator = this.paginator?.instance;
+    this.updateFilteredAndSortedData();
   }
 
   ngAfterViewInit() {
+    this.table.sortChange.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.updateFilteredAndSortedData();
+    });
+
     this.dataSource.paginator = this.paginator?.instance;
+
+    this.dataSource.sortingDataAccessor = (data, header) =>
+      header === 'marketRole'
+        ? translate(`marketParticipant.marketRoles.${data.eicFunction}`)
+        : (data as unknown as { [index: string]: string })[header];
+
+    this.updateFilteredAndSortedData();
+  }
+
+  private updateFilteredAndSortedData() {
+    if (this.dataSource.sort)
+      this.filteredAndSortedData = this.dataSource.sortData(
+        this.dataSource.filteredData,
+        this.dataSource.sort
+      );
   }
 
   onRowClick(row: UserRoleDto): void {
@@ -93,5 +125,10 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
 
   onClosed(): void {
     this.activeRow = undefined;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
