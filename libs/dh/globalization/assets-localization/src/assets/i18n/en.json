@@ -488,18 +488,18 @@
   "marketParticipant": {
     "actor": {
       "create": {
-        "editHeader": "Edit actor",
-        "createHeader": "Create actor",
+        "editHeader": "Edit market party",
+        "createHeader": "Create market party",
         "errorToastLabel": "Error",
         "masterDataTabHeader": "Master data",
-        "meteringPointTypesHeader": "Metering point types",
+        "meteringPointTypesHeader": "Type of metering points",
         "gridAreasHeader": "Grid areas",
         "marketRolesHeader": "Market roles",
         "contactsHeader": "Contacts",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
         "masterData": {
-          "labelActorNumber": "Actor Number",
+          "labelActorNumber": "Market party Id",
           "labelStatus": "Status",
           "labelActorName": "Actor name",
           "fieldRequiredErrorText": "Field is required.",
@@ -519,7 +519,7 @@
         "marketRoles": {
           "marketRole": "Market role",
           "gridArea": "Grid area",
-          "meteringPointTypes": "Metering point types",
+          "meteringPointTypes": "Type of metering points",
           "comment": "Comment",
           "invalidConfiguration": "Market roles are not correctly configured"
         }
@@ -567,19 +567,23 @@
       "ResourceAggregator": "Resource aggregator",
       "ResourceCapacityMechanismOperator": "Resource capacity mechanism operator",
       "ResourceProvider": "Resource provider",
-      "Scheduling": "Scheduling",
+      "Scheduling": "Scheduling agent",
       "Agent": "Agent",
       "SchedulingAreaResponsible": "Scheduling area responsible",
       "SystemOperator": "System operator",
       "TradeResponsibleParty": "Trade responsible party",
       "TransmissionCapacityAllocator": "Transmission capacity allocator",
-      "DanishEnergyAgency": "Danish energy agency"
+      "DanishEnergyAgency": "Danish energy agency",
+      "ElOverblik": "ElOverblik",
+      "DataHubAdministrator": "DataHub administrator",
+      "IndependentAggregator": "Independent aggregator",
+      "SerialEnergyTrader": "Serial energy trader"
     },
     "organization": {
       "topBarTitle": "Organisations",
       "columns": {
         "organization": "Organisation",
-        "gln": "Actor Number",
+        "gln": "Actor Id",
         "status": "Status",
         "marketRoles": "Market roles",
         "gridAreas": "Grid areas",
@@ -616,7 +620,7 @@
           "organizationNameLabel": "Name",
           "businessRegistrationIdetifierLabel": "Business registration identifier",
           "streetNameLabel": "Street name",
-          "streetNumberLabel": "Street number",
+          "streetNumberLabel": "Building number",
           "zipCodeLabel": "Zip code",
           "cityLabel": "City",
           "countryLabel": "Country",
@@ -689,19 +693,19 @@
       "noGridAreas": "No gridareas found",
       "columns": {
         "name": "Grid area",
-        "code": "Code",
-        "actorName": "Grid operator actor name",
-        "actorNumber": "Grid operator actor ID",
-        "priceAreaCode": "Price area code",
+        "code": "Grid area number",
+        "actorName": "Market party",
+        "actorNumber": "Market party id",
+        "priceAreaCode": "Price area",
         "validFrom": "Valid from",
         "validTo": "Valid to"
       },
       "detailsHeader": {
-        "code": "Grid area code",
-        "actorId": "Actor number",
-        "fullFlexDate": "Transition to Full flex",
-        "priceAreaCode": "Price area code",
-        "lossMeteringPoint": "Loss metering point",
+        "code": "Grid area number",
+        "actorId": "Market party id",
+        "fullFlexDate": "Full flex date",
+        "priceAreaCode": "Price area",
+        "lossMeteringPoint": "Grid loss metering point",
         "correctionMeteringPoint": "Correction metering point",
         "validFrom": "Valid from",
         "validTo": "Valid to"
@@ -957,6 +961,7 @@
               "status": "Status"
             }
           },
+          "createuserrole": "Create",
           "userRolesHeadline": {
             "singular": "{{ userRolesCount }} role",
             "plural": "{{ userRolesCount }} roles"
@@ -970,6 +975,39 @@
             "title": "Oops! There was an error",
             "message": "Unfortunately, an error occurred while retrieving the necessary information.",
             "button": "Try again"
+          }
+        }
+      },
+      "createrole": {
+        "headline": "Create Userrole",
+        "save": "Save",
+        "cancel": "Cancel",
+        "createRoleRequest": {
+          "start": "Creating userrole",
+          "error": "Unfortunately, an error occurred while creating the role.",
+          "success": "User role created."
+        },
+        "tabs": {
+          "masterdata": {
+            "tabLabel": "Master data",
+            "fieldRequiredErrorText": "Field is required.",
+            "nameMaxLengthErrorText": "Name field must be under 250 characters",
+            "name": "Name",
+            "description": "Description",
+            "roleStatus": "Status",
+            "selectUserroleStatus": "Select status",
+            "eicFunction": "Market role",
+            "selectEicFunctionStatus": "Select market role"
+          },
+          "permissions": {
+            "tabLabel": "Permissions",
+            "title": "Permissions",
+            "table": {
+              "columns": {
+                "name": "Name",
+                "description": "Description"
+              }
+            }
           }
         }
       },
