@@ -72,6 +72,7 @@ export * from './process-type';
 export * from './product-id';
 export * from './reading-occurrence';
 export * from './resolution';
+export * from './selectable-permissions-dto';
 export * from './selection-actor-dto';
 export * from './settlement-method';
 export * from './stream';

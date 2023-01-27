@@ -35,6 +35,18 @@ h4 {
   margin: 0;
 }
 
+.create-role-header-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+}
+
+.create-role-table-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .card-title-container {
   display: flex;
   justify-content: space-between;

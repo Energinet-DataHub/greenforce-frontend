@@ -14,25 +14,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'marketParticipant.marketRoles'">
+<ng-container>
   <watt-table
     #table
-    description="user roles"
+    description="permissions"
     [dataSource]="dataSource"
     [columns]="columns"
     [resolveHeader]="translateHeader"
     sortBy="name"
+    [selectable]="true"
     sortDirection="asc"
-    (rowClick)="onRowClick($event)"
-    [activeRow]="activeRow"
+    (selectionChange)="onSelectionChange($event)"
   >
-    <ng-container *wattTableCell="columns['marketrole']; let mr">
-      {{ t(mr.eicFunction) }}
-    </ng-container>
-    <ng-container *wattTableCell="columns['status']; let role">
-      <dh-role-status [status]="role.status"></dh-role-status>
-    </ng-container>
   </watt-table>
 </ng-container>
-
-<dh-role-drawer (closed)="onClosed()"></dh-role-drawer>
