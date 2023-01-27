@@ -14,10 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-admin-user-management-data-access-api.store';
-export * from './lib/dh-admin-user-roles.store';
-export * from './lib/dh-admin-user-management-audit-logs-data-access-api.store';
-export * from './lib/dh-admin-user-roles-management-data-access-api.store';
-export * from './lib/dh-admin-user-role-permissions-management-data-access-api.store';
-export * from './lib/dh-admin-user-role-audit-logs-data-access-api.store';
-export * from './lib/dh-admin-create-user-role-management-data-access-api.store';
+import { Component } from '@angular/core';
+import { DhCreateUserroleTabsComponent } from './tabs/dh-create-userrole-tabs.component';
+
+@Component({
+  selector: 'dh-admin-create-userrole',
+  standalone: true,
+  template: `<dh-create-userrole-tabs></dh-create-userrole-tabs>`,
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
+  imports: [DhCreateUserroleTabsComponent],
+})
+export class DhAdminCreateUserRoleComponent {}
