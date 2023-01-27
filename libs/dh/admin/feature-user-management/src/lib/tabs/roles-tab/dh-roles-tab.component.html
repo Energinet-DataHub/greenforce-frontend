@@ -36,7 +36,7 @@ limitations under the License.
                 *transloco="let t; read: 'admin.userManagement'"
                 icon="openInNew"
                 variant="text"
-                (click)="download()"
+                (click)="download(rolesTable.currentSort, rolesTable.currentSortDirection)"
                 >{{ t("download") }}</watt-button
               >
 
@@ -53,6 +53,7 @@ limitations under the License.
           </div>
         </watt-card-title>
         <dh-roles-tab-table
+          #rolesTable
           [roles]="roles"
           [paginator]="paginator"
         ></dh-roles-tab-table>

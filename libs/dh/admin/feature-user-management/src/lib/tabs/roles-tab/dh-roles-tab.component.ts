@@ -22,7 +22,11 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
-import { translate, TranslocoModule } from '@ngneat/transloco';
+import {
+  translate,
+  TranslocoModule,
+  TranslocoService,
+} from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
@@ -47,6 +51,7 @@ import {
   UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { take } from 'rxjs';
+import { SortDirection } from '@angular/material/sort';
 
 @Component({
   selector: 'dh-roles-tab',
@@ -77,6 +82,7 @@ export class DhUserRolesTabComponent {
   constructor(private router: Router) {}
 
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
+  private readonly trans = inject(TranslocoService);
 
   roles$ = this.store.rolesFiltered$;
   isLoading$ = this.store.isLoading$;
@@ -94,25 +100,45 @@ export class DhUserRolesTabComponent {
     this.store.getRoles();
   }
 
-  async download() {
-    this.roles$.pipe(take(1)).subscribe((roles) => {
-      const basePath = 'admin.userManagement.tabs.roles.table.columns.';
+  async download(sort: string, direction: SortDirection) {
+    console.log(sort, direction);
 
-      const header = `${translate(basePath + 'name')};${translate(
-        basePath + 'marketrole'
-      )};${translate(basePath + 'status')}`;
+    this.trans
+      .selectTranslateObject('marketParticipant.marketRoles')
+      .pipe(take(1))
+      .subscribe((rolesTranslations) => {
+        this.roles$.pipe(take(1)).subscribe((roles) => {
+          const basePath = 'admin.userManagement.tabs.roles.table.columns.';
 
-      const csv = roles
-        .map((x) => `${x.name};${x.eicFunction};${x.status}`)
-        .join('\n');
+          const header = `${translate(basePath + 'name')};${translate(
+            basePath + 'marketRole'
+          )};${translate(basePath + 'status')}`;
 
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(
-        new Blob([`${header}\n${csv}`], { type: 'text/csv;charset=utf-8;' })
-      );
-      a.download = 'result.csv';
-      a.click();
-    });
+          const csv = roles
+            .map((x) => ({
+              name: x.name,
+              marketRole: rolesTranslations[x.eicFunction],
+              status: x.status,
+            }))
+            .sort(
+              (a, b) =>
+                (a as unknown as { [index: string]: string })[
+                  sort
+                ].localeCompare(
+                  (b as unknown as { [index: string]: string })[sort]
+                ) * (direction === 'desc' ? -1 : 1)
+            )
+            .map((x) => `${x.name};${x.marketRole};${x.status}`)
+            .join('\n');
+
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(
+            new Blob([`${header}\n${csv}`], { type: 'text/csv;charset=utf-8;' })
+          );
+          a.download = 'result.csv';
+          a.click();
+        });
+      });
   }
 
   readonly createUserRole = () => {

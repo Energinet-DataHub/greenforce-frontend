@@ -21,12 +21,12 @@ limitations under the License.
     [dataSource]="dataSource"
     [columns]="columns"
     [resolveHeader]="translateHeader"
-    sortBy="name"
-    sortDirection="asc"
+    [sortBy]="defaultSort"
+    [sortDirection]="defaultSortDirection"
     (rowClick)="onRowClick($event)"
     [activeRow]="activeRow"
   >
-    <ng-container *wattTableCell="columns['marketrole']; let mr">
+    <ng-container *wattTableCell="columns['marketRole']; let mr">
       {{ t(mr.eicFunction) }}
     </ng-container>
     <ng-container *wattTableCell="columns['status']; let role">
