@@ -100,7 +100,7 @@ namespace Energinet.DataHub.WebApi.Controllers
             return userRoleView;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("Create")]
         public Task<ActionResult<Guid>> CreateAsync(CreateUserRoleDto userRole)
         {
@@ -146,6 +146,13 @@ namespace Energinet.DataHub.WebApi.Controllers
 
                 return new MarketParticipant.Dto.UserRoleAuditLogsDto(userRoleAuditLogs);
             });
+        }
+
+        [HttpGet]
+        [Route("Permissions")]
+        public Task<ActionResult<IEnumerable<SelectablePermissionsDto>>> GetSelectablePermissionsAsync()
+        {
+            return HandleExceptionAsync(() => _userRoleClient.GetSelectablePermissionsAsync());
         }
     }
 }

@@ -17,7 +17,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, switchMap, tap, withLatestFrom } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-
 import {
   ErrorState,
   LoadingState,
@@ -32,6 +31,7 @@ import {
 interface DhUserRolesManagementState {
   readonly roles: UserRoleDto[];
   readonly requestState: LoadingState | ErrorState;
+  validation?: { error: string };
   readonly filterModel: {
     status: UserRoleStatus | null;
     eicFunctions: EicFunction[] | null;
@@ -70,6 +70,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
       )
   );
 
+  validation$ = this.select((state) => state.validation);
   constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
     super(initialState);
   }
