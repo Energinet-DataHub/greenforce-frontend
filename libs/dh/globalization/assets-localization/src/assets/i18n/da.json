@@ -985,6 +985,13 @@
           "actor": "Aktør",
           "roles": "Roller"
         }
+      },
+      "editUserRole": {
+        "cancel": "Fortryd",
+        "tab": {
+          "masterData": "Stamdata",
+          "permissions": "Rettigheder"
+        }
       }
     }
   }

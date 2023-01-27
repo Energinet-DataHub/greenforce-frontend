@@ -1,0 +1,13 @@
+<ng-container *transloco="let t; read: 'admin.userManagement.editUserRole'">
+  <watt-modal [title]="roleName$ | push" (closed)="closeModal()">
+    <watt-tabs>
+      <watt-tab [label]="t('tab.masterData')"></watt-tab>
+      <watt-tab [label]="t('tab.permissions')"></watt-tab>
+    </watt-tabs>
+    <watt-modal-actions>
+      <watt-button variant="secondary" (click)="closeModal()">
+        {{ t("cancel") }}
+      </watt-button>
+    </watt-modal-actions>
+  </watt-modal>
+</ng-container>

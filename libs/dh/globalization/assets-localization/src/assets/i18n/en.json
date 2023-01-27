@@ -981,6 +981,13 @@
           "actor": "Actor",
           "roles": "Roles"
         }
+      },
+      "editUserRole": {
+        "cancel": "Cancel",
+        "tab": {
+          "masterData": "Master data",
+          "permissions": "Permissions"
+        }
       }
     }
   }
