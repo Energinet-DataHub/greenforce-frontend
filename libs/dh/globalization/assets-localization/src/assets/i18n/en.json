@@ -488,18 +488,18 @@
   "marketParticipant": {
     "actor": {
       "create": {
-        "editHeader": "Edit actor",
-        "createHeader": "Create actor",
+        "editHeader": "Edit market party",
+        "createHeader": "Create market party",
         "errorToastLabel": "Error",
         "masterDataTabHeader": "Master data",
-        "meteringPointTypesHeader": "Metering point types",
+        "meteringPointTypesHeader": "Type of metering points",
         "gridAreasHeader": "Grid areas",
         "marketRolesHeader": "Market roles",
         "contactsHeader": "Contacts",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
         "masterData": {
-          "labelActorNumber": "Actor Number",
+          "labelActorNumber": "Market party Id",
           "labelStatus": "Status",
           "labelActorName": "Actor name",
           "fieldRequiredErrorText": "Field is required.",
@@ -519,7 +519,7 @@
         "marketRoles": {
           "marketRole": "Market role",
           "gridArea": "Grid area",
-          "meteringPointTypes": "Metering point types",
+          "meteringPointTypes": "Type of metering points",
           "comment": "Comment",
           "invalidConfiguration": "Market roles are not correctly configured"
         }
@@ -583,7 +583,7 @@
       "topBarTitle": "Organisations",
       "columns": {
         "organization": "Organisation",
-        "gln": "Actor Number",
+        "gln": "Actor Id",
         "status": "Status",
         "marketRoles": "Market roles",
         "gridAreas": "Grid areas",
@@ -620,7 +620,7 @@
           "organizationNameLabel": "Name",
           "businessRegistrationIdetifierLabel": "Business registration identifier",
           "streetNameLabel": "Street name",
-          "streetNumberLabel": "Street number",
+          "streetNumberLabel": "Building number",
           "zipCodeLabel": "Zip code",
           "cityLabel": "City",
           "countryLabel": "Country",
@@ -693,19 +693,19 @@
       "noGridAreas": "No gridareas found",
       "columns": {
         "name": "Grid area",
-        "code": "Code",
-        "actorName": "Grid operator actor name",
-        "actorNumber": "Grid operator actor ID",
-        "priceAreaCode": "Price area code",
+        "code": "Grid area number",
+        "actorName": "Market party",
+        "actorNumber": "Market party id",
+        "priceAreaCode": "Price area",
         "validFrom": "Valid from",
         "validTo": "Valid to"
       },
       "detailsHeader": {
-        "code": "Grid area code",
-        "actorId": "Actor number",
-        "fullFlexDate": "Transition to Full flex",
-        "priceAreaCode": "Price area code",
-        "lossMeteringPoint": "Loss metering point",
+        "code": "Grid area number",
+        "actorId": "Market party id",
+        "fullFlexDate": "Full flex date",
+        "priceAreaCode": "Price area",
+        "lossMeteringPoint": "Grid loss metering point",
         "correctionMeteringPoint": "Correction metering point",
         "validFrom": "Valid from",
         "validTo": "Valid to"
