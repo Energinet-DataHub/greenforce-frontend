@@ -20,6 +20,7 @@ import {
   Component,
   ElementRef,
   Inject,
+  Input,
   LOCALE_ID,
   Optional,
   Self,
@@ -70,6 +71,9 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WattDatepickerComponent extends WattPickerBase {
+  @Input() max?: Date;
+  @Input() min?: Date;
+
   /**
    * @ignore
    */
