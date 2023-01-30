@@ -37,7 +37,7 @@ import { EoCertificatesStore } from '../eo-certificates.store';
   standalone: true,
   styles: [
     `
-      :host {
+      .certificate {
         display: grid;
         grid-template-columns: auto 279px;
         grid-gap: var(--watt-space-m);
@@ -63,65 +63,77 @@ import { EoCertificatesStore } from '../eo-certificates.store';
     `,
   ],
   template: `
-    <eo-stack size="M" *rxLet="certificate$; let cert">
-      <mat-card>
-        <eo-stack size="M">
-          <h4><b>Static Data</b></h4>
-          <div class="grid-table">
-            <b>Energy</b>
-            <div>{{ cert?.quantity?.toLocaleString() }} Wh</div>
-            <b>Start time</b>
-            <div>
-              {{ cert?.dateFrom | date: 'HH:mm dd-MMM-y z' | uppercase }}
-            </div>
-            <b>Start time</b>
-            <div>
-              {{ cert?.dateTo | date: 'HH:mm dd-MMM-y z' | uppercase }}
-            </div>
-            <b>GSRN</b>
-            <div>{{ cert?.gsrn }}</div>
-            <b>Certificate ID</b>
-            <div>{{ cert?.id }}</div>
-          </div>
-        </eo-stack>
-      </mat-card>
-      <mat-card>
-        <div class="space-between">
+    <mat-card class="watt-space-stack-l">
+      <h3 class="watt-space-stack-m">This is the beginning</h3>
+      <p class="watt-space-stack-m">
+        This page is based on real data and is working towards the coming
+        solution regarding certificates. So it is not just a test, though these
+        data cannot yet be used in a legal sense. It will be communicated, when
+        it is out of beta and can be used legally. So you can try this without
+        any consequences.
+      </p>
+    </mat-card>
+    <div class="certificate">
+      <eo-stack size="M" *rxLet="certificate$; let cert">
+        <mat-card>
           <eo-stack size="M">
-            <h4><b>Technology</b></h4>
+            <h4><b>Static Data</b></h4>
             <div class="grid-table">
-              <b>Technology Code</b>
-              <div>{{ cert?.techCode }}</div>
-              <b>Fuel Code</b>
-              <div>{{ cert?.fuelCode }}</div>
+              <b>Energy</b>
+              <div>{{ cert?.quantity?.toLocaleString() }} Wh</div>
+              <b>Start time</b>
+              <div>
+                {{ cert?.dateFrom | date: 'HH:mm dd-MMM-y z' | uppercase }}
+              </div>
+              <b>Start time</b>
+              <div>
+                {{ cert?.dateTo | date: 'HH:mm dd-MMM-y z' | uppercase }}
+              </div>
+              <b>GSRN</b>
+              <div>{{ cert?.gsrn }}</div>
+              <b>Certificate ID</b>
+              <div>{{ cert?.id }}</div>
             </div>
           </eo-stack>
-          <img
-            alt="Windmill"
-            src="/assets/images/certificates/windmill.png"
-            style="height: 79px;"
-          />
-        </div>
-      </mat-card>
-      <h4>
-        <a class="link" routerLink="/${eoCertificatesRoutePath}">
-          << Back to Certificates
-        </a>
-      </h4>
-    </eo-stack>
-    <eo-stack size="M">
-      <mat-card>
-        <eo-stack size="M">
-          <h4><b>Bidding Zone</b></h4>
-          <p><b>DK1</b></p>
-          <img
-            alt="Grid Area DK1"
-            src="/assets/images/certificates/dk1grid.png"
-            style="height: 204px; display: block"
-          />
-        </eo-stack>
-      </mat-card>
-    </eo-stack>
+        </mat-card>
+        <mat-card>
+          <div class="space-between">
+            <eo-stack size="M">
+              <h4><b>Technology</b></h4>
+              <div class="grid-table">
+                <b>Technology Code</b>
+                <div>{{ cert?.techCode }}</div>
+                <b>Fuel Code</b>
+                <div>{{ cert?.fuelCode }}</div>
+              </div>
+            </eo-stack>
+            <img
+              alt="Windmill"
+              src="/assets/images/certificates/windmill.png"
+              style="height: 79px;"
+            />
+          </div>
+        </mat-card>
+        <h4>
+          <a class="link" routerLink="/${eoCertificatesRoutePath}">
+            << Back to Certificates
+          </a>
+        </h4>
+      </eo-stack>
+      <eo-stack size="M">
+        <mat-card>
+          <eo-stack size="M">
+            <h4><b>Bidding Zone</b></h4>
+            <p><b>DK1</b></p>
+            <img
+              alt="Grid Area DK1"
+              src="/assets/images/certificates/dk1grid.png"
+              style="height: 204px; display: block"
+            />
+          </eo-stack>
+        </mat-card>
+      </eo-stack>
+    </div>
   `,
 })
 export class EoCertificateDetailsComponent {
