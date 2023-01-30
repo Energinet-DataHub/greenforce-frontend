@@ -70,6 +70,7 @@ export class DhUsersTabTableComponent {
 
   @Input() set users(value: UserOverviewItemDto[]) {
     this.dataSource.data = value;
+    if (this.dataSource.sort) this.dataSource.sort.disabled = true;
   }
 
   @ViewChild(DhUserDrawerComponent)

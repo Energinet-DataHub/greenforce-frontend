@@ -115,10 +115,14 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
       filterValidGridAreas(gridAreas || [], dateRange)
     ),
     map((gridAreas) => {
+      this.setMinDate(gridAreas);
       this.validatePeriod(gridAreas);
       return this.mapGridAreasToDropdownOptions(gridAreas);
     })
   );
+
+  minDate?: Date;
+  maxDate = new Date();
 
   ngOnInit(): void {
     this.store.getGridAreas();
@@ -146,6 +150,14 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
       type: 'loading',
       message: this.transloco.translate('wholesale.startBatch.creatingBatch'),
     });
+  }
+
+  private setMinDate(gridAreas: GridAreaDto[]) {
+    if (gridAreas.length === 0) return;
+    const validFromDates: number[] = gridAreas.map((gridArea) => {
+      return new Date(gridArea.validFrom).getTime();
+    });
+    this.minDate = new Date(Math.min(...validFromDates));
   }
 
   private mapGridAreasToDropdownOptions(
