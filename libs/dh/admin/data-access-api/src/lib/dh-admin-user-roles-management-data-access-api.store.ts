@@ -72,7 +72,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
 
   rolesOptions$ = this.select((state) => state.roles).pipe(
     map((roles) =>
-      (roles ?? []).flatMap((role: UserRoleDto) => ({
+      (roles ?? []).map((role: UserRoleDto) => ({
         value: role.id,
         displayValue: role.name,
       }))

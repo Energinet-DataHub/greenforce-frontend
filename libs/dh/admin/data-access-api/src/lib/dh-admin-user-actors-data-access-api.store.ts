@@ -49,7 +49,7 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
 
   actors$ = this.select((state) => state.actorResult).pipe(
     map((actors) =>
-      (actors ?? []).flatMap((actor: ActorDto) => ({
+      (actors ?? []).map((actor: ActorDto) => ({
         value: actor.actorId,
         displayValue:
           actor.name.value === '' ? actor.actorNumber.value : actor.actorNumber.value + ' - ' + actor.name.value,
