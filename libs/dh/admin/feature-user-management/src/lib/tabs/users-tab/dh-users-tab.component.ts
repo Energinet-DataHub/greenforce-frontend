@@ -24,7 +24,11 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { UserStatus } from '@energinet-datahub/dh/shared/domain';
+import {
+  SortDirection,
+  UserOverviewSortProperty,
+  UserStatus,
+} from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 
@@ -116,6 +120,11 @@ export class DhUsersTabComponent {
   onStatusChanged(value: UserStatus[]): void {
     this.store.updateStatusFilter(value);
   }
+
+  sortChanged = (
+    sortProperty: UserOverviewSortProperty,
+    direction: SortDirection
+  ) => this.store.updateSort(sortProperty, direction);
 
   reloadUsers(): void {
     this.store.reloadUsers();

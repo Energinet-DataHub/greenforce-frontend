@@ -65,6 +65,8 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
     const actualParams: FetchUsersParams = {
       pageNumber: 1,
       pageSize: 50,
+      sortProperty: 'Email',
+      direction: 'Asc',
       searchText: undefined,
       statusFilter: ['Active'],
     };
@@ -90,6 +92,8 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
     const actualParams: FetchUsersParams = {
       pageNumber: 4,
       pageSize: 25,
+      sortProperty: 'Email',
+      direction: 'Asc',
       searchText: undefined,
       statusFilter: ['Active'],
     };
@@ -110,6 +114,8 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
     const actualParams: FetchUsersParams = {
       pageNumber: 1,
       pageSize: 50,
+      sortProperty: 'Email',
+      direction: 'Asc',
       searchText: 'john',
       statusFilter: ['Active'],
     };
@@ -132,6 +138,8 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
     const actualParams: FetchUsersParams = {
       pageNumber: 1,
       pageSize: 50,
+      sortProperty: 'Email',
+      direction: 'Asc',
       searchText: undefined,
       statusFilter: ['Active', 'Inactive'],
     };
