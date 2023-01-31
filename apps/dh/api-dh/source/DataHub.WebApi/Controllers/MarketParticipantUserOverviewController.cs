@@ -41,5 +41,15 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             return HandleExceptionAsync(() => _client.GetUserOverviewAsync(pageNumber, pageSize, searchText, userStatus));
         }
+
+        [HttpPost]
+        [Route("SearchUsers")]
+        public Task<ActionResult<UserOverviewResultDto>> SearchUsersAsync(
+            int pageNumber,
+            int pageSize,
+            [FromBody] UserOverviewFilterDto filter)
+        {
+            return HandleExceptionAsync(() => _client.SearchUsersAsync(pageNumber, pageSize, filter));
+        }
     }
 }
