@@ -28,7 +28,7 @@ import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-ti
 import { WattToastModule } from '@energinet-datahub/watt/toast';
 
 import { DhWholesaleSearchComponent } from './dh-wholesale-search.component';
-import { WattTopBarOutletComponent } from 'libs/ui-watt/src/lib/components/shell/top-bar';
+import { WattTopBarOutletComponent } from '@energinet-datahub/watt/shell';
 
 async function setup() {
   await render(
