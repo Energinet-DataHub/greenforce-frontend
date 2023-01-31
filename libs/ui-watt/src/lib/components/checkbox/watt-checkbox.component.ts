@@ -20,7 +20,7 @@ import {
   UntypedFormControl,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
 
 const customValueAccessor = {
   multi: true,
