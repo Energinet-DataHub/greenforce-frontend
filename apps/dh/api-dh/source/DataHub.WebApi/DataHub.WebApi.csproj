@@ -42,8 +42,8 @@ limitations under the License.
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients" Version="6.1.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients.Registration" Version="6.1.0" />
-    <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="7.3.0" />
-    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="7.3.0" />
+    <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="7.3.3" />
+    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="7.3.3" />
     <PackageReference Condition="!Exists('$(MarketingParticipantProjectReference)')" Include="Energinet.DataHub.MarketParticipant.Client" Version="2.15.9" />
     <PackageReference Condition="!Exists('$(MessageArchiveClientAbstractionsProjectReference)')" Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
     <PackageReference Condition="!Exists('$(MessageArchiveClientProjectReference)')" Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />
