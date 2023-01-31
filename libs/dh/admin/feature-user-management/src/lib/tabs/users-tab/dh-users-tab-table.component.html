@@ -51,7 +51,10 @@ limitations under the License.
         class="assigned-actor-item"
         *ngFor="let assignedActor of element.assignedActors"
       >
-        {{ assignedActor.actor.actorNumber }} - {{ assignedActor.actor.name }}
+        {{ assignedActor.actor.actorNumber }}
+        <ng-container *ngIf="assignedActor.actor.name">
+          - {{ assignedActor.actor.name }}
+        </ng-container>
       </p>
     </ng-container>
 
