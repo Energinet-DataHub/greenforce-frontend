@@ -93,7 +93,7 @@
     "@angular-eslint/eslint-plugin": "15.0.0",
     "@angular-eslint/eslint-plugin-template": "15.0.0",
     "@angular-eslint/template-parser": "15.0.0",
-    "@angular/cli": "~15.0.0",
+    "@angular/cli": "~15.1.0",
     "@angular/compiler-cli": "15.1.2",
     "@angular/language-service": "15.1.2",
     "@badeball/cypress-cucumber-preprocessor": "13.1.0",
