@@ -40,6 +40,7 @@ import { DhEditUserRoleModalComponent } from '@energinet-datahub/dh/admin/featur
 import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component';
 import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-data-general-error.component';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-role-drawer',
@@ -88,6 +89,7 @@ import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-
     WattSpinnerModule,
     DhTabDataGeneralErrorComponent,
     DhEditUserRoleModalComponent,
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhRoleDrawerComponent {
