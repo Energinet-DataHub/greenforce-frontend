@@ -930,8 +930,8 @@
               "name": "Name",
               "email": "Email",
               "phone": "Phone",
-              "status": "Status",
-              "createdDate": "Created"
+              "assignedActors": "Assigned market parties",
+              "status": "Status"
             }
           },
           "errors": {
