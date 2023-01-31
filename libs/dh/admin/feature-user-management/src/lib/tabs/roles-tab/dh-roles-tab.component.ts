@@ -75,7 +75,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     DhRolesTabListFilterComponent,
     DhTabDataGeneralErrorComponent,
     LetModule,
-    DhPermissionRequiredDirective
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhUserRolesTabComponent {
