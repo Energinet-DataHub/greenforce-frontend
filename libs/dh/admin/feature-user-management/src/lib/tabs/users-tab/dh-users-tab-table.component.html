@@ -22,6 +22,7 @@ limitations under the License.
     [columns]="columns"
     (rowClick)="onRowClick($event)"
     [activeRow]="activeRow"
+    [sortClear]="false"
   >
     <ng-container *wattTableCell="columns.name; header: t('name'); let element">
       {{ element.name }}
@@ -40,19 +41,27 @@ limitations under the License.
     </ng-container>
 
     <ng-container
-      *wattTableCell="columns.status; header: t('status'); let element"
-    >
-      <dh-user-status [status]="element.status"></dh-user-status>
-    </ng-container>
-
-    <ng-container
       *wattTableCell="
-        columns.createdDate;
-        header: t('createdDate');
+        columns.assignedActors;
+        header: t('assignedActors');
         let element
       "
     >
-      {{ element.createdDate | dhDateTime }}
+      <p
+        class="assigned-actor-item"
+        *ngFor="let assignedActor of element.assignedActors"
+      >
+        {{ assignedActor.actor.actorNumber }}
+        <ng-container *ngIf="assignedActor.actor.name">
+          - {{ assignedActor.actor.name }}
+        </ng-container>
+      </p>
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="columns.status; header: t('status'); let element"
+    >
+      <dh-user-status [status]="element.status"></dh-user-status>
     </ng-container>
   </watt-table>
 </ng-container>

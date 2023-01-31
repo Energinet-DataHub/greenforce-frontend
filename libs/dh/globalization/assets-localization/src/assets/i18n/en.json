@@ -932,8 +932,8 @@
               "name": "Name",
               "email": "Email",
               "phone": "Phone",
-              "status": "Status",
-              "createdDate": "Created"
+              "assignedActors": "Assigned market parties",
+              "status": "Status"
             }
           },
           "errors": {
@@ -945,12 +945,12 @@
           }
         },
         "roles": {
-          "tabLabel": "Roles",
-          "roles": "Roles",
-          "role": "Role",
+          "tabLabel": "User roles",
+          "roles": "User roles",
+          "role": "User role",
           "errorTitle": "Oops! There was an error",
           "errorMessage": "Unfortunately, an error occurred while retrieving the user roles.",
-          "rolesHeadline": "Roles",
+          "rolesHeadline": "User roles",
           "filter": {
             "status": "Status",
             "marketRole": "Market role"
@@ -959,14 +959,14 @@
             "columns": {
               "name": "Name",
               "description": "Description",
-              "marketrole": "Market role",
+              "marketRole": "Market role",
               "status": "Status"
             }
           },
-          "createuserrole": "Create",
+          "createuserrole": "Create user role",
           "userRolesHeadline": {
-            "singular": "{{ userRolesCount }} role",
-            "plural": "{{ userRolesCount }} roles"
+            "singular": "{{ userRolesCount }} user role",
+            "plural": "{{ userRolesCount }} user roles"
           }
         },
         "permissions": {
@@ -981,12 +981,12 @@
         }
       },
       "createrole": {
-        "headline": "Create Userrole",
+        "headline": "Create user role",
         "save": "Save",
         "cancel": "Cancel",
         "createRoleRequest": {
-          "start": "Creating userrole",
-          "error": "Unfortunately, an error occurred while creating the role.",
+          "start": "Creating user role",
+          "error": "Unfortunately, an error occurred while creating the user role.",
           "success": "User role created."
         },
         "tabs": {
@@ -1020,6 +1020,13 @@
         "tab": {
           "actor": "Actor",
           "roles": "Roles"
+        }
+      },
+      "editUserRole": {
+        "cancel": "Cancel",
+        "tab": {
+          "masterData": "Master data",
+          "permissions": "Permissions"
         }
       }
     }
