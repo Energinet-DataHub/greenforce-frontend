@@ -79,7 +79,6 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
                 this.updateStates(actors);
               },
               (error: HttpErrorResponse) => {
-                this.setLoadState(LoadingState.LOADED);
                 this.handleError(error);
               }
             )

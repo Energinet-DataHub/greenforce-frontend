@@ -203,7 +203,7 @@ export class DhAdminUserManagementDataAccessApiStore
   }
 
   updateUserRoleFilter(userRole: string[]) {
-    this.patchState({ userRoleFilter: userRole || [] });
+    this.patchState({ userRoleFilter: userRole});
   }
 
   readonly reloadUsers = () => {

@@ -41,7 +41,7 @@ import {
         <watt-dropdown
           [placeholder]="t('searchActorPlaceHolder')"
           [formControl]="actorControl"
-          [options]="(actorOptions) ?? []"
+          [options]="(actorOptions)"
           [multiple]="false"
         ></watt-dropdown>
       </watt-form-field>
@@ -70,8 +70,12 @@ export class DhUsersTabActorFilterComponent implements OnInit, OnDestroy {
 
   actorControl = new FormControl<string | undefined>(undefined, { nonNullable: true });
 
-  @Input() actorOptions: { value: string, displayValue: string }[] | undefined;
+  @Input() actorOptions: { value: string, displayValue: string }[];
   @Output() changed = new EventEmitter<string | undefined>();
+
+  constructor() {
+    this.actorOptions = [];
+  }
 
   ngOnInit(): void {
     this.actorControl.valueChanges
