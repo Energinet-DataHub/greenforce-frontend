@@ -155,7 +155,7 @@
     "jest-preset-angular": "12.2.3",
     "jest-preview": "0.3.1",
     "kill-port-process": "3.0.1",
-    "msw": "0.47.4",
+    "msw": "1.0.0",
     "ng-mocks": "14.0.1",
     "nx": "15.6.3",
     "prettier": "2.7.1",
