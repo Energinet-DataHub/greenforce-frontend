@@ -53,7 +53,7 @@ describe('UserRolesComponent', () => {
     await setup();
     await waitFor(() => {
       expect(
-        screen.getByRole('heading', { name: /3 roles/i })
+        screen.getByRole('heading', { name: /3 user roles/i })
       ).toBeInTheDocument();
     });
   });
