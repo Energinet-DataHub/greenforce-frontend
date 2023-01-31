@@ -17,7 +17,7 @@
 import { test, expect } from '@playwright/test';
 
 // Appearantly there are some issues with `paths` so we need to use absolute paths for now.
-import { da as daTranslations } from '../../../../../libs/dh/globalization/assets-localization/src';
+import { da as daTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
 import * as appShell from '../support/app-shell.po';
 
