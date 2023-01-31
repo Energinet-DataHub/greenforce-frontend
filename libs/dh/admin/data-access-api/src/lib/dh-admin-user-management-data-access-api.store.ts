@@ -169,20 +169,22 @@ export class DhAdminUserManagementDataAccessApiStore
     pageSize,
     searchText,
     statusFilter,
-    //actorIdFilter,
-    //userRoleFilter
+    actorIdFilter,
+    userRoleFilter
   }: FetchUsersParams) {
     if (!statusFilter || statusFilter.length == 0) {
       return of({ users: [], totalUserCount: 0 });
     }
 
-    return this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
+    return this.httpClient.v1MarketParticipantUserOverviewSearchUsersPost(
       pageNumber,
       pageSize,
-      searchText,
-      statusFilter,
-      //actorIdFilter,
-      //userRoleFilter
+      {
+        actorId: actorIdFilter,
+        userRoleIds: userRoleFilter,
+        searchText: searchText,
+        userStatus: statusFilter
+      }
     );
   }
 
