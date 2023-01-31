@@ -16,7 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoMediaModule } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { LetModule } from '@rx-angular/template/let';
