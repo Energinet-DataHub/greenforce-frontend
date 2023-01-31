@@ -934,8 +934,8 @@
               "name": "Navn",
               "email": "Email",
               "phone": "Telefon",
-              "status": "Status",
-              "createdDate": "Oprettet"
+              "assignedActors": "Tildelte aktører",
+              "status": "Status"
             }
           },
           "errors": {
