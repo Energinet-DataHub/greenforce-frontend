@@ -20,7 +20,6 @@ enum FeatureFlags {
   'test',
   'daterange',
   'resolution',
-  'certificates',
   'help',
 }
 export type allowedFeatureFlags = keyof typeof FeatureFlags;
