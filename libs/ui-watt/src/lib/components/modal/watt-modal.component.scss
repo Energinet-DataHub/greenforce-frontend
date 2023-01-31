@@ -27,7 +27,7 @@
     grid-template-areas:
       "title close"
       "content content"
-      ". actions";
+      "actions actions";
   }
 
   .watt-modal-close {
@@ -58,6 +58,7 @@
   watt-modal-actions {
     grid-area: actions;
     display: flex;
+    justify-content: flex-end;
     padding: var(--watt-space-m);
     gap: var(--watt-space-m);
   }
