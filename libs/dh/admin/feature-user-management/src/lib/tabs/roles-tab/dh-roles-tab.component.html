@@ -44,6 +44,7 @@ limitations under the License.
               </dh-shared-ui-paginator>
 
               <watt-button
+                *dhPermissionRequired="['userrole:manage']"
                 icon="plus"
                 variant="secondary"
                 (click)="createUserRole()"
