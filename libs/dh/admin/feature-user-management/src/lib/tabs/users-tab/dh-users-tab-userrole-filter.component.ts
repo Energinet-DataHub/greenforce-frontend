@@ -27,22 +27,20 @@ import { Subject, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import {
-  WattDropdownModule,
-} from '@energinet-datahub/watt/dropdown';
+import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
 
 @Component({
-  selector: 'dh-users-tab-actor-filter',
+  selector: 'dh-users-tab-userrole-filter',
   standalone: true,
   template: `
     <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
-      <watt-form-field class="actor-search-field">
-        <watt-label>{{ t('filter.actor') }}</watt-label>
+      <watt-form-field class="userrole-search-field">
+        <watt-label>{{ t('filter.userrole') }}</watt-label>
         <watt-dropdown
-          [placeholder]="t('searchActorPlaceHolder')"
-          [formControl]="actorControl"
-          [options]="(actorOptions) ?? []"
-          [multiple]="false"
+          [placeholder]="t('searchUserRolePlaceHolder')"
+          [formControl]="userRoleControl"
+          [options]="(userRoleOptions) ?? []"
+          [multiple]="true"
         ></watt-dropdown>
       </watt-form-field>
     </ng-container>
@@ -53,7 +51,7 @@ import {
         display: block;
       }
 
-      .actor-search-field {
+      .userrole-search-field {
         width: 30rem;
       }
     `,
@@ -65,16 +63,16 @@ import {
     WattDropdownModule,
   ],
 })
-export class DhUsersTabActorFilterComponent implements OnInit, OnDestroy {
+export class DhUsersTabUserRoleFilterComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
-  actorControl = new FormControl<string | undefined>(undefined, { nonNullable: true });
+  userRoleControl = new FormControl<string[]>([], { nonNullable: true });
 
-  @Input() actorOptions: { value: string, displayValue: string }[] | undefined;
-  @Output() changed = new EventEmitter<string | undefined>();
+  @Input() userRoleOptions: { value: string, displayValue: string }[] | undefined;
+  @Output() changed = new EventEmitter<string[]>();
 
   ngOnInit(): void {
-    this.actorControl.valueChanges
+    this.userRoleControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((value) => this.changed.emit(value));
   }

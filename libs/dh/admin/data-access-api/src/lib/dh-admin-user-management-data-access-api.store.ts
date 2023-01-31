@@ -42,11 +42,12 @@ interface DhUserManagementState {
   readonly searchText: string | undefined;
   readonly statusFilter: UserStatus[];
   readonly actorIdFilter: string | undefined;
+  readonly userRoleFilter: string[];
 }
 
 export type FetchUsersParams = Pick<
   DhUserManagementState,
-  'pageSize' | 'pageNumber' | 'searchText' | 'statusFilter' | 'actorIdFilter'
+  'pageSize' | 'pageNumber' | 'searchText' | 'statusFilter' | 'actorIdFilter' | 'userRoleFilter'
 >;
 
 const initialState: DhUserManagementState = {
@@ -57,7 +58,8 @@ const initialState: DhUserManagementState = {
   pageSize: 50,
   searchText: undefined,
   statusFilter: ['Active'],
-  actorIdFilter: undefined
+  actorIdFilter: undefined,
+  userRoleFilter: []
 };
 
 @Injectable()
@@ -92,12 +94,14 @@ export class DhAdminUserManagementDataAccessApiStore
       this.select((state) => state.searchText),
       this.select((state) => state.statusFilter),
       this.select((state) => state.actorIdFilter),
-      (pageSize, pageNumber, searchText, statusFilter, actorIdFilter) => ({
+      this.select((state) => state.userRoleFilter),
+      (pageSize, pageNumber, searchText, statusFilter, actorIdFilter, userRoleFilter) => ({
         pageSize,
         pageNumber,
         searchText,
         statusFilter,
-        actorIdFilter
+        actorIdFilter,
+        userRoleFilter,
       }),
       { debounce: true }
     );
@@ -165,7 +169,8 @@ export class DhAdminUserManagementDataAccessApiStore
     pageSize,
     searchText,
     statusFilter,
-  //  actorNumberFilter,
+    //actorIdFilter,
+    //userRoleFilter
   }: FetchUsersParams) {
     if (!statusFilter || statusFilter.length == 0) {
       return of({ users: [], totalUserCount: 0 });
@@ -176,7 +181,8 @@ export class DhAdminUserManagementDataAccessApiStore
       pageSize,
       searchText,
       statusFilter,
-      //actorNumberFilter
+      //actorIdFilter,
+      //userRoleFilter
     );
   }
 
@@ -192,6 +198,11 @@ export class DhAdminUserManagementDataAccessApiStore
 
   updateActorFilter(actorId: string | undefined) {
     this.patchState({ actorIdFilter: actorId });
+  }
+
+  updateUserRoleFilter(userRole: string[]) {
+    console.log(userRole);
+    this.patchState({ userRoleFilter: userRole });
   }
 
   readonly reloadUsers = () => {

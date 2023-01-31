@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, tap, withLatestFrom } from 'rxjs';
+import { Observable, switchMap, tap, withLatestFrom, map } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   ErrorState,
@@ -68,6 +68,15 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
             filter.eicFunctions.length == 0 ||
             filter.eicFunctions.includes(r.eicFunction))
       )
+  );
+
+  rolesOptions$ = this.select((state) => state.roles).pipe(
+    map((roles) =>
+      (roles ?? []).flatMap((role: UserRoleDto) => ({
+        value: role.id,
+        displayValue: role.name,
+      }))
+    )
   );
 
   validation$ = this.select((state) => state.validation);

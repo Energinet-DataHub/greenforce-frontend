@@ -22,7 +22,7 @@ import { PushModule } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { DhAdminUserManagementDataAccessApiStore, DhUserActorsDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhAdminUserManagementDataAccessApiStore, DhAdminUserRolesManagementDataAccessApiStore, DhUserActorsDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { UserStatus } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -33,6 +33,7 @@ import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
 import { DhUsersTabSearchComponent } from './dh-users-tab-search.component';
 import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.component';
 import { DhUsersTabActorFilterComponent } from "./dh-users-tab-actor-filter.component";
+import { DhUsersTabUserRoleFilterComponent } from "./dh-users-tab-userrole-filter.component";
 
 @Component({
     selector: 'dh-users-tab',
@@ -76,7 +77,8 @@ import { DhUsersTabActorFilterComponent } from "./dh-users-tab-actor-filter.comp
     ],
     providers: [
         provideComponentStore(DhAdminUserManagementDataAccessApiStore),
-        provideComponentStore(DhUserActorsDataAccessApiStore)
+        provideComponentStore(DhUserActorsDataAccessApiStore),
+        provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore)
     ],
     imports: [
         CommonModule,
@@ -90,7 +92,8 @@ import { DhUsersTabActorFilterComponent } from "./dh-users-tab-actor-filter.comp
         DhUsersTabStatusFilterComponent,
         DhSharedUiPaginatorComponent,
         DhUsersTabGeneralErrorComponent,
-        DhUsersTabActorFilterComponent
+        DhUsersTabActorFilterComponent,
+        DhUsersTabUserRoleFilterComponent
     ]
 })
 export class DhUsersTabComponent {
@@ -100,18 +103,21 @@ export class DhUsersTabComponent {
   readonly pageIndex$ = this.store.paginatorPageIndex$;
   readonly pageSize$ = this.store.pageSize$;
 
-  readonly isLoading$ = this.store.isLoading$ || this.actorStore;
+  readonly isLoading$ = this.store.isLoading$ || this.actorStore.isLoading$ || this.userRolesStore.isLoading$;
   readonly hasGeneralError$ = this.store.hasGeneralError$;
 
   readonly initialStatusFilter$ = this.store.initialStatusFilter$;
 
   readonly actorOptions$ = this.actorStore.actors$;
+  readonly userRolesOptions$ = this.userRolesStore.rolesOptions$;
 
   constructor(
     private store: DhAdminUserManagementDataAccessApiStore,
-    private actorStore: DhUserActorsDataAccessApiStore)
+    private actorStore: DhUserActorsDataAccessApiStore,
+    private userRolesStore: DhAdminUserRolesManagementDataAccessApiStore)
     {
       this.actorStore.getActors();
+      this.userRolesStore.getRoles();
     }
 
   onPageChange(event: PageEvent): void {
@@ -131,6 +137,10 @@ export class DhUsersTabComponent {
 
   onActorFilterChanged(actorId: string | undefined): void {
     this.store.updateActorFilter(actorId);
+  }
+
+  onUserRolesFilterChanged(userRoles: string[]): void {
+    this.store.updateUserRoleFilter(userRoles);
   }
 
   reloadUsers(): void {
