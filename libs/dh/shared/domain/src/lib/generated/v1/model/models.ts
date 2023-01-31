@@ -81,6 +81,7 @@ export * from './unit';
 export * from './update-user-role-assignments-dto';
 export * from './update-user-role-dto';
 export * from './user-audit-logs-dto';
+export * from './user-overview-filter-dto';
 export * from './user-overview-item-actor-dto';
 export * from './user-overview-item-dto';
 export * from './user-overview-result-dto';
