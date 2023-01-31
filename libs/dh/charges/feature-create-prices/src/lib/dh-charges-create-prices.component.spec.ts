@@ -109,10 +109,12 @@ describe(DhChargesCreatePricesComponent.name, () => {
     const option = await waitFor(() => screen.getByText(chargeType));
     userEvent.click(option);
 
-    expect(chargeTypeDropdown.textContent).toBe(chargeType);
-    expect(resolutionDropdown.textContent).toBe('Month');
+    await waitFor(() => {
+      expect(chargeTypeDropdown.textContent).toBe(chargeType);
+      expect(resolutionDropdown.textContent).toBe('Month');
 
-    expect(screen.queryByText(/tax/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/tax/i)).not.toBeInTheDocument();
+    });
   });
 
   it('when selecting Fee charge type, resolution should be Month, transparent invoicing false, and VAT true', async () => {
@@ -130,21 +132,23 @@ describe(DhChargesCreatePricesComponent.name, () => {
     const option = await waitFor(() => screen.getByText(chargeType));
     userEvent.click(option);
 
-    expect(chargeTypeDropdown.textContent).toBe(chargeType);
-    expect(resolutionDropdown.textContent).toBe('Month');
+    await waitFor(() => {
+      expect(chargeTypeDropdown.textContent).toBe(chargeType);
+      expect(resolutionDropdown.textContent).toBe('Month');
 
-    const transparentInvoicingCheckbox = findCheckboxElement(
-      'transparent invoicing'
-    );
-    expect(transparentInvoicingCheckbox).toBeInTheDocument();
-    expect(transparentInvoicingCheckbox.checked).toBe(false);
-    expect(transparentInvoicingCheckbox).toBeDisabled();
+      const transparentInvoicingCheckbox = findCheckboxElement(
+        'transparent invoicing'
+      );
+      expect(transparentInvoicingCheckbox).toBeInTheDocument();
+      expect(transparentInvoicingCheckbox.checked).toBe(false);
+      expect(transparentInvoicingCheckbox).toBeDisabled();
 
-    const vatCheckbox = findCheckboxElement('vat');
-    expect(vatCheckbox).toBeInTheDocument();
-    expect(vatCheckbox.checked).toBe(true);
+      const vatCheckbox = findCheckboxElement('vat');
+      expect(vatCheckbox).toBeInTheDocument();
+      expect(vatCheckbox.checked).toBe(true);
 
-    expect(screen.queryByText(/tax/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/tax/i)).not.toBeInTheDocument();
+    });
   });
 
   it('when selecting Tariff charge type, resolution should not be selected', async () => {
@@ -162,7 +166,9 @@ describe(DhChargesCreatePricesComponent.name, () => {
     const option = await waitFor(() => screen.getByText(chargeType));
     userEvent.click(option);
 
-    expect(chargeTypeDropdown.textContent).toBe(chargeType);
-    expect(resolutionDropdown.textContent).toBe('Select resolution');
+    await waitFor(() => {
+      expect(chargeTypeDropdown.textContent).toBe(chargeType);
+      expect(resolutionDropdown.textContent).toBe('Select resolution');
+    });
   });
 });
