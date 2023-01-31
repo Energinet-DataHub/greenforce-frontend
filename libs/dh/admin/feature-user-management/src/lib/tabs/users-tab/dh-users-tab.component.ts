@@ -22,7 +22,7 @@ import { PushModule } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhAdminUserManagementDataAccessApiStore, DhUserActorsDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { UserStatus } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -32,13 +32,14 @@ import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-ge
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
 import { DhUsersTabSearchComponent } from './dh-users-tab-search.component';
 import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.component';
+import { DhUsersTabActorFilterComponent } from "./dh-users-tab-actor-filter.component";
 
 @Component({
-  selector: 'dh-users-tab',
-  standalone: true,
-  templateUrl: './dh-users-tab.component.html',
-  styles: [
-    `
+    selector: 'dh-users-tab',
+    standalone: true,
+    templateUrl: './dh-users-tab.component.html',
+    styles: [
+        `
       :host {
         display: block;
         /* TODO: Add spacing variable for 24px */
@@ -72,21 +73,25 @@ import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.co
         align-items: center;
       }
     `,
-  ],
-  providers: [provideComponentStore(DhAdminUserManagementDataAccessApiStore)],
-  imports: [
-    CommonModule,
-    LetModule,
-    PushModule,
-    TranslocoModule,
-    WattSpinnerModule,
-    WattCardModule,
-    DhUsersTabTableComponent,
-    DhUsersTabSearchComponent,
-    DhUsersTabStatusFilterComponent,
-    DhSharedUiPaginatorComponent,
-    DhUsersTabGeneralErrorComponent,
-  ],
+    ],
+    providers: [
+        provideComponentStore(DhAdminUserManagementDataAccessApiStore),
+        provideComponentStore(DhUserActorsDataAccessApiStore)
+    ],
+    imports: [
+        CommonModule,
+        LetModule,
+        PushModule,
+        TranslocoModule,
+        WattSpinnerModule,
+        WattCardModule,
+        DhUsersTabTableComponent,
+        DhUsersTabSearchComponent,
+        DhUsersTabStatusFilterComponent,
+        DhSharedUiPaginatorComponent,
+        DhUsersTabGeneralErrorComponent,
+        DhUsersTabActorFilterComponent
+    ]
 })
 export class DhUsersTabComponent {
   readonly users$ = this.store.users$;
@@ -95,12 +100,19 @@ export class DhUsersTabComponent {
   readonly pageIndex$ = this.store.paginatorPageIndex$;
   readonly pageSize$ = this.store.pageSize$;
 
-  readonly isLoading$ = this.store.isLoading$;
+  readonly isLoading$ = this.store.isLoading$ || this.actorStore;
   readonly hasGeneralError$ = this.store.hasGeneralError$;
 
   readonly initialStatusFilter$ = this.store.initialStatusFilter$;
 
-  constructor(private store: DhAdminUserManagementDataAccessApiStore) {}
+  readonly actorOptions$ = this.actorStore.actors$;
+
+  constructor(
+    private store: DhAdminUserManagementDataAccessApiStore,
+    private actorStore: DhUserActorsDataAccessApiStore)
+    {
+      this.actorStore.getActors();
+    }
 
   onPageChange(event: PageEvent): void {
     this.store.updatePageMetadata({
@@ -115,6 +127,10 @@ export class DhUsersTabComponent {
 
   onStatusChanged(value: UserStatus[]): void {
     this.store.updateStatusFilter(value);
+  }
+
+  onActorFilterChanged(actorNumber: string | undefined): void {
+    this.store.updateActorFilter(actorNumber);
   }
 
   reloadUsers(): void {

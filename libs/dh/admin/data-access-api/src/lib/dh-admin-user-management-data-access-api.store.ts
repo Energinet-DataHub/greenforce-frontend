@@ -41,11 +41,12 @@ interface DhUserManagementState {
   readonly pageSize: number;
   readonly searchText: string | undefined;
   readonly statusFilter: UserStatus[];
+  readonly actorNumberFilter: string | undefined;
 }
 
 export type FetchUsersParams = Pick<
   DhUserManagementState,
-  'pageSize' | 'pageNumber' | 'searchText' | 'statusFilter'
+  'pageSize' | 'pageNumber' | 'searchText' | 'statusFilter' | 'actorNumberFilter'
 >;
 
 const initialState: DhUserManagementState = {
@@ -56,6 +57,7 @@ const initialState: DhUserManagementState = {
   pageSize: 50,
   searchText: undefined,
   statusFilter: ['Active'],
+  actorNumberFilter: undefined
 };
 
 @Injectable()
@@ -89,11 +91,13 @@ export class DhAdminUserManagementDataAccessApiStore
       this.select((state) => state.pageNumber),
       this.select((state) => state.searchText),
       this.select((state) => state.statusFilter),
-      (pageSize, pageNumber, searchText, statusFilter) => ({
+      this.select((state) => state.actorNumberFilter),
+      (pageSize, pageNumber, searchText, statusFilter, actorNumberFilter) => ({
         pageSize,
         pageNumber,
         searchText,
         statusFilter,
+        actorNumberFilter
       }),
       { debounce: true }
     );
@@ -161,6 +165,7 @@ export class DhAdminUserManagementDataAccessApiStore
     pageSize,
     searchText,
     statusFilter,
+  //  actorNumberFilter,
   }: FetchUsersParams) {
     if (!statusFilter || statusFilter.length == 0) {
       return of({ users: [], totalUserCount: 0 });
@@ -170,7 +175,8 @@ export class DhAdminUserManagementDataAccessApiStore
       pageNumber,
       pageSize,
       searchText,
-      statusFilter
+      statusFilter,
+      //actorNumberFilter
     );
   }
 
@@ -182,6 +188,10 @@ export class DhAdminUserManagementDataAccessApiStore
 
   updateStatusFilter(userStatus: UserStatus[]) {
     this.patchState({ statusFilter: userStatus });
+  }
+
+  updateActorFilter(actorNumber: string | undefined) {
+    this.patchState({ actorNumberFilter: actorNumber });
   }
 
   readonly reloadUsers = () => {
