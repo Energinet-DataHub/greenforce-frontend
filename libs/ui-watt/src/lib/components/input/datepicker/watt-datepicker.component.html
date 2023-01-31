@@ -18,6 +18,8 @@ limitations under the License.
   <mat-date-range-input
     [disabled]="disabled"
     [rangePicker]="rangeDatepicker"
+    [min]="min"
+    [max]="max"
     (focusin)="onFocusIn()"
     (focusout)="onFocusOut($event)"
   >
@@ -64,6 +66,8 @@ limitations under the License.
     autocomplete="off"
     spellcheck="false"
     [disabled]="disabled"
+    [min]="min"
+    [max]="max"
     [matDatepicker]="singleDatepicker"
     (focusin)="onFocusIn()"
     (focusout)="onFocusOut($event)"
