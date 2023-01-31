@@ -33,6 +33,7 @@ import {
 import { DhUserStatusComponent } from '../../shared/dh-user-status.component';
 import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'dh-users-tab-table',
@@ -43,12 +44,17 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
       :host {
         display: block;
       }
+
+      .assigned-actor-item {
+        margin: 0;
+      }
     `,
   ],
   // Using `OnPush` causes issues with table's header row translations
   changeDetection: ChangeDetectionStrategy.Default,
   imports: [
     WATT_TABLE,
+    CommonModule,
     TranslocoModule,
     DhSharedUiDateTimeModule,
     DhEmDashFallbackPipeScam,
@@ -61,8 +67,8 @@ export class DhUsersTabTableComponent {
     name: { accessor: 'name' },
     email: { accessor: 'email' },
     phone: { accessor: 'phoneNumber' },
+    assignedActors: { accessor: 'assignedActors', sort: false },
     status: { accessor: 'status' },
-    createdDate: { accessor: 'createdDate' },
   };
 
   dataSource = new WattTableDataSource<UserOverviewItemDto>();
