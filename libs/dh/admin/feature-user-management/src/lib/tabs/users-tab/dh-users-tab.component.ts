@@ -129,8 +129,8 @@ export class DhUsersTabComponent {
     this.store.updateStatusFilter(value);
   }
 
-  onActorFilterChanged(actorNumber: string | undefined): void {
-    this.store.updateActorFilter(actorNumber);
+  onActorFilterChanged(actorId: string | undefined): void {
+    this.store.updateActorFilter(actorId);
   }
 
   reloadUsers(): void {

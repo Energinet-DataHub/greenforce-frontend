@@ -41,12 +41,12 @@ interface DhUserManagementState {
   readonly pageSize: number;
   readonly searchText: string | undefined;
   readonly statusFilter: UserStatus[];
-  readonly actorNumberFilter: string | undefined;
+  readonly actorIdFilter: string | undefined;
 }
 
 export type FetchUsersParams = Pick<
   DhUserManagementState,
-  'pageSize' | 'pageNumber' | 'searchText' | 'statusFilter' | 'actorNumberFilter'
+  'pageSize' | 'pageNumber' | 'searchText' | 'statusFilter' | 'actorIdFilter'
 >;
 
 const initialState: DhUserManagementState = {
@@ -57,7 +57,7 @@ const initialState: DhUserManagementState = {
   pageSize: 50,
   searchText: undefined,
   statusFilter: ['Active'],
-  actorNumberFilter: undefined
+  actorIdFilter: undefined
 };
 
 @Injectable()
@@ -91,13 +91,13 @@ export class DhAdminUserManagementDataAccessApiStore
       this.select((state) => state.pageNumber),
       this.select((state) => state.searchText),
       this.select((state) => state.statusFilter),
-      this.select((state) => state.actorNumberFilter),
-      (pageSize, pageNumber, searchText, statusFilter, actorNumberFilter) => ({
+      this.select((state) => state.actorIdFilter),
+      (pageSize, pageNumber, searchText, statusFilter, actorIdFilter) => ({
         pageSize,
         pageNumber,
         searchText,
         statusFilter,
-        actorNumberFilter
+        actorIdFilter
       }),
       { debounce: true }
     );
@@ -190,8 +190,8 @@ export class DhAdminUserManagementDataAccessApiStore
     this.patchState({ statusFilter: userStatus });
   }
 
-  updateActorFilter(actorNumber: string | undefined) {
-    this.patchState({ actorNumberFilter: actorNumber });
+  updateActorFilter(actorId: string | undefined) {
+    this.patchState({ actorIdFilter: actorId });
   }
 
   readonly reloadUsers = () => {
