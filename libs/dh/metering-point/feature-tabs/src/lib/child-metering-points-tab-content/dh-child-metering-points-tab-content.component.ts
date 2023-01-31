@@ -29,7 +29,7 @@ import {
   MatSortModule,
   Sort,
 } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { TranslocoModule } from '@ngneat/transloco';
 import { RouterModule } from '@angular/router';
 

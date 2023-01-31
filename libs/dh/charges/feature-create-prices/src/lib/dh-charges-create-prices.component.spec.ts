@@ -23,7 +23,7 @@ import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-ti
 import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { formatInTimeZone } from 'date-fns-tz';
-import { WattToastRootModule } from 'libs/ui-watt/src/lib/components/toast/watt-toast.module';
+import { WattToastModule } from '@energinet-datahub/watt/toast';
 import {
   DhChargesCreatePricesComponent,
   DhChargesCreatePricesScam,
@@ -66,7 +66,7 @@ describe(DhChargesCreatePricesComponent.name, () => {
         DhApiModule.forRoot(),
         HttpClientModule,
         WattDanishDatetimeModule.forRoot(),
-        WattToastRootModule,
+        WattToastModule.forRoot(),
         DanishLocaleModule,
         DhChargesCreatePricesScam,
       ],
