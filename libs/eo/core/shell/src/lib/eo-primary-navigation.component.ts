@@ -16,7 +16,6 @@
  */
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
-import { EoFeatureFlagDirective } from '@energinet-datahub/eo/shared/services';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import {
   WattNavListComponent,
@@ -26,11 +25,7 @@ import {
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    WattNavListComponent,
-    WattNavListItemComponent,
-    EoFeatureFlagDirective,
-  ],
+  imports: [WattNavListComponent, WattNavListItemComponent],
   selector: 'eo-primary-navigation',
   styles: [
     `
@@ -63,9 +58,7 @@ import {
       <watt-nav-list-item link="{{ routes.meteringpoints }}">
         Metering Points
       </watt-nav-list-item>
-      <watt-nav-list-item
-        [onFeatureFlag]="'certificates'"
-        link="{{ routes.certificates }}"
+      <watt-nav-list-item link="{{ routes.certificates }}"
         >Certificates
         <span
           style="padding-left:8px; font-weight:bold;color:var(--watt-color-secondary-dark);"
