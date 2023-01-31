@@ -44,30 +44,31 @@ $watt-theme: mat.define-light-theme(
       primary: $watt-palette,
       accent: $watt-palette,
     ),
+    typography: $watt-typography,
   )
 );
 
-@include mat.core($watt-typography);
+@include mat.legacy-core();
 
-@include mat.autocomplete-theme($watt-theme);
+@include mat.legacy-autocomplete-theme($watt-theme);
 @include mat.badge-theme($watt-theme);
-@include mat.button-theme($watt-theme);
+@include mat.legacy-button-theme($watt-theme);
 @include mat.button-toggle-theme($watt-theme);
-@include mat.card-theme($watt-theme);
-@include mat.checkbox-theme($watt-theme);
-@include mat.chips-theme($watt-theme);
-@include mat.core-theme($watt-theme);
+@include mat.legacy-card-theme($watt-theme);
+@include mat.legacy-checkbox-theme($watt-theme);
+@include mat.legacy-chips-theme($watt-theme);
+@include mat.legacy-core-theme($watt-theme);
 @include mat.datepicker-theme($watt-theme);
-@include mat.dialog-theme($watt-theme);
+@include mat.legacy-dialog-theme($watt-theme);
 @include mat.expansion-theme($watt-theme);
-@include mat.form-field-theme($watt-theme);
+@include mat.legacy-form-field-theme($watt-theme);
 @include mat.icon-theme($watt-theme);
-@include mat.input-theme($watt-theme);
-@include mat.menu-theme($watt-theme);
-@include mat.progress-spinner-theme($watt-theme);
-@include mat.select-theme($watt-theme);
+@include mat.legacy-input-theme($watt-theme);
+@include mat.legacy-menu-theme($watt-theme);
+@include mat.legacy-progress-spinner-theme($watt-theme);
+@include mat.legacy-select-theme($watt-theme);
 @include mat.sidenav-theme($watt-theme);
-@include mat.table-theme($watt-theme);
-@include mat.tabs-theme($watt-theme);
-@include mat.tooltip-theme($watt-theme);
+@include mat.legacy-table-theme($watt-theme);
+@include mat.legacy-tabs-theme($watt-theme);
+@include mat.legacy-tooltip-theme($watt-theme);
 @include mat.toolbar-theme($watt-theme);

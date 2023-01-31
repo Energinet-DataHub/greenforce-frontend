@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
-import { PageEvent } from '@angular/material/paginator';
+import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';

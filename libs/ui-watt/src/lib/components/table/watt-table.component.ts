@@ -41,7 +41,7 @@ import {
   Sort,
   SortDirection,
 } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { map, type Subscription } from 'rxjs';
 import { WattCheckboxModule } from '../checkbox';
 
