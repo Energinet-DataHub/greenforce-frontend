@@ -81,9 +81,11 @@ describe(DhWholesaleSearchComponent.name, () => {
     await setup();
     await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
     userEvent.click(screen.getByText('Search'));
-    await waitForElementToBeRemoved(() => screen.getByRole('heading', {
-      name: /Batch overview/i
-    }));
+    await waitForElementToBeRemoved(() =>
+      screen.getByRole('heading', {
+        name: /Batch overview/i,
+      })
+    );
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
   });
 });
