@@ -21,9 +21,15 @@ import {
   Component,
   ViewChild,
 } from '@angular/core';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import {
+  MatLegacyPaginator as MatPaginator,
+  MatLegacyPaginatorModule as MatPaginatorModule,
+} from '@angular/material/legacy-paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import {
+  MatLegacyTableDataSource as MatTableDataSource,
+  MatLegacyTableModule as MatTableModule,
+} from '@angular/material/legacy-table';
 import { RouterModule } from '@angular/router';
 import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { EoCertificate } from './eo-certificates.service';

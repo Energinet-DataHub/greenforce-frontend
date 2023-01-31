@@ -21,7 +21,7 @@ import {
   Input,
   NgModule,
 } from '@angular/core';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({

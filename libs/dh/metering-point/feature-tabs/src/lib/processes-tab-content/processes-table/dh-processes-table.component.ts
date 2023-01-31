@@ -29,7 +29,7 @@ import {
   MatSortModule,
   Sort,
 } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { RouterModule } from '@angular/router';
 import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
