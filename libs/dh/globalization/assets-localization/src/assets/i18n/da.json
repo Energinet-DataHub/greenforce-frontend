@@ -922,9 +922,11 @@
         "users": {
           "tabLabel": "Brugere",
           "filter": {
-            "status": "Status"
+            "status": "Status",
+            "actor": "Aktør"
           },
           "searchPlaceholder": "Søg brugere",
+          "searchActorPlaceHolder": "Vælg aktør",
           "usersHeadline": {
             "singular": "{{ usersCount }} bruger",
             "plural": "{{ usersCount }} brugere"

@@ -918,12 +918,14 @@
         "users": {
           "tabLabel": "Users",
           "searchPlaceholder": "Search users",
+          "searchActorPlaceHolder": "Choose market party",
           "usersHeadline": {
             "singular": "{{ usersCount }} user",
             "plural": "{{ usersCount }} users"
           },
           "filter": {
-            "status": "Status"
+            "status": "Status",
+            "actor": "Market party"
           },
           "table": {
             "columns": {
