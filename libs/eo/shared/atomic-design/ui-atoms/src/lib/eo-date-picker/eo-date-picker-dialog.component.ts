@@ -22,8 +22,14 @@ import {
   MatCalendar,
   MatDatepickerModule,
 } from '@angular/material/datepicker';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
-import { MatLegacyRadioChange as MatRadioChange, MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
+import {
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+} from '@angular/material/legacy-dialog';
+import {
+  MatLegacyRadioChange as MatRadioChange,
+  MatLegacyRadioModule as MatRadioModule,
+} from '@angular/material/legacy-radio';
 import { CalendarDateRange } from '@energinet-datahub/eo/shared/services';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 

@@ -27,7 +27,10 @@ import {
 import { CommonModule } from '@angular/common';
 import { LetModule } from '@rx-angular/template/let';
 import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
-import { MatLegacyTableDataSource as MatTableDataSource, MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import {
+  MatLegacyTableDataSource as MatTableDataSource,
+  MatLegacyTableModule as MatTableModule,
+} from '@angular/material/legacy-table';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattIconModule } from '@energinet-datahub/watt/icon';
