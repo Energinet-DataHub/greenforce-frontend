@@ -27,9 +27,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import {
-  WattDropdownModule,
-} from '@energinet-datahub/watt/dropdown';
+import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
 
 @Component({
   selector: 'dh-users-tab-actor-filter',
@@ -41,7 +39,7 @@ import {
         <watt-dropdown
           [placeholder]="t('searchActorPlaceHolder')"
           [formControl]="actorControl"
-          [options]="(actorOptions) ?? []"
+          [options]="actorOptions ?? []"
           [multiple]="false"
         ></watt-dropdown>
       </watt-form-field>
@@ -68,9 +66,11 @@ import {
 export class DhUsersTabActorFilterComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
-  actorControl = new FormControl<string | undefined>(undefined, { nonNullable: true });
+  actorControl = new FormControl<string | undefined>(undefined, {
+    nonNullable: true,
+  });
 
-  @Input() actorOptions: { value: string, displayValue: string }[] | undefined;
+  @Input() actorOptions: { value: string; displayValue: string }[] | undefined;
   @Output() changed = new EventEmitter<string | undefined>();
 
   ngOnInit(): void {

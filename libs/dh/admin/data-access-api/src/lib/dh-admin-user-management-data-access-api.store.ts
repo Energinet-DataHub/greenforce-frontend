@@ -47,7 +47,12 @@ interface DhUserManagementState {
 
 export type FetchUsersParams = Pick<
   DhUserManagementState,
-  'pageSize' | 'pageNumber' | 'searchText' | 'statusFilter' | 'actorIdFilter' | 'userRoleFilter'
+  | 'pageSize'
+  | 'pageNumber'
+  | 'searchText'
+  | 'statusFilter'
+  | 'actorIdFilter'
+  | 'userRoleFilter'
 >;
 
 const initialState: DhUserManagementState = {
@@ -59,7 +64,7 @@ const initialState: DhUserManagementState = {
   searchText: undefined,
   statusFilter: ['Active'],
   actorIdFilter: undefined,
-  userRoleFilter: []
+  userRoleFilter: [],
 };
 
 @Injectable()
@@ -95,7 +100,14 @@ export class DhAdminUserManagementDataAccessApiStore
       this.select((state) => state.statusFilter),
       this.select((state) => state.actorIdFilter),
       this.select((state) => state.userRoleFilter),
-      (pageSize, pageNumber, searchText, statusFilter, actorIdFilter, userRoleFilter) => ({
+      (
+        pageSize,
+        pageNumber,
+        searchText,
+        statusFilter,
+        actorIdFilter,
+        userRoleFilter
+      ) => ({
         pageSize,
         pageNumber,
         searchText,
@@ -170,7 +182,7 @@ export class DhAdminUserManagementDataAccessApiStore
     searchText,
     statusFilter,
     actorIdFilter,
-    userRoleFilter
+    userRoleFilter,
   }: FetchUsersParams) {
     if (!statusFilter || statusFilter.length == 0) {
       return of({ users: [], totalUserCount: 0 });
@@ -183,7 +195,7 @@ export class DhAdminUserManagementDataAccessApiStore
         actorId: actorIdFilter,
         userRoleIds: userRoleFilter,
         searchText: searchText,
-        userStatus: statusFilter
+        userStatus: statusFilter,
       }
     );
   }

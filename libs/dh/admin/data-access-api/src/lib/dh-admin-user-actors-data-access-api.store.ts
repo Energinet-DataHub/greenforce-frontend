@@ -52,7 +52,9 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
       (actors ?? []).flatMap((actor: ActorDto) => ({
         value: actor.actorId,
         displayValue:
-          actor.name.value === '' ? actor.actorNumber.value : actor.actorNumber.value + ' - ' + actor.name.value,
+          actor.name.value === ''
+            ? actor.actorNumber.value
+            : actor.actorNumber.value + ' - ' + actor.name.value,
       }))
     )
   );

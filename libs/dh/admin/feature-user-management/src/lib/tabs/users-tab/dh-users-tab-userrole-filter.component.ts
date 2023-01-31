@@ -39,7 +39,7 @@ import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
         <watt-dropdown
           [placeholder]="t('searchUserRolePlaceHolder')"
           [formControl]="userRoleControl"
-          [options]="(userRoleOptions) ?? []"
+          [options]="userRoleOptions ?? []"
           [multiple]="true"
         ></watt-dropdown>
       </watt-form-field>
@@ -68,7 +68,9 @@ export class DhUsersTabUserRoleFilterComponent implements OnInit, OnDestroy {
 
   userRoleControl = new FormControl<string[]>([], { nonNullable: true });
 
-  @Input() userRoleOptions: { value: string, displayValue: string }[] | undefined;
+  @Input() userRoleOptions:
+    | { value: string; displayValue: string }[]
+    | undefined;
   @Output() changed = new EventEmitter<string[]>();
 
   ngOnInit(): void {
