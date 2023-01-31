@@ -13,21 +13,18 @@
 // limitations under the License.
 
 using System;
-using Energinet.DataHub.WebApi.GraphQL;
-using GraphQL.MicrosoftDI;
+using Energinet.DataHub.Wholesale.Contracts;
 using GraphQL.Types;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Energinet.DataHub.WebApi.Registration
+namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public static class GraphQLRegistrationExtensions
+    public class BatchType : ObjectGraphType<BatchDtoV2>
     {
-        public static IServiceCollection AddGraphQLSchema(this IServiceCollection services)
+        public BatchType()
         {
-            return services
-                .AddSingleton<ISchema, MarketParticipantSchema>(services => new MarketParticipantSchema(new SelfActivatingServiceProvider(services)))
-                .AddSingleton<ISchema, WholesaleSchema>(services => new WholesaleSchema(new SelfActivatingServiceProvider(services)))
-                .AddSingleton<DateRangeType>();
+            Name = "Batch";
+            Field(x => x.BatchNumber).Name("id").Description("The id of the batch.");
+            Field<DateRangeType>("period").Resolve(context => Tuple.Create(context.Source.PeriodStart, context.Source.PeriodEnd));
         }
     }
 }

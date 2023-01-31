@@ -13,21 +13,21 @@
 // limitations under the License.
 
 using System;
-using Energinet.DataHub.WebApi.GraphQL;
-using GraphQL.MicrosoftDI;
+using Energinet.DataHub.Wholesale.Contracts;
+using GraphQL;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Energinet.DataHub.WebApi.Registration
+namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public static class GraphQLRegistrationExtensions
+    public class WholesaleSchema : Schema
     {
-        public static IServiceCollection AddGraphQLSchema(this IServiceCollection services)
+        public WholesaleSchema(IServiceProvider provider)
+            : base(provider)
         {
-            return services
-                .AddSingleton<ISchema, MarketParticipantSchema>(services => new MarketParticipantSchema(new SelfActivatingServiceProvider(services)))
-                .AddSingleton<ISchema, WholesaleSchema>(services => new WholesaleSchema(new SelfActivatingServiceProvider(services)))
-                .AddSingleton<DateRangeType>();
+            this.RegisterTypeMapping<BatchDtoV2, BatchType>();
+            // this.RegisterTypeMapping<Tuple<DateTimeOffset, DateTimeOffset>, DateRangeType>();
+            Query = provider.GetRequiredService<WholesaleQuery>();
         }
     }
 }

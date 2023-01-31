@@ -16,25 +16,28 @@ using System;
 using Energinet.DataHub.MarketParticipant.Client;
 using GraphQL;
 using GraphQL.Types;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class MarketParticipantQuery : ObjectGraphType
     {
-        private readonly IMarketParticipantClient _client;
-
-        public MarketParticipantQuery(IMarketParticipantClient client)
+        public MarketParticipantQuery()
         {
-            _client = client;
             Field<ListGraphType<OrganizationDtoType>>("organizations")
-                .ResolveAsync(async context => await _client.GetOrganizationsAsync().ConfigureAwait(false));
+                .ResolveAsync(async context =>
+                {
+                    var client = context.RequestServices!.GetRequiredService<IMarketParticipantClient>();
+                    return await client.GetOrganizationsAsync().ConfigureAwait(false);
+                });
 
             Field<OrganizationDtoType>("organization")
                 .Argument<IdGraphType>("id", "The id of the organization")
                 .ResolveAsync(async context =>
                 {
                     var id = context.GetArgument<Guid>("id");
-                    return await _client.GetOrganizationAsync(id).ConfigureAwait(false);
+                    var client = context.RequestServices!.GetRequiredService<IMarketParticipantClient>();
+                    return await client.GetOrganizationAsync(id).ConfigureAwait(false);
                 });
         }
     }
