@@ -119,7 +119,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
 
     userEvent.type(input, validMeteringPointIdThatDoesNotExist);
     await waitFor(() => {
-      expect(input.value).toBe(validMeteringPointIdThatDoesNotExist)
+      expect(input.value).toBe(validMeteringPointIdThatDoesNotExist);
       userEvent.click(submitButton);
       expect(screen.queryByRole('progressbar')).toBeInTheDocument();
     });
