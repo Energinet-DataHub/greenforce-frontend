@@ -39,7 +39,7 @@ import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
         <watt-dropdown
           [placeholder]="t('searchActorPlaceHolder')"
           [formControl]="actorControl"
-          [options]="(actorOptions)"
+          [options]="actorOptions"
           [multiple]="false"
         ></watt-dropdown>
       </watt-form-field>
@@ -70,7 +70,7 @@ export class DhUsersTabActorFilterComponent implements OnInit, OnDestroy {
     nonNullable: true,
   });
 
-  @Input() actorOptions: { value: string, displayValue: string }[];
+  @Input() actorOptions: { value: string; displayValue: string }[];
   @Output() changed = new EventEmitter<string | undefined>();
 
   constructor() {

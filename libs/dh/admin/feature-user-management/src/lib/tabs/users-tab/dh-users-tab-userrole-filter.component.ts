@@ -68,7 +68,7 @@ export class DhUsersTabUserRoleFilterComponent implements OnInit, OnDestroy {
 
   userRoleControl = new FormControl<string[]>([], { nonNullable: true });
 
-  @Input() userRoleOptions: { value: string, displayValue: string }[];
+  @Input() userRoleOptions: { value: string; displayValue: string }[];
   @Output() changed = new EventEmitter<string[]>();
 
   constructor() {
