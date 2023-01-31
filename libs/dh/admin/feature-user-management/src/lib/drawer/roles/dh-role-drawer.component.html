@@ -20,6 +20,7 @@ limitations under the License.
 
     <watt-drawer-actions>
       <watt-button
+        *dhPermissionRequired="['userrole:manage']"
         variant="secondary"
         (click)="isEditUserRoleModalVisible = true"
         >{{ t("edit") }}</watt-button

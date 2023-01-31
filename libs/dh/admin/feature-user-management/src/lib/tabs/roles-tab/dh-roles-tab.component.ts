@@ -51,6 +51,7 @@ import {
   UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { take } from 'rxjs';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-roles-tab',
@@ -74,6 +75,7 @@ import { take } from 'rxjs';
     DhRolesTabListFilterComponent,
     DhTabDataGeneralErrorComponent,
     LetModule,
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhUserRolesTabComponent {
