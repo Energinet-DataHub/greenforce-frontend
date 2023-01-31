@@ -20,7 +20,7 @@ import {
   Optional,
   SkipSelf,
 } from '@angular/core';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
 /**
  * Do not import directly. Use `EoMaterialModule.forRoot`.
