@@ -27,7 +27,6 @@ import {
   MatLegacyTableDataSource as MatTableDataSource,
   MatLegacyTableModule as MatTableModule,
 } from '@angular/material/legacy-table';
-import { FeatureFlagService } from '@energinet-datahub/eo/shared/services';
 import {
   EoMeteringPoint,
   EoMeteringPointsStore,
