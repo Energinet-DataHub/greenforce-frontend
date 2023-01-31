@@ -169,6 +169,8 @@ export class DhAdminUserManagementDataAccessApiStore
     return this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
       pageNumber,
       pageSize,
+      'Email',
+      'Desc',
       searchText,
       statusFilter
     );
