@@ -89,7 +89,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     WattSpinnerModule,
     DhTabDataGeneralErrorComponent,
     DhEditUserRoleModalComponent,
-    DhPermissionRequiredDirective
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhRoleDrawerComponent {
