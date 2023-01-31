@@ -24,7 +24,6 @@ import {
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { FeatureFlagService } from '@energinet-datahub/eo/shared/services';
 import {
   EoMeteringPoint,
   EoMeteringPointsStore,
@@ -125,19 +124,14 @@ export class EoMeteringPointListComponent implements AfterViewInit {
   loadingDone$ = this.store.loadingDone$;
   meteringPoints$ = this.store.meteringPoints$;
   dataSource: MatTableDataSource<EoMeteringPoint> = new MatTableDataSource();
-  displayedColumns: Array<string> = ['gsrn', 'address', 'tags'];
+  displayedColumns: Array<string> = [
+    'gsrn',
+    'address',
+    'tags',
+    'granular certificates',
+  ];
 
-  constructor(
-    private store: EoMeteringPointsStore,
-    private featureFlagService: FeatureFlagService
-  ) {
-    this.featureFlagService.isFlagEnabled('certificates') &&
-      this.displayedColumns.push('granular certificates');
-
-    this.store.meteringPoints$.subscribe({
-      next: (meteringPoints) => (this.dataSource.data = meteringPoints),
-    });
-  }
+  constructor(private store: EoMeteringPointsStore) {}
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
@@ -155,6 +149,10 @@ export class EoMeteringPointListComponent implements AfterViewInit {
           return item[property as keyof unknown];
       }
     };
+
+    this.store.meteringPoints$.subscribe(
+      (meteringPoints) => (this.dataSource.data = meteringPoints)
+    );
   }
 
   createContract(gsrn: string) {
