@@ -25,9 +25,9 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import {
-  MatFormField,
-  MatFormFieldControl,
-} from '@angular/material/form-field';
+  MatLegacyFormField as MatFormField,
+  MatLegacyFormFieldControl as MatFormFieldControl,
+} from '@angular/material/legacy-form-field';
 
 import { WattDatepickerComponent } from '../input/datepicker';
 import { WattDropdownComponent } from '../dropdown/watt-dropdown.component';
