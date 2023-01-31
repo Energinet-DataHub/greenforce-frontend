@@ -49,7 +49,12 @@ interface DhUserManagementState {
 
 export type FetchUsersParams = Pick<
   DhUserManagementState,
-  'pageSize' | 'pageNumber' | 'searchText' | 'sortProperty' | 'direction' | 'statusFilter'
+  | 'pageSize'
+  | 'pageNumber'
+  | 'searchText'
+  | 'sortProperty'
+  | 'direction'
+  | 'statusFilter'
 >;
 
 const initialState: DhUserManagementState = {
@@ -97,7 +102,14 @@ export class DhAdminUserManagementDataAccessApiStore
       this.select((state) => state.direction),
       this.select((state) => state.searchText),
       this.select((state) => state.statusFilter),
-      (pageSize, pageNumber, sortProperty, direction, searchText, statusFilter) => ({
+      (
+        pageSize,
+        pageNumber,
+        sortProperty,
+        direction,
+        searchText,
+        statusFilter
+      ) => ({
         pageSize,
         pageNumber,
         sortProperty,
