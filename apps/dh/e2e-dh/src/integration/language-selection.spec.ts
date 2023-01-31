@@ -20,8 +20,8 @@ import { test, expect, Page } from '@playwright/test';
 import {
   da as daTranslations,
   en as enTranslations,
-} from '../../../../../libs/dh/globalization/assets-localization/src';
-import { DisplayLanguage } from '../../../../../libs/dh/globalization/domain/src';
+} from '@energinet-datahub/dh/globalization/assets-localization';
+import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
 
 import * as appShell from '../support/app-shell.po';
 

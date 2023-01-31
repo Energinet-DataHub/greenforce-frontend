@@ -47,7 +47,8 @@ $watt-theme: mat.define-light-theme(
   )
 );
 
-@include mat.core($watt-typography);
+@include mat.core();
+//@include mat.core($watt-typography);
 
 @include mat.autocomplete-theme($watt-theme);
 @include mat.badge-theme($watt-theme);

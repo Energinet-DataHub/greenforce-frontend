@@ -16,7 +16,7 @@
  */
 
 import { Component } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { EoEmissionsDataComponent } from '@energinet-datahub/eo/emissions/shell';
 
 @Component({
