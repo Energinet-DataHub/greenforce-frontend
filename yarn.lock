@@ -5899,18 +5899,18 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@testing-library/angular@12.1.2":
-  version "12.1.2"
-  resolved "https://registry.yarnpkg.com/@testing-library/angular/-/angular-12.1.2.tgz#1666692a0346520a4958d61575976a9868bc5568"
-  integrity sha512-xRE5YzxL1yUXE4zzY2TowwmYCvmjEyaXn5bRhgPBC8NiP6ys+zT1b3ZvQTrP3SGpanNj9YM02rEikuu0SQVerw==
+"@testing-library/angular@13.1.0":
+  version "13.1.0"
+  resolved "https://registry.yarnpkg.com/@testing-library/angular/-/angular-13.1.0.tgz#1ee348a3508ba26838f7cf2fe810e37535a6977d"
+  integrity sha512-v2mXYVyffUdyyXntVo9eW5ghVtEMSGmnl5vPU6C4shmGw3ExpDBZr1QepjbDMFFBNNYjVE43EstMnNVSAXDzuQ==
   dependencies:
     "@testing-library/dom" "^8.0.0"
     tslib "^2.3.1"
 
-"@testing-library/cypress@8.0.3":
-  version "8.0.3"
-  resolved "https://registry.yarnpkg.com/@testing-library/cypress/-/cypress-8.0.3.tgz#24ab34df34d7896866603ade705afbdd186e273c"
-  integrity sha512-nY2YaSbmuPo5k6kL0iLj/pGPPfka3iwb3kpTx8QN/vOCns92Saz9wfACqB8FJzcR7+lfA4d5HUOWqmTddBzczg==
+"@testing-library/cypress@9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@testing-library/cypress/-/cypress-9.0.0.tgz#3facad49c4654a99bbd138f83f33b415d2d6f097"
+  integrity sha512-c1XiCGeHGGTWn0LAU12sFUfoX3qfId5gcSE2yHode+vsyHDWraxDPALjVnHd4/Fa3j4KBcc5k++Ccy6A9qnkMA==
   dependencies:
     "@babel/runtime" "^7.14.6"
     "@testing-library/dom" "^8.1.0"
@@ -5944,7 +5944,12 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/user-event@13.5.0", "@testing-library/user-event@^13.2.1":
+"@testing-library/user-event@14.4.3":
+  version "14.4.3"
+  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.4.3.tgz#af975e367743fa91989cd666666aec31a8f50591"
+  integrity sha512-kCUc5MEwaEMakkO5x7aoD+DLi02ehmEM2QCGWvNqAS1dV/fAvORWEjnjsEIvml59M7Y5kCkWN6fCCyPOe8OL6Q==
+
+"@testing-library/user-event@^13.2.1":
   version "13.5.0"
   resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-13.5.0.tgz#69d77007f1e124d55314a2b73fd204b333b13295"
   integrity sha512-5Kwtbo3Y/NowpkbRuSepbyMFkZmHgD+vPzYB/RJ4oxt5Gj/avFFBYjhw27cqSVPVw/3a67NK1PbiIr9k4Gwmdg==
