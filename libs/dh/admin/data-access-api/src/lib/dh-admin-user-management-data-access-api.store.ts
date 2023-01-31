@@ -203,7 +203,6 @@ export class DhAdminUserManagementDataAccessApiStore
   }
 
   updateUserRoleFilter(userRole: string[]) {
-    console.log(userRole);
     this.patchState({ userRoleFilter: userRole || [] });
   }
 
