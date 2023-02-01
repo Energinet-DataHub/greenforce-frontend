@@ -14,6 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-﻿export type HTMLElementEvent<T extends HTMLElement> = Event & {
+export type HTMLElementEvent<T extends HTMLElement> = Event & {
   target: T;
 };
