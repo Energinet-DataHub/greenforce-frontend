@@ -23,12 +23,10 @@ import { firstValueFrom, of } from 'rxjs';
 import {
   MarketParticipantUserOverviewHttp,
   UserStatus,
-  UserOverviewFilterDto
+  UserOverviewFilterDto,
 } from '@energinet-datahub/dh/shared/domain';
 
-import {
-  DhAdminUserManagementDataAccessApiStore,
-} from './dh-admin-user-management-data-access-api.store';
+import { DhAdminUserManagementDataAccessApiStore } from './dh-admin-user-management-data-access-api.store';
 
 describe(DhAdminUserManagementDataAccessApiStore.name, () => {
   async function setup() {
@@ -62,17 +60,17 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
   it('calls the API on initialization with default params', async () => {
     const { httpMock } = await setup();
 
-    const filterDto : UserOverviewFilterDto = {
+    const filterDto: UserOverviewFilterDto = {
       actorId: undefined,
       userRoleIds: [],
       searchText: undefined,
-      userStatus: ['Active']
+      userStatus: ['Active'],
     };
 
     const actualParams = {
       pageNumber: 1,
       pageSize: 50,
-      filterDto
+      filterDto,
     };
 
     expect(
@@ -93,17 +91,17 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
 
     tick();
 
-    const filterDto : UserOverviewFilterDto = {
+    const filterDto: UserOverviewFilterDto = {
       actorId: undefined,
       userRoleIds: [],
       searchText: undefined,
-      userStatus: ['Active']
+      userStatus: ['Active'],
     };
 
     const actualParams = {
       pageNumber: 4,
       pageSize: 25,
-      filterDto
+      filterDto,
     };
 
     expect(
@@ -119,17 +117,17 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
 
     tick();
 
-    const filterDto : UserOverviewFilterDto = {
+    const filterDto: UserOverviewFilterDto = {
       actorId: undefined,
       userRoleIds: [],
       searchText: 'john',
-      userStatus: ['Active']
+      userStatus: ['Active'],
     };
 
     const actualParams = {
       pageNumber: 1,
       pageSize: 50,
-      filterDto
+      filterDto,
     };
 
     expect(
@@ -147,17 +145,17 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
 
     tick();
 
-    const filterDto : UserOverviewFilterDto = {
+    const filterDto: UserOverviewFilterDto = {
       actorId: undefined,
       userRoleIds: [],
       searchText: undefined,
-      userStatus: ['Active', 'Inactive']
+      userStatus: ['Active', 'Inactive'],
     };
 
     const actualParams = {
       pageNumber: 1,
       pageSize: 50,
-      filterDto
+      filterDto,
     };
 
     expect(
