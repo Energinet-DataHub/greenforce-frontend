@@ -11,10 +11,10 @@
  */
 
 
-export type TimeSeriesType = 'NonProfiled' | 'FlexConsumption' | 'Production';
+export type TimeSeriesType = 'NonProfiledConsumption' | 'FlexConsumption' | 'Production';
 
 export const TimeSeriesType = {
-    NonProfiled: 'NonProfiled' as TimeSeriesType,
+    NonProfiledConsumption: 'NonProfiledConsumption' as TimeSeriesType,
     FlexConsumption: 'FlexConsumption' as TimeSeriesType,
     Production: 'Production' as TimeSeriesType
 };
