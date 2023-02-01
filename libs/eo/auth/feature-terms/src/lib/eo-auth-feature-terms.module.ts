@@ -16,7 +16,6 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { EoAuthFeatureTermsComponent } from './eo-auth-feature-terms.component';
 
 const routes: Routes = [
