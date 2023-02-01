@@ -1029,11 +1029,16 @@
         }
       },
       "editUserRole": {
-        "cancel": "Fortryd",
         "tab": {
-          "masterData": "Stamdata",
-          "permissions": "Rettigheder"
-        }
+          "masterData": {
+            "tabLabel": "Stamdata"
+          },
+          "permissions": {
+            "tabLabel": "Rettigheder"
+          }
+        },
+        "cancel": "Fortryd",
+        "save": "Gem"
       }
     }
   }
