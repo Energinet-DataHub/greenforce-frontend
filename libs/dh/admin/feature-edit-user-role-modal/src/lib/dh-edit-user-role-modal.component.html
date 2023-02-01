@@ -15,17 +15,36 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.editUserRole'">
-  <watt-modal [title]="roleName$ | push" (closed)="closeModal()">
+  <watt-modal [title]="roleName$ | push" (closed)="closeModal($event)">
     <watt-tabs>
-      <watt-tab [label]="t('tab.masterData.tabLabel')"> </watt-tab>
+      <watt-tab [label]="t('tab.masterData.tabLabel')">
+        <div class="form-wrapper">
+          <watt-form-field>
+            <watt-label>{{ t("tab.masterData.nameInputLabel") }}</watt-label>
+            <input
+              wattInput
+              type="text"
+              [formControl]="userRoleEditForm.controls.name"
+            />
+          </watt-form-field>
+        </div>
+      </watt-tab>
+
       <watt-tab [label]="t('tab.permissions.tabLabel')"></watt-tab>
     </watt-tabs>
 
     <watt-modal-actions>
-      <watt-button variant="secondary" (click)="closeModal()">
+      <watt-button variant="secondary" (click)="closeModal(false)">
         {{ t("cancel") }}
       </watt-button>
-      <watt-button>{{ t("save") }}</watt-button>
+      <watt-button
+        *rxLet="userRole$ as userRole"
+        [disabled]="userRoleEditForm.invalid"
+        [loading]="isLoading$ | push"
+        (click)="save(userRole)"
+      >
+        {{ t("save") }}
+      </watt-button>
     </watt-modal-actions>
   </watt-modal>
 </ng-container>

@@ -1031,7 +1031,8 @@
       "editUserRole": {
         "tab": {
           "masterData": {
-            "tabLabel": "Stamdata"
+            "tabLabel": "Stamdata",
+            "nameInputLabel": "Navn"
           },
           "permissions": {
             "tabLabel": "Rettigheder"

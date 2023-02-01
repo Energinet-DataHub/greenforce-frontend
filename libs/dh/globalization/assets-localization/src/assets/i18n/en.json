@@ -1027,7 +1027,8 @@
       "editUserRole": {
         "tab": {
           "masterData": {
-            "tabLabel": "Master data"
+            "tabLabel": "Master data",
+            "nameInputLabel": "Name"
           },
           "permissions": {
             "tabLabel": "Permissions"
