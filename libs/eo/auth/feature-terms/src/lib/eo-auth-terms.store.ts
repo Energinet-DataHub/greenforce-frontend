@@ -16,6 +16,7 @@
  */
 import { Inject, Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AuthHttp } from '@energinet-datahub/eo/auth/data-access-api';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   combineLatest,
@@ -26,7 +27,6 @@ import {
   Observable,
   take,
 } from 'rxjs';
-import { AuthHttp } from '@energinet-datahub/eo/auth/data-access-api';
 import { browserLocationToken } from './browser-location.token';
 
 interface EoAuthTermsState {
