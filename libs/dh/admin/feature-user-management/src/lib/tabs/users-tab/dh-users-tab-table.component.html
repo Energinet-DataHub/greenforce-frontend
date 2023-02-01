@@ -22,6 +22,8 @@ limitations under the License.
     [columns]="columns"
     (rowClick)="onRowClick($event)"
     [activeRow]="activeRow"
+    sortBy="email"
+    sortDirection="asc"
     [sortClear]="false"
   >
     <ng-container *wattTableCell="columns.name; header: t('name'); let element">
@@ -35,7 +37,7 @@ limitations under the License.
     </ng-container>
 
     <ng-container
-      *wattTableCell="columns.phone; header: t('phone'); let element"
+      *wattTableCell="columns.phoneNumber; header: t('phone'); let element"
     >
       {{ element.phoneNumber | dhEmDashFallback }}
     </ng-container>

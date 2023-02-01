@@ -28,8 +28,10 @@ import {
 } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserOverviewHttp,
+  SortDirection,
   UserOverviewItemDto,
   UserOverviewResultDto,
+  UserOverviewSortProperty,
   UserStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
@@ -39,6 +41,8 @@ interface DhUserManagementState {
   readonly usersRequestState: LoadingState | ErrorState;
   readonly pageNumber: number;
   readonly pageSize: number;
+  readonly sortProperty: UserOverviewSortProperty;
+  readonly direction: SortDirection;
   readonly searchText: string | undefined;
   readonly statusFilter: UserStatus[];
   readonly actorIdFilter: string | undefined;
@@ -49,6 +53,8 @@ export type FetchUsersParams = Pick<
   DhUserManagementState,
   | 'pageSize'
   | 'pageNumber'
+  | 'sortProperty'
+  | 'direction'
   | 'searchText'
   | 'statusFilter'
   | 'actorIdFilter'
@@ -61,6 +67,8 @@ const initialState: DhUserManagementState = {
   usersRequestState: LoadingState.INIT,
   pageNumber: 1,
   pageSize: 50,
+  sortProperty: 'Email',
+  direction: 'Asc',
   searchText: undefined,
   statusFilter: ['Active'],
   actorIdFilter: undefined,
@@ -96,6 +104,8 @@ export class DhAdminUserManagementDataAccessApiStore
     this.select(
       this.pageSize$,
       this.select((state) => state.pageNumber),
+      this.select((state) => state.sortProperty),
+      this.select((state) => state.direction),
       this.select((state) => state.searchText),
       this.select((state) => state.statusFilter),
       this.select((state) => state.actorIdFilter),
@@ -103,6 +113,8 @@ export class DhAdminUserManagementDataAccessApiStore
       (
         pageSize,
         pageNumber,
+        sortProperty,
+        direction,
         searchText,
         statusFilter,
         actorIdFilter,
@@ -110,6 +122,8 @@ export class DhAdminUserManagementDataAccessApiStore
       ) => ({
         pageSize,
         pageNumber,
+        sortProperty,
+        direction,
         searchText,
         statusFilter,
         actorIdFilter,
@@ -179,6 +193,8 @@ export class DhAdminUserManagementDataAccessApiStore
   private getUsers({
     pageNumber,
     pageSize,
+    sortProperty,
+    direction,
     searchText,
     statusFilter,
     actorIdFilter,
@@ -191,6 +207,8 @@ export class DhAdminUserManagementDataAccessApiStore
     return this.httpClient.v1MarketParticipantUserOverviewSearchUsersPost(
       pageNumber,
       pageSize,
+      sortProperty,
+      direction,
       {
         actorId: actorIdFilter,
         userRoleIds: userRoleFilter,
@@ -201,13 +219,18 @@ export class DhAdminUserManagementDataAccessApiStore
   }
 
   updateSearchText(searchText: string) {
-    const searchTextToSave = searchText === '' ? undefined : searchText;
-
-    this.patchState({ searchText: searchTextToSave });
+    this.patchState({
+      searchText: searchText === '' ? undefined : searchText,
+      pageNumber: 1,
+    });
   }
 
   updateStatusFilter(userStatus: UserStatus[]) {
-    this.patchState({ statusFilter: userStatus });
+    this.patchState({ statusFilter: userStatus, pageNumber: 1 });
+  }
+
+  updateSort(sortProperty: UserOverviewSortProperty, direction: SortDirection) {
+    this.patchState({ sortProperty, direction });
   }
 
   updateActorFilter(actorId: string | undefined) {
