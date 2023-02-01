@@ -11,9 +11,8 @@
  */
 
 
-export type ProcessStepType = 'AggregateConsumptionPerEnergySupplier';
+export interface BatchActorDto { 
+    gln: string;
+}
 
-export const ProcessStepType = {
-    AggregateConsumptionPerEnergySupplier: 'AggregateConsumptionPerEnergySupplier' as ProcessStepType
-};
 
