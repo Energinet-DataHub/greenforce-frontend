@@ -121,9 +121,9 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a processStepResult.
         /// </summary>
         [HttpPost("ProcessResult")]
-        public async Task<ActionResult<ProcessStepResultDto>> GetAsync(ProcessResultRequestDto processResultRequestDto)
+        public async Task<ActionResult<ProcessStepResultDto>> GetAsync(ProcessStepResultRequestDtoV2 processResultRequestDto)
         {
-            var dto = await _client.GetProcessResultAsync(processResultRequestDto).ConfigureAwait(false);
+            var dto = await _client.GetProcessStepResultAsync(processResultRequestDto).ConfigureAwait(false);
             return Ok(dto);
         }
 
@@ -131,9 +131,9 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a list of actors.
         /// </summary>
         [HttpPost("Actors")]
-        public async Task<ActionResult<BatchActorDto[]>> GetAsync(BatchActorsRequestDto batchActorsRequestDto)
+        public async Task<ActionResult<WholesaleActorDto[]>> GetAsync(ProcessStepActorsRequest batchActorsRequestDto)
         {
-            var dto = await _client.GetActorsAsync(batchActorsRequestDto).ConfigureAwait(false);
+            var dto = await _client.GetProcessStepActorsAsync(batchActorsRequestDto).ConfigureAwait(false);
             return Ok(dto);
         }
     }
