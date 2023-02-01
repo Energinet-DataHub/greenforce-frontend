@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
@@ -25,6 +25,12 @@ import {
   WattModalModule,
 } from '@energinet-datahub/watt/modal';
 
+import { DhUserRolesComponent } from '../../shared/dh-user-roles.component/dh-user-roles.component';
+import {
+  DhAdminUserRolesStore,
+  UpdateUserRoles,
+} from '@energinet-datahub/dh/admin/data-access-api';
+
 @Component({
   selector: 'dh-edit-user-modal',
   standalone: true,
@@ -34,24 +40,48 @@ import {
     WattButtonModule,
     TranslocoModule,
     WattTabsModule,
+    DhUserRolesComponent,
   ],
   templateUrl: './dh-edit-user-modal.component.html',
   styleUrls: ['./dh-edit-user-modal.component.scss'],
 })
 export class DhEditUserModalComponent {
+  private readonly store = inject(DhAdminUserRolesStore);
   user: UserOverviewItemDto | null = null;
+  private _updateUserRoles: UpdateUserRoles | null = null;
   @ViewChild('editUserModal') editUserModal!: WattModalComponent;
+  @ViewChild('userRoles') userRoles!: DhUserRolesComponent;
 
   open(user: UserOverviewItemDto | null): void {
     this.user = user;
     this.editUserModal.open();
   }
 
-  save(): void {
-    // TODO: Save user
+  save() {
+    if (this.user === null || this._updateUserRoles === null) {
+      this.editUserModal.close(false);
+      return;
+    }
+    this.store.assignRoles({
+      userId: this.user.id,
+      updateUserRoles: this._updateUserRoles,
+    });
+
+    this.store.getUserRolesView(this.user.id);
+    this.userRoles.resetUpdateUserRoles();
+    this.editUserModal.close(true);
   }
 
   deactivedUser(): void {
-    // TODO: Deactivate user
+    console.error('Not implemented yet');
+  }
+
+  close(): void {
+    this.userRoles.resetUpdateUserRoles();
+    this.editUserModal.close(true);
+  }
+
+  onSelectedUserRolesChanged(updateUserRoles: UpdateUserRoles): void {
+    this._updateUserRoles = updateUserRoles;
   }
 }

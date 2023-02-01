@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license
  * Copyright 2020 Energinet DataHub A/S
  *
@@ -14,36 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-h4 {
-  margin: 0 0 var(--watt-space-l);
-}
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { WattCardModule } from '@energinet-datahub/watt/card';
+import { TranslocoModule } from '@ngneat/transloco';
 
-watt-empty-state {
-  padding: var(--watt-space-xl);
-}
-
-watt-spinner {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--watt-space-xl);
-}
-
-.userRoles {
-  mat-divider {
-    color: var(--watt-color-neutral-grey-400);
-    margin: var(--watt-space-m) 0;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  li {
-    display: grid;
-    margin: var(--watt-space-s) 0 0 var(--watt-space-s);
-    grid-template-columns: 1fr 1fr;
-  }
-  h6 {
-    margin: 0 0 0 var(--watt-space-s);
-  }
-}
+@Component({
+  selector: 'dh-edit-user-roles-tab',
+  standalone: true,
+  imports: [CommonModule, WattCardModule, TranslocoModule],
+  templateUrl: './dh-edit-user-roles-tab.component.html',
+  styles: [``],
+})
+export class DhEditUserRolesTabComponent {}

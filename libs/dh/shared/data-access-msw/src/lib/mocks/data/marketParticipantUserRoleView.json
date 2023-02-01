@@ -17,7 +17,7 @@
             {
               "id": "b50dfe6b-962b-448e-88e6-97b715fb33bc",
               "name": "Lys ansvarlig",
-              "userActorId": "00000000-0000-0000-0000-000000000001"
+              "userActorId": null
             }
           ]
         }
@@ -35,7 +35,7 @@
             {
               "id": "b50dfe6b-962b-448e-88e6-97b715fb33bc",
               "name": "Lys ansvarlig",
-              "userActorId": "00000000-0000-0000-0000-000000000001"
+              "userActorId": null
             }
           ]
         }
