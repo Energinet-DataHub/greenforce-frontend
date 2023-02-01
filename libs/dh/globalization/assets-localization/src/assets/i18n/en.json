@@ -918,20 +918,24 @@
         "users": {
           "tabLabel": "Users",
           "searchPlaceholder": "Search users",
+          "searchActorPlaceHolder": "Choose market party",
+          "searchUserRolePlaceHolder": "Choose user role",
           "usersHeadline": {
             "singular": "{{ usersCount }} user",
             "plural": "{{ usersCount }} users"
           },
           "filter": {
-            "status": "Status"
+            "status": "Status",
+            "actor": "Market party",
+            "userrole": "User role"
           },
           "table": {
             "columns": {
               "name": "Name",
               "email": "Email",
               "phone": "Phone",
-              "status": "Status",
-              "createdDate": "Created"
+              "assignedActors": "Assigned market parties",
+              "status": "Status"
             }
           },
           "errors": {
