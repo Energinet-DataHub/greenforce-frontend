@@ -17,7 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Energinet.DataHub.WebApi.Tests.Fixtures
 {
     /// <summary>
-    /// Allows for mocking parts of the pipeline in tests.
+    /// This can be used for changing registrations in the container (e.g. for mocks).
     /// </summary>
     public interface IServiceMock
     {
