@@ -80,7 +80,7 @@ export class DhWholesaleProductionPerGridareaComponent
           batchId: vm.batch.batchId,
           gridAreaCode: vm.gridArea.code,
           timeSeriesType: TimeSeriesType.Production,
-          gln: '' // TODO: THIS PROPERPLY BREAKS THE API
+          gln: 'grid_area' // magic string
         }))
       )
     );
