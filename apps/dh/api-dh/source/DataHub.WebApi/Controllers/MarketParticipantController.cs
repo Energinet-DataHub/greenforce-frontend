@@ -83,7 +83,7 @@ namespace Energinet.DataHub.WebApi.Controllers
 
         /// <summary>
         /// Gets a list of actors ready for use in filters in frontend.
-        /// The list is made so that FAS members can chose from all the actors, while
+        /// The list is made so that FAS members can choose from all the actors, while
         /// non-FAS member can only pick their own actor.
         /// </summary>
         [HttpGet("GetFilteredActors")]
