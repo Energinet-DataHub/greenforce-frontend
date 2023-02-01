@@ -87,7 +87,7 @@ import { EoCertificatesStore } from './eo-certificates.store';
 
       <!-- Action column -->
       <ng-container matColumnDef="action">
-        <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let element"
           ><h4>
             <a
@@ -111,6 +111,7 @@ import { EoCertificatesStore } from './eo-certificates.store';
   `,
 })
 export class EoCertificatesTableComponent implements AfterViewInit {
+  certificates: EoCertificate[] = [];
   dataSource: MatTableDataSource<EoCertificate> = new MatTableDataSource();
   displayedColumns: string[] = ['dateFrom', 'gsrn', 'quantity', 'action'];
 
@@ -118,13 +119,12 @@ export class EoCertificatesTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private store: EoCertificatesStore) {
-    this.store.certificates$.subscribe(
-      (certs) => (this.dataSource.data = certs)
-    );
+    this.store.certificates$.subscribe((certs) => (this.certificates = certs));
   }
 
   ngAfterViewInit() {
-    this.dataSource.sort = this.matSort;
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.matSort;
+    this.dataSource.data = this.certificates; // It's really important that data gets loaded after paginator, due to performance
   }
 }

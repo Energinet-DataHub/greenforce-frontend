@@ -35,10 +35,12 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhEditUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-edit-user-role-modal';
 
 import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component';
 import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-data-general-error.component';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-role-drawer',
@@ -86,6 +88,8 @@ import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-
     LetModule,
     WattSpinnerModule,
     DhTabDataGeneralErrorComponent,
+    DhEditUserRoleModalComponent,
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhRoleDrawerComponent {
@@ -102,6 +106,8 @@ export class DhRoleDrawerComponent {
   drawer!: WattDrawerComponent;
 
   basicUserRole: UserRoleDto | null = null;
+
+  isEditUserRoleModalVisible = false;
 
   @Output() closed = new EventEmitter<void>();
 

@@ -1,0 +1,79 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container
+  *transloco="let t; read: 'admin.userManagement.createrole.tabs.masterdata'"
+>
+  <watt-card>
+    <!-- Name -->
+    <watt-form-field>
+      <watt-label>{{ t("name") }}</watt-label>
+      <input wattInput type="text" [formControl]="userRoleForm.controls.name" />
+      <watt-error *ngIf="userRoleForm.controls.name.hasError('required')">
+        {{ t("fieldRequiredErrorText") }}
+      </watt-error>
+      <watt-error *ngIf="userRoleForm.controls.name.hasError('maxlength')">
+        {{ t("nameMaxLengthErrorText") }}
+      </watt-error>
+    </watt-form-field>
+    <!-- Description -->
+    <watt-form-field>
+      <watt-label>{{ t("description") }}</watt-label>
+      <input
+        wattInput
+        type="text"
+        [formControl]="userRoleForm.controls.description"
+      />
+      <watt-error
+        *ngIf="userRoleForm.controls.description.hasError('required')"
+      >
+        {{ t("fieldRequiredErrorText") }}
+      </watt-error>
+    </watt-form-field>
+    <!-- Userrole status -->
+    <watt-form-field>
+      <watt-label>{{ t("roleStatus") }}</watt-label>
+      <watt-dropdown
+        [formControl]="userRoleForm.controls.roleStatus"
+        [options]="userRoleStatusOptions"
+        name="status"
+        [showResetOption]="false"
+        [placeholder]="t('selectUserroleStatus')"
+      >
+      </watt-dropdown>
+      <watt-error *ngIf="userRoleForm.controls.roleStatus.hasError('required')">
+        {{ t("fieldRequiredErrorText") }}
+      </watt-error>
+    </watt-form-field>
+    <!-- Eic Function -->
+    <watt-form-field>
+      <watt-label>{{ t("eicFunction") }}</watt-label>
+      <watt-dropdown
+        [formControl]="userRoleForm.controls.eicFunction"
+        [options]="eicFunctionOptions"
+        name="eicFunction"
+        [showResetOption]="false"
+        [placeholder]="t('selectEicFunctionStatus')"
+      >
+      </watt-dropdown>
+      <watt-error
+        *ngIf="userRoleForm.controls.eicFunction.hasError('required')"
+      >
+        {{ t("fieldRequiredErrorText") }}
+      </watt-error>
+    </watt-form-field>
+  </watt-card>
+</ng-container>

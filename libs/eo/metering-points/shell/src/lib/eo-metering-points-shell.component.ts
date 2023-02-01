@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { LetModule } from '@rx-angular/template/let';
-import { EoMeteringPointListComponent } from './eo-metering-point-list.component';
+import { EoMeteringPointListComponent } from './eo-metering-point-table.component';
 import { EoMeteringPointsStore } from './eo-metering-points.store';
 
 @Component({
@@ -26,7 +26,7 @@ import { EoMeteringPointsStore } from './eo-metering-points.store';
   standalone: true,
   imports: [
     LetModule,
-    CommonModule,
+    NgIf,
     EoPopupMessageComponent,
     EoMeteringPointListComponent,
   ],
@@ -35,7 +35,7 @@ import { EoMeteringPointsStore } from './eo-metering-points.store';
   template: ` <ng-container *rxLet="error$ as error">
       <eo-popup-message *ngIf="error" [errorMessage]="error">
       </eo-popup-message> </ng-container
-    ><eo-metering-points-list></eo-metering-points-list>`,
+    ><eo-metering-points-table></eo-metering-points-table>`,
 })
 export class EoMeteringPointsShellComponent {
   error$ = this.meteringPointStore.error$;

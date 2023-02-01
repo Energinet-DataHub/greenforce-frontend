@@ -19,5 +19,6 @@ export const permissions = [
   'gridareas:manage',
   'actor:manage',
   'users:manage',
+  'userrole:manage',
 ] as const;
 export type Permission = typeof permissions[number];
