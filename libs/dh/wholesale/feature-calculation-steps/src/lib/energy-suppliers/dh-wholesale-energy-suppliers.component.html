@@ -14,11 +14,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<h5 class="watt-on-light--high-emphasis">2 Resultater</h5>
-<watt-table
-  [dataSource]="_dataSource"
-  [columns]="_columns"
-  (rowClick)="rowClick.emit($event)"
->
-</watt-table>
-<watt-paginator></watt-paginator>
+<ng-container *transloco="let t; read: 'wholesale.calculationSteps'">
+  <h5 class="watt-on-light--high-emphasis">2 Resultater</h5>
+  <watt-table
+    [resolveHeader]="t"
+    [dataSource]="_dataSource"
+    [columns]="_columns"
+    (rowClick)="rowClick.emit($event)"
+  >
+  </watt-table>
+  <watt-paginator></watt-paginator>
+</ng-container>
