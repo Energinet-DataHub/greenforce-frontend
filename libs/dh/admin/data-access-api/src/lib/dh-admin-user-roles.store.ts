@@ -108,7 +108,6 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
 
   private handleError = () => {
     this.updateRoles(null);
-    console.log('Error');
     this.hasGeneralError$.next();
   };
 
