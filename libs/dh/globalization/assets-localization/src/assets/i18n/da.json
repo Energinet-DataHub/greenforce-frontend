@@ -796,13 +796,15 @@
       "type": "Type",
       "balanceFixing": "Balancefiksering",
       "loadCalculationStepsFailedTitle": "Ups! Der opstod en fejl",
-      "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
+      "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
+      "energySupplier": "{{wholesale.processStepResults.energySupplier}}"
     },
     "processStepResults": {
       "step": "Trin {{step}}",
       "aggregatedProductionPerGridArea": "Aggregeret produktion per netområde",
-      "aggregatedConsumptionPerEnergySupplier": "Aggregeret forbrug per elleverandør",
+      "aggregatedConsumptionPerEnergySupplier": "Aggregeret timeforbrug per elleverandør",
       "gridArea": "Netområde",
+      "energySupplier": "El-leverandør",
       "loadProcessStepResultsErrorTitle": "Ups! Der opstod en fejl",
       "loadProcessStepResultsErrorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "meteringPointType": "Målepunktstype",

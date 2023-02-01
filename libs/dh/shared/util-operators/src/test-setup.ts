@@ -14,9 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export {
-  WattExpandableCardComponent,
-  WattExpandableCardTitleComponent,
-  WattExpandableCardContentDirective,
-  WATT_EXPANDABLE_CARD_COMPONENTS,
-} from './watt-expandable-card.component';
+import 'jest-preset-angular/setup-jest';
+
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+setUpTestbed();

@@ -792,13 +792,15 @@
       "type": "Type",
       "balanceFixing": "Balance fixing",
       "loadCalculationStepsFailedTitle": "Oops! There was an error",
-      "loadCalculationStepsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information"
+      "loadCalculationStepsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
+      "energySupplier": "{{wholesale.processStepResults.energySupplier}}"
     },
     "processStepResults": {
       "step": "Step {{step}}",
       "aggregatedProductionPerGridArea": "Aggregated production per grid area",
       "aggregatedConsumptionPerEnergySupplier": "Aggregated consumption per energy supplier",
       "gridArea": "Grid area",
+      "energySupplier": "Energy Supplier",
       "loadProcessStepResultsErrorTitle": "Oops! There was an error",
       "loadProcessStepResultsErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information",
       "meteringPointType": "Metering point type",

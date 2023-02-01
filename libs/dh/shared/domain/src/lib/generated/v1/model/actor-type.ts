@@ -11,10 +11,9 @@
  */
 
 
-export interface TimeSeriesPointDto { 
-    time: string;
-    quantity: number;
-    quality: string;
-}
+export type ActorType = 'EnergySupplier';
 
+export const ActorType = {
+    EnergySupplier: 'EnergySupplier' as ActorType
+};
 
