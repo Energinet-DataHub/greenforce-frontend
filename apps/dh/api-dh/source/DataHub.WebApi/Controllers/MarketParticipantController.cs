@@ -86,8 +86,8 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// The list is made so that FAS members can chose from all the actors, while
         /// non-FAS member can only pick their own actor.
         /// </summary>
-        [HttpGet("GetFilterActors")]
-        public Task<ActionResult<IEnumerable<ActorDto>>> GetFilterActorsAsync()
+        [HttpGet("GetFilteredActors")]
+        public Task<ActionResult<IEnumerable<ActorDto>>> GetFilteredActorsAsync()
         {
             return HandleExceptionAsync(async () =>
             {

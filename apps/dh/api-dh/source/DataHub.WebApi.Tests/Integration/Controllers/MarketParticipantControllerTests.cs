@@ -40,24 +40,26 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         {
         }
 
-        private const string GetFilterActorsUrl = "v1/MarketParticipant/Organization/GetFilterActors";
+        private const string GetFilteredActorsUrl = "v1/MarketParticipant/Organization/GetFilteredActors";
 
         [Theory]
         [InlineAutoMoqData]
-        public async Task GetFilterActorsUrl_NotFas_ReturnsSingleActor(OrganizationDto organization, ActorDto actor, Guid actorId)
+        public async Task GetFilteredActorsUrl_NotFas_ReturnsSingleActor(OrganizationDto organization, ActorDto actor, Guid actorId)
         {
             // Arrange
             JwtAuthenticationServiceMock.AddAuthorizationHeader(BffClient, actorId);
 
+            var organizations = new List<OrganizationDto>
+            {
+                organization with { Actors = new[] { actor with { ActorId = actorId }, actor with { ActorId = Guid.NewGuid() } } },
+            };
+
             MarketParticipantClientMock
                 .Setup(client => client.GetOrganizationsAsync())
-                .ReturnsAsync(new List<OrganizationDto>
-                {
-                    organization with { Actors = new[] { actor with { ActorId = actorId }, actor with { ActorId = Guid.NewGuid() } } },
-                });
+                .ReturnsAsync(organizations);
 
             // Act
-            var actual = await BffClient.GetAsync(GetFilterActorsUrl);
+            var actual = await BffClient.GetAsync(GetFilteredActorsUrl);
 
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -68,7 +70,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         [Theory]
         [InlineAutoMoqData]
-        public async Task GetFilterActorsUrl_IsFas_ReturnsAllActors(OrganizationDto organization, ActorDto actor, Guid actorId)
+        public async Task GetFilteredActors_IsFas_ReturnsAllActors(OrganizationDto organization, ActorDto actor, Guid actorId)
         {
             // Arrange
             JwtAuthenticationServiceMock.AddAuthorizationHeader(BffClient, actorId, new Claim("membership", "fas"));
@@ -83,7 +85,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .ReturnsAsync(organizations);
 
             // Act
-            var actual = await BffClient.GetAsync(GetFilterActorsUrl);
+            var actual = await BffClient.GetAsync(GetFilteredActorsUrl);
 
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
