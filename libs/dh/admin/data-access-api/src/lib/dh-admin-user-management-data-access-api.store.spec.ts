@@ -33,7 +33,7 @@ import {
 describe(DhAdminUserManagementDataAccessApiStore.name, () => {
   async function setup() {
     const httpMock = {
-      v1MarketParticipantUserOverviewGetUserOverviewGet: jest.fn(() => of()),
+      v1MarketParticipantUserOverviewSearchUsersPost: jest.fn(() => of()),
     } as unknown as MarketParticipantUserOverviewHttp;
 
     @Component({
@@ -72,7 +72,7 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
     };
 
     expect(
-      httpMock.v1MarketParticipantUserOverviewGetUserOverviewGet
+      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
     ).toHaveBeenCalledWith(...Object.values(actualParams));
   });
 
@@ -99,7 +99,7 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
     };
 
     expect(
-      httpMock.v1MarketParticipantUserOverviewGetUserOverviewGet
+      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
     ).toHaveBeenLastCalledWith(...Object.values(actualParams));
   }));
 
@@ -121,7 +121,7 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
     };
 
     expect(
-      httpMock.v1MarketParticipantUserOverviewGetUserOverviewGet
+      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
     ).toHaveBeenLastCalledWith(...Object.values(actualParams));
   }));
 
@@ -145,7 +145,7 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
     };
 
     expect(
-      httpMock.v1MarketParticipantUserOverviewGetUserOverviewGet
+      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
     ).toHaveBeenLastCalledWith(...Object.values(actualParams));
   }));
 
@@ -162,7 +162,7 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
     const numberOfTimesCalled = 2;
 
     expect(
-      httpMock.v1MarketParticipantUserOverviewGetUserOverviewGet
+      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
     ).toHaveBeenCalledTimes(numberOfTimesCalled);
   }));
 
