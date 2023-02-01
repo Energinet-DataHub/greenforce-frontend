@@ -60,7 +60,6 @@ export class DhEditUserModalComponent {
   save() {
     if (this.user === null || this._updateUserRoles === null) {
       this.editUserModal.close(false);
-      // Todo: Show error message
       return;
     }
     this.store.assignRoles({
@@ -74,7 +73,7 @@ export class DhEditUserModalComponent {
   }
 
   deactivedUser(): void {
-    // TODO: Deactivate user
+    console.error('Not implemented yet');
   }
 
   close(): void {
