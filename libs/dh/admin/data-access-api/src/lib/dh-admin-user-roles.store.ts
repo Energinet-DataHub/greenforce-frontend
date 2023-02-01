@@ -14,8 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
-import { filter, map, Observable, Subject, switchMap, tap } from 'rxjs';
+import { EventEmitter, Injectable } from '@angular/core';
+import {
+  concatMap,
+  filter,
+  from,
+  map,
+  Observable,
+  Subject,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -24,22 +33,37 @@ import {
 } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
+  MarketParticipantUserRoleAssignmentHttp,
   UserRolesViewDto,
+  UserRoleViewDto,
+  UpdateUserRoleAssignmentsDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserManagementState {
   readonly userRolesView: UserRolesViewDto | null;
   readonly requestState: LoadingState | ErrorState;
-  readonly numberOfRoles: number;
+  readonly numberOfSelectedRoles: number;
+  readonly numberOfAssigenableRoles: number;
+  readonly selectedRoles: UserRoleViewDto[];
 }
 
 const initialState: DhUserManagementState = {
   userRolesView: null,
   requestState: LoadingState.INIT,
-  numberOfRoles: 0,
+  numberOfSelectedRoles: 0,
+  numberOfAssigenableRoles: 0,
+  selectedRoles: [],
 };
 
-@Injectable()
+export type UpdateUserRolesWithActorId = {
+  id: string;
+  userRolesToUpdate: UpdateUserRoleAssignmentsDto;
+};
+export type UpdateUserRoles = {
+  actors: UpdateUserRolesWithActorId[];
+};
+
+@Injectable({ providedIn: 'root' })
 export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState> {
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select(
@@ -54,9 +78,17 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
     map((userRolesView) => userRolesView as UserRolesViewDto)
   );
 
-  numberOfRoles$ = this.select((state) => state.numberOfRoles);
+  numberOfSelectedRoles$ = this.select((state) => state.numberOfSelectedRoles);
+  numberOfAssignableRoles$ = this.select(
+    (state) => state.numberOfAssigenableRoles
+  );
 
-  constructor(private httpClient: MarketParticipantUserRoleHttp) {
+  selectedRoles$ = this.select((state) => state.selectedRoles);
+
+  constructor(
+    private marketParticipantUserRoleHttp: MarketParticipantUserRoleHttp,
+    private marketParticipantUserRoleAssignmentHttp: MarketParticipantUserRoleAssignmentHttp
+  ) {
     super(initialState);
   }
 
@@ -67,7 +99,7 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
         this.setLoading(LoadingState.LOADING);
       }),
       switchMap((userId) => {
-        return this.httpClient
+        return this.marketParticipantUserRoleHttp
           .v1MarketParticipantUserRoleGetUserRoleViewGet(userId)
           .pipe(
             tapResponse(
@@ -85,13 +117,51 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
     )
   );
 
+  readonly assignRoles = this.effect(
+    (
+      trigger$: Observable<{ userId: string; updateUserRoles: UpdateUserRoles }>
+    ) => {
+      return trigger$.pipe(
+        concatMap(({ userId, updateUserRoles }) =>
+          from(updateUserRoles.actors).pipe(
+            concatMap((actor) => {
+              return this.marketParticipantUserRoleAssignmentHttp.v1MarketParticipantUserRoleAssignmentUpdateAssignmentsPut(
+                actor.id,
+                userId,
+                actor.userRolesToUpdate
+              );
+            }),
+            tapResponse(
+              () => {
+                this.getUserRolesView(userId);
+              },
+              () => this.handleError()
+            )
+          )
+        )
+      );
+    }
+  );
+
   private updateRoles = this.updater(
     (
       state: DhUserManagementState,
       userRolesView: UserRolesViewDto | null
     ): DhUserManagementState => ({
       ...state,
-      numberOfRoles:
+      numberOfSelectedRoles:
+        userRolesView?.organizations.flatMap((org) =>
+          org.actors.flatMap((actor) =>
+            actor.userRoles.filter((userRole) => userRole.userActorId !== null)
+          )
+        ).length ?? 0,
+      selectedRoles:
+        userRolesView?.organizations.flatMap((org) =>
+          org.actors.flatMap((actor) =>
+            actor.userRoles.filter((userRole) => userRole.userActorId !== null)
+          )
+        ) ?? [],
+      numberOfAssigenableRoles:
         userRolesView?.organizations.flatMap((org) =>
           org.actors.flatMap((actor) => actor.userRoles)
         ).length ?? 0,
