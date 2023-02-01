@@ -719,7 +719,7 @@ export class MarketParticipantHttp {
     }
 
     /**
-     * Gets a list of actors ready for use in filters in frontend.  The list is made so that FAS members can chose from all the actors, while  non-FAS member can only pick their own actor.
+     * Gets a list of actors ready for use in filters in frontend.  The list is made so that FAS members can choose from all the actors, while  non-FAS member can only pick their own actor.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
