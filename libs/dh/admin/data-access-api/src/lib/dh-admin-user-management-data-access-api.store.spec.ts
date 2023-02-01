@@ -67,6 +67,8 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
       pageSize: 50,
       searchText: undefined,
       statusFilter: ['Active'],
+      actorIdFilter: undefined,
+      userRoleFilter: [],
     };
 
     expect(
@@ -92,6 +94,8 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
       pageSize: 25,
       searchText: undefined,
       statusFilter: ['Active'],
+      actorIdFilter: undefined,
+      userRoleFilter: [],
     };
 
     expect(
@@ -112,6 +116,8 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
       pageSize: 50,
       searchText: 'john',
       statusFilter: ['Active'],
+      actorIdFilter: undefined,
+      userRoleFilter: [],
     };
 
     expect(
@@ -134,6 +140,8 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
       pageSize: 50,
       searchText: undefined,
       statusFilter: ['Active', 'Inactive'],
+      actorIdFilter: undefined,
+      userRoleFilter: [],
     };
 
     expect(
