@@ -49,9 +49,11 @@ namespace Energinet.DataHub.WebApi.Controllers
         public Task<ActionResult<UserOverviewResultDto>> SearchUsersAsync(
             int pageNumber,
             int pageSize,
+            UserOverviewSortProperty sortProperty,
+            SortDirection sortDirection,
             [FromBody] UserOverviewFilterDto filter)
         {
-            return HandleExceptionAsync(() => _client.SearchUsersAsync(pageNumber, pageSize, filter));
+            return HandleExceptionAsync(() => _client.SearchUsersAsync(pageNumber, pageSize, sortProperty, sortDirection, filter));
         }
     }
 }
