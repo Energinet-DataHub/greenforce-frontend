@@ -14,9 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export {
-  WattExpandableCardComponent,
-  WattExpandableCardTitleComponent,
-  WattExpandableCardContentDirective,
-  WATT_EXPANDABLE_CARD_COMPONENTS,
-} from './watt-expandable-card.component';
+import { type OperatorFunction, filter } from 'rxjs';
+
+/**
+ * Filters out undefined and null values while modifying the downstream type.
+ */
+export function exists<T>(): OperatorFunction<T | undefined | null, T> {
+  return filter(
+    (value: T | undefined | null): value is T =>
+      !value !== undefined && value !== null
+  );
+}

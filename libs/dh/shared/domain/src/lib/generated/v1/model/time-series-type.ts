@@ -11,9 +11,11 @@
  */
 
 
-export type ProcessStepType = 'AggregateConsumptionPerEnergySupplier';
+export type TimeSeriesType = 'NonProfiled' | 'FlexConsumption' | 'Production';
 
-export const ProcessStepType = {
-    AggregateConsumptionPerEnergySupplier: 'AggregateConsumptionPerEnergySupplier' as ProcessStepType
+export const TimeSeriesType = {
+    NonProfiled: 'NonProfiled' as TimeSeriesType,
+    FlexConsumption: 'FlexConsumption' as TimeSeriesType,
+    Production: 'Production' as TimeSeriesType
 };
 
