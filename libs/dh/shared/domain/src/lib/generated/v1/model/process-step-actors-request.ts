@@ -9,12 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { TimeSeriesType } from './time-series-type';
+import { MarketRole } from './market-role';
 
 
-export interface TimeSeriesPointDto { 
-    time: string;
-    quantity: number;
-    quality: string;
+export interface ProcessStepActorsRequest { 
+    batchId: string;
+    gridAreaCode: string;
+    type: TimeSeriesType;
+    marketRole: MarketRole;
 }
 
 

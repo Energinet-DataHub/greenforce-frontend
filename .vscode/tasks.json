@@ -38,6 +38,18 @@
       "problemMatcher": "$msCompile"
     },
     {
+      "label": "build wholesale",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/backend/opengeh-wholesale/source/dotnet/Services/WebApi/WebApi.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
       "label": "publish",
       "command": "dotnet",
       "type": "process",
