@@ -9,11 +9,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { TimeSeriesType } from './time-series-type';
 
 
-export type ProcessStepType = 'AggregateConsumptionPerEnergySupplier';
+export interface ProcessResultRequestDto { 
+    batchId: string;
+    gridAreaCode: string;
+    timeSeriesType: TimeSeriesType;
+    gln?: string | null;
+}
 
-export const ProcessStepType = {
-    AggregateConsumptionPerEnergySupplier: 'AggregateConsumptionPerEnergySupplier' as ProcessStepType
-};
 

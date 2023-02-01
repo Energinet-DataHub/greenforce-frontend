@@ -801,8 +801,9 @@
     "processStepResults": {
       "step": "Trin {{step}}",
       "aggregatedProductionPerGridArea": "Aggregeret produktion per netområde",
-      "aggregatedConsumptionPerEnergySupplier": "Aggregeret forbrug per elleverandør",
+      "aggregatedConsumptionPerEnergySupplier": "Aggregeret timeforbrug per elleverandør",
       "gridArea": "Netområde",
+      "energySupplier": "Elleverandør",
       "loadProcessStepResultsErrorTitle": "Ups! Der opstod en fejl",
       "loadProcessStepResultsErrorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "meteringPointType": "Målepunktstype",
