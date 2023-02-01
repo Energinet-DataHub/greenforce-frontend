@@ -30,22 +30,43 @@ limitations under the License.
           *ngTemplateOutlet="
             userRolesHeadline;
             context: {
-              $implicit: numberOfRoles$ | push
+              $implicit:
+                (selectMode ? numberOfAssignableRoles$ : numberOfSelectedRoles$)
+                | push
             }
           "
         ></ng-container>
       </watt-card-title>
-      <div class="userRoles" *ngFor="let org of userRoleView.organizations">
+      <div
+        class="userRoles"
+        [ngClass]="{ selectMode: selectMode }"
+        *ngFor="let org of userRoleView.organizations"
+      >
         <ng-container *ngFor="let actor of org.actors">
           <h6>
             {{ org?.name }} | GLN {{ actor.actorNumber }} |
-            {{ actor.userRoles | joinUserRoles }}
+            {{ actor.actorMarketRoles | joinMarketRoles }}
           </h6>
           <mat-divider></mat-divider>
-          <ul class="watt-text-s">
+          <ul class="watt-text-s" *ngIf="selectMode === false">
+            <ng-container *ngFor="let userRole of actor.userRoles">
+              <li *ngIf="userRole.userActorId !== null">
+                <div>{{ userRole.name }}</div>
+                <div>Manglede beskrivelse</div>
+              </li>
+            </ng-container>
+          </ul>
+          <ul class="watt-text-s" *ngIf="selectMode">
             <li *ngFor="let userRole of actor.userRoles">
-              <div>{{ userRole.name }}</div>
-              <div>Manglede beskrivelse</div>
+              <ng-container *ngIf="selectMode">
+                <input
+                  type="checkbox"
+                  [checked]="userRole.userActorId !== null"
+                  (change)="selectUserRole($any($event), userRole, actor.id)"
+                />
+                <div>{{ userRole.name }}</div>
+                <div>Manglede beskrivelse</div>
+              </ng-container>
             </li>
           </ul>
         </ng-container>
