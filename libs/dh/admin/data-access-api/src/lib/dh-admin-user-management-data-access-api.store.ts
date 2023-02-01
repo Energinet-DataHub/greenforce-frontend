@@ -45,16 +45,20 @@ interface DhUserManagementState {
   readonly direction: SortDirection;
   readonly searchText: string | undefined;
   readonly statusFilter: UserStatus[];
+  readonly actorIdFilter: string | undefined;
+  readonly userRoleFilter: string[];
 }
 
 export type FetchUsersParams = Pick<
   DhUserManagementState,
   | 'pageSize'
   | 'pageNumber'
-  | 'searchText'
   | 'sortProperty'
   | 'direction'
+  | 'searchText'
   | 'statusFilter'
+  | 'actorIdFilter'
+  | 'userRoleFilter'
 >;
 
 const initialState: DhUserManagementState = {
@@ -67,6 +71,8 @@ const initialState: DhUserManagementState = {
   direction: 'Asc',
   searchText: undefined,
   statusFilter: ['Active'],
+  actorIdFilter: undefined,
+  userRoleFilter: [],
 };
 
 @Injectable()
@@ -102,13 +108,17 @@ export class DhAdminUserManagementDataAccessApiStore
       this.select((state) => state.direction),
       this.select((state) => state.searchText),
       this.select((state) => state.statusFilter),
+      this.select((state) => state.actorIdFilter),
+      this.select((state) => state.userRoleFilter),
       (
-        pageSize,
         pageNumber,
+        pageSize,
         sortProperty,
         direction,
         searchText,
-        statusFilter
+        statusFilter,
+        actorIdFilter,
+        userRoleFilter
       ) => ({
         pageSize,
         pageNumber,
@@ -116,6 +126,8 @@ export class DhAdminUserManagementDataAccessApiStore
         direction,
         searchText,
         statusFilter,
+        actorIdFilter,
+        userRoleFilter,
       }),
       { debounce: true }
     );
@@ -185,6 +197,8 @@ export class DhAdminUserManagementDataAccessApiStore
     direction,
     searchText,
     statusFilter,
+    actorIdFilter,
+    userRoleFilter,
   }: FetchUsersParams) {
     if (!statusFilter || statusFilter.length == 0) {
       return of({ users: [], totalUserCount: 0 });
@@ -196,9 +210,10 @@ export class DhAdminUserManagementDataAccessApiStore
       sortProperty,
       direction,
       {
-        userStatus: statusFilter,
+        actorId: actorIdFilter,
+        userRoleIds: userRoleFilter,
         searchText: searchText,
-        userRoleIds: [],
+        userStatus: statusFilter,
       }
     );
   }
@@ -216,6 +231,14 @@ export class DhAdminUserManagementDataAccessApiStore
 
   updateSort(sortProperty: UserOverviewSortProperty, direction: SortDirection) {
     this.patchState({ sortProperty, direction });
+  }
+
+  updateActorFilter(actorId: string | undefined) {
+    this.patchState({ actorIdFilter: actorId });
+  }
+
+  updateUserRoleFilter(userRole: string[]) {
+    this.patchState({ userRoleFilter: userRole });
   }
 
   readonly reloadUsers = () => {

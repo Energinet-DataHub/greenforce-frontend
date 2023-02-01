@@ -21,6 +21,14 @@ limitations under the License.
       [initialValue]="initialStatusFilter$ | push"
       (changed)="onStatusChanged($event)"
     ></dh-users-tab-status-filter>
+    <dh-users-tab-actor-filter
+      [actorOptions]="(actorOptions$ | async) ?? []"
+      (changed)="onActorFilterChanged($event)"
+    ></dh-users-tab-actor-filter>
+    <dh-users-tab-userrole-filter
+      [userRoleOptions]="(userRolesOptions$ | async) ?? []"
+      (changed)="onUserRolesFilterChanged($event)"
+    ></dh-users-tab-userrole-filter>
   </div>
 
   <watt-card>
