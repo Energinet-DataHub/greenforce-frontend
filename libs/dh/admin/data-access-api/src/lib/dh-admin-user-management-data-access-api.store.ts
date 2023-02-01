@@ -66,7 +66,7 @@ const initialState: DhUserManagementState = {
   totalUserCount: 0,
   usersRequestState: LoadingState.INIT,
   pageNumber: 1,
-  pageSize: 3,
+  pageSize: 50,
   sortProperty: 'Email',
   direction: 'Asc',
   searchText: undefined,
@@ -111,8 +111,8 @@ export class DhAdminUserManagementDataAccessApiStore
       this.select((state) => state.actorIdFilter),
       this.select((state) => state.userRoleFilter),
       (
-        pageNumber,
         pageSize,
+        pageNumber,
         sortProperty,
         direction,
         searchText,
