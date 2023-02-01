@@ -20,6 +20,7 @@ import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
 import { SortDirection } from '../model/sort-direction';
+// @ts-ignore
 import { UserOverviewFilterDto } from '../model/user-overview-filter-dto';
 // @ts-ignore
 import { UserOverviewResultDto } from '../model/user-overview-result-dto';
@@ -198,14 +199,16 @@ export class MarketParticipantUserOverviewHttp {
     /**
      * @param pageNumber 
      * @param pageSize 
+     * @param sortProperty 
+     * @param sortDirection 
      * @param userOverviewFilterDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, userOverviewFilterDto?: UserOverviewFilterDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<UserOverviewResultDto>;
-    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, userOverviewFilterDto?: UserOverviewFilterDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<UserOverviewResultDto>>;
-    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, userOverviewFilterDto?: UserOverviewFilterDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<UserOverviewResultDto>>;
-    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, userOverviewFilterDto?: UserOverviewFilterDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: UserOverviewSortProperty, sortDirection?: SortDirection, userOverviewFilterDto?: UserOverviewFilterDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<UserOverviewResultDto>;
+    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: UserOverviewSortProperty, sortDirection?: SortDirection, userOverviewFilterDto?: UserOverviewFilterDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<UserOverviewResultDto>>;
+    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: UserOverviewSortProperty, sortDirection?: SortDirection, userOverviewFilterDto?: UserOverviewFilterDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<UserOverviewResultDto>>;
+    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: UserOverviewSortProperty, sortDirection?: SortDirection, userOverviewFilterDto?: UserOverviewFilterDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -215,6 +218,14 @@ export class MarketParticipantUserOverviewHttp {
         if (pageSize !== undefined && pageSize !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>pageSize, 'pageSize');
+        }
+        if (sortProperty !== undefined && sortProperty !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>sortProperty, 'sortProperty');
+        }
+        if (sortDirection !== undefined && sortDirection !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>sortDirection, 'sortDirection');
         }
 
         let localVarHeaders = this.defaultHeaders;
