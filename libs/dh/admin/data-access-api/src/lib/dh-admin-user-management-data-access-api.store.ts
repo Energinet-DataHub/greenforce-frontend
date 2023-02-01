@@ -198,7 +198,7 @@ export class DhAdminUserManagementDataAccessApiStore
       {
         userStatus: statusFilter,
         searchText: searchText,
-        userRoleIds: []
+        userRoleIds: [],
       }
     );
   }
