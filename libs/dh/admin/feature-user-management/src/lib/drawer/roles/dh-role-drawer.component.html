@@ -15,7 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.drawer'">
-  <watt-drawer #drawer size="large" (closed)="onClose()">
+  <watt-drawer
+    #drawer
+    size="large"
+    (closed)="onClose()"
+    [loading]="isLoading$ | push"
+  >
     <watt-drawer-topbar></watt-drawer-topbar>
 
     <watt-drawer-actions>
