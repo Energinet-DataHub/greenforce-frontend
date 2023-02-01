@@ -96,16 +96,14 @@ export class DhRoleDrawerComponent {
   private readonly store = inject(
     DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
   );
+  private basicUserRole: UserRoleDto | null = null;
 
   userRoleWithPermissions$ = this.store.userRole$;
-
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
-
-  basicUserRole: UserRoleDto | null = null;
 
   isEditUserRoleModalVisible = false;
 
