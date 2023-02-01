@@ -76,7 +76,7 @@ export class DhUsersTabTableComponent implements AfterViewInit, OnDestroy {
   columns: WattTableColumnDef<UserOverviewItemDto> = {
     name: { accessor: 'name' },
     email: { accessor: 'email' },
-    phone: { accessor: 'phoneNumber' },
+    phoneNumber: { accessor: 'phoneNumber' },
     assignedActors: { accessor: 'assignedActors', sort: false },
     status: { accessor: 'status' },
   };
@@ -101,22 +101,11 @@ export class DhUsersTabTableComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.usersTable.sortChange.pipe(takeUntil(this.destroy$)).subscribe((x) => {
-      const direction =
-        x.direction === 'asc' ? SortDirection.Asc : SortDirection.Desc;
-      switch (x.active) {
-        case 'name':
-          this.sortChanged('Name', direction);
-          break;
-        case 'email':
-          this.sortChanged('Email', direction);
-          break;
-        case 'phone':
-          this.sortChanged('PhoneNumber', direction);
-          break;
-        case 'status':
-          this.sortChanged('Status', direction);
-          break;
-      }
+      const property = (x.active[0].toUpperCase() +
+        x.active.slice(1)) as UserOverviewSortProperty;
+      const direction = (x.direction[0].toUpperCase() +
+        x.direction.slice(1)) as SortDirection;
+      this.sortChanged(property, direction);
     });
   }
 
