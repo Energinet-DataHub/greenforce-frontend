@@ -31,6 +31,7 @@ export function adminMocks(apiBase: string) {
     getMarketParticipantUserGetUserAuditLogs(apiBase),
     getMarketParticipantUserRoleGetUserRoleWithPermissions(apiBase),
     getMarketParticipantUserRoleGetUserRoleAuditLogs(apiBase),
+    putMarketParticipantUserRoleUpdate(apiBase),
   ];
 }
 
@@ -92,6 +93,15 @@ function getMarketParticipantUserRoleGetUserRoleAuditLogs(apiBase: string) {
     `${apiBase}/v1/MarketParticipantUserRole/GetUserRoleAuditLogs`,
     (req, res, ctx) => {
       return res(ctx.json(marketParticipantUserRoleGetUserRoleAuditLogs));
+    }
+  );
+}
+
+function putMarketParticipantUserRoleUpdate(apiBase: string) {
+  return rest.put(
+    `${apiBase}/v1/MarketParticipantUserRole/Update`,
+    (req, res, ctx) => {
+      return res(ctx.status(200));
     }
   );
 }
