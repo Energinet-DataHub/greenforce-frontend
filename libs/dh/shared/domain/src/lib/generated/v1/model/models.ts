@@ -2,6 +2,7 @@ export * from './actor-contact-dto';
 export * from './actor-dto';
 export * from './actor-grid-area-dto';
 export * from './actor-market-role-dto';
+export * from './actor-market-role-view-dto';
 export * from './actor-name-dto';
 export * from './actor-number-dto';
 export * from './actor-status';
