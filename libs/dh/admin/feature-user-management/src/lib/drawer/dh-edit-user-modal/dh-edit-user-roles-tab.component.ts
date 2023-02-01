@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license
  * Copyright 2020 Energinet DataHub A/S
  *
@@ -14,12 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Pipe, PipeTransform } from '@angular/core';
-import { UserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { WattCardModule } from '@energinet-datahub/watt/card';
+import { TranslocoModule } from '@ngneat/transloco';
 
-@Pipe({ name: 'joinUserRoles', standalone: true })
-export class JoinUserRoles implements PipeTransform {
-  transform(userRoles: UserRoleViewDto[] | null | undefined) {
-    return userRoles?.map((userRole) => userRole.name).join(', ') ?? '';
-  }
-}
+@Component({
+  selector: 'dh-edit-user-roles-tab',
+  standalone: true,
+  imports: [CommonModule, WattCardModule, TranslocoModule],
+  templateUrl: './dh-edit-user-roles-tab.component.html',
+  styles: [``],
+})
+export class DhEditUserRolesTabComponent {}

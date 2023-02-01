@@ -391,6 +391,9 @@
       "@energinet-datahub/watt/validators": [
         "libs/ui-watt/src/lib/components/input/shared/validators/index.ts"
       ],
+      "@energinet-datahub/watt/HTMLElementEvent": [
+        "libs/ui-watt/src/lib/utils/HTMLElementEvent.ts"
+      ],
       "rxjs": ["./node_modules/rxjs"]
     }
   },

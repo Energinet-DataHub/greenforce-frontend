@@ -18,17 +18,24 @@ limitations under the License.
   <watt-modal [title]="user?.name ?? ''" #editUserModal>
     <watt-tabs>
       <watt-tab [label]="t('tab.actor')"> aktør </watt-tab>
-      <watt-tab [label]="t('tab.roles')"> roller </watt-tab>
+      <watt-tab [label]="t('tab.roles')">
+        <dh-user-roles
+          #userRoles
+          [user]="user"
+          [selectMode]="true"
+          (updateUserRoles)="onSelectedUserRolesChanged($event)"
+        ></dh-user-roles>
+      </watt-tab>
     </watt-tabs>
     <watt-modal-actions>
-      <watt-button variant="secondary" (click)="editUserModal.close(true)">
+      <watt-button variant="secondary" (click)="deactivedUser()">
+        {{ t("deactivateUser") }}
+      </watt-button>
+      <watt-button variant="secondary" (click)="close()">
         {{ t("cancel") }}
       </watt-button>
       <watt-button variant="primary" (click)="save()">
         {{ t("save") }}
-      </watt-button>
-      <watt-button variant="secondary" (click)="deactivedUser()">
-        {{ t("deactivateUser") }}
       </watt-button>
     </watt-modal-actions>
   </watt-modal>

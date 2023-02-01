@@ -14,36 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-h4 {
-  margin: 0 0 var(--watt-space-l);
-}
+import { Pipe, PipeTransform } from '@angular/core';
+import { ActorMarketRoleViewDto } from '@energinet-datahub/dh/shared/domain';
 
-watt-empty-state {
-  padding: var(--watt-space-xl);
-}
-
-watt-spinner {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--watt-space-xl);
-}
-
-.userRoles {
-  mat-divider {
-    color: var(--watt-color-neutral-grey-400);
-    margin: var(--watt-space-m) 0;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  li {
-    display: grid;
-    margin: var(--watt-space-s) 0 0 var(--watt-space-s);
-    grid-template-columns: 1fr 1fr;
-  }
-  h6 {
-    margin: 0 0 0 var(--watt-space-s);
+@Pipe({ name: 'joinMarketRoles', standalone: true })
+export class JoinMarketRoles implements PipeTransform {
+  transform(marketRoles: ActorMarketRoleViewDto[] | null | undefined) {
+    return (
+      marketRoles?.map((marketRole) => marketRole.eicFunction).join(', ') ?? ''
+    );
   }
 }
