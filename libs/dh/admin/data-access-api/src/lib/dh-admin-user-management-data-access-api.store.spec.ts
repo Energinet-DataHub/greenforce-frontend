@@ -33,7 +33,7 @@ import {
 describe(DhAdminUserManagementDataAccessApiStore.name, () => {
   async function setup() {
     const httpMock = {
-      v1MarketParticipantUserOverviewGetUserOverviewGet: jest.fn(() => of()),
+      v1MarketParticipantUserOverviewSearchUsersPost: jest.fn(() => of()),
     } as unknown as MarketParticipantUserOverviewHttp;
 
     @Component({
