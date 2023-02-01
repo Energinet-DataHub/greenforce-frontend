@@ -63,7 +63,7 @@ export const mockedGridAreas: GridAreaDto[] = [
 
 const mockedBatches: BatchDto[] = [
   {
-    batchId: '123',
+    batchId: '8ff516a1-95b0-4f07-9b58-3fb94791c63b',
     periodStart,
     periodEnd,
     executionTimeStart,
@@ -73,7 +73,7 @@ const mockedBatches: BatchDto[] = [
     gridAreas: mockedGridAreas,
   },
   {
-    batchId: '234',
+    batchId: '911d0c33-3232-49e1-a0ef-bcef313d1098',
     periodStart,
     periodEnd,
     executionTimeStart,
@@ -83,7 +83,7 @@ const mockedBatches: BatchDto[] = [
     gridAreas: [],
   },
   {
-    batchId: '345',
+    batchId: '44447c27-6359-4f34-beed-7b51eccdda4e',
     periodStart,
     periodEnd,
     executionTimeStart,
@@ -93,7 +93,7 @@ const mockedBatches: BatchDto[] = [
     gridAreas: [],
   },
   {
-    batchId: '567',
+    batchId: '59e65aec-df77-4f6f-b6d2-aa0fd4b4bc86',
     periodStart,
     periodEnd,
     executionTimeStart,
@@ -103,7 +103,7 @@ const mockedBatches: BatchDto[] = [
     gridAreas: mockedGridAreas,
   },
   {
-    batchId: '8910',
+    batchId: '78a9f690-6b8d-4708-92e9-dce64a31b1f7',
     periodStart,
     periodEnd,
     executionTimeStart,
@@ -113,7 +113,7 @@ const mockedBatches: BatchDto[] = [
     gridAreas: [],
   },
   {
-    batchId: '1011',
+    batchId: '8d631523-e6da-4883-ba6c-04bfd1c30d71',
     periodStart,
     periodEnd,
     executionTimeStart,
@@ -123,7 +123,7 @@ const mockedBatches: BatchDto[] = [
     gridAreas: [],
   },
   {
-    batchId: '1112',
+    batchId: 'ac84205b-6b9c-4f5c-8c6c-2ab81cc870b8',
     periodStart,
     periodEnd,
     executionTimeStart,
@@ -133,7 +133,7 @@ const mockedBatches: BatchDto[] = [
     gridAreas: [],
   },
   {
-    batchId: '1314',
+    batchId: '376e3cb8-16d7-4fb7-9cdf-1b55cc6af76f',
     periodStart,
     periodEnd,
     executionTimeStart,
@@ -143,7 +143,7 @@ const mockedBatches: BatchDto[] = [
     gridAreas: [],
   },
   {
-    batchId: '1516',
+    batchId: '3dad0a65-4094-44f8-80f1-7543622dcdf1',
     periodStart,
     periodEnd,
     executionTimeStart,
@@ -153,7 +153,7 @@ const mockedBatches: BatchDto[] = [
     gridAreas: [],
   },
   {
-    batchId: '1718',
+    batchId: 'd0071d78-208c-4d69-8dd8-5538ed93b4da',
     periodStart,
     periodEnd,
     executionTimeStart,
@@ -163,7 +163,7 @@ const mockedBatches: BatchDto[] = [
     gridAreas: [],
   },
   {
-    batchId: '1920',
+    batchId: '1d109536-c2c6-4e3f-b3ab-85e73083e876',
     periodStart,
     periodEnd,
     executionTimeStart,
@@ -173,7 +173,7 @@ const mockedBatches: BatchDto[] = [
     gridAreas: [],
   },
   {
-    batchId: '2021',
+    batchId: '19e3d848-e82f-4752-a68f-9befc755864c',
     periodStart,
     periodEnd,
     executionTimeStart,

@@ -28,8 +28,9 @@ import {
   BatchState,
   BatchDto,
   GridAreaDto,
-  ProcessStepResultRequestDto,
+  ProcessResultRequestDto,
   ProcessStepResultDto,
+  BatchActorDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
@@ -43,6 +44,7 @@ interface State {
   selectedBatch?: batch;
   selectedGridArea?: GridAreaDto;
   loadingCreatingBatch: boolean;
+  energySuppliersForConsumption?: BatchActorDto[];
 }
 
 const initialState: State = {
@@ -62,6 +64,9 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   selectedBatch$ = this.select((x) => x.selectedBatch);
   selectedGridArea$ = this.select((x) => x.selectedGridArea);
   processStepResults$ = this.select((x) => x.processStepResults);
+  energySuppliersForConsumption$ = this.select(
+    (x) => x.energySuppliersForConsumption
+  );
 
   creatingBatchSuccessTrigger$: Subject<void> = new Subject();
   creatingBatchErrorTrigger$: Subject<void> = new Subject();
@@ -110,6 +115,13 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (state, loadingBatches: boolean): State => ({
       ...state,
       loadingBatches,
+    })
+  );
+
+  readonly setEnergySuppliersForConsumption = this.updater(
+    (state, energySuppliersForConsumption: BatchActorDto[]): State => ({
+      ...state,
+      energySuppliersForConsumption,
     })
   );
 
@@ -220,16 +232,40 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   });
 
   readonly getProcessStepResults = this.effect(
-    (options$: Observable<ProcessStepResultRequestDto>) => {
+    (options$: Observable<ProcessResultRequestDto>) => {
       return options$.pipe(
         switchMap((options) => {
           return this.httpClient
-            .v1WholesaleBatchProcessStepResultPost(options)
+            .v1WholesaleBatchProcessResultPost(options)
             .pipe(
               tapResponse(
                 (stepResults: ProcessStepResultDto) =>
                   this.setProcessStepResults(stepResults),
                 () => this.loadingProcessStepResultsErrorTrigger$.next()
+              )
+            );
+        })
+      );
+    }
+  );
+
+  readonly getEnergySuppliersForConsumption = this.effect(
+    (options$: Observable<{ batchId: string; gridAreaCode: string }>) => {
+      return options$.pipe(
+        switchMap(({ batchId, gridAreaCode }) => {
+          return this.httpClient
+            .v1WholesaleBatchActorsPost({
+              batchId,
+              gridAreaCode,
+              actorType: 'EnergySupplier',
+              timeSeriesType: 'FlexConsumption',
+            })
+            .pipe(
+              tapResponse(
+                (actors) => this.setEnergySuppliersForConsumption(actors),
+                () => {
+                  throw 'IMPLEMENT THIS';
+                }
               )
             );
         })
