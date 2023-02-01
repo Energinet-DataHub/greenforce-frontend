@@ -116,7 +116,7 @@ limitations under the License.
             </watt-card>
           </li>
           <li>
-            <watt-expandable-card>
+            <watt-expandable-card [expanded]="getCurrentStep() === '2'">
               <watt-expandable-card-title>
                 <watt-badge size="large">2</watt-badge>
                 {{
