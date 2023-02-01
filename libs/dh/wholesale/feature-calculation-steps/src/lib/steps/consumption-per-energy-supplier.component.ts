@@ -50,6 +50,7 @@ export class DhWholesaleConsumptionPerEnergySupplierComponent
     batch: this.store.selectedBatch$.pipe(exists()),
     gridArea: this.store.selectedGridArea$.pipe(exists()),
   });
+  gln: string = this.route.snapshot.params['gln'];
 
   processStepResults$ = this.store.processStepResults$;
   loadingProcessStepResultsErrorTrigger$ =
@@ -62,7 +63,7 @@ export class DhWholesaleConsumptionPerEnergySupplierComponent
           batchId: vm.batch.batchId,
           gridAreaCode: vm.gridArea.code,
           timeSeriesType: TimeSeriesType.NonProfiled,
-          gln: this.route.snapshot.params['gln'],
+          gln: this.gln,
         }))
       )
     );

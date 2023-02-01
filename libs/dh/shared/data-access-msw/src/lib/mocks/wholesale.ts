@@ -30,6 +30,7 @@ export function wholesaleMocks(apiBase: string) {
     getWholesaleSearchBatches(apiBase),
     downloadBasisData(apiBase),
     postWholesaleBatchProcessStepResult(apiBase),
+    batchActorsPost(apiBase),
   ];
 }
 
@@ -184,6 +185,15 @@ const mockedBatches: BatchDto[] = [
   },
 ];
 
+const mockedActors: unknown[] = [
+  {gln: '5790000000001'},
+  {gln: '5790000000002'},
+  {gln: '5790000000003'},
+  {gln: '5790000000004'},
+  {gln: '5790000000005'},
+  {gln: '5790000000006'},
+];
+
 function getWholesaleSearchBatch(apiBase: string) {
   return rest.get(`${apiBase}/v1/WholesaleBatch/Batch`, (req, res, ctx) => {
     const batchId = req.url.searchParams.get('batchId') || '';
@@ -256,4 +266,12 @@ function postWholesaleBatchProcessStepResult(apiBase: string) {
       );
     }
   );
+}
+
+function batchActorsPost(apiBase: string) {
+  return rest.post(`${apiBase}/v1/WholesaleBatch/Actors`, (req, res, ctx) => {
+    return res(ctx.delay(300), ctx.status(200), ctx.json(mockedActors));
+    //return res(ctx.delay(300), ctx.status(200), ctx.json([]));
+    //return res(ctx.delay(2000), ctx.status(500));
+  });
 }
