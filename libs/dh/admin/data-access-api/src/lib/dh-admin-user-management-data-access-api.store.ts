@@ -190,13 +190,16 @@ export class DhAdminUserManagementDataAccessApiStore
       return of({ users: [], totalUserCount: 0 });
     }
 
-    return this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
+    return this.httpClient.v1MarketParticipantUserOverviewSearchUsersPost(
       pageNumber,
       pageSize,
       sortProperty,
       direction,
-      searchText,
-      statusFilter
+      {
+        userStatus: statusFilter,
+        searchText: searchText,
+        userRoleIds: []
+      }
     );
   }
 
