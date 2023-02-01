@@ -71,13 +71,10 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
       }),
       switchMap(() =>
         this.httpClient
-          .v1MarketParticipantOrganizationGetAllOrganizationsGet()
+          .v1MarketParticipantOrganizationGetFilteredActorsGet()
           .pipe(
             tapResponse(
-              (organizations) => {
-                const actors = organizations.flatMap(
-                  (organization) => organization.actors
-                );
+              (actors) => {
                 this.updateStates(actors);
               },
               (error: HttpErrorResponse) => {
