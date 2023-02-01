@@ -50,11 +50,11 @@ describe('UserRolesComponent', () => {
     return { fixture };
   }
 
-  test('should render 3 roles', async () => {
+  test('should render 1 roles', async () => {
     await setup();
     await waitFor(() => {
       expect(
-        screen.getByRole('heading', { name: /3 user roles/i })
+        screen.getByRole('heading', { name: /1 user roles/i })
       ).toBeInTheDocument();
     });
   });
