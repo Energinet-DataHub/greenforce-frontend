@@ -121,6 +121,14 @@ export class DhRoleDrawerComponent {
     this.loadUserRoleWithPermissions();
   }
 
+  modalOnClose({ saveSuccess }: { saveSuccess: boolean }): void {
+    this.isEditUserRoleModalVisible = false;
+
+    if (saveSuccess) {
+      this.loadUserRoleWithPermissions();
+    }
+  }
+
   loadUserRoleWithPermissions() {
     if (this.basicUserRole) {
       this.store.getUserRole(this.basicUserRole.id);
