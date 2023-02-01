@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
@@ -78,6 +79,32 @@ namespace Energinet.DataHub.WebApi.Controllers
         public Task<ActionResult<IEnumerable<ActorDto>>> GetActorsAsync(Guid orgId)
         {
             return HandleExceptionAsync(() => _client.GetActorsAsync(orgId));
+        }
+
+        /// <summary>
+        /// Gets a list of actors ready for use in filters in frontend.
+        /// The list is made so that FAS members can chose from all the actors, while
+        /// non-FAS member can only pick their own actor.
+        /// </summary>
+        [HttpGet("GetFilterActors")]
+        public Task<ActionResult<IEnumerable<ActorDto>>> GetFilterActorsAsync()
+        {
+            return HandleExceptionAsync(async () =>
+            {
+                var organizations = await _client
+                    .GetOrganizationsAsync()
+                    .ConfigureAwait(false);
+
+                var accessibleActors = organizations.SelectMany(org => org.Actors);
+
+                if (HttpContext.User.IsFas())
+                {
+                    return accessibleActors;
+                }
+
+                var actorId = HttpContext.User.GetAssociatedActor();
+                return accessibleActors.Where(actor => actor.ActorId == actorId);
+            });
         }
 
         /// <summary>
