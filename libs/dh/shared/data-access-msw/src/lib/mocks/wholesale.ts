@@ -186,12 +186,12 @@ const mockedBatches: BatchDto[] = [
 ];
 
 const mockedActors: unknown[] = [
-  {gln: '5790000000001'},
-  {gln: '5790000000002'},
-  {gln: '5790000000003'},
-  {gln: '5790000000004'},
-  {gln: '5790000000005'},
-  {gln: '5790000000006'},
+  { gln: '5790000000001' },
+  { gln: '5790000000002' },
+  { gln: '5790000000003' },
+  { gln: '5790000000004' },
+  { gln: '5790000000005' },
+  { gln: '5790000000006' },
 ];
 
 function getWholesaleSearchBatch(apiBase: string) {
