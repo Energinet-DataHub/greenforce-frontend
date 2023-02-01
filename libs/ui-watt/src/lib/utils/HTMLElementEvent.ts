@@ -14,12 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Pipe, PipeTransform } from '@angular/core';
-import { UserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
-
-@Pipe({ name: 'joinUserRoles', standalone: true })
-export class JoinUserRoles implements PipeTransform {
-  transform(userRoles: UserRoleViewDto[] | null | undefined) {
-    return userRoles?.map((userRole) => userRole.name).join(', ') ?? '';
-  }
-}
+export type HTMLElementEvent<T extends HTMLElement> = Event & {
+  target: T;
+};
