@@ -17,10 +17,11 @@
 import { Injectable, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, switchMap, Subject, map, tap } from 'rxjs';
+import { Observable, switchMap, Subject, map, tap, filter } from 'rxjs';
 
 import {
   WholesaleBatchHttp,
+  MarketParticipantGridAreaHttp,
   BatchRequestDto,
   ProcessType,
   BatchSearchDto,
@@ -29,7 +30,6 @@ import {
   GridAreaDto,
   ProcessResultRequestDto,
   ProcessStepResultDto,
-  BatchActorsRequestDto,
   BatchActorDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
@@ -38,6 +38,7 @@ import type { WattBadgeType } from '@energinet-datahub-types/watt/badge';
 
 interface State {
   batches?: batch[];
+  gridAreas?: GridAreaDto[];
   processStepResults?: ProcessStepResultDto;
   loadingBatches: boolean;
   selectedBatch?: batch;
@@ -56,6 +57,10 @@ const initialState: State = {
 })
 export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   batches$ = this.select((x) => x.batches);
+  gridAreas$ = this.select((x) => x.gridAreas).pipe(
+    // Ensure gridAreas$ will not emit undefined, which will cause no loading indicator to be shown
+    filter((x) => !!x)
+  );
   selectedBatch$ = this.select((x) => x.selectedBatch);
   selectedGridArea$ = this.select((x) => x.selectedGridArea);
   processStepResults$ = this.select((x) => x.processStepResults);
@@ -68,6 +73,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
 
   loadingCreatingBatch$ = this.select((x) => x.loadingCreatingBatch);
   loadingBatches$ = this.select((x) => x.loadingBatches);
+  loadingGridAreasErrorTrigger$: Subject<void> = new Subject();
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
   loadingBatchErrorTrigger$: Subject<void> = new Subject();
   loadingBasisDataErrorTrigger$: Subject<void> = new Subject();
@@ -75,6 +81,9 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
 
   private document = inject(DOCUMENT);
   private httpClient = inject(WholesaleBatchHttp);
+  private marketParticipantGridAreaHttpClient = inject(
+    MarketParticipantGridAreaHttp
+  );
 
   constructor() {
     super(initialState);
@@ -113,6 +122,13 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (state, energySuppliersForConsumption: BatchActorDto[]): State => ({
       ...state,
       energySuppliersForConsumption,
+    })
+  );
+
+  readonly setGridAreas = this.updater(
+    (state, gridAreas: GridAreaDto[]): State => ({
+      ...state,
+      gridAreas,
     })
   );
 
@@ -200,6 +216,19 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
         );
       })
     );
+  });
+
+  readonly getGridAreas = this.effect(() => {
+    return this.marketParticipantGridAreaHttpClient
+      .v1MarketParticipantGridAreaGetAllGridAreasGet()
+      .pipe(
+        tapResponse(
+          (gridAreas) => {
+            this.setGridAreas(gridAreas);
+          },
+          () => this.loadingGridAreasErrorTrigger$.next()
+        )
+      );
   });
 
   readonly getProcessStepResults = this.effect(

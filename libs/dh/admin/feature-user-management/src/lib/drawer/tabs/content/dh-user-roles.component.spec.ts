@@ -31,6 +31,7 @@ describe('UserRolesComponent', () => {
           status: 'Active',
           createdDate: '2023-01-10T10:12:06+00:00',
           name: 'fake value',
+          assignedActors: [],
         },
       },
       componentProviders: [
@@ -52,7 +53,7 @@ describe('UserRolesComponent', () => {
     await setup();
     await waitFor(() => {
       expect(
-        screen.getByRole('heading', { name: /3 roles/i })
+        screen.getByRole('heading', { name: /3 user roles/i })
       ).toBeInTheDocument();
     });
   });

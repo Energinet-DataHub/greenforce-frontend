@@ -19,3 +19,5 @@ export * from './lib/dh-admin-user-roles.store';
 export * from './lib/dh-admin-user-management-audit-logs-data-access-api.store';
 export * from './lib/dh-admin-user-roles-management-data-access-api.store';
 export * from './lib/dh-admin-user-role-permissions-management-data-access-api.store';
+export * from './lib/dh-admin-user-role-audit-logs-data-access-api.store';
+export * from './lib/dh-admin-create-user-role-management-data-access-api.store';
