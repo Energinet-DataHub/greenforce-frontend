@@ -24,7 +24,7 @@ import {
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { BatchActorDto } from '@energinet-datahub/dh/shared/domain';
+import { WholesaleActorDto } from '@energinet-datahub/dh/shared/domain';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import {
   WattTableColumnDef,
@@ -47,9 +47,9 @@ export class DhWholesaleEnergySuppliersComponent implements OnInit {
   @Input() batchId!: string;
   @Input() gridAreaCode!: string;
 
-  @Output() rowClick = new EventEmitter<BatchActorDto>();
-  _dataSource = new WattTableDataSource<BatchActorDto>();
-  _columns: WattTableColumnDef<BatchActorDto> = {
+  @Output() rowClick = new EventEmitter<WholesaleActorDto>();
+  _dataSource = new WattTableDataSource<WholesaleActorDto>();
+  _columns: WattTableColumnDef<WholesaleActorDto> = {
     energySupplier: { accessor: 'gln' },
   };
 

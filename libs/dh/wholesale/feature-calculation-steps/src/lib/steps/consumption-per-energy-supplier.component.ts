@@ -62,7 +62,7 @@ export class DhWholesaleConsumptionPerEnergySupplierComponent
         map((vm) => ({
           batchId: vm.batch.batchId,
           gridAreaCode: vm.gridArea.code,
-          timeSeriesType: TimeSeriesType.NonProfiled,
+          timeSeriesType: TimeSeriesType.NonProfiledConsumption,
           gln: this.gln,
         }))
       )

@@ -28,9 +28,11 @@ import {
   BatchState,
   BatchDto,
   GridAreaDto,
-  ProcessResultRequestDto,
+  ProcessStepResultRequestDtoV2,
   ProcessStepResultDto,
-  BatchActorDto,
+  WholesaleActorDto,
+  TimeSeriesType,
+  MarketRole,
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
@@ -44,7 +46,7 @@ interface State {
   selectedBatch?: batch;
   selectedGridArea?: GridAreaDto;
   loadingCreatingBatch: boolean;
-  energySuppliersForConsumption?: BatchActorDto[];
+  energySuppliersForConsumption?: WholesaleActorDto[];
 }
 
 const initialState: State = {
@@ -119,7 +121,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   );
 
   readonly setEnergySuppliersForConsumption = this.updater(
-    (state, energySuppliersForConsumption: BatchActorDto[]): State => ({
+    (state, energySuppliersForConsumption: WholesaleActorDto[]): State => ({
       ...state,
       energySuppliersForConsumption,
     })
@@ -232,7 +234,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   });
 
   readonly getProcessStepResults = this.effect(
-    (options$: Observable<ProcessResultRequestDto>) => {
+    (options$: Observable<ProcessStepResultRequestDtoV2>) => {
       return options$.pipe(
         switchMap((options) => {
           return this.httpClient
@@ -257,8 +259,8 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
             .v1WholesaleBatchActorsPost({
               batchId,
               gridAreaCode,
-              actorType: 'EnergySupplier',
-              timeSeriesType: 'FlexConsumption',
+              type: TimeSeriesType.FlexConsumption,
+              marketRole: MarketRole.EnergySupplier,
             })
             .pipe(
               tapResponse(
