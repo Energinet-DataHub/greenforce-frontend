@@ -18,6 +18,7 @@ import { Component, ViewChild, inject, AfterViewInit } from '@angular/core';
 import { LetModule } from '@rx-angular/template/let';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
+import { combineLatest, map } from 'rxjs';
 
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -30,11 +31,11 @@ import {
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
 
-import { ProcessStepType } from '@energinet-datahub/dh/shared/domain';
+import { TimeSeriesType } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
-import { combineLatest } from 'rxjs';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 @Component({
   selector: 'dh-wholesale-production-per-gridarea',
@@ -63,23 +64,24 @@ export class DhWholesaleProductionPerGridareaComponent
 
   private store = inject(DhWholesaleBatchDataAccessApiStore);
 
-  batch$ = this.store.selectedBatch$;
-  gridArea$ = this.store.selectedGridArea$;
+  vm$ = combineLatest({
+    batch: this.store.selectedBatch$.pipe(exists()),
+    gridArea: this.store.selectedGridArea$.pipe(exists()),
+  });
+
   processStepResults$ = this.store.processStepResults$;
   loadingProcessStepResultsErrorTrigger$ =
     this.store.loadingProcessStepResultsErrorTrigger$;
 
-  ngAfterViewInit(): void {
-    combineLatest([this.batch$, this.gridArea$]).subscribe(
-      ([batch, gridArea]) => {
-        if (batch && gridArea) {
-          this.store.getProcessStepResults({
-            batchId: batch.batchId,
-            gridAreaCode: gridArea.code,
-            processStepResult: ProcessStepType.AggregateProductionPerGridArea,
-          });
-        }
-      }
+  ngAfterViewInit() {
+    this.store.getProcessStepResults(
+      this.vm$.pipe(
+        map((vm) => ({
+          batchId: vm.batch.batchId,
+          gridAreaCode: vm.gridArea.code,
+          timeSeriesType: TimeSeriesType.Production,
+        }))
+      )
     );
   }
 }

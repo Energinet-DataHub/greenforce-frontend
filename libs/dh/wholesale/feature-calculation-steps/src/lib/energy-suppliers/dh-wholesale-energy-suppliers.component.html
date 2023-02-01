@@ -14,20 +14,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-expansion-panel
-  [expanded]="expanded"
-  class="watt-expandable-card watt-elevation"
+<h5 class="watt-on-light--high-emphasis">2 Resultater</h5>
+<watt-table
+  [dataSource]="_dataSource"
+  [columns]="_columns"
+  (rowClick)="rowClick.emit($event)"
 >
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      <ng-content select="watt-badge"></ng-content>
-      <ng-content select="watt-expandable-card-title"></ng-content>
-    </mat-panel-title>
-  </mat-expansion-panel-header>
-  <ng-content></ng-content>
-  <ng-container *ngIf="_content">
-    <ng-template matExpansionPanelContent>
-      <ng-container *ngTemplateOutlet="_content.templateRef"></ng-container>
-    </ng-template>
-  </ng-container>
-</mat-expansion-panel>
+</watt-table>
+<watt-paginator></watt-paginator>

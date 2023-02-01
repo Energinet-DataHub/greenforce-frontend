@@ -40,6 +40,7 @@ import {
   WattDrawerComponent,
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
+import { DhWholesaleEnergySuppliersComponent } from './energy-suppliers/dh-wholesale-energy-suppliers.component';
 
 @Component({
   templateUrl: './dh-wholesale-calculation-steps.component.html',
@@ -61,6 +62,7 @@ import {
     WattSpinnerModule,
     WattTopBarComponent,
     DhWholesaleProductionPerGridareaComponent,
+    DhWholesaleEnergySuppliersComponent,
   ],
 })
 export class DhWholesaleCalculationStepsComponent {
@@ -90,12 +92,11 @@ export class DhWholesaleCalculationStepsComponent {
   );
 
   getCurrentStep() {
-    // TODO: Is there a better way? This seems a little hacky.
-    return this.route.firstChild?.routeConfig?.path;
+    return this.route.firstChild?.snapshot.url?.[0]?.path;
   }
 
-  openDrawer(step: number) {
-    this.router.navigate([step], { relativeTo: this.route });
+  openDrawer(commands: unknown[]) {
+    this.router.navigate(commands, { relativeTo: this.route });
     this.drawer.open();
   }
 

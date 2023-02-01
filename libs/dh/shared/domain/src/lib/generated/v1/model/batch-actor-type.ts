@@ -11,9 +11,9 @@
  */
 
 
-export type ProcessStepType = 'AggregateConsumptionPerEnergySupplier';
+export type BatchActorType = 'EnergySupplier';
 
-export const ProcessStepType = {
-    AggregateConsumptionPerEnergySupplier: 'AggregateConsumptionPerEnergySupplier' as ProcessStepType
+export const BatchActorType = {
+    EnergySupplier: 'EnergySupplier' as BatchActorType
 };
 
