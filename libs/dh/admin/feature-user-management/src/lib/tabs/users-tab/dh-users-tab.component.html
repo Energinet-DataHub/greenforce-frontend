@@ -54,7 +54,10 @@ limitations under the License.
     </watt-card-title>
 
     <ng-container *rxLet="isLoading$ as isLoading">
-      <dh-users-tab-table [users]="users$ | push"></dh-users-tab-table>
+      <dh-users-tab-table
+        [users]="users$ | push"
+        [sortChanged]="sortChanged"
+      ></dh-users-tab-table>
 
       <div *ngIf="isLoading" class="users-overview__spinner">
         <watt-spinner></watt-spinner>

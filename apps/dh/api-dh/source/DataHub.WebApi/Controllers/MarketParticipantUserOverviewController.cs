@@ -36,10 +36,12 @@ namespace Energinet.DataHub.WebApi.Controllers
         public Task<ActionResult<UserOverviewResultDto>> GetUserOverviewAsync(
             int pageNumber,
             int pageSize,
+            UserOverviewSortProperty sortProperty,
+            SortDirection sortDirection,
             string? searchText,
             [FromQuery] IEnumerable<UserStatus> userStatus)
         {
-            return HandleExceptionAsync(() => _client.GetUserOverviewAsync(pageNumber, pageSize, searchText, userStatus));
+            return HandleExceptionAsync(() => _client.GetUserOverviewAsync(pageNumber, pageSize, sortProperty, sortDirection, searchText, userStatus));
         }
 
         [HttpPost]
@@ -47,9 +49,11 @@ namespace Energinet.DataHub.WebApi.Controllers
         public Task<ActionResult<UserOverviewResultDto>> SearchUsersAsync(
             int pageNumber,
             int pageSize,
+            UserOverviewSortProperty sortProperty,
+            SortDirection sortDirection,
             [FromBody] UserOverviewFilterDto filter)
         {
-            return HandleExceptionAsync(() => _client.SearchUsersAsync(pageNumber, pageSize, filter));
+            return HandleExceptionAsync(() => _client.SearchUsersAsync(pageNumber, pageSize, sortProperty, sortDirection, filter));
         }
     }
 }
