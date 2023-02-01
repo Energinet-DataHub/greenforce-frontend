@@ -54,7 +54,7 @@ describe('UserRolesComponent', () => {
     await setup();
     await waitFor(() => {
       expect(
-        screen.getByRole('heading', { name: /1 user roles/i })
+        screen.getByRole('heading', { name: /1 user role/i })
       ).toBeInTheDocument();
     });
   });
