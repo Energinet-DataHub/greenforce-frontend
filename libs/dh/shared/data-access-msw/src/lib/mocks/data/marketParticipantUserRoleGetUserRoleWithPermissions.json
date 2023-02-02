@@ -5,13 +5,7 @@
     "description": "",
     "eicFunction": "EnergySupplier",
     "status": "Active",
-    "permissions": [
-      "OrganizationView",
-      "OrganizationManage",
-      "GridAreasManage",
-      "ActorManage",
-      "UsersManage"
-    ]
+    "permissions": [1, 2, 3, 4, 5]
   },
   {
     "id": "512b2941-e82e-4097-aa4b-ec322871a3e6",
@@ -19,12 +13,6 @@
     "description": "",
     "eicFunction": "EnergySupplier",
     "status": "Active",
-    "permissions": [
-      "OrganizationView",
-      "OrganizationManage",
-      "GridAreasManage",
-      "ActorManage",
-      "UsersManage"
-    ]
+    "permissions": [1, 2, 3, 4, 5]
   }
 ]
