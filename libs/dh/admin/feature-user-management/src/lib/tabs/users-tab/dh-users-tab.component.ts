@@ -121,6 +121,7 @@ export class DhUsersTabComponent {
 
   readonly actorOptions$ = this.actorStore.actors$;
   readonly userRolesOptions$ = this.userRolesStore.rolesOptions$;
+  readonly canChooseMultipleActors$ = this.actorStore.canChooseMultipleActors$;
 
   constructor(
     private store: DhAdminUserManagementDataAccessApiStore,
