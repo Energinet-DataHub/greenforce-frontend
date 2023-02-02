@@ -24,7 +24,13 @@ namespace Energinet.DataHub.WebApi.GraphQL
         {
             Name = "Batch";
             Field(x => x.BatchNumber).Name("id").Description("The id of the batch.");
-            Field<DateRangeType>("period").Resolve(context => Tuple.Create(context.Source.PeriodStart, context.Source.PeriodEnd));
+            Field(x => x.ExecutionState).Description("The execution state.");
+            Field(x => x.ExecutionTimeStart, nullable: true).Description("The execution start time.");
+            Field(x => x.ExecutionTimeEnd, nullable: true).Description("The execution end time.");
+            Field(x => x.GridAreaCodes).Description("The grid area codes.");
+            Field(x => x.IsBasisDataDownloadAvailable).Description("Whether basis data is downloadable.");
+            Field<DateRangeType>("period")
+              .Resolve(context => Tuple.Create(context.Source.PeriodStart, context.Source.PeriodEnd));
         }
     }
 }

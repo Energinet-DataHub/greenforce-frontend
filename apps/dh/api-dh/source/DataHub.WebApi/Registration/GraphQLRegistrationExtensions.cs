@@ -25,8 +25,7 @@ namespace Energinet.DataHub.WebApi.Registration
         public static IServiceCollection AddGraphQLSchema(this IServiceCollection services)
         {
             return services
-                .AddSingleton<ISchema, MarketParticipantSchema>(services => new MarketParticipantSchema(new SelfActivatingServiceProvider(services)))
-                .AddSingleton<ISchema, WholesaleSchema>(services => new WholesaleSchema(new SelfActivatingServiceProvider(services)))
+                .AddSingleton<ISchema, GraphQLSchema>(services => new GraphQLSchema(new SelfActivatingServiceProvider(services)))
                 .AddSingleton<DateRangeType>();
         }
     }

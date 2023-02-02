@@ -14,16 +14,17 @@
 
 using System;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.Wholesale.Contracts;
 using GraphQL;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class MarketParticipantSchema : Schema
+    public class GraphQLSchema : Schema
     {
-        public MarketParticipantSchema(IServiceProvider provider)
-            : base(provider)
+        public GraphQLSchema(IServiceProvider provider)
+          : base(provider)
         {
             this.RegisterTypeMapping<AddressDto, AddressDtoType>();
             this.RegisterTypeMapping<OrganizationDto, OrganizationDtoType>();
@@ -33,7 +34,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
             this.RegisterTypeMapping<ActorNameDto, ActorNameDtoType>();
             this.RegisterTypeMapping<ActorMarketRoleDto, ActorMarketRoleDtoType>();
             this.RegisterTypeMapping<ActorGridAreaDto, ActorGridAreaDtoType>();
-            Query = provider.GetRequiredService<MarketParticipantQuery>();
+            this.RegisterTypeMapping<BatchDtoV2, BatchType>();
+            Query = provider.GetRequiredService<GraphQLQuery>();
         }
     }
 }

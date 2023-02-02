@@ -122,8 +122,7 @@ namespace Energinet.DataHub.WebApi
                         return next(opt);
                     })
                     .AddSystemTextJson()
-                    .AddSchema<MarketParticipantSchema>()
-                    .AddSchema<WholesaleSchema>()
+                    .AddSchema<GraphQLSchema>()
                     .AddErrorInfoProvider(opts =>
                         opts.ExposeExceptionDetails = true));
 
