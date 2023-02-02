@@ -1,8 +1,8 @@
 {
-  "name": "docs",
+  "name": "web",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite dev --port 3001 --open",
+    "dev": "vite dev --port 3000 --open",
     "build": "vite build",
     "package": "vite package",
     "preview": "vite preview",
@@ -11,6 +11,7 @@
     "lint": "prettier --check --ignore-path=../../.prettierignore . && TIMING=1 eslint \"src\"",
     "format": "prettier --write --ignore-path=../../.prettierignore ."
   },
+  "prepare": "svelte-kit sync",
   "dependencies": {
     "ui": "workspace:*"
   },
