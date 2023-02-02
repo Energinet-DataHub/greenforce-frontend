@@ -47,9 +47,9 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
     (state) => state.loadingState === ErrorState.GENERAL_ERROR
   );
 
-  canChooseMultipleActors$ = this
-    .select((state) => state.actorResult || [])
-    .pipe(map(actors => actors.length > 1));
+  canChooseMultipleActors$ = this.select(
+    (state) => state.actorResult || []
+  ).pipe(map((actors) => actors.length > 1));
 
   actors$ = this.select((state) => state.actorResult).pipe(
     map((actors) =>
