@@ -11,10 +11,9 @@
  */
 
 
-export interface TimeSeriesPointDto { 
-    time: string;
-    quantity: number;
-    quality: string;
-}
+export type BatchActorType = 'EnergySupplier';
 
+export const BatchActorType = {
+    EnergySupplier: 'EnergySupplier' as BatchActorType
+};
 

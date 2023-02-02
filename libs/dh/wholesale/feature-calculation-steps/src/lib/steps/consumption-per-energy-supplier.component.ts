@@ -14,13 +14,63 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AfterViewInit, Component, inject } from '@angular/core';
+import { combineLatest, map } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { LetModule } from '@rx-angular/template/let';
+import { TranslocoModule } from '@ngneat/transloco';
+
+import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { TimeSeriesType } from '@energinet-datahub/dh/shared/domain';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+
+import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
 
 @Component({
+  standalone: true,
   selector: 'dh-wholesale-consumption-per-energy-supplier',
   templateUrl: './consumption-per-energy-supplier.component.html',
   styleUrls: ['./consumption-per-energy-supplier.component.scss'],
-  standalone: true,
-  imports: [],
+  imports: [
+    CommonModule,
+    DhWholesaleTimeSeriesPointsComponent,
+    LetModule,
+    TranslocoModule,
+    WattBadgeComponent,
+    WattEmptyStateModule,
+    WattSpinnerModule,
+  ],
 })
-export class DhWholesaleConsumptionPerEnergySupplierComponent {}
+export class DhWholesaleConsumptionPerEnergySupplierComponent
+  implements AfterViewInit
+{
+  private store = inject(DhWholesaleBatchDataAccessApiStore);
+  private route = inject(ActivatedRoute);
+
+  vm$ = combineLatest({
+    batch: this.store.selectedBatch$.pipe(exists()),
+    gridArea: this.store.selectedGridArea$.pipe(exists()),
+  });
+  gln: string = this.route.snapshot.params['gln'];
+
+  processStepResults$ = this.store.processStepResults$;
+  loadingProcessStepResultsErrorTrigger$ =
+    this.store.loadingProcessStepResultsErrorTrigger$;
+
+  ngAfterViewInit() {
+    this.store.getProcessStepResults(
+      this.vm$.pipe(
+        map((vm) => ({
+          batchId: vm.batch.batchId,
+          gridAreaCode: vm.gridArea.code,
+          timeSeriesType: TimeSeriesType.NonProfiledConsumption,
+          gln: this.gln,
+        }))
+      )
+    );
+  }
+}
