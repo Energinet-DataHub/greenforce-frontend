@@ -262,7 +262,7 @@ function postWholesaleBatchProcessStepResult(apiBase: string) {
       };
 
       return res(
-        ctx.delay(3000),
+        ctx.delay(300),
         ctx.status(200),
         ctx.json(mockedProcessStepResult)
       );
