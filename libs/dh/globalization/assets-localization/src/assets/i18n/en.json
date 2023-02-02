@@ -792,12 +792,13 @@
       "type": "Type",
       "balanceFixing": "Balance fixing",
       "loadCalculationStepsFailedTitle": "Oops! There was an error",
-      "loadCalculationStepsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
-      "energySupplier": "{{wholesale.processStepResults.energySupplier}}"
+      "loadCalculationStepsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information"
     },
     "energySuppliers": {
       "loadingEnerySuppliersFailedTitle": "Oops! There was an error",
-      "loadingEnerySuppliersFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information"
+      "loadingEnerySuppliersFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
+      "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
+      "amountOfResults": "{{length}} Resultater"
     },
     "processStepResults": {
       "step": "Step {{step}}",

@@ -23,8 +23,10 @@ limitations under the License.
     errorTrigger: errorTrigger$
   "
 >
-  <ng-container *transloco="let t; read: 'wholesale.calculationSteps'">
-    <h5 class="watt-on-light--high-emphasis">2 Resultater</h5>
+  <ng-container *transloco="let t; read: 'wholesale.energySuppliers'">
+    <h5 class="watt-on-light--high-emphasis">
+      {{ t("amountOfResults", { length: (energySuppliers || []).length }) }}
+    </h5>
     <watt-table
       [resolveHeader]="t"
       [dataSource]="_dataSource(energySuppliers)"
