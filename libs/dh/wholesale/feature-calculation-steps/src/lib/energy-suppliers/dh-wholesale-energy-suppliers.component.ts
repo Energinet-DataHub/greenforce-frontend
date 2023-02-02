@@ -80,10 +80,15 @@ export class DhWholesaleEnergySuppliersComponent implements OnInit {
 
   getSelectedEnergySupplier(energySuppliers?: WholesaleActorDto[]) {
     if (!energySuppliers) return;
-    return energySuppliers.find((e) => e.gln === this.route.firstChild?.snapshot.url?.[1]?.path);
+    return energySuppliers.find(
+      (e) => e.gln === this.route.firstChild?.snapshot.url?.[1]?.path
+    );
   }
 
-  isSelectedEnerygySupplier(current: WholesaleActorDto, active: WholesaleActorDto) {
+  isSelectedEnerygySupplier(
+    current: WholesaleActorDto,
+    active: WholesaleActorDto
+  ) {
     return current.gln === active.gln;
   }
 }
