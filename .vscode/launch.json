@@ -67,6 +67,27 @@
       }
     },
     {
+      "name": "Launch Wholesale",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build wholesale",
+      "program": "${workspaceFolder}/backend/opengeh-wholesale/source/dotnet/Services/WebApi/bin/Debug/net6.0/Energinet.DataHub.Wholesale.WebApi.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/opengeh-wholesale/source/dotnet/Services/WebApi",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:6002"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
+    },
+    {
       "type": "node",
       "name": "vscode-jest-tests",
       "request": "launch",
