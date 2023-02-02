@@ -19,7 +19,7 @@ export interface UserRoleWithPermissionsDto {
     description: string;
     eicFunction: EicFunction;
     status: UserRoleStatus;
-    permissions: Array<string>;
+    permissions: Array<number>;
 }
 
 

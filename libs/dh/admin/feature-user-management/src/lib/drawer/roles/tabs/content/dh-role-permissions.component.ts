@@ -36,12 +36,12 @@ import {
 export class DhRolePermissionsComponent implements OnChanges {
   @Input() role: UserRoleWithPermissionsDto | null = null;
 
-  readonly dataSource: WattTableDataSource<string> = new WattTableDataSource(
+  readonly dataSource: WattTableDataSource<number> = new WattTableDataSource(
     undefined
   );
 
-  columns: WattTableColumnDef<string> = {
-    name: { accessor: 0, cell: (row: string) => row },
+  columns: WattTableColumnDef<number> = {
+    name: { accessor: null, cell: (row: number) => row.toString() },
   };
 
   ngOnChanges() {
