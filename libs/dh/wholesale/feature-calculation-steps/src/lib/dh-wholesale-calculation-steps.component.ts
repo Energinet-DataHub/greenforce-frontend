@@ -113,9 +113,18 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
       this.router.navigate(commands, { relativeTo: this.route });
     }
 
+    // This is used to open the drawer when the user navigates to the page with a step in the url
     this.isDrawerOpen = true;
+    // This is used to open the drawer when the user clicks on a step in the list
     this.drawer?.open();
 
+    const step = commands ? String(commands[0]) : this.getCurrentStep();
+    const gln = this.route.firstChild?.snapshot.url?.[1]?.path;
+
+    this.getProcessStepResults(step, gln);
+  }
+
+  private getProcessStepResults(step?: string, gln = 'grid_area') {
     combineLatest([this.batch$, this.gridArea$])
       .pipe(
         filter(([batch, gridArea]) => {
@@ -125,17 +134,25 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
       )
       .subscribe(([batch, gridArea]) => {
         if (batch && gridArea) {
-          const gln =
-            this.route.firstChild?.snapshot.url?.[1]?.path || 'grid_area';
-
           this.store.getProcessStepResults({
             batchId: batch.batchId,
             gridAreaCode: gridArea.code,
-            timeSeriesType: TimeSeriesType.Production,
+            timeSeriesType: this.getTimeSeriesType(step),
             gln,
           });
         }
       });
+  }
+
+  private getTimeSeriesType(step?: string) {
+    switch (step) {
+      case '1':
+        return TimeSeriesType.Production;
+      case '2':
+        return TimeSeriesType.NonProfiledConsumption;
+      default:
+        return TimeSeriesType.Production;
+    }
   }
 
   onDrawerClosed() {
