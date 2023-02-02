@@ -130,8 +130,7 @@ export class DhEditUserRoleModalComponent
       name: this.userRoleEditForm.controls.name.value,
       description: userRole.description,
       status: userRole.status,
-      // Note: Fix this once `UserRoleWithPermissionsDto.permissions` is of type `number[]`
-      permissions: userRole.permissions as unknown as number[],
+      permissions: userRole.permissions,
     };
 
     const onSuccessFn = () => this.closeModal(true);
