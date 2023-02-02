@@ -80,7 +80,8 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   loadingBatchErrorTrigger$: Subject<void> = new Subject();
   loadingBasisDataErrorTrigger$: Subject<void> = new Subject();
   loadingProcessStepResultsErrorTrigger$: Subject<void> = new Subject();
-  loadingEnergySuppliersForConsumptionErrorTrigger$: Subject<void> = new Subject();
+  loadingEnergySuppliersForConsumptionErrorTrigger$: Subject<void> =
+    new Subject();
 
   private document = inject(DOCUMENT);
   private httpClient = inject(WholesaleBatchHttp);
