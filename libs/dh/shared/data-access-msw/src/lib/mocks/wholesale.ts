@@ -238,27 +238,27 @@ function postWholesaleBatchProcessStepResult(apiBase: string) {
     (req, res, ctx) => {
       const mockedProcessStepResult = {
         processStepMeteringPointType: ProcessStepMeteringPointType.Production,
-          sum: 102234.245654,
-          min: 0.0,
-          max: 114.415789,
-          timeSeriesPoints: [
-            {
-              time: periodStart,
-              quantity: `${_randomIntFromInterval(0, 15)}.518`,
-            },
-            {
-              time: periodEnd,
-              quantity: `${_randomIntFromInterval(0, 15)}.518`,
-            },
-            {
-              time: periodStart,
-              quantity: `${_randomIntFromInterval(0, 15)}.518`,
-            },
-            {
-              time: periodEnd,
-              quantity: `${_randomIntFromInterval(0, 15)}.518`,
-            },
-          ],
+        sum: 102234.245654,
+        min: 0.0,
+        max: 114.415789,
+        timeSeriesPoints: [
+          {
+            time: periodStart,
+            quantity: `${_randomIntFromInterval(0, 15)}.518`,
+          },
+          {
+            time: periodEnd,
+            quantity: `${_randomIntFromInterval(0, 15)}.518`,
+          },
+          {
+            time: periodStart,
+            quantity: `${_randomIntFromInterval(0, 15)}.518`,
+          },
+          {
+            time: periodEnd,
+            quantity: `${_randomIntFromInterval(0, 15)}.518`,
+          },
+        ],
       };
 
       return res(
@@ -278,6 +278,7 @@ function batchActorsPost(apiBase: string) {
   });
 }
 
-function _randomIntFromInterval(min: number, max: number) { // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min)
+function _randomIntFromInterval(min: number, max: number) {
+  // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
