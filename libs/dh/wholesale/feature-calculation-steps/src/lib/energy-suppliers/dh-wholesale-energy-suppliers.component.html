@@ -14,14 +14,38 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'wholesale.calculationSteps'">
-  <h5 class="watt-on-light--high-emphasis">2 Resultater</h5>
-  <watt-table
-    [resolveHeader]="t"
-    [dataSource]="_dataSource"
-    [columns]="_columns"
-    (rowClick)="rowClick.emit($event)"
-  >
-  </watt-table>
-  <watt-paginator></watt-paginator>
+<ng-container
+  *rxLet="
+    energySuppliersForConsumption$;
+    let energySuppliers;
+    suspense: loading;
+    error: error;
+    errorTrigger: errorTrigger$
+  "
+>
+  <ng-container *transloco="let t; read: 'wholesale.calculationSteps'">
+    <h5 class="watt-on-light--high-emphasis">2 Resultater</h5>
+    <watt-table
+      [resolveHeader]="t"
+      [dataSource]="_dataSource(energySuppliers)"
+      [columns]="_columns"
+      (rowClick)="rowClick.emit($event)"
+    >
+    </watt-table>
+    <watt-paginator></watt-paginator>
+  </ng-container>
 </ng-container>
+
+<ng-template #loading>
+  <watt-spinner></watt-spinner>
+</ng-template>
+
+<ng-template #error>
+  <watt-empty-state
+    *transloco="let t; read: 'wholesale.energySuppliers'"
+    icon="custom-power"
+    [title]="t('loadingEnerySuppliersFailedTitle')"
+    [message]="t('loadingEnerySuppliersFailedMessage')"
+  >
+  </watt-empty-state>
+</ng-template>

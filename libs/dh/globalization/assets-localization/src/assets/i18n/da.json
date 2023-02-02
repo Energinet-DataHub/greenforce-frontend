@@ -799,6 +799,10 @@
       "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "energySupplier": "{{wholesale.processStepResults.energySupplier}}"
     },
+    "energySuppliers": {
+      "loadingEnerySuppliersFailedTitle": "Ups! Der opstod en fejl",
+      "loadingEnerySuppliersFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
+    },
     "processStepResults": {
       "step": "Trin {{step}}",
       "aggregatedProductionPerGridArea": "Aggregeret produktion per netområde",

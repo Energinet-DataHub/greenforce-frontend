@@ -14,6 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+watt-spinner {
+  display: flex;
+  justify-content: center;
+}
+
+watt-spinner, watt-empty-state {
+  margin: var(--watt-space-m) 0;
+}
+
 watt-paginator {
   display: block;
   margin: 0 calc(var(--watt-space-m) * -1);

@@ -234,7 +234,7 @@ function getWholesaleSearchBatches(apiBase: string) {
 
 function postWholesaleBatchProcessStepResult(apiBase: string) {
   return rest.post(
-    `${apiBase}/v1/WholesaleBatch/ProcessStepResult`,
+    `${apiBase}/v1/WholesaleBatch/ProcessResult`,
     (req, res, ctx) => {
       return res(
         ctx.delay(300),

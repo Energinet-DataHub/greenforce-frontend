@@ -22,10 +22,13 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WholesaleActorDto } from '@energinet-datahub/dh/shared/domain';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import {
   WattTableColumnDef,
   WattTableDataSource,
@@ -37,7 +40,14 @@ import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholes
 @Component({
   standalone: true,
   selector: 'dh-wholesale-energy-suppliers',
-  imports: [TranslocoModule, WATT_TABLE, WattPaginatorComponent],
+  imports: [
+    LetModule,
+    TranslocoModule,
+    WATT_TABLE,
+    WattEmptyStateModule,
+    WattPaginatorComponent,
+    WattSpinnerModule,
+  ],
   templateUrl: './dh-wholesale-energy-suppliers.component.html',
   styleUrls: ['./dh-wholesale-energy-suppliers.component.scss'],
 })
@@ -48,19 +58,17 @@ export class DhWholesaleEnergySuppliersComponent implements OnInit {
   @Input() gridAreaCode!: string;
 
   @Output() rowClick = new EventEmitter<WholesaleActorDto>();
-  _dataSource = new WattTableDataSource<WholesaleActorDto>();
+
   _columns: WattTableColumnDef<WholesaleActorDto> = {
     energySupplier: { accessor: 'gln' },
   };
 
   energySuppliersForConsumption$ = this.store.energySuppliersForConsumption$;
+  errorTrigger$ = this.store.loadingEnergySuppliersForConsumptionErrorTrigger$;
+
+  _dataSource = (data?: WholesaleActorDto[]) => new WattTableDataSource<WholesaleActorDto>(data);
 
   ngOnInit() {
-    this.energySuppliersForConsumption$.subscribe((energySupplier) => {
-      if (energySupplier) {
-        this._dataSource.data = energySupplier;
-      }
-    });
     this.store.getEnergySuppliersForConsumption({
       batchId: this.batchId,
       gridAreaCode: this.gridAreaCode,

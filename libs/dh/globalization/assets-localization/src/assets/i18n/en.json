@@ -795,6 +795,10 @@
       "loadCalculationStepsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
       "energySupplier": "{{wholesale.processStepResults.energySupplier}}"
     },
+    "energySuppliers": {
+      "loadingEnerySuppliersFailedTitle": "Oops! There was an error",
+      "loadingEnerySuppliersFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information"
+    },
     "processStepResults": {
       "step": "Step {{step}}",
       "aggregatedProductionPerGridArea": "Aggregated production per grid area",
