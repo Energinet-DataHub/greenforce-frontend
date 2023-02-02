@@ -18,7 +18,6 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Energinet.DataHub.Core.App.WebApp.Authentication;
 using Energinet.DataHub.Core.App.WebApp.Diagnostics.HealthChecks;
-using Energinet.DataHub.Core.App.WebApp.Middleware;
 using Energinet.DataHub.WebApi.Registration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -131,16 +130,9 @@ namespace Energinet.DataHub.WebApi
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseCors();
-
-            if (!Environment.IsDevelopment())
-            {
-                app.UseAuthentication();
-            }
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

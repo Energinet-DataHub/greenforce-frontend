@@ -23,17 +23,15 @@ import { firstValueFrom, of } from 'rxjs';
 import {
   MarketParticipantUserOverviewHttp,
   UserStatus,
+  UserOverviewFilterDto,
 } from '@energinet-datahub/dh/shared/domain';
 
-import {
-  DhAdminUserManagementDataAccessApiStore,
-  FetchUsersParams,
-} from './dh-admin-user-management-data-access-api.store';
+import { DhAdminUserManagementDataAccessApiStore } from './dh-admin-user-management-data-access-api.store';
 
 describe(DhAdminUserManagementDataAccessApiStore.name, () => {
   async function setup() {
     const httpMock = {
-      v1MarketParticipantUserOverviewGetUserOverviewGet: jest.fn(() => of()),
+      v1MarketParticipantUserOverviewSearchUsersPost: jest.fn(() => of()),
     } as unknown as MarketParticipantUserOverviewHttp;
 
     @Component({
@@ -62,15 +60,23 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
   it('calls the API on initialization with default params', async () => {
     const { httpMock } = await setup();
 
-    const actualParams: FetchUsersParams = {
+    const filterDto: UserOverviewFilterDto = {
+      actorId: undefined,
+      userRoleIds: [],
+      searchText: undefined,
+      userStatus: ['Active'],
+    };
+
+    const actualParams = {
       pageNumber: 1,
       pageSize: 50,
-      searchText: undefined,
-      statusFilter: ['Active'],
+      sortProperty: 'Email',
+      direction: 'Asc',
+      filterDto,
     };
 
     expect(
-      httpMock.v1MarketParticipantUserOverviewGetUserOverviewGet
+      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
     ).toHaveBeenCalledWith(...Object.values(actualParams));
   });
 
@@ -87,15 +93,23 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
 
     tick();
 
-    const actualParams: FetchUsersParams = {
+    const filterDto: UserOverviewFilterDto = {
+      actorId: undefined,
+      userRoleIds: [],
+      searchText: undefined,
+      userStatus: ['Active'],
+    };
+
+    const actualParams = {
       pageNumber: 4,
       pageSize: 25,
-      searchText: undefined,
-      statusFilter: ['Active'],
+      sortProperty: 'Email',
+      direction: 'Asc',
+      filterDto,
     };
 
     expect(
-      httpMock.v1MarketParticipantUserOverviewGetUserOverviewGet
+      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
     ).toHaveBeenLastCalledWith(...Object.values(actualParams));
   }));
 
@@ -107,15 +121,23 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
 
     tick();
 
-    const actualParams: FetchUsersParams = {
+    const filterDto: UserOverviewFilterDto = {
+      actorId: undefined,
+      userRoleIds: [],
+      searchText: 'john',
+      userStatus: ['Active'],
+    };
+
+    const actualParams = {
       pageNumber: 1,
       pageSize: 50,
-      searchText: 'john',
-      statusFilter: ['Active'],
+      sortProperty: 'Email',
+      direction: 'Asc',
+      filterDto,
     };
 
     expect(
-      httpMock.v1MarketParticipantUserOverviewGetUserOverviewGet
+      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
     ).toHaveBeenLastCalledWith(...Object.values(actualParams));
   }));
 
@@ -129,15 +151,23 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
 
     tick();
 
-    const actualParams: FetchUsersParams = {
+    const filterDto: UserOverviewFilterDto = {
+      actorId: undefined,
+      userRoleIds: [],
+      searchText: undefined,
+      userStatus: ['Active', 'Inactive'],
+    };
+
+    const actualParams = {
       pageNumber: 1,
       pageSize: 50,
-      searchText: undefined,
-      statusFilter: ['Active', 'Inactive'],
+      sortProperty: 'Email',
+      direction: 'Asc',
+      filterDto,
     };
 
     expect(
-      httpMock.v1MarketParticipantUserOverviewGetUserOverviewGet
+      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
     ).toHaveBeenLastCalledWith(...Object.values(actualParams));
   }));
 
@@ -154,7 +184,7 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
     const numberOfTimesCalled = 2;
 
     expect(
-      httpMock.v1MarketParticipantUserOverviewGetUserOverviewGet
+      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
     ).toHaveBeenCalledTimes(numberOfTimesCalled);
   }));
 
