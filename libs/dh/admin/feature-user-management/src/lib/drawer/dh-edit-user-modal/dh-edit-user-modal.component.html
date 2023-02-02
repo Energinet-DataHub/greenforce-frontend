@@ -21,14 +21,14 @@ limitations under the License.
       <watt-tab [label]="t('tab.roles')"> roller </watt-tab>
     </watt-tabs>
     <watt-modal-actions>
+      <watt-button variant="secondary" class="margin-right-auto">
+        {{ t("deactivateUser") }}
+      </watt-button>
       <watt-button variant="secondary" (click)="editUserModal.close(true)">
         {{ t("cancel") }}
       </watt-button>
       <watt-button variant="primary" (click)="save()">
         {{ t("save") }}
-      </watt-button>
-      <watt-button variant="secondary" (click)="deactivedUser()">
-        {{ t("deactivateUser") }}
       </watt-button>
     </watt-modal-actions>
   </watt-modal>
