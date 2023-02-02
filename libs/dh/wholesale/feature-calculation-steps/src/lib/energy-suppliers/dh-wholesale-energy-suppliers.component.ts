@@ -66,7 +66,8 @@ export class DhWholesaleEnergySuppliersComponent implements OnInit {
   energySuppliersForConsumption$ = this.store.energySuppliersForConsumption$;
   errorTrigger$ = this.store.loadingEnergySuppliersForConsumptionErrorTrigger$;
 
-  _dataSource = (data?: WholesaleActorDto[]) => new WattTableDataSource<WholesaleActorDto>(data);
+  _dataSource = (data?: WholesaleActorDto[]) =>
+    new WattTableDataSource<WholesaleActorDto>(data);
 
   ngOnInit() {
     this.store.getEnergySuppliersForConsumption({
