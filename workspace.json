@@ -61,6 +61,7 @@
     "dh-shared-ui-paginator": "libs/dh/shared/ui-paginator",
     "dh-shared-ui-util": "libs/dh/shared/ui-util",
     "dh-shared-util-application-insights": "libs/dh/shared/util-application-insights",
+    "dh-shared-util-operators": "libs/dh/shared/util-operators",
     "dh-shared-util-table": "libs/dh/shared/util-table",
     "dh-wholesale-data-access-api": "libs/dh/wholesale/data-access-api",
     "dh-wholesale-domain": "libs/dh/wholesale/domain",

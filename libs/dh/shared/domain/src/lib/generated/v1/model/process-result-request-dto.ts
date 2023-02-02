@@ -9,12 +9,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { TimeSeriesType } from './time-series-type';
 
 
-export interface TimeSeriesPointDto { 
-    time: string;
-    quantity: number;
-    quality: string;
+export interface ProcessResultRequestDto { 
+    batchId: string;
+    gridAreaCode: string;
+    timeSeriesType: TimeSeriesType;
+    gln?: string | null;
 }
 
 

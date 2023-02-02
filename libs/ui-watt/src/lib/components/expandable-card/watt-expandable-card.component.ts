@@ -14,8 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  Component,
+  ContentChild,
+  Directive,
+  inject,
+  Input,
+  TemplateRef,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
+
+@Directive({
+  standalone: true,
+  selector: '[wattExpandableCardContent]',
+})
+export class WattExpandableCardContentDirective {
+  templateRef = inject(TemplateRef);
+}
 
 /**
  * Usage:
@@ -23,7 +40,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
  */
 @Component({
   standalone: true,
-  imports: [MatExpansionModule],
+  imports: [CommonModule, MatExpansionModule],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-expandable-card',
   styleUrls: ['./watt-expandable-card.component.scss'],
@@ -32,6 +49,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 export class WattExpandableCardComponent {
   /** Whether the card is expanded. */
   @Input() expanded = false;
+
+  @ContentChild(WattExpandableCardContentDirective)
+  _content?: WattExpandableCardContentDirective;
 }
 
 @Component({
@@ -44,4 +64,5 @@ export class WattExpandableCardTitleComponent {}
 export const WATT_EXPANDABLE_CARD_COMPONENTS = [
   WattExpandableCardComponent,
   WattExpandableCardTitleComponent,
+  WattExpandableCardContentDirective,
 ] as const;
