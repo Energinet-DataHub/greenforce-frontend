@@ -22,6 +22,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -53,6 +54,7 @@ import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholes
 })
 export class DhWholesaleEnergySuppliersComponent implements OnInit {
   private store = inject(DhWholesaleBatchDataAccessApiStore);
+  private route = inject(ActivatedRoute);
 
   @Input() batchId!: string;
   @Input() gridAreaCode!: string;
@@ -74,5 +76,14 @@ export class DhWholesaleEnergySuppliersComponent implements OnInit {
       batchId: this.batchId,
       gridAreaCode: this.gridAreaCode,
     });
+  }
+
+  getSelectedEnergySupplier(energySuppliers?: WholesaleActorDto[]) {
+    if (!energySuppliers) return;
+    return energySuppliers.find((e) => e.gln === this.route.firstChild?.snapshot.url?.[1]?.path);
+  }
+
+  isSelectedEnerygySupplier(current: WholesaleActorDto, active: WholesaleActorDto) {
+    return current.gln === active.gln;
   }
 }

@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, inject, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { LetModule } from '@rx-angular/template/let';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
-import { combineLatest, map } from 'rxjs';
+import { combineLatest } from 'rxjs';
 
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -31,7 +31,6 @@ import {
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
 
-import { TimeSeriesType } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
@@ -57,9 +56,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
     ...WATT_BREADCRUMBS,
   ],
 })
-export class DhWholesaleProductionPerGridareaComponent
-  implements AfterViewInit
-{
+export class DhWholesaleProductionPerGridareaComponent {
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
   private store = inject(DhWholesaleBatchDataAccessApiStore);
@@ -72,17 +69,4 @@ export class DhWholesaleProductionPerGridareaComponent
   processStepResults$ = this.store.processStepResults$;
   loadingProcessStepResultsErrorTrigger$ =
     this.store.loadingProcessStepResultsErrorTrigger$;
-
-  ngAfterViewInit() {
-    this.store.getProcessStepResults(
-      this.vm$.pipe(
-        map((vm) => ({
-          batchId: vm.batch.batchId,
-          gridAreaCode: vm.gridArea.code,
-          timeSeriesType: TimeSeriesType.Production,
-          gln: 'grid_area', // magic string
-        }))
-      )
-    );
-  }
 }

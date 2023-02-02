@@ -109,7 +109,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   );
 
   readonly setProcessStepResults = this.updater(
-    (state, processStepResults: ProcessStepResultDto): State => ({
+    (state, processStepResults: ProcessStepResultDto | undefined): State => ({
       ...state,
       processStepResults,
     })
@@ -239,6 +239,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (options$: Observable<ProcessStepResultRequestDtoV2>) => {
       return options$.pipe(
         switchMap((options) => {
+          this.setProcessStepResults(undefined); // We reset the process step results to force the loading spinner to show
           return this.httpClient
             .v1WholesaleBatchProcessResultPost(options)
             .pipe(

@@ -236,33 +236,35 @@ function postWholesaleBatchProcessStepResult(apiBase: string) {
   return rest.post(
     `${apiBase}/v1/WholesaleBatch/ProcessResult`,
     (req, res, ctx) => {
-      return res(
-        ctx.delay(300),
-        ctx.status(200),
-        ctx.json({
-          processStepMeteringPointType: ProcessStepMeteringPointType.Production,
+      const mockedProcessStepResult = {
+        processStepMeteringPointType: ProcessStepMeteringPointType.Production,
           sum: 102234.245654,
           min: 0.0,
           max: 114.415789,
           timeSeriesPoints: [
             {
               time: periodStart,
-              quantity: 13.518,
+              quantity: `${_randomIntFromInterval(0, 15)}.518`,
             },
             {
               time: periodEnd,
-              quantity: 13.518,
+              quantity: `${_randomIntFromInterval(0, 15)}.518`,
             },
             {
               time: periodStart,
-              quantity: 13.518,
+              quantity: `${_randomIntFromInterval(0, 15)}.518`,
             },
             {
               time: periodEnd,
-              quantity: 13.518,
+              quantity: `${_randomIntFromInterval(0, 15)}.518`,
             },
           ],
-        })
+      };
+
+      return res(
+        ctx.delay(3000),
+        ctx.status(200),
+        ctx.json(mockedProcessStepResult)
       );
     }
   );
@@ -274,4 +276,8 @@ function batchActorsPost(apiBase: string) {
     //return res(ctx.delay(300), ctx.status(200), ctx.json([]));
     //return res(ctx.delay(2000), ctx.status(500));
   });
+}
+
+function _randomIntFromInterval(min: number, max: number) { // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }

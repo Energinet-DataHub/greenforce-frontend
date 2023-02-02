@@ -15,15 +15,14 @@
  * limitations under the License.
  */
 import { ActivatedRoute } from '@angular/router';
-import { AfterViewInit, Component, inject } from '@angular/core';
-import { combineLatest, map } from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { combineLatest } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { TimeSeriesType } from '@energinet-datahub/dh/shared/domain';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -45,9 +44,7 @@ import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-w
     WattSpinnerModule,
   ],
 })
-export class DhWholesaleConsumptionPerEnergySupplierComponent
-  implements AfterViewInit
-{
+export class DhWholesaleConsumptionPerEnergySupplierComponent {
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private route = inject(ActivatedRoute);
 
@@ -55,22 +52,10 @@ export class DhWholesaleConsumptionPerEnergySupplierComponent
     batch: this.store.selectedBatch$.pipe(exists()),
     gridArea: this.store.selectedGridArea$.pipe(exists()),
   });
-  gln: string = this.route.snapshot.params['gln'];
 
   processStepResults$ = this.store.processStepResults$;
   loadingProcessStepResultsErrorTrigger$ =
     this.store.loadingProcessStepResultsErrorTrigger$;
 
-  ngAfterViewInit() {
-    this.store.getProcessStepResults(
-      this.vm$.pipe(
-        map((vm) => ({
-          batchId: vm.batch.batchId,
-          gridAreaCode: vm.gridArea.code,
-          timeSeriesType: TimeSeriesType.NonProfiledConsumption,
-          gln: this.gln,
-        }))
-      )
-    );
-  }
+  gln: () => string = () => this.route.snapshot.params['gln'];
 }
