@@ -33,10 +33,33 @@ limitations under the License.
     </small>
   </p>
 
-  <ng-container *rxLet="processStepResults$; let processStepResults">
+  <ng-container
+    *rxLet="
+      processStepResults$;
+      let processStepResults;
+      error: loadingProcessStepResultsError;
+      suspense: loadingProcessStepResults;
+      errorTrigger: loadingProcessStepResultsErrorTrigger$
+    "
+  >
     <dh-wholesale-time-series-points
       *ngIf="processStepResults"
       [data]="processStepResults.timeSeriesPoints"
     ></dh-wholesale-time-series-points>
   </ng-container>
+
+  <ng-template #loadingProcessStepResults>
+    <watt-spinner></watt-spinner>
+  </ng-template>
+
+  <ng-template #loadingProcessStepResultsError>
+    <div class="center">
+      <watt-empty-state
+        icon="custom-power"
+        [title]="t('loadProcessStepResultsErrorTitle')"
+        [message]="t('loadProcessStepResultsErrorMessage')"
+      >
+      </watt-empty-state>
+    </div>
+  </ng-template>
 </ng-container>
