@@ -39,8 +39,8 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
             Environment.SetEnvironmentVariable("ApiClientSettings__MessageArchiveBaseUrl", "http://localhost:8080/messagearchive");
             Environment.SetEnvironmentVariable("ApiClientSettings__MarketParticipantBaseUrl", "http://localhost:8080/marketparticipant");
             Environment.SetEnvironmentVariable("ApiClientSettings__WholesaleBaseUrl", "http://localhost:8080/wholesale");
-            Environment.SetEnvironmentVariable("FRONTEND_OPEN_ID_URL", AuthorizationConfiguration.FrontendOpenIdConfigurationUrl);
-            Environment.SetEnvironmentVariable("FRONTEND_SERVICE_APP_ID", AuthorizationConfiguration.FrontendApp.AppId);
+            Environment.SetEnvironmentVariable("EXTERNAL_OPEN_ID_URL", AuthorizationConfiguration.FrontendOpenIdConfigurationUrl);
+            Environment.SetEnvironmentVariable("BACKEND_SERVICE_APP_ID", AuthorizationConfiguration.FrontendApp.AppId);
 
             return Task.CompletedTask;
         }

@@ -43,7 +43,7 @@ import {
     DhUserRolesComponent,
   ],
   templateUrl: './dh-edit-user-modal.component.html',
-  styleUrls: ['./dh-edit-user-modal.component.scss'],
+  styles: ['.margin-right-auto {margin-right:auto}'],
 })
 export class DhEditUserModalComponent {
   private readonly store = inject(DhAdminUserRolesStore);

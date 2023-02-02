@@ -28,7 +28,11 @@ limitations under the License.
       </watt-tab>
     </watt-tabs>
     <watt-modal-actions>
-      <watt-button variant="secondary" (click)="deactivedUser()">
+      <watt-button
+        variant="secondary"
+        class="margin-right-auto"
+        (click)="deactivedUser()"
+      >
         {{ t("deactivateUser") }}
       </watt-button>
       <watt-button variant="secondary" (click)="close()">
