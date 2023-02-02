@@ -19,9 +19,8 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild, OnInit } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
-import { combineLatest, filter, first, skip, takeWhile, tap } from 'rxjs';
+import { combineLatest, filter, first, tap } from 'rxjs';
 
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
@@ -35,7 +34,6 @@ import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import {
   BatchState,
-  ProcessStepResultRequestDtoV2,
   TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
