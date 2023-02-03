@@ -920,6 +920,7 @@
           }
         },
         "users": {
+          "inviteUser": "Inviter bruger",
           "tabLabel": "Brugere",
           "filter": {
             "status": "Status",

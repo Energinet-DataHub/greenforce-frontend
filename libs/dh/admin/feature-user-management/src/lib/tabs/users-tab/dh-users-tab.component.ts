@@ -35,6 +35,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
@@ -102,6 +103,7 @@ import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filte
     DhUsersTabGeneralErrorComponent,
     DhUsersTabActorFilterComponent,
     DhUsersTabUserRoleFilterComponent,
+    WattButtonModule,
   ],
 })
 export class DhUsersTabComponent {
