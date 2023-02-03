@@ -73,7 +73,7 @@
     "e2e-eo": "apps/eo/e2e-eo",
     "eo-auth-data-access-api": "libs/eo/auth/data-access-api",
     "eo-auth-data-access-security": "libs/eo/auth/data-access-security",
-    "eo-auth-feature-terms": "libs/eo/auth/feature-terms",
+    "eo-terms": "libs/eo/terms",
     "eo-auth-routing-security": "libs/eo/auth/routing-security",
     "eo-certificates": "libs/eo/certificates",
     "eo-consumption-page-shell": "libs/eo/consumption-page/shell",

@@ -16,6 +16,8 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { WattModalModule } from '@energinet-datahub-types/watt/modal';
 import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
 import { EoPrivacyPolicyComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
@@ -25,12 +27,12 @@ import {
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
-import { EoAuthTermsStore } from './eo-auth-terms.store';
+import { EoTermsStore } from './eo-terms.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  providers: [EoAuthTermsStore],
+  providers: [EoTermsStore],
   imports: [
     FormsModule,
     WattButtonModule,
@@ -39,6 +41,7 @@ import { EoAuthTermsStore } from './eo-auth-terms.store';
     EoHeaderComponent,
     EoPrivacyPolicyComponent,
     EoScrollViewComponent,
+    WattModalModule,
   ],
   selector: 'eo-auth-terms',
   styles: [
@@ -87,7 +90,11 @@ import { EoAuthTermsStore } from './eo-auth-terms.store';
             Back
           </watt-button>
 
-          <watt-button variant="primary" (click)="onAccept()">
+          <watt-button
+            variant="primary"
+            (click)="onAccept()"
+            [disabled]="!hasAcceptedTerms"
+          >
             Accept terms
           </watt-button>
         </div>
@@ -98,12 +105,13 @@ import { EoAuthTermsStore } from './eo-auth-terms.store';
   `,
   viewProviders: [EoLogOutStore],
 })
-export class EoAuthFeatureTermsComponent {
+export class EoTermsComponent {
   hasAcceptedTerms = false;
 
   constructor(
-    private store: EoAuthTermsStore,
-    private logOutStore: EoLogOutStore
+    private store: EoTermsStore,
+    private logOutStore: EoLogOutStore,
+    private router: Router
   ) {}
 
   onVersionChange(version: string): void {
@@ -115,10 +123,18 @@ export class EoAuthFeatureTermsComponent {
   }
 
   onAccept(): void {
-    if (this.hasAcceptedTerms) {
-      this.store.onAcceptTerms();
-    } else {
-      // Error handling - Let the user know that the checkbox needs to be checked before terms can be accepted
-    }
+    this.store.onAcceptTerms().subscribe({
+      next: (res) => console.log('next', res),
+      error: () => {
+        this.router.navigate(['/'], {
+          state: {
+            error: {
+              message: 'An error happened during login. Please try again.',
+              title: '',
+            },
+          },
+        });
+      },
+    });
   }
 }
