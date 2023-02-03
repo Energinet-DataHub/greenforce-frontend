@@ -9,11 +9,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { EicFunction } from './eic-function';
 
 
-export interface MarketRoleDto { 
-    eicFunction: EicFunction;
+export interface WholesaleActorDto { 
+    gln: string;
 }
 
 

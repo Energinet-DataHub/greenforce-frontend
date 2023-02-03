@@ -14,6 +14,7 @@
 export interface TimeSeriesPointDto { 
     time: string;
     quantity: number;
+    quality: string;
 }
 
 
