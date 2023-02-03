@@ -124,9 +124,12 @@ export class EoTermsComponent {
 
   onAccept(): void {
     this.store.onAcceptTerms().subscribe({
-      next: (response) => console.log('next', response.next_url),
+      next: (response) => window.location.replace(response.next_url),
       error: () => {
-        this.router.navigate(['/'], { state: { error: true } });
+        this.router.navigate(['/'], {
+          state: { error: true },
+          replaceUrl: true,
+        });
       },
     });
   }
