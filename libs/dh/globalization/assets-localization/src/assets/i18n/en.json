@@ -794,11 +794,18 @@
       "loadCalculationStepsFailedTitle": "Oops! There was an error",
       "loadCalculationStepsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information"
     },
+    "energySuppliers": {
+      "loadingEnerySuppliersFailedTitle": "Oops! There was an error",
+      "loadingEnerySuppliersFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
+      "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
+      "amountOfResults": "{{length}} Resultater"
+    },
     "processStepResults": {
       "step": "Step {{step}}",
       "aggregatedProductionPerGridArea": "Aggregated production per grid area",
       "aggregatedConsumptionPerEnergySupplier": "Aggregated consumption per energy supplier",
       "gridArea": "Grid area",
+      "energySupplier": "Energy Supplier",
       "loadProcessStepResultsErrorTitle": "Oops! There was an error",
       "loadProcessStepResultsErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information",
       "meteringPointType": "Metering point type",
@@ -916,22 +923,27 @@
           }
         },
         "users": {
+          "inviteUser": "Invite user",
           "tabLabel": "Users",
           "searchPlaceholder": "Search users",
+          "searchActorPlaceHolder": "Choose market party",
+          "searchUserRolePlaceHolder": "Choose user role",
           "usersHeadline": {
             "singular": "{{ usersCount }} user",
             "plural": "{{ usersCount }} users"
           },
           "filter": {
-            "status": "Status"
+            "status": "Status",
+            "actor": "Market party",
+            "userrole": "User role"
           },
           "table": {
             "columns": {
               "name": "Name",
               "email": "Email",
               "phone": "Phone",
-              "status": "Status",
-              "createdDate": "Created"
+              "assignedActors": "Assigned market parties",
+              "status": "Status"
             }
           },
           "errors": {
@@ -943,12 +955,12 @@
           }
         },
         "roles": {
-          "tabLabel": "Roles",
-          "roles": "Roles",
-          "role": "Role",
+          "tabLabel": "User roles",
+          "roles": "User roles",
+          "role": "User role",
           "errorTitle": "Oops! There was an error",
           "errorMessage": "Unfortunately, an error occurred while retrieving the user roles.",
-          "rolesHeadline": "Roles",
+          "rolesHeadline": "User roles",
           "filter": {
             "status": "Status",
             "marketRole": "Market role"
@@ -957,14 +969,14 @@
             "columns": {
               "name": "Name",
               "description": "Description",
-              "marketrole": "Market role",
+              "marketRole": "Market role",
               "status": "Status"
             }
           },
-          "createuserrole": "Create",
+          "createuserrole": "Create user role",
           "userRolesHeadline": {
-            "singular": "{{ userRolesCount }} role",
-            "plural": "{{ userRolesCount }} roles"
+            "singular": "{{ userRolesCount }} user role",
+            "plural": "{{ userRolesCount }} user roles"
           }
         },
         "permissions": {
@@ -979,12 +991,12 @@
         }
       },
       "createrole": {
-        "headline": "Create Userrole",
+        "headline": "Create user role",
         "save": "Save",
         "cancel": "Cancel",
         "createRoleRequest": {
-          "start": "Creating userrole",
-          "error": "Unfortunately, an error occurred while creating the role.",
+          "start": "Creating user role",
+          "error": "Unfortunately, an error occurred while creating the user role.",
           "success": "User role created."
         },
         "tabs": {
@@ -1019,6 +1031,19 @@
           "actor": "Actor",
           "roles": "Roles"
         }
+      },
+      "editUserRole": {
+        "tab": {
+          "masterData": {
+            "tabLabel": "Master data",
+            "nameInputLabel": "Name"
+          },
+          "permissions": {
+            "tabLabel": "Permissions"
+          }
+        },
+        "cancel": "Cancel",
+        "save": "Save"
       }
     }
   }

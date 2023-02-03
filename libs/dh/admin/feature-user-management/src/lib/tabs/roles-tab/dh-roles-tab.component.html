@@ -36,7 +36,7 @@ limitations under the License.
                 *transloco="let t; read: 'admin.userManagement'"
                 icon="openInNew"
                 variant="text"
-                (click)="download()"
+                (click)="download(rolesTable.filteredAndSortedData)"
                 >{{ t("download") }}</watt-button
               >
 
@@ -44,6 +44,7 @@ limitations under the License.
               </dh-shared-ui-paginator>
 
               <watt-button
+                *dhPermissionRequired="['userrole:manage']"
                 icon="plus"
                 variant="secondary"
                 (click)="createUserRole()"
@@ -53,6 +54,7 @@ limitations under the License.
           </div>
         </watt-card-title>
         <dh-roles-tab-table
+          #rolesTable
           [roles]="roles"
           [paginator]="paginator"
         ></dh-roles-tab-table>

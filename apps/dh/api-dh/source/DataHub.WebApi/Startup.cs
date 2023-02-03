@@ -147,16 +147,9 @@ namespace Energinet.DataHub.WebApi
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseCors();
-
-            if (!Environment.IsDevelopment())
-            {
-                app.UseAuthentication();
-            }
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

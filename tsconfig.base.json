@@ -24,6 +24,9 @@
       "@energinet-datahub/dh/admin/data-access-api": [
         "libs/dh/admin/data-access-api/src/index.ts"
       ],
+      "@energinet-datahub/dh/admin/feature-edit-user-role-modal": [
+        "libs/dh/admin/feature-edit-user-role-modal/src/index.ts"
+      ],
       "@energinet-datahub/dh/admin/feature-user-management": [
         "libs/dh/admin/feature-user-management/src/index.ts"
       ],
@@ -187,6 +190,9 @@
       ],
       "@energinet-datahub/dh/shared/util-application-insights": [
         "libs/dh/shared/util-application-insights/src/index.ts"
+      ],
+      "@energinet-datahub/dh/shared/util-operators": [
+        "libs/dh/shared/util-operators/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/util-table": [
         "libs/dh/shared/util-table/src/index.ts"

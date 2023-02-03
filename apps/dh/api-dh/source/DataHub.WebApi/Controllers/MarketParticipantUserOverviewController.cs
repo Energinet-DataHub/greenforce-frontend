@@ -31,15 +31,16 @@ namespace Energinet.DataHub.WebApi.Controllers
             _client = client;
         }
 
-        [HttpGet]
-        [Route("GetUserOverview")]
-        public Task<ActionResult<UserOverviewResultDto>> GetUserOverviewAsync(
+        [HttpPost]
+        [Route("SearchUsers")]
+        public Task<ActionResult<UserOverviewResultDto>> SearchUsersAsync(
             int pageNumber,
             int pageSize,
-            string? searchText,
-            [FromQuery] IEnumerable<UserStatus> userStatus)
+            UserOverviewSortProperty sortProperty,
+            SortDirection sortDirection,
+            [FromBody] UserOverviewFilterDto filter)
         {
-            return HandleExceptionAsync(() => _client.GetUserOverviewAsync(pageNumber, pageSize, searchText, userStatus));
+            return HandleExceptionAsync(() => _client.SearchUsersAsync(pageNumber, pageSize, sortProperty, sortDirection, filter));
         }
     }
 }

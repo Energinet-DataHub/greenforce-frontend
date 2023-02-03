@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, tap } from 'rxjs';
+import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -47,7 +47,10 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
     (state) => state.requestState === ErrorState.GENERAL_ERROR
   );
 
-  userRole$ = this.select((state) => state.userRole);
+  userRole$ = this.select((state) => state.userRole).pipe(
+    filter((userRole) => userRole != null),
+    map((userRole) => userRole as UserRoleWithPermissionsDto)
+  );
 
   constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
     super(initialState);

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, tap, withLatestFrom } from 'rxjs';
+import { Observable, switchMap, tap, withLatestFrom, map } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   ErrorState,
@@ -70,7 +70,17 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
       )
   );
 
+  rolesOptions$ = this.select((state) => state.roles).pipe(
+    map((roles) =>
+      roles.map((role: UserRoleDto) => ({
+        value: role.id,
+        displayValue: role.name,
+      }))
+    )
+  );
+
   validation$ = this.select((state) => state.validation);
+
   constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
     super(initialState);
   }
@@ -111,6 +121,29 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
         eicFunctions: state.filterModel.eicFunctions,
       },
     })
+  );
+
+  readonly updateRoleById = this.updater(
+    (
+      state: DhUserRolesManagementState,
+      roleToUpdate: { id: string; name: string }
+    ): DhUserRolesManagementState => {
+      const roles = state.roles.map((role) => {
+        if (role.id === roleToUpdate.id) {
+          return {
+            ...role,
+            name: roleToUpdate.name,
+          };
+        }
+
+        return role;
+      });
+
+      return {
+        ...state,
+        roles,
+      };
+    }
   );
 
   readonly setFilterEicFunction = this.updater(
