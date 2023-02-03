@@ -110,7 +110,9 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
   }
 
   openDrawer(step: string, gln?: string) {
-    this.router.navigate([step, gln].filter(Boolean), { relativeTo: this.route });
+    this.router.navigate([step, gln].filter(Boolean), {
+      relativeTo: this.route,
+    });
 
     // This is used to open the drawer when the user navigates to the page with a step in the url
     this.isDrawerOpen = true;
