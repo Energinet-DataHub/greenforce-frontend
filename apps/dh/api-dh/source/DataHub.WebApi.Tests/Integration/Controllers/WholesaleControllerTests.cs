@@ -41,7 +41,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         private const string BatchCreateUrl = "/v1/wholesalebatch";
         private const string BatchSearchUrl = "/v1/wholesalebatch/search";
-        private const string BatchProcessStepResultUrl = "/v1/wholesalebatch/processstepresult";
+        private const string BatchProcessStepResultUrl = "/v2.1/wholesalebatch/processstepresult";
         private const string GridAreaCode = "805";
 
         [Theory]

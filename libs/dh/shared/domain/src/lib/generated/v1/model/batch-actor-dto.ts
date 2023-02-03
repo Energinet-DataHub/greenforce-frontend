@@ -11,10 +11,8 @@
  */
 
 
-export interface TimeSeriesPointDto { 
-    time: string;
-    quantity: number;
-    quality: string;
+export interface BatchActorDto { 
+    gln: string;
 }
 
 
