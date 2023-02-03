@@ -60,7 +60,6 @@ namespace Energinet.DataHub.WebApi
             services.AddHealthChecks();
 
             services.AddHttpContextAccessor();
-
             // Register the Swagger generator, defining 1 or more Swagger documents.
             services.AddSwaggerGen(config =>
             {
@@ -123,7 +122,7 @@ namespace Energinet.DataHub.WebApi
                         return next(opt);
                     })
                     .AddSystemTextJson()
-                    .AddSchema<MarketParticipantSchema>()
+                    .AddSchema<GraphQLSchema>()
                     .AddErrorInfoProvider(opts =>
                         opts.ExposeExceptionDetails = true));
 

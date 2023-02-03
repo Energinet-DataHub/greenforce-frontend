@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using Energinet.DataHub.WebApi.GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
@@ -23,8 +24,9 @@ namespace Energinet.DataHub.WebApi.Registration
     {
         public static IServiceCollection AddGraphQLSchema(this IServiceCollection services)
         {
-            services.AddScoped<ISchema, MarketParticipantSchema>(services => new MarketParticipantSchema(new SelfActivatingServiceProvider(services)));
-            return services;
+            return services
+                .AddSingleton<ISchema, GraphQLSchema>(services => new GraphQLSchema(new SelfActivatingServiceProvider(services)))
+                .AddSingleton<DateRangeType>();
         }
     }
 }
