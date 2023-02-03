@@ -51,7 +51,9 @@ limitations under the License.
           (changed)="onPageChange($event)"
         >
         </dh-shared-ui-paginator>
+
         <watt-button
+          *dhPermissionRequired="['user:manage']"
           icon="plus"
           variant="secondary"
           [title]="t('inviteUser')"
