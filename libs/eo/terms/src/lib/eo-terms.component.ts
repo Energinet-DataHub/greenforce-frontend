@@ -124,16 +124,9 @@ export class EoTermsComponent {
 
   onAccept(): void {
     this.store.onAcceptTerms().subscribe({
-      next: (res) => console.log('next', res),
+      next: (response) => console.log('next', response.next_url),
       error: () => {
-        this.router.navigate(['/'], {
-          state: {
-            error: {
-              message: 'An error happened during login. Please try again.',
-              title: '',
-            },
-          },
-        });
+        this.router.navigate(['/'], { state: { error: true } });
       },
     });
   }

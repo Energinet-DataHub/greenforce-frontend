@@ -16,6 +16,7 @@
  */
 import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   EoCookieBannerComponentComponent,
   EoPopupMessageComponent,
@@ -76,19 +77,31 @@ import { EoLandingPageStore } from './eo-landing-page.store';
       a {
         color: var(--watt-color-primary);
       }
+
+      .centered {
+        margin: 0 auto;
+        max-width: 960px;
+      }
     `,
   ],
   template: `
     <eo-cookie-banner
       *ngIf="!cookiesSet"
-      (accepted)="getBannerStatus()"
+      (accepted)="getCookieStatus()"
     ></eo-cookie-banner>
     <eo-landing-page-header></eo-landing-page-header>
-    <eo-popup-message *ngIf="error"></eo-popup-message>
+
     <div class="u-positioning-context">
       <eo-landing-page-notification
         class="u-collapse-bottom"
       ></eo-landing-page-notification>
+
+      <eo-popup-message
+        *ngIf="error"
+        class="centered"
+        title="{{ error.title }}"
+        message="{{ error.message }}"
+      ></eo-popup-message>
 
       <eo-landing-page-hero></eo-landing-page-hero>
 
@@ -113,13 +126,26 @@ export class EoLandingPageShellComponent {
     return `${this.presenter.contentMaxWidthPixels}px`;
   }
   cookiesSet: string | null = null;
-  error = '';
+  error: { title: string; message: string } | null = null;
 
-  constructor(private presenter: EoLandingPagePresenter) {
-    this.getBannerStatus();
+  constructor(
+    private presenter: EoLandingPagePresenter,
+    private router: Router
+  ) {
+    this.getCookieStatus();
+    this.checkForError();
   }
 
-  getBannerStatus() {
+  getCookieStatus() {
     this.cookiesSet = localStorage.getItem('cookiesAccepted');
+  }
+
+  checkForError() {
+    this.error = this.router.getCurrentNavigation()?.extras?.state?.error
+      ? {
+          title: 'An error occurred',
+          message: 'There was an error during login. Please try again.',
+        }
+      : null;
   }
 }

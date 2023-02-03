@@ -37,8 +37,6 @@ import { MatIconModule } from '@angular/material/icon';
         display: block;
 
         @include watt.media('<Large') {
-          margin: -16px;
-
           .mat-card {
             border-radius: 0;
           }
