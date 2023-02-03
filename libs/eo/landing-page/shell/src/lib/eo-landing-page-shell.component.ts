@@ -14,9 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { EoCookieBannerComponentComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import {
+  EoCookieBannerComponentComponent,
+  EoPopupMessageComponent,
+} from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoLandingPageAudienceComponent } from './eo-landing-page-audience.component';
 import { EoLandingPageCallToActionComponent } from './eo-landing-page-call-to-action.component';
@@ -43,7 +46,8 @@ import { EoLandingPageStore } from './eo-landing-page.store';
     EoLandingPageNotificationComponent,
     EoLandingPageOriginOfEnergyComponent,
     EoCookieBannerComponentComponent,
-    CommonModule,
+    EoPopupMessageComponent,
+    NgIf,
   ],
   selector: 'eo-landing-page-shell',
   styles: [
@@ -80,6 +84,7 @@ import { EoLandingPageStore } from './eo-landing-page.store';
       (accepted)="getBannerStatus()"
     ></eo-cookie-banner>
     <eo-landing-page-header></eo-landing-page-header>
+    <eo-popup-message *ngIf="error"></eo-popup-message>
     <div class="u-positioning-context">
       <eo-landing-page-notification
         class="u-collapse-bottom"
@@ -108,6 +113,7 @@ export class EoLandingPageShellComponent {
     return `${this.presenter.contentMaxWidthPixels}px`;
   }
   cookiesSet: string | null = null;
+  error = '';
 
   constructor(private presenter: EoLandingPagePresenter) {
     this.getBannerStatus();

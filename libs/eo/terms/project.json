@@ -1,0 +1,27 @@
+{
+  "name": "eo-terms",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/terms/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/terms"],
+      "options": {
+        "jestConfig": "libs/eo/terms/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/terms/src/**/*.ts",
+          "libs/eo/terms/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:auth", "type:feature"]
+}

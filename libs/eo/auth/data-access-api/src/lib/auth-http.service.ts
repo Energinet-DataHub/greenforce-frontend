@@ -38,27 +38,6 @@ export interface AuthTermsResponse {
   readonly version: string;
 }
 
-export interface AuthTermsAcceptResponse {
-  /**
-   * A string
-   */
-  readonly next_url: string;
-}
-
-export interface AuthTermsAcceptRequest {
-  /**
-   * A boolean
-   */
-  accepted: boolean;
-  /**
-   * A string: I.eg: "0.1"
-   */
-  version: string;
-  /**
-   * ?
-   */
-  state: string;
-}
 export interface AuthLogoutResponse {
   readonly success: boolean;
 }
@@ -114,17 +93,5 @@ export class AuthHttp {
 
   getTerms(): Observable<AuthTermsResponse> {
     return this.http.get<AuthTermsResponse>(`${this.#apiBase}/terms`);
-  }
-
-  postAcceptTerms(
-    payload: AuthTermsAcceptRequest
-  ): Observable<AuthTermsAcceptResponse> {
-    return this.http.post<AuthTermsAcceptResponse>(
-      `${this.#apiBase}/terms/accept`,
-      payload,
-      {
-        withCredentials: true,
-      }
-    );
   }
 }

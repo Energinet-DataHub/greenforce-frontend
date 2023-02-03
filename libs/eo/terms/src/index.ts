@@ -14,18 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EoAuthFeatureTermsComponent } from './eo-auth-feature-terms.component';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: EoAuthFeatureTermsComponent,
-  },
-];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoAuthFeatureTermsComponent],
-})
-export class EoAuthFeatureTermsModule {}
+export * from './lib/eo-terms.module';
