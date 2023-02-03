@@ -35,6 +35,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
@@ -42,6 +43,7 @@ import { DhUsersTabSearchComponent } from './dh-users-tab-search.component';
 import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.component';
 import { DhUsersTabActorFilterComponent } from './dh-users-tab-actor-filter.component';
 import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filter.component';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-users-tab',
@@ -102,6 +104,8 @@ import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filte
     DhUsersTabGeneralErrorComponent,
     DhUsersTabActorFilterComponent,
     DhUsersTabUserRoleFilterComponent,
+    WattButtonModule,
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhUsersTabComponent {
