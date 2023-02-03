@@ -9,13 +9,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Actor } from './actor';
+import { TimeSeriesType } from './time-series-type';
 
 
-export interface Organization { 
-    id: string;
-    name?: string | null;
-    actors?: Array<Actor> | null;
+export interface ProcessStepResultRequestDtoV2 { 
+    batchId: string;
+    gridAreaCode: string;
+    timeSeriesType: TimeSeriesType;
+    gln: string;
 }
 
 
