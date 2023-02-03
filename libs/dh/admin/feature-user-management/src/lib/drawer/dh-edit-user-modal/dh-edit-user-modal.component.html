@@ -15,7 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.editUser'">
-  <watt-modal [title]="user?.name ?? ''" #editUserModal>
+  <watt-modal
+    [title]="user?.name ?? ''"
+    #editUserModal
+    (closed)="closeModal($event)"
+  >
     <watt-tabs>
       <watt-tab [label]="t('tab.actor')"> aktør </watt-tab>
       <watt-tab [label]="t('tab.roles')">
@@ -38,7 +42,11 @@ limitations under the License.
       <watt-button variant="secondary" (click)="close()">
         {{ t("cancel") }}
       </watt-button>
-      <watt-button variant="primary" (click)="save()">
+      <watt-button
+        [loading]="isLoading$ | push"
+        variant="primary"
+        (click)="save()"
+      >
         {{ t("save") }}
       </watt-button>
     </watt-modal-actions>

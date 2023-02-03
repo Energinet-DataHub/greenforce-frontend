@@ -44,8 +44,9 @@ limitations under the License.
       >
         <ng-container *ngFor="let actor of org.actors">
           <h6>
-            {{ org?.name }} | GLN {{ actor.actorNumber }} |
-            {{ actor.actorMarketRoles | joinMarketRoles }}
+            {{ org?.name }} |
+            {{ t("gln", { actorNumber: actor.actorNumber }) }} |
+            {{ actor.actorMarketRoles | joinMarketRoles | dhEmDashFallback }}
           </h6>
           <mat-divider></mat-divider>
           <ul class="watt-text-s" *ngIf="selectMode === false">
@@ -59,11 +60,10 @@ limitations under the License.
           <ul class="watt-text-s" *ngIf="selectMode">
             <li *ngFor="let userRole of actor.userRoles">
               <ng-container *ngIf="selectMode">
-                <input
-                  type="checkbox"
-                  [checked]="userRole.userActorId !== null"
-                  (change)="selectUserRole($any($event), userRole, actor.id)"
-                />
+                <watt-checkbox
+                  [ngModel]="userRole.userActorId !== null"
+                  (ngModelChange)="selectUserRole($event, userRole, actor.id)"
+                ></watt-checkbox>
                 <div>{{ userRole.name }}</div>
                 <div>Manglede beskrivelse</div>
               </ng-container>

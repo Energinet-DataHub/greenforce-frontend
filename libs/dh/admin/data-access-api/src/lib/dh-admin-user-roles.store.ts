@@ -16,7 +16,7 @@
  */
 import { Injectable } from '@angular/core';
 import {
-  concatMap,
+  exhaustMap,
   filter,
   from,
   map,
@@ -119,12 +119,16 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
 
   readonly assignRoles = this.effect(
     (
-      trigger$: Observable<{ userId: string; updateUserRoles: UpdateUserRoles }>
+      trigger$: Observable<{
+        userId: string;
+        updateUserRoles: UpdateUserRoles;
+        onSuccess: () => void;
+      }>
     ) => {
       return trigger$.pipe(
-        concatMap(({ userId, updateUserRoles }) =>
+        exhaustMap(({ userId, updateUserRoles, onSuccess }) =>
           from(updateUserRoles.actors).pipe(
-            concatMap((actor) => {
+            exhaustMap((actor) => {
               return this.marketParticipantUserRoleAssignmentHttp.v1MarketParticipantUserRoleAssignmentUpdateAssignmentsPut(
                 actor.id,
                 userId,
@@ -133,6 +137,7 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
             }),
             tapResponse(
               () => {
+                onSuccess();
                 this.getUserRolesView(userId);
               },
               () => this.handleError()

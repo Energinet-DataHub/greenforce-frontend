@@ -21,7 +21,8 @@ limitations under the License.
     <watt-drawer-actions>
       <watt-button
         variant="secondary"
-        (click)="editUserModal.open(selectedUser)"
+        *dhPermissionRequired="['users:manage']"
+        (click)="isEditUserModalVisible = true"
         >{{ t("edit") }}</watt-button
       >
     </watt-drawer-actions>
@@ -38,5 +39,9 @@ limitations under the License.
       <dh-drawer-tabs [user]="selectedUser"></dh-drawer-tabs>
     </watt-drawer-content>
   </watt-drawer>
-  <dh-edit-user-modal #editUserModal></dh-edit-user-modal>
+  <dh-edit-user-modal
+    *ngIf="isEditUserModalVisible"
+    [user]="selectedUser"
+    (closed)="modalOnClose()"
+  ></dh-edit-user-modal>
 </ng-container>

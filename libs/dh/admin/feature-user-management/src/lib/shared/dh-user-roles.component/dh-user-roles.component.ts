@@ -35,8 +35,9 @@ import {
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { MatDividerModule } from '@angular/material/divider';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { HTMLElementEvent } from '@energinet-datahub/watt/HTMLElementEvent';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { FormsModule } from '@angular/forms';
 import { JoinMarketRoles } from '../dh-join-market-roles.pipe';
 import {
   UserOverviewItemDto,
@@ -60,6 +61,8 @@ import {
     MatDividerModule,
     WattEmptyStateModule,
     WattCheckboxModule,
+    DhEmDashFallbackPipeScam,
+    FormsModule,
   ],
 })
 export class DhUserRolesComponent implements OnChanges {
@@ -91,12 +94,12 @@ export class DhUserRolesComponent implements OnChanges {
   }
 
   selectUserRole(
-    event: HTMLElementEvent<HTMLInputElement>,
+    event: boolean,
     userRole: UserRoleViewDto,
     actorId: string
   ): void {
     this.addActor(actorId);
-    event.target?.checked
+    event
       ? this.addRole(actorId, userRole)
       : this.removeRole(actorId, userRole);
     this.updateUserRoles.emit(this._updateUserRoles);
