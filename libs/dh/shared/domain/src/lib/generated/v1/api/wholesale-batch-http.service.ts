@@ -331,10 +331,10 @@ export class WholesaleBatchHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1WholesaleBatchProcessResultPost(processStepResultRequestDtoV2?: ProcessStepResultRequestDtoV2, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<ProcessStepResultDto>;
-    public v1WholesaleBatchProcessResultPost(processStepResultRequestDtoV2?: ProcessStepResultRequestDtoV2, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<ProcessStepResultDto>>;
-    public v1WholesaleBatchProcessResultPost(processStepResultRequestDtoV2?: ProcessStepResultRequestDtoV2, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<ProcessStepResultDto>>;
-    public v1WholesaleBatchProcessResultPost(processStepResultRequestDtoV2?: ProcessStepResultRequestDtoV2, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1WholesaleBatchProcessStepResultPost(processStepResultRequestDtoV2?: ProcessStepResultRequestDtoV2, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<ProcessStepResultDto>;
+    public v1WholesaleBatchProcessStepResultPost(processStepResultRequestDtoV2?: ProcessStepResultRequestDtoV2, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<ProcessStepResultDto>>;
+    public v1WholesaleBatchProcessStepResultPost(processStepResultRequestDtoV2?: ProcessStepResultRequestDtoV2, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<ProcessStepResultDto>>;
+    public v1WholesaleBatchProcessStepResultPost(processStepResultRequestDtoV2?: ProcessStepResultRequestDtoV2, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -387,7 +387,7 @@ export class WholesaleBatchHttp {
             }
         }
 
-        let localVarPath = `/v1/WholesaleBatch/ProcessResult`;
+        let localVarPath = `/v1/WholesaleBatch/ProcessStepResult`;
         return this.httpClient.request<ProcessStepResultDto>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
