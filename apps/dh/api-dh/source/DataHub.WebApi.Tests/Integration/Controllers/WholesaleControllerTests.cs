@@ -41,7 +41,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         private const string BatchCreateUrl = "/v1/wholesalebatch";
         private const string BatchSearchUrl = "/v1/wholesalebatch/search";
-        private const string BatchProcessStepResultUrl = "/v2.1/wholesalebatch/processstepresult";
+        private const string BatchProcessStepResultUrl = "/v1/wholesalebatch/processstepresult";
         private const string GridAreaCode = "805";
 
         [Theory]
@@ -157,7 +157,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         [Theory]
         [InlineAutoMoqData]
         public async Task PostAsync_WhenProcessStepResultIsFound_ReturnsOk(
-            ProcessStepResultRequestDto processStepResultRequestDto,
+            ProcessStepResultRequestDtoV2 processStepResultRequestDto,
             ProcessStepResultDto processStepResultDto)
         {
             WholesaleClientMock
