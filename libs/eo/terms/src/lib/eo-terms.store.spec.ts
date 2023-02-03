@@ -17,7 +17,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { MockProvider } from 'ng-mocks';
-import { firstValueFrom, of } from 'rxjs';
+import { firstValueFrom, of, take } from 'rxjs';
 import { EoTermsService } from './eo-terms.service';
 import { EoTermsStore } from './eo-terms.store';
 
@@ -50,7 +50,7 @@ describe(EoTermsStore.name, () => {
     it('Then onAcceptTerms called postAcceptTerms as POST with state, version and accepted', async () => {
       const service = TestBed.inject(EoTermsService);
       store.onVersionChange(version);
-      store.onAcceptTerms().subscribe(() => {});
+      store.onAcceptTerms().pipe(take(1)).subscribe();
       expect(service.postAcceptTerms).toHaveBeenCalledWith({
         state,
         version,

@@ -17,7 +17,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { WattModalModule } from '@energinet-datahub-types/watt/modal';
 import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
 import { EoPrivacyPolicyComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
@@ -41,7 +40,6 @@ import { EoTermsStore } from './eo-terms.store';
     EoHeaderComponent,
     EoPrivacyPolicyComponent,
     EoScrollViewComponent,
-    WattModalModule,
   ],
   selector: 'eo-auth-terms',
   styles: [
