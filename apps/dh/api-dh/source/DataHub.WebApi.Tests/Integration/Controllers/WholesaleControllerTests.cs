@@ -157,7 +157,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         [Theory]
         [InlineAutoMoqData]
         public async Task PostAsync_WhenProcessStepResultIsFound_ReturnsOk(
-            ProcessStepResultRequestDto processStepResultRequestDto,
+            ProcessStepResultRequestDtoV2 processStepResultRequestDto,
             ProcessStepResultDto processStepResultDto)
         {
             WholesaleClientMock
