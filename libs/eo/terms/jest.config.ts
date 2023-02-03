@@ -16,8 +16,8 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'eo-auth-feature-terms',
-  preset: '../../../../jest.preset.js',
+  displayName: 'eo-terms',
+  preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -25,7 +25,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/eo/auth/feature-terms',
+  coverageDirectory: '../../../coverage/libs/eo/terms',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
