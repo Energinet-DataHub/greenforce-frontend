@@ -18,7 +18,6 @@
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
-import { eoEmissionsRoutePath } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   standalone: true,
@@ -34,11 +33,6 @@ import { eoEmissionsRoutePath } from '@energinet-datahub/eo/shared/utilities';
     <p class="watt-space-stack-m">
       You can get the data, that you need to fill out your CSR-report,
       especially the ones concerning energy use and emissions.
-    </p>
-    <p>
-      See
-      <a class="link" routerLink="/${eoEmissionsRoutePath}"> Emissions</a> for
-      further details
     </p>
   </mat-card>`,
   styles: [

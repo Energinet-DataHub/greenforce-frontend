@@ -103,7 +103,7 @@ limitations under the License.
       <main>
         <ul class="steps" *ngIf="batch && gridArea">
           <li>
-            <watt-card (click)="openDrawer([1])">
+            <watt-card (click)="openDrawer('1')">
               <h4>
                 <watt-badge size="large" class="watt-space-inline-m"
                   >1</watt-badge
@@ -127,7 +127,7 @@ limitations under the License.
                 <dh-wholesale-energy-suppliers
                   [batchId]="batch.batchId"
                   [gridAreaCode]="gridArea.code"
-                  (rowClick)="openDrawer([2, $event.gln])"
+                  (rowClick)="openDrawer('2', $event.gln)"
                 ></dh-wholesale-energy-suppliers>
               </ng-template>
             </watt-expandable-card>

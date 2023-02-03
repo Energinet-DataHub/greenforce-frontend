@@ -14,12 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { InjectionToken } from '@angular/core';
-
-export const browserLocationToken = new InjectionToken<Location>(
-  'browserLocationToken',
-  {
-    factory: () => location,
-    providedIn: 'platform',
-  }
-);
+export * from './lib/eo-terms.module';
