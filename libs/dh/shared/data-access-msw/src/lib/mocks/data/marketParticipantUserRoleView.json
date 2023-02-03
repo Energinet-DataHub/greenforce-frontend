@@ -19,6 +19,11 @@
               "name": "Lys ansvarlig",
               "userActorId": null
             }
+          ],
+          "actorMarketRoles": [
+            {
+              "eicFunction": "EnergySupplier"
+            }
           ]
         }
       ]
@@ -36,6 +41,11 @@
               "id": "b50dfe6b-962b-448e-88e6-97b715fb33bc",
               "name": "Lys ansvarlig",
               "userActorId": null
+            }
+          ],
+          "actorMarketRoles": [
+            {
+              "eicFunction": "EnergySupplier"
             }
           ]
         }
