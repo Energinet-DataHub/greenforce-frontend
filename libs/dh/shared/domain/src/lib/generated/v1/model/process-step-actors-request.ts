@@ -9,11 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { TimeSeriesType } from './time-series-type';
+import { MarketRole } from './market-role';
 
 
-export type WholesaleProcessType = 'BalanceFixing';
+export interface ProcessStepActorsRequest { 
+    batchId: string;
+    gridAreaCode: string;
+    type: TimeSeriesType;
+    marketRole: MarketRole;
+}
 
-export const WholesaleProcessType = {
-    BalanceFixing: 'BalanceFixing' as WholesaleProcessType
-};
 
