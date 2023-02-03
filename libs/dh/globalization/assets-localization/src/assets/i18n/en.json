@@ -1032,11 +1032,17 @@
         }
       },
       "editUserRole": {
-        "cancel": "Cancel",
         "tab": {
-          "masterData": "Master data",
-          "permissions": "Permissions"
-        }
+          "masterData": {
+            "tabLabel": "Master data",
+            "nameInputLabel": "Name"
+          },
+          "permissions": {
+            "tabLabel": "Permissions"
+          }
+        },
+        "cancel": "Cancel",
+        "save": "Save"
       }
     }
   }
