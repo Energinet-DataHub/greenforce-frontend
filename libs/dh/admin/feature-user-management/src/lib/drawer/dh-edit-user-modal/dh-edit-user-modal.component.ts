@@ -14,16 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { PushModule } from '@rx-angular/template/push';
 import {
   WattModalComponent,
   WattModalModule,
 } from '@energinet-datahub/watt/modal';
+
+import { DhUserRolesComponent } from '../../shared/dh-user-roles.component/dh-user-roles.component';
+import {
+  DhAdminUserRolesStore,
+  UpdateUserRoles,
+} from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   selector: 'dh-edit-user-modal',
@@ -34,24 +49,62 @@ import {
     WattButtonModule,
     TranslocoModule,
     WattTabsModule,
+    PushModule,
+    DhUserRolesComponent,
   ],
   templateUrl: './dh-edit-user-modal.component.html',
   styles: ['.margin-right-auto {margin-right:auto}'],
 })
-export class DhEditUserModalComponent {
-  user: UserOverviewItemDto | null = null;
+export class DhEditUserModalComponent implements AfterViewInit {
+  private readonly store = inject(DhAdminUserRolesStore);
+  private _updateUserRoles: UpdateUserRoles | null = null;
   @ViewChild('editUserModal') editUserModal!: WattModalComponent;
+  @ViewChild('userRoles') userRoles!: DhUserRolesComponent;
 
-  open(user: UserOverviewItemDto | null): void {
-    this.user = user;
+  @Output() closed = new EventEmitter<void>();
+
+  @Input() user: UserOverviewItemDto | null = null;
+
+  isLoading$ = this.store.isLoading$;
+
+  ngAfterViewInit(): void {
     this.editUserModal.open();
   }
 
-  save(): void {
-    // TODO: Save user
+  save() {
+    if (this.user === null || this._updateUserRoles === null) {
+      this.closeModal(false);
+      return;
+    }
+
+    this.store.assignRoles({
+      userId: this.user.id,
+      updateUserRoles: this._updateUserRoles,
+      onSuccess: () => {
+        if (this.user?.id) {
+          this.store.getUserRolesView(this.user.id);
+        }
+        this.userRoles.resetUpdateUserRoles();
+        this.closeModal(true);
+      },
+    });
+  }
+
+  closeModal(status: boolean): void {
+    this.userRoles.resetUpdateUserRoles();
+    this.editUserModal.close(status);
+    this.closed.emit();
   }
 
   deactivedUser(): void {
-    // TODO: Deactivate user
+    console.error('Not implemented yet');
+  }
+
+  close(): void {
+    this.closeModal(false);
+  }
+
+  onSelectedUserRolesChanged(updateUserRoles: UpdateUserRoles): void {
+    this._updateUserRoles = updateUserRoles;
   }
 }
