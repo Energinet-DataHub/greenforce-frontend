@@ -14,19 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.headline,
-.sub-headline {
+.role-name__grid {
+  display: flex;
+  align-items: center;
+  gap: var(--watt-space-s);
+  margin-bottom: 28px; /* Magic UX number */
+}
+
+.role-name__headline {
   margin: 0;
 }
 
-.sub-headline {
-  // TODO: We don't have any spacing variable for 24px!
-  margin-bottom: 24px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-}
+.user-role {
+  &__spinner {
+    display: flex;
+    justify-content: center;
+    padding: var(--watt-space-l) 0;
+  }
 
-watt-spinner {
-  display: flex;
-  justify-content: center;
+  &__error {
+    padding: var(--watt-space-xl) 0;
+  }
 }
