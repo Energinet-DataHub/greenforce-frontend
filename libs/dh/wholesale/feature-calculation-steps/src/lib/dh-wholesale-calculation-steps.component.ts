@@ -97,8 +97,11 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
   );
 
   ngOnInit() {
-    if (this.getCurrentStep()) {
-      this.openDrawer();
+    const step = this.getCurrentStep();
+    const gln = this.route.firstChild?.snapshot.url?.[1]?.path;
+
+    if (step) {
+      this.openDrawer(step, gln);
     }
   }
 
@@ -106,18 +109,13 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
     return this.route.firstChild?.snapshot.url?.[0]?.path;
   }
 
-  openDrawer(commands?: unknown[]) {
-    if (commands) {
-      this.router.navigate(commands, { relativeTo: this.route });
-    }
+  openDrawer(step: string, gln?: string) {
+    this.router.navigate([step, gln].filter(Boolean), { relativeTo: this.route });
 
     // This is used to open the drawer when the user navigates to the page with a step in the url
     this.isDrawerOpen = true;
     // This is used to open the drawer when the user clicks on a step in the list
     this.drawer?.open();
-
-    const step = commands ? String(commands[0]) : this.getCurrentStep();
-    const gln = this.route.firstChild?.snapshot.url?.[1]?.path;
 
     this.getProcessStepResults(step, gln);
   }
