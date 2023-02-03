@@ -16,17 +16,11 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { EoTermsComponent } from './eo-terms.component';
 
-import { EoAuthFeatureTermsComponent } from './eo-auth-feature-terms.component';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: EoAuthFeatureTermsComponent,
-  },
-];
+const routes: Routes = [{ path: '', component: EoTermsComponent }];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), EoAuthFeatureTermsComponent],
+  imports: [RouterModule.forChild(routes), EoTermsComponent],
 })
-export class EoAuthFeatureTermsModule {}
+export class EoTermsModule {}
