@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 import { TestBed } from '@angular/core/testing';
-import { MockProvider } from 'ng-mocks';
 import { ActivatedRoute } from '@angular/router';
 import { AuthHttp } from '@energinet-datahub/eo/auth/data-access-api';
-import { EoAuthTermsStore } from './eo-auth-terms.store';
+import { MockProvider } from 'ng-mocks';
 import { of } from 'rxjs';
 import { browserLocationToken } from './browser-location.token';
+import { EoAuthTermsStore } from './eo-auth-terms.store';
 
 describe(EoAuthTermsStore.name, () => {
   describe('Given the Auth API is available', () => {
