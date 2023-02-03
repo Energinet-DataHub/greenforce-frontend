@@ -118,13 +118,18 @@ export class EoCertificatesTableComponent implements AfterViewInit {
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private store: EoCertificatesStore) {
-    this.store.certificates$.subscribe((certs) => (this.certificates = certs));
-  }
+  constructor(private store: EoCertificatesStore) {}
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.matSort;
-    this.dataSource.data = this.certificates; // It's really important that data gets loaded after paginator, due to performance
+    // It's really important that data gets loaded after paginator, due to performance
+    this.populateCertTable();
+  }
+
+  populateCertTable() {
+    this.store.certificates$.subscribe(
+      (certs) => (this.dataSource.data = certs)
+    );
   }
 }
