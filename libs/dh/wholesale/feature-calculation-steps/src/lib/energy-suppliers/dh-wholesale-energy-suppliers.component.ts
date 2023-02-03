@@ -85,7 +85,7 @@ export class DhWholesaleEnergySuppliersComponent implements OnInit {
     );
   }
 
-  isSelectedEnerygySupplier(
+  isSelectedEnergySupplier(
     current: WholesaleActorDto,
     active: WholesaleActorDto
   ) {
