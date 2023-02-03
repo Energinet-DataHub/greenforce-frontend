@@ -241,7 +241,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
         switchMap((options) => {
           this.setProcessStepResults(undefined); // We reset the process step results to force the loading spinner to show
           return this.httpClient
-            .v1WholesaleBatchProcessResultPost(options)
+            .v1WholesaleBatchProcessStepResultPost(options)
             .pipe(
               tapResponse(
                 (stepResults: ProcessStepResultDto) =>
