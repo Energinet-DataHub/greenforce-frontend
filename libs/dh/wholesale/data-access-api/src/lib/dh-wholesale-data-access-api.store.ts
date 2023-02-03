@@ -262,7 +262,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
             .v1WholesaleBatchActorsPost({
               batchId,
               gridAreaCode,
-              type: TimeSeriesType.FlexConsumption,
+              type: TimeSeriesType.NonProfiledConsumption,
               marketRole: MarketRole.EnergySupplier,
             })
             .pipe(
