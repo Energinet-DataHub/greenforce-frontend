@@ -7,7 +7,8 @@
       "name": "Test User 1",
       "phoneNumber": "11111111",
       "createdDate": "2022-01-01T23:00:00Z",
-      "status": "Active"
+      "status": "Active",
+      "assignedActors": []
     },
     {
       "id": "f73d05cd-cb00-4be3-89b2-115c8425b837",
@@ -15,7 +16,8 @@
       "name": "Test User 2",
       "phoneNumber": null,
       "createdDate": "2022-06-01T22:00:00Z",
-      "status": "Inactive"
+      "status": "Inactive",
+      "assignedActors": []
     },
     {
       "id": "48a2b6f0-59a8-4ef1-87e2-15e8c93fbe3b",
@@ -23,7 +25,8 @@
       "name": "Test User 3",
       "phoneNumber": "33333333",
       "createdDate": "2022-07-01T22:00:00Z",
-      "status": "Active"
+      "status": "Active",
+      "assignedActors": []
     },
     {
       "id": "8c2cf14f-05ec-44d8-91a8-e5ccbe108e5e",
@@ -31,7 +34,8 @@
       "name": "Test User 4",
       "phoneNumber": null,
       "createdDate": "2022-12-01T23:00:00Z",
-      "status": "Inactive"
+      "status": "Inactive",
+      "assignedActors": []
     }
   ]
 }
