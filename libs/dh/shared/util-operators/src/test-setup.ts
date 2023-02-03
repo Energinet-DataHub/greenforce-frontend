@@ -14,19 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.headline,
-.sub-headline {
-  margin: 0;
-}
+import 'jest-preset-angular/setup-jest';
 
-.sub-headline {
-  // TODO: We don't have any spacing variable for 24px!
-  margin-bottom: 24px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-}
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-watt-spinner {
-  display: flex;
-  justify-content: center;
-}
+setUpTestbed();
