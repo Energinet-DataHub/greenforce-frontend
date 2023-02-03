@@ -70,6 +70,8 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
     const actualParams = {
       pageNumber: 1,
       pageSize: 50,
+      sortProperty: 'Email',
+      direction: 'Asc',
       filterDto,
     };
 
@@ -101,6 +103,8 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
     const actualParams = {
       pageNumber: 4,
       pageSize: 25,
+      sortProperty: 'Email',
+      direction: 'Asc',
       filterDto,
     };
 
@@ -127,6 +131,8 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
     const actualParams = {
       pageNumber: 1,
       pageSize: 50,
+      sortProperty: 'Email',
+      direction: 'Asc',
       filterDto,
     };
 
@@ -155,6 +161,8 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
     const actualParams = {
       pageNumber: 1,
       pageSize: 50,
+      sortProperty: 'Email',
+      direction: 'Asc',
       filterDto,
     };
 

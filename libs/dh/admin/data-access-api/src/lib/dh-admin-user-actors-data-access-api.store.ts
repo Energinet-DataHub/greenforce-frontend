@@ -47,6 +47,10 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
     (state) => state.loadingState === ErrorState.GENERAL_ERROR
   );
 
+  canChooseMultipleActors$ = this.select(
+    (state) => state.actorResult || []
+  ).pipe(map((actors) => actors.length > 1));
+
   actors$ = this.select((state) => state.actorResult).pipe(
     map((actors) =>
       (actors ?? []).map((actor: ActorDto) => ({
@@ -71,13 +75,10 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
       }),
       switchMap(() =>
         this.httpClient
-          .v1MarketParticipantOrganizationGetAllOrganizationsGet()
+          .v1MarketParticipantOrganizationGetFilteredActorsGet()
           .pipe(
             tapResponse(
-              (organizations) => {
-                const actors = organizations.flatMap(
-                  (organization) => organization.actors
-                );
+              (actors) => {
                 this.updateStates(actors);
               },
               (error: HttpErrorResponse) => {
