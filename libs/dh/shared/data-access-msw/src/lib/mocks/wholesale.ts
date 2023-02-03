@@ -234,7 +234,7 @@ function getWholesaleSearchBatches(apiBase: string) {
 
 function postWholesaleBatchProcessStepResult(apiBase: string) {
   return rest.post(
-    `${apiBase}/v1/WholesaleBatch/ProcessResult`,
+    `${apiBase}/v1/WholesaleBatch/ProcessStepResult`,
     (req, res, ctx) => {
       const mockedProcessStepResult = {
         processStepMeteringPointType: ProcessStepMeteringPointType.Production,
