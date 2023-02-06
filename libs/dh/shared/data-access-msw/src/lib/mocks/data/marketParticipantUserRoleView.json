@@ -15,7 +15,7 @@
               "userActorId": "00000000-0000-0000-0000-000000000001"
             },
             {
-              "id": "b50dfe6b-962b-448e-88e6-97b715fb33bc",
+              "id": "b50dfe6b-962b-448e-88e6-97b715fb33ba",
               "name": "Lys ansvarlig",
               "userActorId": null
             }
@@ -33,7 +33,7 @@
       "name": "Nordlys A/S",
       "actors": [
         {
-          "id": "00000000-0000-0000-0000-000000000001",
+          "id": "00000000-0000-0000-0000-000000000002",
           "name": "Energi mister",
           "actorNumber": "3790001330583",
           "userRoles": [
