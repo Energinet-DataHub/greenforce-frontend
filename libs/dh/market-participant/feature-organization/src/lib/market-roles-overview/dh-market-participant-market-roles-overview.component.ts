@@ -27,10 +27,7 @@ import {
   WATT_TABLE,
 } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import {
-  translate,
-  TranslocoModule,
-} from '@ngneat/transloco';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
@@ -70,7 +67,9 @@ export class DhMarketParticipantMarketRolesOverviewComponent
 
   ngAfterViewInit() {
     this.setupSort();
-    this.dataSource.data = Object.keys(EicFunction).map(x => x as EicFunction);
+    this.dataSource.data = Object.keys(EicFunction).map(
+      (x) => x as EicFunction
+    );
     this.count = this.dataSource.data.length;
     this.setupSort();
   }
