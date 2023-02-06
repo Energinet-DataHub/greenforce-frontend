@@ -9,12 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { EicFunction } from './eic-function';
 
 
-export interface UserRoleViewDto { 
-    id: string;
-    name: string;
-    userActorId?: string | null;
+export interface ActorMarketRoleViewDto { 
+    eicFunction: EicFunction;
 }
 
 
