@@ -955,6 +955,7 @@
           }
         },
         "roles": {
+          "gln": "GLN {{ actorNumber }}",
           "tabLabel": "User roles",
           "roles": "User roles",
           "role": "User role",
