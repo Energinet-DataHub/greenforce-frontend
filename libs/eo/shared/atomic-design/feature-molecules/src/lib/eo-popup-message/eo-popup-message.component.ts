@@ -15,18 +15,15 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, HostBinding, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 /**
- * Usage example: If you have an API call error observable you subscribe to,
- * you can use the following method to show an error if it fails
+ * Component primarily used for displaying errors
  *
- * <ng-container *rxLet="error$ as error">
- * <eo-popup-message *ngIf="error" [errorMessage]="error"> </eo-popup-message>
- * </ng-container>
+ * <eo-popup-message *ngIf="error" title="There was an error"
+ * message="This is an error"></eo-popup-message>
  */
 
 @Component({
@@ -40,8 +37,6 @@ import { MatIconModule } from '@angular/material/icon';
         display: block;
 
         @include watt.media('<Large') {
-          margin: -16px;
-
           .mat-card {
             border-radius: 0;
           }
@@ -84,8 +79,8 @@ import { MatIconModule } from '@angular/material/icon';
     <div class="mat-card watt-space-stack-l container">
       <img alt="Danger icon" src="/assets/icons/danger.svg" />
       <div class="content">
-        <h4 class="watt-space-stack-s">We have experienced an issue</h4>
-        <p>please try again or try reloading the page.</p>
+        <h4 class="watt-space-stack-s">{{ title }}</h4>
+        <p>{{ message }}</p>
       </div>
 
       <a class="close" (click)="hidden = true"><mat-icon>close</mat-icon></a>
@@ -95,5 +90,6 @@ import { MatIconModule } from '@angular/material/icon';
 export class EoPopupMessageComponent {
   @HostBinding('class.hidden') hidden = false;
 
-  @Input() errorMessage: HttpErrorResponse | null = null;
+  @Input() title = 'We have experienced an issue';
+  @Input() message = 'please try again or try reloading the page.';
 }
