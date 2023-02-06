@@ -18,6 +18,7 @@ limitations under the License.
   <watt-modal [title]="roleName$ | push" (closed)="closeModal($event)">
     <form
       [formGroup]="userRoleEditForm"
+      id="user-role-edit-form"
       *rxLet="userRole$ as userRole"
       (ngSubmit)="save(userRole)"
     >
@@ -48,6 +49,7 @@ limitations under the License.
       </watt-button>
       <watt-button
         type="submit"
+        formId="user-role-edit-form"
         [disabled]="userRoleEditForm.invalid || userRoleEditForm.pristine"
         [loading]="isLoading$ | push"
       >
