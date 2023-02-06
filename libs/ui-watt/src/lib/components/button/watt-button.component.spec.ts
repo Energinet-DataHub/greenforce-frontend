@@ -17,36 +17,34 @@
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
-import { WattIcon } from '../../foundations/icon';
-import {
-  WattButtonComponent,
-  WattButtonType,
-  WattButtonTypes,
-  WattButtonVariant,
-} from './watt-button.component';
+import { WattButtonComponent, WattButtonTypes } from './watt-button.component';
 import { WattButtonModule } from './watt-button.module';
 
-interface WattButtonOptionsType {
-  icon?: WattIcon;
-  loading?: boolean;
-  disabled?: boolean;
-  text?: string;
-  variant?: WattButtonVariant;
-  type?: WattButtonType;
-}
+type WattButtonOptions = Partial<
+  Pick<
+    WattButtonComponent,
+    'icon' | 'variant' | 'type' | 'formId' | 'disabled' | 'loading'
+  >
+>;
 
-describe(WattButtonComponent.name, () => {
-  const renderComponent = async ({ ...options }: WattButtonOptionsType) => {
-    return await render(
+describe('WattButtonComponent.name', () => {
+  const renderComponent = async (
+    options: WattButtonOptions & { text?: string }
+  ) => {
+    return await render<WattButtonComponent>(
       `<watt-button
-         variant="${options.variant}"
-         icon="${options.icon}"
-         type="${options.type}"
-         [loading]="${options.loading}"
-         [disabled]="${options.disabled}">
+        [variant]="variant"
+        [icon]="icon"
+        [type]="type"
+        [loading]="loading"
+        [disabled]="disabled"
+        [formId]="formId">
            ${options.text ?? 'Text'}
-       </watt-button>`,
+        </watt-button>`,
       {
+        componentProperties: {
+          ...options,
+        },
         imports: [WattButtonModule],
       }
     );
@@ -61,14 +59,9 @@ describe(WattButtonComponent.name, () => {
     expect(screen.getByRole('button')).toHaveClass('watt-button--primary');
     expect(screen.getByRole('button')).toHaveAttribute('type', 'button');
     expect(screen.getByRole('button')).not.toHaveClass('mat-button-disabled');
+    expect(screen.getByRole('button')).not.toHaveAttribute('form');
     expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
     expect(screen.queryByRole('img')).not.toBeInTheDocument();
-  });
-
-  it('renders text content', async () => {
-    await renderComponent({ text: 'Text' });
-
-    expect(screen.getByRole('button')).toHaveTextContent('Text');
   });
 
   it('renders icon when icon is set', async () => {
@@ -85,14 +78,38 @@ describe(WattButtonComponent.name, () => {
       if (variant === 'icon') {
         expect(screen.getByRole('button')).not.toHaveTextContent('Text');
       }
+
       expect(screen.getByRole('button')).toHaveClass('watt-button--' + variant);
     }
   );
 
-  it('renders type', async () => {
+  it('supports reset type', async () => {
     await renderComponent({ type: 'reset' });
 
     expect(screen.getByRole('button')).toHaveAttribute('type', 'reset');
+  });
+
+  it('supports submit type', async () => {
+    await renderComponent({ type: 'submit' });
+
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'submit');
+  });
+
+  it('has "form" attribute when type is "submit" and "formId" is set', async () => {
+    await renderComponent({
+      type: 'submit',
+      formId: 'test-form-id',
+    });
+
+    expect(screen.getByRole('button')).toHaveAttribute('form', 'test-form-id');
+  });
+
+  it('does NOT have "form" attribute when type is "submit" and "formId" is NOT set', async () => {
+    await renderComponent({
+      type: 'submit',
+    });
+
+    expect(screen.getByRole('button')).not.toHaveAttribute('form');
   });
 
   it('can be disabled', async () => {
