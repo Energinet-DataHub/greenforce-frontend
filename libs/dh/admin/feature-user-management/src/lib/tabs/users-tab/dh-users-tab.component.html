@@ -57,6 +57,7 @@ limitations under the License.
           icon="plus"
           variant="secondary"
           [title]="t('inviteUser')"
+          (click)="inviteUserModal.open()"
           >{{ t("inviteUser") }}</watt-button
         >
       </div>
@@ -96,3 +97,5 @@ limitations under the License.
     </h4>
   </ng-container>
 </ng-template>
+
+<dh-invite-user-modal #inviteUserModal></dh-invite-user-modal>
