@@ -44,6 +44,7 @@ import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.co
 import { DhUsersTabActorFilterComponent } from './dh-users-tab-actor-filter.component';
 import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filter.component';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhInviteUserModalComponent } from '../../invite-user-modal/dh-invite-user-modal.component';
 
 @Component({
   selector: 'dh-users-tab',
@@ -106,6 +107,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     DhUsersTabUserRoleFilterComponent,
     WattButtonModule,
     DhPermissionRequiredDirective,
+    DhInviteUserModalComponent,
   ],
 })
 export class DhUsersTabComponent {
