@@ -1040,7 +1040,8 @@
         "tab": {
           "masterData": {
             "tabLabel": "Stamdata",
-            "nameInputLabel": "Navn"
+            "nameInputLabel": "Navn",
+            "descriptionInputLabel": "Beskrivelse"
           },
           "permissions": {
             "tabLabel": "Rettigheder"
