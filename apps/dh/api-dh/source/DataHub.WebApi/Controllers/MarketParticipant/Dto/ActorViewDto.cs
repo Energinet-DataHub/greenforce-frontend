@@ -16,5 +16,5 @@ using System.Collections.Generic;
 
 namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
 {
-    public sealed record ActorViewDto(Guid Id, string ActorNumber, string Name, IEnumerable<UserRoleViewDto> UserRoles);
+    public sealed record ActorViewDto(Guid Id, string ActorNumber, string Name, IEnumerable<UserRoleViewDto> UserRoles, IEnumerable<ActorMarketRoleViewDto> ActorMarketRoles);
 }

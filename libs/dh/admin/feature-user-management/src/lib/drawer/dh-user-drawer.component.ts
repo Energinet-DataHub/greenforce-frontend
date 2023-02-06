@@ -28,6 +28,7 @@ import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
 import { DhUserStatusComponent } from '../shared/dh-user-status.component';
 import { DhEditUserModalComponent } from './dh-edit-user-modal/dh-edit-user-modal.component';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-user-drawer',
@@ -55,6 +56,7 @@ import { DhEditUserModalComponent } from './dh-edit-user-modal/dh-edit-user-moda
     DhTabsComponent,
     DhUserStatusComponent,
     DhEditUserModalComponent,
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhUserDrawerComponent {
@@ -65,6 +67,8 @@ export class DhUserDrawerComponent {
 
   @Output() closed = new EventEmitter<void>();
 
+  isEditUserModalVisible = false;
+
   onClose(): void {
     this.drawer.close();
     this.closed.emit();
@@ -74,5 +78,9 @@ export class DhUserDrawerComponent {
   open(user: UserOverviewItemDto): void {
     this.selectedUser = user;
     this.drawer.open();
+  }
+
+  modalOnClose(): void {
+    this.isEditUserModalVisible = false;
   }
 }
