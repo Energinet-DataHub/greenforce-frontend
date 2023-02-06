@@ -80,7 +80,7 @@ export class DhCreateUserroleMasterdataTabComponent
     ]),
     description: this.formBuilder.nonNullable.control('', Validators.required),
     eicFunction: this.formBuilder.nonNullable.control(
-      EicFunction.Agent,
+      EicFunction.BalanceResponsibleParty,
       Validators.required
     ),
     roleStatus: this.formBuilder.nonNullable.control(
