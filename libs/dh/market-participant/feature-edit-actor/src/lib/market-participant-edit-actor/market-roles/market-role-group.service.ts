@@ -46,7 +46,7 @@ export class MarketRoleGroupService {
 
       const marketRole: MarketRole = {
         comment: row.comment,
-        marketRole: row.marketRole ?? EicFunction.Agent,
+        marketRole: row.marketRole ?? EicFunction.BalanceResponsibleParty,
         gridAreas: [gridArea],
       };
 
