@@ -43,15 +43,6 @@ import {
       <watt-nav-list-item link="{{ routes.dashboard }}">
         Dashboard
       </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.originOfEnergy }}">
-        Renewable Share
-      </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.emissions }}">
-        Emissions
-      </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.consumption }}">
-        Consumption
-      </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.production }}">
         Production
       </watt-nav-list-item>

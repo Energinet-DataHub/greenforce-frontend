@@ -46,32 +46,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   selector: 'dh-role-drawer',
   standalone: true,
   templateUrl: './dh-role-drawer.component.html',
-  styles: [
-    `
-      .role-name__grid {
-        display: flex;
-        align-items: center;
-        gap: var(--watt-space-s);
-        margin-bottom: 28px; /* Magic UX number */
-      }
-
-      .role-name__headline {
-        margin: 0;
-      }
-
-      .user-role {
-        &__spinner {
-          display: flex;
-          justify-content: center;
-          padding: var(--watt-space-l) 0;
-        }
-
-        &__error {
-          padding: var(--watt-space-xl) 0;
-        }
-      }
-    `,
-  ],
+  styleUrls: [`./dh-role-drawer.component.scss`],
   providers: [
     provideComponentStore(
       DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
@@ -96,16 +71,14 @@ export class DhRoleDrawerComponent {
   private readonly store = inject(
     DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
   );
+  private basicUserRole: UserRoleDto | null = null;
 
   userRoleWithPermissions$ = this.store.userRole$;
-
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
-
-  basicUserRole: UserRoleDto | null = null;
 
   isEditUserRoleModalVisible = false;
 
@@ -121,6 +94,14 @@ export class DhRoleDrawerComponent {
     this.basicUserRole = role;
     this.drawer.open();
     this.loadUserRoleWithPermissions();
+  }
+
+  modalOnClose({ saveSuccess }: { saveSuccess: boolean }): void {
+    this.isEditUserRoleModalVisible = false;
+
+    if (saveSuccess) {
+      this.loadUserRoleWithPermissions();
+    }
   }
 
   loadUserRoleWithPermissions() {

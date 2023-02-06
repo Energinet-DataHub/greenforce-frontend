@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoMediaModule } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { LetModule } from '@rx-angular/template/let';
 import { EoOriginOfEnergyChartCardComponent } from './eo-origin-of-energy-chart-card.component';
 import { EoOriginOfEnergyChartTipsComponent } from './eo-origin-of-energy-chart-tips.component';
 import { EoOriginOfEnergyGlobalGoalsMediaComponent } from './eo-origin-of-energy-global-goals-media.component';
@@ -31,8 +30,8 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    LetModule,
-    CommonModule,
+    NgIf,
+    AsyncPipe,
     EoPopupMessageComponent,
     EoMediaModule,
     MatCardModule,
@@ -65,10 +64,8 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
       }
     `,
   ],
-  template: ` <ng-container *rxLet="error$ as error">
-      <eo-popup-message *ngIf="error" [errorMessage]="error">
-      </eo-popup-message>
-    </ng-container>
+  template: `
+    <eo-popup-message *ngIf="error$ | async"></eo-popup-message>
     <div class="content">
       <div class="chart-row">
         <eo-origin-of-energy-chart-card></eo-origin-of-energy-chart-card>
@@ -88,7 +85,8 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
           <eo-origin-of-energy-hourly-declaration></eo-origin-of-energy-hourly-declaration>
         </div>
       </div>
-    </div>`,
+    </div>
+  `,
 })
 export class EoOriginOfEnergyShellComponent {
   error$ = this.originOfEnergyStore.error$;
