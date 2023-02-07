@@ -94,7 +94,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
     this.userRole = {
       name: '',
       description: '',
-      eicFunction: 'Agent',
+      eicFunction: 'BalanceResponsibleParty',
       status: 'Active',
       permissions: [],
     };

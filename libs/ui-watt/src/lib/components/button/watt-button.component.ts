@@ -21,6 +21,7 @@ import {
   Input,
   ViewEncapsulation,
 } from '@angular/core';
+
 import { WattIcon } from '../../foundations/icon';
 
 export const WattButtonTypes = [
@@ -41,6 +42,7 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
       class="watt-button--{{ variant }}"
       [disabled]="disabled"
       [type]="type"
+      [attr.form]="type === 'submit' ? formId : null"
     >
       <watt-spinner *ngIf="loading" [diameter]="18"></watt-spinner>
       <div
@@ -61,6 +63,7 @@ export class WattButtonComponent {
   @Input() icon?: WattIcon;
   @Input() variant: WattButtonVariant = 'primary';
   @Input() type: WattButtonType = 'button';
+  @Input() formId: string | null = null;
   @Input() disabled = false;
   @Input() loading = false;
 
