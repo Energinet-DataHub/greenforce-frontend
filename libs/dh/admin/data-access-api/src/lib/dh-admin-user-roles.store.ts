@@ -20,6 +20,7 @@ import {
   filter,
   from,
   map,
+  mergeMap,
   Observable,
   Subject,
   switchMap,
@@ -30,6 +31,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   ErrorState,
   LoadingState,
+  SavingState,
 } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
@@ -45,11 +47,13 @@ interface DhUserManagementState {
   readonly numberOfSelectedRoles: number;
   readonly numberOfAssigenableRoles: number;
   readonly selectedRoles: UserRoleViewDto[];
+  readonly savingState: SavingState | ErrorState;
 }
 
 const initialState: DhUserManagementState = {
   userRolesView: null,
   requestState: LoadingState.INIT,
+  savingState: SavingState.INIT,
   numberOfSelectedRoles: 0,
   numberOfAssigenableRoles: 0,
   selectedRoles: [],
@@ -77,6 +81,8 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
     filter((userRolesView) => !!userRolesView),
     map((userRolesView) => userRolesView as UserRolesViewDto)
   );
+
+  isSaving$ = this.select((state) => state.savingState === SavingState.SAVING);
 
   numberOfSelectedRoles$ = this.select((state) => state.numberOfSelectedRoles);
   numberOfAssignableRoles$ = this.select(
@@ -108,7 +114,7 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
                 this.updateRoles(userRoleView);
               },
               () => {
-                this.setLoading(LoadingState.LOADED);
+                this.setLoading(ErrorState.GENERAL_ERROR);
                 this.handleError();
               }
             )
@@ -128,7 +134,8 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
       return trigger$.pipe(
         exhaustMap(({ userId, updateUserRoles, onSuccess }) =>
           from(updateUserRoles.actors).pipe(
-            exhaustMap((actor) => {
+            tap(() => this.setSaving(SavingState.SAVING)),
+            mergeMap((actor) => {
               return this.marketParticipantUserRoleAssignmentHttp.v1MarketParticipantUserRoleAssignmentUpdateAssignmentsPut(
                 actor.id,
                 userId,
@@ -138,9 +145,13 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
             tapResponse(
               () => {
                 onSuccess();
+                this.setSaving(SavingState.SAVED);
                 this.getUserRolesView(userId);
               },
-              () => this.handleError()
+              () => {
+                this.setSaving(ErrorState.GENERAL_ERROR);
+                this.handleError();
+              }
             )
           )
         )
@@ -175,9 +186,19 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
   );
 
   private setLoading = this.updater(
-    (state, loadingState: LoadingState): DhUserManagementState => ({
+    (
+      state,
+      loadingState: LoadingState | ErrorState
+    ): DhUserManagementState => ({
       ...state,
       requestState: loadingState,
+    })
+  );
+
+  private setSaving = this.updater(
+    (state, savingState: SavingState | ErrorState): DhUserManagementState => ({
+      ...state,
+      savingState: savingState,
     })
   );
 

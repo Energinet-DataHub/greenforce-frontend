@@ -24,3 +24,9 @@ export const enum LoadingState {
   LOADING = 'LOADING',
   LOADED = 'LOADED',
 }
+
+export const enum SavingState {
+  INIT = 'INIT',
+  SAVING = 'SAVING',
+  SAVED = 'SAVED',
+}

@@ -66,6 +66,7 @@ export class DhEditUserModalComponent implements AfterViewInit {
   @Input() user: UserOverviewItemDto | null = null;
 
   isLoading$ = this.store.isLoading$;
+  isSaving$ = this.store.isSaving$;
 
   ngAfterViewInit(): void {
     this.editUserModal.open();
