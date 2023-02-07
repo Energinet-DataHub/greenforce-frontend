@@ -16,32 +16,42 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.editUserRole'">
   <watt-modal [title]="roleName$ | push" (closed)="closeModal($event)">
-    <watt-tabs>
-      <watt-tab [label]="t('tab.masterData.tabLabel')">
-        <div class="form-wrapper">
-          <watt-form-field>
-            <watt-label>{{ t("tab.masterData.nameInputLabel") }}</watt-label>
-            <input
-              wattInput
-              type="text"
-              [formControl]="userRoleEditForm.controls.name"
-            />
-          </watt-form-field>
-        </div>
-      </watt-tab>
+    <form
+      [formGroup]="userRoleEditForm"
+      id="user-role-edit-form"
+      *rxLet="userRole$ as userRole"
+      (ngSubmit)="save(userRole)"
+    >
+      <watt-tabs>
+        <watt-tab [label]="t('tab.masterData.tabLabel')">
+          <div class="form-wrapper">
+            <watt-form-field>
+              <watt-label>{{ t("tab.masterData.nameInputLabel") }}</watt-label>
+              <input wattInput type="text" formControlName="name" />
+            </watt-form-field>
 
-      <watt-tab [label]="t('tab.permissions.tabLabel')"></watt-tab>
-    </watt-tabs>
+            <watt-form-field>
+              <watt-label>{{
+                t("tab.masterData.descriptionInputLabel")
+              }}</watt-label>
+              <textarea wattInput formControlName="description"></textarea>
+            </watt-form-field>
+          </div>
+        </watt-tab>
+
+        <watt-tab [label]="t('tab.permissions.tabLabel')"></watt-tab>
+      </watt-tabs>
+    </form>
 
     <watt-modal-actions>
       <watt-button variant="secondary" (click)="closeModal(false)">
         {{ t("cancel") }}
       </watt-button>
       <watt-button
-        *rxLet="userRole$ as userRole"
-        [disabled]="userRoleEditForm.invalid"
+        type="submit"
+        formId="user-role-edit-form"
+        [disabled]="userRoleEditForm.invalid || userRoleEditForm.pristine"
         [loading]="isLoading$ | push"
-        (click)="save(userRole)"
       >
         {{ t("save") }}
       </watt-button>
