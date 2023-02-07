@@ -22,7 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 
 describe('UserRolesComponent', () => {
-  async function setup() {
+  async function setup({ selectMode = false } = {}) {
     const { fixture } = await render(DhUserRolesComponent, {
       componentProperties: {
         user: {
@@ -33,6 +33,7 @@ describe('UserRolesComponent', () => {
           name: 'fake value',
           assignedActors: [],
         },
+        selectMode: selectMode,
       },
       componentProviders: [
         {
@@ -49,12 +50,27 @@ describe('UserRolesComponent', () => {
     return { fixture };
   }
 
-  test('should render 3 roles', async () => {
+  test('should render 1 roles', async () => {
     await setup();
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', { name: /1 user role/i })
+      ).toBeInTheDocument();
+    });
+  });
+
+  test('should render 3 roles, and one is checked', async () => {
+    await setup({ selectMode: true });
     await waitFor(() => {
       expect(
         screen.getByRole('heading', { name: /3 user roles/i })
       ).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      const checkboxes = screen.queryAllByRole<HTMLInputElement>('checkbox');
+      const checkedCheckboxes = checkboxes.filter((c) => c.checked);
+      expect(checkedCheckboxes.length).toBe(1);
     });
   });
 });
