@@ -52,7 +52,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { take } from 'rxjs';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { CsvExportService } from '@energinet-datahub/dh/shared/ui-util';
+import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-roles-tab',
@@ -85,7 +85,6 @@ export class DhUserRolesTabComponent {
 
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
   private readonly trans = inject(TranslocoService);
-  private readonly csvEx = inject(CsvExportService);
 
   roles$ = this.store.rolesFiltered$;
   isLoading$ = this.store.isLoading$;
@@ -122,7 +121,7 @@ export class DhUserRolesTabComponent {
           x.status,
         ]);
 
-        this.csvEx.export(headers, lines);
+        exportCsv(headers, lines);
       });
   }
 

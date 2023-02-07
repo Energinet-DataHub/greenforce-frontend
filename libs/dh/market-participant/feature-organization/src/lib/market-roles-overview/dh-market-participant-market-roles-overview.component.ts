@@ -36,7 +36,7 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain';
-import { CsvExportService } from '@energinet-datahub/dh/shared/ui-util';
+import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
 import { take } from 'rxjs';
 
 @Component({
@@ -59,15 +59,11 @@ import { take } from 'rxjs';
 export class DhMarketParticipantMarketRolesOverviewComponent
   implements AfterViewInit
 {
-  constructor(
-    private trans: TranslocoService,
-    private csvEx: CsvExportService
-  ) {}
+  constructor(private trans: TranslocoService) {}
 
-  count = 0;
-  dataSource = new WattTableDataSource<EicFunction>();
+  dataSource = new WattTableDataSource<string>(Object.keys(EicFunction));
 
-  columns: WattTableColumnDef<EicFunction> = {
+  columns: WattTableColumnDef<string> = {
     name: { accessor: 'valueOf' },
     description: { accessor: 'valueOf' },
   };
@@ -77,15 +73,19 @@ export class DhMarketParticipantMarketRolesOverviewComponent
   }
 
   ngAfterViewInit() {
-    this.setupSort();
-    this.dataSource.data = Object.keys(EicFunction).map(
-      (x) => x as EicFunction
-    );
-    this.count = this.dataSource.data.length;
-    this.setupSort();
+    this.dataSource.sortingDataAccessor = (data, header) =>
+      header === 'name'
+        ? translate('marketParticipant.marketRoles.' + data)
+        : translate('marketParticipant.marketRoleDescriptions.' + data);
+
+    if (this.dataSource.sort)
+      this.dataSource.data = this.dataSource.sortData(
+        this.dataSource.data,
+        this.dataSource.sort
+      );
   }
 
-  async download() {
+  download() {
     this.trans
       .selectTranslateObject('marketParticipant')
       .pipe(take(1))
@@ -103,20 +103,13 @@ export class DhMarketParticipantMarketRolesOverviewComponent
             this.dataSource.sort
           );
 
-          const lines = marketRoles.map((x: EicFunction) => [
+          const lines = marketRoles.map((x) => [
             translations['marketRoles'][x],
             translations['marketRoleDescriptions'][x],
           ]);
 
-          this.csvEx.export(headers, lines);
+          exportCsv(headers, lines);
         }
       });
-  }
-
-  private setupSort() {
-    this.dataSource.sortingDataAccessor = (data, header) =>
-      header === 'name'
-        ? translate('marketParticipant.marketRoles.' + data)
-        : translate('marketParticipant.marketRoleDescriptions.' + data);
   }
 }

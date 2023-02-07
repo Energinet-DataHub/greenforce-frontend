@@ -17,7 +17,7 @@ limitations under the License.
 <watt-card *transloco="let t; read: 'marketParticipant.marketRolesOverview'">
   <watt-card-title>
     <div class="card-title-container">
-      <h4>{{ count + " " + t("marketRoles") }}</h4>
+      <h4>{{ dataSource.data.length + " " + t("marketRoles") }}</h4>
       <div class="card-title-buttons-container">
         <watt-button icon="download" variant="text" (click)="download()">{{
           t("download")
