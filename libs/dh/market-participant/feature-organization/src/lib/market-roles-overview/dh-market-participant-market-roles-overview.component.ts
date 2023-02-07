@@ -103,7 +103,7 @@ export class DhMarketParticipantMarketRolesOverviewComponent
             this.dataSource.sort
           );
 
-          const lines = marketRoles.map((x:EicFunction) => [
+          const lines = marketRoles.map((x: EicFunction) => [
             translations['marketRoles'][x],
             translations['marketRoleDescriptions'][x],
           ]);
