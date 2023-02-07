@@ -99,6 +99,7 @@ export class DhEditUserRoleModalComponent
 
   userRoleEditForm = this.formBuilder.group({
     name: this.formBuilder.nonNullable.control('', [Validators.required]),
+    description: this.formBuilder.nonNullable.control(''),
   });
 
   @ViewChild(WattModalComponent) editUserRoleModal!: WattModalComponent;
@@ -106,8 +107,11 @@ export class DhEditUserRoleModalComponent
   @Output() closed = new EventEmitter<{ saveSuccess: boolean }>();
 
   ngOnInit(): void {
+    const formControls = this.userRoleEditForm.controls;
+
     this.userRole$.pipe(takeUntil(this.destroy$)).subscribe((userRole) => {
-      this.userRoleEditForm.controls.name.setValue(userRole.name);
+      formControls.name.setValue(userRole.name);
+      formControls.description.setValue(userRole.description);
     });
   }
 
@@ -126,9 +130,11 @@ export class DhEditUserRoleModalComponent
   }
 
   save(userRole: UserRoleWithPermissionsDto): void {
+    const formControls = this.userRoleEditForm.controls;
+
     const updatedUserRole: UpdateUserRoleDto = {
-      name: this.userRoleEditForm.controls.name.value,
-      description: userRole.description,
+      name: formControls.name.value,
+      description: formControls.description.value,
       status: userRole.status,
       permissions: userRole.permissions,
     };

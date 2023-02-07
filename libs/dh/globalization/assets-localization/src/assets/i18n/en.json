@@ -1025,7 +1025,8 @@
         "tab": {
           "masterData": {
             "tabLabel": "Master data",
-            "nameInputLabel": "Name"
+            "nameInputLabel": "Name",
+            "descriptionInputLabel": "Description"
           },
           "permissions": {
             "tabLabel": "Permissions"
