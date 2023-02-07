@@ -19,7 +19,7 @@ limitations under the License.
     <div class="card-title-container">
       <h4>{{ count + " " + t("marketRoles") }}</h4>
       <div class="card-title-buttons-container">
-        <watt-button icon="download" variant="text">{{
+        <watt-button icon="download" variant="text" (click)="download()">{{
           t("download")
         }}</watt-button>
       </div>

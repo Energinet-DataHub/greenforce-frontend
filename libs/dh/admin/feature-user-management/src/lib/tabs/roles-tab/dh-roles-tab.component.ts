@@ -52,6 +52,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { take } from 'rxjs';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { CsvExportService } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-roles-tab',
@@ -84,6 +85,7 @@ export class DhUserRolesTabComponent {
 
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
   private readonly trans = inject(TranslocoService);
+  private readonly csvEx = inject(CsvExportService);
 
   roles$ = this.store.rolesFiltered$;
   isLoading$ = this.store.isLoading$;
@@ -108,22 +110,19 @@ export class DhUserRolesTabComponent {
       .subscribe((rolesTranslations) => {
         const basePath = 'admin.userManagement.tabs.roles.table.columns.';
 
-        const header = `${translate(basePath + 'name')};${translate(
-          basePath + 'marketRole'
-        )};${translate(basePath + 'status')}`;
+        const headers = [
+          translate(basePath + 'name'),
+          translate(basePath + 'marketRole'),
+          translate(basePath + 'status'),
+        ];
 
-        const csv = roles
-          .map(
-            (x) => `${x.name};${rolesTranslations[x.eicFunction]};${x.status}`
-          )
-          .join('\n');
+        const lines = roles.map((x) => [
+          x.name,
+          rolesTranslations[x.eicFunction],
+          x.status,
+        ]);
 
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(
-          new Blob([`${header}\n${csv}`], { type: 'text/csv;charset=utf-8;' })
-        );
-        a.download = 'result.csv';
-        a.click();
+        this.csvEx.export(headers, lines);
       });
   }
 
