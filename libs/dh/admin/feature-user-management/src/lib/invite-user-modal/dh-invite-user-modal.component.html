@@ -1,1 +1,22 @@
-﻿<watt-modal #inviteUserModal> invite user </watt-modal>
+﻿<watt-modal #inviteUserModal>
+  <mat-stepper [linear]="true" #stepper>
+    <mat-step>
+      User info
+      <div>
+        <button mat-button matStepperNext>Next</button>
+        <watt-button variant="primary" matStepperNext>Next</watt-button>
+      </div>
+    </mat-step>
+    <mat-step>
+      Roles
+      <div>
+        <div>
+          <watt-button variant="secondary" matStepperPrevious>Back</watt-button>
+          <watt-button variant="primary" (click)="stepper.reset()"
+            >Reset</watt-button
+          >
+        </div>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</watt-modal>

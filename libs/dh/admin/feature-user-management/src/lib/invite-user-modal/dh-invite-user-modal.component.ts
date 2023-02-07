@@ -21,12 +21,14 @@ import {
   WattModalModule,
 } from '@energinet-datahub/watt/modal';
 
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { MatStepperModule } from '@angular/material/stepper';
 @Component({
   selector: 'dh-invite-user-modal',
   templateUrl: './dh-invite-user-modal.component.html',
   styleUrls: ['./dh-invite-user-modal.component.scss'],
   standalone: true,
-  imports: [WattModalModule],
+  imports: [WattModalModule, MatStepperModule, WattButtonModule],
 })
 export class DhInviteUserModalComponent {
   @ViewChild('inviteUserModal') inviteUserModal!: WattModalComponent;
