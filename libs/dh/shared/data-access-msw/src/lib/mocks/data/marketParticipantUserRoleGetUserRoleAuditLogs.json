@@ -6,7 +6,7 @@
       "changedByUserName": "Test User",
       "timestamp": "2023-01-01T12:47:03.4871748+00:00",
       "userRoleChangeType": "Created",
-      "changeDescriptionJson": "{\"Name\":\"NewRole\",\"Description\":\"New description\",\"EicFunction\":\"BalanceResponsibleParty\",\"Status\":\"Active\",\"Permissions\":[\"UsersManage\"]}"
+      "changeDescriptionJson": "{\"Name\":\"NewRole\",\"Description\":\"New description\",\"EicFunction\":\"BalanceResponsibleParty\",\"Status\":\"Active\",\"Permissions\":[3]}"
     },
     {
       "userRoleId": "3f4c5be3-1e12-4ed4-9d34-05fee4763127",
@@ -46,7 +46,7 @@
       "changedByUserName": "Test User",
       "timestamp": "2023-01-06T12:48:38.0587304+00:00",
       "userRoleChangeType": "PermissionsChange",
-      "changeDescriptionJson": "{\"Permissions\": [\"UsersManage\",\"UsersView\"]}"
+      "changeDescriptionJson": "{\"Permissions\": [3, 4]}"
     }
   ]
 }
