@@ -23,7 +23,6 @@ import { EoConsumptionStore } from './eo-consumption.store';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  providers: [EoConsumptionStore],
   imports: [MatCardModule, CommonModule, WattSpinnerModule],
   selector: 'eo-consumption-page-info',
   styles: [
