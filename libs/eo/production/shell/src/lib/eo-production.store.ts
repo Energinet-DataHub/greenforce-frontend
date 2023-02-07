@@ -58,10 +58,6 @@ export class EoProductionStore extends ComponentStore<EoProductionState> {
   }
 
   readonly loadingDone$ = this.select((state) => state.loadingDone);
-  readonly measurements$ = this.select((state) => state.measurements);
-  readonly totalMeasurement$ = this.select((state) => state.totalMeasurement);
-  readonly error$ = this.select((state) => state.error);
-
   readonly setLoadingDone = this.updater(
     (state, loadingDone: boolean): EoProductionState => ({
       ...state,
@@ -69,6 +65,7 @@ export class EoProductionStore extends ComponentStore<EoProductionState> {
     })
   );
 
+  readonly error$ = this.select((state) => state.error);
   readonly setError = this.updater(
     (state, error: HttpErrorResponse | null): EoProductionState => ({
       ...state,
@@ -76,6 +73,7 @@ export class EoProductionStore extends ComponentStore<EoProductionState> {
     })
   );
 
+  readonly totalMeasurement$ = this.select((state) => state.totalMeasurement);
   readonly setTotalMeasurement = this.updater(
     (state, totalMeasurement: number): EoProductionState => ({
       ...state,
@@ -83,6 +81,7 @@ export class EoProductionStore extends ComponentStore<EoProductionState> {
     })
   );
 
+  readonly measurements$ = this.select((state) => state.measurements);
   readonly setMonthlyMeasurements = this.updater(
     (state, measurements: EoMeasurementData[]): EoProductionState => ({
       ...state,
@@ -117,14 +116,12 @@ export class EoProductionStore extends ComponentStore<EoProductionState> {
   }
 
   getMeasurementsFromData(array: EoMeasurement[]): EoMeasurementData[] {
-    return array.map((measure) => {
-      return {
-        name: new Date(measure.dateFrom * 1000).toLocaleString('en-us', {
-          month: 'short',
-        }),
-        value: measure.value,
-      };
-    });
+    return array.map((measure) => ({
+      name: new Date(measure.dateFrom * 1000).toLocaleString('en-us', {
+        month: 'short',
+      }),
+      value: measure.value,
+    }));
   }
 
   getTotalFromArray(array: EoMeasurementData[]): number {
