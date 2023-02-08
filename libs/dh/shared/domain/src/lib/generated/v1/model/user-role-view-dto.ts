@@ -14,7 +14,7 @@
 export interface UserRoleViewDto { 
     id: string;
     name: string;
-    userActorId: string;
+    userActorId?: string | null;
 }
 
 

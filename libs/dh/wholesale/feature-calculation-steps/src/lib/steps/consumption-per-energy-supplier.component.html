@@ -14,4 +14,52 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<p>It works!</p>
+<ng-container *transloco="let t; read: 'wholesale.processStepResults'">
+  <h3
+    class="headline watt-headline-2 watt-on-light--high-emphasis"
+    style="display: flex; align-items: center"
+  >
+    <watt-badge size="large" class="watt-space-inline-s">
+      {{ t("step", { step: 2 }) }}
+    </watt-badge>
+    {{ t("aggregatedConsumptionPerEnergySupplier") }}
+  </h3>
+  <p class="sub-headline">
+    <span class="watt-label watt-on-light--high-emphasis">
+      {{ t("energySupplier") }}
+    </span>
+    <small *transloco="let transloco; read: 'wholesale'">
+      {{ gln() }}
+    </small>
+  </p>
+
+  <ng-container
+    *rxLet="
+      processStepResults$;
+      let processStepResults;
+      error: loadingProcessStepResultsError;
+      suspense: loadingProcessStepResults;
+      errorTrigger: loadingProcessStepResultsErrorTrigger$
+    "
+  >
+    <dh-wholesale-time-series-points
+      *ngIf="processStepResults"
+      [data]="processStepResults.timeSeriesPoints"
+    ></dh-wholesale-time-series-points>
+  </ng-container>
+
+  <ng-template #loadingProcessStepResults>
+    <watt-spinner></watt-spinner>
+  </ng-template>
+
+  <ng-template #loadingProcessStepResultsError>
+    <div class="center">
+      <watt-empty-state
+        icon="custom-power"
+        [title]="t('loadProcessStepResultsErrorTitle')"
+        [message]="t('loadProcessStepResultsErrorMessage')"
+      >
+      </watt-empty-state>
+    </div>
+  </ng-template>
+</ng-container>

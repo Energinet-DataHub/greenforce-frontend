@@ -38,13 +38,13 @@ limitations under the License.
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="Energinet.DataHub.Wholesale.Client" Version="4.0.0" />
+    <PackageReference Include="Energinet.DataHub.Wholesale.Client" Version="5.0.4" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients" Version="6.1.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients.Registration" Version="6.1.0" />
     <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="7.3.3" />
     <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="7.3.3" />
-    <PackageReference Condition="!Exists('$(MarketingParticipantProjectReference)')" Include="Energinet.DataHub.MarketParticipant.Client" Version="2.17.1" />
+    <PackageReference Condition="!Exists('$(MarketingParticipantProjectReference)')" Include="Energinet.DataHub.MarketParticipant.Client" Version="2.17.3" />
     <PackageReference Condition="!Exists('$(MessageArchiveClientAbstractionsProjectReference)')" Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
     <PackageReference Condition="!Exists('$(MessageArchiveClientProjectReference)')" Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="3.0.1" />
