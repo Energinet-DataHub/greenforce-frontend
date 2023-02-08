@@ -1029,7 +1029,8 @@
             "nameInputLabel": "Name",
             "descriptionInputLabel": "Description",
             "errors": {
-              "nameAlreadyExists": "The user role already exists"
+              "nameAlreadyExists": "The user role already exists",
+              "required": "Field is required"
             }
           },
           "permissions": {

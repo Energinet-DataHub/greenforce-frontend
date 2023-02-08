@@ -99,7 +99,9 @@ export class DhEditUserRoleModalComponent
 
   readonly userRoleEditForm = this.formBuilder.group({
     name: this.formBuilder.nonNullable.control('', [Validators.required]),
-    description: this.formBuilder.nonNullable.control(''),
+    description: this.formBuilder.nonNullable.control('', [
+      Validators.required,
+    ]),
   });
 
   @ViewChild(WattModalComponent) editUserRoleModal!: WattModalComponent;
