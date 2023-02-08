@@ -33,6 +33,11 @@ limitations under the License.
               >
                 {{ t("tab.masterData.errors.nameAlreadyExists") }}
               </watt-error>
+              <watt-error
+                *ngIf="userRoleEditForm.controls.name?.errors?.['required']"
+              >
+                {{ t("tab.masterData.errors.required") }}
+              </watt-error>
             </watt-form-field>
 
             <watt-form-field>
