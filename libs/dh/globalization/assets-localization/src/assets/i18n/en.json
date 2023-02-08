@@ -1027,7 +1027,10 @@
           "masterData": {
             "tabLabel": "Master data",
             "nameInputLabel": "Name",
-            "descriptionInputLabel": "Description"
+            "descriptionInputLabel": "Description",
+            "errors": {
+              "nameAlreadyExists": "The user role already exists"
+            }
           },
           "permissions": {
             "tabLabel": "Permissions"
