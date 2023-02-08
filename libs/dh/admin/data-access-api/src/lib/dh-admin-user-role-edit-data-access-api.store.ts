@@ -17,7 +17,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { exhaustMap, Observable, tap } from 'rxjs';
+import { exhaustMap, filter, Observable, tap } from 'rxjs';
 
 import {
   ErrorState,
@@ -44,13 +44,12 @@ export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEdit
     DhAdminUserRolesManagementDataAccessApiStore
   );
 
-  isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select(
     (state) => state.requestState === LoadingState.LOADING
   );
-  hasGeneralError$ = this.select(
-    (state) => state.requestState === ErrorState.GENERAL_ERROR
-  );
+  hasValidationError$ = this.select(
+    (state) => state.requestState === ErrorState.VALIDATION_EXCEPTION
+  ).pipe(filter((value) => value));
 
   constructor(private httpClient: MarketParticipantUserRoleHttp) {
     super(initialState);
