@@ -290,9 +290,6 @@
       "@energinet-datahub/gf/util-browser": [
         "libs/gf/util-browser/src/index.ts"
       ],
-      "@energinet-datahub/watt/HTMLElementEvent": [
-        "libs/ui-watt/src/lib/utils/HTMLElementEvent.ts"
-      ],
       "@energinet-datahub/watt/badge": [
         "libs/ui-watt/src/lib/components/badge/index.ts"
       ],
