@@ -92,12 +92,12 @@ export class DhEditUserRoleModalComponent
   private destroy$ = new Subject<void>();
 
   readonly userRole$ = this.userRoleWithPermissionsStore.userRole$;
+  readonly roleName$ = this.userRole$.pipe(map((role) => role.name));
 
-  isLoading$ = this.userRoleEditStore.isLoading$;
+  readonly isLoading$ = this.userRoleEditStore.isLoading$;
+  readonly hasValidationError$ = this.userRoleEditStore.hasValidationError$;
 
-  roleName$ = this.userRole$.pipe(map((role) => role.name));
-
-  userRoleEditForm = this.formBuilder.group({
+  readonly userRoleEditForm = this.formBuilder.group({
     name: this.formBuilder.nonNullable.control('', [Validators.required]),
     description: this.formBuilder.nonNullable.control(''),
   });
@@ -112,6 +112,12 @@ export class DhEditUserRoleModalComponent
     this.userRole$.pipe(takeUntil(this.destroy$)).subscribe((userRole) => {
       formControls.name.setValue(userRole.name);
       formControls.description.setValue(userRole.description);
+    });
+
+    this.hasValidationError$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      formControls.name.setErrors({
+        nameAlreadyExists: true,
+      });
     });
   }
 
