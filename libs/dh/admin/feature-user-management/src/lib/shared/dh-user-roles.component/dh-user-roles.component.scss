@@ -29,6 +29,11 @@ watt-spinner {
 }
 
 .userRoles {
+  &.selectMode {
+    li {
+      grid-template-columns: 40px 1fr auto !important;
+    }
+  }
   mat-divider {
     color: var(--watt-color-neutral-grey-400);
     margin: var(--watt-space-m) 0;
@@ -42,6 +47,7 @@ watt-spinner {
     display: grid;
     margin: var(--watt-space-s) 0 0 var(--watt-space-s);
     grid-template-columns: 1fr 1fr;
+    justify-items: left;
   }
   h6 {
     margin: 0 0 0 var(--watt-space-s);

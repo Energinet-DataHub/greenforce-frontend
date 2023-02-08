@@ -947,12 +947,13 @@
           }
         },
         "roles": {
-          "tabLabel": "Bruger roller",
-          "roles": "Bruger roller",
-          "role": "Bruger rolle",
+          "gln": "GLN {{ actorNumber }}",
+          "tabLabel": "Brugerroller",
+          "roles": "Brugerroller",
+          "role": "Brugerrolle",
           "errorTitle": "Ups! Der opstod en fejl",
           "errorMessage": "Der opstod desværre en fejl, ved hentning af bruger rollerne.",
-          "rolesHeadline": "Bruger roller",
+          "rolesHeadline": "Brugerroller",
           "filter": {
             "status": "Status",
             "marketRole": "Markedsrolle"
@@ -965,10 +966,10 @@
               "status": "Status"
             }
           },
-          "createuserrole": "Ny bruger rolle",
+          "createuserrole": "Ny brugerrolle",
           "userRolesHeadline": {
-            "singular": "{{ userRolesCount }} Bruger rolle",
-            "plural": "{{ userRolesCount }} Bruger roller"
+            "singular": "{{ userRolesCount }} Brugerrolle",
+            "plural": "{{ userRolesCount }} Brugerroller"
           }
         },
         "permissions": {
@@ -983,13 +984,13 @@
         }
       },
       "createrole": {
-        "headline": "Ny bruger rolle",
-        "save": "Opret bruger rolle",
+        "headline": "Ny brugerrolle",
+        "save": "Opret brugerrolle",
         "cancel": "Annuller",
         "createRoleRequest": {
-          "start": "Opretter bruger rolle",
-          "error": "Der opstod desværre en fejl, da vi skulle oprette bruger rollen.",
-          "success": "Bruger rollen er oprettet"
+          "start": "Opretter brugerrolle",
+          "error": "Der opstod desværre en fejl, da vi skulle oprette brugerrollen.",
+          "success": "Brugerrollen er oprettet"
         },
         "tabs": {
           "masterdata": {
