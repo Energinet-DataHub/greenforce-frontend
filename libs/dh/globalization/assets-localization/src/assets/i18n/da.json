@@ -1032,7 +1032,8 @@
             "nameInputLabel": "Navn",
             "descriptionInputLabel": "Beskrivelse",
             "errors": {
-              "nameAlreadyExists": "En bruger rolle med dette navn findes allerede"
+              "nameAlreadyExists": "En bruger rolle med dette navn findes allerede",
+              "required": "Feltet er påkrævet"
             }
           },
           "permissions": {
