@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { inject, Injectable } from '@angular/core';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { exhaustMap, Observable, tap } from 'rxjs';
 
@@ -82,12 +83,25 @@ export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEdit
 
                   onSuccessFn();
                 },
-                () => {
-                  this.patchState({ requestState: ErrorState.GENERAL_ERROR });
+                (error: HttpErrorResponse) => {
+                  this.handleError(error);
                 }
               )
             )
         )
       )
   );
+
+  private handleError({ status, error }: HttpErrorResponse): void {
+    let requestState = ErrorState.GENERAL_ERROR;
+
+    if (
+      status === HttpStatusCode.BadRequest &&
+      error?.code === ErrorState.VALIDATION_EXCEPTION
+    ) {
+      requestState = ErrorState.VALIDATION_EXCEPTION;
+    }
+
+    this.patchState({ requestState });
+  }
 }
