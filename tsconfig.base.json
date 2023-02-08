@@ -395,6 +395,9 @@
       "@energinet-datahub/watt/validators": [
         "libs/ui-watt/src/lib/components/input/shared/validators/index.ts"
       ],
+      "@energinet-datahub/watt/watt-description-list": [
+        "libs/ui-watt/src/lib/components/watt-description-list/index.ts"
+      ],
       "rxjs": ["./node_modules/rxjs"]
     }
   },
