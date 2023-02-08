@@ -841,6 +841,13 @@
   },
   "admin": {
     "userManagement": {
+      "inviteUser": {
+        "title": "Invite user",
+        "informations": "Informations",
+        "addUserRole": "Add user role",
+        "cancel": "Cancel",
+        "next": "Next"
+      },
       "download": "Download",
       "drawer": {
         "edit": "Edit",

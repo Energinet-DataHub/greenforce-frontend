@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import {
   WattModalComponent,
   WattModalModule,
@@ -23,12 +23,27 @@ import {
 
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { MatStepperModule } from '@angular/material/stepper';
+import { TranslocoModule } from '@ngneat/transloco';
+import { MatDividerModule } from '@angular/material/divider';
+import {
+  WattStepperButtonNextDirective,
+  WattStepperButtonPreviousDirective,
+} from '@energinet-datahub/watt/stepper';
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'dh-invite-user-modal',
   templateUrl: './dh-invite-user-modal.component.html',
   styleUrls: ['./dh-invite-user-modal.component.scss'],
   standalone: true,
-  imports: [WattModalModule, MatStepperModule, WattButtonModule],
+  imports: [
+    WattModalModule,
+    MatStepperModule,
+    WattButtonModule,
+    WattStepperButtonNextDirective,
+    WattStepperButtonPreviousDirective,
+    TranslocoModule,
+    MatDividerModule,
+  ],
 })
 export class DhInviteUserModalComponent {
   @ViewChild('inviteUserModal') inviteUserModal!: WattModalComponent;

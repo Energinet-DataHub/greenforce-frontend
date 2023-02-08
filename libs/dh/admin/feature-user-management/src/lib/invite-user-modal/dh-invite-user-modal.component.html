@@ -1,22 +1,35 @@
-﻿<watt-modal #inviteUserModal>
-  <mat-stepper [linear]="true" #stepper>
-    <mat-step>
-      User info
-      <div>
-        <button mat-button matStepperNext>Next</button>
-        <watt-button variant="primary" matStepperNext>Next</watt-button>
-      </div>
-    </mat-step>
-    <mat-step>
-      Roles
-      <div>
-        <div>
-          <watt-button variant="secondary" matStepperPrevious>Back</watt-button>
+﻿<ng-container *transloco="let t; read: 'admin.userManagement.inviteUser'">
+  <watt-modal #inviteUserModal [title]="t('title')">
+    <mat-stepper [linear]="true" #stepper>
+      <mat-step>
+        <ng-template matStepLabel>{{ t("informations") }}</ng-template>
+        User info
+        <div class="buttonWrapper">
+          <mat-divider></mat-divider>
+          <watt-button
+            variant="secondary"
+            (click)="inviteUserModal.close(false)"
+            wattStepperPrevious
+            >{{ t("cancel") }}</watt-button
+          >
+          <watt-button variant="primary" wattStepperNext>{{
+            t("next")
+          }}</watt-button>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>{{ t("addUserRole") }}</ng-template>
+        Roles
+        <div class="buttonWrapper">
+          <mat-divider></mat-divider>
+          <watt-button variant="secondary" wattStepperPrevious
+            >Back</watt-button
+          >
           <watt-button variant="primary" (click)="stepper.reset()"
             >Reset</watt-button
           >
         </div>
-      </div>
-    </mat-step>
-  </mat-stepper>
-</watt-modal>
+      </mat-step>
+    </mat-stepper>
+  </watt-modal>
+</ng-container>

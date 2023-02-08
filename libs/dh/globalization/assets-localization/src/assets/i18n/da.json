@@ -845,6 +845,13 @@
   },
   "admin": {
     "userManagement": {
+      "inviteUser": {
+        "title": "Inviter bruger",
+        "informations": "Informationer",
+        "addUserRole": "Tildel brugerroller",
+        "cancel": "Fortryd",
+        "next": "Næste"
+      },
       "download": "Download",
       "drawer": {
         "edit": "Rediger",

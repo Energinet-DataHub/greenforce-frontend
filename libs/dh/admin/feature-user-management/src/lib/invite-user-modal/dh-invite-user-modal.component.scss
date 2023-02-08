@@ -1,3 +1,23 @@
-﻿:host {
-  display: block;
+﻿.watt-modal-panel {
+  .mat-horizontal-stepper-header {
+    padding: 0;
+  }
+  .mat-horizontal-content-container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .mat-step-header .mat-step-icon-selected {
+    border: solid 1px var(--watt-color-primary);
+    background-color: white;
+    color: var(--watt-color-primary);
+  }
+  mat-divider {
+    margin: var(--watt-space-s) 0 var(--watt-space-s) 0;
+  }
+  .buttonWrapper {
+    display: flex;
+    & :last-child {
+      margin-left: auto;
+    }
+  }
 }

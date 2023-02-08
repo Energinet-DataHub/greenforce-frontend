@@ -3,6 +3,7 @@ import { Directive, HostBinding, Input } from '@angular/core';
 
 @Directive({
   selector: 'watt-button[wattStepperPrevious]',
+  standalone: true,
 })
 export class WattStepperButtonPreviousDirective extends CdkStepperPrevious {
   @Input() type: 'submit' | 'button' = 'submit';
