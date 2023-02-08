@@ -6,13 +6,7 @@
         User info
         <div class="buttonWrapper">
           <mat-divider></mat-divider>
-          <watt-button
-            variant="secondary"
-            (click)="inviteUserModal.close(false)"
-            wattStepperPrevious
-            >{{ t("cancel") }}</watt-button
-          >
-          <watt-button variant="primary" wattStepperNext>{{
+          <watt-button icon="right" variant="secondary" wattStepperNext>{{
             t("next")
           }}</watt-button>
         </div>

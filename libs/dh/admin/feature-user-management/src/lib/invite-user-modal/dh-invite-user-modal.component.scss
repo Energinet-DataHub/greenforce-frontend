@@ -1,11 +1,4 @@
 ﻿.watt-modal-panel {
-  .mat-horizontal-stepper-header {
-    padding: 0;
-  }
-  .mat-horizontal-content-container {
-    padding-left: 0;
-    padding-right: 0;
-  }
   .mat-step-header .mat-step-icon-selected {
     border: solid 1px var(--watt-color-primary);
     background-color: white;
@@ -13,6 +6,9 @@
   }
   mat-divider {
     margin: var(--watt-space-s) 0 var(--watt-space-s) 0;
+  }
+  .mat-stepper-horizontal-line {
+    margin: 0 5px;
   }
   .buttonWrapper {
     display: flex;
