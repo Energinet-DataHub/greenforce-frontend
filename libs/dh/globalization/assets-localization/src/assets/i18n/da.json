@@ -1029,7 +1029,10 @@
           "masterData": {
             "tabLabel": "Stamdata",
             "nameInputLabel": "Navn",
-            "descriptionInputLabel": "Beskrivelse"
+            "descriptionInputLabel": "Beskrivelse",
+            "errors": {
+              "nameAlreadyExists": "En bruger rolle med dette navn findes allerede"
+            }
           },
           "permissions": {
             "tabLabel": "Rettigheder"
