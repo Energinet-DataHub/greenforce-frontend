@@ -14,11 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { LetModule } from '@rx-angular/template/let';
 import { EoEmissionsPageCo2ReductionComponent } from './eo-emissions-page-co2-reduction';
 import { EoEmissionsPageGreenhouseGassesComponent } from './eo-emissions-page-greenhouse-gasses.component';
 import { EoEmissionsPageInfoComponent } from './eo-emissions-page-info.component';
@@ -30,8 +29,8 @@ import { EoEmissionsStore } from './eo-emissions.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    LetModule,
-    CommonModule,
+    NgIf,
+    AsyncPipe,
     EoPopupMessageComponent,
     EoEmissionsPageInfoComponent,
     EoEmissionsPageCo2ReductionComponent,
@@ -51,10 +50,8 @@ import { EoEmissionsStore } from './eo-emissions.store';
     `,
   ],
   template: `
-    <ng-container *rxLet="error$ as error">
-      <eo-popup-message *ngIf="error" [errorMessage]="error">
-      </eo-popup-message>
-    </ng-container>
+    <eo-popup-message *ngIf="error$ | async"></eo-popup-message>
+
     <div class="content">
       <eo-stack size="L">
         <eo-emissions-page-info></eo-emissions-page-info>

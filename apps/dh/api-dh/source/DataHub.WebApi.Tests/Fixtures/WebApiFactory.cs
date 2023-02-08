@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 
@@ -20,6 +21,13 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
 {
     public class WebApiFactory : WebApplicationFactory<Startup>
     {
+        private readonly List<IServiceMock> _serviceMocks = new();
+
+        public void AddServiceMock(IServiceMock serviceMock)
+        {
+            _serviceMocks.Add(serviceMock);
+        }
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             if (builder == null)
@@ -30,6 +38,7 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
             // This can be used for changing registrations in the container (e.g. for mocks).
             builder.ConfigureServices(services =>
             {
+                _serviceMocks.ForEach(mock => mock.ConfigureServices(services));
             });
         }
     }

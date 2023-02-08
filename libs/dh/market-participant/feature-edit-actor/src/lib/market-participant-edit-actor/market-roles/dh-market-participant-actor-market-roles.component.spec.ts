@@ -141,7 +141,7 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
     // arrange
     const { outputFn } = await setup(ActorStatus.New, gridAreas, [
       {
-        eicFunction: 'Agent',
+        eicFunction: 'BalanceResponsibleParty',
         gridAreas: [
           { id: gridAreas[0].id, meteringPointTypes: ['D01VeProduction'] },
         ],
@@ -165,7 +165,7 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
     // arrange
     const { outputFn } = await setup(ActorStatus.Active, gridAreas, [
       {
-        eicFunction: 'Agent',
+        eicFunction: 'BalanceResponsibleParty',
         gridAreas: [
           { id: gridAreas[0].id, meteringPointTypes: ['D01VeProduction'] },
         ],
