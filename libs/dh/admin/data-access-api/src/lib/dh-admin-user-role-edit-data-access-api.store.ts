@@ -96,7 +96,7 @@ export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEdit
 
     if (
       status === HttpStatusCode.BadRequest &&
-      error?.code === ErrorState.VALIDATION_EXCEPTION
+      error?.error?.code === ErrorState.VALIDATION_EXCEPTION
     ) {
       requestState = ErrorState.VALIDATION_EXCEPTION;
     }
