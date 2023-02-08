@@ -1031,7 +1031,7 @@
             "nameInputLabel": "Navn",
             "descriptionInputLabel": "Beskrivelse",
             "errors": {
-              "nameAlreadyExists": "Navnet er allerede i brug"
+              "nameAlreadyExists": "En bruger rolle med dette navn findes allerede"
             }
           },
           "permissions": {
