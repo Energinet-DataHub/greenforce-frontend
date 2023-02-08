@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { composeStory, createMountableStoryComponent } from '@storybook/testing-angular';
+import {
+  composeStory,
+  createMountableStoryComponent,
+} from '@storybook/testing-angular';
 import { render, screen } from '@testing-library/angular';
 import { Story } from '@storybook/angular';
 

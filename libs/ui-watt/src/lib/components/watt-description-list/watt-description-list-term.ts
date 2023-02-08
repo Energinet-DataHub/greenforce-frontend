@@ -16,7 +16,7 @@
  */
 export interface WattDescriptionListTerm {
   term: string | number;
-  description: string | number
+  description: string | number;
   forceNewRow?: boolean;
 }
 

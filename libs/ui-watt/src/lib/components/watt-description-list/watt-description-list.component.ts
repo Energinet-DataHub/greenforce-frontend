@@ -33,12 +33,15 @@ import { WattDescriptionListGroups } from './watt-description-list-term';
   styleUrls: ['./watt-description-list.component.scss'],
   templateUrl: './watt-description-list.component.html',
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule],
 })
 export class WattDescriptionListComponent {
   @Input() groups: WattDescriptionListGroups = [];
   @Input() set groupsPerRow(value: number) {
-    this.elementRef.nativeElement.style.setProperty('--watt-description-list-groups-per-row', value);
+    this.elementRef.nativeElement.style.setProperty(
+      '--watt-description-list-groups-per-row',
+      value
+    );
   }
 
   elementRef = inject(ElementRef);

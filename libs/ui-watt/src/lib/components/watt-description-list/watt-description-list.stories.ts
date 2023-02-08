@@ -57,5 +57,5 @@ Overview.argTypes = {
       defaultValue: { summary: 3 },
     },
     description: 'Number of groups per row',
-  }
+  },
 };
