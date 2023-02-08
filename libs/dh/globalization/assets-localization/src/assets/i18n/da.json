@@ -1029,7 +1029,10 @@
           "masterData": {
             "tabLabel": "Stamdata",
             "nameInputLabel": "Navn",
-            "descriptionInputLabel": "Beskrivelse"
+            "descriptionInputLabel": "Beskrivelse",
+            "errors": {
+              "nameAlreadyExists": "Navnet er allerede i brug"
+            }
           },
           "permissions": {
             "tabLabel": "Rettigheder"
