@@ -1,0 +1,233 @@
+schema {
+  query: GraphQLQuery
+}
+
+type GraphQLQuery {
+  organizations: [Organization]
+  organization(
+    # The id of the organization
+    id: ID
+  ): Organization
+  batch(
+    # The id of the organization
+    id: ID
+  ): Batch
+  batches(executionTime: DateRange): [Batch]
+}
+
+type Organization {
+  # The ID of the organization.
+  organizationId: ID!
+
+  # The name of the organization.
+  name: String!
+
+  # The business register identifier of the organization.
+  businessRegisterIdentifier: String!
+
+  # The status of the organization.
+  status: OrganizationStatus!
+
+  # The comment of the organization.
+  comment: String!
+
+  # The address of the organization.
+  address: Address!
+
+  # The actors of the organization.
+  actors: [Actor]!
+}
+
+enum OrganizationStatus {
+  NEW
+  ACTIVE
+  BLOCKED
+  DELETED
+}
+
+type Address {
+  # The city of the address.
+  city: String
+
+  # The country of the address.
+  country: String!
+
+  # The number of the address.
+  number: String
+
+  # The street name of the address.
+  streetName: String
+
+  # The zip code of the address.
+  zipCode: String
+}
+
+type Actor {
+  # The id of the actor.
+  actorId: ID!
+
+  # The number of the actor.
+  actorNumber: ActorNumberDtoType!
+
+  # The external id of the actor.
+  externalActorId: ID
+
+  # The name of the actor.
+  name: ActorNameDtoType!
+
+  # The status of the actor.
+  status: ActorStatus!
+
+  # The market roles of the actor.
+  marketRoles: [ActorMarketRoleDtoType]!
+}
+
+type ActorNumberDtoType {
+  # The actor number.
+  value: String!
+}
+
+type ActorNameDtoType {
+  # The actor name.
+  value: String!
+}
+
+enum ActorStatus {
+  NEW
+  ACTIVE
+  INACTIVE
+  PASSIVE
+}
+
+type ActorMarketRoleDtoType {
+  # The comment of the market role.
+  comment: String!
+
+  # The EIC function of the market role.
+  eicFunction: EicFunction!
+
+  # The grid areas of the market role.
+  gridAreas: [ActorGridAreaDtoType]!
+}
+
+enum EicFunction {
+  BALANCE_RESPONSIBLE_PARTY
+  BALANCING_SERVICE_PROVIDER
+  BILLING_AGENT
+  CAPACITY_TRADER
+  CONSUMER
+  CONSUMPTION_RESPONSIBLE_PARTY
+  CONSENT_ADMINISTRATOR
+  COORDINATED_CAPACITY_CALCULATOR
+  COORDINATION_CENTRE_OPERATOR
+  DATA_PROVIDER
+  ENERGY_SERVICE_COMPANY
+  ENERGY_SUPPLIER
+  ENERGY_TRADER
+  GRID_ACCESS_PROVIDER
+  IMBALANCE_SETTLEMENT_RESPONSIBLE
+  INTERCONNECTION_TRADE_RESPONSIBLE
+  LFC_OPERATOR
+  MARKET_INFORMATION_AGGREGATOR
+  MARKET_OPERATOR
+  MERIT_ORDER_LIST_RESPONSIBLE
+  METER_ADMINISTRATOR
+  METER_OPERATOR
+  METERED_DATA_ADMINISTRATOR
+  METERED_DATA_AGGREGATOR
+  METERED_DATA_COLLECTOR
+  METERED_DATA_RESPONSIBLE
+  METERING_POINT_ADMINISTRATOR
+  MODEL_MERGING_AGENT
+  MODELLING_AUTHORITY
+  NOMINATED_ELECTRICITY_MARKET_OPERATOR
+  NOMINATION_VALIDATOR
+  PARTY_ADMINISTRATOR
+  PARTY_CONNECTED_TO_THE_GRID
+  PRODUCER
+  PRODUCTION_RESPONSIBLE_PARTY
+  RECONCILIATION_ACCOUNTABLE
+  RECONCILIATION_RESPONSIBLE
+  RESERVE_ALLOCATOR
+  RESOURCE_AGGREGATOR
+  RESOURCE_CAPACITY_MECHANISM_OPERATOR
+  RESOURCE_PROVIDER
+  SCHEDULING
+  AGENT
+  SCHEDULING_AREA_RESPONSIBLE
+  SYSTEM_OPERATOR
+  TRADE_RESPONSIBLE_PARTY
+  TRANSMISSION_CAPACITY_ALLOCATOR
+  DANISH_ENERGY_AGENCY
+  EL_OVERBLIK
+  DATA_HUB_ADMINISTRATOR
+  INDEPENDENT_AGGREGATOR
+  SERIAL_ENERGY_TRADER
+}
+
+type ActorGridAreaDtoType {
+  # The grid area id.
+  id: ID!
+
+  # The metering point types.
+  meteringPointTypes: [MarketParticipantMeteringPointType!]!
+}
+
+enum MarketParticipantMeteringPointType {
+  UNKNOWN
+  D_01_VE_PRODUCTION
+  D_02_ANALYSIS
+  D_03_NOT_USED
+  D_04_SURPLUS_PRODUCTION_GROUP_6
+  D_05_NET_PRODUCTION
+  D_06_SUPPLY_TO_GRID
+  D_07_CONSUMPTION_FROM_GRID
+  D_08_WHOLE_SALE_SERVICES_INFORMATION
+  D_09_OWN_PRODUCTION
+  D_10_NET_FROM_GRID
+  D_11_NET_TO_GRID
+  D_12_TOTAL_CONSUMPTION
+  D_13_NET_LOSS_CORRECTION
+  D_14_ELECTRICAL_HEATING
+  D_15_NET_CONSUMPTION
+  D_17_OTHER_CONSUMPTION
+  D_18_OTHER_PRODUCTION
+  D_20_EXCHANGE_REACTIVE_ENERGY
+  D_99_INTERNAL_USE
+  E_17_CONSUMPTION
+  E_18_PRODUCTION
+  E_20_EXCHANGE
+}
+
+type Batch {
+  # The id of the batch.
+  id: ID!
+
+  # The execution state.
+  executionState: BatchState!
+
+  # The execution start time.
+  executionTimeStart: DateTimeOffset
+
+  # The execution end time.
+  executionTimeEnd: DateTimeOffset
+
+  # The grid area codes.
+  gridAreaCodes: [String]!
+
+  # Whether basis data is downloadable.
+  isBasisDataDownloadAvailable: Boolean!
+  period: DateRange
+}
+
+enum BatchState {
+  PENDING
+  EXECUTING
+  COMPLETED
+  FAILED
+}
+
+# The `DateTimeOffset` scalar type represents a date, time and offset from UTC. `DateTimeOffset` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard.
+scalar DateTimeOffset
+
+scalar DateRange

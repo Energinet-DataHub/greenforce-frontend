@@ -28,8 +28,10 @@ import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { Apollo } from 'apollo-angular';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -73,6 +75,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private changeDetectorRef = inject(ChangeDetectorRef);
+  private apollo = inject(Apollo);
 
   data$ = this.store.batches$;
   destroy$ = new Subject<void>();
@@ -101,6 +104,19 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
     this.searchSubmitted = true;
     this.store.getBatches(of(search));
     this.changeDetectorRef.detectChanges();
+    this.apollo
+      .watchQuery({
+        query: graphql.GetBatchesDocument,
+        variables: {
+          executionTime: {
+            start: search.minExecutionTime,
+            end: search.maxExecutionTime,
+          },
+        },
+      })
+      .valueChanges.subscribe((result) => {
+        console.log(result.data.batches);
+      });
   }
 
   onDownloadBasisData(batch: BatchDto) {

@@ -1,0 +1,11 @@
+query GetBatches($executionTime: DateRange) {
+  batches(executionTime: $executionTime) {
+    id
+    executionState
+    executionTimeStart
+    executionTimeEnd
+    gridAreaCodes
+    isBasisDataDownloadAvailable
+    period
+  }
+}
