@@ -35,7 +35,9 @@ describe('DhAdminUserRolesStore', () => {
             id: '1',
             actorNumber: '1',
             name: 'Actor 1',
-            actorMarketRoles: [{ eicFunction: EicFunction.Agent }],
+            actorMarketRoles: [
+              { eicFunction: EicFunction.BalanceResponsibleParty },
+            ],
             userRoles: [
               {
                 id: '1',
