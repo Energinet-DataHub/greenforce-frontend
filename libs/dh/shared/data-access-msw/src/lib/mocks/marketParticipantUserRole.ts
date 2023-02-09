@@ -36,7 +36,8 @@ function Permissions(apiBase: string) {
   return rest.get(
     `${apiBase}/v1/MarketParticipantUserRole/Permissions`,
     (req, res, ctx) => {
-      return res(ctx.json(marketParticipantUserRolePermissions));
+      const eicFunction = req.url.searchParams.get('eicFunction');
+      return res(ctx.json(marketParticipantUserRolePermissions.filter(s => s.eicFunction == eicFunction)));
     }
   );
 }

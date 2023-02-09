@@ -25,6 +25,7 @@ limitations under the License.
           <dh-create-userrole-masterdata-tab
             (formReady)="addChildForm('masterData', $event)"
             (valueChange)="patchUserRole($event)"
+            (eicFunctionSelected)="eicFunctionSelected($event)"
           ></dh-create-userrole-masterdata-tab>
         </watt-tab>
         <watt-tab [label]="t('tabs.permissions.tabLabel')">

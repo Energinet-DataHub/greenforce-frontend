@@ -27,7 +27,7 @@ import { DhAdminCreateUserRoleManagementDataAccessApiStore } from '@energinet-da
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { provideComponentStore } from '@ngrx/component-store';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { CreateUserRoleDto } from '@energinet-datahub/dh/shared/domain';
+import { CreateUserRoleDto, EicFunction } from '@energinet-datahub/dh/shared/domain';
 import { Router } from '@angular/router';
 import {
   dhAdminPath,
@@ -82,6 +82,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   createRoleForm = this.formBuilder.group<CreateRoleForm>({});
   userRole: CreateUserRoleDto;
   selectablePermissions$ = this.store.selectablePermissions$;
+  canSelectPermissions = false;
 
   private destroy$ = new Subject<void>();
 
@@ -94,7 +95,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
     this.userRole = {
       name: '',
       description: '',
-      eicFunction: 'BalanceResponsibleParty',
+      eicFunction: EicFunction.BalanceResponsibleParty,
       status: 'Active',
       permissions: [],
     };
@@ -115,6 +116,8 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
           this.createRoleForm.enable();
         }
       });
+
+      this.store.getSelectablePermissions(this.userRole.eicFunction);
   }
 
   ngOnDestroy(): void {
@@ -148,6 +151,12 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   patchUserRole(patch: Partial<CreateUserRoleDto>) {
     if (!this.userRole) throw new Error('Missing user role');
     this.userRole = { ...this.userRole, ...patch };
+  }
+
+  eicFunctionSelected(eicFunction: EicFunction)
+  {
+    this.patchUserRole({permissions: []});
+    this.store.getSelectablePermissions(eicFunction);
   }
 
   private readonly backToOverviewAfterSave = () => {

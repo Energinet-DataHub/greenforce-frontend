@@ -58,7 +58,7 @@ export class DhAdminCreateUserRoleManagementDataAccessApiStore extends Component
     super(initialState);
   }
 
-  private readonly getSelectablePermissions = this.effect(
+  public readonly getSelectablePermissions = this.effect(
     (trigger$: Observable<EicFunction>) =>
       trigger$.pipe(
         switchMap((x) =>
@@ -67,7 +67,7 @@ export class DhAdminCreateUserRoleManagementDataAccessApiStore extends Component
             .pipe(
               tapResponse(
                 (response) => {
-                  this.updatePermissions(response);
+                  this.updatePermissions(response ?? []);
                   this.setLoading(LoadingState.LOADED);
                 },
                 () => {
