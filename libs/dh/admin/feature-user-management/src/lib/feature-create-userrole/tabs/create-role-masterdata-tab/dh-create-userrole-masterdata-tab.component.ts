@@ -126,7 +126,7 @@ export class DhCreateUserroleMasterdataTabComponent
       .subscribe((value) => {
         if (this.userRoleForm.controls.eicFunction.enabled)
           this.eicFunctionSelected.emit(value);
-      } );
+      });
   }
 
   ngOnDestroy(): void {
