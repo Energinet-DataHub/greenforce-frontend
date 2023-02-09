@@ -1027,6 +1027,8 @@
         }
       },
       "editUserRole": {
+        "saveSuccess": "Brugerrollen blev opdateret",
+        "saveError": "Noget gik galt. Brugerrollen blev ikke opdateret. Prøv igen",
         "tab": {
           "masterData": {
             "tabLabel": "Stamdata",

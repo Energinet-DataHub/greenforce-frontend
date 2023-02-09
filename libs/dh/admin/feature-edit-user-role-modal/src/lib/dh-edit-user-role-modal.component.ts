@@ -25,11 +25,13 @@ import {
   OnDestroy,
   ViewChild,
 } from '@angular/core';
+import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { map, Subject, takeUntil } from 'rxjs';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
@@ -88,6 +90,8 @@ export class DhEditUserRoleModalComponent
     DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
   );
   private readonly formBuilder = inject(FormBuilder);
+  private readonly toastService = inject(WattToastService);
+  private readonly transloco = inject(TranslocoService);
 
   private destroy$ = new Subject<void>();
 
@@ -147,12 +151,30 @@ export class DhEditUserRoleModalComponent
       permissions: userRole.permissions,
     };
 
-    const onSuccessFn = () => this.closeModal(true);
+    const onSuccessFn = () => {
+      const message = this.transloco.translate(
+        'admin.userManagement.editUserRole.saveSuccess'
+      );
+
+      this.toastService.open({ type: 'success', message });
+      this.closeModal(true);
+    };
+
+    const onErrorFn = (statusCode: HttpStatusCode) => {
+      if (statusCode !== HttpStatusCode.BadRequest) {
+        const message = this.transloco.translate(
+          'admin.userManagement.editUserRole.saveError'
+        );
+
+        this.toastService.open({ type: 'danger', message });
+      }
+    };
 
     this.userRoleEditStore.updateUserRole({
       userRoleId: userRole.id,
       updatedUserRole,
       onSuccessFn,
+      onErrorFn,
     });
   }
 }
