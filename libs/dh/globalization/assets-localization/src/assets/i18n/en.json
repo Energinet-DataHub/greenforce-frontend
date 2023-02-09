@@ -1023,6 +1023,8 @@
         }
       },
       "editUserRole": {
+        "saveSuccess": "The user role was updated",
+        "saveError": "Something went wrong. The user role could not be updated. Please try again",
         "tab": {
           "masterData": {
             "tabLabel": "Master data",

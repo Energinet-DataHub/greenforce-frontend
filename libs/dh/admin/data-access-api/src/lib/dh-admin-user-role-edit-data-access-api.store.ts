@@ -61,13 +61,14 @@ export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEdit
         userRoleId: string;
         updatedUserRole: UpdateUserRoleDto;
         onSuccessFn: () => void;
+        onErrorFn: (statusCode: HttpStatusCode) => void;
       }>
     ) =>
       trigger$.pipe(
         tap(() => {
           this.patchState({ requestState: LoadingState.LOADING });
         }),
-        exhaustMap(({ userRoleId, updatedUserRole, onSuccessFn }) =>
+        exhaustMap(({ userRoleId, updatedUserRole, onSuccessFn, onErrorFn }) =>
           this.httpClient
             .v1MarketParticipantUserRoleUpdatePut(userRoleId, updatedUserRole)
             .pipe(
@@ -84,6 +85,7 @@ export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEdit
                 },
                 (error: HttpErrorResponse) => {
                   this.handleError(error);
+                  onErrorFn(error.status);
                 }
               )
             )
