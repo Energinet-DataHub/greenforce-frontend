@@ -42,5 +42,5 @@ export class WattDescriptionListComponent {
   @Input() groups: WattDescriptionListGroups = [];
   @HostBinding('style.--watt-description-list-groups-per-row')
   @Input()
-  groupsPerRow = 3;
+  groupsPerRow!: number;
 }
