@@ -25,7 +25,7 @@ import {
   MarketParticipantUserRoleHttp,
   CreateUserRoleDto,
   SelectablePermissionsDto,
-  EicFunction
+  EicFunction,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface UserRoleCreate {
