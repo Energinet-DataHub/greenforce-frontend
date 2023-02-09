@@ -19,7 +19,7 @@ import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { WattDescriptionListComponent } from './watt-description-list.component';
 
 export default {
-  title: 'Components/WattDescriptionList',
+  title: 'Components/Description List',
   decorators: [
     moduleMetadata({
       imports: [WattDescriptionListComponent],
@@ -27,25 +27,27 @@ export default {
   ],
 } as Meta;
 
-export const Overview: Story<WattDescriptionListComponent> = (args) => ({
+const Template: Story<WattDescriptionListComponent> = (args) => ({
   props: args,
   template: `
     <watt-description-list [groups]="groups" [groupsPerRow]="groupsPerRow"></watt-description-list>
   `,
 });
 
-Overview.args = {
+export const Default = Template.bind({});
+
+Default.args = {
   groups: [
     { term: 'Term 1', description: 'Description 1' },
     { term: 'Term 2', description: 'Description 2' },
-    { term: 'Term 3', description: 'Description 3', forceNewRow: true },
+    { term: 'Term 3', description: 'Description 3' },
     { term: 'Term 4', description: 'Description 4' },
     { term: 'Term 5', description: 'Description 5' },
   ],
   groupsPerRow: 3,
 };
 
-Overview.argTypes = {
+Default.argTypes = {
   groups: {
     description: '`WattDescriptionListGroups`',
     table: {
@@ -58,4 +60,17 @@ Overview.argTypes = {
     },
     description: 'Number of groups per row',
   },
+};
+
+export const ForceNewRow = Template.bind({});
+
+ForceNewRow.args = {
+  groups: [
+    { term: 'Term 1', description: 'Description 1' },
+    { term: 'Term 2', description: 'Description 2' },
+    { term: 'Term 3', description: 'Description 3', forceNewRow: true },
+    { term: 'Term 4', description: 'Description 4' },
+    { term: 'Term 5', description: 'Description 5' },
+  ],
+  groupsPerRow: 3,
 };

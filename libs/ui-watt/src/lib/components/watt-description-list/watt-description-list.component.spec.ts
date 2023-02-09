@@ -22,9 +22,9 @@ import { render, screen } from '@testing-library/angular';
 import { Story } from '@storybook/angular';
 
 import { WattDescriptionListComponent } from './watt-description-list.component';
-import Meta, { Overview } from './watt-description-list.stories';
+import Meta, { Default } from './watt-description-list.stories';
 
-const overviewStory = composeStory(Overview, Meta);
+const defaultStory = composeStory(Default, Meta);
 
 describe(WattDescriptionListComponent.name, () => {
   async function setup(story: Story, clickSpy?: unknown) {
@@ -35,7 +35,7 @@ describe(WattDescriptionListComponent.name, () => {
   }
 
   it('renders the correct amount of group of terms', async () => {
-    await setup(overviewStory);
+    await setup(defaultStory);
     expect(screen.getAllByRole('term').length).toBe(5);
     expect(screen.getAllByRole('definition').length).toBe(5);
   });

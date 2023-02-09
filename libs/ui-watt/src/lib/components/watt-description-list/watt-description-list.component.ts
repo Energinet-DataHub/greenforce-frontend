@@ -25,6 +25,10 @@ import {
 
 import { WattDescriptionListGroups } from './watt-description-list-term';
 
+/**
+ * Usage:
+ * `import { WattDescriptionListComponent } from '@energinet-datahub/watt/description-list';`
+ */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
