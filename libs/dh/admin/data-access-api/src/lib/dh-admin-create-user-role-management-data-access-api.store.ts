@@ -17,7 +17,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain';
 import {
   ErrorState,
   LoadingState,
@@ -26,6 +25,7 @@ import {
   MarketParticipantUserRoleHttp,
   CreateUserRoleDto,
   SelectablePermissionsDto,
+  EicFunction
 } from '@energinet-datahub/dh/shared/domain';
 
 interface UserRoleCreate {
