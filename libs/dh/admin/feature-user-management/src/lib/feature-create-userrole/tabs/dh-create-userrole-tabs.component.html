@@ -1,0 +1,53 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let t; read: 'admin.userManagement.createrole'">
+  <watt-card *rxLet="isLoading$ as isLoading">
+    <watt-card-title>
+      <h4>{{ t("headline") }}</h4>
+    </watt-card-title>
+    <form [formGroup]="createRoleForm" (ngSubmit)="onSubmit()">
+      <watt-tabs>
+        <watt-tab [label]="t('tabs.masterdata.tabLabel')">
+          <dh-create-userrole-masterdata-tab
+            (formReady)="addChildForm('masterData', $event)"
+            (valueChange)="patchUserRole($event)"
+          ></dh-create-userrole-masterdata-tab>
+        </watt-tab>
+        <watt-tab [label]="t('tabs.permissions.tabLabel')">
+          <dh-create-userrole-permissions-tab
+            (valueChange)="patchUserRole($event)"
+          ></dh-create-userrole-permissions-tab>
+        </watt-tab>
+      </watt-tabs>
+      <div class="buttons">
+        <watt-button
+          type="button"
+          (click)="backToOverview()"
+          variant="secondary"
+          >{{ t("cancel") }}</watt-button
+        >
+        <watt-button
+          type="submit"
+          [disabled]="
+            this.userRole.permissions.length <= 0 || createRoleForm.invalid
+          "
+          >{{ t("save") }}
+        </watt-button>
+      </div>
+    </form>
+  </watt-card>
+</ng-container>

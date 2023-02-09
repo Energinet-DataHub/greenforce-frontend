@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 
@@ -27,6 +27,8 @@ import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
 import { DhUserStatusComponent } from '../shared/dh-user-status.component';
+import { DhEditUserModalComponent } from './dh-edit-user-modal/dh-edit-user-modal.component';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-user-drawer',
@@ -53,6 +55,8 @@ import { DhUserStatusComponent } from '../shared/dh-user-status.component';
     WattButtonModule,
     DhTabsComponent,
     DhUserStatusComponent,
+    DhEditUserModalComponent,
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhUserDrawerComponent {
@@ -61,13 +65,22 @@ export class DhUserDrawerComponent {
 
   selectedUser: UserOverviewItemDto | null = null;
 
+  @Output() closed = new EventEmitter<void>();
+
+  isEditUserModalVisible = false;
+
   onClose(): void {
     this.drawer.close();
+    this.closed.emit();
     this.selectedUser = null;
   }
 
   open(user: UserOverviewItemDto): void {
     this.selectedUser = user;
     this.drawer.open();
+  }
+
+  modalOnClose(): void {
+    this.isEditUserModalVisible = false;
   }
 }

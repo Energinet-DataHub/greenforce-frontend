@@ -28,7 +28,7 @@ import {
   AppSettingsStore,
   Resolution,
 } from '@energinet-datahub/eo/shared/services';
-import { LetModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
 import {
   differenceInDays,
   differenceInMonths,

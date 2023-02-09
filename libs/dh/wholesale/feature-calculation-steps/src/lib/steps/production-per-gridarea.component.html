@@ -16,106 +16,102 @@ limitations under the License.
 -->
 
 <ng-container *transloco="let transloco; read: 'wholesale.processStepResults'">
-  <ng-container *rxLet="batch$; let batch">
-    <ng-container *rxLet="gridArea$; let gridArea">
-      <ng-container *ngIf="batch && gridArea">
-        <h3
-          class="headline watt-headline-2 watt-on-light--high-emphasis"
-          style="display: flex; align-items: center"
-        >
-          <watt-badge size="large" class="watt-space-inline-s">{{
-            transloco("step", { step: 1 })
-          }}</watt-badge>
-          {{ transloco("aggregatedProductionPerGridArea") }}
-        </h3>
-        <p class="sub-headline">
-          <span class="watt-label watt-on-light--high-emphasis">{{
-            transloco("gridArea")
-          }}</span>
-          <small *transloco="let transloco; read: 'wholesale'">
+  <ng-container *rxLet="vm$; let vm">
+    <h3
+      class="headline watt-headline-2 watt-on-light--high-emphasis"
+      style="display: flex; align-items: center"
+    >
+      <watt-badge size="large" class="watt-space-inline-s">{{
+        transloco("step", { step: 1 })
+      }}</watt-badge>
+      {{ transloco("aggregatedProductionPerGridArea") }}
+    </h3>
+    <p class="sub-headline">
+      <span class="watt-label watt-on-light--high-emphasis">{{
+        transloco("gridArea")
+      }}</span>
+      <small *transloco="let transloco; read: 'wholesale'">
+        {{
+          transloco("calculationSteps.breadcrumb", {
+            gridAreaCode: vm.gridArea.code,
+            gridAreaName: vm.gridArea.name
+          })
+        }}
+      </small>
+    </p>
+
+    <ng-container
+      *rxLet="
+        processStepResults$;
+        let processStepResults;
+        suspense: loadingProcessStepResults;
+        error: loadingProcessStepResultsError;
+        errorTrigger: loadingProcessStepResultsErrorTrigger$
+      "
+    >
+      <dl *ngIf="processStepResults">
+        <div>
+          <dt class="watt-label watt-on-light--high-emphasis">
+            {{ transloco("meteringPointType") }}
+          </dt>
+          <dd class="watt-text-s">
             {{
-              transloco("calculationSteps.breadcrumb", {
-                gridAreaCode: gridArea.code,
-                gridAreaName: gridArea.name
-              })
+              transloco(
+                "processStepMeteringPointType." +
+                  processStepResults.processStepMeteringPointType
+              )
             }}
-          </small>
-        </p>
-
-        <ng-container
-          *rxLet="
-            processStepResults$;
-            let processStepResults;
-            suspense: loadingProcessStepResults;
-            error: loadingProcessStepResultsError;
-            errorTrg: loadingProcessStepResultsErrorTrigger$
-          "
-        >
-          <dl *ngIf="processStepResults">
-            <div>
-              <dt class="watt-label watt-on-light--high-emphasis">
-                {{ transloco("meteringPointType") }}
-              </dt>
-              <dd class="watt-text-s">
-                {{
-                  transloco(
-                    "processStepMeteringPointType." +
-                      processStepResults.processStepMeteringPointType
-                  )
-                }}
-              </dd>
-            </div>
-            <div>
-              <dt class="watt-label watt-on-light--high-emphasis">
-                {{ transloco("calculationPeriod") }}
-              </dt>
-              <dd class="watt-text-s">
-                {{ batch.periodStart | dhDate }} -
-                {{ batch.periodEnd | dhDate }}
-              </dd>
-            </div>
-            <div class="new-row">
-              <dt class="watt-label watt-on-light--high-emphasis">
-                {{ transloco("sum") }}
-              </dt>
-              <dd class="watt-text-s">{{ processStepResults.sum }} kWh</dd>
-            </div>
-            <div>
-              <dt class="watt-label watt-on-light--high-emphasis">
-                {{ transloco("min") }}
-              </dt>
-              <dd class="watt-text-s">{{ processStepResults.min }} kWH</dd>
-            </div>
-            <div>
-              <dt class="watt-label watt-on-light--high-emphasis">
-                {{ transloco("max") }}
-              </dt>
-              <dd class="watt-text-s">{{ processStepResults.max }} kWh</dd>
-            </div>
-          </dl>
-          <dh-wholesale-time-series-points
-            *ngIf="processStepResults"
-            [data]="processStepResults.timeSeriesPoints"
-          ></dh-wholesale-time-series-points>
-        </ng-container>
-
-        <ng-template #loadingProcessStepResults>
-          <div class="center">
-            <watt-spinner></watt-spinner>
-          </div>
-        </ng-template>
-
-        <ng-template #loadingProcessStepResultsError>
-          <div class="center">
-            <watt-empty-state
-              icon="custom-power"
-              [title]="transloco('loadProcessStepResultsErrorTitle')"
-              [message]="transloco('loadProcessStepResultsErrorMessage')"
-            >
-            </watt-empty-state>
-          </div>
-        </ng-template>
-      </ng-container>
+          </dd>
+        </div>
+        <div>
+          <dt class="watt-label watt-on-light--high-emphasis">
+            {{ transloco("calculationPeriod") }}
+          </dt>
+          <dd class="watt-text-s">
+            {{ vm.batch.periodStart | dhDate }} -
+            {{ vm.batch.periodEnd | dhDate }}
+          </dd>
+        </div>
+        <div class="new-row">
+          <dt class="watt-label watt-on-light--high-emphasis">
+            {{ transloco("sum") }}
+          </dt>
+          <dd class="watt-text-s">{{ processStepResults.sum }} kWh</dd>
+        </div>
+        <div>
+          <dt class="watt-label watt-on-light--high-emphasis">
+            {{ transloco("min") }}
+          </dt>
+          <dd class="watt-text-s">{{ processStepResults.min }} kWH</dd>
+        </div>
+        <div>
+          <dt class="watt-label watt-on-light--high-emphasis">
+            {{ transloco("max") }}
+          </dt>
+          <dd class="watt-text-s">{{ processStepResults.max }} kWh</dd>
+        </div>
+      </dl>
+      <dh-wholesale-time-series-points
+        *ngIf="processStepResults"
+        [data]="processStepResults.timeSeriesPoints"
+      ></dh-wholesale-time-series-points>
     </ng-container>
+
+    <ng-template #loadingProcessStepResults>
+      <div class="center">
+        <watt-spinner></watt-spinner>
+      </div>
+    </ng-template>
+
+    <ng-template #loadingProcessStepResultsError>
+      <div class="center">
+        <watt-empty-state
+          icon="custom-power"
+          [title]="transloco('loadProcessStepResultsErrorTitle')"
+          [message]="transloco('loadProcessStepResultsErrorMessage')"
+        >
+        </watt-empty-state>
+      </div>
+    </ng-template>
   </ng-container>
 </ng-container>

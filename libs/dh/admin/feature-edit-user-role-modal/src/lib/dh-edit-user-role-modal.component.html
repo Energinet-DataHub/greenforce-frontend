@@ -1,0 +1,75 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let t; read: 'admin.userManagement.editUserRole'">
+  <watt-modal [title]="roleName$ | push" (closed)="closeModal($event)">
+    <form
+      [formGroup]="userRoleEditForm"
+      id="user-role-edit-form"
+      *rxLet="userRole$ as userRole"
+      (ngSubmit)="save(userRole)"
+    >
+      <watt-tabs>
+        <watt-tab [label]="t('tab.masterData.tabLabel')">
+          <div class="form-wrapper">
+            <watt-form-field class="watt-space-stack-l">
+              <watt-label>{{ t("tab.masterData.nameInputLabel") }}</watt-label>
+              <input wattInput type="text" formControlName="name" />
+              <watt-error
+                *ngIf="userRoleEditForm.controls.name?.errors?.['nameAlreadyExists']"
+              >
+                {{ t("tab.masterData.errors.nameAlreadyExists") }}
+              </watt-error>
+              <watt-error
+                *ngIf="userRoleEditForm.controls.name?.errors?.['required']"
+              >
+                {{ t("tab.masterData.errors.required") }}
+              </watt-error>
+            </watt-form-field>
+
+            <watt-form-field>
+              <watt-label>{{
+                t("tab.masterData.descriptionInputLabel")
+              }}</watt-label>
+              <textarea wattInput formControlName="description"></textarea>
+              <watt-error
+                *ngIf="userRoleEditForm.controls.description?.errors?.['required']"
+              >
+                {{ t("tab.masterData.errors.required") }}
+              </watt-error>
+            </watt-form-field>
+          </div>
+        </watt-tab>
+
+        <watt-tab [label]="t('tab.permissions.tabLabel')"></watt-tab>
+      </watt-tabs>
+    </form>
+
+    <watt-modal-actions>
+      <watt-button variant="secondary" (click)="closeModal(false)">
+        {{ t("cancel") }}
+      </watt-button>
+      <watt-button
+        type="submit"
+        formId="user-role-edit-form"
+        [disabled]="userRoleEditForm.invalid || userRoleEditForm.pristine"
+        [loading]="isLoading$ | push"
+      >
+        {{ t("save") }}
+      </watt-button>
+    </watt-modal-actions>
+  </watt-modal>
+</ng-container>

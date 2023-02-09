@@ -14,20 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
-import { LetModule, PushModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template/let';
+import { PushModule } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import {
+  DhAdminUserManagementDataAccessApiStore,
+  DhAdminUserRolesManagementDataAccessApiStore,
+  DhUserActorsDataAccessApiStore,
+} from '@energinet-datahub/dh/admin/data-access-api';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
+import {
+  SortDirection,
+  UserOverviewSortProperty,
+  UserStatus,
+} from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
+import { DhUsersTabSearchComponent } from './dh-users-tab-search.component';
+import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.component';
+import { DhUsersTabActorFilterComponent } from './dh-users-tab-actor-filter.component';
+import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filter.component';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhInviteUserModalComponent } from '../../invite-user-modal/dh-invite-user-modal.component';
 
 @Component({
   selector: 'dh-users-tab',
@@ -36,10 +53,14 @@ import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
   styles: [
     `
       :host {
-        background-color: var(--watt-color-neutral-white);
         display: block;
         /* TODO: Add spacing variable for 24px */
         margin: 24px var(--watt-space-s);
+      }
+
+      .filter-container {
+        display: inline-flex;
+        gap: var(--watt-space-m);
       }
 
       .users-overview {
@@ -65,7 +86,11 @@ import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
       }
     `,
   ],
-  providers: [provideComponentStore(DhAdminUserManagementDataAccessApiStore)],
+  providers: [
+    provideComponentStore(DhAdminUserManagementDataAccessApiStore),
+    provideComponentStore(DhUserActorsDataAccessApiStore),
+    provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
+  ],
   imports: [
     CommonModule,
     LetModule,
@@ -74,27 +99,71 @@ import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
     WattSpinnerModule,
     WattCardModule,
     DhUsersTabTableComponent,
+    DhUsersTabSearchComponent,
+    DhUsersTabStatusFilterComponent,
     DhSharedUiPaginatorComponent,
     DhUsersTabGeneralErrorComponent,
+    DhUsersTabActorFilterComponent,
+    DhUsersTabUserRoleFilterComponent,
+    WattButtonModule,
+    DhPermissionRequiredDirective,
+    DhInviteUserModalComponent,
   ],
 })
 export class DhUsersTabComponent {
-  private readonly store = inject(DhAdminUserManagementDataAccessApiStore);
+  readonly users$ = this.store.users$;
+  readonly totalUserCount$ = this.store.totalUserCount$;
 
-  users$ = this.store.users$;
-  totalUserCount$ = this.store.totalUserCount$;
+  readonly pageIndex$ = this.store.paginatorPageIndex$;
+  readonly pageSize$ = this.store.pageSize$;
 
-  pageIndex$ = this.store.paginatorPageIndex$;
-  pageSize$ = this.store.pageSize$;
+  readonly isLoading$ =
+    this.store.isLoading$ ||
+    this.actorStore.isLoading$ ||
+    this.userRolesStore.isLoading$;
+  readonly hasGeneralError$ = this.store.hasGeneralError$;
 
-  isLoading$ = this.store.isLoading$;
-  hasGeneralError$ = this.store.hasGeneralError$;
+  readonly initialStatusFilter$ = this.store.initialStatusFilter$;
+
+  readonly actorOptions$ = this.actorStore.actors$;
+  readonly userRolesOptions$ = this.userRolesStore.rolesOptions$;
+  readonly canChooseMultipleActors$ = this.actorStore.canChooseMultipleActors$;
+
+  constructor(
+    private store: DhAdminUserManagementDataAccessApiStore,
+    private actorStore: DhUserActorsDataAccessApiStore,
+    private userRolesStore: DhAdminUserRolesManagementDataAccessApiStore
+  ) {
+    this.actorStore.getActors();
+    this.userRolesStore.getRoles();
+  }
 
   onPageChange(event: PageEvent): void {
     this.store.updatePageMetadata({
       pageIndex: event.pageIndex,
       pageSize: event.pageSize,
     });
+  }
+
+  onSearch(value: string): void {
+    this.store.updateSearchText(value);
+  }
+
+  onStatusChanged(value: UserStatus[]): void {
+    this.store.updateStatusFilter(value);
+  }
+
+  sortChanged = (
+    sortProperty: UserOverviewSortProperty,
+    direction: SortDirection
+  ) => this.store.updateSort(sortProperty, direction);
+
+  onActorFilterChanged(actorId: string | undefined): void {
+    this.store.updateActorFilter(actorId);
+  }
+
+  onUserRolesFilterChanged(userRoles: string[]): void {
+    this.store.updateUserRoleFilter(userRoles);
   }
 
   reloadUsers(): void {

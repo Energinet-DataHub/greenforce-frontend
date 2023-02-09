@@ -20,20 +20,23 @@ import {
   Component,
   Input,
   OnChanges,
+  OnDestroy,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { translate, TranslocoModule } from '@ngneat/transloco';
+import { Subject, takeUntil } from 'rxjs';
 
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
-import { UserRoleInfoDto } from '@energinet-datahub/dh/shared/domain';
+import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import {
   WattTableDataSource,
   WattTableColumnDef,
   WATT_TABLE,
+  WattTableComponent,
 } from '@energinet-datahub/watt/table';
+
+import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
+import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.component';
 
 @Component({
   selector: 'dh-roles-tab-table',
@@ -50,28 +53,44 @@ import {
   changeDetection: ChangeDetectionStrategy.Default,
   imports: [
     WATT_TABLE,
-    CommonModule,
-    TranslocoModule,
-    DhEmDashFallbackPipeScam,
     DhSharedUiPaginatorComponent,
     DhRoleStatusComponent,
+    DhRoleDrawerComponent,
+    TranslocoModule,
   ],
 })
-export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
-  @Input() roles: UserRoleInfoDto[] = [];
+export class DhRolesTabTableComponent
+  implements OnChanges, AfterViewInit, OnDestroy
+{
+  private readonly destroy$ = new Subject<void>();
 
-  @ViewChild(DhSharedUiPaginatorComponent)
-  paginator!: DhSharedUiPaginatorComponent;
+  activeRow: UserRoleDto | undefined = undefined;
 
-  readonly dataSource: WattTableDataSource<UserRoleInfoDto> =
-    new WattTableDataSource<UserRoleInfoDto>();
+  @Input() roles: UserRoleDto[] = [];
 
-  columns: WattTableColumnDef<UserRoleInfoDto> = {
+  @Input() paginator!: DhSharedUiPaginatorComponent;
+
+  @ViewChild(DhRoleDrawerComponent)
+  drawer!: DhRoleDrawerComponent;
+
+  @ViewChild(WattTableComponent<UserRoleDto>)
+  table!: WattTableComponent<UserRoleDto>;
+
+  readonly dataSource: WattTableDataSource<UserRoleDto> =
+    new WattTableDataSource<UserRoleDto>();
+
+  columns: WattTableColumnDef<UserRoleDto> = {
     name: { accessor: 'name' },
-    description: { accessor: 'description' },
-    marketrole: { accessor: 'eicFunction' },
+    marketRole: { accessor: 'eicFunction' },
     status: { accessor: 'status' },
   };
+
+  filteredAndSortedData: UserRoleDto[] = [];
+
+  activeRowComparator = (
+    currentRow: UserRoleDto,
+    activeRow: UserRoleDto
+  ): boolean => currentRow.id === activeRow.id;
 
   translateHeader = (key: string) =>
     translate(`admin.userManagement.tabs.roles.table.columns.${key}`);
@@ -79,9 +98,43 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   ngOnChanges() {
     this.dataSource.data = this.roles;
     this.dataSource.paginator = this.paginator?.instance;
+    this.updateFilteredAndSortedData();
   }
 
   ngAfterViewInit() {
+    this.table.sortChange.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.updateFilteredAndSortedData();
+    });
+
     this.dataSource.paginator = this.paginator?.instance;
+
+    this.dataSource.sortingDataAccessor = (data, header) =>
+      header === 'marketRole'
+        ? translate(`marketParticipant.marketRoles.${data.eicFunction}`)
+        : (data as unknown as { [index: string]: string })[header];
+
+    this.updateFilteredAndSortedData();
+  }
+
+  private updateFilteredAndSortedData() {
+    if (this.dataSource.sort)
+      this.filteredAndSortedData = this.dataSource.sortData(
+        this.dataSource.filteredData,
+        this.dataSource.sort
+      );
+  }
+
+  onRowClick(row: UserRoleDto): void {
+    this.drawer.open(row);
+    this.activeRow = row;
+  }
+
+  onClosed(): void {
+    this.activeRow = undefined;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

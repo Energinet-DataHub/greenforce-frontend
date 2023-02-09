@@ -18,3 +18,7 @@
   display: block;
   max-width: 300px;
 }
+
+watt-form-field:not(:last-of-type) {
+  margin-bottom: var(--watt-space-l);
+}

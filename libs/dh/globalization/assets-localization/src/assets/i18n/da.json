@@ -503,7 +503,7 @@
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
         "masterData": {
-          "labelActorNumber": "Aktørnummer",
+          "labelActorNumber": "Aktør id",
           "labelStatus": "Status",
           "labelActorName": "Aktørnavn",
           "fieldRequiredErrorText": "Feltet er påkrævet.",
@@ -529,61 +529,53 @@
         }
       }
     },
+    "marketRolesOverview": {
+      "marketRoles": "markedsroller",
+      "download": "Download",
+      "columns": {
+        "name": "Navn",
+        "description": "Beskrivelse"
+      }
+    },
     "marketRoles": {
-      "BalanceResponsibleParty": "Balance responsible party",
-      "BalancingServiceProvider": "Balancing service provider",
-      "BillingAgent": "Billing agent",
-      "CapacityTrader": "Capacity trader",
-      "Consumer": "Consumer",
-      "ConsumptionResponsibleParty": "Consumption responsible party",
-      "ConsentAdministrator": "Consent administrator",
-      "CoordinatedCapacityCalculator": "Coordinated capacity calculator",
-      "CoordinationCentreOperator": "Coordination centre operator",
-      "DataProvider": "Data provider",
-      "EnergyServiceCompany": "Energy service company",
-      "EnergySupplier": "Energy supplier",
-      "EnergyTrader": "Energy trader",
-      "GridAccessProvider": "Grid access provider",
-      "ImbalanceSettlementResponsible": "Imbalance settlement responsible",
-      "InterconnectionTradeResponsible": "Interconnection trade responsible",
-      "LfcOperator": "LFC operator",
-      "MarketInformationAggregator": "Market information aggregator",
-      "MarketOperator": "Market operator",
-      "MeritOrderListResponsible": "Merit order list responsible",
-      "MeterAdministrator": "Meter administrator",
-      "MeterOperator": "Meter operator",
-      "MeteredDataAdministrator": "Metered data administrator",
-      "MeteredDataAggregator": "Metered data aggregator",
-      "MeteredDataCollector": "Metered data collector",
-      "MeteredDataResponsible": "Metered data responsible",
-      "MeteringPointAdministrator": "Metering point administrator",
-      "ModelMergingAgent": "Model merging agent",
-      "ModellingAuthority": "Modelling authority",
-      "NominatedElectricityMarketOperator": "Nominated electricity market operator",
-      "NominationValidator": "Nomination validator",
-      "PartyAdministrator": "Party administrator",
-      "PartyConnectedToTheGrid": "Party connected to the grid",
-      "Producer": "Producer",
-      "ProductionResponsibleParty": "Production responsible party",
-      "ReconciliationAccountable": "Reconciliation accountable",
-      "ReconciliationResponsible": "Reconciliation responsible",
-      "ReserveAllocator": "Reserve allocator",
-      "ResourceAggregator": "Resource aggregator",
-      "ResourceCapacityMechanismOperator": "Resource capacity mechanism operator",
-      "ResourceProvider": "Resource provider",
-      "Scheduling": "Scheduling",
-      "Agent": "Agent",
-      "SchedulingAreaResponsible": "Scheduling area responsible",
-      "SystemOperator": "System operator",
-      "TradeResponsibleParty": "Trade responsible party",
-      "TransmissionCapacityAllocator": "Transmission capacity allocator",
-      "DanishEnergyAgency": "Styrelsen"
+      "BalanceResponsibleParty": "Balanceansvarlig",
+      "BillingAgent": "Faktureringsagent",
+      "EnergySupplier": "Energileverandør",
+      "GridAccessProvider": "Netadgangsudbyder",
+      "ImbalanceSettlementResponsible": "Ubalanceafvikling ansvarlig",
+      "MeteredDataAdministrator": "Måledataadministrator",
+      "MeteredDataResponsible": "Måledataansvarlig",
+      "MeteringPointAdministrator": "Målepunktsadministrator",
+      "SystemOperator": "Systemoperatør",
+      "DanishEnergyAgency": "Energistyrelsen",
+      "ElOverblik": "ElOverblik",
+      "DataHubAdministrator": "DataHub administrator",
+      "IndependentAggregator": "Uafhængig aggregator",
+      "SerialEnergyTrader": "Seriel elhandler"
+    },
+    "marketRoleDescriptions": {
+      "BalanceResponsibleParty": "En Balanceansvarlig Part er ansvarlig for sine ubalancer, dvs. forskellen mellem den energimængde, der fysisk tilføres eller trækkes ud af systemet, og den endelige nominerede energimængde, inklusive enhver ubalancejustering inden for en given ubalanceafviklingsperiode. Bemærk: Baseret på elbalancering - Art.2 Definitioner. Yderligere information: Ansvar for ubalancer (Balanceansvar) kræver en kontrakt, der beviser økonomisk sikkerhed med den ansvarlige for ubalanceafvikling i planlægningsområdet, hvilket giver parten ret til at operere på markedet.",
+      "BillingAgent": "Den part, der er ansvarlig for at fakturere en berørt part.",
+      "EnergySupplier": "En energileverandør leverer elektricitet til eller tager elektricitet fra en part, der er tilsluttet nettet på et regnskabspunkt. Yderligere information: Et Regnskabspunkt kan kun have én Energileverandør. Når der er behov for yderligere leverandører, leverer/tager energileverandøren forskellen mellem etableret (fx målt eller beregnet) produktion/forbrug og de (akkumulerede) kontrakter med andre leverandører",
+      "GridAccessProvider": "En part, der er ansvarlig for at give adgang til nettet gennem et Regnskabspunkt for energiforbrug eller -produktion hos den, der er tilsluttet til nettet. Netadgangsudbyderen er også ansvarlig for at oprette og afslutte regnskabspunkter.",
+      "ImbalanceSettlementResponsible": "En part, der er ansvarlig for afregning af forskellen mellem de aftalte mængder med fysisk levering og de fastsatte mængder af energiprodukter for de Balanceansvarlige i et Planlægningsområde. Bemærk: Den ansvarlige for ubalanceafvikling kan uddelegere faktureringsansvaret til en mere generisk rolle, såsom en faktureringsagent.",
+      "MeteredDataAdministrator": "En part, der er ansvarlig for lagring og distribution af validerede målte data.",
+      "MeteredDataResponsible": "En part, der er ansvarlig for etablering og validering af målte data baseret på de indsamlede data modtaget fra Måledataindsamleren. Parten er ansvarlig for historikken for målte data for et Målepunkt.",
+      "MeteringPointAdministrator": "En part, der er ansvarlig for at administrere og stille Målepunktets karakteristika til rådighed, herunder registrere de parter, der er knyttet til Målepunktet.",
+      "SystemOperator": " ",
+      "DanishEnergyAgency": " ",
+      "ElOverblik": " ",
+      "DataHubAdministrator": " ",
+      "IndependentAggregator": " ",
+      "SerialEnergyTrader": " "
     },
     "organization": {
       "topBarTitle": "Organisationer",
+      "organizationsHeader": "Organisationer",
+      "marketRolesHeader": "Markedsroller",
       "columns": {
         "organization": "Organisation",
-        "gln": "Aktørnummer",
+        "gln": "Aktør id",
         "status": "Aktørstatus",
         "marketRoles": "Markedsroller",
         "gridAreas": "Netområder",
@@ -620,7 +612,7 @@
           "organizationNameLabel": "Navn",
           "businessRegistrationIdetifierLabel": "CVR-nr.",
           "streetNameLabel": "Vejnavn",
-          "streetNumberLabel": "Vej nr.",
+          "streetNumberLabel": "Husnummer",
           "zipCodeLabel": "Post nr.",
           "cityLabel": "By",
           "countryLabel": "Land",
@@ -693,20 +685,20 @@
       "noGridAreas": "Ingen netområder fundet",
       "columns": {
         "name": "Netområde",
-        "code": "Kode",
+        "code": "Netområde nr.",
         "actorName": "Netvirksomhed",
-        "actorNumber": "Netvirksomhed nr.",
+        "actorNumber": "Aktør id",
         "priceAreaCode": "Prisområde",
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til"
       },
       "detailsHeader": {
-        "code": "Netområde ID",
-        "actorId": "Aktørnummer",
+        "code": "Netområde nr.",
+        "actorId": "Aktør id",
         "fullFlexDate": "Overgang til fuld flex",
         "priceAreaCode": "Prisområde",
         "lossMeteringPoint": "Nettabsmålepunkt",
-        "correctionMeteringPoint": "Systemkorrek. målepunkt",
+        "correctionMeteringPoint": "Systemkorrektionsmålepunkt",
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til"
       },
@@ -740,6 +732,8 @@
       "topBarTitle": "Start batch",
       "startLabel": "Start",
       "dateRangeRequired": "Dato-periode påkrævet",
+      "gridAreaRequired": "Netområde påkrævet",
+      "invalidPeriod": "Ugyldig periode",
       "dateRangeLabel": "Periode",
       "gridAreaDropDownLabel": "Netområder",
       "creatingBatch": "Starter batch...",
@@ -792,11 +786,18 @@
       "loadCalculationStepsFailedTitle": "Ups! Der opstod en fejl",
       "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
     },
+    "energySuppliers": {
+      "loadingEnerySuppliersFailedTitle": "Ups! Der opstod en fejl",
+      "loadingEnerySuppliersFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
+      "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
+      "amountOfResults": "{{length}} Resultater"
+    },
     "processStepResults": {
       "step": "Trin {{step}}",
       "aggregatedProductionPerGridArea": "Aggregeret produktion per netområde",
-      "aggregatedConsumptionPerEnergySupplier": "Aggregeret forbrug per elleverandør",
+      "aggregatedConsumptionPerEnergySupplier": "Aggregeret timeforbrug per elleverandør",
       "gridArea": "Netområde",
+      "energySupplier": "El-leverandør",
       "loadProcessStepResultsErrorTitle": "Ups! Der opstod en fejl",
       "loadProcessStepResultsErrorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "meteringPointType": "Målepunktstype",
@@ -832,8 +833,48 @@
   },
   "admin": {
     "userManagement": {
+      "download": "Download",
       "drawer": {
-        "edit": "Rediger"
+        "edit": "Rediger",
+        "roles": {
+          "tabs": {
+            "masterData": {
+              "tabLabel": "Stamdata"
+            },
+            "permissions": {
+              "tabLabel": "Rettigheder",
+              "headline": "Rettigheder"
+            },
+            "history": {
+              "tabLabel": "Historik",
+              "changes": {
+                "singular": "{{ auditLogCount }} ændring",
+                "plural": "{{ auditLogCount }} ændringer"
+              },
+              "table": {
+                "columns": {
+                  "timestamp": "Tid",
+                  "entry": "Ændring"
+                },
+                "noEntries": "Ingen resultater"
+              },
+              "logs": {
+                "roles": {
+                  "Created": "<b>{{ changedByUserName }}</b> oprettede rollen",
+                  "NameChange": "<b>{{ changedByUserName }}</b> ændrede navn på rollen til <b>{{ changedValueTo }}</b>",
+                  "DescriptionChange": "<b>{{ changedByUserName }}</b> ændrede beskrivelse til <b>{{ changedValueTo }}</b>",
+                  "EicFunctionChange": "<b>{{ changedByUserName }}</b> ændrede eic function til <b>{{ changedValueTo }}</b>",
+                  "StatusChange": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ changedValueTo }}</b>",
+                  "PermissionsChange": "<b>{{ changedByUserName }}</b> ændrede rettigheder på rollen til <b>{{ changedValueTo }}</b>"
+                }
+              },
+              "generalError": {
+                "title": "Der opstod en uventet fejl",
+                "message": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl."
+              }
+            }
+          }
+        }
       },
       "topBarTitle": "Brugeradministration",
       "userStatus": {
@@ -849,13 +890,41 @@
           "tabLabel": "Stamdata",
           "name": "Navn",
           "email": "Email",
-          "phone": "Telefon"
+          "phone": "Telefon",
+          "description": "Beskrivelse",
+          "marketRole": "Markedsrolle"
         },
         "history": {
-          "tabLabel": "Historik"
+          "tabLabel": "Historik",
+          "noEntries": "Ingen resultater",
+          "changesSingular": "{{ auditLogCount }} ændring",
+          "changesPlural": "{{ auditLogCount }} ændringer",
+          "columns": {
+            "timestamp": "Tid",
+            "entry": "Ændring"
+          },
+          "logs": {
+            "roles": {
+              "Added": "<b>{{ changedByUserName }}</b> tilføjede rollen <b>{{ userRoleName }}</b>",
+              "Removed": "<b>{{ changedByUserName }}</b> fjernede rollen <b>{{ userRoleName }}</b>"
+            }
+          },
+          "generalError": {
+            "title": "Der opstod en uventet fejl",
+            "message": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl."
+          }
         },
         "users": {
+          "inviteUser": "Inviter bruger",
           "tabLabel": "Brugere",
+          "filter": {
+            "status": "Status",
+            "actor": "Aktør",
+            "userrole": "Brugerrolle"
+          },
+          "searchPlaceholder": "Søg brugere",
+          "searchActorPlaceHolder": "Vælg aktør",
+          "searchUserRolePlaceHolder": "Vælg brugerrolle",
           "usersHeadline": {
             "singular": "{{ usersCount }} bruger",
             "plural": "{{ usersCount }} brugere"
@@ -865,6 +934,7 @@
               "name": "Navn",
               "email": "Email",
               "phone": "Telefon",
+              "assignedActors": "Tildelte aktører",
               "status": "Status"
             }
           },
@@ -877,15 +947,29 @@
           }
         },
         "roles": {
-          "tabLabel": "Roller",
+          "gln": "GLN {{ actorNumber }}",
+          "tabLabel": "Brugerroller",
+          "roles": "Brugerroller",
+          "role": "Brugerrolle",
+          "errorTitle": "Ups! Der opstod en fejl",
+          "errorMessage": "Der opstod desværre en fejl, ved hentning af bruger rollerne.",
           "rolesHeadline": "Brugerroller",
+          "filter": {
+            "status": "Status",
+            "marketRole": "Markedsrolle"
+          },
           "table": {
             "columns": {
               "name": "Navn",
               "description": "Beskrivelse",
-              "marketrole": "Marketsrolle",
+              "marketRole": "Markedsrolle",
               "status": "Status"
             }
+          },
+          "createuserrole": "Ny brugerrolle",
+          "userRolesHeadline": {
+            "singular": "{{ userRolesCount }} Brugerrolle",
+            "plural": "{{ userRolesCount }} Brugerroller"
           }
         },
         "permissions": {
@@ -898,6 +982,66 @@
             "button": "Prøv igen"
           }
         }
+      },
+      "createrole": {
+        "headline": "Ny brugerrolle",
+        "save": "Opret brugerrolle",
+        "cancel": "Annuller",
+        "createRoleRequest": {
+          "start": "Opretter brugerrolle",
+          "error": "Der opstod desværre en fejl, da vi skulle oprette brugerrollen.",
+          "success": "Brugerrollen er oprettet"
+        },
+        "tabs": {
+          "masterdata": {
+            "tabLabel": "Stamdata",
+            "fieldRequiredErrorText": "Feltet er påkrævet.",
+            "nameMaxLengthErrorText": "Navn skal være under 250 karakterer",
+            "name": "Navn",
+            "description": "Beskrivelse",
+            "roleStatus": "Status",
+            "selectUserroleStatus": "Vælg status",
+            "eicFunction": "Markedsrolle",
+            "selectEicFunctionStatus": "Vælg markedsrolle"
+          },
+          "permissions": {
+            "tabLabel": "Rettigheder",
+            "title": "Rettigheder",
+            "table": {
+              "columns": {
+                "name": "Navn",
+                "description": "Beskrivelse"
+              }
+            }
+          }
+        }
+      },
+      "editUser": {
+        "cancel": "Fortryd",
+        "save": "Gem",
+        "deactivateUser": "Deaktiver bruger",
+        "tab": {
+          "actor": "Aktør",
+          "roles": "Roller"
+        }
+      },
+      "editUserRole": {
+        "tab": {
+          "masterData": {
+            "tabLabel": "Stamdata",
+            "nameInputLabel": "Navn",
+            "descriptionInputLabel": "Beskrivelse",
+            "errors": {
+              "nameAlreadyExists": "En bruger rolle med dette navn findes allerede",
+              "required": "Feltet er påkrævet"
+            }
+          },
+          "permissions": {
+            "tabLabel": "Rettigheder"
+          }
+        },
+        "cancel": "Fortryd",
+        "save": "Gem"
       }
     }
   }

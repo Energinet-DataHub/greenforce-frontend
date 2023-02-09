@@ -24,6 +24,9 @@
       "@energinet-datahub/dh/admin/data-access-api": [
         "libs/dh/admin/data-access-api/src/index.ts"
       ],
+      "@energinet-datahub/dh/admin/feature-edit-user-role-modal": [
+        "libs/dh/admin/feature-edit-user-role-modal/src/index.ts"
+      ],
       "@energinet-datahub/dh/admin/feature-user-management": [
         "libs/dh/admin/feature-user-management/src/index.ts"
       ],
@@ -188,6 +191,9 @@
       "@energinet-datahub/dh/shared/util-application-insights": [
         "libs/dh/shared/util-application-insights/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/util-operators": [
+        "libs/dh/shared/util-operators/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/util-table": [
         "libs/dh/shared/util-table/src/index.ts"
       ],
@@ -217,9 +223,6 @@
       ],
       "@energinet-datahub/eo/auth/data-access-security": [
         "libs/eo/auth/data-access-security/src/index.ts"
-      ],
-      "@energinet-datahub/eo/auth/feature-terms": [
-        "libs/eo/auth/feature-terms/src/index.ts"
       ],
       "@energinet-datahub/eo/auth/routing-security": [
         "libs/eo/auth/routing-security/src/index.ts"
@@ -274,6 +277,7 @@
       "@energinet-datahub/eo/shared/utilities": [
         "libs/eo/shared/utilities/src/index.ts"
       ],
+      "@energinet-datahub/eo/terms": ["libs/eo/terms/src/index.ts"],
       "@energinet-datahub/gf/configuration-danish-locale": [
         "libs/gf/configuration-danish-locale/src/index.ts"
       ],

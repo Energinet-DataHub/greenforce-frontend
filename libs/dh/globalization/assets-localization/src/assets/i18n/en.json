@@ -488,18 +488,18 @@
   "marketParticipant": {
     "actor": {
       "create": {
-        "editHeader": "Edit actor",
-        "createHeader": "Create actor",
+        "editHeader": "Edit market party",
+        "createHeader": "Create market party",
         "errorToastLabel": "Error",
         "masterDataTabHeader": "Master data",
-        "meteringPointTypesHeader": "Metering point types",
+        "meteringPointTypesHeader": "Type of metering points",
         "gridAreasHeader": "Grid areas",
         "marketRolesHeader": "Market roles",
         "contactsHeader": "Contacts",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
         "masterData": {
-          "labelActorNumber": "Actor Number",
+          "labelActorNumber": "Market party Id",
           "labelStatus": "Status",
           "labelActorName": "Actor name",
           "fieldRequiredErrorText": "Field is required.",
@@ -519,67 +519,60 @@
         "marketRoles": {
           "marketRole": "Market role",
           "gridArea": "Grid area",
-          "meteringPointTypes": "Metering point types",
+          "meteringPointTypes": "Type of metering points",
           "comment": "Comment",
           "invalidConfiguration": "Market roles are not correctly configured"
         }
       }
     },
+    "marketRolesOverview": {
+      "marketRoles": "market roles",
+      "download": "Download",
+      "columns": {
+        "name": "Name",
+        "description": "Description"
+      }
+    },
     "marketRoles": {
       "BalanceResponsibleParty": "Balance responsible party",
-      "BalancingServiceProvider": "Balancing service provider",
       "BillingAgent": "Billing agent",
-      "CapacityTrader": "Capacity trader",
-      "Consumer": "Consumer",
-      "ConsumptionResponsibleParty": "Consumption responsible party",
-      "ConsentAdministrator": "Consent administrator",
-      "CoordinatedCapacityCalculator": "Coordinated capacity calculator",
-      "CoordinationCentreOperator": "Coordination centre operator",
-      "DataProvider": "Data provider",
-      "EnergyServiceCompany": "Energy service company",
       "EnergySupplier": "Energy supplier",
-      "EnergyTrader": "Energy trader",
       "GridAccessProvider": "Grid access provider",
       "ImbalanceSettlementResponsible": "Imbalance settlement responsible",
-      "InterconnectionTradeResponsible": "Interconnection trade responsible",
-      "LfcOperator": "LFC operator",
-      "MarketInformationAggregator": "Market information aggregator",
-      "MarketOperator": "Market operator",
-      "MeritOrderListResponsible": "Merit order list responsible",
-      "MeterAdministrator": "Meter administrator",
-      "MeterOperator": "Meter operator",
       "MeteredDataAdministrator": "Metered data administrator",
-      "MeteredDataAggregator": "Metered data aggregator",
-      "MeteredDataCollector": "Metered data collector",
       "MeteredDataResponsible": "Metered data responsible",
       "MeteringPointAdministrator": "Metering point administrator",
-      "ModelMergingAgent": "Model merging agent",
-      "ModellingAuthority": "Modelling authority",
-      "NominatedElectricityMarketOperator": "Nominated electricity market operator",
-      "NominationValidator": "Nomination validator",
-      "PartyAdministrator": "Party administrator",
-      "PartyConnectedToTheGrid": "Party connected to the grid",
-      "Producer": "Producer",
-      "ProductionResponsibleParty": "Production responsible party",
-      "ReconciliationAccountable": "Reconciliation accountable",
-      "ReconciliationResponsible": "Reconciliation responsible",
-      "ReserveAllocator": "Reserve allocator",
-      "ResourceAggregator": "Resource aggregator",
-      "ResourceCapacityMechanismOperator": "Resource capacity mechanism operator",
-      "ResourceProvider": "Resource provider",
-      "Scheduling": "Scheduling",
-      "Agent": "Agent",
-      "SchedulingAreaResponsible": "Scheduling area responsible",
       "SystemOperator": "System operator",
-      "TradeResponsibleParty": "Trade responsible party",
-      "TransmissionCapacityAllocator": "Transmission capacity allocator",
-      "DanishEnergyAgency": "Danish energy agency"
+      "DanishEnergyAgency": "Danish energy agency",
+      "ElOverblik": "ElOverblik",
+      "DataHubAdministrator": "DataHub administrator",
+      "IndependentAggregator": "Independent aggregator",
+      "SerialEnergyTrader": "Serial energy trader"
+    },
+    "marketRoleDescriptions": {
+      "BalanceResponsibleParty": "A Balance Responsible Party is responsible for its imbalances, meaning the difference between the energy volume physically injected to or withdrawn from the system and the final nominated energy volume, including any imbalance adjustment within a given imbalance settlement period. Note: Based on Electricity Balancing - Art.2 Definitions. Additional information: Responsibility for imbalances (Balance responsibility) requires a contract proving financial security with the Imbalance Settlement Responsible of the Scheduling Area entitling the party to operate in the market.",
+      "BillingAgent": "The party responsible for invoicing a concerned party.",
+      "BalancingServiceProvider": "The party responsible for invoicing a concerned party.",
+      "EnergySupplier": "An Energy Supplier supplies electricity to or takes electricity from a Party Connected to the Grid at an Accounting Point. Additional information: An Accounting Point can only have one Energy Supplier. When additional suppliers are needed the Energy Supplier delivers/takes the difference between established (e.g. measured or calculated) production/consumption and the (accumulated) contracts with other suppliers",
+      "GridAccessProvider": "A party responsible for providing access to the grid through an Accounting Point for energy consumption or production by the Party Connected to the Grid. The Grid Access Provider is also responsible for creating and terminating Accounting Points.",
+      "ImbalanceSettlementResponsible": "A party that is responsible for settlement of the difference between the contracted quantities with physical delivery and the established quantities of energy products for the Balance Responsible Parties in a Scheduling Area. Note: The Imbalance Settlement Responsible may delegate the invoicing responsibility to a more generic role such as a Billing Agent.",
+      "MeteredDataAdministrator": "A party responsible for storing and distributing validated measured data.",
+      "MeteredDataResponsible": "A party responsible for the establishment and validation of measured data based on the collected data received from the Metered Data Collector. The party is responsible for the history of metered data for a Metering Point.",
+      "MeteringPointAdministrator": "A party responsible for administrating and making available the Metering Point characteristics, including registering the parties linked to the Metering Point.",
+      "SystemOperator": " ",
+      "DanishEnergyAgency": " ",
+      "ElOverblik": " ",
+      "DataHubAdministrator": " ",
+      "IndependentAggregator": " ",
+      "SerialEnergyTrader": " "
     },
     "organization": {
       "topBarTitle": "Organisations",
+      "organizationsHeader": "Organisations",
+      "marketRolesHeader": "Market roles",
       "columns": {
         "organization": "Organisation",
-        "gln": "Actor Number",
+        "gln": "Actor Id",
         "status": "Status",
         "marketRoles": "Market roles",
         "gridAreas": "Grid areas",
@@ -616,7 +609,7 @@
           "organizationNameLabel": "Name",
           "businessRegistrationIdetifierLabel": "Business registration identifier",
           "streetNameLabel": "Street name",
-          "streetNumberLabel": "Street number",
+          "streetNumberLabel": "Building number",
           "zipCodeLabel": "Zip code",
           "cityLabel": "City",
           "countryLabel": "Country",
@@ -689,19 +682,19 @@
       "noGridAreas": "No gridareas found",
       "columns": {
         "name": "Grid area",
-        "code": "Code",
-        "actorName": "Grid operator actor name",
-        "actorNumber": "Grid operator actor ID",
-        "priceAreaCode": "Price area code",
+        "code": "Grid area number",
+        "actorName": "Market party",
+        "actorNumber": "Market party id",
+        "priceAreaCode": "Price area",
         "validFrom": "Valid from",
         "validTo": "Valid to"
       },
       "detailsHeader": {
-        "code": "Grid area code",
-        "actorId": "Actor number",
-        "fullFlexDate": "Transition to Full flex",
-        "priceAreaCode": "Price area code",
-        "lossMeteringPoint": "Loss metering point",
+        "code": "Grid area number",
+        "actorId": "Market party id",
+        "fullFlexDate": "Full flex date",
+        "priceAreaCode": "Price area",
+        "lossMeteringPoint": "Grid loss metering point",
         "correctionMeteringPoint": "Correction metering point",
         "validFrom": "Valid from",
         "validTo": "Valid to"
@@ -736,6 +729,8 @@
       "topBarTitle": "Start Batch",
       "startLabel": "Start",
       "dateRangeRequired": "Date range is required",
+      "gridAreaRequired": "Grid area is required",
+      "invalidPeriod": "Invalid period",
       "dateRangeLabel": "Period",
       "gridAreaDropDownLabel": "Grid Areas",
       "creatingBatch": "Starting batch...",
@@ -788,11 +783,18 @@
       "loadCalculationStepsFailedTitle": "Oops! There was an error",
       "loadCalculationStepsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information"
     },
+    "energySuppliers": {
+      "loadingEnerySuppliersFailedTitle": "Oops! There was an error",
+      "loadingEnerySuppliersFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
+      "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
+      "amountOfResults": "{{length}} Resultater"
+    },
     "processStepResults": {
       "step": "Step {{step}}",
       "aggregatedProductionPerGridArea": "Aggregated production per grid area",
       "aggregatedConsumptionPerEnergySupplier": "Aggregated consumption per energy supplier",
       "gridArea": "Grid area",
+      "energySupplier": "Energy Supplier",
       "loadProcessStepResultsErrorTitle": "Oops! There was an error",
       "loadProcessStepResultsErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information",
       "meteringPointType": "Metering point type",
@@ -828,12 +830,52 @@
   },
   "admin": {
     "userManagement": {
+      "download": "Download",
       "drawer": {
-        "edit": "Edit"
+        "edit": "Edit",
+        "roles": {
+          "tabs": {
+            "masterData": {
+              "tabLabel": "Master data"
+            },
+            "permissions": {
+              "tabLabel": "Permissions",
+              "headline": "Permissions"
+            },
+            "history": {
+              "tabLabel": "History",
+              "changes": {
+                "singular": "{{ auditLogCount }} change",
+                "plural": "{{ auditLogCount }} changes"
+              },
+              "table": {
+                "columns": {
+                  "timestamp": "Time",
+                  "entry": "Change"
+                },
+                "noEntries": "No results"
+              },
+              "logs": {
+                "roles": {
+                  "Created": "Role created by <b>{{ changedByUserName }}</b>",
+                  "NameChange": "<b>{{ changedByUserName }}</b> changed role name to <b>{{ changedValueTo }}</b>",
+                  "DescriptionChange": "<b>{{ changedByUserName }}</b> changed description to <b>{{ changedValueTo }}</b>",
+                  "EicFunctionChange": "<b>{{ changedByUserName }}</b> changed eic function to <b>{{ changedValueTo }}</b>",
+                  "StatusChange": "<b>{{ changedByUserName }}</b> changed status to <b>{{ changedValueTo }}</b>",
+                  "PermissionsChange": "<b>{{ changedByUserName }}</b> changed permissions to <b>{{ changedValueTo }}</b>"
+                }
+              },
+              "generalError": {
+                "title": "An unexpected error occured",
+                "message": "Try again or contact your system administrator if you keep getting this error."
+              }
+            }
+          }
+        }
       },
       "topBarTitle": "User management",
       "userStatus": {
-        "active": "Aktiv",
+        "active": "Active",
         "inactive": "Inactive"
       },
       "roleStatus": {
@@ -845,23 +887,51 @@
           "tabLabel": "Master data",
           "name": "Name",
           "email": "Email",
-          "phone": "Phone"
+          "phone": "Phone",
+          "description": "Description",
+          "marketRole": "Market role"
         },
         "history": {
-          "tabLabel": "History"
+          "tabLabel": "History",
+          "noEntries": "No results",
+          "changesSingular": "{{ auditLogCount }} change",
+          "changesPlural": "{{ auditLogCount }} changes",
+          "columns": {
+            "timestamp": "Time",
+            "entry": "Change"
+          },
+          "logs": {
+            "roles": {
+              "Added": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
+              "Removed": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>"
+            }
+          },
+          "generalError": {
+            "title": "An unexpected error occured",
+            "message": "Try again or contact your system administrator if you keep getting this error."
+          }
         },
         "users": {
+          "inviteUser": "Invite user",
           "tabLabel": "Users",
+          "searchPlaceholder": "Search users",
+          "searchActorPlaceHolder": "Choose market party",
+          "searchUserRolePlaceHolder": "Choose user role",
           "usersHeadline": {
             "singular": "{{ usersCount }} user",
             "plural": "{{ usersCount }} users"
           },
-
+          "filter": {
+            "status": "Status",
+            "actor": "Market party",
+            "userrole": "User role"
+          },
           "table": {
             "columns": {
               "name": "Name",
               "email": "Email",
               "phone": "Phone",
+              "assignedActors": "Assigned market parties",
               "status": "Status"
             }
           },
@@ -874,15 +944,29 @@
           }
         },
         "roles": {
-          "tabLabel": "Roles",
-          "rolesHeadline": "Roles",
+          "gln": "GLN {{ actorNumber }}",
+          "tabLabel": "User roles",
+          "roles": "User roles",
+          "role": "User role",
+          "errorTitle": "Oops! There was an error",
+          "errorMessage": "Unfortunately, an error occurred while retrieving the user roles.",
+          "rolesHeadline": "User roles",
+          "filter": {
+            "status": "Status",
+            "marketRole": "Market role"
+          },
           "table": {
             "columns": {
               "name": "Name",
               "description": "Description",
-              "marketrole": "Market role",
+              "marketRole": "Market role",
               "status": "Status"
             }
+          },
+          "createuserrole": "Create user role",
+          "userRolesHeadline": {
+            "singular": "{{ userRolesCount }} user role",
+            "plural": "{{ userRolesCount }} user roles"
           }
         },
         "permissions": {
@@ -895,6 +979,66 @@
             "button": "Try again"
           }
         }
+      },
+      "createrole": {
+        "headline": "Create user role",
+        "save": "Save",
+        "cancel": "Cancel",
+        "createRoleRequest": {
+          "start": "Creating user role",
+          "error": "Unfortunately, an error occurred while creating the user role.",
+          "success": "User role created."
+        },
+        "tabs": {
+          "masterdata": {
+            "tabLabel": "Master data",
+            "fieldRequiredErrorText": "Field is required.",
+            "nameMaxLengthErrorText": "Name field must be under 250 characters",
+            "name": "Name",
+            "description": "Description",
+            "roleStatus": "Status",
+            "selectUserroleStatus": "Select status",
+            "eicFunction": "Market role",
+            "selectEicFunctionStatus": "Select market role"
+          },
+          "permissions": {
+            "tabLabel": "Permissions",
+            "title": "Permissions",
+            "table": {
+              "columns": {
+                "name": "Name",
+                "description": "Description"
+              }
+            }
+          }
+        }
+      },
+      "editUser": {
+        "cancel": "Cancel",
+        "save": "Save",
+        "deactivateUser": "Deactivate user",
+        "tab": {
+          "actor": "Actor",
+          "roles": "Roles"
+        }
+      },
+      "editUserRole": {
+        "tab": {
+          "masterData": {
+            "tabLabel": "Master data",
+            "nameInputLabel": "Name",
+            "descriptionInputLabel": "Description",
+            "errors": {
+              "nameAlreadyExists": "The user role already exists",
+              "required": "Field is required"
+            }
+          },
+          "permissions": {
+            "tabLabel": "Permissions"
+          }
+        },
+        "cancel": "Cancel",
+        "save": "Save"
       }
     }
   }

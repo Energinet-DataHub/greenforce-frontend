@@ -15,17 +15,58 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles'">
-  <watt-card>
-    <watt-card-title>
-      <div class="card-title-container">
-        <ng-container
-          *transloco="let t; read: 'admin.userManagement.tabs.roles'"
-        >
-          <h4>{{ t("rolesHeadline") }}</h4>
-        </ng-container>
-      </div>
-    </watt-card-title>
+  <ng-container *rxLet="isLoading$ as isLoading">
+    <div *ngIf="isLoading" class="user-roles__spinner">
+      <watt-spinner></watt-spinner>
+    </div>
 
-    <dh-roles-tab-table [roles]="roles"></dh-roles-tab-table>
-  </watt-card>
+    <ng-container *ngIf="!isLoading">
+      <dh-roles-tab-list-filter
+        (statusChanged)="updateFilterStatus($event)"
+        (eicFunctionChanged)="updateFilterEicFunction($event)"
+      >
+      </dh-roles-tab-list-filter>
+
+      <watt-card *rxLet="roles$ as roles">
+        <watt-card-title>
+          <div class="create-role-header-container">
+            <h4>{{ t("rolesHeadline") }}</h4>
+            <div class="create-role-table-buttons">
+              <watt-button
+                *transloco="let t; read: 'admin.userManagement'"
+                icon="openInNew"
+                variant="text"
+                (click)="download(rolesTable.filteredAndSortedData)"
+                >{{ t("download") }}</watt-button
+              >
+
+              <dh-shared-ui-paginator #paginator [length]="roles.length">
+              </dh-shared-ui-paginator>
+
+              <watt-button
+                *dhPermissionRequired="['userrole:manage']"
+                icon="plus"
+                variant="secondary"
+                (click)="createUserRole()"
+                >{{ t("createuserrole") }}
+              </watt-button>
+            </div>
+          </div>
+        </watt-card-title>
+        <dh-roles-tab-table
+          #rolesTable
+          [roles]="roles"
+          [paginator]="paginator"
+        ></dh-roles-tab-table>
+      </watt-card>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+    <div *ngIf="hasGeneralError" class="user-roles__error">
+      <dh-tab-data-general-error
+        (reload)="reloadRoles()"
+      ></dh-tab-data-general-error>
+    </div>
+  </ng-container>
 </ng-container>
