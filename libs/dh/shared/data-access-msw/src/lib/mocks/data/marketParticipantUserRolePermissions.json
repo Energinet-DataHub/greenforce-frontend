@@ -24,8 +24,8 @@
     "eicFunction": "ElOverblik"
   },
   {
-    "id": "1",
-    "name": "Organization:manage",
+    "id": "3",
+    "name": "user:manage",
     "description": "Permission to manage organization",
     "eicFunction": "BalanceResponsibleParty"
   }

@@ -37,15 +37,10 @@ import {
   dhAdminUserManagementPath,
 } from '@energinet-datahub/dh/admin/routing';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { ObservedValueOf, Subject, takeUntil } from 'rxjs';
-import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
-interface CreateRoleForm {
-  masterData?: ObservedValueOf<
-    DhCreateUserroleMasterdataTabComponent['formReady']
-  >;
-}
 @Component({
   selector: 'dh-create-userrole-tabs',
   standalone: true,
@@ -81,17 +76,12 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   private readonly store = inject(
     DhAdminCreateUserRoleManagementDataAccessApiStore
   );
-  isLoading$ = this.store.isLoading$;
-  createRoleForm = this.formBuilder.group<CreateRoleForm>({});
   userRole: CreateUserRoleDto;
-  selectablePermissions$ = this.store.selectablePermissions$;
-  canSelectPermissions = false;
 
   private destroy$ = new Subject<void>();
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder,
     private toastService: WattToastService,
     private translocoService: TranslocoService
   ) {
@@ -116,7 +106,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
             type: 'danger',
           });
 
-          this.createRoleForm.enable();
+          //this.createRoleForm.enable({onlySelf: true, emitEvent: false});
         }
       });
 
@@ -130,7 +120,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (!this.userRole) throw new Error('Missing user role');
-    this.createRoleForm.disable();
+    //this.createRoleForm.disable({onlySelf: true, emitEvent: false});
     this.store.createUserRole({
       createUserRoleDto: this.userRole,
       onSaveCompletedFn: this.backToOverviewAfterSave,
@@ -144,21 +134,14 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
     });
   }
 
-  addChildForm<K extends keyof CreateRoleForm>(
-    name: K,
-    group: Exclude<CreateRoleForm[K], undefined>
-  ) {
-    this.createRoleForm.setControl(name, group);
-  }
-
   patchUserRole(patch: Partial<CreateUserRoleDto>) {
     if (!this.userRole) throw new Error('Missing user role');
     this.userRole = { ...this.userRole, ...patch };
   }
 
   eicFunctionSelected(eicFunction: EicFunction) {
-    this.patchUserRole({ permissions: [] });
     this.store.getSelectablePermissions(eicFunction);
+    this.patchUserRole({permissions: []});
   }
 
   private readonly backToOverviewAfterSave = () => {
