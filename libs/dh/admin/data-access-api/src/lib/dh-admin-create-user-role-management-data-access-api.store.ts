@@ -82,12 +82,17 @@ export class DhAdminCreateUserRoleManagementDataAccessApiStore extends Component
   );
 
   readonly createUserRole = this.effect(
-    (trigger$: Observable<{createUserRoleDto: CreateUserRoleDto, onSaveCompletedFn: () => void}>) => {
+    (
+      trigger$: Observable<{
+        createUserRoleDto: CreateUserRoleDto;
+        onSaveCompletedFn: () => void;
+      }>
+    ) => {
       return trigger$.pipe(
         tap(() => {
           this.setLoading(LoadingState.INIT);
         }),
-        switchMap(({createUserRoleDto, onSaveCompletedFn }) =>
+        switchMap(({ createUserRoleDto, onSaveCompletedFn }) =>
           this.saveUserRole(createUserRoleDto).pipe(
             tapResponse(
               () => {
