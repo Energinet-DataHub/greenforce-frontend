@@ -27,7 +27,10 @@ import { DhAdminCreateUserRoleManagementDataAccessApiStore } from '@energinet-da
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { provideComponentStore } from '@ngrx/component-store';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { CreateUserRoleDto, EicFunction } from '@energinet-datahub/dh/shared/domain';
+import {
+  CreateUserRoleDto,
+  EicFunction,
+} from '@energinet-datahub/dh/shared/domain';
 import { Router } from '@angular/router';
 import {
   dhAdminPath,
@@ -117,7 +120,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
         }
       });
 
-      this.store.getSelectablePermissions(this.userRole.eicFunction);
+    this.store.getSelectablePermissions(this.userRole.eicFunction);
   }
 
   ngOnDestroy(): void {
@@ -153,9 +156,8 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
     this.userRole = { ...this.userRole, ...patch };
   }
 
-  eicFunctionSelected(eicFunction: EicFunction)
-  {
-    this.patchUserRole({permissions: []});
+  eicFunctionSelected(eicFunction: EicFunction) {
+    this.patchUserRole({ permissions: [] });
     this.store.getSelectablePermissions(eicFunction);
   }
 

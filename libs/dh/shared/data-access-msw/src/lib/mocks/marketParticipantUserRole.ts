@@ -37,7 +37,13 @@ function Permissions(apiBase: string) {
     `${apiBase}/v1/MarketParticipantUserRole/Permissions`,
     (req, res, ctx) => {
       const eicFunction = req.url.searchParams.get('eicFunction');
-      return res(ctx.json(marketParticipantUserRolePermissions.filter(s => s.eicFunction == eicFunction)));
+      return res(
+        ctx.json(
+          marketParticipantUserRolePermissions.filter(
+            (s) => s.eicFunction == eicFunction
+          )
+        )
+      );
     }
   );
 }
