@@ -18,6 +18,7 @@ export interface OrganizationDto {
     organizationId: string;
     name: string;
     businessRegisterIdentifier: string;
+    domain: string;
     comment: string;
     status: OrganizationStatus;
     address: AddressDto;

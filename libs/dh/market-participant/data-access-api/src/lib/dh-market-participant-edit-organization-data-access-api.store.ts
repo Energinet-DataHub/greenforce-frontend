@@ -20,6 +20,7 @@ import {
   AddressDto,
   ChangeOrganizationDto,
   ContactCategory,
+  CreateOrganizationDto,
   MarketParticipantHttp,
   OrganizationStatus,
 } from '@energinet-datahub/dh/shared/domain';
@@ -41,6 +42,7 @@ export interface OrganizationChanges {
   name?: string;
   businessRegisterIdentifier?: string;
   address: AddressDto;
+  domain?: string;
   comment?: string;
   status?: OrganizationStatus;
 }
@@ -153,7 +155,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
 
     return this.httpClient
       .v1MarketParticipantOrganizationCreateOrganizationPost(
-        organizationChanges as ChangeOrganizationDto
+        organizationChanges as CreateOrganizationDto
       )
       .pipe(
         map((organizationId) => ({
