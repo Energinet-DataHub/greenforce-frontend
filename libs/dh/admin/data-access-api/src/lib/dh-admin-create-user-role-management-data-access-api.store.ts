@@ -17,6 +17,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain';
 import {
   ErrorState,
   LoadingState,
@@ -58,11 +59,11 @@ export class DhAdminCreateUserRoleManagementDataAccessApiStore extends Component
   }
 
   private readonly getSelectablePermissions = this.effect(
-    (trigger$: Observable<void>) =>
+    (trigger$: Observable<EicFunction>) =>
       trigger$.pipe(
-        switchMap(() =>
+        switchMap(x =>
           this.httpClientUserRole
-            .v1MarketParticipantUserRolePermissionsGet()
+            .v1MarketParticipantUserRolePermissionsGet(x)
             .pipe(
               tapResponse(
                 (response) => {
@@ -134,8 +135,4 @@ export class DhAdminCreateUserRoleManagementDataAccessApiStore extends Component
   };
 
   private resetState = () => this.setState(initialState);
-
-  ngrxOnStoreInit(): void {
-    this.getSelectablePermissions();
-  }
 }
