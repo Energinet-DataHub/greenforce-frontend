@@ -109,7 +109,6 @@ export class DhCreateUserroleMasterdataTabComponent
 
     this.userRoleForm.valueChanges
       .pipe(
-        startWith(this.userRoleForm.value),
         map(
           (formValue): Partial<CreateUserRoleDto> => ({
             name: formValue.name,
@@ -124,7 +123,10 @@ export class DhCreateUserroleMasterdataTabComponent
 
     this.userRoleForm.controls.eicFunction.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((value) => this.eicFunctionSelected.emit(value));
+      .subscribe((value) => {
+        if (this.userRoleForm.controls.eicFunction.enabled)
+          this.eicFunctionSelected.emit(value);
+      } );
   }
 
   ngOnDestroy(): void {
