@@ -18,8 +18,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
-  inject,
+  HostBinding,
   Input,
   ViewEncapsulation,
 } from '@angular/core';
@@ -37,12 +36,7 @@ import { WattDescriptionListGroups } from './watt-description-list-term';
 })
 export class WattDescriptionListComponent {
   @Input() groups: WattDescriptionListGroups = [];
-  @Input() set groupsPerRow(value: number) {
-    this.elementRef.nativeElement.style.setProperty(
-      '--watt-description-list-groups-per-row',
-      value
-    );
-  }
-
-  elementRef = inject(ElementRef);
+  @HostBinding('style.--watt-description-list-groups-per-row')
+  @Input()
+  groupsPerRow = 3;
 }
