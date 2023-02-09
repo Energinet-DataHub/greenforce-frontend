@@ -132,7 +132,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
     if (!this.userRole) throw new Error('Missing user role');
     this.createRoleForm.disable();
     this.store.createUserRole({
-      createRole: this.userRole,
+      createUserRoleDto: this.userRole,
       onSaveCompletedFn: this.backToOverviewAfterSave,
     });
 
