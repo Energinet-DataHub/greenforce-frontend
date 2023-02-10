@@ -613,6 +613,7 @@
           "zipCodeLabel": "Zip code",
           "cityLabel": "City",
           "countryLabel": "Country",
+          "domainLabel": "Domain",
           "commentLabel": "Comment",
           "fieldRequiredErrorText": "Field is required.",
           "countries": {
