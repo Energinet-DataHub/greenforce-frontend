@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
@@ -27,22 +27,20 @@ import { DhAdminCreateUserRoleManagementDataAccessApiStore } from '@energinet-da
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { provideComponentStore } from '@ngrx/component-store';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { CreateUserRoleDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  CreateUserRoleDto,
+  EicFunction,
+} from '@energinet-datahub/dh/shared/domain';
 import { Router } from '@angular/router';
 import {
   dhAdminPath,
   dhAdminUserManagementPath,
 } from '@energinet-datahub/dh/admin/routing';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { ObservedValueOf, Subject, takeUntil } from 'rxjs';
-import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
-interface CreateRoleForm {
-  masterData?: ObservedValueOf<
-    DhCreateUserroleMasterdataTabComponent['formReady']
-  >;
-}
 @Component({
   selector: 'dh-create-userrole-tabs',
   standalone: true,
@@ -78,23 +76,22 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   private readonly store = inject(
     DhAdminCreateUserRoleManagementDataAccessApiStore
   );
-  isLoading$ = this.store.isLoading$;
-  createRoleForm = this.formBuilder.group<CreateRoleForm>({});
+  @ViewChild(DhCreateUserroleMasterdataTabComponent)
+  masterdataTab!: DhCreateUserroleMasterdataTabComponent;
+
   userRole: CreateUserRoleDto;
-  selectablePermissions$ = this.store.selectablePermissions$;
 
   private destroy$ = new Subject<void>();
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder,
     private toastService: WattToastService,
     private translocoService: TranslocoService
   ) {
     this.userRole = {
       name: '',
       description: '',
-      eicFunction: 'BalanceResponsibleParty',
+      eicFunction: EicFunction.BalanceResponsibleParty,
       status: 'Active',
       permissions: [],
     };
@@ -112,9 +109,14 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
             type: 'danger',
           });
 
-          this.createRoleForm.enable();
+          this.masterdataTab.userRoleForm.enable({
+            onlySelf: true,
+            emitEvent: false,
+          });
         }
       });
+
+    this.store.getSelectablePermissions(this.userRole.eicFunction);
   }
 
   ngOnDestroy(): void {
@@ -124,9 +126,12 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (!this.userRole) throw new Error('Missing user role');
-    this.createRoleForm.disable();
+    this.masterdataTab.userRoleForm.disable({
+      onlySelf: true,
+      emitEvent: false,
+    });
     this.store.createUserRole({
-      createRole: this.userRole,
+      createUserRoleDto: this.userRole,
       onSaveCompletedFn: this.backToOverviewAfterSave,
     });
 
@@ -138,16 +143,14 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
     });
   }
 
-  addChildForm<K extends keyof CreateRoleForm>(
-    name: K,
-    group: Exclude<CreateRoleForm[K], undefined>
-  ) {
-    this.createRoleForm.setControl(name, group);
-  }
-
   patchUserRole(patch: Partial<CreateUserRoleDto>) {
     if (!this.userRole) throw new Error('Missing user role');
     this.userRole = { ...this.userRole, ...patch };
+  }
+
+  eicFunctionSelected(eicFunction: EicFunction) {
+    this.store.getSelectablePermissions(eicFunction);
+    this.patchUserRole({ permissions: [] });
   }
 
   private readonly backToOverviewAfterSave = () => {

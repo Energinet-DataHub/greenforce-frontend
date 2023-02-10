@@ -23,7 +23,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
-
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { DhCreateRolePermissionTabTableComponent } from './dh-create-userrole-permissions-tab-table.component';
 import {
@@ -32,6 +32,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { DhAdminCreateUserRoleManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { PushModule } from '@rx-angular/template/push';
+import { LetModule } from '@rx-angular/template/let';
 
 @Component({
   selector: 'dh-create-userrole-permissions-tab',
@@ -45,6 +46,8 @@ import { PushModule } from '@rx-angular/template/push';
     WattCardModule,
     DhCreateRolePermissionTabTableComponent,
     PushModule,
+    LetModule,
+    WattEmptyStateModule,
   ],
 })
 export class DhCreateUserrolePermissionsTabComponent {

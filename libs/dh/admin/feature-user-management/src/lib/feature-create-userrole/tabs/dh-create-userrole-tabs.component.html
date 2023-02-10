@@ -15,16 +15,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.createrole'">
-  <watt-card *rxLet="isLoading$ as isLoading">
+  <watt-card>
     <watt-card-title>
       <h4>{{ t("headline") }}</h4>
     </watt-card-title>
-    <form [formGroup]="createRoleForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="masterdataTab.userRoleForm" (ngSubmit)="onSubmit()">
       <watt-tabs>
         <watt-tab [label]="t('tabs.masterdata.tabLabel')">
           <dh-create-userrole-masterdata-tab
-            (formReady)="addChildForm('masterData', $event)"
+            #masterdataTab
             (valueChange)="patchUserRole($event)"
+            (eicFunctionSelected)="eicFunctionSelected($event)"
           ></dh-create-userrole-masterdata-tab>
         </watt-tab>
         <watt-tab [label]="t('tabs.permissions.tabLabel')">
@@ -43,7 +44,8 @@ limitations under the License.
         <watt-button
           type="submit"
           [disabled]="
-            this.userRole.permissions.length <= 0 || createRoleForm.invalid
+            this.userRole.permissions.length === 0 ||
+            masterdataTab.userRoleForm.invalid
           "
           >{{ t("save") }}
         </watt-button>

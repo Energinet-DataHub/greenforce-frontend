@@ -1004,6 +1004,7 @@
           "permissions": {
             "tabLabel": "Permissions",
             "title": "Permissions",
+            "noPermissions": "No permissions found for the selected market role",
             "table": {
               "columns": {
                 "name": "Name",
