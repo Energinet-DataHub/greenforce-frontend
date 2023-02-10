@@ -26,7 +26,13 @@ limitations under the License.
   >
     <div class="watt-drawer__grid-container">
       <header>
-        <ng-content select="watt-drawer-topbar"></ng-content>
+        <ng-content select="watt-drawer-topbar"> </ng-content>
+        <watt-button
+          class="close-btn"
+          variant="icon"
+          icon="close"
+          (click)="closed.emit()"
+        ></watt-button>
       </header>
 
       <article class="watt-drawer__content">
