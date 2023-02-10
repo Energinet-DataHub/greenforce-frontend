@@ -28,10 +28,6 @@ import {
   EicFunction,
 } from '@energinet-datahub/dh/shared/domain';
 
-interface UserRoleCreate {
-  onSaveCompletedFn: () => void;
-  createRole: CreateUserRoleDto;
-}
 interface DhCreateUserRoleManagementState {
   readonly requestState: LoadingState | ErrorState;
   readonly selectablePermissions: SelectablePermissionsDto[];
