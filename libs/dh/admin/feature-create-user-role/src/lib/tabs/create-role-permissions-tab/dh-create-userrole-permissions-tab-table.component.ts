@@ -24,6 +24,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { translate } from '@ngneat/transloco';
+
 import {
   WattTableDataSource,
   WattTableColumnDef,
