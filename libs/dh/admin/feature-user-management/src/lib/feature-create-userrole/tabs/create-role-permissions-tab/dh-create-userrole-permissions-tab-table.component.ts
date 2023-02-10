@@ -21,12 +21,14 @@ import {
   Input,
   Output,
   OnChanges,
+  ViewChild,
 } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import {
   WattTableDataSource,
   WattTableColumnDef,
   WATT_TABLE,
+  WattTableComponent,
 } from '@energinet-datahub/watt/table';
 import { SelectablePermissionsDto } from '@energinet-datahub/dh/shared/domain';
 
@@ -49,6 +51,9 @@ export class DhCreateRolePermissionTabTableComponent implements OnChanges {
   @Output() selectionChanged = new EventEmitter<SelectablePermissionsDto[]>();
   @Input() permissions: SelectablePermissionsDto[] = [];
 
+  @ViewChild(WattTableComponent<SelectablePermissionsDto>)
+  permissionsTable!: WattTableComponent<SelectablePermissionsDto>;
+
   readonly dataSource: WattTableDataSource<SelectablePermissionsDto> =
     new WattTableDataSource<SelectablePermissionsDto>();
 
@@ -64,6 +69,7 @@ export class DhCreateRolePermissionTabTableComponent implements OnChanges {
 
   ngOnChanges() {
     this.dataSource.data = this.permissions;
+    if (this.permissionsTable) this.permissionsTable._selectionModel.clear();
   }
 
   onSelectionChange(selections: SelectablePermissionsDto[]): void {

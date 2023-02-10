@@ -1,37 +1,32 @@
 [
   {
-    "id": "3ec41d91-fc6d-4364-ade6-b85576a91d04",
-    "name": "Test role 1",
-    "status": "Active",
-    "eicFunction": "MeteredDataAdministrator",
-    "permissions": [1, 2, 3]
+    "id": 1,
+    "name": "Organization:manage",
+    "description": "Permission to manage organization",
+    "eicFunction": "MeteredDataAdministrator"
   },
   {
-    "id": "3ec41d91-fc6d-4364-ade6-b85576a91d04",
-    "name": "Test role 2",
-    "status": "Active",
-    "eicFunction": "MeteredDataAdministrator",
-    "permissions": [4]
+    "id": 2,
+    "name": "Organization:view",
+    "description": "Permission to view organization",
+    "eicFunction": "MeteredDataAdministrator"
   },
   {
-    "id": "3ec41d91-fc6d-4364-ade6-b85576a91d04",
-    "name": "Test role 3",
-    "status": "Inactive",
-    "eicFunction": "MeteredDataAdministrator",
-    "permissions": [1, 2]
+    "id": 1,
+    "name": "Organization:manage",
+    "description": "Permission to manage organization",
+    "eicFunction": "ElOverblik"
   },
   {
-    "id": "3ec41d91-fc6d-4364-ade6-b85576a91d04",
-    "name": "Test role 4",
-    "status": "Active",
-    "eicFunction": "MeteredDataAdministrator",
-    "permissions": [2, 3]
+    "id": 3,
+    "name": "user:manage",
+    "description": "Permission to manage users",
+    "eicFunction": "ElOverblik"
   },
   {
-    "id": "3ec41d91-fc6d-4364-ade6-b85576a91d04",
-    "name": "Test role 5",
-    "status": "Inactive",
-    "eicFunction": "MeteredDataAdministrator",
-    "permissions": [3]
+    "id": 3,
+    "name": "user:manage",
+    "description": "Permission to manage organization",
+    "eicFunction": "BalanceResponsibleParty"
   }
 ]
