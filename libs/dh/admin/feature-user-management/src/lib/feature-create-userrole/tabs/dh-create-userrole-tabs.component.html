@@ -44,7 +44,7 @@ limitations under the License.
         <watt-button
           type="submit"
           [disabled]="
-            this.userRole.permissions.length <= 0 ||
+            this.userRole.permissions.length === 0 ||
             masterdataTab.userRoleForm.invalid
           "
           >{{ t("save") }}
