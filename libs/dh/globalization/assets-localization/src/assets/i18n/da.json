@@ -619,6 +619,7 @@
           "zipCodeLabel": "Post nr.",
           "cityLabel": "By",
           "countryLabel": "Land",
+          "domainLabel": "Domæne",
           "commentLabel": "Kommentar",
           "countries": {
             "at": "Østrig",
@@ -1016,6 +1017,7 @@
           "permissions": {
             "tabLabel": "Rettigheder",
             "title": "Rettigheder",
+            "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle",
             "table": {
               "columns": {
                 "name": "Navn",

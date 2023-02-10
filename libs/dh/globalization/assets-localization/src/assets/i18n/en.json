@@ -616,6 +616,7 @@
           "zipCodeLabel": "Zip code",
           "cityLabel": "City",
           "countryLabel": "Country",
+          "domainLabel": "Domain",
           "commentLabel": "Comment",
           "countries": {
             "at": "Austria",
@@ -1013,6 +1014,7 @@
           "permissions": {
             "tabLabel": "Permissions",
             "title": "Permissions",
+            "noPermissions": "No permissions found for the selected market role",
             "table": {
               "columns": {
                 "name": "Name",

@@ -44,7 +44,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         public Task<ActionResult<GetAssociatedUserActorsResponseDto>> GetUserActorsAsync()
         {
             var externalToken = HttpContext.Request.Headers["Authorization"].Single();
-            externalToken = externalToken.Replace("Bearer ", string.Empty);
+            externalToken = externalToken?.Replace("Bearer ", string.Empty) ?? string.Empty;
             return HandleExceptionAsync(() => _marketParticipantClient.GetUserActorsAsync(externalToken));
         }
 

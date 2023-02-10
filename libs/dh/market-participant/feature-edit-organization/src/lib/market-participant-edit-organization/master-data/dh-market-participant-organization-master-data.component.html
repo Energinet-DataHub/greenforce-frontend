@@ -114,6 +114,20 @@ limitations under the License.
   </div>
 
   <div class="form-container">
+    <watt-form-field class="field-domain">
+      <watt-label>{{ t("domainLabel") }}</watt-label>
+      <input
+        [disabled]="!!changes.organizationId"
+        wattInput
+        [attr.aria-label]="t('domainLabel')"
+        [(ngModel)]="changes.domain"
+        #domainInputModel="ngModel"
+        maxlength="64"
+      />
+    </watt-form-field>
+  </div>
+
+  <div class="form-container">
     <watt-form-field class="field-comment">
       <watt-label>{{ t("commentLabel") }}</watt-label>
       <input
