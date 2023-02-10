@@ -28,9 +28,9 @@ import {
   WattTableDataSource,
   WattTableColumnDef,
   WATT_TABLE,
+  WattTableComponent,
 } from '@energinet-datahub/watt/table';
 import { SelectablePermissionsDto } from '@energinet-datahub/dh/shared/domain';
-import { WattTableComponent } from '../../../../../../../../ui-watt/src/lib/components/table/watt-table.component';
 
 @Component({
   selector: 'dh-create-userrole-permissions-tab-table',
