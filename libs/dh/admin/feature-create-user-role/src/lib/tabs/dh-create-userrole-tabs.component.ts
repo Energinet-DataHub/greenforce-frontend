@@ -30,6 +30,7 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import {
   CreateUserRoleDto,
   EicFunction,
+  UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { Router } from '@angular/router';
 import {
@@ -79,7 +80,14 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   @ViewChild(DhCreateUserroleMasterdataTabComponent)
   masterdataTab!: DhCreateUserroleMasterdataTabComponent;
 
-  userRole: CreateUserRoleDto;
+
+  userRole: CreateUserRoleDto = {
+    name: '',
+    description: '',
+    eicFunction: EicFunction.BalanceResponsibleParty,
+    status: UserRoleStatus.Active,
+    permissions: [],
+  };
 
   private destroy$ = new Subject<void>();
 
@@ -87,15 +95,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
     private router: Router,
     private toastService: WattToastService,
     private translocoService: TranslocoService
-  ) {
-    this.userRole = {
-      name: '',
-      description: '',
-      eicFunction: EicFunction.BalanceResponsibleParty,
-      status: 'Active',
-      permissions: [],
-    };
-  }
+  ) {}
 
   ngOnInit(): void {
     this.store.hasGeneralError$
