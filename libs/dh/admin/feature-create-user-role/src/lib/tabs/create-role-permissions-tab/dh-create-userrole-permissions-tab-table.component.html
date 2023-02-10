@@ -22,7 +22,7 @@ limitations under the License.
     [columns]="columns"
     [resolveHeader]="translateHeader"
     sortBy="name"
-    [selectable]="true"
+    [selectable]="permissions.length > 0"
     sortDirection="asc"
     (selectionChange)="onSelectionChange($event)"
   >
