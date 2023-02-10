@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
@@ -76,6 +76,8 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   private readonly store = inject(
     DhAdminCreateUserRoleManagementDataAccessApiStore
   );
+  @ViewChild(DhCreateUserroleMasterdataTabComponent) masterdataTab!:DhCreateUserroleMasterdataTabComponent;
+
   userRole: CreateUserRoleDto;
 
   private destroy$ = new Subject<void>();
@@ -106,7 +108,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
             type: 'danger',
           });
 
-          //this.createRoleForm.enable({onlySelf: true, emitEvent: false});
+          this.masterdataTab.userRoleForm.enable({onlySelf: true, emitEvent: false});
         }
       });
 
@@ -120,7 +122,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (!this.userRole) throw new Error('Missing user role');
-    //this.createRoleForm.disable({onlySelf: true, emitEvent: false});
+    this.masterdataTab.userRoleForm.disable({onlySelf: true, emitEvent: false});
     this.store.createUserRole({
       createUserRoleDto: this.userRole,
       onSaveCompletedFn: this.backToOverviewAfterSave,
