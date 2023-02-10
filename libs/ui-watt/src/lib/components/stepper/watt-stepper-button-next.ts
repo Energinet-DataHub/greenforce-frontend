@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-﻿import { CdkStepperNext } from '@angular/cdk/stepper';
+import { CdkStepperNext } from '@angular/cdk/stepper';
 import { Directive, HostBinding, Input } from '@angular/core';
 
 @Directive({
