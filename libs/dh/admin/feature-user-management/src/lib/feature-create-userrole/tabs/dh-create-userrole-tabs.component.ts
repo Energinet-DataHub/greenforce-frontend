@@ -143,7 +143,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
 
   eicFunctionSelected(eicFunction: EicFunction) {
     this.store.getSelectablePermissions(eicFunction);
-    this.patchUserRole({permissions: []});
+    this.patchUserRole({ permissions: [] });
   }
 
   private readonly backToOverviewAfterSave = () => {
