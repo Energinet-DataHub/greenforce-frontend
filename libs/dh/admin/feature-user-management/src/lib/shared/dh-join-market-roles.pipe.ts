@@ -14,20 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const enum ErrorState {
-  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
-  GENERAL_ERROR = 'GENERAL_ERROR',
-  VALIDATION_EXCEPTION = 'VALIDATION_EXCEPTION',
-}
+import { Pipe, PipeTransform } from '@angular/core';
+import { ActorMarketRoleViewDto } from '@energinet-datahub/dh/shared/domain';
 
-export const enum LoadingState {
-  INIT = 'INIT',
-  LOADING = 'LOADING',
-  LOADED = 'LOADED',
-}
-
-export const enum SavingState {
-  INIT = 'INIT',
-  SAVING = 'SAVING',
-  SAVED = 'SAVED',
+@Pipe({ name: 'joinMarketRoles', standalone: true })
+export class JoinMarketRoles implements PipeTransform {
+  transform(marketRoles: ActorMarketRoleViewDto[] | null | undefined) {
+    return (
+      marketRoles?.map((marketRole) => marketRole.eicFunction).join(', ') ?? ''
+    );
+  }
 }

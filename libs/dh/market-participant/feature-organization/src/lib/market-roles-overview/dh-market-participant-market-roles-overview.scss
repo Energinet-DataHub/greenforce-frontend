@@ -14,20 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const enum ErrorState {
-  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
-  GENERAL_ERROR = 'GENERAL_ERROR',
-  VALIDATION_EXCEPTION = 'VALIDATION_EXCEPTION',
+
+:host {
+  display: block;
+  /* TODO: Add spacing variable for 24px */
+  margin: 24px var(--watt-space-s);
 }
 
-export const enum LoadingState {
-  INIT = 'INIT',
-  LOADING = 'LOADING',
-  LOADED = 'LOADED',
+.card-title-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
 }
 
-export const enum SavingState {
-  INIT = 'INIT',
-  SAVING = 'SAVING',
-  SAVED = 'SAVED',
+.card-title-buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }

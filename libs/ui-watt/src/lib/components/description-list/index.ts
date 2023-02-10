@@ -14,20 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const enum ErrorState {
-  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
-  GENERAL_ERROR = 'GENERAL_ERROR',
-  VALIDATION_EXCEPTION = 'VALIDATION_EXCEPTION',
-}
-
-export const enum LoadingState {
-  INIT = 'INIT',
-  LOADING = 'LOADING',
-  LOADED = 'LOADED',
-}
-
-export const enum SavingState {
-  INIT = 'INIT',
-  SAVING = 'SAVING',
-  SAVED = 'SAVED',
-}
+export {
+  WattDescriptionListTerm,
+  WattDescriptionListGroups,
+} from './watt-description-list-term';
+export { WattDescriptionListComponent } from './watt-description-list.component';

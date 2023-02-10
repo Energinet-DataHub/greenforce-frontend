@@ -525,62 +525,51 @@
         }
       }
     },
+    "marketRolesOverview": {
+      "marketRoles": "market roles",
+      "download": "Download",
+      "columns": {
+        "name": "Name",
+        "description": "Description"
+      }
+    },
     "marketRoles": {
       "BalanceResponsibleParty": "Balance responsible party",
-      "BalancingServiceProvider": "Balancing service provider",
       "BillingAgent": "Billing agent",
-      "CapacityTrader": "Capacity trader",
-      "Consumer": "Consumer",
-      "ConsumptionResponsibleParty": "Consumption responsible party",
-      "ConsentAdministrator": "Consent administrator",
-      "CoordinatedCapacityCalculator": "Coordinated capacity calculator",
-      "CoordinationCentreOperator": "Coordination centre operator",
-      "DataProvider": "Data provider",
-      "EnergyServiceCompany": "Energy service company",
       "EnergySupplier": "Energy supplier",
-      "EnergyTrader": "Energy trader",
       "GridAccessProvider": "Grid access provider",
       "ImbalanceSettlementResponsible": "Imbalance settlement responsible",
-      "InterconnectionTradeResponsible": "Interconnection trade responsible",
-      "LfcOperator": "LFC operator",
-      "MarketInformationAggregator": "Market information aggregator",
-      "MarketOperator": "Market operator",
-      "MeritOrderListResponsible": "Merit order list responsible",
-      "MeterAdministrator": "Meter administrator",
-      "MeterOperator": "Meter operator",
       "MeteredDataAdministrator": "Metered data administrator",
-      "MeteredDataAggregator": "Metered data aggregator",
-      "MeteredDataCollector": "Metered data collector",
       "MeteredDataResponsible": "Metered data responsible",
       "MeteringPointAdministrator": "Metering point administrator",
-      "ModelMergingAgent": "Model merging agent",
-      "ModellingAuthority": "Modelling authority",
-      "NominatedElectricityMarketOperator": "Nominated electricity market operator",
-      "NominationValidator": "Nomination validator",
-      "PartyAdministrator": "Party administrator",
-      "PartyConnectedToTheGrid": "Party connected to the grid",
-      "Producer": "Producer",
-      "ProductionResponsibleParty": "Production responsible party",
-      "ReconciliationAccountable": "Reconciliation accountable",
-      "ReconciliationResponsible": "Reconciliation responsible",
-      "ReserveAllocator": "Reserve allocator",
-      "ResourceAggregator": "Resource aggregator",
-      "ResourceCapacityMechanismOperator": "Resource capacity mechanism operator",
-      "ResourceProvider": "Resource provider",
-      "Scheduling": "Scheduling agent",
-      "Agent": "Agent",
-      "SchedulingAreaResponsible": "Scheduling area responsible",
       "SystemOperator": "System operator",
-      "TradeResponsibleParty": "Trade responsible party",
-      "TransmissionCapacityAllocator": "Transmission capacity allocator",
       "DanishEnergyAgency": "Danish energy agency",
       "ElOverblik": "ElOverblik",
       "DataHubAdministrator": "DataHub administrator",
       "IndependentAggregator": "Independent aggregator",
       "SerialEnergyTrader": "Serial energy trader"
     },
+    "marketRoleDescriptions": {
+      "BalanceResponsibleParty": "A Balance Responsible Party is responsible for its imbalances, meaning the difference between the energy volume physically injected to or withdrawn from the system and the final nominated energy volume, including any imbalance adjustment within a given imbalance settlement period. Note: Based on Electricity Balancing - Art.2 Definitions. Additional information: Responsibility for imbalances (Balance responsibility) requires a contract proving financial security with the Imbalance Settlement Responsible of the Scheduling Area entitling the party to operate in the market.",
+      "BillingAgent": "The party responsible for invoicing a concerned party.",
+      "BalancingServiceProvider": "The party responsible for invoicing a concerned party.",
+      "EnergySupplier": "An Energy Supplier supplies electricity to or takes electricity from a Party Connected to the Grid at an Accounting Point. Additional information: An Accounting Point can only have one Energy Supplier. When additional suppliers are needed the Energy Supplier delivers/takes the difference between established (e.g. measured or calculated) production/consumption and the (accumulated) contracts with other suppliers",
+      "GridAccessProvider": "A party responsible for providing access to the grid through an Accounting Point for energy consumption or production by the Party Connected to the Grid. The Grid Access Provider is also responsible for creating and terminating Accounting Points.",
+      "ImbalanceSettlementResponsible": "A party that is responsible for settlement of the difference between the contracted quantities with physical delivery and the established quantities of energy products for the Balance Responsible Parties in a Scheduling Area. Note: The Imbalance Settlement Responsible may delegate the invoicing responsibility to a more generic role such as a Billing Agent.",
+      "MeteredDataAdministrator": "A party responsible for storing and distributing validated measured data.",
+      "MeteredDataResponsible": "A party responsible for the establishment and validation of measured data based on the collected data received from the Metered Data Collector. The party is responsible for the history of metered data for a Metering Point.",
+      "MeteringPointAdministrator": "A party responsible for administrating and making available the Metering Point characteristics, including registering the parties linked to the Metering Point.",
+      "SystemOperator": " ",
+      "DanishEnergyAgency": " ",
+      "ElOverblik": " ",
+      "DataHubAdministrator": " ",
+      "IndependentAggregator": " ",
+      "SerialEnergyTrader": " "
+    },
     "organization": {
       "topBarTitle": "Organisations",
+      "organizationsHeader": "Organisations",
+      "marketRolesHeader": "Market roles",
       "columns": {
         "organization": "Organisation",
         "gln": "Actor Id",
@@ -962,6 +951,7 @@
           }
         },
         "roles": {
+          "gln": "GLN {{ actorNumber }}",
           "tabLabel": "User roles",
           "roles": "User roles",
           "role": "User role",
@@ -1040,10 +1030,17 @@
         }
       },
       "editUserRole": {
+        "saveSuccess": "The user role was updated",
+        "saveError": "Something went wrong. The user role could not be updated. Please try again",
         "tab": {
           "masterData": {
             "tabLabel": "Master data",
-            "nameInputLabel": "Name"
+            "nameInputLabel": "Name",
+            "descriptionInputLabel": "Description",
+            "errors": {
+              "nameAlreadyExists": "The user role already exists",
+              "required": "Field is required"
+            }
           },
           "permissions": {
             "tabLabel": "Permissions"
