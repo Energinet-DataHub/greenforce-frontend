@@ -23,8 +23,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -46,8 +44,6 @@ import { DhCreateRolePermissionTabTableComponent } from './dh-create-userrole-pe
     TranslocoModule,
     WattCardModule,
     DhCreateRolePermissionTabTableComponent,
-    PushModule,
-    LetModule,
     WattEmptyStateModule,
   ],
 })
