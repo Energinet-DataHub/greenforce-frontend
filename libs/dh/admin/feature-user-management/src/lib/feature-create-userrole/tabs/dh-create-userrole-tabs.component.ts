@@ -76,7 +76,8 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   private readonly store = inject(
     DhAdminCreateUserRoleManagementDataAccessApiStore
   );
-  @ViewChild(DhCreateUserroleMasterdataTabComponent) masterdataTab!:DhCreateUserroleMasterdataTabComponent;
+  @ViewChild(DhCreateUserroleMasterdataTabComponent)
+  masterdataTab!: DhCreateUserroleMasterdataTabComponent;
 
   userRole: CreateUserRoleDto;
 
@@ -108,7 +109,10 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
             type: 'danger',
           });
 
-          this.masterdataTab.userRoleForm.enable({onlySelf: true, emitEvent: false});
+          this.masterdataTab.userRoleForm.enable({
+            onlySelf: true,
+            emitEvent: false,
+          });
         }
       });
 
@@ -122,7 +126,10 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (!this.userRole) throw new Error('Missing user role');
-    this.masterdataTab.userRoleForm.disable({onlySelf: true, emitEvent: false});
+    this.masterdataTab.userRoleForm.disable({
+      onlySelf: true,
+      emitEvent: false,
+    });
     this.store.createUserRole({
       createUserRoleDto: this.userRole,
       onSaveCompletedFn: this.backToOverviewAfterSave,
