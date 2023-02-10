@@ -51,7 +51,8 @@ export class DhCreateRolePermissionTabTableComponent implements OnChanges {
   @Output() selectionChanged = new EventEmitter<SelectablePermissionsDto[]>();
   @Input() permissions: SelectablePermissionsDto[] = [];
 
-  @ViewChild(WattTableComponent<SelectablePermissionsDto>) permissionsTable!:WattTableComponent<SelectablePermissionsDto>;
+  @ViewChild(WattTableComponent<SelectablePermissionsDto>)
+  permissionsTable!: WattTableComponent<SelectablePermissionsDto>;
 
   readonly dataSource: WattTableDataSource<SelectablePermissionsDto> =
     new WattTableDataSource<SelectablePermissionsDto>();
@@ -68,8 +69,7 @@ export class DhCreateRolePermissionTabTableComponent implements OnChanges {
 
   ngOnChanges() {
     this.dataSource.data = this.permissions;
-    if (this.permissionsTable)
-      this.permissionsTable._selectionModel.clear();
+    if (this.permissionsTable) this.permissionsTable._selectionModel.clear();
   }
 
   onSelectionChange(selections: SelectablePermissionsDto[]): void {
