@@ -47,7 +47,7 @@ export const routes: Routes = [
         path: dhAdminUserRoleManagementCreatePath,
         canActivate: [PermissionGuard(['users:manage'])],
         loadComponent: () =>
-          import('@energinet-datahub/dh/admin/feature-user-management').then(
+          import('@energinet-datahub/dh/admin/feature-create-user-role').then(
             (m) => m.DhAdminCreateUserRoleComponent
           ),
       },
