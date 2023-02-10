@@ -7,6 +7,10 @@
   },
   "shared": {
     "fieldRequiredErrorText": "Field is required.",
+    "navigation": {
+      "next": "Next",
+      "previous": "Previous"
+    },
     "paginator": {
       "itemsPerPageLabel": "Results per page",
       "of": "of",
@@ -272,7 +276,6 @@
     "sender": "Sender",
     "resolution": "Resolution",
     "effectiveDate": "Effectivedate",
-    "fieldRequiredErrorText": "Field is required.",
     "senderProvidedChargeIdMaxLengthErrorText": "Max 10 characters.",
     "chargeNameMaxLengthErrorText": "Max 132 characters",
     "descriptionMaxLengthErrorText": "Max 2048 characters.",
@@ -833,8 +836,9 @@
         "title": "Invite user",
         "informations": "Informations",
         "addUserRole": "Add user role",
-        "cancel": "Cancel",
-        "next": "Next"
+        "inviteUser": "Invite user",
+        "name": "Name",
+        "userRoles": "User roles"
       },
       "download": "Download",
       "drawer": {

@@ -7,6 +7,10 @@
   },
   "shared": {
     "fieldRequiredErrorText": "Feltet er påkrævet.",
+    "navigation": {
+      "next": "Næste",
+      "previous": "Forrige"
+    },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
       "of": "af",
@@ -835,8 +839,9 @@
         "title": "Inviter bruger",
         "informations": "Informationer",
         "addUserRole": "Tildel brugerroller",
-        "cancel": "Fortryd",
-        "next": "Næste"
+        "inviteUser": "Inviter bruger",
+        "name": "Navn",
+        "userRoles": "Brugerroller"
       },
       "download": "Download",
       "drawer": {
