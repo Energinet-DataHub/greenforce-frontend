@@ -543,14 +543,14 @@
       "MeteredDataResponsible": "Metered data responsible",
       "MeteringPointAdministrator": "Metering point administrator",
       "SystemOperator": "System operator",
-      "DanishEnergyAgency": "Danish energy agency",
+      "DanishEnergyAgency": "Energistyrelsen",
       "ElOverblik": "ElOverblik",
-      "DataHubAdministrator": "DataHub administrator",
-      "IndependentAggregator": "Independent aggregator",
-      "SerialEnergyTrader": "Serial energy trader"
+      "DataHubAdministrator": "DataHub systemadministrator",
+      "IndependentAggregator": "Uafhængig aggregator",
+      "SerialEnergyTrader": "Seriel elhandler"
     },
     "marketRoleDescriptions": {
-      "BalanceResponsibleParty": "A Balance Responsible Party is responsible for its imbalances, meaning the difference between the energy volume physically injected to or withdrawn from the system and the final nominated energy volume, including any imbalance adjustment within a given imbalance settlement period. Note: Based on Electricity Balancing - Art.2 Definitions. Additional information: Responsibility for imbalances (Balance responsibility) requires a contract proving financial security with the Imbalance Settlement Responsible of the Scheduling Area entitling the party to operate in the market.",
+      "BalanceResponsibleParty": "A Balance Responsible Party is responsible for its imbalances, meaning the difference between the energy volume physically injected to or withdrawn from the system and the final nominated energy volume, including any imbalance adjustment within a given imbalance settlement period.",
       "BillingAgent": "The party responsible for invoicing a concerned party.",
       "BalancingServiceProvider": "The party responsible for invoicing a concerned party.",
       "EnergySupplier": "An Energy Supplier supplies electricity to or takes electricity from a Party Connected to the Grid at an Accounting Point. Additional information: An Accounting Point can only have one Energy Supplier. When additional suppliers are needed the Energy Supplier delivers/takes the difference between established (e.g. measured or calculated) production/consumption and the (accumulated) contracts with other suppliers",
