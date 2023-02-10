@@ -57,9 +57,9 @@ export class DhAdminCreateUserRoleManagementDataAccessApiStore extends Component
   public readonly getSelectablePermissions = this.effect(
     (trigger$: Observable<EicFunction>) =>
       trigger$.pipe(
-        switchMap((x) =>
+        switchMap((eicFunction) =>
           this.httpClientUserRole
-            .v1MarketParticipantUserRolePermissionsGet(x)
+            .v1MarketParticipantUserRolePermissionsGet(eicFunction)
             .pipe(
               tapResponse(
                 (response) => {
