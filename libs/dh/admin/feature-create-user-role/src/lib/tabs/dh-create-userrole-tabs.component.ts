@@ -80,6 +80,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   @ViewChild(DhCreateUserroleMasterdataTabComponent)
   masterdataTab!: DhCreateUserroleMasterdataTabComponent;
 
+  permissions$ = this.store.selectablePermissions$;
 
   userRole: CreateUserRoleDto = {
     name: '',

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -24,7 +24,6 @@ import {
   CreateUserRoleDto,
   SelectablePermissionsDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { DhAdminCreateUserRoleManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 
@@ -44,12 +43,9 @@ import { LetModule } from '@rx-angular/template/let';
   ],
 })
 export class DhCreateUserrolePermissionsTabComponent {
-  @Output() valueChange = new EventEmitter<Partial<CreateUserRoleDto>>();
+  @Input() permissions: SelectablePermissionsDto[] = [];
 
-  private readonly store = inject(
-    DhAdminCreateUserRoleManagementDataAccessApiStore
-  );
-  permissions$ = this.store.selectablePermissions$;
+  @Output() valueChange = new EventEmitter<Partial<CreateUserRoleDto>>();
 
   onSelectionChange(selections: SelectablePermissionsDto[]): void {
     this.valueChange.emit({
