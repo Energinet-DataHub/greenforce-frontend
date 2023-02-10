@@ -6,6 +6,7 @@
     "logout": "Log ud"
   },
   "shared": {
+    "fieldRequiredErrorText": "Feltet er påkrævet.",
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
       "of": "af",
@@ -271,7 +272,6 @@
     "sender": "Afsender",
     "resolution": "Opløsning",
     "effectiveDate": "Skæringsdato",
-    "fieldRequiredErrorText": "Feltet er påkrævet.",
     "senderProvidedChargeIdMaxLengthErrorText": "Maksimalt 10 tegn.",
     "chargeNameMaxLengthErrorText": "Maksimalt 132 tegn.",
     "descriptionMaxLengthErrorText": "Maksimalt 2048 tegn.",
@@ -506,7 +506,6 @@
           "labelActorNumber": "Aktør id",
           "labelStatus": "Status",
           "labelActorName": "Aktørnavn",
-          "fieldRequiredErrorText": "Feltet er påkrævet.",
           "statuses": {
             "New": "Ny",
             "Active": "Aktiv",
@@ -617,7 +616,6 @@
           "cityLabel": "By",
           "countryLabel": "Land",
           "commentLabel": "Kommentar",
-          "fieldRequiredErrorText": "Feltet er påkrævet.",
           "countries": {
             "at": "Østrig",
             "be": "Belgien",
@@ -1002,7 +1000,6 @@
         "tabs": {
           "masterdata": {
             "tabLabel": "Stamdata",
-            "fieldRequiredErrorText": "Feltet er påkrævet.",
             "nameMaxLengthErrorText": "Navn skal være under 250 karakterer",
             "name": "Navn",
             "description": "Beskrivelse",

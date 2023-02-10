@@ -6,6 +6,7 @@
     "logout": "Sign out"
   },
   "shared": {
+    "fieldRequiredErrorText": "Field is required.",
     "paginator": {
       "itemsPerPageLabel": "Results per page",
       "of": "of",
@@ -502,7 +503,6 @@
           "labelActorNumber": "Market party Id",
           "labelStatus": "Status",
           "labelActorName": "Actor name",
-          "fieldRequiredErrorText": "Field is required.",
           "statuses": {
             "New": "New",
             "Active": "Active",
@@ -614,7 +614,6 @@
           "cityLabel": "City",
           "countryLabel": "Country",
           "commentLabel": "Comment",
-          "fieldRequiredErrorText": "Field is required.",
           "countries": {
             "at": "Austria",
             "be": "Belgium",
@@ -999,7 +998,6 @@
         "tabs": {
           "masterdata": {
             "tabLabel": "Master data",
-            "fieldRequiredErrorText": "Field is required.",
             "nameMaxLengthErrorText": "Name field must be under 250 characters",
             "name": "Name",
             "description": "Description",

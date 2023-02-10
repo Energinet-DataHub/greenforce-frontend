@@ -28,7 +28,7 @@ limitations under the License.
         required
       />
       <watt-error *ngIf="actorNumberInputModel.hasError('required')">
-        {{ t("fieldRequiredErrorText") }}
+        {{ "shared.fieldRequiredErrorText" | transloco }}
       </watt-error>
     </watt-form-field>
     <watt-form-field class="field-status">
@@ -43,7 +43,7 @@ limitations under the License.
       >
       </watt-dropdown>
       <watt-error *ngIf="statusInputModel.hasError('required')">
-        {{ t("fieldRequiredErrorText") }}
+        {{ "shared.fieldRequiredErrorText" | transloco }}
       </watt-error>
     </watt-form-field>
   </div>
