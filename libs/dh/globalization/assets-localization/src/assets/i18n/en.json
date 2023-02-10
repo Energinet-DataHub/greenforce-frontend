@@ -6,6 +6,11 @@
     "logout": "Sign out"
   },
   "shared": {
+    "fieldRequiredErrorText": "Field is required.",
+    "navigation": {
+      "next": "Next",
+      "previous": "Previous"
+    },
     "paginator": {
       "itemsPerPageLabel": "Results per page",
       "of": "of",
@@ -271,7 +276,6 @@
     "sender": "Sender",
     "resolution": "Resolution",
     "effectiveDate": "Effectivedate",
-    "fieldRequiredErrorText": "Field is required.",
     "senderProvidedChargeIdMaxLengthErrorText": "Max 10 characters.",
     "chargeNameMaxLengthErrorText": "Max 132 characters",
     "descriptionMaxLengthErrorText": "Max 2048 characters.",
@@ -502,7 +506,6 @@
           "labelActorNumber": "Market party Id",
           "labelStatus": "Status",
           "labelActorName": "Actor name",
-          "fieldRequiredErrorText": "Field is required.",
           "statuses": {
             "New": "New",
             "Active": "Active",
@@ -615,7 +618,6 @@
           "countryLabel": "Country",
           "domainLabel": "Domain",
           "commentLabel": "Comment",
-          "fieldRequiredErrorText": "Field is required.",
           "countries": {
             "at": "Austria",
             "be": "Belgium",
@@ -831,6 +833,14 @@
   },
   "admin": {
     "userManagement": {
+      "inviteUser": {
+        "title": "Invite user",
+        "informations": "Informations",
+        "addUserRole": "Add user role",
+        "inviteUser": "Invite user",
+        "name": "Name",
+        "userRoles": "User roles"
+      },
       "download": "Download",
       "drawer": {
         "edit": "Edit",
@@ -993,7 +1003,6 @@
         "tabs": {
           "masterdata": {
             "tabLabel": "Master data",
-            "fieldRequiredErrorText": "Field is required.",
             "nameMaxLengthErrorText": "Name field must be under 250 characters",
             "name": "Name",
             "description": "Description",
