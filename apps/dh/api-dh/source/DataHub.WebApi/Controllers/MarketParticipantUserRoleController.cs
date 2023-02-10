@@ -157,9 +157,9 @@ namespace Energinet.DataHub.WebApi.Controllers
 
         [HttpGet]
         [Route("Permissions")]
-        public Task<ActionResult<IEnumerable<SelectablePermissionsDto>>> GetSelectablePermissionsAsync()
+        public Task<ActionResult<IEnumerable<SelectablePermissionsDto>>> GetSelectablePermissionsAsync(EicFunction eicFunction)
         {
-            return HandleExceptionAsync(() => _userRoleClient.GetSelectablePermissionsAsync());
+            return HandleExceptionAsync(() => _userRoleClient.GetSelectablePermissionsAsync(eicFunction));
         }
     }
 }
