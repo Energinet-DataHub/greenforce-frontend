@@ -616,6 +616,7 @@
           "zipCodeLabel": "Post nr.",
           "cityLabel": "By",
           "countryLabel": "Land",
+          "domainLabel": "Domæne",
           "commentLabel": "Kommentar",
           "fieldRequiredErrorText": "Feltet er påkrævet.",
           "countries": {
