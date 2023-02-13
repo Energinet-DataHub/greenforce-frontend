@@ -17,9 +17,12 @@
 import { Component, ViewChild, inject } from '@angular/core';
 import { LetModule } from '@rx-angular/template/let';
 import { CommonModule } from '@angular/common';
-import { TranslocoModule } from '@ngneat/transloco';
-import { combineLatest } from 'rxjs';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { combineLatest, map, Observable } from 'rxjs';
+import { PushModule } from '@rx-angular/template/push';
 
+import { DhDatePipe } from '@energinet-datahub/dh/shared/ui-date-time';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
@@ -30,11 +33,13 @@ import {
   WattDrawerComponent,
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListGroups,
+} from '@energinet-datahub/watt/description-list';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 @Component({
   selector: 'dh-wholesale-production-per-gridarea',
@@ -43,7 +48,6 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
   standalone: true,
   imports: [
     CommonModule,
-    DhSharedUiDateTimeModule,
     DhWholesaleTimeSeriesPointsComponent,
     LetModule,
     TranslocoModule,
@@ -54,12 +58,15 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
     WattEmptyStateModule,
     WattSpinnerModule,
     ...WATT_BREADCRUMBS,
+    WattDescriptionListComponent,
+    PushModule,
   ],
 })
 export class DhWholesaleProductionPerGridareaComponent {
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
   private store = inject(DhWholesaleBatchDataAccessApiStore);
+  private transloco = inject(TranslocoService);
 
   vm$ = combineLatest({
     batch: this.store.selectedBatch$.pipe(exists()),
@@ -67,6 +74,47 @@ export class DhWholesaleProductionPerGridareaComponent {
   });
 
   processStepResults$ = this.store.processStepResults$;
+
+  metaData$: Observable<WattDescriptionListGroups> = combineLatest([
+    this.transloco.selectTranslation(),
+    this.processStepResults$,
+    this.vm$,
+  ]).pipe(
+    map(([translations, processStepResults, vm]) => {
+      const datePipe = new DhDatePipe();
+
+      return [
+        {
+          term: translations['wholesale.processStepResults.meteringPointType'],
+          description:
+            translations[
+              'wholesale.processStepResults.processStepMeteringPointType.' +
+                processStepResults?.processStepMeteringPointType
+            ],
+        },
+        {
+          term: translations['wholesale.processStepResults.calculationPeriod'],
+          description: `${datePipe.transform(
+            vm.batch?.periodStart
+          )} - ${datePipe.transform(vm.batch?.periodEnd)}`,
+        },
+        {
+          term: translations['wholesale.processStepResults.sum'],
+          description: `${processStepResults?.sum} kWh`,
+          forceNewRow: true,
+        },
+        {
+          term: translations['wholesale.processStepResults.min'],
+          description: `${processStepResults?.min} kWh`,
+        },
+        {
+          term: translations['wholesale.processStepResults.max'],
+          description: `${processStepResults?.max} kWh`,
+        },
+      ];
+    })
+  );
+
   loadingProcessStepResultsErrorTrigger$ =
     this.store.loadingProcessStepResultsErrorTrigger$;
 }
