@@ -20,32 +20,8 @@
   margin: 0;
 }
 
-.sub-headline {
-  // TODO: We don't have any spacing variable for 24px!
-  margin-bottom: 24px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-}
-
 watt-spinner {
   display: flex;
   justify-content: center;
-}
-
-dl {
-  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-  margin: 24px 0 24px 0;
-  padding: 0 0 24px 0;
-  gap: 24px;
-
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-
-  dd {
-    margin: 0;
-  }
-}
-
-.new-row {
-  grid-column-start: 1;
+  margin-top: var(--watt-space-l);
 }
