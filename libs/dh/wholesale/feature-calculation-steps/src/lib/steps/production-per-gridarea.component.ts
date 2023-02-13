@@ -17,9 +17,11 @@
 import { Component, ViewChild, inject } from '@angular/core';
 import { LetModule } from '@rx-angular/template/let';
 import { CommonModule } from '@angular/common';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { combineLatest } from 'rxjs';
+import { PushModule } from '@rx-angular/template/push';
 
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
@@ -30,11 +32,11 @@ import {
   WattDrawerComponent,
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
+import { WattDescriptionListComponent } from '@energinet-datahub/watt/description-list';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { mapMetaData } from './meta-data';
 
 @Component({
   selector: 'dh-wholesale-production-per-gridarea',
@@ -43,7 +45,6 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
   standalone: true,
   imports: [
     CommonModule,
-    DhSharedUiDateTimeModule,
     DhWholesaleTimeSeriesPointsComponent,
     LetModule,
     TranslocoModule,
@@ -54,19 +55,27 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
     WattEmptyStateModule,
     WattSpinnerModule,
     ...WATT_BREADCRUMBS,
+    WattDescriptionListComponent,
+    PushModule,
   ],
 })
 export class DhWholesaleProductionPerGridareaComponent {
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
   private store = inject(DhWholesaleBatchDataAccessApiStore);
+  private transloco = inject(TranslocoService);
 
   vm$ = combineLatest({
     batch: this.store.selectedBatch$.pipe(exists()),
     gridArea: this.store.selectedGridArea$.pipe(exists()),
   });
-
   processStepResults$ = this.store.processStepResults$;
+  metaData$ = mapMetaData(
+    this.transloco.selectTranslation(),
+    this.processStepResults$,
+    this.vm$
+  );
+
   loadingProcessStepResultsErrorTrigger$ =
     this.store.loadingProcessStepResultsErrorTrigger$;
 }
