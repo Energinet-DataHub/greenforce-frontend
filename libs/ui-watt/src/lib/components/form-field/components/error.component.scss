@@ -22,6 +22,6 @@
   display: none;
 }
 
-:host-context(.ng-submitted .mat-form-field-invalid) {
+:host-context(.mat-form-field-invalid) {
   display: block !important;
 }
