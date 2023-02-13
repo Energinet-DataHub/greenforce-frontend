@@ -14,21 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'watt-drawer-topbar',
-  template: `
-    <ng-content></ng-content>
-    <watt-button
-      class="close-btn"
-      variant="icon"
-      icon="close"
-      (click)="closed.emit()"
-    ></watt-button>
-  `,
+  template: `<ng-content></ng-content>`,
   styleUrls: ['./watt-drawer-topbar.component.scss'],
 })
-export class WattDrawerTopbarComponent {
-  @Output() closed = new EventEmitter<void>();
-}
+export class WattDrawerTopbarComponent {}
