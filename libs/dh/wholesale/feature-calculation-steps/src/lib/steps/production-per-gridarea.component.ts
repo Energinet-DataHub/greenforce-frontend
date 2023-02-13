@@ -32,9 +32,7 @@ import {
   WattDrawerComponent,
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
-import {
-  WattDescriptionListComponent,
-} from '@energinet-datahub/watt/description-list';
+import { WattDescriptionListComponent } from '@energinet-datahub/watt/description-list';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';

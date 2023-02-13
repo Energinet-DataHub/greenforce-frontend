@@ -25,9 +25,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import {
-  WattDescriptionListComponent,
-} from '@energinet-datahub/watt/description-list';
+import { WattDescriptionListComponent } from '@energinet-datahub/watt/description-list';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 

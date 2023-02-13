@@ -14,24 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { WattDescriptionListGroups } from "@energinet-datahub/watt/description-list";
-import { DhDatePipe } from "@energinet-datahub/dh/shared/ui-date-time";
-import { combineLatest, map, Observable } from "rxjs";
-import { Translation } from "@ngneat/transloco";
-import { BatchDto, GridAreaDto, ProcessStepResultDto } from "@energinet-datahub/dh/shared/domain";
-import { WattBadgeType } from "@energinet-datahub/watt/badge";
+import { WattDescriptionListGroups } from '@energinet-datahub/watt/description-list';
+import { DhDatePipe } from '@energinet-datahub/dh/shared/ui-date-time';
+import { combineLatest, map, Observable } from 'rxjs';
+import { Translation } from '@ngneat/transloco';
+import {
+  BatchDto,
+  GridAreaDto,
+  ProcessStepResultDto,
+} from '@energinet-datahub/dh/shared/domain';
+import { WattBadgeType } from '@energinet-datahub/watt/badge';
 
-export function mapMetaData(translations$: Observable<Translation>, processStepResults$: Observable<ProcessStepResultDto | undefined>, vm$: Observable<{
-  batch: BatchDto & {
+export function mapMetaData(
+  translations$: Observable<Translation>,
+  processStepResults$: Observable<ProcessStepResultDto | undefined>,
+  vm$: Observable<{
+    batch: BatchDto & {
       statusType: WattBadgeType;
-  };
-  gridArea: GridAreaDto;
-}>): Observable<WattDescriptionListGroups> {
-  return combineLatest([
-    translations$,
-    processStepResults$,
-    vm$,
-  ]).pipe(
+    };
+    gridArea: GridAreaDto;
+  }>
+): Observable<WattDescriptionListGroups> {
+  return combineLatest([translations$, processStepResults$, vm$]).pipe(
     map(([translations, processStepResults, vm]) => {
       const datePipe = new DhDatePipe();
 
