@@ -23,7 +23,7 @@ limitations under the License.
       <watt-label>{{ t("name") }}</watt-label>
       <input wattInput type="text" [formControl]="userRoleForm.controls.name" />
       <watt-error *ngIf="userRoleForm.controls.name.hasError('required')">
-        {{ t("fieldRequiredErrorText") }}
+        {{ "shared.fieldRequiredErrorText" | transloco }}
       </watt-error>
       <watt-error *ngIf="userRoleForm.controls.name.hasError('maxlength')">
         {{ t("nameMaxLengthErrorText") }}
@@ -40,7 +40,7 @@ limitations under the License.
       <watt-error
         *ngIf="userRoleForm.controls.description.hasError('required')"
       >
-        {{ t("fieldRequiredErrorText") }}
+        {{ "shared.fieldRequiredErrorText" | transloco }}
       </watt-error>
     </watt-form-field>
     <!-- Userrole status -->
@@ -55,7 +55,7 @@ limitations under the License.
       >
       </watt-dropdown>
       <watt-error *ngIf="userRoleForm.controls.roleStatus.hasError('required')">
-        {{ t("fieldRequiredErrorText") }}
+        {{ "shared.fieldRequiredErrorText" | transloco }}
       </watt-error>
     </watt-form-field>
     <!-- Eic Function -->
@@ -72,7 +72,7 @@ limitations under the License.
       <watt-error
         *ngIf="userRoleForm.controls.eicFunction.hasError('required')"
       >
-        {{ t("fieldRequiredErrorText") }}
+        {{ "shared.fieldRequiredErrorText" | transloco }}
       </watt-error>
     </watt-form-field>
   </watt-card>
