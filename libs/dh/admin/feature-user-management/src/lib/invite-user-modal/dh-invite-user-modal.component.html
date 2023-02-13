@@ -14,4 +14,71 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-modal #inviteUserModal> invite user </watt-modal>
+<watt-modal
+  #inviteUserModal
+  [title]="t('title')"
+  (closed)="closeModal($event)"
+  *transloco="let t; read: 'admin.userManagement.inviteUser'"
+>
+  <mat-stepper [linear]="true" #stepper>
+    <ng-template matStepperIcon="edit">
+      <watt-icon name="checkmark"></watt-icon>
+    </ng-template>
+    <ng-template matStepperIcon="last">
+      <watt-icon name="checkmark"></watt-icon>
+    </ng-template>
+    <ng-template matStepperIcon="error" let-index="index">
+      {{ index + 1 }}
+    </ng-template>
+    <mat-step [stepControl]="userInfo">
+      <form [formGroup]="userInfo">
+        <ng-template matStepLabel>{{ t("informations") }}</ng-template>
+        <watt-form-field>
+          <watt-label>{{ t("name") }}</watt-label>
+          <input
+            [formControl]="userInfo.controls.name"
+            wattInput
+            type="text"
+            name="name"
+          />
+          <watt-error *ngIf="userInfo.controls.name.hasError('required')">
+            {{ "shared.fieldRequiredErrorText" | transloco }}
+          </watt-error>
+        </watt-form-field>
+        <div class="buttonWrapper">
+          <watt-button variant="secondary" wattStepperNext
+            >{{ "shared.navigation.next" | transloco }}
+            <watt-icon name="right"></watt-icon
+          ></watt-button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="userRoles">
+      <form [formGroup]="userRoles">
+        <ng-template matStepLabel>{{ t("addUserRole") }}</ng-template>
+        <watt-form-field>
+          <watt-label>{{ t("userRoles") }}</watt-label>
+          <input
+            [formControl]="userRoles.controls.userRole"
+            wattInput
+            type="text"
+            name="userRole"
+          />
+          <watt-error *ngIf="userRoles.controls.userRole.hasError('required')">
+            {{ "shared.fieldRequiredErrorText" | transloco }}
+          </watt-error>
+        </watt-form-field>
+        <div class="buttonWrapper">
+          <watt-button variant="secondary" wattStepperPrevious>
+            <watt-icon name="left"></watt-icon>
+            {{ "shared.navigation.previous" | transloco }}
+          </watt-button>
+          <watt-button variant="primary" (click)="inviteUser()">{{
+            t("inviteUser")
+          }}</watt-button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-stepper>
+</watt-modal>

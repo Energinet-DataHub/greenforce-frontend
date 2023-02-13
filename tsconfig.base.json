@@ -377,6 +377,9 @@
       "@energinet-datahub/watt/spinner": [
         "libs/ui-watt/src/lib/components/spinner/index.ts"
       ],
+      "@energinet-datahub/watt/stepper": [
+        "libs/ui-watt/src/lib/components/stepper/index.ts"
+      ],
       "@energinet-datahub/watt/table": [
         "libs/ui-watt/src/lib/components/table/index.ts"
       ],
