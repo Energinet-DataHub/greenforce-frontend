@@ -36,6 +36,14 @@
 .watt-drawer {
   padding: 0;
 
+  & header {
+    display: flex;
+    border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+    .close-btn {
+      align-self: center;
+    }
+  }
+
   &__grid-container {
     display: grid;
     grid-template-rows: auto 1fr;
