@@ -14,13 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  inject,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -39,7 +33,6 @@ import { LetModule } from '@rx-angular/template/let';
   templateUrl: './dh-create-userrole-permissions-tab.component.html',
   styleUrls: ['./dh-create-userrole-permissions-tab.component.scss'],
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     TranslocoModule,
