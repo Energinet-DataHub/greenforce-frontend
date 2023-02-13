@@ -49,7 +49,10 @@ limitations under the License.
         errorTrigger: loadingProcessStepResultsErrorTrigger$
       "
     >
-      <watt-description-list *ngIf="processStepResults" [groups]="metaData$ | push"></watt-description-list>
+      <watt-description-list
+        *ngIf="processStepResults"
+        [groups]="metaData$ | push"
+      ></watt-description-list>
       <dh-wholesale-time-series-points
         *ngIf="processStepResults"
         [data]="processStepResults.timeSeriesPoints"

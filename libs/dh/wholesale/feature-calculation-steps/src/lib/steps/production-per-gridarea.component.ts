@@ -110,7 +110,7 @@ export class DhWholesaleProductionPerGridareaComponent {
         {
           term: translations['wholesale.processStepResults.max'],
           description: `${processStepResults?.max} kWh`,
-        }
+        },
       ];
     })
   );

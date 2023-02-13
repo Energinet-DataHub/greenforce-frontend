@@ -35,7 +35,10 @@ import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WattDescriptionListComponent, WattDescriptionListGroups } from '@energinet-datahub/watt/description-list';
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListGroups,
+} from '@energinet-datahub/watt/description-list';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import {
@@ -93,12 +96,16 @@ export class DhWholesaleBatchDetailsComponent {
       return [
         {
           term: translations['wholesale.batchDetails.calculationPeriod'],
-          description: `${ datePipe.transform(batch?.periodStart)} - ${ datePipe.transform(batch?.periodEnd)}`,
+          description: `${datePipe.transform(
+            batch?.periodStart
+          )} - ${datePipe.transform(batch?.periodEnd)}`,
         },
         {
           term: translations['wholesale.batchDetails.executionTime'],
-          description: dateTimePipe.transform(batch?.executionTimeStart) as string,
-        }
+          description: dateTimePipe.transform(
+            batch?.executionTimeStart
+          ) as string,
+        },
       ];
     })
   );
