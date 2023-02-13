@@ -20,23 +20,21 @@ import { combineLatest, map, Observable } from 'rxjs';
 import { Translation } from '@ngneat/transloco';
 import {
   BatchDto,
-  GridAreaDto,
   ProcessStepResultDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { WattBadgeType } from '@energinet-datahub/watt/badge';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 export function mapMetaData(
   translations$: Observable<Translation>,
   processStepResults$: Observable<ProcessStepResultDto | undefined>,
-  vm$: Observable<{
-    batch: BatchDto & {
-      statusType: WattBadgeType;
-    };
-    gridArea: GridAreaDto;
-  }>
+  batch$: Observable<BatchDto | undefined>
 ): Observable<WattDescriptionListGroups> {
-  return combineLatest([translations$, processStepResults$, vm$]).pipe(
-    map(([translations, processStepResults, vm]) => {
+  return combineLatest([
+    translations$,
+    processStepResults$.pipe(exists()),
+    batch$.pipe(exists()),
+  ]).pipe(
+    map(([translations, processStepResults, batch]) => {
       const datePipe = new DhDatePipe();
 
       return [
@@ -45,27 +43,27 @@ export function mapMetaData(
           description:
             translations[
               'wholesale.processStepResults.processStepMeteringPointType.' +
-                processStepResults?.processStepMeteringPointType
+                processStepResults.processStepMeteringPointType
             ],
         },
         {
           term: translations['wholesale.processStepResults.calculationPeriod'],
           description: `${datePipe.transform(
-            vm.batch?.periodStart
-          )} - ${datePipe.transform(vm.batch?.periodEnd)}`,
+            batch.periodStart
+          )} - ${datePipe.transform(batch.periodEnd)}`,
         },
         {
           term: translations['wholesale.processStepResults.sum'],
-          description: `${processStepResults?.sum} kWh`,
+          description: `${processStepResults.sum} kWh`,
           forceNewRow: true,
         },
         {
           term: translations['wholesale.processStepResults.min'],
-          description: `${processStepResults?.min} kWh`,
+          description: `${processStepResults.min} kWh`,
         },
         {
           term: translations['wholesale.processStepResults.max'],
-          description: `${processStepResults?.max} kWh`,
+          description: `${processStepResults.max} kWh`,
         },
       ];
     })
