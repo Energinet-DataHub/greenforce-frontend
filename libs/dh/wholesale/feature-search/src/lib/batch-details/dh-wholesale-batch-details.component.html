@@ -48,7 +48,9 @@ limitations under the License.
         </h3>
       </div>
 
-      <watt-description-list [groups]="batchMetadata$ | push"></watt-description-list>
+      <watt-description-list
+        [groups]="batchMetadata$ | push"
+      ></watt-description-list>
 
       <dh-wholesale-grid-areas
         *ngIf="batch"

@@ -26,7 +26,10 @@ import { DhDatePipe } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattDescriptionListComponent, WattDescriptionListGroups } from '@energinet-datahub/watt/description-list';
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListGroups,
+} from '@energinet-datahub/watt/description-list';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 
@@ -94,7 +97,7 @@ export class DhWholesaleConsumptionPerEnergySupplierComponent {
         {
           term: translations['wholesale.processStepResults.max'],
           description: `${processStepResults?.max} kWh`,
-        }
+        },
       ];
     })
   );
