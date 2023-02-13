@@ -25,19 +25,17 @@ limitations under the License.
     </watt-card-title>
 
     <dh-create-userrole-permissions-tab-table
-      [permissions]="permissions$ | push"
+      [permissions]="permissions"
       (selectionChanged)="onSelectionChange($event)"
     ></dh-create-userrole-permissions-tab-table>
+
     <!-- Empty -->
-    <div class="no-content-container">
-      <ng-container *rxLet="permissions$ as permissions">
-        <watt-empty-state
-          *ngIf="permissions.length === 0"
-          icon="custom-power"
-          size="small"
-          [title]="t('noPermissions')"
-        ></watt-empty-state>
-      </ng-container>
+    <div *ngIf="permissions.length === 0" class="no-content-container">
+      <watt-empty-state
+        icon="custom-power"
+        size="small"
+        [title]="t('noPermissions')"
+      ></watt-empty-state>
     </div>
   </watt-card>
 </ng-container>

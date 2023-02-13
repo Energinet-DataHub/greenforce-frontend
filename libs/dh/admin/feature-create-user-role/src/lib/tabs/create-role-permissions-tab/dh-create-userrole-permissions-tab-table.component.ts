@@ -24,6 +24,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { translate } from '@ngneat/transloco';
+
 import {
   WattTableDataSource,
   WattTableColumnDef,
@@ -69,7 +70,7 @@ export class DhCreateRolePermissionTabTableComponent implements OnChanges {
 
   ngOnChanges() {
     this.dataSource.data = this.permissions;
-    if (this.permissionsTable) this.permissionsTable._selectionModel.clear();
+    if (this.permissionsTable) this.permissionsTable.clearSelection();
   }
 
   onSelectionChange(selections: SelectablePermissionsDto[]): void {
