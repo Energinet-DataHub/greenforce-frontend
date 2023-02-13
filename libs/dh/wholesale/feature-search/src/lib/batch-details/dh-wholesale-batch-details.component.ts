@@ -29,7 +29,10 @@ import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-import { DhDatePipe, DhDateTimePipe } from '@energinet-datahub/dh/shared/ui-date-time';
+import {
+  DhDatePipe,
+  DhDateTimePipe,
+} from '@energinet-datahub/dh/shared/ui-date-time';
 import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
