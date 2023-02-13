@@ -65,16 +65,17 @@ export class DhWholesaleProductionPerGridareaComponent {
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private transloco = inject(TranslocoService);
 
-  vm$ = combineLatest({
-    batch: this.store.selectedBatch$.pipe(exists()),
-    gridArea: this.store.selectedGridArea$.pipe(exists()),
-  });
   processStepResults$ = this.store.processStepResults$;
+  batch$ = this.store.selectedBatch$;
   metaData$ = mapMetaData(
     this.transloco.selectTranslation(),
-    this.processStepResults$,
-    this.vm$
+    this.store.processStepResults$,
+    this.store.selectedBatch$
   );
+  vm$ = combineLatest({
+    batch: this.batch$,
+    gridArea: this.store.selectedGridArea$.pipe(exists()),
+  });
 
   loadingProcessStepResultsErrorTrigger$ =
     this.store.loadingProcessStepResultsErrorTrigger$;
