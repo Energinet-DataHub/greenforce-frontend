@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { LetModule } from '@rx-angular/template/let';
@@ -23,7 +22,6 @@ import { PushModule } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDescriptionListComponent } from '@energinet-datahub/watt/description-list';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -54,15 +52,11 @@ export class DhWholesaleConsumptionPerEnergySupplierComponent {
   private route = inject(ActivatedRoute);
   private transloco = inject(TranslocoService);
 
-  vm$ = combineLatest({
-    batch: this.store.selectedBatch$.pipe(exists()),
-    gridArea: this.store.selectedGridArea$.pipe(exists()),
-  });
   processStepResults$ = this.store.processStepResults$;
   metaData$ = mapMetaData(
     this.transloco.selectTranslation(),
-    this.processStepResults$,
-    this.vm$
+    this.store.processStepResults$,
+    this.store.selectedBatch$
   );
 
   loadingProcessStepResultsErrorTrigger$ =
