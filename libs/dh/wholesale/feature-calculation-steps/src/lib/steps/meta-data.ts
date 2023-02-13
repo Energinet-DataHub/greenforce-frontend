@@ -24,6 +24,7 @@ import {
   ProcessStepResultDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattBadgeType } from '@energinet-datahub/watt/badge';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 export function mapMetaData(
   translations$: Observable<Translation>,
@@ -35,7 +36,11 @@ export function mapMetaData(
     gridArea: GridAreaDto;
   }>
 ): Observable<WattDescriptionListGroups> {
-  return combineLatest([translations$, processStepResults$, vm$]).pipe(
+  return combineLatest([
+    translations$,
+    processStepResults$.pipe(exists()),
+    vm$,
+  ]).pipe(
     map(([translations, processStepResults, vm]) => {
       const datePipe = new DhDatePipe();
 
@@ -45,7 +50,7 @@ export function mapMetaData(
           description:
             translations[
               'wholesale.processStepResults.processStepMeteringPointType.' +
-                processStepResults?.processStepMeteringPointType
+                processStepResults.processStepMeteringPointType
             ],
         },
         {
@@ -56,16 +61,16 @@ export function mapMetaData(
         },
         {
           term: translations['wholesale.processStepResults.sum'],
-          description: `${processStepResults?.sum} kWh`,
+          description: `${processStepResults.sum} kWh`,
           forceNewRow: true,
         },
         {
           term: translations['wholesale.processStepResults.min'],
-          description: `${processStepResults?.min} kWh`,
+          description: `${processStepResults.min} kWh`,
         },
         {
           term: translations['wholesale.processStepResults.max'],
-          description: `${processStepResults?.max} kWh`,
+          description: `${processStepResults.max} kWh`,
         },
       ];
     })
