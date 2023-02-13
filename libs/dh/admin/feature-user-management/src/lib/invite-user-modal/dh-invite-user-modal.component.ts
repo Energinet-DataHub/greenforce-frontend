@@ -43,10 +43,7 @@ import {
   WattStepperButtonPreviousDirective,
 } from '@energinet-datahub/watt/stepper';
 import { MatInputModule } from '@angular/material/input';
-import {
-  StepperSelectionEvent,
-  STEPPER_GLOBAL_OPTIONS,
-} from '@angular/cdk/stepper';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 @Component({
   encapsulation: ViewEncapsulation.None,
