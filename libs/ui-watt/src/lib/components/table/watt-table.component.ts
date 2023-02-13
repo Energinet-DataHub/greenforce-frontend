@@ -315,6 +315,15 @@ export class WattTableComponent<T>
     this._subscription.unsubscribe();
   }
 
+  /**
+   * Clears the selection. Only works when selectable is `true`.
+   */
+  clearSelection() {
+    if (this.selectable) {
+      this._selectionModel.clear();
+    }
+  }
+
   /** @ignore */
   get _columnSelection() {
     return this.dataSource.filteredData.every((row) =>
@@ -327,7 +336,7 @@ export class WattTableComponent<T>
     if (value) {
       this._selectionModel.setSelection(...this.dataSource.filteredData);
     } else {
-      this._selectionModel.clear();
+      this.clearSelection();
     }
   }
 
