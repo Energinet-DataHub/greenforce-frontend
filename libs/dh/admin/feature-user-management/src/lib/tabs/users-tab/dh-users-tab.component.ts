@@ -124,7 +124,7 @@ export class DhUsersTabComponent {
   readonly hasGeneralError$ = this.store.hasGeneralError$;
 
   readonly initialStatusFilter$ = this.store.initialStatusFilter$;
-
+  isInviteUserModalVisible = false;
   readonly actorOptions$ = this.actorStore.actors$;
   readonly userRolesOptions$ = this.userRolesStore.rolesOptions$;
   readonly canChooseMultipleActors$ = this.actorStore.canChooseMultipleActors$;
@@ -168,5 +168,13 @@ export class DhUsersTabComponent {
 
   reloadUsers(): void {
     this.store.reloadUsers();
+  }
+
+  modalOnClose(): void {
+    this.isInviteUserModalVisible = false;
+  }
+
+  showInviteUserModal(): void {
+    this.isInviteUserModalVisible = true;
   }
 }

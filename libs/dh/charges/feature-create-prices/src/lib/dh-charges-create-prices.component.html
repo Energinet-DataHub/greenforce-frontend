@@ -37,7 +37,7 @@ limitations under the License.
             <watt-error
               *ngIf="charge.controls['chargeType'].hasError('required')"
             >
-              {{ t("fieldRequiredErrorText") }}
+              {{ "shared.fieldRequiredErrorText" | transloco }}
             </watt-error>
           </watt-form-field>
 
@@ -55,7 +55,7 @@ limitations under the License.
                 charge.controls['senderProvidedChargeId'].hasError('required')
               "
             >
-              {{ t("fieldRequiredErrorText") }}
+              {{ "shared.fieldRequiredErrorText" | transloco }}
             </watt-error>
             <watt-error
               *ngIf="
@@ -78,7 +78,7 @@ limitations under the License.
             <watt-error
               *ngIf="charge.controls['chargeName'].hasError('required')"
             >
-              {{ t("fieldRequiredErrorText") }}
+              {{ "shared.fieldRequiredErrorText" | transloco }}
             </watt-error>
             <watt-error
               *ngIf="charge.controls['chargeName'].hasError('maxlength')"
@@ -106,7 +106,7 @@ limitations under the License.
                 )
               "
             >
-              {{ t("fieldRequiredErrorText") }}
+              {{ "shared.fieldRequiredErrorText" | transloco }}
             </watt-error>
           </watt-form-field>
 
@@ -117,12 +117,12 @@ limitations under the License.
             <watt-error
               *ngIf="charge.controls['description'].hasError('required')"
             >
-              {{ t("fieldRequiredErrorText") }}
+              {{ "shared.fieldRequiredErrorText" | transloco }}
             </watt-error>
             <watt-error
               *ngIf="charge.controls['description'].hasError('maxlength')"
             >
-              {{ t("descriptionMaxLengthErrorText") }}
+              {{ "shared.fieldRequiredErrorText" | transloco }}
             </watt-error>
           </watt-form-field>
 
@@ -140,7 +140,7 @@ limitations under the License.
             <watt-error
               *ngIf="charge.controls['resolution'].hasError('required')"
             >
-              {{ t("fieldRequiredErrorText") }}
+              {{ "shared.fieldRequiredErrorText" | transloco }}
             </watt-error>
           </watt-form-field>
 
@@ -160,7 +160,7 @@ limitations under the License.
                 hasSubmitted
               "
             >
-              {{ t("fieldRequiredErrorText") }}
+              {{ "shared.fieldRequiredErrorText" | transloco }}
             </watt-error>
 
             <watt-error
