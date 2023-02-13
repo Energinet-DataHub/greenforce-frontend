@@ -21,7 +21,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { combineLatest, map, Observable } from 'rxjs';
 import { PushModule } from '@rx-angular/template/push';
 
-import { DhDatePipe } from 'libs/dh/shared/ui-date-time/src/lib/dh-date.pipe';
+import { DhDatePipe } from '@energinet-datahub/dh/shared/ui-date-time';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';

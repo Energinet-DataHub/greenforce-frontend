@@ -22,7 +22,7 @@ import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-import { DhDatePipe } from 'libs/dh/shared/ui-date-time/src/lib/dh-date.pipe';
+import { DhDatePipe } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
