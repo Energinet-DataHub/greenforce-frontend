@@ -47,22 +47,9 @@ limitations under the License.
           {{ transloco("batchDetails.headline", { batchId: batch.batchId }) }}
         </h3>
       </div>
-      <dl *transloco="let transloco; read: 'wholesale'">
-        <div>
-          <dt class="watt-label">
-            {{ transloco("batchDetails.calculationPeriod") }}
-          </dt>
-          <dd>
-            {{ batch?.periodStart | dhDate }} - {{ batch?.periodEnd | dhDate }}
-          </dd>
-        </div>
-        <div>
-          <dt class="watt-label">
-            {{ transloco("batchDetails.executionTime") }}
-          </dt>
-          <dd>{{ batch?.executionTimeStart | dhDateTime }}</dd>
-        </div>
-      </dl>
+
+      <watt-description-list [groups]="batchMetadata$ | push"></watt-description-list>
+
       <dh-wholesale-grid-areas
         *ngIf="batch"
         [data]="batch.gridAreas"

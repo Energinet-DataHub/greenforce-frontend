@@ -49,48 +49,7 @@ limitations under the License.
         errorTrigger: loadingProcessStepResultsErrorTrigger$
       "
     >
-      <dl *ngIf="processStepResults">
-        <div>
-          <dt class="watt-label watt-on-light--high-emphasis">
-            {{ transloco("meteringPointType") }}
-          </dt>
-          <dd class="watt-text-s">
-            {{
-              transloco(
-                "processStepMeteringPointType." +
-                  processStepResults.processStepMeteringPointType
-              )
-            }}
-          </dd>
-        </div>
-        <div>
-          <dt class="watt-label watt-on-light--high-emphasis">
-            {{ transloco("calculationPeriod") }}
-          </dt>
-          <dd class="watt-text-s">
-            {{ vm.batch.periodStart | dhDate }} -
-            {{ vm.batch.periodEnd | dhDate }}
-          </dd>
-        </div>
-        <div class="new-row">
-          <dt class="watt-label watt-on-light--high-emphasis">
-            {{ transloco("sum") }}
-          </dt>
-          <dd class="watt-text-s">{{ processStepResults.sum }} kWh</dd>
-        </div>
-        <div>
-          <dt class="watt-label watt-on-light--high-emphasis">
-            {{ transloco("min") }}
-          </dt>
-          <dd class="watt-text-s">{{ processStepResults.min }} kWH</dd>
-        </div>
-        <div>
-          <dt class="watt-label watt-on-light--high-emphasis">
-            {{ transloco("max") }}
-          </dt>
-          <dd class="watt-text-s">{{ processStepResults.max }} kWh</dd>
-        </div>
-      </dl>
+      <watt-description-list *ngIf="processStepResults" [groups]="metaData$ | push"></watt-description-list>
       <dh-wholesale-time-series-points
         *ngIf="processStepResults"
         [data]="processStepResults.timeSeriesPoints"
