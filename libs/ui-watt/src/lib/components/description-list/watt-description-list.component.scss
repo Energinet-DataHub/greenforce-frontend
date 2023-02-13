@@ -14,19 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-watt-description-list dl {
-  display: grid;
-  gap: 24px;
-  grid-template-columns: repeat(
-    var(--watt-description-list-groups-per-row, 3),
-    1fr
-  );
+watt-description-list {
+  display: block;
+  border-top: 1px solid var(--watt-color-neutral-grey-300);
+  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+  margin: 24px 0 24px 0;
 
-  dd {
-    margin: 0;
-  }
+  dl {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(
+      var(--watt-description-list-groups-per-row, 3),
+      1fr
+    );
 
-  .force-new-row {
-    grid-column-start: 1;
+    dd {
+      margin: 0;
+    }
+
+    .force-new-row {
+      grid-column-start: 1;
+    }
   }
 }

@@ -17,7 +17,6 @@
 import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -30,7 +29,6 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
 
 import { WattDrawerTopbarComponent } from './watt-drawer-topbar.component';
 
@@ -42,7 +40,7 @@ export type WattDrawerSize = 'small' | 'normal' | 'large';
   styleUrls: ['./watt-drawer.component.scss'],
   templateUrl: './watt-drawer.component.html',
 })
-export class WattDrawerComponent implements AfterViewInit, OnDestroy {
+export class WattDrawerComponent implements OnDestroy {
   private static currentDrawer?: WattDrawerComponent;
 
   /** Used to adjust drawer size to best fit the content. */
@@ -62,9 +60,6 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
 
   /** @ignore */
   bypassClickCheck = false;
-
-  /** @ignore */
-  private destroy$ = new Subject<void>();
 
   /** @ignore */
   @ContentChild(WattDrawerTopbarComponent) topbar?: WattDrawerTopbarComponent;
@@ -101,20 +96,10 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
   ) {}
 
   /** @ignore */
-  ngAfterViewInit(): void {
-    this.topbar?.closed
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.close());
-  }
-
-  /** @ignore */
   ngOnDestroy(): void {
     if (WattDrawerComponent.currentDrawer === this) {
       WattDrawerComponent.currentDrawer = undefined;
     }
-
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   /**
