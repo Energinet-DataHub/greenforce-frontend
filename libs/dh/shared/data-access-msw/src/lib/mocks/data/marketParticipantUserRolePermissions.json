@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "name": "Organization:manage",
+    "name": "organization:manage",
     "description": "Permission to manage organization",
     "eicFunction": "MeteredDataAdministrator"
   },
@@ -12,19 +12,19 @@
     "eicFunction": "MeteredDataAdministrator"
   },
   {
-    "id": 1,
-    "name": "Organization:manage",
+    "id": 3,
+    "name": "organization:manage",
     "description": "Permission to manage organization",
     "eicFunction": "ElOverblik"
   },
   {
-    "id": 3,
+    "id": 4,
     "name": "user:manage",
     "description": "Permission to manage users",
     "eicFunction": "ElOverblik"
   },
   {
-    "id": 3,
+    "id": 5,
     "name": "user:manage",
     "description": "Permission to manage organization",
     "eicFunction": "BalanceResponsibleParty"
