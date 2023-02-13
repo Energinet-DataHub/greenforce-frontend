@@ -842,7 +842,8 @@
         "addUserRole": "Tildel brugerroller",
         "inviteUser": "Inviter bruger",
         "name": "Navn",
-        "userRoles": "Brugerroller"
+        "userRoles": "Brugerroller",
+        "actor": "Aktør"
       },
       "download": "Download",
       "drawer": {

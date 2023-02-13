@@ -839,7 +839,8 @@
         "addUserRole": "Add user role",
         "inviteUser": "Invite user",
         "name": "Name",
-        "userRoles": "User roles"
+        "userRoles": "User roles",
+        "actor": "Actor"
       },
       "download": "Download",
       "drawer": {

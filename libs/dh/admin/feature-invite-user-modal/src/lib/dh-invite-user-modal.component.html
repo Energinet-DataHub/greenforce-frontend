@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-﻿<ng-container *transloco="let t; read: 'admin.userManagement.inviteUser'">
+<ng-container *transloco="let t; read: 'admin.userManagement.inviteUser'">
   <watt-modal
     #inviteUserModal
     [title]="t('title')"
@@ -34,14 +34,14 @@ limitations under the License.
         <form [formGroup]="userInfo">
           <ng-template matStepLabel>{{ t("informations") }}</ng-template>
           <watt-form-field>
-            <watt-label>{{ t("name") }}</watt-label>
-            <input
-              [formControl]="userInfo.controls.name"
-              wattInput
-              type="text"
-              name="name"
-            />
-            <watt-error *ngIf="userInfo.controls.name.hasError('required')">
+            <watt-label>{{ t("actor") }}</watt-label>
+            <watt-dropdown
+              [formControl]="userInfo.controls.actorId"
+              [options]="(actorOptions$ | async) ?? []"
+              name="actorId"
+            >
+            </watt-dropdown>
+            <watt-error *ngIf="userInfo.controls.actorId.hasError('required')">
               {{ "shared.fieldRequiredErrorText" | transloco }}
             </watt-error>
           </watt-form-field>

@@ -20,6 +20,7 @@ import {
   Component,
   EventEmitter,
   inject,
+  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -38,6 +39,7 @@ import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
 import {
   WattStepperButtonNextDirective,
   WattStepperButtonPreviousDirective,
@@ -45,6 +47,7 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { DhUserActorsDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 @Component({
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -72,15 +75,20 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
     WattFormFieldModule,
     MatFormFieldModule,
     MatInputModule,
+    WattDropdownModule,
   ],
 })
-export class DhInviteUserModalComponent implements AfterViewInit {
+export class DhInviteUserModalComponent implements AfterViewInit, OnInit {
+  private readonly actorStore = inject(DhUserActorsDataAccessApiStore);
   private readonly formBuilder = inject(FormBuilder);
   @ViewChild('inviteUserModal') inviteUserModal!: WattModalComponent;
   @ViewChild('stepper') stepper!: MatStepper;
   @Output() closed = new EventEmitter<void>();
+
+  readonly actorOptions$ = this.actorStore.actors$;
+
   userInfo = this.formBuilder.group({
-    name: ['', Validators.required],
+    actorId: ['', Validators.required],
   });
   userRoles = this.formBuilder.group({
     userRole: ['', Validators.required],
@@ -88,6 +96,10 @@ export class DhInviteUserModalComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.inviteUserModal.open();
+  }
+
+  ngOnInit(): void {
+    this.actorStore.getActors();
   }
 
   inviteUser() {
