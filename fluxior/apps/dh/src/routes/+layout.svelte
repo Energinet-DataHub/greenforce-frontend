@@ -1,11 +1,21 @@
-﻿<div class="grid-container">
+﻿<script lang="ts">
+  import logo from '../images/logo-light.svg';
+</script>
+
+<div class="grid-container">
   <header class="topbar">Topbar</header>
-  <aside class="menu">Menu</aside>
+  <aside class="menu">
+    <img src={logo} alt="logo" />
+  </aside>
   <main class="content">Content</main>
 </div>
 
 <style lang="scss">
   :global {
+    @import '../styles/colours.scss';
+    aside {
+      padding: 0;
+    }
     html,
     body {
       margin: 0;
@@ -15,27 +25,25 @@
   }
   .grid-container {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: auto 1fr;
     grid-template-rows: auto 1fr;
-    grid-template-areas: 'topbar topbar' 'menu content';
+    grid-template-areas: 'menu topbar' 'menu content';
     height: 100vh;
   }
 
   .topbar {
     grid-area: topbar;
     background-color: lightgray;
-    padding: 1rem;
   }
 
   .menu {
     grid-area: menu;
-    background-color: lightblue;
-    padding: 1rem;
+    background-color: var(--watt-color-primary-dark);
+    width: 245px;
   }
 
   .content {
     grid-area: content;
     background-color: lightgreen;
-    padding: 1rem;
   }
 </style>
