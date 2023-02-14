@@ -3,7 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/dh/admin/feature-invite-user-modal/src",
-  "prefix": "energinet-datahub",
+  "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",

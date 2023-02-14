@@ -21,7 +21,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "energinet-datahub",
+            "prefix": "dh",
             "style": "kebab-case"
           }
         ]

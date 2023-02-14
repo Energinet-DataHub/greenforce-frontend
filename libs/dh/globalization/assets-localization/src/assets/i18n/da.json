@@ -843,7 +843,11 @@
         "inviteUser": "Inviter bruger",
         "name": "Navn",
         "userRoles": "Brugerroller",
-        "actor": "Aktør"
+        "actor": "Aktør",
+        "firstname": "Fornavn",
+        "lastname": "Efternavn",
+        "email": "Email",
+        "phoneNumber": "Telefonnr"
       },
       "download": "Download",
       "drawer": {
