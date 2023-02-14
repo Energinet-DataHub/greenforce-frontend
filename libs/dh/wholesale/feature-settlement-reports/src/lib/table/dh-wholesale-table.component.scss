@@ -20,7 +20,7 @@
 }
 
 watt-empty-state {
-  margin-top: var(--watt-space-xl);
+  margin: var(--watt-space-xl);
 }
 
 watt-card-title {
@@ -32,4 +32,9 @@ watt-card-title {
   h3 {
     margin: 0;
   }
+}
+
+watt-paginator {
+  display: block;
+  margin: 0 -24px -24px -24px;
 }

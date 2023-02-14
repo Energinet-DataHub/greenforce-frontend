@@ -39,9 +39,9 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 
-import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { PushModule } from '@rx-angular/template/push';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 interface SettlementReportsProcess {
   processType: string;
@@ -66,6 +66,7 @@ type wholesaleTableData = WattTableDataSource<SettlementReportsProcess>;
     WattEmptyStateModule,
     DhSharedUiPaginatorComponent,
     WattCardModule,
+    WattPaginatorComponent
   ],
   selector: 'dh-wholesale-table',
   templateUrl: './dh-wholesale-table.component.html',
