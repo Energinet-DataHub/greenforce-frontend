@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: DH CI orchestrator
+name: CI orchestrator
 
 on:
   pull_request:
@@ -24,27 +24,45 @@ jobs:
   # Detect changes to start relevant workflows
   #
   changes:
-    uses: ./.github/workflows/dh-detect-changes.yml
+    uses: ./.github/workflows/detect-changes.yml
 
-  ci_frontend:
+  #
+  # DataHub UI
+  #
+  dh_ci_frontend:
     needs: changes
-    if: ${{ needs.changes.outputs.dotnet == 'true' }}
+    if: ${{ needs.changes.outputs.dh_frontend == 'true' }}
     uses: ./.github/workflows/dh-ci-frontend.yml
     secrets: inherit
 
-  ci_dotnet:
+  dh_ci_dotnet:
     needs: changes
-    if: ${{ needs.changes.outputs.databricks == 'true' }}
+    if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
     uses: ./.github/workflows/dh-ci-dotnet.yml
+    secrets: inherit
+
+  #
+  # Watt
+  #
+  watt_ci_frontend:
+    needs: changes
+    if: ${{ needs.changes.outputs.watt_frontend == 'true' }}
+    uses: ./.github/workflows/watt-ci-frontend.yml
     secrets: inherit
 
   #
   # Branch policy status check
   #
-
   allow_merge_ci_orchestrator:
     runs-on: ubuntu-latest
-    needs: [ci_frontend, ci_dotnet]
+    needs: [
+      # DataHub UI
+      dh_ci_frontend,
+      dh_ci_dotnet,
+
+      # Watt
+      watt_ci_frontend,
+    ]
     if: |
       always()
     steps:

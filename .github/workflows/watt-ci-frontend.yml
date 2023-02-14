@@ -15,9 +15,8 @@
 # Design System Frontend
 name: Watt CI
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+on:
+  workflow_call: {}
 
 env:
   APP_NAME: designsystem
@@ -26,25 +25,11 @@ env:
   YARN_VERSION: 1.22.19
   NX_MAX_PARALLEL: 2
 
-on:
-  pull_request:
-    branches:
-      - main
-
 jobs:
-  #
-  # Detect changes to start relevant jobs
-  #
-
-  changes:
-    uses: ./.github/workflows/watt-detect-changes.yml
-
   #
   # Frontend
   #
   frontend_ci_build:
-    if: ${{ needs.changes.outputs.frontend == 'true' }}
-    needs: changes
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
