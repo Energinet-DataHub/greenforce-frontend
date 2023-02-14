@@ -27,6 +27,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
+import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 
@@ -52,6 +53,7 @@ import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
     WattEmptyStateModule,
     WattSpinnerModule,
     WattTopBarComponent,
+    WattCardModule,
   ],
   templateUrl: './dh-wholesale-settlement-reports.component.html',
   styleUrls: ['./dh-wholesale-settlement-reports.component.scss'],

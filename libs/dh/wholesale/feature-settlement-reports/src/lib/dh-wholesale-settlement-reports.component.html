@@ -15,30 +15,35 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
-  <watt-top-bar>
-    <dh-wholesale-form
-      (search)="onSearch($event)"
-      [loading]="loadingBatchesTrigger$ | push"
-    ></dh-wholesale-form>
-  </watt-top-bar>
-
   <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
-    <section class="content" *ngIf="searchSubmitted">
-      <ng-container
-        *rxLet="
-          data$;
-          let data;
-          error: loadedBatchesError;
-          suspense: loadingBatches;
-          suspenseTrigger: loadingBatchesTrigger$;
-          errorTrigger: loadingBatchesErrorTrigger$
-        "
-      >
-        <dh-wholesale-table
-          *ngIf="data"
-          [data]="[]"
-        ></dh-wholesale-table>
-      </ng-container>
+    <section class="content">
+      <watt-card>
+        <watt-card-title
+          *transloco="let transloco; read: 'wholesale.settlementReports.table'"
+        >
+          <h3 class="watt-on-light--high-emphasis">
+            {{ transloco("title") }}
+          </h3>
+        </watt-card-title>
+
+        <dh-wholesale-form
+          (search)="onSearch($event)"
+          [loading]="loadingBatchesTrigger$ | push"
+        ></dh-wholesale-form>
+
+        <ng-container
+          *rxLet="
+            data$;
+            let data;
+            error: loadedBatchesError;
+            suspense: loadingBatches;
+            suspenseTrigger: loadingBatchesTrigger$;
+            errorTrigger: loadingBatchesErrorTrigger$
+          "
+        >
+          <dh-wholesale-table *ngIf="data" [data]="[]"></dh-wholesale-table>
+        </ng-container>
+      </watt-card>
     </section>
 
     <ng-template #loadingBatches>
@@ -54,5 +59,4 @@ limitations under the License.
       </watt-empty-state>
     </ng-template>
   </ng-container>
-
 </ng-container>

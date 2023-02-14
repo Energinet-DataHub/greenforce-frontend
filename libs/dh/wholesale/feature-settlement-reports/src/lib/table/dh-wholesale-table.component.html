@@ -14,12 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
-<watt-card *transloco="let transloco; read: 'wholesale.settlementReports.table'">
-  <watt-card-title>
-    <h3 class="watt-on-light--high-emphasis">{{ transloco("title") }}</h3>
-  </watt-card-title>
-
+<ng-container *transloco="let transloco; read: 'wholesale.settlementReports.table'">
   <!-- Table -->
   <watt-table
     [dataSource]="_data"
@@ -42,17 +37,17 @@ limitations under the License.
 
     <!-- Period From -->
     <ng-container *wattTableCell="columns.periodFrom; let process">
-      {{ process.periodFrom | dhDate }}
+      {{ process.periodFrom }}
     </ng-container>
 
     <!-- Period To -->
     <ng-container *wattTableCell="columns.periodTo; let process">
-      {{ process.periodTo | dhDate }}
+      {{ process.periodTo }}
     </ng-container>
 
     <!-- Execution Time -->
     <ng-container *wattTableCell="columns.executionTime; let batch">
-      {{ batch.executionTime | dhDateTime }}
+      {{ batch.executionTime }}
     </ng-container>
 
   </watt-table>
@@ -68,4 +63,4 @@ limitations under the License.
   </watt-empty-state>
 
   <watt-paginator></watt-paginator>
-</watt-card>
+</ng-container>

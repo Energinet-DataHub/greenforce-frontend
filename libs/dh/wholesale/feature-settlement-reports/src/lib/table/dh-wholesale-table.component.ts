@@ -16,7 +16,6 @@
  */
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Input,
@@ -24,6 +23,7 @@ import {
   Output,
   EventEmitter,
   inject,
+  AfterViewInit,
 } from '@angular/core';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
@@ -36,7 +36,6 @@ import {
 } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 
 import { PushModule } from '@rx-angular/template/push';
@@ -65,8 +64,7 @@ type wholesaleTableData = WattTableDataSource<SettlementReportsProcess>;
     WattButtonModule,
     WattEmptyStateModule,
     DhSharedUiPaginatorComponent,
-    WattCardModule,
-    WattPaginatorComponent
+    WattPaginatorComponent,
   ],
   selector: 'dh-wholesale-table',
   templateUrl: './dh-wholesale-table.component.html',
@@ -78,15 +76,16 @@ export class DhWholesaleTableComponent implements AfterViewInit {
 
   selectedBatch$ = this.store.selectedBatch$;
 
-  @ViewChild(DhSharedUiPaginatorComponent)
-  paginator!: DhSharedUiPaginatorComponent;
+  @ViewChild(WattPaginatorComponent) paginator!: WattPaginatorComponent;
 
   @Input() set data(processes: SettlementReportsProcess[]) {
     this._data = new WattTableDataSource(processes);
   }
 
-  @Output() selectedRow: EventEmitter<SettlementReportsProcess> = new EventEmitter();
-  @Output() download: EventEmitter<SettlementReportsProcess> = new EventEmitter();
+  @Output() selectedRow: EventEmitter<SettlementReportsProcess> =
+    new EventEmitter();
+  @Output() download: EventEmitter<SettlementReportsProcess> =
+    new EventEmitter();
 
   _data: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<SettlementReportsProcess> = {

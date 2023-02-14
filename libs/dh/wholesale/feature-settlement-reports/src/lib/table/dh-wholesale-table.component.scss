@@ -23,17 +23,6 @@ watt-empty-state {
   margin: var(--watt-space-xl);
 }
 
-watt-card-title {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: var(--watt-space-s);
-
-  h3 {
-    margin: 0;
-  }
-}
-
 watt-paginator {
   display: block;
   margin: 0 -24px -24px -24px;
