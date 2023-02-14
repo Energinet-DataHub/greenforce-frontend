@@ -14,27 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.watt-modal-panel {
-  .mat-horizontal-stepper-header-container {
-    padding-bottom: var(--watt-space-m);
-  }
-  .mat-step-header .mat-step-icon-selected {
-    border: solid 1px var(--watt-color-primary);
-    background-color: white;
-    color: var(--watt-color-primary);
-  }
-  .mat-stepper-horizontal-line {
-    margin: 0 5px;
-  }
-  .buttonWrapper {
-    display: flex;
-    padding-top: var(--watt-space-m);
-    & :last-child {
-      margin-left: auto;
-    }
-  }
-  .mat-step-icon-state-error {
-    color: var(--watt-color-state-danger);
-    border: solid 1px var(--watt-color-state-danger);
-  }
-}
+import 'jest-preset-angular/setup-jest';

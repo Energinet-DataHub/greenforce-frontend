@@ -31,17 +31,68 @@ limitations under the License.
       {{ index + 1 }}
     </ng-template>
     <mat-step [stepControl]="userInfo">
-      <form [formGroup]="userInfo">
+      <form [formGroup]="userInfo" class="userInfoForm">
         <ng-template matStepLabel>{{ t("informations") }}</ng-template>
         <watt-form-field>
-          <watt-label>{{ t("name") }}</watt-label>
+          <watt-label>{{ t("actor") }}</watt-label>
+          <watt-dropdown
+            [formControl]="userInfo.controls.actorId"
+            [options]="(actorOptions$ | push) ?? []"
+            name="actorId"
+          >
+          </watt-dropdown>
+          <watt-error *ngIf="userInfo.controls.actorId.hasError('required')">
+            {{ "shared.fieldRequiredErrorText" | transloco }}
+          </watt-error>
+        </watt-form-field>
+        <watt-form-field class="firstname">
+          <watt-label>{{ t("firstname") }}</watt-label>
           <input
-            [formControl]="userInfo.controls.name"
+            [formControl]="userInfo.controls.firstname"
             wattInput
             type="text"
-            name="name"
+            name="userRole"
           />
-          <watt-error *ngIf="userInfo.controls.name.hasError('required')">
+          <watt-error *ngIf="userInfo.controls.firstname.hasError('required')">
+            {{ "shared.fieldRequiredErrorText" | transloco }}
+          </watt-error>
+        </watt-form-field>
+        <watt-form-field class="lastname">
+          <watt-label>{{ t("lastname") }}</watt-label>
+          <input
+            [formControl]="userInfo.controls.lastname"
+            wattInput
+            type="text"
+            name="userRole"
+          />
+          <watt-error *ngIf="userInfo.controls.lastname.hasError('required')">
+            {{ "shared.fieldRequiredErrorText" | transloco }}
+          </watt-error>
+        </watt-form-field>
+        <watt-form-field>
+          <watt-label>{{ t("email") }}</watt-label>
+          <input
+            [formControl]="userInfo.controls.email"
+            wattInput
+            type="email"
+            name="userRole"
+          />
+          <span wattSuffix>@ok.dk</span>
+          <watt-error *ngIf="userInfo.controls.email.hasError('required')">
+            {{ "shared.fieldRequiredErrorText" | transloco }}
+          </watt-error>
+        </watt-form-field>
+        <watt-form-field class="phoneNumber">
+          <watt-label>{{ t("phoneNumber") }}</watt-label>
+          <input
+            [formControl]="userInfo.controls.phoneNumber"
+            wattInput
+            type="tel"
+            name="userRole"
+          />
+          <watt-error
+            *ngIf="userInfo.controls.phoneNumber.hasError('required')"
+          >
             {{ "shared.fieldRequiredErrorText" | transloco }}
           </watt-error>
         </watt-form-field>
