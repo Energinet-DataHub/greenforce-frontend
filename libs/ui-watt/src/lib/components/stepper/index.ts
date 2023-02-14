@@ -14,6 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-}
+export { WattStepperButtonNextDirective } from './watt-stepper-button-next';
+export { WattStepperButtonPreviousDirective } from './watt-stepper-button-previous';
