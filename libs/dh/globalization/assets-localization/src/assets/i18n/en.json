@@ -35,7 +35,8 @@
         "menuGroupLabel": "Settlements",
         "startBatch": "Start Batch",
         "searchBatch": "Search Batch",
-        "overview": "Overview"
+        "overview": "Overview",
+        "settlementReports": "Settlement Reports"
       },
       "admin": {
         "menuGroupLabel": "Settings",
@@ -771,6 +772,19 @@
         "firstPageLabel": "first page",
         "lastPageLabel": "last page",
         "of": "of"
+      }
+    },
+    "settlementReports": {
+      "topBarTitle": "Settlement Reports",
+      "table": {
+        "title": "Processes",
+        "processType": "Process type",
+        "gridArea": "Grid area",
+        "periodFrom": "Period from",
+        "periodTo": "Period to",
+        "executionTime": "Execution time",
+        "emptyTitle": "No processes found",
+        "emptyHelperText": "Try changing the search criteria"
       }
     },
     "calculationSteps": {
