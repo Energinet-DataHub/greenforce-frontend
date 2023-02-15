@@ -24,18 +24,18 @@ import {
 import {
   MarketParticipantUserRoleHttp,
   CreateUserRoleDto,
-  SelectablePermissionsDto,
+  PermissionDetailsDto,
   EicFunction,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhCreateUserRoleManagementState {
   readonly requestState: LoadingState | ErrorState;
-  readonly selectablePermissions: SelectablePermissionsDto[];
+  readonly permissionsDetails: PermissionDetailsDto[];
 }
 
 const initialState: DhCreateUserRoleManagementState = {
   requestState: LoadingState.INIT,
-  selectablePermissions: [],
+  permissionsDetails: [],
 };
 
 @Injectable()
@@ -48,13 +48,13 @@ export class DhAdminCreateUserRoleManagementDataAccessApiStore extends Component
     (state) => state.requestState === ErrorState.GENERAL_ERROR
   );
 
-  selectablePermissions$ = this.select((state) => state.selectablePermissions);
+  permissionsDetails$ = this.select((state) => state.permissionsDetails);
 
   constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
     super(initialState);
   }
 
-  public readonly getSelectablePermissions = this.effect(
+  public readonly getPermissionsDetails = this.effect(
     (trigger$: Observable<EicFunction>) =>
       trigger$.pipe(
         switchMap((eicFunction) =>
@@ -108,10 +108,10 @@ export class DhAdminCreateUserRoleManagementDataAccessApiStore extends Component
   private updatePermissions = this.updater(
     (
       state: DhCreateUserRoleManagementState,
-      response: SelectablePermissionsDto[]
+      response: PermissionDetailsDto[]
     ): DhCreateUserRoleManagementState => ({
       ...state,
-      selectablePermissions: response,
+      permissionsDetails: response,
     })
   );
 
