@@ -787,10 +787,16 @@
         "periodEnd": "Periode til",
         "executionTimeStart": "Kørsel tid",
         "emptyTitle": "Ingen processer fundet",
-        "emptyHelperText": "Prøv at ændre dine søgeindstillinger",
-        "processTypes": {
-          "BalanceFixing": "Balancefiksering"
-        }
+        "emptyHelperText": "Prøv at ændre dine søgeindstillinger"
+      },
+      "processTypes": {
+        "BalanceFixing": "Balancefiksering"
+      },
+      "filters": {
+        "processType": "Procestype",
+        "gridArea": "Netområde",
+        "period": "Periode",
+        "executionTime": "Kørsel tid"
       }
     },
     "calculationSteps": {

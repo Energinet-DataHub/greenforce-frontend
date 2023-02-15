@@ -784,10 +784,16 @@
         "periodEnd": "Period to",
         "executionTimeStart": "Execution time",
         "emptyTitle": "No processes found",
-        "emptyHelperText": "Try changing the search criteria",
-        "processTypes": {
-          "BalanceFixing": "Balance fixing"
-        }
+        "emptyHelperText": "Try changing the search criteria"
+      },
+      "processTypes": {
+        "BalanceFixing": "Balance fixing"
+      },
+      "filters": {
+        "processType": "Process type",
+        "gridArea": "Grid area",
+        "period": "Period",
+        "executionTime": "Execution time"
       }
     },
     "calculationSteps": {

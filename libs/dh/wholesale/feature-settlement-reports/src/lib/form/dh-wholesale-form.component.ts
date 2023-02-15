@@ -22,17 +22,26 @@ import {
   Output,
   OnInit,
   Input,
+  inject,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { sub } from 'date-fns';
-import { first } from 'rxjs';
-import { TranslocoModule } from '@ngneat/transloco';
+import { first, map, Observable } from 'rxjs';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  BatchSearchDto,
+  ProcessType,
+} from '@energinet-datahub/dh/shared/domain';
+import {
+  WattDropdownModule,
+  WattDropdownOption,
+} from '@energinet-datahub/watt/dropdown';
+import { PushModule } from '@rx-angular/template/push';
 
 @Component({
   standalone: true,
@@ -43,6 +52,8 @@ import { BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
     WattButtonModule,
     WattDatepickerModule,
     WattFormFieldModule,
+    WattDropdownModule,
+    PushModule,
   ],
   selector: 'dh-wholesale-form',
   templateUrl: './dh-wholesale-form.component.html',
@@ -53,10 +64,26 @@ export class DhWholesaleFormComponent implements OnInit {
   @Input() loading = false;
   @Output() search = new EventEmitter<BatchSearchDto>();
 
+  private transloco = inject(TranslocoService);
+
+  processTypeOptions$: Observable<WattDropdownOption[]> = this.transloco
+    .selectTranslateObject('wholesale.settlementReports.processTypes')
+    .pipe(map((translations) => {
+      return [
+        {
+          value: ProcessType.BalanceFixing,
+          displayValue: translations[ProcessType.BalanceFixing],
+        },
+      ];
+    }));
+
   searchForm = this.fb.group({
+    processType: [''],
+    gridArea: [''],
+    period: [''],
     executionTime: [
       {
-        start: sub(new Date().setHours(0, 0, 0, 0), { months: 1 }).toISOString(),
+        start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
         end: new Date().toISOString(),
       },
       WattRangeValidators.required(),

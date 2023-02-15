@@ -16,10 +16,28 @@ limitations under the License.
 -->
 <form
   [formGroup]="searchForm"
-  *transloco="let transloco; read: 'wholesale.searchBatch.filters'"
+  *transloco="let transloco; read: 'wholesale.settlementReports.filters'"
   (ngSubmit)="onSubmit()"
   novalidate
 >
+  <watt-form-field>
+    <watt-label>{{ transloco("processType") }}</watt-label>
+    <watt-dropdown formControlName="processType" [options]="processTypeOptions$ | push"></watt-dropdown>
+  </watt-form-field>
+
+  <watt-form-field>
+    <watt-label>{{ transloco("gridArea") }}</watt-label>
+    <watt-dropdown formControlName="gridArea"></watt-dropdown>
+  </watt-form-field>
+
+  <watt-form-field>
+    <watt-label>{{ transloco("period") }}</watt-label>
+    <watt-datepicker
+      formControlName="period"
+      [range]="true"
+    ></watt-datepicker>
+  </watt-form-field>
+
   <watt-form-field>
     <watt-label>{{ transloco("executionTime") }}</watt-label>
     <watt-datepicker
@@ -33,9 +51,4 @@ limitations under the License.
     </watt-error>
   </watt-form-field>
 
-  <div class="actions">
-    <watt-button type="submit" icon="search" [disabled]="loading">{{
-      transloco("searchButton")
-    }}</watt-button>
-  </div>
 </form>

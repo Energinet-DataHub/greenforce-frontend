@@ -19,12 +19,8 @@
   margin: var(--watt-space-l) 0;
 }
 
-.actions {
+form {
   display: flex;
-  justify-content: flex-end;
-
-  watt-button {
-    margin-top: var(--watt-space-m);
-    margin-left: var(--watt-space-l);
-  }
+  width: 100%;
+  gap: var(--watt-space-m);
 }
