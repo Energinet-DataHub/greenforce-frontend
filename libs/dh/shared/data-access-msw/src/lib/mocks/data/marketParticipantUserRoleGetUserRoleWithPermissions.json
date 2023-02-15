@@ -2,7 +2,7 @@
   {
     "id": "ff029a48-b06f-4300-8ec0-84d121a4b83f",
     "name": "Balanceansvarlig",
-    "description": "",
+    "description": "Manglede beskrivelse",
     "eicFunction": "EnergySupplier",
     "status": "Active",
     "permissions": [1, 2, 3, 4, 5]
@@ -10,7 +10,7 @@
   {
     "id": "512b2941-e82e-4097-aa4b-ec322871a3e6",
     "name": "Supporter",
-    "description": "",
+    "description": "Manglede beskrivelse",
     "eicFunction": "EnergySupplier",
     "status": "Active",
     "permissions": [1, 2, 3, 4, 5]

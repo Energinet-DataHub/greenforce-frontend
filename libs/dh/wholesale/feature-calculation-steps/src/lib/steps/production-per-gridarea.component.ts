@@ -14,11 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, inject, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { LetModule } from '@rx-angular/template/let';
 import { CommonModule } from '@angular/common';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { combineLatest } from 'rxjs';
+import { PushModule } from '@rx-angular/template/push';
 
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
@@ -29,12 +32,11 @@ import {
   WattDrawerComponent,
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
+import { WattDescriptionListComponent } from '@energinet-datahub/watt/description-list';
 
-import { ProcessStepType } from '@energinet-datahub/dh/shared/domain';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
-import { combineLatest } from 'rxjs';
+import { mapMetaData } from './meta-data';
 
 @Component({
   selector: 'dh-wholesale-production-per-gridarea',
@@ -43,7 +45,6 @@ import { combineLatest } from 'rxjs';
   standalone: true,
   imports: [
     CommonModule,
-    DhSharedUiDateTimeModule,
     DhWholesaleTimeSeriesPointsComponent,
     LetModule,
     TranslocoModule,
@@ -54,32 +55,28 @@ import { combineLatest } from 'rxjs';
     WattEmptyStateModule,
     WattSpinnerModule,
     ...WATT_BREADCRUMBS,
+    WattDescriptionListComponent,
+    PushModule,
   ],
 })
-export class DhWholesaleProductionPerGridareaComponent
-  implements AfterViewInit
-{
+export class DhWholesaleProductionPerGridareaComponent {
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
   private store = inject(DhWholesaleBatchDataAccessApiStore);
+  private transloco = inject(TranslocoService);
 
-  batch$ = this.store.selectedBatch$;
-  gridArea$ = this.store.selectedGridArea$;
   processStepResults$ = this.store.processStepResults$;
+  batch$ = this.store.selectedBatch$;
+  metaData$ = mapMetaData(
+    this.transloco.selectTranslation(),
+    this.store.processStepResults$,
+    this.store.selectedBatch$
+  );
+  vm$ = combineLatest({
+    batch: this.batch$,
+    gridArea: this.store.selectedGridArea$.pipe(exists()),
+  });
+
   loadingProcessStepResultsErrorTrigger$ =
     this.store.loadingProcessStepResultsErrorTrigger$;
-
-  ngAfterViewInit(): void {
-    combineLatest([this.batch$, this.gridArea$]).subscribe(
-      ([batch, gridArea]) => {
-        if (batch && gridArea) {
-          this.store.getProcessStepResults({
-            batchId: batch.batchId,
-            gridAreaCode: gridArea.code,
-            processStepResult: ProcessStepType.AggregateProductionPerGridArea,
-          });
-        }
-      }
-    );
-  }
 }

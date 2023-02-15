@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import {
@@ -27,7 +27,6 @@ import {
   CalendarDateRange,
   EoFeatureFlagDirective,
 } from '@energinet-datahub/eo/shared/services';
-import { LetModule } from '@rx-angular/template/let';
 import { EoConsumptionLineChartComponent } from './eo-consumption-chart-card.component';
 import { EoConsumptionPageEnergyConsumptionComponent } from './eo-consumption-page-energy-consumption.component';
 import { EoConsumptionPageInfoComponent } from './eo-consumption-page-info.component';
@@ -38,8 +37,8 @@ import { EoConsumptionStore } from './eo-consumption.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    LetModule,
-    CommonModule,
+    NgIf,
+    AsyncPipe,
     EoStackComponent,
     EoPopupMessageComponent,
     EoFeatureFlagDirective,
@@ -61,17 +60,15 @@ import { EoConsumptionStore } from './eo-consumption.store';
     `,
   ],
   template: `
-    <ng-container *rxLet="error$; let error">
-      <eo-popup-message *ngIf="error" [errorMessage]="error">
-      </eo-popup-message>
-    </ng-container>
+    <eo-popup-message *ngIf="error$ | async"></eo-popup-message>
+
     <div class="content">
       <eo-stack size="L">
         <eo-consumption-page-info></eo-consumption-page-info>
         <eo-consumption-line-chart></eo-consumption-line-chart>
         <eo-date-picker
           [onFeatureFlag]="'daterange'"
-          *rxLet="appSettingsDates$; let dates"
+          *ngIf="appSettingsDates$ | async as dates"
           [dateRangeInput]="dates"
           (newDates)="setNewAppDates($event)"
         ></eo-date-picker>

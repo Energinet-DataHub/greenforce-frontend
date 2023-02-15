@@ -14,13 +14,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { LetModule } from '@rx-angular/template/let';
+import { PushModule } from '@rx-angular/template/push';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+
+import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattDescriptionListComponent } from '@energinet-datahub/watt/description-list';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+
+import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
+import { mapMetaData } from './meta-data';
 
 @Component({
+  standalone: true,
   selector: 'dh-wholesale-consumption-per-energy-supplier',
   templateUrl: './consumption-per-energy-supplier.component.html',
   styleUrls: ['./consumption-per-energy-supplier.component.scss'],
-  standalone: true,
-  imports: [],
+  imports: [
+    CommonModule,
+    DhWholesaleTimeSeriesPointsComponent,
+    LetModule,
+    TranslocoModule,
+    WattBadgeComponent,
+    WattEmptyStateModule,
+    WattSpinnerModule,
+    WattDescriptionListComponent,
+    PushModule,
+  ],
 })
-export class DhWholesaleConsumptionPerEnergySupplierComponent {}
+export class DhWholesaleConsumptionPerEnergySupplierComponent {
+  private store = inject(DhWholesaleBatchDataAccessApiStore);
+  private route = inject(ActivatedRoute);
+  private transloco = inject(TranslocoService);
+
+  processStepResults$ = this.store.processStepResults$;
+  metaData$ = mapMetaData(
+    this.transloco.selectTranslation(),
+    this.store.processStepResults$,
+    this.store.selectedBatch$
+  );
+
+  loadingProcessStepResultsErrorTrigger$ =
+    this.store.loadingProcessStepResultsErrorTrigger$;
+
+  gln: () => string = () => this.route.snapshot.params['gln'];
+}
