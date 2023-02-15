@@ -44,11 +44,10 @@ export class DhAdminCreateUserRoleManagementDataAccessApiStore extends Component
   isLoading$ = this.select(
     (state) => state.requestState === LoadingState.LOADING
   );
+  permissionsDetails$ = this.select((state) => state.permissionsDetails);
   hasGeneralError$ = this.select(
     (state) => state.requestState === ErrorState.GENERAL_ERROR
   );
-
-  permissionsDetails$ = this.select((state) => state.permissionsDetails);
 
   constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
     super(initialState);
