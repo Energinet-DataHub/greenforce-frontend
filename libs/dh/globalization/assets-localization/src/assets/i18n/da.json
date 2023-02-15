@@ -782,12 +782,15 @@
       "table": {
         "title": "Processer",
         "processType": "Procestype",
-        "gridArea": "Netområde",
-        "periodFrom": "Periode fra",
-        "periodTo": "Periode til",
-        "executionTime": "Kørsel tid",
+        "gridAreaName": "Netområde",
+        "periodStart": "Periode fra",
+        "periodEnd": "Periode til",
+        "executionTimeStart": "Kørsel tid",
         "emptyTitle": "Ingen processer fundet",
-        "emptyHelperText": "Prøv at ændre dine søgeindstillinger"
+        "emptyHelperText": "Prøv at ændre dine søgeindstillinger",
+        "processTypes": {
+          "BalanceFixing": "Balancefiksering"
+        }
       }
     },
     "calculationSteps": {

@@ -20,7 +20,7 @@ import {
   inject,
   ChangeDetectorRef,
 } from '@angular/core';
-import { of } from 'rxjs';
+import { map, of } from 'rxjs';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -33,11 +33,13 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 
-import { BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
+import { BatchSearchDto, ProcessType } from '@energinet-datahub/dh/shared/domain';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
+import { batch, settlementReportsProcess } from '@energinet-datahub/dh/wholesale/domain';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 @Component({
   selector: 'dh-wholesale-settlement-reports',
@@ -62,7 +64,10 @@ export class DhWholesaleSettlementReportsComponent {
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private changeDetectorRef = inject(ChangeDetectorRef);
 
-  data$ = this.store.batches$;
+  data$ = this.store.batches$.pipe(
+    exists(),
+    map((batches) => this.mapSettlementReports(batches))
+  );
   loadingBatchesTrigger$ = this.store.loadingBatches$;
   loadingBatchesErrorTrigger$ = this.store.loadingBatchesErrorTrigger$;
 
@@ -72,5 +77,19 @@ export class DhWholesaleSettlementReportsComponent {
     this.searchSubmitted = true;
     this.store.getBatches(of(search));
     this.changeDetectorRef.detectChanges();
+  }
+
+  mapSettlementReports(batches: batch[]): settlementReportsProcess[] {
+    if(!batches) return [];
+    return batches.reduce((result: settlementReportsProcess[], batch) => {
+      return result.concat(
+        batch.gridAreas.map((gridArea) => ({
+          ...batch,
+          processType: ProcessType.BalanceFixing,
+          gridAreaCode: gridArea.code,
+          gridAreaName: gridArea.name,
+        }))
+      );
+    }, []);
   }
 }

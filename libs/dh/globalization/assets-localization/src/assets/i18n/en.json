@@ -779,12 +779,15 @@
       "table": {
         "title": "Processes",
         "processType": "Process type",
-        "gridArea": "Grid area",
-        "periodFrom": "Period from",
-        "periodTo": "Period to",
-        "executionTime": "Execution time",
+        "gridAreaName": "Grid area",
+        "periodStart": "Period from",
+        "periodEnd": "Period to",
+        "executionTimeStart": "Execution time",
         "emptyTitle": "No processes found",
-        "emptyHelperText": "Try changing the search criteria"
+        "emptyHelperText": "Try changing the search criteria",
+        "processTypes": {
+          "BalanceFixing": "Balance fixing"
+        }
       }
     },
     "calculationSteps": {

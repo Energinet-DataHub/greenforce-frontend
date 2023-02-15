@@ -41,16 +41,9 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { PushModule } from '@rx-angular/template/push';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { settlementReportsProcess } from '@energinet-datahub/dh/wholesale/domain';
 
-interface SettlementReportsProcess {
-  processType: string;
-  gridArea: string;
-  periodFrom: string;
-  periodTo: string;
-  executionTime: string;
-}
-
-type wholesaleTableData = WattTableDataSource<SettlementReportsProcess>;
+type settlementReportsTableData = WattTableDataSource<settlementReportsProcess>;
 
 @Component({
   standalone: true,
@@ -78,22 +71,22 @@ export class DhWholesaleTableComponent implements AfterViewInit {
 
   @ViewChild(WattPaginatorComponent) paginator!: WattPaginatorComponent;
 
-  @Input() set data(processes: SettlementReportsProcess[]) {
+  @Input() set data(processes: settlementReportsProcess[]) {
     this._data = new WattTableDataSource(processes);
   }
 
-  @Output() selectedRow: EventEmitter<SettlementReportsProcess> =
+  @Output() selectedRow: EventEmitter<settlementReportsProcess> =
     new EventEmitter();
-  @Output() download: EventEmitter<SettlementReportsProcess> =
+  @Output() download: EventEmitter<settlementReportsProcess> =
     new EventEmitter();
 
-  _data: wholesaleTableData = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<SettlementReportsProcess> = {
+  _data: settlementReportsTableData = new WattTableDataSource(undefined);
+  columns: WattTableColumnDef<settlementReportsProcess> = {
     processType: { accessor: 'processType' },
-    gridArea: { accessor: 'gridArea' },
-    periodFrom: { accessor: 'periodFrom' },
-    periodTo: { accessor: 'periodTo' },
-    executionTime: { accessor: 'executionTime' },
+    gridAreaName: { accessor: 'gridAreaName' },
+    periodStart: { accessor: 'periodStart' },
+    periodEnd: { accessor: 'periodEnd' },
+    executionTimeStart: { accessor: 'executionTimeStart' },
   };
 
   translateHeader = (key: string) =>

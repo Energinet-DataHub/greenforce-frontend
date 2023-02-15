@@ -27,27 +27,27 @@ limitations under the License.
   >
     <!-- Process Type -->
     <ng-container *wattTableCell="columns.processType; let process">
-      {{ process.processType }}
+      {{ transloco('processTypes.' + process.processType) }}
     </ng-container>
 
-    <!-- Grid Area -->
-    <ng-container *wattTableCell="columns.gridArea; let process">
-      {{ process.gridArea }}
+    <!-- Grid Area Name -->
+    <ng-container *wattTableCell="columns.gridAreaName; let process">
+      {{ process.gridAreaName }}
     </ng-container>
 
-    <!-- Period From -->
-    <ng-container *wattTableCell="columns.periodFrom; let process">
-      {{ process.periodFrom }}
+    <!-- Period Start -->
+    <ng-container *wattTableCell="columns.periodStart; let process">
+      {{ process.periodStart | dhDate }}
     </ng-container>
 
-    <!-- Period To -->
-    <ng-container *wattTableCell="columns.periodTo; let process">
-      {{ process.periodTo }}
+    <!-- Period End -->
+    <ng-container *wattTableCell="columns.periodEnd; let process">
+      {{ process.periodEnd | dhDate }}
     </ng-container>
 
-    <!-- Execution Time -->
-    <ng-container *wattTableCell="columns.executionTime; let batch">
-      {{ batch.executionTime }}
+    <!-- Execution Time Start -->
+    <ng-container *wattTableCell="columns.executionTimeStart; let batch">
+      {{ batch.executionTimeStart | dhDateTime }}
     </ng-container>
 
   </watt-table>

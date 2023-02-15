@@ -41,7 +41,7 @@ limitations under the License.
             errorTrigger: loadingBatchesErrorTrigger$
           "
         >
-          <dh-wholesale-table *ngIf="data" [data]="[]"></dh-wholesale-table>
+          <dh-wholesale-table *ngIf="data" [data]="data$ | push"></dh-wholesale-table>
         </ng-container>
       </watt-card>
     </section>
