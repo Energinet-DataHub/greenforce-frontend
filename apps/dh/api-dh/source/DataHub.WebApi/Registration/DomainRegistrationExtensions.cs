@@ -57,7 +57,7 @@ namespace Energinet.DataHub.WebApi.Registration
         private static string AuthorizationHeaderProvider(IServiceProvider serviceProvider)
         {
             var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
-            return ((string?)httpContextAccessor.HttpContext!.Request.Headers["Authorization"]) ?? string.Empty;
+            return (string?)httpContextAccessor.HttpContext!.Request.Headers["Authorization"] ?? string.Empty;
         }
     }
 }

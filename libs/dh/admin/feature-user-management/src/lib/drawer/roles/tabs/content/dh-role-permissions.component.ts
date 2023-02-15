@@ -18,7 +18,10 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  PermissionDetailsDto,
+  UserRoleWithPermissionsDto,
+} from '@energinet-datahub/dh/shared/domain';
 
 import {
   WattTableDataSource,
@@ -36,12 +39,12 @@ import {
 export class DhRolePermissionsComponent implements OnChanges {
   @Input() role: UserRoleWithPermissionsDto | null = null;
 
-  readonly dataSource: WattTableDataSource<number> = new WattTableDataSource(
-    undefined
-  );
+  readonly dataSource: WattTableDataSource<PermissionDetailsDto> =
+    new WattTableDataSource(undefined);
 
-  columns: WattTableColumnDef<number> = {
-    name: { accessor: null, cell: (row: number) => row.toString() },
+  columns: WattTableColumnDef<PermissionDetailsDto> = {
+    name: { accessor: 'name' },
+    description: { accessor: 'description' },
   };
 
   ngOnChanges() {
