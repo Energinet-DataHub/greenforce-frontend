@@ -56,7 +56,7 @@ export class DhWholesaleFormComponent implements OnInit {
   searchForm = this.fb.group({
     executionTime: [
       {
-        start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
+        start: sub(new Date().setHours(0, 0, 0, 0), { months: 1 }).toISOString(),
         end: new Date().toISOString(),
       },
       WattRangeValidators.required(),
