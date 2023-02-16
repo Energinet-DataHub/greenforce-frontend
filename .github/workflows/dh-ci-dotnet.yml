@@ -18,16 +18,6 @@ name: DH CI dotnet
 on:
   workflow_call: {}
 
-env:
-  APP_NAME: app-dh
-  IS_MAIN_BRANCH: ${{ github.ref == 'refs/heads/main' }}
-  IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
-  NODE_OPTIONS: --max-old-space-size=6144
-  NODE_VERSION_FILE: .nvmrc
-  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  YARN_VERSION: 1.22.19
-  NX_MAX_PARALLEL: 2
-
 jobs:
   #
   # CI .NET
