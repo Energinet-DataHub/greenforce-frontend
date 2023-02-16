@@ -44,6 +44,9 @@ export class EoProductionService {
 
   getMonthlyProduction() {
     let dateRange: CalendarDateRange = {} as CalendarDateRange;
+    const encodedTimeZone = encodeURIComponent(
+      Intl.DateTimeFormat().resolvedOptions().timeZone
+    );
 
     this.store.calendarDateRangeInSeconds$
       .pipe(take(1))
@@ -52,7 +55,7 @@ export class EoProductionService {
     return this.http.get<EoProductionResponse>(
       `${this.#apiBase}/measurements/production?dateFrom=${
         dateRange.start
-      }&dateTo=${dateRange.end}&aggregation=Month`,
+      }&dateTo=${dateRange.end}&timeZone=${encodedTimeZone}&aggregation=Month`,
       { withCredentials: true }
     );
   }
