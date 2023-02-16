@@ -34,7 +34,7 @@ jobs:
 
   dotnet_update_coverage_report:
     needs: changes
-    if: ${{ needs.changes.outputs.dotnet == 'true' }}
+    if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v10
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
@@ -48,7 +48,7 @@ jobs:
 
   dotnet_promote_prerelease:
     needs: changes
-    if: ${{ needs.changes.outputs.dotnet == 'true' }}
+    if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v10
     with:
       RELEASE_NAME_PREFIX: ui_dotnet
@@ -59,7 +59,7 @@ jobs:
 
   frontend_promote_prerelease:
     needs: changes
-    if: ${{ needs.changes.outputs.frontend == 'true' }}
+    if: ${{ needs.changes.outputs.dh_frontend == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v10
     with:
       RELEASE_NAME_PREFIX: ui_frontend
@@ -99,7 +99,7 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }}
           repository: '${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}'
           event-type: 'ui-deployment-request-domain'
-          client-payload: '{"domain_pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet_deploy": "${{ needs.changes.outputs.dotnet }}", "frontend_deploy": "${{ needs.changes.outputs.frontend }}"}'
+          client-payload: '{"domain_pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet_deploy": "${{ needs.changes.outputs.dh_dotnet }}", "frontend_deploy": "${{ needs.changes.outputs.dh_frontend }}"}'
 
   #
   # Send notification to teams channel if deployment dispatch failed
