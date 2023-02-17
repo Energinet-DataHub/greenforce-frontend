@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/wholesale/feature-settlement-reports"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/wholesale/feature-settlement-reports"
+      ],
       "options": {
         "jestConfig": "libs/dh/wholesale/feature-settlement-reports/jest.config.ts",
         "passWithNoTests": true

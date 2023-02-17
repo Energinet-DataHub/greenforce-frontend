@@ -34,7 +34,11 @@ import {
   TimeSeriesType,
   MarketRole,
 } from '@energinet-datahub/dh/shared/domain';
-import { batch, settlementReportsProcess, SettlementReportsProcessFilters } from '@energinet-datahub/dh/wholesale/domain';
+import {
+  batch,
+  settlementReportsProcess,
+  SettlementReportsProcessFilters,
+} from '@energinet-datahub/dh/wholesale/domain';
 
 import type { WattBadgeType } from '@energinet-datahub-types/watt/badge';
 
@@ -392,32 +396,35 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     }
   }
 
-  private mapSettlementReports(batches: BatchDto[], filters: SettlementReportsProcessFilters): settlementReportsProcess[] {
-    if(!batches) return [];
+  private mapSettlementReports(
+    batches: BatchDto[],
+    filters: SettlementReportsProcessFilters
+  ): settlementReportsProcess[] {
+    if (!batches) return [];
 
     return batches
-    .filter(batch => batch.executionState === BatchState.Completed)
-    .reduce((result: settlementReportsProcess[], batch) => {
-      return result.concat(
-        batch.gridAreas.map((gridArea) => ({
-          ...batch,
-          processType: ProcessType.BalanceFixing,
-          gridAreaCode: gridArea.code,
-          gridAreaName: gridArea.name,
-        }))
-      );
-    }, [])
-    .filter((settlementReport) => {
-      if (filters.gridArea) {
-        return filters.gridArea.includes(settlementReport.gridAreaCode);
-      }
-      return true;
-    })
-    .filter((settlementReport) => {
-      if (filters.processType) {
-        return filters.processType.includes(settlementReport.processType);
-      }
-      return true;
-    });
+      .filter((batch) => batch.executionState === BatchState.Completed)
+      .reduce((result: settlementReportsProcess[], batch) => {
+        return result.concat(
+          batch.gridAreas.map((gridArea) => ({
+            ...batch,
+            processType: ProcessType.BalanceFixing,
+            gridAreaCode: gridArea.code,
+            gridAreaName: gridArea.name,
+          }))
+        );
+      }, [])
+      .filter((settlementReport) => {
+        if (filters.gridArea) {
+          return filters.gridArea.includes(settlementReport.gridAreaCode);
+        }
+        return true;
+      })
+      .filter((settlementReport) => {
+        if (filters.processType) {
+          return filters.processType.includes(settlementReport.processType);
+        }
+        return true;
+      });
   }
 }
