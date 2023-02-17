@@ -80,7 +80,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   @ViewChild(DhCreateUserroleMasterdataTabComponent)
   masterdataTab!: DhCreateUserroleMasterdataTabComponent;
 
-  permissions$ = this.store.selectablePermissions$;
+  permissions$ = this.store.permissionsDetails$;
 
   userRole: CreateUserRoleDto = {
     name: '',
@@ -117,7 +117,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store.getSelectablePermissions(this.userRole.eicFunction);
+    this.store.getPermissionsDetails(this.userRole.eicFunction);
   }
 
   ngOnDestroy(): void {
@@ -150,7 +150,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   }
 
   eicFunctionSelected(eicFunction: EicFunction) {
-    this.store.getSelectablePermissions(eicFunction);
+    this.store.getPermissionsDetails(eicFunction);
     this.patchUserRole({ permissions: [] });
   }
 

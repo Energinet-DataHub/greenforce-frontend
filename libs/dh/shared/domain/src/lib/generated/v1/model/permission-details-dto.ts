@@ -11,7 +11,7 @@
  */
 
 
-export interface SelectablePermissionsDto { 
+export interface PermissionDetailsDto { 
     id: number;
     name: string;
     description: string;

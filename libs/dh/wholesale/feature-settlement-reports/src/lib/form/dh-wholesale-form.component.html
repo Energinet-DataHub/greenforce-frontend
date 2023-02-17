@@ -21,20 +21,25 @@ limitations under the License.
 >
   <watt-form-field>
     <watt-label>{{ transloco("processType") }}</watt-label>
-    <watt-dropdown formControlName="processType" [options]="processTypeOptions$ | push" [multiple]="true"></watt-dropdown>
+    <watt-dropdown
+      formControlName="processType"
+      [options]="processTypeOptions$ | push"
+      [multiple]="true"
+    ></watt-dropdown>
   </watt-form-field>
 
   <watt-form-field>
     <watt-label>{{ transloco("gridArea") }}</watt-label>
-    <watt-dropdown formControlName="gridArea" [options]="gridAreaOptions$ | push" [multiple]="true"></watt-dropdown>
+    <watt-dropdown
+      formControlName="gridArea"
+      [options]="gridAreaOptions$ | push"
+      [multiple]="true"
+    ></watt-dropdown>
   </watt-form-field>
 
   <watt-form-field>
     <watt-label>{{ transloco("period") }}</watt-label>
-    <watt-datepicker
-      formControlName="period"
-      [range]="true"
-    ></watt-datepicker>
+    <watt-datepicker formControlName="period" [range]="true"></watt-datepicker>
   </watt-form-field>
 
   <watt-form-field>
@@ -43,11 +48,8 @@ limitations under the License.
       formControlName="executionTime"
       [range]="true"
     ></watt-datepicker>
-    <watt-error
-      *ngIf="filters.controls.executionTime?.errors?.rangeRequired"
-    >
+    <watt-error *ngIf="filters.controls.executionTime?.errors?.rangeRequired">
       {{ transloco("executionTimeRequired") }}
     </watt-error>
   </watt-form-field>
-
 </form>

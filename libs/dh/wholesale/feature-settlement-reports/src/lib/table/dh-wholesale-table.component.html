@@ -27,7 +27,7 @@ limitations under the License.
   >
     <!-- Process Type -->
     <ng-container *wattTableCell="columns.processType; let process">
-      {{ transloco('processTypes.' + process.processType) }}
+      {{ transloco("processTypes." + process.processType) }}
     </ng-container>
 
     <!-- Grid Area Name -->
@@ -49,7 +49,6 @@ limitations under the License.
     <ng-container *wattTableCell="columns.executionTimeStart; let batch">
       {{ batch.executionTimeStart | dhDateTime }}
     </ng-container>
-
   </watt-table>
 
   <!-- No Batches found -->

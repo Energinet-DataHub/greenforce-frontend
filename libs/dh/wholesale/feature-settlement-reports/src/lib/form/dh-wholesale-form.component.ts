@@ -124,7 +124,9 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
         this.filterChange.emit(filters as SettlementReportsProcessFilters);
       });
 
-    this.filterChange.emit(this.filters.value as SettlementReportsProcessFilters);
+    this.filterChange.emit(
+      this.filters.value as SettlementReportsProcessFilters
+    );
   }
 
   ngOnDestroy(): void {
