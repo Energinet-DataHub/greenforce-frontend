@@ -35,7 +35,8 @@
         "menuGroupLabel": "Afregninger",
         "startBatch": "Start batch",
         "searchBatch": "Søg batch",
-        "overview": "Oversigt"
+        "overview": "Oversigt",
+        "settlementReports": "Afregningsrapporter"
       },
       "admin": {
         "menuGroupLabel": "Opsætning",
@@ -774,6 +775,28 @@
         "firstPageLabel": "Første side",
         "lastPageLabel": "Sidste side",
         "of": "af"
+      }
+    },
+    "settlementReports": {
+      "topBarTitle": "Afregningsrapporter",
+      "table": {
+        "title": "Processer",
+        "processType": "Procestype",
+        "gridAreaName": "Netområde",
+        "periodStart": "Periode fra",
+        "periodEnd": "Periode til",
+        "executionTimeStart": "Kørsel tid",
+        "emptyTitle": "Ingen processer fundet",
+        "emptyHelperText": "Prøv at ændre dine søgeindstillinger"
+      },
+      "processTypes": {
+        "BalanceFixing": "Balancefiksering"
+      },
+      "filters": {
+        "processType": "Procestype",
+        "gridArea": "Netområde",
+        "period": "Periode",
+        "executionTime": "Kørsel tid"
       }
     },
     "calculationSteps": {
