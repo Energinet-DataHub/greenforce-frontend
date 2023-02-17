@@ -1,5 +1,11 @@
-import { ProcessType } from "@energinet-datahub/dh/shared/domain";
 
-import { batch } from "./batch";
+import { BatchDto, DateRange, ProcessType } from "@energinet-datahub/dh/shared/domain";
 
-export type settlementReportsProcess = batch & { processType: ProcessType, gridAreaCode: string; gridAreaName: string };
+export type settlementReportsProcess = BatchDto & { processType: ProcessType, gridAreaCode: string; gridAreaName: string };
+
+export interface SettlementReportsProcessFilters {
+  processType: string | null;
+  gridArea?: string | null;
+  period?: DateRange | null;
+  executionTime?: DateRange | null;
+}

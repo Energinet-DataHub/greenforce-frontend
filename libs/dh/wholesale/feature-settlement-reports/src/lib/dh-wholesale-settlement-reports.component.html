@@ -27,18 +27,18 @@ limitations under the License.
         </watt-card-title>
 
         <dh-wholesale-form
-          (search)="onSearch($event)"
-          [loading]="loadingBatchesTrigger$ | push"
+          (filterChange)="onFilterChange($event)"
+          [loading]="loadingSettlementReportsTrigger$ | push"
         ></dh-wholesale-form>
 
         <ng-container
           *rxLet="
             data$;
             let data;
-            error: loadedBatchesError;
-            suspense: loadingBatches;
-            suspenseTrigger: loadingBatchesTrigger$;
-            errorTrigger: loadingBatchesErrorTrigger$
+            error: loadedSettlementReportsError;
+            suspense: loadingSettlementReports;
+            suspenseTrigger: loadingSettlementReportsTrigger$;
+            errorTrigger: loadingSettlementReportsErrorTrigger$
           "
         >
           <dh-wholesale-table *ngIf="data" [data]="data$ | push"></dh-wholesale-table>
@@ -46,11 +46,11 @@ limitations under the License.
       </watt-card>
     </section>
 
-    <ng-template #loadingBatches>
+    <ng-template #loadingSettlementReports>
       <watt-spinner></watt-spinner>
     </ng-template>
 
-    <ng-template #loadedBatchesError>
+    <ng-template #loadedSettlementReportsError>
       <watt-empty-state
         icon="custom-power"
         [title]="transloco('loadBatchesFailedTitle')"

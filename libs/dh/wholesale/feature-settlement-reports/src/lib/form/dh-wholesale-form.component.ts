@@ -20,28 +20,29 @@ import {
   Component,
   EventEmitter,
   Output,
-  OnInit,
+  AfterViewInit,
   Input,
   inject,
+  OnDestroy,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { sub } from 'date-fns';
-import { first, map, Observable } from 'rxjs';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import {
-  BatchSearchDto,
-  ProcessType,
-} from '@energinet-datahub/dh/shared/domain';
+import { ProcessType } from '@energinet-datahub/dh/shared/domain';
 import {
   WattDropdownModule,
   WattDropdownOption,
 } from '@energinet-datahub/watt/dropdown';
 import { PushModule } from '@rx-angular/template/push';
+import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { SettlementReportsProcessFilters } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
   standalone: true,
@@ -55,32 +56,56 @@ import { PushModule } from '@rx-angular/template/push';
     WattDropdownModule,
     PushModule,
   ],
+  providers: [DhWholesaleBatchDataAccessApiStore],
   selector: 'dh-wholesale-form',
   templateUrl: './dh-wholesale-form.component.html',
   styleUrls: ['./dh-wholesale-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleFormComponent implements OnInit {
+export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
   @Input() loading = false;
-  @Output() search = new EventEmitter<BatchSearchDto>();
+  @Output() filterChange = new EventEmitter<SettlementReportsProcessFilters>();
 
+  private destroy$ = new Subject<void>();
   private transloco = inject(TranslocoService);
+  private store = inject(DhWholesaleBatchDataAccessApiStore);
 
   processTypeOptions$: Observable<WattDropdownOption[]> = this.transloco
     .selectTranslateObject('wholesale.settlementReports.processTypes')
-    .pipe(map((translations) => {
-      return [
-        {
-          value: ProcessType.BalanceFixing,
-          displayValue: translations[ProcessType.BalanceFixing],
-        },
-      ];
-    }));
+    .pipe(
+      map((translations) => {
+        return [
+          {
+            value: ProcessType.BalanceFixing,
+            displayValue: translations[ProcessType.BalanceFixing],
+          },
+        ];
+      })
+    );
 
-  searchForm = this.fb.group({
+  gridAreaOptions$: Observable<WattDropdownOption[]> =
+    this.store.gridAreas$.pipe(
+      exists(),
+      map((gridAreas) => {
+        return gridAreas.map((gridArea) => ({
+          value: gridArea.code,
+          displayValue: `${gridArea.name} (${gridArea.code})`,
+        }));
+      })
+    );
+
+  filters = this.fb.group({
     processType: [''],
     gridArea: [''],
-    period: [''],
+    period: [
+      {
+        value: {
+          start: '',
+          end: '',
+        },
+        disabled: true,
+      },
+    ],
     executionTime: [
       {
         start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
@@ -92,16 +117,18 @@ export class DhWholesaleFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit() {
-    this.searchForm.valueChanges.pipe(first()).subscribe(() => this.onSubmit());
+  ngAfterViewInit() {
+    this.filters.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((filters: unknown) => {
+        this.filterChange.emit(filters as SettlementReportsProcessFilters);
+      });
+
+    this.filterChange.emit(this.filters.value as SettlementReportsProcessFilters);
   }
 
-  onSubmit() {
-    if (!this.searchForm?.value?.executionTime) return;
-
-    this.search.emit({
-      minExecutionTime: this.searchForm?.value?.executionTime?.start as string,
-      maxExecutionTime: this.searchForm?.value?.executionTime?.end as string,
-    });
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -15,19 +15,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <form
-  [formGroup]="searchForm"
+  [formGroup]="filters"
   *transloco="let transloco; read: 'wholesale.settlementReports.filters'"
-  (ngSubmit)="onSubmit()"
   novalidate
 >
   <watt-form-field>
     <watt-label>{{ transloco("processType") }}</watt-label>
-    <watt-dropdown formControlName="processType" [options]="processTypeOptions$ | push"></watt-dropdown>
+    <watt-dropdown formControlName="processType" [options]="processTypeOptions$ | push" [multiple]="true"></watt-dropdown>
   </watt-form-field>
 
   <watt-form-field>
     <watt-label>{{ transloco("gridArea") }}</watt-label>
-    <watt-dropdown formControlName="gridArea"></watt-dropdown>
+    <watt-dropdown formControlName="gridArea" [options]="gridAreaOptions$ | push" [multiple]="true"></watt-dropdown>
   </watt-form-field>
 
   <watt-form-field>
@@ -45,7 +44,7 @@ limitations under the License.
       [range]="true"
     ></watt-datepicker>
     <watt-error
-      *ngIf="searchForm.controls.executionTime?.errors?.rangeRequired"
+      *ngIf="filters.controls.executionTime?.errors?.rangeRequired"
     >
       {{ transloco("executionTimeRequired") }}
     </watt-error>
