@@ -20,8 +20,8 @@
 %datepicker {
   watt-button[variant="icon"] {
     .watt-button--icon {
-      // 4px to adjust for input border & the focus border on the button itself
-      height: 40px;
+      // 2px to adjust for the focus border on the button itself
+      height: 42px;
     }
   }
 
