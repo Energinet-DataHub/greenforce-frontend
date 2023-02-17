@@ -69,7 +69,7 @@ jobs:
       - name: Run license-checker
         id: licenseChecker
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
-        run: echo DEPENDENCIES=$(npx license-checker-rseidelsohn@3 --direct --production --onlyAllow="${{ steps.allowed-licenses.outputs.FILE }}" --json --excludePrivatePackages) >> $GITHUB_OUTPUT
+        run: echo DEPENDENCIES=$(npx license-checker-rseidelsohn@4.1.1 --direct --production --onlyAllow="${{ steps.allowed-licenses.outputs.FILE }}" --json --excludePrivatePackages) >> $GITHUB_OUTPUT
       - name: Update PRODUCTION_DEPENDENCIES.md
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
         uses: ./.github/actions/update-production-dependencies-list
