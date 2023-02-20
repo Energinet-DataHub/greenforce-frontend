@@ -21,6 +21,7 @@ export const WHOLESALE_BASE_PATH = 'wholesale';
 export const WHOLESALE_START_PROCESS_PATH = 'start-process';
 export const WHOLESALE_SEARCH_BATCH_PATH = 'search-batch';
 export const WHOLESALE_CALCULATION_STEPS_PATH = `calculation-steps`;
+export const WHOLESALE_SETTLEMENT_REPORTS_PATH = `settlement-reports`;
 
 export function navigateToWholesaleCalculationSteps(
   router: Router,

@@ -69,6 +69,7 @@
     "dh-wholesale-domain": "libs/dh/wholesale/domain",
     "dh-wholesale-feature-calculation-steps": "libs/dh/wholesale/feature-calculation-steps",
     "dh-wholesale-feature-search": "libs/dh/wholesale/feature-search",
+    "dh-wholesale-feature-settlement-reports": "libs/dh/wholesale/feature-settlement-reports",
     "dh-wholesale-feature-start": "libs/dh/wholesale/feature-start",
     "dh-wholesale-routing": "libs/dh/wholesale/routing",
     "dh-wholesale-shell": "libs/dh/wholesale/shell",

@@ -215,6 +215,9 @@
       "@energinet-datahub/dh/wholesale/feature-search": [
         "libs/dh/wholesale/feature-search/src/index.ts"
       ],
+      "@energinet-datahub/dh/wholesale/feature-settlement-reports": [
+        "libs/dh/wholesale/feature-settlement-reports/src/index.ts"
+      ],
       "@energinet-datahub/dh/wholesale/feature-start": [
         "libs/dh/wholesale/feature-start/src/index.ts"
       ],

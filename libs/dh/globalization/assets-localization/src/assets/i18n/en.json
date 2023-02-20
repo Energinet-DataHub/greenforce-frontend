@@ -40,7 +40,8 @@
         "menuGroupLabel": "Settlements",
         "startBatch": "Start Batch",
         "searchBatch": "Search Batch",
-        "overview": "Overview"
+        "overview": "Overview",
+        "settlementReports": "Settlement Reports"
       },
       "admin": {
         "menuGroupLabel": "Settings",
@@ -775,6 +776,28 @@
         "of": "of"
       }
     },
+    "settlementReports": {
+      "topBarTitle": "Settlement Reports",
+      "table": {
+        "title": "Processes",
+        "processType": "Process type",
+        "gridAreaName": "Grid area",
+        "periodStart": "Period from",
+        "periodEnd": "Period to",
+        "executionTimeStart": "Execution time",
+        "emptyTitle": "No processes found",
+        "emptyHelperText": "Try changing the search criteria"
+      },
+      "processTypes": {
+        "BalanceFixing": "Balance fixing"
+      },
+      "filters": {
+        "processType": "Process type",
+        "gridArea": "Grid area",
+        "period": "Period",
+        "executionTime": "Execution time"
+      }
+    },
     "calculationSteps": {
       "open": "Open",
       "topBarTitle": "See accumulated time series",
@@ -796,6 +819,7 @@
       "step": "Step {{step}}",
       "aggregatedProductionPerGridArea": "Aggregated production per grid area",
       "aggregatedConsumptionPerEnergySupplier": "Aggregated consumption per energy supplier",
+      "nonProfiledConsumptionPerBalanceResponsible": "Aggregated consumption per balance responsible",
       "gridArea": "Grid area",
       "energySupplier": "Energy Supplier",
       "loadProcessStepResultsErrorTitle": "Oops! There was an error",

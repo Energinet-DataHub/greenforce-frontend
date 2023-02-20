@@ -31,7 +31,7 @@ import {
   WATT_TABLE,
   WattTableComponent,
 } from '@energinet-datahub/watt/table';
-import { SelectablePermissionsDto } from '@energinet-datahub/dh/shared/domain';
+import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-create-userrole-permissions-tab-table',
@@ -49,16 +49,16 @@ import { SelectablePermissionsDto } from '@energinet-datahub/dh/shared/domain';
   imports: [WATT_TABLE],
 })
 export class DhCreateRolePermissionTabTableComponent implements OnChanges {
-  @Output() selectionChanged = new EventEmitter<SelectablePermissionsDto[]>();
-  @Input() permissions: SelectablePermissionsDto[] = [];
+  @Output() selectionChanged = new EventEmitter<PermissionDetailsDto[]>();
+  @Input() permissions: PermissionDetailsDto[] = [];
 
-  @ViewChild(WattTableComponent<SelectablePermissionsDto>)
-  permissionsTable!: WattTableComponent<SelectablePermissionsDto>;
+  @ViewChild(WattTableComponent<PermissionDetailsDto>)
+  permissionsTable!: WattTableComponent<PermissionDetailsDto>;
 
-  readonly dataSource: WattTableDataSource<SelectablePermissionsDto> =
-    new WattTableDataSource<SelectablePermissionsDto>();
+  readonly dataSource: WattTableDataSource<PermissionDetailsDto> =
+    new WattTableDataSource<PermissionDetailsDto>();
 
-  columns: WattTableColumnDef<SelectablePermissionsDto> = {
+  columns: WattTableColumnDef<PermissionDetailsDto> = {
     name: { accessor: 'name' },
     description: { accessor: 'description' },
   };
@@ -73,7 +73,7 @@ export class DhCreateRolePermissionTabTableComponent implements OnChanges {
     if (this.permissionsTable) this.permissionsTable.clearSelection();
   }
 
-  onSelectionChange(selections: SelectablePermissionsDto[]): void {
+  onSelectionChange(selections: PermissionDetailsDto[]): void {
     this.selectionChanged.emit(selections);
   }
 }

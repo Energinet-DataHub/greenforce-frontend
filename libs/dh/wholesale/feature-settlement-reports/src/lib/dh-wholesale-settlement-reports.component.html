@@ -1,0 +1,65 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
+  <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
+    <section class="content">
+      <watt-card>
+        <watt-card-title
+          *transloco="let transloco; read: 'wholesale.settlementReports.table'"
+        >
+          <h3 class="watt-on-light--high-emphasis">
+            {{ transloco("title") }}
+          </h3>
+        </watt-card-title>
+
+        <dh-wholesale-form
+          (filterChange)="onFilterChange($event)"
+          [loading]="loadingSettlementReportsTrigger$ | push"
+        ></dh-wholesale-form>
+
+        <ng-container
+          *rxLet="
+            data$;
+            let data;
+            error: loadedSettlementReportsError;
+            suspense: loadingSettlementReports;
+            suspenseTrigger: loadingSettlementReportsTrigger$;
+            errorTrigger: loadingSettlementReportsErrorTrigger$
+          "
+        >
+          <dh-wholesale-table
+            *ngIf="data"
+            [data]="data$ | push"
+          ></dh-wholesale-table>
+        </ng-container>
+      </watt-card>
+    </section>
+
+    <ng-template #loadingSettlementReports>
+      <watt-spinner></watt-spinner>
+    </ng-template>
+
+    <ng-template #loadedSettlementReportsError>
+      <watt-empty-state
+        icon="custom-power"
+        [title]="transloco('loadBatchesFailedTitle')"
+        [message]="transloco('loadBatchesFailedMessage')"
+      >
+      </watt-empty-state>
+    </ng-template>
+  </ng-container>
+</ng-container>
