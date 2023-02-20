@@ -23,5 +23,5 @@
       }
     }
   },
-  "tags": []
+  "tags": ["product:dh", "domain:admin", "type:feature"]
 }
