@@ -841,10 +841,10 @@
         "name": "Name",
         "userRoles": "User roles",
         "actor": "Actor",
-        "firstname": "Firstname",
-        "lastname": "Lastname",
+        "firstname": "First name",
+        "lastname": "Last name",
         "email": "Email",
-        "phoneNumber": "phone number"
+        "phoneNumber": "Phone number"
       },
       "download": "Download",
       "drawer": {
