@@ -1,0 +1,9 @@
+﻿$watt-space-baseline: 0.25rem;
+
+:root {
+  --watt-space-xs: #{$watt-space-baseline};
+  --watt-space-s: #{$watt-space-baseline * 2};
+  --watt-space-m: #{$watt-space-baseline * 4};
+  --watt-space-l: #{$watt-space-baseline * 8};
+  --watt-space-xl: #{$watt-space-baseline * 16};
+}
