@@ -839,7 +839,12 @@
         "addUserRole": "Add user role",
         "inviteUser": "Invite user",
         "name": "Name",
-        "userRoles": "User roles"
+        "userRoles": "User roles",
+        "actor": "Actor",
+        "firstname": "First name",
+        "lastname": "Last name",
+        "email": "Email",
+        "phoneNumber": "Phone number"
       },
       "download": "Download",
       "drawer": {

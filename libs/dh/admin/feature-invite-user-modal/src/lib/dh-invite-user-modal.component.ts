@@ -17,9 +17,11 @@
 
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   inject,
+  OnDestroy,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -30,6 +32,7 @@ import {
 } from '@energinet-datahub/watt/modal';
 
 import { CommonModule } from '@angular/common';
+import { PushModule } from '@rx-angular/template/push';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -38,6 +41,7 @@ import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
 import {
   WattStepperButtonNextDirective,
   WattStepperButtonPreviousDirective,
@@ -45,8 +49,11 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { DhUserActorsDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { Subscription } from 'rxjs';
 @Component({
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
@@ -72,15 +79,27 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
     WattFormFieldModule,
     MatFormFieldModule,
     MatInputModule,
+    WattDropdownModule,
+    PushModule,
   ],
 })
-export class DhInviteUserModalComponent implements AfterViewInit {
+export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
+  private readonly actorStore = inject(DhUserActorsDataAccessApiStore);
   private readonly formBuilder = inject(FormBuilder);
   @ViewChild('inviteUserModal') inviteUserModal!: WattModalComponent;
   @ViewChild('stepper') stepper!: MatStepper;
   @Output() closed = new EventEmitter<void>();
+
+  readonly actorOptions$ = this.actorStore.actors$;
+  readonly organizationDomain$ = this.actorStore.organizationDomain$;
+  actorIdSubscription: Subscription | null = null;
+
   userInfo = this.formBuilder.group({
-    name: ['', Validators.required],
+    actorId: ['', Validators.required],
+    firstname: ['', Validators.required],
+    lastname: ['', Validators.required],
+    email: [{ value: '', disabled: true }, Validators.required],
+    phoneNumber: ['', Validators.required],
   });
   userRoles = this.formBuilder.group({
     userRole: ['', Validators.required],
@@ -88,6 +107,23 @@ export class DhInviteUserModalComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.inviteUserModal.open();
+    this.actorIdSubscription =
+      this.userInfo.controls.actorId.valueChanges.subscribe((actorId) => {
+        actorId !== null
+          ? this.userInfo.controls.email.enable()
+          : this.userInfo.controls.email.disable();
+
+        if (actorId === null) {
+          this.actorStore.resetOrganizationState();
+          return;
+        }
+
+        this.actorStore.getActorOrganization(actorId);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.actorIdSubscription?.unsubscribe();
   }
 
   inviteUser() {
@@ -100,6 +136,7 @@ export class DhInviteUserModalComponent implements AfterViewInit {
 
   closeModal(status: boolean) {
     this.closed.emit();
+    this.actorStore.resetOrganizationState();
     this.inviteUserModal.close(status);
   }
 }
