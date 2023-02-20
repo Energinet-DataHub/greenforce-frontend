@@ -112,8 +112,8 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
                 (organization) => {
                   this.updateOrganizationAndLoadingState(organization);
                 },
-                (error: HttpErrorResponse) => {
-                  this.handleError(error);
+                () => {
+                  this.handleOrganizationError();
                 }
               )
             )
@@ -146,7 +146,7 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
   private updateOrganization = this.updater(
     (
       state: ActorsResultState,
-      organization: OrganizationDto
+      organization: OrganizationDto | null
     ): ActorsResultState => ({
       ...state,
       organizationResult: organization,
@@ -154,7 +154,7 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
   );
 
   private updateOrganizationAndLoadingState = (
-    organization: OrganizationDto
+    organization: OrganizationDto | null
   ) => {
     this.updateOrganization(organization);
 
@@ -182,6 +182,11 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
         : ErrorState.GENERAL_ERROR;
 
     this.patchState({ loadingState: requestError });
+  };
+
+  private handleOrganizationError = () => {
+    this.updateOrganization(null);
+    this.patchState({ organizationLoadingState: ErrorState.GENERAL_ERROR });
   };
 
   readonly resetState = () => this.setState(initialState);
