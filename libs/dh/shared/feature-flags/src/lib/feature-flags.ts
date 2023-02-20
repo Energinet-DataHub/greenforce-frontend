@@ -36,21 +36,23 @@ const makeFeatureFlags = satisfies<FeatureFlagConfig>();
  *   disabledEnvironments: [DhAppEnvironment.prod],
  * },
  */
+
+const created = '01-02-2023';
 export const dhFeatureFlagsConfig = makeFeatureFlags({
   start_wholesale_process_feature_flag: {
-    created: '19-12-2022',
+    created,
     disabledEnvironments: [],
   },
   charges_price_date_chips_feature_flag: {
-    created: '19-12-2022',
+    created,
     disabledEnvironments: [],
   },
   charge_prices_download_button_feature_flag: {
-    created: '19-12-2022',
+    created,
     disabledEnvironments: [],
   },
   create_charge_prices_page_feature_flag: {
-    created: '19-12-2022',
+    created,
     disabledEnvironments: [],
   },
 });
