@@ -15,8 +15,7 @@
 # DESCRIPTION:
 # This workflow will determine which categories of jobs should be executed,
 # based on detected changes.
-# It should be used by the 'ci-orchestrator.yml', 'watt-cd.yml' and 'dh-cd.yml' to ensure they both use
-# the same path's to detect changes.
+# It should be used by the 'ci-orchestrator.yml', 'watt-cd.yml' and 'dh-cd.yml' to ensure they both use the same path's to detect changes.
 name: Detect changes
 
 on:
