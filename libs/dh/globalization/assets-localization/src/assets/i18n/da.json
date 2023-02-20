@@ -820,6 +820,7 @@
       "step": "Trin {{step}}",
       "aggregatedProductionPerGridArea": "Aggregeret produktion per netområde",
       "aggregatedConsumptionPerEnergySupplier": "Aggregeret timeforbrug per elleverandør",
+      "nonProfiledConsumptionPerBalanceResponsible": "Aggregeret timeforbrug per balanceansvarlig",
       "gridArea": "Netområde",
       "energySupplier": "El-leverandør",
       "loadProcessStepResultsErrorTitle": "Ups! Der opstod en fejl",
