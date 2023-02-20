@@ -17,6 +17,7 @@
 
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   inject,
@@ -52,6 +53,7 @@ import { DhUserActorsDataAccessApiStore } from '@energinet-datahub/dh/admin/data
 import { Subscription } from 'rxjs';
 @Component({
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
@@ -89,6 +91,7 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   @Output() closed = new EventEmitter<void>();
 
   readonly actorOptions$ = this.actorStore.actors$;
+  readonly organizationDomain$ = this.actorStore.organizationDomain$;
   actorIdSubscription: Subscription | null = null;
 
   userInfo = this.formBuilder.group({
@@ -106,11 +109,16 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
     this.inviteUserModal.open();
     this.actorIdSubscription =
       this.userInfo.controls.actorId.valueChanges.subscribe((actorId) => {
-        // TODO: get actor info from store
-        console.log(actorId);
         actorId !== null
           ? this.userInfo.controls.email.enable()
           : this.userInfo.controls.email.disable();
+
+        if (actorId === null) {
+          this.actorStore.resetOrganizationState();
+          return;
+        }
+
+        this.actorStore.getActorOrganization(actorId);
       });
   }
 
@@ -128,6 +136,7 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
 
   closeModal(status: boolean) {
     this.closed.emit();
+    this.actorStore.resetOrganizationState();
     this.inviteUserModal.close(status);
   }
 }
