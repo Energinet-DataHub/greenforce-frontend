@@ -14,6 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { batch } from './batch';
-export * from './grid-areas';
-export * from './settlement-report-process';
+import 'jest-preset-angular/setup-jest';
+
+import {
+  setUpAngularTestingLibrary,
+  setUpNgMocks,
+  setUpTestbed,
+} from '@energinet-datahub/gf/test-util-staging';
+import { setupMSW } from '@energinet-datahub/dh/shared/test-util-msw';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+
+setupMSW();
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();
+setUpNgMocks();
