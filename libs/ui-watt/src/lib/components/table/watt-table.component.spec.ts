@@ -49,6 +49,7 @@ interface Properties<T> {
   sortDirection?: string;
   activeRow?: T;
   selectable?: boolean;
+  initiallySelectedRows?: T[];
   resolveHeader?: (key: string) => string;
   selectionChange?: (selection: T[]) => void;
   rowClick?: (row: T) => void;
@@ -68,6 +69,7 @@ function setup<T>(properties: Properties<T>, template = '') {
       [activeRow]="activeRow"
       [resolveHeader]="resolveHeader"
       (selectionChange)="selectionChange($event)"
+      [initiallySelectedRows]="initiallySelectedRows"
       (rowClick)="rowClick($event)"
       (sortChange)="sortChange($event)"
       >${template}</watt-table>`,
@@ -342,6 +344,36 @@ describe(WattTableComponent.name, () => {
     userEvent.click(secondCheckbox);
 
     await waitFor(() => expect(firstCheckbox).not.toBeChecked());
+  });
+
+  it('can set initially selected rows', async () => {
+    const dataSource = new WattTableDataSource(data);
+    const columns: WattTableColumnDef<PeriodicElement> = {
+      position: { accessor: 'position' },
+      weight: { accessor: 'weight' },
+    };
+
+    const [firstRow, secondRow] = data;
+
+    await setup({
+      dataSource,
+      columns,
+      selectable: true,
+      initiallySelectedRows: [firstRow, secondRow],
+    });
+
+    const [
+      selectAllCheckbox,
+      firstCheckbox,
+      secondCheckbox,
+      ...otherCheckboxes
+    ] = screen.getAllByRole('checkbox');
+
+    expect(selectAllCheckbox).not.toBeChecked();
+    expect(firstCheckbox).toBeChecked();
+    expect(secondCheckbox).toBeChecked();
+
+    otherCheckboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked());
   });
 
   it('renders cell content using template', async () => {
