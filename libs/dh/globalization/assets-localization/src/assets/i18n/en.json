@@ -817,6 +817,7 @@
       "step": "Step {{step}}",
       "aggregatedProductionPerGridArea": "Aggregated production per grid area",
       "aggregatedConsumptionPerEnergySupplier": "Aggregated consumption per energy supplier",
+      "nonProfiledConsumptionPerBalanceResponsible": "Aggregated consumption per balance responsible",
       "gridArea": "Grid area",
       "energySupplier": "Energy Supplier",
       "loadProcessStepResultsErrorTitle": "Oops! There was an error",
