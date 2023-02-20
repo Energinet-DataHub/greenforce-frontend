@@ -144,7 +144,7 @@ watt-form-field {
   }
 }
 
-.ng-submitted watt-form-field .mat-form-field-invalid,
+watt-form-field .mat-form-field-invalid,
 watt-form-field .mat-form-field-invalid.ng-dirty {
   --input-border-color: var(--watt-color-state-danger);
 
