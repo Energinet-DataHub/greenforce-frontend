@@ -211,6 +211,12 @@ export class WattTableComponent<T>
   selectable = false;
 
   /**
+   * Sets the initially selected rows. Only works when selectable is `true`.
+   */
+  @Input()
+  initiallySelectedRows: T[] = [];
+
+  /**
    * Set to true to disable row hover highlight.
    */
   @Input()
@@ -301,8 +307,12 @@ export class WattTableComponent<T>
         .map((key) => this.columns[key].size)
         .map((size) => size ?? 'auto');
 
-      // Add space for extra checkbox column
-      if (this.selectable) sizing.unshift('var(--watt-space-xl)');
+      if (this.selectable) {
+        // Add space for extra checkbox column
+        sizing.unshift('var(--watt-space-xl)');
+
+        this._selectionModel.setSelection(...this.initiallySelectedRows);
+      }
 
       this._element.nativeElement.style.setProperty(
         '--watt-table-grid-template-columns',
