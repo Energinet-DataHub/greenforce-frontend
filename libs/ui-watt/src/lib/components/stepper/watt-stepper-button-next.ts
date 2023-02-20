@@ -14,11 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host-context(.mat-form-field-invalid.ng-dirty),
-:host-context(.mat-form-field-invalid) {
-  color: var(--watt-color-state-danger);
-}
+import { CdkStepperNext } from '@angular/cdk/stepper';
+import { Directive, HostBinding, Input } from '@angular/core';
 
-:host-context(.mat-form-field-disabled) {
-  color: var(--watt-color-neutral-grey-500);
+@Directive({
+  selector: 'watt-button[wattStepperNext]',
+  standalone: true,
+})
+export class WattStepperButtonNextDirective extends CdkStepperNext {
+  @Input() type: 'submit' | 'button' = 'submit';
+  @HostBinding('class') classes = 'watt-stepper-next';
+  @HostBinding('attr.type') get typeAttr() {
+    return this.type;
+  }
 }

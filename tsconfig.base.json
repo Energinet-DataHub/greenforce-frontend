@@ -30,8 +30,14 @@
       "@energinet-datahub/dh/admin/feature-edit-user-role-modal": [
         "libs/dh/admin/feature-edit-user-role-modal/src/index.ts"
       ],
+      "@energinet-datahub/dh/admin/feature-invite-user-modal": [
+        "libs/dh/admin/feature-invite-user-modal/src/index.ts"
+      ],
       "@energinet-datahub/dh/admin/feature-user-management": [
         "libs/dh/admin/feature-user-management/src/index.ts"
+      ],
+      "@energinet-datahub/dh/admin/feature-user-roles": [
+        "libs/dh/admin/feature-user-roles/src/index.ts"
       ],
       "@energinet-datahub/dh/admin/routing": [
         "libs/dh/admin/routing/src/index.ts"
@@ -379,6 +385,9 @@
       ],
       "@energinet-datahub/watt/spinner": [
         "libs/ui-watt/src/lib/components/spinner/index.ts"
+      ],
+      "@energinet-datahub/watt/stepper": [
+        "libs/ui-watt/src/lib/components/stepper/index.ts"
       ],
       "@energinet-datahub/watt/table": [
         "libs/ui-watt/src/lib/components/table/index.ts"
