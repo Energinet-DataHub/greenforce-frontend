@@ -91,6 +91,7 @@ export const Table: Story = (args) => {
         [dataSource]="dataSource"
         [columns]="columns"
         [selectable]="selectable"
+        [initiallySelectedRows]="initiallySelectedRows"
         [suppressRowHoverHighlight]="suppressRowHoverHighlight"
         [activeRow]="activeRow"
         (rowClick)="activeRow = $event"
@@ -127,6 +128,7 @@ Table.args = {
     symbol: { accessor: 'symbol', sort: false },
   } as WattTableColumnDef<PeriodicElement>,
   dataSource: new WattTableDataSource(periodicElements),
+  initiallySelectedRows: [periodicElements[0], periodicElements[1]],
   activeRow: undefined,
 };
 
