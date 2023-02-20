@@ -18,6 +18,7 @@ import { Injectable } from '@angular/core';
 import {
   ActorDto,
   MarketParticipantHttp,
+  OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
@@ -29,12 +30,16 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 interface ActorsResultState {
   readonly actorResult: ActorDto[] | null;
+  readonly organizationResult: OrganizationDto | null;
   readonly loadingState: LoadingState | ErrorState;
+  readonly organizationLoadingState: LoadingState | ErrorState;
 }
 
 const initialState: ActorsResultState = {
   actorResult: null,
+  organizationResult: null,
   loadingState: LoadingState.INIT,
+  organizationLoadingState: LoadingState.INIT,
 };
 
 @Injectable()
@@ -50,6 +55,10 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
   canChooseMultipleActors$ = this.select(
     (state) => state.actorResult || []
   ).pipe(map((actors) => actors.length > 1));
+
+  organizationDomain$ = this.select(
+    (state) => state.organizationResult?.domain
+  );
 
   actors$ = this.select((state) => state.actorResult).pipe(
     map((actors) =>
@@ -70,7 +79,6 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
   readonly getActors = this.effect((trigger$: Observable<void>) => {
     return trigger$.pipe(
       tap(() => {
-        this.resetState();
         this.setLoadState(LoadingState.LOADING);
       }),
       switchMap(() =>
@@ -90,10 +98,41 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
     );
   });
 
+  readonly getActorOrganization = this.effect(
+    (trigger$: Observable<string>) => {
+      return trigger$.pipe(
+        tap(() => {
+          this.setOrganizationLoadState(LoadingState.LOADING);
+        }),
+        switchMap((actorId) =>
+          this.httpClient
+            .v1MarketParticipantOrganizationGetActorOrganizationGet(actorId)
+            .pipe(
+              tapResponse(
+                (organization) => {
+                  this.updateOrganizationAndLoadingState(organization);
+                },
+                () => {
+                  this.handleOrganizationError();
+                }
+              )
+            )
+        )
+      );
+    }
+  );
+
   private setLoadState = this.updater(
     (state, loadState: LoadingState): ActorsResultState => ({
       ...state,
       loadingState: loadState,
+    })
+  );
+
+  private setOrganizationLoadState = this.updater(
+    (state, loadState: LoadingState): ActorsResultState => ({
+      ...state,
+      organizationLoadingState: loadState,
     })
   );
 
@@ -103,6 +142,26 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
       actorResult: actors,
     })
   );
+
+  private updateOrganization = this.updater(
+    (
+      state: ActorsResultState,
+      organization: OrganizationDto | null
+    ): ActorsResultState => ({
+      ...state,
+      organizationResult: organization,
+    })
+  );
+
+  private updateOrganizationAndLoadingState = (
+    organization: OrganizationDto | null
+  ) => {
+    this.updateOrganization(organization);
+
+    this.patchState({
+      organizationLoadingState: LoadingState.LOADED,
+    });
+  };
 
   private updateStates = (actors: ActorDto[]) => {
     this.update(actors);
@@ -125,5 +184,12 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
     this.patchState({ loadingState: requestError });
   };
 
+  private handleOrganizationError = () => {
+    this.updateOrganization(null);
+    this.patchState({ organizationLoadingState: ErrorState.GENERAL_ERROR });
+  };
+
   readonly resetState = () => this.setState(initialState);
+  readonly resetOrganizationState = () =>
+    this.patchState({ organizationResult: null });
 }
