@@ -41,22 +41,26 @@ const data: PeriodicElement[] = [
   { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
 ];
 
-interface Properties<T> {
-  dataSource: WattTableDataSource<T>;
-  displayedColumns?: string[];
-  columns: WattTableColumnDef<T>;
-  sortBy?: string;
-  sortDirection?: string;
-  activeRow?: T;
-  selectable?: boolean;
-  initialSelection?: T[];
-  resolveHeader?: (key: string) => string;
-  selectionChange?: (selection: T[]) => void;
-  rowClick?: (row: T) => void;
-  sortChange?: (sort: Sort) => void;
-}
+type WattTableOptions<T> = Partial<
+  Pick<
+    WattTableComponent<T>,
+    | 'dataSource'
+    | 'displayedColumns'
+    | 'columns'
+    | 'sortBy'
+    | 'sortDirection'
+    | 'activeRow'
+    | 'selectable'
+    | 'initialSelection'
+    | 'resolveHeader'
+  > & {
+    selectionChange?: (selection: T[]) => void;
+    rowClick?: (row: T) => void;
+    sortChange?: (sort: Sort) => void;
+  }
+>;
 
-function setup<T>(properties: Properties<T>, template = '') {
+function setup<T>(properties: WattTableOptions<T>, template = '') {
   return render(
     `<watt-table
       #table
@@ -257,7 +261,12 @@ describe(WattTableComponent.name, () => {
       weight: { accessor: 'weight' },
     };
 
-    await setup({ dataSource, columns, selectable: true });
+    await setup({
+      dataSource,
+      columns,
+      selectable: true,
+      initialSelection: [],
+    });
 
     expect(screen.queryAllByRole('checkbox')).toHaveLength(7);
   });
@@ -270,7 +279,13 @@ describe(WattTableComponent.name, () => {
       weight: { accessor: 'weight' },
     };
 
-    await setup({ dataSource, columns, selectable: true, selectionChange });
+    await setup({
+      dataSource,
+      columns,
+      selectable: true,
+      initialSelection: [],
+      selectionChange,
+    });
 
     const [firstCheckbox] = screen.getAllByRole('checkbox');
     userEvent.click(firstCheckbox);
@@ -286,7 +301,13 @@ describe(WattTableComponent.name, () => {
       weight: { accessor: 'weight' },
     };
 
-    await setup({ dataSource, columns, selectable: true, selectionChange });
+    await setup({
+      dataSource,
+      columns,
+      selectable: true,
+      initialSelection: [],
+      selectionChange,
+    });
 
     const [firstCheckbox] = screen.getAllByRole('checkbox');
     userEvent.click(firstCheckbox);
@@ -303,7 +324,13 @@ describe(WattTableComponent.name, () => {
       weight: { accessor: 'weight' },
     };
 
-    await setup({ dataSource, columns, selectable: true, selectionChange });
+    await setup({
+      dataSource,
+      columns,
+      selectable: true,
+      initialSelection: [],
+      selectionChange,
+    });
 
     const [, secondCheckbox, thirdCheckbox] = screen.getAllByRole('checkbox');
     userEvent.click(secondCheckbox);
@@ -321,7 +348,13 @@ describe(WattTableComponent.name, () => {
       weight: { accessor: 'weight' },
     };
 
-    await setup({ dataSource, columns, selectable: true, selectionChange });
+    await setup({
+      dataSource,
+      columns,
+      selectable: true,
+      initialSelection: [],
+      selectionChange,
+    });
 
     const [firstCheckbox, ...checkboxes] = screen.getAllByRole('checkbox');
     checkboxes.forEach((checkbox) => userEvent.click(checkbox));
@@ -337,7 +370,13 @@ describe(WattTableComponent.name, () => {
       weight: { accessor: 'weight' },
     };
 
-    await setup({ dataSource, columns, selectable: true, selectionChange });
+    await setup({
+      dataSource,
+      columns,
+      selectable: true,
+      initialSelection: [],
+      selectionChange,
+    });
 
     const [firstCheckbox, secondCheckbox] = screen.getAllByRole('checkbox');
     userEvent.click(firstCheckbox);
