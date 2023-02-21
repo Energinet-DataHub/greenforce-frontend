@@ -39,11 +39,13 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 
-import { batch } from '@energinet-datahub/dh/wholesale/domain';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
+// import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { PushModule } from '@rx-angular/template/push';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 
-type wholesaleTableData = WattTableDataSource<batch>;
+type Batch = Omit<graphql.Batch, 'gridAreas'>;
+type wholesaleTableData = WattTableDataSource<Batch>;
 
 @Component({
   standalone: true,
@@ -67,23 +69,24 @@ type wholesaleTableData = WattTableDataSource<batch>;
 export class DhWholesaleTableComponent implements AfterViewInit {
   private store = inject(DhWholesaleBatchDataAccessApiStore);
 
-  selectedBatch$ = this.store.selectedBatch$;
+  @Input()
+  selectedBatch?: Batch;
 
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
-  @Input() set data(batches: batch[]) {
+  @Input() set data(batches: Batch[]) {
     this._data = new WattTableDataSource(batches);
   }
 
-  @Output() selectedRow: EventEmitter<batch> = new EventEmitter();
-  @Output() download: EventEmitter<batch> = new EventEmitter();
+  @Output() selectedRow: EventEmitter<Batch> = new EventEmitter();
+  @Output() download: EventEmitter<Batch> = new EventEmitter();
 
   _data: wholesaleTableData = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<batch> = {
-    batchId: { accessor: 'batchId' },
-    periodFrom: { accessor: 'periodStart' },
-    periodTo: { accessor: 'periodEnd' },
+  columns: WattTableColumnDef<Batch> = {
+    batchId: { accessor: 'id' },
+    periodFrom: { accessor: (batch) => batch.period?.start },
+    periodTo: { accessor: (batch) => batch.period?.end },
     executionTime: { accessor: 'executionTimeStart' },
     status: { accessor: 'executionState' },
     basisData: { accessor: 'isBasisDataDownloadAvailable' },
@@ -92,15 +95,15 @@ export class DhWholesaleTableComponent implements AfterViewInit {
   translateHeader = (key: string) =>
     translate(`wholesale.searchBatch.columns.${key}`);
 
-  isSelectedBatch = (currentBatch: batch, activeBatch: batch) =>
-    currentBatch.batchId === activeBatch.batchId;
+  isSelectedBatch = (currentBatch: Batch, activeBatch: Batch) =>
+    currentBatch.id === activeBatch.id;
 
   ngAfterViewInit() {
     if (this._data === null) return;
     this._data.paginator = this.paginator.instance;
   }
 
-  onDownload(event: Event, batch: batch) {
+  onDownload(event: Event, batch: Batch) {
     event.stopPropagation();
     this.download.emit(batch);
   }

@@ -1,5 +1,5 @@
-query GetBatches($executionTime: DateRange) {
-  batches(executionTime: $executionTime) {
+query GetBatch($id: ID!) {
+  batch(id: $id) {
     id
     executionState
     executionTimeEnd
@@ -7,5 +7,12 @@ query GetBatches($executionTime: DateRange) {
     isBasisDataDownloadAvailable
     period
     statusType
+    gridAreas {
+      code
+      name
+      id
+      priceAreaCode
+      validFrom
+    }
   }
 }

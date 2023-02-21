@@ -21,9 +21,8 @@ import {
   ChangeDetectorRef,
   ViewChild,
   AfterViewInit,
-  OnDestroy,
+  OnInit,
 } from '@angular/core';
-import { first, of, Subject } from 'rxjs';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -37,15 +36,15 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-
-import { BatchDto, BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
-import { batch } from '@energinet-datahub/dh/wholesale/domain';
+import { BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-batch-details.component';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
+import { ApolloError } from '@apollo/client/errors';
+
+type Batch = Omit<graphql.Batch, 'gridAreas'>;
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -66,10 +65,10 @@ import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
   templateUrl: './dh-wholesale-search.component.html',
   styleUrls: ['./dh-wholesale-search.component.scss'],
 })
-export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('batchDetails') batchDetails!: DhWholesaleBatchDetailsComponent;
+export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
+  @ViewChild('batchDetails')
+  batchDetails!: DhWholesaleBatchDetailsComponent;
 
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
   private toastService = inject(WattToastService);
   private translations = inject(TranslocoService);
   private router = inject(Router);
@@ -77,74 +76,85 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
   private changeDetectorRef = inject(ChangeDetectorRef);
   private apollo = inject(Apollo);
 
-  data$ = this.store.batches$;
-  destroy$ = new Subject<void>();
-  loadingBatchesTrigger$ = this.store.loadingBatches$;
-  loadingBatchesErrorTrigger$ = this.store.loadingBatchesErrorTrigger$;
+  selectedBatch?: Batch;
 
-  searchSubmitted = false;
+  query = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: graphql.GetBatchesDocument,
+    variables: {
+      executionTime: {
+        start: new Date().toISOString(), // fixme
+        end: new Date().toISOString(), // fixme
+      },
+    },
+  });
+
+  error?: ApolloError;
+  loading = false;
+  batches?: Batch[];
+
+  ngOnInit() {
+    this.query.valueChanges.subscribe((result) => {
+      this.error = result.error;
+      this.loading = result.loading;
+      this.batches = result.data?.batches;
+    });
+  }
 
   ngAfterViewInit() {
     const selectedBatch = this.route.snapshot.queryParams.batch;
-    if (selectedBatch) {
-      this.store.getBatch(selectedBatch);
-      this.batchDetails.open();
-    } else {
-      this.store.setSelectedBatch(undefined);
-    }
-    this.changeDetectorRef.detectChanges();
-  }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    if (selectedBatch) this.batchDetails.open(selectedBatch);
+    this.changeDetectorRef.detectChanges(); // TODO: Is this needed?
+
+    // {
+    //   this.store.getBatch(selectedBatch);
+    //   this.batchDetails.open();
+    // } else {
+    //   this.store.setSelectedBatch(undefined);
+    // }
   }
 
   onSearch(search: BatchSearchDto) {
-    this.searchSubmitted = true;
-    this.store.getBatches(of(search));
-    this.changeDetectorRef.detectChanges();
-    this.apollo
-      .watchQuery({
-        query: graphql.GetBatchesDocument,
-        variables: {
-          executionTime: {
-            start: search.minExecutionTime,
-            end: search.maxExecutionTime,
-          },
-        },
-      })
-      .valueChanges.subscribe((result) => {
-        console.log(result.data.batches);
-      });
-  }
-
-  onDownloadBasisData(batch: BatchDto) {
-    this.store.getZippedBasisData(of(batch));
-    this.store.loadingBasisDataErrorTrigger$.pipe(first()).subscribe(() => {
-      this.toastService.open({
-        message: this.translations.translate(
-          'wholesale.searchBatch.downloadFailed'
-        ),
-        type: 'danger',
-      });
+    // this.store.getBatches(of(search));
+    this.changeDetectorRef.detectChanges(); // TODO: Is this needed?
+    this.query.refetch({
+      executionTime: {
+        start: search.minExecutionTime,
+        end: search.maxExecutionTime,
+      },
     });
   }
 
-  onBatchSelected(batch: batch) {
+  onDownloadBasisData(_batch: Batch) {
+    throw new Error('Not implemented');
+    // this.store.getZippedBasisData(of(batch));
+    // this.store.loadingBasisDataErrorTrigger$.pipe(first()).subscribe(() => {
+    //   this.toastService.open({
+    //     message: this.translations.translate(
+    //       'wholesale.searchBatch.downloadFailed'
+    //     ),
+    //     type: 'danger',
+    //   });
+    // });
+  }
+
+  onBatchSelected(batch: Batch) {
+    this.selectedBatch = batch;
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { batch: batch.batchId },
+      queryParams: { batch: batch.id },
     });
-    this.store.setSelectedBatch(batch);
-    this.batchDetails.open();
+
+    this.batchDetails.open(batch.id);
   }
 
   onBatchDetailsClosed() {
+    this.selectedBatch = undefined;
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { batch: null },
     });
-    this.store.setSelectedBatch(undefined);
   }
 }

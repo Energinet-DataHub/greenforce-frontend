@@ -15,60 +15,54 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-drawer #drawer (closed)="closed.emit()">
-  <watt-drawer-topbar *transloco="let transloco; read: 'wholesale'">
-    <watt-breadcrumbs *rxLet="batchId$; let batchId">
-      <watt-breadcrumb (click)="drawer.close()">{{
-        transloco("searchBatch.topBarTitle")
-      }}</watt-breadcrumb>
-      <watt-breadcrumb>{{
-        transloco("batchDetails.headline", { batchId })
-      }}</watt-breadcrumb>
-    </watt-breadcrumbs>
+  <watt-drawer-topbar>
+    <ng-container *transloco="let transloco; read: 'wholesale'">
+      <watt-breadcrumbs>
+        <watt-breadcrumb (click)="drawer.close()">{{
+          transloco("searchBatch.topBarTitle")
+        }}</watt-breadcrumb>
+        <watt-breadcrumb *ngIf="batch">{{
+          transloco("batchDetails.headline", { batchId: batch.id })
+        }}</watt-breadcrumb>
+      </watt-breadcrumbs> </ng-container
+    >>
   </watt-drawer-topbar>
 
   <watt-drawer-content>
-    <ng-container
-      *rxLet="
-        batch$;
-        let batch;
-        suspense: loading;
-        error: error;
-        errorTrigger: errorTrigger$
-      "
-    >
-      <div
-        class="headline-container"
-        *transloco="let transloco; read: 'wholesale'"
-      >
-        <watt-badge *ngIf="batch" [type]="batch.statusType">
+    <ng-container *transloco="let transloco; read: 'wholesale'">
+      <div class="headline-container" *ngIf="batch">
+        <watt-badge [type]="batch.statusType">
           {{ transloco("searchBatch." + batch.executionState) }}
         </watt-badge>
-        <h3 class="headline watt-headline-1" *ngIf="batch">
-          {{ transloco("batchDetails.headline", { batchId: batch.batchId }) }}
+        <h3 class="headline watt-headline-1">
+          {{ transloco("batchDetails.headline", { batchId: batch.id }) }}
         </h3>
       </div>
-      <dl *transloco="let transloco; read: 'wholesale'">
+      <dl *ngIf="batch">
         <div>
           <dt class="watt-label">
             {{ transloco("batchDetails.calculationPeriod") }}
           </dt>
           <dd>
-            {{ batch?.periodStart | dhDate }} - {{ batch?.periodEnd | dhDate }}
+            {{ batch.period.start | dhDate }} -
+            {{ batch.period.end | dhDate }}
           </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ transloco("batchDetails.executionTime") }}
           </dt>
-          <dd>{{ batch?.executionTimeStart | dhDateTime }}</dd>
+          <dd>{{ batch.executionTimeStart | dhDateTime }}</dd>
         </div>
       </dl>
-      <dh-wholesale-grid-areas
-        *ngIf="batch"
-        [data]="batch.gridAreas"
-        [disabled]="batch.executionState === 'Failed'"
-        (selected)="onGridAreaSelected(batch, $event)"
-      ></dh-wholesale-grid-areas>
+      <ng-container *ngIf="batch">
+        <dh-wholesale-grid-areas
+          *ngIf="batch.gridAreas"
+          [data]="batch.gridAreas"
+          [disabled]="batch.executionState === 'FAILED'"
+          (selected)="onGridAreaSelected(batch, $event)"
+        ></dh-wholesale-grid-areas>
+      </ng-container>
     </ng-container>
   </watt-drawer-content>
 </watt-drawer>

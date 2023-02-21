@@ -44,19 +44,17 @@ limitations under the License.
     </ng-container>
   </watt-nav-list>
 
-  <ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
-    <watt-nav-list
-      [expandable]="true"
-      [title]="transloco('wholesale.menuGroupLabel')"
-    >
-      <watt-nav-list-item link="/wholesale/start-process">{{
-        transloco("wholesale.startBatch")
-      }}</watt-nav-list-item>
-      <watt-nav-list-item link="/wholesale/search-batch">{{
-        transloco("wholesale.searchBatch")
-      }}</watt-nav-list-item>
-    </watt-nav-list>
-  </ng-container>
+  <watt-nav-list
+    [expandable]="true"
+    [title]="transloco('wholesale.menuGroupLabel')"
+  >
+    <watt-nav-list-item link="/wholesale/start-process">{{
+      transloco("wholesale.startBatch")
+    }}</watt-nav-list-item>
+    <watt-nav-list-item link="/wholesale/search-batch">{{
+      transloco("wholesale.searchBatch")
+    }}</watt-nav-list-item>
+  </watt-nav-list>
 
   <ng-container *dhPermissionRequired="['users:manage']">
     <watt-nav-list

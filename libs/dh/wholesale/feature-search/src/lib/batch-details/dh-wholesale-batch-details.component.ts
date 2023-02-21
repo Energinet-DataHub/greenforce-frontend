@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -23,10 +23,11 @@ import {
   inject,
   Output,
   EventEmitter,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
-import { map } from 'rxjs';
+import { Apollo } from 'apollo-angular';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -39,11 +40,10 @@ import {
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
 
-import { batch } from '@energinet-datahub/dh/wholesale/domain';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
-import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+
 import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/wholesale/routing';
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 
 @Component({
   standalone: true,
@@ -63,28 +63,39 @@ import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholes
   selector: 'dh-wholesale-batch-details',
   templateUrl: './dh-wholesale-batch-details.component.html',
   styleUrls: ['./dh-wholesale-batch-details.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleBatchDetailsComponent {
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
   @Output() closed = new EventEmitter<void>();
 
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
   private router = inject(Router);
-  private route = inject(ActivatedRoute);
+  private apollo = inject(Apollo);
+  private changeDetectorRef = inject(ChangeDetectorRef);
 
-  batchId$ = this.route.queryParamMap.pipe(
-    map((params: ParamMap) => params.get('batch'))
-  );
-  batch$ = this.store.select((state) => state.selectedBatch);
-  errorTrigger$ = this.store.loadingBatchErrorTrigger$;
+  batch?: graphql.Batch;
 
-  open(): void {
+  open(id: string): void {
+    console.log('opening', id);
+    // TODO: unsub
     this.drawer.open();
+    this.apollo
+      .watchQuery({
+        returnPartialData: true,
+        useInitialLoading: true,
+        notifyOnNetworkStatusChange: true,
+        query: graphql.GetBatchDocument,
+        variables: { id },
+      })
+      .valueChanges.subscribe((result) => {
+        this.batch = result.data?.batch ?? undefined;
+        this.changeDetectorRef.markForCheck();
+        this.changeDetectorRef.detectChanges();
+        console.log(this.batch);
+      });
   }
 
-  onGridAreaSelected(batch: batch, gridArea: GridAreaDto): void {
+  onGridAreaSelected(batch: graphql.Batch, gridArea: graphql.GridArea): void {
     navigateToWholesaleCalculationSteps(this.router, batch, gridArea);
   }
 }

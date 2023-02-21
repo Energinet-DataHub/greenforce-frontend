@@ -90,13 +90,13 @@ export type Batch = {
   executionTimeEnd?: Maybe<Scalars['DateTimeOffset']>;
   /** The execution start time. */
   executionTimeStart?: Maybe<Scalars['DateTimeOffset']>;
-  /** The grid area codes. */
-  gridAreaCodes: Array<Maybe<Scalars['String']>>;
+  gridAreas: Array<GridArea>;
   /** The id of the batch. */
   id: Scalars['ID'];
   /** Whether basis data is downloadable. */
   isBasisDataDownloadAvailable: Scalars['Boolean'];
   period?: Maybe<Scalars['DateRange']>;
+  statusType: StatusType;
 };
 
 export enum BatchState {
@@ -164,7 +164,7 @@ export enum EicFunction {
 export type GraphQlQuery = {
   __typename?: 'GraphQLQuery';
   batch?: Maybe<Batch>;
-  batches?: Maybe<Array<Maybe<Batch>>>;
+  batches: Array<Batch>;
   organization?: Maybe<Organization>;
   organizations?: Maybe<Array<Maybe<Organization>>>;
 };
@@ -182,6 +182,22 @@ export type GraphQlQueryBatchesArgs = {
 
 export type GraphQlQueryOrganizationArgs = {
   id?: InputMaybe<Scalars['ID']>;
+};
+
+export type GridArea = {
+  __typename?: 'GridArea';
+  /** The grid area code. */
+  code: Scalars['String'];
+  /** The grid area id. */
+  id: Scalars['ID'];
+  /** The grid area name. */
+  name: Scalars['String'];
+  /** The price area code for the grid area. */
+  priceAreaCode: PriceAreaCode;
+  /** Date that the grid area is valid from */
+  validFrom: Scalars['DateTimeOffset'];
+  /** Date that the grid area is valid to */
+  validTo?: Maybe<Scalars['DateTimeOffset']>;
 };
 
 export enum MarketParticipantMeteringPointType {
@@ -235,12 +251,33 @@ export enum OrganizationStatus {
   New = 'NEW'
 }
 
+export enum PriceAreaCode {
+  Dk_1 = 'DK_1',
+  Dk_2 = 'DK_2'
+}
+
+/** How the status should be represented visually. */
+export enum StatusType {
+  Danger = 'danger',
+  Info = 'info',
+  Success = 'success',
+  Warning = 'warning'
+}
+
+export type GetBatchQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetBatchQuery = { __typename?: 'GraphQLQuery', batch?: { __typename?: 'Batch', id: string, executionState: BatchState, executionTimeEnd?: any | null, executionTimeStart?: any | null, isBasisDataDownloadAvailable: boolean, period?: any | null, statusType: StatusType, gridAreas: Array<{ __typename?: 'GridArea', code: string, name: string, id: string, priceAreaCode: PriceAreaCode, validFrom: any }> } | null };
+
 export type GetBatchesQueryVariables = Exact<{
   executionTime?: InputMaybe<Scalars['DateRange']>;
 }>;
 
 
-export type GetBatchesQuery = { __typename?: 'GraphQLQuery', batches?: Array<{ __typename?: 'Batch', id: string, executionState: BatchState, executionTimeStart?: any | null, executionTimeEnd?: any | null, gridAreaCodes: Array<string | null>, isBasisDataDownloadAvailable: boolean, period?: any | null } | null> | null };
+export type GetBatchesQuery = { __typename?: 'GraphQLQuery', batches: Array<{ __typename?: 'Batch', id: string, executionState: BatchState, executionTimeEnd?: any | null, executionTimeStart?: any | null, isBasisDataDownloadAvailable: boolean, period?: any | null, statusType: StatusType }> };
 
 
-export const GetBatchesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBatches"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"executionTime"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateRange"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"batches"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"executionTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"executionTime"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"executionState"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeStart"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeEnd"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreaCodes"}},{"kind":"Field","name":{"kind":"Name","value":"isBasisDataDownloadAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"period"}}]}}]}}]} as unknown as DocumentNode<GetBatchesQuery, GetBatchesQueryVariables>;
+export const GetBatchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBatch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"batch"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"executionState"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeEnd"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeStart"}},{"kind":"Field","name":{"kind":"Name","value":"isBasisDataDownloadAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"period"}},{"kind":"Field","name":{"kind":"Name","value":"statusType"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"priceAreaCode"}},{"kind":"Field","name":{"kind":"Name","value":"validFrom"}}]}}]}}]}}]} as unknown as DocumentNode<GetBatchQuery, GetBatchQueryVariables>;
+export const GetBatchesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBatches"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"executionTime"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateRange"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"batches"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"executionTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"executionTime"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"executionState"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeEnd"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeStart"}},{"kind":"Field","name":{"kind":"Name","value":"isBasisDataDownloadAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"period"}},{"kind":"Field","name":{"kind":"Name","value":"statusType"}}]}}]}}]} as unknown as DocumentNode<GetBatchesQuery, GetBatchesQueryVariables>;

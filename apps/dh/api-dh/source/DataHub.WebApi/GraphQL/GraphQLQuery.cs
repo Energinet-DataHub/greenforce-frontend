@@ -46,7 +46,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                .WithService<IWholesaleClient>()
                .ResolveAsync(async (context, client) => await client.GetBatchAsync(context.GetArgument<Guid>("id")));
 
-            Field<ListGraphType<BatchType>>("batches")
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<BatchType>>>>("batches")
                .Argument<DateRangeType>("executionTime")
                .Resolve()
                .WithScope()

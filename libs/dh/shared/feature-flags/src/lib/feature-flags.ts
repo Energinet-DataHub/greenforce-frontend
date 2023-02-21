@@ -37,10 +37,6 @@ const makeFeatureFlags = satisfies<FeatureFlagConfig>();
  * },
  */
 export const dhFeatureFlagsConfig = makeFeatureFlags({
-  start_wholesale_process_feature_flag: {
-    created: '19-12-2022',
-    disabledEnvironments: [],
-  },
   charges_price_date_chips_feature_flag: {
     created: '19-12-2022',
     disabledEnvironments: [],

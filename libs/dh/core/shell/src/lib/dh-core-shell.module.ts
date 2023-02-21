@@ -178,7 +178,22 @@ const routes: Routes = [
       provide: APOLLO_OPTIONS,
       useFactory(httpLink: HttpLink, dhApiEnvironment: DhApiEnvironment) {
         return {
-          cache: new InMemoryCache(),
+          cache: new InMemoryCache({
+            typePolicies: {
+              Query: {
+                fields: {
+                  batch: {
+                    read(_, { args, toReference }) {
+                      return toReference({
+                        __typename: 'Batch',
+                        id: args?.id,
+                      });
+                    },
+                  },
+                },
+              },
+            },
+          }),
           link: httpLink.create({ uri: `${dhApiEnvironment.apiBase}/graphql` }),
         };
       },
