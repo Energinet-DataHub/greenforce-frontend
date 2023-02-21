@@ -26,10 +26,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  WattModalComponent,
-  WattModalModule,
-} from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 
 import { CommonModule } from '@angular/common';
 import { PushModule } from '@rx-angular/template/push';
@@ -88,9 +85,7 @@ import { Subscription } from 'rxjs';
 })
 export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   private readonly actorStore = inject(DhUserActorsDataAccessApiStore);
-  private readonly assignableUserRolesStore = inject(
-    DbAdminAssignableUserRolesStore
-  );
+  private readonly assignableUserRolesStore = inject(DbAdminAssignableUserRolesStore);
   private readonly formBuilder = inject(FormBuilder);
   @ViewChild('inviteUserModal') inviteUserModal!: WattModalComponent;
   @ViewChild('stepper') stepper!: MatStepper;
@@ -98,8 +93,7 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
 
   readonly actorOptions$ = this.actorStore.actors$;
   readonly organizationDomain$ = this.actorStore.organizationDomain$;
-  readonly assignableUserRoles$ =
-    this.assignableUserRolesStore.assignableUserRoles$;
+  readonly assignableUserRoles$ = this.assignableUserRolesStore.assignableUserRoles$;
 
   actorIdSubscription: Subscription | null = null;
 
@@ -116,19 +110,18 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.inviteUserModal.open();
-    this.actorIdSubscription =
-      this.userInfo.controls.actorId.valueChanges.subscribe((actorId) => {
-        actorId !== null
-          ? this.userInfo.controls.email.enable()
-          : this.userInfo.controls.email.disable();
+    this.actorIdSubscription = this.userInfo.controls.actorId.valueChanges.subscribe((actorId) => {
+      actorId !== null
+        ? this.userInfo.controls.email.enable()
+        : this.userInfo.controls.email.disable();
 
-        if (actorId === null) {
-          this.actorStore.resetOrganizationState();
-          return;
-        }
-        this.assignableUserRolesStore.getAssignableUserRoles(actorId);
-        this.actorStore.getActorOrganization(actorId);
-      });
+      if (actorId === null) {
+        this.actorStore.resetOrganizationState();
+        return;
+      }
+      this.assignableUserRolesStore.getAssignableUserRoles(actorId);
+      this.actorStore.getActorOrganization(actorId);
+    });
   }
 
   ngOnDestroy(): void {
