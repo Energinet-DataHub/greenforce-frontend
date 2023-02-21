@@ -12,5 +12,5 @@ trim_trailing_whitespace = true
 max_line_length = off
 trim_trailing_whitespace = false
 
-[*.{ts,tsx,js}]
+[*.{ts,tsx,js,html}]
 max_line_length = 100
