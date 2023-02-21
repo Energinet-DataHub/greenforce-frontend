@@ -49,7 +49,7 @@ interface Properties<T> {
   sortDirection?: string;
   activeRow?: T;
   selectable?: boolean;
-  initiallySelectedRows?: T[];
+  initialSelection?: T[];
   resolveHeader?: (key: string) => string;
   selectionChange?: (selection: T[]) => void;
   rowClick?: (row: T) => void;
@@ -69,7 +69,7 @@ function setup<T>(properties: Properties<T>, template = '') {
       [activeRow]="activeRow"
       [resolveHeader]="resolveHeader"
       (selectionChange)="selectionChange($event)"
-      [initiallySelectedRows]="initiallySelectedRows"
+      [initialSelection]="initialSelection"
       (rowClick)="rowClick($event)"
       (sortChange)="sortChange($event)"
       >${template}</watt-table>`,
@@ -359,7 +359,7 @@ describe(WattTableComponent.name, () => {
       dataSource,
       columns,
       selectable: true,
-      initiallySelectedRows: [firstRow, secondRow],
+      initialSelection: [firstRow, secondRow],
     });
 
     const [
