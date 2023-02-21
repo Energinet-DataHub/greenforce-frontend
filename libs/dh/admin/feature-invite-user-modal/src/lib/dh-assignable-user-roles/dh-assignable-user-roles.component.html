@@ -65,12 +65,7 @@ limitations under the License.
   </ng-template>
 
   <ng-template #userRolesHeadline let-userRolesCount>
-    <ng-container
-      *transloco="
-        let t;
-        read: 'admin.userManagement.tabs.roles.userRolesHeadline'
-      "
-    >
+    <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles.userRolesHeadline'">
       <h4 *ngIf="userRolesCount === 1">
         {{ t("singular", { userRolesCount }) }}
       </h4>

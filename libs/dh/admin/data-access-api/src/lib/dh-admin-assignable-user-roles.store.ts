@@ -18,14 +18,8 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
-import {
-  ErrorState,
-  LoadingState,
-} from '@energinet-datahub/dh/shared/data-access-api';
-import {
-  MarketParticipantUserRoleHttp,
-  UserRoleDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
+import { MarketParticipantUserRoleHttp, UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 
 interface State {
   readonly requestState: LoadingState | ErrorState;
@@ -40,43 +34,38 @@ const initialState: State = {
 @Injectable({ providedIn: 'root' })
 export class DbAdminAssignableUserRolesStore extends ComponentStore<State> {
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
-  isLoading$ = this.select(
-    (state) => state.requestState === LoadingState.LOADING
-  );
+  isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasGeneralError$ = new Subject<void>();
 
   assignableUserRoles$ = this.select((state) => state.assignableUserRoles);
 
-  constructor(
-    private marketParticipantUserRoleHttp: MarketParticipantUserRoleHttp
-  ) {
+  constructor(private marketParticipantUserRoleHttp: MarketParticipantUserRoleHttp) {
     super(initialState);
   }
 
-  readonly getAssignableUserRoles = this.effect(
-    (trigger$: Observable<string>) =>
-      trigger$.pipe(
-        tap(() => {
-          this.resetState();
-          this.setLoading(LoadingState.LOADING);
-        }),
-        switchMap((actorId) => {
-          return this.marketParticipantUserRoleHttp
-            .v1MarketParticipantUserRoleGetAssignableGet(actorId)
-            .pipe(
-              tapResponse(
-                (userRoles) => {
-                  this.setLoading(LoadingState.LOADED);
-                  this.updateRoles(userRoles);
-                },
-                () => {
-                  this.setLoading(ErrorState.GENERAL_ERROR);
-                  this.handleError();
-                }
-              )
-            );
-        })
-      )
+  readonly getAssignableUserRoles = this.effect((trigger$: Observable<string>) =>
+    trigger$.pipe(
+      tap(() => {
+        this.resetState();
+        this.setLoading(LoadingState.LOADING);
+      }),
+      switchMap((actorId) => {
+        return this.marketParticipantUserRoleHttp
+          .v1MarketParticipantUserRoleGetAssignableGet(actorId)
+          .pipe(
+            tapResponse(
+              (userRoles) => {
+                this.setLoading(LoadingState.LOADED);
+                this.updateRoles(userRoles);
+              },
+              () => {
+                this.setLoading(ErrorState.GENERAL_ERROR);
+                this.handleError();
+              }
+            )
+          );
+      })
+    )
   );
 
   private updateRoles = this.updater(
