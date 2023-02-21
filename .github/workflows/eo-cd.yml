@@ -115,7 +115,7 @@ jobs:
         run: yarn nx build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL
 
       - name: Upload web app build artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ env.app-name }}
           path: ./dist/apps/eo/${{ env.app-name }}/
