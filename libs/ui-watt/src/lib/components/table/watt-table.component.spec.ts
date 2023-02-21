@@ -409,6 +409,37 @@ describe(WattTableComponent.name, () => {
     otherCheckboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked());
   });
 
+  it("does NOT reset initial selection when 'selectable' Input is toggled", async () => {
+    const selectionChange = jest.fn();
+    const dataSource = new WattTableDataSource(data);
+    const columns: WattTableColumnDef<PeriodicElement> = {
+      position: { accessor: 'position' },
+      weight: { accessor: 'weight' },
+    };
+
+    const [firstRow, secondRow] = data;
+
+    const result = await setup({
+      dataSource,
+      columns,
+      selectable: true,
+      initialSelection: [firstRow, secondRow],
+      selectionChange,
+    });
+
+    let [, firstCheckbox] = screen.getAllByRole('checkbox');
+
+    expect(firstCheckbox).toBeChecked();
+    userEvent.click(firstCheckbox);
+
+    result.change({ selectable: false });
+    result.change({ selectable: true });
+
+    [, firstCheckbox] = screen.getAllByRole('checkbox');
+
+    expect(firstCheckbox).not.toBeChecked();
+  });
+
   it('renders cell content using template', async () => {
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
