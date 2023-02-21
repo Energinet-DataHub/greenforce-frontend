@@ -19,11 +19,7 @@ import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import { WattTableDataSource } from './watt-table-data-source';
-import {
-  WattTableColumnDef,
-  WattTableComponent,
-  WATT_TABLE,
-} from './watt-table.component';
+import { WattTableColumnDef, WattTableComponent, WATT_TABLE } from './watt-table.component';
 
 interface PeriodicElement {
   name: string;
@@ -192,12 +188,14 @@ describe(WattTableComponent.name, () => {
       sortDirection: 'asc',
     });
 
-    expect(
-      screen.getByRole('columnheader', { name: 'position' })
-    ).toHaveAttribute('aria-sort', 'ascending');
-    expect(
-      screen.getByRole('columnheader', { name: 'weight' })
-    ).toHaveAttribute('aria-sort', 'none');
+    expect(screen.getByRole('columnheader', { name: 'position' })).toHaveAttribute(
+      'aria-sort',
+      'ascending'
+    );
+    expect(screen.getByRole('columnheader', { name: 'weight' })).toHaveAttribute(
+      'aria-sort',
+      'none'
+    );
   });
 
   it('outputs event when sorting column', async () => {
@@ -401,12 +399,8 @@ describe(WattTableComponent.name, () => {
       initialSelection: [firstRow, secondRow],
     });
 
-    const [
-      selectAllCheckbox,
-      firstCheckbox,
-      secondCheckbox,
-      ...otherCheckboxes
-    ] = screen.getAllByRole('checkbox');
+    const [selectAllCheckbox, firstCheckbox, secondCheckbox, ...otherCheckboxes] =
+      screen.getAllByRole('checkbox');
 
     expect(selectAllCheckbox).not.toBeChecked();
     expect(firstCheckbox).toBeChecked();

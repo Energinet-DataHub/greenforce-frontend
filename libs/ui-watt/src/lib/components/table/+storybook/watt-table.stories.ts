@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  componentWrapperDecorator,
-  moduleMetadata,
-  Story,
-} from '@storybook/angular';
+import { componentWrapperDecorator, moduleMetadata, Story } from '@storybook/angular';
 
 import { WattStorybookTableDecoratorComponent } from './storybook-table-decorator.component';
 import { WattTableColumnDef, WATT_TABLE } from '../watt-table.component';

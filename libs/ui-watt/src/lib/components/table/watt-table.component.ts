@@ -35,12 +35,7 @@ import {
 } from '@angular/core';
 import type { QueryList } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  MatSort,
-  MatSortModule,
-  Sort,
-  SortDirection,
-} from '@angular/material/sort';
+import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { map, type Subscription } from 'rxjs';
 import { WattCheckboxModule } from '../checkbox';
@@ -131,21 +126,13 @@ export interface WattSortableDataSource<T> extends DataSource<T> {
  */
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatSortModule,
-    MatTableModule,
-    WattCheckboxModule,
-  ],
+  imports: [CommonModule, FormsModule, MatSortModule, MatTableModule, WattCheckboxModule],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-table',
   styleUrls: ['./watt-table.component.scss'],
   templateUrl: './watt-table.component.html',
 })
-export class WattTableComponent<T>
-  implements OnChanges, AfterViewInit, OnDestroy
-{
+export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestroy {
   /**
    * The table's source of data. Property should not be changed after
    * initialization, instead update the data on the instance itself.
@@ -284,9 +271,7 @@ export class WattTableComponent<T>
   /** @ignore */
   private getCellData(row: T, column?: WattTableColumn<T>) {
     if (!column?.accessor) return null;
-    return typeof column.accessor === 'function'
-      ? column.accessor(row)
-      : row[column.accessor];
+    return typeof column.accessor === 'function' ? column.accessor(row) : row[column.accessor];
   }
 
   ngAfterViewInit() {
@@ -343,9 +328,7 @@ export class WattTableComponent<T>
 
   /** @ignore */
   get _columnSelection() {
-    return this.dataSource.filteredData.every((row) =>
-      this._selectionModel.isSelected(row)
-    );
+    return this.dataSource.filteredData.every((row) => this._selectionModel.isSelected(row));
   }
 
   /** @ignore */
