@@ -307,6 +307,10 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
     }
 
     if (changes?.selectable?.currentValue && !this.isInitialSelectionSet) {
+      // Note: The reason for having a flag here is because we want the initial selection
+      // to be set only once when `selectable` Input is `true`.
+      // Without the flag, the selection will be set every time `selectable` Input is set to `true`.
+      // This might lead to losing already selected items.
       this.isInitialSelectionSet = true;
 
       this._selectionModel.setSelection(...this.initialSelection);
