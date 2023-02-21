@@ -73,10 +73,12 @@ export class DhWholesaleBatchDetailsComponent {
   private apollo = inject(Apollo);
   private changeDetectorRef = inject(ChangeDetectorRef);
 
+  batchId?: string;
   batch?: graphql.Batch;
 
   open(id: string): void {
-    console.log('opening', id);
+    this.batchId = id;
+
     // TODO: unsub
     this.drawer.open();
     this.apollo
@@ -91,7 +93,7 @@ export class DhWholesaleBatchDetailsComponent {
         this.batch = result.data?.batch ?? undefined;
         this.changeDetectorRef.markForCheck();
         this.changeDetectorRef.detectChanges();
-        console.log(this.batch);
+        console.log(result);
       });
   }
 

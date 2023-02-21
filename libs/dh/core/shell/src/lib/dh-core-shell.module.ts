@@ -182,13 +182,11 @@ const routes: Routes = [
             typePolicies: {
               Query: {
                 fields: {
-                  batch: {
-                    read(_, { args, toReference }) {
-                      return toReference({
-                        __typename: 'Batch',
-                        id: args?.id,
-                      });
-                    },
+                  batch(_, { args, toReference }) {
+                    return toReference({
+                      __typename: 'Batch',
+                      id: args?.id,
+                    });
                   },
                 },
               },

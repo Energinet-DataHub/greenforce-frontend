@@ -67,8 +67,6 @@ type wholesaleTableData = WattTableDataSource<Batch>;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleTableComponent implements AfterViewInit {
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
-
   @Input()
   selectedBatch?: Batch;
 
