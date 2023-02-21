@@ -171,6 +171,13 @@ $font-sizes: (
   text-transform: uppercase;
 }
 
+@mixin watt-step-label {
+  color: var(--watt-typography-label-color);
+  @include font-size("m");
+  @include font-weight("semi-bold");
+  text-transform: none;
+}
+
 @mixin watt-link {
   color: var(--watt-typography-link-color);
   @include font-size("m");

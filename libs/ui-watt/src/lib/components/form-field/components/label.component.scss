@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 :host-context(.mat-form-field-invalid.ng-dirty),
-:host-context(.ng-submitted .mat-form-field-invalid) {
+:host-context(.mat-form-field-invalid) {
   color: var(--watt-color-state-danger);
 }
 

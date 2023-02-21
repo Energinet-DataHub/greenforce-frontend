@@ -14,11 +14,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -41,10 +41,11 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// </summary>
         [HttpGet]
         [Route("GetUserActors")]
+        [AllowAnonymous]
         public Task<ActionResult<GetAssociatedUserActorsResponseDto>> GetUserActorsAsync()
         {
-            var externalToken = HttpContext.Request.Headers["Authorization"].Single();
-            externalToken = externalToken?.Replace("Bearer ", string.Empty) ?? string.Empty;
+            var externalToken = HttpContext.Request.Headers["Authorization"].ToString();
+            externalToken = externalToken.Replace("Bearer ", string.Empty);
             return HandleExceptionAsync(() => _marketParticipantClient.GetUserActorsAsync(externalToken));
         }
 

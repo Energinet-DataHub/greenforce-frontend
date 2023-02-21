@@ -28,7 +28,7 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import {
   CreateUserRoleDto,
-  SelectablePermissionsDto,
+  PermissionDetailsDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 import { DhCreateRolePermissionTabTableComponent } from './dh-create-userrole-permissions-tab-table.component';
@@ -48,11 +48,11 @@ import { DhCreateRolePermissionTabTableComponent } from './dh-create-userrole-pe
   ],
 })
 export class DhCreateUserrolePermissionsTabComponent {
-  @Input() permissions: SelectablePermissionsDto[] = [];
+  @Input() permissions: PermissionDetailsDto[] = [];
 
   @Output() valueChange = new EventEmitter<Partial<CreateUserRoleDto>>();
 
-  onSelectionChange(selections: SelectablePermissionsDto[]): void {
+  onSelectionChange(selections: PermissionDetailsDto[]): void {
     this.valueChange.emit({
       permissions: selections.map((perm) => perm.id),
     });
