@@ -279,6 +279,9 @@ export class WattTableComponent<T>
   _subscription!: Subscription;
 
   /** @ignore */
+  private isInitialSelectionSet = false;
+
+  /** @ignore */
   private getCellData(row: T, column?: WattTableColumn<T>) {
     if (!column?.accessor) return null;
     return typeof column.accessor === 'function'
@@ -310,14 +313,18 @@ export class WattTableComponent<T>
       if (this.selectable) {
         // Add space for extra checkbox column
         sizing.unshift('var(--watt-space-xl)');
-
-        this._selectionModel.setSelection(...this.initialSelection);
       }
 
       this._element.nativeElement.style.setProperty(
         '--watt-table-grid-template-columns',
         sizing.join(' ')
       );
+    }
+
+    if (changes?.selectable?.currentValue && !this.isInitialSelectionSet) {
+      this.isInitialSelectionSet = true;
+
+      this._selectionModel.setSelection(...this.initialSelection);
     }
   }
 
