@@ -6,6 +6,11 @@
     "logout": "Log ud"
   },
   "shared": {
+    "fieldRequiredErrorText": "Feltet er påkrævet.",
+    "navigation": {
+      "next": "Næste",
+      "previous": "Forrige"
+    },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
       "of": "af",
@@ -272,7 +277,6 @@
     "sender": "Afsender",
     "resolution": "Opløsning",
     "effectiveDate": "Skæringsdato",
-    "fieldRequiredErrorText": "Feltet er påkrævet.",
     "senderProvidedChargeIdMaxLengthErrorText": "Maksimalt 10 tegn.",
     "chargeNameMaxLengthErrorText": "Maksimalt 132 tegn.",
     "descriptionMaxLengthErrorText": "Maksimalt 2048 tegn.",
@@ -507,7 +511,6 @@
           "labelActorNumber": "Aktør id",
           "labelStatus": "Status",
           "labelActorName": "Aktørnavn",
-          "fieldRequiredErrorText": "Feltet er påkrævet.",
           "statuses": {
             "New": "Ny",
             "Active": "Aktiv",
@@ -619,7 +622,6 @@
           "countryLabel": "Land",
           "domainLabel": "Domæne",
           "commentLabel": "Kommentar",
-          "fieldRequiredErrorText": "Feltet er påkrævet.",
           "countries": {
             "at": "Østrig",
             "be": "Belgien",
@@ -820,6 +822,7 @@
       "step": "Trin {{step}}",
       "aggregatedProductionPerGridArea": "Aggregeret produktion per netområde",
       "aggregatedConsumptionPerEnergySupplier": "Aggregeret timeforbrug per elleverandør",
+      "nonProfiledConsumptionPerBalanceResponsible": "Aggregeret timeforbrug per balanceansvarlig",
       "gridArea": "Netområde",
       "energySupplier": "El-leverandør",
       "loadProcessStepResultsErrorTitle": "Ups! Der opstod en fejl",
@@ -857,6 +860,19 @@
   },
   "admin": {
     "userManagement": {
+      "inviteUser": {
+        "title": "Inviter bruger",
+        "informations": "Informationer",
+        "addUserRole": "Tildel brugerroller",
+        "inviteUser": "Inviter bruger",
+        "name": "Navn",
+        "userRoles": "Brugerroller",
+        "actor": "Aktør",
+        "firstname": "Fornavn",
+        "lastname": "Efternavn",
+        "email": "Email",
+        "phoneNumber": "Telefonnr"
+      },
       "download": "Download",
       "drawer": {
         "edit": "Rediger",
@@ -1019,7 +1035,6 @@
         "tabs": {
           "masterdata": {
             "tabLabel": "Stamdata",
-            "fieldRequiredErrorText": "Feltet er påkrævet.",
             "nameMaxLengthErrorText": "Navn skal være under 250 karakterer",
             "name": "Navn",
             "description": "Beskrivelse",

@@ -108,6 +108,24 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
+        /// Retrieves the organization for a single actor
+        /// </summary>
+        [HttpGet("GetActorOrganization")]
+        public Task<ActionResult<OrganizationDto>> GetActorOrganizationAsync(Guid actorId)
+        {
+            return HandleExceptionAsync(async () =>
+            {
+                var organizations = await _client
+                    .GetOrganizationsAsync()
+                    .ConfigureAwait(false);
+
+                var organization = organizations.FirstOrDefault(org => org.Actors.Any(actor => actor.ActorId == actorId));
+
+                return organization ?? throw new Exception($"No organization found for actor {actorId}");
+            });
+        }
+
+        /// <summary>
         /// Retrieves a single actor to a specific organization
         /// </summary>
         [HttpGet("GetActor")]

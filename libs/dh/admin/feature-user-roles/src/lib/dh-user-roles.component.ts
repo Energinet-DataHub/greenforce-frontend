@@ -38,7 +38,7 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { FormsModule } from '@angular/forms';
-import { JoinMarketRoles } from '../dh-join-market-roles.pipe';
+import { JoinMarketRoles } from './dh-join-market-roles.pipe';
 import {
   UserOverviewItemDto,
   UserRoleViewDto,

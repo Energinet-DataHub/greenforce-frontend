@@ -34,7 +34,7 @@ import {
   WattModalModule,
 } from '@energinet-datahub/watt/modal';
 
-import { DhUserRolesComponent } from '../../shared/dh-user-roles.component/dh-user-roles.component';
+import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import {
   DhAdminUserRolesStore,
   UpdateUserRoles,

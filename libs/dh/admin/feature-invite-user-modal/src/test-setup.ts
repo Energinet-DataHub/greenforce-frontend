@@ -14,11 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host-context(.mat-form-field-invalid.ng-dirty),
-:host-context(.mat-form-field-invalid) {
-  color: var(--watt-color-state-danger);
-}
+import 'jest-preset-angular/setup-jest';
 
-:host-context(.mat-form-field-disabled) {
-  color: var(--watt-color-neutral-grey-500);
-}
+import {
+  setUpTestbed,
+  setUpAngularTestingLibrary,
+} from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSW } from '@energinet-datahub/dh/shared/test-util-msw';
+
+setupMSW();
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();
