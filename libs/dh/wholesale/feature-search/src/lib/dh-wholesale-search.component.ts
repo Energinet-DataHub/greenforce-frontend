@@ -28,6 +28,7 @@ import { LetModule } from '@rx-angular/template/let';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
+import { sub } from 'date-fns';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
@@ -77,17 +78,16 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
   private apollo = inject(Apollo);
 
   selectedBatch?: Batch;
+  executionTime = {
+    start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
+    end: new Date().toISOString(),
+  };
 
   query = this.apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: graphql.GetBatchesDocument,
-    variables: {
-      executionTime: {
-        start: new Date().toISOString(), // fixme
-        end: new Date().toISOString(), // fixme
-      },
-    },
+    variables: { executionTime: this.executionTime },
   });
 
   error?: ApolloError;

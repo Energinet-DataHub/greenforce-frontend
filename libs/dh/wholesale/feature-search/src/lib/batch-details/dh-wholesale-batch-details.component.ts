@@ -71,7 +71,6 @@ export class DhWholesaleBatchDetailsComponent {
 
   private router = inject(Router);
   private apollo = inject(Apollo);
-  private changeDetectorRef = inject(ChangeDetectorRef);
 
   batchId?: string;
   batch?: graphql.Batch;
@@ -91,9 +90,6 @@ export class DhWholesaleBatchDetailsComponent {
       })
       .valueChanges.subscribe((result) => {
         this.batch = result.data?.batch ?? undefined;
-        this.changeDetectorRef.markForCheck();
-        this.changeDetectorRef.detectChanges();
-        console.log(result);
       });
   }
 

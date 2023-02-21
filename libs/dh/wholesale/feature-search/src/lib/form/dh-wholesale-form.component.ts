@@ -20,12 +20,9 @@ import {
   Component,
   EventEmitter,
   Output,
-  OnInit,
   Input,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { sub } from 'date-fns';
-import { first } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
@@ -49,25 +46,18 @@ import { BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
   styleUrls: ['./dh-wholesale-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleFormComponent implements OnInit {
+export class DhWholesaleFormComponent {
   @Input() loading = false;
+  @Input() set executionTime(executionTime: { start: string; end: string }) {
+    this.searchForm.patchValue({ executionTime });
+  }
   @Output() search = new EventEmitter<BatchSearchDto>();
 
   searchForm = this.fb.group({
-    executionTime: [
-      {
-        start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
-        end: new Date().toISOString(),
-      },
-      WattRangeValidators.required(),
-    ],
+    executionTime: [this.executionTime, WattRangeValidators.required()],
   });
 
   constructor(private fb: FormBuilder) {}
-
-  ngOnInit() {
-    this.searchForm.valueChanges.pipe(first()).subscribe(() => this.onSubmit());
-  }
 
   onSubmit() {
     if (!this.searchForm?.value?.executionTime) return;
