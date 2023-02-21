@@ -110,6 +110,7 @@ limitations under the License.
         <ng-template matStepLabel>{{ t("addUserRole") }}</ng-template>
         <watt-form-field>
           <watt-label>{{ t("userRoles") }}</watt-label>
+          {{ assignableUserRoles$ | push | json }}
           <input
             [formControl]="userRoles.controls.userRole"
             wattInput

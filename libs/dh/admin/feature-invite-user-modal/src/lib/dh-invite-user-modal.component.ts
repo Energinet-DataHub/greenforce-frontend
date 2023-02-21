@@ -49,7 +49,10 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { DhUserActorsDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import {
+  DbAdminAssignableUserRolesStore,
+  DhUserActorsDataAccessApiStore,
+} from '@energinet-datahub/dh/admin/data-access-api';
 import { Subscription } from 'rxjs';
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -85,6 +88,9 @@ import { Subscription } from 'rxjs';
 })
 export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   private readonly actorStore = inject(DhUserActorsDataAccessApiStore);
+  private readonly assignableUserRolesStore = inject(
+    DbAdminAssignableUserRolesStore
+  );
   private readonly formBuilder = inject(FormBuilder);
   @ViewChild('inviteUserModal') inviteUserModal!: WattModalComponent;
   @ViewChild('stepper') stepper!: MatStepper;
@@ -92,6 +98,9 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
 
   readonly actorOptions$ = this.actorStore.actors$;
   readonly organizationDomain$ = this.actorStore.organizationDomain$;
+  readonly assignableUserRoles$ =
+    this.assignableUserRolesStore.assignableUserRoles$;
+
   actorIdSubscription: Subscription | null = null;
 
   userInfo = this.formBuilder.group({
@@ -117,7 +126,7 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
           this.actorStore.resetOrganizationState();
           return;
         }
-
+        this.assignableUserRolesStore.getAssignableUserRoles(actorId);
         this.actorStore.getActorOrganization(actorId);
       });
   }
