@@ -1,0 +1,35 @@
+﻿:host {
+  overflow-y: scroll;
+  display: block;
+  height: 20vw;
+}
+
+watt-empty-state {
+  padding: var(--watt-space-xl);
+}
+
+watt-spinner {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--watt-space-xl);
+}
+
+.userRoles {
+  li {
+    grid-template-columns: 40px 1fr auto !important;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  li {
+    display: grid;
+    margin: var(--watt-space-s) 0 0 var(--watt-space-s);
+    grid-template-columns: 1fr 1fr;
+    justify-items: left;
+  }
+  h6 {
+    margin: 0 0 0 var(--watt-space-s);
+  }
+}
