@@ -8,7 +8,7 @@
       errorTrigger: hasGeneralError$
     "
   >
-    <watt-card variant="watt-stoke">
+    <watt-card variant="watt-solid">
       <watt-card-title>
         <ng-container
           *ngTemplateOutlet="
@@ -49,7 +49,12 @@
   </ng-template>
 
   <ng-template #userRolesHeadline let-userRolesCount>
-    <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles.userRolesHeadline'">
+    <ng-container
+      *transloco="
+        let t;
+        read: 'admin.userManagement.tabs.roles.userRolesHeadline'
+      "
+    >
       <h4 *ngIf="userRolesCount === 1">
         {{ t("singular", { userRolesCount }) }}
       </h4>
