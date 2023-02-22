@@ -49,23 +49,20 @@ limitations under the License.
           (selected)="onGridAreaSelected(batch, $event)"
         ></dh-wholesale-grid-areas>
       </ng-container>
+
+      <div class="center" *ngIf="loading">
+        <watt-spinner></watt-spinner>
+      </div>
+
+      <div *ngIf="error" class="center">
+        <watt-empty-state
+          *transloco="let transloco; read: 'wholesale.batchDetails'"
+          icon="custom-power"
+          [title]="transloco('errorTitle')"
+          [message]="transloco('errorMessage')"
+        >
+        </watt-empty-state>
+      </div>
     </ng-container>
   </watt-drawer-content>
 </watt-drawer>
-
-<ng-template #loading>
-  <div class="center">
-    <watt-spinner></watt-spinner>
-  </div>
-</ng-template>
-
-<ng-template #error>
-  <div class="center" *transloco="let transloco; read: 'wholesale.batchDetails'">
-    <watt-empty-state
-      icon="custom-power"
-      [title]="transloco('errorTitle')"
-      [message]="transloco('errorMessage')"
-    >
-    </watt-empty-state>
-  </div>
-</ng-template>

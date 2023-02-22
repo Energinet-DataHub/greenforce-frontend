@@ -17,6 +17,7 @@
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild, inject, Output, EventEmitter } from '@angular/core';
+import { ApolloError } from '@apollo/client';
 import { Apollo } from 'apollo-angular';
 import { TranslocoModule, translate } from '@ngneat/transloco';
 
@@ -40,6 +41,7 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
 
 import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/wholesale/routing';
+import { Subscription, takeUntil } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -67,9 +69,12 @@ export class DhWholesaleBatchDetailsComponent {
 
   private router = inject(Router);
   private apollo = inject(Apollo);
+  private subscription?: Subscription;
 
   batchId?: string;
   batch?: graphql.Batch;
+  error?: ApolloError;
+  loading = false;
 
   // TODO:
   // This function is called a lot, consider adding a more declarative
@@ -97,10 +102,9 @@ export class DhWholesaleBatchDetailsComponent {
 
   open(id: string): void {
     this.batchId = id;
-
-    // TODO: unsub
     this.drawer.open();
-    this.apollo
+    this.subscription?.unsubscribe();
+    this.subscription = this.apollo
       .watchQuery({
         returnPartialData: true,
         useInitialLoading: true,
@@ -108,8 +112,11 @@ export class DhWholesaleBatchDetailsComponent {
         query: graphql.GetBatchDocument,
         variables: { id },
       })
-      .valueChanges.subscribe((result) => {
+      .valueChanges.pipe(takeUntil(this.closed))
+      .subscribe((result) => {
         this.batch = result.data?.batch ?? undefined;
+        this.loading = result.loading;
+        this.error = result.error;
       });
   }
 
