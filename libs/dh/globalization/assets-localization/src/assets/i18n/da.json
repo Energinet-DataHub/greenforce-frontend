@@ -1046,13 +1046,7 @@
           "permissions": {
             "tabLabel": "Rettigheder",
             "title": "Rettigheder",
-            "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle",
-            "table": {
-              "columns": {
-                "name": "Navn",
-                "description": "Beskrivelse"
-              }
-            }
+            "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle"
           }
         }
       },
@@ -1084,6 +1078,12 @@
         },
         "cancel": "Fortryd",
         "save": "Gem"
+      },
+      "permissionsTable": {
+        "columns": {
+          "name": "Navn",
+          "description": "Beskrivelse"
+        }
       }
     }
   }
