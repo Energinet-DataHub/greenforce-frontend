@@ -43,7 +43,7 @@ const changeDescriptionJsonMock = {
   Description: 'New description',
   EicFunction: EicFunction.BalanceResponsibleParty,
   Status: UserRoleStatus.Inactive,
-  Permissions: ['UsersManage', 'UsersView'],
+  Permissions: [3, 4],
 };
 
 function generateUserRoleAuditLog(

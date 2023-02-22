@@ -13,10 +13,10 @@
 // limitations under the License.
 
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -36,9 +36,10 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Retrieves a DataHub access token.
         /// </summary>
         [HttpPost]
+        [AllowAnonymous]
         public Task<ActionResult<GetTokenResponseDto>> GetTokenAsync(Guid actorId)
         {
-            var externalToken = HttpContext.Request.Headers["Authorization"].Single();
+            var externalToken = HttpContext.Request.Headers["Authorization"].ToString();
             externalToken = externalToken.Replace("Bearer ", string.Empty);
             return HandleExceptionAsync(() => _client.GetTokenAsync(new GetTokenRequestDto(actorId, externalToken)));
         }

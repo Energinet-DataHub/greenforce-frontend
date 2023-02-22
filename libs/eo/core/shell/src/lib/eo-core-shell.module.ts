@@ -47,8 +47,8 @@ const routes: Routes = [
     path: 'terms',
     data: { title: 'Terms' },
     loadChildren: () =>
-      import('@energinet-datahub/eo/auth/feature-terms').then(
-        (esModule) => esModule.EoAuthFeatureTermsModule
+      import('@energinet-datahub/eo/terms').then(
+        (esModule) => esModule.EoTermsModule
       ),
   },
   {

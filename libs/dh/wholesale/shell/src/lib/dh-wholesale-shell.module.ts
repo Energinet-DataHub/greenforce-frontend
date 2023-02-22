@@ -20,6 +20,7 @@ import {
   WHOLESALE_START_PROCESS_PATH,
   WHOLESALE_SEARCH_BATCH_PATH,
   WHOLESALE_CALCULATION_STEPS_PATH,
+  WHOLESALE_SETTLEMENT_REPORTS_PATH,
 } from '@energinet-datahub/dh/wholesale/routing';
 
 export const WHOLESALE_SHELL: Route[] = [
@@ -41,6 +42,16 @@ export const WHOLESALE_SHELL: Route[] = [
       ),
     data: {
       titleTranslationKey: 'wholesale.searchBatch.topBarTitle',
+    },
+  },
+  {
+    path: WHOLESALE_SETTLEMENT_REPORTS_PATH,
+    loadComponent: () =>
+      import('@energinet-datahub/dh/wholesale/feature-settlement-reports').then(
+        (m) => m.DhWholesaleSettlementReportsComponent
+      ),
+    data: {
+      titleTranslationKey: 'wholesale.settlementReports.topBarTitle',
     },
   },
   {

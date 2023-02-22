@@ -14,31 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewChild,
-  inject,
-  Output,
-  EventEmitter,
-  ChangeDetectorRef,
-} from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule } from '@rx-angular/template/let';
+import { Component, ViewChild, inject, Output, EventEmitter } from '@angular/core';
 import { Apollo } from 'apollo-angular';
+import { TranslocoModule, translate } from '@ngneat/transloco';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import {
+  DhDatePipe,
+  DhDateTimePipe,
+  DhSharedUiDateTimeModule,
+} from '@energinet-datahub/dh/shared/ui-date-time';
+import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import {
-  WattDrawerComponent,
-  WattDrawerModule,
-} from '@energinet-datahub/watt/drawer';
+  WattDescriptionListComponent,
+  WattDescriptionListGroups,
+} from '@energinet-datahub/watt/description-list';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
@@ -48,17 +44,17 @@ import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/whole
 @Component({
   standalone: true,
   imports: [
-    CommonModule,
     DhSharedUiDateTimeModule,
+    CommonModule,
     DhWholesaleGridAreasComponent,
     TranslocoModule,
     WattBadgeComponent,
     WattCardModule,
     WattDrawerModule,
     ...WATT_BREADCRUMBS,
-    LetModule,
     WattSpinnerModule,
     WattEmptyStateModule,
+    WattDescriptionListComponent,
   ],
   selector: 'dh-wholesale-batch-details',
   templateUrl: './dh-wholesale-batch-details.component.html',
@@ -74,6 +70,30 @@ export class DhWholesaleBatchDetailsComponent {
 
   batchId?: string;
   batch?: graphql.Batch;
+
+  // TODO:
+  // This function is called a lot, consider adding a more declarative
+  // api to the watt-description-list (could also enable skeleton look)
+  getBatchMetadata(): WattDescriptionListGroups {
+    const datePipe = new DhDatePipe();
+    const dateTimePipe = new DhDateTimePipe();
+    return [
+      {
+        term: translate('wholesale.batchDetails.calculationPeriod'),
+        description: this.batch?.period
+          ? `${datePipe.transform(this.batch?.period?.start)} - ${datePipe.transform(
+              this.batch?.period?.end
+            )}`
+          : '-',
+      },
+      {
+        term: translate('wholesale.batchDetails.executionTime'),
+        description: this.batch?.executionTimeStart
+          ? (dateTimePipe.transform(this.batch?.executionTimeStart) as string)
+          : '-',
+      },
+    ];
+  }
 
   open(id: string): void {
     this.batchId = id;

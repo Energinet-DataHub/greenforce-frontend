@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 import { EicFunction } from './eic-function';
+import { PermissionDetailsDto } from './permission-details-dto';
 import { UserRoleStatus } from './user-role-status';
 
 
@@ -19,7 +20,7 @@ export interface UserRoleWithPermissionsDto {
     description: string;
     eicFunction: EicFunction;
     status: UserRoleStatus;
-    permissions: Array<number>;
+    permissions: Array<PermissionDetailsDto>;
 }
 
 

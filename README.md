@@ -3,7 +3,7 @@
 
 # GreenForce
 
-[![GitHub Workflow Status (event)](https://img.shields.io/github/workflow/status/Energinet-DataHub/greenforce-frontend/DH%20Frontend%20CD?event=push)](https://github.com/Energinet-DataHub/greenforce-frontend/actions/workflows/dh-frontend-cd.yml)
+[![GitHub Workflow Status (event)](https://img.shields.io/github/actions/workflow/status/Energinet-DataHub/greenforce-frontend/dh-cd.yml?branch=main)](https://github.com/Energinet-DataHub/greenforce-frontend/actions/workflows/dh-cd.yml)
 [![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/geh-frontend-app/main?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=geh-frontend-app)
 [![Codecov](https://img.shields.io/codecov/c/github/Energinet-DataHub/greenforce-frontend)](https://app.codecov.io/gh/Energinet-DataHub/greenforce-frontend)
 [![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/Energinet-DataHub/greenforce-frontend/@angular/core?label=angular)](https://github.com/angular/angular/blob/main/CHANGELOG.md)

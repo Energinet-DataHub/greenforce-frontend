@@ -15,4 +15,3 @@
  * limitations under the License.
  */
 export * from './lib/dh-admin-feature-user-management.component';
-export * from './lib/feature-create-userrole/dh-create-userrole.component';

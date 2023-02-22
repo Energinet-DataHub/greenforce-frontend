@@ -22,14 +22,14 @@ import {
 
 import { mapChangeDescriptionJson } from './map-change-description-json';
 
-describe('mapChangeDescriptionJson.prototype.name', () => {
+describe(mapChangeDescriptionJson.prototype.name, () => {
   it(`returns value when "UserRoleChangeType" is ${UserRoleChangeType.Created}`, () => {
     const changeDescriptionJson = {
       Name: 'New name',
       Description: 'New description',
       EicFunction: EicFunction.BalanceResponsibleParty,
       Status: UserRoleStatus.Inactive,
-      Permissions: ['UsersManage', 'UsersView'],
+      Permissions: [3, 4],
     };
 
     const actual = mapChangeDescriptionJson(
@@ -87,14 +87,14 @@ describe('mapChangeDescriptionJson.prototype.name', () => {
   });
 
   it(`returns value when "UserRoleChangeType" is ${UserRoleChangeType.PermissionsChange}`, () => {
-    const changeDescriptionJson = { Permissions: ['UsersManage', 'UsersView'] };
+    const changeDescriptionJson = { Permissions: [3, 4] };
 
     const actual = mapChangeDescriptionJson(
       UserRoleChangeType.PermissionsChange,
       changeDescriptionJson
     );
 
-    expect(actual).toBe('UsersManage, UsersView');
+    expect(actual).toBe('3, 4');
   });
 
   it(`throws when "UserRoleChangeType" is unknown`, () => {

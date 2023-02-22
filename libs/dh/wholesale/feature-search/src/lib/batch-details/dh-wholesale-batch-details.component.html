@@ -32,31 +32,15 @@ limitations under the License.
     <ng-container *transloco="let transloco; read: 'wholesale'">
       <div class="headline-container">
         <watt-badge [type]="batch?.statusType ?? 'skeleton'">{{
-          batch?.executionState
-            ? transloco("searchBatch." + batch?.executionState)
-            : "unknown"
+          batch?.executionState ? transloco("searchBatch." + batch?.executionState) : "unknown"
         }}</watt-badge>
         <h3 class="headline watt-headline-1">
           {{ transloco("batchDetails.headline", { batchId }) }}
         </h3>
       </div>
-      <dl *ngIf="batch">
-        <div>
-          <dt class="watt-label">
-            {{ transloco("batchDetails.calculationPeriod") }}
-          </dt>
-          <dd>
-            {{ batch.period?.start | dhDate }} -
-            {{ batch.period?.end | dhDate }}
-          </dd>
-        </div>
-        <div>
-          <dt class="watt-label">
-            {{ transloco("batchDetails.executionTime") }}
-          </dt>
-          <dd>{{ batch.executionTimeStart | dhDateTime }}</dd>
-        </div>
-      </dl>
+
+      <watt-description-list [groups]="getBatchMetadata()"></watt-description-list>
+
       <ng-container *ngIf="batch">
         <dh-wholesale-grid-areas
           *ngIf="batch.gridAreas"
@@ -76,10 +60,7 @@ limitations under the License.
 </ng-template>
 
 <ng-template #error>
-  <div
-    class="center"
-    *transloco="let transloco; read: 'wholesale.batchDetails'"
-  >
+  <div class="center" *transloco="let transloco; read: 'wholesale.batchDetails'">
     <watt-empty-state
       icon="custom-power"
       [title]="transloco('errorTitle')"
