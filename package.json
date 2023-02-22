@@ -107,6 +107,7 @@
     "@graphql-codegen/introspection": "^3.0.0",
     "@graphql-codegen/typed-document-node": "^3.0.0",
     "@graphql-codegen/typescript": "^3.0.0",
+    "@graphql-codegen/typescript-msw": "^1.1.6",
     "@graphql-codegen/typescript-operations": "^3.0.0",
     "@ngneat/transloco-keys-manager": "3.5.0",
     "@ngneat/transloco-optimize": "3.0.2",

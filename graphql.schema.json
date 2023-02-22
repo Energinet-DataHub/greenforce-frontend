@@ -600,61 +600,13 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "AGENT",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "BALANCE_RESPONSIBLE_PARTY",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "BALANCING_SERVICE_PROVIDER",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "BILLING_AGENT",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "CAPACITY_TRADER",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "CONSENT_ADMINISTRATOR",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "CONSUMER",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "CONSUMPTION_RESPONSIBLE_PARTY",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "COORDINATED_CAPACITY_CALCULATOR",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "COORDINATION_CENTRE_OPERATOR",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -672,31 +624,13 @@
             "deprecationReason": null
           },
           {
-            "name": "DATA_PROVIDER",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "EL_OVERBLIK",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "ENERGY_SERVICE_COMPANY",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "ENERGY_SUPPLIER",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "ENERGY_TRADER",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -720,49 +654,7 @@
             "deprecationReason": null
           },
           {
-            "name": "INTERCONNECTION_TRADE_RESPONSIBLE",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "LFC_OPERATOR",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "MARKET_INFORMATION_AGGREGATOR",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "MARKET_OPERATOR",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "MERIT_ORDER_LIST_RESPONSIBLE",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "METERED_DATA_ADMINISTRATOR",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "METERED_DATA_AGGREGATOR",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "METERED_DATA_COLLECTOR",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -780,114 +672,6 @@
             "deprecationReason": null
           },
           {
-            "name": "METER_ADMINISTRATOR",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "METER_OPERATOR",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "MODELLING_AUTHORITY",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "MODEL_MERGING_AGENT",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "NOMINATED_ELECTRICITY_MARKET_OPERATOR",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "NOMINATION_VALIDATOR",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "PARTY_ADMINISTRATOR",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "PARTY_CONNECTED_TO_THE_GRID",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "PRODUCER",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "PRODUCTION_RESPONSIBLE_PARTY",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "RECONCILIATION_ACCOUNTABLE",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "RECONCILIATION_RESPONSIBLE",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "RESERVE_ALLOCATOR",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "RESOURCE_AGGREGATOR",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "RESOURCE_CAPACITY_MECHANISM_OPERATOR",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "RESOURCE_PROVIDER",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "SCHEDULING",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "SCHEDULING_AREA_RESPONSIBLE",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "SERIAL_ENERGY_TRADER",
             "description": null,
             "isDeprecated": false,
@@ -895,18 +679,6 @@
           },
           {
             "name": "SYSTEM_OPERATOR",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "TRADE_RESPONSIBLE_PARTY",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "TRANSMISSION_CAPACITY_ALLOCATOR",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null

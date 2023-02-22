@@ -1,4 +1,5 @@
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import { graphql, ResponseResolver, GraphQLRequest, GraphQLContext } from 'msw'
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -107,58 +108,20 @@ export enum BatchState {
 }
 
 export enum EicFunction {
-  Agent = 'AGENT',
   BalanceResponsibleParty = 'BALANCE_RESPONSIBLE_PARTY',
-  BalancingServiceProvider = 'BALANCING_SERVICE_PROVIDER',
   BillingAgent = 'BILLING_AGENT',
-  CapacityTrader = 'CAPACITY_TRADER',
-  ConsentAdministrator = 'CONSENT_ADMINISTRATOR',
-  Consumer = 'CONSUMER',
-  ConsumptionResponsibleParty = 'CONSUMPTION_RESPONSIBLE_PARTY',
-  CoordinatedCapacityCalculator = 'COORDINATED_CAPACITY_CALCULATOR',
-  CoordinationCentreOperator = 'COORDINATION_CENTRE_OPERATOR',
   DanishEnergyAgency = 'DANISH_ENERGY_AGENCY',
   DataHubAdministrator = 'DATA_HUB_ADMINISTRATOR',
-  DataProvider = 'DATA_PROVIDER',
   ElOverblik = 'EL_OVERBLIK',
-  EnergyServiceCompany = 'ENERGY_SERVICE_COMPANY',
   EnergySupplier = 'ENERGY_SUPPLIER',
-  EnergyTrader = 'ENERGY_TRADER',
   GridAccessProvider = 'GRID_ACCESS_PROVIDER',
   ImbalanceSettlementResponsible = 'IMBALANCE_SETTLEMENT_RESPONSIBLE',
   IndependentAggregator = 'INDEPENDENT_AGGREGATOR',
-  InterconnectionTradeResponsible = 'INTERCONNECTION_TRADE_RESPONSIBLE',
-  LfcOperator = 'LFC_OPERATOR',
-  MarketInformationAggregator = 'MARKET_INFORMATION_AGGREGATOR',
-  MarketOperator = 'MARKET_OPERATOR',
-  MeritOrderListResponsible = 'MERIT_ORDER_LIST_RESPONSIBLE',
   MeteredDataAdministrator = 'METERED_DATA_ADMINISTRATOR',
-  MeteredDataAggregator = 'METERED_DATA_AGGREGATOR',
-  MeteredDataCollector = 'METERED_DATA_COLLECTOR',
   MeteredDataResponsible = 'METERED_DATA_RESPONSIBLE',
   MeteringPointAdministrator = 'METERING_POINT_ADMINISTRATOR',
-  MeterAdministrator = 'METER_ADMINISTRATOR',
-  MeterOperator = 'METER_OPERATOR',
-  ModellingAuthority = 'MODELLING_AUTHORITY',
-  ModelMergingAgent = 'MODEL_MERGING_AGENT',
-  NominatedElectricityMarketOperator = 'NOMINATED_ELECTRICITY_MARKET_OPERATOR',
-  NominationValidator = 'NOMINATION_VALIDATOR',
-  PartyAdministrator = 'PARTY_ADMINISTRATOR',
-  PartyConnectedToTheGrid = 'PARTY_CONNECTED_TO_THE_GRID',
-  Producer = 'PRODUCER',
-  ProductionResponsibleParty = 'PRODUCTION_RESPONSIBLE_PARTY',
-  ReconciliationAccountable = 'RECONCILIATION_ACCOUNTABLE',
-  ReconciliationResponsible = 'RECONCILIATION_RESPONSIBLE',
-  ReserveAllocator = 'RESERVE_ALLOCATOR',
-  ResourceAggregator = 'RESOURCE_AGGREGATOR',
-  ResourceCapacityMechanismOperator = 'RESOURCE_CAPACITY_MECHANISM_OPERATOR',
-  ResourceProvider = 'RESOURCE_PROVIDER',
-  Scheduling = 'SCHEDULING',
-  SchedulingAreaResponsible = 'SCHEDULING_AREA_RESPONSIBLE',
   SerialEnergyTrader = 'SERIAL_ENERGY_TRADER',
-  SystemOperator = 'SYSTEM_OPERATOR',
-  TradeResponsibleParty = 'TRADE_RESPONSIBLE_PARTY',
-  TransmissionCapacityAllocator = 'TRANSMISSION_CAPACITY_ALLOCATOR'
+  SystemOperator = 'SYSTEM_OPERATOR'
 }
 
 export type GraphQlQuery = {
@@ -281,3 +244,37 @@ export type GetBatchesQuery = { __typename?: 'GraphQLQuery', batches: Array<{ __
 
 export const GetBatchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBatch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"batch"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"executionState"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeEnd"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeStart"}},{"kind":"Field","name":{"kind":"Name","value":"isBasisDataDownloadAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"period"}},{"kind":"Field","name":{"kind":"Name","value":"statusType"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"priceAreaCode"}},{"kind":"Field","name":{"kind":"Name","value":"validFrom"}}]}}]}}]}}]} as unknown as DocumentNode<GetBatchQuery, GetBatchQueryVariables>;
 export const GetBatchesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBatches"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"executionTime"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateRange"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"batches"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"executionTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"executionTime"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"executionState"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeEnd"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeStart"}},{"kind":"Field","name":{"kind":"Name","value":"isBasisDataDownloadAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"period"}},{"kind":"Field","name":{"kind":"Name","value":"statusType"}}]}}]}}]} as unknown as DocumentNode<GetBatchesQuery, GetBatchesQueryVariables>;
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockGetBatchQuery((req, res, ctx) => {
+ *   const { id } = req.variables;
+ *   return res(
+ *     ctx.data({ batch })
+ *   )
+ * })
+ */
+export const mockGetBatchQuery = (resolver: ResponseResolver<GraphQLRequest<GetBatchQueryVariables>, GraphQLContext<GetBatchQuery>, any>) =>
+  graphql.query<GetBatchQuery, GetBatchQueryVariables>(
+    'GetBatch',
+    resolver
+  )
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockGetBatchesQuery((req, res, ctx) => {
+ *   const { executionTime } = req.variables;
+ *   return res(
+ *     ctx.data({ batches })
+ *   )
+ * })
+ */
+export const mockGetBatchesQuery = (resolver: ResponseResolver<GraphQLRequest<GetBatchesQueryVariables>, GraphQLContext<GetBatchesQuery>, any>) =>
+  graphql.query<GetBatchesQuery, GetBatchesQueryVariables>(
+    'GetBatches',
+    resolver
+  )
