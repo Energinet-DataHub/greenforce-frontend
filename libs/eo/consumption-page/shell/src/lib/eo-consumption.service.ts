@@ -16,14 +16,8 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import {
-  EoApiEnvironment,
-  eoApiEnvironmentToken,
-} from '@energinet-datahub/eo/shared/environments';
-import {
-  AppSettingsStore,
-  CalendarDateRange,
-} from '@energinet-datahub/eo/shared/services';
+import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { AppSettingsStore, CalendarDateRange } from '@energinet-datahub/eo/shared/services';
 import { take } from 'rxjs';
 
 export interface EoMeasurement {
@@ -52,18 +46,16 @@ export class EoConsumptionService {
 
   getMonthlyConsumption() {
     let dateRange: CalendarDateRange = {} as CalendarDateRange;
-    const encodedTimeZone = encodeURIComponent(
-      Intl.DateTimeFormat().resolvedOptions().timeZone
-    );
+    const encodedTimeZone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
     this.store.calendarDateRangeInSeconds$
       .pipe(take(1))
       .subscribe((datesInSeconds) => (dateRange = datesInSeconds));
 
     return this.http.get<EoConsumptionResponse>(
-      `${this.#apiBase}/measurements/consumption?dateFrom=${
-        dateRange.start
-      }&dateTo=${dateRange.end}&timeZone=${encodedTimeZone}&aggregation=Month`,
+      `${this.#apiBase}/measurements/consumption?dateFrom=${dateRange.start}&dateTo=${
+        dateRange.end
+      }&timeZone=${encodedTimeZone}&aggregation=Month`,
       { withCredentials: true }
     );
   }

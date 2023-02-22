@@ -74,10 +74,7 @@ export class AppSettingsStore extends ComponentStore<AppSettingsState> {
   );
 
   getResolutionFromDateRange(dateRange: CalendarDateRange): Resolution {
-    const difference = differenceInDays(
-      new Date(dateRange.end),
-      new Date(dateRange.start)
-    );
+    const difference = differenceInDays(new Date(dateRange.end), new Date(dateRange.start));
 
     switch (true) {
       case difference < 3:
