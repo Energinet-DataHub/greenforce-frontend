@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 
 /**
  * Usage:
@@ -31,6 +31,10 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
         padding: calc(1.5 * var(--watt-space-m)); /* 24px */
         background: var(--watt-color-neutral-white);
       }
+
+      :host.watt-solid {
+        border: 1px solid var(--watt-color-neutral-grey-300);
+      }
     `,
   ],
   template: `
@@ -40,8 +44,9 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
   `,
 })
 export class WattCardComponent {
+  @Input() variant: 'solid' | 'elevation' = 'elevation';
   @HostBinding('class')
   get cssClass() {
-    return 'watt-card watt-elevation';
+    return `watt-card watt-${this.variant}`;
   }
 }

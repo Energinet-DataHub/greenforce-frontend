@@ -154,7 +154,12 @@ namespace Energinet.DataHub.WebApi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                var builder = endpoints.MapControllers();
+
+                if (!Environment.IsDevelopment())
+                {
+                    builder.RequireAuthorization();
+                }
 
                 // Health check
                 endpoints.MapLiveHealthChecks();

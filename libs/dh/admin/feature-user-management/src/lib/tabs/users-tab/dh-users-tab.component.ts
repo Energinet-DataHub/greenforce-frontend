@@ -44,6 +44,7 @@ import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.co
 import { DhUsersTabActorFilterComponent } from './dh-users-tab-actor-filter.component';
 import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filter.component';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhInviteUserModalComponent } from '@energinet-datahub/dh/admin/feature-invite-user-modal';
 
 @Component({
   selector: 'dh-users-tab',
@@ -106,6 +107,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     DhUsersTabUserRoleFilterComponent,
     WattButtonModule,
     DhPermissionRequiredDirective,
+    DhInviteUserModalComponent,
   ],
 })
 export class DhUsersTabComponent {
@@ -122,7 +124,7 @@ export class DhUsersTabComponent {
   readonly hasGeneralError$ = this.store.hasGeneralError$;
 
   readonly initialStatusFilter$ = this.store.initialStatusFilter$;
-
+  isInviteUserModalVisible = false;
   readonly actorOptions$ = this.actorStore.actors$;
   readonly userRolesOptions$ = this.userRolesStore.rolesOptions$;
   readonly canChooseMultipleActors$ = this.actorStore.canChooseMultipleActors$;
@@ -166,5 +168,13 @@ export class DhUsersTabComponent {
 
   reloadUsers(): void {
     this.store.reloadUsers();
+  }
+
+  modalOnClose(): void {
+    this.isInviteUserModalVisible = false;
+  }
+
+  showInviteUserModal(): void {
+    this.isInviteUserModalVisible = true;
   }
 }

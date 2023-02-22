@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation } from '@angular/core';
 
 const selector = 'watt-card-title';
 
@@ -32,8 +27,8 @@ const selector = 'watt-card-title';
         display: block;
       }
 
-      ${selector} h3 {
-        color: var(--watt-color-neutral-black);
+      ${selector} h4, h3 {
+        color: var(--watt-typography-text-color);
         margin: 0;
       }
     `,

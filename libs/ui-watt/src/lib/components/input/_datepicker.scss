@@ -18,6 +18,13 @@
 @use "./variables" as *;
 
 %datepicker {
+  watt-button[variant="icon"] {
+    .watt-button--icon {
+      // 2px to adjust for the focus border on the button itself
+      height: 42px;
+    }
+  }
+
   display: flex;
   align-items: center;
   font-family: watt.$typography-monospace-font-family;

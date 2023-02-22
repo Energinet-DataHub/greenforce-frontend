@@ -24,16 +24,25 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { combineLatest, map, Observable } from 'rxjs';
 import { LetModule } from '@rx-angular/template/let';
-import { map } from 'rxjs';
+import { PushModule } from '@rx-angular/template/push';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import {
+  DhDatePipe,
+  DhDateTimePipe,
+} from '@energinet-datahub/dh/shared/ui-date-time';
+import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListGroups,
+} from '@energinet-datahub/watt/description-list';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import {
   WattDrawerComponent,
   WattDrawerModule,
@@ -41,7 +50,6 @@ import {
 
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
-import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/wholesale/routing';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 
@@ -49,7 +57,6 @@ import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholes
   standalone: true,
   imports: [
     CommonModule,
-    DhSharedUiDateTimeModule,
     DhWholesaleGridAreasComponent,
     TranslocoModule,
     WattBadgeComponent,
@@ -57,8 +64,10 @@ import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholes
     WattDrawerModule,
     ...WATT_BREADCRUMBS,
     LetModule,
+    PushModule,
     WattSpinnerModule,
     WattEmptyStateModule,
+    WattDescriptionListComponent,
   ],
   selector: 'dh-wholesale-batch-details',
   templateUrl: './dh-wholesale-batch-details.component.html',
@@ -73,11 +82,35 @@ export class DhWholesaleBatchDetailsComponent {
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private transloco = inject(TranslocoService);
 
   batchId$ = this.route.queryParamMap.pipe(
     map((params: ParamMap) => params.get('batch'))
   );
   batch$ = this.store.select((state) => state.selectedBatch);
+  batchMetadata$: Observable<WattDescriptionListGroups> = combineLatest([
+    this.transloco.selectTranslation(),
+    this.batch$,
+  ]).pipe(
+    map(([translations, batch]) => {
+      const datePipe = new DhDatePipe();
+      const dateTimePipe = new DhDateTimePipe();
+      return [
+        {
+          term: translations['wholesale.batchDetails.calculationPeriod'],
+          description: `${datePipe.transform(
+            batch?.periodStart
+          )} - ${datePipe.transform(batch?.periodEnd)}`,
+        },
+        {
+          term: translations['wholesale.batchDetails.executionTime'],
+          description: dateTimePipe.transform(
+            batch?.executionTimeStart
+          ) as string,
+        },
+      ];
+    })
+  );
   errorTrigger$ = this.store.loadingBatchErrorTrigger$;
 
   open(): void {

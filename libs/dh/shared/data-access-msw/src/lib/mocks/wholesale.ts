@@ -91,7 +91,7 @@ const mockedBatches: BatchDto[] = [
     executionTimeEnd,
     executionState: BatchState.Completed,
     isBasisDataDownloadAvailable: true,
-    gridAreas: [],
+    gridAreas: mockedGridAreas,
   },
   {
     batchId: '59e65aec-df77-4f6f-b6d2-aa0fd4b4bc86',
@@ -131,7 +131,7 @@ const mockedBatches: BatchDto[] = [
     executionTimeEnd,
     executionState: BatchState.Completed,
     isBasisDataDownloadAvailable: true,
-    gridAreas: [],
+    gridAreas: mockedGridAreas,
   },
   {
     batchId: '376e3cb8-16d7-4fb7-9cdf-1b55cc6af76f',
@@ -171,7 +171,7 @@ const mockedBatches: BatchDto[] = [
     executionTimeEnd,
     executionState: BatchState.Completed,
     isBasisDataDownloadAvailable: true,
-    gridAreas: [],
+    gridAreas: mockedGridAreas,
   },
   {
     batchId: '19e3d848-e82f-4752-a68f-9befc755864c',

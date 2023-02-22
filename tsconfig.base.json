@@ -24,11 +24,20 @@
       "@energinet-datahub/dh/admin/data-access-api": [
         "libs/dh/admin/data-access-api/src/index.ts"
       ],
+      "@energinet-datahub/dh/admin/feature-create-user-role": [
+        "libs/dh/admin/feature-create-user-role/src/index.ts"
+      ],
       "@energinet-datahub/dh/admin/feature-edit-user-role-modal": [
         "libs/dh/admin/feature-edit-user-role-modal/src/index.ts"
       ],
+      "@energinet-datahub/dh/admin/feature-invite-user-modal": [
+        "libs/dh/admin/feature-invite-user-modal/src/index.ts"
+      ],
       "@energinet-datahub/dh/admin/feature-user-management": [
         "libs/dh/admin/feature-user-management/src/index.ts"
+      ],
+      "@energinet-datahub/dh/admin/feature-user-roles": [
+        "libs/dh/admin/feature-user-roles/src/index.ts"
       ],
       "@energinet-datahub/dh/admin/routing": [
         "libs/dh/admin/routing/src/index.ts"
@@ -209,6 +218,9 @@
       "@energinet-datahub/dh/wholesale/feature-search": [
         "libs/dh/wholesale/feature-search/src/index.ts"
       ],
+      "@energinet-datahub/dh/wholesale/feature-settlement-reports": [
+        "libs/dh/wholesale/feature-settlement-reports/src/index.ts"
+      ],
       "@energinet-datahub/dh/wholesale/feature-start": [
         "libs/dh/wholesale/feature-start/src/index.ts"
       ],
@@ -223,9 +235,6 @@
       ],
       "@energinet-datahub/eo/auth/data-access-security": [
         "libs/eo/auth/data-access-security/src/index.ts"
-      ],
-      "@energinet-datahub/eo/auth/feature-terms": [
-        "libs/eo/auth/feature-terms/src/index.ts"
       ],
       "@energinet-datahub/eo/auth/routing-security": [
         "libs/eo/auth/routing-security/src/index.ts"
@@ -280,6 +289,7 @@
       "@energinet-datahub/eo/shared/utilities": [
         "libs/eo/shared/utilities/src/index.ts"
       ],
+      "@energinet-datahub/eo/terms": ["libs/eo/terms/src/index.ts"],
       "@energinet-datahub/gf/configuration-danish-locale": [
         "libs/gf/configuration-danish-locale/src/index.ts"
       ],
@@ -324,6 +334,9 @@
       ],
       "@energinet-datahub/watt/datepicker": [
         "libs/ui-watt/src/lib/components/input/datepicker/index.ts"
+      ],
+      "@energinet-datahub/watt/description-list": [
+        "libs/ui-watt/src/lib/components/description-list/index.ts"
       ],
       "@energinet-datahub/watt/drawer": [
         "libs/ui-watt/src/lib/components/drawer/index.ts"
@@ -372,6 +385,9 @@
       ],
       "@energinet-datahub/watt/spinner": [
         "libs/ui-watt/src/lib/components/spinner/index.ts"
+      ],
+      "@energinet-datahub/watt/stepper": [
+        "libs/ui-watt/src/lib/components/stepper/index.ts"
       ],
       "@energinet-datahub/watt/table": [
         "libs/ui-watt/src/lib/components/table/index.ts"
