@@ -31,7 +31,7 @@ const initialState: State = {
   assignableUserRoles: [],
 };
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class DbAdminAssignableUserRolesStore extends ComponentStore<State> {
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);

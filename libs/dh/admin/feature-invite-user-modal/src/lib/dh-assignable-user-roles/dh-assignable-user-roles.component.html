@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-﻿<ng-container *transloco="let t; read: 'admin.userManagement.inviteUser'">
+<ng-container *transloco="let t; read: 'admin.userManagement.inviteUser'">
   <ng-container
     *rxLet="
       assignableUserRoles$;
@@ -24,7 +24,7 @@ limitations under the License.
       errorTrigger: hasGeneralError$
     "
   >
-    <watt-card variant="watt-solid">
+    <watt-card variant="solid">
       <watt-card-title>
         <ng-container
           *ngTemplateOutlet="
@@ -38,14 +38,12 @@ limitations under the License.
       <div class="userRoles">
         <ul class="watt-text-s">
           <li *ngFor="let userRole of assignableUserRoles">
-            <ng-container>
-              <watt-checkbox
-                [ngModel]="false"
-                (ngModelChange)="selectUserRole($event, userRole)"
-              ></watt-checkbox>
-              <div>{{ userRole.name }}</div>
-              <div>{{ userRole.description }}</div>
-            </ng-container>
+            <watt-checkbox
+              [ngModel]="false"
+              (ngModelChange)="selectUserRole($event, userRole)"
+            ></watt-checkbox>
+            <div>{{ userRole.name }}</div>
+            <div>{{ userRole.description }}</div>
           </li>
         </ul>
       </div>
