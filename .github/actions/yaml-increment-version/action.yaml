@@ -10,10 +10,10 @@ inputs:
     description: The yaml path containing the version to compare between the head (feature) branch and the base (main) branch.
     required: true
   base-yaml-file:
-    description: "Optional: The path of the yaml version file in the base (main) branch."
+    description: 'Optional: The path of the yaml version file in the base (main) branch.'
     required: false
   base-yaml-path:
-    description: "Optional: The path of the yaml version file in the base (main) branch."
+    description: 'Optional: The path of the yaml version file in the base (main) branch.'
     required: false
 
 runs:
@@ -43,7 +43,7 @@ runs:
     - name: Get next valid semvers
       id: semvers
       if: steps.is-prev-tag-valid.outcome == 'success'
-      uses: "WyriHaximus/github-action-next-semvers@v1"
+      uses: 'WyriHaximus/github-action-next-semvers@v1'
       with:
         version: ${{ steps.previous-tag.outputs.result }}
 
@@ -69,5 +69,5 @@ runs:
       with:
         valueFile: ${{ inputs.yaml-file }}
         propertyPath: ${{ inputs.yaml-path }}
-        value: "${{ steps.semvers.outputs.major }}.${{ steps.semvers.outputs.minor }}.${{ steps.semvers.outputs.patch }}"
+        value: '${{ steps.semvers.outputs.major }}.${{ steps.semvers.outputs.minor }}.${{ steps.semvers.outputs.patch }}'
         commitChange: true
