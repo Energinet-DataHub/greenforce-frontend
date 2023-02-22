@@ -29,11 +29,25 @@ namespace Energinet.DataHub.WebApi.Controllers
     {
         private readonly IMarketParticipantClient _marketParticipantClient;
         private readonly IMarketParticipantUserRoleClient _marketParticipantUserRoleClient;
+        private readonly IMarketParticipantUserInvitationClient _marketParticipantUserInvitationClient;
 
-        public MarketParticipantUserController(IMarketParticipantClient marketParticipantClient, IMarketParticipantUserRoleClient marketParticipantUserRoleClient)
+        public MarketParticipantUserController(IMarketParticipantClient marketParticipantClient, IMarketParticipantUserRoleClient marketParticipantUserRoleClient, IMarketParticipantUserInvitationClient marketParticipantUserInvitationClient)
         {
             _marketParticipantClient = marketParticipantClient;
             _marketParticipantUserRoleClient = marketParticipantUserRoleClient;
+            _marketParticipantUserInvitationClient = marketParticipantUserInvitationClient;
+        }
+
+        [HttpPost]
+        [Route("InviteUser")]
+        public Task InviteUserAsync(UserInvitationDto invite)
+        {
+            return HandleExceptionAsync(async () =>
+            {
+                await _marketParticipantUserInvitationClient
+                    .InviteUserAsync(invite)
+                    .ConfigureAwait(false);
+            });
         }
 
         /// <summary>
