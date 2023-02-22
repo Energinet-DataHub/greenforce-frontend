@@ -44,9 +44,9 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
   `,
 })
 export class WattCardComponent {
-  @Input() variant: 'watt-solid' | 'watt-elevation' = 'watt-elevation';
+  @Input() variant: 'solid' | 'elevation' = 'elevation';
   @HostBinding('class')
   get cssClass() {
-    return `watt-card ${this.variant}`;
+    return `watt-card watt-${this.variant}`;
   }
 }
