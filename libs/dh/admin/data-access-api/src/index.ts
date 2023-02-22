@@ -23,3 +23,4 @@ export * from './lib/dh-admin-user-role-audit-logs-data-access-api.store';
 export * from './lib/dh-admin-create-user-role-management-data-access-api.store';
 export * from './lib/dh-admin-user-actors-data-access-api.store';
 export * from './lib/dh-admin-user-role-edit-data-access-api.store';
+export * from './lib/dh-admin-assignable-user-roles.store';
