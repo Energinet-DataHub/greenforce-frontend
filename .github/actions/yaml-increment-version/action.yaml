@@ -72,4 +72,4 @@ runs:
         value: ${{ steps.semvers.outputs.patch }}
         commitChange: true
         message: 'Bump version to ${{ steps.semvers.outputs.patch }} for ${{ inputs.yaml-file }}'
-        branch: ${{ github.ref }}
+        branch: ${{ github.head_ref }}
