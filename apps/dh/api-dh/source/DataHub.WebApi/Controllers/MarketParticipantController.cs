@@ -18,6 +18,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -87,15 +88,26 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// non-FAS member can only pick their own actor.
         /// </summary>
         [HttpGet("GetFilteredActors")]
-        public Task<ActionResult<IEnumerable<ActorDto>>> GetFilteredActorsAsync()
+        public Task<ActionResult<IEnumerable<FilteredActorDto>>> GetFilteredActorsAsync()
         {
             return HandleExceptionAsync(async () =>
             {
+                var gridAreaLookup = (await _client.GetGridAreaOverviewAsync().ConfigureAwait(false)).ToDictionary(x => x.Id);
+
                 var organizations = await _client
                     .GetOrganizationsAsync()
                     .ConfigureAwait(false);
 
-                var accessibleActors = organizations.SelectMany(org => org.Actors);
+                var accessibleActors = organizations.SelectMany(org => org.Actors).Select(x =>
+                    new FilteredActorDto(
+                        x.ActorId,
+                        x.ActorNumber,
+                        x.Name,
+                        x.MarketRoles.Select(m => m.EicFunction).Distinct().ToList(),
+                        x.MarketRoles
+                            .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id)).Distinct()
+                            .Select(gridAreaId => gridAreaLookup.TryGetValue(gridAreaId, out var grid) ? grid.Code : string.Empty)
+                            .Where(gridAreaCode => !string.IsNullOrWhiteSpace(gridAreaCode)).ToList()));
 
                 if (HttpContext.User.IsFas())
                 {
