@@ -23,7 +23,7 @@ import {
   OnChanges,
   ViewChild,
 } from '@angular/core';
-import { translate } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import {
   WattTableDataSource,
@@ -34,9 +34,9 @@ import {
 import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
-  selector: 'dh-create-userrole-permissions-tab-table',
+  selector: 'dh-permissions-table',
   standalone: true,
-  templateUrl: './dh-create-userrole-permissions-tab-table.component.html',
+  templateUrl: './dh-permissions-table.component.html',
   styles: [
     `
       :host {
@@ -46,9 +46,9 @@ import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
   ],
   // Using `OnPush` causes issues with table's header row translations
   changeDetection: ChangeDetectionStrategy.Default,
-  imports: [WATT_TABLE],
+  imports: [TranslocoModule, WATT_TABLE],
 })
-export class DhCreateRolePermissionTabTableComponent implements OnChanges {
+export class DhPermissionsTableComponent implements OnChanges {
   @Output() selectionChanged = new EventEmitter<PermissionDetailsDto[]>();
   @Input() permissions: PermissionDetailsDto[] = [];
 
@@ -62,11 +62,6 @@ export class DhCreateRolePermissionTabTableComponent implements OnChanges {
     name: { accessor: 'name' },
     description: { accessor: 'description' },
   };
-
-  translateHeader = (key: string) =>
-    translate(
-      `admin.userManagement.createrole.tabs.permissions.table.columns.${key}`
-    );
 
   ngOnChanges() {
     this.dataSource.data = this.permissions;
