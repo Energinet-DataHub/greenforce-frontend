@@ -16,7 +16,7 @@
  */
 import { Injectable } from '@angular/core';
 import {
-  ActorDto,
+  FilteredActorDto,
   MarketParticipantHttp,
   OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
@@ -29,7 +29,7 @@ import { map, Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 interface ActorsResultState {
-  readonly actorResult: ActorDto[] | null;
+  readonly actorResult: FilteredActorDto[] | null;
   readonly organizationResult: OrganizationDto | null;
   readonly loadingState: LoadingState | ErrorState;
   readonly organizationLoadingState: LoadingState | ErrorState;
@@ -62,7 +62,7 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
 
   actors$ = this.select((state) => state.actorResult).pipe(
     map((actors) =>
-      (actors ?? []).map((actor: ActorDto) => ({
+      (actors ?? []).map((actor: FilteredActorDto) => ({
         value: actor.actorId,
         displayValue:
           actor.name.value === ''
@@ -137,7 +137,7 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
   );
 
   private update = this.updater(
-    (state: ActorsResultState, actors: ActorDto[]): ActorsResultState => ({
+    (state: ActorsResultState, actors: FilteredActorDto[]): ActorsResultState => ({
       ...state,
       actorResult: actors,
     })
@@ -163,7 +163,7 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
     });
   };
 
-  private updateStates = (actors: ActorDto[]) => {
+  private updateStates = (actors: FilteredActorDto[]) => {
     this.update(actors);
 
     if (actors.length == 0) {
