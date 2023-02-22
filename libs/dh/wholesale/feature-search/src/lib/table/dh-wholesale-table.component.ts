@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -25,10 +25,20 @@ import {
   EventEmitter,
   inject,
 } from '@angular/core';
-import { translate, TranslocoModule } from '@ngneat/transloco';
+import { take } from 'rxjs';
+import {
+  translate,
+  TranslocoModule,
+  TranslocoService,
+} from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
+import {
+  graphql,
+  WholesaleBatchHttp,
+} from '@energinet-datahub/dh/shared/domain';
+
 import {
   WATT_TABLE,
   WattTableDataSource,
@@ -38,11 +48,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-
-import { graphql } from '@energinet-datahub/dh/shared/domain';
-// import { batch } from '@energinet-datahub/dh/wholesale/domain';
-import { PushModule } from '@rx-angular/template/push';
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 type Batch = Omit<graphql.Batch, 'gridAreas'>;
 type wholesaleTableData = WattTableDataSource<Batch>;
@@ -52,7 +58,6 @@ type wholesaleTableData = WattTableDataSource<Batch>;
   imports: [
     WATT_TABLE,
     CommonModule,
-    PushModule,
     DhSharedUiDateTimeModule,
     TranslocoModule,
     WattBadgeComponent,
@@ -67,6 +72,11 @@ type wholesaleTableData = WattTableDataSource<Batch>;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleTableComponent implements AfterViewInit {
+  private document = inject(DOCUMENT);
+  private httpClient = inject(WholesaleBatchHttp);
+  private toastService = inject(WattToastService);
+  private translations = inject(TranslocoService);
+
   @Input()
   selectedBatch?: Batch;
 
@@ -78,7 +88,6 @@ export class DhWholesaleTableComponent implements AfterViewInit {
   }
 
   @Output() selectedRow: EventEmitter<Batch> = new EventEmitter();
-  @Output() download: EventEmitter<Batch> = new EventEmitter();
 
   _data: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Batch> = {
@@ -103,6 +112,28 @@ export class DhWholesaleTableComponent implements AfterViewInit {
 
   onDownload(event: Event, batch: Batch) {
     event.stopPropagation();
-    this.download.emit(batch);
+    this.httpClient
+      .v1WholesaleBatchZippedBasisDataStreamGet(batch.id)
+      .pipe(take(1))
+      .subscribe({
+        next: (data) => {
+          const blobPart = data as unknown as BlobPart;
+          const blob = new Blob([blobPart], { type: 'application/zip' });
+          const basisData = window.URL.createObjectURL(blob);
+          const link = this.document.createElement('a');
+          link.href = basisData;
+          link.download = `${batch.id}.zip`;
+          link.click();
+          link.remove();
+        },
+        error: () => {
+          this.toastService.open({
+            type: 'danger',
+            message: this.translations.translate(
+              'wholesale.searchBatch.downloadFailed'
+            ),
+          });
+        },
+      });
   }
 }

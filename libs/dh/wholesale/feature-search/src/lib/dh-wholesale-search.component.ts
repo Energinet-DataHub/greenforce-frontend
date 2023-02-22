@@ -28,7 +28,7 @@ import { LetModule } from '@rx-angular/template/let';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
-import { sub } from 'date-fns';
+import { sub, startOfDay, endOfDay } from 'date-fns';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
@@ -70,8 +70,6 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
   @ViewChild('batchDetails')
   batchDetails!: DhWholesaleBatchDetailsComponent;
 
-  private toastService = inject(WattToastService);
-  private translations = inject(TranslocoService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private changeDetectorRef = inject(ChangeDetectorRef);
@@ -79,8 +77,8 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
 
   selectedBatch?: Batch;
   executionTime = {
-    start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
-    end: new Date().toISOString(),
+    start: sub(startOfDay(new Date()), { days: 10 }).toISOString(),
+    end: endOfDay(new Date()).toISOString(),
   };
 
   query = this.apollo.watchQuery({
@@ -104,20 +102,11 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit() {
     const selectedBatch = this.route.snapshot.queryParams.batch;
-
     if (selectedBatch) this.batchDetails.open(selectedBatch);
     this.changeDetectorRef.detectChanges(); // TODO: Is this needed?
-
-    // {
-    //   this.store.getBatch(selectedBatch);
-    //   this.batchDetails.open();
-    // } else {
-    //   this.store.setSelectedBatch(undefined);
-    // }
   }
 
   onSearch(search: BatchSearchDto) {
-    // this.store.getBatches(of(search));
     this.changeDetectorRef.detectChanges(); // TODO: Is this needed?
     this.query.refetch({
       executionTime: {
@@ -125,19 +114,6 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
         end: search.maxExecutionTime,
       },
     });
-  }
-
-  onDownloadBasisData(_batch: Batch) {
-    throw new Error('Not implemented');
-    // this.store.getZippedBasisData(of(batch));
-    // this.store.loadingBasisDataErrorTrigger$.pipe(first()).subscribe(() => {
-    //   this.toastService.open({
-    //     message: this.translations.translate(
-    //       'wholesale.searchBatch.downloadFailed'
-    //     ),
-    //     type: 'danger',
-    //   });
-    // });
   }
 
   onBatchSelected(batch: Batch) {
