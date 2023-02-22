@@ -15,13 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  inject,
-  ViewChild,
-  AfterViewInit,
-  OnInit,
-} from '@angular/core';
+import { Component, inject, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ApolloError } from '@apollo/client/errors';
@@ -64,6 +58,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
   private route = inject(ActivatedRoute);
   private apollo = inject(Apollo);
 
+  routerBatchId = this.route.snapshot.queryParams.batch;
   selectedBatch?: Batch;
   executionTime = {
     start: sub(startOfDay(new Date()), { days: 10 }).toISOString(),
@@ -87,12 +82,12 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
       this.error = result.error;
       this.loading = result.loading;
       this.batches = result.data?.batches;
+      this.selectedBatch = this.batches?.find((batch) => batch.id === this.routerBatchId);
     });
   }
 
   ngAfterViewInit() {
-    const selectedBatch = this.route.snapshot.queryParams.batch;
-    if (selectedBatch) this.batchDetails.open(selectedBatch);
+    if (this.routerBatchId) this.batchDetails.open(this.routerBatchId);
   }
 
   onSearch(search: BatchSearchDto) {

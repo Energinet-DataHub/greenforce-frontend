@@ -26,24 +26,13 @@ import {
   inject,
 } from '@angular/core';
 import { take } from 'rxjs';
-import {
-  translate,
-  TranslocoModule,
-  TranslocoService,
-} from '@ngneat/transloco';
+import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import {
-  graphql,
-  WholesaleBatchHttp,
-} from '@energinet-datahub/dh/shared/domain';
+import { graphql, WholesaleBatchHttp } from '@energinet-datahub/dh/shared/domain';
 
-import {
-  WATT_TABLE,
-  WattTableDataSource,
-  WattTableColumnDef,
-} from '@energinet-datahub/watt/table';
+import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
@@ -99,11 +88,7 @@ export class DhWholesaleTableComponent implements AfterViewInit {
     basisData: { accessor: 'isBasisDataDownloadAvailable' },
   };
 
-  translateHeader = (key: string) =>
-    translate(`wholesale.searchBatch.columns.${key}`);
-
-  isSelectedBatch = (currentBatch: Batch, activeBatch: Batch) =>
-    currentBatch.id === activeBatch.id;
+  translateHeader = (key: string) => translate(`wholesale.searchBatch.columns.${key}`);
 
   ngAfterViewInit() {
     if (this._data === null) return;
@@ -129,9 +114,7 @@ export class DhWholesaleTableComponent implements AfterViewInit {
         error: () => {
           this.toastService.open({
             type: 'danger',
-            message: this.translations.translate(
-              'wholesale.searchBatch.downloadFailed'
-            ),
+            message: this.translations.translate('wholesale.searchBatch.downloadFailed'),
           });
         },
       });
