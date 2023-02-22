@@ -18,32 +18,25 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   inject,
-  ChangeDetectorRef,
   ViewChild,
   AfterViewInit,
   OnInit,
 } from '@angular/core';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
+import { ApolloError } from '@apollo/client/errors';
 import { Apollo } from 'apollo-angular';
 import { sub, startOfDay, endOfDay } from 'date-fns';
 
-import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { BatchSearchDto, graphql } from '@energinet-datahub/dh/shared/domain';
 
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-
-import { BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
+import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-batch-details.component';
-import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
-import { ApolloError } from '@apollo/client/errors';
 
 type Batch = Omit<graphql.Batch, 'gridAreas'>;
 
@@ -52,12 +45,9 @@ type Batch = Omit<graphql.Batch, 'gridAreas'>;
   standalone: true,
   imports: [
     CommonModule,
-    DhFeatureFlagDirectiveModule,
+    DhWholesaleBatchDetailsComponent,
     DhWholesaleFormComponent,
     DhWholesaleTableComponent,
-    DhWholesaleBatchDetailsComponent,
-    LetModule,
-    PushModule,
     TranslocoModule,
     WattEmptyStateModule,
     WattSpinnerModule,
@@ -72,7 +62,6 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private changeDetectorRef = inject(ChangeDetectorRef);
   private apollo = inject(Apollo);
 
   selectedBatch?: Batch;
@@ -82,6 +71,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
   };
 
   query = this.apollo.watchQuery({
+    // pollInterval: 10000,
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: graphql.GetBatchesDocument,
@@ -103,11 +93,9 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
     const selectedBatch = this.route.snapshot.queryParams.batch;
     if (selectedBatch) this.batchDetails.open(selectedBatch);
-    this.changeDetectorRef.detectChanges(); // TODO: Is this needed?
   }
 
   onSearch(search: BatchSearchDto) {
-    this.changeDetectorRef.detectChanges(); // TODO: Is this needed?
     this.query.refetch({
       executionTime: {
         start: search.minExecutionTime,
