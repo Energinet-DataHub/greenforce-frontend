@@ -1,0 +1,75 @@
+name: Yaml Increment Version
+
+description: Increments the versions (semver)
+
+inputs:
+  yaml-file:
+    description: The path of the yaml file in the head (feature) branch.
+    required: true
+  yaml-path:
+    description: The yaml path containing the version to compare between the head (feature) branch and the base (main) branch.
+    required: true
+  base-yaml-file:
+    description: 'Optional: The path of the yaml version file in the base (main) branch.'
+    required: false
+  base-yaml-path:
+    description: 'Optional: The path of the yaml version file in the base (main) branch.'
+    required: false
+
+runs:
+  using: composite
+
+  steps:
+    - name: Checkout main to get latest tag
+      uses: actions/checkout@v3
+      with:
+        ref: main
+        fetch-depth: 0
+
+    - name: Get Previous tag
+      id: previous-tag
+      uses: Energinet-DataHub/energy-origin/.github/actions/yaml-get@main
+      with:
+        yaml_file: ${{ inputs.base-yaml-file || inputs.yaml-file }}
+        yaml_path: ${{ inputs.base-yaml-path || inputs.yaml-path }}
+
+    - name: Check if previous tag is valid semver
+      id: is-prev-tag-valid
+      uses: rubenesp87/semver-validation-action@cd30707b188980006854de19df716fc9cf39f37f
+      continue-on-error: true # Accept old versions to be invalid since new versions are checked they are valid
+      with:
+        version: ${{ steps.previous-tag.outputs.result }}
+
+    - name: Get next valid semvers
+      id: semvers
+      if: steps.is-prev-tag-valid.outcome == 'success'
+      uses: 'WyriHaximus/github-action-next-semvers@v1'
+      with:
+        version: ${{ steps.previous-tag.outputs.result }}
+
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
+
+    - name: Get current tag
+      id: current-tag
+      uses: Energinet-DataHub/energy-origin/.github/actions/yaml-get@main
+      with:
+        yaml_file: ${{ inputs.yaml-file }}
+        yaml_path: ${{ inputs.yaml-path }}
+
+    - name: Check if current tag is valid semver
+      uses: rubenesp87/semver-validation-action@cd30707b188980006854de19df716fc9cf39f37f
+      with:
+        version: ${{ steps.current-tag.outputs.result }}
+
+    - name: Increment version
+      if: ${{ steps.is-prev-tag-valid.outcome == 'success' && steps.current-tag.outputs.result != steps.semvers.outputs.patch && steps.current-tag.outputs.result != steps.semvers.outputs.minor && steps.current-tag.outputs.result != steps.semvers.outputs.major }}
+      uses: fjogeleit/yaml-update-action@d98ee6a10a971effea75480e3f315e4dacc89a23
+      with:
+        valueFile: ${{ inputs.yaml-file }}
+        propertyPath: ${{ inputs.yaml-path }}
+        value: ${{ steps.semvers.outputs.patch }}
+        commitChange: true
+        message: 'Bump version to ${{ steps.semvers.outputs.patch }} for ${{ inputs.yaml-file }}'
+        branch: ${{ github.ref }}
