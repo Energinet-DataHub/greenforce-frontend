@@ -21,10 +21,7 @@ import {
   OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import {
-  LoadingState,
-  ErrorState,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { LoadingState, ErrorState } from '@energinet-datahub/dh/shared/data-access-api';
 import { map, Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
@@ -45,20 +42,14 @@ const initialState: ActorsResultState = {
 @Injectable()
 export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultState> {
   isInit$ = this.select((state) => state.loadingState === LoadingState.INIT);
-  isLoading$ = this.select(
-    (state) => state.loadingState === LoadingState.LOADING
-  );
-  hasGeneralError$ = this.select(
-    (state) => state.loadingState === ErrorState.GENERAL_ERROR
+  isLoading$ = this.select((state) => state.loadingState === LoadingState.LOADING);
+  hasGeneralError$ = this.select((state) => state.loadingState === ErrorState.GENERAL_ERROR);
+
+  canChooseMultipleActors$ = this.select((state) => state.actorResult || []).pipe(
+    map((actors) => actors.length > 1)
   );
 
-  canChooseMultipleActors$ = this.select(
-    (state) => state.actorResult || []
-  ).pipe(map((actors) => actors.length > 1));
-
-  organizationDomain$ = this.select(
-    (state) => state.organizationResult?.domain
-  );
+  organizationDomain$ = this.select((state) => state.organizationResult?.domain);
 
   actors$ = this.select((state) => state.actorResult).pipe(
     map((actors) =>
@@ -82,45 +73,39 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
         this.setLoadState(LoadingState.LOADING);
       }),
       switchMap(() =>
-        this.httpClient
-          .v1MarketParticipantOrganizationGetFilteredActorsGet()
-          .pipe(
-            tapResponse(
-              (actors) => {
-                this.updateStates(actors);
-              },
-              (error: HttpErrorResponse) => {
-                this.handleError(error);
-              }
-            )
+        this.httpClient.v1MarketParticipantOrganizationGetFilteredActorsGet().pipe(
+          tapResponse(
+            (actors) => {
+              this.updateStates(actors);
+            },
+            (error: HttpErrorResponse) => {
+              this.handleError(error);
+            }
           )
+        )
       )
     );
   });
 
-  readonly getActorOrganization = this.effect(
-    (trigger$: Observable<string>) => {
-      return trigger$.pipe(
-        tap(() => {
-          this.setOrganizationLoadState(LoadingState.LOADING);
-        }),
-        switchMap((actorId) =>
-          this.httpClient
-            .v1MarketParticipantOrganizationGetActorOrganizationGet(actorId)
-            .pipe(
-              tapResponse(
-                (organization) => {
-                  this.updateOrganizationAndLoadingState(organization);
-                },
-                () => {
-                  this.handleOrganizationError();
-                }
-              )
-            )
+  readonly getActorOrganization = this.effect((trigger$: Observable<string>) => {
+    return trigger$.pipe(
+      tap(() => {
+        this.setOrganizationLoadState(LoadingState.LOADING);
+      }),
+      switchMap((actorId) =>
+        this.httpClient.v1MarketParticipantOrganizationGetActorOrganizationGet(actorId).pipe(
+          tapResponse(
+            (organization) => {
+              this.updateOrganizationAndLoadingState(organization);
+            },
+            () => {
+              this.handleOrganizationError();
+            }
+          )
         )
-      );
-    }
-  );
+      )
+    );
+  });
 
   private setLoadState = this.updater(
     (state, loadState: LoadingState): ActorsResultState => ({
@@ -144,18 +129,13 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
   );
 
   private updateOrganization = this.updater(
-    (
-      state: ActorsResultState,
-      organization: OrganizationDto | null
-    ): ActorsResultState => ({
+    (state: ActorsResultState, organization: OrganizationDto | null): ActorsResultState => ({
       ...state,
       organizationResult: organization,
     })
   );
 
-  private updateOrganizationAndLoadingState = (
-    organization: OrganizationDto | null
-  ) => {
+  private updateOrganizationAndLoadingState = (organization: OrganizationDto | null) => {
     this.updateOrganization(organization);
 
     this.patchState({
@@ -190,6 +170,5 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
   };
 
   readonly resetState = () => this.setState(initialState);
-  readonly resetOrganizationState = () =>
-    this.patchState({ organizationResult: null });
+  readonly resetOrganizationState = () => this.patchState({ organizationResult: null });
 }
