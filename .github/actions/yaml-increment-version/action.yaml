@@ -69,5 +69,7 @@ runs:
       with:
         valueFile: ${{ inputs.yaml-file }}
         propertyPath: ${{ inputs.yaml-path }}
-        value: '${{ steps.semvers.outputs.major }}.${{ steps.semvers.outputs.minor }}.${{ steps.semvers.outputs.patch }}'
+        value: ${{ steps.semvers.outputs.patch }}
         commitChange: true
+        message: 'Bump version to ${{ steps.semvers.outputs.patch }} for ${{ inputs.yaml-file }}'
+        branch: ${{ github.event.pull_request.base.ref }}

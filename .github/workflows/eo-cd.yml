@@ -174,7 +174,7 @@ jobs:
 
   bump_helm_chart_version:
     runs-on: ubuntu-latest
-    name: Helm chart check version
+    name: Bump Helm chart version
     if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
     needs: affected
     steps:
@@ -187,7 +187,7 @@ jobs:
 
   bump_app_version:
     runs-on: ubuntu-latest
-    name: App check version
+    name: Bump App version
     if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
     needs: affected
     steps:
