@@ -78,6 +78,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
   batches?: Batch[];
 
   ngOnInit() {
+    // TODO: Unsub?
     this.query.valueChanges.subscribe((result) => {
       this.error = result.error;
       this.loading = result.loading;
