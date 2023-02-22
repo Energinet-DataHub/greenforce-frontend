@@ -46,7 +46,10 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { DhUserActorsDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import {
+  DbAdminAssignableUserRolesStore,
+  DhUserActorsDataAccessApiStore,
+} from '@energinet-datahub/dh/admin/data-access-api';
 import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-assignable-user-roles.component';
 import { Subscription } from 'rxjs';
 import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
@@ -54,6 +57,7 @@ import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    DbAdminAssignableUserRolesStore,
     {
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { showError: true },
@@ -85,10 +89,10 @@ import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 })
 export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   private readonly actorStore = inject(DhUserActorsDataAccessApiStore);
+  private readonly assignableUserRolesStore = inject(DbAdminAssignableUserRolesStore);
   private readonly formBuilder = inject(FormBuilder);
   @ViewChild('inviteUserModal') inviteUserModal!: WattModalComponent;
   @ViewChild('stepper') stepper!: MatStepper;
-  @ViewChild(DhAssignableUserRolesComponent) assignableUserRoles!: DhAssignableUserRolesComponent;
   @Output() closed = new EventEmitter<void>();
 
   readonly actorOptions$ = this.actorStore.actors$;
@@ -118,8 +122,8 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
         this.actorStore.resetOrganizationState();
         return;
       }
+      this.assignableUserRolesStore.getAssignableUserRoles(actorId);
       this.actorStore.getActorOrganization(actorId);
-      this.assignableUserRoles.getAssignableUserRoles(actorId);
     });
   }
 

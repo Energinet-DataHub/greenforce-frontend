@@ -51,10 +51,6 @@ export class DhAssignableUserRolesComponent {
   readonly hasGeneralError$ = this.assignableUserRolesStore.hasGeneralError$;
   private _selectedUserRoles: UserRoleDto[] = [];
 
-  getAssignableUserRoles(actorId: string) {
-    this.assignableUserRolesStore.getAssignableUserRoles(actorId);
-  }
-
   selectUserRole(checked: boolean, userRole: UserRoleDto): void {
     if (checked) {
       this._selectedUserRoles.push(userRole);
