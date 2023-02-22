@@ -43,6 +43,9 @@
         "libs/dh/admin/routing/src/index.ts"
       ],
       "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/src/index.ts"],
+      "@energinet-datahub/dh/admin/ui-permissions-table": [
+        "libs/dh/admin/ui-permissions-table/src/index.ts"
+      ],
       "@energinet-datahub/dh/auth/msal": [
         "libs/dh/auth/feature-msal/src/index.ts"
       ],
