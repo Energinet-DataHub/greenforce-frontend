@@ -107,9 +107,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
     this.store.getZippedBasisData(of(batch));
     this.store.loadingBasisDataErrorTrigger$.pipe(first()).subscribe(() => {
       this.toastService.open({
-        message: this.translations.translate(
-          'wholesale.searchBatch.downloadFailed'
-        ),
+        message: this.translations.translate('wholesale.searchBatch.downloadFailed'),
         type: 'danger',
       });
     });
