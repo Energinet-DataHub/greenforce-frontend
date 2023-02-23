@@ -10,11 +10,11 @@
  * Do not edit the class manually.
  */
 import { TimeSeriesPointDto } from './time-series-point-dto';
-import { ProcessStepMeteringPointType } from './process-step-metering-point-type';
+import { TimeSeriesType } from './time-series-type';
 
 
 export interface ProcessStepResultDto { 
-    processStepMeteringPointType: ProcessStepMeteringPointType;
+    timeSeriesType: TimeSeriesType;
     sum: number;
     min: number;
     max: number;
