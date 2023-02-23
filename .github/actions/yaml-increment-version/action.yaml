@@ -3,6 +3,9 @@ name: Yaml Increment Version
 description: Increments the versions (semver)
 
 inputs:
+  token:
+    description: The token to use for the checkout
+    required: true
   yaml-file:
     description: The path of the yaml file in the head (feature) branch.
     required: true
@@ -25,7 +28,7 @@ runs:
       with:
         ref: main
         fetch-depth: 0
-        token: ${{ secrets.PAT_TOKEN }}
+        token: ${{ inputs.token }}
 
     - name: Get Previous tag
       id: previous-tag
@@ -75,4 +78,4 @@ runs:
         branch: ${{ github.head_ref }}
         commitUserName: 'github-actions[bot]'
         commitUserEmail: 'github-actions[bot]@users.noreply.github.com'
-        token: $${{ secrets.PAT_TOKEN }}
+        token: ${{ inputs.token }}

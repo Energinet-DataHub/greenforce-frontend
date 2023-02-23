@@ -184,6 +184,7 @@ jobs:
         with:
           yaml-file: build/infrastructure/eo/chart/Chart.yaml
           yaml-path: version
+          token: ${{ secrets.PAT_TOKEN }}
 
   bump_app_version:
     runs-on: ubuntu-latest
@@ -197,6 +198,7 @@ jobs:
         with:
           yaml-file: build/infrastructure/eo/chart/values.yaml
           yaml-path: app.image.tag
+          token: ${{ secrets.PAT_TOKEN }}
 
   build_container_and_release_chart:
     runs-on: ubuntu-latest
