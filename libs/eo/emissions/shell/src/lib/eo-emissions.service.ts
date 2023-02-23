@@ -44,14 +44,14 @@ export class EoEmissionsService {
 
   getEmissionsFor2021() {
     const dateRange: CalendarDateRange = {
-      start: new Date('2021-01-01').getTime(),
-      end: new Date('2022-01-01').getTime(),
+      start: new Date('2021-01-01').getTime() / 1000,
+      end: new Date('2022-01-01').getTime() / 1000,
     };
     const encodedTimeZone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
     return this.http.get<EoEmissionsResponse>(
       `${this.#apiBase}/emissions?dateFrom=${dateRange.start}&dateTo=${
-        dateRange.start
+        dateRange.end
       }&timeZone=${encodedTimeZone}&aggregation=Total`,
       { withCredentials: true }
     );
