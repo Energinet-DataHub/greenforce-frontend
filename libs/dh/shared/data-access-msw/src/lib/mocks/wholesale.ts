@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ProcessStepMeteringPointType } from '@energinet-datahub/dh/shared/domain';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
@@ -24,8 +23,8 @@ export function wholesaleMocks(apiBase: string) {
     getWholesaleSearchBatch(),
     getWholesaleSearchBatches(),
     downloadBasisData(apiBase),
-    postWholesaleBatchProcessStepResult(apiBase),
-    batchActorsPost(apiBase),
+    getProcessStepResult(),
+    getProcessStepActors(),
   ];
 }
 
@@ -192,13 +191,13 @@ const mockedBatches: graphql.Batch[] = [
   },
 ];
 
-const mockedActors: unknown[] = [
-  { gln: '5790000000001' },
-  { gln: '5790000000002' },
-  { gln: '5790000000003' },
-  { gln: '5790000000004' },
-  { gln: '5790000000005' },
-  { gln: '5790000000006' },
+const mockedActors: graphql.Actor[] = [
+  { __typename: 'Actor', number: '5790000000001' },
+  { __typename: 'Actor', number: '5790000000002' },
+  { __typename: 'Actor', number: '5790000000003' },
+  { __typename: 'Actor', number: '5790000000004' },
+  { __typename: 'Actor', number: '5790000000005' },
+  { __typename: 'Actor', number: '5790000000006' },
 ];
 
 function getWholesaleSearchBatch() {
@@ -234,42 +233,54 @@ function getWholesaleSearchBatches() {
   });
 }
 
-function postWholesaleBatchProcessStepResult(apiBase: string) {
-  return rest.post(`${apiBase}/v1/WholesaleBatch/ProcessStepResult`, (req, res, ctx) => {
-    const mockedProcessStepResult = {
-      processStepMeteringPointType: ProcessStepMeteringPointType.Production,
-      sum: 102234.245654,
-      min: 0.0,
-      max: 114.415789,
-      timeSeriesPoints: [
-        {
-          time: periodStart,
-          quantity: `${_randomIntFromInterval(0, 15)}.518`,
+function getProcessStepResult() {
+  return graphql.mockGetProcessStepResultQuery((req, res, ctx) => {
+    return res(
+      ctx.delay(300),
+      ctx.status(200),
+      ctx.data({
+        processStep: {
+          result: {
+            timeSeriesType: graphql.TimeSeriesType.Production,
+            sum: 102234.245654,
+            min: 0.0,
+            max: 114.415789,
+            timeSeriesPoints: [
+              {
+                time: periodStart,
+                quantity: `${_randomIntFromInterval(0, 15)}.518`,
+                quality: '',
+              },
+              {
+                time: periodEnd,
+                quantity: `${_randomIntFromInterval(0, 15)}.518`,
+                quality: '',
+              },
+              {
+                time: periodStart,
+                quantity: `${_randomIntFromInterval(0, 15)}.518`,
+                quality: '',
+              },
+              {
+                time: periodEnd,
+                quantity: `${_randomIntFromInterval(0, 15)}.518`,
+                quality: '',
+              },
+            ],
+          },
         },
-        {
-          time: periodEnd,
-          quantity: `${_randomIntFromInterval(0, 15)}.518`,
-        },
-        {
-          time: periodStart,
-          quantity: `${_randomIntFromInterval(0, 15)}.518`,
-        },
-        {
-          time: periodEnd,
-          quantity: `${_randomIntFromInterval(0, 15)}.518`,
-        },
-      ],
-    };
-
-    return res(ctx.delay(300), ctx.status(200), ctx.json(mockedProcessStepResult));
+      })
+    );
   });
 }
 
-function batchActorsPost(apiBase: string) {
-  return rest.post(`${apiBase}/v1/WholesaleBatch/Actors`, (req, res, ctx) => {
-    return res(ctx.delay(300), ctx.status(200), ctx.json(mockedActors));
-    //return res(ctx.delay(300), ctx.status(200), ctx.json([]));
-    //return res(ctx.delay(2000), ctx.status(500));
+function getProcessStepActors() {
+  return graphql.mockGetProcessStepActorsQuery((req, res, ctx) => {
+    return res(
+      ctx.delay(300),
+      ctx.status(200),
+      ctx.data({ processStep: { actors: mockedActors } })
+    );
   });
 }
 
