@@ -23,7 +23,10 @@ import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { DhCreateUserroleMasterdataTabComponent } from './create-role-masterdata-tab/dh-create-userrole-masterdata-tab.component';
 import { DhCreateUserrolePermissionsTabComponent } from './create-role-permissions-tab/dh-create-userrole-permissions-tab.component';
-import { DhAdminCreateUserRoleManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import {
+  DhAdminCreateUserRoleManagementDataAccessApiStore,
+  DhAdminMarketRolePermissionsStore,
+} from '@energinet-datahub/dh/admin/data-access-api';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { provideComponentStore } from '@ngrx/component-store';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -33,10 +36,7 @@ import {
   UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { Router } from '@angular/router';
-import {
-  dhAdminPath,
-  dhAdminUserManagementPath,
-} from '@energinet-datahub/dh/admin/routing';
+import { dhAdminPath, dhAdminUserManagementPath } from '@energinet-datahub/dh/admin/routing';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { Subject, takeUntil } from 'rxjs';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -49,6 +49,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   styleUrls: ['./dh-create-userrole-tabs.component.scss'],
   providers: [
     provideComponentStore(DhAdminCreateUserRoleManagementDataAccessApiStore),
+    provideComponentStore(DhAdminMarketRolePermissionsStore),
   ],
   styles: [
     `
@@ -74,13 +75,12 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   ],
 })
 export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
-  private readonly store = inject(
-    DhAdminCreateUserRoleManagementDataAccessApiStore
-  );
+  private readonly createUserRoleStore = inject(DhAdminCreateUserRoleManagementDataAccessApiStore);
+  private readonly marketRolePermissionsStore = inject(DhAdminMarketRolePermissionsStore);
   @ViewChild(DhCreateUserroleMasterdataTabComponent)
   masterdataTab!: DhCreateUserroleMasterdataTabComponent;
 
-  permissions$ = this.store.permissionsDetails$;
+  permissions$ = this.marketRolePermissionsStore.permissions$;
 
   userRole: CreateUserRoleDto = {
     name: '',
@@ -99,7 +99,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store.hasGeneralError$
+    this.createUserRoleStore.hasGeneralError$
       .pipe(takeUntil(this.destroy$))
       .subscribe((hasError) => {
         if (hasError) {
@@ -117,7 +117,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store.getPermissionsDetails(this.userRole.eicFunction);
+    this.marketRolePermissionsStore.getPermissions(this.userRole.eicFunction);
   }
 
   ngOnDestroy(): void {
@@ -131,7 +131,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
       onlySelf: true,
       emitEvent: false,
     });
-    this.store.createUserRole({
+    this.createUserRoleStore.createUserRole({
       createUserRoleDto: this.userRole,
       onSaveCompletedFn: this.backToOverviewAfterSave,
     });
@@ -150,7 +150,7 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
   }
 
   eicFunctionSelected(eicFunction: EicFunction) {
-    this.store.getPermissionsDetails(eicFunction);
+    this.marketRolePermissionsStore.getPermissions(eicFunction);
     this.patchUserRole({ permissions: [] });
   }
 
@@ -162,19 +162,13 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
       type: 'success',
     });
 
-    const url = this.router.createUrlTree([
-      dhAdminPath,
-      dhAdminUserManagementPath,
-    ]);
+    const url = this.router.createUrlTree([dhAdminPath, dhAdminUserManagementPath]);
 
     this.router.navigateByUrl(url);
   };
 
   readonly backToOverview = () => {
-    const url = this.router.createUrlTree([
-      dhAdminPath,
-      dhAdminUserManagementPath,
-    ]);
+    const url = this.router.createUrlTree([dhAdminPath, dhAdminUserManagementPath]);
 
     this.router.navigateByUrl(url);
   };
