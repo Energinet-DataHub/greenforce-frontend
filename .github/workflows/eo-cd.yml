@@ -172,31 +172,35 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.EO_SONAR_TOKEN }}
 
-  bump_helm_chart_version:
+  bump_versions:
     runs-on: ubuntu-latest
-    name: Bump Helm chart version
+    name: Bump versions
     if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
     needs: affected
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.PAT_TOKEN }}
 
       - uses: ./.github/actions/yaml-increment-version
         with:
           yaml-file: build/infrastructure/eo/chart/Chart.yaml
           yaml-path: version
 
-  bump_app_version:
-    runs-on: ubuntu-latest
-    name: Bump App version
-    if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
-    needs: affected
-    steps:
-      - uses: actions/checkout@v3
-
       - uses: ./.github/actions/yaml-increment-version
         with:
           yaml-file: build/infrastructure/eo/chart/values.yaml
           yaml-path: app.image.tag
+
+      - name: Commit bumped versions
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A || cd .
+          git commit -m "chore: bump versions" || cd .
+          git push origin --force-with-lease || cd .
+        shell: bash
 
   build_container_and_release_chart:
     runs-on: ubuntu-latest

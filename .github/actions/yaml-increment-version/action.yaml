@@ -70,8 +70,4 @@ runs:
         valueFile: ${{ inputs.yaml-file }}
         propertyPath: ${{ inputs.yaml-path }}
         value: ${{ steps.semvers.outputs.patch }}
-        commitChange: true
-        message: 'Bump version to ${{ steps.semvers.outputs.patch }} for ${{ inputs.yaml-file }}'
-        branch: ${{ github.head_ref }}
-        commitUserName: 'github-actions[bot]'
-        commitUserEmail: 'github-actions[bot]@users.noreply.github.com'
+        commitChange: false
