@@ -69,5 +69,5 @@ export const cardWithVariant: Story<WattCardComponent> = (args) => ({
 });
 
 cardWithVariant.args = {
-  variant: 'solid',
+  variant: 'elevation',
 };
