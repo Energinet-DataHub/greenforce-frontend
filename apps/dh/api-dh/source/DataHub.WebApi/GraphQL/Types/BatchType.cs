@@ -13,7 +13,11 @@
 // limitations under the License.
 
 using System;
+using System.Linq;
+using Energinet.DataHub.MarketParticipant.Client;
+using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.Wholesale.Contracts;
+using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
@@ -27,10 +31,51 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field(x => x.ExecutionState).Description("The execution state.");
             Field(x => x.ExecutionTimeStart, nullable: true).Description("The execution start time.");
             Field(x => x.ExecutionTimeEnd, nullable: true).Description("The execution end time.");
-            Field(x => x.GridAreaCodes).Description("The grid area codes.");
             Field(x => x.IsBasisDataDownloadAvailable).Description("Whether basis data is downloadable.");
+
+            // TODO: Can this be optimized in case only the grid area code is queried?
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<GridAreaType>>>>("gridAreas")
+               .Resolve()
+               .WithScope()
+               .WithService<IMarketParticipantClient>()
+               .ResolveAsync(async (context, client) =>
+               {
+                   // TODO:
+                   // This is pretty inefficient, but the client currently
+                   // lacks a GetGridAreaByCode function or similar.
+                   var gridAreas = await client.GetGridAreasAsync();
+                   return gridAreas == null
+                       ? Enumerable.Empty<GridAreaDto>()
+                       : gridAreas.Where(gridArea => context.Source.GridAreaCodes.Contains(gridArea.Code));
+               });
+
+            Field<NonNullGraphType<StatusTypeEnum>>("statusType")
+                .Resolve(context => context.Source.ExecutionState switch
+                {
+                    BatchState.Pending => "warning",
+                    BatchState.Completed => "success",
+                    BatchState.Failed => "danger",
+                    BatchState.Executing => "info",
+                    _ => "info",
+                });
+
             Field<DateRangeType>("period")
               .Resolve(context => Tuple.Create(context.Source.PeriodStart, context.Source.PeriodEnd));
+
+            // var batch = await _client.GetBatchAsync(batchId);
+            // var gridAreas = (await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false)).ToList();
+
+            // var gridAreaDtos = gridAreas.Where(x => batch!.GridAreaCodes.Contains(x.Code));
+
+            // return new BatchDto(
+            //     batch!.BatchNumber,
+            //     batch.PeriodStart,
+            //     batch.PeriodEnd,
+            //     batch.ExecutionTimeStart,
+            //     batch.ExecutionTimeEnd,
+            //     batch.ExecutionState,
+            //     batch.IsBasisDataDownloadAvailable,
+            //     gridAreaDtos.ToArray());
         }
     }
 }

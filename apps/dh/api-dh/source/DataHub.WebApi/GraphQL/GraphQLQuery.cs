@@ -15,6 +15,7 @@
 using System;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.Wholesale.Client;
+using Energinet.DataHub.Wholesale.Contracts;
 using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
@@ -44,6 +45,18 @@ namespace Energinet.DataHub.WebApi.GraphQL
                .WithScope()
                .WithService<IWholesaleClient>()
                .ResolveAsync(async (context, client) => await client.GetBatchAsync(context.GetArgument<Guid>("id")));
+
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<BatchType>>>>("batches")
+               .Argument<DateRangeType>("executionTime")
+               .Resolve()
+               .WithScope()
+               .WithService<IWholesaleClient>()
+               .ResolveAsync(async (context, client) =>
+               {
+                   var interval = context.GetArgument<Tuple<DateTimeOffset, DateTimeOffset>>("executionTime");
+                   var batchSearchDto = new BatchSearchDto(interval.Item1, interval.Item2);
+                   return await client.GetBatchesAsync(batchSearchDto);
+               });
         }
     }
 }
