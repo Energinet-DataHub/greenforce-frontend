@@ -31,24 +31,18 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { map, Subject, takeUntil } from 'rxjs';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
-import {
-  WattModalComponent,
-  WattModalModule,
-} from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import {
   DhAdminUserRoleEditDataAccessApiStore,
   DhAdminUserRoleWithPermissionsManagementDataAccessApiStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import {
-  UpdateUserRoleDto,
-  UserRoleWithPermissionsDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { UpdateUserRoleDto, UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-edit-user-role-modal',
