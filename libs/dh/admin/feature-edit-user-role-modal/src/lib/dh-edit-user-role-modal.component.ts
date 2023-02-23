@@ -80,12 +80,8 @@ import {
     ReactiveFormsModule,
   ],
 })
-export class DhEditUserRoleModalComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
-  private readonly userRoleEditStore = inject(
-    DhAdminUserRoleEditDataAccessApiStore
-  );
+export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDestroy {
+  private readonly userRoleEditStore = inject(DhAdminUserRoleEditDataAccessApiStore);
   private readonly userRoleWithPermissionsStore = inject(
     DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
   );
