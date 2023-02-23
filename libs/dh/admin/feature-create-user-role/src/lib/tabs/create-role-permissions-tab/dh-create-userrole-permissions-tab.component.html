@@ -14,9 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *transloco="let t; read: 'admin.userManagement.createrole.tabs.permissions'"
->
+<ng-container *transloco="let t; read: 'admin.userManagement.createrole.tabs.permissions'">
   <watt-card>
     <watt-card-title>
       <h4>
@@ -24,10 +22,10 @@ limitations under the License.
       </h4>
     </watt-card-title>
 
-    <dh-create-userrole-permissions-tab-table
+    <dh-permissions-table
       [permissions]="permissions"
       (selectionChanged)="onSelectionChange($event)"
-    ></dh-create-userrole-permissions-tab-table>
+    ></dh-permissions-table>
 
     <!-- Empty -->
     <div *ngIf="permissions.length === 0" class="no-content-container">
