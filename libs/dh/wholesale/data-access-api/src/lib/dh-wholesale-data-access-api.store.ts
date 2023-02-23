@@ -196,25 +196,23 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       switchMap((filter: BatchSearchDtoV2) => {
         this.setLoadingBatches(true);
 
-        return this.httpClient
-          .v1WholesaleBatchSearchPost(filter)
-          .pipe(
-            tapResponse(
-              (batches) => {
-                const mappedBatches = batches.map((batch) => {
-                  return {
-                    ...batch,
-                    statusType: this.getStatusType(batch.executionState),
-                  };
-                });
-                this.setBatches(mappedBatches);
-              },
-              () => {
-                this.setLoadingBatches(false);
-                this.loadingBatchesErrorTrigger$.next();
-              }
-            )
-          );
+        return this.httpClient.v1WholesaleBatchSearchPost(filter).pipe(
+          tapResponse(
+            (batches) => {
+              const mappedBatches = batches.map((batch) => {
+                return {
+                  ...batch,
+                  statusType: this.getStatusType(batch.executionState),
+                };
+              });
+              this.setBatches(mappedBatches);
+            },
+            () => {
+              this.setLoadingBatches(false);
+              this.loadingBatchesErrorTrigger$.next();
+            }
+          )
+        );
       })
     );
   });
@@ -232,7 +230,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
               minExecutionTime: filters.executionTime?.start,
               maxExecutionTime: filters.executionTime?.end,
               periodStart: filters.period?.start,
-              periodEnd: filters.period?.end
+              periodEnd: filters.period?.end,
             })
             .pipe(
               tapResponse(
