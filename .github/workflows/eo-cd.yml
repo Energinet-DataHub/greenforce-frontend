@@ -180,8 +180,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-            ref: ${{ github.head_ref }}
-            token: ${{ secrets.PAT_TOKEN }}
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.PAT_TOKEN }}
 
       - uses: ./.github/actions/yaml-increment-version
         with:
