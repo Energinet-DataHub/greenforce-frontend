@@ -21,6 +21,6 @@ namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
         Guid ActorId,
         ActorNumberDto ActorNumber,
         ActorNameDto Name,
-        IReadOnlyList<EicFunction> MarketRoles,
-        IReadOnlyList<string> GridAreaCodes);
+        IReadOnlyCollection<EicFunction> MarketRoles,
+        IReadOnlyCollection<string> GridAreaCodes);
 }
