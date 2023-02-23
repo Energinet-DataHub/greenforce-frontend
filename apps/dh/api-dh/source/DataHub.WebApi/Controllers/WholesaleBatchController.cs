@@ -54,7 +54,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a batch.
         /// </summary>
         [HttpPost("Search")]
-        public async Task<ActionResult<IEnumerable<BatchDto>>> SearchAsync(BatchSearchDto batchSearchDto)
+        public async Task<ActionResult<IEnumerable<BatchDto>>> SearchAsync(BatchSearchDtoV2 batchSearchDto)
         {
             var gridAreas = new List<GridAreaDto>();
             var batchesWithGridAreasWithNames = new List<BatchDto>();
@@ -83,7 +83,7 @@ namespace Energinet.DataHub.WebApi.Controllers
 
             return Ok(batchesWithGridAreasWithNames);
         }
-
+        
         /// <summary>
         /// Get a batch.
         /// </summary>
