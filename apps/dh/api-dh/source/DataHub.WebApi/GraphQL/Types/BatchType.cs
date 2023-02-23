@@ -61,21 +61,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             Field<DateRangeType>("period")
               .Resolve(context => Tuple.Create(context.Source.PeriodStart, context.Source.PeriodEnd));
-
-            // var batch = await _client.GetBatchAsync(batchId);
-            // var gridAreas = (await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false)).ToList();
-
-            // var gridAreaDtos = gridAreas.Where(x => batch!.GridAreaCodes.Contains(x.Code));
-
-            // return new BatchDto(
-            //     batch!.BatchNumber,
-            //     batch.PeriodStart,
-            //     batch.PeriodEnd,
-            //     batch.ExecutionTimeStart,
-            //     batch.ExecutionTimeEnd,
-            //     batch.ExecutionState,
-            //     batch.IsBasisDataDownloadAvailable,
-            //     gridAreaDtos.ToArray());
         }
     }
 }

@@ -57,6 +57,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
                    var batchSearchDto = new BatchSearchDto(interval.Item1, interval.Item2);
                    return await client.GetBatchesAsync(batchSearchDto);
                });
+
+            Field<ProcessStepType>("processStep")
+               .Argument<IntGraphType>("step", "The process step number.")
+               .Argument<IdGraphType>("batchId", "The batch id the process belongs to.")
+               .Argument<StringGraphType>("gridArea", "The grid area code for the process.")
+               .Resolve(context => new { });
         }
     }
 }

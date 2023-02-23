@@ -34,56 +34,9 @@ export type Scalars = {
 
 export type Actor = {
   __typename?: 'Actor';
-  /** The id of the actor. */
-  actorId: Scalars['ID'];
   /** The number of the actor. */
-  actorNumber: ActorNumberDtoType;
-  /** The external id of the actor. */
-  externalActorId?: Maybe<Scalars['ID']>;
-  /** The market roles of the actor. */
-  marketRoles: Array<Maybe<ActorMarketRoleDtoType>>;
-  /** The name of the actor. */
-  name: ActorNameDtoType;
-  /** The status of the actor. */
-  status: ActorStatus;
+  number: Scalars['String'];
 };
-
-export type ActorGridAreaDtoType = {
-  __typename?: 'ActorGridAreaDtoType';
-  /** The grid area id. */
-  id: Scalars['ID'];
-  /** The metering point types. */
-  meteringPointTypes: Array<MarketParticipantMeteringPointType>;
-};
-
-export type ActorMarketRoleDtoType = {
-  __typename?: 'ActorMarketRoleDtoType';
-  /** The comment of the market role. */
-  comment: Scalars['String'];
-  /** The EIC function of the market role. */
-  eicFunction: EicFunction;
-  /** The grid areas of the market role. */
-  gridAreas: Array<Maybe<ActorGridAreaDtoType>>;
-};
-
-export type ActorNameDtoType = {
-  __typename?: 'ActorNameDtoType';
-  /** The actor name. */
-  value: Scalars['String'];
-};
-
-export type ActorNumberDtoType = {
-  __typename?: 'ActorNumberDtoType';
-  /** The actor number. */
-  value: Scalars['String'];
-};
-
-export enum ActorStatus {
-  Active = 'ACTIVE',
-  Inactive = 'INACTIVE',
-  New = 'NEW',
-  Passive = 'PASSIVE'
-}
 
 export type Address = {
   __typename?: 'Address';
@@ -123,29 +76,13 @@ export enum BatchState {
   Pending = 'PENDING'
 }
 
-export enum EicFunction {
-  BalanceResponsibleParty = 'BALANCE_RESPONSIBLE_PARTY',
-  BillingAgent = 'BILLING_AGENT',
-  DanishEnergyAgency = 'DANISH_ENERGY_AGENCY',
-  DataHubAdministrator = 'DATA_HUB_ADMINISTRATOR',
-  ElOverblik = 'EL_OVERBLIK',
-  EnergySupplier = 'ENERGY_SUPPLIER',
-  GridAccessProvider = 'GRID_ACCESS_PROVIDER',
-  ImbalanceSettlementResponsible = 'IMBALANCE_SETTLEMENT_RESPONSIBLE',
-  IndependentAggregator = 'INDEPENDENT_AGGREGATOR',
-  MeteredDataAdministrator = 'METERED_DATA_ADMINISTRATOR',
-  MeteredDataResponsible = 'METERED_DATA_RESPONSIBLE',
-  MeteringPointAdministrator = 'METERING_POINT_ADMINISTRATOR',
-  SerialEnergyTrader = 'SERIAL_ENERGY_TRADER',
-  SystemOperator = 'SYSTEM_OPERATOR'
-}
-
 export type GraphQlQuery = {
   __typename?: 'GraphQLQuery';
   batch?: Maybe<Batch>;
   batches: Array<Batch>;
   organization?: Maybe<Organization>;
   organizations?: Maybe<Array<Maybe<Organization>>>;
+  processStep?: Maybe<ProcessStep>;
 };
 
 
@@ -161,6 +98,13 @@ export type GraphQlQueryBatchesArgs = {
 
 export type GraphQlQueryOrganizationArgs = {
   id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type GraphQlQueryProcessStepArgs = {
+  batchId?: InputMaybe<Scalars['ID']>;
+  gridArea?: InputMaybe<Scalars['String']>;
+  step?: InputMaybe<Scalars['Int']>;
 };
 
 export type GridArea = {
@@ -179,36 +123,10 @@ export type GridArea = {
   validTo?: Maybe<Scalars['DateTimeOffset']>;
 };
 
-export enum MarketParticipantMeteringPointType {
-  D_01VeProduction = 'D_01_VE_PRODUCTION',
-  D_02Analysis = 'D_02_ANALYSIS',
-  D_03NotUsed = 'D_03_NOT_USED',
-  D_04SurplusProductionGroup_6 = 'D_04_SURPLUS_PRODUCTION_GROUP_6',
-  D_05NetProduction = 'D_05_NET_PRODUCTION',
-  D_06SupplyToGrid = 'D_06_SUPPLY_TO_GRID',
-  D_07ConsumptionFromGrid = 'D_07_CONSUMPTION_FROM_GRID',
-  D_08WholeSaleServicesInformation = 'D_08_WHOLE_SALE_SERVICES_INFORMATION',
-  D_09OwnProduction = 'D_09_OWN_PRODUCTION',
-  D_10NetFromGrid = 'D_10_NET_FROM_GRID',
-  D_11NetToGrid = 'D_11_NET_TO_GRID',
-  D_12TotalConsumption = 'D_12_TOTAL_CONSUMPTION',
-  D_13NetLossCorrection = 'D_13_NET_LOSS_CORRECTION',
-  D_14ElectricalHeating = 'D_14_ELECTRICAL_HEATING',
-  D_15NetConsumption = 'D_15_NET_CONSUMPTION',
-  D_17OtherConsumption = 'D_17_OTHER_CONSUMPTION',
-  D_18OtherProduction = 'D_18_OTHER_PRODUCTION',
-  D_20ExchangeReactiveEnergy = 'D_20_EXCHANGE_REACTIVE_ENERGY',
-  D_99InternalUse = 'D_99_INTERNAL_USE',
-  E_17Consumption = 'E_17_CONSUMPTION',
-  E_18Production = 'E_18_PRODUCTION',
-  E_20Exchange = 'E_20_EXCHANGE',
-  Unknown = 'UNKNOWN'
-}
-
 export type Organization = {
   __typename?: 'Organization';
   /** The actors of the organization. */
-  actors: Array<Maybe<Actor>>;
+  actors: Array<Actor>;
   /** The address of the organization. */
   address: Address;
   /** The business register identifier of the organization. */
@@ -235,6 +153,11 @@ export enum PriceAreaCode {
   Dk_2 = 'DK_2'
 }
 
+export type ProcessStep = {
+  __typename?: 'ProcessStep';
+  actors: Array<Actor>;
+};
+
 /** How the status should be represented visually. */
 export enum StatusType {
   Danger = 'danger',
@@ -257,9 +180,19 @@ export type GetBatchesQueryVariables = Exact<{
 
 export type GetBatchesQuery = { __typename?: 'GraphQLQuery', batches: Array<{ __typename?: 'Batch', id: string, executionState: BatchState, executionTimeEnd?: any | null, executionTimeStart?: any | null, isBasisDataDownloadAvailable: boolean, period?: any | null, statusType: StatusType }> };
 
+export type GetProcessStepActorsQueryVariables = Exact<{
+  step: Scalars['Int'];
+  batchId: Scalars['ID'];
+  gridArea: Scalars['String'];
+}>;
+
+
+export type GetProcessStepActorsQuery = { __typename?: 'GraphQLQuery', processStep?: { __typename?: 'ProcessStep', actors: Array<{ __typename?: 'Actor', number: string }> } | null };
+
 
 export const GetBatchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBatch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"batch"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"executionState"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeEnd"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeStart"}},{"kind":"Field","name":{"kind":"Name","value":"isBasisDataDownloadAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"period"}},{"kind":"Field","name":{"kind":"Name","value":"statusType"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"priceAreaCode"}},{"kind":"Field","name":{"kind":"Name","value":"validFrom"}}]}}]}}]}}]} as unknown as DocumentNode<GetBatchQuery, GetBatchQueryVariables>;
 export const GetBatchesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBatches"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"executionTime"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateRange"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"batches"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"executionTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"executionTime"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"executionState"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeEnd"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeStart"}},{"kind":"Field","name":{"kind":"Name","value":"isBasisDataDownloadAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"period"}},{"kind":"Field","name":{"kind":"Name","value":"statusType"}}]}}]}}]} as unknown as DocumentNode<GetBatchesQuery, GetBatchesQueryVariables>;
+export const GetProcessStepActorsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetProcessStepActors"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"step"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"batchId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"gridArea"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"processStep"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"step"},"value":{"kind":"Variable","name":{"kind":"Name","value":"step"}}},{"kind":"Argument","name":{"kind":"Name","value":"batchId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"batchId"}}},{"kind":"Argument","name":{"kind":"Name","value":"gridArea"},"value":{"kind":"Variable","name":{"kind":"Name","value":"gridArea"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"actors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"number"}}]}}]}}]}}]} as unknown as DocumentNode<GetProcessStepActorsQuery, GetProcessStepActorsQueryVariables>;
 
 /**
  * @param resolver a function that accepts a captured request and may return a mocked response.
@@ -292,5 +225,22 @@ export const mockGetBatchQuery = (resolver: ResponseResolver<GraphQLRequest<GetB
 export const mockGetBatchesQuery = (resolver: ResponseResolver<GraphQLRequest<GetBatchesQueryVariables>, GraphQLContext<GetBatchesQuery>, any>) =>
   graphql.query<GetBatchesQuery, GetBatchesQueryVariables>(
     'GetBatches',
+    resolver
+  )
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockGetProcessStepActorsQuery((req, res, ctx) => {
+ *   const { step, batchId, gridArea } = req.variables;
+ *   return res(
+ *     ctx.data({ processStep })
+ *   )
+ * })
+ */
+export const mockGetProcessStepActorsQuery = (resolver: ResponseResolver<GraphQLRequest<GetProcessStepActorsQueryVariables>, GraphQLContext<GetProcessStepActorsQuery>, any>) =>
+  graphql.query<GetProcessStepActorsQuery, GetProcessStepActorsQueryVariables>(
+    'GetProcessStepActors',
     resolver
   )
