@@ -20,8 +20,5 @@ export interface ChangeOrganizationDto {
     comment?: string | null;
     status: OrganizationStatus;
 }
-export namespace ChangeOrganizationDto {
-}
-
 
 

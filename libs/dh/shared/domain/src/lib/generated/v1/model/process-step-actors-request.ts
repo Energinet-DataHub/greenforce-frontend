@@ -19,8 +19,5 @@ export interface ProcessStepActorsRequest {
     type: TimeSeriesType;
     marketRole: MarketRole;
 }
-export namespace ProcessStepActorsRequest {
-}
-
 
 

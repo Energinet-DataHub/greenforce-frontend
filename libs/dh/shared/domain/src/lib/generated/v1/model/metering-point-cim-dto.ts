@@ -66,8 +66,5 @@ export interface MeteringPointCimDto {
     parentMeteringPoint?: MeteringPointSimpleCimDto;
     powerPlantGsrnNumber?: string | null;
 }
-export namespace MeteringPointCimDto {
-}
-
 
 

@@ -24,8 +24,5 @@ export interface ProcessDetail {
     status: ProcessStatus;
     errors: Array<ProcessDetailError>;
 }
-export namespace ProcessDetail {
-}
-
 
 

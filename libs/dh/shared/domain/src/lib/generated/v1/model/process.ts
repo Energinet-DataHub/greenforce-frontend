@@ -22,8 +22,5 @@ export interface Process {
     status: ProcessStatus;
     details: Array<ProcessDetail>;
 }
-export namespace Process {
-}
-
 
 
