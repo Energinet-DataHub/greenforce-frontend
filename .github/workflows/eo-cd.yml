@@ -115,7 +115,7 @@ jobs:
         run: yarn nx build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL
 
       - name: Upload web app build artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ env.app-name }}
           path: ./dist/apps/eo/${{ env.app-name }}/
@@ -172,28 +172,28 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.EO_SONAR_TOKEN }}
 
-  helm_chart_version_increment_check:
+  bump_helm_chart_version:
     runs-on: ubuntu-latest
-    name: Helm chart check version
+    name: Bump Helm chart version
     if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
     needs: affected
     steps:
       - uses: actions/checkout@v3
 
-      - uses: Energinet-DataHub/energy-origin/.github/actions/yaml-check-incremented-version@main
+      - uses: ./.github/actions/yaml-increment-version
         with:
           yaml-file: build/infrastructure/eo/chart/Chart.yaml
           yaml-path: version
 
-  app_version_increment_check:
+  bump_app_version:
     runs-on: ubuntu-latest
-    name: App check version
+    name: Bump App version
     if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
     needs: affected
     steps:
       - uses: actions/checkout@v3
 
-      - uses: Energinet-DataHub/energy-origin/.github/actions/yaml-check-incremented-version@main
+      - uses: ./.github/actions/yaml-increment-version
         with:
           yaml-file: build/infrastructure/eo/chart/values.yaml
           yaml-path: app.image.tag

@@ -1,0 +1,3 @@
+{
+  "nxConsole.generatorAllowlist": ["workspace-generator:*"]
+}

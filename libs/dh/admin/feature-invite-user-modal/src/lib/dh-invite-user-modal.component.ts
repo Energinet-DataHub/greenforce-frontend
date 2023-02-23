@@ -26,10 +26,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  WattModalComponent,
-  WattModalModule,
-} from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 
 import { CommonModule } from '@angular/common';
 import { PushModule } from '@rx-angular/template/push';
@@ -49,12 +46,18 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { DhUserActorsDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import {
+  DbAdminAssignableUserRolesStore,
+  DhUserActorsDataAccessApiStore,
+} from '@energinet-datahub/dh/admin/data-access-api';
+import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-assignable-user-roles.component';
 import { Subscription } from 'rxjs';
+import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    DbAdminAssignableUserRolesStore,
     {
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { showError: true },
@@ -81,10 +84,12 @@ import { Subscription } from 'rxjs';
     MatInputModule,
     WattDropdownModule,
     PushModule,
+    DhAssignableUserRolesComponent,
   ],
 })
 export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   private readonly actorStore = inject(DhUserActorsDataAccessApiStore);
+  private readonly assignableUserRolesStore = inject(DbAdminAssignableUserRolesStore);
   private readonly formBuilder = inject(FormBuilder);
   @ViewChild('inviteUserModal') inviteUserModal!: WattModalComponent;
   @ViewChild('stepper') stepper!: MatStepper;
@@ -92,6 +97,7 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
 
   readonly actorOptions$ = this.actorStore.actors$;
   readonly organizationDomain$ = this.actorStore.organizationDomain$;
+
   actorIdSubscription: Subscription | null = null;
 
   userInfo = this.formBuilder.group({
@@ -102,24 +108,23 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
     phoneNumber: ['', Validators.required],
   });
   userRoles = this.formBuilder.group({
-    userRole: ['', Validators.required],
+    selectedUserRoles: [[''], Validators.required],
   });
 
   ngAfterViewInit(): void {
     this.inviteUserModal.open();
-    this.actorIdSubscription =
-      this.userInfo.controls.actorId.valueChanges.subscribe((actorId) => {
-        actorId !== null
-          ? this.userInfo.controls.email.enable()
-          : this.userInfo.controls.email.disable();
+    this.actorIdSubscription = this.userInfo.controls.actorId.valueChanges.subscribe((actorId) => {
+      actorId !== null
+        ? this.userInfo.controls.email.enable()
+        : this.userInfo.controls.email.disable();
 
-        if (actorId === null) {
-          this.actorStore.resetOrganizationState();
-          return;
-        }
-
-        this.actorStore.getActorOrganization(actorId);
-      });
+      if (actorId === null) {
+        this.actorStore.resetOrganizationState();
+        return;
+      }
+      this.assignableUserRolesStore.getAssignableUserRoles(actorId);
+      this.actorStore.getActorOrganization(actorId);
+    });
   }
 
   ngOnDestroy(): void {
@@ -128,10 +133,15 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
 
   inviteUser() {
     if (this.userInfo.valid && this.userRoles.valid) {
+      // TODO: call backend with form values
       this.inviteUserModal.close(true);
     } else {
       this.userRoles.markAllAsTouched();
     }
+  }
+
+  onSelectedUserRoles(userRoles: UserRoleDto[]) {
+    this.userRoles.controls.selectedUserRoles.setValue(userRoles.map((userRole) => userRole.id));
   }
 
   closeModal(status: boolean) {

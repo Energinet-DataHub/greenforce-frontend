@@ -14,31 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation } from '@angular/core';
+import 'jest-preset-angular/setup-jest';
 
-const selector = 'watt-card-title';
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector,
-  styles: [
-    `
-      ${selector} {
-        display: block;
-      }
-
-      ${selector} h4, h3 {
-        color: var(--watt-typography-text-color);
-        margin: 0;
-      }
-    `,
-  ],
-  template: `<ng-content></ng-content>`,
-  encapsulation: ViewEncapsulation.None,
-})
-export class WattCardTitleComponent {
-  @HostBinding('class')
-  get cssClass() {
-    return 'watt-card__title watt-space-stack-m';
-  }
-}
+setUpTestbed();
