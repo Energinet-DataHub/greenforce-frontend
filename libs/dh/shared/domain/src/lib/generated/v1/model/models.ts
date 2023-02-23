@@ -40,6 +40,7 @@ export * from './create-organization-dto';
 export * from './create-user-role-dto';
 export * from './disconnection-type';
 export * from './eic-function';
+export * from './filtered-actor-dto';
 export * from './get-associated-user-actors-response-dto';
 export * from './get-token-response-dto';
 export * from './grid-area-audit-log-entry-dto';
