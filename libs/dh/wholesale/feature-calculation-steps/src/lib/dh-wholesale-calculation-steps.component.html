@@ -133,18 +133,20 @@ limitations under the License.
             </watt-expandable-card>
           </li>
           <li>
-            <watt-card>
-              <h4>
-                <watt-badge size="large" class="watt-space-inline-m"
-                  >3</watt-badge
-                >
+            <watt-expandable-card [expanded]="getCurrentStep() === '3'">
+              <watt-expandable-card-title>
+                <watt-badge size="large">3</watt-badge>
                 {{
-                  t(
-                    "processStepResults.nonProfiledConsumptionPerBalanceResponsible"
-                  )
+                  t("processStepResults.nonProfiledConsumptionPerBalanceResponsible")
                 }}
-              </h4>
-            </watt-card>
+              </watt-expandable-card-title>
+              <ng-template wattExpandableCardContent>
+                <dh-wholesale-balance-responsibles
+                  [batchId]="batch.batchId"
+                  [gridAreaCode]="gridArea.code"
+                ></dh-wholesale-balance-responsibles>
+              </ng-template>
+            </watt-expandable-card>
           </li>
         </ul>
 

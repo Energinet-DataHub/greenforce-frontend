@@ -44,6 +44,7 @@ import {
   WattDrawerModule,
 } from '@energinet-datahub/watt/drawer';
 import { DhWholesaleEnergySuppliersComponent } from './energy-suppliers/dh-wholesale-energy-suppliers.component';
+import { DhWholesaleBalanceResponsiblesComponent } from './balance-responsibles/dh-wholesale-balance-responsibles.component';
 
 @Component({
   templateUrl: './dh-wholesale-calculation-steps.component.html',
@@ -66,6 +67,7 @@ import { DhWholesaleEnergySuppliersComponent } from './energy-suppliers/dh-whole
     WattTopBarComponent,
     DhWholesaleProductionPerGridareaComponent,
     DhWholesaleEnergySuppliersComponent,
+    DhWholesaleBalanceResponsiblesComponent,
   ],
 })
 export class DhWholesaleCalculationStepsComponent implements OnInit {
