@@ -45,7 +45,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         [Theory]
         [InlineAutoMoqData]
-        public async Task GetFilteredActorsUrl_NotFas_ReturnsSingleActor(OrganizationDto organization, ActorDto actor, Guid actorId)
+        public async Task GetFilteredActors_NotFas_ReturnsSingleActor(OrganizationDto organization, ActorDto actor, Guid actorId)
         {
             // Arrange
             JwtAuthenticationServiceMock.AddAuthorizationHeader(BffClient, actorId);
@@ -59,7 +59,9 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .SelectMany(o => o.Actors)
                 .SelectMany(a => a.MarketRoles)
                 .SelectMany(m => m.GridAreas)
-                .Select(g => new GridAreaOverviewItemDto(g.Id, "000", string.Empty, PriceAreaCode.Dk1, DateTimeOffset.Now, null, null, null, null));
+                .Select(g => g.Id)
+                .Distinct()
+                .Select(gid => new GridAreaOverviewItemDto(gid, "000", string.Empty, PriceAreaCode.Dk1, DateTimeOffset.Now, null, null, null, null));
 
             MarketParticipantClientMock
                 .Setup(client => client.GetOrganizationsAsync())
@@ -95,7 +97,9 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .SelectMany(o => o.Actors)
                 .SelectMany(a => a.MarketRoles)
                 .SelectMany(m => m.GridAreas)
-                .Select(g => new GridAreaOverviewItemDto(g.Id, "000", string.Empty, PriceAreaCode.Dk1, DateTimeOffset.Now, null, null, null, null));
+                .Select(g => g.Id)
+                .Distinct()
+                .Select(gid => new GridAreaOverviewItemDto(gid, "000", string.Empty, PriceAreaCode.Dk1, DateTimeOffset.Now, null, null, null, null));
 
             MarketParticipantClientMock
                 .Setup(client => client.GetOrganizationsAsync())
