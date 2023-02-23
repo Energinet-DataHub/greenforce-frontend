@@ -14,17 +14,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container>
+<ng-container *transloco="let t; read: 'admin.userManagement.permissionsTable'">
   <watt-table
     #permissionTable
     description="permissions"
     [dataSource]="dataSource"
     [columns]="columns"
-    [resolveHeader]="translateHeader"
     sortBy="name"
     [selectable]="permissions.length > 0"
     sortDirection="asc"
     (selectionChange)="onSelectionChange($event)"
   >
+    <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let element">
+      {{ element.name }}
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="columns['description']; header: t('columns.description'); let element"
+    >
+      {{ element.description }}
+    </ng-container>
   </watt-table>
 </ng-container>
