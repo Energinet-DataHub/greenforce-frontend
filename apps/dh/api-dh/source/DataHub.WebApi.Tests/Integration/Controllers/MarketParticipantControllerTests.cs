@@ -55,9 +55,19 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 organization with { Actors = new[] { actor with { ActorId = actorId }, actor with { ActorId = Guid.NewGuid() } } },
             };
 
+            var gridAreas = organizations
+                .SelectMany(o => o.Actors)
+                .SelectMany(a => a.MarketRoles)
+                .SelectMany(m => m.GridAreas)
+                .Select(g => new GridAreaOverviewItemDto(g.Id, "000", string.Empty, PriceAreaCode.Dk1, DateTimeOffset.Now, null, null, null, null));
+
             MarketParticipantClientMock
                 .Setup(client => client.GetOrganizationsAsync())
                 .ReturnsAsync(organizations);
+
+            MarketParticipantClientMock
+                .Setup(client => client.GetGridAreaOverviewAsync())
+                .ReturnsAsync(gridAreas);
 
             // Act
             var actual = await BffClient.GetAsync(GetFilteredActorsUrl);
@@ -81,9 +91,19 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 organization with { Actors = new[] { actor with { ActorId = actorId }, actor with { ActorId = Guid.NewGuid() } } },
             };
 
+            var gridAreas = organizations
+                .SelectMany(o => o.Actors)
+                .SelectMany(a => a.MarketRoles)
+                .SelectMany(m => m.GridAreas)
+                .Select(g => new GridAreaOverviewItemDto(g.Id, "000", string.Empty, PriceAreaCode.Dk1, DateTimeOffset.Now, null, null, null, null));
+
             MarketParticipantClientMock
                 .Setup(client => client.GetOrganizationsAsync())
                 .ReturnsAsync(organizations);
+
+            MarketParticipantClientMock
+                .Setup(client => client.GetGridAreaOverviewAsync())
+                .ReturnsAsync(gridAreas);
 
             // Act
             var actual = await BffClient.GetAsync(GetFilteredActorsUrl);

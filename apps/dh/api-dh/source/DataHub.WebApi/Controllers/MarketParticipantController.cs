@@ -110,7 +110,8 @@ namespace Energinet.DataHub.WebApi.Controllers
                                 .Distinct()
                                 .ToList(),
                             x.MarketRoles
-                                .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id)).Distinct()
+                                .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
+                                .Distinct()
                                 .Select(gridAreaId => gridAreaLookup[gridAreaId].Code)
                                 .ToList()));
 
