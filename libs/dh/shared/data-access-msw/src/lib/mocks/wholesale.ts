@@ -19,7 +19,7 @@ import {
   BatchState,
   GridAreaDto,
   PriceAreaCode,
-  ProcessStepMeteringPointType,
+  TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
@@ -203,12 +203,10 @@ function getWholesaleSearchBatch(apiBase: string) {
 }
 
 function downloadBasisData(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/WholesaleBatch/ZippedBasisDataStream`,
-    async (req, res, ctx) => {
-      return res(ctx.status(500));
+  return rest.get(`${apiBase}/v1/WholesaleBatch/ZippedBasisDataStream`, async (req, res, ctx) => {
+    return res(ctx.status(500));
 
-      /*
+    /*
       // Convert "base64" image to "ArrayBuffer".
       const imageBuffer = await fetch('FAKE_BASIS_DATA').then((res) =>
         res.arrayBuffer()
@@ -220,8 +218,7 @@ function downloadBasisData(apiBase: string) {
         ctx.body(imageBuffer)
       );
       */
-    }
-  );
+  });
 }
 
 function getWholesaleSearchBatches(apiBase: string) {
@@ -233,41 +230,34 @@ function getWholesaleSearchBatches(apiBase: string) {
 }
 
 function postWholesaleBatchProcessStepResult(apiBase: string) {
-  return rest.post(
-    `${apiBase}/v1/WholesaleBatch/ProcessStepResult`,
-    (req, res, ctx) => {
-      const mockedProcessStepResult = {
-        processStepMeteringPointType: ProcessStepMeteringPointType.Production,
-        sum: 102234.245654,
-        min: 0.0,
-        max: 114.415789,
-        timeSeriesPoints: [
-          {
-            time: periodStart,
-            quantity: `${_randomIntFromInterval(0, 15)}.518`,
-          },
-          {
-            time: periodEnd,
-            quantity: `${_randomIntFromInterval(0, 15)}.518`,
-          },
-          {
-            time: periodStart,
-            quantity: `${_randomIntFromInterval(0, 15)}.518`,
-          },
-          {
-            time: periodEnd,
-            quantity: `${_randomIntFromInterval(0, 15)}.518`,
-          },
-        ],
-      };
+  return rest.post(`${apiBase}/v1/WholesaleBatch/ProcessStepResult`, (req, res, ctx) => {
+    const mockedProcessStepResult = {
+      processStepMeteringPointType: TimeSeriesType.Production,
+      sum: 102234.245654,
+      min: 0.0,
+      max: 114.415789,
+      timeSeriesPoints: [
+        {
+          time: periodStart,
+          quantity: `${_randomIntFromInterval(0, 15)}.518`,
+        },
+        {
+          time: periodEnd,
+          quantity: `${_randomIntFromInterval(0, 15)}.518`,
+        },
+        {
+          time: periodStart,
+          quantity: `${_randomIntFromInterval(0, 15)}.518`,
+        },
+        {
+          time: periodEnd,
+          quantity: `${_randomIntFromInterval(0, 15)}.518`,
+        },
+      ],
+    };
 
-      return res(
-        ctx.delay(300),
-        ctx.status(200),
-        ctx.json(mockedProcessStepResult)
-      );
-    }
-  );
+    return res(ctx.delay(300), ctx.status(200), ctx.json(mockedProcessStepResult));
+  });
 }
 
 function batchActorsPost(apiBase: string) {
