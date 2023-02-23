@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Linq;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using GraphQL.Types;
 
@@ -29,7 +30,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field(x => x.Status).Description("The status of the organization.");
             Field(x => x.Comment).Description("The comment of the organization.");
             Field(x => x.Address).Description("The address of the organization.");
-            Field(x => x.Actors).Description("The actors of the organization.");
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<ActorDtoType>>>>("actors")
+                .Description("The actors of the organization.")
+                .Resolve(context => context.Source.Actors
+                    .Select(actor => new Actor(actor.ActorNumber.Value)));
         }
     }
 }

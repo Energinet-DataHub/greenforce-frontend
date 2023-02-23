@@ -28,13 +28,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
         {
             this.RegisterTypeMapping<AddressDto, AddressDtoType>();
             this.RegisterTypeMapping<OrganizationDto, OrganizationDtoType>();
-            this.RegisterTypeMapping<ActorDto, ActorDtoType>();
+            this.RegisterTypeMapping<Actor, ActorDtoType>();
             this.RegisterTypeMapping<MarketRoleDto, MarketRoleDtoType>();
             this.RegisterTypeMapping<ActorNumberDto, ActorNumberDtoType>();
             this.RegisterTypeMapping<ActorNameDto, ActorNameDtoType>();
             this.RegisterTypeMapping<ActorMarketRoleDto, ActorMarketRoleDtoType>();
             this.RegisterTypeMapping<ActorGridAreaDto, ActorGridAreaDtoType>();
             this.RegisterTypeMapping<BatchDtoV2, BatchType>();
+
             Query = provider.GetRequiredService<GraphQLQuery>();
         }
     }
