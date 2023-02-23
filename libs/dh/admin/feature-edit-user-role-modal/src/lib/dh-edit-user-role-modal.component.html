@@ -46,7 +46,12 @@ limitations under the License.
           </div>
         </watt-tab>
 
-        <watt-tab [label]="t('tab.permissions.tabLabel')"></watt-tab>
+        <watt-tab [label]="t('tab.permissions.tabLabel')">
+          <dh-permissions-table
+            *rxLet="marketRolePermissions$ as marketRolePermissions"
+            [permissions]="marketRolePermissions"
+          ></dh-permissions-table>
+        </watt-tab>
       </watt-tabs>
     </form>
 

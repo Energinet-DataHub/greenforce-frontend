@@ -39,10 +39,12 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import {
+  DhAdminMarketRolePermissionsStore,
   DhAdminUserRoleEditDataAccessApiStore,
   DhAdminUserRoleWithPermissionsManagementDataAccessApiStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { UpdateUserRoleDto, UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
+import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 
 @Component({
   selector: 'dh-edit-user-role-modal',
@@ -60,7 +62,7 @@ import { UpdateUserRoleDto, UserRoleWithPermissionsDto } from '@energinet-datahu
       }
     `,
   ],
-  providers: [DhAdminUserRoleEditDataAccessApiStore],
+  providers: [DhAdminUserRoleEditDataAccessApiStore, DhAdminMarketRolePermissionsStore],
   imports: [
     CommonModule,
     PushModule,
@@ -72,6 +74,7 @@ import { UpdateUserRoleDto, UserRoleWithPermissionsDto } from '@energinet-datahu
     WattFormFieldModule,
     WattInputModule,
     ReactiveFormsModule,
+    DhPermissionsTableComponent,
   ],
 })
 export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -79,6 +82,8 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   private readonly userRoleWithPermissionsStore = inject(
     DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
   );
+  private readonly marketRolePermissionsStore = inject(DhAdminMarketRolePermissionsStore);
+
   private readonly formBuilder = inject(FormBuilder);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
@@ -88,14 +93,14 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   readonly userRole$ = this.userRoleWithPermissionsStore.userRole$;
   readonly roleName$ = this.userRole$.pipe(map((role) => role.name));
 
+  readonly marketRolePermissions$ = this.marketRolePermissionsStore.permissions$;
+
   readonly isLoading$ = this.userRoleEditStore.isLoading$;
   readonly hasValidationError$ = this.userRoleEditStore.hasValidationError$;
 
   readonly userRoleEditForm = this.formBuilder.group({
     name: this.formBuilder.nonNullable.control('', [Validators.required]),
-    description: this.formBuilder.nonNullable.control('', [
-      Validators.required,
-    ]),
+    description: this.formBuilder.nonNullable.control('', [Validators.required]),
   });
 
   @ViewChild(WattModalComponent) editUserRoleModal!: WattModalComponent;
@@ -108,6 +113,8 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
     this.userRole$.pipe(takeUntil(this.destroy$)).subscribe((userRole) => {
       formControls.name.setValue(userRole.name);
       formControls.description.setValue(userRole.description);
+
+      this.marketRolePermissionsStore.getPermissions(userRole.eicFunction);
     });
 
     this.hasValidationError$.pipe(takeUntil(this.destroy$)).subscribe(() => {
@@ -142,9 +149,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
     };
 
     const onSuccessFn = () => {
-      const message = this.transloco.translate(
-        'admin.userManagement.editUserRole.saveSuccess'
-      );
+      const message = this.transloco.translate('admin.userManagement.editUserRole.saveSuccess');
 
       this.toastService.open({ type: 'success', message });
       this.closeModal(true);
@@ -152,9 +157,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
 
     const onErrorFn = (statusCode: HttpStatusCode) => {
       if (statusCode !== HttpStatusCode.BadRequest) {
-        const message = this.transloco.translate(
-          'admin.userManagement.editUserRole.saveError'
-        );
+        const message = this.transloco.translate('admin.userManagement.editUserRole.saveError');
 
         this.toastService.open({ type: 'danger', message });
       }
