@@ -15,10 +15,8 @@
  * limitations under the License.
  */
 import { Component, ViewChild, inject, OnInit } from '@angular/core';
-import { LetModule } from '@rx-angular/template/let';
 import { CommonModule } from '@angular/common';
-import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { PushModule } from '@rx-angular/template/push';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -33,7 +31,6 @@ import {
 } from '@energinet-datahub/watt/description-list';
 
 import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
-import { mapMetaData } from './meta-data';
 import { Apollo } from 'apollo-angular';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { ActivatedRoute } from '@angular/router';
