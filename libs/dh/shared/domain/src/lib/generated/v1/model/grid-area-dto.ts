@@ -20,8 +20,5 @@ export interface GridAreaDto {
     validFrom: string;
     validTo?: string | null;
 }
-export namespace GridAreaDto {
-}
-
 
 

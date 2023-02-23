@@ -20,8 +20,5 @@ export interface UserRoleDto {
     eicFunction: EicFunction;
     status: UserRoleStatus;
 }
-export namespace UserRoleDto {
-}
-
 
 

@@ -19,8 +19,5 @@ export interface ActorContactDto {
     email: string;
     phone?: string | null;
 }
-export namespace ActorContactDto {
-}
-
 
 

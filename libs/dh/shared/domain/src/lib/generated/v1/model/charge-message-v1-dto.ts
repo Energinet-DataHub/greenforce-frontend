@@ -17,8 +17,5 @@ export interface ChargeMessageV1Dto {
     messageType: ChargeMessageType;
     messageDateTime: string;
 }
-export namespace ChargeMessageV1Dto {
-}
-
 
 

@@ -21,8 +21,5 @@ export interface ChargeMessagesSearchCriteriaV1Dto {
     skip: number;
     take: number;
 }
-export namespace ChargeMessagesSearchCriteriaV1Dto {
-}
-
 
 

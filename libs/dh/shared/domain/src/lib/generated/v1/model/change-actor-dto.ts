@@ -19,8 +19,5 @@ export interface ChangeActorDto {
     name: ActorNameDto;
     marketRoles: Array<ActorMarketRoleDto>;
 }
-export namespace ChangeActorDto {
-}
-
 
 

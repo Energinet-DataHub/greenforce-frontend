@@ -30,8 +30,5 @@ export interface ChargeV1Dto {
     validFromDateTime: string;
     validToDateTime?: string | null;
 }
-export namespace ChargeV1Dto {
-}
-
 
 

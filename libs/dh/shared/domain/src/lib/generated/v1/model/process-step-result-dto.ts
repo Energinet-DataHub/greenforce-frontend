@@ -20,8 +20,5 @@ export interface ProcessStepResultDto {
     max: number;
     timeSeriesPoints: Array<TimeSeriesPointDto>;
 }
-export namespace ProcessStepResultDto {
-}
-
 
 

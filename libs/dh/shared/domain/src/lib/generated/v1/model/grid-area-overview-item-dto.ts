@@ -23,8 +23,5 @@ export interface GridAreaOverviewItemDto {
     actorName?: string | null;
     fullFlexDate?: string | null;
 }
-export namespace GridAreaOverviewItemDto {
-}
-
 
 

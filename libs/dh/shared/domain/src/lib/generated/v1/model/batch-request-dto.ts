@@ -18,8 +18,5 @@ export interface BatchRequestDto {
     startDate: string;
     endDate: string;
 }
-export namespace BatchRequestDto {
-}
-
 
 

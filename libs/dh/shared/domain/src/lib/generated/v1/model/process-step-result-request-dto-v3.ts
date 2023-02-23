@@ -19,8 +19,5 @@ export interface ProcessStepResultRequestDtoV3 {
     energySupplierGln?: string | null;
     balanceResponsiblePartyGln?: string | null;
 }
-export namespace ProcessStepResultRequestDtoV3 {
-}
-
 
 

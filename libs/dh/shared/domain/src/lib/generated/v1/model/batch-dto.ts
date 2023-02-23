@@ -23,8 +23,5 @@ export interface BatchDto {
     isBasisDataDownloadAvailable: boolean;
     gridAreas: Array<GridAreaDto>;
 }
-export namespace BatchDto {
-}
-
 
 
