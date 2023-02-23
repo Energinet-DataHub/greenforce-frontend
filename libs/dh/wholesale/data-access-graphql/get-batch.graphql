@@ -1,0 +1,18 @@
+query GetBatch($id: ID!) {
+  batch(id: $id) {
+    id
+    executionState
+    executionTimeEnd
+    executionTimeStart
+    isBasisDataDownloadAvailable
+    period
+    statusType
+    gridAreas {
+      code
+      name
+      id
+      priceAreaCode
+      validFrom
+    }
+  }
+}
