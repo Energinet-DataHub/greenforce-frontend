@@ -28,15 +28,15 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import {
-  WattDrawerComponent,
-  WattDrawerModule,
-} from '@energinet-datahub/watt/drawer';
+import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { WattDescriptionListComponent } from '@energinet-datahub/watt/description-list';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
 import { mapMetaData } from './meta-data';
+import { Apollo } from 'apollo-angular';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'dh-wholesale-production-per-gridarea',
@@ -64,6 +64,26 @@ export class DhWholesaleProductionPerGridareaComponent {
 
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private transloco = inject(TranslocoService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private apollo = inject(Apollo);
+
+  query = this.apollo.watchQuery({
+    query: graphql.GetProcessStepResultDocument,
+    variables: {
+      step: 1,
+      batchId: this.route.parent?.snapshot.params['batchId'],
+      gridArea: this.route.parent?.snapshot.params['gridAreaCode'],
+      gln: 'grid_area',
+    },
+  });
+
+  query2 = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: graphql.GetBatchDocument,
+    variables: { id: this.route.parent?.snapshot.params['batchId'] },
+  });
 
   processStepResults$ = this.store.processStepResults$;
   batch$ = this.store.selectedBatch$;
@@ -77,6 +97,15 @@ export class DhWholesaleProductionPerGridareaComponent {
     gridArea: this.store.selectedGridArea$.pipe(exists()),
   });
 
-  loadingProcessStepResultsErrorTrigger$ =
-    this.store.loadingProcessStepResultsErrorTrigger$;
+  loadingProcessStepResultsErrorTrigger$ = this.store.loadingProcessStepResultsErrorTrigger$;
+
+  ngOnInit() {
+    this.query.valueChanges.subscribe((result) => {
+      console.log(result);
+    });
+
+    this.query2.valueChanges.subscribe((result) => {
+      console.log(result);
+    });
+  }
 }

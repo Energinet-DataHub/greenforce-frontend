@@ -28,6 +28,10 @@ import {
   MSAL_INTERCEPTOR_CONFIG,
 } from '@azure/msal-angular';
 
+import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+import { InMemoryCache } from '@apollo/client/core';
+
 import {
   DhConfigurationLocalizationModule,
   DhTranslocoModule,
@@ -40,6 +44,8 @@ import {
 } from '@energinet-datahub/dh/auth/msal';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import {
+  DhApiEnvironment,
+  dhApiEnvironmentToken,
   dhB2CEnvironmentToken,
   environment,
 } from '@energinet-datahub/dh/shared/environments';
@@ -142,6 +148,7 @@ const routes: Routes = [
     }),
     WattToastModule.forRoot(),
     DhGlobalizationUiWattTranslationModule.forRoot(),
+    ApolloModule,
   ],
   providers: [
     MsalService,
@@ -166,6 +173,29 @@ const routes: Routes = [
       provide: MSAL_INTERCEPTOR_CONFIG,
       useFactory: MSALInterceptorConfigFactory,
       deps: [dhB2CEnvironmentToken],
+    },
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory(httpLink: HttpLink, dhApiEnvironment: DhApiEnvironment) {
+        return {
+          cache: new InMemoryCache({
+            typePolicies: {
+              Query: {
+                fields: {
+                  batch(_, { args, toReference }) {
+                    return toReference({
+                      __typename: 'Batch',
+                      id: args?.id,
+                    });
+                  },
+                },
+              },
+            },
+          }),
+          link: httpLink.create({ uri: `${dhApiEnvironment.apiBase}/graphql` }),
+        };
+      },
+      deps: [HttpLink, dhApiEnvironmentToken],
     },
   ],
 })

@@ -14,35 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
+import { ApolloError } from '@apollo/client';
+import { Apollo } from 'apollo-angular';
 
-import { WholesaleActorDto } from '@energinet-datahub/dh/shared/domain';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import {
-  WattTableColumnDef,
-  WattTableDataSource,
-  WATT_TABLE,
-} from '@energinet-datahub/watt/table';
-
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 
 @Component({
   standalone: true,
   selector: 'dh-wholesale-energy-suppliers',
   imports: [
-    LetModule,
+    CommonModule,
     TranslocoModule,
     WATT_TABLE,
     WattEmptyStateModule,
@@ -53,42 +42,41 @@ import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholes
   styleUrls: ['./dh-wholesale-energy-suppliers.component.scss'],
 })
 export class DhWholesaleEnergySuppliersComponent implements OnInit {
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
   private route = inject(ActivatedRoute);
+  private apollo = inject(Apollo);
 
   @Input() batchId!: string;
   @Input() gridAreaCode!: string;
 
-  @Output() rowClick = new EventEmitter<WholesaleActorDto>();
+  @Output() rowClick = new EventEmitter<graphql.Actor>();
 
-  _columns: WattTableColumnDef<WholesaleActorDto> = {
-    energySupplier: { accessor: 'gln' },
+  _columns: WattTableColumnDef<graphql.Actor> = {
+    energySupplier: { accessor: 'number' },
   };
 
-  energySuppliersForConsumption$ = this.store.energySuppliersForConsumption$;
-  errorTrigger$ = this.store.loadingEnergySuppliersForConsumptionErrorTrigger$;
-
-  _dataSource = (data?: WholesaleActorDto[]) =>
-    new WattTableDataSource<WholesaleActorDto>(data);
+  _dataSource = new WattTableDataSource<graphql.Actor>();
+  actors?: graphql.Actor[];
+  loading = false;
+  error?: ApolloError;
+  selectedActor?: graphql.Actor;
+  routeActorNumber?: string;
 
   ngOnInit() {
-    this.store.getEnergySuppliersForConsumption({
-      batchId: this.batchId,
-      gridAreaCode: this.gridAreaCode,
-    });
+    this.apollo
+      .watchQuery({
+        useInitialLoading: true,
+        notifyOnNetworkStatusChange: true,
+        query: graphql.GetProcessStepActorsDocument,
+        variables: { step: 2, batchId: this.batchId, gridArea: this.gridAreaCode },
+      })
+      .valueChanges.subscribe((result) => {
+        this.actors = result.data?.processStep?.actors ?? undefined;
+        if (this.actors) this._dataSource.data = this.actors;
+        this.loading = result.loading;
+        this.error = result.error;
+      });
   }
 
-  getSelectedEnergySupplier(energySuppliers?: WholesaleActorDto[]) {
-    if (!energySuppliers) return;
-    return energySuppliers.find(
-      (e) => e.gln === this.route.firstChild?.snapshot.params.gln
-    );
-  }
-
-  isSelectedEnergySupplier(
-    current: WholesaleActorDto,
-    active: WholesaleActorDto
-  ) {
-    return current.gln === active.gln;
-  }
+  getActiveActor = () =>
+    this.actors?.find((actor) => actor.number === this.route.firstChild?.snapshot.params.gln);
 }

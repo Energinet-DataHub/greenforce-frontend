@@ -15,47 +15,33 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  inject,
-  ChangeDetectorRef,
-  ViewChild,
-  AfterViewInit,
-  OnDestroy,
-} from '@angular/core';
-import { first, of, Subject } from 'rxjs';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
+import { Component, inject, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
+import { ApolloError } from '@apollo/client/errors';
+import { Apollo } from 'apollo-angular';
+import { sub, startOfDay, endOfDay } from 'date-fns';
 
-import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
+import { BatchSearchDto, graphql } from '@energinet-datahub/dh/shared/domain';
 
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-
-import { BatchDto, BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
-import { batch } from '@energinet-datahub/dh/wholesale/domain';
+import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-batch-details.component';
-import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
+
+type Batch = Omit<graphql.Batch, 'gridAreas'>;
 
 @Component({
   selector: 'dh-wholesale-search',
   standalone: true,
   imports: [
     CommonModule,
-    DhFeatureFlagDirectiveModule,
+    DhWholesaleBatchDetailsComponent,
     DhWholesaleFormComponent,
     DhWholesaleTableComponent,
-    DhWholesaleBatchDetailsComponent,
-    LetModule,
-    PushModule,
     TranslocoModule,
     WattEmptyStateModule,
     WattSpinnerModule,
@@ -64,71 +50,71 @@ import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
   templateUrl: './dh-wholesale-search.component.html',
   styleUrls: ['./dh-wholesale-search.component.scss'],
 })
-export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('batchDetails') batchDetails!: DhWholesaleBatchDetailsComponent;
+export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
+  @ViewChild('batchDetails')
+  batchDetails!: DhWholesaleBatchDetailsComponent;
 
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
-  private toastService = inject(WattToastService);
-  private translations = inject(TranslocoService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private changeDetectorRef = inject(ChangeDetectorRef);
+  private apollo = inject(Apollo);
 
-  data$ = this.store.batches$;
-  destroy$ = new Subject<void>();
-  loadingBatchesTrigger$ = this.store.loadingBatches$;
-  loadingBatchesErrorTrigger$ = this.store.loadingBatchesErrorTrigger$;
+  routerBatchId = this.route.snapshot.queryParams.batch;
+  selectedBatch?: Batch;
+  executionTime = {
+    start: sub(startOfDay(new Date()), { days: 10 }).toISOString(),
+    end: endOfDay(new Date()).toISOString(),
+  };
 
-  searchSubmitted = false;
+  query = this.apollo.watchQuery({
+    // pollInterval: 10000,
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: graphql.GetBatchesDocument,
+    variables: { executionTime: this.executionTime },
+  });
 
-  ngAfterViewInit() {
-    const selectedBatch = this.route.snapshot.queryParams.batch;
-    if (selectedBatch) {
-      this.store.getBatch(selectedBatch);
-      this.batchDetails.open();
-    } else {
-      this.store.setSelectedBatch(undefined);
-    }
-    this.changeDetectorRef.detectChanges();
+  error?: ApolloError;
+  loading = false;
+  batches?: Batch[];
+
+  ngOnInit() {
+    // TODO: Unsub?
+    this.query.valueChanges.subscribe((result) => {
+      this.error = result.error;
+      this.loading = result.loading;
+      this.batches = result.data?.batches;
+      this.selectedBatch = this.batches?.find((batch) => batch.id === this.routerBatchId);
+    });
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+  ngAfterViewInit() {
+    if (this.routerBatchId) this.batchDetails.open(this.routerBatchId);
   }
 
   onSearch(search: BatchSearchDto) {
-    this.searchSubmitted = true;
-    this.store.getBatches(of(search));
-    this.changeDetectorRef.detectChanges();
-  }
-
-  onDownloadBasisData(batch: BatchDto) {
-    this.store.getZippedBasisData(of(batch));
-    this.store.loadingBasisDataErrorTrigger$.pipe(first()).subscribe(() => {
-      this.toastService.open({
-        message: this.translations.translate(
-          'wholesale.searchBatch.downloadFailed'
-        ),
-        type: 'danger',
-      });
+    this.query.refetch({
+      executionTime: {
+        start: search.minExecutionTime,
+        end: search.maxExecutionTime,
+      },
     });
   }
 
-  onBatchSelected(batch: batch) {
+  onBatchSelected(batch: Batch) {
+    this.selectedBatch = batch;
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { batch: batch.batchId },
+      queryParams: { batch: batch.id },
     });
-    this.store.setSelectedBatch(batch);
-    this.batchDetails.open();
+
+    this.batchDetails.open(batch.id);
   }
 
   onBatchDetailsClosed() {
+    this.selectedBatch = undefined;
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { batch: null },
     });
-    this.store.setSelectedBatch(undefined);
   }
 }
