@@ -2,4 +2,4 @@ apiVersion: v2
 name: eo-frontend
 description: A Helm chart for Kubernetes
 type: application
-version: 0.3.189
+version: 0.3.188
