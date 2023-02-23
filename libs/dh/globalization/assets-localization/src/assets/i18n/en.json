@@ -1043,13 +1043,7 @@
           "permissions": {
             "tabLabel": "Permissions",
             "title": "Permissions",
-            "noPermissions": "No permissions found for the selected market role",
-            "table": {
-              "columns": {
-                "name": "Name",
-                "description": "Description"
-              }
-            }
+            "noPermissions": "No permissions found for the selected market role"
           }
         }
       },
@@ -1081,6 +1075,12 @@
         },
         "cancel": "Cancel",
         "save": "Save"
+      },
+      "permissionsTable": {
+        "columns": {
+          "name": "Name",
+          "description": "Description"
+        }
       }
     }
   }
