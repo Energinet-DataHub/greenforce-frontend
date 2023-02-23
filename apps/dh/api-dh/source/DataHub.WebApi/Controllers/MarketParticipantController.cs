@@ -92,7 +92,8 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             return HandleExceptionAsync(async () =>
             {
-                var gridAreaLookup = (await _client.GetGridAreaOverviewAsync().ConfigureAwait(false)).ToDictionary(x => x.Id);
+                var gridAreas = await _client.GetGridAreasAsync().ConfigureAwait(false);
+                var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
 
                 var organizations = await _client
                     .GetOrganizationsAsync()
@@ -106,7 +107,7 @@ namespace Energinet.DataHub.WebApi.Controllers
                             x.ActorNumber,
                             x.Name,
                             x.MarketRoles
-                                .Select(m => m.EicFunction)
+                                .Select(marketRole => marketRole.EicFunction)
                                 .Distinct()
                                 .ToList(),
                             x.MarketRoles

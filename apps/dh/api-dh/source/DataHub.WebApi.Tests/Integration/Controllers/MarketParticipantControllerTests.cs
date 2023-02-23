@@ -61,14 +61,14 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .SelectMany(m => m.GridAreas)
                 .Select(g => g.Id)
                 .Distinct()
-                .Select(gid => new GridAreaOverviewItemDto(gid, "000", string.Empty, PriceAreaCode.Dk1, DateTimeOffset.Now, null, null, null, null));
+                .Select(gid => new GridAreaDto(gid, "000", string.Empty, PriceAreaCode.Dk1, DateTimeOffset.Now, DateTimeOffset.Now));
 
             MarketParticipantClientMock
                 .Setup(client => client.GetOrganizationsAsync())
                 .ReturnsAsync(organizations);
 
             MarketParticipantClientMock
-                .Setup(client => client.GetGridAreaOverviewAsync())
+                .Setup(client => client.GetGridAreasAsync())
                 .ReturnsAsync(gridAreas);
 
             // Act
@@ -99,14 +99,14 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .SelectMany(m => m.GridAreas)
                 .Select(g => g.Id)
                 .Distinct()
-                .Select(gid => new GridAreaOverviewItemDto(gid, "000", string.Empty, PriceAreaCode.Dk1, DateTimeOffset.Now, null, null, null, null));
+                .Select(gid => new GridAreaDto(gid, "000", string.Empty, PriceAreaCode.Dk1, DateTimeOffset.Now, DateTimeOffset.Now));
 
             MarketParticipantClientMock
                 .Setup(client => client.GetOrganizationsAsync())
                 .ReturnsAsync(organizations);
 
             MarketParticipantClientMock
-                .Setup(client => client.GetGridAreaOverviewAsync())
+                .Setup(client => client.GetGridAreasAsync())
                 .ReturnsAsync(gridAreas);
 
             // Act
