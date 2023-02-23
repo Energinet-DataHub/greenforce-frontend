@@ -16,14 +16,8 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import {
-  EoApiEnvironment,
-  eoApiEnvironmentToken,
-} from '@energinet-datahub/eo/shared/environments';
-import {
-  AppSettingsStore,
-  CalendarDateRange,
-} from '@energinet-datahub/eo/shared/services';
+import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { AppSettingsStore, CalendarDateRange } from '@energinet-datahub/eo/shared/services';
 import { take } from 'rxjs';
 
 export interface EoMeasurement {
@@ -44,15 +38,16 @@ export class EoProductionService {
 
   getMonthlyProduction() {
     let dateRange: CalendarDateRange = {} as CalendarDateRange;
+    const encodedTimeZone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
     this.store.calendarDateRangeInSeconds$
       .pipe(take(1))
       .subscribe((datesInSeconds) => (dateRange = datesInSeconds));
 
     return this.http.get<EoProductionResponse>(
-      `${this.#apiBase}/measurements/production?dateFrom=${
-        dateRange.start
-      }&dateTo=${dateRange.end}&aggregation=Month`,
+      `${this.#apiBase}/measurements/production?dateFrom=${dateRange.start}&dateTo=${
+        dateRange.end
+      }&timeZone=${encodedTimeZone}&aggregation=Month`,
       { withCredentials: true }
     );
   }
