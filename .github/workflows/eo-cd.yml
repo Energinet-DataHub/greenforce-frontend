@@ -172,32 +172,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.EO_SONAR_TOKEN }}
 
-  bump_helm_chart_version:
-    runs-on: ubuntu-latest
-    name: Bump Helm chart version
-    if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
-    needs: affected
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: ./.github/actions/yaml-increment-version
-        with:
-          yaml-file: build/infrastructure/eo/chart/Chart.yaml
-          yaml-path: version
-
-  bump_app_version:
-    runs-on: ubuntu-latest
-    name: Bump App version
-    if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
-    needs: affected
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: ./.github/actions/yaml-increment-version
-        with:
-          yaml-file: build/infrastructure/eo/chart/values.yaml
-          yaml-path: app.image.tag
-
   build_container_and_release_chart:
     runs-on: ubuntu-latest
     name: Build containers
