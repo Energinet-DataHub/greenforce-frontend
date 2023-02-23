@@ -45,7 +45,7 @@ export class EoEmissionsService {
   getEmissionsFor2021() {
     const dateRange: CalendarDateRange = {
       start: new Date('2021-01-01').getTime(),
-      end: new Date('2021-01-01').getTime(),
+      end: new Date('2022-01-01').getTime(),
     };
     const encodedTimeZone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
