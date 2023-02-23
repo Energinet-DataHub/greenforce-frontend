@@ -21,6 +21,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Energinet.DataHub.Core.TestCommon.AutoFixture.Attributes;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using Energinet.DataHub.WebApi.Tests.ServiceMocks;
 using FluentAssertions;
@@ -64,7 +65,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var result = await actual.Content.ReadAsAsync<IEnumerable<ActorDto>>();
+            var result = await actual.Content.ReadAsAsync<IEnumerable<FilteredActorDto>>();
             result.Should().ContainSingle(returnedActor => returnedActor.ActorId == actorId);
         }
 
@@ -90,7 +91,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var result = await actual.Content.ReadAsAsync<IEnumerable<ActorDto>>();
+            var result = await actual.Content.ReadAsAsync<IEnumerable<FilteredActorDto>>();
             result.Should().BeEquivalentTo(organizations.SelectMany(org => org.Actors));
         }
 
