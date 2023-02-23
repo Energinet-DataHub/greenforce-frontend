@@ -28,7 +28,7 @@ import {
   BatchState,
   BatchDto,
   GridAreaDto,
-  ProcessStepResultRequestDtoV2,
+  ProcessStepResultRequestDtoV3,
   ProcessStepResultDto,
   WholesaleActorDto,
   TimeSeriesType,
@@ -290,7 +290,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   });
 
   readonly getProcessStepResults = this.effect(
-    (options$: Observable<ProcessStepResultRequestDtoV2>) => {
+    (options$: Observable<ProcessStepResultRequestDtoV3>) => {
       return options$.pipe(
         switchMap((options) => {
           this.setProcessStepResults(undefined); // We reset the process step results to force the loading spinner to show

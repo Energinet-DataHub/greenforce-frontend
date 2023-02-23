@@ -22,5 +22,8 @@ export interface UserRoleWithPermissionsDto {
     status: UserRoleStatus;
     permissions: Array<PermissionDetailsDto>;
 }
+export namespace UserRoleWithPermissionsDto {
+}
+
 
 

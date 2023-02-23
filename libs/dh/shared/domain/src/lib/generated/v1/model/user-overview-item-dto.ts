@@ -22,5 +22,8 @@ export interface UserOverviewItemDto {
     createdDate: string;
     assignedActors: Array<AssignedActorDto>;
 }
+export namespace UserOverviewItemDto {
+}
+
 
 

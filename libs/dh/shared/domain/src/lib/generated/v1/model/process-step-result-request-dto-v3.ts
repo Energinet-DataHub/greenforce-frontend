@@ -10,16 +10,16 @@
  * Do not edit the class manually.
  */
 import { TimeSeriesType } from './time-series-type';
-import { MarketRole } from './market-role';
 
 
-export interface ProcessStepActorsRequest { 
+export interface ProcessStepResultRequestDtoV3 { 
     batchId: string;
     gridAreaCode: string;
-    type: TimeSeriesType;
-    marketRole: MarketRole;
+    timeSeriesType: TimeSeriesType;
+    energySupplierGln?: string | null;
+    balanceResponsiblePartyGln?: string | null;
 }
-export namespace ProcessStepActorsRequest {
+export namespace ProcessStepResultRequestDtoV3 {
 }
 
 

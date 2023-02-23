@@ -109,20 +109,20 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
     return this.route.firstChild?.snapshot.url?.[0]?.path;
   }
 
-  openDrawer(step: string, gln?: string) {
-    this.router.navigate([step, gln].filter(Boolean), {
+  openDrawer(step: string, energySupplierGln?: string, balanceResponsiblePartyGln?: string) {
+    this.router.navigate([step, energySupplierGln || balanceResponsiblePartyGln].filter(Boolean), {
       relativeTo: this.route,
     });
 
     // This is used to open the drawer when the user navigates to the page with a step in the url
     this.isDrawerOpen = true;
     // This is used to open the drawer when the user clicks on a step in the list
-    this.drawer?.open();
+    this.drawer?.open(); 
 
-    this.getProcessStepResults(step, gln);
+    this.getProcessStepResults(step, energySupplierGln, balanceResponsiblePartyGln);
   }
 
-  private getProcessStepResults(step?: string, gln = 'grid_area') {
+  private getProcessStepResults(step?: string, energySupplierGln?: string, balanceResponsiblePartyGln?: string) {
     combineLatest([this.batch$, this.gridArea$])
       .pipe(
         filter(([batch, gridArea]) => {
@@ -136,7 +136,8 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
             batchId: batch.batchId,
             gridAreaCode: gridArea.code,
             timeSeriesType: this.getTimeSeriesType(step),
-            gln,
+            energySupplierGln,
+            balanceResponsiblePartyGln,
           });
         }
       });

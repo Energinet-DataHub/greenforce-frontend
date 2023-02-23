@@ -19,7 +19,7 @@ import {
   BatchState,
   GridAreaDto,
   PriceAreaCode,
-  ProcessStepMeteringPointType,
+  TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
@@ -237,7 +237,7 @@ function postWholesaleBatchProcessStepResult(apiBase: string) {
     `${apiBase}/v1/WholesaleBatch/ProcessStepResult`,
     (req, res, ctx) => {
       const mockedProcessStepResult = {
-        processStepMeteringPointType: ProcessStepMeteringPointType.Production,
+        processStepMeteringPointType: TimeSeriesType.Production,
         sum: 102234.245654,
         min: 0.0,
         max: 114.415789,

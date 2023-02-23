@@ -15,5 +15,8 @@ import { EicFunction } from './eic-function';
 export interface ActorMarketRoleViewDto { 
     eicFunction: EicFunction;
 }
+export namespace ActorMarketRoleViewDto {
+}
+
 
 

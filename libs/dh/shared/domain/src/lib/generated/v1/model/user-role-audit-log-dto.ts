@@ -20,5 +20,8 @@ export interface UserRoleAuditLogDto {
     userRoleChangeType: UserRoleChangeType;
     changeDescriptionJson: string;
 }
+export namespace UserRoleAuditLogDto {
+}
+
 
 

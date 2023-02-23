@@ -43,7 +43,7 @@ export function mapMetaData(
           description:
             translations[
               'wholesale.processStepResults.processStepMeteringPointType.' +
-                processStepResults.processStepMeteringPointType
+                processStepResults.timeSeriesType
             ],
         },
         {

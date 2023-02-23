@@ -20,5 +20,8 @@ export interface CreateUserRoleDto {
     eicFunction: EicFunction;
     permissions: Array<number>;
 }
+export namespace CreateUserRoleDto {
+}
+
 
 

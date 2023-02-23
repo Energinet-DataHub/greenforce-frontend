@@ -24,5 +24,8 @@ export interface OrganizationDto {
     address: AddressDto;
     actors: Array<ActorDto>;
 }
+export namespace OrganizationDto {
+}
+
 
 

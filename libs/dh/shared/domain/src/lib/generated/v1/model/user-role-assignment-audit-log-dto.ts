@@ -21,5 +21,8 @@ export interface UserRoleAssignmentAuditLogDto {
     timestamp: string;
     assignmentType: UserRoleAssignmentTypeAuditLog;
 }
+export namespace UserRoleAssignmentAuditLogDto {
+}
+
 
 

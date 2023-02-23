@@ -18,5 +18,8 @@ export interface ActorMarketRoleDto {
     gridAreas: Array<ActorGridAreaDto>;
     comment?: string | null;
 }
+export namespace ActorMarketRoleDto {
+}
+
 
 

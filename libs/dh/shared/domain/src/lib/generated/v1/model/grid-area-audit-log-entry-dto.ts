@@ -20,5 +20,8 @@ export interface GridAreaAuditLogEntryDto {
     newValue: string;
     gridAreaId: string;
 }
+export namespace GridAreaAuditLogEntryDto {
+}
+
 
 

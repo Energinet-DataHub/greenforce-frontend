@@ -23,5 +23,8 @@ export interface ActorDto {
     name: ActorNameDto;
     marketRoles: Array<ActorMarketRoleDto>;
 }
+export namespace ActorDto {
+}
+
 
 

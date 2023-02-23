@@ -18,5 +18,8 @@ export interface UpdateUserRoleDto {
     status: UserRoleStatus;
     permissions: Array<number>;
 }
+export namespace UpdateUserRoleDto {
+}
+
 
 
