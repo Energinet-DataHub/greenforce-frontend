@@ -81,7 +81,6 @@ export class DhWholesaleTableComponent implements AfterViewInit {
 
   _data: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<batch> = {
-    batchId: { accessor: 'batchId' },
     periodFrom: { accessor: 'periodStart' },
     periodTo: { accessor: 'periodEnd' },
     executionTime: { accessor: 'executionTimeStart' },
