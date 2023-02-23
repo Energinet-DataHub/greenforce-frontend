@@ -27,7 +27,7 @@
 }
 
 section {
-  pointer-events: none;
+  // pointer-events: none;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   margin-bottom: 2rem;
