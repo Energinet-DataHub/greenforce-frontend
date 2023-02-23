@@ -26,7 +26,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field(x => x.Max);
             Field(x => x.Sum);
             Field(x => x.TimeSeriesPoints);
-            Field(x => x.ProcessStepMeteringPointType);
+            Field(x => x.TimeSeriesType);
         }
     }
 }

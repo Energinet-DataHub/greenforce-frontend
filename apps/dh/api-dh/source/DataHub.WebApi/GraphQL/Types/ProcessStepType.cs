@@ -24,27 +24,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class ProcessStepType : ObjectGraphType
     {
-        private static TimeSeriesType GetTimeSeriesTypeForStep(int step)
-        {
-            return step switch
-            {
-                1 => TimeSeriesType.Production,
-                2 or 3 => TimeSeriesType.NonProfiledConsumption,
-                _ => throw new ExecutionError("Invalid step"),
-            };
-        }
-
-        private static MarketRole? GetMarketRoleForStep(int step)
-        {
-            return step switch
-            {
-                1 => null,
-                2 => MarketRole.EnergySupplier,
-                3 => null,
-                _ => null,
-            };
-        }
-
         public ProcessStepType()
         {
             Name = "ProcessStep";
@@ -59,17 +38,20 @@ namespace Energinet.DataHub.WebApi.GraphQL
                    var batchId = parent.GetArgument<Guid>("batchId");
                    var gridArea = parent.GetArgument<string>("gridArea");
                    var step = parent.GetArgument<int>("step");
-                   var timeSeriesType = GetTimeSeriesTypeForStep(step);
-                   var marketRole = GetMarketRoleForStep(step);
 
-                   if (marketRole is null)
+                   var request = step switch
+                   {
+                       2 => new ProcessStepActorsRequest(batchId, gridArea, TimeSeriesType.NonProfiledConsumption, MarketRole.EnergySupplier),
+                       3 => new ProcessStepActorsRequest(batchId, gridArea, TimeSeriesType.NonProfiledConsumption, MarketRole.BalanceResponsibleParty),
+                       _ => null,
+                   };
+
+                   if (request is null)
                    {
                        return Array.Empty<Actor>();
                    }
 
-                   var request = new ProcessStepActorsRequest(batchId, gridArea, timeSeriesType, marketRole.Value);
                    var actors = await client.GetProcessStepActorsAsync(request);
-
                    return actors == null
                       ? Array.Empty<Actor>()
                       : actors
@@ -89,18 +71,16 @@ namespace Energinet.DataHub.WebApi.GraphQL
                    var gridArea = parent.GetArgument<string>("gridArea");
                    var step = parent.GetArgument<int>("step");
                    var gln = context.GetArgument<string>("gln");
-                   var timeSeriesType = GetTimeSeriesTypeForStep(step);
-                   var request = new ProcessStepResultRequestDtoV2(batchId, gridArea, timeSeriesType, gln);
-                   try
+
+                   var request = step switch
                    {
-                       var t = await client.GetProcessStepResultAsync(request);
-                       return t;
-                   }
-                   catch (Exception e)
-                   {
-                       Console.WriteLine(e);
-                       return null;
-                   }
+                       1 => new ProcessStepResultRequestDtoV3(batchId, gridArea, TimeSeriesType.Production, null, null),
+                       2 => new ProcessStepResultRequestDtoV3(batchId, gridArea, TimeSeriesType.NonProfiledConsumption, gln, null),
+                       3 => new ProcessStepResultRequestDtoV3(batchId, gridArea, TimeSeriesType.NonProfiledConsumption, null, gln),
+                       _ => throw new ExecutionError("Invalid step"),
+                   };
+
+                   return await client.GetProcessStepResultAsync(request);
                });
         }
     }

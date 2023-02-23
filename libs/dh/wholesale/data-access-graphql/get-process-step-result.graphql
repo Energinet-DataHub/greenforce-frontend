@@ -9,7 +9,7 @@ query GetProcessStepResult(
       min
       max
       sum
-      processStepMeteringPointType
+      timeSeriesType
       timeSeriesPoints {
         quality
         quantity
