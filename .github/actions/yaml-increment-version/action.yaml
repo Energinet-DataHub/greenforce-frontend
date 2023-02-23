@@ -70,6 +70,7 @@ runs:
         valueFile: ${{ inputs.yaml-file }}
         propertyPath: ${{ inputs.yaml-path }}
         value: ${{ steps.semvers.outputs.patch }}
+        commitChange: false
 
     - name: Commit bumped version
       run: |
