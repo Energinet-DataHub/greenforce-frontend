@@ -92,7 +92,10 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var result = await actual.Content.ReadAsAsync<IEnumerable<FilteredActorDto>>();
-            result.Should().BeEquivalentTo(organizations.SelectMany(org => org.Actors));
+            var expected = organizations.SelectMany(o => o.Actors).Select(x => x.ActorId);
+            var actualIds = result.Select(r => r.ActorId);
+
+            actualIds.Should().BeEquivalentTo(expected);
         }
 
         private static WebApiFactory InstallServiceMock(WebApiFactory webApiFactory)

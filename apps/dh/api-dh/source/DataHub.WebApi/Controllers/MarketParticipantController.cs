@@ -98,16 +98,21 @@ namespace Energinet.DataHub.WebApi.Controllers
                     .GetOrganizationsAsync()
                     .ConfigureAwait(false);
 
-                var accessibleActors = organizations.SelectMany(org => org.Actors).Select(x =>
-                    new FilteredActorDto(
-                        x.ActorId,
-                        x.ActorNumber,
-                        x.Name,
-                        x.MarketRoles.Select(m => m.EicFunction).Distinct().ToList(),
-                        x.MarketRoles
-                            .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id)).Distinct()
-                            .Select(gridAreaId => gridAreaLookup.TryGetValue(gridAreaId, out var grid) ? grid.Code : string.Empty)
-                            .Where(gridAreaCode => !string.IsNullOrWhiteSpace(gridAreaCode)).ToList()));
+                var accessibleActors = organizations
+                    .SelectMany(org => org.Actors)
+                    .Select(x =>
+                        new FilteredActorDto(
+                            x.ActorId,
+                            x.ActorNumber,
+                            x.Name,
+                            x.MarketRoles
+                                .Select(m => m.EicFunction)
+                                .Distinct()
+                                .ToList(),
+                            x.MarketRoles
+                                .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id)).Distinct()
+                                .Select(gridAreaId => gridAreaLookup[gridAreaId].Code)
+                                .ToList()));
 
                 if (HttpContext.User.IsFas())
                 {
