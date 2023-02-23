@@ -812,10 +812,11 @@
       "loadCalculationStepsFailedTitle": "Ups! Der opstod en fejl",
       "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
     },
-    "energySuppliers": {
-      "loadingEnerySuppliersFailedTitle": "Ups! Der opstod en fejl",
-      "loadingEnerySuppliersFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
+    "actors": {
+      "loadingActorsFailedTitle": "Ups! Der opstod en fejl",
+      "loadingActorsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
+      "balanceResponsibles": "Balanceansvarlig",
       "amountOfResults": "{{length}} Resultater"
     },
     "processStepResults": {

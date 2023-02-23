@@ -52,7 +52,7 @@ interface State {
   selectedBatch?: batch;
   selectedGridArea?: GridAreaDto;
   loadingCreatingBatch: boolean;
-  energySuppliersForConsumption?: WholesaleActorDto[];
+  actors?: WholesaleActorDto[];
 }
 
 const initialState: State = {
@@ -74,8 +74,8 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   selectedBatch$ = this.select((x) => x.selectedBatch);
   selectedGridArea$ = this.select((x) => x.selectedGridArea);
   processStepResults$ = this.select((x) => x.processStepResults);
-  energySuppliersForConsumption$ = this.select(
-    (x) => x.energySuppliersForConsumption
+  actors$ = this.select(
+    (x) => x.actors
   );
 
   creatingBatchSuccessTrigger$: Subject<void> = new Subject();
@@ -90,7 +90,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   loadingBatchErrorTrigger$: Subject<void> = new Subject();
   loadingBasisDataErrorTrigger$: Subject<void> = new Subject();
   loadingProcessStepResultsErrorTrigger$: Subject<void> = new Subject();
-  loadingEnergySuppliersForConsumptionErrorTrigger$: Subject<void> =
+  loadingActorsErrorTrigger$: Subject<void> =
     new Subject();
 
   private document = inject(DOCUMENT);
@@ -147,10 +147,10 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     })
   );
 
-  readonly setEnergySuppliersForConsumption = this.updater(
-    (state, energySuppliersForConsumption: WholesaleActorDto[]): State => ({
+  readonly setActors = this.updater(
+    (state, actors: WholesaleActorDto[]): State => ({
       ...state,
-      energySuppliersForConsumption,
+      actors,
     })
   );
 
@@ -308,22 +308,22 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     }
   );
 
-  readonly getEnergySuppliersForConsumption = this.effect(
-    (options$: Observable<{ batchId: string; gridAreaCode: string }>) => {
+  readonly getActors = this.effect(
+    (options$: Observable<{ batchId: string; gridAreaCode: string; marketRole: MarketRole }>) => {
       return options$.pipe(
-        switchMap(({ batchId, gridAreaCode }) => {
+        switchMap(({ batchId, gridAreaCode, marketRole }) => {
           return this.httpClient
             .v1WholesaleBatchActorsPost({
               batchId,
               gridAreaCode,
               type: TimeSeriesType.NonProfiledConsumption,
-              marketRole: MarketRole.EnergySupplier,
+              marketRole,
             })
             .pipe(
               tapResponse(
-                (actors) => this.setEnergySuppliersForConsumption(actors),
+                (actors) => this.setActors(actors),
                 () => {
-                  this.loadingEnergySuppliersForConsumptionErrorTrigger$.next();
+                  this.loadingActorsErrorTrigger$.next();
                 }
               )
             );

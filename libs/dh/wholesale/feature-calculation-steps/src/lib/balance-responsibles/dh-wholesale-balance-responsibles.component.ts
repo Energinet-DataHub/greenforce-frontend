@@ -26,7 +26,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WholesaleActorDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketRole, WholesaleActorDto } from '@energinet-datahub/dh/shared/domain';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -62,30 +62,31 @@ export class DhWholesaleBalanceResponsiblesComponent implements OnInit {
   @Output() rowClick = new EventEmitter<WholesaleActorDto>();
 
   _columns: WattTableColumnDef<WholesaleActorDto> = {
-    energySupplier: { accessor: 'gln' },
+    balanceResponsibles: { accessor: 'gln' },
   };
 
-  energySuppliersForConsumption$ = this.store.energySuppliersForConsumption$;
-  errorTrigger$ = this.store.loadingEnergySuppliersForConsumptionErrorTrigger$;
+  actors$ = this.store.actors$;
+  errorTrigger$ = this.store.loadingActorsErrorTrigger$;
 
   _dataSource = (data?: WholesaleActorDto[]) =>
     new WattTableDataSource<WholesaleActorDto>(data);
 
   ngOnInit() {
-    this.store.getEnergySuppliersForConsumption({
+    this.store.getActors({
       batchId: this.batchId,
       gridAreaCode: this.gridAreaCode,
+      marketRole: MarketRole.EnergySupplier // TODO: Change to BalanceResponsible when implemented
     });
   }
 
-  getSelectedEnergySupplier(energySuppliers?: WholesaleActorDto[]) {
-    if (!energySuppliers) return;
-    return energySuppliers.find(
+  getSelectedActor(actors?: WholesaleActorDto[]) {
+    if (!actors) return;
+    return actors.find(
       (e) => e.gln === this.route.firstChild?.snapshot.params.gln
     );
   }
 
-  isSelectedEnergySupplier(
+  isSelectedActor(
     current: WholesaleActorDto,
     active: WholesaleActorDto
   ) {
