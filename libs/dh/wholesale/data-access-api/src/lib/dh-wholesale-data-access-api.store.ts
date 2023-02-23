@@ -74,9 +74,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   selectedBatch$ = this.select((x) => x.selectedBatch);
   selectedGridArea$ = this.select((x) => x.selectedGridArea);
   processStepResults$ = this.select((x) => x.processStepResults);
-  energySuppliersForConsumption$ = this.select(
-    (x) => x.energySuppliersForConsumption
-  );
+  energySuppliersForConsumption$ = this.select((x) => x.energySuppliersForConsumption);
 
   creatingBatchSuccessTrigger$: Subject<void> = new Subject();
   creatingBatchErrorTrigger$: Subject<void> = new Subject();
@@ -90,14 +88,11 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   loadingBatchErrorTrigger$: Subject<void> = new Subject();
   loadingBasisDataErrorTrigger$: Subject<void> = new Subject();
   loadingProcessStepResultsErrorTrigger$: Subject<void> = new Subject();
-  loadingEnergySuppliersForConsumptionErrorTrigger$: Subject<void> =
-    new Subject();
+  loadingEnergySuppliersForConsumptionErrorTrigger$: Subject<void> = new Subject();
 
   private document = inject(DOCUMENT);
   private httpClient = inject(WholesaleBatchHttp);
-  private marketParticipantGridAreaHttpClient = inject(
-    MarketParticipantGridAreaHttp
-  );
+  private marketParticipantGridAreaHttpClient = inject(MarketParticipantGridAreaHttp);
 
   constructor() {
     super(initialState);
@@ -242,9 +237,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
             .pipe(
               tapResponse(
                 (batches) => {
-                  this.setSettlementReports(
-                    this.mapSettlementReports(batches, filters)
-                  );
+                  this.setSettlementReports(this.mapSettlementReports(batches, filters));
                 },
                 () => {
                   this.setLoadingSettlementReports(false);
@@ -293,15 +286,12 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       return options$.pipe(
         switchMap((options) => {
           this.setProcessStepResults(undefined); // We reset the process step results to force the loading spinner to show
-          return this.httpClient
-            .v1WholesaleBatchProcessStepResultPost(options)
-            .pipe(
-              tapResponse(
-                (stepResults: ProcessStepResultDto) =>
-                  this.setProcessStepResults(stepResults),
-                () => this.loadingProcessStepResultsErrorTrigger$.next()
-              )
-            );
+          return this.httpClient.v1WholesaleBatchProcessStepResultPost(options).pipe(
+            tapResponse(
+              (stepResults: ProcessStepResultDto) => this.setProcessStepResults(stepResults),
+              () => this.loadingProcessStepResultsErrorTrigger$.next()
+            )
+          );
         })
       );
     }
@@ -334,23 +324,21 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   readonly getZippedBasisData = this.effect((batch$: Observable<BatchDto>) => {
     return batch$.pipe(
       switchMap((batch) => {
-        return this.httpClient
-          .v1WholesaleBatchZippedBasisDataStreamGet(batch.batchId)
-          .pipe(
-            tapResponse(
-              (data) => {
-                const blob = new Blob([data as unknown as BlobPart], {
-                  type: 'application/zip',
-                });
-                const basisData = window.URL.createObjectURL(blob);
-                const link = this.document.createElement('a');
-                link.href = basisData;
-                link.download = `${batch.batchId}.zip`;
-                link.click();
-              },
-              () => this.loadingBasisDataErrorTrigger$.next()
-            )
-          );
+        return this.httpClient.v1WholesaleBatchZippedBasisDataStreamGet(batch.batchId).pipe(
+          tapResponse(
+            (data) => {
+              const blob = new Blob([data as unknown as BlobPart], {
+                type: 'application/zip',
+              });
+              const basisData = window.URL.createObjectURL(blob);
+              const link = this.document.createElement('a');
+              link.href = basisData;
+              link.download = `${batch.batchId}.zip`;
+              link.click();
+            },
+            () => this.loadingBasisDataErrorTrigger$.next()
+          )
+        );
       })
     );
   });
@@ -370,14 +358,10 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     })
   );
 
-  readonly getGridArea$ = (
-    gridAreaCode: string
-  ): Observable<GridAreaDto | undefined> => {
+  readonly getGridArea$ = (gridAreaCode: string): Observable<GridAreaDto | undefined> => {
     return this.selectedBatch$.pipe(
       map((x) => {
-        return x?.gridAreas.filter(
-          (gridArea: GridAreaDto) => gridArea.code === gridAreaCode
-        )[0];
+        return x?.gridAreas.filter((gridArea: GridAreaDto) => gridArea.code === gridAreaCode)[0];
       }),
       tap((gridArea) => this.setSelectedGridArea(gridArea))
     );
