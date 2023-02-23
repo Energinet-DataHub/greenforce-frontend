@@ -1,0 +1,20 @@
+query GetProcessStepResult(
+  $step: Int!
+  $batchId: ID!
+  $gridArea: String!
+  $gln: String!
+) {
+  processStep(step: $step, batchId: $batchId, gridArea: $gridArea) {
+    result(gln: $gln) {
+      min
+      max
+      sum
+      timeSeriesType
+      timeSeriesPoints {
+        quality
+        quantity
+        time
+      }
+    }
+  }
+}
