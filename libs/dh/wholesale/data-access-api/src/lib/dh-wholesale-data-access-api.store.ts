@@ -201,14 +201,8 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       switchMap((filter: BatchSearchDtoV2) => {
         this.setLoadingBatches(true);
 
-        const searchBatchesRequest: BatchSearchDtoV2 = {
-          filterByGridAreaCodes: [],
-          minExecutionTime: filter.minExecutionTime,
-          maxExecutionTime: filter.maxExecutionTime,
-        };
-
         return this.httpClient
-          .v1WholesaleBatchSearchPost(searchBatchesRequest)
+          .v1WholesaleBatchSearchPost(filter)
           .pipe(
             tapResponse(
               (batches) => {
@@ -238,10 +232,12 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
 
           return this.httpClient
             .v1WholesaleBatchSearchPost({
-              filterByGridAreaCodes: [],
+              filterByGridAreaCodes: filters.gridArea ? [filters.gridArea] : [],
               filterByExecutionState: 'Completed',
-              minExecutionTime: filters.executionTime?.start as string,
-              maxExecutionTime: filters.executionTime?.end as string,
+              minExecutionTime: filters.executionTime?.start,
+              maxExecutionTime: filters.executionTime?.end,
+              periodStart: filters.period?.start,
+              periodEnd: filters.period?.end
             })
             .pipe(
               tapResponse(
