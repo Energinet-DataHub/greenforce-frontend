@@ -79,4 +79,3 @@ runs:
         git commit -m "chore: bump version" || cd .
         git push origin --force-with-lease || cd .
       shell: bash
-
