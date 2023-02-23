@@ -83,7 +83,7 @@ namespace Energinet.DataHub.WebApi.Controllers
 
             return Ok(batchesWithGridAreasWithNames);
         }
-        
+
         /// <summary>
         /// Get a batch.
         /// </summary>
