@@ -830,8 +830,8 @@
       "sum": "Sum",
       "min": "Min",
       "max": "Max",
-      "processStepMeteringPointType": {
-        "Production": "Production"
+      "timeSeriesType": {
+        "PRODUCTION": "Production"
       }
     },
     "timeSeriesPoints": {

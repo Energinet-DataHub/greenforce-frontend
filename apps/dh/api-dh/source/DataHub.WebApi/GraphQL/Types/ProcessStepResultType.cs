@@ -25,7 +25,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field(x => x.Min);
             Field(x => x.Max);
             Field(x => x.Sum);
-            Field(x => x.TimeSeriesPoints);
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<TimeSeriesPointType>>>>("timeSeriesPoints")
+                .Resolve(context => context.Source.TimeSeriesPoints);
             Field(x => x.TimeSeriesType);
         }
     }
