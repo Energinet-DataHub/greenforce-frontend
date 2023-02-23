@@ -9,12 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { TimeSeriesType } from './time-series-type';
 
 
-export type MarketRole = 'EnergySupplier' | 'BalanceResponsibleParty';
+export interface ProcessStepResultRequestDtoV3 { 
+    batchId: string;
+    gridAreaCode: string;
+    timeSeriesType: TimeSeriesType;
+    energySupplierGln?: string | null;
+    balanceResponsiblePartyGln?: string | null;
+}
 
-export const MarketRole = {
-    EnergySupplier: 'EnergySupplier' as MarketRole,
-    BalanceResponsibleParty: 'BalanceResponsibleParty' as MarketRole
-};
 
