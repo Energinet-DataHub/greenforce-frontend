@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using Energinet.DataHub.Wholesale.Contracts;
 using GraphQL.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL

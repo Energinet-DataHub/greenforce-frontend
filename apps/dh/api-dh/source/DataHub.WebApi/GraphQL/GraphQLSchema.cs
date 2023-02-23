@@ -35,6 +35,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
             this.RegisterTypeMapping<ActorMarketRoleDto, ActorMarketRoleDtoType>();
             this.RegisterTypeMapping<ActorGridAreaDto, ActorGridAreaDtoType>();
             this.RegisterTypeMapping<BatchDtoV2, BatchType>();
+            this.RegisterTypeMapping<ProcessStepResultDto, ProcessStepType>();
+            this.RegisterTypeMapping<TimeSeriesPointDto, TimeSeriesPointType>();
 
             Query = provider.GetRequiredService<GraphQLQuery>();
         }

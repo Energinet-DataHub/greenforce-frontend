@@ -12,15 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Wholesale.Contracts;
+using GraphQL.Types;
+
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class Actor
+    public class TimeSeriesPointType : ObjectGraphType<TimeSeriesPointDto>
     {
-        public string Number { get; set; }
-
-        public Actor(string number)
+        public TimeSeriesPointType()
         {
-            Number = number;
+            Name = "TimeSeriesPoint";
+            Field(x => x.Quality);
+            Field(x => x.Quantity);
+            Field(x => x.Time);
         }
     }
 }

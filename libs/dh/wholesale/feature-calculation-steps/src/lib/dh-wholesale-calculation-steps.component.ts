@@ -79,6 +79,8 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
   error?: ApolloError;
 
   ngOnInit() {
+    // TODO: Failed batch redirect?
+
     const routeGridAreaCode = this.route.snapshot.params['gridAreaCode'];
 
     // TODO: Unsub?

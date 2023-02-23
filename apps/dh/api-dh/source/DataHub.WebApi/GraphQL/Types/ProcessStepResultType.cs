@@ -12,15 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Wholesale.Contracts;
+using GraphQL.Types;
+
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class Actor
+    public class ProcessStepResultType : ObjectGraphType<ProcessStepResultDto>
     {
-        public string Number { get; set; }
-
-        public Actor(string number)
+        public ProcessStepResultType()
         {
-            Number = number;
+            Name = "ProcessStepResult";
+            Field(x => x.Min);
+            Field(x => x.Max);
+            Field(x => x.Sum);
+            Field(x => x.TimeSeriesPoints);
+            Field(x => x.ProcessStepMeteringPointType);
         }
     }
 }
