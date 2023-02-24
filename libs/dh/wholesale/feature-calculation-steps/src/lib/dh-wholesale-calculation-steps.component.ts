@@ -32,17 +32,11 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
-import {
-  BatchState,
-  TimeSeriesType,
-} from '@energinet-datahub/dh/shared/domain';
+import { BatchState, TimeSeriesType } from '@energinet-datahub/dh/shared/domain';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleProductionPerGridareaComponent } from './steps/production-per-gridarea.component';
 import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
-import {
-  WattDrawerComponent,
-  WattDrawerModule,
-} from '@energinet-datahub/watt/drawer';
+import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { DhWholesaleEnergySuppliersComponent } from './energy-suppliers/dh-wholesale-energy-suppliers.component';
 
 @Component({
@@ -85,16 +79,13 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
       }
 
       // Redirect user to search batch page if batch is failed
-      if ((batch as batch)?.executionState === BatchState.Failed)
-        this.navigateToSearchBatch(batch);
+      if ((batch as batch)?.executionState === BatchState.Failed) this.navigateToSearchBatch(batch);
     })
   );
 
   loadingBatchErrorTrigger$ = this.store.loadingBatchErrorTrigger$;
 
-  gridArea$ = this.store.getGridArea$(
-    this.route.snapshot.params['gridAreaCode']
-  );
+  gridArea$ = this.store.getGridArea$(this.route.snapshot.params['gridAreaCode']);
 
   ngOnInit() {
     const step = this.getCurrentStep();
@@ -109,8 +100,8 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
     return this.route.firstChild?.snapshot.url?.[0]?.path;
   }
 
-  openDrawer(step: string, gln?: string) {
-    this.router.navigate([step, gln].filter(Boolean), {
+  openDrawer(step: string, energySupplierGln?: string, balanceResponsiblePartyGln?: string) {
+    this.router.navigate([step, energySupplierGln || balanceResponsiblePartyGln].filter(Boolean), {
       relativeTo: this.route,
     });
 
@@ -119,10 +110,14 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
     // This is used to open the drawer when the user clicks on a step in the list
     this.drawer?.open();
 
-    this.getProcessStepResults(step, gln);
+    this.getProcessStepResults(step, energySupplierGln, balanceResponsiblePartyGln);
   }
 
-  private getProcessStepResults(step?: string, gln = 'grid_area') {
+  private getProcessStepResults(
+    step?: string,
+    energySupplierGln?: string,
+    balanceResponsiblePartyGln?: string
+  ) {
     combineLatest([this.batch$, this.gridArea$])
       .pipe(
         filter(([batch, gridArea]) => {
@@ -136,7 +131,8 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
             batchId: batch.batchId,
             gridAreaCode: gridArea.code,
             timeSeriesType: this.getTimeSeriesType(step),
-            gln,
+            energySupplierGln,
+            balanceResponsiblePartyGln,
           });
         }
       });

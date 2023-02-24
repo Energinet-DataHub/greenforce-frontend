@@ -14,24 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import {
-  CreateUserRoleDto,
-  PermissionDetailsDto,
-} from '@energinet-datahub/dh/shared/domain';
-
-import { DhCreateRolePermissionTabTableComponent } from './dh-create-userrole-permissions-tab-table.component';
+import { CreateUserRoleDto, PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
+import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 
 @Component({
   selector: 'dh-create-userrole-permissions-tab',
@@ -43,7 +33,7 @@ import { DhCreateRolePermissionTabTableComponent } from './dh-create-userrole-pe
     CommonModule,
     TranslocoModule,
     WattCardModule,
-    DhCreateRolePermissionTabTableComponent,
+    DhPermissionsTableComponent,
     WattEmptyStateModule,
   ],
 })
