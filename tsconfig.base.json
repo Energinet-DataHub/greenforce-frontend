@@ -155,6 +155,9 @@
       "@energinet-datahub/dh/shared/data-access-api": [
         "libs/dh/shared/data-access-api/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/data-access-graphql": [
+        "libs/dh/shared/data-access-graphql/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/data-access-msw": [
         "libs/dh/shared/data-access-msw/src/index.ts"
       ],

@@ -762,10 +762,10 @@
       },
       "download": "Download",
       "downloadFailed": "Download af basis data fejlede",
-      "Pending": "Afventer",
-      "Executing": "Kører",
-      "Completed": "Afsluttet",
-      "Failed": "Fejl",
+      "PENDING": "Afventer",
+      "EXECUTING": "Kører",
+      "COMPLETED": "Afsluttet",
+      "FAILED": "Fejl",
       "loadBatchesFailedTitle": "Ups! Der opstod en fejl",
       "loadBatchesFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "noBatchesFound": "Ingen batches fundet",
@@ -833,8 +833,8 @@
       "sum": "Sum",
       "min": "Min",
       "max": "Max",
-      "processStepMeteringPointType": {
-        "Production": "Produktion"
+      "timeSeriesType": {
+        "PRODUCTION": "Produktion"
       }
     },
     "timeSeriesPoints": {

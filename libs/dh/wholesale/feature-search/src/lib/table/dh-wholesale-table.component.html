@@ -26,8 +26,7 @@ limitations under the License.
     [dataSource]="_data"
     [columns]="columns"
     [resolveHeader]="translateHeader"
-    [activeRow]="selectedBatch$ | push"
-    [activeRowComparator]="isSelectedBatch"
+    [activeRow]="selectedBatch"
     description="batches"
     sortBy="executionTime"
     sortDirection="desc"
@@ -35,17 +34,17 @@ limitations under the License.
   >
     <!-- Batch Id -->
     <ng-container *wattTableCell="columns.batchId; let batch">
-      {{ batch.batchId }}
+      {{ batch.id }}
     </ng-container>
 
     <!-- Period From -->
     <ng-container *wattTableCell="columns.periodFrom; let batch">
-      {{ batch.periodStart | dhDate }}
+      {{ batch.period?.start | dhDate }}
     </ng-container>
 
     <!-- Period To -->
     <ng-container *wattTableCell="columns.periodTo; let batch">
-      {{ batch.periodEnd | dhDate }}
+      {{ batch.period?.end | dhDate }}
     </ng-container>
 
     <!-- Execution Time -->
