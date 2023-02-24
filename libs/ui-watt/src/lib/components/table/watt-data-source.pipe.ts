@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Pipe, PipeTransform } from '@angular/core';
-import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattTableDataSource } from './watt-table-data-source';
 
 @Pipe({
   name: 'wattDataSource',
