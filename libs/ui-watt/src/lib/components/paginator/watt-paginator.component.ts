@@ -33,6 +33,7 @@ import {
   PageEvent,
 } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
+import { WattTableDataSource } from '../table';
 import { WattPaginatorIntlService } from './watt-paginator-intl.service';
 
 /**
@@ -58,10 +59,13 @@ import { WattPaginatorIntlService } from './watt-paginator-intl.service';
     ></mat-paginator>
   `,
 })
-export class WattPaginatorComponent implements OnInit, OnDestroy {
+export class WattPaginatorComponent<T> implements OnInit, OnDestroy {
   @Input() length = 0;
   @Input() pageSizeOptions = [50, 100, 150, 200, 250];
   @Input() pageSize = 50;
+  @Input() set for(dataSource: WattTableDataSource<T>) {
+    dataSource.paginator = this.instance;
+  }
 
   @Output() changed = new EventEmitter<PageEvent>();
 
@@ -104,9 +108,7 @@ export class WattPaginatorComponent implements OnInit, OnDestroy {
 
     // If the start index exceeds the list length, do not try and fix the end index to the end.
     const endIndex =
-      startIndex < length
-        ? Math.min(startIndex + pageSize, length)
-        : startIndex + pageSize;
+      startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
 
     return `${startIndex + 1} – ${endIndex} ${this.intl.of} ${length}`;
   };
