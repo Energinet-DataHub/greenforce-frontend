@@ -48,8 +48,7 @@ limitations under the License.
 
         <watt-tab [label]="t('tab.permissions.tabLabel')">
           <dh-permissions-table
-            *rxLet="marketRolePermissions$ as marketRolePermissions"
-            [permissions]="marketRolePermissions"
+            [permissions]="marketRolePermissions$ | push: { strategy: 'local' }"
           ></dh-permissions-table>
         </watt-tab>
       </watt-tabs>
