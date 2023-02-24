@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  componentWrapperDecorator,
-  moduleMetadata,
-  Story,
-} from '@storybook/angular';
+import { componentWrapperDecorator, moduleMetadata, Story } from '@storybook/angular';
 
 import { WattStorybookTableDecoratorComponent } from './storybook-table-decorator.component';
 import { WattTableColumnDef, WATT_TABLE } from '../watt-table.component';
@@ -91,6 +87,7 @@ export const Table: Story = (args) => {
         [dataSource]="dataSource"
         [columns]="columns"
         [selectable]="selectable"
+        [initialSelection]="initialSelection"
         [suppressRowHoverHighlight]="suppressRowHoverHighlight"
         [activeRow]="activeRow"
         (rowClick)="activeRow = $event"
@@ -127,6 +124,7 @@ Table.args = {
     symbol: { accessor: 'symbol', sort: false },
   } as WattTableColumnDef<PeriodicElement>,
   dataSource: new WattTableDataSource(periodicElements),
+  initialSelection: [periodicElements[0], periodicElements[1]],
   activeRow: undefined,
 };
 
