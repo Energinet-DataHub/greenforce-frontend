@@ -14,12 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattTableDataSource } from './watt-table-data-source';
-export {
-  type WattTableColumn,
-  type WattTableColumnDef,
-  WattTableComponent,
-  WattTableCellDirective,
-  WATT_TABLE,
-} from './watt-table.component';
-export { WattDataSourcePipe } from './watt-data-source.pipe';
+import { Pipe, PipeTransform } from '@angular/core';
+import { WattTableDataSource } from './watt-table-data-source';
+
+@Pipe({
+  name: 'wattDataSource',
+  standalone: true,
+})
+export class WattDataSourcePipe implements PipeTransform {
+  transform<T>(data: T[], dataSource: WattTableDataSource<T>): WattTableDataSource<T> {
+    dataSource.data = data;
+    return dataSource;
+  }
+}
