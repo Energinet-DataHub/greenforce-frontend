@@ -85,12 +85,12 @@ limitations under the License.
             {{ t("phoneNumberError") }}
           </watt-error>
         </watt-form-field>
-        <div class="buttonWrapper">
-          <watt-button variant="secondary" wattStepperNext
-            >{{ "shared.navigation.next" | transloco }} <watt-icon name="right"></watt-icon
-          ></watt-button>
-        </div>
       </form>
+      <div class="buttonWrapper">
+        <watt-button variant="secondary" wattStepperNext
+          >{{ t("addUserRole") }} <watt-icon name="right"></watt-icon
+        ></watt-button>
+      </div>
     </mat-step>
 
     <mat-step [stepControl]="userRoles">
@@ -99,19 +99,19 @@ limitations under the License.
         <dh-assignable-user-roles
           (selectedUserRoles)="onSelectedUserRoles($event)"
         ></dh-assignable-user-roles>
-        <div class="buttonWrapper">
-          <watt-button variant="secondary" wattStepperPrevious>
-            <watt-icon name="left"></watt-icon>
-            {{ "shared.navigation.previous" | transloco }}
-          </watt-button>
-          <watt-button
-            variant="primary"
-            [loading]="isInvitingUser$ | push"
-            (click)="inviteUser()"
-            >{{ t("inviteUser") }}</watt-button
-          >
-        </div>
+        <watt-error *ngIf="userRoles.controls.selectedUserRoles">
+          {{ "shared.fieldRequiredErrorText" | transloco }}
+        </watt-error>
       </form>
+      <div class="buttonWrapper">
+        <watt-button variant="secondary" wattStepperPrevious>
+          <watt-icon name="left"></watt-icon>
+          {{ t("informations") }}
+        </watt-button>
+        <watt-button variant="primary" [loading]="isInvitingUser$ | push" (click)="inviteUser()">{{
+          t("inviteUser")
+        }}</watt-button>
+      </div>
     </mat-step>
   </mat-stepper>
 </watt-modal>

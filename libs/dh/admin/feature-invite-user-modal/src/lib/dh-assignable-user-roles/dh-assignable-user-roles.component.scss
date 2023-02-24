@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 :host {
-  overflow-y: scroll;
+  overflow-y: auto;
   display: block;
-  height: 20vw;
+  height: 16vw;
 }
 
 watt-empty-state {
@@ -37,9 +37,8 @@ watt-spinner {
   }
   li {
     display: grid;
-    margin: var(--watt-space-s) 0 0 var(--watt-space-s);
-    grid-template-columns: 1fr 1fr;
-    justify-items: left;
+    margin-left: var(--watt-space-s);
+    grid-template-columns: 40px 1fr auto;
   }
   h6 {
     margin: 0 0 0 var(--watt-space-s);

@@ -871,8 +871,8 @@
         "firstname": "Fornavn",
         "lastname": "Efternavn",
         "email": "Email",
-        "phoneNumber": "Telefonnr",
-        "phoneNumberError": "Telefonnr format +45 12345678",
+        "phoneNumber": "Telefonnr.",
+        "phoneNumberError": "Telefonnr. format +45 12345678",
         "successMessage": "{{ email }} blev inviteret"
       },
       "download": "Download",

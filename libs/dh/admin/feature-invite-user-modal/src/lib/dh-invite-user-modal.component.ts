@@ -152,7 +152,6 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
 
   inviteUser() {
     if (this.userInfo.valid === false || this.userRoles.valid === false) {
-      this.userRoles.markAllAsTouched();
       return;
     }
 
