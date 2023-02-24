@@ -60,13 +60,13 @@ jobs:
   allow_merge_ci_orchestrator:
     runs-on: ubuntu-latest
     needs: [
-      # DataHub UI
-      dh_ci_frontend,
-      dh_ci_dotnet,
+        # DataHub UI
+        dh_ci_frontend,
+        dh_ci_dotnet,
 
-      # Watt
-      watt_ci_frontend,
-    ]
+        # Watt
+        watt_ci_frontend,
+      ]
     if: |
       always()
     steps:
