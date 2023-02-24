@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { HttpClientModule } from '@angular/common/http';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/angular';
+import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import { DhGraphQLModule } from '@energinet-datahub/dh/shared/data-access-graphql';
@@ -73,10 +73,13 @@ describe(DhWholesaleSearchComponent.name, () => {
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
   });
 
-  it.skip('should show loading indicator when starting a new search of batches', async () => {
+  it('should show loading indicator when starting a new search of batches', async () => {
     await setup();
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
-    userEvent.click(screen.getByText('Search'));
+
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByRole('progressbar')).not.toBeInTheDocument());
+
+    userEvent.click(screen.getByText('Search'));
+    await waitFor(() => expect(screen.queryByRole('progressbar')).toBeInTheDocument());
   });
 });
