@@ -55,17 +55,6 @@ jobs:
     secrets: inherit
 
   #
-  # Allow other file changes to be merged
-  #
-  # is_exempt:
-  #   needs: changes
-  #   if: ${{ needs.changes.outputs.dh_ci_frontend != 'true' && needs.changes.outputs.dh_ci_dotnet != 'true' && needs.changes.outputs.watt_ci_frontend != 'true' }}
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: File changes is exempt
-  #       run: echo "These files is exempt from this workflow"
-
-  #
   # Branch policy status check
   #
   allow_merge_ci_orchestrator:
