@@ -868,7 +868,9 @@
         "firstname": "First name",
         "lastname": "Last name",
         "email": "Email",
-        "phoneNumber": "Phone number"
+        "phoneNumber": "Phone number",
+        "phoneNumberError": "Phone number format +45 12345678",
+        "successMessage": "{{ email }} has been invited"
       },
       "download": "Download",
       "drawer": {
