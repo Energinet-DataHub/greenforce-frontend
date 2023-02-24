@@ -33,10 +33,8 @@ import {
   PageEvent,
 } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
-import { WattTableComponent, WattTableDataSource } from '../table';
+import { WattTableDataSource } from '../table';
 import { WattPaginatorIntlService } from './watt-paginator-intl.service';
-
-export type WattPaginator = MatPaginator;
 
 /**
  * Usage:
@@ -71,7 +69,7 @@ export class WattPaginatorComponent<T> implements OnInit, OnDestroy {
 
   @Output() changed = new EventEmitter<PageEvent>();
 
-  @ViewChild(MatPaginator, { static: true }) instance!: WattPaginator;
+  @ViewChild(MatPaginator, { static: true }) instance!: MatPaginator;
 
   description?: string;
 

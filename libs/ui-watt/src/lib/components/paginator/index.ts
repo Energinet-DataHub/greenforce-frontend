@@ -14,5 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattPaginatorComponent, WattPaginator } from './watt-paginator.component';
+export { WattPaginatorComponent } from './watt-paginator.component';
 export { WattPaginatorIntlService } from './watt-paginator-intl.service';
