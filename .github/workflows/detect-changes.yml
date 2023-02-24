@@ -55,7 +55,7 @@ jobs:
             dh_dotnet:
               - '.github/workflows/dh-ci-dotnet.yml'
               - '.github/workflows/dh-cd.yml'
-              - '.github/workflows/dh-detect-changes.yml'
+              - '.github/workflows/detect-changes.yml'
               - '.github/actions/dotnet-*/**'
               - 'apps/dh/api-dh/**'
 
