@@ -19,7 +19,6 @@ limitations under the License.
     <h3 class="watt-on-light--high-emphasis">
       {{ transloco("header", { total: _data.data.length }) }}
     </h3>
-    <dh-shared-ui-paginator></dh-shared-ui-paginator>
   </watt-card-title>
 
   <!-- Table -->
@@ -41,6 +40,8 @@ limitations under the License.
       {{ timeSeriesPoint.quantity }} kWh
     </ng-container>
   </watt-table>
+
+  <watt-paginator [for]="_data"></watt-paginator>
 
   <!-- Empty -->
   <watt-empty-state

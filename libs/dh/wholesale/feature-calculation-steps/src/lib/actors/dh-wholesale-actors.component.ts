@@ -53,8 +53,6 @@ export class DhWholesaleActorsComponent implements OnInit {
 
   @Output() rowClick = new EventEmitter<WholesaleActorDto>();
 
-  @ViewChild(WattPaginatorComponent) paginator!: WattPaginatorComponent;
-
   _columns: WattTableColumnDef<WholesaleActorDto> = {
     [this.marketRole]: { accessor: 'gln' },
   };
@@ -73,10 +71,6 @@ export class DhWholesaleActorsComponent implements OnInit {
       gridAreaCode: this.gridAreaCode,
       marketRole: this.marketRole,
     });
-  }
-
-  setPaginator(paginator: WattPaginator) {
-    this._dataSource.paginator = paginator;
   }
 
   getSelectedActor(actors?: WholesaleActorDto[]) {

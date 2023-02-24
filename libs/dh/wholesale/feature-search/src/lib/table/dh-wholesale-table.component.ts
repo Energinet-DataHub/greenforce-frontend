@@ -16,11 +16,9 @@
  */
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Input,
-  ViewChild,
   Output,
   EventEmitter,
   inject,
@@ -28,12 +26,12 @@ import {
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { PushModule } from '@rx-angular/template/push';
@@ -52,7 +50,7 @@ type wholesaleTableData = WattTableDataSource<batch>;
     WattBadgeComponent,
     WattButtonModule,
     WattEmptyStateModule,
-    DhSharedUiPaginatorComponent,
+    WattPaginatorComponent,
     WattCardModule,
   ],
   selector: 'dh-wholesale-table',
@@ -60,13 +58,10 @@ type wholesaleTableData = WattTableDataSource<batch>;
   styleUrls: ['./dh-wholesale-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleTableComponent implements AfterViewInit {
+export class DhWholesaleTableComponent {
   private store = inject(DhWholesaleBatchDataAccessApiStore);
 
   selectedBatch$ = this.store.selectedBatch$;
-
-  @ViewChild(DhSharedUiPaginatorComponent)
-  paginator!: DhSharedUiPaginatorComponent;
 
   @Input() set data(batches: batch[]) {
     this._data = new WattTableDataSource(batches);
@@ -88,11 +83,6 @@ export class DhWholesaleTableComponent implements AfterViewInit {
 
   isSelectedBatch = (currentBatch: batch, activeBatch: batch) =>
     currentBatch.batchId === activeBatch.batchId;
-
-  ngAfterViewInit() {
-    if (this._data === null) return;
-    this._data.paginator = this.paginator.instance;
-  }
 
   onDownload(event: Event, batch: batch) {
     event.stopPropagation();

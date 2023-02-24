@@ -30,7 +30,7 @@ limitations under the License.
       (rowClick)="rowClick.emit($event)"
     >
     </watt-table>
-    <watt-paginator (initialized)="setPaginator($event)"></watt-paginator>
+    <watt-paginator [for]="_dataSource"></watt-paginator>
   </ng-container>
 </ng-container>
 

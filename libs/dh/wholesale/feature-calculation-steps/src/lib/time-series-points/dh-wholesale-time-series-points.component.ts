@@ -16,16 +16,13 @@
  */
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Input,
-  ViewChild,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { TimeSeriesPointDto } from '@energinet-datahub/dh/shared/domain';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -34,6 +31,7 @@ import {
   WattTableColumnDef,
   WATT_TABLE,
 } from '@energinet-datahub/watt/table';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 @Component({
   standalone: true,
@@ -42,22 +40,18 @@ import {
     CommonModule,
     TranslocoModule,
     WattEmptyStateModule,
-    DhSharedUiPaginatorComponent,
     WattCardModule,
     DhSharedUiDateTimeModule,
+    WattPaginatorComponent
   ],
   selector: 'dh-wholesale-time-series-points',
   templateUrl: './dh-wholesale-time-series-points.component.html',
   styleUrls: ['./dh-wholesale-time-series-points.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleTimeSeriesPointsComponent implements AfterViewInit {
-  @ViewChild(DhSharedUiPaginatorComponent)
-  paginator!: DhSharedUiPaginatorComponent;
-
+export class DhWholesaleTimeSeriesPointsComponent {
   @Input() set data(timeSeriesPoints: TimeSeriesPointDto[]) {
     this._data = new WattTableDataSource(timeSeriesPoints);
-    this._data.paginator = this.paginator?.instance;
   }
 
   _data: WattTableDataSource<TimeSeriesPointDto> = new WattTableDataSource(
@@ -67,9 +61,4 @@ export class DhWholesaleTimeSeriesPointsComponent implements AfterViewInit {
     time: { accessor: 'time' },
     quantity: { accessor: 'quantity' },
   };
-
-  ngAfterViewInit() {
-    if (!this._data) return;
-    this._data.paginator = this.paginator?.instance;
-  }
 }

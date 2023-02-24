@@ -19,11 +19,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  ViewChild,
   Output,
   EventEmitter,
   inject,
-  AfterViewInit,
 } from '@angular/core';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
@@ -64,12 +62,10 @@ type settlementReportsTableData = WattTableDataSource<settlementReportsProcess>;
   styleUrls: ['./dh-wholesale-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleTableComponent implements AfterViewInit {
+export class DhWholesaleTableComponent {
   private store = inject(DhWholesaleBatchDataAccessApiStore);
 
   selectedBatch$ = this.store.selectedBatch$;
-
-  @ViewChild(WattPaginatorComponent) paginator!: WattPaginatorComponent;
 
   @Input() set data(processes: settlementReportsProcess[]) {
     this._data = new WattTableDataSource(processes);
@@ -91,9 +87,4 @@ export class DhWholesaleTableComponent implements AfterViewInit {
 
   translateHeader = (key: string) =>
     translate(`wholesale.settlementReports.table.${key}`);
-
-  ngAfterViewInit() {
-    if (this._data === null) return;
-    this._data.paginator = this.paginator.instance;
-  }
 }

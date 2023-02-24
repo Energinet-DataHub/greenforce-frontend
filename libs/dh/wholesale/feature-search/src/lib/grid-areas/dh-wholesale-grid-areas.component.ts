@@ -16,7 +16,6 @@
  */
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
@@ -25,14 +24,15 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { TranslocoModule } from '@ngneat/transloco';
+
 import {
   WattTableDataSource,
   WattTableColumnDef,
   WATT_TABLE,
 } from '@energinet-datahub/watt/table';
-import { TranslocoModule } from '@ngneat/transloco';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
@@ -45,7 +45,7 @@ import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
     MatSortModule,
     TranslocoModule,
     WattEmptyStateModule,
-    DhSharedUiPaginatorComponent,
+    WattPaginatorComponent,
     WattCardModule,
   ],
   selector: 'dh-wholesale-grid-areas',
@@ -53,14 +53,11 @@ import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
   styleUrls: ['./dh-wholesale-grid-areas.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleGridAreasComponent implements AfterViewInit {
+export class DhWholesaleGridAreasComponent {
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(DhSharedUiPaginatorComponent)
-  paginator!: DhSharedUiPaginatorComponent;
 
   @Input() set data(gridAreas: GridAreaDto[]) {
     this._data = new WattTableDataSource(gridAreas);
-    this._data.paginator = this.paginator?.instance;
   }
 
   @Input() disabled = false;
@@ -72,9 +69,4 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
     gridAreaCode: { accessor: 'code' },
     name: { accessor: 'name', cell: (row: GridAreaDto) => row.name ?? '—' },
   };
-
-  ngAfterViewInit() {
-    if (!this._data) return;
-    this._data.paginator = this.paginator?.instance;
-  }
 }

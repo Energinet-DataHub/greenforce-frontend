@@ -25,7 +25,6 @@ import {
   Input,
   Output,
   EventEmitter,
-  AfterViewInit,
 } from '@angular/core';
 import {
   MatPaginator,
@@ -34,6 +33,7 @@ import {
   PageEvent,
 } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
+import { WattTableComponent, WattTableDataSource } from '../table';
 import { WattPaginatorIntlService } from './watt-paginator-intl.service';
 
 export type WattPaginator = MatPaginator;
@@ -61,13 +61,15 @@ export type WattPaginator = MatPaginator;
     ></mat-paginator>
   `,
 })
-export class WattPaginatorComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WattPaginatorComponent<T> implements OnInit, OnDestroy {
   @Input() length = 0;
   @Input() pageSizeOptions = [50, 100, 150, 200, 250];
   @Input() pageSize = 50;
+  @Input() set for(dataSource: WattTableDataSource<T>) {
+    dataSource.paginator = this.instance;
+  }
 
   @Output() changed = new EventEmitter<PageEvent>();
-  @Output() initialized = new EventEmitter<WattPaginator>();
 
   @ViewChild(MatPaginator, { static: true }) instance!: WattPaginator;
 
@@ -81,10 +83,6 @@ export class WattPaginatorComponent implements OnInit, AfterViewInit, OnDestroy 
     this.matPaginatorIntl.getRangeLabel = this.getRangeLabel;
     this.subscription = this.intl.changes.subscribe(this.updateLabels);
     this.updateLabels();
-  }
-
-  ngAfterViewInit(): void {
-    this.initialized.emit(this.instance);
   }
 
   ngOnDestroy() {
