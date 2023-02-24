@@ -47,6 +47,10 @@ limitations under the License.
         </watt-tab>
 
         <watt-tab [label]="t('tab.permissions.tabLabel')">
+          <p class="watt-on-light--medium-emphasis">{{ t("tab.permissions.onEditMessage") }}</p>
+
+          <h4>{{ t("tab.permissions.title") }}</h4>
+
           <dh-permissions-table
             [permissions]="marketRolePermissions$ | push: { strategy: 'local' }"
           ></dh-permissions-table>
