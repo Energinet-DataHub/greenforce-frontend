@@ -40,14 +40,10 @@ namespace Energinet.DataHub.WebApi.Controllers
 
         [HttpPost]
         [Route("InviteUser")]
-        public Task InviteUserAsync(UserInvitationDto invite)
+        public Task<ActionResult> InviteUserAsync(UserInvitationDto invite)
         {
-            return HandleExceptionAsync(async () =>
-            {
-                await _marketParticipantUserInvitationClient
-                    .InviteUserAsync(invite)
-                    .ConfigureAwait(false);
-            });
+            return HandleExceptionAsync(() =>
+                _marketParticipantUserInvitationClient.InviteUserAsync(invite));
         }
 
         /// <summary>
