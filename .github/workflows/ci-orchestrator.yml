@@ -55,6 +55,17 @@ jobs:
     secrets: inherit
 
   #
+  # EO
+  #
+  eo_ci_frontend:
+    needs: changes
+    if: ${{ needs.changes.outputs.eo_frontend == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello
+        run: echo "EO is exempt from this workflow"
+
+  #
   # Branch policy status check
   #
   allow_merge_ci_orchestrator:
@@ -66,6 +77,9 @@ jobs:
 
         # Watt
         watt_ci_frontend,
+
+        # EO
+        eo_ci_frontend,
       ]
     if: |
       always()

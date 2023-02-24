@@ -28,6 +28,8 @@ on:
         value: ${{ jobs.changes.outputs.dh_frontend }}
       watt_frontend:
         value: ${{ jobs.changes.outputs.watt_frontend }}
+      eo_frontend:
+        value: ${{ jobs.changes.outputs.eo_frontend }}
 
 jobs:
   changes:
@@ -59,6 +61,8 @@ jobs:
               - '.github/workflows/dh-detect-changes.yml'
               - '.github/actions/dotnet-*/**'
               - 'apps/dh/api-dh/**'
+            eo:
+
 
       # needed for nx affected command
       - name: 'PR: Fetch base branch Git history'
@@ -95,3 +99,10 @@ jobs:
         with:
           base: ${{ github.ref == 'refs/heads/main' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
           project: ui-watt
+
+      - name: Is EO affected?
+        id: eo_affected
+        uses: ./.github/actions/affected
+        with:
+          base: ${{ github.ref == 'refs/heads/main' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+          project: app-eo
