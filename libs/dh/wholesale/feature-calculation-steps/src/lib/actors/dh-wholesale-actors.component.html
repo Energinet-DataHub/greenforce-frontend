@@ -15,28 +15,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container
-  *rxLet="
-    energySuppliersForConsumption$;
-    let energySuppliers;
-    suspense: loading;
-    error: error;
-    errorTrigger: errorTrigger$
-  "
+  *rxLet="actors$; let actors; suspense: loading; error: error; errorTrigger: errorTrigger$"
 >
-  <ng-container *transloco="let t; read: 'wholesale.energySuppliers'">
+  <ng-container *transloco="let t; read: 'wholesale.actors'">
     <h5 class="watt-on-light--high-emphasis">
-      {{ t("amountOfResults", { length: (energySuppliers || []).length }) }}
+      {{ t("amountOfResults", { length: (actors || []).length }) }}
     </h5>
     <watt-table
       [resolveHeader]="t"
-      [activeRow]="getSelectedEnergySupplier(energySuppliers)"
-      [activeRowComparator]="isSelectedEnergySupplier"
-      [dataSource]="_dataSource(energySuppliers)"
+      [activeRow]="getSelectedActor(actors)"
+      [activeRowComparator]="isSelectedActor"
+      [dataSource]="_dataSource"
       [columns]="_columns"
       (rowClick)="rowClick.emit($event)"
     >
     </watt-table>
-    <watt-paginator></watt-paginator>
+    <watt-paginator [for]="_dataSource"></watt-paginator>
   </ng-container>
 </ng-container>
 
@@ -46,10 +40,10 @@ limitations under the License.
 
 <ng-template #error>
   <watt-empty-state
-    *transloco="let t; read: 'wholesale.energySuppliers'"
+    *transloco="let t; read: 'wholesale.actors'"
     icon="custom-power"
-    [title]="t('loadingEnerySuppliersFailedTitle')"
-    [message]="t('loadingEnerySuppliersFailedMessage')"
+    [title]="t('loadingActorsFailedTitle')"
+    [message]="t('loadingActorsFailedMessage')"
   >
   </watt-empty-state>
 </ng-template>
