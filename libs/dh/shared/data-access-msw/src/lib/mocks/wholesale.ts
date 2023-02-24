@@ -41,6 +41,7 @@ const executionTimeEnd = '2021-12-02T23:00:00Z';
 
 export const mockedGridAreas: graphql.GridArea[] = [
   {
+    __typename: 'GridArea',
     id: '1',
     code: '805',
     name: 'hello',
@@ -48,6 +49,7 @@ export const mockedGridAreas: graphql.GridArea[] = [
     validFrom: '0001-01-01T00:00:00+00:00',
   },
   {
+    __typename: 'GridArea',
     id: '2',
     code: '806',
     name: 'hello again',
@@ -204,7 +206,7 @@ function getWholesaleSearchBatch() {
   return graphql.mockGetBatchQuery((req, res, ctx) => {
     const batchId = req.variables.id;
     const batch = mockedBatches.find((b) => b.id === batchId);
-    return res(ctx.delay(300), ctx.status(200), ctx.data({ batch }));
+    return res(ctx.delay(300), ctx.data({ batch }));
   });
 }
 
@@ -229,7 +231,7 @@ function downloadBasisData(apiBase: string) {
 
 function getWholesaleSearchBatches() {
   return graphql.mockGetBatchesQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.status(200), ctx.data({ batches: mockedBatches }));
+    return res(ctx.delay(300), ctx.data({ batches: mockedBatches }));
   });
 }
 
@@ -237,7 +239,6 @@ function getProcessStepResult() {
   return graphql.mockGetProcessStepResultQuery((req, res, ctx) => {
     return res(
       ctx.delay(300),
-      ctx.status(200),
       ctx.data({
         processStep: {
           result: {
@@ -276,11 +277,7 @@ function getProcessStepResult() {
 
 function getProcessStepActors() {
   return graphql.mockGetProcessStepActorsQuery((req, res, ctx) => {
-    return res(
-      ctx.delay(300),
-      ctx.status(200),
-      ctx.data({ processStep: { actors: mockedActors } })
-    );
+    return res(ctx.delay(300), ctx.data({ processStep: { actors: mockedActors } }));
   });
 }
 
