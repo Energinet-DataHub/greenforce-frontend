@@ -60,8 +60,6 @@ jobs:
               - '.github/workflows/dh-detect-changes.yml'
               - '.github/actions/dotnet-*/**'
               - 'apps/dh/api-dh/**'
-            eo:
-
 
       # needed for nx affected command
       - name: 'PR: Fetch base branch Git history'
