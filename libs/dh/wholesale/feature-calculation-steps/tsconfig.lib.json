@@ -14,7 +14,6 @@
     "**/*.test.ts"
   ],
   "include": [
-    "**/*.ts",
-    "../../../ui-watt/src/lib/components/table/watt-data-source.pipe.ts"
+    "**/*.ts"
   ]
 }
