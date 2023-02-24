@@ -14,33 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WholesaleActorDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketRole, WholesaleActorDto } from '@energinet-datahub/dh/shared/domain';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import {
-  WattTableColumnDef,
-  WattTableDataSource,
-  WATT_TABLE,
-} from '@energinet-datahub/watt/table';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { tap } from 'rxjs';
 
 @Component({
   standalone: true,
-  selector: 'dh-wholesale-energy-suppliers',
+  selector: 'dh-wholesale-actors',
   imports: [
     LetModule,
     TranslocoModule,
@@ -49,46 +40,45 @@ import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholes
     WattPaginatorComponent,
     WattSpinnerModule,
   ],
-  templateUrl: './dh-wholesale-energy-suppliers.component.html',
-  styleUrls: ['./dh-wholesale-energy-suppliers.component.scss'],
+  templateUrl: './dh-wholesale-actors.component.html',
+  styleUrls: ['./dh-wholesale-actors.component.scss'],
 })
-export class DhWholesaleEnergySuppliersComponent implements OnInit {
+export class DhWholesaleActorsComponent implements OnInit {
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private route = inject(ActivatedRoute);
 
   @Input() batchId!: string;
   @Input() gridAreaCode!: string;
+  @Input() marketRole = MarketRole.EnergySupplier;
 
   @Output() rowClick = new EventEmitter<WholesaleActorDto>();
 
   _columns: WattTableColumnDef<WholesaleActorDto> = {
-    energySupplier: { accessor: 'gln' },
+    [this.marketRole]: { accessor: 'gln' },
   };
 
-  energySuppliersForConsumption$ = this.store.energySuppliersForConsumption$;
-  errorTrigger$ = this.store.loadingEnergySuppliersForConsumptionErrorTrigger$;
+  actors$ = this.store.actors$.pipe(
+    exists(),
+    tap((actors) => (this._dataSource.data = actors))
+  );
+  errorTrigger$ = this.store.loadingActorsErrorTrigger$;
 
-  _dataSource = (data?: WholesaleActorDto[]) =>
-    new WattTableDataSource<WholesaleActorDto>(data);
+  _dataSource = new WattTableDataSource<WholesaleActorDto>([]);
 
   ngOnInit() {
-    this.store.getEnergySuppliersForConsumption({
+    this.store.getActors({
       batchId: this.batchId,
       gridAreaCode: this.gridAreaCode,
+      marketRole: this.marketRole,
     });
   }
 
-  getSelectedEnergySupplier(energySuppliers?: WholesaleActorDto[]) {
-    if (!energySuppliers) return;
-    return energySuppliers.find(
-      (e) => e.gln === this.route.firstChild?.snapshot.params.gln
-    );
+  getSelectedActor(actors?: WholesaleActorDto[]) {
+    if (!actors) return;
+    return actors.find((e) => e.gln === this.route.firstChild?.snapshot.params.gln);
   }
 
-  isSelectedEnergySupplier(
-    current: WholesaleActorDto,
-    active: WholesaleActorDto
-  ) {
+  isSelectedActor(current: WholesaleActorDto, active: WholesaleActorDto) {
     return current.gln === active.gln;
   }
 }
