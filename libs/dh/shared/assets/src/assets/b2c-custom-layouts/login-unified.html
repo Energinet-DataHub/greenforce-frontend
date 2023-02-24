@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>DataHub</title>
     <meta charset="utf-8" />
@@ -40,10 +40,7 @@ limitations under the License.
       sizes="16x16"
       href="https://stordesignendku.z6.web.core.windows.net/favicon-16x16.png"
     />
-    <link
-      rel="manifest"
-      href="https://stordesignendku.z6.web.core.windows.net/site.webmanifest"
-    />
+    <link rel="manifest" href="https://stordesignendku.z6.web.core.windows.net/site.webmanifest" />
     <link
       rel="mask-icon"
       href="https://stordesignendku.z6.web.core.windows.net/safari-pinned-tab.svg"
@@ -56,10 +53,7 @@ limitations under the License.
     <!-- Open Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" />
     <!-- End of Open Sans -->
 
     <style>
@@ -224,8 +218,7 @@ limitations under the License.
         width: 100%;
         height: 40px;
         background: #00847c;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25),
-          0px 4px 4px rgba(0, 0, 0, 0.25);
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
         border-radius: 4px;
         padding: 8px 16px;
         border: none;
@@ -300,9 +293,7 @@ limitations under the License.
       }
 
       function getB2CFlowLink(flowname) {
-        return document.location.href
-          .replace("signin", flowname)
-          .replace("sign_in", flowname);
+        return document.location.href.replace("signin", flowname).replace("sign_in", flowname);
       }
 
       function appendSignUpTemplate() {
@@ -320,9 +311,7 @@ limitations under the License.
       }
 
       function appendForgotPasswordTemplate() {
-        var forgotPasswordTemplate = document.getElementById(
-          "forgotPasswordTemplate"
-        );
+        var forgotPasswordTemplate = document.getElementById("forgotPasswordTemplate");
 
         var forgotPasswordLinks = forgotPasswordTemplate.querySelectorAll("a");
         var forgotPasswordUrl = getB2CFlowLink("reset_password");
@@ -356,12 +345,8 @@ limitations under the License.
     </div>
 
     <p id="signUpTemplate" class="template">
-      <span class="imprint imprint-da">
-        Har du ikke en bruger? <a href="#">Opret dig her</a>
-      </span>
-      <span class="imprint imprint-en">
-        New to DataHub? <a href="#">Sign up now</a>
-      </span>
+      <span class="imprint imprint-da"> Har du ikke en bruger? <a href="#">Opret dig her</a> </span>
+      <span class="imprint imprint-en"> New to DataHub? <a href="#">Sign up now</a> </span>
     </p>
 
     <p id="forgotPasswordTemplate" class="template">
