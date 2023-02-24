@@ -17,7 +17,6 @@
 import {
   AfterViewInit,
   Component,
-  ViewChild,
   ContentChild,
 } from '@angular/core';
 import { WattCardModule } from '../../card';
