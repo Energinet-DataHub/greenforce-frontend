@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license
  * Copyright 2020 Energinet DataHub A/S
  *
@@ -14,23 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CdkStepperPrevious } from '@angular/cdk/stepper';
+import { Directive, HostBinding, Input } from '@angular/core';
 
-import { Component, ViewChild } from '@angular/core';
-import {
-  WattModalComponent,
-  WattModalModule,
-} from '@energinet-datahub/watt/modal';
-
-@Component({
-  selector: 'dh-invite-user-modal',
-  templateUrl: './dh-invite-user-modal.component.html',
-  styleUrls: ['./dh-invite-user-modal.component.scss'],
+@Directive({
+  selector: 'watt-button[wattStepperPrevious]',
   standalone: true,
-  imports: [WattModalModule],
 })
-export class DhInviteUserModalComponent {
-  @ViewChild('inviteUserModal') inviteUserModal!: WattModalComponent;
-  open() {
-    this.inviteUserModal.open();
+export class WattStepperButtonPreviousDirective extends CdkStepperPrevious {
+  @Input() type: 'submit' | 'button' = 'submit';
+  @HostBinding('class') classes = 'watt-stepper-previous';
+  @HostBinding('attr.type') get typeAttr() {
+    return this.type;
   }
 }

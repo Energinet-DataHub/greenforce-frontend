@@ -148,7 +148,7 @@ export class DhEditUserRoleModalComponent
       name: formControls.name.value,
       description: formControls.description.value,
       status: userRole.status,
-      permissions: userRole.permissions,
+      permissions: userRole.permissions.map((permissions) => permissions.id),
     };
 
     const onSuccessFn = () => {

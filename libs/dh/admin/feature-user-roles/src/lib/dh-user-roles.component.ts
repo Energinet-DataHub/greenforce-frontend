@@ -38,11 +38,8 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { FormsModule } from '@angular/forms';
-import { JoinMarketRoles } from '../dh-join-market-roles.pipe';
-import {
-  UserOverviewItemDto,
-  UserRoleViewDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { JoinMarketRoles } from './dh-join-market-roles.pipe';
+import { UserOverviewItemDto, UserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-user-roles',
@@ -93,22 +90,14 @@ export class DhUserRolesComponent implements OnChanges {
     }
   }
 
-  selectUserRole(
-    event: boolean,
-    userRole: UserRoleViewDto,
-    actorId: string
-  ): void {
+  selectUserRole(event: boolean, userRole: UserRoleViewDto, actorId: string): void {
     this.addActor(actorId);
-    event
-      ? this.addRole(actorId, userRole)
-      : this.removeRole(actorId, userRole);
+    event ? this.addRole(actorId, userRole) : this.removeRole(actorId, userRole);
     this.updateUserRoles.emit(this._updateUserRoles);
   }
 
   private addActor(actorId: string) {
-    const actor = this._updateUserRoles.actors.find(
-      (actor) => actor.id === actorId
-    );
+    const actor = this._updateUserRoles.actors.find((actor) => actor.id === actorId);
     if (!actor) {
       this._updateUserRoles.actors.push({
         id: actorId,
@@ -118,9 +107,7 @@ export class DhUserRolesComponent implements OnChanges {
   }
 
   private removeRole(actorId: string, userRole: UserRoleViewDto) {
-    const actor = this._updateUserRoles.actors.find(
-      (actor) => actor.id === actorId
-    );
+    const actor = this._updateUserRoles.actors.find((actor) => actor.id === actorId);
     if (!actor) return;
 
     if (actor.userRolesToUpdate.added.includes(userRole.id)) {
@@ -133,9 +120,7 @@ export class DhUserRolesComponent implements OnChanges {
   }
 
   private addRole(actorId: string, userRole: UserRoleViewDto) {
-    const actor = this._updateUserRoles.actors.find(
-      (actor) => actor.id === actorId
-    );
+    const actor = this._updateUserRoles.actors.find((actor) => actor.id === actorId);
     if (!actor) return;
 
     if (actor.userRolesToUpdate.removed.includes(userRole.id)) {

@@ -9,12 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { TimeSeriesType } from './time-series-type';
 
 
-export interface SelectablePermissionsDto { 
-    id: number;
-    name: string;
-    description: string;
+export interface ProcessStepResultRequestDtoV3 { 
+    batchId: string;
+    gridAreaCode: string;
+    timeSeriesType: TimeSeriesType;
+    energySupplierGln?: string | null;
+    balanceResponsiblePartyGln?: string | null;
 }
 
 
