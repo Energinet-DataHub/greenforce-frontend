@@ -137,27 +137,3 @@ jobs:
         if: ${{ env.IS_MAIN_BRANCH == 'true' }}
         run: |
           git diff ${{ env.output-path }} --exit-code || (echo '❌ DataHub API v1 client is out-of-sync. Run the `build-client` Nx target and merge the changes.' && exit 1)
-
-  #
-  # Branch policy status check
-  #
-
-  allow_merge:
-    runs-on: ubuntu-latest
-    needs: [
-        # Frontend client
-        generate_client,
-
-        # Frontend
-        frontend_ci_build,
-      ]
-    if: |
-      always()
-    steps:
-      - name: Verify if merge is allowed
-        run: |
-          echo "${{ toJSON(needs) }}"
-          if [[ ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }} = true ]]; then
-            echo "Failed"
-            exit 1
-          fi
