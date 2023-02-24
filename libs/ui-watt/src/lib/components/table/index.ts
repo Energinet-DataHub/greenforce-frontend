@@ -22,4 +22,3 @@ export {
   WattTableCellDirective,
   WATT_TABLE,
 } from './watt-table.component';
-export { WattDataSourcePipe } from './watt-data-source.pipe';

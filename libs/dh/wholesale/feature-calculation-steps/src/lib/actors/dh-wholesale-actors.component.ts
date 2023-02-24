@@ -35,11 +35,11 @@ import {
   WattTableColumnDef,
   WattTableDataSource,
   WATT_TABLE,
-  WattDataSourcePipe
 } from '@energinet-datahub/watt/table';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { tap } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -51,7 +51,6 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
     WattEmptyStateModule,
     WattPaginatorComponent,
     WattSpinnerModule,
-    WattDataSourcePipe,
   ],
   templateUrl: './dh-wholesale-actors.component.html',
   styleUrls: ['./dh-wholesale-actors.component.scss'],
@@ -72,7 +71,7 @@ export class DhWholesaleActorsComponent implements OnInit {
     [this.marketRole]: { accessor: 'gln' },
   };
 
-  actors$ = this.store.actors$.pipe(exists());
+  actors$ = this.store.actors$.pipe(exists(), tap((actors) => this._dataSource.data = actors));
   errorTrigger$ = this.store.loadingActorsErrorTrigger$;
 
   _dataSource = new WattTableDataSource<WholesaleActorDto>([]);

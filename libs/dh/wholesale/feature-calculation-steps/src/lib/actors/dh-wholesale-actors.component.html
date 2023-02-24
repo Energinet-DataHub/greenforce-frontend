@@ -31,7 +31,7 @@ limitations under the License.
       [resolveHeader]="t"
       [activeRow]="getSelectedActor(actors)"
       [activeRowComparator]="isSelectedActor"
-      [dataSource]="actors | wattDataSource: _dataSource"
+      [dataSource]="_dataSource"
       [columns]="_columns"
       (rowClick)="rowClick.emit($event)"
     >
