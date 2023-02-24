@@ -21,26 +21,29 @@ import {
   Input,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { MarketRole, WholesaleActorDto } from '@energinet-datahub/dh/shared/domain';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattPaginatorComponent, WattPaginator } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import {
   WattTableColumnDef,
   WattTableDataSource,
   WATT_TABLE,
+  WattDataSourcePipe
 } from '@energinet-datahub/watt/table';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 @Component({
   standalone: true,
-  selector: 'dh-wholesale-balance-responsibles',
+  selector: 'dh-wholesale-actors',
   imports: [
     LetModule,
     TranslocoModule,
@@ -48,35 +51,42 @@ import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholes
     WattEmptyStateModule,
     WattPaginatorComponent,
     WattSpinnerModule,
+    WattDataSourcePipe,
   ],
-  templateUrl: './dh-wholesale-balance-responsibles.component.html',
-  styleUrls: ['./dh-wholesale-balance-responsibles.component.scss'],
+  templateUrl: './dh-wholesale-actors.component.html',
+  styleUrls: ['./dh-wholesale-actors.component.scss'],
 })
-export class DhWholesaleBalanceResponsiblesComponent implements OnInit {
+export class DhWholesaleActorsComponent implements OnInit {
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private route = inject(ActivatedRoute);
 
   @Input() batchId!: string;
   @Input() gridAreaCode!: string;
+  @Input() marketRole = MarketRole.EnergySupplier;
 
   @Output() rowClick = new EventEmitter<WholesaleActorDto>();
 
+  @ViewChild(WattPaginatorComponent) paginator!: WattPaginatorComponent;
+
   _columns: WattTableColumnDef<WholesaleActorDto> = {
-    balanceResponsibles: { accessor: 'gln' },
+    [this.marketRole]: { accessor: 'gln' },
   };
 
-  actors$ = this.store.actors$;
+  actors$ = this.store.actors$.pipe(exists());
   errorTrigger$ = this.store.loadingActorsErrorTrigger$;
 
-  _dataSource = (data?: WholesaleActorDto[]) =>
-    new WattTableDataSource<WholesaleActorDto>(data);
+  _dataSource = new WattTableDataSource<WholesaleActorDto>([]);
 
   ngOnInit() {
     this.store.getActors({
       batchId: this.batchId,
       gridAreaCode: this.gridAreaCode,
-      marketRole: MarketRole.EnergySupplier // TODO: Change to BalanceResponsible when implemented
+      marketRole: this.marketRole,
     });
+  }
+
+  setPaginator(paginator: WattPaginator) {
+    this._dataSource.paginator = paginator;
   }
 
   getSelectedActor(actors?: WholesaleActorDto[]) {

@@ -124,11 +124,12 @@ limitations under the License.
                 }}
               </watt-expandable-card-title>
               <ng-template wattExpandableCardContent>
-                <dh-wholesale-energy-suppliers
+                <dh-wholesale-actors
                   [batchId]="batch.batchId"
                   [gridAreaCode]="gridArea.code"
+                  [marketRole]="'EnergySupplier'"
                   (rowClick)="openDrawer('2', $event.gln)"
-                ></dh-wholesale-energy-suppliers>
+                ></dh-wholesale-actors>
               </ng-template>
             </watt-expandable-card>
           </li>
@@ -141,10 +142,12 @@ limitations under the License.
                 }}
               </watt-expandable-card-title>
               <ng-template wattExpandableCardContent>
-                <dh-wholesale-balance-responsibles
+                <!-- TODO: Change marketRole, when backend is ready. Also make sure that the new marketRole is translated correctly -->
+                <dh-wholesale-actors
                   [batchId]="batch.batchId"
                   [gridAreaCode]="gridArea.code"
-                ></dh-wholesale-balance-responsibles>
+                  [marketRole]="'EnergySupplier'"
+                ></dh-wholesale-actors>
               </ng-template>
             </watt-expandable-card>
           </li>

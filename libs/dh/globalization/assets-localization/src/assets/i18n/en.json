@@ -812,8 +812,8 @@
     "actors": {
       "loadingActorsFailedTitle": "Oops! There was an error",
       "loadingActorsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
-      "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
-      "balanceResponsibles": "Balance Responsibles",
+      "EnergySupplier": "{{wholesale.processStepResults.energySupplier}}",
+      "BalanceResponsibles": "Balance Responsibles",
       "amountOfResults": "{{length}} Resultater"
     },
     "processStepResults": {
