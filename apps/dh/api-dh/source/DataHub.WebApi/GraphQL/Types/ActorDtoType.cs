@@ -24,7 +24,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             Field(x => x.Number).Description("The number of the actor.");
 
-            // TODO: Below are commented out since the actor number is currently
+            // Below are commented out since the actor number is currently
             // the only field that market participant and wholesale have in common
             // AND it is also not currently possible to get actor information from
             // market participant based on actor number alone.
