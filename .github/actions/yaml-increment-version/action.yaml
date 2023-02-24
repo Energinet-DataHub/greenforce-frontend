@@ -3,6 +3,9 @@ name: Yaml Increment Version
 description: Increments the versions (semver)
 
 inputs:
+  token:
+    description: The token to use for the checkout
+    required: true
   yaml-file:
     description: The path of the yaml file in the head (feature) branch.
     required: true
@@ -25,6 +28,7 @@ runs:
       with:
         ref: main
         fetch-depth: 0
+        token: ${{ inputs.token }}
 
     - name: Get Previous tag
       id: previous-tag
@@ -70,8 +74,8 @@ runs:
         valueFile: ${{ inputs.yaml-file }}
         propertyPath: ${{ inputs.yaml-path }}
         value: ${{ steps.semvers.outputs.patch }}
-        commitChange: true
-        message: 'Bump version to ${{ steps.semvers.outputs.patch }} for ${{ inputs.yaml-file }}'
+        message: 'Chore: bump version to ${{ steps.semvers.outputs.patch }} for ${{ inputs.yaml-file }}'
         branch: ${{ github.head_ref }}
         commitUserName: 'github-actions[bot]'
         commitUserEmail: 'github-actions[bot]@users.noreply.github.com'
+        token: ${{ inputs.token }}

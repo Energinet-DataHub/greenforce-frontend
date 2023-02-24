@@ -37,7 +37,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 
-import { BatchDto, BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
+import { BatchDto, BatchSearchDtoV2 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
@@ -97,7 +97,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onSearch(search: BatchSearchDto) {
+  onSearch(search: BatchSearchDtoV2) {
     this.searchSubmitted = true;
     this.store.getBatches(of(search));
     this.changeDetectorRef.detectChanges();
@@ -107,9 +107,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnDestroy {
     this.store.getZippedBasisData(of(batch));
     this.store.loadingBasisDataErrorTrigger$.pipe(first()).subscribe(() => {
       this.toastService.open({
-        message: this.translations.translate(
-          'wholesale.searchBatch.downloadFailed'
-        ),
+        message: this.translations.translate('wholesale.searchBatch.downloadFailed'),
         type: 'danger',
       });
     });
