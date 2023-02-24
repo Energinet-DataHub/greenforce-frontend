@@ -32,7 +32,7 @@ limitations under the License.
     (rowClick)="this.selected.emit($event)"
     [disabled]="disabled"
   ></watt-table>
-  <watt-paginator></watt-paginator>
+  <watt-paginator [for]="_data"></watt-paginator>
 
   <!-- No Batches found -->
   <watt-empty-state
