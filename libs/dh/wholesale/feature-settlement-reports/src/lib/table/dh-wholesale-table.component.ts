@@ -19,21 +19,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  ViewChild,
   Output,
   EventEmitter,
   inject,
-  AfterViewInit,
 } from '@angular/core';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import {
-  WATT_TABLE,
-  WattTableDataSource,
-  WattTableColumnDef,
-} from '@energinet-datahub/watt/table';
+import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -64,21 +58,17 @@ type settlementReportsTableData = WattTableDataSource<settlementReportsProcess>;
   styleUrls: ['./dh-wholesale-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleTableComponent implements AfterViewInit {
+export class DhWholesaleTableComponent {
   private store = inject(DhWholesaleBatchDataAccessApiStore);
 
   selectedBatch$ = this.store.selectedBatch$;
-
-  @ViewChild(WattPaginatorComponent) paginator!: WattPaginatorComponent;
 
   @Input() set data(processes: settlementReportsProcess[]) {
     this._data = new WattTableDataSource(processes);
   }
 
-  @Output() selectedRow: EventEmitter<settlementReportsProcess> =
-    new EventEmitter();
-  @Output() download: EventEmitter<settlementReportsProcess> =
-    new EventEmitter();
+  @Output() selectedRow: EventEmitter<settlementReportsProcess> = new EventEmitter();
+  @Output() download: EventEmitter<settlementReportsProcess> = new EventEmitter();
 
   _data: settlementReportsTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<settlementReportsProcess> = {
@@ -89,11 +79,5 @@ export class DhWholesaleTableComponent implements AfterViewInit {
     executionTimeStart: { accessor: 'executionTimeStart' },
   };
 
-  translateHeader = (key: string) =>
-    translate(`wholesale.settlementReports.table.${key}`);
-
-  ngAfterViewInit() {
-    if (this._data === null) return;
-    this._data.paginator = this.paginator.instance;
-  }
+  translateHeader = (key: string) => translate(`wholesale.settlementReports.table.${key}`);
 }

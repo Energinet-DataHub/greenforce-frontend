@@ -30,14 +30,14 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
+import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 import { BatchState, TimeSeriesType } from '@energinet-datahub/dh/shared/domain';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleProductionPerGridareaComponent } from './steps/production-per-gridarea.component';
 import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
-import { DhWholesaleEnergySuppliersComponent } from './energy-suppliers/dh-wholesale-energy-suppliers.component';
+import { DhWholesaleActorsComponent } from './actors/dh-wholesale-actors.component';
 
 @Component({
   templateUrl: './dh-wholesale-calculation-steps.component.html',
@@ -59,7 +59,7 @@ import { DhWholesaleEnergySuppliersComponent } from './energy-suppliers/dh-whole
     WattSpinnerModule,
     WattTopBarComponent,
     DhWholesaleProductionPerGridareaComponent,
-    DhWholesaleEnergySuppliersComponent,
+    DhWholesaleActorsComponent,
   ],
 })
 export class DhWholesaleCalculationStepsComponent implements OnInit {

@@ -232,7 +232,7 @@ function getWholesaleSearchBatches(apiBase: string) {
 function postWholesaleBatchProcessStepResult(apiBase: string) {
   return rest.post(`${apiBase}/v1/WholesaleBatch/ProcessStepResult`, (req, res, ctx) => {
     const mockedProcessStepResult = {
-      processStepMeteringPointType: TimeSeriesType.Production,
+      timeSeriesType: TimeSeriesType.Production,
       sum: 102234.245654,
       min: 0.0,
       max: 114.415789,
