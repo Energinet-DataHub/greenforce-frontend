@@ -55,15 +55,15 @@ jobs:
     secrets: inherit
 
   #
-  # Allow other changes to be merged
+  # Allow other file changes to be merged
   #
-  is_exempt:
-    needs: changes
-    if: ${{ needs.changes.outputs.eo_frontend != 'true' && needs.changes.outputs.dh_dotnet != 'true' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Hello
-        run: echo "Other files is exempt from this workflow"
+  # is_exempt:
+  #   needs: changes
+  #   if: ${{ needs.changes.outputs.dh_ci_frontend != 'true' && needs.changes.outputs.dh_ci_dotnet != 'true' && needs.changes.outputs.watt_ci_frontend != 'true' }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: File changes is exempt
+  #       run: echo "These files is exempt from this workflow"
 
   #
   # Branch policy status check
@@ -77,9 +77,6 @@ jobs:
 
         # Watt
         watt_ci_frontend,
-
-        # Other
-        is_exempt,
       ]
     if: |
       always()
