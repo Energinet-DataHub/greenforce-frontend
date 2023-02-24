@@ -49,16 +49,16 @@ import { WattTableComponent } from '../watt-table.component';
       <watt-paginator
         [pageSize]="10"
         [pageSizeOptions]="[5, 10, 20, 50]"
+        [for]="dataSource"
       ></watt-paginator>
     </watt-card>
   `,
 })
 export class WattStorybookTableDecoratorComponent<T> implements AfterViewInit {
-  @ViewChild(WattPaginatorComponent) paginator!: WattPaginatorComponent;
   @ContentChild(WattTableComponent) table!: WattTableComponent<T>;
+  dataSource!: WattTableDataSource<T>;
 
   ngAfterViewInit() {
-    const dataSource = this.table.dataSource as WattTableDataSource<T>;
-    dataSource.paginator = this.paginator;
+    this.dataSource = this.table.dataSource as WattTableDataSource<T>;
   }
 }
