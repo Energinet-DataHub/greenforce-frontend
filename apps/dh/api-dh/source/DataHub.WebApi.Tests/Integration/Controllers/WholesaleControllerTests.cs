@@ -82,7 +82,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         [Theory]
         [InlineAutoMoqData]
-        public async Task PostAsync_WhenBatchesFound_ReturnsOk(BatchSearchDto searchDto)
+        public async Task PostAsync_WhenBatchesFound_ReturnsOk(BatchSearchDtoV2 searchDto)
         {
             var batches = new List<BatchDtoV2>
             {
@@ -109,7 +109,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         [Theory]
         [InlineAutoMoqData]
-        public async Task PostAsync_WhenNoBatchesFound_ReturnsOk(BatchSearchDto searchDto)
+        public async Task PostAsync_WhenNoBatchesFound_ReturnsOk(BatchSearchDtoV2 searchDto)
         {
             MockMarketParticipantClient();
             WholesaleClientMock
@@ -123,7 +123,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         [Theory]
         [InlineAutoMoqData]
-        public async Task PostAsync_WhenBatchesFound_GridAreasHaveNames(BatchSearchDto searchDto)
+        public async Task PostAsync_WhenBatchesFound_GridAreasHaveNames(BatchSearchDtoV2 searchDto)
         {
             var batches = new List<BatchDtoV2>
             {
