@@ -14,50 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
-
-import { WattInputModule } from '@energinet-datahub/watt/input';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+  DhMessageArchiveActorDataAccessApiStore,
+  DhMessageArchiveDataAccessApiStore,
+  DhMessageArchiveDataAccessBlobApiStore,
+} from '@energinet-datahub/dh/message-archive/data-access-api';
+import { DocumentTypes, ProcessTypes } from '@energinet-datahub/dh/message-archive/domain';
+import { MessageArchiveSearchCriteria } from '@energinet-datahub/dh/shared/domain';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
+import {
+  danishTimeZoneIdentifier,
   WattDatepickerModule,
   WattRange,
 } from '@energinet-datahub/watt/datepicker';
+import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTimepickerModule } from '@energinet-datahub/watt/timepicker';
-import {
-  WattDropdownModule,
-  WattDropdownOptions,
-} from '@energinet-datahub/watt/dropdown';
-import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
-import {
-  DhMessageArchiveDataAccessApiStore,
-  DhMessageArchiveDataAccessBlobApiStore,
-  DhMessageArchiveActorDataAccessApiStore,
-} from '@energinet-datahub/dh/message-archive/data-access-api';
-import { MessageArchiveSearchCriteria } from '@energinet-datahub/dh/shared/domain';
-import {
-  ProcessTypes,
-  DocumentTypes,
-} from '@energinet-datahub/dh/message-archive/domain';
-
-import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-message-archive-log-search-result.component';
-import { ViewEncapsulation } from '@angular/core';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
+import { TranslocoModule } from '@ngneat/transloco';
+import { LetModule } from '@rx-angular/template/let';
+import { PushModule } from '@rx-angular/template/push';
 import zonedTimeToUtc from 'date-fns-tz/zonedTimeToUtc';
-import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
+import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-message-archive-log-search-result.component';
 
 @Component({
   standalone: true,
@@ -121,8 +107,7 @@ export class DhMessageArchiveLogSearchComponent {
   getActorOptions$ = this.actorStore.actors$;
 
   rsmFormFieldOptions: WattDropdownOptions = this.buildRsmOptions();
-  processTypeFormFieldOptions: WattDropdownOptions =
-    this.buildProcessTypesOptions();
+  processTypeFormFieldOptions: WattDropdownOptions = this.buildProcessTypesOptions();
 
   searching = false;
   maxItemCount = 100;
@@ -159,21 +144,17 @@ export class DhMessageArchiveLogSearchComponent {
   }
 
   private buildRsmOptions() {
-    return Object.entries(DocumentTypes).map((entry) => {
-      return {
-        value: entry[0],
-        displayValue: entry[1] + ' - ' + entry[0],
-      };
-    });
+    return Object.entries(DocumentTypes).map((entry) => ({
+      value: entry[0],
+      displayValue: `${entry[1]} - ${entry[0]}`,
+    }));
   }
 
   private buildProcessTypesOptions() {
-    return Object.entries(ProcessTypes).map((entry) => {
-      return {
-        value: entry[0],
-        displayValue: entry[0] + ' - ' + entry[1],
-      };
-    });
+    return Object.entries(ProcessTypes).map((entry) => ({
+      value: entry[0],
+      displayValue: `${entry[0]} - ${entry[1]}`,
+    }));
   }
 
   onSubmit() {
@@ -190,18 +171,10 @@ export class DhMessageArchiveLogSearchComponent {
       processTypes,
     } = this.searchForm.value;
 
-    const dateTimeFrom = zonedTimeToUtc(
-      dateRange?.start,
-      danishTimeZoneIdentifier
-    );
+    const dateTimeFrom = zonedTimeToUtc(dateRange?.start, danishTimeZoneIdentifier);
     const dateTimeTo = zonedTimeToUtc(dateRange?.end, danishTimeZoneIdentifier);
 
-    if (
-      timeRange?.start &&
-      timeRange.end &&
-      dateRange?.start &&
-      dateRange?.end
-    ) {
+    if (timeRange?.start && timeRange.end && dateRange?.start && dateRange?.end) {
       const [fromHours, fromMinuts] = timeRange.start.split(':');
       const [toHours, toMinutes] = timeRange.end.split(':');
 

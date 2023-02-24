@@ -205,27 +205,12 @@ function getWholesaleSearchBatch(apiBase: string) {
 function downloadBasisData(apiBase: string) {
   return rest.get(`${apiBase}/v1/WholesaleBatch/ZippedBasisDataStream`, async (req, res, ctx) => {
     return res(ctx.status(500));
-
-    /*
-      // Convert "base64" image to "ArrayBuffer".
-      const imageBuffer = await fetch('FAKE_BASIS_DATA').then((res) =>
-        res.arrayBuffer()
-      );
-      return res(
-        ctx.set('Content-Length', imageBuffer.byteLength.toString()),
-        ctx.set('Content-Type', 'image/png'),
-        // Respond with the "ArrayBuffer".
-        ctx.body(imageBuffer)
-      );
-      */
   });
 }
 
 function getWholesaleSearchBatches(apiBase: string) {
   return rest.post(`${apiBase}/v1/WholesaleBatch/search`, (req, res, ctx) => {
     return res(ctx.delay(300), ctx.status(200), ctx.json(mockedBatches));
-    //return res(ctx.delay(300), ctx.status(200), ctx.json([]));
-    //return res(ctx.delay(2000), ctx.status(500));
   });
 }
 
@@ -263,8 +248,6 @@ function postWholesaleBatchProcessStepResult(apiBase: string) {
 function batchActorsPost(apiBase: string) {
   return rest.post(`${apiBase}/v1/WholesaleBatch/Actors`, (req, res, ctx) => {
     return res(ctx.delay(300), ctx.status(200), ctx.json(mockedActors));
-    //return res(ctx.delay(300), ctx.status(200), ctx.json([]));
-    //return res(ctx.delay(2000), ctx.status(500));
   });
 }
 
