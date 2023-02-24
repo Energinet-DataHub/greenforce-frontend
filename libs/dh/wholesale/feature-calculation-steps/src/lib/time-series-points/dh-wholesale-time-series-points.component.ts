@@ -15,22 +15,14 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { TimeSeriesPointDto } from '@energinet-datahub/dh/shared/domain';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import {
-  WattTableDataSource,
-  WattTableColumnDef,
-  WATT_TABLE,
-} from '@energinet-datahub/watt/table';
+import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 @Component({
@@ -42,7 +34,7 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
     WattEmptyStateModule,
     WattCardModule,
     DhSharedUiDateTimeModule,
-    WattPaginatorComponent
+    WattPaginatorComponent,
   ],
   selector: 'dh-wholesale-time-series-points',
   templateUrl: './dh-wholesale-time-series-points.component.html',
@@ -54,9 +46,7 @@ export class DhWholesaleTimeSeriesPointsComponent {
     this._data = new WattTableDataSource(timeSeriesPoints);
   }
 
-  _data: WattTableDataSource<TimeSeriesPointDto> = new WattTableDataSource(
-    undefined
-  );
+  _data: WattTableDataSource<TimeSeriesPointDto> = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<TimeSeriesPointDto> = {
     time: { accessor: 'time' },
     quantity: { accessor: 'quantity' },
