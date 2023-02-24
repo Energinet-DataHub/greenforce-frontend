@@ -25,6 +25,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  AfterViewInit,
 } from '@angular/core';
 import {
   MatPaginator,
@@ -34,6 +35,8 @@ import {
 } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 import { WattPaginatorIntlService } from './watt-paginator-intl.service';
+
+export type WattPaginator = MatPaginator;
 
 /**
  * Usage:
@@ -58,14 +61,15 @@ import { WattPaginatorIntlService } from './watt-paginator-intl.service';
     ></mat-paginator>
   `,
 })
-export class WattPaginatorComponent implements OnInit, OnDestroy {
+export class WattPaginatorComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() length = 0;
   @Input() pageSizeOptions = [50, 100, 150, 200, 250];
   @Input() pageSize = 50;
 
   @Output() changed = new EventEmitter<PageEvent>();
+  @Output() initialized = new EventEmitter<WattPaginator>();
 
-  @ViewChild(MatPaginator, { static: true }) instance!: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) instance!: WattPaginator;
 
   description?: string;
 
@@ -77,6 +81,10 @@ export class WattPaginatorComponent implements OnInit, OnDestroy {
     this.matPaginatorIntl.getRangeLabel = this.getRangeLabel;
     this.subscription = this.intl.changes.subscribe(this.updateLabels);
     this.updateLabels();
+  }
+
+  ngAfterViewInit(): void {
+    this.initialized.emit(this.instance);
   }
 
   ngOnDestroy() {
@@ -104,9 +112,7 @@ export class WattPaginatorComponent implements OnInit, OnDestroy {
 
     // If the start index exceeds the list length, do not try and fix the end index to the end.
     const endIndex =
-      startIndex < length
-        ? Math.min(startIndex + pageSize, length)
-        : startIndex + pageSize;
+      startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
 
     return `${startIndex + 1} – ${endIndex} ${this.intl.of} ${length}`;
   };

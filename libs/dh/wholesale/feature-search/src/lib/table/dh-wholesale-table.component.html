@@ -33,11 +33,6 @@ limitations under the License.
     sortDirection="desc"
     (rowClick)="selectedRow.emit($event)"
   >
-    <!-- Batch Id -->
-    <ng-container *wattTableCell="columns.batchId; let batch">
-      {{ batch.batchId }}
-    </ng-container>
-
     <!-- Period From -->
     <ng-container *wattTableCell="columns.periodFrom; let batch">
       {{ batch.periodStart | dhDate }}
