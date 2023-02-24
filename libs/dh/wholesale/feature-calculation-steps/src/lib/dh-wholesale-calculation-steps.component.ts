@@ -32,8 +32,7 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 
-import { batch } from '@energinet-datahub/dh/wholesale/domain';
-import { BatchState, graphql, TimeSeriesType } from '@energinet-datahub/dh/shared/domain';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleProductionPerGridareaComponent } from './steps/production-per-gridarea.component';
 import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
@@ -79,8 +78,6 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
   error?: ApolloError;
 
   ngOnInit() {
-    // TODO: Failed batch redirect?
-
     const routeGridAreaCode = this.route.snapshot.params['gridAreaCode'];
 
     // TODO: Unsub?
@@ -92,6 +89,12 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
         variables: { id: this.route.snapshot.params['batchId'] },
       })
       .valueChanges.subscribe((result) => {
+        // Redirect user to search batch page if batch is failed
+        if (result.data?.batch?.executionState === graphql.BatchState.Failed) {
+          this.navigateToSearchBatch(result.data?.batch);
+          return;
+        }
+
         this.batch = result.data?.batch ?? undefined;
         this.gridArea = result.data?.batch?.gridAreas.find((g) => g.code === routeGridAreaCode);
         this.loading = result.loading;
@@ -117,39 +120,6 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
 
     // This is used to open the drawer when the user clicks on a step in the list
     this.drawer?.open();
-
-    // this.getProcessStepResults(step, gln);
-  }
-
-  // private getProcessStepResults(step?: string, gln = 'grid_area') {
-  //   combineLatest([this.batch$, this.gridArea$])
-  //     .pipe(
-  //       filter(([batch, gridArea]) => {
-  //         return !!batch && !!gridArea;
-  //       }),
-  //       first()
-  //     )
-  //     .subscribe(([batch, gridArea]) => {
-  //       if (batch && gridArea) {
-  //         this.store.getProcessStepResults({
-  //           batchId: batch.batchId,
-  //           gridAreaCode: gridArea.code,
-  //           timeSeriesType: this.getTimeSeriesType(step),
-  //           gln,
-  //         });
-  //       }
-  //     });
-  // }
-
-  private getTimeSeriesType(step?: string) {
-    switch (step) {
-      case '1':
-        return TimeSeriesType.Production;
-      case '2':
-        return TimeSeriesType.NonProfiledConsumption;
-      default:
-        return TimeSeriesType.Production;
-    }
   }
 
   onDrawerClosed() {
