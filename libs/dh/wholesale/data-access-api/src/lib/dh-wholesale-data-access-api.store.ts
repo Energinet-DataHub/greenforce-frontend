@@ -24,7 +24,7 @@ import {
   MarketParticipantGridAreaHttp,
   BatchRequestDto,
   ProcessType,
-  BatchSearchDto,
+  BatchSearchDtoV2,
   BatchState,
   BatchDto,
   GridAreaDto,
@@ -191,17 +191,12 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     }
   );
 
-  readonly getBatches = this.effect((filter$: Observable<BatchSearchDto>) => {
+  readonly getBatches = this.effect((filter$: Observable<BatchSearchDtoV2>) => {
     return filter$.pipe(
-      switchMap((filter: BatchSearchDto) => {
+      switchMap((filter: BatchSearchDtoV2) => {
         this.setLoadingBatches(true);
 
-        const searchBatchesRequest: BatchSearchDto = {
-          minExecutionTime: filter.minExecutionTime,
-          maxExecutionTime: filter.maxExecutionTime,
-        };
-
-        return this.httpClient.v1WholesaleBatchSearchPost(searchBatchesRequest).pipe(
+        return this.httpClient.v1WholesaleBatchSearchPost(filter).pipe(
           tapResponse(
             (batches) => {
               const mappedBatches = batches.map((batch) => {
@@ -230,8 +225,12 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
 
           return this.httpClient
             .v1WholesaleBatchSearchPost({
-              minExecutionTime: filters.executionTime?.start as string,
-              maxExecutionTime: filters.executionTime?.end as string,
+              filterByGridAreaCodes: filters.gridArea ? [filters.gridArea] : [],
+              filterByExecutionState: 'Completed',
+              minExecutionTime: filters.executionTime?.start,
+              maxExecutionTime: filters.executionTime?.end,
+              periodStart: filters.period?.start,
+              periodEnd: filters.period?.end,
             })
             .pipe(
               tapResponse(
