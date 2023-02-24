@@ -39,10 +39,8 @@ import {
   MSALInterceptorConfigFactory,
 } from '@energinet-datahub/dh/auth/msal';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
-import {
-  dhB2CEnvironmentToken,
-  environment,
-} from '@energinet-datahub/dh/shared/environments';
+import { DhGraphQLModule } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { dhB2CEnvironmentToken, environment } from '@energinet-datahub/dh/shared/environments';
 import { dhMarketParticipantPath } from '@energinet-datahub/dh/market-participant/routing';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 import { dhChargesPath } from '@energinet-datahub/dh/charges/routing';
@@ -107,9 +105,7 @@ const routes: Routes = [
       {
         path: dhAdminPath,
         loadChildren: () =>
-          import('@energinet-datahub/dh/admin/shell').then(
-            (esModule) => esModule.routes
-          ),
+          import('@energinet-datahub/dh/admin/shell').then((esModule) => esModule.routes),
         canActivate: [MsalGuard],
       },
     ],
@@ -122,22 +118,19 @@ const routes: Routes = [
   exports: [RouterModule],
   imports: [
     DhApiModule.forRoot(),
+    DhGraphQLModule.forRoot(),
     DhCoreShellComponent,
     DhTranslocoModule.forRoot(),
     HttpClientModule,
     MsalModule,
     DhConfigurationLocalizationModule.forRoot(),
     WattDanishDatetimeModule.forRoot(),
-    environment.production
-      ? DhSharedUtilApplicationInsightsModule.forRoot()
-      : [],
+    environment.production ? DhSharedUtilApplicationInsightsModule.forRoot() : [],
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       // Don't perform initial navigation in iframes or popups
       initialNavigation:
-        BrowserUtils.isInIframe() && BrowserUtils.isInPopup()
-          ? 'disabled'
-          : 'enabledNonBlocking',
+        BrowserUtils.isInIframe() && BrowserUtils.isInPopup() ? 'disabled' : 'enabledNonBlocking',
       scrollPositionRestoration: 'enabled',
     }),
     WattToastModule.forRoot(),

@@ -12,22 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.MarketParticipant.Client.Models;
 using GraphQL.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class ActorDtoType : ObjectGraphType<ActorDto>
+    public class ActorDtoType : ObjectGraphType<Actor>
     {
         public ActorDtoType()
         {
             Name = "Actor";
-            Field(x => x.ActorId).Description("The id of the actor.");
-            Field(x => x.ActorNumber).Description("The number of the actor.");
-            Field(x => x.ExternalActorId, nullable: true).Description("The external id of the actor.");
-            Field(x => x.Name).Description("The name of the actor.");
-            Field(x => x.Status).Description("The status of the actor.");
-            Field(x => x.MarketRoles).Description("The market roles of the actor.");
+
+            Field(x => x.Number).Description("The number of the actor.");
+
+            // Below are commented out since the actor number is currently
+            // the only field that market participant and wholesale have in common
+            // AND it is also not currently possible to get actor information from
+            // market participant based on actor number alone.
+
+            // Field(x => x.ActorId).Description("The id of the actor.");
+            // Field(x => x.ExternalActorId, nullable: true).Description("The external id of the actor.");
+            // Field(x => x.Name).Description("The name of the actor.");
+            // Field(x => x.Status).Description("The status of the actor.");
+            // Field(x => x.MarketRoles).Description("The market roles of the actor.");
         }
     }
 }

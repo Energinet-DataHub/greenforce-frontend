@@ -1,0 +1,7 @@
+query GetProcessStepActors($step: Int!, $batchId: ID!, $gridArea: String!) {
+  processStep(step: $step, batchId: $batchId, gridArea: $gridArea) {
+    actors {
+      number
+    }
+  }
+}
