@@ -55,15 +55,15 @@ jobs:
     secrets: inherit
 
   #
-  # EO
+  # Allow other changes to be merged
   #
-  eo_ci_frontend:
+  should_pass:
     needs: changes
-    if: ${{ needs.changes.outputs.eo_frontend == 'true' }}
+    if: ${{ needs.changes.outputs.eo_frontend != 'true' && needs.changes.outputs.dh_dotnet != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Hello
-        run: echo "EO is exempt from this workflow"
+        run: echo "Other files is exempt from this workflow"
 
   #
   # Branch policy status check
@@ -78,8 +78,8 @@ jobs:
         # Watt
         watt_ci_frontend,
 
-        # EO
-        eo_ci_frontend,
+        # Other
+        should_pass,
       ]
     if: |
       always()
