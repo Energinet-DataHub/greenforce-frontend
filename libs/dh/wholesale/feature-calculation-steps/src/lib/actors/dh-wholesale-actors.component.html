@@ -15,13 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container
-  *rxLet="
-    actors$;
-    let actors;
-    suspense: loading;
-    error: error;
-    errorTrigger: errorTrigger$
-  "
+  *rxLet="actors$; let actors; suspense: loading; error: error; errorTrigger: errorTrigger$"
 >
   <ng-container *transloco="let t; read: 'wholesale.actors'">
     <h5 class="watt-on-light--high-emphasis">

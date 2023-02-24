@@ -74,9 +74,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   selectedBatch$ = this.select((x) => x.selectedBatch);
   selectedGridArea$ = this.select((x) => x.selectedGridArea);
   processStepResults$ = this.select((x) => x.processStepResults);
-  actors$ = this.select(
-    (x) => x.actors
-  );
+  actors$ = this.select((x) => x.actors);
 
   creatingBatchSuccessTrigger$: Subject<void> = new Subject();
   creatingBatchErrorTrigger$: Subject<void> = new Subject();
@@ -90,8 +88,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   loadingBatchErrorTrigger$: Subject<void> = new Subject();
   loadingBasisDataErrorTrigger$: Subject<void> = new Subject();
   loadingProcessStepResultsErrorTrigger$: Subject<void> = new Subject();
-  loadingActorsErrorTrigger$: Subject<void> =
-    new Subject();
+  loadingActorsErrorTrigger$: Subject<void> = new Subject();
 
   private document = inject(DOCUMENT);
   private httpClient = inject(WholesaleBatchHttp);
