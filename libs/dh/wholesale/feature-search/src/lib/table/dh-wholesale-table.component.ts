@@ -29,11 +29,7 @@ import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import {
-  WATT_TABLE,
-  WattTableDataSource,
-  WattTableColumnDef,
-} from '@energinet-datahub/watt/table';
+import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
@@ -88,8 +84,7 @@ export class DhWholesaleTableComponent implements AfterViewInit {
     basisData: { accessor: 'isBasisDataDownloadAvailable' },
   };
 
-  translateHeader = (key: string) =>
-    translate(`wholesale.searchBatch.columns.${key}`);
+  translateHeader = (key: string) => translate(`wholesale.searchBatch.columns.${key}`);
 
   isSelectedBatch = (currentBatch: batch, activeBatch: batch) =>
     currentBatch.batchId === activeBatch.batchId;

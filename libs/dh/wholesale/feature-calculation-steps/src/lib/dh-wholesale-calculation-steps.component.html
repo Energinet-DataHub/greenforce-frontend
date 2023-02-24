@@ -105,9 +105,7 @@ limitations under the License.
           <li>
             <watt-card (click)="openDrawer('1')">
               <h4>
-                <watt-badge size="large" class="watt-space-inline-m"
-                  >1</watt-badge
-                >
+                <watt-badge size="large" class="watt-space-inline-m">1</watt-badge>
                 {{ t("processStepResults.aggregatedProductionPerGridArea") }}
               </h4>
               <watt-button variant="text" icon="openInNew">
@@ -119,9 +117,7 @@ limitations under the License.
             <watt-expandable-card [expanded]="getCurrentStep() === '2'">
               <watt-expandable-card-title>
                 <watt-badge size="large">2</watt-badge>
-                {{
-                  t("processStepResults.aggregatedConsumptionPerEnergySupplier")
-                }}
+                {{ t("processStepResults.aggregatedConsumptionPerEnergySupplier") }}
               </watt-expandable-card-title>
               <ng-template wattExpandableCardContent>
                 <dh-wholesale-actors
@@ -137,9 +133,7 @@ limitations under the License.
             <watt-expandable-card [expanded]="getCurrentStep() === '3'">
               <watt-expandable-card-title>
                 <watt-badge size="large">3</watt-badge>
-                {{
-                  t("processStepResults.nonProfiledConsumptionPerBalanceResponsible")
-                }}
+                {{ t("processStepResults.nonProfiledConsumptionPerBalanceResponsible") }}
               </watt-expandable-card-title>
               <ng-template wattExpandableCardContent>
                 <!-- TODO: Change marketRole, when backend is ready. Also make sure that the new marketRole is translated correctly -->

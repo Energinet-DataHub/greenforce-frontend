@@ -14,15 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -35,7 +27,7 @@ import {
   WattTableColumnDef,
   WattTableDataSource,
   WATT_TABLE,
-  WattDataSourcePipe
+  WattDataSourcePipe,
 } from '@energinet-datahub/watt/table';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
@@ -91,15 +83,10 @@ export class DhWholesaleActorsComponent implements OnInit {
 
   getSelectedActor(actors?: WholesaleActorDto[]) {
     if (!actors) return;
-    return actors.find(
-      (e) => e.gln === this.route.firstChild?.snapshot.params.gln
-    );
+    return actors.find((e) => e.gln === this.route.firstChild?.snapshot.params.gln);
   }
 
-  isSelectedActor(
-    current: WholesaleActorDto,
-    active: WholesaleActorDto
-  ) {
+  isSelectedActor(current: WholesaleActorDto, active: WholesaleActorDto) {
     return current.gln === active.gln;
   }
 }
