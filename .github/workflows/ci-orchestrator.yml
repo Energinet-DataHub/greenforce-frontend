@@ -57,7 +57,7 @@ jobs:
   #
   # Allow other changes to be merged
   #
-  should_pass:
+  is_exempt:
     needs: changes
     if: ${{ needs.changes.outputs.eo_frontend != 'true' && needs.changes.outputs.dh_dotnet != 'true' }}
     runs-on: ubuntu-latest
@@ -79,7 +79,7 @@ jobs:
         watt_ci_frontend,
 
         # Other
-        should_pass,
+        is_exempt,
       ]
     if: |
       always()
