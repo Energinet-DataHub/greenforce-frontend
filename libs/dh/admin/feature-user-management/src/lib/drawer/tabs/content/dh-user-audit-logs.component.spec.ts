@@ -26,9 +26,7 @@ import {
 } from '@energinet-datahub/dh/admin/data-access-api';
 
 describe(DhUserAuditLogsComponent.name, () => {
-  async function setup(
-    store: Partial<DhAdminUserManagementAuditLogsDataAccessApiStore>
-  ) {
+  async function setup(store: Partial<DhAdminUserManagementAuditLogsDataAccessApiStore>) {
     const { fixture } = await render(DhUserAuditLogsComponent, {
       componentProviders: [
         {

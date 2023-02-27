@@ -46,13 +46,10 @@ describe(DhAdminUserManagementAuditLogsDataAccessApiStore.name, () => {
 
     const observable = new Subject<UserAuditLogsDto>();
     const httpClient = {
-      v1MarketParticipantUserGetUserAuditLogsGet: () =>
-        observable.asObservable(),
+      v1MarketParticipantUserGetUserAuditLogsGet: () => observable.asObservable(),
     } as MarketParticipantUserHttp;
 
-    const target = new DhAdminUserManagementAuditLogsDataAccessApiStore(
-      httpClient
-    );
+    const target = new DhAdminUserManagementAuditLogsDataAccessApiStore(httpClient);
 
     // act
     target.getAuditLogs('5CF885C5-4EEB-4265-8E48-879EDA779D88');
@@ -69,13 +66,10 @@ describe(DhAdminUserManagementAuditLogsDataAccessApiStore.name, () => {
 
     const observable = new Subject<UserAuditLogsDto>();
     const httpClient = {
-      v1MarketParticipantUserGetUserAuditLogsGet: () =>
-        observable.asObservable(),
+      v1MarketParticipantUserGetUserAuditLogsGet: () => observable.asObservable(),
     } as MarketParticipantUserHttp;
 
-    const target = new DhAdminUserManagementAuditLogsDataAccessApiStore(
-      httpClient
-    );
+    const target = new DhAdminUserManagementAuditLogsDataAccessApiStore(httpClient);
 
     // act
     target.getAuditLogs('4DBBB8EC-750E-40F0-828D-5F23332A74D1');
@@ -95,13 +89,10 @@ describe(DhAdminUserManagementAuditLogsDataAccessApiStore.name, () => {
     observable.error('test_error');
 
     const httpClient = {
-      v1MarketParticipantUserGetUserAuditLogsGet: () =>
-        observable.asObservable(),
+      v1MarketParticipantUserGetUserAuditLogsGet: () => observable.asObservable(),
     } as MarketParticipantUserHttp;
 
-    const target = new DhAdminUserManagementAuditLogsDataAccessApiStore(
-      httpClient
-    );
+    const target = new DhAdminUserManagementAuditLogsDataAccessApiStore(httpClient);
 
     // act
     target.getAuditLogs('F27D9A8E-DD69-4E72-97ED-CB829794571F');
