@@ -31,13 +31,12 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
+import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 
 import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhWholesaleProductionPerGridareaComponent } from './steps/production-per-gridarea.component';
 import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
-import { DhWholesaleEnergySuppliersComponent } from './energy-suppliers/dh-wholesale-energy-suppliers.component';
+import { DhWholesaleActorsComponent } from './actors/dh-wholesale-actors.component';
 
 @Component({
   templateUrl: './dh-wholesale-calculation-steps.component.html',
@@ -59,11 +58,10 @@ import { DhWholesaleEnergySuppliersComponent } from './energy-suppliers/dh-whole
     WattSpinnerModule,
     WattTopBarComponent,
     DhWholesaleProductionPerGridareaComponent,
-    DhWholesaleEnergySuppliersComponent,
+    DhWholesaleActorsComponent,
   ],
 })
 export class DhWholesaleCalculationStepsComponent implements OnInit {
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private apollo = inject(Apollo);
@@ -110,8 +108,8 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
     return this.route.firstChild?.snapshot.url?.[0]?.path;
   }
 
-  openDrawer(step: string, gln?: string) {
-    this.router.navigate([step, gln].filter(Boolean), {
+  openDrawer(step: string, energySupplierGln?: string, balanceResponsiblePartyGln?: string) {
+    this.router.navigate([step, energySupplierGln || balanceResponsiblePartyGln].filter(Boolean), {
       relativeTo: this.route,
     });
 

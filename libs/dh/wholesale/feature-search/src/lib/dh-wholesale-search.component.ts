@@ -22,7 +22,7 @@ import { ApolloError } from '@apollo/client/errors';
 import { Apollo } from 'apollo-angular';
 import { sub, startOfDay, endOfDay } from 'date-fns';
 
-import { BatchSearchDto, graphql } from '@energinet-datahub/dh/shared/domain';
+import { BatchSearchDtoV2, graphql } from '@energinet-datahub/dh/shared/domain';
 
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -91,11 +91,11 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
     if (this.routerBatchId) this.batchDetails.open(this.routerBatchId);
   }
 
-  onSearch(search: BatchSearchDto) {
+  onSearch(search: BatchSearchDtoV2) {
     this.query.refetch({
       executionTime: {
-        start: search.minExecutionTime,
-        end: search.maxExecutionTime,
+        start: search.minExecutionTime as string,
+        end: search.maxExecutionTime as string,
       },
     });
   }

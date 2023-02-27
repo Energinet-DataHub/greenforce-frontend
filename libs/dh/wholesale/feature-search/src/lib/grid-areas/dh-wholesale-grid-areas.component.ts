@@ -16,7 +16,6 @@
  */
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
@@ -25,14 +24,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import {
-  WattTableDataSource,
-  WattTableColumnDef,
-  WATT_TABLE,
-} from '@energinet-datahub/watt/table';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
+import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
@@ -45,7 +41,7 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
     MatSortModule,
     TranslocoModule,
     WattEmptyStateModule,
-    DhSharedUiPaginatorComponent,
+    WattPaginatorComponent,
     WattCardModule,
   ],
   selector: 'dh-wholesale-grid-areas',
@@ -53,14 +49,11 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
   styleUrls: ['./dh-wholesale-grid-areas.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleGridAreasComponent implements AfterViewInit {
+export class DhWholesaleGridAreasComponent {
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(DhSharedUiPaginatorComponent)
-  paginator!: DhSharedUiPaginatorComponent;
 
   @Input() set data(gridAreas: graphql.GridArea[]) {
     this._data = new WattTableDataSource(gridAreas);
-    this._data.paginator = this.paginator?.instance;
   }
 
   @Input() disabled = false;
@@ -77,9 +70,4 @@ export class DhWholesaleGridAreasComponent implements AfterViewInit {
       cell: (row: graphql.GridArea) => row.name ?? '—',
     },
   };
-
-  ngAfterViewInit() {
-    if (!this._data) return;
-    this._data.paginator = this.paginator?.instance;
-  }
 }

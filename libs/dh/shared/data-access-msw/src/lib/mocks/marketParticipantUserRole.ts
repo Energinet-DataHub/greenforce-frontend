@@ -24,26 +24,13 @@ export function marketParticipantUserRoleMocks(apiBase: string) {
 }
 
 function GetUserRoleView(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/MarketParticipantUserRole/GetUserRoleView`,
-    (req, res, ctx) => {
-      return res(ctx.json(marketParticipantUserRoleView));
-    }
-  );
+  return rest.get(`${apiBase}/v1/MarketParticipantUserRole/GetUserRoleView`, (req, res, ctx) => {
+    return res(ctx.json(marketParticipantUserRoleView));
+  });
 }
 
 function Permissions(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/MarketParticipantUserRole/Permissions`,
-    (req, res, ctx) => {
-      const eicFunction = req.url.searchParams.get('eicFunction');
-      return res(
-        ctx.json(
-          marketParticipantUserRolePermissions.filter(
-            (s) => s.eicFunction == eicFunction
-          )
-        )
-      );
-    }
-  );
+  return rest.get(`${apiBase}/v1/MarketParticipantUserRole/Permissions`, (req, res, ctx) => {
+    return res(ctx.json(marketParticipantUserRolePermissions));
+  });
 }

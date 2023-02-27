@@ -37,8 +37,8 @@ export class AppSettingsStore extends ComponentStore<AppSettingsState> {
   constructor() {
     super({
       calendarDateRange: {
-        start: 1609459200000, // 1/1-2021
-        end: 1640995200000, // 1/1-2022
+        start: new Date('2021-01-01:00:00:00').getTime(),
+        end: new Date('2022-01-01:00:00:00').getTime(),
       },
       resolution: 'MONTH',
     });
@@ -74,10 +74,7 @@ export class AppSettingsStore extends ComponentStore<AppSettingsState> {
   );
 
   getResolutionFromDateRange(dateRange: CalendarDateRange): Resolution {
-    const difference = differenceInDays(
-      new Date(dateRange.end),
-      new Date(dateRange.start)
-    );
+    const difference = differenceInDays(new Date(dateRange.end), new Date(dateRange.start));
 
     switch (true) {
       case difference < 3:

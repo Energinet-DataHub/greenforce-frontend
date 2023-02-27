@@ -16,11 +16,9 @@
  */
 import { CommonModule, DOCUMENT } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Input,
-  ViewChild,
   Output,
   EventEmitter,
   inject,
@@ -29,7 +27,6 @@ import { take } from 'rxjs';
 import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { graphql, WholesaleBatchHttp } from '@energinet-datahub/dh/shared/domain';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
@@ -38,6 +35,7 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 type Batch = Omit<graphql.Batch, 'gridAreas'>;
 type wholesaleTableData = WattTableDataSource<Batch>;
@@ -52,7 +50,7 @@ type wholesaleTableData = WattTableDataSource<Batch>;
     WattBadgeComponent,
     WattButtonModule,
     WattEmptyStateModule,
-    DhSharedUiPaginatorComponent,
+    WattPaginatorComponent,
     WattCardModule,
   ],
   selector: 'dh-wholesale-table',
@@ -60,7 +58,7 @@ type wholesaleTableData = WattTableDataSource<Batch>;
   styleUrls: ['./dh-wholesale-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleTableComponent implements AfterViewInit {
+export class DhWholesaleTableComponent {
   private document = inject(DOCUMENT);
   private httpClient = inject(WholesaleBatchHttp);
   private toastService = inject(WattToastService);
@@ -68,9 +66,6 @@ export class DhWholesaleTableComponent implements AfterViewInit {
 
   @Input()
   selectedBatch?: Batch;
-
-  @ViewChild(DhSharedUiPaginatorComponent)
-  paginator!: DhSharedUiPaginatorComponent;
 
   @Input() set data(batches: Batch[]) {
     this._data = new WattTableDataSource(batches);
@@ -80,7 +75,6 @@ export class DhWholesaleTableComponent implements AfterViewInit {
 
   _data: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Batch> = {
-    batchId: { accessor: 'id' },
     periodFrom: { accessor: (batch) => batch.period?.start },
     periodTo: { accessor: (batch) => batch.period?.end },
     executionTime: { accessor: 'executionTimeStart' },
@@ -89,11 +83,6 @@ export class DhWholesaleTableComponent implements AfterViewInit {
   };
 
   translateHeader = (key: string) => translate(`wholesale.searchBatch.columns.${key}`);
-
-  ngAfterViewInit() {
-    if (this._data === null) return;
-    this._data.paginator = this.paginator.instance;
-  }
 
   onDownload(event: Event, batch: Batch) {
     event.stopPropagation();

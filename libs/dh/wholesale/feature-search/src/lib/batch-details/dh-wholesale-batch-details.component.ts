@@ -17,7 +17,6 @@
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild, inject, Output, EventEmitter } from '@angular/core';
-import { ApolloError } from '@apollo/client';
 import { Apollo } from 'apollo-angular';
 import { TranslocoModule, translate } from '@ngneat/transloco';
 
@@ -73,7 +72,7 @@ export class DhWholesaleBatchDetailsComponent {
 
   batchId?: string;
   batch?: graphql.Batch;
-  error?: ApolloError;
+  error = false;
   loading = false;
 
   // TODO:
@@ -106,6 +105,7 @@ export class DhWholesaleBatchDetailsComponent {
     this.subscription?.unsubscribe();
     this.subscription = this.apollo
       .watchQuery({
+        errorPolicy: 'all',
         returnPartialData: true,
         useInitialLoading: true,
         notifyOnNetworkStatusChange: true,
@@ -113,10 +113,16 @@ export class DhWholesaleBatchDetailsComponent {
         variables: { id },
       })
       .valueChanges.pipe(takeUntil(this.closed))
-      .subscribe((result) => {
-        this.batch = result.data?.batch ?? undefined;
-        this.loading = result.loading;
-        this.error = result.error;
+      .subscribe({
+        next: (result) => {
+          this.batch = result.data?.batch ?? undefined;
+          this.loading = result.loading;
+          this.error = !!result.errors;
+        },
+        error: (error) => {
+          this.error = error;
+          this.loading = false;
+        },
       });
   }
 

@@ -21,7 +21,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ApolloError } from '@apollo/client';
 import { Apollo } from 'apollo-angular';
 
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { graphql, MarketRole } from '@energinet-datahub/dh/shared/domain';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -29,7 +29,7 @@ import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-
 
 @Component({
   standalone: true,
-  selector: 'dh-wholesale-energy-suppliers',
+  selector: 'dh-wholesale-actors',
   imports: [
     CommonModule,
     TranslocoModule,
@@ -38,15 +38,16 @@ import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-
     WattPaginatorComponent,
     WattSpinnerModule,
   ],
-  templateUrl: './dh-wholesale-energy-suppliers.component.html',
-  styleUrls: ['./dh-wholesale-energy-suppliers.component.scss'],
+  templateUrl: './dh-wholesale-actors.component.html',
+  styleUrls: ['./dh-wholesale-actors.component.scss'],
 })
-export class DhWholesaleEnergySuppliersComponent implements OnInit {
+export class DhWholesaleActorsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private apollo = inject(Apollo);
 
   @Input() batchId!: string;
   @Input() gridAreaCode!: string;
+  @Input() marketRole = MarketRole.EnergySupplier;
 
   @Output() rowClick = new EventEmitter<graphql.Actor>();
 
@@ -69,11 +70,16 @@ export class DhWholesaleEnergySuppliersComponent implements OnInit {
         query: graphql.GetProcessStepActorsDocument,
         variables: { step: 2, batchId: this.batchId, gridArea: this.gridAreaCode },
       })
-      .valueChanges.subscribe((result) => {
-        this.actors = result.data?.processStep?.actors ?? undefined;
-        if (this.actors) this._dataSource.data = this.actors;
-        this.loading = result.loading;
-        this.error = result.error;
+      .valueChanges.subscribe({
+        next: (result) => {
+          this.actors = result.data?.processStep?.actors ?? undefined;
+          if (this.actors) this._dataSource.data = this.actors;
+          this.loading = result.loading;
+        },
+        error: (err) => {
+          this.error = err;
+          this.loading = false;
+        }
       });
   }
 

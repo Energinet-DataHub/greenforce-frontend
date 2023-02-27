@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'wholesale.energySuppliers'">
+<ng-container *transloco="let t; read: 'wholesale.actors'">
   <ng-container *ngIf="actors">
     <h5 class="watt-on-light--high-emphasis">
       {{ t("amountOfResults", { length: actors.length }) }}
@@ -27,7 +27,7 @@ limitations under the License.
       (rowClick)="rowClick.emit($event)"
     >
     </watt-table>
-    <watt-paginator></watt-paginator>
+    <watt-paginator [for]="_dataSource"></watt-paginator>
   </ng-container>
 
   <watt-spinner *ngIf="loading"></watt-spinner>
@@ -35,8 +35,8 @@ limitations under the License.
   <watt-empty-state
     *ngIf="error"
     icon="custom-power"
-    [title]="t('loadingEnerySuppliersFailedTitle')"
-    [message]="t('loadingEnerySuppliersFailedMessage')"
+    [title]="t('loadingActorsFailedTitle')"
+    [message]="t('loadingActorsFailedMessage')"
   >
   </watt-empty-state>
 </ng-container>

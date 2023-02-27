@@ -47,20 +47,16 @@ limitations under the License.
     [data]="processStepResults!.timeSeriesPoints"
   ></dh-wholesale-time-series-points>
 
-  <ng-template #loadingProcessStepResults>
-    <div class="center">
-      <watt-spinner></watt-spinner>
-    </div>
-  </ng-template>
+  <div class="center" *ngIf="loading">
+    <watt-spinner></watt-spinner>
+  </div>
 
-  <ng-template #loadingProcessStepResultsError>
-    <div class="center">
-      <watt-empty-state
-        icon="custom-power"
-        [title]="transloco('loadProcessStepResultsErrorTitle')"
-        [message]="transloco('loadProcessStepResultsErrorMessage')"
-      >
-      </watt-empty-state>
-    </div>
-  </ng-template>
+  <div class="center" *ngIf="processStepError || batchError">
+    <watt-empty-state
+      icon="custom-power"
+      [title]="transloco('loadProcessStepResultsErrorTitle')"
+      [message]="transloco('loadProcessStepResultsErrorMessage')"
+    >
+    </watt-empty-state>
+  </div>
 </ng-container>

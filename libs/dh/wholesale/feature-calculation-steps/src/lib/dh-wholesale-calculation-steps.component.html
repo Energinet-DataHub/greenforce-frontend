@@ -83,8 +83,8 @@ limitations under the License.
       </dl>
     </div>
   </watt-top-bar>
-  <main *ngIf="gridArea && batch">
-    <ul class="steps">
+  <main>
+    <ul class="steps" *ngIf="batch && gridArea">
       <li>
         <watt-card (click)="openDrawer('1')">
           <h4>
@@ -103,21 +103,30 @@ limitations under the License.
             {{ t("processStepResults.aggregatedConsumptionPerEnergySupplier") }}
           </watt-expandable-card-title>
           <ng-template wattExpandableCardContent>
-            <dh-wholesale-energy-suppliers
+            <dh-wholesale-actors
               [batchId]="batch.id"
               [gridAreaCode]="gridArea.code"
+              [marketRole]="'EnergySupplier'"
               (rowClick)="openDrawer('2', $event.number)"
-            ></dh-wholesale-energy-suppliers>
+            ></dh-wholesale-actors>
           </ng-template>
         </watt-expandable-card>
       </li>
       <li>
-        <watt-card>
-          <h4>
-            <watt-badge size="large" class="watt-space-inline-m">3</watt-badge>
+        <watt-expandable-card [expanded]="getCurrentStep() === '3'">
+          <watt-expandable-card-title>
+            <watt-badge size="large">3</watt-badge>
             {{ t("processStepResults.nonProfiledConsumptionPerBalanceResponsible") }}
-          </h4>
-        </watt-card>
+          </watt-expandable-card-title>
+          <ng-template wattExpandableCardContent>
+            <!-- TODO: Change marketRole, when backend is ready. Also make sure that the new marketRole is translated correctly -->
+            <dh-wholesale-actors
+              [batchId]="batch.id"
+              [gridAreaCode]="gridArea.code"
+              [marketRole]="'EnergySupplier'"
+            ></dh-wholesale-actors>
+          </ng-template>
+        </watt-expandable-card>
       </li>
     </ul>
 

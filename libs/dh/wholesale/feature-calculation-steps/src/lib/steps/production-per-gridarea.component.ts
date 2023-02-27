@@ -61,8 +61,14 @@ export class DhWholesaleProductionPerGridareaComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private apollo = inject(Apollo);
 
+  loading = false;
+  processStepError = false;
+  batchError = false;
+
   processStepQuery = this.apollo.watchQuery({
     query: graphql.GetProcessStepResultDocument,
+    errorPolicy: 'all',
+    useInitialLoading: true,
     variables: {
       step: 1,
       batchId: this.route.parent?.snapshot.params['batchId'],
@@ -116,14 +122,29 @@ export class DhWholesaleProductionPerGridareaComponent implements OnInit {
 
   ngOnInit() {
     // TODO: Unsub
-    this.processStepQuery.valueChanges.subscribe((result) => {
-      this.processStepResults = result.data?.processStep?.result ?? undefined;
+    this.processStepQuery.valueChanges.subscribe({
+      next: (result) => {
+        this.processStepResults = result.data?.processStep?.result ?? undefined;
+        this.loading = result.loading;
+        this.processStepError = !!result.errors;
+      },
+      error: () => {
+        this.processStepError = true;
+        this.loading = false;
+      },
     });
 
-    this.batchQuery.valueChanges.subscribe((result) => {
-      const routeGridArea = this.route.parent?.snapshot.params['gridAreaCode'];
-      this.batch = result.data?.batch ?? undefined;
-      this.gridArea = this.batch?.gridAreas[routeGridArea];
+    this.batchQuery.valueChanges.subscribe({
+      next: (result) => {
+        const routeGridArea = this.route.parent?.snapshot.params['gridAreaCode'];
+        this.batch = result.data?.batch ?? undefined;
+        this.gridArea = this.batch?.gridAreas[routeGridArea];
+        this.batchError = !!result.errors;
+      },
+      error: () => {
+        this.batchError = true;
+        this.loading = false;
+      },
     });
   }
 }

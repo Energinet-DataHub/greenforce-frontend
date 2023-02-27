@@ -31,7 +31,7 @@ limitations under the License.
   <watt-drawer-content>
     <ng-container *transloco="let transloco; read: 'wholesale'">
       <div class="headline-container">
-        <watt-badge [type]="batch?.statusType ?? 'skeleton'">{{
+        <watt-badge [type]="batch?.statusType ?? 'skeleton'" *ngIf="!error">{{
           batch?.executionState ? transloco("searchBatch." + batch?.executionState) : "unknown"
         }}</watt-badge>
         <h3 class="headline watt-headline-1">
