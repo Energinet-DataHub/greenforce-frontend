@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
@@ -94,7 +95,10 @@ namespace Energinet.DataHub.WebApi.Controllers
                         auditLog.AssignmentType));
                 }
 
-                return new MarketParticipant.Dto.UserAuditLogsDto(roleAssignmentAuditLogs);
+                var userInviteAuditLogs = auditLogs.InviteAuditLogs
+                    .Select(i => new UserInviteAuditLogDto(i.UserId, i.ChangedByUserId, i.ActorId, i.ActorName, i.Timestamp));
+
+                return new MarketParticipant.Dto.UserAuditLogsDto(roleAssignmentAuditLogs, userInviteAuditLogs);
             });
         }
     }
