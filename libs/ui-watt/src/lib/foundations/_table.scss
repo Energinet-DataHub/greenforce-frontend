@@ -55,15 +55,12 @@ mat-paginator:not(.watt-paginator) {
   }
 
   & .mat-icon-button {
+    color: var(--watt-color-primary);
     line-height: 1;
 
     // Decrease spacing between arrow buttons
     width: 36px;
     height: 36px;
-  }
-
-  & .mat-icon-button {
-    color: var(--watt-color-primary);
   }
 
   & .mat-icon-button.mat-button-disabled.mat-button-disabled {

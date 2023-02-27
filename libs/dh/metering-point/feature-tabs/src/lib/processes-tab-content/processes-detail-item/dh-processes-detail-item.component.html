@@ -14,10 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<div
-  class="child-row"
-  [ngClass]="detail.errors.length > 0 ? 'state-danger' : 'state-success'"
->
+<div class="child-row" [ngClass]="detail.errors.length > 0 ? 'state-danger' : 'state-success'">
   <div class="child-cell">{{ detail.name }}</div>
   <div class="child-cell">
     <ng-container *ngIf="detail.createdDate">
@@ -32,20 +29,11 @@ limitations under the License.
     </ng-container>
   </div>
   <div class="child-cell details-status-cell">{{ detail.status }}</div>
-  <div class="child-cell open-logfile-cell">
-    <!-- TODO: Out comment and implement this when the "search log file" functionality is done. Currently used for alignment -->
-    <!-- <watt-icon-->
-    <!--   name='openInNew'-->
-    <!--   [size]='iconSize.Medium'-->
-    <!--   class='open-in-new-icon'-->
-    <!-- ></watt-icon>-->
-  </div>
+  <div class="child-cell open-logfile-cell"></div>
   <div class="child-cell error-row" *ngIf="detail.errors.length > 0">
     <watt-validation-message
       *ngFor="let error of detail.errors"
-      [label]="
-        'meteringPoint.overview.processesTab.processRejected' | transloco
-      "
+      [label]="'meteringPoint.overview.processesTab.processRejected' | transloco"
       [message]="error.description"
       [type]="'danger'"
     ></watt-validation-message>
