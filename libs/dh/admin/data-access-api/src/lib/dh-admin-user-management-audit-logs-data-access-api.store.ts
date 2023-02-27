@@ -18,10 +18,7 @@ import { Injectable } from '@angular/core';
 import { Observable, switchMap, tap, withLatestFrom } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
-import {
-  ErrorState,
-  LoadingState,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserHttp,
   UserAuditLogsDto,
@@ -45,13 +42,9 @@ const initialState: DhUserManagementAuditLogsState = {
 
 @Injectable()
 export class DhAdminUserManagementAuditLogsDataAccessApiStore extends ComponentStore<DhUserManagementAuditLogsState> {
-  isLoading$ = this.select(
-    (state) => state.requestState === LoadingState.LOADING
-  );
+  isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
 
-  hasGeneralError$ = this.select(
-    (state) => state.requestState === ErrorState.GENERAL_ERROR
-  );
+  hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
 
   auditLogs$ = this.select((state) => state.auditLogs);
   auditLogCount$ = this.select((state) => state.auditLogs.length);
