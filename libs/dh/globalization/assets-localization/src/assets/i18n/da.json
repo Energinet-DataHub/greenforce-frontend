@@ -1076,7 +1076,9 @@
             }
           },
           "permissions": {
-            "tabLabel": "Rettigheder"
+            "tabLabel": "Rettigheder",
+            "title": "Rettigheder",
+            "onEditMessage": "Ved fjern/tilføj af rettigheder til en brugerrolle, kan det tage op til en time, før ændringer træder i kraft, efter de er gemt. Alternativt kan brugere logge ud og ind, hvis ændringer skal træde i kraft med det samme."
           }
         },
         "cancel": "Fortryd",
