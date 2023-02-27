@@ -18,9 +18,7 @@ limitations under the License.
   <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
     <section class="content">
       <watt-card>
-        <watt-card-title
-          *transloco="let transloco; read: 'wholesale.settlementReports.table'"
-        >
+        <watt-card-title *transloco="let transloco; read: 'wholesale.settlementReports.table'">
           <h3 class="watt-on-light--high-emphasis">
             {{ transloco("title") }}
           </h3>
@@ -28,38 +26,20 @@ limitations under the License.
 
         <dh-wholesale-form
           (filterChange)="onFilterChange($event)"
-          [loading]="loadingSettlementReportsTrigger$ | push"
+          [loading]="loading"
         ></dh-wholesale-form>
 
-        <ng-container
-          *rxLet="
-            data$;
-            let data;
-            error: loadedSettlementReportsError;
-            suspense: loadingSettlementReports;
-            suspenseTrigger: loadingSettlementReportsTrigger$;
-            errorTrigger: loadingSettlementReportsErrorTrigger$
-          "
+        <dh-wholesale-table *ngIf="data && !loading" [data]="data"></dh-wholesale-table>
+
+        <watt-spinner *ngIf="loading"></watt-spinner>
+
+        <watt-empty-state
+          *ngIf="error"
+          icon="custom-power"
+          [title]="transloco('loadBatchesFailedTitle')"
+          [message]="transloco('loadBatchesFailedMessage')"
         >
-          <dh-wholesale-table
-            *ngIf="data"
-            [data]="data$ | push"
-          ></dh-wholesale-table>
-        </ng-container>
+        </watt-empty-state>
       </watt-card>
     </section>
-
-    <ng-template #loadingSettlementReports>
-      <watt-spinner></watt-spinner>
-    </ng-template>
-
-    <ng-template #loadedSettlementReportsError>
-      <watt-empty-state
-        icon="custom-power"
-        [title]="transloco('loadBatchesFailedTitle')"
-        [message]="transloco('loadBatchesFailedMessage')"
-      >
-      </watt-empty-state>
-    </ng-template>
-  </ng-container>
 </ng-container>

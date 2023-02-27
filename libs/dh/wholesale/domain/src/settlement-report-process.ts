@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 import {
-  BatchDto,
   DateRange,
+  graphql,
   ProcessType,
 } from '@energinet-datahub/dh/shared/domain';
 
-export type settlementReportsProcess = BatchDto & {
+export type settlementReportsProcess = graphql.Batch & {
   processType: ProcessType;
   gridAreaCode: string;
   gridAreaName: string;
