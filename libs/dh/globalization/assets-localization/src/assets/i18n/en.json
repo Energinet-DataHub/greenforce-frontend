@@ -832,7 +832,8 @@
       "min": "Min",
       "max": "Max",
       "timeSeriesType": {
-        "PRODUCTION": "Production"
+        "PRODUCTION": "Production",
+        "NON_PROFILED_CONSUMPTION": "Consumption"
       }
     },
     "timeSeriesPoints": {

@@ -15,25 +15,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<ng-container *transloco="let transloco; read: 'wholesale.processStepResults'">
+<ng-container *transloco="let t; read: 'wholesale.processStepResults'">
   <h3
     class="headline watt-headline-2 watt-on-light--high-emphasis"
     style="display: flex; align-items: center"
   >
-    <watt-badge size="large" class="watt-space-inline-s">{{
-      transloco("step", { step: 1 })
-    }}</watt-badge>
-    {{ transloco("aggregatedProductionPerGridArea") }}
+    <watt-badge size="large" class="watt-space-inline-s">{{t("step", { step })}}</watt-badge>
+    {{ title }}
   </h3>
-  <p class="sub-headline" *ngIf="gridArea">
-    <span class="watt-label watt-on-light--high-emphasis">{{ transloco("gridArea") }}</span>
-    <small *transloco="let transloco; read: 'wholesale'">
-      {{
-        transloco("calculationSteps.breadcrumb", {
-          gridAreaCode: gridArea.code,
-          gridAreaName: gridArea.name
-        })
-      }}
+  <p class="sub-headline" *ngIf="processStepResults">
+    <span class="watt-label watt-on-light--high-emphasis">{{ marketRole }}</span>
+    <small>
+      {{ processStepResults.breadcrumb }}
     </small>
   </p>
 
@@ -54,8 +47,8 @@ limitations under the License.
   <div class="center" *ngIf="processStepError || batchError">
     <watt-empty-state
       icon="custom-power"
-      [title]="transloco('loadProcessStepResultsErrorTitle')"
-      [message]="transloco('loadProcessStepResultsErrorMessage')"
+      [title]="t('loadProcessStepResultsErrorTitle')"
+      [message]="t('loadProcessStepResultsErrorMessage')"
     >
     </watt-empty-state>
   </div>

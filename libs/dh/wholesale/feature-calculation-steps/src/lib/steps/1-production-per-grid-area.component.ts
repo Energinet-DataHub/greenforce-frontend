@@ -14,17 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.headline,
-.sub-headline {
-  margin: 0;
-}
+import { Component } from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
+import { DhWholesaleResultsComponent } from '../results/dh-wholesale-results.component';
 
-watt-spinner {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--watt-space-l);
-}
-
-watt-empty-state {
-  margin-top: var(--watt-space-l);
-}
+@Component({
+  standalone: true,
+  imports: [TranslocoModule, DhWholesaleResultsComponent],
+  selector: 'dh-wholesale-production-per-gridarea',
+  template: `
+    <dh-wholesale-results
+      *transloco="let t; read: 'wholesale.processStepResults'"
+      [title]="t('aggregatedProductionPerGridArea')"
+      [marketRole]="t('gridArea')"
+    ></dh-wholesale-results>
+  `,
+})
+export class DhWholesaleProductionPerGridareaComponent {}

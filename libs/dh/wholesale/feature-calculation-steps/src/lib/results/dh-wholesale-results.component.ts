@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, inject, OnInit } from '@angular/core';
+import { Component, ViewChild, inject, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
@@ -37,9 +37,9 @@ import { ActivatedRoute } from '@angular/router';
 import { DhDatePipe } from '@energinet-datahub/dh/shared/ui-date-time';
 
 @Component({
-  selector: 'dh-wholesale-production-per-gridarea',
-  templateUrl: './production-per-gridarea.component.html',
-  styleUrls: ['./production-per-gridarea.component.scss'],
+  selector: 'dh-wholesale-results',
+  templateUrl: './dh-wholesale-results.component.html',
+  styleUrls: ['./dh-wholesale-results.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
@@ -55,39 +55,39 @@ import { DhDatePipe } from '@energinet-datahub/dh/shared/ui-date-time';
     WattDescriptionListComponent,
   ],
 })
-export class DhWholesaleProductionPerGridareaComponent implements OnInit {
+export class DhWholesaleResultsComponent implements OnInit {
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
   private route = inject(ActivatedRoute);
   private apollo = inject(Apollo);
 
+  @Input() marketRole?: string;
+  @Input() title?: string;
+
   loading = false;
   processStepError = false;
   batchError = false;
 
-  processStepQuery = this.apollo.watchQuery({
+  batch?: graphql.Batch;
+  gridArea?: graphql.GridArea;
+  processStepResults?: graphql.ProcessStepResult;
+
+  step = Number.parseInt(this.route.snapshot.url?.[0]?.path as string);
+  batchId = this.route.parent?.snapshot.params['batchId'];
+  gridAreaCode = this.route.parent?.snapshot.params['gridAreaCode'];
+  gln = this.route.snapshot.params['gln'] ?? 'grid_area';
+
+  processResultQuery = this.apollo.watchQuery({
     query: graphql.GetProcessStepResultDocument,
     errorPolicy: 'all',
     useInitialLoading: true,
     variables: {
-      step: 1,
-      batchId: this.route.parent?.snapshot.params['batchId'],
-      gridArea: this.route.parent?.snapshot.params['gridAreaCode'],
-      gln: 'grid_area',
+      step: this.step,
+      batchId: this.batchId,
+      gridArea: this.gridAreaCode,
+      gln: this.gln,
     },
   });
-
-  // could read from cache?
-  batchQuery = this.apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
-    query: graphql.GetBatchDocument,
-    variables: { id: this.route.parent?.snapshot.params['batchId'] },
-  });
-
-  batch?: graphql.Batch;
-  gridArea?: graphql.GridArea;
-  processStepResults?: graphql.ProcessStepResult;
 
   getMetadata(): WattDescriptionListGroups {
     const datePipe = new DhDatePipe();
@@ -121,8 +121,17 @@ export class DhWholesaleProductionPerGridareaComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.params.subscribe((params) => {
+      if (params.gln && params.gln === this.gln) return;
+      this.processResultQuery.refetch({
+        step: this.step,
+        batchId: this.batchId,
+        gridArea: this.gridAreaCode,
+        gln: params.gln ?? 'grid_area',
+      });
+    });
     // TODO: Unsub
-    this.processStepQuery.valueChanges.subscribe({
+    this.processResultQuery.valueChanges.subscribe({
       next: (result) => {
         this.processStepResults = result.data?.processStep?.result ?? undefined;
         this.loading = result.loading;
@@ -134,17 +143,24 @@ export class DhWholesaleProductionPerGridareaComponent implements OnInit {
       },
     });
 
-    this.batchQuery.valueChanges.subscribe({
-      next: (result) => {
-        const routeGridArea = this.route.parent?.snapshot.params['gridAreaCode'];
-        this.batch = result.data?.batch ?? undefined;
-        this.gridArea = this.batch?.gridAreas[routeGridArea];
-        this.batchError = !!result.errors;
-      },
-      error: () => {
-        this.batchError = true;
-        this.loading = false;
-      },
-    });
+    this.apollo
+      .watchQuery({
+        useInitialLoading: true,
+        notifyOnNetworkStatusChange: true,
+        query: graphql.GetBatchDocument,
+        variables: { id: this.route.parent?.snapshot.params['batchId'] },
+      })
+      .valueChanges.subscribe({
+        next: (result) => {
+          const routeGridArea = this.route.parent?.snapshot.params['gridAreaCode'];
+          this.batch = result.data?.batch ?? undefined;
+          this.gridArea = this.batch?.gridAreas[routeGridArea];
+          this.batchError = !!result.errors;
+        },
+        error: () => {
+          this.batchError = true;
+          this.loading = false;
+        },
+      });
   }
 }

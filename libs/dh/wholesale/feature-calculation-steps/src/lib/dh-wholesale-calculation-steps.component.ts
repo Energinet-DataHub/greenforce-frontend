@@ -34,7 +34,6 @@ import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 
 import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { DhWholesaleProductionPerGridareaComponent } from './steps/production-per-gridarea.component';
 import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
 import { DhWholesaleActorsComponent } from './actors/dh-wholesale-actors.component';
 
@@ -57,7 +56,6 @@ import { DhWholesaleActorsComponent } from './actors/dh-wholesale-actors.compone
     WattEmptyStateModule,
     WattSpinnerModule,
     WattTopBarComponent,
-    DhWholesaleProductionPerGridareaComponent,
     DhWholesaleActorsComponent,
   ],
 })

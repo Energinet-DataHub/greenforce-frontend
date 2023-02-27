@@ -12,7 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Linq;
+using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.Wholesale.Contracts;
+using GraphQL;
+using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
@@ -28,6 +32,26 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<TimeSeriesPointType>>>>("timeSeriesPoints")
                 .Resolve(context => context.Source.TimeSeriesPoints);
             Field(x => x.TimeSeriesType);
+
+            Field<StringGraphType>("breadcrumb")
+               .Resolve()
+               .WithScope()
+               .WithService<IMarketParticipantClient>()
+               .ResolveAsync(async (context, client) =>
+               {
+                   var parent = context.Parent!;
+                   var gridArea = parent.Parent!.GetArgument<string>("gridArea");
+                   var gln = parent.GetArgument<string>("gln");
+                   return gln switch
+                   {
+                       // TODO: Inefficient request
+                       "grid_area" => (await client.GetGridAreasAsync())
+                           .Where(g => g.Code == gridArea)
+                           .Select(g => $"({g.Code}) {g.Name}")
+                           .First() ?? gridArea,
+                       _ => gln,
+                   };
+               });
         }
     }
 }

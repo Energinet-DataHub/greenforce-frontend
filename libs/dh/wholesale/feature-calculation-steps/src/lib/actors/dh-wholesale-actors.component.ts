@@ -26,6 +26,7 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { takeWhile } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -70,8 +71,11 @@ export class DhWholesaleActorsComponent implements OnInit {
         query: graphql.GetProcessStepActorsDocument,
         variables: { step: 2, batchId: this.batchId, gridArea: this.gridAreaCode },
       })
-      .valueChanges.subscribe({
+      // TODO: Consider subscring in template
+      .valueChanges.pipe(takeWhile((result) => result.loading, true))
+      .subscribe({
         next: (result) => {
+          console.log(result);
           this.actors = result.data?.processStep?.actors ?? undefined;
           if (this.actors) this._dataSource.data = this.actors;
           this.loading = result.loading;
@@ -79,7 +83,7 @@ export class DhWholesaleActorsComponent implements OnInit {
         error: (err) => {
           this.error = err;
           this.loading = false;
-        }
+        },
       });
   }
 
