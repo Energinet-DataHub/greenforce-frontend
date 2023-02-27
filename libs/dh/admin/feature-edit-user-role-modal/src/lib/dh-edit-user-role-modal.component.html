@@ -53,6 +53,7 @@ limitations under the License.
 
           <dh-permissions-table
             [permissions]="marketRolePermissions$ | push: { strategy: 'local' }"
+            [initialSelection]="initiallySelectedPermissions$ | push"
           ></dh-permissions-table>
         </watt-tab>
       </watt-tabs>

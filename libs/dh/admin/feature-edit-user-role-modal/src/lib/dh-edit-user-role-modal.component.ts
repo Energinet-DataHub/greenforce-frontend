@@ -28,7 +28,7 @@ import {
 import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { map, Subject, takeUntil } from 'rxjs';
+import { combineLatest, map, Subject, takeUntil } from 'rxjs';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 
@@ -94,6 +94,18 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   readonly roleName$ = this.userRole$.pipe(map((role) => role.name));
 
   readonly marketRolePermissions$ = this.marketRolePermissionsStore.permissions$;
+  readonly initiallySelectedPermissions$ = combineLatest([
+    this.marketRolePermissions$,
+    this.userRole$,
+  ]).pipe(
+    map(([marketRolePermissions, userRole]) => {
+      return marketRolePermissions.filter((marketRolePermission) => {
+        return userRole.permissions.some(
+          (userRolePermission) => userRolePermission.id === marketRolePermission.id
+        );
+      });
+    })
+  );
 
   readonly isLoading$ = this.userRoleEditStore.isLoading$;
   readonly hasValidationError$ = this.userRoleEditStore.hasValidationError$;
@@ -101,6 +113,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   readonly userRoleEditForm = this.formBuilder.group({
     name: this.formBuilder.nonNullable.control('', [Validators.required]),
     description: this.formBuilder.nonNullable.control('', [Validators.required]),
+    permissionIds: this.formBuilder.nonNullable.control<number[]>([]),
   });
 
   @ViewChild(WattModalComponent) editUserRoleModal!: WattModalComponent;
@@ -108,17 +121,20 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   @Output() closed = new EventEmitter<{ saveSuccess: boolean }>();
 
   ngOnInit(): void {
-    const formControls = this.userRoleEditForm.controls;
-
     this.userRole$.pipe(takeUntil(this.destroy$)).subscribe((userRole) => {
-      formControls.name.setValue(userRole.name);
-      formControls.description.setValue(userRole.description);
+      const userRolePermissionIds = userRole.permissions.map(({ id }) => id);
+
+      this.userRoleEditForm.patchValue({
+        name: userRole.name,
+        description: userRole.description,
+        permissionIds: userRolePermissionIds,
+      });
 
       this.marketRolePermissionsStore.getPermissions(userRole.eicFunction);
     });
 
     this.hasValidationError$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      formControls.name.setErrors({
+      this.userRoleEditForm.controls.name.setErrors({
         nameAlreadyExists: true,
       });
     });
@@ -144,8 +160,8 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
     const updatedUserRole: UpdateUserRoleDto = {
       name: formControls.name.value,
       description: formControls.description.value,
+      permissions: formControls.permissionIds.value,
       status: userRole.status,
-      permissions: userRole.permissions.map((permissions) => permissions.id),
     };
 
     const onSuccessFn = () => {
