@@ -31,7 +31,7 @@ jobs:
   #
 
   changes:
-    uses: ./.github/workflows/watt-detect-changes.yml
+    uses: ./.github/workflows/detect-changes.yml
 
   #
   # Frontend
@@ -40,7 +40,7 @@ jobs:
   chromatic_deployment:
     name: Deploy to Chromatic
     needs: changes
-    if: ${{ needs.changes.outputs.frontend == 'true' }}
+    if: ${{ needs.changes.outputs.watt_frontend == 'true' }}
     # Operating System
     runs-on: ubuntu-latest
     # Job steps

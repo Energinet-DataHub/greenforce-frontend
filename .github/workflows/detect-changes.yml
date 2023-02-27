@@ -12,22 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# DataHub UI Frontend and BFF
-name: DH Detect changes
-
 # DESCRIPTION:
 # This workflow will determine which categories of jobs should be executed,
 # based on detected changes.
-# It should be used by the 'dh-ci.yml' and 'dh-cd.yml' to ensure they both use
-# the same path's to detect changes.
+# It should be used by the 'ci-orchestrator.yml', 'watt-cd.yml' and 'dh-cd.yml' to ensure they both use the same path's to detect changes.
+name: Detect changes
 
 on:
   workflow_call:
     outputs:
-      dotnet:
-        value: ${{ jobs.changes.outputs.dotnet }}
-      frontend:
-        value: ${{ jobs.changes.outputs.frontend }}
+      dh_dotnet:
+        value: ${{ jobs.changes.outputs.dh_dotnet }}
+      dh_frontend:
+        value: ${{ jobs.changes.outputs.dh_frontend }}
+      watt_frontend:
+        value: ${{ jobs.changes.outputs.watt_frontend }}
 
 jobs:
   changes:
@@ -35,10 +34,10 @@ jobs:
     runs-on: ubuntu-latest
     # Set job outputs to values from filter step
     outputs:
-      dotnet: ${{ steps.filter.outputs.dotnet }}
-      frontend: ${{ steps.affected.outputs.is-affected }}
+      dh_dotnet: ${{ steps.filter.outputs.dh_dotnet }}
+      dh_frontend: ${{ steps.dh_affected.outputs.is-affected }}
+      watt_frontend: ${{ steps.watt_affected.outputs.is-affected }}
     env:
-      APP_NAME: app-dh
       BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
       IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
     steps:
@@ -53,10 +52,10 @@ jobs:
         id: filter
         with:
           filters: |
-            dotnet:
-              - '.github/workflows/dh-ci.yml'
+            dh_dotnet:
+              - '.github/workflows/dh-ci-dotnet.yml'
               - '.github/workflows/dh-cd.yml'
-              - '.github/workflows/dh-detect-changes.yml'
+              - '.github/workflows/detect-changes.yml'
               - '.github/actions/dotnet-*/**'
               - 'apps/dh/api-dh/**'
 
@@ -82,9 +81,16 @@ jobs:
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
-      - name: Is affected?
-        id: affected
+      - name: Is DH affected?
+        id: dh_affected
         uses: ./.github/actions/affected
         with:
           base: ${{ github.ref == 'refs/heads/main' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
-          project: ${{ env.APP_NAME }}
+          project: app-dh
+
+      - name: Is Watt affected?
+        id: watt_affected
+        uses: ./.github/actions/affected
+        with:
+          base: ${{ github.ref == 'refs/heads/main' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+          project: ui-watt
