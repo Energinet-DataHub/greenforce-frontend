@@ -43,7 +43,11 @@ import {
   DhAdminUserRoleEditDataAccessApiStore,
   DhAdminUserRoleWithPermissionsManagementDataAccessApiStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import { UpdateUserRoleDto, UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  PermissionDetailsDto,
+  UpdateUserRoleDto,
+  UserRoleWithPermissionsDto,
+} from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 
 @Component({
@@ -88,6 +92,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
 
+  private skipFirstPermissionSelectionEvent = true;
   private destroy$ = new Subject<void>();
 
   readonly userRole$ = this.userRoleWithPermissionsStore.userRole$;
@@ -152,6 +157,19 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   closeModal(saveSuccess: boolean): void {
     this.editUserRoleModal.close(saveSuccess);
     this.closed.emit({ saveSuccess });
+  }
+
+  onSelectionChanged(selectedPermissions: PermissionDetailsDto[]): void {
+    if (this.skipFirstPermissionSelectionEvent) {
+      this.skipFirstPermissionSelectionEvent = false;
+
+      return;
+    }
+
+    const permissionIds = selectedPermissions.map(({ id }) => id);
+
+    this.userRoleEditForm.patchValue({ permissionIds });
+    this.userRoleEditForm.markAsDirty();
   }
 
   save(userRole: UserRoleWithPermissionsDto): void {

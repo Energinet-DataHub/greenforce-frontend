@@ -54,6 +54,7 @@ limitations under the License.
           <dh-permissions-table
             [permissions]="marketRolePermissions$ | push: { strategy: 'local' }"
             [initialSelection]="initiallySelectedPermissions$ | push"
+            (selectionChanged)="onSelectionChanged($event)"
           ></dh-permissions-table>
         </watt-tab>
       </watt-tabs>
