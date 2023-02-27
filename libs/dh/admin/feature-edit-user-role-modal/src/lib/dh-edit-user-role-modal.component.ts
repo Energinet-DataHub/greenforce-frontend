@@ -122,12 +122,12 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
 
   ngOnInit(): void {
     this.userRole$.pipe(takeUntil(this.destroy$)).subscribe((userRole) => {
-      const userRolePermissionIds = userRole.permissions.map(({ id }) => id);
+      const permissionIds = userRole.permissions.map(({ id }) => id);
 
       this.userRoleEditForm.patchValue({
         name: userRole.name,
         description: userRole.description,
-        permissionIds: userRolePermissionIds,
+        permissionIds,
       });
 
       this.marketRolePermissionsStore.getPermissions(userRole.eicFunction);
