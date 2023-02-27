@@ -907,7 +907,7 @@
                   "EicFunctionChange": "<b>{{ changedByUserName }}</b> ændrede eic function til <b>{{ changedValueTo }}</b>",
                   "StatusChange": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ changedValueTo }}</b>",
                   "PermissionsChange": "<b>{{ changedByUserName }}</b> ændrede rettigheder på rollen til <b>{{ changedValueTo }}</b>"
-                }
+                  }
               },
               "generalError": {
                 "title": "Der opstod en uventet fejl",
@@ -945,9 +945,10 @@
             "entry": "Ændring"
           },
           "logs": {
-            "roles": {
-              "Added": "<b>{{ changedByUserName }}</b> tilføjede rollen <b>{{ userRoleName }}</b>",
-              "Removed": "<b>{{ changedByUserName }}</b> fjernede rollen <b>{{ userRoleName }}</b>"
+            "auditLogType": {
+              "UserRoleAdded": "<b>{{ changedByUserName }}</b> tilføjede rollen <b>{{ toValue }}</b>",
+              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> fjernede rollen <b>{{ toValue }}</b>",
+              "UserInvite": "<b>{{ changedByUserName }}</b> tilføjede brugeren til aktør <b>{{ toValue }}</b>"
             }
           },
           "generalError": {

@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
@@ -75,6 +76,19 @@ namespace Energinet.DataHub.WebApi.Controllers
 
                 var userAuditLogs = new List<UserAuditLogDto>();
 
+                foreach (var auditLog in auditLogs.InviteAuditLogs)
+                {
+                    var changedByUserDto = await _marketParticipantClient
+                        .GetUserAsync(auditLog.ChangedByUserId)
+                        .ConfigureAwait(false);
+
+                    userAuditLogs.Add(new UserAuditLogDto(
+                        auditLog.ActorName,
+                        changedByUserDto.Name,
+                        UserAuditLogType.UserInvite,
+                        auditLog.Timestamp));
+                }
+
                 foreach (var auditLog in auditLogs.UserRoleAssignmentAuditLogs)
                 {
                     var changedByUserDto = await _marketParticipantClient
@@ -92,20 +106,7 @@ namespace Energinet.DataHub.WebApi.Controllers
                         auditLog.Timestamp));
                 }
 
-                foreach (var auditLog in auditLogs.InviteAuditLogs)
-                {
-                    var changedByUserDto = await _marketParticipantClient
-                        .GetUserAsync(auditLog.ChangedByUserId)
-                        .ConfigureAwait(false);
-
-                    userAuditLogs.Add(new UserAuditLogDto(
-                        auditLog.ActorName,
-                        changedByUserDto.Name,
-                        UserAuditLogType.UserInvite,
-                        auditLog.Timestamp));
-                }
-
-                return new UserAuditLogsDto(userAuditLogs);
+                return new UserAuditLogsDto(userAuditLogs.OrderByDescending(l => l.Timestamp));
             });
         }
     }

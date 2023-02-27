@@ -22,12 +22,12 @@ import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-acce
 import {
   MarketParticipantUserHttp,
   UserAuditLogsDto,
-  UserRoleAssignmentAuditLogDto,
+  UserAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 export interface DhUserAuditLogEntry {
   readonly timestamp: string;
-  readonly entry: UserRoleAssignmentAuditLogDto;
+  readonly entry: UserAuditLogDto;
 }
 
 interface DhUserManagementAuditLogsState {
@@ -76,7 +76,7 @@ export class DhAdminUserManagementAuditLogsDataAccessApiStore extends ComponentS
   );
 
   private assignAuditLogs = (response: UserAuditLogsDto) => {
-    const auditLogs = response.roleAssignmentAuditLogs.map((entry) => ({
+    const auditLogs = response.userAuditLogs.map((entry) => ({
       entry,
       timestamp: entry.timestamp,
     }));
@@ -89,7 +89,7 @@ export class DhAdminUserManagementAuditLogsDataAccessApiStore extends ComponentS
   };
 
   private handleError = () => {
-    this.assignAuditLogs({ roleAssignmentAuditLogs: [], userInviteAuditLogs: [] });
+    this.assignAuditLogs({ userAuditLogs: [] });
     this.patchState({ requestState: ErrorState.GENERAL_ERROR });
   };
 }

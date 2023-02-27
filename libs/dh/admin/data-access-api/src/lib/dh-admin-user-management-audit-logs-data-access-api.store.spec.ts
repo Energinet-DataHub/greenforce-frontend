@@ -19,7 +19,7 @@ import { firstValueFrom, Subject } from 'rxjs';
 import {
   MarketParticipantUserHttp,
   UserAuditLogsDto,
-  UserRoleAssignmentAuditLogDto,
+  UserAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain';
 import {
   DhAdminUserManagementAuditLogsDataAccessApiStore,
@@ -29,21 +29,18 @@ import {
 describe(DhAdminUserManagementAuditLogsDataAccessApiStore.name, () => {
   test('should return a mapped audit log', async () => {
     // arrange
-    const roleAssignmentAuditLogs: UserRoleAssignmentAuditLogDto[] = [
+    const userAuditLogs: UserAuditLogDto[] = [
       {
         timestamp: '2023-01-09T14:40:23+00:00',
-        actorId: 'FBDEC5AC-F5A9-4783-9718-369582E0D437',
-        assignmentType: 'Added',
-        changedByUserId: '03DCF8A7-9BFD-4023-A206-8FFBC92A2D28',
+        auditLogType: 'UserRoleAdded',
         changedByUserName: 'fake_value',
-        userRoleId: 'D4C3508E-B949-4849-B5E6-BD818724C727',
-        userRoleName: 'fake_user_role',
+        toValue: 'fake_user_role',
       },
     ];
     const expected: DhUserAuditLogEntry[] = [
       {
-        timestamp: roleAssignmentAuditLogs[0].timestamp,
-        entry: roleAssignmentAuditLogs[0],
+        timestamp: userAuditLogs[0].timestamp,
+        entry: userAuditLogs[0],
       },
     ];
 
@@ -59,7 +56,7 @@ describe(DhAdminUserManagementAuditLogsDataAccessApiStore.name, () => {
 
     // act
     target.getAuditLogs('5CF885C5-4EEB-4265-8E48-879EDA779D88');
-    observable.next({ roleAssignmentAuditLogs });
+    observable.next({ userAuditLogs });
     observable.complete();
 
     // assert
@@ -68,7 +65,7 @@ describe(DhAdminUserManagementAuditLogsDataAccessApiStore.name, () => {
 
   test('should set success state on completion', async () => {
     // arrange
-    const roleAssignmentAuditLogs: UserRoleAssignmentAuditLogDto[] = [];
+    const userAuditLogs: UserAuditLogDto[] = [];
 
     const observable = new Subject<UserAuditLogsDto>();
     const httpClient = {
@@ -82,7 +79,7 @@ describe(DhAdminUserManagementAuditLogsDataAccessApiStore.name, () => {
 
     // act
     target.getAuditLogs('4DBBB8EC-750E-40F0-828D-5F23332A74D1');
-    observable.next({ roleAssignmentAuditLogs });
+    observable.next({ userAuditLogs });
     observable.complete();
 
     // assert
