@@ -37,8 +37,8 @@ export class AppSettingsStore extends ComponentStore<AppSettingsState> {
   constructor() {
     super({
       calendarDateRange: {
-        start: new Date('2021-01-01:00:00:00').getTime(),
-        end: new Date('2022-01-01:00:00:00').getTime(),
+        start: new Date('2021-01-01T00:00:00').getTime(),
+        end: new Date('2022-01-01T00:00:00').getTime(),
       },
       resolution: 'MONTH',
     });
