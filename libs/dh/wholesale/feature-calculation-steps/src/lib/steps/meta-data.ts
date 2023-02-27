@@ -18,10 +18,7 @@ import { WattDescriptionListGroups } from '@energinet-datahub/watt/description-l
 import { DhDatePipe } from '@energinet-datahub/dh/shared/ui-date-time';
 import { combineLatest, map, Observable } from 'rxjs';
 import { Translation } from '@ngneat/transloco';
-import {
-  BatchDto,
-  ProcessStepResultDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { BatchDto, ProcessStepResultDto } from '@energinet-datahub/dh/shared/domain';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 export function mapMetaData(
@@ -43,14 +40,14 @@ export function mapMetaData(
           description:
             translations[
               'wholesale.processStepResults.processStepMeteringPointType.' +
-                processStepResults.processStepMeteringPointType
+                processStepResults.timeSeriesType
             ],
         },
         {
           term: translations['wholesale.processStepResults.calculationPeriod'],
-          description: `${datePipe.transform(
-            batch.periodStart
-          )} - ${datePipe.transform(batch.periodEnd)}`,
+          description: `${datePipe.transform(batch.periodStart)} - ${datePipe.transform(
+            batch.periodEnd
+          )}`,
         },
         {
           term: translations['wholesale.processStepResults.sum'],

@@ -812,10 +812,11 @@
       "loadCalculationStepsFailedTitle": "Ups! Der opstod en fejl",
       "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
     },
-    "energySuppliers": {
-      "loadingEnerySuppliersFailedTitle": "Ups! Der opstod en fejl",
-      "loadingEnerySuppliersFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
-      "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
+    "actors": {
+      "loadingActorsFailedTitle": "Ups! Der opstod en fejl",
+      "loadingActorsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
+      "EnergySupplier": "{{wholesale.processStepResults.energySupplier}}",
+      "BalanceResponsibles": "Balanceansvarlig",
       "amountOfResults": "{{length}} Resultater"
     },
     "processStepResults": {
@@ -1046,13 +1047,7 @@
           "permissions": {
             "tabLabel": "Rettigheder",
             "title": "Rettigheder",
-            "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle",
-            "table": {
-              "columns": {
-                "name": "Navn",
-                "description": "Beskrivelse"
-              }
-            }
+            "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle"
           }
         }
       },
@@ -1079,11 +1074,19 @@
             }
           },
           "permissions": {
-            "tabLabel": "Rettigheder"
+            "tabLabel": "Rettigheder",
+            "title": "Rettigheder",
+            "onEditMessage": "Ved fjern/tilføj af rettigheder til en brugerrolle, kan det tage op til en time, før ændringer træder i kraft, efter de er gemt. Alternativt kan brugere logge ud og ind, hvis ændringer skal træde i kraft med det samme."
           }
         },
         "cancel": "Fortryd",
         "save": "Gem"
+      },
+      "permissionsTable": {
+        "columns": {
+          "name": "Navn",
+          "description": "Beskrivelse"
+        }
       }
     }
   }

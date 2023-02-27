@@ -16,10 +16,8 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import {
-  EoApiEnvironment,
-  eoApiEnvironmentToken,
-} from '@energinet-datahub/eo/shared/environments';
+import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { CalendarDateRange } from '@energinet-datahub/eo/shared/services';
 
 export interface EoOriginOfEnergyResponse {
   energySources: [
@@ -50,10 +48,16 @@ export class EoOriginOfEnergyService {
   #apiBase: string;
 
   getSourcesFor2021() {
+    const dateRange: CalendarDateRange = {
+      start: new Date('2021-01-01:00:00:00').getTime() / 1000,
+      end: new Date('2022-01-01:00:00:00').getTime() / 1000,
+    };
+    const encodedTimeZone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone);
+
     return this.http.get<EoOriginOfEnergyResponse>(
-      `${
-        this.#apiBase
-      }/sources?dateFrom=1609459200&dateTo=1640995199&aggregation=Total`,
+      `${this.#apiBase}/sources?dateFrom=${dateRange.start}&dateTo=${
+        dateRange.end
+      }&timeZone=${encodedTimeZone}&aggregation=Total`,
       { withCredentials: true }
     );
   }
