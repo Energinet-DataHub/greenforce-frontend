@@ -96,7 +96,7 @@ export class DhAdminUserManagementAuditLogsDataAccessApiStore extends ComponentS
   };
 
   private handleError = () => {
-    this.assignAuditLogs({ roleAssignmentAuditLogs: [] });
+    this.assignAuditLogs({ roleAssignmentAuditLogs: [], userInviteAuditLogs: [] });
     this.patchState({ requestState: ErrorState.GENERAL_ERROR });
   };
 }
