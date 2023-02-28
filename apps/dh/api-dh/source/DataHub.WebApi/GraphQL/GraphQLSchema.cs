@@ -37,6 +37,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
             this.RegisterTypeMapping<BatchDtoV2, BatchType>();
             this.RegisterTypeMapping<ProcessStepResultDto, ProcessStepType>();
             this.RegisterTypeMapping<TimeSeriesPointDto, TimeSeriesPointType>();
+            this.RegisterTypeMapping<ProcessType, ProcessTypeEnum>();
+            this.RegisterTypeMapping<GridAreaDto, GridAreaType>();
 
             Query = provider.GetRequiredService<GraphQLQuery>();
         }
