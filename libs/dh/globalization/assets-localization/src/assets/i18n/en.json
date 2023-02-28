@@ -942,9 +942,10 @@
             "entry": "Change"
           },
           "logs": {
-            "roles": {
-              "Added": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
-              "Removed": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>"
+            "auditLogType": {
+              "UserRoleAdded": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
+              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>",
+              "UserInvite": "<b>{{ changedByUserName }}</b> added user to <b>{{ toValue }}</b> market party"
             }
           },
           "generalError": {
