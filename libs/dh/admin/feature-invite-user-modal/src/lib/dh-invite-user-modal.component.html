@@ -99,7 +99,7 @@ limitations under the License.
         <dh-assignable-user-roles
           (selectedUserRoles)="onSelectedUserRoles($event)"
         ></dh-assignable-user-roles>
-        <watt-error *ngIf="userRoles.controls.selectedUserRoles">
+        <watt-error *ngIf="userRoles.controls.selectedUserRoles.hasError('required')">
           {{ "shared.fieldRequiredErrorText" | transloco }}
         </watt-error>
       </form>
