@@ -1,21 +1,21 @@
 {
   "userAuditLogs": [
     {
-      "toValue": "Balanceansvarlig",
+      "toValue": "Adgang til CPR visning",
+      "changedByUserName": "Test User",
+      "timestamp": "2023-01-03T12:48:38.0587304+00:00",
+      "auditLogType": "UserRoleRemoved"
+    },
+    {
+      "toValue": "Adgang til CPR visning",
       "changedByUserName": "Test User",
       "timestamp": "2023-01-02T12:47:03.4871748+00:00",
       "auditLogType": "UserRoleAdded"
     },
     {
-      "toValue": "Adgang til CPR visning",
-      "changedByUserName": "Test User",
-      "timestamp": "2023-01-02T12:48:38.0587304+00:00",
-      "auditLogType": "UserRoleRemoved"
-    },
-    {
       "toValue": "Test name",
       "changedByUserName": "Test User",
-      "timestamp": "2023-01-02T12:48:38.0587304+00:00",
+      "timestamp": "2023-01-01T12:00:38.0587304+00:00",
       "auditLogType": "UserInvite"
     }
   ]
