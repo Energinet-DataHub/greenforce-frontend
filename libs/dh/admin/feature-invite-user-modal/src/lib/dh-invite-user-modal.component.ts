@@ -32,7 +32,7 @@ import { CommonModule } from '@angular/common';
 import { PushModule } from '@rx-angular/template/push';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { MatDividerModule } from '@angular/material/divider';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattInputModule } from '@energinet-datahub/watt/input';
@@ -49,15 +49,18 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import {
   DbAdminAssignableUserRolesStore,
   DhUserActorsDataAccessApiStore,
+  DbAdminInviteUserStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-assignable-user-roles.component';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     DbAdminAssignableUserRolesStore,
+    DbAdminInviteUserStore,
     {
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { showError: true },
@@ -90,14 +93,22 @@ import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   private readonly actorStore = inject(DhUserActorsDataAccessApiStore);
   private readonly assignableUserRolesStore = inject(DbAdminAssignableUserRolesStore);
+  private readonly inviteUserStore = inject(DbAdminInviteUserStore);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly toastService = inject(WattToastService);
+  private readonly translocoService = inject(TranslocoService);
+
   @ViewChild('inviteUserModal') inviteUserModal!: WattModalComponent;
   @ViewChild('stepper') stepper!: MatStepper;
   @Output() closed = new EventEmitter<void>();
 
   readonly actorOptions$ = this.actorStore.actors$;
-  readonly organizationDomain$ = this.actorStore.organizationDomain$;
+  domain: string | undefined = undefined;
+  readonly organizationDomain$ = this.actorStore.organizationDomain$.pipe(
+    tap((domain) => (this.domain = domain))
+  );
 
+  isInvitingUser$ = this.inviteUserStore.isSaving$;
   actorIdSubscription: Subscription | null = null;
 
   userInfo = this.formBuilder.group({
@@ -105,7 +116,15 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
     email: [{ value: '', disabled: true }, Validators.required],
-    phoneNumber: ['', Validators.required],
+    phoneNumber: [
+      '',
+      Validators.compose([
+        Validators.required,
+        Validators.maxLength(12),
+        Validators.minLength(12),
+        Validators.pattern('^\\+[0-9]+ [0-9]+$'),
+      ]),
+    ],
   });
   userRoles = this.formBuilder.group({
     selectedUserRoles: [[''], Validators.required],
@@ -132,12 +151,34 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   }
 
   inviteUser() {
-    if (this.userInfo.valid && this.userRoles.valid) {
-      // TODO: call backend with form values
-      this.inviteUserModal.close(true);
-    } else {
-      this.userRoles.markAllAsTouched();
+    if (this.userInfo.valid === false || this.userRoles.valid === false) {
+      return;
     }
+
+    const { firstname, lastname, email, phoneNumber, actorId } = this.userInfo.controls;
+
+    const emailWithDomain = `${email.value}@${this.domain}`;
+
+    this.inviteUserStore.inviteUser({
+      invitation: {
+        firstName: firstname.value ?? '',
+        lastName: lastname.value ?? '',
+        email: emailWithDomain,
+        phoneNumber: phoneNumber.value ?? '',
+        assignedActor: actorId.value ?? '',
+        assignedRoles: this.userRoles.controls.selectedUserRoles.value ?? [],
+      },
+      onSuccess: () => {
+        this.toastService.open({
+          type: 'success',
+          message: `${this.translocoService.translate(
+            'admin.userManagement.inviteUser.successMessage',
+            { email: emailWithDomain }
+          )}`,
+        });
+        this.closeModal(true);
+      },
+    });
   }
 
   onSelectedUserRoles(userRoles: UserRoleDto[]) {
