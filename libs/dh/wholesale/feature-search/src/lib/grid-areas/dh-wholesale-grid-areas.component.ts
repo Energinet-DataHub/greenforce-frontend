@@ -31,7 +31,7 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   standalone: true,
@@ -52,17 +52,20 @@ import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 export class DhWholesaleGridAreasComponent {
   @ViewChild(MatSort) sort!: MatSort;
 
-  @Input() set data(gridAreas: GridAreaDto[]) {
+  @Input() set data(gridAreas: graphql.GridArea[]) {
     this._data = new WattTableDataSource(gridAreas);
   }
 
   @Input() disabled = false;
 
-  @Output() selected = new EventEmitter<GridAreaDto>();
+  @Output() selected = new EventEmitter<graphql.GridArea>();
 
-  _data: WattTableDataSource<GridAreaDto> = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<GridAreaDto> = {
+  _data: WattTableDataSource<graphql.GridArea> = new WattTableDataSource(undefined);
+  columns: WattTableColumnDef<graphql.GridArea> = {
     gridAreaCode: { accessor: 'code' },
-    name: { accessor: 'name', cell: (row: GridAreaDto) => row.name ?? '—' },
+    name: {
+      accessor: 'name',
+      cell: (row: graphql.GridArea) => row.name ?? '—',
+    },
   };
 }

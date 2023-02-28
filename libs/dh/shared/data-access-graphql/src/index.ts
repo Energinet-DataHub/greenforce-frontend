@@ -14,14 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-.headline,
-.sub-headline {
-  margin: 0;
-}
-
-watt-spinner {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--watt-space-l);
-}
+export * from './lib/dh-graphql.module';
