@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/* eslint-disable */
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 import { graphql, ResponseResolver, GraphQLRequest, GraphQLContext } from 'msw';
 export type Maybe<T> = T | null;
