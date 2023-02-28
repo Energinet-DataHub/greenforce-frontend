@@ -69,6 +69,7 @@
     "dh-shared-util-operators": "libs/dh/shared/util-operators",
     "dh-shared-util-table": "libs/dh/shared/util-table",
     "dh-wholesale-data-access-api": "libs/dh/wholesale/data-access-api",
+    "dh-wholesale-data-access-graphql": "libs/dh/wholesale/data-access-graphql",
     "dh-wholesale-domain": "libs/dh/wholesale/domain",
     "dh-wholesale-feature-calculation-steps": "libs/dh/wholesale/feature-calculation-steps",
     "dh-wholesale-feature-search": "libs/dh/wholesale/feature-search",
