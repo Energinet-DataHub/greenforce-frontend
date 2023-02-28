@@ -34,17 +34,12 @@ import {
   TimeSeriesType,
   MarketRole,
 } from '@energinet-datahub/dh/shared/domain';
-import {
-  batch,
-  settlementReportsProcess,
-  SettlementReportsProcessFilters,
-} from '@energinet-datahub/dh/wholesale/domain';
+import { batch, settlementReportsProcess } from '@energinet-datahub/dh/wholesale/domain';
 
 import type { WattBadgeType } from '@energinet-datahub-types/watt/badge';
 
 interface State {
   batches?: batch[];
-  settlementReports?: settlementReportsProcess[];
   gridAreas?: GridAreaDto[];
   processStepResults?: ProcessStepResultDto;
   loadingBatches: boolean;
@@ -66,7 +61,6 @@ const initialState: State = {
 })
 export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   batches$ = this.select((x) => x.batches);
-  settlementReports$ = this.select((x) => x.settlementReports);
   gridAreas$ = this.select((x) => x.gridAreas).pipe(
     // Ensure gridAreas$ will not emit undefined, which will cause no loading indicator to be shown
     filter((x) => !!x)
@@ -84,7 +78,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   loadingSettlementReports$ = this.select((x) => x.loadingSettlementReports);
   loadingGridAreasErrorTrigger$: Subject<void> = new Subject();
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
-  loadingSettlementReportsErrorTrigger$: Subject<void> = new Subject();
   loadingBatchErrorTrigger$: Subject<void> = new Subject();
   loadingBasisDataErrorTrigger$: Subject<void> = new Subject();
   loadingProcessStepResultsErrorTrigger$: Subject<void> = new Subject();
@@ -110,14 +103,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       ...state,
       batches: batches,
       loadingBatches: false,
-    })
-  );
-
-  readonly setSettlementReports = this.updater(
-    (state, settlementReports: settlementReportsProcess[]): State => ({
-      ...state,
-      settlementReports,
-      loadingSettlementReports: false,
     })
   );
 
@@ -216,37 +201,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       })
     );
   });
-
-  readonly getSettlementRepports = this.effect(
-    (filters$: Observable<SettlementReportsProcessFilters>) => {
-      return filters$.pipe(
-        switchMap((filters) => {
-          this.setLoadingSettlementReports(true);
-
-          return this.httpClient
-            .v1WholesaleBatchSearchPost({
-              filterByGridAreaCodes: filters.gridArea ? [filters.gridArea] : [],
-              filterByExecutionState: 'Completed',
-              minExecutionTime: filters.executionTime?.start,
-              maxExecutionTime: filters.executionTime?.end,
-              periodStart: filters.period?.start,
-              periodEnd: filters.period?.end,
-            })
-            .pipe(
-              tapResponse(
-                (batches) => {
-                  this.setSettlementReports(this.mapSettlementReports(batches, filters));
-                },
-                () => {
-                  this.setLoadingSettlementReports(false);
-                  this.loadingSettlementReportsErrorTrigger$.next();
-                }
-              )
-            );
-        })
-      );
-    }
-  );
 
   readonly getBatch = this.effect((batchNumber$: Observable<string>) => {
     return batchNumber$.pipe(
@@ -375,37 +329,5 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     } else {
       return 'info';
     }
-  }
-
-  private mapSettlementReports(
-    batches: BatchDto[],
-    filters: SettlementReportsProcessFilters
-  ): settlementReportsProcess[] {
-    if (!batches) return [];
-
-    return batches
-      .filter((batch) => batch.executionState === BatchState.Completed)
-      .reduce((result: settlementReportsProcess[], batch) => {
-        return result.concat(
-          batch.gridAreas.map((gridArea) => ({
-            ...batch,
-            processType: ProcessType.BalanceFixing,
-            gridAreaCode: gridArea.code,
-            gridAreaName: gridArea.name,
-          }))
-        );
-      }, [])
-      .filter((settlementReport) => {
-        if (filters.gridArea) {
-          return filters.gridArea.includes(settlementReport.gridAreaCode);
-        }
-        return true;
-      })
-      .filter((settlementReport) => {
-        if (filters.processType) {
-          return filters.processType.includes(settlementReport.processType);
-        }
-        return true;
-      });
   }
 }

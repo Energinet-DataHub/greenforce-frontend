@@ -759,10 +759,10 @@
       },
       "download": "Download",
       "downloadFailed": "Download of basis data failed",
-      "Pending": "Pending",
-      "Executing": "Running",
-      "Completed": "Finished",
-      "Failed": "Failed",
+      "PENDING": "Pending",
+      "EXECUTING": "Running",
+      "COMPLETED": "Finished",
+      "FAILED": "Failed",
       "loadBatchesFailedTitle": "Oops! There was an error",
       "loadBatchesFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
       "noBatchesFound": "No batches found",
@@ -812,8 +812,8 @@
     "actors": {
       "loadingActorsFailedTitle": "Oops! There was an error",
       "loadingActorsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
-      "EnergySupplier": "{{wholesale.processStepResults.energySupplier}}",
-      "BalanceResponsibles": "Balance Responsibles",
+      "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
+      "balanceResponsibles": "Balance Responsibles",
       "amountOfResults": "{{length}} Resultater"
     },
     "processStepResults": {
@@ -831,8 +831,9 @@
       "sum": "Sum",
       "min": "Min",
       "max": "Max",
-      "processStepMeteringPointType": {
-        "Production": "Production"
+      "timeSeriesType": {
+        "PRODUCTION": "Production",
+        "NON_PROFILED_CONSUMPTION": "Consumption"
       }
     },
     "timeSeriesPoints": {

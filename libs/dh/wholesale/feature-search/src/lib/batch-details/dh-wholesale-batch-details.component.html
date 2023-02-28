@@ -15,69 +15,54 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-drawer #drawer (closed)="closed.emit()">
-  <watt-drawer-topbar *transloco="let transloco; read: 'wholesale'">
-    <watt-breadcrumbs *rxLet="batchId$; let batchId">
-      <watt-breadcrumb (click)="drawer.close()">{{
-        transloco("searchBatch.topBarTitle")
-      }}</watt-breadcrumb>
-      <watt-breadcrumb>{{
-        transloco("batchDetails.headline", { batchId })
-      }}</watt-breadcrumb>
-    </watt-breadcrumbs>
+  <watt-drawer-topbar>
+    <ng-container *transloco="let transloco; read: 'wholesale'">
+      <watt-breadcrumbs>
+        <watt-breadcrumb (click)="drawer.close()">{{
+          transloco("searchBatch.topBarTitle")
+        }}</watt-breadcrumb>
+        <watt-breadcrumb>{{
+          transloco("batchDetails.headline", { batchId })
+        }}</watt-breadcrumb>
+      </watt-breadcrumbs>
+    </ng-container>
   </watt-drawer-topbar>
 
   <watt-drawer-content>
-    <ng-container
-      *rxLet="
-        batch$;
-        let batch;
-        suspense: loading;
-        error: error;
-        errorTrigger: errorTrigger$
-      "
-    >
-      <div
-        class="headline-container"
-        *transloco="let transloco; read: 'wholesale'"
-      >
-        <watt-badge *ngIf="batch" [type]="batch.statusType">
-          {{ transloco("searchBatch." + batch.executionState) }}
-        </watt-badge>
-        <h3 class="headline watt-headline-1" *ngIf="batch">
-          {{ transloco("batchDetails.headline", { batchId: batch.batchId }) }}
+    <ng-container *transloco="let transloco; read: 'wholesale'">
+      <div class="headline-container">
+        <watt-badge [type]="batch?.statusType ?? 'skeleton'" *ngIf="!error">{{
+          batch?.executionState ? transloco("searchBatch." + batch?.executionState) : "unknown"
+        }}</watt-badge>
+        <h3 class="headline watt-headline-1">
+          {{ transloco("batchDetails.headline", { batchId }) }}
         </h3>
       </div>
 
-      <watt-description-list
-        [groups]="batchMetadata$ | push"
-      ></watt-description-list>
+      <watt-description-list [groups]="getBatchMetadata()"></watt-description-list>
 
-      <dh-wholesale-grid-areas
-        *ngIf="batch"
-        [data]="batch.gridAreas"
-        [disabled]="batch.executionState === 'Failed'"
-        (selected)="onGridAreaSelected(batch, $event)"
-      ></dh-wholesale-grid-areas>
+      <ng-container *ngIf="batch">
+        <dh-wholesale-grid-areas
+          *ngIf="batch.gridAreas"
+          [data]="batch.gridAreas"
+          [disabled]="batch.executionState === 'FAILED'"
+          (selected)="onGridAreaSelected(batch, $event)"
+        ></dh-wholesale-grid-areas>
+      </ng-container>
+
+      <div class="center" *ngIf="loading">
+        <watt-spinner></watt-spinner>
+      </div>
+
+      <div *ngIf="error" class="center">
+        <watt-empty-state
+          *transloco="let transloco; read: 'wholesale.batchDetails'"
+          icon="custom-power"
+          [title]="transloco('errorTitle')"
+          [message]="transloco('errorMessage')"
+        >
+        </watt-empty-state>
+      </div>
     </ng-container>
   </watt-drawer-content>
 </watt-drawer>
-
-<ng-template #loading>
-  <div class="center">
-    <watt-spinner></watt-spinner>
-  </div>
-</ng-template>
-
-<ng-template #error>
-  <div
-    class="center"
-    *transloco="let transloco; read: 'wholesale.batchDetails'"
-  >
-    <watt-empty-state
-      icon="custom-power"
-      [title]="transloco('errorTitle')"
-      [message]="transloco('errorMessage')"
-    >
-    </watt-empty-state>
-  </div>
-</ng-template>
