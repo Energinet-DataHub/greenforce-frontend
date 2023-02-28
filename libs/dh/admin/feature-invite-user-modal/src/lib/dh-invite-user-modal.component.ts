@@ -157,7 +157,7 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
 
     const { firstname, lastname, email, phoneNumber, actorId } = this.userInfo.controls;
 
-    const emailWithDomain = `${email.value}@${this.domain}` ?? '';
+    const emailWithDomain = `${email.value}@${this.domain}`;
 
     this.inviteUserStore.inviteUser({
       invitation: {
