@@ -32,7 +32,6 @@ limitations under the License.
     (rowClick)="this.selected.emit($event)"
     [disabled]="disabled"
   ></watt-table>
-  <watt-paginator [for]="_data"></watt-paginator>
 
   <!-- No Batches found -->
   <watt-empty-state
@@ -42,4 +41,6 @@ limitations under the License.
     [title]="transloco('noGridAreasFound')"
   >
   </watt-empty-state>
+
+  <watt-paginator [for]="_data"></watt-paginator>
 </watt-card>
