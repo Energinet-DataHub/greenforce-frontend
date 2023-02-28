@@ -87,6 +87,7 @@ export * from './update-user-role-dto';
 export * from './user-audit-log-dto';
 export * from './user-audit-log-type';
 export * from './user-audit-logs-dto';
+export * from './user-invitation-dto';
 export * from './user-overview-filter-dto';
 export * from './user-overview-item-actor-dto';
 export * from './user-overview-item-dto';

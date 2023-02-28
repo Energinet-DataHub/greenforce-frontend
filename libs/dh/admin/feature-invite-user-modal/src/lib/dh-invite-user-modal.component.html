@@ -47,26 +47,22 @@ limitations under the License.
         </watt-form-field>
         <watt-form-field class="firstname">
           <watt-label>{{ t("firstname") }}</watt-label>
-          <input
-            [formControl]="userInfo.controls.firstname"
-            wattInput
-            type="text"
-            name="userRole"
-          />
+          <input [formControl]="userInfo.controls.firstname" wattInput type="text" />
           <watt-error *ngIf="userInfo.controls.firstname.hasError('required')">
             {{ "shared.fieldRequiredErrorText" | transloco }}
           </watt-error>
         </watt-form-field>
         <watt-form-field class="lastname">
           <watt-label>{{ t("lastname") }}</watt-label>
-          <input [formControl]="userInfo.controls.lastname" wattInput type="text" name="userRole" />
+          <input [formControl]="userInfo.controls.lastname" wattInput type="text" />
           <watt-error *ngIf="userInfo.controls.lastname.hasError('required')">
             {{ "shared.fieldRequiredErrorText" | transloco }}
           </watt-error>
         </watt-form-field>
+
         <watt-form-field>
           <watt-label>{{ t("email") }}</watt-label>
-          <input [formControl]="userInfo.controls.email" wattInput type="email" name="userRole" />
+          <input [formControl]="userInfo.controls.email" wattInput type="email" />
           <span wattSuffix>@{{ organizationDomain$ | push }}</span>
           <watt-error *ngIf="userInfo.controls.email.hasError('required')">
             {{ "shared.fieldRequiredErrorText" | transloco }}
@@ -74,22 +70,27 @@ limitations under the License.
         </watt-form-field>
         <watt-form-field class="phoneNumber">
           <watt-label>{{ t("phoneNumber") }}</watt-label>
-          <input
-            [formControl]="userInfo.controls.phoneNumber"
-            wattInput
-            type="tel"
-            name="userRole"
-          />
+          <input [formControl]="userInfo.controls.phoneNumber" wattInput type="tel" />
+
           <watt-error *ngIf="userInfo.controls.phoneNumber.hasError('required')">
             {{ "shared.fieldRequiredErrorText" | transloco }}
           </watt-error>
+          <watt-error
+            *ngIf="
+              userInfo.controls.phoneNumber.hasError('pattern') ||
+              userInfo.controls.phoneNumber.hasError('maxlength') ||
+              userInfo.controls.phoneNumber.hasError('minlength')
+            "
+          >
+            {{ t("phoneNumberError") }}
+          </watt-error>
         </watt-form-field>
-        <div class="buttonWrapper">
-          <watt-button variant="secondary" wattStepperNext
-            >{{ "shared.navigation.next" | transloco }} <watt-icon name="right"></watt-icon
-          ></watt-button>
-        </div>
       </form>
+      <div class="buttonWrapper">
+        <watt-button variant="secondary" wattStepperNext
+          >{{ t("addUserRole") }} <watt-icon name="right"></watt-icon
+        ></watt-button>
+      </div>
     </mat-step>
 
     <mat-step [stepControl]="userRoles">
@@ -98,14 +99,19 @@ limitations under the License.
         <dh-assignable-user-roles
           (selectedUserRoles)="onSelectedUserRoles($event)"
         ></dh-assignable-user-roles>
-        <div class="buttonWrapper">
-          <watt-button variant="secondary" wattStepperPrevious>
-            <watt-icon name="left"></watt-icon>
-            {{ "shared.navigation.previous" | transloco }}
-          </watt-button>
-          <watt-button variant="primary" (click)="inviteUser()">{{ t("inviteUser") }}</watt-button>
-        </div>
+        <watt-error *ngIf="userRoles.controls.selectedUserRoles.hasError('required')">
+          {{ "shared.fieldRequiredErrorText" | transloco }}
+        </watt-error>
       </form>
+      <div class="buttonWrapper">
+        <watt-button variant="secondary" wattStepperPrevious>
+          <watt-icon name="left"></watt-icon>
+          {{ t("informations") }}
+        </watt-button>
+        <watt-button variant="primary" [loading]="isInvitingUser$ | push" (click)="inviteUser()">{{
+          t("inviteUser")
+        }}</watt-button>
+      </div>
     </mat-step>
   </mat-stepper>
 </watt-modal>

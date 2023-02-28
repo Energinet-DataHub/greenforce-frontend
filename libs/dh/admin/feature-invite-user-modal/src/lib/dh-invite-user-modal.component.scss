@@ -21,6 +21,12 @@
     padding-bottom: var(--watt-space-m);
   }
 
+  mat-divider {
+    color: var(--watt-color-neutral-grey-400);
+    margin: var(--watt-space-m) 0;
+    grid-column: 1/-1;
+  }
+
   .mat-step-label.mat-step-label-selected {
     color: var(--watt-color-primary);
   }
