@@ -76,14 +76,17 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
       next: (result) => {
         this.loading = result.loading;
 
-        if(result.data) {
-          this.data = this.mapSettlementReports(result.data.batches as graphql.Batch[], this.filters);
+        if (result.data) {
+          this.data = this.mapSettlementReports(
+            result.data.batches as graphql.Batch[],
+            this.filters
+          );
         }
       },
       error: () => {
         this.error = true;
         this.loading = false;
-      }
+      },
     });
   }
 

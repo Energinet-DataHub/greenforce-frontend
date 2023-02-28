@@ -29,22 +29,14 @@ export function navigateToWholesaleCalculationSteps(
   gridArea: graphql.GridArea
 ) {
   router.navigate(
-    [
-      WHOLESALE_BASE_PATH,
-      WHOLESALE_CALCULATION_STEPS_PATH,
-      batch.id,
-      gridArea.code,
-    ],
+    [WHOLESALE_BASE_PATH, WHOLESALE_CALCULATION_STEPS_PATH, batch.id, gridArea.code],
     {
       state: { batch: batch, gridArea: gridArea },
     }
   );
 }
 
-export function navigateToWholesaleSearchBatch(
-  router: Router,
-  batchId?: string
-) {
+export function navigateToWholesaleSearchBatch(router: Router, batchId?: string) {
   return router.navigate([WHOLESALE_BASE_PATH, WHOLESALE_SEARCH_BATCH_PATH], {
     queryParams: batchId ? { batch: batchId } : null,
   });

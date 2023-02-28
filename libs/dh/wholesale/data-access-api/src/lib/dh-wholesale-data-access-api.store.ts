@@ -34,10 +34,7 @@ import {
   TimeSeriesType,
   MarketRole,
 } from '@energinet-datahub/dh/shared/domain';
-import {
-  batch,
-  settlementReportsProcess,
-} from '@energinet-datahub/dh/wholesale/domain';
+import { batch, settlementReportsProcess } from '@energinet-datahub/dh/wholesale/domain';
 
 import type { WattBadgeType } from '@energinet-datahub-types/watt/badge';
 

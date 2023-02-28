@@ -60,9 +60,7 @@ export class DhWholesaleGridAreasComponent {
 
   @Output() selected = new EventEmitter<graphql.GridArea>();
 
-  _data: WattTableDataSource<graphql.GridArea> = new WattTableDataSource(
-    undefined
-  );
+  _data: WattTableDataSource<graphql.GridArea> = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<graphql.GridArea> = {
     gridAreaCode: { accessor: 'code' },
     name: {

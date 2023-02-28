@@ -15,13 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 

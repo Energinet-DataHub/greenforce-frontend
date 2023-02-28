@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  DateRange,
-  graphql,
-  ProcessType,
-} from '@energinet-datahub/dh/shared/domain';
+import { DateRange, graphql, ProcessType } from '@energinet-datahub/dh/shared/domain';
 
 export type settlementReportsProcess = graphql.Batch & {
   processType: ProcessType;
