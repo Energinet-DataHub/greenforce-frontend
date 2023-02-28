@@ -73,7 +73,6 @@ export class DbAdminInviteUserStore extends ComponentStore<State> {
   );
 
   private handleError = (err: unknown) => {
-    console.log({ err });
     this.hasGeneralError$.next();
   };
 
