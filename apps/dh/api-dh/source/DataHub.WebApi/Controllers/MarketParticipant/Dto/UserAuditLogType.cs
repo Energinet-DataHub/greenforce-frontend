@@ -12,17 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using Energinet.DataHub.MarketParticipant.Client.Models;
-
 namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
 {
-    public sealed record UserRoleAssignmentAuditLogDto(
-        Guid ActorId,
-        Guid UserRoleId,
-        string UserRoleName,
-        Guid ChangedByUserId,
-        string ChangedByUserName,
-        DateTimeOffset Timestamp,
-        UserRoleAssignmentTypeAuditLog AssignmentType);
+    public enum UserAuditLogType
+    {
+        UserInvite,
+        UserRoleAdded,
+        UserRoleRemoved,
+    }
 }

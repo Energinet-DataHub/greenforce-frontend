@@ -26,9 +26,7 @@ import {
 } from '@energinet-datahub/dh/admin/data-access-api';
 
 describe(DhUserAuditLogsComponent.name, () => {
-  async function setup(
-    store: Partial<DhAdminUserManagementAuditLogsDataAccessApiStore>
-  ) {
+  async function setup(store: Partial<DhAdminUserManagementAuditLogsDataAccessApiStore>) {
     const { fixture } = await render(DhUserAuditLogsComponent, {
       componentProviders: [
         {
@@ -78,12 +76,9 @@ describe(DhUserAuditLogsComponent.name, () => {
       timestamp: '2023-01-10T10:12:00+00:00',
       entry: {
         timestamp: '2023-01-09T14:40:23+00:00',
-        actorId: 'FBDEC5AC-F5A9-4783-9718-369582E0D437',
-        assignmentType: 'Added',
-        changedByUserId: '03DCF8A7-9BFD-4023-A206-8FFBC92A2D28',
+        auditLogType: 'UserRoleAdded',
         changedByUserName: 'fake_value',
-        userRoleId: 'D4C3508E-B949-4849-B5E6-BD818724C727',
-        userRoleName: 'fake_user_role',
+        toValue: 'fake_user_role',
       },
     };
 
