@@ -74,8 +74,8 @@ export class DhWholesaleTableComponent {
   columns: WattTableColumnDef<settlementReportsProcess> = {
     processType: { accessor: 'processType' },
     gridAreaName: { accessor: 'gridAreaName' },
-    periodStart: { accessor: 'periodStart' },
-    periodEnd: { accessor: 'periodEnd' },
+    periodStart: { accessor: (row) => row.period?.start },
+    periodEnd: { accessor: (row) => row.period?.end },
     executionTimeStart: { accessor: 'executionTimeStart' },
   };
 

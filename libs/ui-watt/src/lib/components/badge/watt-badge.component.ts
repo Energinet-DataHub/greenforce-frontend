@@ -16,7 +16,8 @@
  */
 import { Component, HostBinding, Input } from '@angular/core';
 
-export type WattBadgeType = 'warning' | 'success' | 'danger' | 'info';
+export type WattBadgeType = 'warning' | 'success' | 'danger' | 'info' | 'skeleton';
+
 export type WattBadgeSize = 'normal' | 'large';
 
 /**

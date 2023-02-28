@@ -15,25 +15,24 @@
  * limitations under the License.
  */
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
+import { ApolloError } from '@apollo/client';
+import { Apollo } from 'apollo-angular';
 
-import { MarketRole, WholesaleActorDto } from '@energinet-datahub/dh/shared/domain';
+import { graphql, MarketRole } from '@energinet-datahub/dh/shared/domain';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
-
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { tap } from 'rxjs';
+import { takeWhile } from 'rxjs';
 
 @Component({
   standalone: true,
   selector: 'dh-wholesale-actors',
   imports: [
-    LetModule,
+    CommonModule,
     TranslocoModule,
     WATT_TABLE,
     WattEmptyStateModule,
@@ -44,41 +43,50 @@ import { tap } from 'rxjs';
   styleUrls: ['./dh-wholesale-actors.component.scss'],
 })
 export class DhWholesaleActorsComponent implements OnInit {
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
   private route = inject(ActivatedRoute);
+  private apollo = inject(Apollo);
 
   @Input() batchId!: string;
   @Input() gridAreaCode!: string;
   @Input() marketRole = MarketRole.EnergySupplier;
 
-  @Output() rowClick = new EventEmitter<WholesaleActorDto>();
+  @Output() rowClick = new EventEmitter<graphql.Actor>();
 
-  _columns: WattTableColumnDef<WholesaleActorDto> = {
-    [this.marketRole]: { accessor: 'gln' },
+  _columns: WattTableColumnDef<graphql.Actor> = {
+    energySupplier: { accessor: 'number' },
   };
 
-  actors$ = this.store.actors$.pipe(
-    exists(),
-    tap((actors) => (this._dataSource.data = actors))
-  );
-  errorTrigger$ = this.store.loadingActorsErrorTrigger$;
-
-  _dataSource = new WattTableDataSource<WholesaleActorDto>([]);
+  _dataSource = new WattTableDataSource<graphql.Actor>();
+  actors?: graphql.Actor[];
+  loading = false;
+  error?: ApolloError;
+  selectedActor?: graphql.Actor;
+  routeActorNumber?: string;
 
   ngOnInit() {
-    this.store.getActors({
-      batchId: this.batchId,
-      gridAreaCode: this.gridAreaCode,
-      marketRole: this.marketRole,
-    });
+    this.apollo
+      .watchQuery({
+        useInitialLoading: true,
+        notifyOnNetworkStatusChange: true,
+        query: graphql.GetProcessStepActorsDocument,
+        variables: { step: 2, batchId: this.batchId, gridArea: this.gridAreaCode },
+      })
+      // TODO: Consider subscring in template
+      .valueChanges.pipe(takeWhile((result) => result.loading, true))
+      .subscribe({
+        next: (result) => {
+          console.log(result);
+          this.actors = result.data?.processStep?.actors ?? undefined;
+          if (this.actors) this._dataSource.data = this.actors;
+          this.loading = result.loading;
+        },
+        error: (err) => {
+          this.error = err;
+          this.loading = false;
+        },
+      });
   }
 
-  getSelectedActor(actors?: WholesaleActorDto[]) {
-    if (!actors) return;
-    return actors.find((e) => e.gln === this.route.firstChild?.snapshot.params.gln);
-  }
-
-  isSelectedActor(current: WholesaleActorDto, active: WholesaleActorDto) {
-    return current.gln === active.gln;
-  }
+  getActiveActor = () =>
+    this.actors?.find((actor) => actor.number === this.route.firstChild?.snapshot.params.gln);
 }

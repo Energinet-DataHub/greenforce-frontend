@@ -1,0 +1,7 @@
+{
+  "name": "dh-wholesale-data-access-graphql",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/wholesale/data-access-graphql",
+  "prefix": "dh",
+  "tags": ["product:dh", "domain:wholesale", "type:data-access"]
+}
