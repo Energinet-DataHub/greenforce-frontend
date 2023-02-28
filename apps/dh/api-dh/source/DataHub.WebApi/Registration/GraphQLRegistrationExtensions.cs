@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Energinet.DataHub.WebApi.GraphQL;
+using GraphQL.DataLoader;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +25,8 @@ namespace Energinet.DataHub.WebApi.Registration
         public static IServiceCollection AddGraphQLSchema(this IServiceCollection services)
         {
             return services
+                .AddSingleton<IDataLoaderContextAccessor, DataLoaderContextAccessor>()
+                .AddSingleton<DataLoaderDocumentListener>()
                 .AddSingleton<ISchema, GraphQLSchema>(services => new GraphQLSchema(new SelfActivatingServiceProvider(services)))
                 .AddSingleton<DateRangeType>();
         }

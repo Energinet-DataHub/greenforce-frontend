@@ -17,6 +17,7 @@ using System.Linq;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.Wholesale.Contracts;
+using GraphQL.DataLoader;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 
@@ -24,7 +25,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class BatchType : ObjectGraphType<BatchDtoV2>
     {
-        public BatchType()
+        public BatchType(IDataLoaderContextAccessor accessor)
         {
             Name = "Batch";
             Field(x => x.BatchNumber).Name("id").Description("The id of the batch.");
@@ -38,15 +39,11 @@ namespace Energinet.DataHub.WebApi.GraphQL
                .Resolve()
                .WithScope()
                .WithService<IMarketParticipantClient>()
-               .ResolveAsync(async (context, client) =>
+               .Resolve((context, client) =>
                {
-                   // TODO:
-                   // This is pretty inefficient, but the client currently
-                   // lacks a GetGridAreaByCode function or similar.
-                   var gridAreas = await client.GetGridAreasAsync();
-                   return gridAreas == null
-                       ? Enumerable.Empty<GridAreaDto>()
-                       : gridAreas.Where(gridArea => context.Source.GridAreaCodes.Contains(gridArea.Code));
+                   var loader = accessor.Context!.GetOrAddLoader("GetGridAreasAsync", () => client.GetGridAreasAsync());
+                   var result = loader.LoadAsync();
+                   return result.Then(gridAreas => gridAreas.Where(gridArea => context.Source.GridAreaCodes.Contains(gridArea.Code)));
                });
 
             Field<NonNullGraphType<StatusTypeEnum>>("statusType")

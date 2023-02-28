@@ -21,11 +21,9 @@ using Energinet.DataHub.Core.App.WebApp.Diagnostics.HealthChecks;
 using Energinet.DataHub.WebApi.GraphQL;
 using Energinet.DataHub.WebApi.Registration;
 using GraphQL;
+using GraphQL.DataLoader;
 using GraphQL.MicrosoftDI;
-using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
-using GraphQL.SystemTextJson;
-using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -118,6 +116,8 @@ namespace Energinet.DataHub.WebApi
             services.AddGraphQL(options =>
                     options.ConfigureExecution((opt, next) =>
                     {
+                        var listener = opt.RequestServices!.GetRequiredService<DataLoaderDocumentListener>();
+                        opt.Listeners.Add(listener);
                         opt.EnableMetrics = true;
                         return next(opt);
                     })
