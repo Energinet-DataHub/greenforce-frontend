@@ -870,7 +870,9 @@
         "firstname": "First name",
         "lastname": "Last name",
         "email": "Email",
-        "phoneNumber": "Phone number"
+        "phoneNumber": "Phone number",
+        "phoneNumberError": "Phone number format +45 12345678",
+        "successMessage": "{{ email }} has been invited"
       },
       "download": "Download",
       "drawer": {
@@ -943,9 +945,10 @@
             "entry": "Change"
           },
           "logs": {
-            "roles": {
-              "Added": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
-              "Removed": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>"
+            "auditLogType": {
+              "UserRoleAdded": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
+              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>",
+              "UserInvite": "<b>{{ changedByUserName }}</b> added user to <b>{{ toValue }}</b> market party"
             }
           },
           "generalError": {

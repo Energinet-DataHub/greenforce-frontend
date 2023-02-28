@@ -26,6 +26,7 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattCardModule } from '@energinet-datahub/watt/card';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'dh-assignable-user-roles',
@@ -40,6 +41,7 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
     WattEmptyStateModule,
     TranslocoModule,
     WattCardModule,
+    MatDividerModule,
   ],
   styleUrls: ['./dh-assignable-user-roles.component.scss'],
   templateUrl: './dh-assignable-user-roles.component.html',

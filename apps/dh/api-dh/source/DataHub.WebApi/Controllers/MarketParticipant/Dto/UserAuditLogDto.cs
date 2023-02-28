@@ -12,9 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
+using System;
 
 namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
 {
-    public sealed record UserAuditLogsDto(IEnumerable<UserAuditLogDto> UserAuditLogs);
+    public sealed record UserAuditLogDto(
+        string ToValue,
+        string ChangedByUserName,
+        UserAuditLogType AuditLogType,
+        DateTimeOffset Timestamp);
 }

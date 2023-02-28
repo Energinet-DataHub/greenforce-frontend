@@ -9,11 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { UserAuditLogDto } from './user-audit-log-dto';
 
 
-export interface UserAuditLogsDto { 
-    userAuditLogs: Array<UserAuditLogDto>;
+export interface UserInvitationDto { 
+    email: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    assignedActor: string;
+    assignedRoles: Array<string>;
 }
 
 

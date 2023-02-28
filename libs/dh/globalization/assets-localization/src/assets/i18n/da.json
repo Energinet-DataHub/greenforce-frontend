@@ -873,7 +873,9 @@
         "firstname": "Fornavn",
         "lastname": "Efternavn",
         "email": "Email",
-        "phoneNumber": "Telefonnr"
+        "phoneNumber": "Telefonnr.",
+        "phoneNumberError": "Telefonnr. format +45 12345678",
+        "successMessage": "{{ email }} blev inviteret"
       },
       "download": "Download",
       "drawer": {
@@ -946,9 +948,10 @@
             "entry": "Ændring"
           },
           "logs": {
-            "roles": {
-              "Added": "<b>{{ changedByUserName }}</b> tilføjede rollen <b>{{ userRoleName }}</b>",
-              "Removed": "<b>{{ changedByUserName }}</b> fjernede rollen <b>{{ userRoleName }}</b>"
+            "auditLogType": {
+              "UserRoleAdded": "<b>{{ changedByUserName }}</b> tilføjede rollen <b>{{ toValue }}</b>",
+              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> fjernede rollen <b>{{ toValue }}</b>",
+              "UserInvite": "<b>{{ changedByUserName }}</b> tilføjede brugeren til aktør <b>{{ toValue }}</b>"
             }
           },
           "generalError": {
