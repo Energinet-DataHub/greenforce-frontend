@@ -103,6 +103,7 @@
     "@badeball/cypress-cucumber-preprocessor": "13.1.0",
     "@compodoc/compodoc": "1.1.19",
     "@cypress/webpack-preprocessor": "5.15.4",
+    "@graphql-codegen/add": "^4.0.1",
     "@graphql-codegen/cli": "^3.0.0",
     "@graphql-codegen/introspection": "^3.0.0",
     "@graphql-codegen/typed-document-node": "^3.0.0",
