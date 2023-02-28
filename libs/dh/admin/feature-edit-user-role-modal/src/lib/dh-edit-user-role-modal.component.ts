@@ -28,7 +28,7 @@ import {
 import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { map, Subject, takeUntil } from 'rxjs';
+import { combineLatest, map, Subject, takeUntil } from 'rxjs';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 
@@ -43,7 +43,11 @@ import {
   DhAdminUserRoleEditDataAccessApiStore,
   DhAdminUserRoleWithPermissionsManagementDataAccessApiStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import { UpdateUserRoleDto, UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  PermissionDetailsDto,
+  UpdateUserRoleDto,
+  UserRoleWithPermissionsDto,
+} from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 
 @Component({
@@ -88,12 +92,25 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
 
+  private skipFirstPermissionSelectionEvent = true;
   private destroy$ = new Subject<void>();
 
   readonly userRole$ = this.userRoleWithPermissionsStore.userRole$;
   readonly roleName$ = this.userRole$.pipe(map((role) => role.name));
 
   readonly marketRolePermissions$ = this.marketRolePermissionsStore.permissions$;
+  readonly initiallySelectedPermissions$ = combineLatest([
+    this.marketRolePermissions$,
+    this.userRole$,
+  ]).pipe(
+    map(([marketRolePermissions, userRole]) => {
+      return marketRolePermissions.filter((marketRolePermission) => {
+        return userRole.permissions.some(
+          (userRolePermission) => userRolePermission.id === marketRolePermission.id
+        );
+      });
+    })
+  );
 
   readonly isLoading$ = this.userRoleEditStore.isLoading$;
   readonly hasValidationError$ = this.userRoleEditStore.hasValidationError$;
@@ -101,6 +118,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   readonly userRoleEditForm = this.formBuilder.group({
     name: this.formBuilder.nonNullable.control('', [Validators.required]),
     description: this.formBuilder.nonNullable.control('', [Validators.required]),
+    permissionIds: this.formBuilder.nonNullable.control<number[]>([], [Validators.required]),
   });
 
   @ViewChild(WattModalComponent) editUserRoleModal!: WattModalComponent;
@@ -108,17 +126,20 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   @Output() closed = new EventEmitter<{ saveSuccess: boolean }>();
 
   ngOnInit(): void {
-    const formControls = this.userRoleEditForm.controls;
-
     this.userRole$.pipe(takeUntil(this.destroy$)).subscribe((userRole) => {
-      formControls.name.setValue(userRole.name);
-      formControls.description.setValue(userRole.description);
+      const permissionIds = userRole.permissions.map(({ id }) => id);
+
+      this.userRoleEditForm.patchValue({
+        name: userRole.name,
+        description: userRole.description,
+        permissionIds,
+      });
 
       this.marketRolePermissionsStore.getPermissions(userRole.eicFunction);
     });
 
     this.hasValidationError$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      formControls.name.setErrors({
+      this.userRoleEditForm.controls.name.setErrors({
         nameAlreadyExists: true,
       });
     });
@@ -138,14 +159,27 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
     this.closed.emit({ saveSuccess });
   }
 
+  onSelectionChanged(selectedPermissions: PermissionDetailsDto[]): void {
+    if (this.skipFirstPermissionSelectionEvent) {
+      this.skipFirstPermissionSelectionEvent = false;
+
+      return;
+    }
+
+    const permissionIds = selectedPermissions.map(({ id }) => id);
+
+    this.userRoleEditForm.patchValue({ permissionIds });
+    this.userRoleEditForm.markAsDirty();
+  }
+
   save(userRole: UserRoleWithPermissionsDto): void {
     const formControls = this.userRoleEditForm.controls;
 
     const updatedUserRole: UpdateUserRoleDto = {
       name: formControls.name.value,
       description: formControls.description.value,
+      permissions: formControls.permissionIds.value,
       status: userRole.status,
-      permissions: userRole.permissions.map((permissions) => permissions.id),
     };
 
     const onSuccessFn = () => {
