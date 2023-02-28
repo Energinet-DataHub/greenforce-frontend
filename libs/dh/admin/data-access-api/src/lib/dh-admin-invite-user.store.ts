@@ -55,9 +55,9 @@ export class DbAdminInviteUserStore extends ComponentStore<State> {
                   this.setSaving(SavingState.SAVED);
                   onSuccess();
                 },
-                (err) => {
+                () => {
                   this.setSaving(ErrorState.GENERAL_ERROR);
-                  this.handleError(err);
+                  this.handleError();
                 }
               )
             );
