@@ -49,8 +49,10 @@ import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
   imports: [TranslocoModule, WATT_TABLE],
 })
 export class DhPermissionsTableComponent implements OnChanges {
-  @Output() selectionChanged = new EventEmitter<PermissionDetailsDto[]>();
   @Input() permissions: PermissionDetailsDto[] = [];
+  @Input() initialSelection: PermissionDetailsDto[] = [];
+
+  @Output() selectionChanged = new EventEmitter<PermissionDetailsDto[]>();
 
   @ViewChild(WattTableComponent<PermissionDetailsDto>)
   permissionsTable!: WattTableComponent<PermissionDetailsDto>;
