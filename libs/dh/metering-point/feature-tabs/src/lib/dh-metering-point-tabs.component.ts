@@ -37,8 +37,7 @@ export class DhMeteringPointTabsComponent {
 
   meteringPoint$ = this.store.meteringPoint$.pipe(
     tap((meteringPoint) => {
-      this.childMeteringPointsCount =
-        meteringPoint.childMeteringPoints?.length ?? 0;
+      this.childMeteringPointsCount = meteringPoint.childMeteringPoints?.length ?? 0;
     })
   );
 

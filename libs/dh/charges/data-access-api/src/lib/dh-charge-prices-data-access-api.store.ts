@@ -24,10 +24,7 @@ import {
   ChargesHttp,
 } from '@energinet-datahub/dh/shared/domain';
 import { Observable, switchMap, tap } from 'rxjs';
-import {
-  ErrorState,
-  LoadingState,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 interface ChargePricesState {
   readonly chargePrices?: Array<ChargePriceV1Dto>;
@@ -47,15 +44,9 @@ export class DhChargePricesDataAccessApiStore extends ComponentStore<ChargePrice
   totalAmount$ = this.select((state) => state.totalAmount);
 
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
-  isLoading$ = this.select(
-    (state) => state.requestState === LoadingState.LOADING
-  );
-  chargePricesNotFound$ = this.select(
-    (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
-  );
-  hasGeneralError$ = this.select(
-    (state) => state.requestState === ErrorState.GENERAL_ERROR
-  );
+  isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
+  chargePricesNotFound$ = this.select((state) => state.requestState === ErrorState.NOT_FOUND_ERROR);
+  hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
 
   constructor(private httpClient: ChargesHttp) {
     super(initialState);
@@ -70,29 +61,24 @@ export class DhChargePricesDataAccessApiStore extends ComponentStore<ChargePrice
           this.setLoading(LoadingState.LOADING);
         }),
         switchMap((searchCriteria) =>
-          this.httpClient
-            .v1ChargesSearchChargePricesAsyncPost(searchCriteria)
-            .pipe(
-              tapResponse(
-                (result) => {
-                  this.updateStates(result);
-                },
-                (error: HttpErrorResponse) => {
-                  this.setLoading(LoadingState.LOADED);
-                  this.handleError(error);
-                }
-              )
+          this.httpClient.v1ChargesSearchChargePricesAsyncPost(searchCriteria).pipe(
+            tapResponse(
+              (result) => {
+                this.updateStates(result);
+              },
+              (error: HttpErrorResponse) => {
+                this.setLoading(LoadingState.LOADED);
+                this.handleError(error);
+              }
             )
+          )
         )
       );
     }
   );
 
   private update = this.updater(
-    (
-      state: ChargePricesState,
-      chargePrices: ChargePricesV1Dto
-    ): ChargePricesState => ({
+    (state: ChargePricesState, chargePrices: ChargePricesV1Dto): ChargePricesState => ({
       ...state,
       chargePrices: chargePrices.chargePrices ?? undefined,
       totalAmount: chargePrices.totalAmount,

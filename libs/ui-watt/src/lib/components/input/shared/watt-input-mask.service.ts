@@ -111,16 +111,10 @@ export class WattInputMaskService {
     const emptyMask = inputMask.getemptymask();
     const inputValue = inputElement.value;
 
-    const paddingLeft = parseInt(
-      getComputedStyle(inputElement).getPropertyValue('padding-left')
-    );
+    const paddingLeft = parseInt(getComputedStyle(inputElement).getPropertyValue('padding-left'));
     const gradient = this.buildGradient(emptyMask, inputValue, paddingLeft);
 
-    this.renderer.setStyle(
-      inputElement,
-      'background-image',
-      `linear-gradient(90deg, ${gradient})`
-    );
+    this.renderer.setStyle(inputElement, 'background-image', `linear-gradient(90deg, ${gradient})`);
 
     this.renderer.setStyle(
       inputElement,
@@ -129,21 +123,14 @@ export class WattInputMaskService {
     );
   }
 
-  private buildGradient(
-    emptyMask: string,
-    inputValue: string,
-    paddingLeft: number
-  ): string {
+  private buildGradient(emptyMask: string, inputValue: string, paddingLeft: number): string {
     const splittedEmptyMask = emptyMask.split('');
     const splittedValue = inputValue.split('');
 
     const gradientParts = splittedEmptyMask.map((char, index) => {
-      const charHasChanged =
-        char !== splittedValue[index] && splittedValue[index] !== undefined;
+      const charHasChanged = char !== splittedValue[index] && splittedValue[index] !== undefined;
 
-      const color = charHasChanged
-        ? `var(${WattColor.black})`
-        : `var(${WattColor.grey500})`;
+      const color = charHasChanged ? `var(${WattColor.black})` : `var(${WattColor.grey500})`;
 
       const gradientStart =
         index === 0

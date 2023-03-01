@@ -27,11 +27,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  MatDialog,
-  MatDialogConfig,
-  MatDialogModule,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { CalendarDateRange } from '@energinet-datahub/eo/shared/services';
 import { EoDatePickerDialogComponent } from './eo-date-picker-dialog.component';

@@ -67,20 +67,15 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/atomic-desi
 
       <p>
         Energy Origin is a platform which provides you with access to
-        <strong>data</strong> about the
-        <strong>origins of your energy</strong> and the corresponding
-        <strong>emissions</strong>. This first version of Energy Origin is for
+        <strong>data</strong> about the <strong>origins of your energy</strong> and the
+        corresponding <strong>emissions</strong>. This first version of Energy Origin is for
         companies in Denmark and can be used for e.g.:
       </p>
 
       <ul class="text-list">
+        <li>Compiling an <strong>emissions overview</strong> for your annual ECG report</li>
         <li>
-          Compiling an <strong>emissions overview</strong> for your annual ECG
-          report
-        </li>
-        <li>
-          Gaining an overview of the <strong>renewables share</strong> of your
-          energy consumption
+          Gaining an overview of the <strong>renewables share</strong> of your energy consumption
         </li>
       </ul>
 

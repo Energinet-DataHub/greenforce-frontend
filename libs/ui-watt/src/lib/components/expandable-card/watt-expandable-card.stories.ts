@@ -28,11 +28,7 @@ export default {
   component: WattExpandableCardComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        BrowserAnimationsModule,
-        WattBadgeComponent,
-        WATT_EXPANDABLE_CARD_COMPONENTS,
-      ],
+      imports: [BrowserAnimationsModule, WattBadgeComponent, WATT_EXPANDABLE_CARD_COMPONENTS],
     }),
   ],
 } as Meta;

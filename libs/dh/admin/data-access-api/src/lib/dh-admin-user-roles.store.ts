@@ -15,17 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import {
-  exhaustMap,
-  filter,
-  from,
-  map,
-  mergeMap,
-  Observable,
-  Subject,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { exhaustMap, filter, from, map, mergeMap, Observable, Subject, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -70,14 +60,10 @@ export type UpdateUserRoles = {
 @Injectable({ providedIn: 'root' })
 export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState> {
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
-  isLoading$ = this.select(
-    (state) => state.requestState === LoadingState.LOADING
-  );
+  isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasGeneralError$ = new Subject<void>();
 
-  userRoleView$: Observable<UserRolesViewDto> = this.select(
-    (state) => state.userRolesView
-  ).pipe(
+  userRoleView$: Observable<UserRolesViewDto> = this.select((state) => state.userRolesView).pipe(
     filter((userRolesView) => !!userRolesView),
     map((userRolesView) => userRolesView as UserRolesViewDto)
   );
@@ -85,9 +71,7 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
   isSaving$ = this.select((state) => state.savingState === SavingState.SAVING);
 
   numberOfSelectedRoles$ = this.select((state) => state.numberOfSelectedRoles);
-  numberOfAssignableRoles$ = this.select(
-    (state) => state.numberOfAssigenableRoles
-  );
+  numberOfAssignableRoles$ = this.select((state) => state.numberOfAssigenableRoles);
 
   selectedRoles$ = this.select((state) => state.selectedRoles);
 
@@ -186,10 +170,7 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
   );
 
   private setLoading = this.updater(
-    (
-      state,
-      loadingState: LoadingState | ErrorState
-    ): DhUserManagementState => ({
+    (state, loadingState: LoadingState | ErrorState): DhUserManagementState => ({
       ...state,
       requestState: loadingState,
     })

@@ -15,6 +15,7 @@ import { ActorNameDto } from './actor-name-dto';
 
 
 export interface CreateActorDto { 
+    organizationId: string;
     actorNumber: ActorNumberDto;
     name: ActorNameDto;
     marketRoles: Array<ActorMarketRoleDto>;

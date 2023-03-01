@@ -24,16 +24,10 @@ import { UserStatus } from '@energinet-datahub/dh/shared/domain';
 @Component({
   selector: 'dh-user-status',
   standalone: true,
-  template: `<ng-container
-    *transloco="let t; read: 'admin.userManagement.userStatus'"
-  >
-    <watt-badge *ngIf="status === 'Active'" type="info">{{
-      t('active')
-    }}</watt-badge>
+  template: `<ng-container *transloco="let t; read: 'admin.userManagement.userStatus'">
+    <watt-badge *ngIf="status === 'Active'" type="info">{{ t('active') }}</watt-badge>
 
-    <watt-badge *ngIf="status === 'Inactive'" type="warning">{{
-      t('inactive')
-    }}</watt-badge>
+    <watt-badge *ngIf="status === 'Inactive'" type="warning">{{ t('inactive') }}</watt-badge>
   </ng-container>`,
   imports: [CommonModule, TranslocoModule, WattBadgeComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,

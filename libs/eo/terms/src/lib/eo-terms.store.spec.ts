@@ -33,9 +33,7 @@ describe(EoTermsStore.name, () => {
             }),
           }),
           MockProvider(EoTermsService, {
-            postAcceptTerms: jest.fn(() =>
-              of({ next_url: '/dashboard?success=1' })
-            ),
+            postAcceptTerms: jest.fn(() => of({ next_url: '/dashboard?success=1' })),
           }),
         ],
       });

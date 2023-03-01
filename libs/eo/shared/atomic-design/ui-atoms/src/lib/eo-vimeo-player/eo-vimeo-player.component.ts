@@ -63,12 +63,7 @@ import Player from '@vimeo/player';
     `,
   ],
   template: `
-    <img
-      *ngIf="isPosterVisible"
-      class="poster-image"
-      [src]="poster"
-      (click)="onVideoPlay()"
-    />
+    <img *ngIf="isPosterVisible" class="poster-image" [src]="poster" (click)="onVideoPlay()" />
   `,
 })
 export class EoVimeoPlayerComponent {

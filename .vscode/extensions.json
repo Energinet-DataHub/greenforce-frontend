@@ -8,6 +8,7 @@
     "esbenp.prettier-vscode",
     "firsttris.vscode-jest-runner",
     "ms-playwright.playwright",
-    "ms-vsliveshare.vsliveshare"
+    "ms-vsliveshare.vsliveshare",
+    "GraphQL.vscode-graphql"
   ]
 }

@@ -15,23 +15,11 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {
-  WattTableColumnDef,
-  WattTableDataSource,
-  WATT_TABLE,
-} from '@energinet-datahub/watt/table';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import {
-  translate,
-  TranslocoModule,
-  TranslocoService,
-} from '@ngneat/transloco';
+import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
@@ -56,9 +44,7 @@ import { take } from 'rxjs';
     WattCardModule,
   ],
 })
-export class DhMarketParticipantMarketRolesOverviewComponent
-  implements AfterViewInit
-{
+export class DhMarketParticipantMarketRolesOverviewComponent implements AfterViewInit {
   constructor(private trans: TranslocoService) {}
 
   dataSource = new WattTableDataSource<string>(Object.keys(EicFunction));
@@ -79,10 +65,7 @@ export class DhMarketParticipantMarketRolesOverviewComponent
         : translate('marketParticipant.marketRoleDescriptions.' + data);
 
     if (this.dataSource.sort)
-      this.dataSource.data = this.dataSource.sortData(
-        this.dataSource.data,
-        this.dataSource.sort
-      );
+      this.dataSource.data = this.dataSource.sortData(this.dataSource.data, this.dataSource.sort);
   }
 
   download() {
@@ -92,10 +75,7 @@ export class DhMarketParticipantMarketRolesOverviewComponent
       .subscribe((translations) => {
         const basePath = 'marketParticipant.marketRolesOverview.columns.';
 
-        const headers = [
-          translate(basePath + 'name'),
-          translate(basePath + 'description'),
-        ];
+        const headers = [translate(basePath + 'name'), translate(basePath + 'description')];
 
         if (this.dataSource.sort) {
           const marketRoles = this.dataSource.sortData(

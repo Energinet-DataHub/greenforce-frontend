@@ -14,18 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChargePriceV1Dto,
-  Resolution,
-} from '@energinet-datahub/dh/shared/domain';
+import { ChargePriceV1Dto, Resolution } from '@energinet-datahub/dh/shared/domain';
 import { format } from 'date-fns';
 
 const timeFormat = 'HH:mm';
 
-export function getFromDateTime(
-  price: ChargePriceV1Dto,
-  resolution: Resolution
-) {
+export function getFromDateTime(price: ChargePriceV1Dto, resolution: Resolution) {
   const fromDateTime = new Date(price.fromDateTime);
 
   if (resolution == Resolution.PT1H) return formatHours(fromDateTime, 0);

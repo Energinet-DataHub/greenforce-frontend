@@ -21,9 +21,7 @@ import { WattBadgeType } from '@energinet-datahub/watt/badge';
  *
  * @throws {Error} if the specified connection state has an unknown value.
  */
-export function connectionStateToBadgeType(
-  connectionState: ConnectionState
-): WattBadgeType {
+export function connectionStateToBadgeType(connectionState: ConnectionState): WattBadgeType {
   switch (connectionState) {
     case ConnectionState.D02:
     case ConnectionState.E23:

@@ -14,14 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Directive,
-  ElementRef,
-  HostBinding,
-  HostListener,
-  inject,
-  Input,
-} from '@angular/core';
+import { Directive, ElementRef, HostBinding, HostListener, inject, Input } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { WattToastService } from '../toast';
 import { WattClipboardIntlService } from './watt-clipboard-intl.service';

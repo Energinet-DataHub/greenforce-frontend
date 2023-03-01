@@ -25,8 +25,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory:
-    '../../../../../coverage/libs/eo/shared/atomic-design/feature-molecules',
+  coverageDirectory: '../../../../../coverage/libs/eo/shared/atomic-design/feature-molecules',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

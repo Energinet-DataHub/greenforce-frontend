@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  render,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-} from '@testing-library/angular';
+import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/angular';
 import { ActivatedRoute } from '@angular/router';
 import { Component } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -51,9 +46,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
         HttpClientModule,
         DhMeteringPointSearchScam,
       ],
-      routes: [
-        { path: `:${dhMeteringPointIdParam}`, component: NoopComponent },
-      ],
+      routes: [{ path: `:${dhMeteringPointIdParam}`, component: NoopComponent }],
     });
 
     const activatedRoute = TestBed.inject(ActivatedRoute);

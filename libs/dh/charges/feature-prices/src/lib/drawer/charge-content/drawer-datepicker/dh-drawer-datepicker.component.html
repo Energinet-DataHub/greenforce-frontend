@@ -18,16 +18,10 @@ limitations under the License.
   <!-- date-range picker -->
   <div class="date-range">
     <watt-form-field>
-      <watt-datepicker
-        [formControl]="formControlDateRange"
-        [range]="true"
-      ></watt-datepicker>
+      <watt-datepicker [formControl]="formControlDateRange" [range]="true"></watt-datepicker>
     </watt-form-field>
   </div>
-  <div
-    class="date-chips"
-    *dhFeatureFlag="'charges_price_date_chips_feature_flag'"
-  >
+  <div class="date-chips" *dhFeatureFlag="'charges_price_date_chips_feature_flag'">
     <watt-chips [options]="options" [selection]="optionSelected"></watt-chips>
   </div>
 </ng-container>

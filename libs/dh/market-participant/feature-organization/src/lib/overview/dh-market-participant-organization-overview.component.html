@@ -61,10 +61,7 @@ limitations under the License.
       <mat-cell *matCellDef="let element">
         <div class="market-roles-cell" *ngIf="element.actor !== undefined">
           <div *ngFor="let marketRole of element.actor.marketRoles">
-            {{
-              "marketParticipant.marketRoles." + marketRole.eicFunction
-                | transloco
-            }}
+            {{ "marketParticipant.marketRoles." + marketRole.eicFunction | transloco }}
           </div>
         </div>
         <div class="list-cell-container" *ngIf="element.actor === undefined">
@@ -123,12 +120,7 @@ limitations under the License.
           <ng-container *dhPermissionRequired="['actor:manage']">
             <button
               mat-menu-item
-              (click)="
-                onEditActor(
-                  element.organization.organizationId,
-                  element.actor.actorId
-                )
-              "
+              (click)="onEditActor(element.organization.organizationId, element.actor.actorId)"
               *ngIf="element.actor"
             >
               {{ t("editActor") }}

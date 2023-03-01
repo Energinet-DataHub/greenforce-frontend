@@ -21,16 +21,11 @@ import { WattButtonComponent, WattButtonTypes } from './watt-button.component';
 import { WattButtonModule } from './watt-button.module';
 
 type WattButtonOptions = Partial<
-  Pick<
-    WattButtonComponent,
-    'icon' | 'variant' | 'type' | 'formId' | 'disabled' | 'loading'
-  >
+  Pick<WattButtonComponent, 'icon' | 'variant' | 'type' | 'formId' | 'disabled' | 'loading'>
 >;
 
 describe('WattButtonComponent.name', () => {
-  const renderComponent = async (
-    options: WattButtonOptions & { text?: string }
-  ) => {
+  const renderComponent = async (options: WattButtonOptions & { text?: string }) => {
     return await render<WattButtonComponent>(
       `<watt-button
         [variant]="variant"
@@ -70,18 +65,15 @@ describe('WattButtonComponent.name', () => {
     expect(screen.getByRole('img')).toHaveClass('mat-icon');
   });
 
-  test.each(WattButtonTypes)(
-    'renders variant "%s" as a class',
-    async (variant) => {
-      await renderComponent({ variant, text: 'Text' });
+  test.each(WattButtonTypes)('renders variant "%s" as a class', async (variant) => {
+    await renderComponent({ variant, text: 'Text' });
 
-      if (variant === 'icon') {
-        expect(screen.getByRole('button')).not.toHaveTextContent('Text');
-      }
-
-      expect(screen.getByRole('button')).toHaveClass('watt-button--' + variant);
+    if (variant === 'icon') {
+      expect(screen.getByRole('button')).not.toHaveTextContent('Text');
     }
-  );
+
+    expect(screen.getByRole('button')).toHaveClass('watt-button--' + variant);
+  });
 
   it('supports reset type', async () => {
     await renderComponent({ type: 'reset' });

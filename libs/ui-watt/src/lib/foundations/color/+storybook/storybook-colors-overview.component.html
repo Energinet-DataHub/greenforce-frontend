@@ -23,10 +23,7 @@ limitations under the License.
   <p>{{ type.description }}</p>
 
   <div class="color-grid">
-    <figure
-      *ngFor="let color of type.colors"
-      (click)="copyToClipboard(color.var)"
-    >
+    <figure *ngFor="let color of type.colors" (click)="copyToClipboard(color.var)">
       <div
         class="color-sample"
         [style.backgroundColor]="color.color"

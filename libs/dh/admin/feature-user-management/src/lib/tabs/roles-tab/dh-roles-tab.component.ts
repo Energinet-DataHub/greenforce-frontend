@@ -14,19 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
-import {
-  translate,
-  TranslocoModule,
-  TranslocoService,
-} from '@ngneat/transloco';
+import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
@@ -45,11 +36,7 @@ import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
-import {
-  EicFunction,
-  UserRoleDto,
-  UserRoleStatus,
-} from '@energinet-datahub/dh/shared/domain';
+import { EicFunction, UserRoleDto, UserRoleStatus } from '@energinet-datahub/dh/shared/domain';
 import { take } from 'rxjs';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
@@ -60,9 +47,7 @@ import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
   styleUrls: ['./dh-roles-tab.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
-  ],
+  providers: [provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore)],
   imports: [
     CommonModule,
     TranslocoModule,
@@ -115,11 +100,7 @@ export class DhUserRolesTabComponent {
           translate(basePath + 'status'),
         ];
 
-        const lines = roles.map((x) => [
-          x.name,
-          rolesTranslations[x.eicFunction],
-          x.status,
-        ]);
+        const lines = roles.map((x) => [x.name, rolesTranslations[x.eicFunction], x.status]);
 
         exportCsv(headers, lines);
       });

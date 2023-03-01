@@ -46,10 +46,7 @@ export class MarketRoleService {
     [EicFunction.DanishEnergyAgency],
   ];
 
-  notValidInAnySelectionGroup(
-    item: EicFunction,
-    currentSelectedList: Array<EicFunction>
-  ): boolean {
+  notValidInAnySelectionGroup(item: EicFunction, currentSelectedList: Array<EicFunction>): boolean {
     if (currentSelectedList.length === 0) {
       return false;
     }
@@ -66,10 +63,7 @@ export class MarketRoleService {
       }
     }
 
-    const result = possibleGroups.reduce(
-      (accumulator, value) => accumulator.concat(value),
-      []
-    );
+    const result = possibleGroups.reduce((accumulator, value) => accumulator.concat(value), []);
 
     return result.indexOf(item) < 0;
   }

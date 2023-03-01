@@ -15,14 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<ng-container
-  *transloco="let t; read: 'marketParticipant.gridAreas.changeGridArea'"
->
+<ng-container *transloco="let t; read: 'marketParticipant.gridAreas.changeGridArea'">
   <div class="top-btns">
     <ng-container *dhPermissionRequired="['gridareas:manage']">
-      <watt-button (click)="openEditModal()">{{
-        t("editGridArea")
-      }}</watt-button>
+      <watt-button (click)="openEditModal()">{{ t("editGridArea") }}</watt-button>
     </ng-container>
   </div>
   <ng-container>
@@ -36,13 +32,7 @@ limitations under the License.
       <br />
       <watt-form-field>
         <watt-label>{{ t("gridAreaName") }}</watt-label>
-        <input
-          #nameChangeInput
-          wattInput
-          [(ngModel)]="newGridName"
-          type="text"
-          required
-        />
+        <input #nameChangeInput wattInput [(ngModel)]="newGridName" type="text" required />
       </watt-form-field>
       <watt-modal-actions>
         <watt-button
@@ -51,11 +41,9 @@ limitations under the License.
           (click)="closeEditModal()"
           >{{ t("cancel") }}</watt-button
         >
-        <watt-button
-          [loading]="gridChangesLoading"
-          (click)="saveGridChanges()"
-          >{{ t("saveChanges") }}</watt-button
-        >
+        <watt-button [loading]="gridChangesLoading" (click)="saveGridChanges()">{{
+          t("saveChanges")
+        }}</watt-button>
       </watt-modal-actions>
     </watt-modal>
   </ng-container>
