@@ -30,21 +30,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  Input,
-  ViewChild,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { DhChargesChargePricesTabComponent } from '../charge-content/price-tab/dh-charges-charge-prices-tab.component';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhChargesChargeMessagesTabComponent } from '../charge-content/message-tab/dh-charges-charge-messages-tab.component';
 import { DhChargesChargeHistoryTabComponent } from '../charge-content/history-tab/dh-charges-charge-history-tab.component';
 import { DhChargeDetailsHeaderComponent } from '../charge-content/details-header/dh-charge-details-header.component';
-import {
-  WattTabsComponent,
-  WattTabsModule,
-} from '@energinet-datahub/watt/tabs';
+import { WattTabsComponent, WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
 

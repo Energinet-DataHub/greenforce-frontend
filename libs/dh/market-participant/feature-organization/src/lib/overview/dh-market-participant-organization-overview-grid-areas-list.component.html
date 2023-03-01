@@ -17,18 +17,13 @@ limitations under the License.
 
 <ng-container
   *ngIf="
-    !!gridAreas &&
-    gridAreas.length > 0 &&
-    !!marketRoleGridAreas &&
-    marketRoleGridAreas.length > 0
+    !!gridAreas && gridAreas.length > 0 && !!marketRoleGridAreas && marketRoleGridAreas.length > 0
   "
 >
   <div [matTooltip]="getTooltip()" matTooltipPosition="below">
     {{
       getGridAreaInfo(marketRoleGridAreas[0].id) +
-        (marketRoleGridAreas.length > 1
-          ? " (+" + (marketRoleGridAreas.length - 1) + ")"
-          : "")
+        (marketRoleGridAreas.length > 1 ? " (+" + (marketRoleGridAreas.length - 1) + ")" : "")
     }}
   </div>
 </ng-container>

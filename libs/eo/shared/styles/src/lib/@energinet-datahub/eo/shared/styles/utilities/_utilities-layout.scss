@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '../tools/tools-layout' as eo-layout;
+@use "../tools/tools-layout" as eo-layout;
 
 .eo-layout-centered-content {
   @include eo-layout.centered-content;

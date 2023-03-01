@@ -49,9 +49,7 @@ describe(MarketRoleGroupService.name, () => {
 
     // act
     const marketRoles = target.groupRows(input);
-    const agentMarketRoles = marketRoles.filter(
-      (x) => x.marketRole === EicFunction.BillingAgent
-    );
+    const agentMarketRoles = marketRoles.filter((x) => x.marketRole === EicFunction.BillingAgent);
     const agentMarketRoleGridAreas = agentMarketRoles[0].gridAreas;
     // assert
     expect(marketRoles[0].comment).toBe('comment ga1');

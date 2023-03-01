@@ -32,10 +32,7 @@ describe(mapChangeDescriptionJson.prototype.name, () => {
       Permissions: [3, 4],
     };
 
-    const actual = mapChangeDescriptionJson(
-      UserRoleChangeType.Created,
-      changeDescriptionJson
-    );
+    const actual = mapChangeDescriptionJson(UserRoleChangeType.Created, changeDescriptionJson);
 
     expect(actual).toBe('');
   });
@@ -43,10 +40,7 @@ describe(mapChangeDescriptionJson.prototype.name, () => {
   it(`returns value when "UserRoleChangeType" is ${UserRoleChangeType.NameChange}`, () => {
     const changeDescriptionJson = { Name: 'New name' };
 
-    const actual = mapChangeDescriptionJson(
-      UserRoleChangeType.NameChange,
-      changeDescriptionJson
-    );
+    const actual = mapChangeDescriptionJson(UserRoleChangeType.NameChange, changeDescriptionJson);
 
     expect(actual).toBe(changeDescriptionJson.Name);
   });
@@ -78,10 +72,7 @@ describe(mapChangeDescriptionJson.prototype.name, () => {
   it(`returns value when "UserRoleChangeType" is ${UserRoleChangeType.StatusChange}`, () => {
     const changeDescriptionJson = { Status: UserRoleStatus.Inactive };
 
-    const actual = mapChangeDescriptionJson(
-      UserRoleChangeType.StatusChange,
-      changeDescriptionJson
-    );
+    const actual = mapChangeDescriptionJson(UserRoleChangeType.StatusChange, changeDescriptionJson);
 
     expect(actual).toBe(changeDescriptionJson.Status);
   });
@@ -99,10 +90,7 @@ describe(mapChangeDescriptionJson.prototype.name, () => {
 
   it(`throws when "UserRoleChangeType" is unknown`, () => {
     expect(() =>
-      mapChangeDescriptionJson(
-        'UnknownUserRoleChangeType' as UserRoleChangeType,
-        {}
-      )
+      mapChangeDescriptionJson('UnknownUserRoleChangeType' as UserRoleChangeType, {})
     ).toThrowError();
   });
 });

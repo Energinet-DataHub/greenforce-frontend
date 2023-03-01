@@ -18,11 +18,7 @@
 import { render, screen, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
-import {
-  ActorMarketRoleDto,
-  ActorStatus,
-  GridAreaDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { ActorMarketRoleDto, ActorStatus, GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { EventEmitter } from '@angular/core';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
@@ -48,10 +44,7 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
           emit: outputFn,
         } as unknown as EventEmitter<MarketRoleChanges>,
       },
-      imports: [
-        DhMarketParticipantActorMarketRolesComponentScam,
-        getTranslocoTestingModule(),
-      ],
+      imports: [DhMarketParticipantActorMarketRolesComponentScam, getTranslocoTestingModule()],
     });
 
     await runOnPushChangeDetection(view.fixture);
@@ -103,9 +96,7 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
     ).getByRole('combobox');
     userEvent.click(marketRoleOptions);
 
-    const marketRoleOption = screen.getByText(
-      en.marketParticipant.marketRoles.GridAccessProvider
-    );
+    const marketRoleOption = screen.getByText(en.marketParticipant.marketRoles.GridAccessProvider);
     userEvent.click(marketRoleOption);
 
     // select grid area
@@ -116,9 +107,7 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
     ).getByRole('combobox');
     userEvent.click(gridAreaOptions);
 
-    const gridAreaOption = screen.getByText(
-      `${gridAreas[0].code} - ${gridAreas[0].name}`
-    );
+    const gridAreaOption = screen.getByText(`${gridAreas[0].code} - ${gridAreas[0].name}`);
     userEvent.click(gridAreaOption);
 
     // select metering point types
@@ -142,9 +131,7 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
     const { outputFn } = await setup(ActorStatus.New, gridAreas, [
       {
         eicFunction: 'BalanceResponsibleParty',
-        gridAreas: [
-          { id: gridAreas[0].id, meteringPointTypes: ['D01VeProduction'] },
-        ],
+        gridAreas: [{ id: gridAreas[0].id, meteringPointTypes: ['D01VeProduction'] }],
       },
     ]);
 
@@ -166,9 +153,7 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
     const { outputFn } = await setup(ActorStatus.Active, gridAreas, [
       {
         eicFunction: 'BalanceResponsibleParty',
-        gridAreas: [
-          { id: gridAreas[0].id, meteringPointTypes: ['D01VeProduction'] },
-        ],
+        gridAreas: [{ id: gridAreas[0].id, meteringPointTypes: ['D01VeProduction'] }],
       },
     ]);
 

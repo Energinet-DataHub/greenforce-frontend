@@ -35,16 +35,11 @@ import {
   selector: '[dhShowForMeteringPointType]',
 })
 export class DhShowForMeteringPointTypeDirective implements OnChanges {
-  constructor(
-    private templateRef: TemplateRef<unknown>,
-    private viewContainer: ViewContainerRef
-  ) {}
+  constructor(private templateRef: TemplateRef<unknown>, private viewContainer: ViewContainerRef) {}
 
   @Input() dhShowForMeteringPointType: MeteringPointType | undefined;
 
-  @Input() dhShowForMeteringPointTypeProperty:
-    | MeteringPointTypeMapProperty
-    | undefined;
+  @Input() dhShowForMeteringPointTypeProperty: MeteringPointTypeMapProperty | undefined;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.dhShowForMeteringPointType) {
@@ -53,12 +48,8 @@ export class DhShowForMeteringPointTypeDirective implements OnChanges {
   }
 
   private updateView() {
-    if (
-      this.dhShowForMeteringPointTypeProperty &&
-      this.dhShowForMeteringPointType
-    ) {
-      const meteringPointTypes =
-        meteringPointTypeMap[this.dhShowForMeteringPointTypeProperty];
+    if (this.dhShowForMeteringPointTypeProperty && this.dhShowForMeteringPointType) {
+      const meteringPointTypes = meteringPointTypeMap[this.dhShowForMeteringPointTypeProperty];
       const [meteringPointType] = meteringPointTypes;
 
       if (

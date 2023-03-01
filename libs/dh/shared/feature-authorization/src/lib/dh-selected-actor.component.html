@@ -21,10 +21,7 @@ limitations under the License.
     cdkOverlayOrigin
     #trigger="cdkOverlayOrigin"
   >
-    <watt-spinner
-      class="selected-actor-container-spinner"
-      *ngIf="isLoading"
-    ></watt-spinner>
+    <watt-spinner class="selected-actor-container-spinner" *ngIf="isLoading"></watt-spinner>
     <ng-container *ngIf="!isLoading">
       <ng-container *rxLet="selectedActor$ as selectedActor">
         <div class="watt-label selected-organization-name-label">
@@ -50,10 +47,7 @@ limitations under the License.
     [cdkConnectedOverlayHasBackdrop]="true"
     cdkConnectedOverlayBackdropClass="none"
   >
-    <div
-      class="actors-dropup-container watt-elevation"
-      *rxLet="actorGroups$ as actorGroups"
-    >
+    <div class="actors-dropup-container watt-elevation" *rxLet="actorGroups$ as actorGroups">
       <ng-container *ngFor="let actorGroup of actorGroups">
         <div class="actor-group-container">
           <div class="watt-label organization-name-header">

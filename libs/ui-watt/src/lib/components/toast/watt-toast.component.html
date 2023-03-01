@@ -15,14 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <span>
-  <watt-spinner
-    [diameter]="24"
-    *ngIf="config.type === 'loading'"
-  ></watt-spinner>
-  <watt-icon
-    *ngIf="config.type && config.type !== 'loading'"
-    [name]="config.type"
-  ></watt-icon>
+  <watt-spinner [diameter]="24" *ngIf="config.type === 'loading'"></watt-spinner>
+  <watt-icon *ngIf="config.type && config.type !== 'loading'" [name]="config.type"></watt-icon>
   <p>{{ config.message }}</p>
 </span>
 <span class="toast__actions">

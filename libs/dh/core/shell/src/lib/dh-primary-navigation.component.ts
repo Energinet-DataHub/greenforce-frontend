@@ -18,10 +18,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import {
-  WattNavListComponent,
-  WattNavListItemComponent,
-} from '@energinet-datahub/watt/shell';
+import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 

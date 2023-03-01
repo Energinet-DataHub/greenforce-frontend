@@ -43,9 +43,7 @@ describe(PermissionService.name, () => {
     } as ActorTokenService);
 
     // act
-    const actual = await firstValueFrom(
-      target.hasPermission('gridareas:manage')
-    );
+    const actual = await firstValueFrom(target.hasPermission('gridareas:manage'));
 
     // assert
     expect(actual).toBe(false);

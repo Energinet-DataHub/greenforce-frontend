@@ -35,11 +35,7 @@ import { WattRangeInputService } from './watt-range-input.service';
 
 @Directive()
 export abstract class WattPickerBase
-  implements
-    AfterViewInit,
-    OnDestroy,
-    ControlValueAccessor,
-    MatFormFieldControl<WattRange>
+  implements AfterViewInit, OnDestroy, ControlValueAccessor, MatFormFieldControl<WattRange>
 {
   /**
    * @ignore
@@ -129,9 +125,7 @@ export abstract class WattPickerBase
    * @ignore
    */
   set value(value: WattPickerValue) {
-    const inputNotToBeInTheDocument = !this.range
-      ? !this.input
-      : !this.startInput;
+    const inputNotToBeInTheDocument = !this.range ? !this.input : !this.startInput;
 
     if (inputNotToBeInTheDocument) {
       this.initialValue = value;
@@ -145,10 +139,7 @@ export abstract class WattPickerBase
         this.endInput.nativeElement
       );
     } else {
-      this.setSingleValue(
-        value as Exclude<WattPickerValue, WattRange>,
-        this.input.nativeElement
-      );
+      this.setSingleValue(value as Exclude<WattPickerValue, WattRange>, this.input.nativeElement);
     }
 
     this.stateChanges.next();
@@ -306,10 +297,7 @@ export abstract class WattPickerBase
    * @ignore
    */
   setDescribedByIds(ids: string[]) {
-    this.elementRef.nativeElement.setAttribute(
-      'aria-describedby',
-      ids.join(' ')
-    );
+    this.elementRef.nativeElement.setAttribute('aria-describedby', ids.join(' '));
   }
 
   /**
@@ -362,15 +350,11 @@ export abstract class WattPickerBase
    * @ignore
    */
   onFocusOut(event: FocusEvent) {
-    const id =
-      this.elementRef.nativeElement.attributes.getNamedItem('aria-owns');
+    const id = this.elementRef.nativeElement.attributes.getNamedItem('aria-owns');
     const overlay = id ? document.getElementById(id.value) : null;
     const isChild = overlay?.contains(event.relatedTarget as Element);
 
-    if (
-      !this.elementRef.nativeElement.contains(event.relatedTarget as Element) &&
-      !isChild
-    ) {
+    if (!this.elementRef.nativeElement.contains(event.relatedTarget as Element) && !isChild) {
       this.focused = false;
       this.markParentControlAsTouched();
       this.stateChanges.next();

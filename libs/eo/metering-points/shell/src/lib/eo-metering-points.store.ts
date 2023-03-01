@@ -16,16 +16,10 @@
  */
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  EoCertificateContract,
-  EoCertificatesService,
-} from '@energinet-datahub/eo/certificates';
+import { EoCertificateContract, EoCertificatesService } from '@energinet-datahub/eo/certificates';
 import { ComponentStore } from '@ngrx/component-store';
 import { forkJoin } from 'rxjs';
-import {
-  EoMeteringPointsService,
-  MeteringPoint,
-} from './eo-metering-points.service';
+import { EoMeteringPointsService, MeteringPoint } from './eo-metering-points.service';
 
 export interface EoMeteringPoint extends MeteringPoint {
   /** Granular certificate contract on metering point */
@@ -92,17 +86,12 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   );
 
   loadData() {
-    forkJoin([
-      this.certService.getContracts(),
-      this.service.getMeteringPoints(),
-    ]).subscribe({
+    forkJoin([this.certService.getContracts(), this.service.getMeteringPoints()]).subscribe({
       next: ([contractList, mpList]) => {
         this.setMeteringPoints(
           mpList.meteringPoints.map((mp: MeteringPoint) => ({
             ...mp,
-            contract: contractList?.result.find(
-              (contract) => contract.gsrn === mp.gsrn
-            ),
+            contract: contractList?.result.find((contract) => contract.gsrn === mp.gsrn),
           }))
         );
         this.setLoadingDone(true);

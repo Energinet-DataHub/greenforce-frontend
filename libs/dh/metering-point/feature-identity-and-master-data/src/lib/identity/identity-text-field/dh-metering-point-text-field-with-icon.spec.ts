@@ -29,14 +29,11 @@ interface DhMeteringPointIdentityTextFieldProps {
 
 describe(DhMeteringPointIdentityTextFieldWithIconComponent.name, () => {
   async function setup(testData?: DhMeteringPointIdentityTextFieldProps) {
-    const { fixture } = await render(
-      DhMeteringPointIdentityTextFieldWithIconComponent,
-      {
-        componentProperties: {
-          ...testData,
-        },
-      }
-    );
+    const { fixture } = await render(DhMeteringPointIdentityTextFieldWithIconComponent, {
+      componentProperties: {
+        ...testData,
+      },
+    });
 
     runOnPushChangeDetection(fixture);
   }

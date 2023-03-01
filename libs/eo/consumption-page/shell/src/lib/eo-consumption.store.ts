@@ -69,10 +69,7 @@ export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
   );
   #monthlyConsumptionApiCall: Subscription = new Subscription();
 
-  constructor(
-    private service: EoConsumptionService,
-    private appSettingsStore: AppSettingsStore
-  ) {
+  constructor(private service: EoConsumptionService, private appSettingsStore: AppSettingsStore) {
     super({
       loadingDone: false,
       measurements: [],
@@ -94,9 +91,7 @@ export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
       .pipe(take(1))
       .subscribe({
         next: (result) => {
-          const measurements = this.getMeasurementsFromData(
-            result.measurements
-          );
+          const measurements = this.getMeasurementsFromData(result.measurements);
 
           this.setMonthlyMeasurements(measurements);
           this.setTotalMeasurement(this.getTotalFromArray(measurements));

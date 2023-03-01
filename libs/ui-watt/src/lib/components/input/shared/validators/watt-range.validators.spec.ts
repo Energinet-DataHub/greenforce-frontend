@@ -91,9 +91,7 @@ describe('Range validators', () => {
   ];
 
   it.each<unknown[]>(cases)('%s', (_, validator, control, expected) => {
-    const validationError = (validator as ValidatorFn)(
-      control as AbstractControl
-    );
+    const validationError = (validator as ValidatorFn)(control as AbstractControl);
     expect(validationError).toStrictEqual(expected);
   });
 });

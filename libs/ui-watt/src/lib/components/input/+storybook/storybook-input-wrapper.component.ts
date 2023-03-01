@@ -14,13 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  HostBinding,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -64,9 +58,7 @@ import { FormControl } from '@angular/forms';
       This field is required
     </watt-error>
     <watt-hint *ngIf="hasHint">Some hint</watt-hint>
-    <watt-hint *ngIf="hasHint" align="end"
-      >{{ exampleFormControl.value.length }} / 256</watt-hint
-    >
+    <watt-hint *ngIf="hasHint" align="end">{{ exampleFormControl.value.length }} / 256</watt-hint>
   </watt-form-field> `,
 })
 export class StorybookInputWrapperComponent implements OnChanges {

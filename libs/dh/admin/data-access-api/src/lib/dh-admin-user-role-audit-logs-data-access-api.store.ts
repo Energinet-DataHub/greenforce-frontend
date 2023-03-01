@@ -18,10 +18,7 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable, switchMap, tap } from 'rxjs';
 
-import {
-  ErrorState,
-  LoadingState,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
   UserRoleAuditLogDto,
@@ -51,9 +48,7 @@ const initialState: DhUserRoleAuditLogsState = {
 
 @Injectable()
 export class DhAdminUserRoleAuditLogsDataAccessApiStore extends ComponentStore<DhUserRoleAuditLogsState> {
-  readonly isLoading$ = this.select(
-    (state) => state.requestState === LoadingState.LOADING
-  );
+  readonly isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
 
   readonly hasGeneralError$ = this.select(
     (state) => state.requestState === ErrorState.GENERAL_ERROR
@@ -72,36 +67,32 @@ export class DhAdminUserRoleAuditLogsDataAccessApiStore extends ComponentStore<D
         this.setLoading(LoadingState.LOADING);
       }),
       switchMap((userRoleId) =>
-        this.httpClient
-          .v1MarketParticipantUserRoleGetUserRoleAuditLogsGet(userRoleId)
-          .pipe(
-            tapResponse(
-              (response) => {
-                this.assignAuditLogs(response);
-                this.setLoading(LoadingState.LOADED);
-              },
-              () => {
-                this.handleError();
-              }
-            )
+        this.httpClient.v1MarketParticipantUserRoleGetUserRoleAuditLogsGet(userRoleId).pipe(
+          tapResponse(
+            (response) => {
+              this.assignAuditLogs(response);
+              this.setLoading(LoadingState.LOADED);
+            },
+            () => {
+              this.handleError();
+            }
           )
+        )
       )
     )
   );
 
   private assignAuditLogs = (response: UserRoleAuditLogsDto) => {
-    const auditLogs: DhRoleAuditLogEntry[] = response.auditLogs.map(
-      (entry) => ({
-        entry: {
-          ...entry,
-          changedValueTo: mapChangeDescriptionJson(
-            entry.userRoleChangeType,
-            this.parseChangeDescriptionJson(entry.changeDescriptionJson)
-          ),
-        },
-        timestamp: entry.timestamp,
-      })
-    );
+    const auditLogs: DhRoleAuditLogEntry[] = response.auditLogs.map((entry) => ({
+      entry: {
+        ...entry,
+        changedValueTo: mapChangeDescriptionJson(
+          entry.userRoleChangeType,
+          this.parseChangeDescriptionJson(entry.changeDescriptionJson)
+        ),
+      },
+      timestamp: entry.timestamp,
+    }));
 
     this.patchState({ auditLogs });
   };

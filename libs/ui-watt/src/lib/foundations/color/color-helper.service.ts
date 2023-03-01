@@ -25,17 +25,13 @@ import { WattColor } from './colors';
 export class WattColorHelperService {
   private colorContrastSuffix = 'contrast';
 
-  constructor(
-    private cssCustomPropertiesService: WattCssCustomPropertiesService
-  ) {}
+  constructor(private cssCustomPropertiesService: WattCssCustomPropertiesService) {}
 
   public getColor(color: WattColor): string {
     return this.cssCustomPropertiesService.getPropertyValue(color);
   }
 
   public getColorContrast(color: WattColor): string {
-    return this.cssCustomPropertiesService.getPropertyValue(
-      `${color}-${this.colorContrastSuffix}`
-    );
+    return this.cssCustomPropertiesService.getPropertyValue(`${color}-${this.colorContrastSuffix}`);
   }
 }

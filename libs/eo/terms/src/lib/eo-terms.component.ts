@@ -80,19 +80,11 @@ import { EoTermsStore } from './eo-terms.store';
             </watt-checkbox>
           </div>
 
-          <watt-button
-            class="watt-space-inline-m"
-            variant="secondary"
-            (click)="onCancel()"
-          >
+          <watt-button class="watt-space-inline-m" variant="secondary" (click)="onCancel()">
             Back
           </watt-button>
 
-          <watt-button
-            variant="primary"
-            (click)="onAccept()"
-            [disabled]="!hasAcceptedTerms"
-          >
+          <watt-button variant="primary" (click)="onAccept()" [disabled]="!hasAcceptedTerms">
             Accept terms
           </watt-button>
         </div>

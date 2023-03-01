@@ -47,12 +47,11 @@ import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-
         />
         <h3>Greenhouse gases</h3>
         <p>
-          Greenhouse gases is a common term for the gases that contribute to the
-          greenhouse effect. When the concentration of greenhouse gases in the
-          atmosphere grows, it causes changes in the greenhouse effect, which
-          overall causes the Earth's temperature to rise and thus changes the
-          climate on Earth. The gases include the gases carbon dioxide (CO2),
-          methane (CH4), nitrous oxide (N2O) and F-gases.
+          Greenhouse gases is a common term for the gases that contribute to the greenhouse effect.
+          When the concentration of greenhouse gases in the atmosphere grows, it causes changes in
+          the greenhouse effect, which overall causes the Earth's temperature to rise and thus
+          changes the climate on Earth. The gases include the gases carbon dioxide (CO2), methane
+          (CH4), nitrous oxide (N2O) and F-gases.
         </p>
         <p>
           Read more on the home page

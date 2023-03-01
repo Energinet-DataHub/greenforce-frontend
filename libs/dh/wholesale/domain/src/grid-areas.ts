@@ -25,8 +25,7 @@ export function filterValidGridAreas(
     const { validTo, validFrom } = gridArea;
 
     // Is valid from before the end of the date range
-    const isValidFrom =
-      new Date(validFrom).getTime() <= new Date(dateRange.end).getTime();
+    const isValidFrom = new Date(validFrom).getTime() <= new Date(dateRange.end).getTime();
 
     // Is valid to after the start of the date range
     const isValidTo = !validTo

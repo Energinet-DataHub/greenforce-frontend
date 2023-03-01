@@ -30,8 +30,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component:
-          "Usage: `import { WattToastService } from '@energinet-datahub/watt/toast';`",
+        component: "Usage: `import { WattToastService } from '@energinet-datahub/watt/toast';`",
       },
     },
   },

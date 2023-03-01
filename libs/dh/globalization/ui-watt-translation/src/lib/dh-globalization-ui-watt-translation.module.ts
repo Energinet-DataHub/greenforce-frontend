@@ -14,13 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Injectable,
-  ModuleWithProviders,
-  NgModule,
-  Optional,
-  SkipSelf,
-} from '@angular/core';
+import { Injectable, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
 import { WattPaginatorIntlService } from '@energinet-datahub/watt/paginator';
 import { TranslocoService } from '@ngneat/transloco';
@@ -30,13 +24,9 @@ export class DhClipboardIntlService extends WattClipboardIntlService {
   constructor(transloco: TranslocoService) {
     super();
 
-    transloco
-      .selectTranslate('clipboard.success')
-      .subscribe((value) => (this.success = value));
+    transloco.selectTranslate('clipboard.success').subscribe((value) => (this.success = value));
 
-    transloco
-      .selectTranslate('clipboard.error')
-      .subscribe((value) => (this.error = value));
+    transloco.selectTranslate('clipboard.error').subscribe((value) => (this.error = value));
   }
 }
 
@@ -45,18 +35,16 @@ export class DhPaginatorIntlService extends WattPaginatorIntlService {
   constructor(transloco: TranslocoService) {
     super();
 
-    transloco
-      .selectTranslateObject('shared.paginator')
-      .subscribe((translations) => {
-        this.description = translations.ariaLabel;
-        this.itemsPerPage = translations.itemsPerPageLabel;
-        this.nextPage = translations.next;
-        this.previousPage = translations.previous;
-        this.firstPage = translations.first;
-        this.lastPage = translations.last;
-        this.of = translations.of;
-        this.changes.next();
-      });
+    transloco.selectTranslateObject('shared.paginator').subscribe((translations) => {
+      this.description = translations.ariaLabel;
+      this.itemsPerPage = translations.itemsPerPageLabel;
+      this.nextPage = translations.next;
+      this.previousPage = translations.previous;
+      this.firstPage = translations.first;
+      this.lastPage = translations.last;
+      this.of = translations.of;
+      this.changes.next();
+    });
   }
 }
 

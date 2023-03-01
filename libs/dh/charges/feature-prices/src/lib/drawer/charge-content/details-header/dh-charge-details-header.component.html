@@ -17,9 +17,7 @@ limitations under the License.
 
 <ng-container *ngIf="charge">
   <div class="container" *transloco="let t; read: 'charges'">
-    {{ t("chargeType." + charge.chargeType) }} ({{
-      t("resolutionType." + charge.resolution)
-    }})
+    {{ t("chargeType." + charge.chargeType) }} ({{ t("resolutionType." + charge.resolution) }})
     <h1>{{ charge.chargeId }} - {{ charge.chargeName }}</h1>
     {{ charge.chargeOwnerName }} | {{ charge.chargeOwner }}
     <watt-expansion
