@@ -18,12 +18,11 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
-import { ApolloError } from '@apollo/client/errors';
 import { Apollo } from 'apollo-angular';
 import { sub, startOfDay, endOfDay } from 'date-fns';
+import { Subject, takeUntil } from 'rxjs';
 
 import { BatchSearchDtoV2, graphql } from '@energinet-datahub/dh/shared/domain';
-
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
@@ -31,7 +30,6 @@ import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-batch-details.component';
-import { Subject, takeUntil } from 'rxjs';
 
 type Batch = Omit<graphql.Batch, 'gridAreas'>;
 
