@@ -25,6 +25,18 @@ export const labels = {
       button: 'button',
     },
   },
+  admin: {
+    name: 'admin',
+    userManagement: {
+      name: 'admin.userManagement',
+      permissionsTab: {
+        name: 'admin.userManagement.permissionsTab',
+        headline: 'headline',
+        permissionName: 'permissionName',
+        permissionDescription: 'permissionDescription',
+      },
+    },
+  },
 };
 
 export { da, en };

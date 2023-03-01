@@ -1052,7 +1052,9 @@
         }
       },
       "permissionsTab": {
-        "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle"
+        "headline": "{{ numberOfPermissions }} rettigheder",
+        "permissionName": "Navn",
+        "permissionDescription": "Beskrivelse"
       }
     }
   }

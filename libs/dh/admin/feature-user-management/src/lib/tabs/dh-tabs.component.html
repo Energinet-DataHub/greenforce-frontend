@@ -19,9 +19,11 @@ limitations under the License.
     <watt-tab [label]="t('users.tabLabel')">
       <dh-users-tab></dh-users-tab>
     </watt-tab>
-    <watt-tab [label]="t('roles.tabLabel')">
-      <dh-roles-tab></dh-roles-tab>
+    <watt-tab (changed)="roleTabSelected = true" [label]="t('roles.tabLabel')">
+      <dh-roles-tab *ngIf="roleTabSelected"></dh-roles-tab>
     </watt-tab>
-    <watt-tab [label]="t('permissions.tabLabel')"></watt-tab>
+    <watt-tab (changed)="permissionTabSelected = true" [label]="t('permissions.tabLabel')">
+      <dh-permissions-tab *ngIf="permissionTabSelected"></dh-permissions-tab>
+    </watt-tab>
   </watt-tabs>
 </ng-container>

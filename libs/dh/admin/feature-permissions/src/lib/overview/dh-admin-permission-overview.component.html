@@ -1,0 +1,38 @@
+<watt-card *transloco="let t; read: permissionsLabels.name">
+  <watt-card-title>
+    <h4>{{ t(permissionsLabels.headline, { numberOfPermissions: permissions?.length }) }}</h4>
+  </watt-card-title>
+  <watt-table
+    [dataSource]="dataSource"
+    [columns]="columns"
+    (rowClick)="onRowClick($event)"
+    [activeRow]="activeRow"
+    sortBy="email"
+    sortDirection="asc"
+    [sortClear]="false"
+  >
+    <ng-container
+      *wattTableCell="columns.name; header: t(permissionsLabels.permissionName); let element"
+    >
+      {{ element.name }}
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="
+        columns.description;
+        header: t(permissionsLabels.permissionDescription);
+        let element
+      "
+    >
+      {{ element.description }}
+    </ng-container>
+  </watt-table>
+
+  <watt-spinner *ngIf="loading"></watt-spinner>
+  <watt-empty-state
+    *ngIf="error"
+    icon="custom-power"
+    [title]="sharedLabels.error.title | transloco"
+    [message]="sharedLabels.error.message | transloco"
+  ></watt-empty-state>
+</watt-card>
