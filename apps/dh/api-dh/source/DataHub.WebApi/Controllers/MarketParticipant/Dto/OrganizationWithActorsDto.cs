@@ -12,16 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Generic;
 using Energinet.DataHub.MarketParticipant.Client.Models;
-using GraphQL.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
 {
-    public class MarketRoleDtoType : ObjectGraphType<MarketRoleDto>
-    {
-        public MarketRoleDtoType()
-        {
-            Field(x => x.EicFunction).Description("The EIC function of the market role.");
-        }
-    }
+    public sealed record OrganizationWithActorsDto(OrganizationDto Organization, IEnumerable<ActorDto> Actors);
 }
