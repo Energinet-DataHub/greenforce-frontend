@@ -32,6 +32,7 @@ import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
+import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   selector: 'dh-role-audit-logs',
@@ -89,6 +90,8 @@ export class DhRoleAuditLogsComponent implements OnInit, OnChanges {
   };
 
   @Input() role: UserRoleWithPermissionsDto | null = null;
+
+  labels = labels;
 
   ngOnInit(): void {
     this.store.auditLogs$.pipe(takeUntil(this.store.destroy$)).subscribe((logs) => {

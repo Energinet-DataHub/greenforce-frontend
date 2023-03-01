@@ -75,7 +75,11 @@ limitations under the License.
     <watt-spinner></watt-spinner>
   </ng-template>
   <ng-template #error>
-    <watt-empty-state icon="custom-power" [title]="t('errorTitle')" [message]="t('errorMessage')">
+    <watt-empty-state
+      icon="custom-power"
+      [title]="labels.shared.error.title | transloco"
+      [message]="labels.shared.error.message | transloco"
+    >
     </watt-empty-state>
   </ng-template>
 </ng-container>

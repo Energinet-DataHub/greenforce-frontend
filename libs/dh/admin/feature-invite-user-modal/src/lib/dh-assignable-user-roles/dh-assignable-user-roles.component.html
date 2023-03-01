@@ -58,8 +58,8 @@ limitations under the License.
   <ng-template #error>
     <watt-empty-state
       icon="custom-power"
-      [title]="t('errorTitle')"
-      [message]="t('errorMessage')"
+      [title]="labels.shared.error.title | transloco"
+      [message]="labels.shared.error.message | transloco"
     ></watt-empty-state>
   </ng-template>
 

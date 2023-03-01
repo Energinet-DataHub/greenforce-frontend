@@ -19,6 +19,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   standalone: true,
@@ -28,5 +29,6 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
   imports: [TranslocoModule, WattButtonModule, WattEmptyStateModule],
 })
 export class DhMeteringPointGeneralErrorComponent {
+  labels = labels;
   @Output() reload = new EventEmitter<void>();
 }

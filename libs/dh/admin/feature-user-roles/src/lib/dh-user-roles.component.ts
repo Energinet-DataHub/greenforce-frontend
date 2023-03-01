@@ -40,6 +40,7 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { FormsModule } from '@angular/forms';
 import { JoinMarketRoles } from './dh-join-market-roles.pipe';
 import { UserOverviewItemDto, UserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
+import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   selector: 'dh-user-roles',
@@ -67,6 +68,8 @@ export class DhUserRolesComponent implements OnChanges {
   @Input() user: UserOverviewItemDto | null = null;
   @Input() selectMode = false;
   @Output() updateUserRoles = new EventEmitter<UpdateUserRoles>();
+
+  labels = labels;
 
   userRoleView$ = this.store.userRoleView$;
   isLoading$ = this.store.isLoading$;

@@ -36,6 +36,7 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { graphql, ProcessType } from '@energinet-datahub/dh/shared/domain';
+import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   selector: 'dh-wholesale-settlement-reports',
@@ -59,6 +60,8 @@ import { graphql, ProcessType } from '@energinet-datahub/dh/shared/domain';
 export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy {
   private apollo = inject(Apollo);
   private destroy$ = new Subject<void>();
+
+  labels = labels;
 
   loading = false;
   error = false;

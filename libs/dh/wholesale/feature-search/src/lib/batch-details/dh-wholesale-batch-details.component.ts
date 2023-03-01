@@ -41,6 +41,7 @@ import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-a
 
 import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/wholesale/routing';
 import { Subscription, takeUntil } from 'rxjs';
+import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   standalone: true,
@@ -69,6 +70,8 @@ export class DhWholesaleBatchDetailsComponent {
   private router = inject(Router);
   private apollo = inject(Apollo);
   private subscription?: Subscription;
+
+  labels = labels;
 
   batchId?: string;
   batch?: graphql.Batch;

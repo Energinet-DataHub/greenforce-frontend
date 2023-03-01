@@ -51,6 +51,7 @@ import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
 import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeName.pipe';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
+import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   standalone: true,
@@ -95,6 +96,8 @@ export class DhMessageArchiveLogSearchResultComponent implements AfterViewInit, 
   @Input() hasSearchError = false;
   @Input() isInit = false;
   @Input() actors!: WattDropdownOptions;
+
+  labels = labels;
 
   readonly dataSource: MatTableDataSource<MessageArchiveSearchResultItemDto> =
     new MatTableDataSource<MessageArchiveSearchResultItemDto>();

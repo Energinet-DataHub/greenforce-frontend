@@ -31,6 +31,7 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { map } from 'rxjs';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   selector: 'dh-user-audit-logs',
@@ -54,6 +55,8 @@ export class DhUserAuditLogsComponent implements OnChanges {
   private dataSource = new WattTableDataSource<DhUserAuditLogEntry>();
 
   @Input() user: UserOverviewItemDto | null = null;
+
+  labels = labels;
 
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;

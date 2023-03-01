@@ -25,6 +25,7 @@ import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/meterin
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 
 import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-form.component';
+import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-search',
@@ -37,6 +38,7 @@ export class DhMeteringPointSearchComponent {
   notFound$ = this.store.meteringPointNotFound$;
   hasGeneralError$ = this.store.hasGeneralError$;
   meteringPointLoaded$ = this.store.meteringPoint$.pipe(take(1));
+  labels = labels;
 
   constructor(
     private router: Router,

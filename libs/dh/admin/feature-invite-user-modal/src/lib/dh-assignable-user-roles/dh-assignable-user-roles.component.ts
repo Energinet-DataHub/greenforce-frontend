@@ -27,6 +27,7 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { MatDividerModule } from '@angular/material/divider';
+import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   selector: 'dh-assignable-user-roles',
@@ -52,6 +53,7 @@ export class DhAssignableUserRolesComponent {
   readonly assignableUserRoles$ = this.assignableUserRolesStore.assignableUserRoles$;
   readonly hasGeneralError$ = this.assignableUserRolesStore.hasGeneralError$;
   private _selectedUserRoles: UserRoleDto[] = [];
+  labels = labels;
 
   selectUserRole(checked: boolean, userRole: UserRoleDto): void {
     if (checked) {

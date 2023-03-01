@@ -83,8 +83,8 @@ limitations under the License.
   <div class="center" *transloco="let transloco; read: 'wholesale.batchDetails'">
     <watt-empty-state
       icon="custom-power"
-      [title]="transloco('errorTitle')"
-      [message]="transloco('errorMessage')"
+      [title]="labels.shared.error.title | transloco"
+      [message]="labels.shared.error.message | transloco"
     >
     </watt-empty-state>
   </div>

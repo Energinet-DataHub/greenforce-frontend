@@ -38,6 +38,7 @@ import { CommonModule } from '@angular/common';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { MatDividerModule } from '@angular/material/divider';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   standalone: true,
@@ -73,6 +74,7 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   private regexLogNameIsSingleGuid = new RegExp(/[\da-zA-Z]{8}-([\da-zA-Z]{4}-){3}[\da-zA-Z]{12}$/);
 
   private destroy$ = new Subject<void>();
+  labels = labels;
   message?: MessageArchiveSearchResultItemDto;
   senderMarketParticipant?: MarketParticipantV1Dto;
 

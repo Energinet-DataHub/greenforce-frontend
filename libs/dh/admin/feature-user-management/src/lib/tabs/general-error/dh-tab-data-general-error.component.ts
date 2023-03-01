@@ -19,20 +19,26 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   selector: 'dh-tab-data-general-error',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <ng-container *transloco="let t; read: 'admin.userManagement.tabs.errors.generalError'">
-      <watt-empty-state icon="custom-power" [title]="t('title')" [message]="t('message')">
-        <watt-button (click)="reload.emit()" variant="primary">{{ t('button') }}</watt-button>
-      </watt-empty-state>
-    </ng-container>
+    <watt-empty-state
+      icon="custom-power"
+      [title]="labels.shared.error.title | transloco"
+      [message]="labels.shared.error.message | transloco"
+    >
+      <watt-button (click)="reload.emit()" variant="primary">{{
+        labels.shared.error.button | transloco
+      }}</watt-button>
+    </watt-empty-state>
   `,
   imports: [TranslocoModule, WattButtonModule, WattEmptyStateModule],
 })
 export class DhTabDataGeneralErrorComponent {
   @Output() reload = new EventEmitter<void>();
+  labels = labels;
 }

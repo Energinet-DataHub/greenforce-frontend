@@ -166,8 +166,8 @@ limitations under the License.
   <div class="center" *ngIf="error">
     <watt-empty-state
       icon="custom-power"
-      [title]="t('calculationSteps.loadCalculationStepsFailedTitle')"
-      [message]="t('calculationSteps.loadCalculationStepsFailedMessage')"
+      [title]="labels.shared.error.title | transloco"
+      [message]="labels.shared.error.message | transloco"
     >
     </watt-empty-state>
   </div>

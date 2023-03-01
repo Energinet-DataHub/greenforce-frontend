@@ -34,6 +34,7 @@ import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-pa
 import { DhChargesPricesDrawerComponent } from '../drawer/dh-charges-prices-drawer.component';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 import formatInTimeZone from 'date-fns-tz/formatInTimeZone';
+import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   standalone: true,
@@ -67,6 +68,7 @@ export class DhChargesPricesResultComponent implements AfterViewInit, OnChanges 
   @Input() isInit = false;
   @Input() hasLoadingError = false;
 
+  labels = labels;
   activeCharge?: ChargeV1Dto;
 
   /* eslint-disable @typescript-eslint/member-ordering */

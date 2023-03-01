@@ -54,8 +54,8 @@ limitations under the License.
         <watt-empty-state
           *ngIf="hasGeneralError"
           icon="custom-power"
-          [title]="t('generalError.title')"
-          [message]="t('generalError.message')"
+          [title]="labels.shared.error.title | transloco"
+          [message]="labels.shared.error.message | transloco"
         ></watt-empty-state>
 
         <ng-container *rxLet="auditLogCount$ as auditLogCount">

@@ -48,6 +48,7 @@ import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 import { DhDrawerDatepickerComponent } from '../drawer-datepicker/dh-drawer-datepicker.component';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { DhChargesPricesDrawerService } from '../../dh-charges-prices-drawer.service';
+import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   standalone: true,
@@ -84,6 +85,8 @@ export class DhChargesChargeMessagesTabComponent implements OnInit, OnChanges, O
   private transloco = inject(TranslocoService);
   private chargeMessagesStore = inject(DhChargeMessagesDataAccessApiStore);
   private dhChargesPricesDrawerService = inject(DhChargesPricesDrawerService);
+
+  labels = labels;
 
   localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 

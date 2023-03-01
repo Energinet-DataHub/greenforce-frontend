@@ -36,6 +36,7 @@ import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/d
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
 import { DhWholesaleActorsComponent } from './actors/dh-wholesale-actors.component';
+import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   templateUrl: './dh-wholesale-calculation-steps.component.html',
@@ -63,6 +64,8 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private apollo = inject(Apollo);
+
+  labels = labels;
 
   @ViewChild('drawer') drawer!: WattDrawerComponent;
 

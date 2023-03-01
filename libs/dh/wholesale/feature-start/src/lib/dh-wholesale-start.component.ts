@@ -36,6 +36,7 @@ import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholes
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { DateRange, GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { filterValidGridAreas } from '@energinet-datahub/dh/wholesale/domain';
+import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 interface CreateBatchFormValues {
   gridAreas: FormControl<string[] | null>;
@@ -69,6 +70,8 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   private toast = inject(WattToastService);
   private transloco = inject(TranslocoService);
   private router = inject(Router);
+
+  labels = labels;
 
   private destroy$ = new Subject<void>();
 
@@ -176,7 +179,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   private onBatchCreatedError() {
     this.toast.update({
       type: 'danger',
-      message: this.transloco.translate('wholesale.startBatch.creatingBatchError'),
+      message: this.transloco.translate(labels.shared.error.title),
     });
   }
 
