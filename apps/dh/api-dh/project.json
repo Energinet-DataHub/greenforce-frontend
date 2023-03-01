@@ -13,7 +13,8 @@
       "options": {
         "commands": [
           "npm run check:dotnet",
-          "dotnet build apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release"
+          "dotnet build apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release",
+          "npm run generate-graphql-schema:ci"
         ],
         "parallel": false
       },
