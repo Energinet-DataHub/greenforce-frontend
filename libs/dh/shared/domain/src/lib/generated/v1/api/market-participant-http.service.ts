@@ -108,22 +108,15 @@ export class MarketParticipantHttp {
     }
 
     /**
-     * Updates an Actor in an organization
-     * @param orgId 
+     * Creates an actor.
      * @param createActorDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantOrganizationCreateActorPost(orgId?: string, createActorDto?: CreateActorDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
-    public v1MarketParticipantOrganizationCreateActorPost(orgId?: string, createActorDto?: CreateActorDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
-    public v1MarketParticipantOrganizationCreateActorPost(orgId?: string, createActorDto?: CreateActorDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
-    public v1MarketParticipantOrganizationCreateActorPost(orgId?: string, createActorDto?: CreateActorDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (orgId !== undefined && orgId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>orgId, 'orgId');
-        }
+    public v1MarketParticipantOrganizationCreateActorPost(createActorDto?: CreateActorDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
+    public v1MarketParticipantOrganizationCreateActorPost(createActorDto?: CreateActorDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
+    public v1MarketParticipantOrganizationCreateActorPost(createActorDto?: CreateActorDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
+    public v1MarketParticipantOrganizationCreateActorPost(createActorDto?: CreateActorDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -181,7 +174,6 @@ export class MarketParticipantHttp {
             {
                 context: localVarHttpContext,
                 body: createActorDto,
-                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -193,22 +185,17 @@ export class MarketParticipantHttp {
 
     /**
      * Creates a contact for the actor.
-     * @param orgId 
      * @param actorId 
      * @param createActorContactDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantOrganizationCreateContactPost(orgId?: string, actorId?: string, createActorContactDto?: CreateActorContactDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
-    public v1MarketParticipantOrganizationCreateContactPost(orgId?: string, actorId?: string, createActorContactDto?: CreateActorContactDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
-    public v1MarketParticipantOrganizationCreateContactPost(orgId?: string, actorId?: string, createActorContactDto?: CreateActorContactDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
-    public v1MarketParticipantOrganizationCreateContactPost(orgId?: string, actorId?: string, createActorContactDto?: CreateActorContactDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantOrganizationCreateContactPost(actorId?: string, createActorContactDto?: CreateActorContactDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
+    public v1MarketParticipantOrganizationCreateContactPost(actorId?: string, createActorContactDto?: CreateActorContactDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
+    public v1MarketParticipantOrganizationCreateContactPost(actorId?: string, createActorContactDto?: CreateActorContactDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
+    public v1MarketParticipantOrganizationCreateContactPost(actorId?: string, createActorContactDto?: CreateActorContactDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (orgId !== undefined && orgId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>orgId, 'orgId');
-        }
         if (actorId !== undefined && actorId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>actorId, 'actorId');
@@ -358,22 +345,17 @@ export class MarketParticipantHttp {
 
     /**
      * Removes a contact from an actor.
-     * @param orgId 
      * @param actorId 
      * @param contactId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantOrganizationDeleteContactDelete(orgId?: string, actorId?: string, contactId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1MarketParticipantOrganizationDeleteContactDelete(orgId?: string, actorId?: string, contactId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1MarketParticipantOrganizationDeleteContactDelete(orgId?: string, actorId?: string, contactId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1MarketParticipantOrganizationDeleteContactDelete(orgId?: string, actorId?: string, contactId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantOrganizationDeleteContactDelete(actorId?: string, contactId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public v1MarketParticipantOrganizationDeleteContactDelete(actorId?: string, contactId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public v1MarketParticipantOrganizationDeleteContactDelete(actorId?: string, contactId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public v1MarketParticipantOrganizationDeleteContactDelete(actorId?: string, contactId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (orgId !== undefined && orgId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>orgId, 'orgId');
-        }
         if (actorId !== undefined && actorId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>actorId, 'actorId');
@@ -435,22 +417,17 @@ export class MarketParticipantHttp {
     }
 
     /**
-     * Retrieves a single actor to a specific organization
-     * @param orgId 
+     * Retrieves an actor.
      * @param actorId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantOrganizationGetActorGet(orgId?: string, actorId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<ActorDto>;
-    public v1MarketParticipantOrganizationGetActorGet(orgId?: string, actorId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<ActorDto>>;
-    public v1MarketParticipantOrganizationGetActorGet(orgId?: string, actorId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<ActorDto>>;
-    public v1MarketParticipantOrganizationGetActorGet(orgId?: string, actorId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantOrganizationGetActorGet(actorId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<ActorDto>;
+    public v1MarketParticipantOrganizationGetActorGet(actorId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<ActorDto>>;
+    public v1MarketParticipantOrganizationGetActorGet(actorId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<ActorDto>>;
+    public v1MarketParticipantOrganizationGetActorGet(actorId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (orgId !== undefined && orgId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>orgId, 'orgId');
-        }
         if (actorId !== undefined && actorId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>actorId, 'actorId');
@@ -511,7 +488,7 @@ export class MarketParticipantHttp {
     }
 
     /**
-     * Retrieves the organization for a single actor
+     * Retrieves the organization for a single actor.
      * @param actorId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -717,21 +694,16 @@ export class MarketParticipantHttp {
 
     /**
      * Gets all the contacts for an actor.
-     * @param orgId 
      * @param actorId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantOrganizationGetContactsGet(orgId?: string, actorId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<ActorContactDto>>;
-    public v1MarketParticipantOrganizationGetContactsGet(orgId?: string, actorId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<ActorContactDto>>>;
-    public v1MarketParticipantOrganizationGetContactsGet(orgId?: string, actorId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<ActorContactDto>>>;
-    public v1MarketParticipantOrganizationGetContactsGet(orgId?: string, actorId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantOrganizationGetContactsGet(actorId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<ActorContactDto>>;
+    public v1MarketParticipantOrganizationGetContactsGet(actorId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<ActorContactDto>>>;
+    public v1MarketParticipantOrganizationGetContactsGet(actorId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<ActorContactDto>>>;
+    public v1MarketParticipantOrganizationGetContactsGet(actorId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (orgId !== undefined && orgId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>orgId, 'orgId');
-        }
         if (actorId !== undefined && actorId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>actorId, 'actorId');
@@ -926,23 +898,18 @@ export class MarketParticipantHttp {
     }
 
     /**
-     * Updates an Actor in an organization
-     * @param orgId 
+     * Updates an actor.
      * @param actorId 
      * @param changeActorDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantOrganizationUpdateActorPut(orgId?: string, actorId?: string, changeActorDto?: ChangeActorDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1MarketParticipantOrganizationUpdateActorPut(orgId?: string, actorId?: string, changeActorDto?: ChangeActorDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1MarketParticipantOrganizationUpdateActorPut(orgId?: string, actorId?: string, changeActorDto?: ChangeActorDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1MarketParticipantOrganizationUpdateActorPut(orgId?: string, actorId?: string, changeActorDto?: ChangeActorDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantOrganizationUpdateActorPut(actorId?: string, changeActorDto?: ChangeActorDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public v1MarketParticipantOrganizationUpdateActorPut(actorId?: string, changeActorDto?: ChangeActorDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public v1MarketParticipantOrganizationUpdateActorPut(actorId?: string, changeActorDto?: ChangeActorDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public v1MarketParticipantOrganizationUpdateActorPut(actorId?: string, changeActorDto?: ChangeActorDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (orgId !== undefined && orgId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>orgId, 'orgId');
-        }
         if (actorId !== undefined && actorId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>actorId, 'actorId');
