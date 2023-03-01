@@ -26,4 +26,6 @@ export * from './token-http.service';
 import { TokenHttp } from './token-http.service';
 export * from './wholesale-batch-http.service';
 import { WholesaleBatchHttp } from './wholesale-batch-http.service';
-export const APIS = [ChargeLinksHttp, ChargesHttp, MarketParticipantHttp, MarketParticipantActorQueryHttp, MarketParticipantGridAreaHttp, MarketParticipantGridAreaOverviewHttp, MarketParticipantUserHttp, MarketParticipantUserOverviewHttp, MarketParticipantUserRoleHttp, MarketParticipantUserRoleAssignmentHttp, MessageArchiveHttp, MeteringPointHttp, TokenHttp, WholesaleBatchHttp];
+export * from './wholesale-settlement-report-http.service';
+import { WholesaleSettlementReportHttp } from './wholesale-settlement-report-http.service';
+export const APIS = [ChargeLinksHttp, ChargesHttp, MarketParticipantHttp, MarketParticipantActorQueryHttp, MarketParticipantGridAreaHttp, MarketParticipantGridAreaOverviewHttp, MarketParticipantUserHttp, MarketParticipantUserOverviewHttp, MarketParticipantUserRoleHttp, MarketParticipantUserRoleAssignmentHttp, MessageArchiveHttp, MeteringPointHttp, TokenHttp, WholesaleBatchHttp, WholesaleSettlementReportHttp];
