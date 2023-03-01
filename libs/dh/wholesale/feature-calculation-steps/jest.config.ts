@@ -25,8 +25,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory:
-    '../../../../coverage/libs/dh/wholesale/feature-calculation-steps',
+  coverageDirectory: '../../../../coverage/libs/dh/wholesale/feature-calculation-steps',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

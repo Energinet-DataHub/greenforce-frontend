@@ -15,10 +15,7 @@
  * limitations under the License.
  */
 import 'jest-preset-angular/setup-jest';
-import {
-  setUpTestbed,
-  setUpNgMocks,
-} from '@energinet-datahub/gf/test-util-staging';
+import { setUpTestbed, setUpNgMocks } from '@energinet-datahub/gf/test-util-staging';
 
 setUpTestbed();
 setUpNgMocks();

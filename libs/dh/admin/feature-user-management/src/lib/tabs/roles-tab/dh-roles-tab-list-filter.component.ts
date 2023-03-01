@@ -14,13 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  OnInit,
-  Output,
-  EventEmitter,
-  OnDestroy,
-} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
@@ -28,15 +22,9 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
-import {
-  EicFunction,
-  UserRoleStatus,
-} from '@energinet-datahub/dh/shared/domain';
+import { EicFunction, UserRoleStatus } from '@energinet-datahub/dh/shared/domain';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import {
-  WattDropdownModule,
-  WattDropdownOption,
-} from '@energinet-datahub/watt/dropdown';
+import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 @Component({
   selector: 'dh-roles-tab-list-filter',
@@ -87,9 +75,7 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((e) => this.eicFunctionChanged.emit(e));
 
-    this.statusFormControl.setValue(
-      this.statusListOptions[0].value as UserRoleStatus
-    );
+    this.statusFormControl.setValue(this.statusListOptions[0].value as UserRoleStatus);
   }
 
   ngOnDestroy(): void {
@@ -119,14 +105,12 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (keys) => {
-          this.eicFunctionListListOptions = Object.keys(EicFunction).map(
-            (entry) => {
-              return {
-                value: entry,
-                displayValue: keys[entry],
-              };
-            }
-          );
+          this.eicFunctionListListOptions = Object.keys(EicFunction).map((entry) => {
+            return {
+              value: entry,
+              displayValue: keys[entry],
+            };
+          });
         },
       });
   }

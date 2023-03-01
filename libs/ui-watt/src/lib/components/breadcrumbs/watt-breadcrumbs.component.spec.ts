@@ -14,15 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  composeStory,
-  createMountableStoryComponent,
-} from '@storybook/testing-angular';
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/angular';
+import { composeStory, createMountableStoryComponent } from '@storybook/testing-angular';
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/angular';
 import { Story } from '@storybook/angular';
 import Meta, { Overview } from './watt-breadcrumbs.stories';
 

@@ -19,11 +19,7 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { DhChargesChargePricesTabComponent } from './dh-charges-charge-prices-tab.component';
 import { render, screen } from '@testing-library/angular';
-import {
-  ChargeType,
-  Resolution,
-  VatClassification,
-} from '@energinet-datahub/dh/shared/domain';
+import { ChargeType, Resolution, VatClassification } from '@energinet-datahub/dh/shared/domain';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
 const charge = {
@@ -46,11 +42,7 @@ const charge = {
 describe('DhChargesChargePricesTabComponent', () => {
   async function setup() {
     const { fixture } = await render(DhChargesChargePricesTabComponent, {
-      imports: [
-        getTranslocoTestingModule(),
-        DhApiModule.forRoot(),
-        HttpClientModule,
-      ],
+      imports: [getTranslocoTestingModule(), DhApiModule.forRoot(), HttpClientModule],
     });
 
     fixture.componentInstance.charge = charge;
@@ -67,9 +59,7 @@ describe('DhChargesChargePricesTabComponent', () => {
       name: new RegExp(enTranslations.charges.prices.noPricesForCharge),
     });
 
-    const message = screen.getByText(
-      enTranslations.charges.prices.noPricesForChargeText
-    );
+    const message = screen.getByText(enTranslations.charges.prices.noPricesForChargeText);
 
     expect(titleMessage).toBeInTheDocument();
     expect(message).toBeInTheDocument();

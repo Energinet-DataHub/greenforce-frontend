@@ -100,11 +100,7 @@ export const meteringPointTypeMap = {
   cityName: [allMeteringPointTypes],
   municipalityCode: [allMeteringPointTypes],
   countryCode: [allMeteringPointTypes],
-  mPAddressWashInstruction: [
-    MeteringPointType.E17,
-    MeteringPointType.E18,
-    MeteringPointType.E20,
-  ],
+  mPAddressWashInstruction: [MeteringPointType.E17, MeteringPointType.E18, MeteringPointType.E20],
   darReference: [allMeteringPointTypes],
   meterIdentification: [
     MeteringPointType.E17,
@@ -126,11 +122,7 @@ export const meteringPointTypeMap = {
     MeteringPointType.D20,
   ],
   originalBusinessDocument: [allMeteringPointTypes],
-  childMeteringPoint: [
-    MeteringPointType.E17,
-    MeteringPointType.E18,
-    MeteringPointType.E20,
-  ],
+  childMeteringPoint: [MeteringPointType.E17, MeteringPointType.E18, MeteringPointType.E20],
   parentMeteringPoint: [
     MeteringPointType.D01,
     MeteringPointType.D02,

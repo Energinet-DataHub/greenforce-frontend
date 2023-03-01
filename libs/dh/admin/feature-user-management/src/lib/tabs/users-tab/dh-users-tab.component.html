@@ -64,10 +64,7 @@ limitations under the License.
     </watt-card-title>
 
     <ng-container *rxLet="isLoading$ as isLoading">
-      <dh-users-tab-table
-        [users]="users$ | push"
-        [sortChanged]="sortChanged"
-      ></dh-users-tab-table>
+      <dh-users-tab-table [users]="users$ | push" [sortChanged]="sortChanged"></dh-users-tab-table>
 
       <div *ngIf="isLoading" class="users-overview__spinner">
         <watt-spinner></watt-spinner>
@@ -76,18 +73,14 @@ limitations under the License.
 
     <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
       <div *ngIf="hasGeneralError" class="users-overview__error">
-        <dh-users-tab-general-error
-          (reload)="reloadUsers()"
-        ></dh-users-tab-general-error>
+        <dh-users-tab-general-error (reload)="reloadUsers()"></dh-users-tab-general-error>
       </div>
     </ng-container>
   </watt-card>
 </ng-container>
 
 <ng-template #usersHeadline let-usersCount>
-  <ng-container
-    *transloco="let t; read: 'admin.userManagement.tabs.users.usersHeadline'"
-  >
+  <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users.usersHeadline'">
     <h4 *ngIf="usersCount === 1">
       {{ t("singular", { usersCount: usersCount }) }}
     </h4>

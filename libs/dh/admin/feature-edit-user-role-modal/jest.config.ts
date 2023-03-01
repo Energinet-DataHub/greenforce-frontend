@@ -25,8 +25,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory:
-    '../../../../coverage/libs/dh/admin/feature-edit-user-role-modal',
+  coverageDirectory: '../../../../coverage/libs/dh/admin/feature-edit-user-role-modal',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

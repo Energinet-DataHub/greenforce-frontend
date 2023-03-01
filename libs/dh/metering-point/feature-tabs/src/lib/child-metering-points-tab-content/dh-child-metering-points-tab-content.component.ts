@@ -23,12 +23,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import {
-  MatSort,
-  MatSortable,
-  MatSortModule,
-  Sort,
-} from '@angular/material/sort';
+import { MatSort, MatSortable, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 import { RouterModule } from '@angular/router';
@@ -46,11 +41,7 @@ import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/domain';
   styleUrls: ['./dh-child-metering-points-tab-content.component.scss'],
 })
 export class DhChildMeteringPointsTabContentComponent implements AfterViewInit {
-  displayedColumns: string[] = [
-    'childMeteringPoint',
-    'effectivePeriod',
-    'status',
-  ];
+  displayedColumns: string[] = ['childMeteringPoint', 'effectivePeriod', 'status'];
   sortedData: Array<MeteringPointSimpleCimDto> = [];
   @Input()
   childMeteringPoints: Array<MeteringPointSimpleCimDto> | null | undefined;
@@ -88,9 +79,7 @@ export class DhChildMeteringPointsTabContentComponent implements AfterViewInit {
   }
 
   setDefaultSorting() {
-    this.matSort?.sort(
-      this.matSort.sortables.get('childMeteringPoint') as MatSortable
-    );
+    this.matSort?.sort(this.matSort.sortables.get('childMeteringPoint') as MatSortable);
   }
 
   compare(a: number | string, b: number | string, isAsc: boolean) {

@@ -38,9 +38,7 @@ describe(WattCheckboxModule.name, () => {
       const labelText = 'Are you awesome?';
 
       @Component({
-        template: `<watt-checkbox [formControl]="checkboxControl"
-          >${labelText}</watt-checkbox
-        >`,
+        template: `<watt-checkbox [formControl]="checkboxControl">${labelText}</watt-checkbox>`,
       })
       class TestComponent {
         checkboxControl = new UntypedFormControl(initialState);

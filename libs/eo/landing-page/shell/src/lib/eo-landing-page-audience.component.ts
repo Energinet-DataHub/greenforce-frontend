@@ -75,8 +75,8 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
         <h2>Who is it for?</h2>
         <p>
           This first version of Energy Origin is for
-          <strong>companies in Denmark</strong>. Later it will be available for
-          private individuals as well.
+          <strong>companies in Denmark</strong>. Later it will be available for private individuals
+          as well.
         </p>
       </div>
     </div>

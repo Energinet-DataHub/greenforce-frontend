@@ -21,15 +21,7 @@ export const parameters = {
     storySort: {
       order: [
         'Foundations',
-        [
-          'Colors',
-          'Typography',
-          'Icons',
-          'Spacing',
-          'Grids',
-          'Accessibility',
-          'Formats',
-        ],
+        ['Colors', 'Typography', 'Icons', 'Spacing', 'Grids', 'Accessibility', 'Formats'],
         'Components',
         'Utils',
       ],

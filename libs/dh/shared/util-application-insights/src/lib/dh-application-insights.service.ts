@@ -33,8 +33,7 @@ export class DhApplicationInsights {
   private angularPlugin = new AngularPlugin();
   private appInsights = new ApplicationInsights({
     config: {
-      instrumentationKey:
-        this.dhAppConfig.applicationInsights.instrumentationKey,
+      instrumentationKey: this.dhAppConfig.applicationInsights.instrumentationKey,
       enableCorsCorrelation: true,
       distributedTracingMode: DistributedTracingModes.W3C,
       extensions: [this.angularPlugin],

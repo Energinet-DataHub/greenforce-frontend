@@ -32,8 +32,8 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
         <watt-spinner [diameter]="100"></watt-spinner>
         <div class="loadingText">
           <strong>
-            Phew, loading is taking a while, but don't worry. It usually takes 3
-            minutes, but soon it will be faster
+            Phew, loading is taking a while, but don't worry. It usually takes 3 minutes, but soon
+            it will be faster
           </strong>
         </div>
       </div>
@@ -41,10 +41,7 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
         <div *ngIf="loadingDone && share.length === 0" class="noDataText onTop">
           No data available, try a different date
         </div>
-        <eo-pie-chart
-          [data]="share"
-          [labels]="['Renewable', 'Other']"
-        ></eo-pie-chart
+        <eo-pie-chart [data]="share" [labels]="['Renewable', 'Other']"></eo-pie-chart
       ></ng-container>
     </ng-container>
   `,

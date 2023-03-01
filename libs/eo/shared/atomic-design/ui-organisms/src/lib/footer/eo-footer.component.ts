@@ -109,16 +109,10 @@ import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities
       <div>
         <h5 class="watt-space-stack-s">Contact</h5>
         <p class="watt-space-stack-s">
-          <a href="tel:+4570222810" aria-label="phone" class="contact-link"
-            >+45 70 22 28 10
-          </a>
+          <a href="tel:+4570222810" aria-label="phone" class="contact-link">+45 70 22 28 10 </a>
         </p>
         <p class="watt-space-stack-s">
-          <a
-            href="mailto:datahub@energinet.dk"
-            aria-label="email"
-            class="contact-link"
-          >
+          <a href="mailto:datahub@energinet.dk" aria-label="email" class="contact-link">
             datahub@energinet.dk
           </a>
         </p>

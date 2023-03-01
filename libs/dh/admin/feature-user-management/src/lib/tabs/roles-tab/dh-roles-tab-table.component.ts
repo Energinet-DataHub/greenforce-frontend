@@ -59,9 +59,7 @@ import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.compone
     TranslocoModule,
   ],
 })
-export class DhRolesTabTableComponent
-  implements OnChanges, AfterViewInit, OnDestroy
-{
+export class DhRolesTabTableComponent implements OnChanges, AfterViewInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
   activeRow: UserRoleDto | undefined = undefined;
@@ -76,8 +74,7 @@ export class DhRolesTabTableComponent
   @ViewChild(WattTableComponent<UserRoleDto>)
   table!: WattTableComponent<UserRoleDto>;
 
-  readonly dataSource: WattTableDataSource<UserRoleDto> =
-    new WattTableDataSource<UserRoleDto>();
+  readonly dataSource: WattTableDataSource<UserRoleDto> = new WattTableDataSource<UserRoleDto>();
 
   columns: WattTableColumnDef<UserRoleDto> = {
     name: { accessor: 'name' },
@@ -87,10 +84,8 @@ export class DhRolesTabTableComponent
 
   filteredAndSortedData: UserRoleDto[] = [];
 
-  activeRowComparator = (
-    currentRow: UserRoleDto,
-    activeRow: UserRoleDto
-  ): boolean => currentRow.id === activeRow.id;
+  activeRowComparator = (currentRow: UserRoleDto, activeRow: UserRoleDto): boolean =>
+    currentRow.id === activeRow.id;
 
   translateHeader = (key: string) =>
     translate(`admin.userManagement.tabs.roles.table.columns.${key}`);

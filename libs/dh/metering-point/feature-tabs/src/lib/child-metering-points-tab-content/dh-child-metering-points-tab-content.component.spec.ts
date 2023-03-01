@@ -61,10 +61,7 @@ describe(DhChildMeteringPointsTabContentComponent.name, () => {
         sortedData: childMeteringPoints,
         childMeteringPoints,
       },
-      imports: [
-        getTranslocoTestingModule(),
-        DhChildMeteringPointsTabContentScam,
-      ],
+      imports: [getTranslocoTestingModule(), DhChildMeteringPointsTabContentScam],
     });
 
     runOnPushChangeDetection(fixture);
@@ -75,10 +72,7 @@ describe(DhChildMeteringPointsTabContentComponent.name, () => {
     await setup(testData);
 
     const disableQuerySuggestions: MatcherOptions = { suggest: false };
-    const actualGsrnNumbers = screen.getAllByTestId(
-      'gsrn',
-      disableQuerySuggestions
-    );
+    const actualGsrnNumbers = screen.getAllByTestId('gsrn', disableQuerySuggestions);
 
     expect(actualGsrnNumbers.length).toBe(testData.length);
 

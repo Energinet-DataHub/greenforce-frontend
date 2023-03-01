@@ -19,11 +19,7 @@ import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import { WattChipsModule } from './watt-chips.module';
-import {
-  WattChipsComponent,
-  WattChipsOption,
-  WattChipsSelection,
-} from './watt-chips.component';
+import { WattChipsComponent, WattChipsOption, WattChipsSelection } from './watt-chips.component';
 
 const options = [
   { label: 'Chip 1', value: '1' },
@@ -64,17 +60,13 @@ describe(WattChipsComponent.name, () => {
     await setup({ options });
 
     expect(screen.queryAllByRole('option')).toHaveLength(4);
-    expect(
-      screen.queryByRole('option', { selected: true })
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('option', { selected: true })).not.toBeInTheDocument();
   });
 
   it('renders with default chip', async () => {
     await setup({ options, selection: '3' });
 
-    expect(screen.getByRole('option', { selected: true })).toHaveTextContent(
-      'Chip 3'
-    );
+    expect(screen.getByRole('option', { selected: true })).toHaveTextContent('Chip 3');
   });
 
   it('selects chip on click', async () => {
@@ -84,9 +76,7 @@ describe(WattChipsComponent.name, () => {
     userEvent.click(screen.getByText('Chip 1'));
 
     expect(selectionChange).nthCalledWith(1, '1');
-    expect(screen.getByRole('option', { selected: true })).toHaveTextContent(
-      'Chip 1'
-    );
+    expect(screen.getByRole('option', { selected: true })).toHaveTextContent('Chip 1');
   });
 
   it('selects at most one chip', async () => {
@@ -98,9 +88,7 @@ describe(WattChipsComponent.name, () => {
 
     expect(selectionChange).nthCalledWith(1, '2');
     expect(selectionChange).nthCalledWith(2, '4');
-    expect(screen.getByRole('option', { selected: true })).toHaveTextContent(
-      'Chip 4'
-    );
+    expect(screen.getByRole('option', { selected: true })).toHaveTextContent('Chip 4');
   });
 
   it('prevents deselection by click', async () => {
@@ -114,9 +102,7 @@ describe(WattChipsComponent.name, () => {
     expect(selectionChange).nthCalledWith(1, '1');
     expect(selectionChange).nthCalledWith(2, '3');
     expect(selectionChange).toBeCalledTimes(2);
-    expect(screen.getByRole('option', { selected: true })).toHaveTextContent(
-      'Chip 3'
-    );
+    expect(screen.getByRole('option', { selected: true })).toHaveTextContent('Chip 3');
   });
 
   it('deselects when selection changes to null', async () => {
@@ -124,14 +110,10 @@ describe(WattChipsComponent.name, () => {
     const properties = { options, selection: '2', selectionChange };
     const { change } = await setup(properties);
 
-    expect(screen.getByRole('option', { selected: true })).toHaveTextContent(
-      'Chip 2'
-    );
+    expect(screen.getByRole('option', { selected: true })).toHaveTextContent('Chip 2');
 
     change({ ...properties, selection: null });
 
-    expect(
-      screen.queryByRole('option', { selected: true })
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('option', { selected: true })).not.toBeInTheDocument();
   });
 });

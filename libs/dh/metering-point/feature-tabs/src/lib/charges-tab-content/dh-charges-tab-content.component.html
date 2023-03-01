@@ -21,10 +21,7 @@ limitations under the License.
   <ng-container *ngIf="!isLoading">
     <ng-container *transloco="let t; read: 'charges'">
       <ng-container *rxLet="tariffs$ as tariffs">
-        <dh-charge-item
-          [charges]="tariffs"
-          [title]="t('tariffsTitle')"
-        ></dh-charge-item>
+        <dh-charge-item [charges]="tariffs" [title]="t('tariffsTitle')"></dh-charge-item>
       </ng-container>
       <ng-container *rxLet="subscriptions$ as subscriptions">
         <dh-charge-item
@@ -33,10 +30,7 @@ limitations under the License.
         ></dh-charge-item>
       </ng-container>
       <ng-container *rxLet="fees$ as fees">
-        <dh-charge-item
-          [charges]="fees"
-          [title]="t('feesTitle')"
-        ></dh-charge-item>
+        <dh-charge-item [charges]="fees" [title]="t('feesTitle')"></dh-charge-item>
       </ng-container>
     </ng-container>
   </ng-container>

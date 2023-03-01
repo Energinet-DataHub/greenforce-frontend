@@ -31,10 +31,7 @@ import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import {
-  WattDropdownModule,
-  WattDropdownOption,
-} from '@energinet-datahub/watt/dropdown';
+import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import {
   ActorMarketRoleDto,
@@ -70,20 +67,12 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
 
   @Output() changed = new EventEmitter<MarketRoleChanges>();
 
-  columnIds = [
-    'marketRole',
-    'gridArea',
-    'meteringPointTypes',
-    'comment',
-    'delete',
-  ];
+  columnIds = ['marketRole', 'gridArea', 'meteringPointTypes', 'comment', 'delete'];
 
   rows: EditableMarketRoleRow[] = [];
   deleted: { marketRole?: EicFunction }[] = [];
 
-  availableMeteringPointTypes = Object.values(
-    MarketParticipantMeteringPointType
-  );
+  availableMeteringPointTypes = Object.values(MarketParticipantMeteringPointType);
 
   marketRoles: WattDropdownOption[] = [];
   gridAreaOptions: WattDropdownOption[] = [];
@@ -166,25 +155,16 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
       .filter((x) => !!x.marketRole)
       .map((x) => x.marketRole as EicFunction);
 
-    const availableMarketRoles =
-      this.marketRoleService.getAvailableMarketRoles.filter(
-        (x) =>
-          !this.marketRoleService.notValidInAnySelectionGroup(
-            x,
-            currentlySelectedMarketRoles
-          )
-      );
+    const availableMarketRoles = this.marketRoleService.getAvailableMarketRoles.filter(
+      (x) => !this.marketRoleService.notValidInAnySelectionGroup(x, currentlySelectedMarketRoles)
+    );
 
     this.marketRoles = availableMarketRoles
       .map((mr) => ({
-        displayValue: this.translocoService.translate(
-          `marketParticipant.marketRoles.${mr}`
-        ),
+        displayValue: this.translocoService.translate(`marketParticipant.marketRoles.${mr}`),
         value: mr,
       }))
-      .sort((left, right) =>
-        left.displayValue.localeCompare(right.displayValue)
-      );
+      .sort((left, right) => left.displayValue.localeCompare(right.displayValue));
   };
 
   readonly onRowDelete = (row: EditableMarketRoleRow) => {

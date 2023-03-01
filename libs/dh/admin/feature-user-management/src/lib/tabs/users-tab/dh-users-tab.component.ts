@@ -118,9 +118,7 @@ export class DhUsersTabComponent {
   readonly pageSize$ = this.store.pageSize$;
 
   readonly isLoading$ =
-    this.store.isLoading$ ||
-    this.actorStore.isLoading$ ||
-    this.userRolesStore.isLoading$;
+    this.store.isLoading$ || this.actorStore.isLoading$ || this.userRolesStore.isLoading$;
   readonly hasGeneralError$ = this.store.hasGeneralError$;
 
   readonly initialStatusFilter$ = this.store.initialStatusFilter$;
@@ -153,10 +151,8 @@ export class DhUsersTabComponent {
     this.store.updateStatusFilter(value);
   }
 
-  sortChanged = (
-    sortProperty: UserOverviewSortProperty,
-    direction: SortDirection
-  ) => this.store.updateSort(sortProperty, direction);
+  sortChanged = (sortProperty: UserOverviewSortProperty, direction: SortDirection) =>
+    this.store.updateSort(sortProperty, direction);
 
   onActorFilterChanged(actorId: string | undefined): void {
     this.store.updateActorFilter(actorId);

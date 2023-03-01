@@ -19,10 +19,7 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { exhaustMap, filter, Observable, tap } from 'rxjs';
 
-import {
-  ErrorState,
-  LoadingState,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
   UpdateUserRoleDto,
@@ -40,13 +37,9 @@ const initialState: DhEditUserRoleState = {
 
 @Injectable()
 export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEditUserRoleState> {
-  private readonly userRolesStore = inject(
-    DhAdminUserRolesManagementDataAccessApiStore
-  );
+  private readonly userRolesStore = inject(DhAdminUserRolesManagementDataAccessApiStore);
 
-  isLoading$ = this.select(
-    (state) => state.requestState === LoadingState.LOADING
-  );
+  isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasValidationError$ = this.select(
     (state) => state.requestState === ErrorState.VALIDATION_EXCEPTION
   ).pipe(filter((value) => value));
@@ -69,26 +62,24 @@ export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEdit
           this.patchState({ requestState: LoadingState.LOADING });
         }),
         exhaustMap(({ userRoleId, updatedUserRole, onSuccessFn, onErrorFn }) =>
-          this.httpClient
-            .v1MarketParticipantUserRoleUpdatePut(userRoleId, updatedUserRole)
-            .pipe(
-              tapResponse(
-                () => {
-                  this.patchState({ requestState: LoadingState.LOADED });
+          this.httpClient.v1MarketParticipantUserRoleUpdatePut(userRoleId, updatedUserRole).pipe(
+            tapResponse(
+              () => {
+                this.patchState({ requestState: LoadingState.LOADED });
 
-                  this.userRolesStore.updateRoleById({
-                    id: userRoleId,
-                    name: updatedUserRole.name,
-                  });
+                this.userRolesStore.updateRoleById({
+                  id: userRoleId,
+                  name: updatedUserRole.name,
+                });
 
-                  onSuccessFn();
-                },
-                (error: HttpErrorResponse) => {
-                  this.handleError(error);
-                  onErrorFn(error.status);
-                }
-              )
+                onSuccessFn();
+              },
+              (error: HttpErrorResponse) => {
+                this.handleError(error);
+                onErrorFn(error.status);
+              }
             )
+          )
         )
       )
   );

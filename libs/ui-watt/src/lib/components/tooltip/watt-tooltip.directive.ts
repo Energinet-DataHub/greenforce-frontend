@@ -14,14 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Directive,
-  ElementRef,
-  inject,
-  Input,
-  OnInit,
-  ViewContainerRef,
-} from '@angular/core';
+import { Directive, ElementRef, inject, Input, OnInit, ViewContainerRef } from '@angular/core';
 
 import { WattTooltipComponent } from './watt-tooltip.component';
 
@@ -53,9 +46,7 @@ export class WattTooltipDirective implements OnInit {
 
   private createTooltipComponent() {
     const tooltip =
-      this.viewContainerRef.createComponent<WattTooltipComponent>(
-        WattTooltipComponent
-      );
+      this.viewContainerRef.createComponent<WattTooltipComponent>(WattTooltipComponent);
     tooltip.instance.text = this.text;
     tooltip.instance.target = this.element;
     tooltip.instance.position = this.position;

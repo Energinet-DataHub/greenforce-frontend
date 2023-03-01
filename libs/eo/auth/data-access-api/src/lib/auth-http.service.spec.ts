@@ -15,21 +15,14 @@
  * limitations under the License.
  */
 import { HttpClient } from '@angular/common/http';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { MockProvider } from 'ng-mocks';
 import { lastValueFrom } from 'rxjs';
 import { AuthTermsResponse } from './auth-http.service';
 
-import {
-  AuthHttp,
-  AuthLogoutResponse,
-  AuthOidcLoginResponse,
-} from './auth-http.service';
+import { AuthHttp, AuthLogoutResponse, AuthOidcLoginResponse } from './auth-http.service';
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
 
 function setup() {
@@ -59,22 +52,19 @@ describe(AuthHttp.name, () => {
       const expectedAuthAppBaseUrl = 'http://example.com/app';
       const expectedReturnUrl = `${expectedAuthAppBaseUrl}/welcome`;
 
-      lastValueFrom(
-        client.getOidcLogin(expectedAuthAppBaseUrl, expectedReturnUrl)
-      );
+      lastValueFrom(client.getOidcLogin(expectedAuthAppBaseUrl, expectedReturnUrl));
       const response = server.expectOne(
         (request) =>
-          request.url === `${apiEnvironment.apiBase}/auth/oidc/login` &&
-          request.method === 'GET'
+          request.url === `${apiEnvironment.apiBase}/auth/oidc/login` && request.method === 'GET'
       );
       response.flush(fakeResponse);
 
-      expect(
-        response.request.params.get(AuthOidcQueryParameterName.FeUrl)
-      ).toBe(expectedAuthAppBaseUrl);
-      expect(
-        response.request.params.get(AuthOidcQueryParameterName.ReturnUrl)
-      ).toBe(expectedReturnUrl);
+      expect(response.request.params.get(AuthOidcQueryParameterName.FeUrl)).toBe(
+        expectedAuthAppBaseUrl
+      );
+      expect(response.request.params.get(AuthOidcQueryParameterName.ReturnUrl)).toBe(
+        expectedReturnUrl
+      );
       teardown();
     });
 
@@ -89,8 +79,7 @@ describe(AuthHttp.name, () => {
       );
       const response = server.expectOne(
         (request) =>
-          request.url === `${apiEnvironment.apiBase}/auth/oidc/login` &&
-          request.method === 'GET'
+          request.url === `${apiEnvironment.apiBase}/auth/oidc/login` && request.method === 'GET'
       );
       response.flush(fakeResponse);
 
@@ -127,8 +116,7 @@ describe(AuthHttp.name, () => {
       const whenResponse = lastValueFrom(client.postLogout());
       const response = server.expectOne(
         (request) =>
-          request.url === `${apiEnvironment.apiBase}/auth/logout` &&
-          request.method === 'POST'
+          request.url === `${apiEnvironment.apiBase}/auth/logout` && request.method === 'POST'
       );
       response.flush(fakeResponse);
 
@@ -149,8 +137,7 @@ describe(AuthHttp.name, () => {
 
       const whenResponse = lastValueFrom(client.getTerms());
       const response = server.expectOne(
-        (request) =>
-          request.url.includes(endpointUrl) && request.method === 'GET'
+        (request) => request.url.includes(endpointUrl) && request.method === 'GET'
       );
       response.flush(fakeResponse);
 

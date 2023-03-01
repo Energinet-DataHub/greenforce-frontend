@@ -18,16 +18,9 @@
 export const exportCsv = (headers: string[], lines: string[][]) => {
   const a = document.createElement('a');
   a.href = URL.createObjectURL(
-    new Blob(
-      [
-        `\ufeff${headers.join(';')}\n${lines
-          .map((x) => x.join(';'))
-          .join('\n')}`,
-      ],
-      {
-        type: 'text/csv;charset=utf-8;',
-      }
-    )
+    new Blob([`\ufeff${headers.join(';')}\n${lines.map((x) => x.join(';')).join('\n')}`], {
+      type: 'text/csv;charset=utf-8;',
+    })
   );
   a.download = 'result.csv';
   a.click();
