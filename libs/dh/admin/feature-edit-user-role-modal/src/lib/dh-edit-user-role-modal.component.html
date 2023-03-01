@@ -49,17 +49,21 @@ limitations under the License.
         <watt-tab [label]="t('tab.permissions.tabLabel')">
           <p class="watt-on-light--medium-emphasis">{{ t("tab.permissions.onEditMessage") }}</p>
 
-          <h4>{{ t("tab.permissions.title") }}</h4>
+          <watt-card variant="solid">
+            <watt-card-title>
+              <h4>{{ t("tab.permissions.title") }}</h4>
+            </watt-card-title>
 
-          <dh-permissions-table
-            [permissions]="marketRolePermissions$ | push: { strategy: 'local' }"
-            [initialSelection]="initiallySelectedPermissions$ | push"
-            (selectionChanged)="onSelectionChanged($event)"
-          ></dh-permissions-table>
+            <dh-permissions-table
+              [permissions]="marketRolePermissions$ | push: { strategy: 'global' }"
+              [initialSelection]="initiallySelectedPermissions$ | push"
+              (selectionChanged)="onSelectionChanged($event)"
+            ></dh-permissions-table>
 
-          <div class="spinner-container" *ngIf="marketRolePermissionsIsLoading$ | push">
-            <watt-spinner></watt-spinner>
-          </div>
+            <div class="spinner-container" *ngIf="marketRolePermissionsIsLoading$ | push">
+              <watt-spinner></watt-spinner>
+            </div>
+          </watt-card>
         </watt-tab>
       </watt-tabs>
     </form>
