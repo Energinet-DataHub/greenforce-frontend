@@ -1080,7 +1080,8 @@
           },
           "validationErrors": {
             "nameAlreadyExists": "En bruger rolle med dette navn findes allerede",
-            "required": "Feltet er påkrævet"
+            "required": "Feltet er påkrævet",
+            "permissionRequired": "Vælg minimum én rettighed"
           }
         },
         "cancel": "Fortryd",

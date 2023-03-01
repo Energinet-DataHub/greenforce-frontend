@@ -1077,7 +1077,8 @@
           },
           "validationErrors": {
             "nameAlreadyExists": "The user role already exists",
-            "required": "Field is required"
+            "required": "Field is required",
+            "permissionRequired": "Select at least one permission"
           }
         },
         "cancel": "Cancel",

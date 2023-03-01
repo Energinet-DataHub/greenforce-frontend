@@ -49,6 +49,13 @@ limitations under the License.
         <watt-tab [label]="t('tab.permissions.tabLabel')">
           <p class="watt-on-light--medium-emphasis">{{ t("tab.permissions.onEditMessage") }}</p>
 
+          <div
+            class="watt-space-stack-m"
+            *ngIf="userRoleEditForm.dirty && userRoleEditForm.controls.permissionIds.errors?.['required']"
+          >
+            <watt-error>{{ t("tab.validationErrors.permissionRequired") }}</watt-error>
+          </div>
+
           <watt-card variant="solid">
             <watt-card-title>
               <h4>{{ t("tab.permissions.title") }}</h4>
