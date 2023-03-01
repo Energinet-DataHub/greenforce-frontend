@@ -173,6 +173,14 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   }
 
   save(userRole: UserRoleWithPermissionsDto): void {
+    if (this.userRoleEditForm.invalid) {
+      return;
+    }
+
+    if (this.userRoleEditForm.pristine) {
+      this.closeModal(false);
+    }
+
     const formControls = this.userRoleEditForm.controls;
 
     const updatedUserRole: UpdateUserRoleDto = {
