@@ -64,12 +64,7 @@ limitations under the License.
       <watt-button variant="secondary" (click)="closeModal(false)">
         {{ t("cancel") }}
       </watt-button>
-      <watt-button
-        type="submit"
-        formId="user-role-edit-form"
-        [disabled]="userRoleEditForm.invalid || userRoleEditForm.pristine"
-        [loading]="isLoading$ | push"
-      >
+      <watt-button type="submit" formId="user-role-edit-form" [loading]="isLoading$ | push">
         {{ t("save") }}
       </watt-button>
     </watt-modal-actions>
