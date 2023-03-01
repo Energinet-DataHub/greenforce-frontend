@@ -55,11 +55,11 @@ export class DhAdminUserRolesManagementDataAccessApiStore
 
   rolesFiltered$ = this.select(this.roles$, this.filterModel$, (roles, filter) =>
     roles.filter(
-      (r) =>
-        (filter.status == null || r.status == filter.status) &&
+      (role) =>
+        (filter.status == null || role.status == filter.status) &&
         (!filter.eicFunctions ||
           filter.eicFunctions.length == 0 ||
-          filter.eicFunctions.includes(r.eicFunction))
+          filter.eicFunctions.includes(role.eicFunction))
     )
   );
 
