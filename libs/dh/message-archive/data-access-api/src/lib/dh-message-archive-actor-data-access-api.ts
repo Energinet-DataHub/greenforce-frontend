@@ -69,7 +69,7 @@ export class DhMessageArchiveActorDataAccessApiStore extends ComponentStore<Acto
       }),
       switchMap(() =>
         this.httpClient
-          .v1MarketParticipantOrganizationGetAllOrganizationsGet()
+          .v1MarketParticipantOrganizationGetAllOrganizationsWithActorsGet()
           .pipe(
             tapResponse(
               (organizations) => {
