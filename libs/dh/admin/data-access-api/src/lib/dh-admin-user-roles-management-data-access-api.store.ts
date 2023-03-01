@@ -16,7 +16,7 @@
  */
 import { Injectable } from '@angular/core';
 import { Observable, switchMap, tap, withLatestFrom, map } from 'rxjs';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { ComponentStore, OnStoreInit, tapResponse } from '@ngrx/component-store';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
@@ -42,7 +42,10 @@ const initialState: DhUserRolesManagementState = {
 };
 
 @Injectable()
-export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore<DhUserRolesManagementState> {
+export class DhAdminUserRolesManagementDataAccessApiStore
+  extends ComponentStore<DhUserRolesManagementState>
+  implements OnStoreInit
+{
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
