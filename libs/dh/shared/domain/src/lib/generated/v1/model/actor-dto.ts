@@ -17,6 +17,7 @@ import { ActorNameDto } from './actor-name-dto';
 
 export interface ActorDto { 
     actorId: string;
+    organizationId: string;
     externalActorId?: string | null;
     actorNumber: ActorNumberDto;
     status: ActorStatus;
