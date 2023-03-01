@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  createPipeHarness,
-  SpectacularPipeHarness,
-} from '@ngworker/spectacular';
+import { createPipeHarness, SpectacularPipeHarness } from '@ngworker/spectacular';
 
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';

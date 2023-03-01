@@ -15,12 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
 
 import { isValidMeteringPointId } from '@energinet-datahub/dh/metering-point/domain';
 

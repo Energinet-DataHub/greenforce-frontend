@@ -25,8 +25,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory:
-    '../../../../coverage/libs/dh/metering-point/feature-identity-and-master-data',
+  coverageDirectory: '../../../../coverage/libs/dh/metering-point/feature-identity-and-master-data',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

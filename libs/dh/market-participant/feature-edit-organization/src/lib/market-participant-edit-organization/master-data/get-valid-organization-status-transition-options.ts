@@ -42,9 +42,7 @@ export const getValidOrganizationStatusTransitionOptions = (
       );
     case OrganizationStatus.Deleted:
       return statuses.filter((x) =>
-        [OrganizationStatus.Deleted.toLocaleLowerCase()].includes(
-          x.value.toLowerCase()
-        )
+        [OrganizationStatus.Deleted.toLocaleLowerCase()].includes(x.value.toLowerCase())
       );
     default:
       return [];

@@ -15,12 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -32,13 +27,7 @@ import { EoCertificatesStore } from './eo-certificates.store';
 @Component({
   selector: 'eo-certificates-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    MatPaginatorModule,
-    MatTableModule,
-    MatSortModule,
-    RouterModule,
-  ],
+  imports: [CommonModule, MatPaginatorModule, MatTableModule, MatSortModule, RouterModule],
   standalone: true,
   styles: [
     `
@@ -57,32 +46,22 @@ import { EoCertificatesStore } from './eo-certificates.store';
     <mat-table matSort [dataSource]="dataSource">
       <!-- Time Column -->
       <ng-container matColumnDef="dateFrom">
-        <mat-header-cell *matHeaderCellDef mat-sort-header
-          >Time
-        </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Time </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element.dateFrom | date: 'dd-MMM-y HH:mm' }}-{{
-            element.dateTo | date: 'HH:mm'
-          }}
+          {{ element.dateFrom | date: 'dd-MMM-y HH:mm' }}-{{ element.dateTo | date: 'HH:mm' }}
         </mat-cell>
       </ng-container>
 
       <!-- GSRN Column -->
       <ng-container matColumnDef="gsrn">
-        <mat-header-cell *matHeaderCellDef mat-sort-header
-          >Metering Point
-        </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Metering Point </mat-header-cell>
         <mat-cell *matCellDef="let element">{{ element.gsrn }}</mat-cell>
       </ng-container>
 
       <!-- Quantity Column -->
       <ng-container matColumnDef="quantity">
-        <mat-header-cell *matHeaderCellDef mat-sort-header
-          >Amount
-        </mat-header-cell>
-        <mat-cell *matCellDef="let element"
-          >{{ element.quantity.toLocaleString() }} Wh
-        </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Amount </mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.quantity.toLocaleString() }} Wh </mat-cell>
       </ng-container>
 
       <!-- Action column -->
@@ -90,10 +69,7 @@ import { EoCertificatesStore } from './eo-certificates.store';
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let element"
           ><h4>
-            <a
-              class="link"
-              routerLink="/${eoCertificatesRoutePath}/{{ element.id }}"
-            >
+            <a class="link" routerLink="/${eoCertificatesRoutePath}/{{ element.id }}">
               View certificate
             </a>
           </h4>
@@ -128,8 +104,6 @@ export class EoCertificatesTableComponent implements AfterViewInit {
   }
 
   populateCertTable() {
-    this.store.certificates$.subscribe(
-      (certs) => (this.dataSource.data = certs)
-    );
+    this.store.certificates$.subscribe((certs) => (this.dataSource.data = certs));
   }
 }

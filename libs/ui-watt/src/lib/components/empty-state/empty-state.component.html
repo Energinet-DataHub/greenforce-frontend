@@ -14,15 +14,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-icon
-  *ngIf="hasIcon"
-  [name]="icon"
-  [size]="iconSize"
-  class="watt-space-stack-l"
-></watt-icon>
+<watt-icon *ngIf="hasIcon" [name]="icon" [size]="iconSize" class="watt-space-stack-l"></watt-icon>
 
-<ng-container *ngTemplateOutlet="size === 'large' ? largeTitle : smallTitle">
-</ng-container>
+<ng-container *ngTemplateOutlet="size === 'large' ? largeTitle : smallTitle"> </ng-container>
 
 <p [ngClass]="{ 'watt-text-s': size === 'small' }">{{ message }}</p>
 <ng-content></ng-content>

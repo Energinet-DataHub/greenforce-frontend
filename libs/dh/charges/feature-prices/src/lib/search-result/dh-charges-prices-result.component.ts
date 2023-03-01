@@ -15,13 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  AfterViewInit,
-  OnChanges,
-  ViewChild,
-  Input,
-} from '@angular/core';
+import { Component, AfterViewInit, OnChanges, ViewChild, Input } from '@angular/core';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
@@ -32,11 +26,7 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import {
-  WattTableDataSource,
-  WattTableColumnDef,
-  WATT_TABLE,
-} from '@energinet-datahub/watt/table';
+import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
@@ -66,9 +56,7 @@ import formatInTimeZone from 'date-fns-tz/formatInTimeZone';
   templateUrl: './dh-charges-prices-result.component.html',
   styleUrls: ['./dh-charges-prices-result.component.scss'],
 })
-export class DhChargesPricesResultComponent
-  implements AfterViewInit, OnChanges
-{
+export class DhChargesPricesResultComponent implements AfterViewInit, OnChanges {
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
   @ViewChild(DhChargesPricesDrawerComponent)
@@ -82,8 +70,7 @@ export class DhChargesPricesResultComponent
   activeCharge?: ChargeV1Dto;
 
   /* eslint-disable @typescript-eslint/member-ordering */
-  formatHeader = (header: string) =>
-    this.translocoService.translate(`charges.prices.${header}`);
+  formatHeader = (header: string) => this.translocoService.translate(`charges.prices.${header}`);
 
   /* eslint-disable sonarjs/no-duplicate-string */
   columns: WattTableColumnDef<ChargeV1Dto> = {
@@ -98,16 +85,12 @@ export class DhChargesPricesResultComponent
     },
     chargeType: {
       accessor: 'chargeType',
-      cell: (row) =>
-        this.translocoService.translate('charges.chargeType.' + row.chargeType),
+      cell: (row) => this.translocoService.translate('charges.chargeType.' + row.chargeType),
       size: 'max-content',
     },
     resolution: {
       accessor: 'resolution',
-      cell: (row) =>
-        this.translocoService.translate(
-          'charges.resolutionType.' + row.resolution
-        ),
+      cell: (row) => this.translocoService.translate('charges.resolutionType.' + row.resolution),
       size: 'max-content',
     },
     validFromDateTime: { accessor: 'validFromDateTime', size: 'max-content' },
@@ -175,33 +158,19 @@ export class DhChargesPricesResultComponent
         charge.chargeDescription,
         charge.chargeOwner,
         charge.chargeOwnerName,
-        this.translocoService.translate(
-          `charges.taxIndicatorType.${charge.taxIndicator}`
-        ),
+        this.translocoService.translate(`charges.taxIndicatorType.${charge.taxIndicator}`),
         this.translocoService.translate(
           `charges.vatClassificationType.${charge.vatClassification}`
         ),
         this.translocoService.translate(
           `charges.transparentInvoicingType.${charge.transparentInvoicing}`
         ),
-        this.translocoService.translate(
-          `charges.chargeType.${charge.chargeType}`
-        ),
-        this.translocoService.translate(
-          `charges.resolutionType.${charge.resolution}`
-        ),
-        formatInTimeZone(
-          charge.validFromDateTime,
-          danishTimeZoneIdentifier,
-          this.dateFormat
-        ),
+        this.translocoService.translate(`charges.chargeType.${charge.chargeType}`),
+        this.translocoService.translate(`charges.resolutionType.${charge.resolution}`),
+        formatInTimeZone(charge.validFromDateTime, danishTimeZoneIdentifier, this.dateFormat),
         charge.validToDateTime == null
           ? ''
-          : formatInTimeZone(
-              charge.validToDateTime,
-              danishTimeZoneIdentifier,
-              this.dateFormat
-            ),
+          : formatInTimeZone(charge.validToDateTime, danishTimeZoneIdentifier, this.dateFormat),
       ]);
   }
 
@@ -224,11 +193,8 @@ export class DhChargesPricesResultComponent
   private createFilename(): string {
     const fileType = '.csv';
     const dateString = (
-      formatInTimeZone(
-        new Date().toISOString(),
-        danishTimeZoneIdentifier,
-        this.dateTimeFormat
-      ) ?? ''
+      formatInTimeZone(new Date().toISOString(), danishTimeZoneIdentifier, this.dateTimeFormat) ??
+      ''
     ).replace(/:/g, '_');
     return this.translocoService
       .translate('charges.prices.downloadFileName')

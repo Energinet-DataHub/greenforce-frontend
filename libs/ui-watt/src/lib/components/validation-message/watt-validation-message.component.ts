@@ -14,18 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 
-export type WattValidationMessageType =
-  | 'info'
-  | 'warning'
-  | 'success'
-  | 'danger';
+export type WattValidationMessageType = 'info' | 'warning' | 'success' | 'danger';
 
 /**
  * Usage:

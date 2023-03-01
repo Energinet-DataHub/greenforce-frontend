@@ -28,11 +28,7 @@ import {
   DhRoleAuditLogEntry,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import {
-  WattTableColumnDef,
-  WattTableDataSource,
-  WATT_TABLE,
-} from '@energinet-datahub/watt/table';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
@@ -63,9 +59,7 @@ import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain'
       }
     `,
   ],
-  providers: [
-    provideComponentStore(DhAdminUserRoleAuditLogsDataAccessApiStore),
-  ],
+  providers: [provideComponentStore(DhAdminUserRoleAuditLogsDataAccessApiStore)],
   imports: [
     CommonModule,
     LetModule,
@@ -97,11 +91,9 @@ export class DhRoleAuditLogsComponent implements OnInit, OnChanges {
   @Input() role: UserRoleWithPermissionsDto | null = null;
 
   ngOnInit(): void {
-    this.store.auditLogs$
-      .pipe(takeUntil(this.store.destroy$))
-      .subscribe((logs) => {
-        this.dataSource.data = logs;
-      });
+    this.store.auditLogs$.pipe(takeUntil(this.store.destroy$)).subscribe((logs) => {
+      this.dataSource.data = logs;
+    });
   }
 
   ngOnChanges(): void {

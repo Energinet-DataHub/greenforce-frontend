@@ -16,10 +16,7 @@
  */
 import { DhDatePipe, pipeName } from './dh-date.pipe';
 import { TValue } from './dh-format-danish-datetime';
-import {
-  createPipeHarness,
-  SpectacularPipeHarness,
-} from '@ngworker/spectacular';
+import { createPipeHarness, SpectacularPipeHarness } from '@ngworker/spectacular';
 
 describe(DhDatePipe, () => {
   beforeEach(() => {

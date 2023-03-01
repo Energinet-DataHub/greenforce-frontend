@@ -15,10 +15,7 @@
  * limitations under the License.
  */
 import { render, screen } from '@testing-library/angular';
-import {
-  composeStory,
-  createMountableStoryComponent,
-} from '@storybook/testing-angular';
+import { composeStory, createMountableStoryComponent } from '@storybook/testing-angular';
 
 import { WattTooltipDirective } from './watt-tooltip.directive';
 import Meta, { Overview } from './+storybook/watt-tooltip.stories';
@@ -27,9 +24,7 @@ import userEvent from '@testing-library/user-event';
 const Story = composeStory(Overview, Meta);
 
 async function setup() {
-  const { component, ngModule } = createMountableStoryComponent(
-    Story({}, {} as never)
-  );
+  const { component, ngModule } = createMountableStoryComponent(Story({}, {} as never));
 
   return render(component, { imports: [ngModule] });
 }
@@ -38,8 +33,7 @@ describe(WattTooltipDirective.name, () => {
   const getTooltip = () => screen.getByText('Click me');
   const getTooltipTarget = () => screen.getByText('Button');
 
-  const isTooltipVisible = (): boolean =>
-    getTooltip().classList.contains('show');
+  const isTooltipVisible = (): boolean => getTooltip().classList.contains('show');
 
   it('always displays accessible tooltip', async () => {
     await setup();

@@ -36,18 +36,12 @@ limitations under the License.
         </watt-tab>
       </watt-tabs>
       <div class="buttons">
-        <watt-button
-          type="button"
-          (click)="backToOverview()"
-          variant="secondary"
-          >{{ t("cancel") }}</watt-button
-        >
+        <watt-button type="button" (click)="backToOverview()" variant="secondary">{{
+          t("cancel")
+        }}</watt-button>
         <watt-button
           type="submit"
-          [disabled]="
-            this.userRole.permissions.length === 0 ||
-            masterdataTab.userRoleForm.invalid
-          "
+          [disabled]="this.userRole.permissions.length === 0 || masterdataTab.userRoleForm.invalid"
           >{{ t("save") }}
         </watt-button>
       </div>

@@ -17,14 +17,8 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import {
-  MessageArchiveHttp,
-  Stream,
-} from '@energinet-datahub/dh/shared/domain';
-import {
-  LoadingState,
-  ErrorState,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { MessageArchiveHttp, Stream } from '@energinet-datahub/dh/shared/domain';
+import { LoadingState, ErrorState } from '@energinet-datahub/dh/shared/data-access-api';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
 
 interface DownloadBlobResultState {
@@ -43,18 +37,12 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
     super(initialState);
   }
 
-  blobContent$: Observable<Stream> = this.select(
-    (state) => state.blobContent
-  ).pipe(
+  blobContent$: Observable<Stream> = this.select((state) => state.blobContent).pipe(
     filter((searchResult) => !!searchResult),
     map((blobContent) => blobContent as Stream)
   );
-  isDownloading$ = this.select(
-    (state) => state.loadingState === LoadingState.LOADING
-  );
-  hasGeneralError$ = this.select(
-    (state) => state.loadingState === ErrorState.GENERAL_ERROR
-  );
+  isDownloading$ = this.select((state) => state.loadingState === LoadingState.LOADING);
+  hasGeneralError$ = this.select((state) => state.loadingState === ErrorState.GENERAL_ERROR);
 
   readonly downloadLog = this.effect((logName$: Observable<string>) => {
     return logName$.pipe(
@@ -64,12 +52,9 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
       }),
       switchMap((logName) =>
         this.httpClient
-          .v1MessageArchiveDownloadRequestResponseLogContentGet(
-            logName,
-            'body',
-            false,
-            { httpHeaderAccept: 'text/plain' }
-          )
+          .v1MessageArchiveDownloadRequestResponseLogContentGet(logName, 'body', false, {
+            httpHeaderAccept: 'text/plain',
+          })
           .pipe(
             tapResponse(
               (blobContent) => {
@@ -87,13 +72,12 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
   });
 
   downloadLogFile(logName: string) {
-    const clientObservable =
-      this.httpClient.v1MessageArchiveDownloadRequestResponseLogContentGet(
-        logName,
-        'body',
-        false,
-        { httpHeaderAccept: 'text/plain' }
-      );
+    const clientObservable = this.httpClient.v1MessageArchiveDownloadRequestResponseLogContentGet(
+      logName,
+      'body',
+      false,
+      { httpHeaderAccept: 'text/plain' }
+    );
     clientObservable.subscribe(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (response: any) => {
@@ -101,9 +85,7 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
         const binaryData = [];
         binaryData.push(response);
         const downloadLink = document.createElement('a');
-        downloadLink.href = window.URL.createObjectURL(
-          new Blob(binaryData, { type: dataType })
-        );
+        downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, { type: dataType }));
         downloadLink.onclick = function (event) {
           event.stopPropagation();
         };
@@ -116,10 +98,7 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   private updateDownloadResult = this.updater(
-    (
-      state: DownloadBlobResultState,
-      downloadResult: Stream | null
-    ): DownloadBlobResultState => ({
+    (state: DownloadBlobResultState, downloadResult: Stream | null): DownloadBlobResultState => ({
       ...state,
       blobContent: downloadResult,
     })

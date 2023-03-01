@@ -27,29 +27,21 @@ export class AbsoluteUrlGenerator {
   }
 
   #externalUrl(appUrl: string): string {
-    return (
-      this.#ensureTrailingSlash(this.baseHref) +
-      this.#removeLeadingSlash(appUrl)
-    );
+    return this.#ensureTrailingSlash(this.baseHref) + this.#removeLeadingSlash(appUrl);
   }
 
   #removeLeadingSlash(url: string): string {
     return url.replace(/^\//, '');
   }
 
-  constructor(
-    @Inject(APP_BASE_HREF) private baseHref: string,
-    private router: Router
-  ) {}
+  constructor(@Inject(APP_BASE_HREF) private baseHref: string, private router: Router) {}
 
   fromUrl(appUrl: string): string {
     return this.#externalUrl(appUrl);
   }
 
   fromCommands(routeCommands: unknown[], extras?: UrlCreationOptions): string {
-    const appUrl = this.router.serializeUrl(
-      this.router.createUrlTree(routeCommands, extras)
-    );
+    const appUrl = this.router.serializeUrl(this.router.createUrlTree(routeCommands, extras));
 
     return this.#externalUrl(appUrl);
   }

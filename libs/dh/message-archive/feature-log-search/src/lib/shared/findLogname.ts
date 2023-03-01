@@ -14,12 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const regexLogNameWithDateFolder = new RegExp(
-  /\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/
-);
-const regexLogNameIsSingleGuid = new RegExp(
-  /[\da-zA-Z]{8}-([\da-zA-Z]{4}-){3}[\da-zA-Z]{12}$/
-);
+const regexLogNameWithDateFolder = new RegExp(/\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/);
+const regexLogNameIsSingleGuid = new RegExp(/[\da-zA-Z]{8}-([\da-zA-Z]{4}-){3}[\da-zA-Z]{12}$/);
 
 export function findLogName(logUrl: string): string {
   if (regexLogNameWithDateFolder.test(logUrl)) {

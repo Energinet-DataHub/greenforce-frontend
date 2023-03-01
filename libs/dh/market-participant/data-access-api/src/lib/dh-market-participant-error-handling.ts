@@ -35,8 +35,7 @@ interface ClientErrorDescriptor {
 }
 
 export const parseErrorResponse = (errorResponse: HttpErrorResponse) => {
-  const errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor =
-    errorResponse.error;
+  const errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor = errorResponse.error;
 
   if (isServerErrorDescriptor(errorDescriptor)) {
     if (errorDescriptor.error.details) {

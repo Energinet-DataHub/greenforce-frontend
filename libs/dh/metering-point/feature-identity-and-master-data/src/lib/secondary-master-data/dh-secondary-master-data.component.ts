@@ -18,10 +18,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import {
-  MeteringPointCimDto,
-  NetSettlementGroup,
-} from '@energinet-datahub/dh/shared/domain';
+import { MeteringPointCimDto, NetSettlementGroup } from '@energinet-datahub/dh/shared/domain';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattExpansionModule } from '@energinet-datahub/watt/expansion';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';

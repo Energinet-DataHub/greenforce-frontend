@@ -89,22 +89,19 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       <eo-info-box>
         <h3>Strøm kan ikke flyttes på tværs af hele Europa</h3>
         <p>
-          Det er ikke uden udfordringer, når energi flyttes gennem elnettet. Det
-          gælder både, når der er tale om at flytte energi indenfor egne
-          landegrænser, men særligt når det er på tværs af landegrænser. Ved
-          dokumentation og sporing af energis oprindelse, for at sikre at
-          energien er grøn, er det vigtigt, at der tages højde for disse
-          udfordringer.
+          Det er ikke uden udfordringer, når energi flyttes gennem elnettet. Det gælder både, når
+          der er tale om at flytte energi indenfor egne landegrænser, men særligt når det er på
+          tværs af landegrænser. Ved dokumentation og sporing af energis oprindelse, for at sikre at
+          energien er grøn, er det vigtigt, at der tages højde for disse udfordringer.
         </p>
         <h4>Grøn produktion kan være sort forbrug</h4>
         <p>
-          En af problematikkerne findes bl.a. ved køb af GO certifikater. Det er
-          f.eks. lige nu muligt for danske virksomheder at købe GO certifikater
-          af grøn energi produceret i Island. På papiret ser det på den måde ud
-          som om, at den energi man forbruger er grøn. Virkeligheden kan dog
-          være en helt anden. Da der ikke findes nogen forbindelse mellem Island
-          og Danmark, så energien produceret i Island kan umuligt være samme
-          energi forbrugt i Danmark.
+          En af problematikkerne findes bl.a. ved køb af GO certifikater. Det er f.eks. lige nu
+          muligt for danske virksomheder at købe GO certifikater af grøn energi produceret i Island.
+          På papiret ser det på den måde ud som om, at den energi man forbruger er grøn.
+          Virkeligheden kan dog være en helt anden. Da der ikke findes nogen forbindelse mellem
+          Island og Danmark, så energien produceret i Island kan umuligt være samme energi forbrugt
+          i Danmark.
         </p>
       </eo-info-box>
       <figure>
@@ -114,31 +111,25 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           alt="Transmission net across countries"
         />
         <figcaption>
-          Billedet viser det europæiske transmissionsnet på tværs af
-          landegrænser
+          Billedet viser det europæiske transmissionsnet på tværs af landegrænser
         </figcaption>
       </figure>
       <eo-info-box>
         <h3>Hvordan løser vi udfordringerne?</h3>
         <p>
-          En løsning er at sætte regler for, hvor lang afstanden må være fra
-          produktions- til forbrugsstedet ved handel af grønne certifikater.
-          Begrænsningerne sættes af de fysiske kabler, altså at man kun kan
-          handle certifikater fra nabolande. På den måde sikrer man, at grøn
-          energi kun kan bruges i produktionslandet og eventuelle nabolande.
+          En løsning er at sætte regler for, hvor lang afstanden må være fra produktions- til
+          forbrugsstedet ved handel af grønne certifikater. Begrænsningerne sættes af de fysiske
+          kabler, altså at man kun kan handle certifikater fra nabolande. På den måde sikrer man, at
+          grøn energi kun kan bruges i produktionslandet og eventuelle nabolande.
         </p></eo-info-box
       >
       <div class="case">
-        <img
-          alt="Producent case"
-          src="/assets/images/help/case_geography.jpg"
-        />
+        <img alt="Producent case" src="/assets/images/help/case_geography.jpg" />
         <div class="text">
           <h4>Case</h4>
           <p>
-            Peter Producent kan sælge sine certifikater i Danmark, Tyskland,
-            Norge og Sverige. Så længe der er plads på de respektive
-            forbindelser.
+            Peter Producent kan sælge sine certifikater i Danmark, Tyskland, Norge og Sverige. Så
+            længe der er plads på de respektive forbindelser.
           </p>
         </div>
       </div>
@@ -151,35 +142,31 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         <eo-stack size="M">
           <h1>Geografi</h1>
           <p>
-            Der er enkelte fysiske begrænsninger for, hvordan energi kan bevæge
-            sig rundt, som bliver nødt til at være indarbejdet i systemet.
+            Der er enkelte fysiske begrænsninger for, hvordan energi kan bevæge sig rundt, som
+            bliver nødt til at være indarbejdet i systemet.
           </p>
         </eo-stack>
       </div>
       <eo-info-box variant="dark">
         <h3>Interconnectors</h3>
         <p>
-          Sammenkoblinger er strømledninger forbundet til andre lande. De
-          muliggør handel med el. Dette er vigtigt, for med et større geografisk
-          område til rådighed, bliver udsvingene mindre og produktionen samlet
-          set mere stabil. Med andre ord, da energiproduktionerne er korreleret
-          med f.eks. vindsystemer, bliver det vigtigere at udvide nettet på
-          tværs af flere vindsystemer. Disse Interconnectors har dog nogle
-          fysiske begrænsninger i forhold til hvor meget strøm der kan løbe
-          igennem dem.
+          Sammenkoblinger er strømledninger forbundet til andre lande. De muliggør handel med el.
+          Dette er vigtigt, for med et større geografisk område til rådighed, bliver udsvingene
+          mindre og produktionen samlet set mere stabil. Med andre ord, da energiproduktionerne er
+          korreleret med f.eks. vindsystemer, bliver det vigtigere at udvide nettet på tværs af
+          flere vindsystemer. Disse Interconnectors har dog nogle fysiske begrænsninger i forhold
+          til hvor meget strøm der kan løbe igennem dem.
         </p>
       </eo-info-box>
       <eo-info-box variant="light">
         <h3>Budzoner</h3>
         <p>
-          Budzoner er geografisk definerede områder, inden for hvilke elhandlen
-          foregår. I Danmark har vi to budzoner for hhv. Vestdanmark (DK1) og
-          Østdanmark (DK2). Prisen, der gælder i en budzone, er i teorien
-          resultatet af fri handel under antagelse af, at der ikke er interne
-          flaskehalse i transmissionskapaciteten inden for budzonen. Dette er
-          imidlertid sjældent tilfældet, og der er således eksempler på, at
-          budzonegrænser ikke afspejler kapacitetsbegrænsningerne, men i stedet
-          følger f.eks. landegrænser.
+          Budzoner er geografisk definerede områder, inden for hvilke elhandlen foregår. I Danmark
+          har vi to budzoner for hhv. Vestdanmark (DK1) og Østdanmark (DK2). Prisen, der gælder i en
+          budzone, er i teorien resultatet af fri handel under antagelse af, at der ikke er interne
+          flaskehalse i transmissionskapaciteten inden for budzonen. Dette er imidlertid sjældent
+          tilfældet, og der er således eksempler på, at budzonegrænser ikke afspejler
+          kapacitetsbegrænsningerne, men i stedet følger f.eks. landegrænser.
         </p>
       </eo-info-box>
     </div>

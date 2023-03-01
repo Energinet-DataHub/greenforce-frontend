@@ -169,13 +169,7 @@ export class StorybookTypographyOverviewComponent {
   /**
    * @ignore
    */
-  displayedColumns: string[] = [
-    'name',
-    'size',
-    'weight',
-    'letterCase',
-    'letterSpacing',
-  ];
+  displayedColumns: string[] = ['name', 'size', 'weight', 'letterCase', 'letterSpacing'];
   /**
    * @ignore
    */

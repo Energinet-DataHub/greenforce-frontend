@@ -18,15 +18,8 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
-import {
-  ErrorState,
-  LoadingState,
-} from '@energinet-datahub/dh/shared/data-access-api';
-import {
-  ChargeLinkV1Dto,
-  ChargeLinksHttp,
-  ChargeType,
-} from '@energinet-datahub/dh/shared/domain';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
+import { ChargeLinkV1Dto, ChargeLinksHttp, ChargeType } from '@energinet-datahub/dh/shared/domain';
 
 interface ChargeLinksState {
   readonly chargeLinks?: Array<ChargeLinkV1Dto>;
@@ -40,14 +33,10 @@ const initialState: ChargeLinksState = {
 
 @Injectable()
 export class DhChargeLinksDataAccessApiStore extends ComponentStore<ChargeLinksState> {
-  tariffs$: Observable<Array<ChargeLinkV1Dto>> = this.select(
-    (state) => state.chargeLinks
-  ).pipe(
+  tariffs$: Observable<Array<ChargeLinkV1Dto>> = this.select((state) => state.chargeLinks).pipe(
     filter((charges) => !!charges),
     map((charges) => charges as Array<ChargeLinkV1Dto>),
-    map((charges) =>
-      charges.filter((charge) => charge.chargeType === ChargeType.D03)
-    )
+    map((charges) => charges.filter((charge) => charge.chargeType === ChargeType.D03))
   );
 
   subscriptions$: Observable<Array<ChargeLinkV1Dto>> = this.select(
@@ -55,62 +44,48 @@ export class DhChargeLinksDataAccessApiStore extends ComponentStore<ChargeLinksS
   ).pipe(
     filter((charges) => !!charges),
     map((charges) => charges as Array<ChargeLinkV1Dto>),
-    map((charges) =>
-      charges.filter((charge) => charge.chargeType === ChargeType.D01)
-    )
+    map((charges) => charges.filter((charge) => charge.chargeType === ChargeType.D01))
   );
 
-  fees$: Observable<Array<ChargeLinkV1Dto>> = this.select(
-    (state) => state.chargeLinks
-  ).pipe(
+  fees$: Observable<Array<ChargeLinkV1Dto>> = this.select((state) => state.chargeLinks).pipe(
     filter((charges) => !!charges),
     map((charges) => charges as Array<ChargeLinkV1Dto>),
-    map((charges) =>
-      charges.filter((charge) => charge.chargeType === ChargeType.D02)
-    )
+    map((charges) => charges.filter((charge) => charge.chargeType === ChargeType.D02))
   );
 
-  isLoading$ = this.select(
-    (state) => state.requestState === LoadingState.LOADING
-  );
-  chargesNotFound$ = this.select(
-    (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
-  );
-  hasGeneralError$ = this.select(
-    (state) => state.requestState === ErrorState.GENERAL_ERROR
-  );
+  isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
+  chargesNotFound$ = this.select((state) => state.requestState === ErrorState.NOT_FOUND_ERROR);
+  hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
 
   constructor(private httpClient: ChargeLinksHttp) {
     super(initialState);
   }
 
-  readonly loadChargeLinksData = this.effect(
-    (meteringPointId$: Observable<string>) => {
-      return meteringPointId$.pipe(
-        tap(() => {
-          this.resetState();
+  readonly loadChargeLinksData = this.effect((meteringPointId$: Observable<string>) => {
+    return meteringPointId$.pipe(
+      tap(() => {
+        this.resetState();
 
-          this.setLoading(true);
-        }),
-        switchMap((id) =>
-          this.httpClient.v1ChargeLinksGet(id).pipe(
-            tapResponse(
-              (chargesData) => {
-                this.setLoading(false);
+        this.setLoading(true);
+      }),
+      switchMap((id) =>
+        this.httpClient.v1ChargeLinksGet(id).pipe(
+          tapResponse(
+            (chargesData) => {
+              this.setLoading(false);
 
-                this.updateChargeLinksData(chargesData);
-              },
-              (error: HttpErrorResponse) => {
-                this.setLoading(false);
+              this.updateChargeLinksData(chargesData);
+            },
+            (error: HttpErrorResponse) => {
+              this.setLoading(false);
 
-                this.handleError(error);
-              }
-            )
+              this.handleError(error);
+            }
           )
         )
-      );
-    }
-  );
+      )
+    );
+  });
 
   private updateChargeLinksData = this.updater(
     (
