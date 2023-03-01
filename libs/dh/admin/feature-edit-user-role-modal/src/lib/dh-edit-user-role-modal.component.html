@@ -56,6 +56,10 @@ limitations under the License.
             [initialSelection]="initiallySelectedPermissions$ | push"
             (selectionChanged)="onSelectionChanged($event)"
           ></dh-permissions-table>
+
+          <div class="spinner-container" *ngIf="marketRolePermissionsIsLoading$ | push">
+            <watt-spinner></watt-spinner>
+          </div>
         </watt-tab>
       </watt-tabs>
     </form>

@@ -38,6 +38,7 @@ import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import {
   DhAdminMarketRolePermissionsStore,
   DhAdminUserRoleEditDataAccessApiStore,
@@ -64,6 +65,12 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
         padding-top: var(--watt-space-l);
         width: 25rem;
       }
+
+      .spinner-container {
+        display: flex;
+        justify-content: center;
+        margin-top: var(--watt-space-m);
+      }
     `,
   ],
   providers: [DhAdminUserRoleEditDataAccessApiStore, DhAdminMarketRolePermissionsStore],
@@ -78,6 +85,7 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
     WattFormFieldModule,
     WattInputModule,
     ReactiveFormsModule,
+    WattSpinnerModule,
     DhPermissionsTableComponent,
   ],
 })
@@ -114,6 +122,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
       this.skipFirstPermissionSelectionEvent = initiallySelectedPermissions.length > 0;
     })
   );
+  readonly marketRolePermissionsIsLoading$ = this.marketRolePermissionsStore.isLoading$;
 
   readonly isLoading$ = this.userRoleEditStore.isLoading$;
   readonly hasValidationError$ = this.userRoleEditStore.hasValidationError$;
