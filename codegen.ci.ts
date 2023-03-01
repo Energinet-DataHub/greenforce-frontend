@@ -15,14 +15,12 @@ const config: CodegenConfig = {
       ],
     },
     './apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0/schema.graphql': {
-      plugins: ['schema-ast']
+      plugins: ['schema-ast'],
     },
     './dist/apps/dh/api-dh/schema.graphql': {
-      plugins: ['schema-ast']
+      plugins: ['schema-ast'],
     },
   },
 };
-
-
 
 export default config;
