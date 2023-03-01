@@ -35,13 +35,38 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Retrieves all organizations
+        /// Retrieves all organizations.
         /// </summary>
         [HttpGet]
         [Route("GetAllOrganizations")]
         public Task<ActionResult<IEnumerable<OrganizationDto>>> GetAllOrganizationsAsync()
         {
             return HandleExceptionAsync(() => _client.GetOrganizationsAsync());
+        }
+
+        /// <summary>
+        /// Retrieves all organizations with actors.
+        /// </summary>
+        [HttpGet]
+        [Route("GetAllOrganizationsWithActors")]
+        public Task<ActionResult<IEnumerable<OrganizationWithActorsDto>>> GetAllOrganizationsWithActorsAsync()
+        {
+            return HandleExceptionAsync(async () =>
+            {
+                var organizations = await _client
+                    .GetOrganizationsAsync()
+                    .ConfigureAwait(false);
+
+                var result = new List<OrganizationWithActorsDto>();
+
+                foreach (var organization in organizations)
+                {
+                    var actors = await _client.GetActorsAsync(organization.OrganizationId);
+                    result.Add(new OrganizationWithActorsDto(organization, actors));
+                }
+
+                return (IEnumerable<OrganizationWithActorsDto>)result;
+            });
         }
 
         /// <summary>
