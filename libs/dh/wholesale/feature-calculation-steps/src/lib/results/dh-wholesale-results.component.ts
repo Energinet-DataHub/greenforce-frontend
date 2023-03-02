@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, inject, OnInit, Input } from '@angular/core';
+import { Component, ViewChild, inject, OnInit, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { translate, TranslocoModule } from '@ngneat/transloco';
+import { Subject, takeUntil } from 'rxjs';
 
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -55,14 +56,15 @@ import { DhDatePipe } from '@energinet-datahub/dh/shared/ui-date-time';
     WattDescriptionListComponent,
   ],
 })
-export class DhWholesaleResultsComponent implements OnInit {
+export class DhWholesaleResultsComponent implements OnInit, OnDestroy {
+  @Input() marketRole?: string;
+  @Input() title?: string;
+
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
   private route = inject(ActivatedRoute);
   private apollo = inject(Apollo);
-
-  @Input() marketRole?: string;
-  @Input() title?: string;
+  private destroy$ = new Subject<void>();
 
   loading = false;
   processStepError = false;
@@ -88,6 +90,56 @@ export class DhWholesaleResultsComponent implements OnInit {
       gln: this.gln,
     },
   });
+
+  ngOnInit() {
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+      if (params.gln && params.gln === this.gln) return;
+      this.processResultQuery.refetch({
+        step: this.step,
+        batchId: this.batchId,
+        gridArea: this.gridAreaCode,
+        gln: params.gln ?? 'grid_area',
+      });
+    });
+
+    this.processResultQuery.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (result) => {
+        this.processStepResults = result.data?.processStep?.result ?? undefined;
+        this.loading = result.loading;
+        this.processStepError = !!result.errors;
+      },
+      error: () => {
+        this.processStepError = true;
+        this.loading = false;
+      },
+    });
+
+    this.apollo
+      .watchQuery({
+        useInitialLoading: true,
+        notifyOnNetworkStatusChange: true,
+        query: graphql.GetBatchDocument,
+        variables: { id: this.route.parent?.snapshot.params['batchId'] },
+      })
+      .valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (result) => {
+          const routeGridArea = this.route.parent?.snapshot.params['gridAreaCode'];
+          this.batch = result.data?.batch ?? undefined;
+          this.gridArea = this.batch?.gridAreas[routeGridArea];
+          this.batchError = !!result.errors;
+        },
+        error: () => {
+          this.batchError = true;
+          this.loading = false;
+        },
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   getMetadata(): WattDescriptionListGroups {
     const datePipe = new DhDatePipe();
@@ -118,49 +170,5 @@ export class DhWholesaleResultsComponent implements OnInit {
         description: `${this.processStepResults?.max} kWh`,
       },
     ];
-  }
-
-  ngOnInit() {
-    this.route.params.subscribe((params) => {
-      if (params.gln && params.gln === this.gln) return;
-      this.processResultQuery.refetch({
-        step: this.step,
-        batchId: this.batchId,
-        gridArea: this.gridAreaCode,
-        gln: params.gln ?? 'grid_area',
-      });
-    });
-    // TODO: Unsub
-    this.processResultQuery.valueChanges.subscribe({
-      next: (result) => {
-        this.processStepResults = result.data?.processStep?.result ?? undefined;
-        this.loading = result.loading;
-        this.processStepError = !!result.errors;
-      },
-      error: () => {
-        this.processStepError = true;
-        this.loading = false;
-      },
-    });
-
-    this.apollo
-      .watchQuery({
-        useInitialLoading: true,
-        notifyOnNetworkStatusChange: true,
-        query: graphql.GetBatchDocument,
-        variables: { id: this.route.parent?.snapshot.params['batchId'] },
-      })
-      .valueChanges.subscribe({
-        next: (result) => {
-          const routeGridArea = this.route.parent?.snapshot.params['gridAreaCode'];
-          this.batch = result.data?.batch ?? undefined;
-          this.gridArea = this.batch?.gridAreas[routeGridArea];
-          this.batchError = !!result.errors;
-        },
-        error: () => {
-          this.batchError = true;
-          this.loading = false;
-        },
-      });
   }
 }

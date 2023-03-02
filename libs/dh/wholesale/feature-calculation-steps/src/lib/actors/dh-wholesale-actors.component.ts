@@ -21,7 +21,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ApolloError } from '@apollo/client';
 import { Apollo } from 'apollo-angular';
 
-import { graphql, MarketRole } from '@energinet-datahub/dh/shared/domain';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -48,13 +48,11 @@ export class DhWholesaleActorsComponent implements OnInit {
 
   @Input() batchId!: string;
   @Input() gridAreaCode!: string;
-  @Input() marketRole = MarketRole.EnergySupplier;
+  @Input() step!: string;
 
-  @Output() rowClick = new EventEmitter<graphql.Actor>();
+  @Output() rowClick = new EventEmitter<{step: string; gln: string}>();
 
-  _columns: WattTableColumnDef<graphql.Actor> = {
-    energySupplier: { accessor: 'number' },
-  };
+  _columns!: WattTableColumnDef<graphql.Actor>;
 
   _dataSource = new WattTableDataSource<graphql.Actor>();
   actors?: graphql.Actor[];
@@ -64,12 +62,16 @@ export class DhWholesaleActorsComponent implements OnInit {
   routeActorNumber?: string;
 
   ngOnInit() {
+    this._columns = {
+      ['step-' + this.step + '-table-header']: { accessor: 'number' },
+    };
+
     this.apollo
       .watchQuery({
         useInitialLoading: true,
         notifyOnNetworkStatusChange: true,
         query: graphql.GetProcessStepActorsDocument,
-        variables: { step: 2, batchId: this.batchId, gridArea: this.gridAreaCode },
+        variables: { step: parseInt(this.step), batchId: this.batchId, gridArea: this.gridAreaCode },
       })
       // TODO: Consider subscring in template
       .valueChanges.pipe(takeWhile((result) => result.loading, true))
@@ -89,4 +91,8 @@ export class DhWholesaleActorsComponent implements OnInit {
 
   getActiveActor = () =>
     this.actors?.find((actor) => actor.number === this.route.firstChild?.snapshot.params.gln);
+
+  onRowClick = (actor: graphql.Actor) => {
+    this.rowClick.emit({step: this.step, gln: actor.number});
+  };
 }
