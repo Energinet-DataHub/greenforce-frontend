@@ -15,15 +15,14 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild, AfterViewInit, OnInit } from '@angular/core';
+import { Component, inject, ViewChild, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
-import { ApolloError } from '@apollo/client/errors';
 import { Apollo } from 'apollo-angular';
 import { sub, startOfDay, endOfDay } from 'date-fns';
+import { Subject, takeUntil } from 'rxjs';
 
 import { BatchSearchDtoV2, graphql } from '@energinet-datahub/dh/shared/domain';
-
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
@@ -50,13 +49,14 @@ type Batch = Omit<graphql.Batch, 'gridAreas'>;
   templateUrl: './dh-wholesale-search.component.html',
   styleUrls: ['./dh-wholesale-search.component.scss'],
 })
-export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
+export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('batchDetails')
   batchDetails!: DhWholesaleBatchDetailsComponent;
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private apollo = inject(Apollo);
+  private destroy$ = new Subject<void>();
 
   routerBatchId = this.route.snapshot.queryParams.batch;
   selectedBatch?: Batch;
@@ -73,22 +73,32 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
     variables: { executionTime: this.executionTime },
   });
 
-  error?: ApolloError;
+  error = false;
   loading = false;
   batches?: Batch[];
 
   ngOnInit() {
-    // TODO: Unsub?
-    this.query.valueChanges.subscribe((result) => {
-      this.error = result.error;
-      this.loading = result.loading;
-      this.batches = result.data?.batches;
-      this.selectedBatch = this.batches?.find((batch) => batch.id === this.routerBatchId);
+    this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (result) => {
+        this.loading = result.loading;
+        this.batches = result.data?.batches;
+        this.selectedBatch = this.batches?.find((batch) => batch.id === this.routerBatchId);
+        this.error = !!result.errors;
+      },
+      error: (error) => {
+        this.error = error;
+        this.loading = false;
+      },
     });
   }
 
   ngAfterViewInit() {
     if (this.routerBatchId) this.batchDetails.open(this.routerBatchId);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onSearch(search: BatchSearchDtoV2) {
