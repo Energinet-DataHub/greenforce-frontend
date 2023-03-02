@@ -35,8 +35,8 @@ limitations under the License.
   <watt-empty-state
     *ngIf="error"
     icon="custom-power"
-    [title]="t('loadingActorsFailedTitle')"
-    [message]="t('loadingActorsFailedMessage')"
+    [title]="'shared.error.title' | transloco"
+    [message]="'shared.error.message' | transloco"
   >
   </watt-empty-state>
 </ng-container>

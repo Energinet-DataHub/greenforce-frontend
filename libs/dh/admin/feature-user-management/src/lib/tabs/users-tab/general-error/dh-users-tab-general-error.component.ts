@@ -25,11 +25,15 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users.errors.generalError'">
-      <watt-empty-state icon="custom-power" [title]="t('title')" [message]="t('message')">
-        <watt-button (click)="reload.emit()" variant="primary">{{ t('button') }}</watt-button>
-      </watt-empty-state>
-    </ng-container>
+    <watt-empty-state
+      icon="custom-power"
+      [title]="'shared.error.title' | transloco"
+      [message]="'shared.error.message' | transloco"
+    >
+      <watt-button (click)="reload.emit()" variant="primary">{{
+        'shared.error.button' | transloco
+      }}</watt-button>
+    </watt-empty-state>
   `,
   imports: [TranslocoModule, WattButtonModule, WattEmptyStateModule],
 })

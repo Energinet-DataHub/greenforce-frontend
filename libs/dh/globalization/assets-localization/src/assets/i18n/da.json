@@ -6,6 +6,11 @@
     "logout": "Log ud"
   },
   "shared": {
+    "error": {
+      "title": "Ups! Der opstod en fejl",
+      "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger.",
+      "button": "Prøv igen"
+    },
     "fieldRequiredErrorText": "Feltet er påkrævet.",
     "navigation": {
       "next": "Næste",
@@ -58,9 +63,7 @@
       "clearSearchButton": "Nulstil søgning",
       "searchInvalidLength": "Målepunkts ID’et skal være 18 cifre",
       "noMeteringPointFoundTitle": "Vi fandt desværre intet målepunkt",
-      "noMeteringPointFoundMessage": "Tjek for eventuelle tastefejl og prøv igen",
-      "serverErrorTitle": "Ups! Der opstod en fejl",
-      "serverErrorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
+      "noMeteringPointFoundMessage": "Tjek for eventuelle tastefejl og prøv igen"
     },
     "overview": {
       "breadcrumb": {
@@ -76,11 +79,6 @@
         "title": "Vi fandt desværre intet målepunkt",
         "message": "Tjek for eventuelle tastefejl og prøv igen eller gå til søgning.",
         "button": "Gå til søgning"
-      },
-      "serverError": {
-        "title": "Ups! Der opstod en fejl",
-        "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger.",
-        "button": "Prøv igen"
       },
       "primaryMasterData": {
         "address": "Adresse",
@@ -327,10 +325,6 @@
     "chargesNotFound": {
       "title": "Vi fandt desværre ingen priser tilknyttet dette målepunkt"
     },
-    "serverError": {
-      "title": "Ups! Der opstod en fejl",
-      "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
-    },
     "createPrices": {
       "title": "Opret pris",
       "create": "Opret",
@@ -409,8 +403,6 @@
         "ThisQuarter": "Dette kvartal",
         "ThisYear": "Dette år"
       },
-      "loadingErrorTitle": "Der opstod en uventet fejl",
-      "loadingErrorMessage": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl.",
       "drawer": {
         "prices": "Priser",
         "messages": "Beskeder",
@@ -488,8 +480,6 @@
       "searchResult": "Søgeresultater",
       "startSearchResultView": "Start søgning",
       "startSearchText": "Dine resultater vil fremgå her",
-      "loadingErrorTitle": "Der opstod en uventet fejl",
-      "loadingErrorMessage": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl.",
       "createdDate": "Dato og tid",
       "invalidDate": "Ugyldig dato"
     }
@@ -741,8 +731,7 @@
       "dateRangeLabel": "Periode",
       "gridAreaDropDownLabel": "Netområder",
       "creatingBatch": "Starter batch...",
-      "creatingBatchSuccess": "Dit batch er startet.",
-      "creatingBatchError": "Ups! Der opstod en fejl."
+      "creatingBatchSuccess": "Dit batch er startet."
     },
     "searchBatch": {
       "topBarTitle": "Søg batch",
@@ -766,8 +755,6 @@
       "EXECUTING": "Kører",
       "COMPLETED": "Afsluttet",
       "FAILED": "Fejl",
-      "loadBatchesFailedTitle": "Ups! Der opstod en fejl",
-      "loadBatchesFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "noBatchesFound": "Ingen batches fundet",
       "noBatchesHelperText": "Prøv at ændre dine søgeindstillinger",
       "paginator": {
@@ -808,13 +795,9 @@
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
       "gridAreaCode": "Netområde ID",
       "type": "Type",
-      "balanceFixing": "Balancefiksering",
-      "loadCalculationStepsFailedTitle": "Ups! Der opstod en fejl",
-      "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
+      "balanceFixing": "Balancefiksering"
     },
     "actors": {
-      "loadingActorsFailedTitle": "Ups! Der opstod en fejl",
-      "loadingActorsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
       "balanceResponsibles": "Balanceansvarlig",
       "amountOfResults": "{{length}} Resultater"
@@ -826,8 +809,6 @@
       "nonProfiledConsumptionPerBalanceResponsible": "Kvartersafregnet forbrug per balanceansvarlig",
       "gridArea": "Netområde",
       "energySupplier": "El-leverandør",
-      "loadProcessStepResultsErrorTitle": "Ups! Der opstod en fejl",
-      "loadProcessStepResultsErrorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "meteringPointType": "Målepunktstype",
       "messageId": "Besked Id",
       "calculationPeriod": "Beregningsperiode",
@@ -849,9 +830,7 @@
       "calculationPeriod": "Beregningsperiode",
       "executionTime": "Eksekveringstidspunkt",
       "executionType": "Eksekveringstype",
-      "executionTypeActual": "Faktisk",
-      "errorTitle": "Ups! Der opstod en fejl",
-      "errorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
+      "executionTypeActual": "Faktisk"
     },
     "gridAreas": {
       "header": "{{total}} Netområder",
@@ -911,10 +890,6 @@
                   "StatusChange": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ changedValueTo }}</b>",
                   "PermissionsChange": "<b>{{ changedByUserName }}</b> ændrede rettigheder på rollen til <b>{{ changedValueTo }}</b>"
                 }
-              },
-              "generalError": {
-                "title": "Der opstod en uventet fejl",
-                "message": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl."
               }
             }
           }
@@ -982,13 +957,6 @@
               "assignedActors": "Tildelte aktører",
               "status": "Status"
             }
-          },
-          "errors": {
-            "generalError": {
-              "title": "Ups! Der opstod en fejl",
-              "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger.",
-              "button": "Prøv igen"
-            }
           }
         },
         "roles": {
@@ -996,8 +964,6 @@
           "tabLabel": "Brugerroller",
           "roles": "Brugerroller",
           "role": "Brugerrolle",
-          "errorTitle": "Ups! Der opstod en fejl",
-          "errorMessage": "Der opstod desværre en fejl, ved hentning af bruger rollerne.",
           "rolesHeadline": "Brugerroller",
           "filter": {
             "status": "Status",
@@ -1019,13 +985,6 @@
         },
         "permissions": {
           "tabLabel": "Rettigheder"
-        },
-        "errors": {
-          "generalError": {
-            "title": "Ups! Der opstod en fejl",
-            "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger.",
-            "button": "Prøv igen"
-          }
         }
       },
       "createrole": {
@@ -1092,6 +1051,9 @@
           "name": "Navn",
           "description": "Beskrivelse"
         }
+      },
+      "permissionsTab": {
+        "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle"
       }
     }
   }

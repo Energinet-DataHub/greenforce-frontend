@@ -6,6 +6,11 @@
     "logout": "Sign out"
   },
   "shared": {
+    "error": {
+      "title": "An unexpected error occured",
+      "message": "Unfortunately, an error occurred while retrieving the necessary information.",
+      "button": "Try again"
+    },
     "fieldRequiredErrorText": "Field is required.",
     "navigation": {
       "next": "Next",
@@ -58,9 +63,7 @@
       "clearSearchButton": "Clear search input",
       "searchInvalidLength": "Metering point ID must be an 18-digit number",
       "noMeteringPointFoundTitle": "Sorry, we did not find a metering point match",
-      "noMeteringPointFoundMessage": "Please check the spelling and try again",
-      "serverErrorTitle": "Oops! There was an error",
-      "serverErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information."
+      "noMeteringPointFoundMessage": "Please check the spelling and try again"
     },
     "overview": {
       "breadcrumb": {
@@ -407,8 +410,6 @@
         "ThisQuarter": "This quarter",
         "ThisYear": "This year"
       },
-      "loadingErrorTitle": "An unexpected error occured",
-      "loadingErrorMessage": "Try again or contact your system administrator if you keep getting this error.",
       "drawer": {
         "prices": "Prices",
         "messages": "Messages",
@@ -763,8 +764,6 @@
       "EXECUTING": "Running",
       "COMPLETED": "Finished",
       "FAILED": "Failed",
-      "loadBatchesFailedTitle": "Oops! There was an error",
-      "loadBatchesFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
       "noBatchesFound": "No batches found",
       "noBatchesHelperText": "Try changing the search criteria",
       "paginator": {
@@ -805,13 +804,9 @@
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
       "gridAreaCode": "Grid Area Code",
       "type": "Type",
-      "balanceFixing": "Balance fixing",
-      "loadCalculationStepsFailedTitle": "Oops! There was an error",
-      "loadCalculationStepsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information"
+      "balanceFixing": "Balance fixing"
     },
     "actors": {
-      "loadingActorsFailedTitle": "Oops! There was an error",
-      "loadingActorsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
       "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
       "balanceResponsibles": "Balance Responsibles",
       "amountOfResults": "{{length}} Resultater"
@@ -823,8 +818,6 @@
       "nonProfiledConsumptionPerBalanceResponsible": "Non-profiled consumption per Balance Responsible Party",
       "gridArea": "Grid area",
       "energySupplier": "Energy Supplier",
-      "loadProcessStepResultsErrorTitle": "Oops! There was an error",
-      "loadProcessStepResultsErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information",
       "meteringPointType": "Metering point type",
       "messageId": "Message ID",
       "calculationPeriod": "Calculation period",
@@ -846,9 +839,7 @@
       "calculationPeriod": "Calculation period",
       "executionTime": "Execution time",
       "executionType": "Execution type",
-      "executionTypeActual": "Actual",
-      "errorTitle": "Oops! There was an error",
-      "errorMessage": "Unfortunately, an error occurred while retrieving the necessary information"
+      "executionTypeActual": "Actual"
     },
     "gridAreas": {
       "header": "{{total}} Grid Areas",
@@ -993,8 +984,6 @@
           "tabLabel": "User roles",
           "roles": "User roles",
           "role": "User role",
-          "errorTitle": "Oops! There was an error",
-          "errorMessage": "Unfortunately, an error occurred while retrieving the user roles.",
           "rolesHeadline": "User roles",
           "filter": {
             "status": "Status",

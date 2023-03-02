@@ -176,7 +176,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   private onBatchCreatedError() {
     this.toast.update({
       type: 'danger',
-      message: this.transloco.translate('wholesale.startBatch.creatingBatchError'),
+      message: this.transloco.translate('shared.error.title'),
     });
   }
 
