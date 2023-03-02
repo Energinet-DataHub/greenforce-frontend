@@ -25,8 +25,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory:
-    '../../../../../coverage/libs/dh/metering-point/shared/ui-util',
+  coverageDirectory: '../../../../../coverage/libs/dh/metering-point/shared/ui-util',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

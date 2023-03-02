@@ -19,9 +19,7 @@ export enum DisplayLanguage {
   English = 'en',
 }
 
-export function assertDisplayLanguage(
-  language: string
-): asserts language is DisplayLanguage {
+export function assertDisplayLanguage(language: string): asserts language is DisplayLanguage {
   if (!displayLanguages.includes(language as DisplayLanguage)) {
     throw new Error(`Unknown display language: ${language}`);
   }
@@ -37,5 +35,4 @@ export function toDisplayLanguage(language: string): DisplayLanguage {
   return language;
 }
 
-export const displayLanguages: readonly DisplayLanguage[] =
-  Object.values(DisplayLanguage);
+export const displayLanguages: readonly DisplayLanguage[] = Object.values(DisplayLanguage);

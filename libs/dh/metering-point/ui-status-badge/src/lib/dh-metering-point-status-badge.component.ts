@@ -15,19 +15,11 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { ConnectionState } from '@energinet-datahub/dh/shared/domain';
-import {
-  WattBadgeComponent,
-  WattBadgeType,
-} from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent, WattBadgeType } from '@energinet-datahub/watt/badge';
 
 import { connectionStateToBadgeType } from './connection-state-to-badge-type';
 
@@ -35,9 +27,7 @@ import { connectionStateToBadgeType } from './connection-state-to-badge-type';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-status-badge',
   template: `<ng-container *ngIf="badgeType">
-    <watt-badge *transloco="let t" [type]="badgeType">{{
-      t(translationKey)
-    }}</watt-badge>
+    <watt-badge *transloco="let t" [type]="badgeType">{{ t(translationKey) }}</watt-badge>
   </ng-container>`,
 })
 export class DhStatusBadgeComponent {

@@ -16,11 +16,8 @@
  */
 import { Injectable } from '@angular/core';
 import { Observable, switchMap, tap, withLatestFrom, map } from 'rxjs';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import {
-  ErrorState,
-  LoadingState,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { ComponentStore, OnStoreInit, tapResponse } from '@ngrx/component-store';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
   EicFunction,
@@ -45,29 +42,25 @@ const initialState: DhUserRolesManagementState = {
 };
 
 @Injectable()
-export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore<DhUserRolesManagementState> {
+export class DhAdminUserRolesManagementDataAccessApiStore
+  extends ComponentStore<DhUserRolesManagementState>
+  implements OnStoreInit
+{
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
-  isLoading$ = this.select(
-    (state) => state.requestState === LoadingState.LOADING
-  );
-  hasGeneralError$ = this.select(
-    (state) => state.requestState === ErrorState.GENERAL_ERROR
-  );
+  isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
+  hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
   filterModel$ = this.select((state) => state.filterModel);
 
   roles$ = this.select((state) => state.roles);
 
-  rolesFiltered$ = this.select(
-    this.roles$,
-    this.filterModel$,
-    (roles, filter) =>
-      roles.filter(
-        (r) =>
-          (filter.status == null || r.status == filter.status) &&
-          (!filter.eicFunctions ||
-            filter.eicFunctions.length == 0 ||
-            filter.eicFunctions.includes(r.eicFunction))
-      )
+  rolesFiltered$ = this.select(this.roles$, this.filterModel$, (roles, filter) =>
+    roles.filter(
+      (role) =>
+        (filter.status == null || role.status == filter.status) &&
+        (!filter.eicFunctions ||
+          filter.eicFunctions.length == 0 ||
+          filter.eicFunctions.includes(role.eicFunction))
+    )
   );
 
   rolesOptions$ = this.select((state) => state.roles).pipe(
@@ -160,10 +153,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   );
 
   private updateUserRoles = this.updater(
-    (
-      state: DhUserRolesManagementState,
-      response: UserRoleDto[]
-    ): DhUserRolesManagementState => ({
+    (state: DhUserRolesManagementState, response: UserRoleDto[]): DhUserRolesManagementState => ({
       ...state,
       roles: response,
     })

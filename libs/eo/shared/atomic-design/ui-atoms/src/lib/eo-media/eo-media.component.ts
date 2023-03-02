@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { PushModule } from '@rx-angular/template/push';
 
 import { EoMediaPresenter } from './eo-media.presenter';
@@ -60,11 +55,7 @@ import { EoMediaPresenter } from './eo-media.presenter';
     `,
   ],
   template: `
-    <div
-      class="media"
-      [style.gap]="presenter.gap$ | push"
-      data-testid="media-box"
-    >
+    <div class="media" [style.gap]="presenter.gap$ | push" data-testid="media-box">
       <div
         class="media__body"
         [style.flex-basis]="presenter.mediaBodyFlexBasis$ | push"

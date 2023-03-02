@@ -17,10 +17,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
-import {
-  WattNavListComponent,
-  WattNavListItemComponent,
-} from '@energinet-datahub/watt/shell';
+import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,27 +37,18 @@ import {
   ],
   template: `
     <watt-nav-list>
-      <watt-nav-list-item link="{{ routes.dashboard }}">
-        Dashboard
-      </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.production }}">
-        Production
-      </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.meteringpoints }}">
-        Metering Points
-      </watt-nav-list-item>
+      <watt-nav-list-item link="{{ routes.dashboard }}"> Dashboard </watt-nav-list-item>
+      <watt-nav-list-item link="{{ routes.production }}"> Production </watt-nav-list-item>
+      <watt-nav-list-item link="{{ routes.meteringpoints }}"> Metering Points </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.certificates }}"
         >Certificates
-        <span
-          style="padding-left:8px; font-weight:bold;color:var(--watt-color-secondary-dark);"
+        <span style="padding-left:8px; font-weight:bold;color:var(--watt-color-secondary-dark);"
           >BETA</span
         >
       </watt-nav-list-item>
       <div class="menu-spacer"></div>
       <watt-nav-list-item link="{{ routes.help }}">Help</watt-nav-list-item>
-      <watt-nav-list-item (click)="onLogOut()" role="link">
-        Log out
-      </watt-nav-list-item>
+      <watt-nav-list-item (click)="onLogOut()" role="link"> Log out </watt-nav-list-item>
     </watt-nav-list>
   `,
   viewProviders: [EoLogOutStore],

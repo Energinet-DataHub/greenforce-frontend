@@ -32,19 +32,15 @@ import { WattLocaleService } from '@energinet-datahub/watt/locale';
   styleUrls: ['./dh-language-picker.component.scss'],
 })
 export class DhLanguagePickerComponent {
-  activeLanguage$: Observable<DisplayLanguage> =
-    this.transloco.langChanges$.pipe(
-      map(toDisplayLanguage),
-      tap((language) => {
-        this.localeService.setActiveLocale(language);
-      })
-    );
+  activeLanguage$: Observable<DisplayLanguage> = this.transloco.langChanges$.pipe(
+    map(toDisplayLanguage),
+    tap((language) => {
+      this.localeService.setActiveLocale(language);
+    })
+  );
   displayLanguages = displayLanguages;
 
-  constructor(
-    private transloco: TranslocoService,
-    private localeService: WattLocaleService
-  ) {}
+  constructor(private transloco: TranslocoService, private localeService: WattLocaleService) {}
 
   onLanguageSelect(language: DisplayLanguage): void {
     this.transloco.setActiveLang(language);

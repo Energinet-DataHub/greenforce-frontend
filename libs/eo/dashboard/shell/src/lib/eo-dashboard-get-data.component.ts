@@ -31,8 +31,8 @@ import { RouterModule } from '@angular/router';
       src="/assets/images/dashboard/kpi.png"
     />
     <p class="watt-space-stack-m">
-      You can get the data, that you need to fill out your CSR-report,
-      especially the ones concerning energy use and emissions.
+      You can get the data, that you need to fill out your CSR-report, especially the ones
+      concerning energy use and emissions.
     </p>
   </mat-card>`,
   styles: [

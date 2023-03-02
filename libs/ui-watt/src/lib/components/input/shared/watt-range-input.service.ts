@@ -49,10 +49,7 @@ export class WattRangeInputService {
       })
     );
 
-    this.onInputChanges$ = combineLatest([
-      onStartInputChange$,
-      endMaskedInput.onChange$,
-    ]);
+    this.onInputChanges$ = combineLatest([onStartInputChange$, endMaskedInput.onChange$]);
   }
 
   private jumpToEndInput(

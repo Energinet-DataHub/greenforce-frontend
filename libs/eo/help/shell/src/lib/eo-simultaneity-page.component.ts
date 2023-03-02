@@ -65,22 +65,17 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         <h3>Houston, we have a problem!</h3>
         <eo-stack size="M">
           <p>
-            I elsystemet, som det er i dag, mangler der en sammenhæng i tid,
-            mellem produktion og forbrug. Selvom du køber “grønne certifikater”
-            for f.eks. 100% af dit energiforbrug, så er det slet ikke en garanti
-            for at den strøm som du trækker ud af kontakten er “grøn”.
+            I elsystemet, som det er i dag, mangler der en sammenhæng i tid, mellem produktion og
+            forbrug. Selvom du køber “grønne certifikater” for f.eks. 100% af dit energiforbrug, så
+            er det slet ikke en garanti for at den strøm som du trækker ud af kontakten er “grøn”.
           </p>
           <p>
-            Et eksempel på to forbrugere, som umiddelbart ser ud til at have den
-            samme grønne profil, når man ser på årsbasis, hvor billedet er et
-            helt andet, når vi ser det på timebasis. Hvis vi siger de bruger 10
-            enheder strøm hver.
+            Et eksempel på to forbrugere, som umiddelbart ser ud til at have den samme grønne
+            profil, når man ser på årsbasis, hvor billedet er et helt andet, når vi ser det på
+            timebasis. Hvis vi siger de bruger 10 enheder strøm hver.
           </p>
           <div>
-            <img
-              alt="Hourly declaration"
-              src="/assets/images/help/hour_declaration.png"
-            />
+            <img alt="Hourly declaration" src="/assets/images/help/hour_declaration.png" />
           </div>
         </eo-stack>
       </eo-info-box>
@@ -89,25 +84,20 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         <h3>Flyt energiforbruget for en grønnere profil</h3>
         <eo-stack size="M">
           <p>
-            Med det nuværende energisystem, hvor energiforbrug baseres på et
-            årsgennemsnit, kan to energiforbrugere begge have en lignende grøn
-            profil, uanset hvornår de placerer deres forbrug. Men virkeligheden
-            kan være en helt anden. For hvis én forbruger oftest placerer
-            energiforbruget på blæsende solskinsdage og en anden på vindstille
-            gråvejrsdage, vil profilerne af det reelle forbrug være forskelligt.
+            Med det nuværende energisystem, hvor energiforbrug baseres på et årsgennemsnit, kan to
+            energiforbrugere begge have en lignende grøn profil, uanset hvornår de placerer deres
+            forbrug. Men virkeligheden kan være en helt anden. For hvis én forbruger oftest placerer
+            energiforbruget på blæsende solskinsdage og en anden på vindstille gråvejrsdage, vil
+            profilerne af det reelle forbrug være forskelligt.
           </p>
           <p>
-            Med EnergiOprindelse bliver det lettere at flytte sit forbrug, da
-            man kan se energiforbruget helt ned på time basis. Derved får man
-            mulighed for at flytte sit forbrug til mere klimavenlige
-            tidspunkter.
+            Med EnergiOprindelse bliver det lettere at flytte sit forbrug, da man kan se
+            energiforbruget helt ned på time basis. Derved får man mulighed for at flytte sit
+            forbrug til mere klimavenlige tidspunkter.
           </p>
 
           <div>
-            <img
-              alt="Move consumption"
-              src="/assets/images/help/move_consumption.png"
-            />
+            <img alt="Move consumption" src="/assets/images/help/move_consumption.png" />
           </div>
         </eo-stack>
       </eo-info-box>
@@ -120,19 +110,17 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         <eo-stack size="M">
           <h1>Samtidighed</h1>
           <p>
-            Det er helt afgørende for den grønne omstilling af energisystemet,
-            at vi kan dokumentere, at vi faktisk bruger strømmen, når den er
-            grøn.
+            Det er helt afgørende for den grønne omstilling af energisystemet, at vi kan
+            dokumentere, at vi faktisk bruger strømmen, når den er grøn.
           </p>
         </eo-stack>
       </div>
       <eo-info-box variant="dark">
         <h3>Vi danner grundlaget for at kunne træffe de grønne valg</h3>
         <p>
-          Et tættere match mellem produktion og forbrug kan blive fundamentet
-          for et mere fleksibelt elmarked, hvor man som forbruger har incitament
-          til at forbruge grøn el, når det er gunstigt og dermed være med til at
-          gøre en forskel.
+          Et tættere match mellem produktion og forbrug kan blive fundamentet for et mere fleksibelt
+          elmarked, hvor man som forbruger har incitament til at forbruge grøn el, når det er
+          gunstigt og dermed være med til at gøre en forskel.
         </p>
       </eo-info-box>
     </div>

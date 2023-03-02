@@ -35,10 +35,7 @@ import {
 } from '@angular/forms';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import {
-  WattDropdownModule,
-  WattDropdownOptions,
-} from '@energinet-datahub/watt/dropdown';
+import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import {
   CreateUserRoleDto,
   EicFunction,
@@ -70,9 +67,7 @@ interface UserRoleForm {
     WattDropdownModule,
   ],
 })
-export class DhCreateUserroleMasterdataTabComponent
-  implements OnInit, OnDestroy
-{
+export class DhCreateUserroleMasterdataTabComponent implements OnInit, OnDestroy {
   userRoleForm = this.formBuilder.nonNullable.group<UserRoleForm>({
     name: this.formBuilder.nonNullable.control('', [
       Validators.required,
@@ -83,10 +78,7 @@ export class DhCreateUserroleMasterdataTabComponent
       EicFunction.BalanceResponsibleParty,
       Validators.required
     ),
-    roleStatus: this.formBuilder.nonNullable.control(
-      UserRoleStatus.Active,
-      Validators.required
-    ),
+    roleStatus: this.formBuilder.nonNullable.control(UserRoleStatus.Active, Validators.required),
   });
 
   @Output() formReady = of(this.userRoleForm);
@@ -98,10 +90,7 @@ export class DhCreateUserroleMasterdataTabComponent
 
   private destroy$ = new Subject<void>();
 
-  constructor(
-    private trans: TranslocoService,
-    private formBuilder: FormBuilder
-  ) {}
+  constructor(private trans: TranslocoService, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.buildUserRoleStatusOptions();
@@ -124,8 +113,7 @@ export class DhCreateUserroleMasterdataTabComponent
     this.userRoleForm.controls.eicFunction.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((value) => {
-        if (this.userRoleForm.controls.eicFunction.enabled)
-          this.eicFunctionSelected.emit(value);
+        if (this.userRoleForm.controls.eicFunction.enabled) this.eicFunctionSelected.emit(value);
       });
   }
 

@@ -35,13 +35,7 @@ export interface MeteringPointTranslationKeys {
   selector: 'dh-breadcrumb',
   templateUrl: './dh-breadcrumb.component.html',
   styleUrls: ['./dh-breadcrumb.component.scss'],
-  imports: [
-    CommonModule,
-    RouterModule,
-    TranslocoModule,
-    WattIconModule,
-    DhIsParentPipeScam,
-  ],
+  imports: [CommonModule, RouterModule, TranslocoModule, WattIconModule, DhIsParentPipeScam],
 })
 export class DhBreadcrumbComponent {
   #meteringPoint: MeteringPointCimDto | undefined;
@@ -63,16 +57,10 @@ export class DhBreadcrumbComponent {
     return this.#meteringPoint;
   }
   get meteringPointParentPath() {
-    return [
-      '/',
-      dhMeteringPointPath,
-      this.meteringPoint?.parentMeteringPoint?.gsrnNumber,
-    ];
+    return ['/', dhMeteringPointPath, this.meteringPoint?.parentMeteringPoint?.gsrnNumber];
   }
 
-  private buildTranslations(
-    meteringPoint: MeteringPointCimDto
-  ): MeteringPointTranslationKeys {
+  private buildTranslations(meteringPoint: MeteringPointCimDto): MeteringPointTranslationKeys {
     const meteringMethod = `meteringPoint.meteringPointSubTypeCode.${
       meteringPoint?.meteringMethod ?? ''
     }`;

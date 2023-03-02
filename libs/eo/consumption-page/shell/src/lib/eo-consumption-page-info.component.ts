@@ -48,9 +48,7 @@ import { EoConsumptionStore } from './eo-consumption.store';
       </h1>
     </mat-card>
 
-    <ng-template #loading
-      ><watt-spinner [diameter]="36"></watt-spinner
-    ></ng-template>
+    <ng-template #loading><watt-spinner [diameter]="36"></watt-spinner></ng-template>
   `,
 })
 export class EoConsumptionPageInfoComponent {

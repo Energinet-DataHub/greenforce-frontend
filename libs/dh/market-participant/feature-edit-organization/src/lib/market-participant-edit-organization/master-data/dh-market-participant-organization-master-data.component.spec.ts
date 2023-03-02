@@ -29,18 +29,15 @@ import { OrganizationStatus } from '@energinet-datahub/dh/shared/domain';
 
 describe(DhMarketParticipantOrganizationMasterDataComponent.name, () => {
   async function setup(changes: OrganizationChanges) {
-    const view = await render(
-      DhMarketParticipantOrganizationMasterDataComponent,
-      {
-        componentProperties: {
-          changes: changes,
-        },
-        imports: [
-          DhMarketParticipantOrganizationMasterDataComponentScam,
-          getTranslocoTestingModule(),
-        ],
-      }
-    );
+    const view = await render(DhMarketParticipantOrganizationMasterDataComponent, {
+      componentProperties: {
+        changes: changes,
+      },
+      imports: [
+        DhMarketParticipantOrganizationMasterDataComponentScam,
+        getTranslocoTestingModule(),
+      ],
+    });
 
     await runOnPushChangeDetection(view.fixture);
 
@@ -72,14 +69,12 @@ describe(DhMarketParticipantOrganizationMasterDataComponent.name, () => {
 
     // act
     const nameTextBox = screen.getByRole('textbox', {
-      name: en.marketParticipant.organization.create.masterData
-        .organizationNameLabel,
+      name: en.marketParticipant.organization.create.masterData.organizationNameLabel,
     });
     userEvent.type(nameTextBox, expected.name);
 
     const briTextBox = screen.getByRole('textbox', {
-      name: en.marketParticipant.organization.create.masterData
-        .businessRegistrationIdetifierLabel,
+      name: en.marketParticipant.organization.create.masterData.businessRegistrationIdetifierLabel,
     });
     userEvent.type(briTextBox, expected.businessRegisterIdentifier);
 
@@ -94,8 +89,7 @@ describe(DhMarketParticipantOrganizationMasterDataComponent.name, () => {
     userEvent.type(streetTextBox, expected.address.streetName);
 
     const numberTextBox = screen.getByRole('textbox', {
-      name: en.marketParticipant.organization.create.masterData
-        .streetNumberLabel,
+      name: en.marketParticipant.organization.create.masterData.streetNumberLabel,
     });
     userEvent.type(numberTextBox, expected.address.number);
 

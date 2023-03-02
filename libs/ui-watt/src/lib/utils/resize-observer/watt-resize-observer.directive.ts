@@ -14,13 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Directive,
-  ElementRef,
-  EventEmitter,
-  OnDestroy,
-  Output,
-} from '@angular/core';
+import { Directive, ElementRef, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { WattResizeObserverService } from './watt-resize-observer.service';
 
@@ -39,10 +33,7 @@ export class WattResizeObserverDirective implements OnDestroy {
 
   private subscription: Subscription;
 
-  constructor(
-    private el: ElementRef,
-    private resizeObserverService: WattResizeObserverService
-  ) {
+  constructor(private el: ElementRef, private resizeObserverService: WattResizeObserverService) {
     this.subscription = this.resizeObserverService
       .observe(this.el.nativeElement)
       .subscribe((entry) => this.resize.emit(entry));

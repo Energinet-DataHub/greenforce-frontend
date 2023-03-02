@@ -14,14 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  Output,
-  EventEmitter,
-  AfterViewInit,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
@@ -34,10 +27,7 @@ import {
   WattChipsSelection,
   WattChipsOption,
 } from '@energinet-datahub/watt/chips';
-import {
-  DatePickerData,
-  DrawerDatepickerService,
-} from './drawer-datepicker.service';
+import { DatePickerData, DrawerDatepickerService } from './drawer-datepicker.service';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
@@ -55,9 +45,7 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
   templateUrl: './dh-drawer-datepicker.component.html',
   styleUrls: ['./dh-drawer-datepicker.component.scss'],
 })
-export class DhDrawerDatepickerComponent
-  implements OnInit, OnDestroy, AfterViewInit
-{
+export class DhDrawerDatepickerComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() changed = new EventEmitter();
 
   private readonly chipOptions: WattChipsOption[] = [
@@ -88,44 +76,32 @@ export class DhDrawerDatepickerComponent
   private destroy$ = new Subject<void>();
 
   ngAfterViewInit() {
-    this.formControlDateRange.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((dateRange) => {
-        this.updateDateRange({
-          startDate: dateRange?.start ?? '',
-          endDate: dateRange?.end ?? '',
-        });
+    this.formControlDateRange.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((dateRange) => {
+      this.updateDateRange({
+        startDate: dateRange?.start ?? '',
+        endDate: dateRange?.end ?? '',
       });
+    });
   }
 
   ngOnInit(): void {
     this.setupDateChipTranslation();
 
-    this.datepickerService.dateRange$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((dateRange) => {
-        const value = this.formControlDateRange.value;
-        if (dateRange.endDate == null) return;
-        if (
-          value?.start == dateRange.startDate &&
-          value?.end == dateRange.endDate
-        )
-          return;
+    this.datepickerService.dateRange$.pipe(takeUntil(this.destroy$)).subscribe((dateRange) => {
+      const value = this.formControlDateRange.value;
+      if (dateRange.endDate == null) return;
+      if (value?.start == dateRange.startDate && value?.end == dateRange.endDate) return;
 
-        this.formControlDateRange.patchValue(
-          {
-            start:
-              value?.start == dateRange.startDate
-                ? value.start
-                : dateRange.startDate,
-            end:
-              value?.end == dateRange.endDate ? value.end : dateRange.endDate,
-          },
-          {
-            emitEvent: false,
-          }
-        );
-      });
+      this.formControlDateRange.patchValue(
+        {
+          start: value?.start == dateRange.startDate ? value.start : dateRange.startDate,
+          end: value?.end == dateRange.endDate ? value.end : dateRange.endDate,
+        },
+        {
+          emitEvent: false,
+        }
+      );
+    });
   }
 
   ngOnDestroy(): void {

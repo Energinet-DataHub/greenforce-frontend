@@ -26,13 +26,7 @@ import { EoCertificatesStore } from '../eo-certificates.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    MatCardModule,
-    EoStackComponent,
-    CommonModule,
-    RouterModule,
-    LetModule,
-  ],
+  imports: [MatCardModule, EoStackComponent, CommonModule, RouterModule, LetModule],
   selector: 'eo-certificates',
   standalone: true,
   styles: [
@@ -66,11 +60,10 @@ import { EoCertificatesStore } from '../eo-certificates.store';
     <mat-card class="watt-space-stack-l">
       <h3 class="watt-space-stack-m">This is the beginning</h3>
       <p class="watt-space-stack-m">
-        This page is based on real data and is working towards the coming
-        solution regarding certificates. So it is not just a test, though these
-        data cannot yet be used in a legal sense. It will be communicated, when
-        it is out of beta and can be used legally. So you can try this without
-        any consequences.
+        This page is based on real data and is working towards the coming solution regarding
+        certificates. So it is not just a test, though these data cannot yet be used in a legal
+        sense. It will be communicated, when it is out of beta and can be used legally. So you can
+        try this without any consequences.
       </p>
     </mat-card>
     <div class="certificate">
@@ -115,9 +108,7 @@ import { EoCertificatesStore } from '../eo-certificates.store';
           </div>
         </mat-card>
         <h4>
-          <a class="link" routerLink="/${eoCertificatesRoutePath}">
-            << Back to Certificates
-          </a>
+          <a class="link" routerLink="/${eoCertificatesRoutePath}"> << Back to Certificates </a>
         </h4>
       </eo-stack>
       <eo-stack size="M">
@@ -138,9 +129,7 @@ import { EoCertificatesStore } from '../eo-certificates.store';
 })
 export class EoCertificateDetailsComponent {
   certificate$ = this.store.certificates$.pipe(
-    map((certs) =>
-      certs?.find((item) => item.id === this.route.snapshot.paramMap.get('id'))
-    ),
+    map((certs) => certs?.find((item) => item.id === this.route.snapshot.paramMap.get('id'))),
     tap((certFound) => {
       if (!certFound) this.router.navigate([`/${eoCertificatesRoutePath}`]);
     })

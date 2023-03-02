@@ -36,8 +36,7 @@ function getTitleTranslationKey(snapshot: ActivatedRouteSnapshot): string {
   let route: ActivatedRouteSnapshot | undefined = snapshot.root;
 
   while (route !== undefined) {
-    maybeTranslationKey =
-      route.data[titleTranslationKey] ?? maybeTranslationKey;
+    maybeTranslationKey = route.data[titleTranslationKey] ?? maybeTranslationKey;
     route = route.children.find((child) => child.outlet === PRIMARY_OUTLET);
   }
 

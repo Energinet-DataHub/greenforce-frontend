@@ -29,10 +29,10 @@ limitations under the License.
               <watt-label>{{ t("tab.masterData.nameInputLabel") }}</watt-label>
               <input wattInput type="text" formControlName="name" />
               <watt-error *ngIf="userRoleEditForm.controls.name?.errors?.['nameAlreadyExists']">
-                {{ t("tab.masterData.errors.nameAlreadyExists") }}
+                {{ t("tab.validationErrors.nameAlreadyExists") }}
               </watt-error>
               <watt-error *ngIf="userRoleEditForm.controls.name?.errors?.['required']">
-                {{ t("tab.masterData.errors.required") }}
+                {{ t("tab.validationErrors.required") }}
               </watt-error>
             </watt-form-field>
 
@@ -40,7 +40,7 @@ limitations under the License.
               <watt-label>{{ t("tab.masterData.descriptionInputLabel") }}</watt-label>
               <textarea wattInput formControlName="description"></textarea>
               <watt-error *ngIf="userRoleEditForm.controls.description?.errors?.['required']">
-                {{ t("tab.masterData.errors.required") }}
+                {{ t("tab.validationErrors.required") }}
               </watt-error>
             </watt-form-field>
           </div>
@@ -49,13 +49,28 @@ limitations under the License.
         <watt-tab [label]="t('tab.permissions.tabLabel')">
           <p class="watt-on-light--medium-emphasis">{{ t("tab.permissions.onEditMessage") }}</p>
 
-          <h4>{{ t("tab.permissions.title") }}</h4>
+          <div
+            class="watt-space-stack-m"
+            *ngIf="userRoleEditForm.dirty && userRoleEditForm.controls.permissionIds.errors?.['required']"
+          >
+            <watt-error>{{ t("tab.validationErrors.permissionRequired") }}</watt-error>
+          </div>
 
-          <dh-permissions-table
-            [permissions]="marketRolePermissions$ | push: { strategy: 'local' }"
-            [initialSelection]="initiallySelectedPermissions$ | push"
-            (selectionChanged)="onSelectionChanged($event)"
-          ></dh-permissions-table>
+          <watt-card variant="solid">
+            <watt-card-title>
+              <h4>{{ t("tab.permissions.title") }}</h4>
+            </watt-card-title>
+
+            <dh-permissions-table
+              [permissions]="marketRolePermissions$ | push: { strategy: 'global' }"
+              [initialSelection]="initiallySelectedPermissions$ | push"
+              (selectionChanged)="onSelectionChanged($event)"
+            ></dh-permissions-table>
+
+            <div class="spinner-container" *ngIf="marketRolePermissionsIsLoading$ | push">
+              <watt-spinner></watt-spinner>
+            </div>
+          </watt-card>
         </watt-tab>
       </watt-tabs>
     </form>
@@ -64,12 +79,7 @@ limitations under the License.
       <watt-button variant="secondary" (click)="closeModal(false)">
         {{ t("cancel") }}
       </watt-button>
-      <watt-button
-        type="submit"
-        formId="user-role-edit-form"
-        [disabled]="userRoleEditForm.invalid || userRoleEditForm.pristine"
-        [loading]="isLoading$ | push"
-      >
+      <watt-button type="submit" formId="user-role-edit-form" [loading]="isLoading$ | push">
         {{ t("save") }}
       </watt-button>
     </watt-modal-actions>

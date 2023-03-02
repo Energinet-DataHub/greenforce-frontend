@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  AuthenticationResult,
-  IPublicClientApplication,
-  Logger,
-} from '@azure/msal-browser';
+import { AuthenticationResult, IPublicClientApplication, Logger } from '@azure/msal-browser';
 import { MockProvider } from 'ng-mocks';
 import { Observable, of } from 'rxjs';
 import { MsalService } from '@azure/msal-angular';

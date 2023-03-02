@@ -37,14 +37,8 @@ export class EoPrivacyPolicyStore extends ComponentStore<EoPrivacyPolicyState> {
     (resp) => resp
   );
 
-  version$: Observable<string> = this.select(
-    this.#response,
-    (response) => response.version
-  );
-  privacyPolicy$: Observable<string> = this.select(
-    this.#response,
-    (response) => response.terms
-  );
+  version$: Observable<string> = this.select(this.#response, (response) => response.version);
+  privacyPolicy$: Observable<string> = this.select(this.#response, (response) => response.terms);
 
   constructor(private authHttp: AuthHttp) {
     super(initialState);

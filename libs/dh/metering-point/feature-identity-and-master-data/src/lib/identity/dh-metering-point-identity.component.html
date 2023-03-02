@@ -17,9 +17,7 @@ limitations under the License.
 <div class="overview-header" *transloco="let t; read: 'meteringPoint.overview'">
   <div class="watt-text-s overview-header__row">
     <span [title]="t('connectionState')" class="watt-space-inline-xs">
-      <dh-status-badge
-        [connectionState]="identityDetails.connectionState"
-      ></dh-status-badge>
+      <dh-status-badge [connectionState]="identityDetails.connectionState"></dh-status-badge>
     </span>
 
     <span [title]="t('meteringMethod')">
@@ -40,10 +38,7 @@ limitations under the License.
     </span>
     |
 
-    <span
-      *ngIf="identityDetails?.meterId"
-      [title]="t('primaryMasterData.meterNumber')"
-    >
+    <span *ngIf="identityDetails?.meterId" [title]="t('primaryMasterData.meterNumber')">
       {{ t("primaryMasterData.meterNumber") }}:
       {{ identityDetails.meterId }}
     </span>
