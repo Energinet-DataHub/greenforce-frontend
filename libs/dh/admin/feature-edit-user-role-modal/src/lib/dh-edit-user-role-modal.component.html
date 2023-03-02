@@ -21,6 +21,7 @@ limitations under the License.
       id="user-role-edit-form"
       *rxLet="userRole$ as userRole"
       (ngSubmit)="save(userRole)"
+      #form="ngForm"
     >
       <watt-tabs>
         <watt-tab [label]="t('tab.masterData.tabLabel')">
@@ -51,7 +52,7 @@ limitations under the License.
 
           <div
             class="watt-space-stack-m"
-            *ngIf="userRoleEditForm.dirty && userRoleEditForm.controls.permissionIds.errors?.['required']"
+            *ngIf="(form.submitted || userRoleEditForm.dirty) && userRoleEditForm.controls.permissionIds.errors?.['required']"
           >
             <watt-error>{{ t("tab.validationErrors.permissionRequired") }}</watt-error>
           </div>
