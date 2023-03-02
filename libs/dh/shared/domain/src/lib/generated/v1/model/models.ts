@@ -83,6 +83,7 @@ export * from './stream';
 export * from './time-series-point-dto';
 export * from './time-series-type';
 export * from './unit';
+export * from './update-permission-dto';
 export * from './update-user-role-assignments-dto';
 export * from './update-user-role-dto';
 export * from './user-audit-log-dto';
