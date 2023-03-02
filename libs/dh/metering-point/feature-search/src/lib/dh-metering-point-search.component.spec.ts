@@ -92,7 +92,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
     ).not.toBeInTheDocument();
     expect(
       screen.queryByRole('heading', {
-        name: enTranslations.meteringPoint.search.serverErrorTitle,
+        name: enTranslations.shared.error.title,
       })
     ).not.toBeInTheDocument();
 
@@ -120,7 +120,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
     ).toBeInTheDocument();
     expect(
       screen.queryByRole('heading', {
-        name: enTranslations.meteringPoint.search.serverErrorTitle,
+        name: enTranslations.shared.error.title,
       })
     ).not.toBeInTheDocument();
 
