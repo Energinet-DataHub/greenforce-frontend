@@ -68,7 +68,9 @@ jobs:
 
       - name: Setup Release
         shell: bash
-        run: cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }} ${{ env.RELEASE_FOLDER_PATH }}
+        run: |
+          cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }} ${{ env.RELEASE_FOLDER_PATH }}
+          cp -R ${{ github.workspace }}/graphql.schema ${{ env.RELEASE_FOLDER_PATH }}
 
       - name: Zip artifact
         uses: thedoctor0/zip-release@master
