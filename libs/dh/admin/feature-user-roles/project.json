@@ -1,0 +1,27 @@
+{
+  "name": "dh-admin-feature-user-roles",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/admin/feature-user-roles/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/dh/admin/feature-user-roles/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/admin/feature-user-roles/**/*.ts",
+          "libs/dh/admin/feature-user-roles/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:admin", "type:feature"]
+}

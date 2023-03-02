@@ -16,20 +16,15 @@
  */
 import { Injectable } from '@angular/core';
 import { Observable, of, switchMap, tap } from 'rxjs';
-import {
-  ComponentStore,
-  OnStoreInit,
-  tapResponse,
-} from '@ngrx/component-store';
+import { ComponentStore, OnStoreInit, tapResponse } from '@ngrx/component-store';
 
-import {
-  ErrorState,
-  LoadingState,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserOverviewHttp,
+  SortDirection,
   UserOverviewItemDto,
   UserOverviewResultDto,
+  UserOverviewSortProperty,
   UserStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
@@ -39,13 +34,24 @@ interface DhUserManagementState {
   readonly usersRequestState: LoadingState | ErrorState;
   readonly pageNumber: number;
   readonly pageSize: number;
+  readonly sortProperty: UserOverviewSortProperty;
+  readonly direction: SortDirection;
   readonly searchText: string | undefined;
   readonly statusFilter: UserStatus[];
+  readonly actorIdFilter: string | undefined;
+  readonly userRoleFilter: string[];
 }
 
 export type FetchUsersParams = Pick<
   DhUserManagementState,
-  'pageSize' | 'pageNumber' | 'searchText' | 'statusFilter'
+  | 'pageSize'
+  | 'pageNumber'
+  | 'sortProperty'
+  | 'direction'
+  | 'searchText'
+  | 'statusFilter'
+  | 'actorIdFilter'
+  | 'userRoleFilter'
 >;
 
 const initialState: DhUserManagementState = {
@@ -54,8 +60,12 @@ const initialState: DhUserManagementState = {
   usersRequestState: LoadingState.INIT,
   pageNumber: 1,
   pageSize: 50,
+  sortProperty: 'Email',
+  direction: 'Asc',
   searchText: undefined,
   statusFilter: ['Active'],
+  actorIdFilter: undefined,
+  userRoleFilter: [],
 };
 
 @Injectable()
@@ -63,12 +73,8 @@ export class DhAdminUserManagementDataAccessApiStore
   extends ComponentStore<DhUserManagementState>
   implements OnStoreInit
 {
-  readonly isInit$ = this.select(
-    (state) => state.usersRequestState === LoadingState.INIT
-  );
-  readonly isLoading$ = this.select(
-    (state) => state.usersRequestState === LoadingState.LOADING
-  );
+  readonly isInit$ = this.select((state) => state.usersRequestState === LoadingState.INIT);
+  readonly isLoading$ = this.select((state) => state.usersRequestState === LoadingState.LOADING);
   readonly hasGeneralError$ = this.select(
     (state) => state.usersRequestState === ErrorState.GENERAL_ERROR
   );
@@ -83,53 +89,68 @@ export class DhAdminUserManagementDataAccessApiStore
   readonly paginatorPageIndex$ = this.select((state) => state.pageNumber - 1);
   readonly pageSize$ = this.select((state) => state.pageSize);
 
-  private readonly fetchUsersParams$: Observable<FetchUsersParams> =
-    this.select(
-      this.pageSize$,
-      this.select((state) => state.pageNumber),
-      this.select((state) => state.searchText),
-      this.select((state) => state.statusFilter),
-      (pageSize, pageNumber, searchText, statusFilter) => ({
-        pageSize,
-        pageNumber,
-        searchText,
-        statusFilter,
-      }),
-      { debounce: true }
-    );
+  private readonly fetchUsersParams$: Observable<FetchUsersParams> = this.select(
+    this.pageSize$,
+    this.select((state) => state.pageNumber),
+    this.select((state) => state.sortProperty),
+    this.select((state) => state.direction),
+    this.select((state) => state.searchText),
+    this.select((state) => state.statusFilter),
+    this.select((state) => state.actorIdFilter),
+    this.select((state) => state.userRoleFilter),
+    (
+      pageSize,
+      pageNumber,
+      sortProperty,
+      direction,
+      searchText,
+      statusFilter,
+      actorIdFilter,
+      userRoleFilter
+    ) => ({
+      pageSize,
+      pageNumber,
+      sortProperty,
+      direction,
+      searchText,
+      statusFilter,
+      actorIdFilter,
+      userRoleFilter,
+    }),
+    { debounce: true }
+  );
 
   constructor(private httpClient: MarketParticipantUserOverviewHttp) {
     super(initialState);
   }
 
-  private readonly loadUsers = this.effect(
-    (fetchUsersParams$: Observable<FetchUsersParams>) =>
-      fetchUsersParams$.pipe(
-        tap(() => {
-          this.patchState({
-            usersRequestState: LoadingState.LOADING,
-            users: [],
-          });
-        }),
-        switchMap((fetchUsersParams) =>
-          this.getUsers(fetchUsersParams).pipe(
-            tapResponse(
-              (response) => {
-                this.patchState({ usersRequestState: LoadingState.LOADED });
+  private readonly loadUsers = this.effect((fetchUsersParams$: Observable<FetchUsersParams>) =>
+    fetchUsersParams$.pipe(
+      tap(() => {
+        this.patchState({
+          usersRequestState: LoadingState.LOADING,
+          users: [],
+        });
+      }),
+      switchMap((fetchUsersParams) =>
+        this.getUsers(fetchUsersParams).pipe(
+          tapResponse(
+            (response) => {
+              this.patchState({ usersRequestState: LoadingState.LOADED });
 
-                this.updateUsers(response);
-              },
-              () => {
-                this.updateUsers({ users: [], totalUserCount: 0 });
+              this.updateUsers(response);
+            },
+            () => {
+              this.updateUsers({ users: [], totalUserCount: 0 });
 
-                this.patchState({
-                  usersRequestState: ErrorState.GENERAL_ERROR,
-                });
-              }
-            )
+              this.patchState({
+                usersRequestState: ErrorState.GENERAL_ERROR,
+              });
+            }
           )
         )
       )
+    )
   );
 
   readonly updatePageMetadata = this.updater(
@@ -146,10 +167,7 @@ export class DhAdminUserManagementDataAccessApiStore
   );
 
   private updateUsers = this.updater(
-    (
-      state: DhUserManagementState,
-      response: UserOverviewResultDto
-    ): DhUserManagementState => ({
+    (state: DhUserManagementState, response: UserOverviewResultDto): DhUserManagementState => ({
       ...state,
       users: response.users,
       totalUserCount: response.totalUserCount,
@@ -159,29 +177,52 @@ export class DhAdminUserManagementDataAccessApiStore
   private getUsers({
     pageNumber,
     pageSize,
+    sortProperty,
+    direction,
     searchText,
     statusFilter,
+    actorIdFilter,
+    userRoleFilter,
   }: FetchUsersParams) {
     if (!statusFilter || statusFilter.length == 0) {
       return of({ users: [], totalUserCount: 0 });
     }
 
-    return this.httpClient.v1MarketParticipantUserOverviewGetUserOverviewGet(
+    return this.httpClient.v1MarketParticipantUserOverviewSearchUsersPost(
       pageNumber,
       pageSize,
-      searchText,
-      statusFilter
+      sortProperty,
+      direction,
+      {
+        actorId: actorIdFilter,
+        userRoleIds: userRoleFilter,
+        searchText: searchText,
+        userStatus: statusFilter,
+      }
     );
   }
 
   updateSearchText(searchText: string) {
-    const searchTextToSave = searchText === '' ? undefined : searchText;
-
-    this.patchState({ searchText: searchTextToSave });
+    this.patchState({
+      searchText: searchText === '' ? undefined : searchText,
+      pageNumber: 1,
+    });
   }
 
   updateStatusFilter(userStatus: UserStatus[]) {
-    this.patchState({ statusFilter: userStatus });
+    this.patchState({ statusFilter: userStatus, pageNumber: 1 });
+  }
+
+  updateSort(sortProperty: UserOverviewSortProperty, direction: SortDirection) {
+    this.patchState({ sortProperty, direction });
+  }
+
+  updateActorFilter(actorId: string | undefined) {
+    this.patchState({ actorIdFilter: actorId });
+  }
+
+  updateUserRoleFilter(userRole: string[]) {
+    this.patchState({ userRoleFilter: userRole });
   }
 
   readonly reloadUsers = () => {

@@ -17,14 +17,7 @@
 /* eslint-disable @angular-eslint/no-host-metadata-property */
 import { Platform } from '@angular/cdk/platform';
 import { AutofillMonitor } from '@angular/cdk/text-field';
-import {
-  Directive,
-  ElementRef,
-  Inject,
-  NgZone,
-  Optional,
-  Self,
-} from '@angular/core';
+import { Directive, ElementRef, Inject, NgZone, Optional, Self } from '@angular/core';
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
@@ -58,9 +51,7 @@ import {
 })
 export class WattInputDirective extends MatInput {
   constructor(
-    protected _elementRef: ElementRef<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >,
+    protected _elementRef: ElementRef<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
     protected _platform: Platform,
     @Optional() @Self() ngControl: NgControl,
     @Optional() _parentForm: NgForm,

@@ -21,6 +21,15 @@ limitations under the License.
       [initialValue]="initialStatusFilter$ | push"
       (changed)="onStatusChanged($event)"
     ></dh-users-tab-status-filter>
+    <dh-users-tab-actor-filter
+      *ngIf="canChooseMultipleActors$ | async"
+      [actorOptions]="(actorOptions$ | async) ?? []"
+      (changed)="onActorFilterChanged($event)"
+    ></dh-users-tab-actor-filter>
+    <dh-users-tab-userrole-filter
+      [userRoleOptions]="(userRolesOptions$ | async) ?? []"
+      (changed)="onUserRolesFilterChanged($event)"
+    ></dh-users-tab-userrole-filter>
   </div>
 
   <watt-card>
@@ -42,11 +51,20 @@ limitations under the License.
           (changed)="onPageChange($event)"
         >
         </dh-shared-ui-paginator>
+
+        <watt-button
+          *dhPermissionRequired="['users:manage']"
+          icon="plus"
+          variant="secondary"
+          [title]="t('inviteUser')"
+          (click)="showInviteUserModal()"
+          >{{ t("inviteUser") }}</watt-button
+        >
       </div>
     </watt-card-title>
 
     <ng-container *rxLet="isLoading$ as isLoading">
-      <dh-users-tab-table [users]="users$ | push"></dh-users-tab-table>
+      <dh-users-tab-table [users]="users$ | push" [sortChanged]="sortChanged"></dh-users-tab-table>
 
       <div *ngIf="isLoading" class="users-overview__spinner">
         <watt-spinner></watt-spinner>
@@ -55,18 +73,14 @@ limitations under the License.
 
     <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
       <div *ngIf="hasGeneralError" class="users-overview__error">
-        <dh-users-tab-general-error
-          (reload)="reloadUsers()"
-        ></dh-users-tab-general-error>
+        <dh-users-tab-general-error (reload)="reloadUsers()"></dh-users-tab-general-error>
       </div>
     </ng-container>
   </watt-card>
 </ng-container>
 
 <ng-template #usersHeadline let-usersCount>
-  <ng-container
-    *transloco="let t; read: 'admin.userManagement.tabs.users.usersHeadline'"
-  >
+  <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users.usersHeadline'">
     <h4 *ngIf="usersCount === 1">
       {{ t("singular", { usersCount: usersCount }) }}
     </h4>
@@ -76,3 +90,9 @@ limitations under the License.
     </h4>
   </ng-container>
 </ng-template>
+
+<dh-invite-user-modal
+  *ngIf="isInviteUserModalVisible"
+  (closed)="modalOnClose()"
+  #inviteUserModal
+></dh-invite-user-modal>

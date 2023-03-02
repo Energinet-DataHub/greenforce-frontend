@@ -47,16 +47,12 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
   template: `
     <mat-card>
       <div class="tip watt-space-stack-m">
-        <img
-          alt="Decrease CO2 emissions | EnergyOrigin"
-          src="/assets/icons/lightbulb.svg"
-        />
+        <img alt="Decrease CO2 emissions | EnergyOrigin" src="/assets/icons/lightbulb.svg" />
         <h1>Tip</h1>
       </div>
       <p>
-        You can decrease emissions by investing in local renewable energy
-        production to cover your energy consumption. It could be solar panels,
-        wind turbines, etc.
+        You can decrease emissions by investing in local renewable energy production to cover your
+        energy consumption. It could be solar panels, wind turbines, etc.
       </p>
     </mat-card>
   `,

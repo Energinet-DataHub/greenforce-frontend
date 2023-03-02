@@ -16,21 +16,13 @@
  */
 
 import { NgIf } from '@angular/common';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import {
   MatLegacyTableDataSource as MatTableDataSource,
   MatLegacyTableModule as MatTableModule,
 } from '@angular/material/legacy-table';
-import {
-  EoMeteringPoint,
-  EoMeteringPointsStore,
-} from './eo-metering-points.store';
+import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -66,9 +58,7 @@ import {
 
       <!-- Address Column -->
       <ng-container matColumnDef="address">
-        <mat-header-cell *matHeaderCellDef mat-sort-header
-          >Address
-        </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Address </mat-header-cell>
         <mat-cell *matCellDef="let element"
           ><ng-container *ngIf="element.address?.address1">
             {{ element.address.address1 + ',' }}
@@ -86,9 +76,7 @@ import {
 
       <!-- Tags column -->
       <ng-container matColumnDef="tags">
-        <mat-header-cell *matHeaderCellDef mat-sort-header
-          >Tags</mat-header-cell
-        >
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Tags</mat-header-cell>
         <mat-cell *matCellDef="let element"
           ><div class="tag">{{ element?.type }}</div>
         </mat-cell>
@@ -96,25 +84,19 @@ import {
 
       <!-- GC column -->
       <ng-container matColumnDef="granular certificates">
-        <mat-header-cell *matHeaderCellDef mat-sort-header
-          >Granular Certificates</mat-header-cell
-        >
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Granular Certificates</mat-header-cell>
         <mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.type === 'production'">
             <span *ngIf="element.contract">Active</span>
             <ng-container *ngIf="!element.contract">
-              <a class="link" (click)="createContract(element.gsrn)">
-                Enable
-              </a>
+              <a class="link" (click)="createContract(element.gsrn)"> Enable </a>
             </ng-container>
           </ng-container></mat-cell
         >
       </ng-container>
 
       <!-- No data to show -->
-      <ng-container *matNoDataRow>
-        You do not have any metering points.
-      </ng-container>
+      <ng-container *matNoDataRow> You do not have any metering points. </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
@@ -127,12 +109,7 @@ export class EoMeteringPointListComponent implements AfterViewInit {
   loadingDone$ = this.store.loadingDone$;
   meteringPoints$ = this.store.meteringPoints$;
   dataSource: MatTableDataSource<EoMeteringPoint> = new MatTableDataSource();
-  displayedColumns: Array<string> = [
-    'gsrn',
-    'address',
-    'tags',
-    'granular certificates',
-  ];
+  displayedColumns: Array<string> = ['gsrn', 'address', 'tags', 'granular certificates'];
 
   constructor(private store: EoMeteringPointsStore) {}
 

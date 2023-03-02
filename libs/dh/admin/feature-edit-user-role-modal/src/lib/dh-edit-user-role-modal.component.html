@@ -15,14 +15,73 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.editUserRole'">
-  <watt-modal [title]="roleName$ | push" (closed)="closeModal()">
-    <watt-tabs>
-      <watt-tab [label]="t('tab.masterData')"></watt-tab>
-      <watt-tab [label]="t('tab.permissions')"></watt-tab>
-    </watt-tabs>
+  <watt-modal [title]="roleName$ | push" (closed)="closeModal($event)">
+    <form
+      [formGroup]="userRoleEditForm"
+      id="user-role-edit-form"
+      *rxLet="userRole$ as userRole"
+      (ngSubmit)="save(userRole)"
+      #form="ngForm"
+    >
+      <watt-tabs>
+        <watt-tab [label]="t('tab.masterData.tabLabel')">
+          <div class="form-wrapper">
+            <watt-form-field class="watt-space-stack-l">
+              <watt-label>{{ t("tab.masterData.nameInputLabel") }}</watt-label>
+              <input wattInput type="text" formControlName="name" />
+              <watt-error *ngIf="userRoleEditForm.controls.name?.errors?.['nameAlreadyExists']">
+                {{ t("tab.validationErrors.nameAlreadyExists") }}
+              </watt-error>
+              <watt-error *ngIf="userRoleEditForm.controls.name?.errors?.['required']">
+                {{ t("tab.validationErrors.required") }}
+              </watt-error>
+            </watt-form-field>
+
+            <watt-form-field>
+              <watt-label>{{ t("tab.masterData.descriptionInputLabel") }}</watt-label>
+              <textarea wattInput formControlName="description"></textarea>
+              <watt-error *ngIf="userRoleEditForm.controls.description?.errors?.['required']">
+                {{ t("tab.validationErrors.required") }}
+              </watt-error>
+            </watt-form-field>
+          </div>
+        </watt-tab>
+
+        <watt-tab [label]="t('tab.permissions.tabLabel')">
+          <p class="watt-on-light--medium-emphasis">{{ t("tab.permissions.onEditMessage") }}</p>
+
+          <div
+            class="watt-space-stack-m"
+            *ngIf="(form.submitted || userRoleEditForm.dirty) && userRoleEditForm.controls.permissionIds.errors?.['required']"
+          >
+            <watt-error>{{ t("tab.validationErrors.permissionRequired") }}</watt-error>
+          </div>
+
+          <watt-card variant="solid">
+            <watt-card-title>
+              <h4>{{ t("tab.permissions.title") }}</h4>
+            </watt-card-title>
+
+            <dh-permissions-table
+              [permissions]="marketRolePermissions$ | push: { strategy: 'global' }"
+              [initialSelection]="initiallySelectedPermissions$ | push"
+              (selectionChanged)="onSelectionChanged($event)"
+            ></dh-permissions-table>
+
+            <div class="spinner-container" *ngIf="marketRolePermissionsIsLoading$ | push">
+              <watt-spinner></watt-spinner>
+            </div>
+          </watt-card>
+        </watt-tab>
+      </watt-tabs>
+    </form>
+
     <watt-modal-actions>
-      <watt-button variant="secondary" (click)="closeModal()">
+      <watt-button variant="secondary" (click)="closeModal(false)">
         {{ t("cancel") }}
+      </watt-button>
+      <watt-button type="submit" formId="user-role-edit-form" [loading]="isLoading$ | push">
+        {{ t("save") }}
       </watt-button>
     </watt-modal-actions>
   </watt-modal>

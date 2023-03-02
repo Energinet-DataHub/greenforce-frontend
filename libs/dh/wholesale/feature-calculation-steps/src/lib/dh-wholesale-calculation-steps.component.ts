@@ -16,10 +16,11 @@
  */
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild, OnInit } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
-import { tap } from 'rxjs';
+import { ApolloError } from '@apollo/client';
+import { Apollo } from 'apollo-angular';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
@@ -30,16 +31,11 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
+import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 
-import { batch } from '@energinet-datahub/dh/wholesale/domain';
-import { BatchState } from '@energinet-datahub/dh/shared/domain';
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import { DhWholesaleProductionPerGridareaComponent } from './steps/production-per-gridarea.component';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
-import {
-  WattDrawerComponent,
-  WattDrawerModule,
-} from '@energinet-datahub/watt/drawer';
+import { DhWholesaleActorsComponent } from './actors/dh-wholesale-actors.component';
 
 @Component({
   templateUrl: './dh-wholesale-calculation-steps.component.html',
@@ -60,50 +56,73 @@ import {
     WattEmptyStateModule,
     WattSpinnerModule,
     WattTopBarComponent,
-    DhWholesaleProductionPerGridareaComponent,
+    DhWholesaleActorsComponent,
   ],
 })
-export class DhWholesaleCalculationStepsComponent {
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
+export class DhWholesaleCalculationStepsComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private apollo = inject(Apollo);
 
   @ViewChild('drawer') drawer!: WattDrawerComponent;
 
-  batch$ = this.store.selectedBatch$.pipe(
-    tap((batch) => {
-      // Get batch if not already in store
-      if (!batch) {
-        this.store.getBatch(this.route.snapshot.params['batchId']);
-      }
+  isDrawerOpen = false;
 
-      // Redirect user to search batch page if batch is failed
-      if ((batch as batch)?.executionState === BatchState.Failed)
-        this.navigateToSearchBatch(batch);
-    })
-  );
+  batch?: graphql.Batch;
+  gridArea?: graphql.GridArea;
+  loading = false;
+  error?: ApolloError;
 
-  loadingBatchErrorTrigger$ = this.store.loadingBatchErrorTrigger$;
+  ngOnInit() {
+    const routeGridAreaCode = this.route.snapshot.params['gridAreaCode'];
 
-  gridArea$ = this.store.getGridArea$(
-    this.route.snapshot.params['gridAreaCode']
-  );
+    // TODO: Unsub?
+    this.apollo
+      .watchQuery({
+        useInitialLoading: true,
+        notifyOnNetworkStatusChange: true,
+        query: graphql.GetBatchDocument,
+        variables: { id: this.route.snapshot.params['batchId'] },
+      })
+      .valueChanges.subscribe((result) => {
+        // Redirect user to search batch page if batch is failed
+        if (result.data?.batch?.executionState === graphql.BatchState.Failed) {
+          this.navigateToSearchBatch(result.data?.batch);
+          return;
+        }
 
-  getCurrentStep() {
-    // TODO: Is there a better way? This seems a little hacky.
-    return this.route.firstChild?.routeConfig?.path;
+        this.batch = result.data?.batch ?? undefined;
+        this.gridArea = result.data?.batch?.gridAreas.find((g) => g.code === routeGridAreaCode);
+        this.loading = result.loading;
+        this.error = result.error;
+      });
+
+    const step = this.getCurrentStep();
+    const gln = this.route.firstChild?.snapshot.url?.[1]?.path;
+    if (step) this.openDrawer(step, gln);
   }
 
-  openDrawer(step: number) {
-    this.router.navigate([step], { relativeTo: this.route });
-    this.drawer.open();
+  getCurrentStep() {
+    return this.route.firstChild?.snapshot.url?.[0]?.path;
+  }
+
+  openDrawer(step: string, energySupplierGln?: string, balanceResponsiblePartyGln?: string) {
+    this.router.navigate([step, energySupplierGln || balanceResponsiblePartyGln].filter(Boolean), {
+      relativeTo: this.route,
+    });
+
+    // This is used to open the drawer when the user navigates to the page with a step in the url
+    this.isDrawerOpen = true;
+
+    // This is used to open the drawer when the user clicks on a step in the list
+    this.drawer?.open();
   }
 
   onDrawerClosed() {
     this.router.navigate(['./'], { relativeTo: this.route });
   }
 
-  navigateToSearchBatch(batch?: batch): void {
-    navigateToWholesaleSearchBatch(this.router, batch?.batchId);
+  navigateToSearchBatch(batch?: graphql.Batch): void {
+    navigateToWholesaleSearchBatch(this.router, batch?.id);
   }
 }

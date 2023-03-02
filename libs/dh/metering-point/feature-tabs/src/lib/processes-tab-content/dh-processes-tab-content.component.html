@@ -28,9 +28,7 @@ limitations under the License.
 </ng-container>
 
 <ng-template #emptyTab>
-  <ng-container
-    *transloco="let transloco; read: 'meteringPoint.overview.processesTab'"
-  >
+  <ng-container *transloco="let transloco; read: 'meteringPoint.overview.processesTab'">
     <watt-empty-state
       size="small"
       [title]="transloco('noProcessesFound')"

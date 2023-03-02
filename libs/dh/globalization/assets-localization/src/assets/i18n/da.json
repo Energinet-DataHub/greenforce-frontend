@@ -6,6 +6,16 @@
     "logout": "Log ud"
   },
   "shared": {
+    "error": {
+      "title": "Ups! Der opstod en fejl",
+      "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger.",
+      "button": "Prøv igen"
+    },
+    "fieldRequiredErrorText": "Feltet er påkrævet.",
+    "navigation": {
+      "next": "Næste",
+      "previous": "Forrige"
+    },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
       "of": "af",
@@ -35,7 +45,8 @@
         "menuGroupLabel": "Afregninger",
         "startBatch": "Start batch",
         "searchBatch": "Søg batch",
-        "overview": "Oversigt"
+        "overview": "Oversigt",
+        "settlementReports": "Afregningsrapporter"
       },
       "admin": {
         "menuGroupLabel": "Opsætning",
@@ -52,9 +63,7 @@
       "clearSearchButton": "Nulstil søgning",
       "searchInvalidLength": "Målepunkts ID’et skal være 18 cifre",
       "noMeteringPointFoundTitle": "Vi fandt desværre intet målepunkt",
-      "noMeteringPointFoundMessage": "Tjek for eventuelle tastefejl og prøv igen",
-      "serverErrorTitle": "Ups! Der opstod en fejl",
-      "serverErrorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
+      "noMeteringPointFoundMessage": "Tjek for eventuelle tastefejl og prøv igen"
     },
     "overview": {
       "breadcrumb": {
@@ -70,11 +79,6 @@
         "title": "Vi fandt desværre intet målepunkt",
         "message": "Tjek for eventuelle tastefejl og prøv igen eller gå til søgning.",
         "button": "Gå til søgning"
-      },
-      "serverError": {
-        "title": "Ups! Der opstod en fejl",
-        "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger.",
-        "button": "Prøv igen"
       },
       "primaryMasterData": {
         "address": "Adresse",
@@ -271,7 +275,6 @@
     "sender": "Afsender",
     "resolution": "Opløsning",
     "effectiveDate": "Skæringsdato",
-    "fieldRequiredErrorText": "Feltet er påkrævet.",
     "senderProvidedChargeIdMaxLengthErrorText": "Maksimalt 10 tegn.",
     "chargeNameMaxLengthErrorText": "Maksimalt 132 tegn.",
     "descriptionMaxLengthErrorText": "Maksimalt 2048 tegn.",
@@ -321,10 +324,6 @@
     "vatClassification": "Moms",
     "chargesNotFound": {
       "title": "Vi fandt desværre ingen priser tilknyttet dette målepunkt"
-    },
-    "serverError": {
-      "title": "Ups! Der opstod en fejl",
-      "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
     },
     "createPrices": {
       "title": "Opret pris",
@@ -404,8 +403,6 @@
         "ThisQuarter": "Dette kvartal",
         "ThisYear": "Dette år"
       },
-      "loadingErrorTitle": "Der opstod en uventet fejl",
-      "loadingErrorMessage": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl.",
       "drawer": {
         "prices": "Priser",
         "messages": "Beskeder",
@@ -483,8 +480,6 @@
       "searchResult": "Søgeresultater",
       "startSearchResultView": "Start søgning",
       "startSearchText": "Dine resultater vil fremgå her",
-      "loadingErrorTitle": "Der opstod en uventet fejl",
-      "loadingErrorMessage": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl.",
       "createdDate": "Dato og tid",
       "invalidDate": "Ugyldig dato"
     }
@@ -506,7 +501,6 @@
           "labelActorNumber": "Aktør id",
           "labelStatus": "Status",
           "labelActorName": "Aktørnavn",
-          "fieldRequiredErrorText": "Feltet er påkrævet.",
           "statuses": {
             "New": "Ny",
             "Active": "Aktiv",
@@ -529,62 +523,50 @@
         }
       }
     },
+    "marketRolesOverview": {
+      "marketRoles": "markedsroller",
+      "download": "Download",
+      "columns": {
+        "name": "Navn",
+        "description": "Beskrivelse"
+      }
+    },
     "marketRoles": {
       "BalanceResponsibleParty": "Balanceansvarlig",
-      "BalancingServiceProvider": "Udbyder af balanceringstjenester",
       "BillingAgent": "Faktureringsagent",
-      "CapacityTrader": "Kapacitetshandler",
-      "Consumer": "Forbruger",
-      "ConsumptionResponsibleParty": "Forbrugsansvarlig",
-      "ConsentAdministrator": "Samtykke administrator",
-      "CoordinatedCapacityCalculator": "Koordineret kapacitetshandler",
-      "CoordinationCentreOperator": "Koordinationscenterets operatør",
-      "DataProvider": "Dataudbyder",
-      "EnergyServiceCompany": "Energiservicevirksomhed",
-      "EnergySupplier": "Energileverandør",
-      "EnergyTrader": "Energihandler",
-      "GridAccessProvider": "Netadgangsudbyder",
-      "ImbalanceSettlementResponsible": "Ubalanceafvikling ansvarlig",
-      "InterconnectionTradeResponsible": "Samtrafikansvarlig",
-      "LfcOperator": "LFC operatør",
-      "MarketInformationAggregator": "Markedsinformation aggregator",
-      "MarketOperator": "Markedsoperatør",
-      "MeritOrderListResponsible": "Meritordreliste ansvarlig",
-      "MeterAdministrator": "Måler administrator",
-      "MeterOperator": "Måler operatør",
-      "MeteredDataAdministrator": "Måledataadministrator",
-      "MeteredDataAggregator": "Metered data aggregator",
-      "MeteredDataCollector": "Indsamler af målte data",
+      "EnergySupplier": "Elleverandør",
+      "GridAccessProvider": "Netvirksomhed",
+      "ImbalanceSettlementResponsible": "Ubalanceafregningsansvarlig",
+      "MeteredDataAdministrator": "Beskedsadministrator - aggregeringer",
       "MeteredDataResponsible": "Måledataansvarlig",
-      "MeteringPointAdministrator": "Målepunktsadministrator",
-      "ModelMergingAgent": "Modelfusionsagent",
-      "ModellingAuthority": "Modelmyndighed",
-      "NominatedElectricityMarketOperator": "Nomineret elmarkedsoperatør",
-      "NominationValidator": "Nomineringsvalidator",
-      "PartyAdministrator": "Partiadministrator",
-      "PartyConnectedToTheGrid": "Part tilsluttet nettet",
-      "Producer": "Producent",
-      "ProductionResponsibleParty": "Produktionsansvarlig",
-      "ReconciliationAccountable": "Forsoningsansvarlig",
-      "ReconciliationResponsible": "Afstemningsansvarlig",
-      "ReserveAllocator": "Reservetildeler",
-      "ResourceAggregator": "Ressourceaggregator",
-      "ResourceCapacityMechanismOperator": "Operatør af ressourcekapacitetsmekanisme",
-      "ResourceProvider": "Ressourceudbyder",
-      "Scheduling": "Planlægningsagent",
-      "Agent": "Agent",
-      "SchedulingAreaResponsible": "Planlægningsområde ansvarlig",
+      "MeteringPointAdministrator": "Beskedadministrator",
       "SystemOperator": "Systemoperatør",
-      "TradeResponsibleParty": "Handelsansvarlig part",
-      "TransmissionCapacityAllocator": "Transmissionskapacitetsfordeler",
       "DanishEnergyAgency": "Energistyrelsen",
       "ElOverblik": "ElOverblik",
-      "DataHubAdministrator": "DataHub administrator",
+      "DataHubAdministrator": "DataHub systemadministrator",
       "IndependentAggregator": "Uafhængig aggregator",
       "SerialEnergyTrader": "Seriel elhandler"
     },
+    "marketRoleDescriptions": {
+      "BalanceResponsibleParty": "En Balanceansvarlig Part er ansvarlig for sine ubalancer, dvs. forskellen mellem den energimængde, der fysisk tilføres eller trækkes ud af systemet, og den endelige nominerede energimængde, inklusive enhver ubalancejustering inden for en given ubalanceafviklingsperiode.",
+      "BillingAgent": "Den part, der er ansvarlig for fakturere en anden part (TSO).",
+      "EnergySupplier": "En elleverandør afregner elektricitet til eller fra et målepunkt.",
+      "GridAccessProvider": "En part, der er ansvarlig for håndtering  af målepunktpunkter.",
+      "ImbalanceSettlementResponsible": "En part, der er ansvarlig for afregning af forskellen mellem de aftalte mængder med fysisk levering og de fastsatte mængder af energiprodukter for de Balanceansvarlige i et Planlægningsområde. Bemærk: Den ansvarlige for ubalanceafvikling kan uddelegere faktureringsansvaret til en mere generisk rolle, såsom en faktureringsagent.",
+      "MeteredDataAdministrator": "En part, der er ansvarlig for lagring og distribution af aggregerede data.",
+      "MeteredDataResponsible": "En part, der er ansvarlig for etablering og validering af målte data baseret på de indsamlede data modtaget fra måledataindsamleren. Parten er ansvarlig for historikken for målte data for et målepunkt.",
+      "MeteringPointAdministrator": "En part, der er ansvarlig for at administrere og stille målepunktets karakteristika til rådighed, herunder registrere de parter, der er knyttet til målepunktet. DDZ ift. modtagelse af meddelelser.",
+      "SystemOperator": "Ansvarlig for håndteringen af Energinets priselementer.",
+      "DanishEnergyAgency": "Energistyrelsens adgang til forvaltningsretlige opgaver.",
+      "ElOverblik": "Eloverbliks adgang til kunder og tredieparter.",
+      "DataHubAdministrator": "DataHub adgang til drift og support.",
+      "IndependentAggregator": "Uafhængig aggregator.",
+      "SerialEnergyTrader": "Seriel elhandler."
+    },
     "organization": {
       "topBarTitle": "Organisationer",
+      "organizationsHeader": "Organisationer",
+      "marketRolesHeader": "Markedsroller",
       "columns": {
         "organization": "Organisation",
         "gln": "Aktør id",
@@ -628,8 +610,8 @@
           "zipCodeLabel": "Post nr.",
           "cityLabel": "By",
           "countryLabel": "Land",
+          "domainLabel": "Domæne",
           "commentLabel": "Kommentar",
-          "fieldRequiredErrorText": "Feltet er påkrævet.",
           "countries": {
             "at": "Østrig",
             "be": "Belgien",
@@ -749,8 +731,7 @@
       "dateRangeLabel": "Periode",
       "gridAreaDropDownLabel": "Netområder",
       "creatingBatch": "Starter batch...",
-      "creatingBatchSuccess": "Dit batch er startet.",
-      "creatingBatchError": "Ups! Der opstod en fejl."
+      "creatingBatchSuccess": "Dit batch er startet."
     },
     "searchBatch": {
       "topBarTitle": "Søg batch",
@@ -770,12 +751,10 @@
       },
       "download": "Download",
       "downloadFailed": "Download af basis data fejlede",
-      "Pending": "Afventer",
-      "Executing": "Kører",
-      "Completed": "Afsluttet",
-      "Failed": "Fejl",
-      "loadBatchesFailedTitle": "Ups! Der opstod en fejl",
-      "loadBatchesFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
+      "PENDING": "Afventer",
+      "EXECUTING": "Kører",
+      "COMPLETED": "Afsluttet",
+      "FAILED": "Fejl",
       "noBatchesFound": "Ingen batches fundet",
       "noBatchesHelperText": "Prøv at ændre dine søgeindstillinger",
       "paginator": {
@@ -787,6 +766,28 @@
         "of": "af"
       }
     },
+    "settlementReports": {
+      "topBarTitle": "Afregningsrapporter",
+      "table": {
+        "title": "Processer",
+        "processType": "Procestype",
+        "gridAreaName": "Netområde",
+        "periodStart": "Periode fra",
+        "periodEnd": "Periode til",
+        "executionTimeStart": "Kørsel tid",
+        "emptyTitle": "Ingen processer fundet",
+        "emptyHelperText": "Prøv at ændre dine søgeindstillinger"
+      },
+      "processTypes": {
+        "BalanceFixing": "Balancefiksering"
+      },
+      "filters": {
+        "processType": "Procestype",
+        "gridArea": "Netområde",
+        "period": "Periode",
+        "executionTime": "Kørsel tid"
+      }
+    },
     "calculationSteps": {
       "open": "Åbn",
       "topBarTitle": "Se akkumulerede tidsserier",
@@ -794,25 +795,29 @@
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
       "gridAreaCode": "Netområde ID",
       "type": "Type",
-      "balanceFixing": "Balancefiksering",
-      "loadCalculationStepsFailedTitle": "Ups! Der opstod en fejl",
-      "loadCalculationStepsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
+      "balanceFixing": "Balancefiksering"
+    },
+    "actors": {
+      "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
+      "balanceResponsibles": "Balanceansvarlig",
+      "amountOfResults": "{{length}} Resultater"
     },
     "processStepResults": {
       "step": "Trin {{step}}",
-      "aggregatedProductionPerGridArea": "Aggregeret produktion per netområde",
-      "aggregatedConsumptionPerEnergySupplier": "Aggregeret forbrug per elleverandør",
+      "aggregatedProductionPerGridArea": "Kvartersafregnet forbrug per netområde",
+      "aggregatedConsumptionPerEnergySupplier": "Kvartersafregnet forbrug per elleverandør",
+      "nonProfiledConsumptionPerBalanceResponsible": "Kvartersafregnet forbrug per balanceansvarlig",
       "gridArea": "Netområde",
-      "loadProcessStepResultsErrorTitle": "Ups! Der opstod en fejl",
-      "loadProcessStepResultsErrorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
+      "energySupplier": "El-leverandør",
       "meteringPointType": "Målepunktstype",
       "messageId": "Besked Id",
       "calculationPeriod": "Beregningsperiode",
       "sum": "Sum",
       "min": "Min",
       "max": "Max",
-      "processStepMeteringPointType": {
-        "Production": "Produktion"
+      "timeSeriesType": {
+        "PRODUCTION": "Produktion",
+        "NON_PROFILED_CONSUMPTION": "Timeforbrug"
       }
     },
     "timeSeriesPoints": {
@@ -825,9 +830,7 @@
       "calculationPeriod": "Beregningsperiode",
       "executionTime": "Eksekveringstidspunkt",
       "executionType": "Eksekveringstype",
-      "executionTypeActual": "Faktisk",
-      "errorTitle": "Ups! Der opstod en fejl",
-      "errorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger"
+      "executionTypeActual": "Faktisk"
     },
     "gridAreas": {
       "header": "{{total}} Netområder",
@@ -838,6 +841,21 @@
   },
   "admin": {
     "userManagement": {
+      "inviteUser": {
+        "title": "Inviter bruger",
+        "informations": "Informationer",
+        "addUserRole": "Tildel brugerroller",
+        "inviteUser": "Inviter bruger",
+        "name": "Navn",
+        "userRoles": "Brugerroller",
+        "actor": "Aktør",
+        "firstname": "Fornavn",
+        "lastname": "Efternavn",
+        "email": "Email",
+        "phoneNumber": "Telefonnr.",
+        "phoneNumberError": "Telefonnr. format +45 12345678",
+        "successMessage": "{{ email }} blev inviteret"
+      },
       "download": "Download",
       "drawer": {
         "edit": "Rediger",
@@ -872,10 +890,6 @@
                   "StatusChange": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ changedValueTo }}</b>",
                   "PermissionsChange": "<b>{{ changedByUserName }}</b> ændrede rettigheder på rollen til <b>{{ changedValueTo }}</b>"
                 }
-              },
-              "generalError": {
-                "title": "Der opstod en uventet fejl",
-                "message": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl."
               }
             }
           }
@@ -909,9 +923,10 @@
             "entry": "Ændring"
           },
           "logs": {
-            "roles": {
-              "Added": "<b>{{ changedByUserName }}</b> tilføjede rollen <b>{{ userRoleName }}</b>",
-              "Removed": "<b>{{ changedByUserName }}</b> fjernede rollen <b>{{ userRoleName }}</b>"
+            "auditLogType": {
+              "UserRoleAdded": "<b>{{ changedByUserName }}</b> tilføjede rollen <b>{{ toValue }}</b>",
+              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> fjernede rollen <b>{{ toValue }}</b>",
+              "UserInvite": "<b>{{ changedByUserName }}</b> tilføjede brugeren til aktør <b>{{ toValue }}</b>"
             }
           },
           "generalError": {
@@ -920,11 +935,16 @@
           }
         },
         "users": {
+          "inviteUser": "Inviter bruger",
           "tabLabel": "Brugere",
           "filter": {
-            "status": "Status"
+            "status": "Status",
+            "actor": "Aktør",
+            "userrole": "Brugerrolle"
           },
           "searchPlaceholder": "Søg brugere",
+          "searchActorPlaceHolder": "Vælg aktør",
+          "searchUserRolePlaceHolder": "Vælg brugerrolle",
           "usersHeadline": {
             "singular": "{{ usersCount }} bruger",
             "plural": "{{ usersCount }} brugere"
@@ -937,22 +957,14 @@
               "assignedActors": "Tildelte aktører",
               "status": "Status"
             }
-          },
-          "errors": {
-            "generalError": {
-              "title": "Ups! Der opstod en fejl",
-              "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger.",
-              "button": "Prøv igen"
-            }
           }
         },
         "roles": {
-          "tabLabel": "Bruger roller",
-          "roles": "Bruger roller",
-          "role": "Bruger rolle",
-          "errorTitle": "Ups! Der opstod en fejl",
-          "errorMessage": "Der opstod desværre en fejl, ved hentning af bruger rollerne.",
-          "rolesHeadline": "Bruger roller",
+          "gln": "GLN {{ actorNumber }}",
+          "tabLabel": "Brugerroller",
+          "roles": "Brugerroller",
+          "role": "Brugerrolle",
+          "rolesHeadline": "Brugerroller",
           "filter": {
             "status": "Status",
             "marketRole": "Markedsrolle"
@@ -965,36 +977,28 @@
               "status": "Status"
             }
           },
-          "createuserrole": "Ny bruger rolle",
+          "createuserrole": "Ny brugerrolle",
           "userRolesHeadline": {
-            "singular": "{{ userRolesCount }} Bruger rolle",
-            "plural": "{{ userRolesCount }} Bruger roller"
+            "singular": "{{ userRolesCount }} Brugerrolle",
+            "plural": "{{ userRolesCount }} Brugerroller"
           }
         },
         "permissions": {
           "tabLabel": "Rettigheder"
-        },
-        "errors": {
-          "generalError": {
-            "title": "Ups! Der opstod en fejl",
-            "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger.",
-            "button": "Prøv igen"
-          }
         }
       },
       "createrole": {
-        "headline": "Ny bruger rolle",
-        "save": "Opret bruger rolle",
+        "headline": "Ny brugerrolle",
+        "save": "Opret brugerrolle",
         "cancel": "Annuller",
         "createRoleRequest": {
-          "start": "Opretter bruger rolle",
-          "error": "Der opstod desværre en fejl, da vi skulle oprette bruger rollen.",
-          "success": "Bruger rollen er oprettet"
+          "start": "Opretter brugerrolle",
+          "error": "Der opstod desværre en fejl, da vi skulle oprette brugerrollen.",
+          "success": "Brugerrollen er oprettet"
         },
         "tabs": {
           "masterdata": {
             "tabLabel": "Stamdata",
-            "fieldRequiredErrorText": "Feltet er påkrævet.",
             "nameMaxLengthErrorText": "Navn skal være under 250 karakterer",
             "name": "Navn",
             "description": "Beskrivelse",
@@ -1006,12 +1010,7 @@
           "permissions": {
             "tabLabel": "Rettigheder",
             "title": "Rettigheder",
-            "table": {
-              "columns": {
-                "name": "Navn",
-                "description": "Beskrivelse"
-              }
-            }
+            "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle"
           }
         }
       },
@@ -1025,11 +1024,36 @@
         }
       },
       "editUserRole": {
-        "cancel": "Fortryd",
+        "saveSuccess": "Brugerrollen blev opdateret",
+        "saveError": "Noget gik galt. Brugerrollen blev ikke opdateret. Prøv igen",
         "tab": {
-          "masterData": "Stamdata",
-          "permissions": "Rettigheder"
+          "masterData": {
+            "tabLabel": "Stamdata",
+            "nameInputLabel": "Navn",
+            "descriptionInputLabel": "Beskrivelse"
+          },
+          "permissions": {
+            "tabLabel": "Rettigheder",
+            "title": "Rettigheder",
+            "onEditMessage": "Ved fjern/tilføj af rettigheder til en brugerrolle, kan det tage op til en time, før ændringer træder i kraft, efter de er gemt. Alternativt kan brugere logge ud og ind, hvis ændringer skal træde i kraft med det samme."
+          },
+          "validationErrors": {
+            "nameAlreadyExists": "En bruger rolle med dette navn findes allerede",
+            "required": "Feltet er påkrævet",
+            "permissionRequired": "Vælg minimum én rettighed"
+          }
+        },
+        "cancel": "Fortryd",
+        "save": "Gem"
+      },
+      "permissionsTable": {
+        "columns": {
+          "name": "Navn",
+          "description": "Beskrivelse"
         }
+      },
+      "permissionsTab": {
+        "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle"
       }
     }
   }

@@ -22,16 +22,29 @@ import { PushModule } from '@rx-angular/template/push';
 import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import {
+  DhAdminUserManagementDataAccessApiStore,
+  DhAdminUserRolesManagementDataAccessApiStore,
+  DhUserActorsDataAccessApiStore,
+} from '@energinet-datahub/dh/admin/data-access-api';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { UserStatus } from '@energinet-datahub/dh/shared/domain';
+import {
+  SortDirection,
+  UserOverviewSortProperty,
+  UserStatus,
+} from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
 import { DhUsersTabSearchComponent } from './dh-users-tab-search.component';
 import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.component';
+import { DhUsersTabActorFilterComponent } from './dh-users-tab-actor-filter.component';
+import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filter.component';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhInviteUserModalComponent } from '@energinet-datahub/dh/admin/feature-invite-user-modal';
 
 @Component({
   selector: 'dh-users-tab',
@@ -73,7 +86,11 @@ import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.co
       }
     `,
   ],
-  providers: [provideComponentStore(DhAdminUserManagementDataAccessApiStore)],
+  providers: [
+    provideComponentStore(DhAdminUserManagementDataAccessApiStore),
+    provideComponentStore(DhUserActorsDataAccessApiStore),
+    provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
+  ],
   imports: [
     CommonModule,
     LetModule,
@@ -86,6 +103,11 @@ import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.co
     DhUsersTabStatusFilterComponent,
     DhSharedUiPaginatorComponent,
     DhUsersTabGeneralErrorComponent,
+    DhUsersTabActorFilterComponent,
+    DhUsersTabUserRoleFilterComponent,
+    WattButtonModule,
+    DhPermissionRequiredDirective,
+    DhInviteUserModalComponent,
   ],
 })
 export class DhUsersTabComponent {
@@ -95,12 +117,24 @@ export class DhUsersTabComponent {
   readonly pageIndex$ = this.store.paginatorPageIndex$;
   readonly pageSize$ = this.store.pageSize$;
 
-  readonly isLoading$ = this.store.isLoading$;
+  readonly isLoading$ =
+    this.store.isLoading$ || this.actorStore.isLoading$ || this.userRolesStore.isLoading$;
   readonly hasGeneralError$ = this.store.hasGeneralError$;
 
   readonly initialStatusFilter$ = this.store.initialStatusFilter$;
+  isInviteUserModalVisible = false;
+  readonly actorOptions$ = this.actorStore.actors$;
+  readonly userRolesOptions$ = this.userRolesStore.rolesOptions$;
+  readonly canChooseMultipleActors$ = this.actorStore.canChooseMultipleActors$;
 
-  constructor(private store: DhAdminUserManagementDataAccessApiStore) {}
+  constructor(
+    private store: DhAdminUserManagementDataAccessApiStore,
+    private actorStore: DhUserActorsDataAccessApiStore,
+    private userRolesStore: DhAdminUserRolesManagementDataAccessApiStore
+  ) {
+    this.actorStore.getActors();
+    this.userRolesStore.getRoles();
+  }
 
   onPageChange(event: PageEvent): void {
     this.store.updatePageMetadata({
@@ -117,7 +151,26 @@ export class DhUsersTabComponent {
     this.store.updateStatusFilter(value);
   }
 
+  sortChanged = (sortProperty: UserOverviewSortProperty, direction: SortDirection) =>
+    this.store.updateSort(sortProperty, direction);
+
+  onActorFilterChanged(actorId: string | undefined): void {
+    this.store.updateActorFilter(actorId);
+  }
+
+  onUserRolesFilterChanged(userRoles: string[]): void {
+    this.store.updateUserRoleFilter(userRoles);
+  }
+
   reloadUsers(): void {
     this.store.reloadUsers();
+  }
+
+  modalOnClose(): void {
+    this.isInviteUserModalVisible = false;
+  }
+
+  showInviteUserModal(): void {
+    this.isInviteUserModalVisible = true;
   }
 }

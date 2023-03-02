@@ -72,3 +72,5 @@ $watt-theme: mat.define-light-theme(
 @include mat.legacy-tabs-theme($watt-theme);
 @include mat.legacy-tooltip-theme($watt-theme);
 @include mat.toolbar-theme($watt-theme);
+@include mat.stepper-theme($watt-theme);
+@include mat.divider-theme($watt-theme);

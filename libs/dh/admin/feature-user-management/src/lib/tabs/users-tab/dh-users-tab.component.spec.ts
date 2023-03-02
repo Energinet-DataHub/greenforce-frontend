@@ -26,10 +26,7 @@ import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
-import {
-  UserOverviewItemDto,
-  UserStatus,
-} from '@energinet-datahub/dh/shared/domain';
+import { UserOverviewItemDto, UserStatus } from '@energinet-datahub/dh/shared/domain';
 
 import { DhUsersTabComponent } from './dh-users-tab.component';
 import { of } from 'rxjs';
@@ -60,11 +57,7 @@ describe(DhUsersTabComponent.name, () => {
     );
 
     const { fixture } = await render(DhUsersTabComponent, {
-      imports: [
-        getTranslocoTestingModule(),
-        HttpClientModule,
-        DhApiModule.forRoot(),
-      ],
+      imports: [getTranslocoTestingModule(), HttpClientModule, DhApiModule.forRoot()],
       componentProviders: [storeMock],
     });
 
@@ -95,10 +88,7 @@ describe(DhUsersTabComponent.name, () => {
       name: new RegExp(testUser.phoneNumber ?? '', 'i'),
     });
     const status = screen.getByRole('gridcell', {
-      name: new RegExp(
-        enTranslations.admin.userManagement.userStatus.active,
-        'i'
-      ),
+      name: new RegExp(enTranslations.admin.userManagement.userStatus.active, 'i'),
     });
 
     expect(name).toBeInTheDocument();

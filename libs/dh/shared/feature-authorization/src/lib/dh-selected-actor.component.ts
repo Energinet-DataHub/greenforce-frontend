@@ -29,14 +29,7 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
   styleUrls: ['./dh-selected-actor.component.scss'],
   templateUrl: './dh-selected-actor.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    LetModule,
-    PushModule,
-    WattIconModule,
-    WattSpinnerModule,
-    OverlayModule,
-  ],
+  imports: [CommonModule, LetModule, PushModule, WattIconModule, WattSpinnerModule, OverlayModule],
 })
 export class DhSelectedActorComponent {
   actorGroups$ = this.store.actorGroups$;

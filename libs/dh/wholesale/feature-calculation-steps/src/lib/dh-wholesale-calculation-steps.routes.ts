@@ -15,10 +15,13 @@
  * limitations under the License.
  */
 import { Routes } from '@angular/router';
-import { DhWholesaleProductionPerGridareaComponent } from './steps/production-per-gridarea.component';
-import { DhWholesaleConsumptionPerEnergySupplierComponent } from './steps/consumption-per-energy-supplier.component';
+import { DhWholesaleProductionPerGridareaComponent } from './steps/1-production-per-grid-area.component';
+import { DhWholesaleConsumptionPerEnergySupplierComponent } from './steps/2-consumption-per-energy-supplier.component';
 
 export const DhWholesaleCalculationStepsRoutes: Routes = [
   { path: '1', component: DhWholesaleProductionPerGridareaComponent },
-  { path: '2', component: DhWholesaleConsumptionPerEnergySupplierComponent },
+  {
+    path: '2/:gln',
+    component: DhWholesaleConsumptionPerEnergySupplierComponent,
+  },
 ];

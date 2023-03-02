@@ -31,15 +31,10 @@ interface AuditLogEntry {
 
 @Component({
   selector: 'dh-market-participant-gridarea-details-auditlog',
-  styleUrls: [
-    './dh-market-participant-gridarea-details-auditlog.component.scss',
-  ],
-  templateUrl:
-    './dh-market-participant-gridarea-details-auditlog.component.html',
+  styleUrls: ['./dh-market-participant-gridarea-details-auditlog.component.scss'],
+  templateUrl: './dh-market-participant-gridarea-details-auditlog.component.html',
 })
-export class DhMarketParticipantGridAreaDetailsAuditLogComponent
-  implements OnChanges
-{
+export class DhMarketParticipantGridAreaDetailsAuditLogComponent implements OnChanges {
   constructor(private translocoServie: TranslocoService) {}
 
   @Input() isLoading = false;
@@ -52,14 +47,11 @@ export class DhMarketParticipantGridAreaDetailsAuditLogComponent
     this.rows = this.auditLogEntries
       .map((entry) => {
         const translatedField = this.translocoServie.translate(
-          'marketParticipant.gridAreas.detailsAuditLog.fields.' +
-            entry.field.toLowerCase()
+          'marketParticipant.gridAreas.detailsAuditLog.fields.' + entry.field.toLowerCase()
         );
         const userDisplayName =
           entry.userDisplayName ??
-          this.translocoServie.translate(
-            'marketParticipant.gridAreas.detailsAuditLog.unknown'
-          );
+          this.translocoServie.translate('marketParticipant.gridAreas.detailsAuditLog.unknown');
         const message = this.translocoServie.translate(
           'marketParticipant.gridAreas.detailsAuditLog.messageKey',
           {

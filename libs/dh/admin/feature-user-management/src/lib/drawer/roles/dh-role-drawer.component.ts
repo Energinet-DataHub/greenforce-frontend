@@ -14,23 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, inject, Output, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 
-import {
-  WattDrawerComponent,
-  WattDrawerModule,
-} from '@energinet-datahub/watt/drawer';
+import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
@@ -46,37 +37,8 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   selector: 'dh-role-drawer',
   standalone: true,
   templateUrl: './dh-role-drawer.component.html',
-  styles: [
-    `
-      .role-name__grid {
-        display: flex;
-        align-items: center;
-        gap: var(--watt-space-s);
-        margin-bottom: 28px; /* Magic UX number */
-      }
-
-      .role-name__headline {
-        margin: 0;
-      }
-
-      .user-role {
-        &__spinner {
-          display: flex;
-          justify-content: center;
-          padding: var(--watt-space-l) 0;
-        }
-
-        &__error {
-          padding: var(--watt-space-xl) 0;
-        }
-      }
-    `,
-  ],
-  providers: [
-    provideComponentStore(
-      DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
-    ),
-  ],
+  styleUrls: [`./dh-role-drawer.component.scss`],
+  providers: [provideComponentStore(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore)],
   imports: [
     CommonModule,
     TranslocoModule,
@@ -93,19 +55,15 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   ],
 })
 export class DhRoleDrawerComponent {
-  private readonly store = inject(
-    DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
-  );
+  private readonly store = inject(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore);
+  private basicUserRole: UserRoleDto | null = null;
 
   userRoleWithPermissions$ = this.store.userRole$;
-
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
-
-  basicUserRole: UserRoleDto | null = null;
 
   isEditUserRoleModalVisible = false;
 
@@ -121,6 +79,14 @@ export class DhRoleDrawerComponent {
     this.basicUserRole = role;
     this.drawer.open();
     this.loadUserRoleWithPermissions();
+  }
+
+  modalOnClose({ saveSuccess }: { saveSuccess: boolean }): void {
+    this.isEditUserRoleModalVisible = false;
+
+    if (saveSuccess) {
+      this.loadUserRoleWithPermissions();
+    }
   }
 
   loadUserRoleWithPermissions() {

@@ -38,9 +38,7 @@ limitations under the License.
         [min]="minDate"
         [max]="maxDate"
       ></watt-datepicker>
-      <watt-error
-        *ngIf="createBatchForm.controls.dateRange.errors?.rangeRequired"
-      >
+      <watt-error *ngIf="createBatchForm.controls.dateRange.errors?.rangeRequired">
         {{ transloco("startBatch.dateRangeRequired") }}
       </watt-error>
       <watt-error
@@ -55,9 +53,7 @@ limitations under the License.
 
     <!-- Grid areas -->
     <watt-form-field>
-      <watt-label>{{
-        transloco("startBatch.gridAreaDropDownLabel")
-      }}</watt-label>
+      <watt-label>{{ transloco("startBatch.gridAreaDropDownLabel") }}</watt-label>
       <watt-dropdown
         formControlName="gridAreas"
         [options]="gridAreas"
@@ -84,14 +80,11 @@ limitations under the License.
 </ng-template>
 
 <ng-template #error>
-  <div
-    class="center"
-    *transloco="let transloco; read: 'wholesale.batchDetails'"
-  >
+  <div class="center">
     <watt-empty-state
       icon="custom-power"
-      [title]="transloco('errorTitle')"
-      [message]="transloco('errorMessage')"
+      [title]="'shared.error.title' | transloco"
+      [message]="'shared.error.message' | transloco"
     >
     </watt-empty-state>
   </div>

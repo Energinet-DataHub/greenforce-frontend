@@ -20,19 +20,11 @@ import {
   AddressDto,
   ChangeOrganizationDto,
   ContactCategory,
+  CreateOrganizationDto,
   MarketParticipantHttp,
   OrganizationStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import {
-  catchError,
-  EMPTY,
-  map,
-  Observable,
-  of,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs';
+import { catchError, EMPTY, map, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
 
@@ -41,6 +33,7 @@ export interface OrganizationChanges {
   name?: string;
   businessRegisterIdentifier?: string;
   address: AddressDto;
+  domain?: string;
   comment?: string;
   status?: OrganizationStatus;
 }
@@ -81,34 +74,33 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     super(initialState);
   }
 
-  readonly getOrganizationAndContacts = this.effect(
-    (organizationId$: Observable<string>) =>
-      organizationId$.pipe(
-        tap(() => this.patchState({ isLoading: true })),
-        switchMap((organizationId) => {
-          if (!organizationId) {
+  readonly getOrganizationAndContacts = this.effect((organizationId$: Observable<string>) =>
+    organizationId$.pipe(
+      tap(() => this.patchState({ isLoading: true })),
+      switchMap((organizationId) => {
+        if (!organizationId) {
+          this.patchState({
+            isLoading: false,
+            changes: {
+              address: { country: 'DK' },
+              status: OrganizationStatus.New,
+            },
+          });
+          return EMPTY;
+        }
+        return this.getOrganization(organizationId).pipe(
+          catchError((errorResponse: HttpErrorResponse) => {
             this.patchState({
-              isLoading: false,
-              changes: {
-                address: { country: 'DK' },
-                status: OrganizationStatus.New,
+              validation: {
+                error: parseErrorResponse(errorResponse),
               },
             });
             return EMPTY;
-          }
-          return this.getOrganization(organizationId).pipe(
-            catchError((errorResponse: HttpErrorResponse) => {
-              this.patchState({
-                validation: {
-                  error: parseErrorResponse(errorResponse),
-                },
-              });
-              return EMPTY;
-            })
-          );
-        }),
-        tap(() => this.patchState({ isLoading: false }))
-      )
+          })
+        );
+      }),
+      tap(() => this.patchState({ isLoading: false }))
+    )
   );
 
   readonly save = this.effect((onSaveCompletedFn$: Observable<() => void>) =>
@@ -139,9 +131,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     )
   );
 
-  private readonly saveOrganization = (
-    organizationChanges: OrganizationChanges
-  ) => {
+  private readonly saveOrganization = (organizationChanges: OrganizationChanges) => {
     if (organizationChanges.organizationId !== undefined) {
       return this.httpClient
         .v1MarketParticipantOrganizationUpdateOrganizationPut(
@@ -153,7 +143,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
 
     return this.httpClient
       .v1MarketParticipantOrganizationCreateOrganizationPost(
-        organizationChanges as ChangeOrganizationDto
+        organizationChanges as CreateOrganizationDto
       )
       .pipe(
         map((organizationId) => ({
@@ -165,16 +155,14 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
   };
 
   private readonly getOrganization = (organizationId: string) =>
-    this.httpClient
-      .v1MarketParticipantOrganizationGetOrganizationGet(organizationId)
-      .pipe(
-        tap((organization) =>
-          this.patchState({
-            isEditing: true,
-            changes: { ...organization },
-          })
-        )
-      );
+    this.httpClient.v1MarketParticipantOrganizationGetOrganizationGet(organizationId).pipe(
+      tap((organization) =>
+        this.patchState({
+          isEditing: true,
+          changes: { ...organization },
+        })
+      )
+    );
 
   readonly setMasterDataChanges = (changes: OrganizationChanges) =>
     this.patchState({

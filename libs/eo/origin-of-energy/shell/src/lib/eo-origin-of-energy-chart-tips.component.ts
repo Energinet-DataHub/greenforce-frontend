@@ -24,16 +24,12 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
   template: `
     <mat-card class="tip-card">
       <div class="tip-card-header">
-        <img
-          class="lightbulb-icon"
-          src="/assets/icons/lightbulb.svg"
-          alt="Global goal 7.2"
-        />
+        <img class="lightbulb-icon" src="/assets/icons/lightbulb.svg" alt="Global goal 7.2" />
         <h1>Tip</h1>
       </div>
       <p>
-        You can increase your share of renewable energy by shifting your
-        consumption to periods with more renewable energy in the grid.
+        You can increase your share of renewable energy by shifting your consumption to periods with
+        more renewable energy in the grid.
       </p>
     </mat-card>
   `,

@@ -23,7 +23,6 @@ import { EoConsumptionStore } from './eo-consumption.store';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  providers: [EoConsumptionStore],
   imports: [MatCardModule, CommonModule, WattSpinnerModule],
   selector: 'eo-consumption-page-info',
   styles: [
@@ -49,9 +48,7 @@ import { EoConsumptionStore } from './eo-consumption.store';
       </h1>
     </mat-card>
 
-    <ng-template #loading
-      ><watt-spinner [diameter]="36"></watt-spinner
-    ></ng-template>
+    <ng-template #loading><watt-spinner [diameter]="36"></watt-spinner></ng-template>
   `,
 })
 export class EoConsumptionPageInfoComponent {

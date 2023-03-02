@@ -18,8 +18,12 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Energinet.DataHub.Core.App.WebApp.Authentication;
 using Energinet.DataHub.Core.App.WebApp.Diagnostics.HealthChecks;
-using Energinet.DataHub.Core.App.WebApp.Middleware;
+using Energinet.DataHub.WebApi.GraphQL;
 using Energinet.DataHub.WebApi.Registration;
+using GraphQL;
+using GraphQL.DataLoader;
+using GraphQL.MicrosoftDI;
+using GraphQL.Server.Ui.Playground;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -54,7 +58,6 @@ namespace Energinet.DataHub.WebApi
             services.AddHealthChecks();
 
             services.AddHttpContextAccessor();
-
             // Register the Swagger generator, defining 1 or more Swagger documents.
             services.AddSwaggerGen(config =>
             {
@@ -109,6 +112,19 @@ namespace Energinet.DataHub.WebApi
             var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>()
                                     ?? new ApiClientSettings();
             services.AddDomainClients(apiClientSettings);
+            services.AddGraphQLSchema();
+            services.AddGraphQL(options =>
+                    options.ConfigureExecution((opt, next) =>
+                    {
+                        var listener = opt.RequestServices!.GetRequiredService<DataLoaderDocumentListener>();
+                        opt.Listeners.Add(listener);
+                        opt.EnableMetrics = true;
+                        return next(opt);
+                    })
+                    .AddSystemTextJson()
+                    .AddSchema<GraphQLSchema>()
+                    .AddErrorInfoProvider(opts =>
+                        opts.ExposeExceptionDetails = true));
 
             SetupHealthEndpoints(services, apiClientSettings);
         }
@@ -131,26 +147,33 @@ namespace Energinet.DataHub.WebApi
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseCors();
-
-            if (!Environment.IsDevelopment())
-            {
-                app.UseAuthentication();
-            }
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                var builder = endpoints.MapControllers();
+
+                if (!Environment.IsDevelopment())
+                {
+                    builder.RequireAuthorization();
+                }
 
                 // Health check
                 endpoints.MapLiveHealthChecks();
                 endpoints.MapReadyHealthChecks();
             });
+
+            app.UseGraphQL("/graphql");            // url to host GraphQL endpoint
+            app.UseGraphQLPlayground(
+                "/",                               // url to host Playground at
+                new PlaygroundOptions
+                {
+                    GraphQLEndPoint = "/graphql",         // url of GraphQL endpoint
+                    SubscriptionsEndPoint = "/graphql",   // url of GraphQL endpoint
+                });
         }
 
         protected virtual void SetupHealthEndpoints(IServiceCollection services, ApiClientSettings apiClientSettingsService)

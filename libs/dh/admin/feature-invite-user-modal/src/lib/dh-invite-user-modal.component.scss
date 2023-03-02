@@ -1,0 +1,80 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@use "@energinet-datahub/watt/utils" as watt;
+
+.watt-modal-panel {
+  .mat-horizontal-stepper-header-container {
+    padding-bottom: var(--watt-space-m);
+  }
+
+  mat-divider {
+    color: var(--watt-color-neutral-grey-400);
+    margin: var(--watt-space-m) 0;
+    grid-column: 1/-1;
+  }
+
+  .mat-step-label.mat-step-label-selected {
+    color: var(--watt-color-primary);
+  }
+
+  .mat-form-field-suffix {
+    padding-right: var(--watt-space-s);
+    color: var(--watt-color-neutral-grey-600);
+  }
+
+  .mat-step-label {
+    @include watt.typography-watt-step-label;
+  }
+  .mat-step-header .mat-step-icon-selected {
+    border: solid 1px var(--watt-color-primary);
+    background-color: white;
+    color: var(--watt-color-primary);
+  }
+  .mat-stepper-horizontal-line {
+    margin: 0 5px;
+  }
+  .buttonWrapper {
+    display: flex;
+    width: 100%;
+    padding-top: var(--watt-space-m);
+    & :last-child {
+      margin-left: auto;
+    }
+  }
+  .mat-step-icon-state-error {
+    color: var(--watt-color-state-danger);
+    border: solid 1px var(--watt-color-state-danger);
+  }
+
+  .userInfoForm {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 576px;
+    gap: var(--watt-space-m);
+
+    .firstname,
+    .lastname,
+    .phoneNumber {
+      flex-basis: 48%;
+    }
+
+    .lastname {
+      margin-left: auto;
+    }
+  }
+}

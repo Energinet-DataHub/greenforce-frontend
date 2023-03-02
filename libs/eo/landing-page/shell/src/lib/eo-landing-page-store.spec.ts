@@ -16,10 +16,7 @@
  */
 import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
-import {
-  AuthHttp,
-  AuthOidcQueryParameterName,
-} from '@energinet-datahub/eo/auth/data-access-api';
+import { AuthHttp, AuthOidcQueryParameterName } from '@energinet-datahub/eo/auth/data-access-api';
 import { MockProvider } from 'ng-mocks';
 import { firstValueFrom, of } from 'rxjs';
 import { EoLandingPageStore } from './eo-landing-page.store';
@@ -54,9 +51,9 @@ describe(EoLandingPageStore.name, () => {
     it(`Then the specified return url is equal to the dashboard page`, async () => {
       const baseHref = TestBed.inject(APP_BASE_HREF);
 
-      expect(
-        actualUrl.searchParams.get(AuthOidcQueryParameterName.ReturnUrl)
-      ).toBe(`${baseHref}dashboard`);
+      expect(actualUrl.searchParams.get(AuthOidcQueryParameterName.ReturnUrl)).toBe(
+        `${baseHref}dashboard`
+      );
     });
   });
 });

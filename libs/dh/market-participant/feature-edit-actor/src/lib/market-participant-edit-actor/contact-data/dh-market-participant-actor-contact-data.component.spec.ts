@@ -39,10 +39,7 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
           remove: ActorContactDto[];
         }>,
       },
-      imports: [
-        DhMarketParticipantActorContactDataComponentScam,
-        getTranslocoTestingModule(),
-      ],
+      imports: [DhMarketParticipantActorContactDataComponentScam, getTranslocoTestingModule()],
     });
 
     await runOnPushChangeDetection(view.fixture);

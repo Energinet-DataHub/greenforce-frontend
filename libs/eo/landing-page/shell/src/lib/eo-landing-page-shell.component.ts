@@ -14,9 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { EoCookieBannerComponentComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { Router } from '@angular/router';
+import {
+  EoCookieBannerComponentComponent,
+  EoPopupMessageComponent,
+} from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoLandingPageAudienceComponent } from './eo-landing-page-audience.component';
 import { EoLandingPageCallToActionComponent } from './eo-landing-page-call-to-action.component';
@@ -43,7 +47,8 @@ import { EoLandingPageStore } from './eo-landing-page.store';
     EoLandingPageNotificationComponent,
     EoLandingPageOriginOfEnergyComponent,
     EoCookieBannerComponentComponent,
-    CommonModule,
+    EoPopupMessageComponent,
+    NgIf,
   ],
   selector: 'eo-landing-page-shell',
   styles: [
@@ -72,18 +77,26 @@ import { EoLandingPageStore } from './eo-landing-page.store';
       a {
         color: var(--watt-color-primary);
       }
+
+      .centered {
+        margin: 0 auto;
+        max-width: 960px;
+      }
     `,
   ],
   template: `
-    <eo-cookie-banner
-      *ngIf="!cookiesSet"
-      (accepted)="getBannerStatus()"
-    ></eo-cookie-banner>
+    <eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getCookieStatus()"></eo-cookie-banner>
     <eo-landing-page-header></eo-landing-page-header>
+
     <div class="u-positioning-context">
-      <eo-landing-page-notification
-        class="u-collapse-bottom"
-      ></eo-landing-page-notification>
+      <eo-landing-page-notification class="u-collapse-bottom"></eo-landing-page-notification>
+
+      <eo-popup-message
+        *ngIf="error"
+        class="centered"
+        title="{{ error.title }}"
+        message="{{ error.message }}"
+      ></eo-popup-message>
 
       <eo-landing-page-hero></eo-landing-page-hero>
 
@@ -108,12 +121,23 @@ export class EoLandingPageShellComponent {
     return `${this.presenter.contentMaxWidthPixels}px`;
   }
   cookiesSet: string | null = null;
+  error: { title: string; message: string } | null = null;
 
-  constructor(private presenter: EoLandingPagePresenter) {
-    this.getBannerStatus();
+  constructor(private presenter: EoLandingPagePresenter, private router: Router) {
+    this.getCookieStatus();
+    this.checkForError();
   }
 
-  getBannerStatus() {
+  getCookieStatus() {
     this.cookiesSet = localStorage.getItem('cookiesAccepted');
+  }
+
+  checkForError() {
+    this.error = this.router.getCurrentNavigation()?.extras?.state?.error
+      ? {
+          title: 'An error occurred',
+          message: 'There was an error during login. Please try again.',
+        }
+      : null;
   }
 }

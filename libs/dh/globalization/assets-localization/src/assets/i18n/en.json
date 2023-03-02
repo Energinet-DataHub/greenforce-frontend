@@ -6,6 +6,16 @@
     "logout": "Sign out"
   },
   "shared": {
+    "error": {
+      "title": "An unexpected error occured",
+      "message": "Unfortunately, an error occurred while retrieving the necessary information.",
+      "button": "Try again"
+    },
+    "fieldRequiredErrorText": "Field is required.",
+    "navigation": {
+      "next": "Next",
+      "previous": "Previous"
+    },
     "paginator": {
       "itemsPerPageLabel": "Results per page",
       "of": "of",
@@ -35,7 +45,8 @@
         "menuGroupLabel": "Settlements",
         "startBatch": "Start Batch",
         "searchBatch": "Search Batch",
-        "overview": "Overview"
+        "overview": "Overview",
+        "settlementReports": "Settlement Reports"
       },
       "admin": {
         "menuGroupLabel": "Settings",
@@ -52,9 +63,7 @@
       "clearSearchButton": "Clear search input",
       "searchInvalidLength": "Metering point ID must be an 18-digit number",
       "noMeteringPointFoundTitle": "Sorry, we did not find a metering point match",
-      "noMeteringPointFoundMessage": "Please check the spelling and try again",
-      "serverErrorTitle": "Oops! There was an error",
-      "serverErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information."
+      "noMeteringPointFoundMessage": "Please check the spelling and try again"
     },
     "overview": {
       "breadcrumb": {
@@ -271,7 +280,6 @@
     "sender": "Sender",
     "resolution": "Resolution",
     "effectiveDate": "Effectivedate",
-    "fieldRequiredErrorText": "Field is required.",
     "senderProvidedChargeIdMaxLengthErrorText": "Max 10 characters.",
     "chargeNameMaxLengthErrorText": "Max 132 characters",
     "descriptionMaxLengthErrorText": "Max 2048 characters.",
@@ -402,8 +410,6 @@
         "ThisQuarter": "This quarter",
         "ThisYear": "This year"
       },
-      "loadingErrorTitle": "An unexpected error occured",
-      "loadingErrorMessage": "Try again or contact your system administrator if you keep getting this error.",
       "drawer": {
         "prices": "Prices",
         "messages": "Messages",
@@ -502,7 +508,6 @@
           "labelActorNumber": "Market party Id",
           "labelStatus": "Status",
           "labelActorName": "Actor name",
-          "fieldRequiredErrorText": "Field is required.",
           "statuses": {
             "New": "New",
             "Active": "Active",
@@ -525,62 +530,51 @@
         }
       }
     },
+    "marketRolesOverview": {
+      "marketRoles": "market roles",
+      "download": "Download",
+      "columns": {
+        "name": "Name",
+        "description": "Description"
+      }
+    },
     "marketRoles": {
       "BalanceResponsibleParty": "Balance responsible party",
-      "BalancingServiceProvider": "Balancing service provider",
       "BillingAgent": "Billing agent",
-      "CapacityTrader": "Capacity trader",
-      "Consumer": "Consumer",
-      "ConsumptionResponsibleParty": "Consumption responsible party",
-      "ConsentAdministrator": "Consent administrator",
-      "CoordinatedCapacityCalculator": "Coordinated capacity calculator",
-      "CoordinationCentreOperator": "Coordination centre operator",
-      "DataProvider": "Data provider",
-      "EnergyServiceCompany": "Energy service company",
       "EnergySupplier": "Energy supplier",
-      "EnergyTrader": "Energy trader",
       "GridAccessProvider": "Grid access provider",
       "ImbalanceSettlementResponsible": "Imbalance settlement responsible",
-      "InterconnectionTradeResponsible": "Interconnection trade responsible",
-      "LfcOperator": "LFC operator",
-      "MarketInformationAggregator": "Market information aggregator",
-      "MarketOperator": "Market operator",
-      "MeritOrderListResponsible": "Merit order list responsible",
-      "MeterAdministrator": "Meter administrator",
-      "MeterOperator": "Meter operator",
       "MeteredDataAdministrator": "Metered data administrator",
-      "MeteredDataAggregator": "Metered data aggregator",
-      "MeteredDataCollector": "Metered data collector",
       "MeteredDataResponsible": "Metered data responsible",
       "MeteringPointAdministrator": "Metering point administrator",
-      "ModelMergingAgent": "Model merging agent",
-      "ModellingAuthority": "Modelling authority",
-      "NominatedElectricityMarketOperator": "Nominated electricity market operator",
-      "NominationValidator": "Nomination validator",
-      "PartyAdministrator": "Party administrator",
-      "PartyConnectedToTheGrid": "Party connected to the grid",
-      "Producer": "Producer",
-      "ProductionResponsibleParty": "Production responsible party",
-      "ReconciliationAccountable": "Reconciliation accountable",
-      "ReconciliationResponsible": "Reconciliation responsible",
-      "ReserveAllocator": "Reserve allocator",
-      "ResourceAggregator": "Resource aggregator",
-      "ResourceCapacityMechanismOperator": "Resource capacity mechanism operator",
-      "ResourceProvider": "Resource provider",
-      "Scheduling": "Scheduling agent",
-      "Agent": "Agent",
-      "SchedulingAreaResponsible": "Scheduling area responsible",
       "SystemOperator": "System operator",
-      "TradeResponsibleParty": "Trade responsible party",
-      "TransmissionCapacityAllocator": "Transmission capacity allocator",
-      "DanishEnergyAgency": "Danish energy agency",
+      "DanishEnergyAgency": "Energistyrelsen",
       "ElOverblik": "ElOverblik",
-      "DataHubAdministrator": "DataHub administrator",
-      "IndependentAggregator": "Independent aggregator",
-      "SerialEnergyTrader": "Serial energy trader"
+      "DataHubAdministrator": "DataHub systemadministrator",
+      "IndependentAggregator": "Uafhængig aggregator",
+      "SerialEnergyTrader": "Seriel elhandler"
+    },
+    "marketRoleDescriptions": {
+      "BalanceResponsibleParty": "A Balance Responsible Party is responsible for its imbalances, meaning the difference between the energy volume physically injected to or withdrawn from the system and the final nominated energy volume, including any imbalance adjustment within a given imbalance settlement period.",
+      "BillingAgent": "The party responsible for invoicing a concerned party.",
+      "BalancingServiceProvider": "The party responsible for invoicing a concerned party.",
+      "EnergySupplier": "An Energy Supplier supplies electricity to or takes electricity from a Party Connected to the Grid at an Accounting Point. Additional information: An Accounting Point can only have one Energy Supplier. When additional suppliers are needed the Energy Supplier delivers/takes the difference between established (e.g. measured or calculated) production/consumption and the (accumulated) contracts with other suppliers",
+      "GridAccessProvider": "A party responsible for providing access to the grid through an Accounting Point for energy consumption or production by the Party Connected to the Grid. The Grid Access Provider is also responsible for creating and terminating Accounting Points.",
+      "ImbalanceSettlementResponsible": "A party that is responsible for settlement of the difference between the contracted quantities with physical delivery and the established quantities of energy products for the Balance Responsible Parties in a Scheduling Area. Note: The Imbalance Settlement Responsible may delegate the invoicing responsibility to a more generic role such as a Billing Agent.",
+      "MeteredDataAdministrator": "A party responsible for storing and distributing validated measured data.",
+      "MeteredDataResponsible": "A party responsible for the establishment and validation of measured data based on the collected data received from the Metered Data Collector. The party is responsible for the history of metered data for a Metering Point.",
+      "MeteringPointAdministrator": "A party responsible for administrating and making available the Metering Point characteristics, including registering the parties linked to the Metering Point.",
+      "SystemOperator": " ",
+      "DanishEnergyAgency": " ",
+      "ElOverblik": " ",
+      "DataHubAdministrator": " ",
+      "IndependentAggregator": " ",
+      "SerialEnergyTrader": " "
     },
     "organization": {
       "topBarTitle": "Organisations",
+      "organizationsHeader": "Organisations",
+      "marketRolesHeader": "Market roles",
       "columns": {
         "organization": "Organisation",
         "gln": "Actor Id",
@@ -624,8 +618,8 @@
           "zipCodeLabel": "Zip code",
           "cityLabel": "City",
           "countryLabel": "Country",
+          "domainLabel": "Domain",
           "commentLabel": "Comment",
-          "fieldRequiredErrorText": "Field is required.",
           "countries": {
             "at": "Austria",
             "be": "Belgium",
@@ -766,12 +760,10 @@
       },
       "download": "Download",
       "downloadFailed": "Download of basis data failed",
-      "Pending": "Pending",
-      "Executing": "Running",
-      "Completed": "Finished",
-      "Failed": "Failed",
-      "loadBatchesFailedTitle": "Oops! There was an error",
-      "loadBatchesFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
+      "PENDING": "Pending",
+      "EXECUTING": "Running",
+      "COMPLETED": "Finished",
+      "FAILED": "Failed",
       "noBatchesFound": "No batches found",
       "noBatchesHelperText": "Try changing the search criteria",
       "paginator": {
@@ -783,6 +775,28 @@
         "of": "of"
       }
     },
+    "settlementReports": {
+      "topBarTitle": "Settlement Reports",
+      "table": {
+        "title": "Processes",
+        "processType": "Process type",
+        "gridAreaName": "Grid area",
+        "periodStart": "Period from",
+        "periodEnd": "Period to",
+        "executionTimeStart": "Execution time",
+        "emptyTitle": "No processes found",
+        "emptyHelperText": "Try changing the search criteria"
+      },
+      "processTypes": {
+        "BalanceFixing": "Balance fixing"
+      },
+      "filters": {
+        "processType": "Process type",
+        "gridArea": "Grid area",
+        "period": "Period",
+        "executionTime": "Execution time"
+      }
+    },
     "calculationSteps": {
       "open": "Open",
       "topBarTitle": "See accumulated time series",
@@ -790,25 +804,29 @@
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
       "gridAreaCode": "Grid Area Code",
       "type": "Type",
-      "balanceFixing": "Balance fixing",
-      "loadCalculationStepsFailedTitle": "Oops! There was an error",
-      "loadCalculationStepsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information"
+      "balanceFixing": "Balance fixing"
+    },
+    "actors": {
+      "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
+      "balanceResponsibles": "Balance Responsibles",
+      "amountOfResults": "{{length}} Resultater"
     },
     "processStepResults": {
       "step": "Step {{step}}",
-      "aggregatedProductionPerGridArea": "Aggregated production per grid area",
-      "aggregatedConsumptionPerEnergySupplier": "Aggregated consumption per energy supplier",
+      "aggregatedProductionPerGridArea": "Non-profiled consumption per grid area",
+      "aggregatedConsumptionPerEnergySupplier": "Non-profiled consumption per Energy Supplier",
+      "nonProfiledConsumptionPerBalanceResponsible": "Non-profiled consumption per Balance Responsible Party",
       "gridArea": "Grid area",
-      "loadProcessStepResultsErrorTitle": "Oops! There was an error",
-      "loadProcessStepResultsErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information",
+      "energySupplier": "Energy Supplier",
       "meteringPointType": "Metering point type",
       "messageId": "Message ID",
       "calculationPeriod": "Calculation period",
       "sum": "Sum",
       "min": "Min",
       "max": "Max",
-      "processStepMeteringPointType": {
-        "Production": "Production"
+      "timeSeriesType": {
+        "PRODUCTION": "Production",
+        "NON_PROFILED_CONSUMPTION": "Consumption"
       }
     },
     "timeSeriesPoints": {
@@ -821,9 +839,7 @@
       "calculationPeriod": "Calculation period",
       "executionTime": "Execution time",
       "executionType": "Execution type",
-      "executionTypeActual": "Actual",
-      "errorTitle": "Oops! There was an error",
-      "errorMessage": "Unfortunately, an error occurred while retrieving the necessary information"
+      "executionTypeActual": "Actual"
     },
     "gridAreas": {
       "header": "{{total}} Grid Areas",
@@ -834,6 +850,21 @@
   },
   "admin": {
     "userManagement": {
+      "inviteUser": {
+        "title": "Invite user",
+        "informations": "Informations",
+        "addUserRole": "Add user role",
+        "inviteUser": "Invite user",
+        "name": "Name",
+        "userRoles": "User roles",
+        "actor": "Actor",
+        "firstname": "First name",
+        "lastname": "Last name",
+        "email": "Email",
+        "phoneNumber": "Phone number",
+        "phoneNumberError": "Phone number format +45 12345678",
+        "successMessage": "{{ email }} has been invited"
+      },
       "download": "Download",
       "drawer": {
         "edit": "Edit",
@@ -905,9 +936,10 @@
             "entry": "Change"
           },
           "logs": {
-            "roles": {
-              "Added": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
-              "Removed": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>"
+            "auditLogType": {
+              "UserRoleAdded": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
+              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>",
+              "UserInvite": "<b>{{ changedByUserName }}</b> added user to <b>{{ toValue }}</b> market party"
             }
           },
           "generalError": {
@@ -916,14 +948,19 @@
           }
         },
         "users": {
+          "inviteUser": "Invite user",
           "tabLabel": "Users",
           "searchPlaceholder": "Search users",
+          "searchActorPlaceHolder": "Choose market party",
+          "searchUserRolePlaceHolder": "Choose user role",
           "usersHeadline": {
             "singular": "{{ usersCount }} user",
             "plural": "{{ usersCount }} users"
           },
           "filter": {
-            "status": "Status"
+            "status": "Status",
+            "actor": "Market party",
+            "userrole": "User role"
           },
           "table": {
             "columns": {
@@ -943,11 +980,10 @@
           }
         },
         "roles": {
+          "gln": "GLN {{ actorNumber }}",
           "tabLabel": "User roles",
           "roles": "User roles",
           "role": "User role",
-          "errorTitle": "Oops! There was an error",
-          "errorMessage": "Unfortunately, an error occurred while retrieving the user roles.",
           "rolesHeadline": "User roles",
           "filter": {
             "status": "Status",
@@ -990,7 +1026,6 @@
         "tabs": {
           "masterdata": {
             "tabLabel": "Master data",
-            "fieldRequiredErrorText": "Field is required.",
             "nameMaxLengthErrorText": "Name field must be under 250 characters",
             "name": "Name",
             "description": "Description",
@@ -1002,12 +1037,7 @@
           "permissions": {
             "tabLabel": "Permissions",
             "title": "Permissions",
-            "table": {
-              "columns": {
-                "name": "Name",
-                "description": "Description"
-              }
-            }
+            "noPermissions": "No permissions found for the selected market role"
           }
         }
       },
@@ -1021,10 +1051,32 @@
         }
       },
       "editUserRole": {
-        "cancel": "Cancel",
+        "saveSuccess": "The user role was updated",
+        "saveError": "Something went wrong. The user role could not be updated. Please try again",
         "tab": {
-          "masterData": "Master data",
-          "permissions": "Permissions"
+          "masterData": {
+            "tabLabel": "Master data",
+            "nameInputLabel": "Name",
+            "descriptionInputLabel": "Description"
+          },
+          "permissions": {
+            "tabLabel": "Permissions",
+            "title": "Permissions",
+            "onEditMessage": "When removing/adding rights to a user role, it can take up to an hour for changes to take effect after they have been saved. Alternatively, users can log out and log in if changes are to take effect immediately."
+          },
+          "validationErrors": {
+            "nameAlreadyExists": "The user role already exists",
+            "required": "Field is required",
+            "permissionRequired": "Select at least one permission"
+          }
+        },
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "permissionsTable": {
+        "columns": {
+          "name": "Name",
+          "description": "Description"
         }
       }
     }

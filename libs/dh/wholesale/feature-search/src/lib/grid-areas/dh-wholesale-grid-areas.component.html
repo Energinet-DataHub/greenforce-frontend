@@ -19,7 +19,6 @@ limitations under the License.
     <h3 class="watt-on-light--high-emphasis">
       {{ transloco("header", { total: _data.data.length }) }}
     </h3>
-    <dh-shared-ui-paginator></dh-shared-ui-paginator>
   </watt-card-title>
 
   <!-- Table -->
@@ -42,4 +41,6 @@ limitations under the License.
     [title]="transloco('noGridAreasFound')"
   >
   </watt-empty-state>
+
+  <watt-paginator [for]="_data"></watt-paginator>
 </watt-card>

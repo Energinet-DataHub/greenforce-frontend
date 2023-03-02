@@ -24,18 +24,19 @@ import {
   ViewChild,
 } from '@angular/core';
 import { translate, TranslocoModule } from '@ngneat/transloco';
+import { Subject, takeUntil } from 'rxjs';
 
 import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import {
   WattTableDataSource,
   WattTableColumnDef,
   WATT_TABLE,
   WattTableComponent,
 } from '@energinet-datahub/watt/table';
+
+import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.component';
-import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'dh-roles-tab-table',
@@ -58,9 +59,7 @@ import { Subject, takeUntil } from 'rxjs';
     TranslocoModule,
   ],
 })
-export class DhRolesTabTableComponent
-  implements OnChanges, AfterViewInit, OnDestroy
-{
+export class DhRolesTabTableComponent implements OnChanges, AfterViewInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
   activeRow: UserRoleDto | undefined = undefined;
@@ -75,8 +74,7 @@ export class DhRolesTabTableComponent
   @ViewChild(WattTableComponent<UserRoleDto>)
   table!: WattTableComponent<UserRoleDto>;
 
-  readonly dataSource: WattTableDataSource<UserRoleDto> =
-    new WattTableDataSource<UserRoleDto>();
+  readonly dataSource: WattTableDataSource<UserRoleDto> = new WattTableDataSource<UserRoleDto>();
 
   columns: WattTableColumnDef<UserRoleDto> = {
     name: { accessor: 'name' },
@@ -85,6 +83,9 @@ export class DhRolesTabTableComponent
   };
 
   filteredAndSortedData: UserRoleDto[] = [];
+
+  activeRowComparator = (currentRow: UserRoleDto, activeRow: UserRoleDto): boolean =>
+    currentRow.id === activeRow.id;
 
   translateHeader = (key: string) =>
     translate(`admin.userManagement.tabs.roles.table.columns.${key}`);

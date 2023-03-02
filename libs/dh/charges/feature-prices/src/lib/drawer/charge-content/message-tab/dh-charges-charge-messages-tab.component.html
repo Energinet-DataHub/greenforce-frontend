@@ -16,9 +16,7 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'charges.prices'">
   <div class="datepicker-container">
-    <dh-drawer-datepicker
-      (changed)="dateRangeChanged($event)"
-    ></dh-drawer-datepicker>
+    <dh-drawer-datepicker (changed)="dateRangeChanged($event)"></dh-drawer-datepicker>
   </div>
 
   <div class="card-container">
@@ -26,19 +24,13 @@ limitations under the License.
       <h3>
         <ng-container *ngIf="this.result">
           {{ this.totalCount | push }}
-          {{
-            (this.totalCount | push) === 1
-              ? t("drawer.message")
-              : t("drawer.messages")
-          }}
+          {{ (this.totalCount | push) === 1 ? t("drawer.message") : t("drawer.messages") }}
         </ng-container>
       </h3>
 
       <div class="pagination-container">
         <!-- Pagination -->
-        <dh-shared-ui-paginator
-          (changed)="handlePageEvent($event)"
-        ></dh-shared-ui-paginator>
+        <dh-shared-ui-paginator (changed)="handlePageEvent($event)"></dh-shared-ui-paginator>
       </div>
     </div>
 
@@ -64,9 +56,7 @@ limitations under the License.
       <ng-container *wattTableCell="table.columns.messageType; let element">
         {{ "charges.messageType." + element.messageType | transloco }}<br />
         <span class="subtext">
-          {{
-            "charges.messageTypeAbbreviation." + element.messageType | transloco
-          }}
+          {{ "charges.messageTypeAbbreviation." + element.messageType | transloco }}
         </span>
       </ng-container>
     </watt-table>
@@ -77,9 +67,7 @@ limitations under the License.
     </div>
 
     <!-- Empty -->
-    <ng-container
-      *ngIf="(chargeMessagesNotFound | push) && result && result.length === 0"
-    >
+    <ng-container *ngIf="(chargeMessagesNotFound | push) && result && result.length === 0">
       <watt-empty-state
         class="no-result-div"
         icon="custom-explore"
@@ -95,8 +83,8 @@ limitations under the License.
       <watt-empty-state
         class="loading-error"
         icon="custom-power"
-        title="{{ t('loadingErrorTitle') }}"
-        message="{{ t('loadingErrorMessage') }}"
+        title="{{ 'shared.error.title' | transloco }}"
+        message="{{ 'shared.error.message' | transloco }}"
       ></watt-empty-state>
     </ng-container>
   </div>

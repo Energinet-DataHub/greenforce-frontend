@@ -35,12 +35,7 @@ import {
 } from '@angular/core';
 import type { QueryList } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  MatSort,
-  MatSortModule,
-  Sort,
-  SortDirection,
-} from '@angular/material/sort';
+import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { map, type Subscription } from 'rxjs';
 import { WattCheckboxModule } from '../checkbox';
@@ -131,21 +126,13 @@ export interface WattSortableDataSource<T> extends DataSource<T> {
  */
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatSortModule,
-    MatTableModule,
-    WattCheckboxModule,
-  ],
+  imports: [CommonModule, FormsModule, MatSortModule, MatTableModule, WattCheckboxModule],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-table',
   styleUrls: ['./watt-table.component.scss'],
   templateUrl: './watt-table.component.html',
 })
-export class WattTableComponent<T>
-  implements OnChanges, AfterViewInit, OnDestroy
-{
+export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestroy {
   /**
    * The table's source of data. Property should not be changed after
    * initialization, instead update the data on the instance itself.
@@ -211,6 +198,12 @@ export class WattTableComponent<T>
   selectable = false;
 
   /**
+   * Sets the initially selected rows. Only works when selectable is `true`.
+   */
+  @Input()
+  initialSelection: T[] = [];
+
+  /**
    * Set to true to disable row hover highlight.
    */
   @Input()
@@ -273,11 +266,12 @@ export class WattTableComponent<T>
   _subscription!: Subscription;
 
   /** @ignore */
+  private isInitialSelectionSet = false;
+
+  /** @ignore */
   private getCellData(row: T, column?: WattTableColumn<T>) {
     if (!column?.accessor) return null;
-    return typeof column.accessor === 'function'
-      ? column.accessor(row)
-      : row[column.accessor];
+    return typeof column.accessor === 'function' ? column.accessor(row) : row[column.accessor];
   }
 
   ngAfterViewInit() {
@@ -301,13 +295,25 @@ export class WattTableComponent<T>
         .map((key) => this.columns[key].size)
         .map((size) => size ?? 'auto');
 
-      // Add space for extra checkbox column
-      if (this.selectable) sizing.unshift('var(--watt-space-xl)');
+      if (this.selectable) {
+        // Add space for extra checkbox column
+        sizing.unshift('var(--watt-space-xl)');
+      }
 
       this._element.nativeElement.style.setProperty(
         '--watt-table-grid-template-columns',
         sizing.join(' ')
       );
+    }
+
+    if (changes.selectable?.currentValue && !this.isInitialSelectionSet) {
+      // Note: The reason for having a flag here is because we want the initial selection
+      // to be set only once when `selectable` Input is `true`.
+      // Without the flag, the selection will be set every time `selectable` Input is set to `true`.
+      // This might lead to losing already selected items.
+      this.isInitialSelectionSet = true;
+
+      this._selectionModel.setSelection(...this.initialSelection);
     }
   }
 
@@ -315,11 +321,18 @@ export class WattTableComponent<T>
     this._subscription.unsubscribe();
   }
 
+  /**
+   * Clears the selection. Only works when selectable is `true`.
+   */
+  clearSelection() {
+    if (this.selectable) {
+      this._selectionModel.clear();
+    }
+  }
+
   /** @ignore */
   get _columnSelection() {
-    return this.dataSource.filteredData.every((row) =>
-      this._selectionModel.isSelected(row)
-    );
+    return this.dataSource.filteredData.every((row) => this._selectionModel.isSelected(row));
   }
 
   /** @ignore */
@@ -327,7 +340,7 @@ export class WattTableComponent<T>
     if (value) {
       this._selectionModel.setSelection(...this.dataSource.filteredData);
     } else {
-      this._selectionModel.clear();
+      this.clearSelection();
     }
   }
 

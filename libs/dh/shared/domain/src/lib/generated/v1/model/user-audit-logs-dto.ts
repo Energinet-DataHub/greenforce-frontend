@@ -9,11 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { UserRoleAssignmentAuditLogDto } from './user-role-assignment-audit-log-dto';
+import { UserAuditLogDto } from './user-audit-log-dto';
 
 
 export interface UserAuditLogsDto { 
-    roleAssignmentAuditLogs: Array<UserRoleAssignmentAuditLogDto>;
+    userAuditLogs: Array<UserAuditLogDto>;
 }
 
 

@@ -9,7 +9,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ActorDto } from './actor-dto';
 import { OrganizationStatus } from './organization-status';
 import { AddressDto } from './address-dto';
 
@@ -18,10 +17,10 @@ export interface OrganizationDto {
     organizationId: string;
     name: string;
     businessRegisterIdentifier: string;
+    domain: string;
     comment: string;
     status: OrganizationStatus;
     address: AddressDto;
-    actors: Array<ActorDto>;
 }
 
 

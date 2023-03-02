@@ -65,24 +65,15 @@ import { map, take, tap, timer } from 'rxjs';
   ],
   template: `
     <span class="watt-headline-3 modal-header">Automatic logout</span>
-    <watt-button
-      variant="icon"
-      icon="close"
-      class="modal-close"
-      (click)="close()"
-    ></watt-button>
+    <watt-button variant="icon" icon="close" class="modal-close" (click)="close()"></watt-button>
     <div class="content">
       <p>You will be logged out in:</p>
-      <span class="watt-headline-1">{{
-        countDownTimer$ | async | date: 'mm:ss'
-      }}</span>
+      <span class="watt-headline-1">{{ countDownTimer$ | async | date: 'mm:ss' }}</span>
       <br />
       <p>We are logging you out for security reasons.</p>
     </div>
     <div class="actions">
-      <watt-button variant="secondary" (click)="close('logout')">
-        Log out
-      </watt-button>
+      <watt-button variant="secondary" (click)="close('logout')"> Log out </watt-button>
       <watt-button (click)="close()"> Stay logged in </watt-button>
     </div>
   `,
@@ -103,7 +94,5 @@ export class EoIdleTimerCountdownModalComponent {
     this.dialogRef.close(action);
   }
 
-  constructor(
-    private dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent>
-  ) {}
+  constructor(private dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent>) {}
 }

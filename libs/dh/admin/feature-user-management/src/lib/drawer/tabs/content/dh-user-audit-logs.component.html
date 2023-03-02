@@ -23,16 +23,10 @@ limitations under the License.
     <ng-container *ngIf="!isLoading">
       <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
         <watt-card-title *rxLet="auditLogCount$ as auditLogCount">
-          <h4
-            *ngIf="auditLogCount === 1 && !hasGeneralError"
-            class="change-text"
-          >
+          <h4 *ngIf="auditLogCount === 1 && !hasGeneralError" class="change-text">
             {{t("changesSingular", {auditLogCount})}}
           </h4>
-          <h4
-            *ngIf="auditLogCount !== 1 && !hasGeneralError"
-            class="change-text"
-          >
+          <h4 *ngIf="auditLogCount !== 1 && !hasGeneralError" class="change-text">
             {{t("changesPlural", {auditLogCount})}}
           </h4>
         </watt-card-title>
@@ -52,9 +46,7 @@ limitations under the License.
 
           <ng-container *wattTableCell="columns['entry']; let element">
             <div
-              [innerHTML]="
-                t('logs.roles.' + element.entry.assignmentType, element.entry)
-              "
+              [innerHTML]="t('logs.auditLogType.' + element.entry.auditLogType, element.entry)"
             ></div>
           </ng-container>
         </watt-table>
@@ -62,8 +54,8 @@ limitations under the License.
         <watt-empty-state
           *ngIf="hasGeneralError"
           icon="custom-power"
-          [title]="t('generalError.title')"
-          [message]="t('generalError.message')"
+          [title]="'shared.error.title' | transloco"
+          [message]="'shared.error.message' | transloco"
         ></watt-empty-state>
 
         <ng-container *rxLet="auditLogCount$ as auditLogCount">

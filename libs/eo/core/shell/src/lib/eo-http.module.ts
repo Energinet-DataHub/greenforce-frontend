@@ -15,12 +15,7 @@
  * limitations under the License.
  */
 import { HttpClientModule } from '@angular/common/http';
-import {
-  ModuleWithProviders,
-  NgModule,
-  Optional,
-  SkipSelf,
-} from '@angular/core';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import {
   eoAuthenticationInterceptorProvider,
   eoAuthorizationInterceptorProvider,
@@ -31,10 +26,7 @@ import {
  */
 @NgModule({
   imports: [HttpClientModule],
-  providers: [
-    eoAuthenticationInterceptorProvider,
-    eoAuthorizationInterceptorProvider,
-  ],
+  providers: [eoAuthenticationInterceptorProvider, eoAuthorizationInterceptorProvider],
 })
 export class EoHttpRootModule {
   constructor(
@@ -65,8 +57,6 @@ export class EoHttpModule {
   }
 
   constructor() {
-    throw new Error(
-      'Do not import EoHttpModule directly. Use EoHttpModule.forRoot.'
-    );
+    throw new Error('Do not import EoHttpModule directly. Use EoHttpModule.forRoot.');
   }
 }

@@ -23,7 +23,6 @@ import { EoProductionStore } from './eo-production.store';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  providers: [EoProductionStore],
   imports: [MatCardModule, CommonModule, WattSpinnerModule],
   selector: 'eo-production-info',
   styles: [
@@ -49,9 +48,7 @@ import { EoProductionStore } from './eo-production.store';
       </h1>
     </mat-card>
 
-    <ng-template #loading
-      ><watt-spinner [diameter]="36"></watt-spinner
-    ></ng-template>
+    <ng-template #loading><watt-spinner [diameter]="36"></watt-spinner></ng-template>
   `,
 })
 export class EoProductionInfoComponent {

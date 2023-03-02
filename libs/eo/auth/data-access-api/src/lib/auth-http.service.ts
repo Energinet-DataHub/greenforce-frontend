@@ -16,10 +16,7 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import {
-  EoApiEnvironment,
-  eoApiEnvironmentToken,
-} from '@energinet-datahub/eo/shared/environments';
+import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { Observable } from 'rxjs';
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
 
@@ -38,27 +35,6 @@ export interface AuthTermsResponse {
   readonly version: string;
 }
 
-export interface AuthTermsAcceptResponse {
-  /**
-   * A string
-   */
-  readonly next_url: string;
-}
-
-export interface AuthTermsAcceptRequest {
-  /**
-   * A boolean
-   */
-  accepted: boolean;
-  /**
-   * A string: I.eg: "0.1"
-   */
-  version: string;
-  /**
-   * ?
-   */
-  state: string;
-}
 export interface AuthLogoutResponse {
   readonly success: boolean;
 }
@@ -88,10 +64,7 @@ export class AuthHttp {
    * @param feUrl Base URL for authentication web app.
    * @param returnUrl Absolute URL to return to after authentication.
    */
-  getOidcLogin(
-    feUrl: string,
-    returnUrl: string
-  ): Observable<AuthOidcLoginResponse> {
+  getOidcLogin(feUrl: string, returnUrl: string): Observable<AuthOidcLoginResponse> {
     return this.http.get<AuthOidcLoginResponse>(`${this.#apiBase}/oidc/login`, {
       params: {
         [AuthOidcQueryParameterName.FeUrl]: feUrl,
@@ -114,17 +87,5 @@ export class AuthHttp {
 
   getTerms(): Observable<AuthTermsResponse> {
     return this.http.get<AuthTermsResponse>(`${this.#apiBase}/terms`);
-  }
-
-  postAcceptTerms(
-    payload: AuthTermsAcceptRequest
-  ): Observable<AuthTermsAcceptResponse> {
-    return this.http.post<AuthTermsAcceptResponse>(
-      `${this.#apiBase}/terms/accept`,
-      payload,
-      {
-        withCredentials: true,
-      }
-    );
   }
 }

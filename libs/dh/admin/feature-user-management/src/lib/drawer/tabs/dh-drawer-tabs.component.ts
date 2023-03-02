@@ -21,7 +21,7 @@ import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhUserMasterDataComponent } from './content/dh-user-master-data.component';
-import { DhUserRolesComponent } from './content/dh-user-roles.component';
+import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { DhUserAuditLogsComponent } from './content/dh-user-audit-logs.component';
 
 @Component({

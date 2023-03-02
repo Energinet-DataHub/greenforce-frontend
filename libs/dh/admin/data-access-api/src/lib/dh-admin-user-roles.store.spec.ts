@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 import {
+  EicFunction,
+  MarketParticipantUserRoleAssignmentHttp,
   MarketParticipantUserRoleHttp,
   UserRolesViewDto,
 } from '@energinet-datahub/dh/shared/domain';
@@ -33,6 +35,7 @@ describe('DhAdminUserRolesStore', () => {
             id: '1',
             actorNumber: '1',
             name: 'Actor 1',
+            actorMarketRoles: [{ eicFunction: EicFunction.BalanceResponsibleParty }],
             userRoles: [
               {
                 id: '1',
@@ -50,11 +53,14 @@ describe('DhAdminUserRolesStore', () => {
     const observable = new Subject<UserRolesViewDto>();
 
     const httpClient = {
-      v1MarketParticipantUserRoleGetUserRoleViewGet: () =>
-        observable.asObservable(),
+      v1MarketParticipantUserRoleGetUserRoleViewGet: () => observable.asObservable(),
     } as MarketParticipantUserRoleHttp;
 
-    const store = new DhAdminUserRolesStore(httpClient);
+    const httpClient1 = {
+      v1MarketParticipantUserRoleAssignmentUpdateAssignmentsPut: () => observable.asObservable(),
+    } as MarketParticipantUserRoleAssignmentHttp;
+
+    const store = new DhAdminUserRolesStore(httpClient, httpClient1);
 
     store.getUserRolesView('1');
     observable.next(userRoleView);
@@ -69,11 +75,14 @@ describe('DhAdminUserRolesStore', () => {
     const observable = new Subject<UserRolesViewDto>();
 
     const httpClient = {
-      v1MarketParticipantUserRoleGetUserRoleViewGet: () =>
-        observable.asObservable(),
+      v1MarketParticipantUserRoleGetUserRoleViewGet: () => observable.asObservable(),
     } as MarketParticipantUserRoleHttp;
 
-    const store = new DhAdminUserRolesStore(httpClient);
+    const httpClient1 = {
+      v1MarketParticipantUserRoleAssignmentUpdateAssignmentsPut: () => observable.asObservable(),
+    } as MarketParticipantUserRoleAssignmentHttp;
+
+    const store = new DhAdminUserRolesStore(httpClient, httpClient1);
 
     const spyOnCall = jest.spyOn(store.hasGeneralError$, 'next');
 
@@ -89,11 +98,14 @@ describe('DhAdminUserRolesStore', () => {
     const observable = new Subject<UserRolesViewDto>();
 
     const httpClient = {
-      v1MarketParticipantUserRoleGetUserRoleViewGet: () =>
-        observable.asObservable(),
+      v1MarketParticipantUserRoleGetUserRoleViewGet: () => observable.asObservable(),
     } as MarketParticipantUserRoleHttp;
 
-    const store = new DhAdminUserRolesStore(httpClient);
+    const httpClient1 = {
+      v1MarketParticipantUserRoleAssignmentUpdateAssignmentsPut: () => observable.asObservable(),
+    } as MarketParticipantUserRoleAssignmentHttp;
+
+    const store = new DhAdminUserRolesStore(httpClient, httpClient1);
 
     const spyOnCall = jest.spyOn(store.hasGeneralError$, 'next');
 

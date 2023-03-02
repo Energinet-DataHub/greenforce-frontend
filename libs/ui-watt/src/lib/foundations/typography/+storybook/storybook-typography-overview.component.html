@@ -66,11 +66,7 @@ limitations under the License.
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td
-        mat-cell
-        *matCellDef="let element"
-        innerHTML="{{ element.html }}"
-      ></td>
+      <td mat-cell *matCellDef="let element" innerHTML="{{ element.html }}"></td>
     </ng-container>
 
     <!-- Size Column -->
@@ -119,11 +115,7 @@ limitations under the License.
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td
-        mat-cell
-        *matCellDef="let element"
-        innerHTML="{{ element.html }}"
-      ></td>
+      <td mat-cell *matCellDef="let element" innerHTML="{{ element.html }}"></td>
     </ng-container>
 
     <!-- Size Column -->
@@ -163,9 +155,7 @@ limitations under the License.
 
 <mat-card
   ><h3>Text Color</h3>
-  <p>
-    Create better contrast by displaying the text colors with reduced opacity.
-  </p>
+  <p>Create better contrast by displaying the text colors with reduced opacity.</p>
   <div style="display: grid; grid-template-columns: 418px 1fr; gap: 32px">
     <div>
       <p>On light backgrounds use $on-light</p>
@@ -173,53 +163,25 @@ limitations under the License.
         style="background-color: var(--watt-color-neutral-grey-100)"
         class="watt-space-inset-stretch-m"
       >
-        <table
-          style="width: 100%"
-          aria-label="On light backgrounds use $on-light"
-        >
+        <table style="width: 100%" aria-label="On light backgrounds use $on-light">
           <tr>
             <th style="text-align: left"><label>TEXT</label></th>
             <th style="text-align: right"><label>OPACITY</label></th>
           </tr>
           <tr>
-            <td class="watt-on-light--high-emphasis">
-              Primary text color (high-emphasis)
-            </td>
-            <td
-              style="text-align: right; color: var(--watt-color-primary-dark)"
-            >
-              100 %
-            </td>
+            <td class="watt-on-light--high-emphasis">Primary text color (high-emphasis)</td>
+            <td style="text-align: right; color: var(--watt-color-primary-dark)">100 %</td>
           </tr>
           <tr>
-            <td class="watt-on-light--medium-emphasis">
-              Secondary text color (medium-emphasis)
-            </td>
-            <td
-              style="text-align: right; color: var(--watt-color-primary-dark)"
-            >
-              74 %
-            </td>
+            <td class="watt-on-light--medium-emphasis">Secondary text color (medium-emphasis)</td>
+            <td style="text-align: right; color: var(--watt-color-primary-dark)">74 %</td>
           </tr>
           <tr>
-            <td class="watt-on-light--low-emphasis">
-              Disabled text color (low-emphasis)
-            </td>
-            <td
-              style="text-align: right; color: var(--watt-color-primary-dark)"
-            >
-              38 %
-            </td>
+            <td class="watt-on-light--low-emphasis">Disabled text color (low-emphasis)</td>
+            <td style="text-align: right; color: var(--watt-color-primary-dark)">38 %</td>
           </tr>
         </table>
-        <div
-          style="
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            padding: 32px 0 24px 0;
-          "
-        >
+        <div style="display: flex; justify-content: center; gap: 12px; padding: 32px 0 24px 0">
           <div
             style="
               width: 25%;
@@ -230,11 +192,7 @@ limitations under the License.
               position: relative;
             "
           >
-            <span
-              style="position: absolute; bottom: -28px; left: 0; width: 100%"
-            >
-              high
-            </span>
+            <span style="position: absolute; bottom: -28px; left: 0; width: 100%"> high </span>
           </div>
           <div
             style="
@@ -246,11 +204,7 @@ limitations under the License.
               position: relative;
             "
           >
-            <span
-              style="position: absolute; bottom: -28px; left: 0; width: 100%"
-            >
-              medium
-            </span>
+            <span style="position: absolute; bottom: -28px; left: 0; width: 100%"> medium </span>
           </div>
           <div
             style="
@@ -262,10 +216,7 @@ limitations under the License.
               position: relative;
             "
           >
-            <span
-              style="position: absolute; bottom: -28px; left: 0; width: 100%"
-              >low</span
-            >
+            <span style="position: absolute; bottom: -28px; left: 0; width: 100%">low</span>
           </div>
         </div>
       </div>
@@ -276,64 +227,29 @@ limitations under the License.
         style="background-color: var(--watt-color-primary-dark)"
         class="watt-space-inset-stretch-m"
       >
-        <table
-          style="width: 100%"
-          aria-label="On dark backgrounds use $on-dark"
-        >
+        <table style="width: 100%" aria-label="On dark backgrounds use $on-dark">
           <tr>
             <th style="text-align: left">
-              <label style="color: var(--watt-color-neutral-grey-50)"
-                >TEXT</label
-              >
+              <label style="color: var(--watt-color-neutral-grey-50)">TEXT</label>
             </th>
             <th style="text-align: right">
-              <label style="color: var(--watt-color-neutral-grey-50)"
-                >OPACITY</label
-              >
+              <label style="color: var(--watt-color-neutral-grey-50)">OPACITY</label>
             </th>
           </tr>
           <tr>
             <td class="watt-on-dark--high-emphasis">Primary text color</td>
-            <td
-              style="
-                text-align: right;
-                color: var(--watt-color-neutral-grey-50);
-              "
-            >
-              87 %
-            </td>
+            <td style="text-align: right; color: var(--watt-color-neutral-grey-50)">87 %</td>
           </tr>
           <tr>
             <td class="watt-on-dark--medium-emphasis">Secondary text color</td>
-            <td
-              style="
-                text-align: right;
-                color: var(--watt-color-neutral-grey-50);
-              "
-            >
-              62 %
-            </td>
+            <td style="text-align: right; color: var(--watt-color-neutral-grey-50)">62 %</td>
           </tr>
           <tr>
             <td class="watt-on-dark--low-emphasis">Disabled text color</td>
-            <td
-              style="
-                text-align: right;
-                color: var(--watt-color-neutral-grey-50);
-              "
-            >
-              38 %
-            </td>
+            <td style="text-align: right; color: var(--watt-color-neutral-grey-50)">38 %</td>
           </tr>
         </table>
-        <div
-          style="
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            padding: 32px 0 24px 0;
-          "
-        >
+        <div style="display: flex; justify-content: center; gap: 12px; padding: 32px 0 24px 0">
           <div
             style="
               width: 25%;

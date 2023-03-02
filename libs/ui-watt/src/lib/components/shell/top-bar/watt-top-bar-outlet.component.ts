@@ -53,12 +53,10 @@ export class WattTopBarOutletComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.hide(); // Hide until we have a template to show
-    this.topBarService.template
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((template) => {
-        this.detach();
-        this.attach(template);
-      });
+    this.topBarService.template.pipe(takeUntil(this.destroy$)).subscribe((template) => {
+      this.detach();
+      this.attach(template);
+    });
   }
 
   ngOnDestroy(): void {

@@ -108,12 +108,8 @@ describe(DhChargeContentComponent.name, () => {
   it('displays a date range', async () => {
     await setup();
 
-    const startDateInput = await waitFor(() =>
-      findInputElement(startDateInputSelector)
-    );
-    const endDateInput = await waitFor(() =>
-      findInputElement(endDateInputSelector)
-    );
+    const startDateInput = await waitFor(() => findInputElement(startDateInputSelector));
+    const endDateInput = await waitFor(() => findInputElement(endDateInputSelector));
 
     expect(startDateInput).toBeInTheDocument();
     expect(endDateInput).toBeInTheDocument();
@@ -122,19 +118,11 @@ describe(DhChargeContentComponent.name, () => {
   it.skip('date range should default to today', async () => {
     await setup();
 
-    const startDateInput = await waitFor(() =>
-      findInputElement(startDateInputSelector)
-    );
-    const endDateInput = await waitFor(() =>
-      findInputElement(endDateInputSelector)
-    );
+    const startDateInput = await waitFor(() => findInputElement(startDateInputSelector));
+    const endDateInput = await waitFor(() => findInputElement(endDateInputSelector));
 
     const now = new Date();
-    const expectedDate = formatInTimeZone(
-      now,
-      danishTimeZoneIdentifier,
-      dateTimeFormat
-    );
+    const expectedDate = formatInTimeZone(now, danishTimeZoneIdentifier, dateTimeFormat);
 
     expect(startDateInput.value).toEqual(expectedDate);
     expect(endDateInput.value).toEqual(expectedDate);
@@ -146,18 +134,10 @@ describe(DhChargeContentComponent.name, () => {
     const now = new Date();
     const tomorrow = add(now, { days: 1 });
 
-    let startDateInput = await waitFor(() =>
-      findInputElement(startDateInputSelector)
-    );
-    let endDateInput = await waitFor(() =>
-      findInputElement(endDateInputSelector)
-    );
+    let startDateInput = await waitFor(() => findInputElement(startDateInputSelector));
+    let endDateInput = await waitFor(() => findInputElement(endDateInputSelector));
 
-    const newDateToInput = formatInTimeZone(
-      tomorrow,
-      danishTimeZoneIdentifier,
-      'ddMMyyyy'
-    );
+    const newDateToInput = formatInTimeZone(tomorrow, danishTimeZoneIdentifier, 'ddMMyyyy');
 
     userEvent.clear(startDateInput);
     startDateInput.setSelectionRange(0, 0);
@@ -172,11 +152,7 @@ describe(DhChargeContentComponent.name, () => {
     startDateInput = findInputElement(startDateInputSelector);
     endDateInput = findInputElement(endDateInputSelector);
 
-    const expectedNewDate = formatInTimeZone(
-      tomorrow,
-      danishTimeZoneIdentifier,
-      dateTimeFormat
-    );
+    const expectedNewDate = formatInTimeZone(tomorrow, danishTimeZoneIdentifier, dateTimeFormat);
 
     expect(startDateInput.value).toEqual(expectedNewDate);
     expect(endDateInput.value).toEqual(expectedNewDate);

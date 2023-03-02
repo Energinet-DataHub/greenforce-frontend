@@ -189,10 +189,8 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       switchMap(([onSaveCompletedFn, state]) => {
         return this.saveActor(state).pipe(
           switchMap((actorId) =>
-            this.removeContacts(state.organizationId, actorId, state).pipe(
-              switchMap(() =>
-                this.addContacts(state.organizationId, actorId, state)
-              )
+            this.removeContacts(actorId, state).pipe(
+              switchMap(() => this.addContacts(actorId, state))
             )
           ),
           tapResponse(
@@ -270,7 +268,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       return of(undefined);
     }
     return this.httpClient
-      .v1MarketParticipantOrganizationGetActorGet(organizationId, actorId)
+      .v1MarketParticipantOrganizationGetActorGet(actorId)
       .pipe(
         tap((response) => {
           this.patchState({
@@ -295,29 +293,17 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       .pipe(catchError(this.handleError));
   };
 
-  private readonly getContacts = ({
-    organizationId,
-    actorId,
-  }: {
-    organizationId: string;
-    actorId: string;
-  }) => {
+  private readonly getContacts = ({ actorId }: { organizationId: string; actorId: string }) => {
     if (!actorId) {
       return of([]);
     }
-    return this.httpClient
-      .v1MarketParticipantOrganizationGetContactsGet(organizationId, actorId)
-      .pipe(
-        tap((response) => this.patchState({ contacts: response })),
-        catchError(this.handleError)
-      );
+    return this.httpClient.v1MarketParticipantOrganizationGetContactsGet(actorId).pipe(
+      tap((response) => this.patchState({ contacts: response })),
+      catchError(this.handleError)
+    );
   };
 
-  private readonly removeContacts = (
-    organizationId: string,
-    actorId: string,
-    state: MarketParticipantEditActorState
-  ) => {
+  private readonly removeContacts = (actorId: string, state: MarketParticipantEditActorState) => {
     if (state.contactChanges.removedContacts.length === 0) {
       return of({ ...state, contactsRemoved: true });
     }
@@ -325,7 +311,6 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     return forkJoin(
       state.contactChanges.removedContacts.map((contact) =>
         this.httpClient.v1MarketParticipantOrganizationDeleteContactDelete(
-          organizationId,
           actorId,
           contact.contactId
         )
@@ -333,11 +318,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     ).pipe(map(() => ({ ...state, contactsRemoved: true })));
   };
 
-  private readonly addContacts = (
-    organizationId: string,
-    actorId: string,
-    state: MarketParticipantEditActorState
-  ) => {
+  private readonly addContacts = (actorId: string, state: MarketParticipantEditActorState) => {
     if (state.contactChanges.addedContacts.length === 0) {
       return of({ ...state, contactsAdded: true });
     }
@@ -345,7 +326,6 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     return forkJoin(
       state.contactChanges.addedContacts.map((c) =>
         this.httpClient.v1MarketParticipantOrganizationCreateContactPost(
-          organizationId,
           actorId,
           c as CreateActorContactDto
         )
@@ -367,20 +347,17 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     const actorId = state.actorId;
     if (actorId !== undefined) {
       return this.httpClient
-        .v1MarketParticipantOrganizationUpdateActorPut(
-          state.organizationId,
-          actorId,
-          {
-            marketRoles: state.marketRoleChanges.marketRoles,
-            status: state.changes.status,
-            name: { value: state.changes.name },
-          }
-        )
+        .v1MarketParticipantOrganizationUpdateActorPut(actorId, {
+          marketRoles: state.marketRoleChanges.marketRoles,
+          status: state.changes.status,
+          name: { value: state.changes.name },
+        })
         .pipe(map(() => actorId));
     }
 
     return this.httpClient
-      .v1MarketParticipantOrganizationCreateActorPost(state.organizationId, {
+      .v1MarketParticipantOrganizationCreateActorPost({
+        organizationId: state.organizationId,
         actorNumber: { value: state.changes.actorNumber },
         name: { value: state.changes.name },
         marketRoles: state.marketRoleChanges.marketRoles,

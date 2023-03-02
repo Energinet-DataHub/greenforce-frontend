@@ -54,3 +54,20 @@ export const withoutTitle: Story<WattCardComponent> = (args) => ({
 });
 
 withoutTitle.args = {};
+
+export const cardWithVariant: Story<WattCardComponent> = (args) => ({
+  props: args,
+  template: `
+  <watt-card variant="${args.variant}">
+    <watt-card-title>
+      <h3>Title</h3>
+    </watt-card-title>
+
+    Content
+  </watt-card>
+  `,
+});
+
+cardWithVariant.args = {
+  variant: 'solid',
+};

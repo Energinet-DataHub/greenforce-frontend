@@ -16,10 +16,7 @@
  */
 import { render, screen } from '@testing-library/angular';
 
-import {
-  EoProductLogoComponent,
-  EoProductLogoDirective,
-} from './eo-product-logo.directive';
+import { EoProductLogoComponent, EoProductLogoDirective } from './eo-product-logo.directive';
 
 describe(EoProductLogoDirective.name, () => {
   beforeEach(async () => {
@@ -37,9 +34,6 @@ describe(EoProductLogoDirective.name, () => {
   });
 
   it('renders the product logo', () => {
-    expect(hostElement).toHaveAttribute(
-      'src',
-      expect.stringMatching(/\/energy-origin-logo.svg$/)
-    );
+    expect(hostElement).toHaveAttribute('src', expect.stringMatching(/\/energy-origin-logo.svg$/));
   });
 });

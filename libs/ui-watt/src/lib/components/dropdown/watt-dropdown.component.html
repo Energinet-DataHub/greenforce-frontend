@@ -17,7 +17,6 @@ limitations under the License.
 <mat-select
   [formControl]="matSelectControl"
   [placeholder]="placeholder"
-  [disabled]="disabled"
   #matSelect
   [multiple]="multiple"
   [disableOptionCentering]="true"
@@ -43,10 +42,7 @@ limitations under the License.
 
   <mat-option *ngIf="!multiple && showResetOption">{{ emDash }}</mat-option>
 
-  <mat-option
-    *ngFor="let option of filteredOptions$ | push"
-    [value]="option.value"
-  >
+  <mat-option *ngFor="let option of filteredOptions$ | push" [value]="option.value">
     {{ option.displayValue }}
   </mat-option>
 </mat-select>

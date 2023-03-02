@@ -22,17 +22,9 @@ import { EicFunction } from '@energinet-datahub/dh/shared/domain';
 export class MarketRoleService {
   getAvailableMarketRoles = [
     EicFunction.GridAccessProvider,
-    EicFunction.MeterAdministrator,
-    EicFunction.MeterOperator,
-    EicFunction.MeteredDataCollector,
-    EicFunction.PartyConnectedToTheGrid,
     EicFunction.SystemOperator,
     EicFunction.BalanceResponsibleParty,
-    EicFunction.ConsumptionResponsibleParty,
-    EicFunction.ProductionResponsibleParty,
-    EicFunction.TradeResponsibleParty,
     EicFunction.EnergySupplier,
-    EicFunction.EnergyTrader,
     EicFunction.MeteredDataResponsible,
     EicFunction.ImbalanceSettlementResponsible,
     EicFunction.MeteringPointAdministrator,
@@ -41,22 +33,11 @@ export class MarketRoleService {
   ];
 
   validEicFunctionGroups = [
-    [
-      EicFunction.GridAccessProvider,
-      EicFunction.MeterAdministrator,
-      EicFunction.MeterOperator,
-      EicFunction.MeteredDataCollector,
-      EicFunction.PartyConnectedToTheGrid,
-      EicFunction.MeteredDataResponsible,
-    ],
+    [EicFunction.GridAccessProvider, EicFunction.MeteredDataResponsible],
     [EicFunction.SystemOperator],
     [
       EicFunction.BalanceResponsibleParty,
-      EicFunction.ConsumptionResponsibleParty,
-      EicFunction.ProductionResponsibleParty,
-      EicFunction.TradeResponsibleParty,
       EicFunction.EnergySupplier,
-      EicFunction.EnergyTrader,
       EicFunction.MeteredDataResponsible,
     ],
     [EicFunction.ImbalanceSettlementResponsible],
@@ -65,10 +46,7 @@ export class MarketRoleService {
     [EicFunction.DanishEnergyAgency],
   ];
 
-  notValidInAnySelectionGroup(
-    item: EicFunction,
-    currentSelectedList: Array<EicFunction>
-  ): boolean {
+  notValidInAnySelectionGroup(item: EicFunction, currentSelectedList: Array<EicFunction>): boolean {
     if (currentSelectedList.length === 0) {
       return false;
     }
@@ -85,10 +63,7 @@ export class MarketRoleService {
       }
     }
 
-    const result = possibleGroups.reduce(
-      (accumulator, value) => accumulator.concat(value),
-      []
-    );
+    const result = possibleGroups.reduce((accumulator, value) => accumulator.concat(value), []);
 
     return result.indexOf(item) < 0;
   }

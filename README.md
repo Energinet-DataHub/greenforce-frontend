@@ -3,7 +3,7 @@
 
 # GreenForce
 
-[![GitHub Workflow Status (event)](https://img.shields.io/github/workflow/status/Energinet-DataHub/greenforce-frontend/DH%20Frontend%20CD?event=push)](https://github.com/Energinet-DataHub/greenforce-frontend/actions/workflows/dh-frontend-cd.yml)
+[![GitHub Workflow Status (event)](https://img.shields.io/github/actions/workflow/status/Energinet-DataHub/greenforce-frontend/dh-cd.yml?branch=main)](https://github.com/Energinet-DataHub/greenforce-frontend/actions/workflows/dh-cd.yml)
 [![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/geh-frontend-app/main?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=geh-frontend-app)
 [![Codecov](https://img.shields.io/codecov/c/github/Energinet-DataHub/greenforce-frontend)](https://app.codecov.io/gh/Energinet-DataHub/greenforce-frontend)
 [![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/Energinet-DataHub/greenforce-frontend/@angular/core?label=angular)](https://github.com/angular/angular/blob/main/CHANGELOG.md)
@@ -68,7 +68,7 @@ The application is deployed to five different environments as listed below:
 
 [dh-u-001]: https://jolly-sand-03f839703.azurestaticapps.net
 [dh-u-002]: https://wonderful-field-057109603.1.azurestaticapps.net
-[dh-t-001]: https://lively-river-0f22ad403.azurestaticapps.net
+[dh-t-001]: https://ashy-forest-09ecf8003.2.azurestaticapps.net
 
 <sub>\* This is identical to **U-001**, except it also hosts
 [B2C](https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/).

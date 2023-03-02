@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.drawer'">
-  <watt-drawer #drawer size="large" (closed)="onClose()">
+  <watt-drawer #drawer size="large" (closed)="onClose()" [loading]="isLoading$ | push">
     <watt-drawer-topbar></watt-drawer-topbar>
 
     <watt-drawer-actions>
@@ -28,29 +28,28 @@ limitations under the License.
     </watt-drawer-actions>
 
     <watt-drawer-content *ngIf="drawer.isOpen">
-      <div class="role-name__grid">
-        <h2 class="role-name__headline">{{ basicUserRole?.name }}</h2>
-        <dh-role-status
-          *ngIf="basicUserRole"
-          [status]="basicUserRole.status"
-        ></dh-role-status>
-      </div>
       <ng-container *rxLet="isLoading$ as isLoading">
-        <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
-          <dh-drawer-role-tabs
-            *ngIf="!isLoading && !hasGeneralError"
-            [role]="userRoleWithPermissions$ | push"
-          ></dh-drawer-role-tabs>
+        <ng-container *ngIf="!isLoading">
+          <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+            <ng-container *ngIf="!hasGeneralError">
+              <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
+                <div class="role-name__grid">
+                  <h2 class="role-name__headline">
+                    {{ userRoleWithPermissions.name }}
+                  </h2>
+                  <dh-role-status [status]="userRoleWithPermissions.status"></dh-role-status>
+                </div>
 
-          <div *ngIf="isLoading" class="user-role__spinner">
-            <watt-spinner></watt-spinner>
-          </div>
+                <dh-drawer-role-tabs [role]="userRoleWithPermissions"></dh-drawer-role-tabs>
+              </ng-container>
+            </ng-container>
 
-          <div *ngIf="!isLoading && hasGeneralError" class="user-role__error">
-            <dh-tab-data-general-error
-              (reload)="loadUserRoleWithPermissions()"
-            ></dh-tab-data-general-error>
-          </div>
+            <div *ngIf="hasGeneralError" class="user-role__error">
+              <dh-tab-data-general-error
+                (reload)="loadUserRoleWithPermissions()"
+              ></dh-tab-data-general-error>
+            </div>
+          </ng-container>
         </ng-container>
       </ng-container>
     </watt-drawer-content>
@@ -58,6 +57,6 @@ limitations under the License.
 
   <dh-edit-user-role-modal
     *ngIf="isEditUserRoleModalVisible"
-    (closed)="isEditUserRoleModalVisible = false"
+    (closed)="modalOnClose($event)"
   ></dh-edit-user-role-modal>
 </ng-container>

@@ -25,11 +25,7 @@ limitations under the License.
   [attr.aria-label]="description"
   (matSortChange)="sortChange.emit($event)"
 >
-  <ng-container
-    *ngIf="selectable"
-    [matColumnDef]="_checkboxColumn"
-    [sticky]="true"
-  >
+  <ng-container *ngIf="selectable" [matColumnDef]="_checkboxColumn" [sticky]="true">
     <th mat-header-cell *matHeaderCellDef class="watt-table-checkbox-cell">
       <watt-checkbox [(ngModel)]="_columnSelection"></watt-checkbox>
     </th>
@@ -41,10 +37,7 @@ limitations under the License.
       ></watt-checkbox>
     </td>
   </ng-container>
-  <ng-container
-    *ngFor="let column of columns | keyvalue"
-    [matColumnDef]="column.key"
-  >
+  <ng-container *ngFor="let column of columns | keyvalue" [matColumnDef]="column.key">
     <th
       mat-header-cell
       *matHeaderCellDef
@@ -57,19 +50,11 @@ limitations under the License.
         {{ _getColumnHeader(column) }}
       </div>
     </th>
-    <td
-      mat-cell
-      *matCellDef="let row"
-      class="watt-table-align-{{ column.value.align ?? 'left' }}"
-    >
+    <td mat-cell *matCellDef="let row" class="watt-table-align-{{ column.value.align ?? 'left' }}">
       <ng-template #default>{{ _getColumnCell(column, row) }}</ng-template>
-      <ng-container
-        *ngIf="_getColumnTemplate(column.value) as template; else default"
-      >
+      <ng-container *ngIf="_getColumnTemplate(column.value) as template; else default">
         <div>
-          <ng-container
-            *ngTemplateOutlet="template; context: { $implicit: row }"
-          ></ng-container>
+          <ng-container *ngTemplateOutlet="template; context: { $implicit: row }"></ng-container>
         </div>
       </ng-container>
     </td>

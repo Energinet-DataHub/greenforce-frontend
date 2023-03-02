@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import {
@@ -27,7 +27,6 @@ import {
   CalendarDateRange,
   EoFeatureFlagDirective,
 } from '@energinet-datahub/eo/shared/services';
-import { LetModule } from '@rx-angular/template/let';
 import { EoProductionLineChartComponent } from './eo-production-chart-card.component';
 import { EoProductionInfoComponent } from './eo-production-info.component';
 import { EoProductionTipComponent } from './eo-production-tip.component';
@@ -39,8 +38,8 @@ import { EoProductionStore } from './eo-production.store';
   imports: [
     EoPopupMessageComponent,
     EoFeatureFlagDirective,
-    CommonModule,
-    LetModule,
+    NgIf,
+    AsyncPipe,
     EoDatePickerComponent,
     EoResolutionPickerComponent,
     EoStackComponent,
@@ -59,23 +58,18 @@ import { EoProductionStore } from './eo-production.store';
     `,
   ],
   template: `
-    <ng-container *rxLet="error$ as error">
-      <eo-popup-message *ngIf="error" [errorMessage]="error">
-      </eo-popup-message>
-    </ng-container>
+    <eo-popup-message *ngIf="error$ | async"></eo-popup-message>
     <div class="content">
       <eo-stack size="L">
         <eo-production-info></eo-production-info>
         <eo-production-line-chart></eo-production-line-chart>
         <eo-date-picker
           [onFeatureFlag]="'daterange'"
-          *rxLet="appSettingsDates$ as dates"
+          *ngIf="appSettingsDates$ | async as dates"
           [dateRangeInput]="dates"
           (newDates)="setNewAppDates($event)"
         ></eo-date-picker>
-        <eo-resolution-picker
-          [onFeatureFlag]="'resolution'"
-        ></eo-resolution-picker>
+        <eo-resolution-picker [onFeatureFlag]="'resolution'"></eo-resolution-picker>
       </eo-stack>
       <eo-stack size="L">
         <eo-production-tip></eo-production-tip>

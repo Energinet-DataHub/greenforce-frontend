@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ModuleWithProviders,
-  NgModule,
-  Optional,
-  SkipSelf,
-} from '@angular/core';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
 /**
@@ -57,8 +52,6 @@ export class EoMaterialModule {
   }
 
   constructor() {
-    throw new Error(
-      'Do not import EoMaterialModule directly. Use EoMaterialModule.forRoot.'
-    );
+    throw new Error('Do not import EoMaterialModule directly. Use EoMaterialModule.forRoot.');
   }
 }

@@ -16,52 +16,56 @@ limitations under the License.
 -->
 
 <ng-container *transloco="let t; read: 'marketParticipant.organization'">
-  <ng-container *rxLet="isLoading$ as isLoading">
-    <!-- Validation -->
-    <ng-container *rxLet="validationError$ as validationError">
-      <watt-validation-message
-        type="danger"
-        *ngIf="validationError"
-        [message]="validationError.errorMessage"
-      >
-      </watt-validation-message>
-    </ng-container>
+  <watt-tabs>
+    <watt-tab [label]="t('organizationsHeader')">
+      <ng-container *rxLet="isLoading$ as isLoading">
+        <!-- Validation -->
+        <ng-container *rxLet="validationError$ as validationError">
+          <watt-validation-message
+            type="danger"
+            *ngIf="validationError"
+            [message]="validationError.errorMessage"
+          >
+          </watt-validation-message>
+        </ng-container>
 
-    <!-- Header -->
-    <div
-      class="create-organization-block watt-space-stack-m"
-      *dhPermissionRequired="['organization:manage']"
-    >
-      <watt-button
-        variant="primary"
-        [disabled]="isLoading"
-        (click)="createOrganization()"
-        >{{ t("createOrganization") }}
-      </watt-button>
-    </div>
+        <!-- Header -->
+        <div
+          class="create-organization-block watt-space-stack-m"
+          *dhPermissionRequired="['organization:manage']"
+        >
+          <watt-button variant="primary" [disabled]="isLoading" (click)="createOrganization()"
+            >{{ t("createOrganization") }}
+          </watt-button>
+        </div>
 
-    <!-- Table -->
-    <dh-market-participant-organization-overview
-      [rows]="overviewList$ | push"
-      [gridAreas]="gridAreas$ | push"
-      (editOrganization)="editOrganization($event)"
-      (createActor)="createActor($event)"
-      (editActor)="editActor($event.organizationId, $event.actorId)"
-    ></dh-market-participant-organization-overview>
+        <!-- Table -->
+        <dh-market-participant-organization-overview
+          [rows]="overviewList$ | push"
+          [gridAreas]="gridAreas$ | push"
+          (editOrganization)="editOrganization($event)"
+          (createActor)="createActor($event)"
+          (editActor)="editActor($event.organizationId, $event.actorId)"
+        ></dh-market-participant-organization-overview>
 
-    <!-- Spinner -->
-    <div *ngIf="isLoading" class="overview__spinner spinner-container">
-      <watt-spinner></watt-spinner>
-    </div>
+        <!-- Spinner -->
+        <div *ngIf="isLoading" class="overview__spinner spinner-container">
+          <watt-spinner></watt-spinner>
+        </div>
 
-    <!-- Empty -->
-    <ng-container *rxLet="overviewList$ as overviewList">
-      <watt-empty-state
-        *ngIf="!isLoading && overviewList.length === 0"
-        icon="custom-power"
-        size="small"
-        [title]="t('noOrganizations')"
-      ></watt-empty-state>
-    </ng-container>
-  </ng-container>
+        <!-- Empty -->
+        <ng-container *rxLet="overviewList$ as overviewList">
+          <watt-empty-state
+            *ngIf="!isLoading && overviewList.length === 0"
+            icon="custom-power"
+            size="small"
+            [title]="t('noOrganizations')"
+          ></watt-empty-state>
+        </ng-container>
+      </ng-container>
+    </watt-tab>
+    <watt-tab [label]="t('marketRolesHeader')">
+      <dh-market-participant-market-roles-overview></dh-market-participant-market-roles-overview>
+    </watt-tab>
+  </watt-tabs>
 </ng-container>

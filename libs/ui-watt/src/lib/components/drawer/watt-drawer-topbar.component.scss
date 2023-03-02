@@ -17,15 +17,11 @@
 :host {
   align-items: center;
   background-color: var(--watt-color-neutral-white);
-  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
   display: flex;
   gap: var(--watt-space-s);
-  margin: calc(1.5 * var(--watt-space-m));
-  margin-bottom: var(--watt-space-s);
+  margin: calc(1.5 * var(--watt-space-m)) 0 calc(1.5 * var(--watt-space-m))
+    calc(1.5 * var(--watt-space-m));
   position: sticky;
   top: 0;
-
-  .close-btn {
-    margin-left: auto;
-  }
+  flex-grow: 1;
 }

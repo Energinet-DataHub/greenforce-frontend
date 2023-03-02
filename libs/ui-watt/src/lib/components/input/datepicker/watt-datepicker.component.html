@@ -42,7 +42,6 @@ limitations under the License.
   </mat-date-range-input>
 
   <watt-button
-    wattSuffix
     variant="icon"
     icon="date"
     [disabled]="disabled"
@@ -83,8 +82,5 @@ limitations under the License.
     (focusout)="onFocusOut($event)"
   ></watt-button>
 
-  <mat-datepicker
-    #singleDatepicker
-    panelClass="watt-datepicker-single__panel"
-  ></mat-datepicker>
+  <mat-datepicker #singleDatepicker panelClass="watt-datepicker-single__panel"></mat-datepicker>
 </ng-template>

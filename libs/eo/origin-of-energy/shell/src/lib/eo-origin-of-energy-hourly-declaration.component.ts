@@ -24,13 +24,12 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
   template: `<mat-card class="description-card">
     <p class="watt-space-stack-m"><strong>Hourly Declaration</strong></p>
     <p class="watt-space-stack-m">
-      The hourly declaration describes the origin of the energy you have
-      consumed within a given period as well as the corresponding emissions.
+      The hourly declaration describes the origin of the energy you have consumed within a given
+      period as well as the corresponding emissions.
     </p>
     <p>
-      The declaration is calculated as a weighted average based on your hourly
-      electricity consumption and the corresponding hourly residual mix in your
-      bidding zone.
+      The declaration is calculated as a weighted average based on your hourly electricity
+      consumption and the corresponding hourly residual mix in your bidding zone.
     </p>
   </mat-card>`,
   styles: [

@@ -14,43 +14,30 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *transloco="let t; read: 'admin.userManagement.tabs.users.table.columns'"
->
+<ng-container *transloco="let t; read: 'admin.userManagement.tabs.users.table.columns'">
   <watt-table
     [dataSource]="dataSource"
     [columns]="columns"
     (rowClick)="onRowClick($event)"
     [activeRow]="activeRow"
+    sortBy="email"
+    sortDirection="asc"
     [sortClear]="false"
   >
     <ng-container *wattTableCell="columns.name; header: t('name'); let element">
       {{ element.name }}
     </ng-container>
 
-    <ng-container
-      *wattTableCell="columns.email; header: t('email'); let element"
-    >
+    <ng-container *wattTableCell="columns.email; header: t('email'); let element">
       {{ element.email }}
     </ng-container>
 
-    <ng-container
-      *wattTableCell="columns.phone; header: t('phone'); let element"
-    >
+    <ng-container *wattTableCell="columns.phoneNumber; header: t('phone'); let element">
       {{ element.phoneNumber | dhEmDashFallback }}
     </ng-container>
 
-    <ng-container
-      *wattTableCell="
-        columns.assignedActors;
-        header: t('assignedActors');
-        let element
-      "
-    >
-      <p
-        class="assigned-actor-item"
-        *ngFor="let assignedActor of element.assignedActors"
-      >
+    <ng-container *wattTableCell="columns.assignedActors; header: t('assignedActors'); let element">
+      <p class="assigned-actor-item" *ngFor="let assignedActor of element.assignedActors">
         {{ assignedActor.actor.actorNumber }}
         <ng-container *ngIf="assignedActor.actor.name">
           - {{ assignedActor.actor.name }}
@@ -58,9 +45,7 @@ limitations under the License.
       </p>
     </ng-container>
 
-    <ng-container
-      *wattTableCell="columns.status; header: t('status'); let element"
-    >
+    <ng-container *wattTableCell="columns.status; header: t('status'); let element">
       <dh-user-status [status]="element.status"></dh-user-status>
     </ng-container>
   </watt-table>

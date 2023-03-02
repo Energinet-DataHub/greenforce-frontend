@@ -47,9 +47,7 @@ const routes: Routes = [
     path: 'terms',
     data: { title: 'Terms' },
     loadChildren: () =>
-      import('@energinet-datahub/eo/auth/feature-terms').then(
-        (esModule) => esModule.EoAuthFeatureTermsModule
-      ),
+      import('@energinet-datahub/eo/terms').then((esModule) => esModule.EoTermsModule),
   },
   {
     path: '',
@@ -114,9 +112,7 @@ const routes: Routes = [
       {
         path: eoHelpRoutePath,
         loadChildren: () =>
-          import('@energinet-datahub/eo/help/shell').then(
-            (esModule) => esModule.EoHelpModule
-          ),
+          import('@energinet-datahub/eo/help/shell').then((esModule) => esModule.EoHelpModule),
       },
       {
         path: eoPrivacyPolicyRoutePath,

@@ -33,15 +33,9 @@ import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy
 import { FormsModule } from '@angular/forms';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import {
-  WattDropdownModule,
-  WattDropdownOption,
-} from '@energinet-datahub/watt/dropdown';
+import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import {
-  ActorContactDto,
-  ContactCategory,
-} from '@energinet-datahub/dh/shared/domain';
+import { ActorContactDto, ContactCategory } from '@energinet-datahub/dh/shared/domain';
 
 interface EditableActorContactRow {
   contact: ActorContactDto;
@@ -69,19 +63,16 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
 
   columnIds = ['type', 'name', 'email', 'phone', 'delete'];
 
-  contactCategories: WattDropdownOption[] = Object.keys(ContactCategory).map(
-    (key) => ({
-      displayValue: key,
-      value: key,
-    })
-  );
+  contactCategories: WattDropdownOption[] = Object.keys(ContactCategory).map((key) => ({
+    displayValue: key,
+    value: key,
+  }));
 
   contactRows: EditableActorContactRow[] = [];
   deletedContacts: ActorContactDto[] = [];
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.contacts?.previousValue === changes.contacts?.currentValue)
-      return;
+    if (changes.contacts?.previousValue === changes.contacts?.currentValue) return;
 
     const contacts = this.contacts;
     if (contacts === undefined) return;
@@ -151,19 +142,14 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
       .map((row) => row.changed);
 
     const allCategoriesUnique =
-      newModified.map((x) => x.category).filter((c, i, s) => s.indexOf(c) === i)
-        .length === newModified.length;
+      newModified.map((x) => x.category).filter((c, i, s) => s.indexOf(c) === i).length ===
+      newModified.length;
 
     const isValid =
       allCategoriesUnique &&
       newModified.reduce(
         (r, n) =>
-          r &&
-          !!n.category &&
-          !!n.name &&
-          n.name.length > 0 &&
-          !!n.email &&
-          n.email.length > 0,
+          r && !!n.category && !!n.name && n.name.length > 0 && !!n.email && n.email.length > 0,
         true
       );
 

@@ -47,15 +47,12 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
   template: `
     <mat-card>
       <div class="tip watt-space-stack-m">
-        <img
-          alt="Decrease production | EnergyOrigin"
-          src="/assets/icons/lightbulb.svg"
-        />
+        <img alt="Decrease production | EnergyOrigin" src="/assets/icons/lightbulb.svg" />
         <h1>Tip</h1>
       </div>
       <p>
-        You can increase your production by investing in more green technology,
-        like solar power, wind mills, etc.
+        You can increase your production by investing in more green technology, like solar power,
+        wind mills, etc.
       </p>
     </mat-card>
   `,

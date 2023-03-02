@@ -14,19 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
-import {
-  translate,
-  TranslocoModule,
-  TranslocoService,
-} from '@ngneat/transloco';
+import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
@@ -45,13 +36,10 @@ import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
-import {
-  EicFunction,
-  UserRoleDto,
-  UserRoleStatus,
-} from '@energinet-datahub/dh/shared/domain';
+import { EicFunction, UserRoleDto, UserRoleStatus } from '@energinet-datahub/dh/shared/domain';
 import { take } from 'rxjs';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-roles-tab',
@@ -59,9 +47,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   styleUrls: ['./dh-roles-tab.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
-  ],
+  providers: [provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore)],
   imports: [
     CommonModule,
     TranslocoModule,
@@ -108,22 +94,15 @@ export class DhUserRolesTabComponent {
       .subscribe((rolesTranslations) => {
         const basePath = 'admin.userManagement.tabs.roles.table.columns.';
 
-        const header = `${translate(basePath + 'name')};${translate(
-          basePath + 'marketRole'
-        )};${translate(basePath + 'status')}`;
+        const headers = [
+          translate(basePath + 'name'),
+          translate(basePath + 'marketRole'),
+          translate(basePath + 'status'),
+        ];
 
-        const csv = roles
-          .map(
-            (x) => `${x.name};${rolesTranslations[x.eicFunction]};${x.status}`
-          )
-          .join('\n');
+        const lines = roles.map((x) => [x.name, rolesTranslations[x.eicFunction], x.status]);
 
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(
-          new Blob([`${header}\n${csv}`], { type: 'text/csv;charset=utf-8;' })
-        );
-        a.download = 'result.csv';
-        a.click();
+        exportCsv(headers, lines);
       });
   }
 

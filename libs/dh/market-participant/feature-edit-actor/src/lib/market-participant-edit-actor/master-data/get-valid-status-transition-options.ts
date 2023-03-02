@@ -48,9 +48,7 @@ export const getValidStatusTransitionOptions = (
       );
     case ActorStatus.Inactive:
       return statuses.filter((x) =>
-        [ActorStatus.Inactive.toLocaleLowerCase()].includes(
-          x.value.toLowerCase()
-        )
+        [ActorStatus.Inactive.toLocaleLowerCase()].includes(x.value.toLowerCase())
       );
     default:
       return [];

@@ -40,8 +40,7 @@ limitations under the License.
                 >{{ t("download") }}</watt-button
               >
 
-              <dh-shared-ui-paginator #paginator [length]="roles.length">
-              </dh-shared-ui-paginator>
+              <dh-shared-ui-paginator #paginator [length]="roles.length"> </dh-shared-ui-paginator>
 
               <watt-button
                 *dhPermissionRequired="['userrole:manage']"
@@ -64,9 +63,7 @@ limitations under the License.
 
   <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
     <div *ngIf="hasGeneralError" class="user-roles__error">
-      <dh-tab-data-general-error
-        (reload)="reloadRoles()"
-      ></dh-tab-data-general-error>
+      <dh-tab-data-general-error (reload)="reloadRoles()"></dh-tab-data-general-error>
     </div>
   </ng-container>
 </ng-container>

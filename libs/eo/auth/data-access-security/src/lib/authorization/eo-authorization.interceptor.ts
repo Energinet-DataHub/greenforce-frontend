@@ -59,9 +59,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   }
 
   #displayPermissionError(): Observable<void> {
-    return this.snackBar
-      .open('You do not have permission to perform this action.')
-      .afterOpened();
+    return this.snackBar.open('You do not have permission to perform this action.').afterOpened();
   }
 
   #checkForFeatureFlaggingInQueryParams() {
@@ -77,10 +75,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   }
 
   #is403ForbiddenResponse(error: unknown): boolean {
-    return (
-      error instanceof HttpErrorResponse &&
-      error.status === HttpStatusCode.Forbidden
-    );
+    return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Forbidden;
   }
 }
 

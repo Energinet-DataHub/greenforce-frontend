@@ -16,10 +16,7 @@
  */
 import { Component, Input, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  ChargeLinkV1Dto,
-  ChargeType,
-} from '@energinet-datahub/dh/shared/domain';
+import { ChargeLinkV1Dto, ChargeType } from '@energinet-datahub/dh/shared/domain';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';

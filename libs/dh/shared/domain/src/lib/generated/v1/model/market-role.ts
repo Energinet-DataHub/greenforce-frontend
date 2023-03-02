@@ -11,9 +11,10 @@
  */
 
 
-export interface MarketRole { 
-    id: string;
-    name?: string | null;
-}
+export type MarketRole = 'EnergySupplier' | 'BalanceResponsibleParty';
 
+export const MarketRole = {
+    EnergySupplier: 'EnergySupplier' as MarketRole,
+    BalanceResponsibleParty: 'BalanceResponsibleParty' as MarketRole
+};
 

@@ -15,35 +15,28 @@
  * limitations under the License.
  */
 import { Router } from '@angular/router';
-import { BatchDto, GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 
 export const WHOLESALE_BASE_PATH = 'wholesale';
 export const WHOLESALE_START_PROCESS_PATH = 'start-process';
 export const WHOLESALE_SEARCH_BATCH_PATH = 'search-batch';
 export const WHOLESALE_CALCULATION_STEPS_PATH = `calculation-steps`;
+export const WHOLESALE_SETTLEMENT_REPORTS_PATH = `settlement-reports`;
 
 export function navigateToWholesaleCalculationSteps(
   router: Router,
-  batch: BatchDto,
-  gridArea: GridAreaDto
+  batch: graphql.Batch,
+  gridArea: graphql.GridArea
 ) {
   router.navigate(
-    [
-      WHOLESALE_BASE_PATH,
-      WHOLESALE_CALCULATION_STEPS_PATH,
-      batch.batchId,
-      gridArea.code,
-    ],
+    [WHOLESALE_BASE_PATH, WHOLESALE_CALCULATION_STEPS_PATH, batch.id, gridArea.code],
     {
       state: { batch: batch, gridArea: gridArea },
     }
   );
 }
 
-export function navigateToWholesaleSearchBatch(
-  router: Router,
-  batchId?: string
-) {
+export function navigateToWholesaleSearchBatch(router: Router, batchId?: string) {
   return router.navigate([WHOLESALE_BASE_PATH, WHOLESALE_SEARCH_BATCH_PATH], {
     queryParams: batchId ? { batch: batchId } : null,
   });

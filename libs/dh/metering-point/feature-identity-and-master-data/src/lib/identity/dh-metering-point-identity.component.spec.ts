@@ -76,9 +76,7 @@ describe(DhMeteringPointIdentityComponent.name, () => {
     test('metering method text is displayed when it has a valid value', async () => {
       await setup({ meteringMethod: 'D02' } as MeteringPointCimDto);
 
-      expect(getByTitle(meteringMethod)).toHaveTextContent(
-        meteringPointSubTypeCode['D02']
-      );
+      expect(getByTitle(meteringMethod)).toHaveTextContent(meteringPointSubTypeCode['D02']);
     });
   });
 
@@ -86,9 +84,7 @@ describe(DhMeteringPointIdentityComponent.name, () => {
     test('settlement method is displayed when it has a valid value', async () => {
       await setup({ settlementMethod: 'D01' } as MeteringPointCimDto);
 
-      expect(getByTitle(settlementMethod)).toHaveTextContent(
-        settlementMethodCode['D01']
-      );
+      expect(getByTitle(settlementMethod)).toHaveTextContent(settlementMethodCode['D01']);
     });
 
     test('settlement method is not displayed when it has value null', async () => {
@@ -102,9 +98,7 @@ describe(DhMeteringPointIdentityComponent.name, () => {
     test('reading occurrence is displayed when it has a valid value', async () => {
       await setup({ readingOccurrence: 'P1Y' } as MeteringPointCimDto);
 
-      expect(getByTitle(readingOccurrence)).toHaveTextContent(
-        readingOccurrenceCode['P1Y']
-      );
+      expect(getByTitle(readingOccurrence)).toHaveTextContent(readingOccurrenceCode['P1Y']);
     });
   });
 
@@ -140,9 +134,7 @@ describe(DhMeteringPointIdentityComponent.name, () => {
         supplyStart: '2021-09-25T22:00:00Z',
       } as MeteringPointCimDto);
 
-      expect(getByTitle(hasElectricitySupplier)).toHaveTextContent(
-        'Since 26-09-2021'
-      );
+      expect(getByTitle(hasElectricitySupplier)).toHaveTextContent('Since 26-09-2021');
     });
 
     test('supply start is not displayed when the value is null', async () => {

@@ -1,0 +1,65 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let transloco; read: 'wholesale.settlementReports'">
+  <!-- Table -->
+  <watt-table
+    [dataSource]="_data"
+    [columns]="columns"
+    [resolveHeader]="translateHeader"
+    description="batches"
+    sortBy="executionTimeStart"
+    sortDirection="desc"
+    (rowClick)="selectedRow.emit($event)"
+  >
+    <!-- Process Type -->
+    <ng-container *wattTableCell="columns.processType; let process">
+      {{ transloco("processTypes." + process.processType) }}
+    </ng-container>
+
+    <!-- Grid Area Name -->
+    <ng-container *wattTableCell="columns.gridAreaName; let process">
+      {{ process.gridAreaName }} ({{ process.gridAreaCode }})
+    </ng-container>
+
+    <!-- Period Start -->
+    <ng-container *wattTableCell="columns.periodStart; let process">
+      {{ process.period.start | dhDate }}
+    </ng-container>
+
+    <!-- Period End -->
+    <ng-container *wattTableCell="columns.periodEnd; let process">
+      {{ process.period.end | dhDate }}
+    </ng-container>
+
+    <!-- Execution Time Start -->
+    <ng-container *wattTableCell="columns.executionTimeStart; let batch">
+      {{ batch.executionTimeStart | dhDateTime }}
+    </ng-container>
+  </watt-table>
+
+  <!-- No Batches found -->
+  <watt-empty-state
+    *ngIf="_data.data.length === 0"
+    icon="cancel"
+    size="large"
+    [title]="transloco('table.emptyTitle')"
+    [message]="transloco('table.emptyHelperText')"
+  >
+  </watt-empty-state>
+
+  <watt-paginator [for]="_data"></watt-paginator>
+</ng-container>

@@ -23,12 +23,7 @@ import {
   NgModule,
   ViewChild,
 } from '@angular/core';
-import {
-  MatSort,
-  MatSortable,
-  MatSortModule,
-  Sort,
-} from '@angular/material/sort';
+import { MatSort, MatSortable, MatSortModule, Sort } from '@angular/material/sort';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { RouterModule } from '@angular/router';
 import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
@@ -38,12 +33,7 @@ import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhProcessesDetailItemScam } from '../processes-detail-item/dh-processes-detail-item.component';
 import { DhTableRow } from './dh-table-row';
-import {
-  compareSortValues,
-  getRowHeight,
-  getRowToExpand,
-  wrapInTableRow,
-} from './dh-table-util';
+import { compareSortValues, getRowHeight, getRowToExpand, wrapInTableRow } from './dh-table-util';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -90,17 +80,9 @@ export class DhProcessesTableComponent implements AfterViewInit {
         case 'name':
           return compareSortValues(a.data.name, b.data.name, isAsc);
         case 'createdDate':
-          return compareSortValues(
-            a.data.createdDate,
-            b.data.createdDate,
-            isAsc
-          );
+          return compareSortValues(a.data.createdDate, b.data.createdDate, isAsc);
         case 'effectiveDate':
-          return compareSortValues(
-            a.data.effectiveDate ?? '',
-            b.data.effectiveDate ?? '',
-            isAsc
-          );
+          return compareSortValues(a.data.effectiveDate ?? '', b.data.effectiveDate ?? '', isAsc);
         case 'status':
           return compareSortValues(a.data.status, b.data.status, isAsc);
         default:

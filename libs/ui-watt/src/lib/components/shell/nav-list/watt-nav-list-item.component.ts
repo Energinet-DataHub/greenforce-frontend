@@ -15,13 +15,7 @@
  * limitations under the License.
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';

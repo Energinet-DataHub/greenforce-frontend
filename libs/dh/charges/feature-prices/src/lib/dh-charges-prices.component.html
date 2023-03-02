@@ -62,7 +62,7 @@ limitations under the License.
         <watt-form-field>
           <watt-label>{{ t("validity") }}</watt-label>
           <watt-dropdown
-            [disabled]="true"
+            disabled
             [(ngModel)]="this.validityOption"
             [options]="validityOptions"
             name="validity"
@@ -101,12 +101,7 @@ limitations under the License.
         </watt-button>
 
         <!-- Search -->
-        <watt-button
-          title="{{ t('startSearch') }}"
-          variant="primary"
-          icon="search"
-          type="submit"
-        >
+        <watt-button title="{{ t('startSearch') }}" variant="primary" icon="search" type="submit">
           {{ t("startSearch") }}
         </watt-button>
       </div>

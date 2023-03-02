@@ -74,15 +74,11 @@ describe(DhMeteringPointOverviewGuard.name, () => {
     it('Then navigation is allowed', async () => {
       const guardedPath = `${dhMeteringPointPath}/${validMeteringPointId}`;
 
-      const expectedUrl = router.serializeUrl(
-        router.createUrlTree([guardedPath])
-      );
+      const expectedUrl = router.serializeUrl(router.createUrlTree([guardedPath]));
 
       await view.navigate('/', guardedPath);
 
-      expect(decodeURIComponent(angularLocation.path())).toBe(
-        decodeURIComponent(expectedUrl)
-      );
+      expect(decodeURIComponent(angularLocation.path())).toBe(decodeURIComponent(expectedUrl));
     });
   });
 
@@ -98,9 +94,7 @@ describe(DhMeteringPointOverviewGuard.name, () => {
 
       await view.navigate('/', guardedPath);
 
-      expect(decodeURIComponent(angularLocation.path())).toBe(
-        decodeURIComponent(expectedUrl)
-      );
+      expect(decodeURIComponent(angularLocation.path())).toBe(decodeURIComponent(expectedUrl));
     });
   });
 });

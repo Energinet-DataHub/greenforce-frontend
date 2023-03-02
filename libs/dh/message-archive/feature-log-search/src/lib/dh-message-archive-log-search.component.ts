@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -29,15 +24,9 @@ import { LetModule } from '@rx-angular/template/let';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import {
-  WattDatepickerModule,
-  WattRange,
-} from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerModule, WattRange } from '@energinet-datahub/watt/datepicker';
 import { WattTimepickerModule } from '@energinet-datahub/watt/timepicker';
-import {
-  WattDropdownModule,
-  WattDropdownOptions,
-} from '@energinet-datahub/watt/dropdown';
+import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -48,10 +37,7 @@ import {
   DhMessageArchiveActorDataAccessApiStore,
 } from '@energinet-datahub/dh/message-archive/data-access-api';
 import { MessageArchiveSearchCriteria } from '@energinet-datahub/dh/shared/domain';
-import {
-  ProcessTypes,
-  DocumentTypes,
-} from '@energinet-datahub/dh/message-archive/domain';
+import { ProcessTypes, DocumentTypes } from '@energinet-datahub/dh/message-archive/domain';
 
 import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-message-archive-log-search-result.component';
 import { ViewEncapsulation } from '@angular/core';
@@ -121,8 +107,7 @@ export class DhMessageArchiveLogSearchComponent {
   getActorOptions$ = this.actorStore.actors$;
 
   rsmFormFieldOptions: WattDropdownOptions = this.buildRsmOptions();
-  processTypeFormFieldOptions: WattDropdownOptions =
-    this.buildProcessTypesOptions();
+  processTypeFormFieldOptions: WattDropdownOptions = this.buildProcessTypesOptions();
 
   searching = false;
   maxItemCount = 100;
@@ -190,18 +175,10 @@ export class DhMessageArchiveLogSearchComponent {
       processTypes,
     } = this.searchForm.value;
 
-    const dateTimeFrom = zonedTimeToUtc(
-      dateRange?.start,
-      danishTimeZoneIdentifier
-    );
+    const dateTimeFrom = zonedTimeToUtc(dateRange?.start, danishTimeZoneIdentifier);
     const dateTimeTo = zonedTimeToUtc(dateRange?.end, danishTimeZoneIdentifier);
 
-    if (
-      timeRange?.start &&
-      timeRange.end &&
-      dateRange?.start &&
-      dateRange?.end
-    ) {
+    if (timeRange?.start && timeRange.end && dateRange?.start && dateRange?.end) {
       const [fromHours, fromMinuts] = timeRange.start.split(':');
       const [toHours, toMinutes] = timeRange.end.split(':');
 

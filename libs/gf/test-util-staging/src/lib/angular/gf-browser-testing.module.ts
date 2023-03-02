@@ -24,10 +24,6 @@ import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser
  * from the DOM.
  */
 @NgModule({
-  imports: [
-    NoopAnimationsModule,
-    RouterTestingModule,
-    GfBrowserConfigurationModule.forRoot(),
-  ],
+  imports: [NoopAnimationsModule, RouterTestingModule, GfBrowserConfigurationModule.forRoot()],
 })
 export class GfBrowserTestingModule {}
