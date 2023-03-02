@@ -18,10 +18,7 @@ import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 
-import {
-  WattDrawerComponent,
-  WattDrawerModule,
-} from '@energinet-datahub/watt/drawer';
+import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 

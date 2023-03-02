@@ -35,13 +35,38 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Retrieves all organizations
+        /// Retrieves all organizations.
         /// </summary>
         [HttpGet]
         [Route("GetAllOrganizations")]
         public Task<ActionResult<IEnumerable<OrganizationDto>>> GetAllOrganizationsAsync()
         {
             return HandleExceptionAsync(() => _client.GetOrganizationsAsync());
+        }
+
+        /// <summary>
+        /// Retrieves all organizations with actors.
+        /// </summary>
+        [HttpGet]
+        [Route("GetAllOrganizationsWithActors")]
+        public Task<ActionResult<IEnumerable<OrganizationWithActorsDto>>> GetAllOrganizationsWithActorsAsync()
+        {
+            return HandleExceptionAsync(async () =>
+            {
+                var organizations = await _client
+                    .GetOrganizationsAsync()
+                    .ConfigureAwait(false);
+
+                var result = new List<OrganizationWithActorsDto>();
+
+                foreach (var organization in organizations)
+                {
+                    var actors = await _client.GetActorsAsync(organization.OrganizationId);
+                    result.Add(new OrganizationWithActorsDto(organization, actors));
+                }
+
+                return (IEnumerable<OrganizationWithActorsDto>)result;
+            });
         }
 
         /// <summary>
@@ -99,8 +124,14 @@ namespace Energinet.DataHub.WebApi.Controllers
                     .GetOrganizationsAsync()
                     .ConfigureAwait(false);
 
-                var accessibleActors = organizations
-                    .SelectMany(org => org.Actors)
+                var actors = new List<ActorDto>();
+
+                foreach (var organizationDto in organizations)
+                {
+                    actors.AddRange(await _client.GetActorsAsync(organizationDto.OrganizationId).ConfigureAwait(false));
+                }
+
+                var accessibleActors = actors
                     .Select(x =>
                         new FilteredActorDto(
                             x.ActorId,
@@ -127,75 +158,70 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Retrieves the organization for a single actor
+        /// Retrieves the organization for a single actor.
         /// </summary>
         [HttpGet("GetActorOrganization")]
         public Task<ActionResult<OrganizationDto>> GetActorOrganizationAsync(Guid actorId)
         {
             return HandleExceptionAsync(async () =>
             {
-                var organizations = await _client
-                    .GetOrganizationsAsync()
-                    .ConfigureAwait(false);
-
-                var organization = organizations.FirstOrDefault(org => org.Actors.Any(actor => actor.ActorId == actorId));
-
-                return organization ?? throw new Exception($"No organization found for actor {actorId}");
+                var actor = await _client.GetActorAsync(actorId).ConfigureAwait(false);
+                return await _client.GetOrganizationAsync(actor.OrganizationId).ConfigureAwait(false);
             });
         }
 
         /// <summary>
-        /// Retrieves a single actor to a specific organization
+        /// Retrieves an actor.
         /// </summary>
         [HttpGet("GetActor")]
-        public Task<ActionResult<ActorDto>> GetActorAsync(Guid orgId, Guid actorId)
+        public Task<ActionResult<ActorDto>> GetActorAsync(Guid actorId)
         {
-            return HandleExceptionAsync(() => _client.GetActorAsync(orgId, actorId));
+            return HandleExceptionAsync(() => _client.GetActorAsync(actorId));
         }
 
         /// <summary>
-        /// Updates an Actor in an organization
+        /// Creates an actor.
         /// </summary>
         [HttpPost("CreateActor")]
-        public Task<ActionResult<Guid>> CreateActorAsync(Guid orgId, CreateActorDto actorDto)
+        public Task<ActionResult<Guid>> CreateActorAsync(CreateActorDto actorDto)
         {
-            return HandleExceptionAsync(() => _client.CreateActorAsync(orgId, actorDto));
+            return HandleExceptionAsync(() => _client.CreateActorAsync(actorDto));
         }
 
         /// <summary>
-        /// Updates an Actor in an organization
+        /// Updates an actor.
         /// </summary>
         [HttpPut("UpdateActor")]
-        public Task<ActionResult> UpdateActorAsync(Guid orgId, Guid actorId, ChangeActorDto actorDto)
+        public Task<ActionResult> UpdateActorAsync(Guid actorId, ChangeActorDto actorDto)
         {
-            return HandleExceptionAsync(() => _client.UpdateActorAsync(orgId, actorId, actorDto));
+            return HandleExceptionAsync(() => _client.UpdateActorAsync(actorId, actorDto));
         }
 
         /// <summary>
         /// Gets all the contacts for an actor.
         /// </summary>
         [HttpGet("GetContacts")]
-        public Task<ActionResult<IEnumerable<ActorContactDto>>> GetContactsAsync(Guid orgId, Guid actorId)
+        public Task<ActionResult<IEnumerable<ActorContactDto>>> GetContactsAsync(Guid actorId)
         {
-            return HandleExceptionAsync(() => _client.GetContactsAsync(orgId, actorId));
+            return HandleExceptionAsync(() => _client.GetContactsAsync(actorId));
         }
 
         /// <summary>
         /// Creates a contact for the actor.
         /// </summary>
         [HttpPost("CreateContact")]
-        public Task<ActionResult<Guid>> CreateContactAsync(Guid orgId, Guid actorId, CreateActorContactDto createDto)
+        public Task<ActionResult<Guid>> CreateContactAsync(Guid actorId, CreateActorContactDto createDto)
         {
-            return HandleExceptionAsync(() => _client.CreateContactAsync(orgId, actorId, createDto));
+            return HandleExceptionAsync(() => _client.CreateContactAsync(actorId, createDto));
         }
 
         /// <summary>
         /// Removes a contact from an actor.
         /// </summary>
         [HttpDelete("DeleteContact")]
-        public Task<ActionResult> DeleteContactAsync(Guid orgId, Guid actorId, Guid contactId)
+        public Task<ActionResult> DeleteContactAsync(Guid actorId, Guid contactId)
         {
-            return HandleExceptionAsync(() => _client.DeleteContactAsync(orgId, actorId, contactId));
+            return HandleExceptionAsync(() => _client.DeleteContactAsync(actorId, contactId));
         }
     }
 }

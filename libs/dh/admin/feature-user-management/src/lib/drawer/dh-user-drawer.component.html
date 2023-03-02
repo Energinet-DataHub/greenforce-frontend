@@ -30,10 +30,7 @@ limitations under the License.
     <watt-drawer-content *ngIf="drawer.isOpen">
       <div class="user-name__grid">
         <h2 class="user-name__headline">{{ selectedUser?.name }}</h2>
-        <dh-user-status
-          *ngIf="selectedUser"
-          [status]="selectedUser.status"
-        ></dh-user-status>
+        <dh-user-status *ngIf="selectedUser" [status]="selectedUser.status"></dh-user-status>
       </div>
 
       <dh-drawer-tabs [user]="selectedUser"></dh-drawer-tabs>

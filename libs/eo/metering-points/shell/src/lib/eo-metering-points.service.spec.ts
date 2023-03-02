@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { lastValueFrom } from 'rxjs';
@@ -51,8 +48,7 @@ describe('EoMeteringPointsService', () => {
       const whenResponse = lastValueFrom(client.getMeteringPoints());
       const response = server.expectOne(
         (request) =>
-          request.url === `${apiEnvironment.apiBase}/meteringpoints` &&
-          request.method === 'GET'
+          request.url === `${apiEnvironment.apiBase}/meteringpoints` && request.method === 'GET'
       );
       response.flush(fakeResponse);
 

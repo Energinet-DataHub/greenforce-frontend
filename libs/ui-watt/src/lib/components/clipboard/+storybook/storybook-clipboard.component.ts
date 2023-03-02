@@ -61,21 +61,16 @@ export class WattStorybookCopyToClipboardComponent {
   selector: 'watt-storybook-clipboard',
   template: `
     <p>
-      Rich in heavy atoms emerged into consciousness globular star cluster
-      Vangelis not a sunrise but a galaxyrise hydrogen atoms? A mote of dust
-      suspended in a sunbeam vastness is bearable only through love shores of
-      the cosmic ocean how far away dream of the mind's eye something incredible
-      is waiting to be known? Citizens of distant epochs citizens of distant
-      <watt-storybook-copy-to-clipboard
-        text="epochs"
-        tooltip="Copy word to clipboard"
+      Rich in heavy atoms emerged into consciousness globular star cluster Vangelis not a sunrise
+      but a galaxyrise hydrogen atoms? A mote of dust suspended in a sunbeam vastness is bearable
+      only through love shores of the cosmic ocean how far away dream of the mind's eye something
+      incredible is waiting to be known? Citizens of distant epochs citizens of distant
+      <watt-storybook-copy-to-clipboard text="epochs" tooltip="Copy word to clipboard"
         >epochs</watt-storybook-copy-to-clipboard
       >
-      a very small stage in a vast cosmic arena the ash of stellar alchemy
-      observer the ash of stellar alchemy and billions upon
-      <watt-storybook-copy-to-clipboard
-        text="1000000000"
-        tooltip="Copy as number"
+      a very small stage in a vast cosmic arena the ash of stellar alchemy observer the ash of
+      stellar alchemy and billions upon
+      <watt-storybook-copy-to-clipboard text="1000000000" tooltip="Copy as number"
         >billions</watt-storybook-copy-to-clipboard
       >
       upon billions.

@@ -20,8 +20,6 @@ import { ActorMarketRoleViewDto } from '@energinet-datahub/dh/shared/domain';
 @Pipe({ name: 'joinMarketRoles', standalone: true })
 export class JoinMarketRoles implements PipeTransform {
   transform(marketRoles: ActorMarketRoleViewDto[] | null | undefined) {
-    return (
-      marketRoles?.map((marketRole) => marketRole.eicFunction).join(', ') ?? ''
-    );
+    return marketRoles?.map((marketRole) => marketRole.eicFunction).join(', ') ?? '';
   }
 }

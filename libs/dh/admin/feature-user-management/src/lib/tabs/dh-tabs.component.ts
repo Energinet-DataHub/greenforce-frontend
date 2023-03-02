@@ -33,11 +33,6 @@ import { DhUserRolesTabComponent } from './roles-tab/dh-roles-tab.component';
       }
     `,
   ],
-  imports: [
-    TranslocoModule,
-    WattTabsModule,
-    DhUsersTabComponent,
-    DhUserRolesTabComponent,
-  ],
+  imports: [TranslocoModule, WattTabsModule, DhUsersTabComponent, DhUserRolesTabComponent],
 })
 export class DhTabsComponent {}

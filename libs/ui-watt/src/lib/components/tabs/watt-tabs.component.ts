@@ -53,9 +53,7 @@ export class WattTabsComponent implements AfterViewInit {
 
   emitSelectedTabChange(selectedIndex: number) {
     this.activeTabIndex = selectedIndex;
-    const currentTab = this.tabElements.find(
-      (tab, index) => index === selectedIndex
-    );
+    const currentTab = this.tabElements.find((tab, index) => index === selectedIndex);
     currentTab?.emitChange();
   }
 

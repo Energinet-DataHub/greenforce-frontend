@@ -16,10 +16,7 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import {
-  EoApiEnvironment,
-  eoApiEnvironmentToken,
-} from '@energinet-datahub/eo/shared/environments';
+import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
 export interface MeteringPoint {
   /** Unique ID of the metering point - Global Service Relation Number */
@@ -55,10 +52,9 @@ export class EoMeteringPointsService {
   #apiBase: string;
 
   getMeteringPoints() {
-    return this.http.get<MeteringPointsResponse>(
-      `${this.#apiBase}/meteringpoints`,
-      { withCredentials: true }
-    );
+    return this.http.get<MeteringPointsResponse>(`${this.#apiBase}/meteringpoints`, {
+      withCredentials: true,
+    });
   }
 
   constructor(

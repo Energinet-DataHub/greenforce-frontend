@@ -97,12 +97,7 @@ export class DhMarketParticipantGridAreaDataAccessApiStore extends ComponentStor
               id: changes.gridAreaChanges.id,
               name: changes.gridAreaChanges.name,
             })
-            .pipe(
-              tapResponse(
-                () => this.gridAreaUpdated(changes.onCompleted),
-                this.handleError
-              )
-            )
+            .pipe(tapResponse(() => this.gridAreaUpdated(changes.onCompleted), this.handleError))
         )
       );
     }

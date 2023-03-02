@@ -35,10 +35,7 @@ import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { ProcessType } from '@energinet-datahub/dh/shared/domain';
-import {
-  WattDropdownModule,
-  WattDropdownOption,
-} from '@energinet-datahub/watt/dropdown';
+import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { PushModule } from '@rx-angular/template/push';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
@@ -83,16 +80,15 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
       })
     );
 
-  gridAreaOptions$: Observable<WattDropdownOption[]> =
-    this.store.gridAreas$.pipe(
-      exists(),
-      map((gridAreas) => {
-        return gridAreas.map((gridArea) => ({
-          value: gridArea.code,
-          displayValue: `${gridArea.name} (${gridArea.code})`,
-        }));
-      })
-    );
+  gridAreaOptions$: Observable<WattDropdownOption[]> = this.store.gridAreas$.pipe(
+    exists(),
+    map((gridAreas) => {
+      return gridAreas.map((gridArea) => ({
+        value: gridArea.code,
+        displayValue: `${gridArea.name} (${gridArea.code})`,
+      }));
+    })
+  );
 
   filters = this.fb.group({
     processType: [''],
@@ -118,15 +114,11 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
   constructor(private fb: FormBuilder) {}
 
   ngAfterViewInit() {
-    this.filters.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((filters: unknown) => {
-        this.filterChange.emit(filters as SettlementReportsProcessFilters);
-      });
+    this.filters.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((filters: unknown) => {
+      this.filterChange.emit(filters as SettlementReportsProcessFilters);
+    });
 
-    this.filterChange.emit(
-      this.filters.value as SettlementReportsProcessFilters
-    );
+    this.filterChange.emit(this.filters.value as SettlementReportsProcessFilters);
   }
 
   ngOnDestroy(): void {

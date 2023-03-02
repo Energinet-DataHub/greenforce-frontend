@@ -21,10 +21,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, map, Subject, switchMap, takeUntil, first } from 'rxjs';
 
-import {
-  WattBreakpoint,
-  WattBreakpointsObserver,
-} from '../../foundations/breakpoints';
+import { WattBreakpoint, WattBreakpointsObserver } from '../../foundations/breakpoints';
 import { WattButtonModule } from '../button';
 
 @Component({
@@ -56,19 +53,12 @@ export class WattShellComponent implements OnInit, OnDestroy {
    * @ignore
    */
   isHandset$ = this.breakpointObserver
-    .observe([
-      WattBreakpoint.XSmall,
-      WattBreakpoint.Small,
-      WattBreakpoint.Medium,
-    ])
+    .observe([WattBreakpoint.XSmall, WattBreakpoint.Small, WattBreakpoint.Medium])
     .pipe(map((result) => result.matches));
 
   @ViewChild('drawer') sidenav!: MatSidenav;
 
-  constructor(
-    private breakpointObserver: WattBreakpointsObserver,
-    private router: Router
-  ) {}
+  constructor(private breakpointObserver: WattBreakpointsObserver, private router: Router) {}
 
   ngOnInit(): void {
     this.closeSidenavOnNavigation();

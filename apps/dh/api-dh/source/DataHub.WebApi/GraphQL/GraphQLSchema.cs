@@ -29,7 +29,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
             this.RegisterTypeMapping<AddressDto, AddressDtoType>();
             this.RegisterTypeMapping<OrganizationDto, OrganizationDtoType>();
             this.RegisterTypeMapping<Actor, ActorDtoType>();
-            this.RegisterTypeMapping<MarketRoleDto, MarketRoleDtoType>();
             this.RegisterTypeMapping<ActorNumberDto, ActorNumberDtoType>();
             this.RegisterTypeMapping<ActorNameDto, ActorNameDtoType>();
             this.RegisterTypeMapping<ActorMarketRoleDto, ActorMarketRoleDtoType>();

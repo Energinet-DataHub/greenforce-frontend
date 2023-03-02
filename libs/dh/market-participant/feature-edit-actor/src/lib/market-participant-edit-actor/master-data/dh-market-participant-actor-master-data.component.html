@@ -14,9 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *transloco="let t; read: 'marketParticipant.actor.create.masterData'"
->
+<ng-container *transloco="let t; read: 'marketParticipant.actor.create.masterData'">
   <div class="form-container" *ngIf="changes">
     <watt-form-field class="field-actornumber">
       <watt-label>{{ t("labelActorNumber") }}</watt-label>
@@ -50,11 +48,7 @@ limitations under the License.
   <div class="form-container" *ngIf="changes">
     <watt-form-field class="field-actorname">
       <watt-label>{{ t("labelActorName") }}</watt-label>
-      <input
-        wattInput
-        [(ngModel)]="changes.name"
-        #actorNameInputModel="ngModel"
-      />
+      <input wattInput [(ngModel)]="changes.name" #actorNameInputModel="ngModel" />
     </watt-form-field>
   </div>
 </ng-container>

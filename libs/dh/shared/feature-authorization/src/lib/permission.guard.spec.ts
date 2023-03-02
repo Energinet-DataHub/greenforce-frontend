@@ -35,10 +35,7 @@ describe(PermissionService.name, () => {
 
     // act
     const actual = await firstValueFrom(
-      target(
-        ['gridareas:manage', 'actor:manage'],
-        permissionService as PermissionService
-      )
+      target(['gridareas:manage', 'actor:manage'], permissionService as PermissionService)
     );
 
     // assert

@@ -35,39 +35,28 @@ import {
   providedIn: 'root',
 })
 export class EoAuthenticationGuard implements CanActivateChild {
-  constructor(
-    private router: Router,
-    private urlGenerator: AbsoluteUrlGenerator
-  ) {}
+  constructor(private router: Router, private urlGenerator: AbsoluteUrlGenerator) {}
 
   #loginUrl(routerState: RouterStateSnapshot): UrlTree {
     const loginUrl = this.router.createUrlTree([eoLandingPageRelativeUrl]);
-    const absoluteReturnUrl = new URL(
-      this.urlGenerator.fromUrl(routerState.url)
-    );
+    const absoluteReturnUrl = new URL(this.urlGenerator.fromUrl(routerState.url));
 
     if (absoluteReturnUrl.searchParams.has(AuthOidcQueryParameterName.Error)) {
-      loginUrl.queryParams[AuthOidcQueryParameterName.Error] =
-        absoluteReturnUrl.searchParams.get(AuthOidcQueryParameterName.Error);
+      loginUrl.queryParams[AuthOidcQueryParameterName.Error] = absoluteReturnUrl.searchParams.get(
+        AuthOidcQueryParameterName.Error
+      );
       absoluteReturnUrl.searchParams.delete(AuthOidcQueryParameterName.Error);
     }
 
-    if (
-      absoluteReturnUrl.searchParams.has(AuthOidcQueryParameterName.ErrorCode)
-    ) {
+    if (absoluteReturnUrl.searchParams.has(AuthOidcQueryParameterName.ErrorCode)) {
       loginUrl.queryParams[AuthOidcQueryParameterName.ErrorCode] =
-        absoluteReturnUrl.searchParams.get(
-          AuthOidcQueryParameterName.ErrorCode
-        );
-      absoluteReturnUrl.searchParams.delete(
-        AuthOidcQueryParameterName.ErrorCode
-      );
+        absoluteReturnUrl.searchParams.get(AuthOidcQueryParameterName.ErrorCode);
+      absoluteReturnUrl.searchParams.delete(AuthOidcQueryParameterName.ErrorCode);
     }
 
     absoluteReturnUrl.searchParams.delete(AuthOidcQueryParameterName.Success);
 
-    loginUrl.queryParams[AuthOidcQueryParameterName.ReturnUrl] =
-      absoluteReturnUrl.toString();
+    loginUrl.queryParams[AuthOidcQueryParameterName.ReturnUrl] = absoluteReturnUrl.toString();
 
     return loginUrl;
   }
@@ -77,15 +66,11 @@ export class EoAuthenticationGuard implements CanActivateChild {
     routerState: RouterStateSnapshot
   ): boolean | UrlTree {
     const authenticationSuccess = '1';
-    const isAuthenticationCallback = route.queryParamMap.has(
-      AuthOidcQueryParameterName.Success
-    );
+    const isAuthenticationCallback = route.queryParamMap.has(AuthOidcQueryParameterName.Success);
     const isAuthenticationSuccessful =
-      route.queryParamMap.get(AuthOidcQueryParameterName.Success) ===
-      authenticationSuccess;
+      route.queryParamMap.get(AuthOidcQueryParameterName.Success) === authenticationSuccess;
 
-    const allowNavigation =
-      !isAuthenticationCallback || isAuthenticationSuccessful;
+    const allowNavigation = !isAuthenticationCallback || isAuthenticationSuccessful;
 
     return allowNavigation ? true : this.#loginUrl(routerState);
   }

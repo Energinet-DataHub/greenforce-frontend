@@ -16,6 +16,7 @@ limitations under the License.
 -->
 <mat-tab-group
   dynamicHeight
+  animationDuration="0ms"
   (selectedIndexChange)="emitSelectedTabChange($event)"
 >
   <mat-tab [label]="tab.label" *ngFor="let tab of tabElements">

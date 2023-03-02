@@ -30,9 +30,7 @@ limitations under the License.
           *ngTemplateOutlet="
             userRolesHeadline;
             context: {
-              $implicit:
-                (selectMode ? numberOfAssignableRoles$ : numberOfSelectedRoles$)
-                | push
+              $implicit: (selectMode ? numberOfAssignableRoles$ : numberOfSelectedRoles$) | push
             }
           "
         ></ng-container>
@@ -44,8 +42,7 @@ limitations under the License.
       >
         <ng-container *ngFor="let actor of org.actors">
           <h6>
-            {{ org?.name }} |
-            {{ t("gln", { actorNumber: actor.actorNumber }) }} |
+            {{ org?.name }} | {{ t("gln", { actorNumber: actor.actorNumber }) }} |
             {{ actor.actorMarketRoles | joinMarketRoles | dhEmDashFallback }}
           </h6>
           <mat-divider></mat-divider>
@@ -80,20 +77,15 @@ limitations under the License.
   <ng-template #error>
     <watt-empty-state
       icon="custom-power"
-      [title]="t('errorTitle')"
-      [message]="t('errorMessage')"
+      [title]="'shared.error.title' | transloco"
+      [message]="'shared.error.message' | transloco"
     >
     </watt-empty-state>
   </ng-template>
 </ng-container>
 
 <ng-template #userRolesHeadline let-userRolesCount>
-  <ng-container
-    *transloco="
-      let t;
-      read: 'admin.userManagement.tabs.roles.userRolesHeadline'
-    "
-  >
+  <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles.userRolesHeadline'">
     <h4 *ngIf="userRolesCount === 1">
       {{ t("singular", { userRolesCount }) }}
     </h4>

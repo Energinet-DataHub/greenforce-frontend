@@ -24,11 +24,7 @@ import {
   DhUserAuditLogEntry,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import {
-  WattTableColumnDef,
-  WattTableDataSource,
-  WATT_TABLE,
-} from '@energinet-datahub/watt/table';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { provideComponentStore } from '@ngrx/component-store';
 import { WattCardModule } from '@energinet-datahub/watt/card';
@@ -41,9 +37,7 @@ import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
   standalone: true,
   templateUrl: './dh-user-audit-logs.component.html',
   styleUrls: ['./dh-user-audit-logs.component.scss'],
-  providers: [
-    provideComponentStore(DhAdminUserManagementAuditLogsDataAccessApiStore),
-  ],
+  providers: [provideComponentStore(DhAdminUserManagementAuditLogsDataAccessApiStore)],
   imports: [
     CommonModule,
     LetModule,

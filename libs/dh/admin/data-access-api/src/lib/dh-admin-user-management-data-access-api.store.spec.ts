@@ -75,9 +75,9 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
       filterDto,
     };
 
-    expect(
-      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
-    ).toHaveBeenCalledWith(...Object.values(actualParams));
+    expect(httpMock.v1MarketParticipantUserOverviewSearchUsersPost).toHaveBeenCalledWith(
+      ...Object.values(actualParams)
+    );
   });
 
   it(`when the page metadata is updated,
@@ -108,9 +108,9 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
       filterDto,
     };
 
-    expect(
-      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
-    ).toHaveBeenLastCalledWith(...Object.values(actualParams));
+    expect(httpMock.v1MarketParticipantUserOverviewSearchUsersPost).toHaveBeenLastCalledWith(
+      ...Object.values(actualParams)
+    );
   }));
 
   it(`when the search text is updated,
@@ -136,9 +136,9 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
       filterDto,
     };
 
-    expect(
-      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
-    ).toHaveBeenLastCalledWith(...Object.values(actualParams));
+    expect(httpMock.v1MarketParticipantUserOverviewSearchUsersPost).toHaveBeenLastCalledWith(
+      ...Object.values(actualParams)
+    );
   }));
 
   it(`when the status filter is updated,
@@ -166,9 +166,9 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
       filterDto,
     };
 
-    expect(
-      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
-    ).toHaveBeenLastCalledWith(...Object.values(actualParams));
+    expect(httpMock.v1MarketParticipantUserOverviewSearchUsersPost).toHaveBeenLastCalledWith(
+      ...Object.values(actualParams)
+    );
   }));
 
   it(`when the reloadUsers method is called,
@@ -183,9 +183,9 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
     // 2. When `reloadUsers` is called
     const numberOfTimesCalled = 2;
 
-    expect(
-      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
-    ).toHaveBeenCalledTimes(numberOfTimesCalled);
+    expect(httpMock.v1MarketParticipantUserOverviewSearchUsersPost).toHaveBeenCalledTimes(
+      numberOfTimesCalled
+    );
   }));
 
   describe('selectors', () => {

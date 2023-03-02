@@ -23,14 +23,7 @@ import {
   EoIdleTimerLoggedOutModalComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/shared/utilities';
-import {
-  fromEvent,
-  merge,
-  startWith,
-  Subscription,
-  switchMap,
-  timer,
-} from 'rxjs';
+import { fromEvent, merge, startWith, Subscription, switchMap, timer } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable({
@@ -60,9 +53,7 @@ export class IdleTimerService {
   }
 
   startIdleMonitor() {
-    this.subscription$ = this.attachMonitorsWithTimer().subscribe(() =>
-      this.showLogoutWarning()
-    );
+    this.subscription$ = this.attachMonitorsWithTimer().subscribe(() => this.showLogoutWarning());
   }
 
   stopIdleMonitor() {

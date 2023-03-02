@@ -24,11 +24,7 @@ limitations under the License.
         {{ t("searchResult") }}
       </h3>
     </watt-card-title>
-    <ng-container
-      *ngIf="
-        !hasSearchError && !isInit && searchResult && searchResult.length > 0
-      "
-    >
+    <ng-container *ngIf="!hasSearchError && !isInit && searchResult && searchResult.length > 0">
       <watt-table
         #table
         description="Search result"
@@ -70,9 +66,7 @@ limitations under the License.
           </div>
         </ng-container>
         <ng-container *wattTableCell="columns.httpData; let element">
-          <dh-message-archive-status
-            [message]="element.httpData"
-          ></dh-message-archive-status>
+          <dh-message-archive-status [message]="element.httpData"></dh-message-archive-status>
         </ng-container>
       </watt-table>
     </ng-container>
@@ -85,11 +79,7 @@ limitations under the License.
     <!-- Empty -->
     <ng-container
       *ngIf="
-        !hasSearchError &&
-        !isSearching &&
-        !isInit &&
-        searchResult &&
-        searchResult.length === 0
+        !hasSearchError && !isSearching && !isInit && searchResult && searchResult.length === 0
       "
     >
       <watt-empty-state
@@ -119,8 +109,8 @@ limitations under the License.
       <watt-empty-state
         class="loading-error"
         icon="power"
-        [title]="t('loadingErrorTitle')"
-        [message]="t('loadingErrorMessage')"
+        [title]="'shared.error.title' | transloco"
+        [message]="'shared.error.message' | transloco"
       ></watt-empty-state>
     </ng-container>
   </watt-card>

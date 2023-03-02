@@ -28,7 +28,7 @@ import {
 import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { combineLatest, map, Subject, takeUntil } from 'rxjs';
+import { combineLatest, map, Subject, takeUntil, tap } from 'rxjs';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 
@@ -38,6 +38,8 @@ import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattCardModule } from '@energinet-datahub/watt/card';
 import {
   DhAdminMarketRolePermissionsStore,
   DhAdminUserRoleEditDataAccessApiStore,
@@ -64,6 +66,12 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
         padding-top: var(--watt-space-l);
         width: 25rem;
       }
+
+      .spinner-container {
+        display: flex;
+        justify-content: center;
+        margin-top: var(--watt-space-m);
+      }
     `,
   ],
   providers: [DhAdminUserRoleEditDataAccessApiStore, DhAdminMarketRolePermissionsStore],
@@ -78,6 +86,8 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
     WattFormFieldModule,
     WattInputModule,
     ReactiveFormsModule,
+    WattSpinnerModule,
+    WattCardModule,
     DhPermissionsTableComponent,
   ],
 })
@@ -109,8 +119,12 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
           (userRolePermission) => userRolePermission.id === marketRolePermission.id
         );
       });
+    }),
+    tap((initiallySelectedPermissions) => {
+      this.skipFirstPermissionSelectionEvent = initiallySelectedPermissions.length > 0;
     })
   );
+  readonly marketRolePermissionsIsLoading$ = this.marketRolePermissionsStore.isLoading$;
 
   readonly isLoading$ = this.userRoleEditStore.isLoading$;
   readonly hasValidationError$ = this.userRoleEditStore.hasValidationError$;
@@ -173,6 +187,14 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   }
 
   save(userRole: UserRoleWithPermissionsDto): void {
+    if (this.userRoleEditForm.invalid) {
+      return;
+    }
+
+    if (this.userRoleEditForm.pristine) {
+      this.closeModal(false);
+    }
+
     const formControls = this.userRoleEditForm.controls;
 
     const updatedUserRole: UpdateUserRoleDto = {

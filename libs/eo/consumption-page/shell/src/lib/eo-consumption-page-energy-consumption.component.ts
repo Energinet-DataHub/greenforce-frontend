@@ -41,18 +41,17 @@ import { MatCardModule } from '@angular/material/card';
     <mat-card>
       <h3 class="watt-space-stack-m">Energy consumption in Denmark</h3>
       <p class="watt-space-stack-m">
-        The most important measure in the energy balance of Denmark is the total
-        consumption of <strong>33.02 billion kWh</strong> of electric energy per
-        year. Per capita this is an <strong>average of 5.662 kWh</strong>.
+        The most important measure in the energy balance of Denmark is the total consumption of
+        <strong>33.02 billion kWh</strong> of electric energy per year. Per capita this is an
+        <strong>average of 5.662 kWh</strong>.
       </p>
       <p>
         Denmark can partly provide itself with
-        <strong>self-produced energy</strong>. The total production of all
-        electric energy producing facilities is 30 bn kWh. That is 90% of the
-        countries own usage. The rest of the needed energy is imported from
-        foreign countries. Along with pure consumptions the production, imports
-        and exports play an important role. Other energy sources such as natural
-        gas or crude oil are also used.
+        <strong>self-produced energy</strong>. The total production of all electric energy producing
+        facilities is 30 bn kWh. That is 90% of the countries own usage. The rest of the needed
+        energy is imported from foreign countries. Along with pure consumptions the production,
+        imports and exports play an important role. Other energy sources such as natural gas or
+        crude oil are also used.
         <a
           href="https://www.worlddata.info/europe/denmark/energy-consumption.php"
           target="_blank"

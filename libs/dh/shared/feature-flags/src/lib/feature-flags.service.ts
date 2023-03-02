@@ -21,20 +21,13 @@ import {
   dhAppEnvironmentToken,
 } from '@energinet-datahub/dh/shared/environments';
 
-import {
-  dhFeatureFlagsConfig,
-  DhFeatureFlags,
-  FeatureFlagConfig,
-} from './feature-flags';
+import { dhFeatureFlagsConfig, DhFeatureFlags, FeatureFlagConfig } from './feature-flags';
 
-export const dhFeatureFlagsToken = new InjectionToken<FeatureFlagConfig>(
-  'dhFeatureFlagsToken',
-  {
-    factory: (): FeatureFlagConfig => {
-      return dhFeatureFlagsConfig;
-    },
-  }
-);
+export const dhFeatureFlagsToken = new InjectionToken<FeatureFlagConfig>('dhFeatureFlagsToken', {
+  factory: (): FeatureFlagConfig => {
+    return dhFeatureFlagsConfig;
+  },
+});
 
 @Injectable({
   providedIn: 'root',
@@ -56,8 +49,6 @@ export class DhFeatureFlagsService {
   isEnabled(flagName?: DhFeatureFlags): boolean {
     if (!flagName) return true;
 
-    return !this.dhFeatureFlags[flagName]?.disabledEnvironments.includes(
-      this.environment
-    );
+    return !this.dhFeatureFlags[flagName]?.disabledEnvironments.includes(this.environment);
   }
 }

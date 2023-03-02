@@ -34,10 +34,7 @@ describe('DhFormatChargePriceTime', () => {
   describe('getFromDateTime', () => {
     // Test is skipped because it fail in CI (different timezone)
     it.skip('when resolution is PT15M, returns fromDateTime in time format.', () => {
-      const fromDateTime = getFromDateTime(
-        chargePrice15Minutes,
-        Resolution.PT15M
-      );
+      const fromDateTime = getFromDateTime(chargePrice15Minutes, Resolution.PT15M);
 
       const expectedTime = '08:15';
 
