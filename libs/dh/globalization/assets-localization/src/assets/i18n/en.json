@@ -1057,16 +1057,17 @@
           "masterData": {
             "tabLabel": "Master data",
             "nameInputLabel": "Name",
-            "descriptionInputLabel": "Description",
-            "errors": {
-              "nameAlreadyExists": "The user role already exists",
-              "required": "Field is required"
-            }
+            "descriptionInputLabel": "Description"
           },
           "permissions": {
             "tabLabel": "Permissions",
             "title": "Permissions",
             "onEditMessage": "When removing/adding rights to a user role, it can take up to an hour for changes to take effect after they have been saved. Alternatively, users can log out and log in if changes are to take effect immediately."
+          },
+          "validationErrors": {
+            "nameAlreadyExists": "The user role already exists",
+            "required": "Field is required",
+            "permissionRequired": "Select at least one permission"
           }
         },
         "cancel": "Cancel",
