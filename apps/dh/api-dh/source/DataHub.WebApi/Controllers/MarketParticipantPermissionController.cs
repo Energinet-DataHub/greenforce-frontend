@@ -31,7 +31,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         [HttpPut]
-        [Route("Get")]
+        [Route("Update")]
         public Task<ActionResult> UpdateAsync(UpdatePermissionDto permissionDto)
         {
             return HandleExceptionAsync(() => _permissionsClient.UpdatePermissionAsync(permissionDto));
