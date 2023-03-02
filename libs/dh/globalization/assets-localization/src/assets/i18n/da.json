@@ -821,9 +821,9 @@
     },
     "processStepResults": {
       "step": "Trin {{step}}",
-      "aggregatedProductionPerGridArea": "Aggregeret produktion per netområde",
-      "aggregatedConsumptionPerEnergySupplier": "Aggregeret timeforbrug per elleverandør",
-      "nonProfiledConsumptionPerBalanceResponsible": "Aggregeret timeforbrug per balanceansvarlig",
+      "aggregatedProductionPerGridArea": "Kvartersafregnet forbrug per netområde",
+      "aggregatedConsumptionPerEnergySupplier": "Kvartersafregnet forbrug per elleverandør",
+      "nonProfiledConsumptionPerBalanceResponsible": "Kvartersafregnet forbrug per balanceansvarlig",
       "gridArea": "Netområde",
       "energySupplier": "El-leverandør",
       "loadProcessStepResultsErrorTitle": "Ups! Der opstod en fejl",
