@@ -813,9 +813,9 @@
     },
     "processStepResults": {
       "step": "Step {{step}}",
-      "aggregatedProductionPerGridArea": "Aggregated production per grid area",
-      "aggregatedConsumptionPerEnergySupplier": "Aggregated consumption per energy supplier",
-      "nonProfiledConsumptionPerBalanceResponsible": "Aggregated consumption per balance responsible",
+      "aggregatedProductionPerGridArea": "Non-profiled consumption per grid area",
+      "aggregatedConsumptionPerEnergySupplier": "Non-profiled consumption per Energy Supplier",
+      "nonProfiledConsumptionPerBalanceResponsible": "Non-profiled consumption per Balance Responsible Party",
       "gridArea": "Grid area",
       "energySupplier": "Energy Supplier",
       "meteringPointType": "Metering point type",
