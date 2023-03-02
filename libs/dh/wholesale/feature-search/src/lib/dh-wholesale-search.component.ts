@@ -31,7 +31,6 @@ import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-batch-details.component';
-import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 type Batch = Omit<graphql.Batch, 'gridAreas'>;
 
@@ -59,7 +58,6 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit {
   private route = inject(ActivatedRoute);
   private apollo = inject(Apollo);
 
-  labels = labels;
   routerBatchId = this.route.snapshot.queryParams.batch;
   selectedBatch?: Batch;
   executionTime = {

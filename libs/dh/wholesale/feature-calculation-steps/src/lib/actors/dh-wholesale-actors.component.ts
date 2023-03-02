@@ -27,7 +27,6 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { takeWhile } from 'rxjs';
-import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   standalone: true,
@@ -46,8 +45,6 @@ import { labels } from '@energinet-datahub/dh/globalization/assets-localization'
 export class DhWholesaleActorsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private apollo = inject(Apollo);
-
-  labels = labels;
 
   @Input() batchId!: string;
   @Input() gridAreaCode!: string;

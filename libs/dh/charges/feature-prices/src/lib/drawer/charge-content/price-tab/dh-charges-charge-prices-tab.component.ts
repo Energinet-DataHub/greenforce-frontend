@@ -51,7 +51,6 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
-import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   standalone: true,
@@ -87,8 +86,6 @@ export class DhChargesChargePricesTabComponent implements OnInit, OnChanges, OnD
 
   private transloco = inject(TranslocoService);
   private chargePricesStore = inject(DhChargePricesDataAccessApiStore);
-
-  labels = labels;
 
   localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
