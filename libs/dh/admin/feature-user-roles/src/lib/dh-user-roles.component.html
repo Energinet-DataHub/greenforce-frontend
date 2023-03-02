@@ -50,7 +50,7 @@ limitations under the License.
             <ng-container *ngFor="let userRole of actor.userRoles">
               <li *ngIf="userRole.userActorId !== null">
                 <div>{{ userRole.name }}</div>
-                <div>Manglede beskrivelse</div>
+                <div>{{ userRole.description }}</div>
               </li>
             </ng-container>
           </ul>
@@ -62,7 +62,7 @@ limitations under the License.
                   (ngModelChange)="selectUserRole($event, userRole, actor.id)"
                 ></watt-checkbox>
                 <div>{{ userRole.name }}</div>
-                <div>Manglede beskrivelse</div>
+                <div>{{ userRole.description }}</div>
               </ng-container>
             </li>
           </ul>

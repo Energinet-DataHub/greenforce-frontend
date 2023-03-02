@@ -104,7 +104,7 @@ namespace Energinet.DataHub.WebApi.Controllers
 
                     foreach (var userRole in await _userRoleClient.GetAssignableAsync(actor.ActorId).ConfigureAwait(false))
                     {
-                        actorUserRoles.Add(new UserRoleViewDto(userRole.Id, userRole.Name, assignmentLookup.Contains(userRole.Id) ? actor.ActorId : null));
+                        actorUserRoles.Add(new UserRoleViewDto(userRole.Id, userRole.Name, userRole.Description, assignmentLookup.Contains(userRole.Id) ? actor.ActorId : null));
                     }
 
                     actorViews.Add(new ActorViewDto(
