@@ -27,7 +27,7 @@ import {
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatListModule } from '@angular/material/list';
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
 
 import { WattExpandOnActiveLinkDirective } from './watt-expand-on-active-link.directive';
 import { WattNavListItemComponent } from './watt-nav-list-item.component';

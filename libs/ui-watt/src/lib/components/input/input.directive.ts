@@ -20,8 +20,11 @@ import { AutofillMonitor } from '@angular/cdk/text-field';
 import { Directive, ElementRef, Inject, NgZone, Optional, Self } from '@angular/core';
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { MatFormFieldControl } from '@angular/material/form-field';
-import { MatInput, MAT_INPUT_VALUE_ACCESSOR } from '@angular/material/input';
+import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
+import {
+  MatLegacyInput as MatInput,
+  MAT_LEGACY_INPUT_VALUE_ACCESSOR as MAT_INPUT_VALUE_ACCESSOR,
+} from '@angular/material/legacy-input';
 
 @Directive({
   selector: '[wattInput]',

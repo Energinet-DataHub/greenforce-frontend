@@ -61,7 +61,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
     const numberTextBox: HTMLInputElement = screen.getByRole('textbox', {
       name: en.marketParticipant.actor.create.masterData.labelActorNumber,
     });
-    userEvent.type(numberTextBox, expected.actorNumber);
+    await userEvent.type(numberTextBox, expected.actorNumber);
 
     expect(numberTextBox).toHaveValue(expected.actorNumber);
 
@@ -92,12 +92,12 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
     const statusComboBox = await screen.findByRole('combobox', {
       name: en.marketParticipant.actor.create.masterData.statuses.Active,
     });
-    userEvent.click(statusComboBox);
+    await userEvent.click(statusComboBox);
 
     const statusOption = screen.getByText(
       en.marketParticipant.actor.create.masterData.statuses.Inactive
     );
-    userEvent.click(statusOption);
+    await userEvent.click(statusOption);
 
     // assert
     expect(changes).toEqual(expected);
@@ -176,8 +176,8 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
     const nameTextBox: HTMLInputElement = screen.getByRole('textbox', {
       name: en.marketParticipant.actor.create.masterData.labelActorName,
     });
-    userEvent.clear(nameTextBox);
-    userEvent.type(nameTextBox, expected.name);
+    await userEvent.clear(nameTextBox);
+    await userEvent.type(nameTextBox, expected.name);
 
     expect(nameTextBox).toHaveValue(expected.name);
 
@@ -208,8 +208,8 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
     const nameTextBox: HTMLInputElement = screen.getByRole('textbox', {
       name: en.marketParticipant.actor.create.masterData.labelActorName,
     });
-    userEvent.clear(nameTextBox);
-    userEvent.type(nameTextBox, expected.name);
+    await userEvent.clear(nameTextBox);
+    await userEvent.type(nameTextBox, expected.name);
 
     // assert
     expect(changes).toEqual(expected);

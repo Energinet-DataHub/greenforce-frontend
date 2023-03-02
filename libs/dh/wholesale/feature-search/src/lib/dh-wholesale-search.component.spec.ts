@@ -24,7 +24,7 @@ import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-ti
 import { WattToastModule } from '@energinet-datahub/watt/toast';
 
 import { DhWholesaleSearchComponent } from './dh-wholesale-search.component';
-import { WattTopBarOutletComponent } from 'libs/ui-watt/src/lib/components/shell/top-bar';
+import { WattTopBarOutletComponent } from '@energinet-datahub/watt/shell';
 
 async function setup() {
   await render(
@@ -76,6 +76,11 @@ describe(DhWholesaleSearchComponent.name, () => {
   it('should show loading indicator when starting a new search of batches', async () => {
     await setup();
 
+    await waitForElementToBeRemoved(() =>
+      screen.getByRole('heading', {
+        name: /Batch overview/i,
+      })
+    );
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
     await waitFor(() => expect(screen.queryByRole('progressbar')).not.toBeInTheDocument());
 

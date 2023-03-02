@@ -39,21 +39,24 @@
                 "onlyDependOnLibsWithTags": [
                   "type:api",
                   "type:app",
+                  "type:assets",
+                  "type:domain",
                   "type:e2e-util"
                 ]
               },
               {
                 "sourceTag": "type:feature",
                 "onlyDependOnLibsWithTags": [
-                  "type:feature",
-                  "type:ui",
+                  "type:assets",
+                  "type:configuration",
                   "type:data-access",
-                  "type:routing",
-                  "type:util",
-                  "type:test-util",
                   "type:domain",
                   "type:environments",
-                  "type:assets"
+                  "type:feature",
+                  "type:routing",
+                  "type:test-util",
+                  "type:ui",
+                  "type:util"
                 ]
               },
               {
