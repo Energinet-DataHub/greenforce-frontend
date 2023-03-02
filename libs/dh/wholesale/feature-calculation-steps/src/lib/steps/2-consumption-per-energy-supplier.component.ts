@@ -21,7 +21,6 @@ import { DhWholesaleResultsComponent } from '../results/dh-wholesale-results.com
 @Component({
   standalone: true,
   imports: [TranslocoModule, DhWholesaleResultsComponent],
-  selector: 'dh-wholesale-production-per-gridarea',
   template: `
     <dh-wholesale-results
       *transloco="let t; read: 'wholesale.processStepResults'"
