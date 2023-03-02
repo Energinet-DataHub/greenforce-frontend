@@ -232,6 +232,8 @@ function downloadBasisData(apiBase: string) {
 function getWholesaleSearchBatches() {
   return graphql.mockGetBatchesQuery((req, res, ctx) => {
     return res(ctx.delay(300), ctx.data({ batches: mockedBatches }));
+    //return res(ctx.status(404), ctx.delay(300));
+    //return res(ctx.status(500), ctx.delay(300));
   });
 }
 

@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
@@ -40,6 +39,13 @@ namespace Energinet.DataHub.WebApi.Controllers
         public Task<ActionResult<IEnumerable<PermissionDetailsDto>>> GetPermissionsAsync()
         {
             return HandleExceptionAsync(() => _client.GetPermissionsAsync());
+        }
+
+        [HttpPut]
+        [Route("Update")]
+        public Task<ActionResult> UpdateAsync(UpdatePermissionDto permissionDto)
+        {
+            return HandleExceptionAsync(() => _client.UpdatePermissionAsync(permissionDto));
         }
     }
 }

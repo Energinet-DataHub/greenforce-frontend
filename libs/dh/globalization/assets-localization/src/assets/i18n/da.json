@@ -804,9 +804,9 @@
     },
     "processStepResults": {
       "step": "Trin {{step}}",
-      "aggregatedProductionPerGridArea": "Aggregeret produktion per netområde",
-      "aggregatedConsumptionPerEnergySupplier": "Aggregeret timeforbrug per elleverandør",
-      "nonProfiledConsumptionPerBalanceResponsible": "Aggregeret timeforbrug per balanceansvarlig",
+      "aggregatedProductionPerGridArea": "Kvartersafregnet forbrug per netområde",
+      "aggregatedConsumptionPerEnergySupplier": "Kvartersafregnet forbrug per elleverandør",
+      "nonProfiledConsumptionPerBalanceResponsible": "Kvartersafregnet forbrug per balanceansvarlig",
       "gridArea": "Netområde",
       "energySupplier": "El-leverandør",
       "meteringPointType": "Målepunktstype",
@@ -1030,16 +1030,17 @@
           "masterData": {
             "tabLabel": "Stamdata",
             "nameInputLabel": "Navn",
-            "descriptionInputLabel": "Beskrivelse",
-            "errors": {
-              "nameAlreadyExists": "En bruger rolle med dette navn findes allerede",
-              "required": "Feltet er påkrævet"
-            }
+            "descriptionInputLabel": "Beskrivelse"
           },
           "permissions": {
             "tabLabel": "Rettigheder",
             "title": "Rettigheder",
             "onEditMessage": "Ved fjern/tilføj af rettigheder til en brugerrolle, kan det tage op til en time, før ændringer træder i kraft, efter de er gemt. Alternativt kan brugere logge ud og ind, hvis ændringer skal træde i kraft med det samme."
+          },
+          "validationErrors": {
+            "nameAlreadyExists": "En bruger rolle med dette navn findes allerede",
+            "required": "Feltet er påkrævet",
+            "permissionRequired": "Vælg minimum én rettighed"
           }
         },
         "cancel": "Fortryd",
