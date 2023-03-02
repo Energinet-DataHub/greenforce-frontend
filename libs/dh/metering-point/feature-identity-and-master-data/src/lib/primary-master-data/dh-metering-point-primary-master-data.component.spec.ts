@@ -50,15 +50,12 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
   };
 
   async function setup(primaryMasterData: PrimaryMasterData = { ...testData }) {
-    const { fixture } = await render(
-      DhMeteringPointPrimaryMasterDataComponent,
-      {
-        componentProperties: {
-          primaryMasterData,
-        },
-        imports: [NoopAnimationsModule, getTranslocoTestingModule()],
-      }
-    );
+    const { fixture } = await render(DhMeteringPointPrimaryMasterDataComponent, {
+      componentProperties: {
+        primaryMasterData,
+      },
+      imports: [NoopAnimationsModule, getTranslocoTestingModule()],
+    });
 
     await runOnPushChangeDetection(fixture);
   }
@@ -67,8 +64,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
     it('should render location description term', async () => {
       await setup();
       const term = getByTerm(
-        enTranslations.meteringPoint.overview.primaryMasterData
-          .locationDescription
+        enTranslations.meteringPoint.overview.primaryMasterData.locationDescription
       );
       expect(term).toBeInTheDocument();
     });
@@ -77,23 +73,19 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       await setup();
 
       const term = getByTerm(
-        enTranslations.meteringPoint.overview.primaryMasterData
-          .locationDescription
+        enTranslations.meteringPoint.overview.primaryMasterData.locationDescription
       );
       const definition = getDefinitonByTerm(term);
 
       expect(definition).toBeInTheDocument();
-      expect(definition).toHaveTextContent(
-        testData.locationDescription as string
-      );
+      expect(definition).toHaveTextContent(testData.locationDescription as string);
     });
 
     it('should render fallback definition, if location description is undefined', async () => {
       await setup({ ...testData, locationDescription: undefined });
 
       const term = getByTerm(
-        enTranslations.meteringPoint.overview.primaryMasterData
-          .locationDescription
+        enTranslations.meteringPoint.overview.primaryMasterData.locationDescription
       );
       const definition = getDefinitonByTerm(term);
 
@@ -105,8 +97,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       await setup({ ...testData, locationDescription: ' ' });
 
       const term = getByTerm(
-        enTranslations.meteringPoint.overview.primaryMasterData
-          .locationDescription
+        enTranslations.meteringPoint.overview.primaryMasterData.locationDescription
       );
       const definition = getDefinitonByTerm(term);
 

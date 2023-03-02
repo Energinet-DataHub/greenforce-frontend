@@ -29,11 +29,10 @@ import { MatCardModule } from '@angular/material/card';
       alt="Danish Ministry of Climate, Energy and Utilities logo"
     />
     <p class="watt-space-stack-m">
-      Renewable energy is a general term for bio-energy, onshore and offshore
-      wind power, solar energy, geothermal energy as well as other technologies
-      that differ from coal and other fossil fuels by being CO2 neutral. The use
-      of sustainable energy sources contributes to the reduction of our
-      greenhouse gas emissions and making Denmark independent of fossil energy.
+      Renewable energy is a general term for bio-energy, onshore and offshore wind power, solar
+      energy, geothermal energy as well as other technologies that differ from coal and other fossil
+      fuels by being CO2 neutral. The use of sustainable energy sources contributes to the reduction
+      of our greenhouse gas emissions and making Denmark independent of fossil energy.
     </p>
     <p>
       Read more on the home page:<br />

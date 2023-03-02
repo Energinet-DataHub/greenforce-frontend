@@ -48,9 +48,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   styleUrls: ['./dh-market-participant-organization-overview.component.scss'],
   templateUrl: './dh-market-participant-organization-overview.component.html',
 })
-export class DhMarketParticipantOrganizationOverviewComponent
-  implements AfterViewInit, OnChanges
-{
+export class DhMarketParticipantOrganizationOverviewComponent implements AfterViewInit, OnChanges {
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
@@ -81,9 +79,7 @@ export class DhMarketParticipantOrganizationOverviewComponent
   ngOnChanges() {
     this.dataSource.data = this.rows;
     this.dataSource.paginator = this.paginator?.instance;
-    this.gridAreas.forEach(
-      (gridArea) => (this.gridAreasMap[gridArea.id] = gridArea.name)
-    );
+    this.gridAreas.forEach((gridArea) => (this.gridAreasMap[gridArea.id] = gridArea.name));
   }
 
   ngAfterViewInit() {

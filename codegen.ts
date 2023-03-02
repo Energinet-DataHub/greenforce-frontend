@@ -2,7 +2,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: './graphql.schema.json',
+  schema: 'https://localhost:5001/graphql',
   documents: 'libs/**/*.graphql',
   generates: {
     'libs/dh/shared/domain/src/lib/graphql.ts': {
@@ -14,8 +14,8 @@ const config: CodegenConfig = {
         'typescript-msw',
       ],
     },
-    './graphql.schema.json': {
-      plugins: ['introspection'],
+    './schema.graphql': {
+      plugins: ['schema-ast'],
     },
   },
 };

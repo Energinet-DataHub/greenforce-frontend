@@ -41,10 +41,7 @@ export class DhProcessesTabContentComponent {
   processes$ = this.store.processes$;
   isLoading$ = this.store.isLoading$;
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: DhProcessesDataAccessApiStore
-  ) {
+  constructor(private route: ActivatedRoute, private store: DhProcessesDataAccessApiStore) {
     this.loadProcessData();
   }
 

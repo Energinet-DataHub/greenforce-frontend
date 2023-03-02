@@ -41,9 +41,7 @@ interface EoMediaState {
 
 @Injectable()
 export class EoMediaPresenter extends ComponentStore<EoMediaState> {
-  #gapPixels$: Observable<number | null> = this.select(
-    (state) => state.gapPixels
-  );
+  #gapPixels$: Observable<number | null> = this.select((state) => state.gapPixels);
   #mediaImageMaxWidthPixels$: Observable<number | null> = this.select(
     (state) => state.mediaImageMaxWidthPixels
   );
@@ -87,8 +85,7 @@ export class EoMediaPresenter extends ComponentStore<EoMediaState> {
    */
   mediaImageOrder$: Observable<number> = this.select(
     this.select((state) => state.mediaImageAlign),
-    (align) =>
-      align === 'start' ? Number.MIN_SAFE_INTEGER : Number.MAX_SAFE_INTEGER,
+    (align) => (align === 'start' ? Number.MIN_SAFE_INTEGER : Number.MAX_SAFE_INTEGER),
     {
       debounce: true,
     }

@@ -17,10 +17,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { AuthHttp } from '@energinet-datahub/eo/auth/data-access-api';
-import {
-  AbsoluteUrlGenerator,
-  eoDashboardRoutePath,
-} from '@energinet-datahub/eo/shared/utilities';
+import { AbsoluteUrlGenerator, eoDashboardRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { ComponentStore } from '@ngrx/component-store';
 import { Observable } from 'rxjs';
 

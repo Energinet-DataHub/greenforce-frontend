@@ -39,12 +39,6 @@ import { A11yModule } from '@angular/cdk/a11y';
     WattDrawerActionsComponent,
     WattDrawerContentComponent,
   ],
-  imports: [
-    A11yModule,
-    MatSidenavModule,
-    WattButtonModule,
-    WattSpinnerModule,
-    CommonModule,
-  ],
+  imports: [A11yModule, MatSidenavModule, WattButtonModule, WattSpinnerModule, CommonModule],
 })
 export class WattDrawerModule {}

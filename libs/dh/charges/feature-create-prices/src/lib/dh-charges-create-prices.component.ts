@@ -14,13 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -33,15 +27,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {
-  WattDropdownModule,
-  WattDropdownOptions,
-} from '@energinet-datahub/watt/dropdown';
+import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { Subject, take, takeUntil } from 'rxjs';
-import {
-  ChargeTypes,
-  ResolutionOptions,
-} from '@energinet-datahub/dh/charges/domain';
+import { ChargeTypes, ResolutionOptions } from '@energinet-datahub/dh/charges/domain';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
@@ -58,10 +46,7 @@ import {
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { PushModule } from '@rx-angular/template/push';
 import { Router } from '@angular/router';
-import {
-  dhChargesPath,
-  dhChargesPricesPath,
-} from '@energinet-datahub/dh/charges/routing';
+import { dhChargesPath, dhChargesPricesPath } from '@energinet-datahub/dh/charges/routing';
 import { add } from 'date-fns';
 
 @Component({
@@ -69,10 +54,7 @@ import { add } from 'date-fns';
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-charges-create-prices.component.html',
   styleUrls: ['./dh-charges-create-prices.component.scss'],
-  providers: [
-    DhMarketParticipantDataAccessApiStore,
-    DhChargesDataAccessApiStore,
-  ],
+  providers: [DhMarketParticipantDataAccessApiStore, DhChargesDataAccessApiStore],
 })
 export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   chargeTypeOptions: WattDropdownOptions = [];
@@ -80,27 +62,15 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   marketParticipantsOptions: WattDropdownOptions = [];
 
   charge = new FormGroup({
-    senderProvidedChargeId: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(10),
-    ]),
+    senderProvidedChargeId: new FormControl('', [Validators.required, Validators.maxLength(10)]),
     chargeType: new FormControl('', Validators.required),
-    chargeName: new FormControl('', [
+    chargeName: new FormControl('', [Validators.required, Validators.maxLength(132)]),
+    description: new FormControl('', [Validators.required, Validators.maxLength(2048)]),
+    resolution: new FormControl({ value: '', disabled: true }, Validators.required),
+    effectiveDate: new FormControl(add(new Date(), { days: 31 }).toISOString(), [
       Validators.required,
-      Validators.maxLength(132),
+      this.validateValidFromDate,
     ]),
-    description: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(2048),
-    ]),
-    resolution: new FormControl(
-      { value: '', disabled: true },
-      Validators.required
-    ),
-    effectiveDate: new FormControl(
-      add(new Date(), { days: 31 }).toISOString(),
-      [Validators.required, this.validateValidFromDate]
-    ),
     vatClassification: new FormControl(true, Validators.required),
     transparentInvoicing: new FormControl(false, Validators.required),
     taxIndicator: new FormControl(false, Validators.required),
@@ -137,9 +107,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
       .subscribe((hasError) => {
         if (hasError) {
           this.toastService.open({
-            message: this.translocoService.translate(
-              'charges.createPrices.createPriceError'
-            ),
+            message: this.translocoService.translate('charges.createPrices.createPriceError'),
             type: 'danger',
           });
 
@@ -152,16 +120,12 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
       .subscribe((hasSucceded) => {
         if (hasSucceded) {
           this.toastService.open({
-            message: this.translocoService.translate(
-              'charges.createPrices.createPriceSuccess'
-            ),
+            message: this.translocoService.translate('charges.createPrices.createPriceSuccess'),
             type: 'success',
           });
 
           setTimeout(() => {
-            this.router.navigateByUrl(
-              `${dhChargesPath}/${dhChargesPricesPath}`
-            );
+            this.router.navigateByUrl(`${dhChargesPath}/${dhChargesPricesPath}`);
           }, 1000);
         }
       });
@@ -173,13 +137,11 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   }
 
   ownerChanged(marketParticipantId: string) {
-    this.marketParticipantStore.all$
-      .pipe(take(1))
-      .subscribe((marketParticipants) => {
-        this.selectedSenderMarketParticipant = marketParticipants?.find(
-          (mp) => mp.id == marketParticipantId
-        );
-      });
+    this.marketParticipantStore.all$.pipe(take(1)).subscribe((marketParticipants) => {
+      this.selectedSenderMarketParticipant = marketParticipants?.find(
+        (mp) => mp.id == marketParticipantId
+      );
+    });
   }
 
   chargeTypeChanged(chargeType: number) {
@@ -238,9 +200,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     });
 
     this.toastService.open({
-      message: this.translocoService.translate(
-        'charges.createPrices.loadingRequestText'
-      ),
+      message: this.translocoService.translate('charges.createPrices.loadingRequestText'),
       type: 'loading',
     });
   }
@@ -270,8 +230,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     this.charge.controls['vatClassification'].enable();
 
     const chargeType = Number(this.charge.controls['chargeType'].value);
-    if (chargeType === ChargeTypes.Tariff)
-      this.charge.controls['resolution'].enable();
+    if (chargeType === ChargeTypes.Tariff) this.charge.controls['resolution'].enable();
   }
 
   disableTaxIndicator() {
@@ -285,9 +244,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   }
 
   disableResolutionWithValue() {
-    this.charge.controls['resolution'].setValue(
-      Number(ResolutionOptions.P1M).toString()
-    );
+    this.charge.controls['resolution'].setValue(Number(ResolutionOptions.P1M).toString());
     this.charge.controls['resolution'].disable();
   }
 
@@ -316,8 +273,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
             .map((chargeTypeKey) => {
               return {
                 value: chargeTypeKey,
-                displayValue:
-                  translationKeys[ChargeTypes[Number(chargeTypeKey)]],
+                displayValue: translationKeys[ChargeTypes[Number(chargeTypeKey)]],
               };
             });
         },
@@ -340,8 +296,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
             .map((chargeTypeKey) => {
               return {
                 value: chargeTypeKey,
-                displayValue:
-                  translationKeys[ResolutionOptions[Number(chargeTypeKey)]],
+                displayValue: translationKeys[ResolutionOptions[Number(chargeTypeKey)]],
               };
             });
 

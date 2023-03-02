@@ -15,12 +15,7 @@
  * limitations under the License.
  */
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
-import {
-  FormControl,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { WattFormFieldModule } from '../../form-field/form-field.module';

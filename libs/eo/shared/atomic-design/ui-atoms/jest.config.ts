@@ -25,8 +25,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory:
-    '../../../../../coverage/libs/eo/shared/atomic-design/ui-atoms',
+  coverageDirectory: '../../../../../coverage/libs/eo/shared/atomic-design/ui-atoms',
   /**
    * https://stackoverflow.com/questions/42260218/jest-setup-syntaxerror-unexpected-token-export
    * NG2-charts has an error with lodash-es, Jest tests fail if this is not added.

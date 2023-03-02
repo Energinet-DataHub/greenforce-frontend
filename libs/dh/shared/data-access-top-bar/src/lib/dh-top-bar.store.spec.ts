@@ -61,9 +61,7 @@ describe(DhTopBarStore.name, () => {
 
       const { router, store } = setup(testRoutes);
 
-      const actualTitleTranslationKey = firstValueFrom(
-        store.titleTranslationKey$
-      );
+      const actualTitleTranslationKey = firstValueFrom(store.titleTranslationKey$);
 
       // Act
       router.navigateByUrl(testMeteringPointsPath);
@@ -90,17 +88,13 @@ describe(DhTopBarStore.name, () => {
 
       const { router, store } = setup(testRoutes);
 
-      const actualTitleTranslationKey = firstValueFrom(
-        store.titleTranslationKey$.pipe(skip(1))
-      );
+      const actualTitleTranslationKey = firstValueFrom(store.titleTranslationKey$.pipe(skip(1)));
 
       // Act
       router.navigateByUrl(`${testMeteringPointsPath}/123456789012345`);
 
       // Assert
-      expect(await actualTitleTranslationKey).toBe(
-        fakeChildTitleTranslationKey
-      );
+      expect(await actualTitleTranslationKey).toBe(fakeChildTitleTranslationKey);
     });
 
     it('the title translation key of the parent route is emitted when nested route does not have title translation key set up', async () => {
@@ -120,17 +114,13 @@ describe(DhTopBarStore.name, () => {
 
       const { router, store } = setup(testRoutes);
 
-      const actualTitleTranslationKey = firstValueFrom(
-        store.titleTranslationKey$.pipe(skip(1))
-      );
+      const actualTitleTranslationKey = firstValueFrom(store.titleTranslationKey$.pipe(skip(1)));
 
       // Act
       router.navigateByUrl(`${testMeteringPointsPath}/123456789012345`);
 
       // Assert
-      expect(await actualTitleTranslationKey).toBe(
-        fakeParentTitleTranslationKey
-      );
+      expect(await actualTitleTranslationKey).toBe(fakeParentTitleTranslationKey);
     });
   });
 });

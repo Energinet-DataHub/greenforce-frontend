@@ -19,10 +19,7 @@ import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
 export type TValue = string | null | undefined;
 
-export function dhFormatDanishDatetime(
-  timeValue: TValue,
-  format: string
-): string | null {
+export function dhFormatDanishDatetime(timeValue: TValue, format: string): string | null {
   if (timeValue == null) {
     return null;
   }

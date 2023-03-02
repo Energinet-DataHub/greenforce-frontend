@@ -62,6 +62,7 @@ export * from './net-settlement-group';
 export * from './organization-dto';
 export * from './organization-status';
 export * from './organization-view-dto';
+export * from './organization-with-actors-dto';
 export * from './permission-details-dto';
 export * from './price-area-code';
 export * from './process';

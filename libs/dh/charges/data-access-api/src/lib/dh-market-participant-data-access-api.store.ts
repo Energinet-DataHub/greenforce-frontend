@@ -17,15 +17,9 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import {
-  MarketParticipantV1Dto,
-  ChargesHttp,
-} from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantV1Dto, ChargesHttp } from '@energinet-datahub/dh/shared/domain';
 import { Observable, switchMap, tap } from 'rxjs';
-import {
-  ErrorState,
-  LoadingState,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 interface MarketParticipantState {
   readonly marketParticipants?: Array<MarketParticipantV1Dto>;
@@ -42,43 +36,37 @@ export class DhMarketParticipantDataAccessApiStore extends ComponentStore<Market
   all$ = this.select((state) => state.marketParticipants);
 
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
-  isLoading$ = this.select(
-    (state) => state.requestState === LoadingState.LOADING
-  );
-  hasGeneralError$ = this.select(
-    (state) => state.requestState === ErrorState.GENERAL_ERROR
-  );
+  isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
+  hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
 
   constructor(private httpClient: ChargesHttp) {
     super(initialState);
   }
 
-  readonly loadMarketParticipants = this.effect(
-    (trigger$: Observable<void>) => {
-      return trigger$.pipe(
-        tap(() => {
-          this.resetState();
+  readonly loadMarketParticipants = this.effect((trigger$: Observable<void>) => {
+    return trigger$.pipe(
+      tap(() => {
+        this.resetState();
 
-          this.setLoading(LoadingState.LOADING);
-        }),
-        switchMap(() =>
-          this.httpClient.v1ChargesGetMarketParticipantsAsyncGet().pipe(
-            tapResponse(
-              (marketParticipants) => {
-                this.setLoading(LoadingState.LOADED);
+        this.setLoading(LoadingState.LOADING);
+      }),
+      switchMap(() =>
+        this.httpClient.v1ChargesGetMarketParticipantsAsyncGet().pipe(
+          tapResponse(
+            (marketParticipants) => {
+              this.setLoading(LoadingState.LOADED);
 
-                this.updateMarketParticipantsData(marketParticipants);
-              },
-              (error: HttpErrorResponse) => {
-                this.setLoading(LoadingState.LOADED);
-                this.handleError(error);
-              }
-            )
+              this.updateMarketParticipantsData(marketParticipants);
+            },
+            (error: HttpErrorResponse) => {
+              this.setLoading(LoadingState.LOADED);
+              this.handleError(error);
+            }
           )
         )
-      );
-    }
-  );
+      )
+    );
+  });
 
   private updateMarketParticipantsData = this.updater(
     (

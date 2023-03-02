@@ -14,23 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import {
-  WattDropdownModule,
-  WattDropdownOption,
-} from '@energinet-datahub/watt/dropdown';
+import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { UserStatus } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
@@ -55,12 +45,7 @@ import { UserStatus } from '@energinet-datahub/dh/shared/domain';
       }
     `,
   ],
-  imports: [
-    TranslocoModule,
-    ReactiveFormsModule,
-    WattFormFieldModule,
-    WattDropdownModule,
-  ],
+  imports: [TranslocoModule, ReactiveFormsModule, WattFormFieldModule, WattDropdownModule],
 })
 export class DhUsersTabStatusFilterComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
