@@ -30,77 +30,103 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public GraphQLQuery()
         {
             Field<ListGraphType<OrganizationDtoType>>("organizations")
-               .Resolve()
-               .WithScope()
-               .WithService<IMarketParticipantClient>()
-               .ResolveAsync(async (context, client) => await client.GetOrganizationsAsync());
+                .Resolve()
+                .WithScope()
+                .WithService<IMarketParticipantClient>()
+                .ResolveAsync(async (context, client) => await client.GetOrganizationsAsync());
 
             Field<OrganizationDtoType>("organization")
-               .Argument<IdGraphType>("id", "The id of the organization")
-               .Resolve()
-               .WithScope()
-               .WithService<IMarketParticipantClient>()
-               .ResolveAsync(async (context, client) => await client.GetOrganizationAsync(context.GetArgument<Guid>("id")));
+                .Argument<IdGraphType>("id", "The id of the organization")
+                .Resolve()
+                .WithScope()
+                .WithService<IMarketParticipantClient>()
+                .ResolveAsync(async (context, client) => await client.GetOrganizationAsync(context.GetArgument<Guid>("id")));
 
             Field<BatchType>("batch")
-               .Argument<IdGraphType>("id", "The id of the organization")
-               .Resolve()
-               .WithScope()
-               .WithService<IWholesaleClient>()
-               .ResolveAsync(async (context, client) => await client.GetBatchAsync(context.GetArgument<Guid>("id")));
+                .Argument<IdGraphType>("id", "The id of the organization")
+                .Resolve()
+                .WithScope()
+                .WithService<IWholesaleClient>()
+                .ResolveAsync(async (context, client) => await client.GetBatchAsync(context.GetArgument<Guid>("id")));
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<BatchType>>>>("batches")
-               .Argument<DateRangeType>("executionTime")
-               .Resolve()
-               .WithScope()
-               .WithService<IWholesaleClient>()
-               .ResolveAsync(async (context, client) =>
-               {
-                   var interval = context.GetArgument<Tuple<DateTimeOffset, DateTimeOffset>>("executionTime");
-                   var batchSearchDto = new BatchSearchDto(interval.Item1, interval.Item2);
-                   return await client.GetBatchesAsync(batchSearchDto);
-               });
+                .Argument<DateRangeType>("executionTime")
+                .Resolve()
+                .WithScope()
+                .WithService<IWholesaleClient>()
+                .ResolveAsync(async (context, client) =>
+                {
+                    var interval = context.GetArgument<Tuple<DateTimeOffset, DateTimeOffset>>("executionTime");
+                    var batchSearchDto = new BatchSearchDto(interval.Item1, interval.Item2);
+                    return await client.GetBatchesAsync(batchSearchDto);
+                });
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<SettlementReportType>>>>("settlementReports")
-               .Argument<ProcessTypeEnum>("processType")
-               .Argument<string[]>("gridAreaCodes")
-               .Argument<DateRangeType>("period")
-               .Argument<DateRangeType>("executionTime")
-               .Resolve()
-               .WithScope()
-               .WithService<IWholesaleClient>()
-               .WithService<IMarketParticipantClient>()
-               .ResolveAsync(async (context, wholesaleClient, marketParticipantClient) =>
-               {
-                   var processType = context.GetArgument<ProcessType>("processType");
-                   var gridAreaCodes = context.GetArgument<string[]>("gridAreaCodes");
-                   var period = context.GetArgument<Tuple<DateTimeOffset, DateTimeOffset>>("period");
-                   var executionTime = context.GetArgument<Tuple<DateTimeOffset, DateTimeOffset>>("executionTime");
-                   var batchSearchDto = new BatchSearchDtoV2(gridAreaCodes, BatchState.Completed, executionTime.Item1, executionTime.Item2, period.Item1, period.Item2);
-                   var gridAreasTask = marketParticipantClient.GetGridAreasAsync();
-                   var batchesTask = wholesaleClient.GetBatchesAsync(batchSearchDto);
-                   var batches = await batchesTask;
-                   var gridAreas = await gridAreasTask;
-                   return batches.Aggregate(new List<SettlementReport>(), (accumulator, batch) =>
-                   {
-                       var settlementReports = batch.GridAreaCodes
-                          .Where(gridAreaCode => gridAreaCodes.Length == 0 || gridAreaCodes.Contains(gridAreaCode))
-                          .Select(gridAreaCode => new SettlementReport(
-                              ProcessType.BalanceFixing,
-                              gridAreas.First(gridArea => gridArea.Code == gridAreaCode),
-                              Tuple.Create(batch.PeriodStart, batch.PeriodEnd),
-                              batch.ExecutionTimeStart));
+                .Argument<ProcessTypeEnum>("processType")
+                .Argument<string[]>("gridAreaCodes", nullable: true)
+                .Argument<DateRangeType>("period")
+                .Argument<DateRangeType>("executionTime")
+                .Resolve()
+                .WithScope()
+                .WithService<IWholesaleClient>()
+                .WithService<IMarketParticipantClient>()
+                .ResolveAsync(async (context, wholesaleClient, marketParticipantClient) =>
+                {
+                    // var processType = context.GetArgument<ProcessType?>("processType", null);
+                    var gridAreaCodes = context.GetArgument("gridAreaCodes", Array.Empty<string>());
+                    var period = context.GetArgument<Tuple<DateTimeOffset, DateTimeOffset>>("period");
+                    var executionTime = context.GetArgument<Tuple<DateTimeOffset, DateTimeOffset>>("executionTime");
 
-                       accumulator.AddRange(settlementReports);
-                       return accumulator;
-                   });
-               });
+                    var minExecutionTime = executionTime?.Item1 ?? null;
+                    var maxExecutionTime = executionTime?.Item2 ?? null;
+                    var periodStart = period?.Item1 ?? null;
+                    var periodEnd = period?.Item2 ?? null;
+
+                    var batchSearchDto = new BatchSearchDtoV2(
+                        gridAreaCodes,
+                        BatchState.Completed,
+                        minExecutionTime,
+                        maxExecutionTime,
+                        periodStart,
+                        periodEnd);
+
+                    try
+                    {
+                        var gridAreasTask2 = marketParticipantClient.GetGridAreasAsync();
+                        var batchesTask2 = wholesaleClient.GetBatchesAsync(batchSearchDto);
+                        await gridAreasTask2;
+                        await batchesTask2;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+
+                    var gridAreasTask = marketParticipantClient.GetGridAreasAsync();
+                    var batchesTask = wholesaleClient.GetBatchesAsync(batchSearchDto);
+                    var batches = await batchesTask;
+                    var gridAreas = await gridAreasTask;
+
+                    return batches.Aggregate(new List<SettlementReport>(), (accumulator, batch) =>
+                    {
+                        var settlementReports = batch.GridAreaCodes
+                            .Where(gridAreaCode => gridAreaCodes.Length == 0 || gridAreaCodes.Contains(gridAreaCode))
+                            .Select(gridAreaCode => new SettlementReport(
+                                ProcessType.BalanceFixing,
+                                gridAreas.First(gridArea => gridArea.Code == gridAreaCode),
+                                Tuple.Create(batch.PeriodStart, batch.PeriodEnd),
+                                batch.ExecutionTimeStart));
+
+                        accumulator.AddRange(settlementReports);
+                        return accumulator;
+                    });
+                });
 
             Field<ProcessStepType>("processStep")
-               .Argument<NonNullGraphType<IntGraphType>>("step", "The process step number.")
-               .Argument<NonNullGraphType<IdGraphType>>("batchId", "The batch id the process belongs to.")
-               .Argument<NonNullGraphType<StringGraphType>>("gridArea", "The grid area code for the process.")
-               .Resolve(context => new { });
+                .Argument<NonNullGraphType<IntGraphType>>("step", "The process step number.")
+                .Argument<NonNullGraphType<IdGraphType>>("batchId", "The batch id the process belongs to.")
+                .Argument<NonNullGraphType<StringGraphType>>("gridArea", "The grid area code for the process.")
+                .Resolve(context => new { });
         }
     }
 }
