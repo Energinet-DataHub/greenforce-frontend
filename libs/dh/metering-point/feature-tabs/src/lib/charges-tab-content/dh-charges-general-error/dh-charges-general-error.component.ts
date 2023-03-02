@@ -17,7 +17,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 
 @Component({
@@ -25,9 +24,7 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
   templateUrl: './dh-charges-general-error.component.html',
   styleUrls: ['./dh-charges-general-error.component.scss'],
 })
-export class DhChargesGeneralErrorComponent {
-  labels = labels;
-}
+export class DhChargesGeneralErrorComponent {}
 
 @NgModule({
   imports: [TranslocoModule, CommonModule, WattEmptyStateModule],

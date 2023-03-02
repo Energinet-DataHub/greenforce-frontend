@@ -35,7 +35,6 @@ import { Apollo } from 'apollo-angular';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { ActivatedRoute } from '@angular/router';
 import { DhDatePipe } from '@energinet-datahub/dh/shared/ui-date-time';
-import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   selector: 'dh-wholesale-results',
@@ -61,8 +60,6 @@ export class DhWholesaleResultsComponent implements OnInit {
 
   private route = inject(ActivatedRoute);
   private apollo = inject(Apollo);
-
-  labels = labels;
 
   @Input() marketRole?: string;
   @Input() title?: string;

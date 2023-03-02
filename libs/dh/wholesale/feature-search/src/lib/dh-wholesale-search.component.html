@@ -38,11 +38,9 @@ limitations under the License.
 
 <watt-spinner *ngIf="loading"></watt-spinner>
 
-<ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
-  <watt-empty-state
-    *ngIf="error"
-    icon="custom-power"
-    [title]="labels.shared.error.title | transloco"
-    [message]="labels.shared.error.message | transloco"
-  ></watt-empty-state>
-</ng-container>
+<watt-empty-state
+  *ngIf="error"
+  icon="custom-power"
+  [title]="'shared.error.title' | transloco"
+  [message]="'shared.error.message' | transloco"
+></watt-empty-state>

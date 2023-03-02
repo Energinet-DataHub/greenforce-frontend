@@ -19,7 +19,6 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 
 @Component({
   selector: 'dh-users-tab-general-error',
@@ -28,11 +27,11 @@ import { labels } from '@energinet-datahub/dh/globalization/assets-localization'
   template: `
     <watt-empty-state
       icon="custom-power"
-      [title]="labels.shared.error.title | transloco"
-      [message]="labels.shared.error.message | transloco"
+      [title]="'shared.error.title' | transloco"
+      [message]="'shared.error.message' | transloco"
     >
       <watt-button (click)="reload.emit()" variant="primary">{{
-        labels.shared.error.button | transloco
+        'shared.error.button' | transloco
       }}</watt-button>
     </watt-empty-state>
   `,
@@ -40,5 +39,4 @@ import { labels } from '@energinet-datahub/dh/globalization/assets-localization'
 })
 export class DhUsersTabGeneralErrorComponent {
   @Output() reload = new EventEmitter<void>();
-  labels = labels;
 }
