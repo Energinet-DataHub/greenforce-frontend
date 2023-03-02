@@ -39,7 +39,7 @@ import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/
 import { PushModule } from '@rx-angular/template/push';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { SettlementReportsProcessFilters } from '@energinet-datahub/dh/wholesale/domain';
+import { SettlementReportFilters } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
   standalone: true,
@@ -61,7 +61,7 @@ import { SettlementReportsProcessFilters } from '@energinet-datahub/dh/wholesale
 })
 export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
   @Input() loading = false;
-  @Output() filterChange = new EventEmitter<SettlementReportsProcessFilters>();
+  @Output() filterChange = new EventEmitter<SettlementReportFilters>();
 
   private destroy$ = new Subject<void>();
   private transloco = inject(TranslocoService);
@@ -99,7 +99,6 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
           start: '',
           end: '',
         },
-        disabled: true,
       },
     ],
     executionTime: [
@@ -115,10 +114,10 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.filters.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((filters: unknown) => {
-      this.filterChange.emit(filters as SettlementReportsProcessFilters);
+      this.filterChange.emit(filters as SettlementReportFilters);
     });
 
-    this.filterChange.emit(this.filters.value as SettlementReportsProcessFilters);
+    this.filterChange.emit(this.filters.value as SettlementReportFilters);
   }
 
   ngOnDestroy(): void {

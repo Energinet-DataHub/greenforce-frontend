@@ -32,7 +32,7 @@ limitations under the License.
 
     <!-- Grid Area Name -->
     <ng-container *wattTableCell="columns.gridAreaName; let process">
-      {{ process.gridAreaName }} ({{ process.gridAreaCode }})
+      {{ process.gridArea.name }} ({{ process.gridArea.code }})
     </ng-container>
 
     <!-- Period Start -->
@@ -47,7 +47,7 @@ limitations under the License.
 
     <!-- Execution Time Start -->
     <ng-container *wattTableCell="columns.executionTimeStart; let batch">
-      {{ batch.executionTimeStart | dhDateTime }}
+      {{ batch.executionTime?.start | dhDateTime }}
     </ng-container>
   </watt-table>
 

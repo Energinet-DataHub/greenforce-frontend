@@ -779,7 +779,7 @@
         "emptyHelperText": "Prøv at ændre dine søgeindstillinger"
       },
       "processTypes": {
-        "BalanceFixing": "Balancefiksering"
+        "BALANCE_FIXING": "Balancefiksering"
       },
       "filters": {
         "processType": "Procestype",

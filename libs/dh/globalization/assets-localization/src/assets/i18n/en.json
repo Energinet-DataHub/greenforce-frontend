@@ -788,7 +788,7 @@
         "emptyHelperText": "Try changing the search criteria"
       },
       "processTypes": {
-        "BalanceFixing": "Balance fixing"
+        "BALANCE_FIXING": "Balance fixing"
       },
       "filters": {
         "processType": "Process type",
