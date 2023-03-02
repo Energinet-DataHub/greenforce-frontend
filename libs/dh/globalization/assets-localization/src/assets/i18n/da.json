@@ -815,8 +815,8 @@
     "actors": {
       "loadingActorsFailedTitle": "Ups! Der opstod en fejl",
       "loadingActorsFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
-      "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
-      "balanceResponsibles": "Balanceansvarlig",
+      "step-2-table-header": "{{wholesale.processStepResults.energySupplier}}",
+      "step-3-table-header": "Balanceansvarlig",
       "amountOfResults": "{{length}} Resultater"
     },
     "processStepResults": {
