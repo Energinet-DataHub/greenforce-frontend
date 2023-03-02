@@ -96,10 +96,10 @@ export class MarketParticipantPermissionHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantPermissionGetPut(updatePermissionDto?: UpdatePermissionDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1MarketParticipantPermissionGetPut(updatePermissionDto?: UpdatePermissionDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1MarketParticipantPermissionGetPut(updatePermissionDto?: UpdatePermissionDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1MarketParticipantPermissionGetPut(updatePermissionDto?: UpdatePermissionDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantPermissionUpdatePut(updatePermissionDto?: UpdatePermissionDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public v1MarketParticipantPermissionUpdatePut(updatePermissionDto?: UpdatePermissionDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public v1MarketParticipantPermissionUpdatePut(updatePermissionDto?: UpdatePermissionDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public v1MarketParticipantPermissionUpdatePut(updatePermissionDto?: UpdatePermissionDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -149,7 +149,7 @@ export class MarketParticipantPermissionHttp {
             }
         }
 
-        let localVarPath = `/v1/MarketParticipantPermission/Get`;
+        let localVarPath = `/v1/MarketParticipantPermission/Update`;
         return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
