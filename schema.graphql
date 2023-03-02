@@ -3,64 +3,42 @@ schema {
 }
 
 type Actor {
-  """
-  The number of the actor.
-  """
+  """The number of the actor."""
   number: String!
 }
 
 type Address {
-  """
-  The city of the address.
-  """
+  """The city of the address."""
   city: String
 
-  """
-  The country of the address.
-  """
+  """The country of the address."""
   country: String!
 
-  """
-  The number of the address.
-  """
+  """The number of the address."""
   number: String
 
-  """
-  The street name of the address.
-  """
+  """The street name of the address."""
   streetName: String
 
-  """
-  The zip code of the address.
-  """
+  """The zip code of the address."""
   zipCode: String
 }
 
 type Batch {
-  """
-  The execution state.
-  """
+  """The execution state."""
   executionState: BatchState!
 
-  """
-  The execution end time.
-  """
+  """The execution end time."""
   executionTimeEnd: DateTimeOffset
 
-  """
-  The execution start time.
-  """
+  """The execution start time."""
   executionTimeStart: DateTimeOffset
   gridAreas: [GridArea!]!
 
-  """
-  The id of the batch.
-  """
+  """The id of the batch."""
   id: ID!
 
-  """
-  Whether basis data is downloadable.
-  """
+  """Whether basis data is downloadable."""
   isBasisDataDownloadAvailable: Boolean!
   period: DateRange
   statusType: StatusType!
@@ -84,103 +62,65 @@ scalar Decimal
 
 type GraphQLQuery {
   batch(
-    """
-    The id of the organization
-    """
+    """The id of the organization"""
     id: ID
   ): Batch
   batches(executionTime: DateRange): [Batch!]!
   organization(
-    """
-    The id of the organization
-    """
+    """The id of the organization"""
     id: ID
   ): Organization
   organizations: [Organization]
+  permissions: [Permission!]!
   processStep(
-    """
-    The batch id the process belongs to.
-    """
+    """The batch id the process belongs to."""
     batchId: ID!
 
-    """
-    The grid area code for the process.
-    """
+    """The grid area code for the process."""
     gridArea: String!
 
-    """
-    The process step number.
-    """
+    """The process step number."""
     step: Int!
   ): ProcessStep
 }
 
 type GridArea {
-  """
-  The grid area code.
-  """
+  """The grid area code."""
   code: String!
 
-  """
-  The grid area id.
-  """
+  """The grid area id."""
   id: ID!
 
-  """
-  The grid area name.
-  """
+  """The grid area name."""
   name: String!
 
-  """
-  The price area code for the grid area.
-  """
+  """The price area code for the grid area."""
   priceAreaCode: PriceAreaCode!
 
-  """
-  Date that the grid area is valid from
-  """
+  """Date that the grid area is valid from"""
   validFrom: DateTimeOffset!
 
-  """
-  Date that the grid area is valid to
-  """
+  """Date that the grid area is valid to"""
   validTo: DateTimeOffset
 }
 
 type Organization {
-  """
-  The actors of the organization.
-  """
-  actors: [Actor!]!
-
-  """
-  The address of the organization.
-  """
+  """The address of the organization."""
   address: Address!
 
-  """
-  The business register identifier of the organization.
-  """
+  """The business register identifier of the organization."""
   businessRegisterIdentifier: String!
 
-  """
-  The comment of the organization.
-  """
+  """The comment of the organization."""
   comment: String!
 
-  """
-  The name of the organization.
-  """
+  """The name of the organization."""
   name: String!
 
-  """
-  The ID of the organization.
-  """
+  """The ID of the organization."""
   organizationId: ID!
 
-  """
-  The status of the organization.
-  """
+  """The status of the organization."""
   status: OrganizationStatus!
 }
 
@@ -189,6 +129,17 @@ enum OrganizationStatus {
   BLOCKED
   DELETED
   NEW
+}
+
+type Permission {
+  """The description of the permission."""
+  description: String!
+
+  """The ID of the permission."""
+  id: Int!
+
+  """The name of the permission."""
+  name: String!
 }
 
 enum PriceAreaCode {
@@ -210,9 +161,7 @@ type ProcessStepResult {
   timeSeriesType: TimeSeriesType!
 }
 
-"""
-How the status should be represented visually.
-"""
+"""How the status should be represented visually."""
 enum StatusType {
   danger
   info
