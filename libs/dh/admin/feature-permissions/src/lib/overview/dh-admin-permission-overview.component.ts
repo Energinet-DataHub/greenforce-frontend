@@ -22,7 +22,6 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { ApolloError } from '@apollo/client';
 import { Apollo } from 'apollo-angular';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { labels } from '@energinet-datahub/dh/globalization/assets-localization';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
@@ -48,8 +47,6 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
   permissions?: graphql.Permission[];
   loading = false;
   error?: ApolloError;
-  sharedLabels = labels.shared;
-  permissionsLabels = labels.admin.userManagement.permissionsTab;
 
   columns: WattTableColumnDef<graphql.Permission> = {
     name: { accessor: 'name' },
