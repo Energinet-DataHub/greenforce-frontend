@@ -46,3 +46,8 @@ runs:
       shell: bash
       run: |
         cp "${{ github.workspace }}/apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0/swagger.json" "${{ inputs.OUTPUT_PATH }}"
+
+    - name: Publish Graphql
+      shell: bash
+      run: |
+        cp "${{ github.workspace }}/schema.graphql" "${{ inputs.OUTPUT_PATH }}"
