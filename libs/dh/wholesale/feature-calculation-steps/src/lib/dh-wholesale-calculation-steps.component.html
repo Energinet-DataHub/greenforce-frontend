@@ -86,7 +86,7 @@ limitations under the License.
   <main>
     <ul class="steps" *ngIf="batch && gridArea">
       <li>
-        <watt-card (click)="openDrawer({step: '1'})">
+        <watt-card (click)="openDrawer({ step: '1' })">
           <h4>
             <watt-badge size="large" class="watt-space-inline-m">1</watt-badge>
             {{ t("processStepResults.aggregatedProductionPerGridArea") }}
