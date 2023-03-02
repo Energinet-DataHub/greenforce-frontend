@@ -818,7 +818,7 @@
     },
     "processStepResults": {
       "step": "Step {{step}}",
-      "aggregatedProductionPerGridArea": "Non-profiled consumption per grid area",
+      "aggregatedProductionPerGridArea": "Production per grid area",
       "aggregatedConsumptionPerEnergySupplier": "Non-profiled consumption per Energy Supplier",
       "nonProfiledConsumptionPerBalanceResponsible": "Non-profiled consumption per Balance Responsible Party",
       "gridArea": "Grid area",
