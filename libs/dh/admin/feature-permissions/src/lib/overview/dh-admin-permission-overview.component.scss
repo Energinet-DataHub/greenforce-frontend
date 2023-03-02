@@ -18,3 +18,15 @@
   display: block;
   margin: 24px var(--watt-space-s);
 }
+
+.permissions-overview {
+  &__spinner {
+    display: flex;
+    justify-content: center;
+    padding: var(--watt-space-l) 0;
+  }
+
+  &__error {
+    padding: var(--watt-space-xl) 0;
+  }
+}

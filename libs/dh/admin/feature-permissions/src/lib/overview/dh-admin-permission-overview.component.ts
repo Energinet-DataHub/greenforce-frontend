@@ -63,11 +63,16 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
         notifyOnNetworkStatusChange: true,
         query: graphql.GetPermissionsDocument,
       })
-      .valueChanges.subscribe((result) => {
-        this.permissions = result.data?.permissions ?? undefined;
-        this.loading = result.loading;
-        this.error = result.error;
-        this.dataSource.data = result.data?.permissions ?? [];
+      .valueChanges.subscribe({
+        next: (result) => {
+          this.permissions = result.data?.permissions ?? undefined;
+          this.loading = result.loading;
+          this.error = result.error;
+          this.dataSource.data = result.data?.permissions ?? [];
+        },
+        error: (error) => {
+          this.error = error;
+        },
       });
   }
 

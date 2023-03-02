@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <watt-card *transloco="let t; read: 'admin.userManagement.permissionsTab'">
   <watt-card-title>
-    <h4>{{ t("headline", { numberOfPermissions: permissions?.length }) }}</h4>
+    <h4>{{ t("headline", { numberOfPermissions: permissions?.length ?? 0 }) }}</h4>
   </watt-card-title>
   <watt-table
     [dataSource]="dataSource"
@@ -26,6 +26,7 @@ limitations under the License.
     sortBy="name"
     sortDirection="asc"
     [sortClear]="false"
+    *ngIf="!loading && !error"
   >
     <ng-container *wattTableCell="columns.name; header: t('permissionName'); let element">
       {{ element.name }}
@@ -38,9 +39,10 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  <watt-spinner *ngIf="loading"></watt-spinner>
+  <watt-spinner class="permissions-overview__spinner" *ngIf="loading && !error"></watt-spinner>
   <watt-empty-state
     *ngIf="error"
+    class="permissions-overview_error"
     icon="custom-power"
     [title]="'shared.error.title' | transloco"
     [message]="'shared.error.message' | transloco"
