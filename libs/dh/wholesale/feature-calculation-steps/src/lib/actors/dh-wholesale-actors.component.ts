@@ -50,7 +50,7 @@ export class DhWholesaleActorsComponent implements OnInit {
   @Input() gridAreaCode!: string;
   @Input() step!: string;
 
-  @Output() rowClick = new EventEmitter<{step: string; gln: string}>();
+  @Output() rowClick = new EventEmitter<{ step: string; gln: string }>();
 
   _columns!: WattTableColumnDef<graphql.Actor>;
 
@@ -71,7 +71,11 @@ export class DhWholesaleActorsComponent implements OnInit {
         useInitialLoading: true,
         notifyOnNetworkStatusChange: true,
         query: graphql.GetProcessStepActorsDocument,
-        variables: { step: parseInt(this.step), batchId: this.batchId, gridArea: this.gridAreaCode },
+        variables: {
+          step: parseInt(this.step),
+          batchId: this.batchId,
+          gridArea: this.gridAreaCode,
+        },
       })
       // TODO: Consider subscring in template
       .valueChanges.pipe(takeWhile((result) => result.loading, true))
@@ -93,6 +97,6 @@ export class DhWholesaleActorsComponent implements OnInit {
     this.actors?.find((actor) => actor.number === this.route.firstChild?.snapshot.params.gln);
 
   onRowClick = (actor: graphql.Actor) => {
-    this.rowClick.emit({step: this.step, gln: actor.number});
+    this.rowClick.emit({ step: this.step, gln: actor.number });
   };
 }
