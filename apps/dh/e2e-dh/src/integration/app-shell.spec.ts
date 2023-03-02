@@ -29,8 +29,6 @@ test.describe('Application shell', () => {
   test('the application title is displayed', async ({ page }) => {
     test.slow();
     await page.waitForTimeout(5000);
-    await expect(appShell.getTitle(page)).toHaveText(
-      daTranslations.meteringPoint.search.title
-    );
+    await expect(appShell.getTitle(page)).toHaveText(daTranslations.meteringPoint.search.title);
   });
 });
