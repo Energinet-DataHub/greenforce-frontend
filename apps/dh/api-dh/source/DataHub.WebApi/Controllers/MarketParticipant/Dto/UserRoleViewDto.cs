@@ -15,5 +15,5 @@ using System;
 
 namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
 {
-    public sealed record UserRoleViewDto(Guid Id, string Name, Guid? UserActorId);
+    public sealed record UserRoleViewDto(Guid Id, string Name, string Description, Guid? UserActorId);
 }
