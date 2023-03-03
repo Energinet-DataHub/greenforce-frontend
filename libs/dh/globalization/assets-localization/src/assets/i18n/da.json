@@ -798,8 +798,8 @@
       "balanceFixing": "Balancefiksering"
     },
     "actors": {
-      "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
-      "balanceResponsibles": "Balanceansvarlig",
+      "step-2-table-header": "{{wholesale.processStepResults.energySupplier}}",
+      "step-3-table-header": "Balanceansvarlig",
       "amountOfResults": "{{length}} Resultater"
     },
     "processStepResults": {
