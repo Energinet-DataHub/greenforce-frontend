@@ -11,11 +11,9 @@
  */
 
 
-export interface UserRoleViewDto { 
-    id: string;
-    name: string;
+export interface UpdatePermissionDto { 
+    id: number;
     description: string;
-    userActorId?: string | null;
 }
 
 

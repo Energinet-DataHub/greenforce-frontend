@@ -24,7 +24,7 @@ limitations under the License.
       [activeRow]="getActiveActor()"
       [dataSource]="_dataSource"
       [columns]="_columns"
-      (rowClick)="rowClick.emit($event)"
+      (rowClick)="onRowClick($event)"
     >
     </watt-table>
     <watt-paginator [for]="_dataSource"></watt-paginator>
@@ -35,8 +35,8 @@ limitations under the License.
   <watt-empty-state
     *ngIf="error"
     icon="custom-power"
-    [title]="t('loadingActorsFailedTitle')"
-    [message]="t('loadingActorsFailedMessage')"
+    [title]="'shared.error.title' | transloco"
+    [message]="'shared.error.message' | transloco"
   >
   </watt-empty-state>
 </ng-container>

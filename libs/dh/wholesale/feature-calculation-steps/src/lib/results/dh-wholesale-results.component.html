@@ -47,8 +47,8 @@ limitations under the License.
   <div class="center" *ngIf="processStepError || batchError">
     <watt-empty-state
       icon="custom-power"
-      [title]="t('loadProcessStepResultsErrorTitle')"
-      [message]="t('loadProcessStepResultsErrorMessage')"
+      [title]="'shared.error.title' | transloco"
+      [message]="'shared.error.message' | transloco"
     >
     </watt-empty-state>
   </div>

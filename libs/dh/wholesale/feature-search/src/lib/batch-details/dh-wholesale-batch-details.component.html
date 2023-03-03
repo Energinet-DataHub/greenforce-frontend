@@ -50,7 +50,7 @@ limitations under the License.
         ></dh-wholesale-grid-areas>
       </ng-container>
 
-      <div class="center" *ngIf="loading">
+      <div class="center" *ngIf="loading && !batch?.gridAreas">
         <watt-spinner></watt-spinner>
       </div>
 
@@ -58,8 +58,8 @@ limitations under the License.
         <watt-empty-state
           *transloco="let transloco; read: 'wholesale.batchDetails'"
           icon="custom-power"
-          [title]="transloco('errorTitle')"
-          [message]="transloco('errorMessage')"
+          [title]="'shared.error.title' | transloco"
+          [message]="'shared.error.message' | transloco"
         >
         </watt-empty-state>
       </div>
