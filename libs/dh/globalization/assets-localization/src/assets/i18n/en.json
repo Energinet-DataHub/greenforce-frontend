@@ -807,13 +807,13 @@
       "balanceFixing": "Balance fixing"
     },
     "actors": {
-      "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
-      "balanceResponsibles": "Balance Responsibles",
+      "step-2-table-header": "{{wholesale.processStepResults.energySupplier}}",
+      "step-3-table-header": "Balance Responsibles",
       "amountOfResults": "{{length}} Resultater"
     },
     "processStepResults": {
       "step": "Step {{step}}",
-      "aggregatedProductionPerGridArea": "Non-profiled consumption per grid area",
+      "aggregatedProductionPerGridArea": "Production per grid area",
       "aggregatedConsumptionPerEnergySupplier": "Non-profiled consumption per Energy Supplier",
       "nonProfiledConsumptionPerBalanceResponsible": "Non-profiled consumption per Balance Responsible Party",
       "gridArea": "Grid area",

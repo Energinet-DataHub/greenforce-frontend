@@ -798,13 +798,13 @@
       "balanceFixing": "Balancefiksering"
     },
     "actors": {
-      "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
-      "balanceResponsibles": "Balanceansvarlig",
+      "step-2-table-header": "{{wholesale.processStepResults.energySupplier}}",
+      "step-3-table-header": "Balanceansvarlig",
       "amountOfResults": "{{length}} Resultater"
     },
     "processStepResults": {
       "step": "Trin {{step}}",
-      "aggregatedProductionPerGridArea": "Kvartersafregnet forbrug per netområde",
+      "aggregatedProductionPerGridArea": "Produktion per netområde",
       "aggregatedConsumptionPerEnergySupplier": "Kvartersafregnet forbrug per elleverandør",
       "nonProfiledConsumptionPerBalanceResponsible": "Kvartersafregnet forbrug per balanceansvarlig",
       "gridArea": "Netområde",
