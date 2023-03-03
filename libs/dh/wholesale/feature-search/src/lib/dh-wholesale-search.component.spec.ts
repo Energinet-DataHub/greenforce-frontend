@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { HttpClientModule } from '@angular/common/http';
-import { render, screen, waitFor } from '@testing-library/angular';
+import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import { DhGraphQLModule } from '@energinet-datahub/dh/shared/data-access-graphql';
