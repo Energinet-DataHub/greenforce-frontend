@@ -123,6 +123,7 @@ limitations under the License.
               [batchId]="batch.id"
               [gridAreaCode]="gridArea.code"
               step="3"
+              (rowClick)="openDrawer($event)"
             ></dh-wholesale-actors>
           </ng-template>
         </watt-expandable-card>

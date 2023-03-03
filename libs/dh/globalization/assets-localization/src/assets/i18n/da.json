@@ -810,6 +810,7 @@
       "nonProfiledConsumptionPerGridArea": "Kvartersafregnet forbrug per netområde",
       "gridArea": "Netområde",
       "energySupplier": "El-leverandør",
+      "balanceResponsible": "{{wholesale.actors.step-3-table-header}}",
       "meteringPointType": "Målepunktstype",
       "messageId": "Besked Id",
       "calculationPeriod": "Beregningsperiode",
