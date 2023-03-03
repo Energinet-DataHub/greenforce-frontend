@@ -819,6 +819,7 @@
       "nonProfiledConsumptionPerGridArea": "Non-profiled consumption per grid area",
       "gridArea": "Grid area",
       "energySupplier": "Energy Supplier",
+      "balanceResponsible": "{{wholesale.actors.step-3-table-header}}",
       "meteringPointType": "Metering point type",
       "messageId": "Message ID",
       "calculationPeriod": "Calculation period",
