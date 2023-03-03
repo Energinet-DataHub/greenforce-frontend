@@ -40,6 +40,7 @@ describe('DhAdminUserRolesStore', () => {
               {
                 id: '1',
                 name: 'Role 1',
+                description: 'Beskrivelse rolle 1',
                 userActorId: '1',
               },
             ],
