@@ -1,30 +1,21 @@
-﻿<script lang="ts">
+<script lang="ts">
   import logo from '../images/logo-light.svg';
-  import { Navigation } from 'ui';
+  import { Navigation, Topbar } from 'ui';
 </script>
 
+&#xfeff;
 <div class="grid-container">
-  <header class="topbar">Topbar</header>
+  <Topbar />
   <aside class="menu">
     <img class="logo" src={logo} alt="logo" />
     <Navigation />
   </aside>
-  <main class="content">Content</main>
+  <main class="content"><slot /></main>
 </div>
 
 <style lang="scss">
-  :global {
-    // @import 'ui/scss/colours.scss';
-    // @import '../styles/spaces.scss';
-    aside {
-      padding: 0;
-    }
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-    }
+  aside {
+    padding: 0;
   }
   .grid-container {
     display: grid;
@@ -34,16 +25,12 @@
     height: 100vh;
   }
 
-  .topbar {
-    grid-area: topbar;
-    background-color: lightgray;
-  }
-
   .menu {
     grid-area: menu;
     background-color: var(--watt-color-primary-dark);
     width: 245px;
     display: flex;
+    flex-direction: column;
 
     .logo {
       margin: var(--watt-space-m) auto;
@@ -53,6 +40,6 @@
 
   .content {
     grid-area: content;
-    background-color: lightgreen;
+    background-color: #fafafa;
   }
 </style>

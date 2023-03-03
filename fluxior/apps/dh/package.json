@@ -12,6 +12,7 @@
     "format": "prettier --write --ignore-path=../../.prettierignore ."
   },
   "dependencies": {
+    "include-media": "^2.0.0",
     "ui": "workspace:*"
   },
   "devDependencies": {
@@ -20,7 +21,7 @@
     "eslint-config-custom": "workspace:*",
     "svelte": "^3.44.0",
     "svelte-check": "^2.7.1",
-    "svelte-preprocess": "^4.10.6",
+    "svelte-preprocess": "^4.10.7",
     "tslib": "^2.3.1",
     "typescript": "^4.7.2",
     "vite": "^4.0.0"
