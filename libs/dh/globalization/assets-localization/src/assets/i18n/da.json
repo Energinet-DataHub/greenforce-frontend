@@ -807,6 +807,7 @@
       "aggregatedProductionPerGridArea": "Produktion per netområde",
       "aggregatedConsumptionPerEnergySupplier": "Kvartersafregnet forbrug per elleverandør",
       "nonProfiledConsumptionPerBalanceResponsible": "Kvartersafregnet forbrug per balanceansvarlig",
+      "nonProfiledConsumptionPerGridArea": "Kvartersafregnet forbrug per netområde",
       "gridArea": "Netområde",
       "energySupplier": "El-leverandør",
       "meteringPointType": "Målepunktstype",
