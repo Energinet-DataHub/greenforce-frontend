@@ -1085,6 +1085,11 @@
         "headline": "{{ numberOfPermissions }} permissions",
         "permissionName": "Name",
         "permissionDescription": "Description"
+      },
+      "permissionDetail": {
+        "information": "Information",
+        "permissionName": "Name",
+        "permissionDescription": "Description"
       }
     }
   }

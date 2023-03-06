@@ -1058,6 +1058,11 @@
         "headline": "{{ numberOfPermissions }} rettigheder",
         "permissionName": "Navn",
         "permissionDescription": "Beskrivelse"
+      },
+      "permissionDetail": {
+        "information": "Information",
+        "permissionName": "Navn",
+        "permissionDescription": "Beskrivelse"
       }
     }
   }

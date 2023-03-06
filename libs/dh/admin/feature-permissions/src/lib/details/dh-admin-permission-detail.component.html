@@ -22,7 +22,16 @@ limitations under the License.
 >
   <watt-drawer-topbar>{{ selectedPermission?.name }}</watt-drawer-topbar>
 
-  <watt-drawer-actions> </watt-drawer-actions>
-
-  <watt-drawer-content *ngIf="drawer.isOpen"> Give me content </watt-drawer-content>
+  <watt-drawer-content *ngIf="drawer.isOpen">
+    <watt-tabs>
+      <watt-tab [label]="t('information')">
+        <watt-card variant="solid">
+          <watt-description-list
+            [groupsPerRow]="3"
+            [groups]="getMetadata()"
+          ></watt-description-list>
+        </watt-card>
+      </watt-tab>
+    </watt-tabs>
+  </watt-drawer-content>
 </watt-drawer>
