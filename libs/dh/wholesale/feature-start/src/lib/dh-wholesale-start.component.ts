@@ -115,22 +115,22 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  // TODO AJW Change to dynamic values - ask Alexander
   private getProcessTypes(): void {
     this.transloco
       .selectTranslateObject('wholesale.startBatch.processTypes')
       .pipe(takeUntil(this.destroy$))
-      .subscribe((processTypes) => {
-        this.processTypes = [
-          {
-            displayValue: processTypes.BalanceFixing,
-            value: '0',
-          },
-          {
-            displayValue: processTypes.Aggregation,
-            value: '1',
-          },
-        ];
+      .subscribe((processTypesTranlation) => {
+
+        const keys = Object.keys(ProcessType);
+        this.processTypes = [];
+
+        for (const key of keys) {
+          let item =  {
+            displayValue: processTypesTranlation[key],
+            value: (keys.indexOf(key)).toString(),
+          };
+          this.processTypes.push(item);
+        }
       });
   }
 
