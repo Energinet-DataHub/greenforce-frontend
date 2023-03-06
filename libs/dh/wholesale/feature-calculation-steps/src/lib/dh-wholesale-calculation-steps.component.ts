@@ -16,11 +16,12 @@
  */
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild, OnInit } from '@angular/core';
+import { Component, inject, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { ApolloError } from '@apollo/client';
 import { Apollo } from 'apollo-angular';
+import { Subject, takeUntil } from 'rxjs';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
@@ -59,10 +60,11 @@ import { DhWholesaleActorsComponent } from './actors/dh-wholesale-actors.compone
     DhWholesaleActorsComponent,
   ],
 })
-export class DhWholesaleCalculationStepsComponent implements OnInit {
+export class DhWholesaleCalculationStepsComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private apollo = inject(Apollo);
+  private destroy$ = new Subject<void>();
 
   @ViewChild('drawer') drawer!: WattDrawerComponent;
 
@@ -76,7 +78,6 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
   ngOnInit() {
     const routeGridAreaCode = this.route.snapshot.params['gridAreaCode'];
 
-    // TODO: Unsub?
     this.apollo
       .watchQuery({
         useInitialLoading: true,
@@ -84,7 +85,8 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
         query: graphql.GetBatchDocument,
         variables: { id: this.route.snapshot.params['batchId'] },
       })
-      .valueChanges.subscribe((result) => {
+      .valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe((result) => {
         // Redirect user to search batch page if batch is failed
         if (result.data?.batch?.executionState === graphql.BatchState.Failed) {
           this.navigateToSearchBatch(result.data?.batch);
@@ -99,15 +101,21 @@ export class DhWholesaleCalculationStepsComponent implements OnInit {
 
     const step = this.getCurrentStep();
     const gln = this.route.firstChild?.snapshot.url?.[1]?.path;
-    if (step) this.openDrawer(step, gln);
+    if (step) this.openDrawer({ step, gln });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   getCurrentStep() {
     return this.route.firstChild?.snapshot.url?.[0]?.path;
   }
 
-  openDrawer(step: string, energySupplierGln?: string, balanceResponsiblePartyGln?: string) {
-    this.router.navigate([step, energySupplierGln || balanceResponsiblePartyGln].filter(Boolean), {
+  openDrawer(options: { step: string; gln?: string }) {
+    const { step, gln } = options;
+    this.router.navigate([step, gln].filter(Boolean), {
       relativeTo: this.route,
     });
 

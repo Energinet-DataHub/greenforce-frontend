@@ -24,9 +24,9 @@ import { DhWholesaleResultsComponent } from '../results/dh-wholesale-results.com
   template: `
     <dh-wholesale-results
       *transloco="let t; read: 'wholesale.processStepResults'"
-      [title]="t('aggregatedConsumptionPerEnergySupplier')"
-      [marketRole]="t('energySupplier')"
+      [title]="t('nonProfiledConsumptionPerBalanceResponsible')"
+      [marketRole]="t('balanceResponsible')"
     ></dh-wholesale-results>
   `,
 })
-export class DhWholesaleConsumptionPerEnergySupplierComponent {}
+export class DhWholesaleBalanceResponsiblesComponent {}
