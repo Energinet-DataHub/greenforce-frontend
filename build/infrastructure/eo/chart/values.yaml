@@ -2,4 +2,8 @@ app:
   replicaCount: 2
   image:
     name: ghcr.io/energinet-datahub/eo-frontend-app
+<<<<<<< HEAD
     tag: 0.3.199
+=======
+    tag: 0.3.198
+>>>>>>> 90fea0081 (Chore: bump version to 0.3.198 for build/infrastructure/eo/chart/values.yaml)
