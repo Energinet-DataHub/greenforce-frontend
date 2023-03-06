@@ -1,4 +1,11 @@
-<button><span class="material-icons">login</span>Log ind</button>
+<script lang="ts">
+  import { signIn, signOut } from '@auth/sveltekit/client';
+  import { page } from '$app/stores';
+</script>
+
+<button on:click={() => signIn('azure-ad-b2c')}
+  ><span class="material-icons">login</span>Log ind</button
+>
 
 <style lang="scss">
   button {

@@ -12,7 +12,10 @@
     "format": "prettier --write --ignore-path=../../.prettierignore ."
   },
   "dependencies": {
+    "@auth/core": "^0.4.0",
+    "@auth/sveltekit": "^0.2.2",
     "include-media": "^2.0.0",
+    "next-auth": "^4.20.1",
     "ui": "workspace:*"
   },
   "devDependencies": {
@@ -26,5 +29,10 @@
     "typescript": "^4.7.2",
     "vite": "^4.0.0"
   },
-  "type": "module"
+  "type": "module",
+  "pnpm": {
+    "overrides": {
+      "@auth/core": "^0.4.0"
+    }
+  }
 }
