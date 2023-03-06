@@ -737,10 +737,15 @@
       "gridAreaRequired": "Grid area is required",
       "invalidPeriod": "Invalid period",
       "dateRangeLabel": "Period",
+      "processTypeDropDownLabel": "Process Type",
       "gridAreaDropDownLabel": "Grid Areas",
       "creatingBatch": "Starting batch...",
       "creatingBatchSuccess": "The batch has been started.",
-      "creatingBatchError": "Oops! There was an error."
+      "creatingBatchError": "Oops! There was an error.",
+      "processTypes": {
+        "balanceFixing": "Balance Fixing",
+        "aggregation": "Aggregation"
+      }
     },
     "searchBatch": {
       "topBarTitle": "Search Batch",

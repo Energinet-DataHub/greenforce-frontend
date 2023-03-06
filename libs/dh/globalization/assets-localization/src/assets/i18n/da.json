@@ -729,9 +729,14 @@
       "gridAreaRequired": "Netområde påkrævet",
       "invalidPeriod": "Ugyldig periode",
       "dateRangeLabel": "Periode",
+      "processTypeDropDownLabel": "Procestype",
       "gridAreaDropDownLabel": "Netområder",
       "creatingBatch": "Starter batch...",
-      "creatingBatchSuccess": "Dit batch er startet."
+      "creatingBatchSuccess": "Dit batch er startet.",
+      "processTypes": {
+        "BalanceFixing": "Balancefiksering",
+        "Aggregation": "Aggregering"
+      }
     },
     "searchBatch": {
       "topBarTitle": "Søg batch",
