@@ -20,7 +20,7 @@ import { By } from '@angular/platform-browser';
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { MatSelectHarness } from '@angular/material/select/testing';
+import { MatLegacySelectHarness as MatSelectHarness } from '@angular/material/legacy-select/testing';
 
 import { WattDropdownOptions } from './watt-dropdown-option';
 import { WattDropdownModule } from './watt-dropdown.module';
@@ -116,7 +116,7 @@ describe(WattDropdownModule.name, () => {
       const option = screen.queryByText(firstDropdownOption.displayValue);
 
       if (option) {
-        userEvent.click(option);
+        await userEvent.click(option);
       }
 
       expect(fixture.componentInstance.dropdownControl.value).toBe(firstDropdownOption.value);
@@ -203,7 +203,7 @@ describe(WattDropdownModule.name, () => {
         await matSelect.open();
 
         const filterInput = getFilterInput();
-        userEvent.type(filterInput, 'outlaws');
+        await userEvent.type(filterInput, 'outlaws');
 
         // Number of options is 3:
         // Option 1. Filter input
@@ -251,7 +251,7 @@ describe(WattDropdownModule.name, () => {
         await matSelect.open();
 
         let checkbox = getSelectAllCheckbox();
-        userEvent.click(checkbox);
+        await userEvent.click(checkbox);
         await matSelect.close();
 
         expect(fixture.componentInstance.dropdownControl.value?.length).toBe(
@@ -261,7 +261,7 @@ describe(WattDropdownModule.name, () => {
         await matSelect.open();
 
         checkbox = getSelectAllCheckbox();
-        userEvent.click(checkbox);
+        await userEvent.click(checkbox);
         await matSelect.close();
 
         expect(fixture.componentInstance.dropdownControl.value).toBeNull();
@@ -277,7 +277,7 @@ describe(WattDropdownModule.name, () => {
         await matSelect.open();
 
         const filterInput = getFilterInput();
-        userEvent.type(filterInput, 'non-existent option');
+        await userEvent.type(filterInput, 'non-existent option');
 
         // Number of options is 1:
         // Option 1. Filter input containing the 'No options found.' label
@@ -346,7 +346,7 @@ describe(WattDropdownModule.name, () => {
       const option = screen.queryByText(firstDropdownOption.displayValue);
 
       if (option) {
-        userEvent.click(option);
+        await userEvent.click(option);
       }
 
       expect(fixture.componentInstance.dropdownModel).toBe(firstDropdownOption.value);
@@ -381,7 +381,7 @@ describe(WattDropdownModule.name, () => {
         await matSelect.open();
 
         const filterInput = getFilterInput();
-        userEvent.type(filterInput, 'outlaws');
+        await userEvent.type(filterInput, 'outlaws');
 
         // Number of options is 3:
         // Option 1. Filter input
@@ -432,7 +432,7 @@ describe(WattDropdownModule.name, () => {
         await matSelect.open();
 
         const filterInput = getFilterInput();
-        userEvent.type(filterInput, 'non-existent option');
+        await userEvent.type(filterInput, 'non-existent option');
 
         // Number of options is 1:
         // Option 1. Filter input containing the 'No options found.' label
