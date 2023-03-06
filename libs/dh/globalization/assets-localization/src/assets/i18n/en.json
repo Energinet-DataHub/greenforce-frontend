@@ -1080,6 +1080,11 @@
           "name": "Name",
           "description": "Description"
         }
+      },
+      "permissionsTab": {
+        "headline": "{{ numberOfPermissions }} permissions",
+        "permissionName": "Name",
+        "permissionDescription": "Description"
       }
     }
   }

@@ -26,6 +26,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public GraphQLSchema(IServiceProvider provider)
           : base(provider)
         {
+            this.RegisterTypeMapping<PermissionDetailsDto, PermissionDtoType>();
             this.RegisterTypeMapping<AddressDto, AddressDtoType>();
             this.RegisterTypeMapping<OrganizationDto, OrganizationDtoType>();
             this.RegisterTypeMapping<Actor, ActorDtoType>();

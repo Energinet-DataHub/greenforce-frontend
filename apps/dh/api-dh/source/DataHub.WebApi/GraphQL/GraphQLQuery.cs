@@ -26,6 +26,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
     {
         public GraphQLQuery()
         {
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<PermissionDtoType>>>>("permissions")
+               .Resolve()
+               .WithScope()
+               .WithService<IMarketParticipantPermissionsClient>()
+               .ResolveAsync(async (context, client) => await client.GetPermissionsAsync());
+
             Field<ListGraphType<OrganizationDtoType>>("organizations")
                .Resolve()
                .WithScope()
