@@ -104,7 +104,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   maxDate = new Date();
 
   ngOnInit(): void {
-    this.getProcessTypes();   
+    this.getProcessTypes();
     this.store.getGridAreas();
     this.toggleGridAreasControl();
     this.initCreatingBatchListeners();
@@ -115,18 +115,34 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  // TODO AJW Change to dynamic values - ask Alexander 
-  private getProcessTypes() : void {
-    this.processTypes = [  { 
-      displayValue: this.transloco.translate('wholesale.startBatch.processTypes.balanceFixing'),
-      value: "0" }, {
-      displayValue: this.transloco.translate('wholesale.startBatch.processTypes.aggregation'),
-      value: "1"}]
+  // TODO AJW Change to dynamic values - ask Alexander
+  private getProcessTypes(): void {
+    this.transloco
+      .selectTranslateObject('wholesale.startBatch.processTypes')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((processTypes) => {
+        this.processTypes = [
+          {
+            displayValue: processTypes.BalanceFixing,
+            value: '0',
+          },
+          {
+            displayValue: processTypes.Aggregation,
+            value: '1',
+          },
+        ];
+      });
   }
 
   createBatch() {
     const { processTypes, gridAreas, dateRange } = this.createBatchForm.getRawValue();
-    if (this.createBatchForm.invalid || gridAreas === null || dateRange === null || processTypes === null) return;
+    if (
+      this.createBatchForm.invalid ||
+      gridAreas === null ||
+      dateRange === null ||
+      processTypes === null
+    )
+      return;
 
     this.store.createBatch({ gridAreas, dateRange });
 

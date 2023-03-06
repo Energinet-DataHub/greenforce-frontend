@@ -743,8 +743,8 @@
       "creatingBatchSuccess": "The batch has been started.",
       "creatingBatchError": "Oops! There was an error.",
       "processTypes": {
-        "balanceFixing": "Balance Fixing",
-        "aggregation": "Aggregation"
+        "BalanceFixing": "Balance Fixing",
+        "Aggregation": "Aggregation"
       }
     },
     "searchBatch": {
