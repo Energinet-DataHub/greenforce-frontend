@@ -2,6 +2,7 @@ import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
+import { WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
