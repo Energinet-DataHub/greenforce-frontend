@@ -22,7 +22,8 @@ import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets
 
 import { DhMeteringPointIdentityComponent } from './dh-metering-point-identity.component';
 
-import { getByGsrnResponse as identityData } from 'libs/dh/shared/data-access-msw/src/lib/mocks/metering-point';
+import { getByGsrnResponse as identityData } from '@energinet-datahub/dh/shared/data-access-msw';
+
 import {
   getByTitle,
   runOnPushChangeDetection,

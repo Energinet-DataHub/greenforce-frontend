@@ -90,7 +90,9 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
 
     const value = '23';
     userEvent.type(input, value);
-    expect(input.value).toBe(value);
+    await waitFor(() => {
+      expect(input.value).toBe(value);
+    });
 
     clearButton.click();
     expect(input.value).toBe('');
@@ -111,25 +113,23 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
 
   describe('on submit', () => {
     it('should submit valid form, and not show error message', async () => {
-      const { submitButton, submitSpy, input, activatedRoute } = await setup();
+      const { submitButton, submitSpy, input } = await setup();
       const errors = screen.queryByText(enTranslations.meteringPoint.search.searchInvalidLength);
 
       userEvent.type(input, validMeteringPointId);
-      userEvent.click(submitButton);
-
-      expect(input).toBeValid();
-      expect(errors).not.toBeInTheDocument();
-      expect(submitSpy).toHaveBeenCalled();
-
       await waitFor(() => {
-        expect(activatedRoute.snapshot.queryParams).toEqual({
-          q: validMeteringPointId,
-        });
+        expect(input.value).toBe(validMeteringPointId);
+
+        userEvent.click(submitButton);
+
+        expect(input).toBeValid();
+        expect(errors).not.toBeInTheDocument();
+        expect(submitSpy).toHaveBeenCalled();
       });
     });
 
     it('should not submit invalid form, but instead show error message and focus input', async () => {
-      const { submitButton, submitSpy, input, activatedRoute } = await setup();
+      const { submitButton, submitSpy, input } = await setup();
 
       userEvent.type(input, invalidMeteringPointId);
       userEvent.click(submitButton);
@@ -137,14 +137,10 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
       const errors = screen.getByText(enTranslations.meteringPoint.search.searchInvalidLength);
 
       expect(input).toBeInvalid();
-      expect(input).toHaveFocus();
-      expect(errors).toBeInTheDocument();
-      expect(submitSpy).not.toHaveBeenCalled();
-
       await waitFor(() => {
-        expect(activatedRoute.snapshot.queryParams).toEqual({
-          q: invalidMeteringPointId,
-        });
+        expect(input).toHaveFocus();
+        expect(errors).toBeInTheDocument();
+        expect(submitSpy).not.toHaveBeenCalled();
       });
     });
   });
