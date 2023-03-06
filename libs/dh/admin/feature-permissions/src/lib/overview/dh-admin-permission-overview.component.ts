@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { CommonModule } from '@angular/common';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -27,6 +27,7 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { Subscription } from 'rxjs';
+import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
 @Component({
   selector: 'dh-admin-permission-overview',
   standalone: true,
@@ -41,6 +42,7 @@ import { Subscription } from 'rxjs';
     WattCardModule,
     DhEmDashFallbackPipeScam,
     WATT_TABLE,
+    DhAdminPermissionDetailComponent,
   ],
 })
 export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
@@ -57,6 +59,9 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
 
   dataSource = new WattTableDataSource<graphql.Permission>();
   activeRow: graphql.Permission | undefined = undefined;
+
+  @ViewChild(DhAdminPermissionDetailComponent)
+  permissionDetail!: DhAdminPermissionDetailComponent;
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -84,5 +89,10 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
 
   onRowClick(row: graphql.Permission): void {
     this.activeRow = row;
+    this.permissionDetail.open(row);
+  }
+
+  onClosed(): void {
+    this.activeRow = undefined;
   }
 }
