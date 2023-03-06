@@ -30,7 +30,7 @@ limitations under the License.
       <watt-dropdown formControlName="processTypes" [options]="processTypes" [showResetOption]="false"
         [multiple]="false"></watt-dropdown>
       <watt-error *ngIf="createBatchForm.controls.processTypes.errors?.required">
-        {{ transloco("startBatch.gridAreaRequired") }}
+        {{ transloco("startBatch.processTypeError") }}
       </watt-error>
     </watt-form-field>
 
