@@ -30,7 +30,6 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateRange: any;
-  /** The `DateTimeOffset` scalar type represents a date, time and offset from UTC. `DateTimeOffset` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
   DateTimeOffset: any;
   Decimal: any;
 };
@@ -85,6 +84,7 @@ export type GraphQlQuery = {
   batches: Array<Batch>;
   organization?: Maybe<Organization>;
   organizations?: Maybe<Array<Maybe<Organization>>>;
+  permissions: Array<Permission>;
   processStep?: Maybe<ProcessStep>;
 };
 
@@ -124,8 +124,6 @@ export type GridArea = {
 
 export type Organization = {
   __typename?: 'Organization';
-  /** The actors of the organization. */
-  actors: Array<Actor>;
   /** The address of the organization. */
   address: Address;
   /** The business register identifier of the organization. */
@@ -146,6 +144,16 @@ export enum OrganizationStatus {
   Deleted = 'DELETED',
   New = 'NEW',
 }
+
+export type Permission = {
+  __typename?: 'Permission';
+  /** The description of the permission. */
+  description: Scalars['String'];
+  /** The ID of the permission. */
+  id: Scalars['Int'];
+  /** The name of the permission. */
+  name: Scalars['String'];
+};
 
 export enum PriceAreaCode {
   Dk_1 = 'DK_1',
@@ -192,6 +200,13 @@ export enum TimeSeriesType {
   NonProfiledConsumption = 'NON_PROFILED_CONSUMPTION',
   Production = 'PRODUCTION',
 }
+
+export type GetPermissionsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetPermissionsQuery = {
+  __typename?: 'GraphQLQuery';
+  permissions: Array<{ __typename?: 'Permission'; id: number; name: string; description: string }>;
+};
 
 export type GetBatchQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -280,6 +295,33 @@ export type GetProcessStepResultQuery = {
   } | null;
 };
 
+export const GetPermissionsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetPermissions' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'permissions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetPermissionsQuery, GetPermissionsQueryVariables>;
 export const GetBatchDocument = {
   kind: 'Document',
   definitions: [
@@ -581,6 +623,24 @@ export const GetProcessStepResultDocument = {
     },
   ],
 } as unknown as DocumentNode<GetProcessStepResultQuery, GetProcessStepResultQueryVariables>;
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockGetPermissionsQuery((req, res, ctx) => {
+ *   return res(
+ *     ctx.data({ permissions })
+ *   )
+ * })
+ */
+export const mockGetPermissionsQuery = (
+  resolver: ResponseResolver<
+    GraphQLRequest<GetPermissionsQueryVariables>,
+    GraphQLContext<GetPermissionsQuery>,
+    any
+  >
+) => graphql.query<GetPermissionsQuery, GetPermissionsQueryVariables>('GetPermissions', resolver);
 
 /**
  * @param resolver a function that accepts a captured request and may return a mocked response.

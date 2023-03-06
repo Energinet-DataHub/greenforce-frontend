@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
@@ -21,20 +22,30 @@ namespace Energinet.DataHub.WebApi.Controllers
 {
     [ApiController]
     [Route("v1/[controller]")]
-    public class MarketParticipantPermissionController : MarketParticipantControllerBase
+    public class MarketParticipantPermissionsController : MarketParticipantControllerBase
     {
-        private readonly IMarketParticipantPermissionsClient _permissionsClient;
+        private readonly IMarketParticipantPermissionsClient _client;
 
-        public MarketParticipantPermissionController(IMarketParticipantPermissionsClient permissionsClient)
+        public MarketParticipantPermissionsController(IMarketParticipantPermissionsClient client)
         {
-            _permissionsClient = permissionsClient;
+            _client = client;
+        }
+
+        /// <summary>
+        /// Retrieves All Permissions
+        /// </summary>
+        [HttpGet]
+        [Route("GetPermissions")]
+        public Task<ActionResult<IEnumerable<PermissionDetailsDto>>> GetPermissionsAsync()
+        {
+            return HandleExceptionAsync(() => _client.GetPermissionsAsync());
         }
 
         [HttpPut]
         [Route("Update")]
         public Task<ActionResult> UpdateAsync(UpdatePermissionDto permissionDto)
         {
-            return HandleExceptionAsync(() => _permissionsClient.UpdatePermissionAsync(permissionDto));
+            return HandleExceptionAsync(() => _client.UpdatePermissionAsync(permissionDto));
         }
     }
 }

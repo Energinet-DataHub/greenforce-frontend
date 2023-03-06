@@ -97,6 +97,7 @@ type GraphQLQuery {
     id: ID
   ): Organization
   organizations: [Organization]
+  permissions: [Permission!]!
   processStep(
     """
     The batch id the process belongs to.
@@ -149,11 +150,6 @@ type GridArea {
 
 type Organization {
   """
-  The actors of the organization.
-  """
-  actors: [Actor!]!
-
-  """
   The address of the organization.
   """
   address: Address!
@@ -189,6 +185,23 @@ enum OrganizationStatus {
   BLOCKED
   DELETED
   NEW
+}
+
+type Permission {
+  """
+  The description of the permission.
+  """
+  description: String!
+
+  """
+  The ID of the permission.
+  """
+  id: Int!
+
+  """
+  The name of the permission.
+  """
+  name: String!
 }
 
 enum PriceAreaCode {
