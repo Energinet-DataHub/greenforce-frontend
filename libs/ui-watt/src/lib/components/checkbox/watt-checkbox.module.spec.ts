@@ -60,13 +60,13 @@ describe(WattCheckboxModule.name, () => {
       const { fixture, checkboxLabel } = await setup(initialState);
 
       if (checkboxLabel) {
-        userEvent.click(checkboxLabel);
+        await userEvent.click(checkboxLabel);
       }
 
       expect(fixture.componentInstance.checkboxControl.value).toBeFalsy();
 
       if (checkboxLabel) {
-        userEvent.click(checkboxLabel);
+        await userEvent.click(checkboxLabel);
       }
 
       expect(fixture.componentInstance.checkboxControl.value).toBeTruthy();
@@ -77,7 +77,7 @@ describe(WattCheckboxModule.name, () => {
       const { fixture, checkboxLabel } = await setup(initialState);
 
       if (checkboxLabel) {
-        userEvent.click(checkboxLabel);
+        await userEvent.click(checkboxLabel);
       }
 
       const actualValue = fixture.componentInstance.checkboxControl.value;
@@ -89,7 +89,7 @@ describe(WattCheckboxModule.name, () => {
       const { fixture, checkboxLabel } = await setup(initialState);
 
       if (checkboxLabel) {
-        userEvent.click(checkboxLabel);
+        await userEvent.click(checkboxLabel);
       }
 
       let actualValue = fixture.componentInstance.checkboxControl.value;
@@ -98,7 +98,7 @@ describe(WattCheckboxModule.name, () => {
       fixture.componentInstance.checkboxControl.enable();
 
       if (checkboxLabel) {
-        userEvent.click(checkboxLabel);
+        await userEvent.click(checkboxLabel);
       }
 
       actualValue = fixture.componentInstance.checkboxControl.value;

@@ -20,10 +20,6 @@ watt-timepicker {
   @extend %datepicker;
 }
 
-watt-form-field {
-  @extend %datepicker-form-field;
-}
-
 .watt-timepicker-slider {
   width: 340px;
   padding: var(--watt-space-s) 12px var(--watt-space-m);
