@@ -24,7 +24,7 @@ type WattButtonOptions = Partial<
   Pick<WattButtonComponent, 'icon' | 'variant' | 'type' | 'formId' | 'disabled' | 'loading'>
 >;
 
-describe('WattButtonComponent.name', () => {
+describe(WattButtonComponent.name, () => {
   const renderComponent = async (options: WattButtonOptions & { text?: string }) => {
     return await render<WattButtonComponent>(
       `<watt-button
@@ -116,7 +116,9 @@ describe('WattButtonComponent.name', () => {
     });
 
     if (wattButton) {
-      expect(() => userEvent.click(wattButton)).toThrow();
+      const onClick = async () => await userEvent.click(wattButton);
+
+      await expect(onClick()).rejects.toThrow();
     }
   });
 

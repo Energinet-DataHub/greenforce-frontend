@@ -25,7 +25,7 @@ import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 import { DanishLocaleModule } from '@energinet-datahub/gf/configuration-danish-locale';
 import { DrawerDatepickerService } from './drawer/charge-content/drawer-datepicker/drawer-datepicker.service';
-import { WattTopBarOutletComponent } from 'libs/ui-watt/src/lib/components/shell/top-bar';
+import { WattTopBarOutletComponent } from '@energinet-datahub/watt/shell';
 
 const wattDrawerName = 'watt-drawer';
 const dateTimeFormat = 'dd-MM-yyyy';
@@ -64,7 +64,7 @@ describe(DhChargesPricesComponent.name, () => {
 
     const searchButton = screen.getByRole('button', { name: /search/i });
 
-    userEvent.click(searchButton);
+    await userEvent.click(searchButton);
 
     const id = await waitFor(() => screen.getByRole('gridcell', { name: /0AA1F/i }));
 
@@ -78,12 +78,12 @@ describe(DhChargesPricesComponent.name, () => {
       suggest: false,
     });
 
-    userEvent.type(idInputField, 'test 123');
+    await userEvent.type(idInputField, 'test 123');
 
     expect(idInputField).toHaveValue('test 123');
 
     const resetButton = screen.getByRole('button', { name: /clear/i });
-    userEvent.click(resetButton);
+    await userEvent.click(resetButton);
 
     expect(idInputField).toHaveValue('');
 
@@ -96,12 +96,12 @@ describe(DhChargesPricesComponent.name, () => {
 
     const searchButton = screen.getByRole('button', { name: /search/i });
 
-    userEvent.click(searchButton);
+    await userEvent.click(searchButton);
 
     const id = await waitFor(() => screen.getByRole('gridcell', { name: /0AA1F/i }));
 
     expect(id).toBeInTheDocument();
-    userEvent.click(id);
+    await userEvent.click(id);
 
     const drawer = screen.getByText(
       (content, element) => element?.tagName.toLowerCase() === wattDrawerName
@@ -115,12 +115,12 @@ describe(DhChargesPricesComponent.name, () => {
 
     const searchButton = screen.getByRole('button', { name: /search/i });
 
-    userEvent.click(searchButton);
+    await userEvent.click(searchButton);
 
     const id = await waitFor(() => screen.getByRole('gridcell', { name: /0AA1F/i }));
 
     expect(id).toBeInTheDocument();
-    userEvent.click(id);
+    await userEvent.click(id);
 
     const drawer = screen.getByText(
       (content, element) => element?.tagName.toLowerCase() === wattDrawerName
@@ -147,12 +147,12 @@ describe(DhChargesPricesComponent.name, () => {
 
     const searchButton = screen.getByRole('button', { name: /search/i });
 
-    userEvent.click(searchButton);
+    await userEvent.click(searchButton);
 
     const tableCell = await waitFor(() => screen.getByRole('gridcell', { name: /0AA1F/i }));
 
     expect(tableCell).toBeInTheDocument();
-    userEvent.click(tableCell);
+    await userEvent.click(tableCell);
     await new Promise((res) => setTimeout(res, 0));
 
     const drawer = screen.getByText(
@@ -190,7 +190,7 @@ describe(DhChargesPricesComponent.name, () => {
     // Close Drawer
     const closeButton = screen.getByRole('button', { name: /close/i });
     expect(closeButton).toBeInTheDocument();
-    userEvent.click(closeButton);
+    await userEvent.click(closeButton);
     await new Promise((res) => setTimeout(res, 0));
 
     await waitFor(() => {
@@ -199,7 +199,7 @@ describe(DhChargesPricesComponent.name, () => {
 
     // Open drawer again
     expect(tableCell).toBeInTheDocument();
-    userEvent.click(tableCell);
+    await userEvent.click(tableCell);
     await new Promise((res) => setTimeout(res, 0));
 
     const drawer2 = screen.getByText(
