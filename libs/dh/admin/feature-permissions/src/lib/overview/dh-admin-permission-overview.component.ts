@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { CommonModule } from '@angular/common';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -26,6 +26,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'dh-admin-permission-overview',
   standalone: true,
@@ -42,8 +43,9 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
     WATT_TABLE,
   ],
 })
-export class DhAdminPermissionOverviewComponent implements OnInit {
+export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   private apollo = inject(Apollo);
+  subscription!: Subscription;
   permissions?: graphql.Permission[];
   loading = false;
   error?: ApolloError;
@@ -56,8 +58,12 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
   dataSource = new WattTableDataSource<graphql.Permission>();
   activeRow: graphql.Permission | undefined = undefined;
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   ngOnInit(): void {
-    this.apollo
+    this.subscription = this.apollo
       .watchQuery({
         useInitialLoading: true,
         notifyOnNetworkStatusChange: true,
