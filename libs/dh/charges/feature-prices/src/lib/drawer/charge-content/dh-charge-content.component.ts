@@ -36,7 +36,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { DhChargesChargeMessagesTabComponent } from '../charge-content/message-tab/dh-charges-charge-messages-tab.component';
 import { DhChargesChargeHistoryTabComponent } from '../charge-content/history-tab/dh-charges-charge-history-tab.component';
 import { DhChargeDetailsHeaderComponent } from '../charge-content/details-header/dh-charge-details-header.component';
-import { WattTabsComponent, WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
 
@@ -48,7 +48,8 @@ import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.s
     DhChargesChargePricesTabComponent,
     DhChargesChargeMessagesTabComponent,
     DhChargesChargeHistoryTabComponent,
-    WattTabsModule,
+    WattTabComponent,
+    WattTabsComponent,
   ],
   selector: 'dh-charge-content',
   templateUrl: './dh-charge-content.component.html',
