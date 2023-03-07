@@ -32,7 +32,7 @@ export { WattTabComponent } from './watt-tab.component';
 
 /**
  * Usage:
- * `import { WattTabsModule } from '@energinet-datahub/watt/tabs';`
+ * `import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';`
  */
 @Component({
   standalone: true,
