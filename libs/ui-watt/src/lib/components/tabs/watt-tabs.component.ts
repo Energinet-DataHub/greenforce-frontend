@@ -24,18 +24,24 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { CommonModule } from '@angular/common';
+import { MatTabsModule } from '@angular/material/tabs';
 import { WattTabComponent } from './watt-tab.component';
+
+export { WattTabComponent } from './watt-tab.component';
 
 /**
  * Usage:
- * `import { WattTabsModule } from '@energinet-datahub/watt/tabs';`
+ * `import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';`
  */
 @Component({
+  standalone: true,
   selector: 'watt-tabs',
   styleUrls: ['./watt-tabs.component.scss'],
   templateUrl: './watt-tabs.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, MatTabsModule],
 })
 export class WattTabsComponent implements AfterViewInit {
   /**

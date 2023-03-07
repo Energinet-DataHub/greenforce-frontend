@@ -18,7 +18,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 
 import { DhUsersTabComponent } from './users-tab/dh-users-tab.component';
 import { DhUserRolesTabComponent } from './roles-tab/dh-roles-tab.component';
@@ -37,7 +37,8 @@ import { DhPermissionsTabComponent } from './permissions-tab/dh-permissions-tab.
   ],
   imports: [
     TranslocoModule,
-    WattTabsModule,
+    WattTabComponent,
+    WattTabsComponent,
     DhUsersTabComponent,
     DhUserRolesTabComponent,
     DhPermissionsTabComponent,
