@@ -63,6 +63,8 @@ export * from './organization-dto';
 export * from './organization-status';
 export * from './organization-view-dto';
 export * from './organization-with-actors-dto';
+export * from './permission-audit-log-view-dto';
+export * from './permission-audit-logs-view-dto';
 export * from './permission-details-dto';
 export * from './price-area-code';
 export * from './process';
