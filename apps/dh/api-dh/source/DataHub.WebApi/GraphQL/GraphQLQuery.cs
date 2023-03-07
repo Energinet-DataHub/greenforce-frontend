@@ -92,18 +92,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
                         periodStart,
                         periodEnd);
 
-                    try
-                    {
-                        var gridAreasTask2 = marketParticipantClient.GetGridAreasAsync();
-                        var batchesTask2 = wholesaleClient.GetBatchesAsync(batchSearchDto);
-                        await gridAreasTask2;
-                        await batchesTask2;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
-
                     var gridAreasTask = marketParticipantClient.GetGridAreasAsync();
                     var batchesTask = wholesaleClient.GetBatchesAsync(batchSearchDto);
                     var batches = await batchesTask;
