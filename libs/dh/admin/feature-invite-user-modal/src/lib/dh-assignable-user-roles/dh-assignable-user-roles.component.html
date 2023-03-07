@@ -44,14 +44,11 @@ limitations under the License.
           <ng-container *ngFor="let userRole of assignableUserRoles">
             <div class="userRole">
               <watt-checkbox
-                class="userRoleContent"
                 [ngModel]="false"
                 (ngModelChange)="selectUserRole($event, userRole)"
               ></watt-checkbox>
-              <div class="userRoleContent">
-                {{ translateMarketRole(userRole.eicFunction) }} - {{ userRole.name }}
-              </div>
-              <div class="userRoleContent">{{ userRole.description }}</div>
+              <div>{{ translateMarketRole(userRole.eicFunction) }} - {{ userRole.name }}</div>
+              <div>{{ userRole.description }}</div>
             </div>
           </ng-container>
         </div>
