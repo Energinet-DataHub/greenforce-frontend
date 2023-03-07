@@ -38,7 +38,7 @@ limitations under the License.
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="Energinet.DataHub.Wholesale.Client" Version="5.0.10" />
+    <PackageReference Include="Energinet.DataHub.Wholesale.Client" Version="5.0.14" />
     <PackageReference Include="GraphQL.DataLoader" Version="7.3.0" />
     <PackageReference Include="GraphQL.MicrosoftDI" Version="7.2.2" />
     <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="7.2.0" />
