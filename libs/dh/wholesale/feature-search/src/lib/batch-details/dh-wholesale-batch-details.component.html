@@ -21,13 +21,13 @@ limitations under the License.
         batch?.executionState ? transloco("searchBatch." + batch?.executionState) : "unknown"
       }}</watt-badge></watt-drawer-topbar
     >
-    <watt-drawer-actions-content>
+    <watt-drawer-heading>
       <div class="headline-container">
         <h3 class="headline watt-headline-1">
           {{ transloco("batchDetails.headline", { batchId }) }}
         </h3>
       </div>
-    </watt-drawer-actions-content>
+    </watt-drawer-heading>
     <watt-drawer-content>
       <watt-description-list [groups]="getBatchMetadata()"></watt-description-list>
 

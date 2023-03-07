@@ -29,9 +29,9 @@ limitations under the License.
       </ng-container>
     </watt-drawer-topbar>
 
-    <watt-drawer-actions-content>
+    <watt-drawer-heading>
       <dh-charge-details-header [charge]="charge"> </dh-charge-details-header>
-    </watt-drawer-actions-content>
+    </watt-drawer-heading>
 
     <watt-drawer-actions *ngIf="!showChargeMessage">
       <watt-button variant="secondary" [disabled]="true">{{ t("stop") }}</watt-button>

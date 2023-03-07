@@ -17,7 +17,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'watt-drawer-actions-content',
+  selector: 'watt-drawer-heading',
   template: `<ng-content></ng-content>`,
   styles: [
     `
@@ -27,4 +27,4 @@ import { Component } from '@angular/core';
     `,
   ],
 })
-export class WattDrawerActionsContentComponent {}
+export class WattDrawerHeadingComponent {}

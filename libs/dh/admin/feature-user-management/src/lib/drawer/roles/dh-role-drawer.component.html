@@ -21,11 +21,11 @@ limitations under the License.
         <dh-role-status [status]="userRoleWithPermissions.status"></dh-role-status>
       </ng-container>
     </watt-drawer-topbar>
-    <watt-drawer-actions-content *ngIf="drawer.isOpen">
+    <watt-drawer-heading *ngIf="drawer.isOpen">
       <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
         <h2>{{ userRoleWithPermissions.name }}</h2>
       </ng-container>
-    </watt-drawer-actions-content>
+    </watt-drawer-heading>
     <watt-drawer-actions>
       <watt-button
         *dhPermissionRequired="['userrole:manage']"
