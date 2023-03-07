@@ -23,11 +23,7 @@ limitations under the License.
     </watt-drawer-topbar>
     <watt-drawer-actions-content *ngIf="drawer.isOpen">
       <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
-        <div class="role-name__grid">
-          <h2 class="role-name__headline">
-            {{ userRoleWithPermissions.name }}
-          </h2>
-        </div>
+        <h2>{{ userRoleWithPermissions.name }}</h2>
       </ng-container>
     </watt-drawer-actions-content>
     <watt-drawer-actions>

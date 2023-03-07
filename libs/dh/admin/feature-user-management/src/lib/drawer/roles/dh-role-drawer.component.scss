@@ -14,16 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.role-name__grid {
-  display: flex;
-  align-items: center;
-  gap: var(--watt-space-s);
-}
-
-.role-name__headline {
-  margin: 0;
-}
-
 .user-role {
   &__spinner {
     display: flex;
