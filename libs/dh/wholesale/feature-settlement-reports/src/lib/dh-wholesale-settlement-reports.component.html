@@ -27,6 +27,7 @@ limitations under the License.
         <dh-wholesale-form
           (filterChange)="onFilterChange($event)"
           [loading]="loading"
+          [executionTime]="executionTime"
         ></dh-wholesale-form>
 
         <dh-wholesale-table *ngIf="data && !loading" [data]="data"></dh-wholesale-table>

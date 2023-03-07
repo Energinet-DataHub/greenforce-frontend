@@ -33,6 +33,7 @@ import { SettlementReport, SettlementReportFilters } from '@energinet-datahub/dh
 import { Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
+import sub from 'date-fns/sub';
 
 @Component({
   selector: 'dh-wholesale-settlement-reports',
@@ -60,11 +61,16 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
   loading = false;
   error = false;
   data: SettlementReport[] = [];
+  executionTime = {
+    start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
+    end: new Date().toISOString(),
+  };
 
   query = this.apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: graphql.GetSettlementReportsDocument,
+    variables: { executionTime: this.executionTime },
   });
 
   ngOnInit() {
@@ -86,11 +92,9 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
   }
 
   onFilterChange(filters: SettlementReportFilters) {
-    // TODO: Allow start and end to be empty/null in GraphQL
-    const period = filters.period?.start && filters.period?.end ? filters.period : null;
     this.query.refetch({
       executionTime: filters.executionTime,
-      period,
+      period: filters.period,
     });
   }
 }

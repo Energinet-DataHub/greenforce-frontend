@@ -26,8 +26,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { sub } from 'date-fns';
-import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { debounceTime, filter, map, Observable, Subject, takeUntil } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
@@ -61,6 +60,9 @@ import { SettlementReportFilters } from '@energinet-datahub/dh/wholesale/domain'
 })
 export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
   @Input() loading = false;
+  @Input() set executionTime(executionTime: { start: string; end: string }) {
+    this.filters.patchValue({ executionTime });
+  }
   @Output() filterChange = new EventEmitter<SettlementReportFilters>();
 
   private destroy$ = new Subject<void>();
@@ -95,16 +97,14 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
     gridArea: [''],
     period: [
       {
-        value: {
-          start: '',
-          end: '',
-        },
+        start: '',
+        end: '',
       },
     ],
     executionTime: [
       {
-        start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
-        end: new Date().toISOString(),
+        start: '',
+        end: '',
       },
       WattRangeValidators.required(),
     ],
@@ -112,12 +112,20 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
 
   constructor(private fb: FormBuilder) {}
 
-  ngAfterViewInit() {
-    this.filters.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((filters: unknown) => {
-      this.filterChange.emit(filters as SettlementReportFilters);
-    });
+  private isComplete(filters: SettlementReportFilters) {
+    return (
+      Boolean(filters.period?.start) === Boolean(filters.period?.end) &&
+      Boolean(filters.executionTime?.start) === Boolean(filters.executionTime?.end)
+    );
+  }
 
-    this.filterChange.emit(this.filters.value as SettlementReportFilters);
+  ngAfterViewInit() {
+    this.filters.valueChanges
+      .pipe(takeUntil(this.destroy$), debounceTime(200), filter(this.isComplete))
+      .subscribe((filters: SettlementReportFilters) => {
+        console.log(filters);
+        this.filterChange.emit(filters as SettlementReportFilters);
+      });
   }
 
   ngOnDestroy(): void {
