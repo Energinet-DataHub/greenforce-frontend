@@ -854,7 +854,7 @@
     "userManagement": {
       "inviteUser": {
         "title": "Invite user",
-        "informations": "Informations",
+        "informations": "Information",
         "addUserRole": "Add user role",
         "inviteUser": "Invite user",
         "name": "Name",
