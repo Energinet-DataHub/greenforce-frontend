@@ -20,7 +20,7 @@ import { DhMarketParticipantEditOrganizationDataAccessApiStore } from '@energine
 import { LetModule } from '@rx-angular/template/let';
 import { DhMarketParticipantOrganizationMasterDataComponentScam } from './master-data/dh-market-participant-organization-master-data.component';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -75,7 +75,8 @@ export class DhMarketParticipantEditOrganizationComponent {
     CommonModule,
     TranslocoModule,
     WattButtonModule,
-    WattTabsModule,
+    WattTabComponent,
+    WattTabsComponent,
     WattSpinnerModule,
     DhMarketParticipantOrganizationMasterDataComponentScam,
     WattValidationMessageModule,

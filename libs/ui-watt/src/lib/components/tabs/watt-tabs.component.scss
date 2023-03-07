@@ -16,35 +16,37 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
-watt-tabs .mat-tab-header {
-  border-top: 1px solid var(--watt-color-neutral-grey-300);
-  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-}
-
-watt-tabs .mat-tab-label {
-  min-width: 120px;
-  opacity: 1;
-  @include watt.space-inset-m;
-
-  .mat-tab-label-content {
-    color: var(--watt-color-primary);
-    @include watt.typography-watt-button;
-  }
-
-  &.mat-tab-label-active,
-  &.mat-tab-label:hover {
-    background: var(--watt-color-primary);
+watt-tabs {
+  .mat-tab-label {
+    min-width: 120px;
+    opacity: 1;
+    @include watt.space-inset-m;
 
     .mat-tab-label-content {
-      color: var(--watt-color-neutral-white);
+      @include watt.typography-watt-button;
+      color: var(--watt-on-light-medium-emphasis);
+    }
+
+    &.mat-tab-label-active,
+    &.mat-tab-label:hover {
+      color: var(--watt-on-light-medium-emphasis);
+      border-bottom: 2px solid var(--watt-color-primary);
+
+      .mat-tab-label-content {
+        color: var(--watt-color-primary);
+      }
     }
   }
-}
 
-watt-tabs .mat-ink-bar {
-  display: none;
-}
+  .mat-tab-label-container {
+    padding-left: var(--watt-space-ml);
+  }
 
-watt-tabs .mat-tab-header-pagination-chevron {
-  border-color: var(--watt-color-primary);
+  .mat-tab-header-pagination-chevron {
+    border-color: var(--watt-color-primary);
+  }
+
+  .mat-ink-bar {
+    display: none;
+  }
 }

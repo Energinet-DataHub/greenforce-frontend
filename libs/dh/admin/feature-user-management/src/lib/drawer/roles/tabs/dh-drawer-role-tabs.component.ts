@@ -17,7 +17,7 @@
 import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhRoleMasterDataComponent } from './content/dh-role-master-data.component';
@@ -30,7 +30,8 @@ import { DhRoleAuditLogsComponent } from './content/dh-role-audit-logs.component
   templateUrl: './dh-drawer-role-tabs.component.html',
   imports: [
     TranslocoModule,
-    WattTabsModule,
+    WattTabComponent,
+    WattTabsComponent,
     DhRoleMasterDataComponent,
     DhRolePermissionsComponent,
     DhRoleAuditLogsComponent,

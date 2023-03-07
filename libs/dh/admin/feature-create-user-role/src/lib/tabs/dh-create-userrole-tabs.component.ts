@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { DhCreateUserroleMasterdataTabComponent } from './create-role-masterdata-tab/dh-create-userrole-masterdata-tab.component';
 import { DhCreateUserrolePermissionsTabComponent } from './create-role-permissions-tab/dh-create-userrole-permissions-tab.component';
@@ -63,7 +63,8 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
     CommonModule,
     PushModule,
     LetModule,
-    WattTabsModule,
+    WattTabComponent,
+    WattTabsComponent,
     WattValidationMessageModule,
     DhCreateUserroleMasterdataTabComponent,
     DhCreateUserrolePermissionsTabComponent,
