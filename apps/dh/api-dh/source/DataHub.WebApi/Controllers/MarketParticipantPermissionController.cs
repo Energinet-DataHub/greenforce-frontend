@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -25,10 +26,14 @@ namespace Energinet.DataHub.WebApi.Controllers
     public class MarketParticipantPermissionsController : MarketParticipantControllerBase
     {
         private readonly IMarketParticipantPermissionsClient _client;
+        private readonly IMarketParticipantClient _marketParticipantClient;
 
-        public MarketParticipantPermissionsController(IMarketParticipantPermissionsClient client)
+        public MarketParticipantPermissionsController(
+            IMarketParticipantPermissionsClient client,
+            IMarketParticipantClient marketParticipantClient)
         {
             _client = client;
+            _marketParticipantClient = marketParticipantClient;
         }
 
         /// <summary>
@@ -46,6 +51,38 @@ namespace Energinet.DataHub.WebApi.Controllers
         public Task<ActionResult> UpdateAsync(UpdatePermissionDto permissionDto)
         {
             return HandleExceptionAsync(() => _client.UpdatePermissionAsync(permissionDto));
+        }
+
+        /// <summary>
+        /// Retrieves permissions auditLogs
+        /// </summary>
+        [HttpGet]
+        [Route("GetPermissionAuditLogs")]
+        public Task<ActionResult<PermissionAuditLogsViewDto>> GetPermissionAuditLogsAsync(int permissionId)
+        {
+            return HandleExceptionAsync(async () =>
+            {
+                var permissionAuditLogs = await _client
+                    .GetAuditLogsAsync(permissionId)
+                    .ConfigureAwait(false);
+
+                var permissionAuditLogWithUser = new List<PermissionAuditLogViewDto>();
+
+                foreach (var auditLog in permissionAuditLogs)
+                {
+                    var userDto = await _marketParticipantClient
+                        .GetUserAsync(auditLog.ChangedByUserId)
+                        .ConfigureAwait(false);
+
+                    permissionAuditLogWithUser.Add(new PermissionAuditLogViewDto(
+                        auditLog.PermissionId,
+                        auditLog.ChangedByUserId,
+                        userDto.Name,
+                        auditLog.Timestamp));
+                }
+
+                return new PermissionAuditLogsViewDto(permissionAuditLogWithUser);
+            });
         }
     }
 }
