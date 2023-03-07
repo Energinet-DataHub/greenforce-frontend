@@ -9,15 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { PermissionAuditLogType } from './permission-audit-log-type';
 
 
-export interface PermissionAuditLogViewDto { 
-    permissionId: number;
-    changedByUserId: string;
-    changedByUserName: string;
-    permissionAuditLogType: PermissionAuditLogType;
-    timestamp: string;
-}
+export type PermissionAuditLogType = 'Unknown' | 'DescriptionChange';
 
+export const PermissionAuditLogType = {
+    Unknown: 'Unknown' as PermissionAuditLogType,
+    DescriptionChange: 'DescriptionChange' as PermissionAuditLogType
+};
 
