@@ -13,6 +13,11 @@ const config: CodegenConfig = {
         'typed-document-node',
         'typescript-msw',
       ],
+      config: {
+        scalars: {
+          DateRange: '{ start: string, end: string}',
+        },
+      },
     },
     './apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0/schema.graphql': {
       plugins: ['schema-ast'],

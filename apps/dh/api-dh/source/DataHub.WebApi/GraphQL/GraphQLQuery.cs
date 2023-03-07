@@ -15,13 +15,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.Wholesale.Client;
 using Energinet.DataHub.Wholesale.Contracts;
 using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -56,8 +56,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .WithService<IWholesaleClient>()
                 .ResolveAsync(async (context, client) =>
                 {
-                    var interval = context.GetArgument<Tuple<DateTimeOffset, DateTimeOffset>>("executionTime");
-                    var batchSearchDto = new BatchSearchDto(interval.Item1, interval.Item2);
+                    var interval = context.GetArgument<Interval>("executionTime");
+                    var start = interval.Start.ToDateTimeOffset();
+                    var end = interval.End.ToDateTimeOffset();
+                    var batchSearchDto = new BatchSearchDto(start, end);
                     return await client.GetBatchesAsync(batchSearchDto);
                 });
 
@@ -74,13 +76,13 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 {
                     // var processType = context.GetArgument<ProcessType?>("processType", null);
                     var gridAreaCodes = context.GetArgument("gridAreaCodes", Array.Empty<string>());
-                    var period = context.GetArgument<Tuple<DateTimeOffset, DateTimeOffset>>("period");
-                    var executionTime = context.GetArgument<Tuple<DateTimeOffset, DateTimeOffset>>("executionTime");
+                    var period = context.GetArgument<Interval?>("period");
+                    var executionTime = context.GetArgument<Interval?>("executionTime");
 
-                    var minExecutionTime = executionTime?.Item1 ?? null;
-                    var maxExecutionTime = executionTime?.Item2 ?? null;
-                    var periodStart = period?.Item1 ?? null;
-                    var periodEnd = period?.Item2 ?? null;
+                    var minExecutionTime = executionTime?.HasStart == true ? executionTime?.Start.ToDateTimeOffset() : null;
+                    var maxExecutionTime = executionTime?.HasEnd == true ? executionTime?.End.ToDateTimeOffset() : null;
+                    var periodStart = period?.HasStart == true ? period?.Start.ToDateTimeOffset() : null;
+                    var periodEnd = period?.HasEnd == true ? period?.End.ToDateTimeOffset() : null;
 
                     var batchSearchDto = new BatchSearchDtoV2(
                         gridAreaCodes,
@@ -114,7 +116,9 @@ namespace Energinet.DataHub.WebApi.GraphQL
                             .Select(gridAreaCode => new SettlementReport(
                                 ProcessType.BalanceFixing,
                                 gridAreas.First(gridArea => gridArea.Code == gridAreaCode),
-                                Tuple.Create(batch.PeriodStart, batch.PeriodEnd),
+                                new Interval(
+                                    Instant.FromDateTimeOffset(batch.PeriodStart),
+                                    Instant.FromDateTimeOffset(batch.PeriodEnd)),
                                 batch.ExecutionTimeStart));
 
                         accumulator.AddRange(settlementReports);

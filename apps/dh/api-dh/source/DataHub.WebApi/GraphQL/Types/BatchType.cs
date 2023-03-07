@@ -20,6 +20,7 @@ using Energinet.DataHub.Wholesale.Contracts;
 using GraphQL.DataLoader;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -57,7 +58,9 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 });
 
             Field<DateRangeType>("period")
-              .Resolve(context => Tuple.Create(context.Source.PeriodStart, context.Source.PeriodEnd));
+               .Resolve(context => new Interval(
+                   Instant.FromDateTimeOffset(context.Source.PeriodStart),
+                   Instant.FromDateTimeOffset(context.Source.PeriodEnd)));
         }
     }
 }

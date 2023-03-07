@@ -14,6 +14,7 @@
 using System;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.Wholesale.Contracts;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -23,14 +24,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public GridAreaDto GridArea { get; set; }
 
-        public Tuple<DateTimeOffset, DateTimeOffset> Period { get; set; }
+        public Interval Period { get; set; }
 
         public DateTimeOffset? ExecutionTime { get; set; }
 
         public SettlementReport(
             ProcessType processType,
             GridAreaDto gridArea,
-            Tuple<DateTimeOffset, DateTimeOffset> period,
+            Interval period,
             DateTimeOffset? executionTime)
         {
             ProcessType = processType;

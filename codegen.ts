@@ -13,6 +13,11 @@ const config: CodegenConfig = {
         'typed-document-node',
         'typescript-msw',
       ],
+      config: {
+        scalars: {
+          DateRange: '{ start: string, end: string}',
+        },
+      },
     },
     './schema.graphql': {
       plugins: ['schema-ast'],

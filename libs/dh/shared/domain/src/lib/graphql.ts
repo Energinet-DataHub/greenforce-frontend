@@ -13,7 +13,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  DateRange: any;
+  DateRange: { start: string, end: string};
   DateTimeOffset: any;
   Decimal: any;
 };
@@ -208,14 +208,14 @@ export type GetBatchQueryVariables = Exact<{
 }>;
 
 
-export type GetBatchQuery = { __typename?: 'GraphQLQuery', batch?: { __typename?: 'Batch', id: string, executionState: BatchState, executionTimeEnd?: any | null, executionTimeStart?: any | null, isBasisDataDownloadAvailable: boolean, period?: any | null, statusType: StatusType, gridAreas: Array<{ __typename?: 'GridArea', code: string, name: string, id: string, priceAreaCode: PriceAreaCode, validFrom: any }> } | null };
+export type GetBatchQuery = { __typename?: 'GraphQLQuery', batch?: { __typename?: 'Batch', id: string, executionState: BatchState, executionTimeEnd?: any | null, executionTimeStart?: any | null, isBasisDataDownloadAvailable: boolean, period?: { start: string, end: string} | null, statusType: StatusType, gridAreas: Array<{ __typename?: 'GridArea', code: string, name: string, id: string, priceAreaCode: PriceAreaCode, validFrom: any }> } | null };
 
 export type GetBatchesQueryVariables = Exact<{
   executionTime?: InputMaybe<Scalars['DateRange']>;
 }>;
 
 
-export type GetBatchesQuery = { __typename?: 'GraphQLQuery', batches: Array<{ __typename?: 'Batch', id: string, executionState: BatchState, executionTimeEnd?: any | null, executionTimeStart?: any | null, isBasisDataDownloadAvailable: boolean, period?: any | null, statusType: StatusType, gridAreas: Array<{ __typename?: 'GridArea', code: string, name: string }> }> };
+export type GetBatchesQuery = { __typename?: 'GraphQLQuery', batches: Array<{ __typename?: 'Batch', id: string, executionState: BatchState, executionTimeEnd?: any | null, executionTimeStart?: any | null, isBasisDataDownloadAvailable: boolean, period?: { start: string, end: string} | null, statusType: StatusType, gridAreas: Array<{ __typename?: 'GridArea', code: string, name: string }> }> };
 
 export type GetProcessStepActorsQueryVariables = Exact<{
   step: Scalars['Int'];
@@ -242,7 +242,7 @@ export type GetSettlementReportsQueryVariables = Exact<{
 }>;
 
 
-export type GetSettlementReportsQuery = { __typename?: 'GraphQLQuery', settlementReports: Array<{ __typename?: 'SettlementReport', processType: ProcessType, period?: any | null, executionTime?: any | null, gridArea: { __typename?: 'GridArea', code: string, name: string } }> };
+export type GetSettlementReportsQuery = { __typename?: 'GraphQLQuery', settlementReports: Array<{ __typename?: 'SettlementReport', processType: ProcessType, period?: { start: string, end: string} | null, executionTime?: any | null, gridArea: { __typename?: 'GridArea', code: string, name: string } }> };
 
 
 export const GetBatchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBatch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"batch"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"executionState"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeEnd"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeStart"}},{"kind":"Field","name":{"kind":"Name","value":"isBasisDataDownloadAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"period"}},{"kind":"Field","name":{"kind":"Name","value":"statusType"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"priceAreaCode"}},{"kind":"Field","name":{"kind":"Name","value":"validFrom"}}]}}]}}]}}]} as unknown as DocumentNode<GetBatchQuery, GetBatchQueryVariables>;

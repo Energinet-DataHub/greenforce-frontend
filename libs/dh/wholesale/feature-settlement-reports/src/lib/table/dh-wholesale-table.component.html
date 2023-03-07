@@ -37,12 +37,12 @@ limitations under the License.
 
     <!-- Period Start -->
     <ng-container *wattTableCell="columns.periodStart; let process">
-      {{ process.period.start | dhDate }}
+      {{ process.period?.start | dhDate }}
     </ng-container>
 
     <!-- Period End -->
     <ng-container *wattTableCell="columns.periodEnd; let process">
-      {{ process.period.end | dhDate }}
+      {{ process.period?.end | dhDate }}
     </ng-container>
 
     <!-- Execution Time Start -->
