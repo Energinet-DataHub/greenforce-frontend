@@ -16,6 +16,9 @@ limitations under the License.
 -->
 <watt-modal
   #inviteUserModal
+  size="large"
+  class="inviteModal"
+  style="max-width: 576px;"
   [title]="t('title')"
   (closed)="closeModal($event)"
   *transloco="let t; read: 'admin.userManagement.inviteUser'"
@@ -96,12 +99,12 @@ limitations under the License.
     <mat-step [stepControl]="userRoles">
       <form [formGroup]="userRoles">
         <ng-template matStepLabel>{{ t("addUserRole") }}</ng-template>
-        <dh-assignable-user-roles
-          (selectedUserRoles)="onSelectedUserRoles($event)"
-        ></dh-assignable-user-roles>
         <watt-error *ngIf="userRoles.controls.selectedUserRoles.hasError('required')">
           {{ "shared.fieldRequiredErrorText" | transloco }}
         </watt-error>
+        <dh-assignable-user-roles
+          (selectedUserRoles)="onSelectedUserRoles($event)"
+        ></dh-assignable-user-roles>
       </form>
       <div class="buttonWrapper">
         <watt-button variant="secondary" wattStepperPrevious>

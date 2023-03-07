@@ -17,7 +17,15 @@
 :host {
   overflow-y: auto;
   display: block;
-  height: 16vw;
+  height: 100%;
+}
+
+.card {
+  padding: 0px;
+}
+
+.cardTitle {
+  margin: 24px;
 }
 
 watt-empty-state {
@@ -30,17 +38,31 @@ watt-spinner {
   margin-top: var(--watt-space-xl);
 }
 
+.userRolesScrollContainer {
+  max-height: 50vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
 .userRoles {
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  li {
-    display: grid;
-    margin-left: var(--watt-space-s);
-    grid-template-columns: 40px 1fr auto;
-  }
-  h6 {
-    margin: 0 0 0 var(--watt-space-s);
-  }
+  margin: 0 var(--watt-space-ml);
+  display: table;
+  border-collapse: collapse;
+}
+
+.userRole {
+  display: table-row;
+  border-bottom: 1px var(--watt-color-neutral-grey-300) solid;
+}
+
+.userRoleContent {
+  display: table-cell;
+  padding: var(--watt-space-m) var(--watt-space-s);
+}
+
+.userRoleContent:first-child {
+  width: 0%;
+  padding: var(--watt-space-m) var(--watt-space-s) var(--watt-space-m)
+    var(--watt-space-m);
 }

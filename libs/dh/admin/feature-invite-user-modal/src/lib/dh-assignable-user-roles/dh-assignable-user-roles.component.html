@@ -24,8 +24,8 @@ limitations under the License.
       errorTrigger: hasGeneralError$
     "
   >
-    <watt-card variant="solid">
-      <watt-card-title>
+    <watt-card class="card" variant="solid">
+      <watt-card-title class="cardTitle">
         <ng-container
           *ngTemplateOutlet="
             userRolesHeadline;
@@ -35,18 +35,26 @@ limitations under the License.
           "
         ></ng-container>
       </watt-card-title>
-      <div class="userRoles">
-        <ul class="watt-text-s">
-          <li *ngFor="let userRole of assignableUserRoles">
-            <watt-checkbox
-              [ngModel]="false"
-              (ngModelChange)="selectUserRole($event, userRole)"
-            ></watt-checkbox>
-            <div>{{ userRole.name }}</div>
-            <div>{{ userRole.description }}</div>
-            <mat-divider></mat-divider>
-          </li>
-        </ul>
+
+      <div class="userRolesScrollContainer">
+        <div
+          class="userRoles"
+          *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
+        >
+          <ng-container *ngFor="let userRole of assignableUserRoles">
+            <div class="userRole">
+              <watt-checkbox
+                class="userRoleContent"
+                [ngModel]="false"
+                (ngModelChange)="selectUserRole($event, userRole)"
+              ></watt-checkbox>
+              <div class="userRoleContent">
+                {{ translateMarketRole(userRole.eicFunction) }} - {{ userRole.name }}
+              </div>
+              <div class="userRoleContent">{{ userRole.description }}</div>
+            </div>
+          </ng-container>
+        </div>
       </div>
     </watt-card>
   </ng-container>
