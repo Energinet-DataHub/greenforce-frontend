@@ -37,7 +37,6 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
         display: flex;
         align-items: center;
         gap: var(--watt-space-s);
-        margin-bottom: 28px; /* Magic UX number */
       }
 
       .user-name__headline {

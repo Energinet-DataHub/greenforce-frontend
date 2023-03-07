@@ -18,6 +18,6 @@
   display: flex;
   justify-content: flex-end;
   gap: var(--watt-space-m);
-  margin-bottom: var(--watt-space-m);
-  margin-left: var(--watt-space-m);
+  margin-left: auto;
+  margin-right: var(--watt-space-ml);
 }

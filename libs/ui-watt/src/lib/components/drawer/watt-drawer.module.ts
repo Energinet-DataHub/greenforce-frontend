@@ -24,6 +24,7 @@ import { WattDrawerComponent } from './watt-drawer.component';
 import { WattDrawerTopbarComponent } from './watt-drawer-topbar.component';
 import { WattDrawerActionsComponent } from './watt-drawer-actions.component';
 import { WattDrawerContentComponent } from './watt-drawer-content.component';
+import { WattDrawerActionsContentComponent } from './watt-drawer-actions-content.component';
 import { A11yModule } from '@angular/cdk/a11y';
 
 @NgModule({
@@ -32,12 +33,14 @@ import { A11yModule } from '@angular/cdk/a11y';
     WattDrawerTopbarComponent,
     WattDrawerActionsComponent,
     WattDrawerContentComponent,
+    WattDrawerActionsContentComponent,
   ],
   exports: [
     WattDrawerComponent,
     WattDrawerTopbarComponent,
     WattDrawerActionsComponent,
     WattDrawerContentComponent,
+    WattDrawerActionsContentComponent,
   ],
   imports: [A11yModule, MatSidenavModule, WattButtonModule, WattSpinnerModule, CommonModule],
 })

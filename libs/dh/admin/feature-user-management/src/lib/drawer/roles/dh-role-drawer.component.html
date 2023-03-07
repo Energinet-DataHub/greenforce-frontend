@@ -16,8 +16,20 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.drawer'">
   <watt-drawer #drawer size="large" (closed)="onClose()" [loading]="isLoading$ | push">
-    <watt-drawer-topbar></watt-drawer-topbar>
-
+    <watt-drawer-topbar *ngIf="drawer.isOpen">
+      <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
+        <dh-role-status [status]="userRoleWithPermissions.status"></dh-role-status>
+      </ng-container>
+    </watt-drawer-topbar>
+    <watt-drawer-actions-content *ngIf="drawer.isOpen">
+      <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
+        <div class="role-name__grid">
+          <h2 class="role-name__headline">
+            {{ userRoleWithPermissions.name }}
+          </h2>
+        </div>
+      </ng-container>
+    </watt-drawer-actions-content>
     <watt-drawer-actions>
       <watt-button
         *dhPermissionRequired="['userrole:manage']"
@@ -33,13 +45,6 @@ limitations under the License.
           <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
             <ng-container *ngIf="!hasGeneralError">
               <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
-                <div class="role-name__grid">
-                  <h2 class="role-name__headline">
-                    {{ userRoleWithPermissions.name }}
-                  </h2>
-                  <dh-role-status [status]="userRoleWithPermissions.status"></dh-role-status>
-                </div>
-
                 <dh-drawer-role-tabs [role]="userRoleWithPermissions"></dh-drawer-role-tabs>
               </ng-container>
             </ng-container>
