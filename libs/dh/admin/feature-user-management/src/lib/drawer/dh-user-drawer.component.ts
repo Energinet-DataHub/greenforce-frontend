@@ -31,19 +31,6 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   selector: 'dh-user-drawer',
   standalone: true,
   templateUrl: './dh-user-drawer.component.html',
-  styles: [
-    `
-      .user-name__grid {
-        display: flex;
-        align-items: center;
-        gap: var(--watt-space-s);
-      }
-
-      .user-name__headline {
-        margin: 0;
-      }
-    `,
-  ],
   imports: [
     CommonModule,
     TranslocoModule,
