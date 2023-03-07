@@ -78,6 +78,7 @@ namespace Energinet.DataHub.WebApi.Controllers
                         auditLog.PermissionId,
                         auditLog.ChangedByUserId,
                         userDto.Name,
+                        auditLog.PermissionChangeType == PermissionChangeType.DescriptionChange ? PermissionAuditLogType.DescriptionChange : PermissionAuditLogType.Unknown,
                         auditLog.Timestamp));
                 }
 

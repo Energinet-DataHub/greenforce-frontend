@@ -12,14 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-
 namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
 {
-    public sealed record PermissionAuditLogViewDto(
-        int PermissionId,
-        Guid ChangedByUserId,
-        string ChangedByUserName,
-        PermissionAuditLogType PermissionAuditLogType,
-        DateTimeOffset Timestamp);
+    public enum PermissionAuditLogType
+    {
+        Unknown = 0,
+        DescriptionChange = 1,
+    }
 }
