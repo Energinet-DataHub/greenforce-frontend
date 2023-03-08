@@ -788,13 +788,14 @@
         "emptyHelperText": "Try changing the search criteria"
       },
       "processTypes": {
-        "BalanceFixing": "Balance fixing"
+        "BALANCE_FIXING": "Balance fixing"
       },
       "filters": {
         "processType": "Process type",
         "gridArea": "Grid area",
         "period": "Period",
-        "executionTime": "Execution time"
+        "executionTime": "Execution time",
+        "executionTimeRequired": "Execution time is required"
       }
     },
     "calculationSteps": {
@@ -832,7 +833,7 @@
       }
     },
     "timeSeriesPoints": {
-      "header": "Quantities ​​in the period",
+      "header": "Quantities in the period",
       "time": "time",
       "quantity": "quantity"
     },

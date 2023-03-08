@@ -5,7 +5,13 @@ const config: CodegenConfig = {
   schema: './schema.graphql',
   documents: 'libs/**/*.graphql',
   generates: {
-    'libs/dh/shared/domain/src/lib/graphql.ts': {
+    './apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0/schema.graphql': {
+      plugins: ['schema-ast'],
+    },
+    './dist/apps/dh/api-dh/schema.graphql': {
+      plugins: ['schema-ast'],
+    },
+    'libs/dh/shared/domain/src/lib/generated/graphql.ts': {
       plugins: [
         { add: { content: '/* eslint-disable */' } },
         'typescript',
@@ -13,12 +19,11 @@ const config: CodegenConfig = {
         'typed-document-node',
         'typescript-msw',
       ],
-    },
-    './apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0/schema.graphql': {
-      plugins: ['schema-ast'],
-    },
-    './dist/apps/dh/api-dh/schema.graphql': {
-      plugins: ['schema-ast'],
+      config: {
+        scalars: {
+          DateRange: '{ start: string, end: string}',
+        },
+      },
     },
   },
 };

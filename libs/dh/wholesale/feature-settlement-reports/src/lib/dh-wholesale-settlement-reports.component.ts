@@ -29,13 +29,11 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
-import {
-  settlementReportsProcess,
-  SettlementReportsProcessFilters,
-} from '@energinet-datahub/dh/wholesale/domain';
+import { SettlementReport, SettlementReportFilters } from '@energinet-datahub/dh/wholesale/domain';
 import { Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
-import { graphql, ProcessType } from '@energinet-datahub/dh/shared/domain';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
+import sub from 'date-fns/sub';
 
 @Component({
   selector: 'dh-wholesale-settlement-reports',
@@ -62,26 +60,24 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
 
   loading = false;
   error = false;
-  data: settlementReportsProcess[] = [];
-  filters?: SettlementReportsProcessFilters;
+  data: SettlementReport[] = [];
+  executionTime = {
+    start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
+    end: new Date().toISOString(),
+  };
 
   query = this.apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
-    query: graphql.GetBatchesDocument,
+    query: graphql.GetSettlementReportsDocument,
+    variables: { executionTime: this.executionTime },
   });
 
   ngOnInit() {
     this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (result) => {
         this.loading = result.loading;
-
-        if (result.data) {
-          this.data = this.mapSettlementReports(
-            result.data.batches as graphql.Batch[],
-            this.filters
-          );
-        }
+        this.data = result.data?.settlementReports;
       },
       error: () => {
         this.error = true;
@@ -95,40 +91,10 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
     this.destroy$.complete();
   }
 
-  onFilterChange(filters: SettlementReportsProcessFilters) {
-    this.filters = filters;
-    this.query.refetch({ executionTime: filters.executionTime });
-  }
-
-  // TODO: MOVE TO GraphQL and change fetchPolicy
-  private mapSettlementReports(
-    batches: graphql.Batch[],
-    filters?: SettlementReportsProcessFilters
-  ): settlementReportsProcess[] {
-    return batches
-      .filter((batch) => batch.executionState === graphql.BatchState.Completed)
-      .filter((batch) => !!batch.gridAreas)
-      .reduce((result: settlementReportsProcess[], batch) => {
-        return result.concat(
-          batch.gridAreas.map((gridArea) => ({
-            ...batch,
-            processType: ProcessType.BalanceFixing,
-            gridAreaCode: gridArea.code,
-            gridAreaName: gridArea.name,
-          }))
-        );
-      }, [])
-      .filter((settlementReport) => {
-        if (filters?.gridArea) {
-          return filters.gridArea.includes(settlementReport.gridAreaCode);
-        }
-        return true;
-      })
-      .filter((settlementReport) => {
-        if (filters?.processType) {
-          return filters.processType.includes(settlementReport.processType);
-        }
-        return true;
-      });
+  onFilterChange(filters: SettlementReportFilters) {
+    this.query.refetch({
+      executionTime: filters.executionTime,
+      period: filters.period,
+    });
   }
 }
