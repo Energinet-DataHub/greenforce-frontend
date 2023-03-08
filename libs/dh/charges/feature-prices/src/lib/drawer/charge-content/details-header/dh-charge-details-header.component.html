@@ -16,9 +16,9 @@ limitations under the License.
 -->
 
 <ng-container *ngIf="charge">
-  <div class="container" *transloco="let t; read: 'charges'">
+  <ng-container *transloco="let t; read: 'charges'">
     {{ t("chargeType." + charge.chargeType) }} ({{ t("resolutionType." + charge.resolution) }})
-    <h1>{{ charge.chargeId }} - {{ charge.chargeName }}</h1>
+    <h2>{{ charge.chargeId }} - {{ charge.chargeName }}</h2>
     {{ charge.chargeOwnerName }} | {{ charge.chargeOwner }}
     <watt-expansion
       [openLabel]="t('prices.drawer.showDescriptionLabel')"
@@ -55,5 +55,5 @@ limitations under the License.
         </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 </ng-container>

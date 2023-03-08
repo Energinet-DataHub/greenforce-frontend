@@ -22,56 +22,62 @@ limitations under the License.
   </div>
 
   <ng-container *ngIf="message">
-    <small>{{ message.createdDate | dhDateTime }}</small>
-    <h1>{{ message.messageId }}</h1>
-    <small>
-      {{ "charges.messageType." + message.processType | transloco }} |
-      {{ "charges.messageTypeAbbreviation." + message.processType | transloco }}
-    </small>
+    <div class="margin-left">
+      <small>{{ message.createdDate | dhDateTime }}</small>
+      <h1>{{ message.messageId }}</h1>
+      <small>
+        {{ "charges.messageType." + message.processType | transloco }} |
+        {{ "charges.messageTypeAbbreviation." + message.processType | transloco }}
+      </small>
+    </div>
 
     <mat-divider></mat-divider>
 
-    <label>{{ t("sender") }}</label>
-    <small>
-      {{ senderMarketParticipant?.name }} ({{ senderMarketParticipant?.marketParticipantId }})
-    </small>
+    <div class="margin-left">
+      <label>{{ t("sender") }}</label>
+      <small>
+        {{ senderMarketParticipant?.name }} ({{ senderMarketParticipant?.marketParticipantId }})
+      </small>
 
-    <!-- Download -->
-    <watt-button
-      *ngIf="message"
-      class="download-button"
-      icon="openInNew"
-      variant="text"
-      (click)="downloadLog()"
-    >
-      {{ t("prices.Download") }}
-    </watt-button>
-  </ng-container>
-
-  <!-- Show message -->
-  <ng-container *ngIf="!(blobIsDownloading$ | push) && !(messageIsSearching$ | push)">
-    <ng-container *rxLet="blobContent$ as blobContent">
-      <pre>{{ blobContent }}</pre>
-    </ng-container>
-
-    <div>
-      <watt-badge *ngIf="blobHasGeneralError$ | push" type="danger">{{
-        t("prices.drawer.unknownMessageError")
-      }}</watt-badge>
+      <!-- Download -->
+      <watt-button
+        *ngIf="message"
+        class="download-button"
+        icon="openInNew"
+        variant="text"
+        (click)="downloadLog()"
+      >
+        {{ t("prices.Download") }}
+      </watt-button>
     </div>
   </ng-container>
 
-  <div *ngIf="(blobIsDownloading$ | push) || (messageIsSearching$ | push)">
-    <watt-spinner [diameter]="60"></watt-spinner>
-  </div>
+  <div class="margin-left">
+    <!-- Show message -->
+    <ng-container *ngIf="!(blobIsDownloading$ | push) && !(messageIsSearching$ | push)">
+      <ng-container *rxLet="blobContent$ as blobContent">
+        <pre>{{ blobContent }}</pre>
+      </ng-container>
 
-  <!-- Error -->
-  <ng-container *ngIf="messageHasGeneralError$ | push">
-    <watt-empty-state
-      class="loading-error"
-      icon="custom-power"
-      title="{{ 'shared.error.title' | transloco }}"
-      message="{{ 'shared.error.message' | transloco }}"
-    ></watt-empty-state>
-  </ng-container>
+      <div>
+        <watt-badge *ngIf="blobHasGeneralError$ | push" type="danger">{{
+          t("prices.drawer.unknownMessageError")
+        }}</watt-badge>
+      </div>
+    </ng-container>
+
+    <div *ngIf="(blobIsDownloading$ | push) || (messageIsSearching$ | push)">
+      <watt-spinner [diameter]="60"></watt-spinner>
+    </div>
+
+    <!-- Error -->
+    <ng-container *ngIf="messageHasGeneralError$ | push">
+      <watt-empty-state
+        class="loading-error"
+        icon="custom-power"
+        title="{{ 'shared.error.title' | transloco }}"
+        message="{{ 'shared.error.message' | transloco }}"
+      ></watt-empty-state>
+    </ng-container>
+  </div>
 </ng-container>

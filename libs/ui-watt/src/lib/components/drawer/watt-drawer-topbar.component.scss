@@ -19,8 +19,7 @@
   background-color: var(--watt-color-neutral-white);
   display: flex;
   gap: var(--watt-space-s);
-  margin: calc(1.5 * var(--watt-space-m)) 0 calc(1.5 * var(--watt-space-m))
-    calc(1.5 * var(--watt-space-m));
+  margin: var(--watt-space-ml);
   position: sticky;
   top: 0;
   flex-grow: 1;
