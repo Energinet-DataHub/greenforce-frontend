@@ -779,13 +779,14 @@
         "emptyHelperText": "Prøv at ændre dine søgeindstillinger"
       },
       "processTypes": {
-        "BalanceFixing": "Balancefiksering"
+        "BALANCE_FIXING": "Balancefiksering"
       },
       "filters": {
         "processType": "Procestype",
         "gridArea": "Netområde",
         "period": "Periode",
-        "executionTime": "Kørsel tid"
+        "executionTime": "Kørsel tid",
+        "executionTimeRequired": "Eksekveringstid påkrævet"
       }
     },
     "calculationSteps": {
