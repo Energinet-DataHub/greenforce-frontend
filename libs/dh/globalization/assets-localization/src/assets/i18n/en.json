@@ -746,7 +746,7 @@
         "BalanceFixing": "Balance Fixing",
         "Aggregation": "Aggregation"
       },
-      "processTypeError": "Process type is required" 
+      "processTypeError": "Process type is required"
     },
     "searchBatch": {
       "topBarTitle": "Search Batch",

@@ -14,21 +14,30 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *rxLet="
+<ng-container
+  *rxLet="
     gridAreas$;
     let gridAreas;
     suspense: loading;
     error: error;
     errorTrigger: loadingGridAreasErrorTrigger$
-  ">
-  <form [formGroup]="createBatchForm" *transloco="let transloco; read: 'wholesale'" (ngSubmit)="createBatch()"
-    novalidate>
-
+  "
+>
+  <form
+    [formGroup]="createBatchForm"
+    *transloco="let transloco; read: 'wholesale'"
+    (ngSubmit)="createBatch()"
+    novalidate
+  >
     <!-- Process type -->
     <watt-form-field>
       <watt-label>{{ transloco("startBatch.processTypeDropDownLabel") }}</watt-label>
-      <watt-dropdown formControlName="processTypes" [options]="processTypes" [showResetOption]="false"
-        [multiple]="false"></watt-dropdown>
+      <watt-dropdown
+        formControlName="processTypes"
+        [options]="processTypes"
+        [showResetOption]="false"
+        [multiple]="false"
+      ></watt-dropdown>
       <watt-error *ngIf="createBatchForm.controls.processTypes.errors?.required">
         {{ transloco("startBatch.processTypeError") }}
       </watt-error>
@@ -37,14 +46,21 @@ limitations under the License.
     <!-- Date range -->
     <watt-form-field>
       <watt-label>{{ transloco("startBatch.dateRangeLabel") }}</watt-label>
-      <watt-datepicker formControlName="dateRange" [range]="true" [min]="minDate" [max]="maxDate"></watt-datepicker>
+      <watt-datepicker
+        formControlName="dateRange"
+        [range]="true"
+        [min]="minDate"
+        [max]="maxDate"
+      ></watt-datepicker>
       <watt-error *ngIf="createBatchForm.controls.dateRange.errors?.rangeRequired">
         {{ transloco("startBatch.dateRangeRequired") }}
       </watt-error>
-      <watt-error *ngIf="
+      <watt-error
+        *ngIf="
           createBatchForm.controls.dateRange.errors?.invalidPeriod &&
           !createBatchForm.controls.dateRange.errors?.rangeRequired
-        ">
+        "
+      >
         {{ transloco("startBatch.invalidPeriod") }}
       </watt-error>
     </watt-form-field>
@@ -52,15 +68,21 @@ limitations under the License.
     <!-- Grid areas -->
     <watt-form-field>
       <watt-label>{{ transloco("startBatch.gridAreaDropDownLabel") }}</watt-label>
-      <watt-dropdown formControlName="gridAreas" [options]="gridAreas" [showResetOption]="false"
-        [multiple]="true"></watt-dropdown>
+      <watt-dropdown
+        formControlName="gridAreas"
+        [options]="gridAreas"
+        [showResetOption]="false"
+        [multiple]="true"
+      ></watt-dropdown>
       <watt-error *ngIf="createBatchForm.controls.gridAreas.errors?.required">
         {{ transloco("startBatch.gridAreaRequired") }}
       </watt-error>
     </watt-form-field>
 
-    <watt-button type="submit" [disabled]="createBatchForm.invalid || (loadingCreatingBatch$ | push)">{{
-      transloco("startBatch.startLabel") }}
+    <watt-button
+      type="submit"
+      [disabled]="createBatchForm.invalid || (loadingCreatingBatch$ | push)"
+      >{{ transloco("startBatch.startLabel") }}
     </watt-button>
   </form>
 </ng-container>
@@ -73,8 +95,11 @@ limitations under the License.
 
 <ng-template #error>
   <div class="center">
-    <watt-empty-state icon="custom-power" [title]="'shared.error.title' | transloco"
-      [message]="'shared.error.message' | transloco">
+    <watt-empty-state
+      icon="custom-power"
+      [title]="'shared.error.title' | transloco"
+      [message]="'shared.error.message' | transloco"
+    >
     </watt-empty-state>
   </div>
 </ng-template>

@@ -123,7 +123,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
         const keys = Object.keys(ProcessType);
         this.processTypes = keys.map((key) => ({
           displayValue: processTypesTranlation[key],
-          value: String(keys.indexOf(key))
+          value: String(keys.indexOf(key)),
         }));
       });
   }
