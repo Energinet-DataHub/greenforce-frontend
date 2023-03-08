@@ -15,13 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  inject,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { DbAdminAssignableUserRolesStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
