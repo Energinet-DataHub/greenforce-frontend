@@ -33,12 +33,12 @@ limitations under the License.
     <watt-form-field>
       <watt-label>{{ transloco("startBatch.processTypeDropDownLabel") }}</watt-label>
       <watt-dropdown
-        formControlName="processTypes"
+        formControlName="processType"
         [options]="processTypes"
         [showResetOption]="false"
         [multiple]="false"
       ></watt-dropdown>
-      <watt-error *ngIf="createBatchForm.controls.processTypes.errors?.required">
+      <watt-error *ngIf="createBatchForm.controls.processType.errors?.required">
         {{ transloco("startBatch.processTypeError") }}
       </watt-error>
     </watt-form-field>
