@@ -15,7 +15,13 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { DbAdminAssignableUserRolesStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
@@ -27,6 +33,8 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { MatDividerModule } from '@angular/material/divider';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'dh-assignable-user-roles',
@@ -41,24 +49,34 @@ import { MatDividerModule } from '@angular/material/divider';
     WattEmptyStateModule,
     TranslocoModule,
     WattCardModule,
+    WATT_TABLE,
     MatDividerModule,
   ],
   styleUrls: ['./dh-assignable-user-roles.component.scss'],
   templateUrl: './dh-assignable-user-roles.component.html',
 })
-export class DhAssignableUserRolesComponent {
-  @Output() readonly selectedUserRoles = new EventEmitter<UserRoleDto[]>();
+export class DhAssignableUserRolesComponent implements OnInit {
   private readonly assignableUserRolesStore = inject(DbAdminAssignableUserRolesStore);
+
   readonly assignableUserRoles$ = this.assignableUserRolesStore.assignableUserRoles$;
   readonly hasGeneralError$ = this.assignableUserRolesStore.hasGeneralError$;
-  private _selectedUserRoles: UserRoleDto[] = [];
+  readonly dataSource: WattTableDataSource<UserRoleDto> = new WattTableDataSource<UserRoleDto>();
 
-  selectUserRole(checked: boolean, userRole: UserRoleDto): void {
-    if (checked) {
-      this._selectedUserRoles.push(userRole);
-    } else {
-      this._selectedUserRoles = this._selectedUserRoles.filter((ur) => ur !== userRole);
-    }
-    this.selectedUserRoles.emit(this._selectedUserRoles);
+  @Output() readonly selectedUserRoles = new EventEmitter<UserRoleDto[]>();
+
+  columns: WattTableColumnDef<UserRoleDto> = {
+    eicFunction: { accessor: 'eicFunction' },
+    name: { accessor: 'name' },
+    description: { accessor: 'description', sort: false },
+  };
+
+  ngOnInit(): void {
+    this.assignableUserRolesStore.assignableUserRoles$
+      .pipe(takeUntil(this.assignableUserRolesStore.destroy$))
+      .subscribe((userRoles) => (this.dataSource.data = userRoles));
+  }
+
+  selectionChanged(userRoles: UserRoleDto[]) {
+    this.selectedUserRoles.emit(userRoles);
   }
 }

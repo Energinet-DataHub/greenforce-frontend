@@ -865,7 +865,12 @@
         "email": "Email",
         "phoneNumber": "Phone number",
         "phoneNumberError": "Phone number format +45 12345678",
-        "successMessage": "{{ email }} has been invited"
+        "successMessage": "{{ email }} has been invited",
+        "columns": {
+          "eicFunction": "Market role",
+          "name": "Name",
+          "description": "Description"
+        }
       },
       "download": "Download",
       "drawer": {

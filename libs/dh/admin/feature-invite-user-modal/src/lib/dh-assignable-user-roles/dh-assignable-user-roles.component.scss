@@ -32,31 +32,8 @@ watt-spinner {
   margin-top: var(--watt-space-xl);
 }
 
-.userRolesScrollContainer {
+.userRolesTableContainer {
   max-height: 50vh;
   overflow: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.userRoles {
-  margin: 0 var(--watt-space-ml);
-  display: table;
-  border-collapse: collapse;
-}
-
-.userRole {
-  display: table-row;
-  border-bottom: 1px var(--watt-color-neutral-grey-300) solid;
-}
-
-.userRole > * {
-  display: table-cell;
-  padding: var(--watt-space-m) var(--watt-space-s);
-}
-
-.userRole > *:first-child {
-  width: 0%;
-  padding: var(--watt-space-m) var(--watt-space-s) var(--watt-space-m)
-    var(--watt-space-m);
+  padding: 0 var(--watt-space-ml);
 }

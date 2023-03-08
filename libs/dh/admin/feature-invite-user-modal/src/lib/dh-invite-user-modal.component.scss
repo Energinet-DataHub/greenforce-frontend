@@ -49,7 +49,7 @@
     justify-content: flex-end;
     gap: var(--watt-space-m);
     width: 100%;
-    padding-top: var(--watt-space-m);
+    padding-top: var(--watt-space-ml);
   }
 
   .mat-step-icon-state-error {
@@ -73,5 +73,10 @@
     .lastname {
       margin-left: auto;
     }
+  }
+
+  .userRoleError {
+    display: block;
+    margin-bottom: var(--watt-space-ml);
   }
 }

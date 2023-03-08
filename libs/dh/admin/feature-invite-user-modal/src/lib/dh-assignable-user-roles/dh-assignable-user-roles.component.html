@@ -36,22 +36,32 @@ limitations under the License.
         ></ng-container>
       </watt-card-title>
 
-      <div class="userRolesScrollContainer">
-        <div
-          class="userRoles"
+      <div class="userRolesTableContainer">
+        <watt-table
+          [dataSource]="dataSource"
+          [columns]="columns"
+          sortBy="eicFunction"
+          sortDirection="asc"
+          [selectable]="true"
+          (selectionChange)="selectionChanged($event)"
           *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
         >
-          <ng-container *ngFor="let userRole of assignableUserRoles">
-            <div class="userRole">
-              <watt-checkbox
-                [ngModel]="false"
-                (ngModelChange)="selectUserRole($event, userRole)"
-              ></watt-checkbox>
-              <div>{{ translateMarketRole(userRole.eicFunction) }} - {{ userRole.name }}</div>
-              <div>{{ userRole.description }}</div>
-            </div>
+          <ng-container
+            *wattTableCell="columns['eicFunction']; header: t('columns.eicFunction'); let element"
+          >
+            {{ translateMarketRole(element.eicFunction) }}
           </ng-container>
-        </div>
+
+          <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let element">
+            {{ element.name }}
+          </ng-container>
+
+          <ng-container
+            *wattTableCell="columns['description']; header: t('columns.description'); let element"
+          >
+            {{ element.description }}
+          </ng-container>
+        </watt-table>
       </div>
     </watt-card>
   </ng-container>
