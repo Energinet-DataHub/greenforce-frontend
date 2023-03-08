@@ -123,7 +123,6 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
     this.filters.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(200), filter(this.isComplete))
       .subscribe((filters: SettlementReportFilters) => {
-        console.log(filters);
         this.filterChange.emit(filters as SettlementReportFilters);
       });
   }
