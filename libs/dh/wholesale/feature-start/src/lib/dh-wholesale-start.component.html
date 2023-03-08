@@ -29,6 +29,20 @@ limitations under the License.
     (ngSubmit)="createBatch()"
     novalidate
   >
+    <!-- Process type -->
+    <watt-form-field>
+      <watt-label>{{ transloco("startBatch.processTypeDropDownLabel") }}</watt-label>
+      <watt-dropdown
+        formControlName="processTypes"
+        [options]="processTypes"
+        [showResetOption]="false"
+        [multiple]="false"
+      ></watt-dropdown>
+      <watt-error *ngIf="createBatchForm.controls.processTypes.errors?.required">
+        {{ transloco("startBatch.processTypeError") }}
+      </watt-error>
+    </watt-form-field>
+
     <!-- Date range -->
     <watt-form-field>
       <watt-label>{{ transloco("startBatch.dateRangeLabel") }}</watt-label>
