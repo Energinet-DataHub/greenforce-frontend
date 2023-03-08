@@ -11,7 +11,7 @@ const config: CodegenConfig = {
     './dist/apps/dh/api-dh/schema.graphql': {
       plugins: ['schema-ast'],
     },
-    'libs/dh/shared/domain/src/lib/graphql.ts': {
+    'libs/dh/shared/domain/src/lib/generated/graphql.ts': {
       plugins: [
         { add: { content: '/* eslint-disable */' } },
         'typescript',
