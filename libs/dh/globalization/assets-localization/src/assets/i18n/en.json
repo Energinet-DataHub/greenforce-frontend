@@ -861,7 +861,7 @@
     "userManagement": {
       "inviteUser": {
         "title": "Invite user",
-        "informations": "Informations",
+        "informations": "Information",
         "addUserRole": "Add user role",
         "inviteUser": "Invite user",
         "name": "Name",
@@ -872,7 +872,12 @@
         "email": "Email",
         "phoneNumber": "Phone number",
         "phoneNumberError": "Phone number format +45 12345678",
-        "successMessage": "{{ email }} has been invited"
+        "successMessage": "{{ email }} has been invited",
+        "columns": {
+          "eicFunction": "Market role",
+          "name": "Name",
+          "description": "Description"
+        }
       },
       "download": "Download",
       "drawer": {
