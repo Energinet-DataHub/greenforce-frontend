@@ -38,7 +38,7 @@ import { DateRange, GridAreaDto, ProcessType } from '@energinet-datahub/dh/share
 import { filterValidGridAreas } from '@energinet-datahub/dh/wholesale/domain';
 
 interface CreateBatchFormValues {
-  processTypes: FormControl<ProcessType[] | null>;
+  processType: FormControl<ProcessType | null>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<DateRange | null>;
 }
@@ -77,7 +77,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   loadingGridAreasErrorTrigger$ = this.store.loadingGridAreasErrorTrigger$;
 
   createBatchForm = new FormGroup<CreateBatchFormValues>({
-    processTypes: new FormControl(null, { validators: Validators.required }),
+    processType: new FormControl(null, { validators: Validators.required }),
     gridAreas: new FormControl(null, { validators: Validators.required }),
     dateRange: new FormControl(null, {
       validators: WattRangeValidators.required(),
@@ -120,25 +120,24 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
       .selectTranslateObject('wholesale.startBatch.processTypes')
       .pipe(takeUntil(this.destroy$))
       .subscribe((processTypesTranlation) => {
-        const keys = Object.keys(ProcessType);
-        this.processTypes = keys.map((key) => ({
+        this.processTypes = Object.keys(ProcessType).map((key) => ({
           displayValue: processTypesTranlation[key],
-          value: String(keys.indexOf(key)),
+          value: ProcessType[key as ProcessType],
         }));
       });
   }
 
   createBatch() {
-    const { processTypes, gridAreas, dateRange } = this.createBatchForm.getRawValue();
+    const { processType, gridAreas, dateRange } = this.createBatchForm.getRawValue();
     if (
       this.createBatchForm.invalid ||
       gridAreas === null ||
       dateRange === null ||
-      processTypes === null
+      processType === null
     )
       return;
 
-    this.store.createBatch({ gridAreas, dateRange });
+    this.store.createBatch({ gridAreas, dateRange, processType });
 
     this.toast.open({
       type: 'loading',
