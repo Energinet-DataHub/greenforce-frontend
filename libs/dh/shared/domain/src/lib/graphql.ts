@@ -1,6 +1,22 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 /* eslint-disable */
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
-import { graphql, ResponseResolver, GraphQLRequest, GraphQLContext } from 'msw'
+import { graphql, ResponseResolver, GraphQLRequest, GraphQLContext } from 'msw';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -14,7 +30,6 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateRange: any;
-  /** The `DateTimeOffset` scalar type represents a date, time and offset from UTC. `DateTimeOffset` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
   DateTimeOffset: any;
   Decimal: any;
 };
@@ -60,7 +75,7 @@ export enum BatchState {
   Completed = 'COMPLETED',
   Executing = 'EXECUTING',
   Failed = 'FAILED',
-  Pending = 'PENDING'
+  Pending = 'PENDING',
 }
 
 export type GraphQlQuery = {
@@ -69,24 +84,21 @@ export type GraphQlQuery = {
   batches: Array<Batch>;
   organization?: Maybe<Organization>;
   organizations?: Maybe<Array<Maybe<Organization>>>;
+  permissions: Array<Permission>;
   processStep?: Maybe<ProcessStep>;
 };
-
 
 export type GraphQlQueryBatchArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
 
-
 export type GraphQlQueryBatchesArgs = {
   executionTime?: InputMaybe<Scalars['DateRange']>;
 };
 
-
 export type GraphQlQueryOrganizationArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
-
 
 export type GraphQlQueryProcessStepArgs = {
   batchId: Scalars['ID'];
@@ -112,8 +124,6 @@ export type GridArea = {
 
 export type Organization = {
   __typename?: 'Organization';
-  /** The actors of the organization. */
-  actors: Array<Actor>;
   /** The address of the organization. */
   address: Address;
   /** The business register identifier of the organization. */
@@ -132,12 +142,22 @@ export enum OrganizationStatus {
   Active = 'ACTIVE',
   Blocked = 'BLOCKED',
   Deleted = 'DELETED',
-  New = 'NEW'
+  New = 'NEW',
 }
+
+export type Permission = {
+  __typename?: 'Permission';
+  /** The description of the permission. */
+  description: Scalars['String'];
+  /** The ID of the permission. */
+  id: Scalars['Int'];
+  /** The name of the permission. */
+  name: Scalars['String'];
+};
 
 export enum PriceAreaCode {
   Dk_1 = 'DK_1',
-  Dk_2 = 'DK_2'
+  Dk_2 = 'DK_2',
 }
 
 export type ProcessStep = {
@@ -145,7 +165,6 @@ export type ProcessStep = {
   actors: Array<Actor>;
   result?: Maybe<ProcessStepResult>;
 };
-
 
 export type ProcessStepResultArgs = {
   gln?: InputMaybe<Scalars['String']>;
@@ -166,7 +185,7 @@ export enum StatusType {
   Danger = 'danger',
   Info = 'info',
   Success = 'success',
-  Warning = 'warning'
+  Warning = 'warning',
 }
 
 export type TimeSeriesPoint = {
@@ -179,22 +198,60 @@ export type TimeSeriesPoint = {
 export enum TimeSeriesType {
   FlexConsumption = 'FLEX_CONSUMPTION',
   NonProfiledConsumption = 'NON_PROFILED_CONSUMPTION',
-  Production = 'PRODUCTION'
+  Production = 'PRODUCTION',
 }
+
+export type GetPermissionsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetPermissionsQuery = {
+  __typename?: 'GraphQLQuery';
+  permissions: Array<{ __typename?: 'Permission'; id: number; name: string; description: string }>;
+};
 
 export type GetBatchQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-
-export type GetBatchQuery = { __typename?: 'GraphQLQuery', batch?: { __typename?: 'Batch', id: string, executionState: BatchState, executionTimeEnd?: any | null, executionTimeStart?: any | null, isBasisDataDownloadAvailable: boolean, period?: any | null, statusType: StatusType, gridAreas: Array<{ __typename?: 'GridArea', code: string, name: string, id: string, priceAreaCode: PriceAreaCode, validFrom: any }> } | null };
+export type GetBatchQuery = {
+  __typename?: 'GraphQLQuery';
+  batch?: {
+    __typename?: 'Batch';
+    id: string;
+    executionState: BatchState;
+    executionTimeEnd?: any | null;
+    executionTimeStart?: any | null;
+    isBasisDataDownloadAvailable: boolean;
+    period?: any | null;
+    statusType: StatusType;
+    gridAreas: Array<{
+      __typename?: 'GridArea';
+      code: string;
+      name: string;
+      id: string;
+      priceAreaCode: PriceAreaCode;
+      validFrom: any;
+    }>;
+  } | null;
+};
 
 export type GetBatchesQueryVariables = Exact<{
   executionTime?: InputMaybe<Scalars['DateRange']>;
 }>;
 
-
-export type GetBatchesQuery = { __typename?: 'GraphQLQuery', batches: Array<{ __typename?: 'Batch', id: string, executionState: BatchState, executionTimeEnd?: any | null, executionTimeStart?: any | null, isBasisDataDownloadAvailable: boolean, period?: any | null, statusType: StatusType, gridAreas: Array<{ __typename?: 'GridArea', code: string, name: string }> }> };
+export type GetBatchesQuery = {
+  __typename?: 'GraphQLQuery';
+  batches: Array<{
+    __typename?: 'Batch';
+    id: string;
+    executionState: BatchState;
+    executionTimeEnd?: any | null;
+    executionTimeStart?: any | null;
+    isBasisDataDownloadAvailable: boolean;
+    period?: any | null;
+    statusType: StatusType;
+    gridAreas: Array<{ __typename?: 'GridArea'; code: string; name: string }>;
+  }>;
+};
 
 export type GetProcessStepActorsQueryVariables = Exact<{
   step: Scalars['Int'];
@@ -202,8 +259,13 @@ export type GetProcessStepActorsQueryVariables = Exact<{
   gridArea: Scalars['String'];
 }>;
 
-
-export type GetProcessStepActorsQuery = { __typename?: 'GraphQLQuery', processStep?: { __typename?: 'ProcessStep', actors: Array<{ __typename?: 'Actor', number: string }> } | null };
+export type GetProcessStepActorsQuery = {
+  __typename?: 'GraphQLQuery';
+  processStep?: {
+    __typename?: 'ProcessStep';
+    actors: Array<{ __typename?: 'Actor'; number: string }>;
+  } | null;
+};
 
 export type GetProcessStepResultQueryVariables = Exact<{
   step: Scalars['Int'];
@@ -212,14 +274,373 @@ export type GetProcessStepResultQueryVariables = Exact<{
   gln: Scalars['String'];
 }>;
 
+export type GetProcessStepResultQuery = {
+  __typename?: 'GraphQLQuery';
+  processStep?: {
+    __typename?: 'ProcessStep';
+    result?: {
+      __typename?: 'ProcessStepResult';
+      breadcrumb?: string | null;
+      min: any;
+      max: any;
+      sum: any;
+      timeSeriesType: TimeSeriesType;
+      timeSeriesPoints: Array<{
+        __typename?: 'TimeSeriesPoint';
+        quality: string;
+        quantity: any;
+        time: any;
+      }>;
+    } | null;
+  } | null;
+};
 
-export type GetProcessStepResultQuery = { __typename?: 'GraphQLQuery', processStep?: { __typename?: 'ProcessStep', result?: { __typename?: 'ProcessStepResult', breadcrumb?: string | null, min: any, max: any, sum: any, timeSeriesType: TimeSeriesType, timeSeriesPoints: Array<{ __typename?: 'TimeSeriesPoint', quality: string, quantity: any, time: any }> } | null } | null };
+export const GetPermissionsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetPermissions' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'permissions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetPermissionsQuery, GetPermissionsQueryVariables>;
+export const GetBatchDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetBatch' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'batch' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'executionState' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'executionTimeEnd' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'executionTimeStart' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isBasisDataDownloadAvailable' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'period' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'statusType' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'gridAreas' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'priceAreaCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'validFrom' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetBatchQuery, GetBatchQueryVariables>;
+export const GetBatchesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetBatches' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'executionTime' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'DateRange' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'batches' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'executionTime' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'executionTime' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'executionState' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'executionTimeEnd' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'executionTimeStart' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isBasisDataDownloadAvailable' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'period' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'statusType' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'gridAreas' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetBatchesQuery, GetBatchesQueryVariables>;
+export const GetProcessStepActorsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetProcessStepActors' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'step' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'batchId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'gridArea' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'processStep' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'step' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'step' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'batchId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'batchId' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'gridArea' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'gridArea' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'actors' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'number' } }],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetProcessStepActorsQuery, GetProcessStepActorsQueryVariables>;
+export const GetProcessStepResultDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetProcessStepResult' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'step' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'batchId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'gridArea' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'gln' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'processStep' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'step' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'step' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'batchId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'batchId' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'gridArea' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'gridArea' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'result' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'gln' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'gln' } },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'breadcrumb' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'min' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'max' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timeSeriesType' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'timeSeriesPoints' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'quality' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'time' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetProcessStepResultQuery, GetProcessStepResultQueryVariables>;
 
-
-export const GetBatchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBatch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"batch"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"executionState"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeEnd"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeStart"}},{"kind":"Field","name":{"kind":"Name","value":"isBasisDataDownloadAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"period"}},{"kind":"Field","name":{"kind":"Name","value":"statusType"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"priceAreaCode"}},{"kind":"Field","name":{"kind":"Name","value":"validFrom"}}]}}]}}]}}]} as unknown as DocumentNode<GetBatchQuery, GetBatchQueryVariables>;
-export const GetBatchesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBatches"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"executionTime"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateRange"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"batches"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"executionTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"executionTime"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"executionState"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeEnd"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeStart"}},{"kind":"Field","name":{"kind":"Name","value":"isBasisDataDownloadAvailable"}},{"kind":"Field","name":{"kind":"Name","value":"period"}},{"kind":"Field","name":{"kind":"Name","value":"statusType"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetBatchesQuery, GetBatchesQueryVariables>;
-export const GetProcessStepActorsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetProcessStepActors"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"step"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"batchId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"gridArea"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"processStep"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"step"},"value":{"kind":"Variable","name":{"kind":"Name","value":"step"}}},{"kind":"Argument","name":{"kind":"Name","value":"batchId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"batchId"}}},{"kind":"Argument","name":{"kind":"Name","value":"gridArea"},"value":{"kind":"Variable","name":{"kind":"Name","value":"gridArea"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"actors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"number"}}]}}]}}]}}]} as unknown as DocumentNode<GetProcessStepActorsQuery, GetProcessStepActorsQueryVariables>;
-export const GetProcessStepResultDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetProcessStepResult"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"step"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"batchId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"gridArea"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"gln"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"processStep"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"step"},"value":{"kind":"Variable","name":{"kind":"Name","value":"step"}}},{"kind":"Argument","name":{"kind":"Name","value":"batchId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"batchId"}}},{"kind":"Argument","name":{"kind":"Name","value":"gridArea"},"value":{"kind":"Variable","name":{"kind":"Name","value":"gridArea"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"result"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"gln"},"value":{"kind":"Variable","name":{"kind":"Name","value":"gln"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"breadcrumb"}},{"kind":"Field","name":{"kind":"Name","value":"min"}},{"kind":"Field","name":{"kind":"Name","value":"max"}},{"kind":"Field","name":{"kind":"Name","value":"sum"}},{"kind":"Field","name":{"kind":"Name","value":"timeSeriesType"}},{"kind":"Field","name":{"kind":"Name","value":"timeSeriesPoints"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"quality"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"time"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetProcessStepResultQuery, GetProcessStepResultQueryVariables>;
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockGetPermissionsQuery((req, res, ctx) => {
+ *   return res(
+ *     ctx.data({ permissions })
+ *   )
+ * })
+ */
+export const mockGetPermissionsQuery = (
+  resolver: ResponseResolver<
+    GraphQLRequest<GetPermissionsQueryVariables>,
+    GraphQLContext<GetPermissionsQuery>,
+    any
+  >
+) => graphql.query<GetPermissionsQuery, GetPermissionsQueryVariables>('GetPermissions', resolver);
 
 /**
  * @param resolver a function that accepts a captured request and may return a mocked response.
@@ -232,11 +653,13 @@ export const GetProcessStepResultDocument = {"kind":"Document","definitions":[{"
  *   )
  * })
  */
-export const mockGetBatchQuery = (resolver: ResponseResolver<GraphQLRequest<GetBatchQueryVariables>, GraphQLContext<GetBatchQuery>, any>) =>
-  graphql.query<GetBatchQuery, GetBatchQueryVariables>(
-    'GetBatch',
-    resolver
-  )
+export const mockGetBatchQuery = (
+  resolver: ResponseResolver<
+    GraphQLRequest<GetBatchQueryVariables>,
+    GraphQLContext<GetBatchQuery>,
+    any
+  >
+) => graphql.query<GetBatchQuery, GetBatchQueryVariables>('GetBatch', resolver);
 
 /**
  * @param resolver a function that accepts a captured request and may return a mocked response.
@@ -249,11 +672,13 @@ export const mockGetBatchQuery = (resolver: ResponseResolver<GraphQLRequest<GetB
  *   )
  * })
  */
-export const mockGetBatchesQuery = (resolver: ResponseResolver<GraphQLRequest<GetBatchesQueryVariables>, GraphQLContext<GetBatchesQuery>, any>) =>
-  graphql.query<GetBatchesQuery, GetBatchesQueryVariables>(
-    'GetBatches',
-    resolver
-  )
+export const mockGetBatchesQuery = (
+  resolver: ResponseResolver<
+    GraphQLRequest<GetBatchesQueryVariables>,
+    GraphQLContext<GetBatchesQuery>,
+    any
+  >
+) => graphql.query<GetBatchesQuery, GetBatchesQueryVariables>('GetBatches', resolver);
 
 /**
  * @param resolver a function that accepts a captured request and may return a mocked response.
@@ -266,11 +691,17 @@ export const mockGetBatchesQuery = (resolver: ResponseResolver<GraphQLRequest<Ge
  *   )
  * })
  */
-export const mockGetProcessStepActorsQuery = (resolver: ResponseResolver<GraphQLRequest<GetProcessStepActorsQueryVariables>, GraphQLContext<GetProcessStepActorsQuery>, any>) =>
+export const mockGetProcessStepActorsQuery = (
+  resolver: ResponseResolver<
+    GraphQLRequest<GetProcessStepActorsQueryVariables>,
+    GraphQLContext<GetProcessStepActorsQuery>,
+    any
+  >
+) =>
   graphql.query<GetProcessStepActorsQuery, GetProcessStepActorsQueryVariables>(
     'GetProcessStepActors',
     resolver
-  )
+  );
 
 /**
  * @param resolver a function that accepts a captured request and may return a mocked response.
@@ -283,8 +714,14 @@ export const mockGetProcessStepActorsQuery = (resolver: ResponseResolver<GraphQL
  *   )
  * })
  */
-export const mockGetProcessStepResultQuery = (resolver: ResponseResolver<GraphQLRequest<GetProcessStepResultQueryVariables>, GraphQLContext<GetProcessStepResultQuery>, any>) =>
+export const mockGetProcessStepResultQuery = (
+  resolver: ResponseResolver<
+    GraphQLRequest<GetProcessStepResultQueryVariables>,
+    GraphQLContext<GetProcessStepResultQuery>,
+    any
+  >
+) =>
   graphql.query<GetProcessStepResultQuery, GetProcessStepResultQueryVariables>(
     'GetProcessStepResult',
     resolver
-  )
+  );
