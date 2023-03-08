@@ -80,7 +80,7 @@ describe(WattModalComponent.name, () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  fit('closes on ESC', async () => {
+  it('closes on ESC', async () => {
     const closed = jest.fn();
     await setup({ closed });
     await userEvent.click(screen.getByRole('button'));
