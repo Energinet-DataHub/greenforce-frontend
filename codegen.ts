@@ -5,6 +5,9 @@ const config: CodegenConfig = {
   schema: 'https://localhost:5001/graphql',
   documents: 'libs/**/*.graphql',
   generates: {
+    './schema.graphql': {
+      plugins: ['schema-ast'],
+    },
     'libs/dh/shared/domain/src/lib/graphql.ts': {
       plugins: [
         { add: { content: '/* eslint-disable */' } },
@@ -18,9 +21,6 @@ const config: CodegenConfig = {
           DateRange: '{ start: string, end: string}',
         },
       },
-    },
-    './schema.graphql': {
-      plugins: ['schema-ast'],
     },
   },
 };

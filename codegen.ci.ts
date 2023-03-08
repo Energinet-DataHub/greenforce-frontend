@@ -5,6 +5,12 @@ const config: CodegenConfig = {
   schema: './schema.graphql',
   documents: 'libs/**/*.graphql',
   generates: {
+    './apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0/schema.graphql': {
+      plugins: ['schema-ast'],
+    },
+    './dist/apps/dh/api-dh/schema.graphql': {
+      plugins: ['schema-ast'],
+    },
     'libs/dh/shared/domain/src/lib/graphql.ts': {
       plugins: [
         { add: { content: '/* eslint-disable */' } },
@@ -18,12 +24,6 @@ const config: CodegenConfig = {
           DateRange: '{ start: string, end: string}',
         },
       },
-    },
-    './apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0/schema.graphql': {
-      plugins: ['schema-ast'],
-    },
-    './dist/apps/dh/api-dh/schema.graphql': {
-      plugins: ['schema-ast'],
     },
   },
 };
