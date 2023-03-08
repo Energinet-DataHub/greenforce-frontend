@@ -18,13 +18,7 @@
 
 .watt-modal-panel {
   .mat-horizontal-stepper-header-container {
-    padding-bottom: var(--watt-space-m);
-  }
-
-  mat-divider {
-    color: var(--watt-color-neutral-grey-400);
-    margin: var(--watt-space-m) 0;
-    grid-column: 1/-1;
+    padding-bottom: var(--watt-space-ml);
   }
 
   .mat-step-label.mat-step-label-selected {
@@ -39,22 +33,25 @@
   .mat-step-label {
     @include watt.typography-watt-step-label;
   }
+
   .mat-step-header .mat-step-icon-selected {
     border: solid 1px var(--watt-color-primary);
     background-color: white;
     color: var(--watt-color-primary);
   }
+
   .mat-stepper-horizontal-line {
     margin: 0 5px;
   }
+
   .buttonWrapper {
     display: flex;
+    justify-content: flex-end;
+    gap: var(--watt-space-m);
     width: 100%;
     padding-top: var(--watt-space-m);
-    & :last-child {
-      margin-left: auto;
-    }
   }
+
   .mat-step-icon-state-error {
     color: var(--watt-color-state-danger);
     border: solid 1px var(--watt-color-state-danger);
@@ -64,7 +61,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    max-width: 576px;
+    max-width: 720px;
     gap: var(--watt-space-m);
 
     .firstname,

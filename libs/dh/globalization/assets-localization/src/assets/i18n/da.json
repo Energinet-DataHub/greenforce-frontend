@@ -845,7 +845,7 @@
     "userManagement": {
       "inviteUser": {
         "title": "Inviter bruger",
-        "informations": "Informationer",
+        "informations": "Information",
         "addUserRole": "Tildel brugerroller",
         "inviteUser": "Inviter bruger",
         "name": "Navn",
