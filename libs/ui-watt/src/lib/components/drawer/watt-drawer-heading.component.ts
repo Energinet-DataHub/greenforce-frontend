@@ -14,31 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.headline,
-.subheadline {
-  margin: 0;
-}
+import { Component } from '@angular/core';
 
-.subheadline {
-  float: right;
-  margin-left: var(--watt-space-s);
-}
-
-watt-description-list {
-  margin-left: var(--watt-space-ml);
-}
-
-dh-wholesale-grid-areas {
-  margin: 0 var(--watt-space-ml);
-}
-
-.center {
-  align-items: center;
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
+@Component({
+  selector: 'watt-drawer-heading',
+  template: `<ng-content></ng-content>`,
+  styles: [
+    `
+      :host {
+        margin-left: var(--watt-space-ml);
+      }
+    `,
+  ],
+})
+export class WattDrawerHeadingComponent {}
