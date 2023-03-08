@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  overflow-y: auto;
-  display: block;
-  height: 16vw;
+.card {
+  padding: 0px;
+}
+
+.cardTitle {
+  margin: 24px;
 }
 
 watt-empty-state {
@@ -30,17 +32,8 @@ watt-spinner {
   margin-top: var(--watt-space-xl);
 }
 
-.userRoles {
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  li {
-    display: grid;
-    margin-left: var(--watt-space-s);
-    grid-template-columns: 40px 1fr auto;
-  }
-  h6 {
-    margin: 0 0 0 var(--watt-space-s);
-  }
+.userRolesTableContainer {
+  max-height: 50vh;
+  overflow: auto;
+  padding: 0 var(--watt-space-ml);
 }
