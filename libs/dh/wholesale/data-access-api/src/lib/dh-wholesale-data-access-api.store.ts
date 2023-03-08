@@ -146,7 +146,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       batch$: Observable<{
         gridAreas: string[];
         dateRange: { start: string; end: string };
-        processType: ProcessType
+        processType: ProcessType;
       }>
     ) => {
       return batch$.pipe(
