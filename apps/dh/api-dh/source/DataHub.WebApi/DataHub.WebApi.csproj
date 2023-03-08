@@ -32,13 +32,26 @@ limitations under the License.
     <MessageArchiveClientProjectReference>../../../../../backend/geh-message-archive/source/Energinet.DataHub.MessageArchive.Client/Energinet.DataHub.MessageArchive.Client.csproj</MessageArchiveClientProjectReference>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+
+  <Target Name="NSwag" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' ">
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net60) run Clients/Wholesale/v2/nswag.json /variables:Configuration=$(Configuration)" />
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net60) run Clients/Wholesale/v2.1/nswag.json /variables:Configuration=$(Configuration)" />
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net60) run Clients/Wholesale/v2.2/nswag.json /variables:Configuration=$(Configuration)" />
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net60) run Clients/Wholesale/v2.3/nswag.json /variables:Configuration=$(Configuration)" />
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net60) run Clients/Wholesale/v2.4/nswag.json /variables:Configuration=$(Configuration)" />
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net60) run Clients/Wholesale/v3/nswag.json /variables:Configuration=$(Configuration)" />
+  </Target>
+  
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="dotnet tool restore" />
     <Exec Command="dotnet swagger tofile --output $(OutputPath)/swagger.json $(OutputPath)/$(AssemblyName).dll v1" />
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="Energinet.DataHub.Wholesale.Client" Version="5.0.14" />
+    <PackageReference Include="Energinet.DataHub.Wholesale.Client" Version="5.0.16" />
     <PackageReference Include="GraphQL.DataLoader" Version="7.3.0" />
     <PackageReference Include="GraphQL.MicrosoftDI" Version="7.2.2" />
     <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="7.2.0" />
@@ -58,11 +71,21 @@ limitations under the License.
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.4.27">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NodaTime" Version="3.1.6" />
+    <PackageReference Include="NSwag.Core" Version="13.18.2" />
+    <PackageReference Include="NSwag.MSBuild" Version="13.18.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -73,5 +96,8 @@ limitations under the License.
     <ProjectReference Condition="Exists('$(MarketingParticipantProjectReference)')" Include="$(MarketingParticipantProjectReference)" />
     <ProjectReference Condition="Exists('$(MessageArchiveClientAbstractionsProjectReference)')" Include="$(MessageArchiveClientAbstractionsProjectReference)" />
     <ProjectReference Condition="Exists('$(MessageArchiveClientProjectReference)')" Include="$(MessageArchiveClientProjectReference)" />
+  </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="OpenAPIs\swagger.json" />
   </ItemGroup>
 </Project>
