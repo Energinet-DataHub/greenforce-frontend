@@ -120,10 +120,9 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
       .selectTranslateObject('wholesale.startBatch.processTypes')
       .pipe(takeUntil(this.destroy$))
       .subscribe((processTypesTranlation) => {
-        const keys = Object.keys(ProcessType);
-        this.processTypes = keys.map((key) => ({
+        this.processTypes = Object.keys(ProcessType).map((key) => ({
           displayValue: processTypesTranlation[key],
-          value: String(keys.indexOf(key)),
+          value: ProcessType[key as ProcessType],
         }));
       });
   }
