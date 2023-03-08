@@ -29,7 +29,7 @@ import { DhPermissionDetailsAuditLogsComponent } from './content/dh-permission-d
     TranslocoModule,
     WattTabComponent,
     WattTabsComponent,
-    DhPermissionDetailsAuditLogsComponent
+    DhPermissionDetailsAuditLogsComponent,
   ],
 })
 export class DhDrawerPermissionDetailTabsComponent {

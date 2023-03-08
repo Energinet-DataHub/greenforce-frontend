@@ -17,7 +17,9 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'admin.userManagement.permissiondetail.tabs'">
   <watt-tabs>
     <watt-tab [label]="t('history.tabLabel')">
-      <dh-permission-detail-audit-logs [selectedPermission]="selectedPermission"></dh-permission-detail-audit-logs>
+      <dh-permission-detail-audit-logs
+        [selectedPermission]="selectedPermission"
+      ></dh-permission-detail-audit-logs>
     </watt-tab>
   </watt-tabs>
 </ng-container>
