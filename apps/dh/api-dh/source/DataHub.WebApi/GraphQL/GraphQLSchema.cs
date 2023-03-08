@@ -26,6 +26,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public GraphQLSchema(IServiceProvider provider)
           : base(provider)
         {
+            this.RegisterTypeMapping<PermissionDetailsDto, PermissionDtoType>();
             this.RegisterTypeMapping<AddressDto, AddressDtoType>();
             this.RegisterTypeMapping<OrganizationDto, OrganizationDtoType>();
             this.RegisterTypeMapping<Actor, ActorDtoType>();
@@ -36,6 +37,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
             this.RegisterTypeMapping<BatchDtoV2, BatchType>();
             this.RegisterTypeMapping<ProcessStepResultDto, ProcessStepType>();
             this.RegisterTypeMapping<TimeSeriesPointDto, TimeSeriesPointType>();
+            this.RegisterTypeMapping<ProcessType, ProcessTypeEnum>();
+            this.RegisterTypeMapping<GridAreaDto, GridAreaType>();
 
             Query = provider.GetRequiredService<GraphQLQuery>();
         }

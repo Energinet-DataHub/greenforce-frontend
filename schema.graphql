@@ -97,6 +97,7 @@ type GraphQLQuery {
     id: ID
   ): Organization
   organizations: [Organization]
+  permissions: [Permission!]!
   processStep(
     """
     The batch id the process belongs to.
@@ -113,6 +114,12 @@ type GraphQLQuery {
     """
     step: Int!
   ): ProcessStep
+  settlementReports(
+    executionTime: DateRange
+    gridAreaCodes: [String]
+    period: DateRange
+    processType: ProcessType
+  ): [SettlementReport!]!
 }
 
 type GridArea {
@@ -148,11 +155,6 @@ type GridArea {
 }
 
 type Organization {
-  """
-  The actors of the organization.
-  """
-  actors: [Actor!]!
-
   """
   The address of the organization.
   """
@@ -191,6 +193,23 @@ enum OrganizationStatus {
   NEW
 }
 
+type Permission {
+  """
+  The description of the permission.
+  """
+  description: String!
+
+  """
+  The ID of the permission.
+  """
+  id: Int!
+
+  """
+  The name of the permission.
+  """
+  name: String!
+}
+
 enum PriceAreaCode {
   DK_1
   DK_2
@@ -208,6 +227,28 @@ type ProcessStepResult {
   sum: Decimal!
   timeSeriesPoints: [TimeSeriesPoint!]!
   timeSeriesType: TimeSeriesType!
+}
+
+enum ProcessType {
+  BALANCE_FIXING
+}
+
+type SettlementReport {
+  """
+  The execution time.
+  """
+  executionTime: DateTimeOffset
+
+  """
+  The grid area.
+  """
+  gridArea: GridArea!
+  period: DateRange
+
+  """
+  The process type.
+  """
+  processType: ProcessType!
 }
 
 """

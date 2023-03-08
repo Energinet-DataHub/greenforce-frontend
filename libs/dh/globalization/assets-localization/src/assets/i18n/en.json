@@ -794,13 +794,14 @@
         "emptyHelperText": "Try changing the search criteria"
       },
       "processTypes": {
-        "BalanceFixing": "Balance fixing"
+        "BALANCE_FIXING": "Balance fixing"
       },
       "filters": {
         "processType": "Process type",
         "gridArea": "Grid area",
         "period": "Period",
-        "executionTime": "Execution time"
+        "executionTime": "Execution time",
+        "executionTimeRequired": "Execution time is required"
       }
     },
     "calculationSteps": {
@@ -825,6 +826,7 @@
       "nonProfiledConsumptionPerGridArea": "Non-profiled consumption per grid area",
       "gridArea": "Grid area",
       "energySupplier": "Energy Supplier",
+      "balanceResponsible": "{{wholesale.actors.step-3-table-header}}",
       "meteringPointType": "Metering point type",
       "messageId": "Message ID",
       "calculationPeriod": "Calculation period",
@@ -837,7 +839,7 @@
       }
     },
     "timeSeriesPoints": {
-      "header": "Quantities ​​in the period",
+      "header": "Quantities in the period",
       "time": "time",
       "quantity": "quantity"
     },
@@ -1085,6 +1087,11 @@
           "name": "Name",
           "description": "Description"
         }
+      },
+      "permissionsTab": {
+        "headline": "{{ numberOfPermissions }} permissions",
+        "permissionName": "Name",
+        "permissionDescription": "Description"
       }
     }
   }

@@ -785,13 +785,14 @@
         "emptyHelperText": "Prøv at ændre dine søgeindstillinger"
       },
       "processTypes": {
-        "BalanceFixing": "Balancefiksering"
+        "BALANCE_FIXING": "Balancefiksering"
       },
       "filters": {
         "processType": "Procestype",
         "gridArea": "Netområde",
         "period": "Periode",
-        "executionTime": "Kørsel tid"
+        "executionTime": "Kørsel tid",
+        "executionTimeRequired": "Eksekveringstid påkrævet"
       }
     },
     "calculationSteps": {
@@ -816,6 +817,7 @@
       "nonProfiledConsumptionPerGridArea": "Kvartersafregnet forbrug per netområde",
       "gridArea": "Netområde",
       "energySupplier": "El-leverandør",
+      "balanceResponsible": "{{wholesale.actors.step-3-table-header}}",
       "meteringPointType": "Målepunktstype",
       "messageId": "Besked Id",
       "calculationPeriod": "Beregningsperiode",
@@ -1060,7 +1062,9 @@
         }
       },
       "permissionsTab": {
-        "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle"
+        "headline": "{{ numberOfPermissions }} rettigheder",
+        "permissionName": "Navn",
+        "permissionDescription": "Beskrivelse"
       }
     }
   }

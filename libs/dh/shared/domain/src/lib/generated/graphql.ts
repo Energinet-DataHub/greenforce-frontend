@@ -29,7 +29,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  DateRange: any;
+  DateRange: { start: string; end: string };
   DateTimeOffset: any;
   Decimal: any;
 };
@@ -86,6 +86,7 @@ export type GraphQlQuery = {
   organizations?: Maybe<Array<Maybe<Organization>>>;
   permissions: Array<Permission>;
   processStep?: Maybe<ProcessStep>;
+  settlementReports: Array<SettlementReport>;
 };
 
 export type GraphQlQueryBatchArgs = {
@@ -104,6 +105,13 @@ export type GraphQlQueryProcessStepArgs = {
   batchId: Scalars['ID'];
   gridArea: Scalars['String'];
   step: Scalars['Int'];
+};
+
+export type GraphQlQuerySettlementReportsArgs = {
+  executionTime?: InputMaybe<Scalars['DateRange']>;
+  gridAreaCodes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  period?: InputMaybe<Scalars['DateRange']>;
+  processType?: InputMaybe<ProcessType>;
 };
 
 export type GridArea = {
@@ -180,6 +188,21 @@ export type ProcessStepResult = {
   timeSeriesType: TimeSeriesType;
 };
 
+export enum ProcessType {
+  BalanceFixing = 'BALANCE_FIXING',
+}
+
+export type SettlementReport = {
+  __typename?: 'SettlementReport';
+  /** The execution time. */
+  executionTime?: Maybe<Scalars['DateTimeOffset']>;
+  /** The grid area. */
+  gridArea: GridArea;
+  period?: Maybe<Scalars['DateRange']>;
+  /** The process type. */
+  processType: ProcessType;
+};
+
 /** How the status should be represented visually. */
 export enum StatusType {
   Danger = 'danger',
@@ -221,7 +244,7 @@ export type GetBatchQuery = {
     executionTimeEnd?: any | null;
     executionTimeStart?: any | null;
     isBasisDataDownloadAvailable: boolean;
-    period?: any | null;
+    period?: { start: string; end: string } | null;
     statusType: StatusType;
     gridAreas: Array<{
       __typename?: 'GridArea';
@@ -247,7 +270,7 @@ export type GetBatchesQuery = {
     executionTimeEnd?: any | null;
     executionTimeStart?: any | null;
     isBasisDataDownloadAvailable: boolean;
-    period?: any | null;
+    period?: { start: string; end: string } | null;
     statusType: StatusType;
     gridAreas: Array<{ __typename?: 'GridArea'; code: string; name: string }>;
   }>;
@@ -293,6 +316,22 @@ export type GetProcessStepResultQuery = {
       }>;
     } | null;
   } | null;
+};
+
+export type GetSettlementReportsQueryVariables = Exact<{
+  period?: InputMaybe<Scalars['DateRange']>;
+  executionTime?: InputMaybe<Scalars['DateRange']>;
+}>;
+
+export type GetSettlementReportsQuery = {
+  __typename?: 'GraphQLQuery';
+  settlementReports: Array<{
+    __typename?: 'SettlementReport';
+    processType: ProcessType;
+    period?: { start: string; end: string } | null;
+    executionTime?: any | null;
+    gridArea: { __typename?: 'GridArea'; code: string; name: string };
+  }>;
 };
 
 export const GetPermissionsDocument = {
@@ -623,6 +662,86 @@ export const GetProcessStepResultDocument = {
     },
   ],
 } as unknown as DocumentNode<GetProcessStepResultQuery, GetProcessStepResultQueryVariables>;
+export const GetSettlementReportsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetSettlementReports' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'period' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'DateRange' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'executionTime' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'DateRange' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'settlementReports' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'period' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'period' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'executionTime' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'executionTime' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'processType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'period' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'executionTime' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'gridArea' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetSettlementReportsQuery, GetSettlementReportsQueryVariables>;
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockGetPermissionsQuery((req, res, ctx) => {
+ *   return res(
+ *     ctx.data({ permissions })
+ *   )
+ * })
+ */
+export const mockGetPermissionsQuery = (
+  resolver: ResponseResolver<
+    GraphQLRequest<GetPermissionsQueryVariables>,
+    GraphQLContext<GetPermissionsQuery>,
+    any
+  >
+) => graphql.query<GetPermissionsQuery, GetPermissionsQueryVariables>('GetPermissions', resolver);
 
 /**
  * @param resolver a function that accepts a captured request and may return a mocked response.
@@ -723,5 +842,28 @@ export const mockGetProcessStepResultQuery = (
 ) =>
   graphql.query<GetProcessStepResultQuery, GetProcessStepResultQueryVariables>(
     'GetProcessStepResult',
+    resolver
+  );
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockGetSettlementReportsQuery((req, res, ctx) => {
+ *   const { period, executionTime } = req.variables;
+ *   return res(
+ *     ctx.data({ settlementReports })
+ *   )
+ * })
+ */
+export const mockGetSettlementReportsQuery = (
+  resolver: ResponseResolver<
+    GraphQLRequest<GetSettlementReportsQueryVariables>,
+    GraphQLContext<GetSettlementReportsQuery>,
+    any
+  >
+) =>
+  graphql.query<GetSettlementReportsQuery, GetSettlementReportsQueryVariables>(
+    'GetSettlementReports',
     resolver
   );

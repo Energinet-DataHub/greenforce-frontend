@@ -16,13 +16,11 @@
  */
 watt-description-list {
   display: block;
-  border-top: 1px solid var(--watt-color-neutral-grey-300);
-  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-  margin: 24px 0 24px 0;
+  margin: var(--watt-space-ml) 0;
 
   dl {
     display: grid;
-    gap: 24px;
+    gap: var(--watt-space-ml);
     grid-template-columns: repeat(
       var(--watt-description-list-groups-per-row, 3),
       1fr
