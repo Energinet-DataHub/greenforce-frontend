@@ -737,7 +737,7 @@
         "BalanceFixing": "Balancefiksering",
         "Aggregation": "Aggregering"
       },
-      "processTypeError": "Procestype påkrævet" 
+      "processTypeError": "Procestype påkrævet"
     },
     "searchBatch": {
       "topBarTitle": "Søg batch",
