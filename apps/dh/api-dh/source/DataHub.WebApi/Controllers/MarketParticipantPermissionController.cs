@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
@@ -66,7 +68,14 @@ namespace Energinet.DataHub.WebApi.Controllers
                     .GetAuditLogsAsync(permissionId)
                     .ConfigureAwait(false);
 
+                var permission = (await _client.GetPermissionsAsync()).FirstOrDefault(x => x.Id == permissionId) ?? throw new InvalidOperationException($"Permission {permissionId} was not found");
                 var permissionAuditLogWithUser = new List<PermissionAuditLogViewDto>();
+                permissionAuditLogWithUser.Add(new PermissionAuditLogViewDto(
+                        permissionId,
+                        Guid.Empty,
+                        "System",
+                        PermissionAuditLogType.Created,
+                        permission.Created));
 
                 foreach (var auditLog in permissionAuditLogs)
                 {
