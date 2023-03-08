@@ -34,10 +34,11 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { DateRange, GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { DateRange, GridAreaDto, ProcessType } from '@energinet-datahub/dh/shared/domain';
 import { filterValidGridAreas } from '@energinet-datahub/dh/wholesale/domain';
 
 interface CreateBatchFormValues {
+  processTypes: FormControl<ProcessType[] | null>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<DateRange | null>;
 }
@@ -76,6 +77,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   loadingGridAreasErrorTrigger$ = this.store.loadingGridAreasErrorTrigger$;
 
   createBatchForm = new FormGroup<CreateBatchFormValues>({
+    processTypes: new FormControl(null, { validators: Validators.required }),
     gridAreas: new FormControl(null, { validators: Validators.required }),
     dateRange: new FormControl(null, {
       validators: WattRangeValidators.required(),
@@ -83,6 +85,8 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   });
 
   onDateRangeChange$ = this.createBatchForm.controls.dateRange.valueChanges.pipe(startWith(null));
+
+  processTypes: WattDropdownOption[] = [];
 
   gridAreas$: Observable<WattDropdownOption[]> = combineLatest([
     this.store.gridAreas$,
@@ -100,6 +104,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   maxDate = new Date();
 
   ngOnInit(): void {
+    this.getProcessTypes();
     this.store.getGridAreas();
     this.toggleGridAreasControl();
     this.initCreatingBatchListeners();
@@ -110,9 +115,28 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  private getProcessTypes(): void {
+    this.transloco
+      .selectTranslateObject('wholesale.startBatch.processTypes')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((processTypesTranlation) => {
+        const keys = Object.keys(ProcessType);
+        this.processTypes = keys.map((key) => ({
+          displayValue: processTypesTranlation[key],
+          value: String(keys.indexOf(key)),
+        }));
+      });
+  }
+
   createBatch() {
-    const { gridAreas, dateRange } = this.createBatchForm.getRawValue();
-    if (this.createBatchForm.invalid || gridAreas === null || dateRange === null) return;
+    const { processTypes, gridAreas, dateRange } = this.createBatchForm.getRawValue();
+    if (
+      this.createBatchForm.invalid ||
+      gridAreas === null ||
+      dateRange === null ||
+      processTypes === null
+    )
+      return;
 
     this.store.createBatch({ gridAreas, dateRange });
 
