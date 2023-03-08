@@ -17,6 +17,7 @@
 import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'watt-tab',
   template: `<ng-template #templateRef>
     <ng-content></ng-content>

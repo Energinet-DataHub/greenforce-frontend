@@ -71,6 +71,7 @@ type GraphQLQuery {
     id: ID
   ): Organization
   organizations: [Organization]
+  permissions: [Permission!]!
   processStep(
     """The batch id the process belongs to."""
     batchId: ID!
@@ -129,6 +130,17 @@ enum OrganizationStatus {
   BLOCKED
   DELETED
   NEW
+}
+
+type Permission {
+  """The description of the permission."""
+  description: String!
+
+  """The ID of the permission."""
+  id: Int!
+
+  """The name of the permission."""
+  name: String!
 }
 
 enum PriceAreaCode {

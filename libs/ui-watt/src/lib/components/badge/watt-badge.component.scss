@@ -18,10 +18,10 @@
 @use "@energinet-datahub/watt/utils" as watt;
 
 :host {
-  color: var(--watt-color-primary-dark);
   border-radius: 4px;
   @include watt.space-inset-squish-xs;
   @include watt.typography-watt-label;
+  color: var(--watt-color-primary-dark);
 
   &.watt-badge-large {
     @include watt.typography-font-size("m");

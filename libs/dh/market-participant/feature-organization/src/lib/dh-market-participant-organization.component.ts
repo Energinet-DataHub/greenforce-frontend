@@ -36,7 +36,7 @@ import {
 import { DhMarketParticipantOrganizationOverviewScam } from './overview/dh-market-participant-organization-overview.component';
 import { PushModule } from '@rx-angular/template/push';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { DhMarketParticipantMarketRolesOverviewComponent } from './market-roles-overview/dh-market-participant-market-roles-overview.component';
 
 @Component({
@@ -113,7 +113,8 @@ export class DhMarketParticipantOrganizationComponent {
     WattButtonModule,
     WattEmptyStateModule,
     WattSpinnerModule,
-    WattTabsModule,
+    WattTabComponent,
+    WattTabsComponent,
     WattValidationMessageModule,
     DhMarketParticipantOrganizationOverviewScam,
     DhMarketParticipantMarketRolesOverviewComponent,
