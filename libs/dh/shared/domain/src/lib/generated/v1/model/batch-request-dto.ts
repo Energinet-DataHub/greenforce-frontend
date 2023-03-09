@@ -14,7 +14,7 @@ import { ProcessType } from './process-type';
 
 export interface BatchRequestDto { 
     processType: ProcessType;
-    gridAreaCodes: Array<string>;
+    gridAreaCodes?: Array<string> | null;
     startDate: string;
     endDate: string;
 }
