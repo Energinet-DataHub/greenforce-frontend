@@ -989,7 +989,6 @@
           }
         },
         "roles": {
-          "gln": "GLN {{ actorNumber }}",
           "tabLabel": "User roles",
           "roles": "User roles",
           "role": "User role",
@@ -1004,6 +1003,13 @@
               "description": "Description",
               "marketRole": "Market role",
               "status": "Status"
+            }
+          },
+          "assigned": {
+            "columns": {
+              "eicFunction": "Markedsrolle",
+              "name": "Navn",
+              "description": "Beskrivelse"
             }
           },
           "createuserrole": "Create user role",
@@ -1053,10 +1059,13 @@
       "editUser": {
         "cancel": "Cancel",
         "save": "Save",
-        "deactivateUser": "Deactivate user",
         "tab": {
-          "actor": "Actor",
-          "roles": "Roles"
+          "masterData": "Information",
+          "roles": "User roles"
+        },
+        "masterData": {
+          "fullName": "Name",
+          "phone": "Phone number"
         }
       },
       "editUserRole": {

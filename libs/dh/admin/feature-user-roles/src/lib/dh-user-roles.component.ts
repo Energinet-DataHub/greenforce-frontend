@@ -38,29 +38,34 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { FormsModule } from '@angular/forms';
-import { JoinMarketRoles } from './dh-join-market-roles.pipe';
+import { JoinMarketRoles, TestPipe } from './dh-join-market-roles.pipe';
 import { UserOverviewItemDto, UserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 
 @Component({
-  selector: 'dh-user-roles',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  templateUrl: './dh-user-roles.component.html',
-  styleUrls: ['./dh-user-roles.component.scss'],
-  imports: [
-    CommonModule,
-    LetModule,
-    PushModule,
-    WattSpinnerModule,
-    WattCardModule,
-    TranslocoModule,
-    JoinMarketRoles,
-    MatDividerModule,
-    WattEmptyStateModule,
-    WattCheckboxModule,
-    DhEmDashFallbackPipeScam,
-    FormsModule,
-  ],
+    selector: 'dh-user-roles',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    templateUrl: './dh-user-roles.component.html',
+    styleUrls: ['./dh-user-roles.component.scss'],
+    imports: [
+        CommonModule,
+        LetModule,
+        PushModule,
+        WattSpinnerModule,
+        WattCardModule,
+        WATT_TABLE,
+        TranslocoModule,
+        JoinMarketRoles,
+        MatDividerModule,
+        WattEmptyStateModule,
+        WattCheckboxModule,
+        MatExpansionModule,
+        DhEmDashFallbackPipeScam,
+        FormsModule,
+        TestPipe
+    ]
 })
 export class DhUserRolesComponent implements OnChanges {
   private readonly store = inject(DhAdminUserRolesStore);
@@ -73,6 +78,12 @@ export class DhUserRolesComponent implements OnChanges {
   numberOfSelectedRoles$ = this.store.numberOfSelectedRoles$;
   numberOfAssignableRoles$ = this.store.numberOfAssignableRoles$;
   hasGeneralError$ = this.store.hasGeneralError$;
+
+  columns: WattTableColumnDef<UserRoleViewDto> = {
+    eicFunction: { accessor: 'name' },
+    name: { accessor: 'name' },
+    description: { accessor: 'description', sort: false },
+  };
 
   private _updateUserRoles: UpdateUserRoles = {
     actors: [],

@@ -24,7 +24,7 @@ limitations under the License.
       errorTrigger: hasGeneralError$
     "
   >
-    <watt-card>
+    <watt-card variant="solid">
       <watt-card-title>
         <ng-container
           *ngTemplateOutlet="
@@ -35,8 +35,57 @@ limitations under the License.
           "
         ></ng-container>
       </watt-card-title>
-      <div
+
+      <mat-accordion multi displayMode="flat">
+        <ng-container *ngFor="let org of userRoleView.organizations">
+          <ng-container *ngFor="let actor of org.actors">
+            <mat-expansion-panel class="expansionPanel">
+              <mat-expansion-panel-header>
+                <mat-panel-title>{{ org.name }} | {{ actor.actorNumber }}</mat-panel-title>
+                <mat-panel-description style="flex-grow: 1">{{ actor.userRoles.length }} tildelt</mat-panel-description>
+              </mat-expansion-panel-header>
+              <watt-table
+                [dataSource]="actor.userRoles | testPipe"
+                [columns]="columns"
+                sortBy="eicFunction"
+                sortDirection="asc"
+                [selectable]="selectMode"
+                *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
+              >
+                <ng-container
+                  *wattTableCell="
+                    columns['eicFunction'];
+                    header: t('assigned.columns.eicFunction');
+                    let element
+                  "
+                >
+                  {{ translateMarketRole(element.name) }}
+                </ng-container>
+
+                <ng-container
+                  *wattTableCell="columns['name']; header: t('assigned.columns.name'); let element"
+                >
+                  {{ element.name }}
+                </ng-container>
+
+                <ng-container
+                  *wattTableCell="
+                    columns['description'];
+                    header: t('assigned.columns.description');
+                    let element
+                  "
+                >
+                  {{ element.description }}
+                </ng-container>
+              </watt-table>
+            </mat-expansion-panel>
+          </ng-container>
+        </ng-container>
+      </mat-accordion>
+
+      <!-- <div
         class="userRoles"
+        style="margin-top: 200px"
         [ngClass]="{ selectMode: selectMode }"
         *ngFor="let org of userRoleView.organizations"
       >
@@ -67,7 +116,7 @@ limitations under the License.
             </li>
           </ul>
         </ng-container>
-      </div>
+      </div> -->
     </watt-card>
   </ng-container>
 

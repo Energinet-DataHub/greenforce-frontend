@@ -15,11 +15,23 @@
  * limitations under the License.
  */
 import { Pipe, PipeTransform } from '@angular/core';
-import { ActorMarketRoleViewDto } from '@energinet-datahub/dh/shared/domain';
+import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import { ActorMarketRoleViewDto, UserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
 
 @Pipe({ name: 'joinMarketRoles', standalone: true })
 export class JoinMarketRoles implements PipeTransform {
   transform(marketRoles: ActorMarketRoleViewDto[] | null | undefined) {
     return marketRoles?.map((marketRole) => marketRole.eicFunction).join(', ') ?? '';
+  }
+}
+
+@Pipe({ name: 'testPipe', standalone: true })
+export class TestPipe implements PipeTransform {
+
+  readonly dataSource: WattTableDataSource<UserRoleViewDto> = new WattTableDataSource<UserRoleViewDto>();
+
+  transform(marketRoles: UserRoleViewDto[] | null | undefined) {
+    this.dataSource.data = marketRoles || [];
+    return this.dataSource;
   }
 }

@@ -14,8 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-h4 {
-  margin: 0 0 var(--watt-space-l);
+:host {
+  margin: var(--watt-space-ml);
+  display: block;
+}
+
+.expansionPanel:first-of-type {
+  border-top: 1px var(--watt-color-neutral-grey-300) solid;
+  border-left: 1px var(--watt-color-neutral-grey-300) solid;
+  border-right: 1px var(--watt-color-neutral-grey-300) solid;
+  box-shadow: none;
+}
+
+.expansionPanel {
+  border-bottom: 1px var(--watt-color-neutral-grey-300) solid;
+  border-left: 1px var(--watt-color-neutral-grey-300) solid;
+  border-right: 1px var(--watt-color-neutral-grey-300) solid;
+  box-shadow: none;
 }
 
 watt-empty-state {
