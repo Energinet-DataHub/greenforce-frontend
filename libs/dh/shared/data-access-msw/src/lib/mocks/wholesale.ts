@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { ProcessType } from 'libs/dh/shared/domain/src/lib/generated/graphql';
 import { rest } from 'msw';
 
 export function wholesaleMocks(apiBase: string) {
@@ -69,6 +70,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Warning,
     isBasisDataDownloadAvailable: false,
     gridAreas: mockedGridAreas,
+    processType: ProcessType.Aggregation
   },
   {
     __typename: 'Batch',
@@ -80,6 +82,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Info,
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
+    processType: ProcessType.BalanceFixing
   },
   {
     __typename: 'Batch',
@@ -91,6 +94,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Success,
     isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
+    processType: ProcessType.BalanceFixing
   },
   {
     __typename: 'Batch',
@@ -102,6 +106,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Danger,
     isBasisDataDownloadAvailable: false,
     gridAreas: mockedGridAreas,
+    processType: ProcessType.BalanceFixing
   },
   {
     __typename: 'Batch',
@@ -113,6 +118,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Warning,
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
+    processType: ProcessType.BalanceFixing
   },
   {
     __typename: 'Batch',
@@ -124,6 +130,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Info,
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
+    processType: ProcessType.BalanceFixing
   },
   {
     __typename: 'Batch',
@@ -135,6 +142,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Success,
     isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
+    processType: ProcessType.BalanceFixing
   },
   {
     __typename: 'Batch',
@@ -146,6 +154,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Danger,
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
+    processType: ProcessType.BalanceFixing
   },
   {
     __typename: 'Batch',
@@ -157,6 +166,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Warning,
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
+    processType: ProcessType.BalanceFixing
   },
   {
     __typename: 'Batch',
@@ -168,6 +178,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Info,
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
+    processType: ProcessType.BalanceFixing
   },
   {
     __typename: 'Batch',
@@ -179,6 +190,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Success,
     isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
+    processType: ProcessType.BalanceFixing
   },
   {
     __typename: 'Batch',
@@ -190,6 +202,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Danger,
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
+    processType: ProcessType.BalanceFixing
   },
 ];
 
