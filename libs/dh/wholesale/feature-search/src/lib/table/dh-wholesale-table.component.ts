@@ -78,6 +78,7 @@ export class DhWholesaleTableComponent {
     periodFrom: { accessor: (batch) => batch.period?.start },
     periodTo: { accessor: (batch) => batch.period?.end },
     executionTime: { accessor: 'executionTimeStart' },
+    processType: { accessor: 'processType' },
     status: { accessor: 'executionState' },
     basisData: { accessor: 'isBasisDataDownloadAvailable' },
   };
