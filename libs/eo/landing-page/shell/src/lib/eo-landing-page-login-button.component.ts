@@ -14,37 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { LetModule } from '@rx-angular/template/let';
-import { EoLandingPageStore } from './eo-landing-page.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattButtonModule, LetModule],
+  imports: [WattButtonModule],
   selector: 'eo-landing-page-login-button',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  template: `
-    <watt-button
-      *rxLet="loginUrl$ as loginUrl"
-      (click)="this.authenticate(loginUrl)"
-      >Start</watt-button
-    >
-  `,
+  styles: [``],
+  template: ` <watt-button (click)="login()">Start</watt-button> `,
 })
 export class EoLandingPageLoginButtonComponent {
-  loginUrl$ = this.landingPageStore.authenticationUrl$;
+  #apiBase: string;
 
-  authenticate(url: string) {
-    window.location.href = url;
+  constructor(@Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment) {
+    this.#apiBase = `${apiEnvironment.apiBase}`;
   }
 
-  constructor(private landingPageStore: EoLandingPageStore) {}
+  login() {
+    window.location.href = `${this.#apiBase}/auth/login`;
+  }
 }
