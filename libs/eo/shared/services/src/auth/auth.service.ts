@@ -17,7 +17,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { Observable } from 'rxjs';
+import jwt_decode from 'jwt-decode';
+import { Observable, of } from 'rxjs';
 
 export interface AuthLogoutResponse {
   readonly success: boolean;
@@ -27,6 +28,8 @@ export interface AuthLogoutResponse {
   providedIn: 'root',
 })
 export class AuthService {
+  #mockToken =
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzgzOTQzMzQsImV4cCI6MTcwOTkzMDMzNCwibmFtZSI6IkRlbW8gTG9uZSIsInNjb3BlIjoiWyd0ZXN0MScsJ3Rlc3QyJ10iLCJmaXJzdE5hbWUiOiJEZW1vIiwibGFzdE5hbWUiOiJMb25lIiwiZW1haWwiOiJkZW1vQGxvbmUuZGsifQ.hjxNCA-atOO5pebWNO2_PwQ6bR96e7AN3mWvo54mEAQ';
   #apiBase: string;
 
   constructor(
@@ -34,6 +37,17 @@ export class AuthService {
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
     this.#apiBase = `${apiEnvironment.apiBase}/auth`;
+  }
+
+  storeToken(token: string) {
+    console.log('token', this.getDecodedAccessToken(token));
+  }
+
+  login() {
+    //return this.http.get(`${this.#apiBase}/login`);
+    return of(this.#mockToken).subscribe((token) => {
+      this.storeToken(token);
+    });
   }
 
   logout(): Observable<AuthLogoutResponse> {
@@ -44,5 +58,13 @@ export class AuthService {
       },
       { withCredentials: true }
     );
+  }
+
+  getDecodedAccessToken(token: string) {
+    try {
+      return jwt_decode(token);
+    } catch (Error) {
+      return null;
+    }
   }
 }
