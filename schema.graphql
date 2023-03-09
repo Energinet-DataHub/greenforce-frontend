@@ -230,6 +230,7 @@ type ProcessStepResult {
 }
 
 enum ProcessType {
+  AGGREGATION
   BALANCE_FIXING
 }
 

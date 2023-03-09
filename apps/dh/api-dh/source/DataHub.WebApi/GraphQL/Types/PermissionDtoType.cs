@@ -25,6 +25,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field(x => x.Id).Description("The ID of the permission.");
             Field(x => x.Name).Description("The name of the permission.");
             Field(x => x.Description).Description("The description of the permission.");
+            Field(x => x.Created).Description("The created date of the permission.");
         }
     }
 }
