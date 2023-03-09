@@ -30,6 +30,7 @@ limitations under the License.
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Energinet.DataHub.Wholesale.Client" Version="5.0.17" />
     <PackageReference Include="WireMock.Net" Version="1.5.13" />
     <PackageReference Include="Energinet.DataHub.Core.TestCommon" Version="4.0.0" />
     <PackageReference Include="Energinet.DataHub.Core.FunctionApp.TestCommon" Version="4.0.0" />

@@ -90,7 +90,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <param name="gridAreaCode">GridAreaCode</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid? batchId, string gridAreaCode, string api_version);
+        System.Threading.Tasks.Task SettlementReportAsync(System.Guid? batchId, string gridAreaCode, string api_version);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -100,7 +100,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <param name="gridAreaCode">GridAreaCode</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid? batchId, string gridAreaCode, string api_version, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task SettlementReportAsync(System.Guid? batchId, string gridAreaCode, string api_version, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -467,7 +467,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <param name="gridAreaCode">GridAreaCode</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid? batchId, string gridAreaCode, string api_version)
+        public virtual System.Threading.Tasks.Task SettlementReportAsync(System.Guid? batchId, string gridAreaCode, string api_version)
         {
             return SettlementReportAsync(batchId, gridAreaCode, api_version, System.Threading.CancellationToken.None);
         }
@@ -480,7 +480,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <param name="gridAreaCode">GridAreaCode</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid? batchId, string gridAreaCode, string api_version, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task SettlementReportAsync(System.Guid? batchId, string gridAreaCode, string api_version, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v3/SettlementReport?");
@@ -505,7 +505,6 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/zip"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -530,12 +529,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Stream>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return;
                         }
                         else
                         {
@@ -722,35 +716,6 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         _0 = 0,
 
         _1 = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Stream
-    {
-        [Newtonsoft.Json.JsonProperty("canRead", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool CanRead { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("canWrite", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool CanWrite { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("canSeek", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool CanSeek { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("canTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool CanTimeout { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("length", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public long Length { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("position", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public long Position { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("readTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int ReadTimeout { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("writeTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int WriteTimeout { get; set; }
 
     }
 
