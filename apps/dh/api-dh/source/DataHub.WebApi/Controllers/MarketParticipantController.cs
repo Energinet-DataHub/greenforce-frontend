@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
+using Energinet.DataHub.WebApi.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers

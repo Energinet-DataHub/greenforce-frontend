@@ -22,7 +22,6 @@ using Energinet.DataHub.WebApi.GraphQL;
 using Energinet.DataHub.WebApi.Registration;
 using GraphQL;
 using GraphQL.DataLoader;
-using GraphQL.MicrosoftDI;
 using GraphQL.Server.Ui.Playground;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -58,6 +57,7 @@ namespace Energinet.DataHub.WebApi
             services.AddHealthChecks();
 
             services.AddHttpContextAccessor();
+
             // Register the Swagger generator, defining 1 or more Swagger documents.
             services.AddSwaggerGen(config =>
             {
@@ -98,6 +98,11 @@ namespace Energinet.DataHub.WebApi
             var backendAppId = Configuration.GetValue<string>("BACKEND_SERVICE_APP_ID") ?? string.Empty;
             services.AddJwtBearerAuthentication(externalOpenIdUrl, internalOpenIdUrl, backendAppId);
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("fas", policy => policy.RequireClaim("membership", "fas"));
+            });
+
             if (Environment.IsDevelopment())
             {
                 services.AddCors(options =>
@@ -121,6 +126,7 @@ namespace Energinet.DataHub.WebApi
                         opt.EnableMetrics = true;
                         return next(opt);
                     })
+                    .AddAuthorizationRule()
                     .AddSystemTextJson()
                     .AddSchema<GraphQLSchema>()
                     .AddErrorInfoProvider(opts =>
@@ -166,14 +172,21 @@ namespace Energinet.DataHub.WebApi
                 endpoints.MapReadyHealthChecks();
             });
 
-            app.UseGraphQL("/graphql");            // url to host GraphQL endpoint
-            app.UseGraphQLPlayground(
-                "/",                               // url to host Playground at
-                new PlaygroundOptions
-                {
-                    GraphQLEndPoint = "/graphql",         // url of GraphQL endpoint
-                    SubscriptionsEndPoint = "/graphql",   // url of GraphQL endpoint
-                });
+            app.UseGraphQL("/graphql", config =>
+            {
+                config.AuthorizationRequired = true;
+            });
+
+            if (Environment.IsDevelopment())
+            {
+                app.UseGraphQLPlayground(
+                    "/",
+                    new PlaygroundOptions
+                    {
+                        GraphQLEndPoint = "/graphql",
+                        SubscriptionsEndPoint = "/graphql",
+                    });
+            }
         }
 
         protected virtual void SetupHealthEndpoints(IServiceCollection services, ApiClientSettings apiClientSettingsService)
