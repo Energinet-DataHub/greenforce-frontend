@@ -29,7 +29,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_4
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV3 body);
+        System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV3 body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -41,7 +41,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_4
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV3 body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV3 body, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -89,7 +89,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_4
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV3 body)
+        public virtual System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV3 body)
         {
             return ProcessStepResultAsync(api_version, body, System.Threading.CancellationToken.None);
         }
@@ -104,7 +104,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_4
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV3 body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV3 body, System.Threading.CancellationToken cancellationToken)
         {
             if (api_version == null)
                 throw new System.ArgumentNullException("api_version");
@@ -125,6 +125,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_4
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -149,7 +150,12 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_4
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<ProcessStepResultDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         {
@@ -275,6 +281,26 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_4
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ProcessStepResultDto
+    {
+        [Newtonsoft.Json.JsonProperty("timeSeriesType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public TimeSeriesType TimeSeriesType { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("sum", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double Sum { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("min", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double Min { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("max", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double Max { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("timeSeriesPoints", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<TimeSeriesPointDto> TimeSeriesPoints { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ProcessStepResultRequestDtoV3
     {
         [Newtonsoft.Json.JsonProperty("batchId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -291,6 +317,20 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_4
 
         [Newtonsoft.Json.JsonProperty("balanceResponsiblePartyGln", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string BalanceResponsiblePartyGln { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class TimeSeriesPointDto
+    {
+        [Newtonsoft.Json.JsonProperty("time", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset Time { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("quantity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double Quantity { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("quality", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Quality { get; set; }
 
     }
 

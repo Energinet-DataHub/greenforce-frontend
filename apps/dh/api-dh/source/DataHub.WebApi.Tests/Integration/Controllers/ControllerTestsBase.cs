@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Energinet.DataHub.Charges.Clients.Charges;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v2;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using Energinet.DataHub.Wholesale.Client;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +37,8 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         protected Mock<IWholesaleClient> WholesaleClientMock { get; }
 
+        protected Mock<IWholesaleClientV2> WholesaleClientV2Mock { get; }
+
         protected Mock<IMeteringPointClient> MeteringPointClientMock { get; }
 
         protected Mock<IMarketParticipantClient> MarketParticipantClientMock { get; }
@@ -48,6 +51,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             ITestOutputHelper testOutputHelper)
              : base(bffWebApiFixture, testOutputHelper)
         {
+            WholesaleClientV2Mock = new Mock<IWholesaleClientV2>();
             WholesaleClientMock = new Mock<IWholesaleClient>();
             MarketParticipantClientMock = new Mock<IMarketParticipantClient>();
             MeteringPointClientMock = new Mock<IMeteringPointClient>();
@@ -58,6 +62,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 builder.ConfigureServices(services =>
                 {
                     services.AddTransient(_ => WholesaleClientMock.Object);
+                    services.AddTransient(_ => WholesaleClientV2Mock.Object);
                     services.AddTransient(_ => MeteringPointClientMock.Object);
                     services.AddTransient(_ => MarketParticipantClientMock.Object);
                     services.AddTransient(_ => ChargeClientMock.Object);

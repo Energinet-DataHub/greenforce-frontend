@@ -14,16 +14,20 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v2;
 using Energinet.DataHub.WebApi.Controllers.Wholesale.Dto;
 using Energinet.DataHub.Wholesale.Client;
 using Energinet.DataHub.Wholesale.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using BatchRequestDtoV2 = Energinet.DataHub.WebApi.Clients.Wholesale.v2.BatchRequestDto;
+using ProcessStepResultDto = Energinet.DataHub.Wholesale.Contracts.ProcessStepResultDto;
+using ProcessStepResultDtoV2 = Energinet.DataHub.WebApi.Clients.Wholesale.v2.ProcessStepResultDto;
+using Stream = System.IO.Stream;
 
 namespace Energinet.DataHub.WebApi.Controllers
 {
@@ -32,21 +36,23 @@ namespace Energinet.DataHub.WebApi.Controllers
     public class WholesaleBatchController : ControllerBase
     {
         private readonly IWholesaleClient _client;
+        private readonly IWholesaleClientV2 _clientV2;
         private readonly IMarketParticipantClient _marketParticipantClient;
 
-        public WholesaleBatchController(IWholesaleClient client, IMarketParticipantClient marketParticipantClient)
+        public WholesaleBatchController(IWholesaleClient client, IMarketParticipantClient marketParticipantClient, IWholesaleClientV2 clientV2)
         {
             _client = client;
             _marketParticipantClient = marketParticipantClient;
+            _clientV2 = clientV2;
         }
 
         /// <summary>
         /// Create a batch.
         /// </summary>
         [HttpPost]
-        public async Task<ActionResult> CreateAsync(BatchRequestDto batchRequestDto)
+        public async Task<ActionResult> CreateAsync(BatchRequestDtoV2 batchRequestDto)
         {
-            await _client.CreateBatchAsync(batchRequestDto).ConfigureAwait(false);
+            await _clientV2.BatchPOSTAsync(batchRequestDto).ConfigureAwait(false);
             return Ok();
         }
 

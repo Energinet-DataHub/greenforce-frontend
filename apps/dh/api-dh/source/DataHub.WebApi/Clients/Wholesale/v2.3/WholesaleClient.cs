@@ -23,13 +23,13 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
-        System.Threading.Tasks.Task ProcessStepResultAsync(string api_version, ProcessStepActorsRequest body);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WholesaleActorDto>> ProcessStepResultAsync(string api_version, ProcessStepActorsRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
-        System.Threading.Tasks.Task ProcessStepResultAsync(string api_version, ProcessStepActorsRequest body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WholesaleActorDto>> ProcessStepResultAsync(string api_version, ProcessStepActorsRequest body, System.Threading.CancellationToken cancellationToken);
 
         /// <summary>
         /// Returns a stream containing the settlement report for batch with batchId.
@@ -37,7 +37,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
         /// <param name="batchId">BatchId</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task SettlementReportAsync(System.Guid? batchId);
+        System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid? batchId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -46,7 +46,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
         /// <param name="batchId">BatchId</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task SettlementReportAsync(System.Guid? batchId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid? batchId, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -88,7 +88,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
-        public virtual System.Threading.Tasks.Task ProcessStepResultAsync(string api_version, ProcessStepActorsRequest body)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WholesaleActorDto>> ProcessStepResultAsync(string api_version, ProcessStepActorsRequest body)
         {
             return ProcessStepResultAsync(api_version, body, System.Threading.CancellationToken.None);
         }
@@ -97,7 +97,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
-        public virtual async System.Threading.Tasks.Task ProcessStepResultAsync(string api_version, ProcessStepActorsRequest body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WholesaleActorDto>> ProcessStepResultAsync(string api_version, ProcessStepActorsRequest body, System.Threading.CancellationToken cancellationToken)
         {
             if (api_version == null)
                 throw new System.ArgumentNullException("api_version");
@@ -118,6 +118,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -142,7 +143,12 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<WholesaleActorDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         {
@@ -170,7 +176,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
         /// <param name="batchId">BatchId</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task SettlementReportAsync(System.Guid? batchId)
+        public virtual System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid? batchId)
         {
             return SettlementReportAsync(batchId, System.Threading.CancellationToken.None);
         }
@@ -182,7 +188,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
         /// <param name="batchId">BatchId</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task SettlementReportAsync(System.Guid? batchId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid? batchId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v2.3/SettlementReport?");
@@ -199,6 +205,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -223,7 +230,12 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<Stream>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         {
@@ -376,6 +388,35 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class Stream
+    {
+        [Newtonsoft.Json.JsonProperty("canRead", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool CanRead { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("canWrite", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool CanWrite { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("canSeek", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool CanSeek { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("canTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool CanTimeout { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("length", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long Length { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("position", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long Position { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("readTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ReadTimeout { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("writeTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int WriteTimeout { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public enum TimeSeriesType
     {
 
@@ -384,6 +425,14 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
         _2 = 2,
 
         _3 = 3,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class WholesaleActorDto
+    {
+        [Newtonsoft.Json.JsonProperty("gln", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Gln { get; set; }
 
     }
 
