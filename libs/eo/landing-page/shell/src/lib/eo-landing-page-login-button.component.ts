@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AuthService } from '@energinet-datahub/eo/shared/services';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 @Component({
@@ -23,17 +23,14 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
   standalone: true,
   imports: [WattButtonModule],
   selector: 'eo-landing-page-login-button',
-  styles: [``],
-  template: ` <watt-button (click)="login()">Start</watt-button> `,
+  template: `<watt-button (click)="login()">Start</watt-button>`,
 })
 export class EoLandingPageLoginButtonComponent {
-  #apiBase: string;
-
-  constructor(@Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment) {
-    this.#apiBase = `${apiEnvironment.apiBase}`;
-  }
+  constructor(private authService: AuthService) {}
 
   login() {
-    window.location.href = `${this.#apiBase}/auth/login`;
+    this.authService.login();
+
+    // window.location.href = `${this.#apiBase}/auth/login`;
   }
 }
