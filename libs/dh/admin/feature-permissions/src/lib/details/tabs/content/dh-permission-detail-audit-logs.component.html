@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *rxLet="isLoading$ as isLoading">
-  <watt-card *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs.history'">
+  <watt-card *transloco="let t; read: 'admin.userManagement.permissiondetail.tabs.history'">
     <div *ngIf="isLoading" class="spinner">
       <watt-spinner></watt-spinner>
     </div>
@@ -76,7 +76,7 @@ limitations under the License.
 </ng-container>
 
 <ng-template #auditLogHeadline let-auditLogCount>
-  <ng-container *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs.history.changes'">
+  <ng-container *transloco="let t; read: 'admin.userManagement.permissiondetail.tabs.history.changes'">
     <h4 *ngIf="auditLogCount === 1">
       {{ t("singular", { auditLogCount: auditLogCount }) }}
     </h4>
