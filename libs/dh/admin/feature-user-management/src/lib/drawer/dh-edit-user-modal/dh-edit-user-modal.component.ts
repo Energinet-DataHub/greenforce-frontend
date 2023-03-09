@@ -63,8 +63,12 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
         margin: var(--watt-space-ml) var(--watt-space-ml) 0 var(--watt-space-ml);
       }
 
-      .fullNameField .phoneField {
-        max-width: 600px;
+      .fullNameField {
+        max-width: 512px;
+      }
+
+      .phoneField {
+        max-width: 256px;
       }
     `,
   ],
