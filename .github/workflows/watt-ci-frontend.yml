@@ -1,0 +1,58 @@
+# Copyright 2020 Energinet DataHub A/S
+#
+# Licensed under the Apache License, Version 2.0 (the "License2");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Design System Frontend
+name: Watt CI
+
+on:
+  workflow_call: {}
+
+env:
+  APP_NAME: designsystem
+  NODE_VERSION_FILE: .nvmrc
+  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
+  YARN_VERSION: 1.22.19
+  NX_MAX_PARALLEL: 2
+
+jobs:
+  #
+  # Frontend
+  #
+  frontend_ci_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ${{ env.NODE_VERSION_FILE }}
+          cache: 'yarn'
+
+      - name: Disable workspace NGCC run
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
+
+      - name: Set yarn version ${{ env.YARN_VERSION }}
+        run: yarn set version ${{ env.YARN_VERSION }}
+
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Angular Compatibility Compiler
+        run: npm run ngcc:dh
+
+      - name: Production build
+        run: yarn ${{ env.APP_NAME }}:build

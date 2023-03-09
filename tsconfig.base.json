@@ -24,6 +24,9 @@
       "@energinet-datahub/dh/admin/data-access-api": [
         "libs/dh/admin/data-access-api/src/index.ts"
       ],
+      "@energinet-datahub/dh/admin/data-access-graphql": [
+        "libs/dh/admin/data-access-graphql/src/index.ts"
+      ],
       "@energinet-datahub/dh/admin/feature-create-user-role": [
         "libs/dh/admin/feature-create-user-role/src/index.ts"
       ],
@@ -32,6 +35,9 @@
       ],
       "@energinet-datahub/dh/admin/feature-invite-user-modal": [
         "libs/dh/admin/feature-invite-user-modal/src/index.ts"
+      ],
+      "@energinet-datahub/dh/admin/feature-permissions": [
+        "libs/dh/admin/feature-permissions/src/index.ts"
       ],
       "@energinet-datahub/dh/admin/feature-user-management": [
         "libs/dh/admin/feature-user-management/src/index.ts"
@@ -43,6 +49,9 @@
         "libs/dh/admin/routing/src/index.ts"
       ],
       "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/src/index.ts"],
+      "@energinet-datahub/dh/admin/ui-permissions-table": [
+        "libs/dh/admin/ui-permissions-table/src/index.ts"
+      ],
       "@energinet-datahub/dh/auth/msal": [
         "libs/dh/auth/feature-msal/src/index.ts"
       ],
@@ -154,6 +163,9 @@
       ],
       "@energinet-datahub/dh/shared/data-access-api": [
         "libs/dh/shared/data-access-api/src/index.ts"
+      ],
+      "@energinet-datahub/dh/shared/data-access-graphql": [
+        "libs/dh/shared/data-access-graphql/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/data-access-msw": [
         "libs/dh/shared/data-access-msw/src/index.ts"

@@ -14,16 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  createPipeHarness,
-  SpectacularPipeHarness,
-} from '@ngworker/spectacular';
+import { createPipeHarness, SpectacularPipeHarness } from '@ngworker/spectacular';
 
-import {
-  DhEmDashFallbackPipe,
-  pipeName,
-  TValue,
-} from './dh-em-dash-fallback.pipe';
+import { DhEmDashFallbackPipe, pipeName, TValue } from './dh-em-dash-fallback.pipe';
 import { emDash } from './em-dash';
 
 describe(DhEmDashFallbackPipe.name, () => {

@@ -40,11 +40,7 @@ describe('UserRolesComponent', () => {
           provide: DhAdminUserRolesStore,
         },
       ],
-      imports: [
-        getTranslocoTestingModule(),
-        HttpClientModule,
-        DhApiModule.forRoot(),
-      ],
+      imports: [getTranslocoTestingModule(), HttpClientModule, DhApiModule.forRoot()],
     });
 
     return { fixture };
@@ -53,18 +49,14 @@ describe('UserRolesComponent', () => {
   test('should render 1 roles', async () => {
     await setup();
     await waitFor(() => {
-      expect(
-        screen.getByRole('heading', { name: /1 user role/i })
-      ).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /1 user role/i })).toBeInTheDocument();
     });
   });
 
   test('should render 3 roles, and one is checked', async () => {
     await setup({ selectMode: true });
     await waitFor(() => {
-      expect(
-        screen.getByRole('heading', { name: /3 user roles/i })
-      ).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /3 user roles/i })).toBeInTheDocument();
     });
 
     await waitFor(() => {

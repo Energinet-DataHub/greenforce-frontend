@@ -44,6 +44,7 @@ limitations under the License.
             ></watt-checkbox>
             <div>{{ userRole.name }}</div>
             <div>{{ userRole.description }}</div>
+            <mat-divider></mat-divider>
           </li>
         </ul>
       </div>
@@ -57,8 +58,8 @@ limitations under the License.
   <ng-template #error>
     <watt-empty-state
       icon="custom-power"
-      [title]="t('errorTitle')"
-      [message]="t('errorMessage')"
+      [title]="'shared.error.title' | transloco"
+      [message]="'shared.error.message' | transloco"
     ></watt-empty-state>
   </ng-template>
 

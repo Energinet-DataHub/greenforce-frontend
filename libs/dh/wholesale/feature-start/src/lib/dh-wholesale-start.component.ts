@@ -14,38 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
-import {
-  combineLatest,
-  first,
-  map,
-  Observable,
-  startWith,
-  Subject,
-  takeUntil,
-} from 'rxjs';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { combineLatest, first, map, Observable, startWith, Subject, takeUntil } from 'rxjs';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
 
-import {
-  WattDropdownModule,
-  WattDropdownOption,
-} from '@energinet-datahub/watt/dropdown';
+import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -56,10 +34,11 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { DateRange, GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { DateRange, GridAreaDto, ProcessType } from '@energinet-datahub/dh/shared/domain';
 import { filterValidGridAreas } from '@energinet-datahub/dh/wholesale/domain';
 
 interface CreateBatchFormValues {
+  processType: FormControl<ProcessType | null>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<DateRange | null>;
 }
@@ -98,22 +77,22 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   loadingGridAreasErrorTrigger$ = this.store.loadingGridAreasErrorTrigger$;
 
   createBatchForm = new FormGroup<CreateBatchFormValues>({
+    processType: new FormControl(null, { validators: Validators.required }),
     gridAreas: new FormControl(null, { validators: Validators.required }),
     dateRange: new FormControl(null, {
       validators: WattRangeValidators.required(),
     }),
   });
 
-  onDateRangeChange$ =
-    this.createBatchForm.controls.dateRange.valueChanges.pipe(startWith(null));
+  onDateRangeChange$ = this.createBatchForm.controls.dateRange.valueChanges.pipe(startWith(null));
+
+  processTypes: WattDropdownOption[] = [];
 
   gridAreas$: Observable<WattDropdownOption[]> = combineLatest([
     this.store.gridAreas$,
     this.onDateRangeChange$,
   ]).pipe(
-    map(([gridAreas, dateRange]) =>
-      filterValidGridAreas(gridAreas || [], dateRange)
-    ),
+    map(([gridAreas, dateRange]) => filterValidGridAreas(gridAreas || [], dateRange)),
     map((gridAreas) => {
       this.setMinDate(gridAreas);
       this.validatePeriod(gridAreas);
@@ -125,6 +104,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   maxDate = new Date();
 
   ngOnInit(): void {
+    this.getProcessTypes();
     this.store.getGridAreas();
     this.toggleGridAreasControl();
     this.initCreatingBatchListeners();
@@ -135,16 +115,29 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  private getProcessTypes(): void {
+    this.transloco
+      .selectTranslateObject('wholesale.startBatch.processTypes')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((processTypesTranlation) => {
+        this.processTypes = Object.keys(ProcessType).map((key) => ({
+          displayValue: processTypesTranlation[key],
+          value: ProcessType[key as ProcessType],
+        }));
+      });
+  }
+
   createBatch() {
-    const { gridAreas, dateRange } = this.createBatchForm.getRawValue();
+    const { processType, gridAreas, dateRange } = this.createBatchForm.getRawValue();
     if (
       this.createBatchForm.invalid ||
       gridAreas === null ||
-      dateRange === null
+      dateRange === null ||
+      processType === null
     )
       return;
 
-    this.store.createBatch({ gridAreas, dateRange });
+    this.store.createBatch({ gridAreas, dateRange, processType });
 
     this.toast.open({
       type: 'loading',
@@ -160,9 +153,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     this.minDate = new Date(Math.min(...validFromDates));
   }
 
-  private mapGridAreasToDropdownOptions(
-    gridAreas: GridAreaDto[]
-  ): WattDropdownOption[] {
+  private mapGridAreasToDropdownOptions(gridAreas: GridAreaDto[]): WattDropdownOption[] {
     return (
       gridAreas.map((gridArea) => {
         return {
@@ -185,11 +176,9 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
 
   private initCreatingBatchListeners() {
     // Close toast on navigation
-    this.router.events
-      .pipe(first((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.toast.dismiss();
-      });
+    this.router.events.pipe(first((event) => event instanceof NavigationEnd)).subscribe(() => {
+      this.toast.dismiss();
+    });
 
     this.store.creatingBatchSuccessTrigger$
       .pipe(takeUntil(this.destroy$))
@@ -203,18 +192,14 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   private onBatchCreatedSuccess() {
     this.toast.update({
       type: 'success',
-      message: this.transloco.translate(
-        'wholesale.startBatch.creatingBatchSuccess'
-      ),
+      message: this.transloco.translate('wholesale.startBatch.creatingBatchSuccess'),
     });
   }
 
   private onBatchCreatedError() {
     this.toast.update({
       type: 'danger',
-      message: this.transloco.translate(
-        'wholesale.startBatch.creatingBatchError'
-      ),
+      message: this.transloco.translate('shared.error.title'),
     });
   }
 

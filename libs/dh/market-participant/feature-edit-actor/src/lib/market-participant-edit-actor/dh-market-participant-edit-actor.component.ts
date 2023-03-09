@@ -34,16 +34,10 @@ import {
   dhMarketParticipantOrganizationsPath,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
-import {
-  ActorContactDto,
-  ActorStatus,
-} from '@energinet-datahub/dh/shared/domain';
-import {
-  WattModalModule,
-  WattModalComponent,
-} from '@energinet-datahub/watt/modal';
+import { ActorContactDto, ActorStatus } from '@energinet-datahub/dh/shared/domain';
+import { WattModalModule, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 
@@ -105,10 +99,8 @@ export class DhMarketParticipantEditActorComponent {
 
   readonly onSaved = (initialStatus: ActorStatus, changes: ActorChanges) => {
     if (
-      (changes.status === ActorStatus.Inactive &&
-        initialStatus !== ActorStatus.Inactive) ||
-      (changes.status == ActorStatus.Passive &&
-        initialStatus != ActorStatus.Passive)
+      (changes.status === ActorStatus.Inactive && initialStatus !== ActorStatus.Inactive) ||
+      (changes.status == ActorStatus.Passive && initialStatus != ActorStatus.Passive)
     ) {
       this.confirmationModal.open();
     } else {
@@ -121,9 +113,7 @@ export class DhMarketParticipantEditActorComponent {
   };
 
   private readonly backToOverview = () => {
-    this.router.navigateByUrl(
-      `${dhMarketParticipantPath}/${dhMarketParticipantOrganizationsPath}`
-    );
+    this.router.navigateByUrl(`${dhMarketParticipantPath}/${dhMarketParticipantOrganizationsPath}`);
   };
 }
 
@@ -134,7 +124,8 @@ export class DhMarketParticipantEditActorComponent {
     CommonModule,
     TranslocoModule,
     WattButtonModule,
-    WattTabsModule,
+    WattTabComponent,
+    WattTabsComponent,
     WattSpinnerModule,
     WattModalModule,
     PushModule,

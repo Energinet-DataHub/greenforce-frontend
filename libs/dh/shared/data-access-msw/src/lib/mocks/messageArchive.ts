@@ -19,11 +19,8 @@ import result from './data/messageArchiveSearchResponseLogs.json';
 
 export function messageArchiveMocks(apiBase: string) {
   return [
-    rest.post(
-      `${apiBase}/v1/MessageArchive/SearchRequestResponseLogs`,
-      (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(result));
-      }
-    ),
+    rest.post(`${apiBase}/v1/MessageArchive/SearchRequestResponseLogs`, (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(result));
+    }),
   ];
 }

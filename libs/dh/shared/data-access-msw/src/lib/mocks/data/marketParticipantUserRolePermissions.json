@@ -2,31 +2,21 @@
   {
     "id": 1,
     "name": "organization:manage",
-    "description": "Permission to manage organization",
-    "eicFunction": "MeteredDataAdministrator"
+    "description": "Permission to manage organization"
   },
   {
     "id": 2,
-    "name": "Organization:view",
-    "description": "Permission to view organization",
-    "eicFunction": "MeteredDataAdministrator"
+    "name": "organization:view",
+    "description": "Permission to view organization"
   },
   {
     "id": 3,
-    "name": "organization:manage",
-    "description": "Permission to manage organization",
-    "eicFunction": "ElOverblik"
+    "name": "user:manage",
+    "description": "Permission to manage users"
   },
   {
     "id": 4,
-    "name": "user:manage",
-    "description": "Permission to manage users",
-    "eicFunction": "ElOverblik"
-  },
-  {
-    "id": 5,
-    "name": "user:manage",
-    "description": "Permission to manage organization",
-    "eicFunction": "BalanceResponsibleParty"
+    "name": "userrole:manage",
+    "description": "Permission to manage user roles"
   }
 ]

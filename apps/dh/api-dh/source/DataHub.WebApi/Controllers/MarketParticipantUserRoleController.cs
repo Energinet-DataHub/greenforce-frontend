@@ -18,8 +18,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Microsoft.AspNetCore.Mvc;
-using ViewModels = Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 
 namespace Energinet.DataHub.WebApi.Controllers
 {
@@ -68,43 +68,57 @@ namespace Energinet.DataHub.WebApi.Controllers
 
         [HttpGet]
         [Route("GetUserRoleView")]
-        public async Task<ActionResult<ViewModels.UserRolesViewDto>> GetUserRoleViewAsync(Guid userId)
+        public async Task<ActionResult<UserRolesViewDto>> GetUserRoleViewAsync(Guid userId)
         {
-            var allOrganizations = await _marketParticipantClient.GetOrganizationsAsync();
-            var allActors = allOrganizations.SelectMany(o => o.Actors);
-            var userActorsIds = (await _marketParticipantClient.GetUserActorsAsync(userId)).ActorIds;
+            var usersActors = await _marketParticipantClient
+                .GetUserActorsAsync(userId)
+                .ConfigureAwait(false);
 
-            var userOrganizations = allOrganizations.Where(org => org.Actors.Any(a => userActorsIds.Any(userActor => userActor == a.ActorId)));
-            var userActors = allActors.Where(actor => userActorsIds.Any(userActor => userActor == actor.ActorId));
-            var assignableUserRolesTasks = userActorsIds.Select(async userActorId => await _userRoleClient.GetAssignableAsync(userActorId));
-            var assignableUserRoles = (await Task.WhenAll(assignableUserRolesTasks)).SelectMany(userRole => userRole);
-            var selectedUserRolesTasks = userActorsIds
-                                                .Select(async userActorId =>
-                                                    (await _userRoleClient.GetAsync(userActorId, userId))
-                                                        .Select(role => new ViewModels.UserRoleViewDto(role.Id, role.Name, userActorId)));
-            var selectedUserRoles = (await Task.WhenAll(selectedUserRolesTasks)).SelectMany(userRole => userRole);
+            var fetchedActors = new List<ActorDto>();
 
-            var userRoleView = new ViewModels.UserRolesViewDto(
-                userOrganizations.Select(org => new ViewModels.OrganizationViewDto(
-                    org.OrganizationId,
-                    org.Name,
-                    userActors
-                        .Where(actor => org.Actors.Any(a => a.ActorId == actor.ActorId))
-                        .Select(actor =>
-                            new ViewModels.ActorViewDto(
-                                actor.ActorId,
-                                actor.Name.Value,
-                                actor.ActorNumber.Value,
-                                assignableUserRoles
-                                    .Select(mr => new ViewModels.UserRoleViewDto(
-                                        mr.Id,
-                                        mr.Name,
-                                        selectedUserRoles
-                                            .Where(x => x.Id == mr.Id && x.UserActorId == actor.ActorId)
-                                            .Select(x => x.UserActorId)
-                                            .FirstOrDefault())),
-                                actor.MarketRoles.Select(mr => new ViewModels.ActorMarketRoleViewDto(mr.EicFunction)))))));
-            return userRoleView;
+            foreach (var actorId in usersActors.ActorIds)
+            {
+                fetchedActors.Add(await _marketParticipantClient.GetActorAsync(actorId).ConfigureAwait(false));
+            }
+
+            var organizationViews = new List<OrganizationViewDto>();
+
+            foreach (var organizationAndActors in fetchedActors.GroupBy(actor => actor.OrganizationId))
+            {
+                var organization = await _marketParticipantClient
+                    .GetOrganizationAsync(organizationAndActors.Key)
+                    .ConfigureAwait(false);
+
+                var actorViews = new List<ActorViewDto>();
+
+                foreach (var actor in organizationAndActors)
+                {
+                    var actorUserRoles = new List<UserRoleViewDto>();
+                    var assignedRoles = await _userRoleClient
+                        .GetAsync(actor.ActorId, userId)
+                        .ConfigureAwait(false);
+
+                    var assignmentLookup = assignedRoles
+                        .Select(ar => ar.Id)
+                        .ToHashSet();
+
+                    foreach (var userRole in await _userRoleClient.GetAssignableAsync(actor.ActorId).ConfigureAwait(false))
+                    {
+                        actorUserRoles.Add(new UserRoleViewDto(userRole.Id, userRole.Name, userRole.Description, assignmentLookup.Contains(userRole.Id) ? actor.ActorId : null));
+                    }
+
+                    actorViews.Add(new ActorViewDto(
+                        actor.ActorId,
+                        actor.ActorNumber.Value,
+                        actor.Name.Value,
+                        actorUserRoles,
+                        actor.MarketRoles.Select(mr => new ActorMarketRoleViewDto(mr.EicFunction))));
+                }
+
+                organizationViews.Add(new OrganizationViewDto(organization.OrganizationId, organization.Name, actorViews));
+            }
+
+            return new UserRolesViewDto(organizationViews);
         }
 
         [HttpPost]
@@ -126,7 +140,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// </summary>
         [HttpGet]
         [Route("GetUserRoleAuditLogs")]
-        public Task<ActionResult<MarketParticipant.Dto.UserRoleAuditLogsDto>> GetUserRoleAuditLogsAsync(Guid userRoleId)
+        public Task<ActionResult<UserRoleAuditLogsDto>> GetUserRoleAuditLogsAsync(Guid userRoleId)
         {
             return HandleExceptionAsync(async () =>
             {
@@ -134,7 +148,7 @@ namespace Energinet.DataHub.WebApi.Controllers
                     .GetUserRoleAuditLogsAsync(userRoleId)
                     .ConfigureAwait(false);
 
-                var userRoleAuditLogs = new List<MarketParticipant.Dto.UserRoleAuditLogDto>();
+                var userRoleAuditLogs = new List<UserRoleAuditLogDto>();
 
                 foreach (var auditLog in userRoleAuditLogsResult)
                 {
@@ -142,7 +156,7 @@ namespace Energinet.DataHub.WebApi.Controllers
                         .GetUserAsync(auditLog.ChangedByUserId)
                         .ConfigureAwait(false);
 
-                    userRoleAuditLogs.Add(new MarketParticipant.Dto.UserRoleAuditLogDto(
+                    userRoleAuditLogs.Add(new UserRoleAuditLogDto(
                         auditLog.UserRoleId,
                         auditLog.ChangedByUserId,
                         userDto.Name,
@@ -151,7 +165,7 @@ namespace Energinet.DataHub.WebApi.Controllers
                         auditLog.ChangeDescriptionJson));
                 }
 
-                return new MarketParticipant.Dto.UserRoleAuditLogsDto(userRoleAuditLogs);
+                return new UserRoleAuditLogsDto(userRoleAuditLogs);
             });
         }
 

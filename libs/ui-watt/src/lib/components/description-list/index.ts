@@ -14,8 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export {
-  WattDescriptionListTerm,
-  WattDescriptionListGroups,
-} from './watt-description-list-term';
+export { WattDescriptionListTerm, WattDescriptionListGroups } from './watt-description-list-term';
 export { WattDescriptionListComponent } from './watt-description-list.component';

@@ -23,12 +23,7 @@ import { WattDatepickerComponent } from './watt-datepicker.component';
 import { WattButtonModule } from '../../button';
 
 @NgModule({
-  imports: [
-    MatDatepickerModule,
-    MatInputModule,
-    WattButtonModule,
-    CommonModule,
-  ],
+  imports: [MatDatepickerModule, MatInputModule, WattButtonModule, CommonModule],
   declarations: [WattDatepickerComponent],
   exports: [WattDatepickerComponent],
 })

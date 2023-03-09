@@ -93,8 +93,7 @@ export class EoPieChartComponent implements DoCheck {
   public chartPlugins = [DatalabelsPlugin];
 
   updateChartColors() {
-    const colors =
-      this.data.length > 0 ? [this.#colorGreen, this.#colorGrey] : 'lightgrey';
+    const colors = this.data.length > 0 ? [this.#colorGreen, this.#colorGrey] : 'lightgrey';
 
     this.chartData.datasets[0].backgroundColor = colors;
     this.chartData.datasets[0].hoverBackgroundColor = colors;

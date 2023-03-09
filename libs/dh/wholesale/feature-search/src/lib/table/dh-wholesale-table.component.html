@@ -18,7 +18,6 @@ limitations under the License.
 <watt-card *transloco="let transloco; read: 'wholesale.searchBatch'">
   <watt-card-title>
     <h3 class="watt-on-light--high-emphasis">{{ transloco("headline") }}</h3>
-    <dh-shared-ui-paginator></dh-shared-ui-paginator>
   </watt-card-title>
 
   <!-- Table -->
@@ -26,26 +25,20 @@ limitations under the License.
     [dataSource]="_data"
     [columns]="columns"
     [resolveHeader]="translateHeader"
-    [activeRow]="selectedBatch$ | push"
-    [activeRowComparator]="isSelectedBatch"
+    [activeRow]="selectedBatch"
     description="batches"
-    sortBy="executionTime"
+    sortBy="executionTimeStart"
     sortDirection="desc"
     (rowClick)="selectedRow.emit($event)"
   >
-    <!-- Batch Id -->
-    <ng-container *wattTableCell="columns.batchId; let batch">
-      {{ batch.batchId }}
-    </ng-container>
-
     <!-- Period From -->
     <ng-container *wattTableCell="columns.periodFrom; let batch">
-      {{ batch.periodStart | dhDate }}
+      {{ batch.period?.start | dhDate }}
     </ng-container>
 
     <!-- Period To -->
     <ng-container *wattTableCell="columns.periodTo; let batch">
-      {{ batch.periodEnd | dhDate }}
+      {{ batch.period?.end | dhDate }}
     </ng-container>
 
     <!-- Execution Time -->
@@ -54,6 +47,11 @@ limitations under the License.
         <div>{{ batch.executionTimeStart | dhDateTime }}</div>
         <div>{{ batch.executionTimeEnd | dhDateTime }}</div>
       </div>
+    </ng-container>
+
+    <!-- Process Type -->
+    <ng-container *wattTableCell="columns.processType; let batch">
+      {{ transloco(batch.processType) }}
     </ng-container>
 
     <!-- Status -->
@@ -75,6 +73,8 @@ limitations under the License.
       </watt-button>
     </ng-container>
   </watt-table>
+
+  <watt-paginator [for]="_data"></watt-paginator>
 
   <!-- No Batches found -->
   <watt-empty-state

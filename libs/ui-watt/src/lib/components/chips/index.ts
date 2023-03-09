@@ -15,8 +15,4 @@
  * limitations under the License.
  */
 export { WattChipsModule } from './watt-chips.module';
-export {
-  WattChipsComponent,
-  WattChipsOption,
-  WattChipsSelection,
-} from './watt-chips.component';
+export { WattChipsComponent, WattChipsOption, WattChipsSelection } from './watt-chips.component';

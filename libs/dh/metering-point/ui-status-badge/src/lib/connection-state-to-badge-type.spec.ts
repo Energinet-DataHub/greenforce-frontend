@@ -51,8 +51,8 @@ describe(connectionStateToBadgeType.prototype.name, () => {
     Then an error is thrown"`, () => {
     const unknowConnectionState = 'TEST' as ConnectionState;
 
-    expect(() =>
-      connectionStateToBadgeType(unknowConnectionState)
-    ).toThrowError(/unknown connection state/i);
+    expect(() => connectionStateToBadgeType(unknowConnectionState)).toThrowError(
+      /unknown connection state/i
+    );
   });
 });

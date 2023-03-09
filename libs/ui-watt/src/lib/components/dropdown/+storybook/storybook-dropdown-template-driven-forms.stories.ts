@@ -36,12 +36,7 @@ export default {
   component: WattDropdownComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        FormsModule,
-        BrowserAnimationsModule,
-        WattDropdownModule,
-        WattFormFieldModule,
-      ],
+      imports: [FormsModule, BrowserAnimationsModule, WattDropdownModule, WattFormFieldModule],
     }),
   ],
 } as Meta<WattDropdownComponent>;

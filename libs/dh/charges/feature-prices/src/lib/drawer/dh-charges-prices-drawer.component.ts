@@ -15,22 +15,12 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { PushModule } from '@rx-angular/template/push';
 
-import {
-  WattDrawerModule,
-  WattDrawerComponent,
-} from '@energinet-datahub/watt/drawer';
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattDrawerModule, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -47,7 +37,8 @@ import { DhChargePriceMessageComponent } from './charge-message/dh-charge-price-
     CommonModule,
     WattDrawerModule,
     TranslocoModule,
-    WattTabsModule,
+    WattTabComponent,
+    WattTabsComponent,
     WattButtonModule,
     DhChargeDetailsHeaderComponent,
     DhChargeContentComponent,
@@ -71,9 +62,7 @@ export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
   showChargeMessage = false;
 
   private destroy$ = new Subject<void>();
-  constructor(
-    private dhChargesPricesDrawerService: DhChargesPricesDrawerService
-  ) {}
+  constructor(private dhChargesPricesDrawerService: DhChargesPricesDrawerService) {}
 
   ngOnInit(): void {
     this.dhChargesPricesDrawerService.message

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -26,13 +26,14 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
-import { SettlementReportsProcessFilters } from '@energinet-datahub/dh/wholesale/domain';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { SettlementReport, SettlementReportFilters } from '@energinet-datahub/dh/wholesale/domain';
+import { Subject, takeUntil } from 'rxjs';
+import { Apollo } from 'apollo-angular';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
+import sub from 'date-fns/sub';
 
 @Component({
   selector: 'dh-wholesale-settlement-reports',
@@ -53,17 +54,47 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
   templateUrl: './dh-wholesale-settlement-reports.component.html',
   styleUrls: ['./dh-wholesale-settlement-reports.component.scss'],
 })
-export class DhWholesaleSettlementReportsComponent {
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
-  private changeDetectorRef = inject(ChangeDetectorRef);
+export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy {
+  private apollo = inject(Apollo);
+  private destroy$ = new Subject<void>();
 
-  data$ = this.store.settlementReports$.pipe(exists());
-  loadingSettlementReportsTrigger$ = this.store.loadingSettlementReports$;
-  loadingSettlementReportsErrorTrigger$ =
-    this.store.loadingSettlementReportsErrorTrigger$;
+  loading = false;
+  error = false;
+  data: SettlementReport[] = [];
+  executionTime = {
+    start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
+    end: new Date().toISOString(),
+  };
 
-  onFilterChange(filters: SettlementReportsProcessFilters) {
-    this.store.getSettlementRepports(filters);
-    this.changeDetectorRef.detectChanges();
+  query = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: graphql.GetSettlementReportsDocument,
+    variables: { executionTime: this.executionTime },
+  });
+
+  ngOnInit() {
+    this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (result) => {
+        this.loading = result.loading;
+        this.data = result.data?.settlementReports;
+      },
+      error: () => {
+        this.error = true;
+        this.loading = false;
+      },
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  onFilterChange(filters: SettlementReportFilters) {
+    this.query.refetch({
+      executionTime: filters.executionTime,
+      period: filters.period,
+    });
   }
 }

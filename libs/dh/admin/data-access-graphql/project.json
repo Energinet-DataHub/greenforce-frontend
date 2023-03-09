@@ -1,0 +1,7 @@
+{
+  "name": "dh-admin-data-access-graphql",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/admin/data-access-graphql/src",
+  "prefix": "dh",
+  "tags": ["product:dh", "domain:admin", "type:data-access"]
+}

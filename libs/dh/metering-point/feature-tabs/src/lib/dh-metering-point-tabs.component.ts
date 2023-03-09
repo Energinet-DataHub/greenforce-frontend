@@ -20,7 +20,7 @@ import { tap } from 'rxjs';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
 import { DhIsParentPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
@@ -37,8 +37,7 @@ export class DhMeteringPointTabsComponent {
 
   meteringPoint$ = this.store.meteringPoint$.pipe(
     tap((meteringPoint) => {
-      this.childMeteringPointsCount =
-        meteringPoint.childMeteringPoints?.length ?? 0;
+      this.childMeteringPointsCount = meteringPoint.childMeteringPoints?.length ?? 0;
     })
   );
 
@@ -51,7 +50,8 @@ export class DhMeteringPointTabsComponent {
   imports: [
     LetModule,
     CommonModule,
-    WattTabsModule,
+    WattTabsComponent,
+    WattTabComponent,
     TranslocoModule,
     DhIsParentPipeScam,
     DhChargesTabContentScam,

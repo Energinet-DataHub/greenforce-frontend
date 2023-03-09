@@ -14,24 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'watt-tab',
   template: `<ng-template #templateRef>
     <ng-content></ng-content>
   </ng-template>`,
 })
 export class WattTabComponent {
-  @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null =
-    null;
+  @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null = null;
 
   @Input() label = '';
 

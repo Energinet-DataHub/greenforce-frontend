@@ -12,11 +12,13 @@
             {
               "id": "b50dfe6b-962b-448e-88e6-97b715fb33bc",
               "name": "Supporter",
+              "description": "Beskrivelse Supporter",
               "userActorId": "00000000-0000-0000-0000-000000000001"
             },
             {
               "id": "b50dfe6b-962b-448e-88e6-97b715fb33ba",
               "name": "Lys ansvarlig",
+              "description": "Beskrivelse Lys ansvarlig",
               "userActorId": null
             }
           ],
@@ -40,6 +42,7 @@
             {
               "id": "b50dfe6b-962b-448e-88e6-97b715fb33bc",
               "name": "Lys ansvarlig",
+              "description": "Beskrivelse Lys ansvarlig",
               "userActorId": null
             }
           ],

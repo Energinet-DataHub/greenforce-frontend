@@ -88,10 +88,7 @@ export class DhUsersTabTableComponent implements AfterViewInit, OnDestroy {
     this.dataSource.data = value;
   }
 
-  @Input() sortChanged!: (
-    prop: UserOverviewSortProperty,
-    direction: SortDirection
-  ) => void;
+  @Input() sortChanged!: (prop: UserOverviewSortProperty, direction: SortDirection) => void;
 
   @ViewChild(DhUserDrawerComponent)
   drawer!: DhUserDrawerComponent;
@@ -101,10 +98,8 @@ export class DhUsersTabTableComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.usersTable.sortChange.pipe(takeUntil(this.destroy$)).subscribe((x) => {
-      const property = (x.active[0].toUpperCase() +
-        x.active.slice(1)) as UserOverviewSortProperty;
-      const direction = (x.direction[0].toUpperCase() +
-        x.direction.slice(1)) as SortDirection;
+      const property = (x.active[0].toUpperCase() + x.active.slice(1)) as UserOverviewSortProperty;
+      const direction = (x.direction[0].toUpperCase() + x.direction.slice(1)) as SortDirection;
       this.sortChanged(property, direction);
     });
   }

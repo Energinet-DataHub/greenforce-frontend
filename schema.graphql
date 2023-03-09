@@ -1,0 +1,285 @@
+schema {
+  query: GraphQLQuery
+}
+
+type Actor {
+  """
+  The number of the actor.
+  """
+  number: String!
+}
+
+type Address {
+  """
+  The city of the address.
+  """
+  city: String
+
+  """
+  The country of the address.
+  """
+  country: String!
+
+  """
+  The number of the address.
+  """
+  number: String
+
+  """
+  The street name of the address.
+  """
+  streetName: String
+
+  """
+  The zip code of the address.
+  """
+  zipCode: String
+}
+
+type Batch {
+  """
+  The execution state.
+  """
+  executionState: BatchState!
+
+  """
+  The execution end time.
+  """
+  executionTimeEnd: DateTimeOffset
+
+  """
+  The execution start time.
+  """
+  executionTimeStart: DateTimeOffset
+  gridAreas: [GridArea!]!
+
+  """
+  The id of the batch.
+  """
+  id: ID!
+
+  """
+  Whether basis data is downloadable.
+  """
+  isBasisDataDownloadAvailable: Boolean!
+  period: DateRange
+
+  """
+  The process type.
+  """
+  processType: ProcessType!
+  statusType: StatusType!
+}
+
+enum BatchState {
+  COMPLETED
+  EXECUTING
+  FAILED
+  PENDING
+}
+
+scalar DateRange
+
+"""
+The `DateTimeOffset` scalar type represents a date, time and offset from UTC. `DateTimeOffset` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard.
+"""
+scalar DateTimeOffset
+
+scalar Decimal
+
+type GraphQLQuery {
+  batch(
+    """
+    The id of the organization
+    """
+    id: ID
+  ): Batch
+  batches(executionTime: DateRange): [Batch!]!
+  organization(
+    """
+    The id of the organization
+    """
+    id: ID
+  ): Organization
+  organizations: [Organization]
+  permissions: [Permission!]!
+  processStep(
+    """
+    The batch id the process belongs to.
+    """
+    batchId: ID!
+
+    """
+    The grid area code for the process.
+    """
+    gridArea: String!
+
+    """
+    The process step number.
+    """
+    step: Int!
+  ): ProcessStep
+  settlementReports(
+    executionTime: DateRange
+    gridAreaCodes: [String]
+    period: DateRange
+    processType: ProcessType
+  ): [SettlementReport!]!
+}
+
+type GridArea {
+  """
+  The grid area code.
+  """
+  code: String!
+
+  """
+  The grid area id.
+  """
+  id: ID!
+
+  """
+  The grid area name.
+  """
+  name: String!
+
+  """
+  The price area code for the grid area.
+  """
+  priceAreaCode: PriceAreaCode!
+
+  """
+  Date that the grid area is valid from
+  """
+  validFrom: DateTimeOffset!
+
+  """
+  Date that the grid area is valid to
+  """
+  validTo: DateTimeOffset
+}
+
+type Organization {
+  """
+  The address of the organization.
+  """
+  address: Address!
+
+  """
+  The business register identifier of the organization.
+  """
+  businessRegisterIdentifier: String!
+
+  """
+  The comment of the organization.
+  """
+  comment: String!
+
+  """
+  The name of the organization.
+  """
+  name: String!
+
+  """
+  The ID of the organization.
+  """
+  organizationId: ID!
+
+  """
+  The status of the organization.
+  """
+  status: OrganizationStatus!
+}
+
+enum OrganizationStatus {
+  ACTIVE
+  BLOCKED
+  DELETED
+  NEW
+}
+
+type Permission {
+  """
+  The created date of the permission.
+  """
+  created: DateTimeOffset!
+
+  """
+  The description of the permission.
+  """
+  description: String!
+
+  """
+  The ID of the permission.
+  """
+  id: Int!
+
+  """
+  The name of the permission.
+  """
+  name: String!
+}
+
+enum PriceAreaCode {
+  DK_1
+  DK_2
+}
+
+type ProcessStep {
+  actors: [Actor!]!
+  result(gln: String): ProcessStepResult
+}
+
+type ProcessStepResult {
+  breadcrumb: String
+  max: Decimal!
+  min: Decimal!
+  sum: Decimal!
+  timeSeriesPoints: [TimeSeriesPoint!]!
+  timeSeriesType: TimeSeriesType!
+}
+
+enum ProcessType {
+  AGGREGATION
+  BALANCE_FIXING
+}
+
+type SettlementReport {
+  """
+  The execution time.
+  """
+  executionTime: DateTimeOffset
+
+  """
+  The grid area.
+  """
+  gridArea: GridArea!
+  period: DateRange
+
+  """
+  The process type.
+  """
+  processType: ProcessType!
+}
+
+"""
+How the status should be represented visually.
+"""
+enum StatusType {
+  danger
+  info
+  success
+  warning
+}
+
+type TimeSeriesPoint {
+  quality: String!
+  quantity: Decimal!
+  time: DateTimeOffset!
+}
+
+enum TimeSeriesType {
+  FLEX_CONSUMPTION
+  NON_PROFILED_CONSUMPTION
+  PRODUCTION
+}

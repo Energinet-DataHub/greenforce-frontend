@@ -14,13 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  asyncScheduler,
-  firstValueFrom,
-  Observable,
-  of,
-  scheduled,
-} from 'rxjs';
+import { asyncScheduler, firstValueFrom, Observable, of, scheduled } from 'rxjs';
 import { fakeAsync, tick } from '@angular/core/testing';
 
 import {
@@ -63,10 +57,7 @@ function generateUserRoleAuditLog(
 function generateMockResponse(): UserRoleAuditLogsDto {
   return {
     auditLogs: [
-      generateUserRoleAuditLog(
-        'Created',
-        JSON.stringify(changeDescriptionJsonMock)
-      ),
+      generateUserRoleAuditLog('Created', JSON.stringify(changeDescriptionJsonMock)),
       generateUserRoleAuditLog(
         'NameChange',
         JSON.stringify({ Name: changeDescriptionJsonMock.Name })
@@ -106,9 +97,9 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
     const store = new DhAdminUserRoleAuditLogsDataAccessApiStore(httpClient);
     store.getAuditLogs(of(testUserRoleId));
 
-    expect(
-      httpClient.v1MarketParticipantUserRoleGetUserRoleAuditLogsGet
-    ).toHaveBeenCalledWith(testUserRoleId);
+    expect(httpClient.v1MarketParticipantUserRoleGetUserRoleAuditLogsGet).toHaveBeenCalledWith(
+      testUserRoleId
+    );
   });
 
   test('`auditLogs$` returns a mapped response', fakeAsync(async () => {
@@ -178,8 +169,6 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
     const actualValue = await firstValueFrom(store.auditLogs$);
 
     expect(actualValue).toStrictEqual(expectedValue);
-    expect(
-      httpClient.v1MarketParticipantUserRoleGetUserRoleAuditLogsGet
-    ).toHaveBeenCalled();
+    expect(httpClient.v1MarketParticipantUserRoleGetUserRoleAuditLogsGet).toHaveBeenCalled();
   }));
 });

@@ -54,7 +54,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a batch.
         /// </summary>
         [HttpPost("Search")]
-        public async Task<ActionResult<IEnumerable<BatchDto>>> SearchAsync(BatchSearchDto batchSearchDto)
+        public async Task<ActionResult<IEnumerable<BatchDto>>> SearchAsync(BatchSearchDtoV2 batchSearchDto)
         {
             var gridAreas = new List<GridAreaDto>();
             var batchesWithGridAreasWithNames = new List<BatchDto>();
@@ -121,7 +121,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a processStepResult.
         /// </summary>
         [HttpPost("ProcessStepResult")]
-        public async Task<ActionResult<ProcessStepResultDto>> GetAsync(ProcessStepResultRequestDtoV2 processStepResultRequestDto)
+        public async Task<ActionResult<ProcessStepResultDto>> GetAsync(ProcessStepResultRequestDtoV3 processStepResultRequestDto)
         {
             var dto = await _client.GetProcessStepResultAsync(processStepResultRequestDto).ConfigureAwait(false);
             return Ok(dto);

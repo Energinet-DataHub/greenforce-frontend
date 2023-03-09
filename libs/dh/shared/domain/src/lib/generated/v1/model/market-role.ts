@@ -11,9 +11,10 @@
  */
 
 
-export type MarketRole = 'EnergySupplier';
+export type MarketRole = 'EnergySupplier' | 'BalanceResponsibleParty';
 
 export const MarketRole = {
-    EnergySupplier: 'EnergySupplier' as MarketRole
+    EnergySupplier: 'EnergySupplier' as MarketRole,
+    BalanceResponsibleParty: 'BalanceResponsibleParty' as MarketRole
 };
 

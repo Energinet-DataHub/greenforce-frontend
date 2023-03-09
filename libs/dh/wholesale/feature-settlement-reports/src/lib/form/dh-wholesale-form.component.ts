@@ -26,8 +26,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { sub } from 'date-fns';
-import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { debounceTime, filter, map, Observable, Subject, takeUntil } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
@@ -35,14 +34,11 @@ import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { ProcessType } from '@energinet-datahub/dh/shared/domain';
-import {
-  WattDropdownModule,
-  WattDropdownOption,
-} from '@energinet-datahub/watt/dropdown';
+import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { PushModule } from '@rx-angular/template/push';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { SettlementReportsProcessFilters } from '@energinet-datahub/dh/wholesale/domain';
+import { SettlementReportFilters } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
   standalone: true,
@@ -64,7 +60,10 @@ import { SettlementReportsProcessFilters } from '@energinet-datahub/dh/wholesale
 })
 export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
   @Input() loading = false;
-  @Output() filterChange = new EventEmitter<SettlementReportsProcessFilters>();
+  @Input() set executionTime(executionTime: { start: string; end: string }) {
+    this.filters.patchValue({ executionTime });
+  }
+  @Output() filterChange = new EventEmitter<SettlementReportFilters>();
 
   private destroy$ = new Subject<void>();
   private transloco = inject(TranslocoService);
@@ -83,33 +82,29 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
       })
     );
 
-  gridAreaOptions$: Observable<WattDropdownOption[]> =
-    this.store.gridAreas$.pipe(
-      exists(),
-      map((gridAreas) => {
-        return gridAreas.map((gridArea) => ({
-          value: gridArea.code,
-          displayValue: `${gridArea.name} (${gridArea.code})`,
-        }));
-      })
-    );
+  gridAreaOptions$: Observable<WattDropdownOption[]> = this.store.gridAreas$.pipe(
+    exists(),
+    map((gridAreas) => {
+      return gridAreas.map((gridArea) => ({
+        value: gridArea.code,
+        displayValue: `${gridArea.name} (${gridArea.code})`,
+      }));
+    })
+  );
 
   filters = this.fb.group({
     processType: [''],
     gridArea: [''],
     period: [
       {
-        value: {
-          start: '',
-          end: '',
-        },
-        disabled: true,
+        start: '',
+        end: '',
       },
     ],
     executionTime: [
       {
-        start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
-        end: new Date().toISOString(),
+        start: '',
+        end: '',
       },
       WattRangeValidators.required(),
     ],
@@ -117,16 +112,19 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
 
   constructor(private fb: FormBuilder) {}
 
+  private isComplete(filters: SettlementReportFilters) {
+    return (
+      Boolean(filters.period?.start) === Boolean(filters.period?.end) &&
+      Boolean(filters.executionTime?.start) === Boolean(filters.executionTime?.end)
+    );
+  }
+
   ngAfterViewInit() {
     this.filters.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((filters: unknown) => {
-        this.filterChange.emit(filters as SettlementReportsProcessFilters);
+      .pipe(takeUntil(this.destroy$), debounceTime(200), filter(this.isComplete))
+      .subscribe((filters: SettlementReportFilters) => {
+        this.filterChange.emit(filters as SettlementReportFilters);
       });
-
-    this.filterChange.emit(
-      this.filters.value as SettlementReportsProcessFilters
-    );
   }
 
   ngOnDestroy(): void {

@@ -28,27 +28,29 @@ import {
 import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { map, Subject, takeUntil } from 'rxjs';
+import { combineLatest, map, Subject, takeUntil, tap } from 'rxjs';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattCardModule } from '@energinet-datahub/watt/card';
 import {
-  WattModalComponent,
-  WattModalModule,
-} from '@energinet-datahub/watt/modal';
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
-import {
+  DhAdminMarketRolePermissionsStore,
   DhAdminUserRoleEditDataAccessApiStore,
   DhAdminUserRoleWithPermissionsManagementDataAccessApiStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import {
+  PermissionDetailsDto,
   UpdateUserRoleDto,
   UserRoleWithPermissionsDto,
 } from '@energinet-datahub/dh/shared/domain';
+import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 
 @Component({
   selector: 'dh-edit-user-role-modal',
@@ -64,9 +66,15 @@ import {
         padding-top: var(--watt-space-l);
         width: 25rem;
       }
+
+      .spinner-container {
+        display: flex;
+        justify-content: center;
+        margin-top: var(--watt-space-m);
+      }
     `,
   ],
-  providers: [DhAdminUserRoleEditDataAccessApiStore],
+  providers: [DhAdminUserRoleEditDataAccessApiStore, DhAdminMarketRolePermissionsStore],
   imports: [
     CommonModule,
     PushModule,
@@ -74,38 +82,58 @@ import {
     WattModalModule,
     WattButtonModule,
     TranslocoModule,
-    WattTabsModule,
+    WattTabComponent,
+    WattTabsComponent,
     WattFormFieldModule,
     WattInputModule,
     ReactiveFormsModule,
+    WattSpinnerModule,
+    WattCardModule,
+    DhPermissionsTableComponent,
   ],
 })
-export class DhEditUserRoleModalComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
-  private readonly userRoleEditStore = inject(
-    DhAdminUserRoleEditDataAccessApiStore
-  );
+export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDestroy {
+  private readonly userRoleEditStore = inject(DhAdminUserRoleEditDataAccessApiStore);
   private readonly userRoleWithPermissionsStore = inject(
     DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
   );
+  private readonly marketRolePermissionsStore = inject(DhAdminMarketRolePermissionsStore);
+
   private readonly formBuilder = inject(FormBuilder);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
 
+  private skipFirstPermissionSelectionEvent = true;
   private destroy$ = new Subject<void>();
 
   readonly userRole$ = this.userRoleWithPermissionsStore.userRole$;
   readonly roleName$ = this.userRole$.pipe(map((role) => role.name));
+
+  readonly marketRolePermissions$ = this.marketRolePermissionsStore.permissions$;
+  readonly initiallySelectedPermissions$ = combineLatest([
+    this.marketRolePermissions$,
+    this.userRole$,
+  ]).pipe(
+    map(([marketRolePermissions, userRole]) => {
+      return marketRolePermissions.filter((marketRolePermission) => {
+        return userRole.permissions.some(
+          (userRolePermission) => userRolePermission.id === marketRolePermission.id
+        );
+      });
+    }),
+    tap((initiallySelectedPermissions) => {
+      this.skipFirstPermissionSelectionEvent = initiallySelectedPermissions.length > 0;
+    })
+  );
+  readonly marketRolePermissionsIsLoading$ = this.marketRolePermissionsStore.isLoading$;
 
   readonly isLoading$ = this.userRoleEditStore.isLoading$;
   readonly hasValidationError$ = this.userRoleEditStore.hasValidationError$;
 
   readonly userRoleEditForm = this.formBuilder.group({
     name: this.formBuilder.nonNullable.control('', [Validators.required]),
-    description: this.formBuilder.nonNullable.control('', [
-      Validators.required,
-    ]),
+    description: this.formBuilder.nonNullable.control('', [Validators.required]),
+    permissionIds: this.formBuilder.nonNullable.control<number[]>([], [Validators.required]),
   });
 
   @ViewChild(WattModalComponent) editUserRoleModal!: WattModalComponent;
@@ -113,15 +141,20 @@ export class DhEditUserRoleModalComponent
   @Output() closed = new EventEmitter<{ saveSuccess: boolean }>();
 
   ngOnInit(): void {
-    const formControls = this.userRoleEditForm.controls;
-
     this.userRole$.pipe(takeUntil(this.destroy$)).subscribe((userRole) => {
-      formControls.name.setValue(userRole.name);
-      formControls.description.setValue(userRole.description);
+      const permissionIds = userRole.permissions.map(({ id }) => id);
+
+      this.userRoleEditForm.patchValue({
+        name: userRole.name,
+        description: userRole.description,
+        permissionIds,
+      });
+
+      this.marketRolePermissionsStore.getPermissions(userRole.eicFunction);
     });
 
     this.hasValidationError$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      formControls.name.setErrors({
+      this.userRoleEditForm.controls.name.setErrors({
         nameAlreadyExists: true,
       });
     });
@@ -141,20 +174,39 @@ export class DhEditUserRoleModalComponent
     this.closed.emit({ saveSuccess });
   }
 
+  onSelectionChanged(selectedPermissions: PermissionDetailsDto[]): void {
+    if (this.skipFirstPermissionSelectionEvent) {
+      this.skipFirstPermissionSelectionEvent = false;
+
+      return;
+    }
+
+    const permissionIds = selectedPermissions.map(({ id }) => id);
+
+    this.userRoleEditForm.patchValue({ permissionIds });
+    this.userRoleEditForm.markAsDirty();
+  }
+
   save(userRole: UserRoleWithPermissionsDto): void {
+    if (this.userRoleEditForm.invalid) {
+      return;
+    }
+
+    if (this.userRoleEditForm.pristine) {
+      this.closeModal(false);
+    }
+
     const formControls = this.userRoleEditForm.controls;
 
     const updatedUserRole: UpdateUserRoleDto = {
       name: formControls.name.value,
       description: formControls.description.value,
+      permissions: formControls.permissionIds.value,
       status: userRole.status,
-      permissions: userRole.permissions.map((permissions) => permissions.id),
     };
 
     const onSuccessFn = () => {
-      const message = this.transloco.translate(
-        'admin.userManagement.editUserRole.saveSuccess'
-      );
+      const message = this.transloco.translate('admin.userManagement.editUserRole.saveSuccess');
 
       this.toastService.open({ type: 'success', message });
       this.closeModal(true);
@@ -162,9 +214,7 @@ export class DhEditUserRoleModalComponent
 
     const onErrorFn = (statusCode: HttpStatusCode) => {
       if (statusCode !== HttpStatusCode.BadRequest) {
-        const message = this.transloco.translate(
-          'admin.userManagement.editUserRole.saveError'
-        );
+        const message = this.transloco.translate('admin.userManagement.editUserRole.saveError');
 
         this.toastService.open({ type: 'danger', message });
       }

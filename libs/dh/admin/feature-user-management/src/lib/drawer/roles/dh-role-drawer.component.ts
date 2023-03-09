@@ -14,23 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, inject, Output, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 
-import {
-  WattDrawerComponent,
-  WattDrawerModule,
-} from '@energinet-datahub/watt/drawer';
+import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
@@ -47,11 +38,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   standalone: true,
   templateUrl: './dh-role-drawer.component.html',
   styleUrls: [`./dh-role-drawer.component.scss`],
-  providers: [
-    provideComponentStore(
-      DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
-    ),
-  ],
+  providers: [provideComponentStore(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore)],
   imports: [
     CommonModule,
     TranslocoModule,
@@ -68,9 +55,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   ],
 })
 export class DhRoleDrawerComponent {
-  private readonly store = inject(
-    DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
-  );
+  private readonly store = inject(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore);
   private basicUserRole: UserRoleDto | null = null;
 
   userRoleWithPermissions$ = this.store.userRole$;

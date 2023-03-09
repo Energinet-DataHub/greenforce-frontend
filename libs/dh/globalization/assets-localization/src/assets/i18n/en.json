@@ -6,6 +6,11 @@
     "logout": "Sign out"
   },
   "shared": {
+    "error": {
+      "title": "An unexpected error occured",
+      "message": "Unfortunately, an error occurred while retrieving the necessary information.",
+      "button": "Try again"
+    },
     "fieldRequiredErrorText": "Field is required.",
     "navigation": {
       "next": "Next",
@@ -58,9 +63,7 @@
       "clearSearchButton": "Clear search input",
       "searchInvalidLength": "Metering point ID must be an 18-digit number",
       "noMeteringPointFoundTitle": "Sorry, we did not find a metering point match",
-      "noMeteringPointFoundMessage": "Please check the spelling and try again",
-      "serverErrorTitle": "Oops! There was an error",
-      "serverErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information."
+      "noMeteringPointFoundMessage": "Please check the spelling and try again"
     },
     "overview": {
       "breadcrumb": {
@@ -407,8 +410,6 @@
         "ThisQuarter": "This quarter",
         "ThisYear": "This year"
       },
-      "loadingErrorTitle": "An unexpected error occured",
-      "loadingErrorMessage": "Try again or contact your system administrator if you keep getting this error.",
       "drawer": {
         "prices": "Prices",
         "messages": "Messages",
@@ -729,6 +730,8 @@
     }
   },
   "wholesale": {
+    "BALANCE_FIXING": "Balance Fixing",
+    "AGGREGATION": "Aggregation",
     "startBatch": {
       "topBarTitle": "Start Batch",
       "startLabel": "Start",
@@ -736,10 +739,16 @@
       "gridAreaRequired": "Grid area is required",
       "invalidPeriod": "Invalid period",
       "dateRangeLabel": "Period",
+      "processTypeDropDownLabel": "Process Type",
       "gridAreaDropDownLabel": "Grid Areas",
       "creatingBatch": "Starting batch...",
       "creatingBatchSuccess": "The batch has been started.",
-      "creatingBatchError": "Oops! There was an error."
+      "creatingBatchError": "Oops! There was an error.",
+      "processTypes": {
+        "BalanceFixing": "Balance Fixing",
+        "Aggregation": "Aggregation"
+      },
+      "processTypeError": "Process type is required"
     },
     "searchBatch": {
       "topBarTitle": "Search Batch",
@@ -755,16 +764,15 @@
         "periodTo": "Period to",
         "executionTime": "Execution time",
         "status": "Status",
-        "basisData": "Basis data"
+        "basisData": "Basis data",
+        "processType": "Process type"
       },
       "download": "Download",
       "downloadFailed": "Download of basis data failed",
-      "Pending": "Pending",
-      "Executing": "Running",
-      "Completed": "Finished",
-      "Failed": "Failed",
-      "loadBatchesFailedTitle": "Oops! There was an error",
-      "loadBatchesFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
+      "PENDING": "Pending",
+      "EXECUTING": "Running",
+      "COMPLETED": "Finished",
+      "FAILED": "Failed",
       "noBatchesFound": "No batches found",
       "noBatchesHelperText": "Try changing the search criteria",
       "paginator": {
@@ -774,7 +782,9 @@
         "firstPageLabel": "first page",
         "lastPageLabel": "last page",
         "of": "of"
-      }
+      },
+      "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
+      "AGGREGATION": "{{wholesale.AGGREGATION}}"
     },
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
@@ -789,13 +799,14 @@
         "emptyHelperText": "Try changing the search criteria"
       },
       "processTypes": {
-        "BalanceFixing": "Balance fixing"
+        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}"
       },
       "filters": {
         "processType": "Process type",
         "gridArea": "Grid area",
         "period": "Period",
-        "executionTime": "Execution time"
+        "executionTime": "Execution time",
+        "executionTimeRequired": "Execution time is required"
       }
     },
     "calculationSteps": {
@@ -805,37 +816,35 @@
       "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
       "gridAreaCode": "Grid Area Code",
       "type": "Type",
-      "balanceFixing": "Balance fixing",
-      "loadCalculationStepsFailedTitle": "Oops! There was an error",
-      "loadCalculationStepsFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information"
+      "balanceFixing": "Balance fixing"
     },
-    "energySuppliers": {
-      "loadingEnerySuppliersFailedTitle": "Oops! There was an error",
-      "loadingEnerySuppliersFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
-      "energySupplier": "{{wholesale.processStepResults.energySupplier}}",
+    "actors": {
+      "step-2-table-header": "{{wholesale.processStepResults.energySupplier}}",
+      "step-3-table-header": "Balance Responsibles",
       "amountOfResults": "{{length}} Resultater"
     },
     "processStepResults": {
       "step": "Step {{step}}",
-      "aggregatedProductionPerGridArea": "Aggregated production per grid area",
-      "aggregatedConsumptionPerEnergySupplier": "Aggregated consumption per energy supplier",
-      "nonProfiledConsumptionPerBalanceResponsible": "Aggregated consumption per balance responsible",
+      "aggregatedProductionPerGridArea": "Production per grid area",
+      "aggregatedConsumptionPerEnergySupplier": "Non-profiled consumption per Energy Supplier",
+      "nonProfiledConsumptionPerBalanceResponsible": "Non-profiled consumption per Balance Responsible Party",
+      "nonProfiledConsumptionPerGridArea": "Non-profiled consumption per grid area",
       "gridArea": "Grid area",
       "energySupplier": "Energy Supplier",
-      "loadProcessStepResultsErrorTitle": "Oops! There was an error",
-      "loadProcessStepResultsErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information",
+      "balanceResponsible": "{{wholesale.actors.step-3-table-header}}",
       "meteringPointType": "Metering point type",
       "messageId": "Message ID",
       "calculationPeriod": "Calculation period",
       "sum": "Sum",
       "min": "Min",
       "max": "Max",
-      "processStepMeteringPointType": {
-        "Production": "Production"
+      "timeSeriesType": {
+        "PRODUCTION": "Production",
+        "NON_PROFILED_CONSUMPTION": "Consumption"
       }
     },
     "timeSeriesPoints": {
-      "header": "Quantities ​​in the period",
+      "header": "Quantities in the period",
       "time": "time",
       "quantity": "quantity"
     },
@@ -844,9 +853,7 @@
       "calculationPeriod": "Calculation period",
       "executionTime": "Execution time",
       "executionType": "Execution type",
-      "executionTypeActual": "Actual",
-      "errorTitle": "Oops! There was an error",
-      "errorMessage": "Unfortunately, an error occurred while retrieving the necessary information"
+      "executionTypeActual": "Actual"
     },
     "gridAreas": {
       "header": "{{total}} Grid Areas",
@@ -868,7 +875,9 @@
         "firstname": "First name",
         "lastname": "Last name",
         "email": "Email",
-        "phoneNumber": "Phone number"
+        "phoneNumber": "Phone number",
+        "phoneNumberError": "Phone number format +45 12345678",
+        "successMessage": "{{ email }} has been invited"
       },
       "download": "Download",
       "drawer": {
@@ -941,9 +950,10 @@
             "entry": "Change"
           },
           "logs": {
-            "roles": {
-              "Added": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
-              "Removed": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>"
+            "auditLogType": {
+              "UserRoleAdded": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
+              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>",
+              "UserInvite": "<b>{{ changedByUserName }}</b> added user to <b>{{ toValue }}</b> market party"
             }
           },
           "generalError": {
@@ -988,8 +998,6 @@
           "tabLabel": "User roles",
           "roles": "User roles",
           "role": "User role",
-          "errorTitle": "Oops! There was an error",
-          "errorMessage": "Unfortunately, an error occurred while retrieving the user roles.",
           "rolesHeadline": "User roles",
           "filter": {
             "status": "Status",
@@ -1043,13 +1051,7 @@
           "permissions": {
             "tabLabel": "Permissions",
             "title": "Permissions",
-            "noPermissions": "No permissions found for the selected market role",
-            "table": {
-              "columns": {
-                "name": "Name",
-                "description": "Description"
-              }
-            }
+            "noPermissions": "No permissions found for the selected market role"
           }
         }
       },
@@ -1069,18 +1071,32 @@
           "masterData": {
             "tabLabel": "Master data",
             "nameInputLabel": "Name",
-            "descriptionInputLabel": "Description",
-            "errors": {
-              "nameAlreadyExists": "The user role already exists",
-              "required": "Field is required"
-            }
+            "descriptionInputLabel": "Description"
           },
           "permissions": {
-            "tabLabel": "Permissions"
+            "tabLabel": "Permissions",
+            "title": "Permissions",
+            "onEditMessage": "When removing/adding rights to a user role, it can take up to an hour for changes to take effect after they have been saved. Alternatively, users can log out and log in if changes are to take effect immediately."
+          },
+          "validationErrors": {
+            "nameAlreadyExists": "The user role already exists",
+            "required": "Field is required",
+            "permissionRequired": "Select at least one permission"
           }
         },
         "cancel": "Cancel",
         "save": "Save"
+      },
+      "permissionsTable": {
+        "columns": {
+          "name": "Name",
+          "description": "Description"
+        }
+      },
+      "permissionsTab": {
+        "headline": "{{ numberOfPermissions }} permissions",
+        "permissionName": "Name",
+        "permissionDescription": "Description"
       }
     }
   }

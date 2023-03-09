@@ -16,10 +16,12 @@
  */
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild, OnInit } from '@angular/core';
+import { Component, inject, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
-import { combineLatest, filter, first, tap } from 'rxjs';
+import { ApolloError } from '@apollo/client';
+import { Apollo } from 'apollo-angular';
+import { Subject, takeUntil } from 'rxjs';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
@@ -30,20 +32,11 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
+import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 
-import { batch } from '@energinet-datahub/dh/wholesale/domain';
-import {
-  BatchState,
-  TimeSeriesType,
-} from '@energinet-datahub/dh/shared/domain';
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import { DhWholesaleProductionPerGridareaComponent } from './steps/production-per-gridarea.component';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
-import {
-  WattDrawerComponent,
-  WattDrawerModule,
-} from '@energinet-datahub/watt/drawer';
-import { DhWholesaleEnergySuppliersComponent } from './energy-suppliers/dh-wholesale-energy-suppliers.component';
+import { DhWholesaleActorsComponent } from './actors/dh-wholesale-actors.component';
 
 @Component({
   templateUrl: './dh-wholesale-calculation-steps.component.html',
@@ -64,100 +57,80 @@ import { DhWholesaleEnergySuppliersComponent } from './energy-suppliers/dh-whole
     WattEmptyStateModule,
     WattSpinnerModule,
     WattTopBarComponent,
-    DhWholesaleProductionPerGridareaComponent,
-    DhWholesaleEnergySuppliersComponent,
+    DhWholesaleActorsComponent,
   ],
 })
-export class DhWholesaleCalculationStepsComponent implements OnInit {
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
+export class DhWholesaleCalculationStepsComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private apollo = inject(Apollo);
+  private destroy$ = new Subject<void>();
 
   @ViewChild('drawer') drawer!: WattDrawerComponent;
 
   isDrawerOpen = false;
 
-  batch$ = this.store.selectedBatch$.pipe(
-    tap((batch) => {
-      // Get batch if not already in store
-      if (!batch) {
-        this.store.getBatch(this.route.snapshot.params['batchId']);
-      }
-
-      // Redirect user to search batch page if batch is failed
-      if ((batch as batch)?.executionState === BatchState.Failed)
-        this.navigateToSearchBatch(batch);
-    })
-  );
-
-  loadingBatchErrorTrigger$ = this.store.loadingBatchErrorTrigger$;
-
-  gridArea$ = this.store.getGridArea$(
-    this.route.snapshot.params['gridAreaCode']
-  );
+  batch?: graphql.Batch;
+  gridArea?: graphql.GridArea;
+  loading = false;
+  error?: ApolloError;
 
   ngOnInit() {
+    const routeGridAreaCode = this.route.snapshot.params['gridAreaCode'];
+
+    this.apollo
+      .watchQuery({
+        useInitialLoading: true,
+        notifyOnNetworkStatusChange: true,
+        query: graphql.GetBatchDocument,
+        variables: { id: this.route.snapshot.params['batchId'] },
+      })
+      .valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe((result) => {
+        // Redirect user to search batch page if batch is failed
+        if (result.data?.batch?.executionState === graphql.BatchState.Failed) {
+          this.navigateToSearchBatch(result.data?.batch);
+          return;
+        }
+
+        this.batch = result.data?.batch ?? undefined;
+        this.gridArea = result.data?.batch?.gridAreas.find((g) => g.code === routeGridAreaCode);
+        this.loading = result.loading;
+        this.error = result.error;
+      });
+
     const step = this.getCurrentStep();
     const gln = this.route.firstChild?.snapshot.url?.[1]?.path;
+    if (step) this.openDrawer({ step, gln });
+  }
 
-    if (step) {
-      this.openDrawer(step, gln);
-    }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   getCurrentStep() {
     return this.route.firstChild?.snapshot.url?.[0]?.path;
   }
 
-  openDrawer(step: string, gln?: string) {
+  openDrawer(options: { step: string; gln?: string }) {
+    const { step, gln } = options;
     this.router.navigate([step, gln].filter(Boolean), {
       relativeTo: this.route,
     });
 
     // This is used to open the drawer when the user navigates to the page with a step in the url
     this.isDrawerOpen = true;
+
     // This is used to open the drawer when the user clicks on a step in the list
     this.drawer?.open();
-
-    this.getProcessStepResults(step, gln);
-  }
-
-  private getProcessStepResults(step?: string, gln = 'grid_area') {
-    combineLatest([this.batch$, this.gridArea$])
-      .pipe(
-        filter(([batch, gridArea]) => {
-          return !!batch && !!gridArea;
-        }),
-        first()
-      )
-      .subscribe(([batch, gridArea]) => {
-        if (batch && gridArea) {
-          this.store.getProcessStepResults({
-            batchId: batch.batchId,
-            gridAreaCode: gridArea.code,
-            timeSeriesType: this.getTimeSeriesType(step),
-            gln,
-          });
-        }
-      });
-  }
-
-  private getTimeSeriesType(step?: string) {
-    switch (step) {
-      case '1':
-        return TimeSeriesType.Production;
-      case '2':
-        return TimeSeriesType.NonProfiledConsumption;
-      default:
-        return TimeSeriesType.Production;
-    }
   }
 
   onDrawerClosed() {
     this.router.navigate(['./'], { relativeTo: this.route });
   }
 
-  navigateToSearchBatch(batch?: batch): void {
-    navigateToWholesaleSearchBatch(this.router, batch?.batchId);
+  navigateToSearchBatch(batch?: graphql.Batch): void {
+    navigateToWholesaleSearchBatch(this.router, batch?.id);
   }
 }

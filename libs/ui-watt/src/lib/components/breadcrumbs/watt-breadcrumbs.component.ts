@@ -36,7 +36,7 @@ import { WattIconModule } from '../../foundations/icon/icon.module';
   template: `<ng-template #templateRef><ng-content></ng-content></ng-template>`,
 })
 export class WattBreadcrumbComponent {
-  @ViewChild('templateRef') public templateRef!: TemplateRef<unknown>;
+  @ViewChild('templateRef', { static: true }) public templateRef!: TemplateRef<unknown>;
 
   // Used to determine if the breadcrumb is interactive or not
   @Output() click: EventEmitter<unknown> = new EventEmitter<unknown>(); // eslint-disable-line @angular-eslint/no-output-native
@@ -61,9 +61,7 @@ export class WattBreadcrumbComponent {
           [class.interactive]="breadcrumb.click.observed"
           [attr.role]="breadcrumb.click.observed ? 'link' : null"
         >
-          <ng-container
-            *ngTemplateOutlet="breadcrumb.templateRef"
-          ></ng-container>
+          <ng-container *ngTemplateOutlet="breadcrumb.templateRef"></ng-container>
           <watt-icon *ngIf="!isLast" name="right"></watt-icon>
         </span>
       </ng-container>
@@ -78,7 +76,4 @@ export class WattBreadcrumbsComponent {
   breadcrumbs!: QueryList<WattBreadcrumbComponent>;
 }
 
-export const WATT_BREADCRUMBS = [
-  WattBreadcrumbsComponent,
-  WattBreadcrumbComponent,
-] as const;
+export const WATT_BREADCRUMBS = [WattBreadcrumbsComponent, WattBreadcrumbComponent] as const;

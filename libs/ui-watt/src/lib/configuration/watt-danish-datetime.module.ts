@@ -14,21 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ModuleWithProviders,
-  NgModule,
-  Optional,
-  SkipSelf,
-} from '@angular/core';
-import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
-} from '@angular/material/core';
-import {
-  MatDateFnsModule,
-  MAT_DATE_FNS_FORMATS,
-} from '@angular/material-date-fns-adapter';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDateFnsModule, MAT_DATE_FNS_FORMATS } from '@angular/material-date-fns-adapter';
 import * as daLocale from 'date-fns/locale/da/index.js';
 
 import { WattDateAdapter } from './watt-date-adapter';

@@ -14,12 +14,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UserAuditLogsDto = Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto.UserAuditLogsDto;
 
 namespace Energinet.DataHub.WebApi.Controllers
 {
@@ -29,11 +31,21 @@ namespace Energinet.DataHub.WebApi.Controllers
     {
         private readonly IMarketParticipantClient _marketParticipantClient;
         private readonly IMarketParticipantUserRoleClient _marketParticipantUserRoleClient;
+        private readonly IMarketParticipantUserInvitationClient _marketParticipantUserInvitationClient;
 
-        public MarketParticipantUserController(IMarketParticipantClient marketParticipantClient, IMarketParticipantUserRoleClient marketParticipantUserRoleClient)
+        public MarketParticipantUserController(IMarketParticipantClient marketParticipantClient, IMarketParticipantUserRoleClient marketParticipantUserRoleClient, IMarketParticipantUserInvitationClient marketParticipantUserInvitationClient)
         {
             _marketParticipantClient = marketParticipantClient;
             _marketParticipantUserRoleClient = marketParticipantUserRoleClient;
+            _marketParticipantUserInvitationClient = marketParticipantUserInvitationClient;
+        }
+
+        [HttpPost]
+        [Route("InviteUser")]
+        public Task<ActionResult> InviteUserAsync(UserInvitationDto invite)
+        {
+            return HandleExceptionAsync(() =>
+                _marketParticipantUserInvitationClient.InviteUserAsync(invite));
         }
 
         /// <summary>
@@ -64,7 +76,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// </summary>
         [HttpGet]
         [Route("GetUserAuditLogs")]
-        public Task<ActionResult<MarketParticipant.Dto.UserAuditLogsDto>> GetUserAuditLogsAsync(Guid userId)
+        public Task<ActionResult<UserAuditLogsDto>> GetUserAuditLogsAsync(Guid userId)
         {
             return HandleExceptionAsync(async () =>
             {
@@ -72,11 +84,24 @@ namespace Energinet.DataHub.WebApi.Controllers
                     .GetUserAuditLogsAsync(userId)
                     .ConfigureAwait(false);
 
-                var roleAssignmentAuditLogs = new List<UserRoleAssignmentAuditLogDto>();
+                var userAuditLogs = new List<UserAuditLogDto>();
+
+                foreach (var auditLog in auditLogs.InviteAuditLogs)
+                {
+                    var changedByUserDto = await _marketParticipantClient
+                        .GetUserAsync(auditLog.ChangedByUserId)
+                        .ConfigureAwait(false);
+
+                    userAuditLogs.Add(new UserAuditLogDto(
+                        auditLog.ActorName,
+                        changedByUserDto.Name,
+                        UserAuditLogType.UserInvite,
+                        auditLog.Timestamp));
+                }
 
                 foreach (var auditLog in auditLogs.UserRoleAssignmentAuditLogs)
                 {
-                    var userDto = await _marketParticipantClient
+                    var changedByUserDto = await _marketParticipantClient
                         .GetUserAsync(auditLog.ChangedByUserId)
                         .ConfigureAwait(false);
 
@@ -84,17 +109,14 @@ namespace Energinet.DataHub.WebApi.Controllers
                         .GetAsync(auditLog.UserRoleId)
                         .ConfigureAwait(false);
 
-                    roleAssignmentAuditLogs.Add(new UserRoleAssignmentAuditLogDto(
-                        auditLog.ActorId,
-                        auditLog.UserRoleId,
+                    userAuditLogs.Add(new UserAuditLogDto(
                         userRoleDto.Name,
-                        auditLog.ChangedByUserId,
-                        userDto.Name,
-                        auditLog.Timestamp,
-                        auditLog.AssignmentType));
+                        changedByUserDto.Name,
+                        auditLog.AssignmentType == UserRoleAssignmentTypeAuditLog.Added ? UserAuditLogType.UserRoleAdded : UserAuditLogType.UserRoleRemoved,
+                        auditLog.Timestamp));
                 }
 
-                return new MarketParticipant.Dto.UserAuditLogsDto(roleAssignmentAuditLogs);
+                return new UserAuditLogsDto(userAuditLogs.OrderByDescending(l => l.Timestamp));
             });
         }
     }

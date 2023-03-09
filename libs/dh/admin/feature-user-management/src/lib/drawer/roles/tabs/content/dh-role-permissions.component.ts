@@ -23,11 +23,7 @@ import {
   UserRoleWithPermissionsDto,
 } from '@energinet-datahub/dh/shared/domain';
 
-import {
-  WattTableDataSource,
-  WattTableColumnDef,
-  WATT_TABLE,
-} from '@energinet-datahub/watt/table';
+import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 
 @Component({
   selector: 'dh-role-permissions',
@@ -39,8 +35,9 @@ import {
 export class DhRolePermissionsComponent implements OnChanges {
   @Input() role: UserRoleWithPermissionsDto | null = null;
 
-  readonly dataSource: WattTableDataSource<PermissionDetailsDto> =
-    new WattTableDataSource(undefined);
+  readonly dataSource: WattTableDataSource<PermissionDetailsDto> = new WattTableDataSource(
+    undefined
+  );
 
   columns: WattTableColumnDef<PermissionDetailsDto> = {
     name: { accessor: 'name' },

@@ -18,10 +18,7 @@ import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 
-import {
-  WattDrawerComponent,
-  WattDrawerModule,
-} from '@energinet-datahub/watt/drawer';
+import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
@@ -34,20 +31,6 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   selector: 'dh-user-drawer',
   standalone: true,
   templateUrl: './dh-user-drawer.component.html',
-  styles: [
-    `
-      .user-name__grid {
-        display: flex;
-        align-items: center;
-        gap: var(--watt-space-s);
-        margin-bottom: 28px; /* Magic UX number */
-      }
-
-      .user-name__headline {
-        margin: 0;
-      }
-    `,
-  ],
   imports: [
     CommonModule,
     TranslocoModule,

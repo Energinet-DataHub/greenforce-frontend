@@ -64,16 +64,12 @@ describe(DhSharedUtilApplicationInsightsModule.name, () => {
     const errorHandler = TestBed.inject(ErrorHandler);
 
     // Assert
-    expect(errorHandler).toBeInstanceOf(
-      ApplicationinsightsAngularpluginErrorService
-    );
+    expect(errorHandler).toBeInstanceOf(ApplicationinsightsAngularpluginErrorService);
   });
 });
 
 describe(DhSharedUtilApplicationInsightsRootModule.name, () => {
   it('guards against being registered in multiple injectors', () => {
-    expect(
-      DhSharedUtilApplicationInsightsRootModule
-    ).toGuardAgainstMultipleInjectorRegistration();
+    expect(DhSharedUtilApplicationInsightsRootModule).toGuardAgainstMultipleInjectorRegistration();
   });
 });

@@ -49,33 +49,27 @@ import { MatCardModule } from '@angular/material/card';
         class="watt-space-stack-m"
         src="assets/images/emissions/sonderborg-medals-row.svg"
       />
-      <h3 class="watt-space-stack-m">
-        Sønderborg is at the forefront of green energy transition
-      </h3>
+      <h3 class="watt-space-stack-m">Sønderborg is at the forefront of green energy transition</h3>
       <p class="watt-space-stack-m">
-        Since 2007, Sønderborg has with ProjectZero focused on transitioning the
-        entire area into a ZEROcarbon area by 2029, and carbon emissions have
-        already been reduced by 1/2. The focus is on creating an intelligent and
-        integrated energy system to save energy in a cost-effective where.
-        Sønderborg's ProjectZero works with the green transition on corporate
-        and private household level, and you can on how to reduce your own
-        CO2-emission, for instance such as how to save up to 260 kg CO2 a year
-        by lowering the room temperature. In addition to this, the Sønderborg
+        Since 2007, Sønderborg has with ProjectZero focused on transitioning the entire area into a
+        ZEROcarbon area by 2029, and carbon emissions have already been reduced by 1/2. The focus is
+        on creating an intelligent and integrated energy system to save energy in a cost-effective
+        where. Sønderborg's ProjectZero works with the green transition on corporate and private
+        household level, and you can on how to reduce your own CO2-emission, for instance such as
+        how to save up to 260 kg CO2 a year by lowering the room temperature. In addition to this,
+        the Sønderborg
         <a
           href="https://www.smartcitysonderborg.dk/en-GB/buildings"
           target="_blank"
           rel="noopener noreferrer"
           >smart city platform</a
         >
-        collects various energy related data to make citizens and local
-        stakeholders aware of energy consumption and production in the area.
+        collects various energy related data to make citizens and local stakeholders aware of energy
+        consumption and production in the area.
       </p>
       <p>
         Read more about
-        <a
-          href="https://www.projectzero.dk"
-          target="_blank"
-          rel="noopener noreferrer"
+        <a href="https://www.projectzero.dk" target="_blank" rel="noopener noreferrer"
           >ProjectZero</a
         >.
       </p>

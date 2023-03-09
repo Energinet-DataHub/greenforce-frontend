@@ -27,12 +27,9 @@ import { CommonModule } from '@angular/common';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { PushModule } from '@rx-angular/template/push';
-import {
-  WattModalComponent,
-  WattModalModule,
-} from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import {
@@ -48,7 +45,8 @@ import {
     WattModalModule,
     WattButtonModule,
     TranslocoModule,
-    WattTabsModule,
+    WattTabComponent,
+    WattTabsComponent,
     PushModule,
     DhUserRolesComponent,
   ],

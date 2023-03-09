@@ -19,21 +19,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  ViewChild,
   Output,
   EventEmitter,
   inject,
-  AfterViewInit,
 } from '@angular/core';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import {
-  WATT_TABLE,
-  WattTableDataSource,
-  WattTableColumnDef,
-} from '@energinet-datahub/watt/table';
+import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -41,9 +35,9 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { PushModule } from '@rx-angular/template/push';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { settlementReportsProcess } from '@energinet-datahub/dh/wholesale/domain';
+import { SettlementReport } from '@energinet-datahub/dh/wholesale/domain';
 
-type settlementReportsTableData = WattTableDataSource<settlementReportsProcess>;
+type settlementReportsTableData = WattTableDataSource<SettlementReport>;
 
 @Component({
   standalone: true,
@@ -64,36 +58,26 @@ type settlementReportsTableData = WattTableDataSource<settlementReportsProcess>;
   styleUrls: ['./dh-wholesale-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleTableComponent implements AfterViewInit {
+export class DhWholesaleTableComponent {
   private store = inject(DhWholesaleBatchDataAccessApiStore);
 
   selectedBatch$ = this.store.selectedBatch$;
 
-  @ViewChild(WattPaginatorComponent) paginator!: WattPaginatorComponent;
-
-  @Input() set data(processes: settlementReportsProcess[]) {
+  @Input() set data(processes: SettlementReport[]) {
     this._data = new WattTableDataSource(processes);
   }
 
-  @Output() selectedRow: EventEmitter<settlementReportsProcess> =
-    new EventEmitter();
-  @Output() download: EventEmitter<settlementReportsProcess> =
-    new EventEmitter();
+  @Output() selectedRow: EventEmitter<SettlementReport> = new EventEmitter();
+  @Output() download: EventEmitter<SettlementReport> = new EventEmitter();
 
   _data: settlementReportsTableData = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<settlementReportsProcess> = {
+  columns: WattTableColumnDef<SettlementReport> = {
     processType: { accessor: 'processType' },
-    gridAreaName: { accessor: 'gridAreaName' },
-    periodStart: { accessor: 'periodStart' },
-    periodEnd: { accessor: 'periodEnd' },
-    executionTimeStart: { accessor: 'executionTimeStart' },
+    gridAreaName: { accessor: (row) => row.gridArea.name },
+    periodStart: { accessor: (row) => row.period?.start },
+    periodEnd: { accessor: (row) => row.period?.end },
+    executionTimeStart: { accessor: (row) => row.executionTime?.start },
   };
 
-  translateHeader = (key: string) =>
-    translate(`wholesale.settlementReports.table.${key}`);
-
-  ngAfterViewInit() {
-    if (this._data === null) return;
-    this._data.paginator = this.paginator.instance;
-  }
+  translateHeader = (key: string) => translate(`wholesale.settlementReports.table.${key}`);
 }

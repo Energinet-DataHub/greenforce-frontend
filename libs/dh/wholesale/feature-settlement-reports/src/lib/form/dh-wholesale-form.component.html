@@ -44,10 +44,7 @@ limitations under the License.
 
   <watt-form-field>
     <watt-label>{{ transloco("executionTime") }}</watt-label>
-    <watt-datepicker
-      formControlName="executionTime"
-      [range]="true"
-    ></watt-datepicker>
+    <watt-datepicker formControlName="executionTime" [range]="true"></watt-datepicker>
     <watt-error *ngIf="filters.controls.executionTime?.errors?.rangeRequired">
       {{ transloco("executionTimeRequired") }}
     </watt-error>

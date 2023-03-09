@@ -14,51 +14,33 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
-  <watt-top-bar>
-    <dh-wholesale-form
-      (search)="onSearch($event)"
-      [loading]="loadingBatchesTrigger$ | push"
-    ></dh-wholesale-form>
-  </watt-top-bar>
 
-  <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
-    <section class="content" *ngIf="searchSubmitted">
-      <ng-container
-        *rxLet="
-          data$;
-          let data;
-          error: loadedBatchesError;
-          suspense: loadingBatches;
-          suspenseTrigger: loadingBatchesTrigger$;
-          errorTrigger: loadingBatchesErrorTrigger$
-        "
-      >
-        <dh-wholesale-table
-          *ngIf="data"
-          [data]="data"
-          (selectedRow)="onBatchSelected($event)"
-          (download)="onDownloadBasisData($event)"
-        ></dh-wholesale-table>
-      </ng-container>
-    </section>
+<watt-top-bar>
+  <dh-wholesale-form
+    (search)="onSearch($event)"
+    [executionTime]="executionTime"
+    [loading]="loading"
+  ></dh-wholesale-form>
+</watt-top-bar>
 
-    <ng-template #loadingBatches>
-      <watt-spinner></watt-spinner>
-    </ng-template>
+<dh-wholesale-batch-details
+  #batchDetails
+  (closed)="onBatchDetailsClosed()"
+></dh-wholesale-batch-details>
 
-    <ng-template #loadedBatchesError>
-      <watt-empty-state
-        icon="custom-power"
-        [title]="transloco('loadBatchesFailedTitle')"
-        [message]="transloco('loadBatchesFailedMessage')"
-      >
-      </watt-empty-state>
-    </ng-template>
-  </ng-container>
+<section class="content" *ngIf="batches">
+  <dh-wholesale-table
+    [data]="batches"
+    [selectedBatch]="selectedBatch"
+    (selectedRow)="onBatchSelected($event)"
+  ></dh-wholesale-table>
+</section>
 
-  <dh-wholesale-batch-details
-    (closed)="onBatchDetailsClosed()"
-    #batchDetails
-  ></dh-wholesale-batch-details>
-</ng-container>
+<watt-spinner *ngIf="loading"></watt-spinner>
+
+<watt-empty-state
+  *ngIf="error"
+  icon="custom-power"
+  [title]="'shared.error.title' | transloco"
+  [message]="'shared.error.message' | transloco"
+></watt-empty-state>

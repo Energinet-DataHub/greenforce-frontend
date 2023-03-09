@@ -14,9 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *transloco="let t; read: 'marketParticipant.actor.create.marketRoles'"
->
+<ng-container *transloco="let t; read: 'marketParticipant.actor.create.marketRoles'">
   <mat-table [dataSource]="rows" aria-label="market roles">
     <ng-container matColumnDef="marketRole">
       <mat-header-cell *matHeaderCellDef>{{ t("marketRole") }}</mat-header-cell>
@@ -53,9 +51,7 @@ limitations under the License.
     </ng-container>
 
     <ng-container matColumnDef="meteringPointTypes">
-      <mat-header-cell *matHeaderCellDef>{{
-        t("meteringPointTypes")
-      }}</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{ t("meteringPointTypes") }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
         <watt-form-field>
           <watt-dropdown

@@ -20,10 +20,7 @@ import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util
 import { render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
-import {
-  DhProcessesTableComponent,
-  DhProcessesTableScam,
-} from './dh-processes-table.component';
+import { DhProcessesTableComponent, DhProcessesTableScam } from './dh-processes-table.component';
 
 const disableQuerySuggestions: MatcherOptions = { suggest: false };
 const succeededProcessId = '2c4024f5-762d-4a41-a75e-d045c0ed6572';
@@ -108,10 +105,7 @@ describe(DhProcessesTableComponent.name, () => {
   it(`Should show a single row of process data`, async () => {
     await setup(testData);
 
-    const actualProcessNames = screen.getAllByTestId(
-      'processName',
-      disableQuerySuggestions
-    );
+    const actualProcessNames = screen.getAllByTestId('processName', disableQuerySuggestions);
 
     expect(actualProcessNames.length).toBe(testData.length);
 
@@ -124,17 +118,10 @@ describe(DhProcessesTableComponent.name, () => {
     await setup(testData);
 
     const disableQuerySuggestions: MatcherOptions = { suggest: false };
-    const processes = screen.getAllByTestId(
-      'processHasDetailsErrors',
-      disableQuerySuggestions
-    );
+    const processes = screen.getAllByTestId('processHasDetailsErrors', disableQuerySuggestions);
 
-    expect(processes[0].getElementsByTagName('mat-icon')[0].innerHTML).toBe(
-      'dangerous'
-    );
-    expect(processes[1].getElementsByTagName('mat-icon')[0].innerHTML).toBe(
-      'check_circle'
-    );
+    expect(processes[0].getElementsByTagName('mat-icon')[0].innerHTML).toBe('dangerous');
+    expect(processes[1].getElementsByTagName('mat-icon')[0].innerHTML).toBe('check_circle');
   });
 
   it('Should be able to expand and collapse details by clicking on the process row', async () => {
@@ -166,14 +153,9 @@ describe(DhProcessesTableComponent.name, () => {
   it('Should show an error description for every details error', async () => {
     await setup(testData);
 
-    const detailsRow = screen.getByTestId(
-      'detailsRow-' + failedProcessId,
-      disableQuerySuggestions
-    );
+    const detailsRow = screen.getByTestId('detailsRow-' + failedProcessId, disableQuerySuggestions);
 
-    const errorDescriptions = detailsRow.getElementsByTagName(
-      'watt-validation-message'
-    );
+    const errorDescriptions = detailsRow.getElementsByTagName('watt-validation-message');
 
     expect(errorDescriptions.length).toEqual(1);
     expect(errorDescriptions[0].innerHTML).toContain(

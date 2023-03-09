@@ -1,0 +1,55 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<ng-container *transloco="let t; read: 'wholesale.processStepResults'">
+  <h3
+    class="headline watt-headline-2 watt-on-light--high-emphasis"
+    style="display: flex; align-items: center"
+  >
+    <watt-badge size="large" class="watt-space-inline-s">{{t("step", { step })}}</watt-badge>
+    {{ title }}
+  </h3>
+  <p class="sub-headline" *ngIf="processStepResults">
+    <span class="watt-label watt-on-light--high-emphasis">{{ marketRole }}</span>
+    <small>
+      {{ processStepResults.breadcrumb }}
+    </small>
+  </p>
+
+  <watt-description-list
+    *ngIf="processStepResults"
+    [groups]="getMetadata()"
+  ></watt-description-list>
+
+  <dh-wholesale-time-series-points
+    *ngIf="processStepResults?.timeSeriesPoints"
+    [data]="processStepResults!.timeSeriesPoints"
+  ></dh-wholesale-time-series-points>
+
+  <div class="center" *ngIf="loading">
+    <watt-spinner></watt-spinner>
+  </div>
+
+  <div class="center" *ngIf="processStepError || batchError">
+    <watt-empty-state
+      icon="custom-power"
+      [title]="'shared.error.title' | transloco"
+      [message]="'shared.error.message' | transloco"
+    >
+    </watt-empty-state>
+  </div>
+</ng-container>

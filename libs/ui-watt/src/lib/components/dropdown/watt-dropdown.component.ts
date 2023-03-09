@@ -35,15 +35,7 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
-import {
-  of,
-  ReplaySubject,
-  Subject,
-  distinctUntilChanged,
-  map,
-  takeUntil,
-  take,
-} from 'rxjs';
+import { of, ReplaySubject, Subject, distinctUntilChanged, map, takeUntil, take } from 'rxjs';
 
 import { WattDropdownOptions } from './watt-dropdown-option';
 import { WattDropdownValue } from './watt-dropdown-value';
@@ -56,9 +48,7 @@ const MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE = 60;
   styleUrls: ['./watt-dropdown.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class WattDropdownComponent
-  implements ControlValueAccessor, OnInit, OnChanges, OnDestroy
-{
+export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
   /**
    * @ignore
    */
@@ -79,9 +69,7 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
-  matSelectControl = new FormControl<string | string[] | undefined | null>(
-    null
-  );
+  matSelectControl = new FormControl<string | string[] | undefined | null>(null);
 
   /**
    * Control for the MatSelect filter keyword
@@ -233,8 +221,7 @@ export class WattDropdownComponent
         return;
       }
 
-      this.isCloseToScreenLeftEdge =
-        triggerPosition.left <= MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE;
+      this.isCloseToScreenLeftEdge = triggerPosition.left <= MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE;
     }
   }
 
@@ -258,15 +245,13 @@ export class WattDropdownComponent
    * @ignore
    */
   private listenForFilterFieldValueChanges() {
-    this.filterControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.filterOptions();
+    this.filterControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.filterOptions();
 
-        if (this.multiple) {
-          this.determineToggleAllCheckboxState();
-        }
-      });
+      if (this.multiple) {
+        this.determineToggleAllCheckboxState();
+      }
+    });
   }
 
   /**
@@ -291,12 +276,10 @@ export class WattDropdownComponent
    * of this component.
    */
   private initializePropertiesFromParent(): void {
-    this.parentControl = this.parentControlDirective
-      .control as UntypedFormControl;
+    this.parentControl = this.parentControlDirective.control as UntypedFormControl;
 
     this.validateParent =
-      (this.parentControl.validator &&
-        this.parentControl.validator.bind(this.parentControl)) ||
+      (this.parentControl.validator && this.parentControl.validator.bind(this.parentControl)) ||
       (() => null);
 
     this.validateParentAsync =
@@ -394,9 +377,7 @@ export class WattDropdownComponent
 
     // filter the options
     this.filteredOptions$.next(
-      this.options.filter(
-        (option) => option.displayValue.toLowerCase().indexOf(search) > -1
-      )
+      this.options.filter((option) => option.displayValue.toLowerCase().indexOf(search) > -1)
     );
   }
 

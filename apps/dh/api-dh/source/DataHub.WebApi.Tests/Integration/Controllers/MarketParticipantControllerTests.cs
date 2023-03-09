@@ -21,6 +21,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Energinet.DataHub.Core.TestCommon.AutoFixture.Attributes;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using Energinet.DataHub.WebApi.Tests.ServiceMocks;
 using FluentAssertions;
@@ -44,19 +45,39 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         [Theory]
         [InlineAutoMoqData]
-        public async Task GetFilteredActorsUrl_NotFas_ReturnsSingleActor(OrganizationDto organization, ActorDto actor, Guid actorId)
+        public async Task GetFilteredActors_NotFas_ReturnsSingleActor(OrganizationDto organization, ActorDto actor, Guid actorId)
         {
             // Arrange
             JwtAuthenticationServiceMock.AddAuthorizationHeader(BffClient, actorId);
 
             var organizations = new List<OrganizationDto>
             {
-                organization with { Actors = new[] { actor with { ActorId = actorId }, actor with { ActorId = Guid.NewGuid() } } },
+                organization,
             };
+
+            var actors = new List<ActorDto>
+            {
+                actor with { ActorId = actorId, OrganizationId = organization.OrganizationId },
+            };
+
+            var gridAreas = actor
+                .MarketRoles
+                .SelectMany(m => m.GridAreas)
+                .Select(g => g.Id)
+                .Distinct()
+                .Select(gid => new GridAreaDto(gid, "000", string.Empty, PriceAreaCode.Dk1, DateTimeOffset.Now, DateTimeOffset.Now));
 
             MarketParticipantClientMock
                 .Setup(client => client.GetOrganizationsAsync())
                 .ReturnsAsync(organizations);
+
+            MarketParticipantClientMock
+                .Setup(client => client.GetActorsAsync(organization.OrganizationId))
+                .ReturnsAsync(actors);
+
+            MarketParticipantClientMock
+                .Setup(client => client.GetGridAreasAsync())
+                .ReturnsAsync(gridAreas);
 
             // Act
             var actual = await BffClient.GetAsync(GetFilteredActorsUrl);
@@ -64,7 +85,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var result = await actual.Content.ReadAsAsync<IEnumerable<ActorDto>>();
+            var result = await actual.Content.ReadAsAsync<IEnumerable<FilteredActorDto>>();
             result.Should().ContainSingle(returnedActor => returnedActor.ActorId == actorId);
         }
 
@@ -77,12 +98,32 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
             var organizations = new List<OrganizationDto>
             {
-                organization with { Actors = new[] { actor with { ActorId = actorId }, actor with { ActorId = Guid.NewGuid() } } },
+                organization,
             };
+
+            var actors = new List<ActorDto>
+            {
+                actor with { ActorId = actorId, OrganizationId = organization.OrganizationId },
+            };
+
+            var gridAreas = actor
+                .MarketRoles
+                .SelectMany(m => m.GridAreas)
+                .Select(g => g.Id)
+                .Distinct()
+                .Select(gid => new GridAreaDto(gid, "000", string.Empty, PriceAreaCode.Dk1, DateTimeOffset.Now, DateTimeOffset.Now));
 
             MarketParticipantClientMock
                 .Setup(client => client.GetOrganizationsAsync())
                 .ReturnsAsync(organizations);
+
+            MarketParticipantClientMock
+                .Setup(client => client.GetActorsAsync(organization.OrganizationId))
+                .ReturnsAsync(actors);
+
+            MarketParticipantClientMock
+                .Setup(client => client.GetGridAreasAsync())
+                .ReturnsAsync(gridAreas);
 
             // Act
             var actual = await BffClient.GetAsync(GetFilteredActorsUrl);
@@ -90,8 +131,11 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var result = await actual.Content.ReadAsAsync<IEnumerable<ActorDto>>();
-            result.Should().BeEquivalentTo(organizations.SelectMany(org => org.Actors));
+            var result = await actual.Content.ReadAsAsync<IEnumerable<FilteredActorDto>>();
+            var expected = actors.Select(x => x.ActorId);
+            var actualIds = result.Select(r => r.ActorId);
+
+            actualIds.Should().BeEquivalentTo(expected);
         }
 
         private static WebApiFactory InstallServiceMock(WebApiFactory webApiFactory)

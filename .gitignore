@@ -454,3 +454,6 @@ apps/dh/e2e-dh/.env.local
 #Poor man monorepo
 backend/*
 !backend/readme.md
+
+#ssl cert
+localhost.pem

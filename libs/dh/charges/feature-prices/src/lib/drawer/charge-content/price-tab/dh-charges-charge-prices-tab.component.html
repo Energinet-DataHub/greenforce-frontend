@@ -18,9 +18,7 @@ limitations under the License.
   <ng-container *ngIf="this.charge?.hasAnyPrices; else showNoPricesMessage">
     <div class="datepicker-container">
       <!-- Datepicker -->
-      <dh-drawer-datepicker
-        (changed)="dateRangeChanged($event)"
-      ></dh-drawer-datepicker>
+      <dh-drawer-datepicker (changed)="dateRangeChanged($event)"></dh-drawer-datepicker>
     </div>
 
     <div class="card-container">
@@ -43,9 +41,7 @@ limitations under the License.
           </watt-button>
 
           <!-- Pagination -->
-          <dh-shared-ui-paginator
-            (changed)="handlePageEvent($event)"
-          ></dh-shared-ui-paginator>
+          <dh-shared-ui-paginator (changed)="handlePageEvent($event)"></dh-shared-ui-paginator>
         </div>
       </div>
 
@@ -90,9 +86,7 @@ limitations under the License.
       </div>
 
       <!-- Empty -->
-      <ng-container
-        *ngIf="(chargePricesNotFound | push) && result && result.length === 0"
-      >
+      <ng-container *ngIf="(chargePricesNotFound | push) && result && result.length === 0">
         <watt-empty-state
           class="no-result-div"
           icon="custom-explore"
@@ -108,8 +102,8 @@ limitations under the License.
         <watt-empty-state
           class="loading-error"
           icon="custom-power"
-          title="{{ t('loadingErrorTitle') }}"
-          message="{{ t('loadingErrorMessage') }}"
+          title="{{ 'shared.error.title' | transloco }}"
+          message="{{ 'shared.error.message' | transloco }}"
         ></watt-empty-state>
       </ng-container>
     </div>
