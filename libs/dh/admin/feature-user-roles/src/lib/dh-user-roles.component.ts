@@ -44,28 +44,28 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 
 @Component({
-    selector: 'dh-user-roles',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    templateUrl: './dh-user-roles.component.html',
-    styleUrls: ['./dh-user-roles.component.scss'],
-    imports: [
-        CommonModule,
-        LetModule,
-        PushModule,
-        WattSpinnerModule,
-        WattCardModule,
-        WATT_TABLE,
-        TranslocoModule,
-        JoinMarketRoles,
-        MatDividerModule,
-        WattEmptyStateModule,
-        WattCheckboxModule,
-        MatExpansionModule,
-        DhEmDashFallbackPipeScam,
-        FormsModule,
-        TestPipe
-    ]
+  selector: 'dh-user-roles',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  templateUrl: './dh-user-roles.component.html',
+  styleUrls: ['./dh-user-roles.component.scss'],
+  imports: [
+    CommonModule,
+    LetModule,
+    PushModule,
+    WattSpinnerModule,
+    WattCardModule,
+    WATT_TABLE,
+    TranslocoModule,
+    JoinMarketRoles,
+    MatDividerModule,
+    WattEmptyStateModule,
+    WattCheckboxModule,
+    MatExpansionModule,
+    DhEmDashFallbackPipeScam,
+    FormsModule,
+    TestPipe,
+  ],
 })
 export class DhUserRolesComponent implements OnChanges {
   private readonly store = inject(DhAdminUserRolesStore);

@@ -42,7 +42,9 @@ limitations under the License.
             <mat-expansion-panel class="expansionPanel">
               <mat-expansion-panel-header>
                 <mat-panel-title>{{ org.name }} | {{ actor.actorNumber }}</mat-panel-title>
-                <mat-panel-description style="flex-grow: 1">{{ actor.userRoles.length }} tildelt</mat-panel-description>
+                <mat-panel-description style="flex-grow: 1"
+                  >{{ actor.userRoles.length }} tildelt</mat-panel-description
+                >
               </mat-expansion-panel-header>
               <watt-table
                 [dataSource]="actor.userRoles | testPipe"

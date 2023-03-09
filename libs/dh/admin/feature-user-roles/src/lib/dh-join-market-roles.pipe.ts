@@ -27,8 +27,8 @@ export class JoinMarketRoles implements PipeTransform {
 
 @Pipe({ name: 'testPipe', standalone: true })
 export class TestPipe implements PipeTransform {
-
-  readonly dataSource: WattTableDataSource<UserRoleViewDto> = new WattTableDataSource<UserRoleViewDto>();
+  readonly dataSource: WattTableDataSource<UserRoleViewDto> =
+    new WattTableDataSource<UserRoleViewDto>();
 
   transform(marketRoles: UserRoleViewDto[] | null | undefined) {
     this.dataSource.data = marketRoles || [];
