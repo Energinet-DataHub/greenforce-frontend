@@ -24,68 +24,59 @@ limitations under the License.
       errorTrigger: hasGeneralError$
     "
   >
-    <watt-card variant="solid">
-      <watt-card-title>
-        <ng-container
-          *ngTemplateOutlet="
-            userRolesHeadline;
-            context: {
-              $implicit: (selectMode ? numberOfAssignableRoles$ : numberOfSelectedRoles$) | push
-            }
-          "
-        ></ng-container>
-      </watt-card-title>
-
-      <mat-accordion multi displayMode="flat">
-        <ng-container *ngFor="let org of userRoleView.organizations">
-          <ng-container *ngFor="let actor of org.actors">
-            <mat-expansion-panel class="expansionPanel">
-              <mat-expansion-panel-header>
-                <mat-panel-title>{{ org.name }} | {{ actor.actorNumber }}</mat-panel-title>
-                <mat-panel-description style="flex-grow: 1"
-                  >{{ actor.userRoles.length }} tildelt</mat-panel-description
-                >
-              </mat-expansion-panel-header>
-              <watt-table
-                [dataSource]="actor.userRoles | testPipe"
-                [columns]="columns"
-                sortBy="eicFunction"
-                sortDirection="asc"
-                [selectable]="selectMode"
-                *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
+    <mat-accordion multi displayMode="flat">
+      <ng-container *ngFor="let org of userRoleView.organizations">
+        <ng-container *ngFor="let actor of org.actors">
+          <mat-expansion-panel expanded class="expansionPanel">
+            <mat-expansion-panel-header>
+              <mat-panel-title style="font-weight: 600"
+                >{{ org.name }} | {{ actor.actorNumber }}</mat-panel-title
               >
-                <ng-container
-                  *wattTableCell="
-                    columns['eicFunction'];
-                    header: t('assigned.columns.eicFunction');
-                    let element
-                  "
-                >
-                  {{ translateMarketRole(element.name) }}
-                </ng-container>
+              <mat-panel-description
+                style="flex-grow: 0; align-content: flex-end; white-space: nowrap"
+                >{{ actor.userRoles.length }} tildelt</mat-panel-description
+              >
+            </mat-expansion-panel-header>
+            <watt-table
+              [dataSource]="actor.userRoles | testPipe"
+              [columns]="columns"
+              sortBy="eicFunction"
+              sortDirection="asc"
+              [selectable]="selectMode"
+              *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
+            >
+              <ng-container
+                *wattTableCell="
+                  columns['eicFunction'];
+                  header: t('assigned.columns.eicFunction');
+                  let element
+                "
+              >
+                {{ translateMarketRole(element.name) }}
+              </ng-container>
 
-                <ng-container
-                  *wattTableCell="columns['name']; header: t('assigned.columns.name'); let element"
-                >
-                  {{ element.name }}
-                </ng-container>
+              <ng-container
+                *wattTableCell="columns['name']; header: t('assigned.columns.name'); let element"
+              >
+                {{ element.name }}
+              </ng-container>
 
-                <ng-container
-                  *wattTableCell="
-                    columns['description'];
-                    header: t('assigned.columns.description');
-                    let element
-                  "
-                >
-                  {{ element.description }}
-                </ng-container>
-              </watt-table>
-            </mat-expansion-panel>
-          </ng-container>
+              <ng-container
+                *wattTableCell="
+                  columns['description'];
+                  header: t('assigned.columns.description');
+                  let element
+                "
+              >
+                {{ element.description }}
+              </ng-container>
+            </watt-table>
+          </mat-expansion-panel>
         </ng-container>
-      </mat-accordion>
+      </ng-container>
+    </mat-accordion>
 
-      <!-- <div
+    <!-- <div
         class="userRoles"
         style="margin-top: 200px"
         [ngClass]="{ selectMode: selectMode }"
@@ -119,7 +110,6 @@ limitations under the License.
           </ul>
         </ng-container>
       </div> -->
-    </watt-card>
   </ng-container>
 
   <ng-template #suspense>
