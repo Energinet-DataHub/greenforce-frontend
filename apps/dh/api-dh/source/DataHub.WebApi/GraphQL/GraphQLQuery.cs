@@ -119,6 +119,13 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     return auditLogsViewDtos;
                 });
 
+            Field<NonNullGraphType<UserRoleWithPermissionsDtoType>>("userrole")
+                .Argument<IdGraphType>("id", "The id of the user role")
+                .Resolve()
+                .WithScope()
+                .WithService<IMarketParticipantUserRoleClient>()
+                .ResolveAsync(async (context, client) => await client.GetAsync(context.GetArgument<Guid>("id")));
+
             Field<ListGraphType<OrganizationDtoType>>("organizations")
                 .Resolve()
                 .WithScope()
