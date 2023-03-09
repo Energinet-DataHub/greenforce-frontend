@@ -657,8 +657,16 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ActorDto
     {
-        [Newtonsoft.Json.JsonProperty("gln", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Gln { get; set; }
+        [Newtonsoft.Json.JsonConstructor]
+
+        public ActorDto(string @gln)
+
+        {
+
+            this.Gln = @gln;
+
+        }    [Newtonsoft.Json.JsonProperty("gln", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Gln { get; }
 
     }
 
@@ -668,44 +676,68 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ProcessStepResultDto
     {
-        /// <summary>
+        [Newtonsoft.Json.JsonConstructor]
+
+        public ProcessStepResultDto(double @max, double @min, System.DateTimeOffset @periodEnd, System.DateTimeOffset @periodStart, ProcessType @processType, string @resolution, double @sum, System.Collections.Generic.ICollection<TimeSeriesPointDto> @timeSeriesPoints, string @unit)
+
+        {
+
+            this.Sum = @sum;
+
+            this.Min = @min;
+
+            this.Max = @max;
+
+            this.PeriodStart = @periodStart;
+
+            this.PeriodEnd = @periodEnd;
+
+            this.Resolution = @resolution;
+
+            this.Unit = @unit;
+
+            this.TimeSeriesPoints = @timeSeriesPoints;
+
+            this.ProcessType = @processType;
+
+        }    /// <summary>
         /// Sum has a scale of 3
         /// </summary>
         [Newtonsoft.Json.JsonProperty("sum", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Sum { get; set; }
+        public double Sum { get; }
 
         /// <summary>
         /// Min has a scale of 3
         /// </summary>
         [Newtonsoft.Json.JsonProperty("min", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Min { get; set; }
+        public double Min { get; }
 
         /// <summary>
         /// Max has a scale of 3
         /// </summary>
         [Newtonsoft.Json.JsonProperty("max", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Max { get; set; }
+        public double Max { get; }
 
         [Newtonsoft.Json.JsonProperty("periodStart", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset PeriodStart { get; set; }
+        public System.DateTimeOffset PeriodStart { get; }
 
         [Newtonsoft.Json.JsonProperty("periodEnd", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset PeriodEnd { get; set; }
+        public System.DateTimeOffset PeriodEnd { get; }
 
         [Newtonsoft.Json.JsonProperty("resolution", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Resolution { get; set; }
+        public string Resolution { get; }
 
         /// <summary>
         /// kWh
         /// </summary>
         [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Unit { get; set; }
+        public string Unit { get; }
 
         [Newtonsoft.Json.JsonProperty("timeSeriesPoints", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<TimeSeriesPointDto> TimeSeriesPoints { get; set; }
+        public System.Collections.Generic.ICollection<TimeSeriesPointDto> TimeSeriesPoints { get; }
 
         [Newtonsoft.Json.JsonProperty("processType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ProcessType ProcessType { get; set; }
+        public ProcessType ProcessType { get; }
 
     }
 
@@ -725,23 +757,35 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class TimeSeriesPointDto
     {
-        /// <summary>
+        [Newtonsoft.Json.JsonConstructor]
+
+        public TimeSeriesPointDto(string @quality, double @quantity, System.DateTimeOffset @time)
+
+        {
+
+            this.Time = @time;
+
+            this.Quantity = @quantity;
+
+            this.Quality = @quality;
+
+        }    /// <summary>
         /// The observation time for the measured 'Quantity'
         /// </summary>
         [Newtonsoft.Json.JsonProperty("time", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset Time { get; set; }
+        public System.DateTimeOffset Time { get; }
 
         /// <summary>
         /// Quantity has a scale of 3
         /// </summary>
         [Newtonsoft.Json.JsonProperty("quantity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Quantity { get; set; }
+        public double Quantity { get; }
 
         /// <summary>
         /// Any of the values from Energinet.DataHub.Wholesale.WebApi.V3.ProcessStepResult.TimeSeriesPointQuality
         /// </summary>
         [Newtonsoft.Json.JsonProperty("quality", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Quality { get; set; }
+        public string Quality { get; }
 
     }
 

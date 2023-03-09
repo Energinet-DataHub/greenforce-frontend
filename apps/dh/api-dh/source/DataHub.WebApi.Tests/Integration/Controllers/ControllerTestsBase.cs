@@ -18,6 +18,7 @@ using Energinet.DataHub.Charges.Clients.Charges;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v2;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v2_1;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using Energinet.DataHub.Wholesale.Client;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +40,8 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         protected Mock<IWholesaleClientV2> WholesaleClientV2Mock { get; }
 
+        protected Mock<IWholesaleClientV2_1> WholesaleClientV2_1Mock { get; }
+
         protected Mock<IMeteringPointClient> MeteringPointClientMock { get; }
 
         protected Mock<IMarketParticipantClient> MarketParticipantClientMock { get; }
@@ -51,8 +54,9 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             ITestOutputHelper testOutputHelper)
              : base(bffWebApiFixture, testOutputHelper)
         {
-            WholesaleClientV2Mock = new Mock<IWholesaleClientV2>();
             WholesaleClientMock = new Mock<IWholesaleClient>();
+            WholesaleClientV2Mock = new Mock<IWholesaleClientV2>();
+            WholesaleClientV2_1Mock = new Mock<IWholesaleClientV2_1>();
             MarketParticipantClientMock = new Mock<IMarketParticipantClient>();
             MeteringPointClientMock = new Mock<IMeteringPointClient>();
             ChargeClientMock = new Mock<IChargesClient>();
@@ -63,6 +67,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 {
                     services.AddTransient(_ => WholesaleClientMock.Object);
                     services.AddTransient(_ => WholesaleClientV2Mock.Object);
+                    services.AddTransient(_ => WholesaleClientV2_1Mock.Object);
                     services.AddTransient(_ => MeteringPointClientMock.Object);
                     services.AddTransient(_ => MarketParticipantClientMock.Object);
                     services.AddTransient(_ => ChargeClientMock.Object);

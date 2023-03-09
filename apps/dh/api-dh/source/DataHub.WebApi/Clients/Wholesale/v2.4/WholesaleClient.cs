@@ -283,54 +283,98 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_4
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ProcessStepResultDto
     {
-        [Newtonsoft.Json.JsonProperty("timeSeriesType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public TimeSeriesType TimeSeriesType { get; set; }
+        [Newtonsoft.Json.JsonConstructor]
+
+        public ProcessStepResultDto(double @max, double @min, double @sum, System.Collections.Generic.ICollection<TimeSeriesPointDto> @timeSeriesPoints, TimeSeriesType @timeSeriesType)
+
+        {
+
+            this.TimeSeriesType = @timeSeriesType;
+
+            this.Sum = @sum;
+
+            this.Min = @min;
+
+            this.Max = @max;
+
+            this.TimeSeriesPoints = @timeSeriesPoints;
+
+        }    [Newtonsoft.Json.JsonProperty("timeSeriesType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public TimeSeriesType TimeSeriesType { get; }
 
         [Newtonsoft.Json.JsonProperty("sum", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Sum { get; set; }
+        public double Sum { get; }
 
         [Newtonsoft.Json.JsonProperty("min", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Min { get; set; }
+        public double Min { get; }
 
         [Newtonsoft.Json.JsonProperty("max", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Max { get; set; }
+        public double Max { get; }
 
         [Newtonsoft.Json.JsonProperty("timeSeriesPoints", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<TimeSeriesPointDto> TimeSeriesPoints { get; set; }
+        public System.Collections.Generic.ICollection<TimeSeriesPointDto> TimeSeriesPoints { get; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ProcessStepResultRequestDtoV3
     {
-        [Newtonsoft.Json.JsonProperty("batchId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid BatchId { get; set; }
+        [Newtonsoft.Json.JsonConstructor]
+
+        public ProcessStepResultRequestDtoV3(string @balanceResponsiblePartyGln, System.Guid @batchId, string @energySupplierGln, string @gridAreaCode, TimeSeriesType @timeSeriesType)
+
+        {
+
+            this.BatchId = @batchId;
+
+            this.GridAreaCode = @gridAreaCode;
+
+            this.TimeSeriesType = @timeSeriesType;
+
+            this.EnergySupplierGln = @energySupplierGln;
+
+            this.BalanceResponsiblePartyGln = @balanceResponsiblePartyGln;
+
+        }    [Newtonsoft.Json.JsonProperty("batchId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid BatchId { get; }
 
         [Newtonsoft.Json.JsonProperty("gridAreaCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string GridAreaCode { get; set; }
+        public string GridAreaCode { get; }
 
         [Newtonsoft.Json.JsonProperty("timeSeriesType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public TimeSeriesType TimeSeriesType { get; set; }
+        public TimeSeriesType TimeSeriesType { get; }
 
         [Newtonsoft.Json.JsonProperty("energySupplierGln", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string EnergySupplierGln { get; set; }
+        public string EnergySupplierGln { get; }
 
         [Newtonsoft.Json.JsonProperty("balanceResponsiblePartyGln", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string BalanceResponsiblePartyGln { get; set; }
+        public string BalanceResponsiblePartyGln { get; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class TimeSeriesPointDto
     {
-        [Newtonsoft.Json.JsonProperty("time", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset Time { get; set; }
+        [Newtonsoft.Json.JsonConstructor]
+
+        public TimeSeriesPointDto(string @quality, double @quantity, System.DateTimeOffset @time)
+
+        {
+
+            this.Time = @time;
+
+            this.Quantity = @quantity;
+
+            this.Quality = @quality;
+
+        }    [Newtonsoft.Json.JsonProperty("time", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset Time { get; }
 
         [Newtonsoft.Json.JsonProperty("quantity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Quantity { get; set; }
+        public double Quantity { get; }
 
         [Newtonsoft.Json.JsonProperty("quality", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Quality { get; set; }
+        public string Quality { get; }
 
     }
 
