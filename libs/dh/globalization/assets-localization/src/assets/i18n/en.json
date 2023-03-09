@@ -730,6 +730,8 @@
     }
   },
   "wholesale": {
+    "BALANCE_FIXING": "Balance Fixing",
+    "AGGREGATION": "Aggregation",
     "startBatch": {
       "topBarTitle": "Start Batch",
       "startLabel": "Start",
@@ -762,7 +764,8 @@
         "periodTo": "Period to",
         "executionTime": "Execution time",
         "status": "Status",
-        "basisData": "Basis data"
+        "basisData": "Basis data",
+        "processType": "Process type"
       },
       "download": "Download",
       "downloadFailed": "Download of basis data failed",
@@ -779,7 +782,9 @@
         "firstPageLabel": "first page",
         "lastPageLabel": "last page",
         "of": "of"
-      }
+      },
+      "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
+      "AGGREGATION": "{{wholesale.AGGREGATION}}"
     },
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
@@ -794,7 +799,7 @@
         "emptyHelperText": "Try changing the search criteria"
       },
       "processTypes": {
-        "BALANCE_FIXING": "Balance fixing"
+        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}"
       },
       "filters": {
         "processType": "Process type",

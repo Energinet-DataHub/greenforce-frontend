@@ -68,7 +68,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 BatchState.Completed,
                 true,
                 new[] { GridAreaCode },
-                ProcessType.Aggregation);
+                ProcessType.BalanceFixing);
 
             WholesaleClientMock
                 .Setup(m => m.GetBatchAsync(batchId))
@@ -96,7 +96,8 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                     DateTimeOffset.Now,
                     BatchState.Completed,
                     true,
-                    new[] { GridAreaCode }, ProcessType.BalanceFixing),
+                    new[] { GridAreaCode },
+                    ProcessType.BalanceFixing),
             };
             WholesaleClientMock
                 .Setup(m => m.GetBatchesAsync(searchDto))
@@ -137,7 +138,8 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                     DateTimeOffset.Now,
                     BatchState.Completed,
                     true,
-                    new[] { GridAreaCode }, ProcessType.BalanceFixing),
+                    new[] { GridAreaCode },
+                    ProcessType.BalanceFixing),
             };
             WholesaleClientMock
                 .Setup(m => m.GetBatchesAsync(searchDto))
