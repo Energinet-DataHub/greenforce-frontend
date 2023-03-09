@@ -34,6 +34,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field(x => x.ExecutionTimeStart, nullable: true).Description("The execution start time.");
             Field(x => x.ExecutionTimeEnd, nullable: true).Description("The execution end time.");
             Field(x => x.IsBasisDataDownloadAvailable).Description("Whether basis data is downloadable.");
+            Field(x => x.ProcessType).Description("The process type.");
 
             // TODO: Can this be optimized in case only the grid area code is queried?
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<GridAreaType>>>>("gridAreas")
