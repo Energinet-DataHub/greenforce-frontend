@@ -17,6 +17,8 @@
 import { render, screen, waitFor } from '@testing-library/angular';
 import user from '@testing-library/user-event';
 
+import { patchUserEventKeyCode } from '@energinet-datahub/gf/test-util-staging';
+
 import { WattButtonModule } from '../button';
 import { WattModalModule } from './watt-modal.module';
 import { WattModalComponent } from './watt-modal.component';
@@ -80,7 +82,9 @@ describe(WattModalComponent.name, () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it('closes on esc', async () => {
+  it('closes on ESC', async () => {
+    patchUserEventKeyCode({ capture: true });
+
     const closed = jest.fn();
     await setup({ closed });
     user.click(screen.getByRole('button'));

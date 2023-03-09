@@ -93,10 +93,10 @@ export class WattTooltipComponent implements AfterViewInit, OnDestroy {
     // The mouse events shouldn't be bound on mobile devices, because they can prevent the
     // first tap from firing its click event or can cause the tooltip to open for clicks.
     if (this.platformSupportsMouseEvents()) {
-      const mouseEnter = this.renderer.listen(this.target, 'mouseenter', this.show.bind(this));
-      const mouseLeave = this.renderer.listen(this.target, 'mouseleave', this.hide.bind(this));
+      const mouseOver = this.renderer.listen(this.target, 'mouseover', this.show.bind(this));
+      const mouseOut = this.renderer.listen(this.target, 'mouseout', this.hide.bind(this));
       const wheel = this.renderer.listen(this.target, 'wheel', this.hide.bind(this));
-      this.listeners.push(mouseEnter, mouseLeave, wheel);
+      this.listeners.push(mouseOver, mouseOut, wheel);
     } else {
       const touchStart = this.renderer.listen(this.target, 'touchstart', this.show.bind(this));
       const touchEnd = this.renderer.listen(this.target, 'touchend', this.hide.bind(this));

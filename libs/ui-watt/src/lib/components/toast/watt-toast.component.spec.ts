@@ -19,10 +19,11 @@ import { queryByTestId, render, screen, waitFor } from '@testing-library/angular
 import userEvent from '@testing-library/user-event';
 
 import * as toastStories from './+storybook/watt-toast.stories';
+import { WattToastComponent } from './watt-toast.component';
 
 const { Overview } = composeStories(toastStories);
 
-describe('Toast', () => {
+describe(WattToastComponent.name, () => {
   const getOpenToastButton = async () => screen.getByRole('button', { name: /Open toast/ });
   const getToast = async () =>
     screen.queryByText('You successfully launched a toast!')?.parentElement?.parentElement;

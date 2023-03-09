@@ -22,3 +22,5 @@ export * from './lib/set-up-testbed';
 
 // ng-mocks
 export * from './lib/set-up-ng-mocks';
+
+export * from './lib/patch-user-events-library';
