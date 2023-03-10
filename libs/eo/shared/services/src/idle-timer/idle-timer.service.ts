@@ -24,7 +24,7 @@ import {
 } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/shared/utilities';
 import { fromEvent, merge, startWith, Subscription, switchMap, timer } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
+import { EoAuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +41,7 @@ export class IdleTimerService {
 
   constructor(
     private dialog: MatDialog,
-    private authService: AuthService,
+    private authService: EoAuthService,
     private router: Router
   ) {}
 

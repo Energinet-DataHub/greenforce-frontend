@@ -26,22 +26,28 @@ export interface AuthLogoutResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
-  #apiBase: string;
+export class EoAuthService {
+  #loginUrl: string;
+  #authApiBase: string;
 
   constructor(
     private http: HttpClient,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
-    this.#apiBase = `${apiEnvironment.apiBase}/auth`;
+    this.#authApiBase = `${apiEnvironment.apiBase}/auth`;
+    this.#loginUrl = `${apiEnvironment.apiBase}/auth/oidc/login?fe_url=${window.location.origin}&return_url=${window.location.origin}/dashboard`;
+  }
+
+  startLogin() {
+    this.http.get(`${this.#loginUrl}`).subscribe((response: any) => {
+      window.location.href = response.next_url;
+    });
   }
 
   logout(): Observable<AuthLogoutResponse> {
     return this.http.post<AuthLogoutResponse>(
-      `${this.#apiBase}/logout`,
-      {
-        // empty body
-      },
+      `${this.#authApiBase}/logout`,
+      {},
       { withCredentials: true }
     );
   }
