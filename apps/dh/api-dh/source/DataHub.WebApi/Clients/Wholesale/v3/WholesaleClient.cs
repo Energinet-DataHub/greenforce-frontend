@@ -62,7 +62,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <param name="gridAreaCode">GridAreaCode</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task SettlementReportAsync(System.Guid? batchId = null, string gridAreaCode = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid batchId, string gridAreaCode, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -391,18 +391,18 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <param name="gridAreaCode">GridAreaCode</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task SettlementReportAsync(System.Guid? batchId = null, string gridAreaCode = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid batchId, string gridAreaCode, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            if (batchId == null)
+                throw new System.ArgumentNullException("batchId");
+
+            if (gridAreaCode == null)
+                throw new System.ArgumentNullException("gridAreaCode");
+
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v3/SettlementReport?");
-            if (batchId != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("batchId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(batchId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (gridAreaCode != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("gridAreaCode") + "=").Append(System.Uri.EscapeDataString(ConvertToString(gridAreaCode, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
+            urlBuilder_.Replace("{batchId}", System.Uri.EscapeDataString(ConvertToString(batchId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{gridAreaCode}", System.Uri.EscapeDataString(ConvertToString(gridAreaCode, System.Globalization.CultureInfo.InvariantCulture)));
             if (api_version != null)
             {
                 urlBuilder_.Append(System.Uri.EscapeDataString("api-version") + "=").Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
@@ -416,6 +416,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/zip"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -440,7 +441,12 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<Stream>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         {
@@ -659,6 +665,57 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         _0 = 0,
 
         _1 = 1,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class Stream
+    {
+        [Newtonsoft.Json.JsonConstructor]
+
+        public Stream(bool @canRead, bool @canSeek, bool @canTimeout, bool @canWrite, long @length, long @position, int @readTimeout, int @writeTimeout)
+
+        {
+
+            this.CanRead = @canRead;
+
+            this.CanWrite = @canWrite;
+
+            this.CanSeek = @canSeek;
+
+            this.CanTimeout = @canTimeout;
+
+            this.Length = @length;
+
+            this.Position = @position;
+
+            this.ReadTimeout = @readTimeout;
+
+            this.WriteTimeout = @writeTimeout;
+
+        }    [Newtonsoft.Json.JsonProperty("canRead", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool CanRead { get; }
+
+        [Newtonsoft.Json.JsonProperty("canWrite", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool CanWrite { get; }
+
+        [Newtonsoft.Json.JsonProperty("canSeek", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool CanSeek { get; }
+
+        [Newtonsoft.Json.JsonProperty("canTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool CanTimeout { get; }
+
+        [Newtonsoft.Json.JsonProperty("length", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long Length { get; }
+
+        [Newtonsoft.Json.JsonProperty("position", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long Position { get; }
+
+        [Newtonsoft.Json.JsonProperty("readTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ReadTimeout { get; }
+
+        [Newtonsoft.Json.JsonProperty("writeTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int WriteTimeout { get; }
 
     }
 
