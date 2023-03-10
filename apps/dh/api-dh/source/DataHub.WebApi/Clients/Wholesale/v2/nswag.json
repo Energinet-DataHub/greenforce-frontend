@@ -12,6 +12,9 @@
     "openApiToCSharpClient": {
       "namespace": "Energinet.DataHub.WebApi.Clients.Wholesale.v2",
       "className": "{controller}WholesaleClient_V2",
+      "output": "WholesaleClient.cs",
+      "generateOptionalParameters": true,
+      "classStyle": "Record",
       "clientBaseClass": null,
       "configurationClass": null,
       "generateClientClasses": true,
@@ -45,7 +48,6 @@
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "additionalNamespaceUsages": [],
       "additionalContractNamespaceUsages": [],
-      "generateOptionalParameters": false,
       "generateJsonMethods": false,
       "enforceFlagEnums": false,
       "parameterArrayType": "System.Collections.Generic.IEnumerable",
@@ -69,7 +71,6 @@
       "dictionaryInstanceType": "System.Collections.Generic.Dictionary",
       "arrayBaseType": "System.Collections.ObjectModel.Collection",
       "dictionaryBaseType": "System.Collections.Generic.Dictionary",
-      "classStyle": "Record",
       "jsonLibrary": "NewtonsoftJson",
       "generateDefaultValues": true,
       "generateDataAnnotations": true,
@@ -92,7 +93,6 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "WholesaleClient.cs",
       "newLineBehavior": "Auto"
     }
   }
