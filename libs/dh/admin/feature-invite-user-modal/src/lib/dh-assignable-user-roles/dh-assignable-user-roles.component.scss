@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.card {
-  padding: 0px;
+watt-card {
+  padding: 0;
 }
 
-.cardTitle {
-  margin: 24px;
+watt-card-title {
+  margin: var(--watt-space-ml);
 }
 
 watt-empty-state {
