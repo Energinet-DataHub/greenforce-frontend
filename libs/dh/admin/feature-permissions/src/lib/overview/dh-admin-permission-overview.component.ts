@@ -28,6 +28,8 @@ import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { Subscription } from 'rxjs';
 import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
+import { Permission } from '../permission';
+
 @Component({
   selector: 'dh-admin-permission-overview',
   standalone: true,
@@ -48,17 +50,17 @@ import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission
 export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   private apollo = inject(Apollo);
   subscription!: Subscription;
-  permissions?: graphql.Permission[];
+  permissions?: Permission[];
   loading = false;
   error?: ApolloError;
 
-  columns: WattTableColumnDef<graphql.Permission> = {
+  columns: WattTableColumnDef<Permission> = {
     name: { accessor: 'name' },
     description: { accessor: 'description' },
   };
 
-  dataSource = new WattTableDataSource<graphql.Permission>();
-  activeRow: graphql.Permission | undefined = undefined;
+  dataSource = new WattTableDataSource<Permission>();
+  activeRow: Permission | undefined = undefined;
 
   @ViewChild(DhAdminPermissionDetailComponent)
   permissionDetail!: DhAdminPermissionDetailComponent;
@@ -87,7 +89,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
       });
   }
 
-  onRowClick(row: graphql.Permission): void {
+  onRowClick(row: Permission): void {
     this.activeRow = row;
     this.permissionDetail.open(row);
   }

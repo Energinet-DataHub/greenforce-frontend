@@ -63,6 +63,11 @@ type Batch {
   """
   isBasisDataDownloadAvailable: Boolean!
   period: DateRange
+
+  """
+  The process type.
+  """
+  processType: ProcessType!
   statusType: StatusType!
 }
 
@@ -194,6 +199,11 @@ enum OrganizationStatus {
 }
 
 type Permission {
+  """
+  The created date of the permission.
+  """
+  created: DateTimeOffset!
+
   """
   The description of the permission.
   """
