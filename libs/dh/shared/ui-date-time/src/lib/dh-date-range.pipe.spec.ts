@@ -18,7 +18,7 @@ import { DhDateRangePipe, pipeName } from './dh-date-range.pipe';
 import { createPipeHarness, SpectacularPipeHarness } from '@ngworker/spectacular';
 import { TDateRangeValue } from './dh-format-danish-datetime';
 
-describe(DhDateRangePipe, () => {
+describe(DhDateRangePipe.name, () => {
   beforeEach(() => {
     harness = createPipeHarness({
       pipe: DhDateRangePipe,
