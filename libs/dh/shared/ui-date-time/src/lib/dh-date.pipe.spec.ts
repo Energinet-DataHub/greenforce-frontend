@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { DhDatePipe, pipeName } from './dh-date.pipe';
-import { TStringValue } from './dh-format-danish-datetime';
+import { TValue } from './dh-format-danish-datetime';
 import { createPipeHarness, SpectacularPipeHarness } from '@ngworker/spectacular';
 
 describe(DhDatePipe, () => {
@@ -27,7 +27,7 @@ describe(DhDatePipe, () => {
     });
   });
 
-  let harness: SpectacularPipeHarness<TStringValue>;
+  let harness: SpectacularPipeHarness<TValue>;
 
   describe('Validate date format', () => {
     test.each([

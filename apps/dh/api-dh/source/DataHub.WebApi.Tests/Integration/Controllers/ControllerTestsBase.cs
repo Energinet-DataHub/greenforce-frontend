@@ -42,8 +42,6 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         protected Mock<IWholesaleClient_V3> WholesaleClient_V3Mock { get; }
 
-        protected Mock<IWholesaleClientV3> WholesaleClientV3Mock { get; }
-
         protected Mock<IMeteringPointClient> MeteringPointClientMock { get; }
 
         protected Mock<IMarketParticipantClient> MarketParticipantClientMock { get; }
@@ -54,7 +52,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             BffWebApiFixture bffWebApiFixture,
             WebApiFactory factory,
             ITestOutputHelper testOutputHelper)
-            : base(bffWebApiFixture, testOutputHelper)
+             : base(bffWebApiFixture, testOutputHelper)
         {
             WholesaleClient_V2Mock = new Mock<IWholesaleClient_V2>();
             WholesaleClient_V2_1Mock = new Mock<IWholesaleClient_V2_1>();
@@ -64,6 +62,8 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             ChargeClientMock = new Mock<IChargesClient>();
 
             BffClient = factory.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureServices(services =>
                 {
                     services.AddTransient(_ => WholesaleClient_V2Mock.Object);
                     services.AddTransient(_ => WholesaleClient_V2_1Mock.Object);

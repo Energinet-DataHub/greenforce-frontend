@@ -19,7 +19,6 @@ const config: CodegenConfig = {
       config: {
         scalars: {
           DateRange: '{ start: string, end: string}',
-          DateTimeOffset: 'string',
         },
       },
     },

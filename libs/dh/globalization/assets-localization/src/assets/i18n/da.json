@@ -785,7 +785,7 @@
         "gridAreaName": "Netområde",
         "periodStart": "Periode fra",
         "periodEnd": "Periode til",
-        "executionTime": "Kørsel tid",
+        "executionTimeStart": "Kørsel tid",
         "emptyTitle": "Ingen processer fundet",
         "emptyHelperText": "Prøv at ændre dine søgeindstillinger"
       },

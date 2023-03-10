@@ -18,11 +18,9 @@ import { NgModule } from '@angular/core';
 
 import { DhDatePipe } from './dh-date.pipe';
 import { DhDateTimePipe } from './dh-datetime.pipe';
-import { DhDateRangePipe } from './dh-date-range.pipe';
-import { DhDateTimeRangePipe } from './dh-datetime-range.pipe';
 
 @NgModule({
-  declarations: [DhDatePipe, DhDateTimePipe, DhDateRangePipe, DhDateTimeRangePipe],
-  exports: [DhDatePipe, DhDateTimePipe, DhDateRangePipe, DhDateTimeRangePipe],
+  declarations: [DhDatePipe, DhDateTimePipe],
+  exports: [DhDatePipe, DhDateTimePipe],
 })
 export class DhSharedUiDateTimeModule {}

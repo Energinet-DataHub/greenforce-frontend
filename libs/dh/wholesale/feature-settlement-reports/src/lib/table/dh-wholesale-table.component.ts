@@ -76,7 +76,7 @@ export class DhWholesaleTableComponent {
     gridAreaName: { accessor: (row) => row.gridArea.name },
     periodStart: { accessor: (row) => row.period?.start },
     periodEnd: { accessor: (row) => row.period?.end },
-    executionTime: { accessor: (row) => row.executionTime },
+    executionTimeStart: { accessor: (row) => row.executionTime?.start },
   };
 
   translateHeader = (key: string) => translate(`wholesale.settlementReports.table.${key}`);
