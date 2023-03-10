@@ -16,22 +16,22 @@
  */
 import { Pipe, PipeTransform } from '@angular/core';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { ActorMarketRoleViewDto, UserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
+import { UserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
 
-@Pipe({ name: 'joinMarketRoles', standalone: true })
-export class JoinMarketRoles implements PipeTransform {
-  transform(marketRoles: ActorMarketRoleViewDto[] | null | undefined) {
-    return marketRoles?.map((marketRole) => marketRole.eicFunction).join(', ') ?? '';
+@Pipe({ name: 'filterUserRoles', standalone: true })
+export class FilterUserRolesPipe implements PipeTransform {
+  transform(userRoles: UserRoleViewDto[] | null | undefined, includeAllUserRoles: boolean = false) {
+    return (userRoles || []).filter((userRole) => userRole.userActorId || includeAllUserRoles);
   }
 }
 
-@Pipe({ name: 'testPipe', standalone: true })
-export class TestPipe implements PipeTransform {
+@Pipe({ name: 'userRolesIntoTable', standalone: true })
+export class UserRolesIntoTablePipe implements PipeTransform {
   readonly dataSource: WattTableDataSource<UserRoleViewDto> =
     new WattTableDataSource<UserRoleViewDto>();
 
-  transform(marketRoles: UserRoleViewDto[] | null | undefined) {
-    this.dataSource.data = marketRoles || [];
+  transform(userRoles: UserRoleViewDto[] | null | undefined) {
+    this.dataSource.data = userRoles || [];
     return this.dataSource;
   }
 }

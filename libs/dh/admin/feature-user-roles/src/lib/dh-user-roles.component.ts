@@ -38,7 +38,10 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { FormsModule } from '@angular/forms';
-import { JoinMarketRoles, TestPipe } from './dh-join-market-roles.pipe';
+import {
+  FilterUserRolesPipe,
+  UserRolesIntoTablePipe,
+} from './dh-filter-user-roles-into-table.pipe';
 import { UserOverviewItemDto, UserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
@@ -57,14 +60,14 @@ import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
     WattCardModule,
     WATT_TABLE,
     TranslocoModule,
-    JoinMarketRoles,
     MatDividerModule,
     WattEmptyStateModule,
     WattCheckboxModule,
     MatExpansionModule,
     DhEmDashFallbackPipeScam,
     FormsModule,
-    TestPipe,
+    FilterUserRolesPipe,
+    UserRolesIntoTablePipe,
   ],
 })
 export class DhUserRolesComponent implements OnChanges {
@@ -73,14 +76,12 @@ export class DhUserRolesComponent implements OnChanges {
   @Input() selectMode = false;
   @Output() updateUserRoles = new EventEmitter<UpdateUserRoles>();
 
-  userRoleView$ = this.store.userRoleView$;
   isLoading$ = this.store.isLoading$;
-  numberOfSelectedRoles$ = this.store.numberOfSelectedRoles$;
-  numberOfAssignableRoles$ = this.store.numberOfAssignableRoles$;
   hasGeneralError$ = this.store.hasGeneralError$;
+  userRolesPrActor$ = this.store.userRolesPrActor$;
 
   columns: WattTableColumnDef<UserRoleViewDto> = {
-    eicFunction: { accessor: 'name' },
+    marketRole: { accessor: 'marketRole' },
     name: { accessor: 'name' },
     description: { accessor: 'description', sort: false },
   };
@@ -101,45 +102,37 @@ export class DhUserRolesComponent implements OnChanges {
     }
   }
 
-  selectUserRole(event: boolean, userRole: UserRoleViewDto, actorId: string): void {
-    this.addActor(actorId);
-    event ? this.addRole(actorId, userRole) : this.removeRole(actorId, userRole);
+  selectionChanged(
+    actorId: string,
+    userRoles: UserRoleViewDto[],
+    allAssignable: UserRoleViewDto[]
+  ) {
+    const actor = this.getOrAddActor(actorId);
+
+    actor.userRolesToUpdate.added = userRoles
+      .filter((userRole) => !userRole.userActorId)
+      .map((userRole) => userRole.id);
+
+    actor.userRolesToUpdate.removed = allAssignable
+      .filter((userRole) => userRole.userActorId)
+      .filter((userRole) => !userRoles.map((ur) => ur.id).includes(userRole.id))
+      .map((userRole) => userRole.id);
+
     this.updateUserRoles.emit(this._updateUserRoles);
   }
 
-  private addActor(actorId: string) {
+  private getOrAddActor(actorId: string) {
     const actor = this._updateUserRoles.actors.find((actor) => actor.id === actorId);
     if (!actor) {
-      this._updateUserRoles.actors.push({
+      const actorChanges = {
         id: actorId,
         userRolesToUpdate: { added: [], removed: [] },
-      });
+      };
+
+      this._updateUserRoles.actors.push(actorChanges);
+      return actorChanges;
     }
-  }
 
-  private removeRole(actorId: string, userRole: UserRoleViewDto) {
-    const actor = this._updateUserRoles.actors.find((actor) => actor.id === actorId);
-    if (!actor) return;
-
-    if (actor.userRolesToUpdate.added.includes(userRole.id)) {
-      actor.userRolesToUpdate.added = actor?.userRolesToUpdate.added.filter(
-        (id) => id !== userRole.id
-      );
-    } else {
-      actor.userRolesToUpdate.removed.push(userRole.id);
-    }
-  }
-
-  private addRole(actorId: string, userRole: UserRoleViewDto) {
-    const actor = this._updateUserRoles.actors.find((actor) => actor.id === actorId);
-    if (!actor) return;
-
-    if (actor.userRolesToUpdate.removed.includes(userRole.id)) {
-      actor.userRolesToUpdate.removed = actor.userRolesToUpdate.removed.filter(
-        (id) => id !== userRole.id
-      );
-    } else {
-      actor.userRolesToUpdate.added.push(userRole.id);
-    }
+    return actor;
   }
 }

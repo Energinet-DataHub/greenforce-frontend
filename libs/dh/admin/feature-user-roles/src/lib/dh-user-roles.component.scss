@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  margin: var(--watt-space-ml);
+
+.container {
   display: block;
+  margin: var(--watt-space-ml);
 }
 
 .expansionPanel:first-of-type {
@@ -24,6 +25,7 @@
   border-left: 1px var(--watt-color-neutral-grey-300) solid;
   border-right: 1px var(--watt-color-neutral-grey-300) solid;
   box-shadow: none;
+  box-sizing: border-box;
 }
 
 .expansionPanel {
@@ -31,6 +33,17 @@
   border-left: 1px var(--watt-color-neutral-grey-300) solid;
   border-right: 1px var(--watt-color-neutral-grey-300) solid;
   box-shadow: none;
+  box-sizing: border-box;
+}
+
+.expansionPanelTitle {
+  font-weight: 600;
+}
+
+.expansionPanelDescription {
+  flex-grow: 0;
+  align-content: flex-end;
+  white-space: nowrap;
 }
 
 watt-empty-state {
@@ -41,30 +54,4 @@ watt-spinner {
   display: flex;
   justify-content: center;
   margin-top: var(--watt-space-xl);
-}
-
-.userRoles {
-  &.selectMode {
-    li {
-      grid-template-columns: 40px 1fr auto !important;
-    }
-  }
-  mat-divider {
-    color: var(--watt-color-neutral-grey-400);
-    margin: var(--watt-space-m) 0;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  li {
-    display: grid;
-    margin: var(--watt-space-s) 0 0 var(--watt-space-s);
-    grid-template-columns: 1fr 1fr;
-    justify-items: left;
-  }
-  h6 {
-    margin: 0 0 0 var(--watt-space-s);
-  }
 }

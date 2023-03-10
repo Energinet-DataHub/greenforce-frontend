@@ -991,8 +991,9 @@
             }
           },
           "assigned": {
+            "count": "{{ count }} tildelt",
             "columns": {
-              "eicFunction": "Markedsrolle",
+              "marketRole": "Markedsrolle",
               "name": "Navn",
               "description": "Beskrivelse"
             }

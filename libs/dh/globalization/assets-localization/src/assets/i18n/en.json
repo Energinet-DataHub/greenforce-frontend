@@ -1010,9 +1010,9 @@
               "status": "Status"
             }
           },
-          "assigned": {
-            "columns": {
-              "eicFunction": "Markedsrolle",
+          "count": "{{ count }} assigned",
+          "columns": {
+            "marketRole": "Markedsrolle",
               "name": "Navn",
               "description": "Beskrivelse"
             }
