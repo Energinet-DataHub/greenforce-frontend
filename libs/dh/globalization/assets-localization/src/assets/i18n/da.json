@@ -722,6 +722,8 @@
     }
   },
   "wholesale": {
+    "BALANCE_FIXING": "Balancefiksering",
+    "AGGREGATION": "Aggregering",
     "startBatch": {
       "topBarTitle": "Start batch",
       "startLabel": "Start",
@@ -753,7 +755,8 @@
         "periodTo": "Periode til",
         "executionTime": "Eksekveringstid",
         "status": "Status",
-        "basisData": "Basis data"
+        "basisData": "Basis data",
+        "processType": "Procestype"
       },
       "download": "Download",
       "downloadFailed": "Download af basis data fejlede",
@@ -770,7 +773,9 @@
         "firstPageLabel": "Første side",
         "lastPageLabel": "Sidste side",
         "of": "af"
-      }
+      },
+      "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
+      "AGGREGATION": "{{wholesale.AGGREGATION}}"
     },
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
@@ -785,7 +790,7 @@
         "emptyHelperText": "Prøv at ændre dine søgeindstillinger"
       },
       "processTypes": {
-        "BALANCE_FIXING": "Balancefiksering"
+        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}"
       },
       "filters": {
         "processType": "Procestype",
