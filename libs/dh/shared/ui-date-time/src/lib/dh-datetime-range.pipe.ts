@@ -15,7 +15,11 @@
  * limitations under the License.
  */
 import { Pipe, PipeTransform } from '@angular/core';
-import { dhFormatDanishDatetime, TDateRangeValue } from './dh-format-danish-datetime';
+import {
+  dhFormatDanishDatetime,
+  TDateRangeValue,
+  dateTimeFormat,
+} from './dh-format-danish-datetime';
 
 export const pipeName = 'dhDateTimeRange';
 
@@ -23,8 +27,6 @@ export const pipeName = 'dhDateTimeRange';
   name: pipeName,
 })
 export class DhDateTimeRangePipe implements PipeTransform {
-  private dateTimeFormat = 'dd-MM-yyyy HH:mm';
-
   /**
    *
    * @param range DateRange in ISO 8601 format (e.g. 2021-12-01T23:00:00Z)
@@ -33,9 +35,9 @@ export class DhDateTimeRangePipe implements PipeTransform {
   transform(range: TDateRangeValue): string | null {
     if (range === undefined || range === null) return null;
 
-    return `${dhFormatDanishDatetime(range?.start, this.dateTimeFormat)} - ${dhFormatDanishDatetime(
+    return `${dhFormatDanishDatetime(range?.start, dateTimeFormat)} - ${dhFormatDanishDatetime(
       range?.end,
-      this.dateTimeFormat
+      dateTimeFormat
     )}`;
   }
 }

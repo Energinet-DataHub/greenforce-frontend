@@ -21,6 +21,8 @@ import { DateRange } from '@energinet-datahub/dh/shared/domain';
 export type TStringValue = string | TNullUndefined;
 export type TNullUndefined = null | undefined;
 export type TDateRangeValue = DateRange | TNullUndefined;
+export const dateTimeFormat = 'dd-MM-yyyy HH:mm';
+export const dateFormat = 'dd-MM-yyyy';
 
 export function dhFormatDanishDatetime(timeValue: TStringValue, format: string): string | null {
   if (timeValue == null) {
