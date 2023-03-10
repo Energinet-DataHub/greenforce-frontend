@@ -37,14 +37,14 @@ describe('Toast', () => {
 
   it('should open toast', async () => {
     await setup();
-    await userEvent.click(await getOpenToastButton());
+    userEvent.click(await getOpenToastButton());
     expect(await getToast()).toBeInTheDocument();
   });
 
   it('should dismiss toast after 5s', async () => {
     jest.useFakeTimers();
     await setup();
-    await userEvent.click(await getOpenToastButton());
+    userEvent.click(await getOpenToastButton());
     expect(await getToast()).toBeInTheDocument();
 
     jest.advanceTimersByTime(5000);
@@ -58,7 +58,7 @@ describe('Toast', () => {
   it('should not dismiss a toast of type=loading after 5s', async () => {
     jest.useFakeTimers();
     await setup({ type: 'loading' });
-    await userEvent.click(await getOpenToastButton());
+    userEvent.click(await getOpenToastButton());
     expect(await getToast()).toBeInTheDocument();
 
     jest.advanceTimersByTime(5000);
@@ -72,15 +72,15 @@ describe('Toast', () => {
   it('should reset the duration of the toast on hover', async () => {
     jest.useFakeTimers();
     await setup();
-    await userEvent.click(await getOpenToastButton());
+    userEvent.click(await getOpenToastButton());
     expect(await getToast()).toBeInTheDocument();
 
     jest.advanceTimersByTime(4000);
-    await userEvent.hover((await getToast()) as HTMLElement);
+    userEvent.hover((await getToast()) as HTMLElement);
     jest.advanceTimersByTime(5000);
     expect(await getToast()).toBeInTheDocument();
 
-    await userEvent.unhover((await getToast()) as HTMLElement);
+    userEvent.unhover((await getToast()) as HTMLElement);
     jest.advanceTimersByTime(5000);
     expect(await getToast()).not.toBeInTheDocument();
 
@@ -91,12 +91,12 @@ describe('Toast', () => {
   it('should dismiss the toast, when clicking the close button', async () => {
     await setup();
 
-    await userEvent.click(await getOpenToastButton());
+    userEvent.click(await getOpenToastButton());
     const toast = await getToast();
     expect(toast).toBeInTheDocument();
 
     const closeButton = queryByTestId(toast as HTMLElement, 'dismiss');
-    await userEvent.click(closeButton as HTMLElement);
+    userEvent.click(closeButton as HTMLElement);
 
     await waitFor(() => {
       expect(toast).not.toBeInTheDocument();
@@ -106,7 +106,7 @@ describe('Toast', () => {
   it('should not have a dimiss button, when of type=loading', async () => {
     await setup({ type: 'loading' });
 
-    await userEvent.click(await getOpenToastButton());
+    userEvent.click(await getOpenToastButton());
     const toast = await getToast();
     expect(toast).toBeInTheDocument();
 

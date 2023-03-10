@@ -26,7 +26,7 @@ describe(WattCopyToClipboardDirective.name, () => {
       imports: [WattToastModule.forRoot(), WattCopyToClipboardDirective],
     });
 
-    await userEvent.click(screen.getByText('Text'));
+    userEvent.click(screen.getByText('Text'));
 
     // Clipboard only works in an actual browser
     expect(screen.getByText('Failed to copy')).toBeInTheDocument();

@@ -73,7 +73,7 @@ describe(WattChipsComponent.name, () => {
     const selectionChange = jest.fn();
     await setup({ options, selectionChange });
 
-    await userEvent.click(screen.getByText('Chip 1'));
+    userEvent.click(screen.getByText('Chip 1'));
 
     expect(selectionChange).nthCalledWith(1, '1');
     expect(screen.getByRole('option', { selected: true })).toHaveTextContent('Chip 1');
@@ -83,8 +83,8 @@ describe(WattChipsComponent.name, () => {
     const selectionChange = jest.fn();
     await setup({ options, selectionChange });
 
-    await userEvent.click(screen.getByText('Chip 2'));
-    await userEvent.click(screen.getByText('Chip 4'));
+    userEvent.click(screen.getByText('Chip 2'));
+    userEvent.click(screen.getByText('Chip 4'));
 
     expect(selectionChange).nthCalledWith(1, '2');
     expect(selectionChange).nthCalledWith(2, '4');
@@ -95,9 +95,9 @@ describe(WattChipsComponent.name, () => {
     const selectionChange = jest.fn();
     await setup({ options, selectionChange });
 
-    await userEvent.click(screen.getByText('Chip 1'));
-    await userEvent.click(screen.getByText('Chip 3'));
-    await userEvent.click(screen.getByText('Chip 3'));
+    userEvent.click(screen.getByText('Chip 1'));
+    userEvent.click(screen.getByText('Chip 3'));
+    userEvent.click(screen.getByText('Chip 3'));
 
     expect(selectionChange).nthCalledWith(1, '1');
     expect(selectionChange).nthCalledWith(2, '3');

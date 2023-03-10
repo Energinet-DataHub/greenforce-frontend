@@ -79,13 +79,9 @@ describe(DhMeteringPointSearchComponent.name, () => {
     const validMeteringPointIdThatExist = '571313180400014602';
 
     userEvent.type(input, validMeteringPointIdThatExist);
+    userEvent.click(submitButton);
 
-    await waitFor(() => {
-      expect(input.value).toBe(validMeteringPointIdThatExist);
-      userEvent.click(submitButton);
-      expect(screen.queryByRole('progressbar')).toBeInTheDocument();
-    });
-
+    expect(screen.queryByRole('progressbar')).toBeInTheDocument();
     await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
       timeout: 3000,
     });
@@ -111,12 +107,9 @@ describe(DhMeteringPointSearchComponent.name, () => {
     const validMeteringPointIdThatDoesNotExist = '000000000000000000';
 
     userEvent.type(input, validMeteringPointIdThatDoesNotExist);
-    await waitFor(() => {
-      expect(input.value).toBe(validMeteringPointIdThatDoesNotExist);
-      userEvent.click(submitButton);
-      expect(screen.queryByRole('progressbar')).toBeInTheDocument();
-    });
+    userEvent.click(submitButton);
 
+    expect(screen.queryByRole('progressbar')).toBeInTheDocument();
     await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
       timeout: 3000,
     });

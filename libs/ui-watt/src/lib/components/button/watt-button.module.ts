@@ -16,10 +16,11 @@
  */
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+
 import { WattIconModule } from './../../foundations/icon/icon.module';
 import { WattButtonComponent } from './watt-button.component';
 import { WattSpinnerModule } from '../spinner';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 
 @NgModule({
   declarations: [WattButtonComponent],

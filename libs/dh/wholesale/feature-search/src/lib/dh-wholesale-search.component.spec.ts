@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 import { HttpClientModule } from '@angular/common/http';
-import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/angular';
+import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import { DhGraphQLModule } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 import { WattToastModule } from '@energinet-datahub/watt/toast';
+import { WattTopBarOutletComponent } from '@energinet-datahub/watt/shell';
 
 import { DhWholesaleSearchComponent } from './dh-wholesale-search.component';
-import { WattTopBarOutletComponent } from '@energinet-datahub/watt/shell';
 
 async function setup() {
   await render(
@@ -76,11 +76,6 @@ describe(DhWholesaleSearchComponent.name, () => {
   it('should show loading indicator when starting a new search of batches', async () => {
     await setup();
 
-    await waitForElementToBeRemoved(() =>
-      screen.getByRole('heading', {
-        name: /Batch overview/i,
-      })
-    );
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
     await waitFor(() => expect(screen.queryByRole('progressbar')).not.toBeInTheDocument());
 

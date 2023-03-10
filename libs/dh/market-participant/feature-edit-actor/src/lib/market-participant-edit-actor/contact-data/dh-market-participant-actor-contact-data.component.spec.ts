@@ -72,8 +72,8 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
     });
 
     // act
-    await userEvent.clear(nameTextBox);
-    await userEvent.type(nameTextBox, expected.name as string);
+    userEvent.clear(nameTextBox);
+    userEvent.type(nameTextBox, expected.name as string);
 
     // assert
     expect(outputFn).toHaveBeenLastCalledWith({
@@ -92,7 +92,7 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
     ).getByRole('button');
 
     // act
-    await userEvent.click(deleteButton);
+    userEvent.click(deleteButton);
 
     // assert
     expect(outputFn).toHaveBeenLastCalledWith({
@@ -116,7 +116,7 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
     const categories = within(
       screen.getByRole('cell', { name: /category field for new contact/i })
     ).getByRole('combobox');
-    await userEvent.click(categories);
+    userEvent.click(categories);
 
     const category = screen.getAllByRole('option')[1];
     const name = screen.getByRole('textbox', {
@@ -130,10 +130,10 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
     });
 
     // act
-    await userEvent.click(category);
-    await userEvent.type(name, expected.name as string);
-    await userEvent.type(email, expected.email as string);
-    await userEvent.type(phone, expected.phone as string);
+    userEvent.click(category);
+    userEvent.type(name, expected.name as string);
+    userEvent.type(email, expected.email as string);
+    userEvent.type(phone, expected.phone as string);
 
     // assert
     expect(outputFn).toHaveBeenLastCalledWith({

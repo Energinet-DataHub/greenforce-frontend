@@ -71,47 +71,47 @@ describe(DhMarketParticipantOrganizationMasterDataComponent.name, () => {
     const nameTextBox = screen.getByRole('textbox', {
       name: en.marketParticipant.organization.create.masterData.organizationNameLabel,
     });
-    await userEvent.type(nameTextBox, expected.name);
+    userEvent.type(nameTextBox, expected.name);
 
     const briTextBox = screen.getByRole('textbox', {
       name: en.marketParticipant.organization.create.masterData.businessRegistrationIdetifierLabel,
     });
-    await userEvent.type(briTextBox, expected.businessRegisterIdentifier);
+    userEvent.type(briTextBox, expected.businessRegisterIdentifier);
 
     const cityTextBox = screen.getByRole('textbox', {
       name: en.marketParticipant.organization.create.masterData.cityLabel,
     });
-    await userEvent.type(cityTextBox, expected.address.city);
+    userEvent.type(cityTextBox, expected.address.city);
 
     const streetTextBox = screen.getByRole('textbox', {
       name: en.marketParticipant.organization.create.masterData.streetNameLabel,
     });
-    await userEvent.type(streetTextBox, expected.address.streetName);
+    userEvent.type(streetTextBox, expected.address.streetName);
 
     const numberTextBox = screen.getByRole('textbox', {
       name: en.marketParticipant.organization.create.masterData.streetNumberLabel,
     });
-    await userEvent.type(numberTextBox, expected.address.number);
+    userEvent.type(numberTextBox, expected.address.number);
 
     const zipCodeTextBox = screen.getByRole('textbox', {
       name: en.marketParticipant.organization.create.masterData.zipCodeLabel,
     });
-    await userEvent.type(zipCodeTextBox, expected.address.zipCode);
+    userEvent.type(zipCodeTextBox, expected.address.zipCode);
 
     const countryComboBox = screen.getByRole('combobox', {
       name: en.marketParticipant.organization.create.masterData.countries.dk,
     });
-    await userEvent.click(countryComboBox);
+    userEvent.click(countryComboBox);
 
-    const countryOption = await screen.findByText(
+    const countryOption = screen.getByText(
       en.marketParticipant.organization.create.masterData.countries.se
     );
-    await userEvent.click(countryOption);
+    userEvent.click(countryOption);
 
     const commentTextBox = screen.getByRole('textbox', {
       name: en.marketParticipant.organization.create.masterData.commentLabel,
     });
-    await userEvent.type(commentTextBox, expected.comment);
+    userEvent.type(commentTextBox, expected.comment);
 
     // assert
     expect(expected).toEqual(changes);

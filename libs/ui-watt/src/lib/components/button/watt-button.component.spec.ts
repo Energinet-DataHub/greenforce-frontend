@@ -116,9 +116,7 @@ describe(WattButtonComponent.name, () => {
     });
 
     if (wattButton) {
-      const onClick = async () => await userEvent.click(wattButton);
-
-      await expect(onClick()).rejects.toThrow();
+      expect(() => userEvent.click(wattButton)).toThrow();
     }
   });
 

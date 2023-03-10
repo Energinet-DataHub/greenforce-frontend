@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { composeStory, createMountableStoryComponent } from '@storybook/testing-angular';
-import { render, screen } from '@testing-library/angular';
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/angular';
 import { Story } from '@storybook/angular';
 import userEvent from '@testing-library/user-event';
 
@@ -64,13 +64,12 @@ describe(WattBreadcrumbsComponent.name, () => {
 
   it('should navigate on click, when routerLink is added', async () => {
     await setup(overviewStory);
-
     const getDefaultRoute = () => screen.getByText('Route:Overview');
     const getExpectedRoute = () => screen.getByText('Route:Breadcrumbs');
-
     expect(getDefaultRoute()).toBeInTheDocument();
 
-    await userEvent.click(getBreadcrumbWithRouterLink() as HTMLElement);
+    userEvent.click(getBreadcrumbWithRouterLink() as HTMLElement);
+    await waitForElementToBeRemoved(() => getDefaultRoute());
 
     expect(getExpectedRoute()).toBeInTheDocument();
   });
@@ -79,7 +78,7 @@ describe(WattBreadcrumbsComponent.name, () => {
     const mockFn = jest.fn();
     await setup(overviewStory, mockFn);
 
-    await userEvent.click(getBreadcrumbWithClick() as HTMLElement);
+    userEvent.click(getBreadcrumbWithClick() as HTMLElement);
 
     expect(mockFn).toHaveBeenCalled();
   });

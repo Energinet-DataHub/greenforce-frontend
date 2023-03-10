@@ -64,7 +64,7 @@ describe(DhChargesPricesComponent.name, () => {
 
     const searchButton = screen.getByRole('button', { name: /search/i });
 
-    await userEvent.click(searchButton);
+    userEvent.click(searchButton);
 
     const id = await waitFor(() => screen.getByRole('gridcell', { name: /0AA1F/i }));
 
@@ -78,12 +78,12 @@ describe(DhChargesPricesComponent.name, () => {
       suggest: false,
     });
 
-    await userEvent.type(idInputField, 'test 123');
+    userEvent.type(idInputField, 'test 123');
 
     expect(idInputField).toHaveValue('test 123');
 
     const resetButton = screen.getByRole('button', { name: /clear/i });
-    await userEvent.click(resetButton);
+    userEvent.click(resetButton);
 
     expect(idInputField).toHaveValue('');
 
@@ -96,12 +96,12 @@ describe(DhChargesPricesComponent.name, () => {
 
     const searchButton = screen.getByRole('button', { name: /search/i });
 
-    await userEvent.click(searchButton);
+    userEvent.click(searchButton);
 
     const id = await waitFor(() => screen.getByRole('gridcell', { name: /0AA1F/i }));
 
     expect(id).toBeInTheDocument();
-    await userEvent.click(id);
+    userEvent.click(id);
 
     const drawer = screen.getByText(
       (content, element) => element?.tagName.toLowerCase() === wattDrawerName
@@ -115,12 +115,12 @@ describe(DhChargesPricesComponent.name, () => {
 
     const searchButton = screen.getByRole('button', { name: /search/i });
 
-    await userEvent.click(searchButton);
+    userEvent.click(searchButton);
 
     const id = await waitFor(() => screen.getByRole('gridcell', { name: /0AA1F/i }));
 
     expect(id).toBeInTheDocument();
-    await userEvent.click(id);
+    userEvent.click(id);
 
     const drawer = screen.getByText(
       (content, element) => element?.tagName.toLowerCase() === wattDrawerName
@@ -147,12 +147,12 @@ describe(DhChargesPricesComponent.name, () => {
 
     const searchButton = screen.getByRole('button', { name: /search/i });
 
-    await userEvent.click(searchButton);
+    userEvent.click(searchButton);
 
     const tableCell = await waitFor(() => screen.getByRole('gridcell', { name: /0AA1F/i }));
 
     expect(tableCell).toBeInTheDocument();
-    await userEvent.click(tableCell);
+    userEvent.click(tableCell);
     await new Promise((res) => setTimeout(res, 0));
 
     const drawer = screen.getByText(
@@ -190,7 +190,7 @@ describe(DhChargesPricesComponent.name, () => {
     // Close Drawer
     const closeButton = screen.getByRole('button', { name: /close/i });
     expect(closeButton).toBeInTheDocument();
-    await userEvent.click(closeButton);
+    userEvent.click(closeButton);
     await new Promise((res) => setTimeout(res, 0));
 
     await waitFor(() => {
@@ -199,7 +199,7 @@ describe(DhChargesPricesComponent.name, () => {
 
     // Open drawer again
     expect(tableCell).toBeInTheDocument();
-    await userEvent.click(tableCell);
+    userEvent.click(tableCell);
     await new Promise((res) => setTimeout(res, 0));
 
     const drawer2 = screen.getByText(

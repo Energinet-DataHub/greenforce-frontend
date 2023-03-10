@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 import { HttpClientModule } from '@angular/common/http';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { MatLegacySelectHarness } from '@angular/material/legacy-select/testing';
+import { MatLegacySelectHarness as MatSelectHarness } from '@angular/material/legacy-select/testing';
 import userEvent from '@testing-library/user-event';
-import { render, screen, waitFor } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
 import { MockProvider } from 'ng-mocks';
+import { of } from 'rxjs';
 
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
@@ -29,7 +30,7 @@ import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/a
 import { UserOverviewItemDto, UserStatus } from '@energinet-datahub/dh/shared/domain';
 
 import { DhUsersTabComponent } from './dh-users-tab.component';
-import { of } from 'rxjs';
+import { searchDebounceTimeMs } from './dh-users-tab-search.component';
 
 const users: UserOverviewItemDto[] = [
   {
@@ -64,7 +65,7 @@ describe(DhUsersTabComponent.name, () => {
     const store = TestBed.inject(DhAdminUserManagementDataAccessApiStore);
 
     const loader = TestbedHarnessEnvironment.loader(fixture);
-    const matSelect = await loader.getHarness(MatLegacySelectHarness);
+    const matSelect = await loader.getHarness(MatSelectHarness);
 
     return {
       fixture,
@@ -97,18 +98,17 @@ describe(DhUsersTabComponent.name, () => {
     expect(status).toBeInTheDocument();
   });
 
-  it('forwards search input value to store', async () => {
+  it('forwards search input value to store', fakeAsync(async () => {
     const { store } = await setup();
 
     const inputValue = 'test';
     const searchInput = screen.getByRole('textbox');
 
-    await userEvent.type(searchInput, inputValue);
+    userEvent.type(searchInput, inputValue);
+    tick(searchDebounceTimeMs);
 
-    await waitFor(() => {
-      expect(store.updateSearchText).toHaveBeenCalledWith(inputValue);
-    });
-  });
+    expect(store.updateSearchText).toHaveBeenCalledWith(inputValue);
+  }));
 
   it('forwards status filter value to store', async () => {
     const { store, matSelect } = await setup();
