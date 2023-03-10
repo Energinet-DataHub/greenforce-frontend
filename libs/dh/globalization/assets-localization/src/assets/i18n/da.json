@@ -857,7 +857,7 @@
     "userManagement": {
       "inviteUser": {
         "title": "Inviter bruger",
-        "informations": "Informationer",
+        "informations": "Information",
         "addUserRole": "Tildel brugerroller",
         "inviteUser": "Inviter bruger",
         "name": "Navn",
@@ -868,7 +868,12 @@
         "email": "Email",
         "phoneNumber": "Telefonnr.",
         "phoneNumberError": "Telefonnr. format +45 12345678",
-        "successMessage": "{{ email }} blev inviteret"
+        "successMessage": "{{ email }} blev inviteret",
+        "columns": {
+          "eicFunction": "Markedsrolle",
+          "name": "Navn",
+          "description": "Beskrivelse"
+        }
       },
       "download": "Download",
       "drawer": {
