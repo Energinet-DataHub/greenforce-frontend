@@ -46,8 +46,8 @@ limitations under the License.
     </ng-container>
 
     <!-- Execution Time Start -->
-    <ng-container *wattTableCell="columns.executionTimeStart; let batch">
-      {{ batch.executionTime?.start | dhDateTime }}
+    <ng-container *wattTableCell="columns.executionTimeStart; let process">
+      {{ process.executionTime | dhDateTime }}
     </ng-container>
   </watt-table>
 
