@@ -21,7 +21,7 @@ limitations under the License.
     [columns]="columns"
     [resolveHeader]="translateHeader"
     description="batches"
-    sortBy="executionTimeStart"
+    sortBy="executionTime"
     sortDirection="desc"
     (rowClick)="selectedRow.emit($event)"
   >
@@ -46,7 +46,7 @@ limitations under the License.
     </ng-container>
 
     <!-- Execution Time Start -->
-    <ng-container *wattTableCell="columns.executionTimeStart; let process">
+    <ng-container *wattTableCell="columns.executionTime; let process">
       {{ process.executionTime | dhDateTime }}
     </ng-container>
   </watt-table>
