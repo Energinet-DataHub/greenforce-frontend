@@ -17,8 +17,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import jwt_decode from 'jwt-decode';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 export interface AuthLogoutResponse {
   readonly success: boolean;
@@ -27,44 +26,29 @@ export interface AuthLogoutResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
-  #mockToken =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzgzOTQzMzQsImV4cCI6MTcwOTkzMDMzNCwibmFtZSI6IkRlbW8gTG9uZSIsInNjb3BlIjoiWyd0ZXN0MScsJ3Rlc3QyJ10iLCJmaXJzdE5hbWUiOiJEZW1vIiwibGFzdE5hbWUiOiJMb25lIiwiZW1haWwiOiJkZW1vQGxvbmUuZGsifQ.hjxNCA-atOO5pebWNO2_PwQ6bR96e7AN3mWvo54mEAQ';
-  #apiBase: string;
+export class EoAuthService {
+  #loginUrl: string;
+  #authApiBase: string;
 
   constructor(
     private http: HttpClient,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
-    this.#apiBase = `${apiEnvironment.apiBase}/auth`;
+    this.#authApiBase = `${apiEnvironment.apiBase}/auth`;
+    this.#loginUrl = `${apiEnvironment.apiBase}/auth/oidc/login?fe_url=${window.location.origin}&return_url=${window.location.origin}/dashboard`;
   }
 
-  storeToken(token: string) {
-    console.log('token', this.getDecodedAccessToken(token));
-  }
-
-  login() {
-    //return this.http.get(`${this.#apiBase}/login`);
-    return of(this.#mockToken).subscribe((token) => {
-      this.storeToken(token);
+  startLogin() {
+    this.http.get(`${this.#loginUrl}`).subscribe((response: any) => {
+      window.location.href = response.next_url;
     });
   }
 
   logout(): Observable<AuthLogoutResponse> {
     return this.http.post<AuthLogoutResponse>(
-      `${this.#apiBase}/logout`,
-      {
-        // empty body
-      },
+      `${this.#authApiBase}/logout`,
+      {},
       { withCredentials: true }
     );
-  }
-
-  getDecodedAccessToken(token: string) {
-    try {
-      return jwt_decode(token);
-    } catch (Error) {
-      return null;
-    }
   }
 }

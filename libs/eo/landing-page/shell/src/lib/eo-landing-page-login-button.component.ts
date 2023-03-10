@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { AuthService } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService } from '@energinet-datahub/eo/shared/services';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 @Component({
@@ -26,11 +26,9 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
   template: `<watt-button (click)="login()">Start</watt-button>`,
 })
 export class EoLandingPageLoginButtonComponent {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: EoAuthService) {}
 
   login() {
-    this.authService.login();
-
-    // window.location.href = `${this.#apiBase}/auth/login`;
+    this.authService.startLogin();
   }
 }
