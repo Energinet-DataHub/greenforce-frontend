@@ -12,10 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+
 namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class Actor
     {
+        public Guid? Id { get; set; }
+
+        public string? Name { get; set; }
+
         public string Number { get; set; }
 
         public Actor(string number)

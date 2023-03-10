@@ -16,6 +16,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Energinet.DataHub.MarketParticipant.Client;
+using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.Wholesale.Client;
 using Energinet.DataHub.Wholesale.Contracts;
 using GraphQL;
@@ -125,6 +127,34 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Argument<NonNullGraphType<IdGraphType>>("batchId", "The batch id the process belongs to.")
                 .Argument<NonNullGraphType<StringGraphType>>("gridArea", "The grid area code for the process.")
                 .Resolve(context => new { });
+
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<ActorDtoType>>>>("actors")
+               .Resolve()
+               .WithScope()
+               .WithService<IMarketParticipantClient>()
+               .ResolveAsync(async (context, client) =>
+               {
+                   var gridAreas = await client.GetGridAreasAsync();
+                   var gridAreasLookup = gridAreas.ToDictionary(x => x.Id);
+                   var organizations = await client.GetOrganizationsAsync();
+                   var actors = new List<ActorDto>();
+
+                   foreach (var organization in organizations)
+                   {
+                       actors.AddRange(await client.GetActorsAsync(organization.OrganizationId));
+                   }
+
+                   var accessibleActors = actors.Select(x => new Actor(x.ActorNumber.Value) { Id = x.ActorId, Name = x.Name.Value });
+
+                   // TODO: Is this the right place to filter this list?
+                   if (context.User!.IsFas())
+                   {
+                       return accessibleActors;
+                   }
+
+                   var actorId = context.User!.GetAssociatedActor();
+                   return accessibleActors.Where(actor => actor.Id == actorId);
+               });
         }
     }
 }
