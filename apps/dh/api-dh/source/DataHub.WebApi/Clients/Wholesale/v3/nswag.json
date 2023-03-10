@@ -3,7 +3,7 @@
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "https://app-webapi-wholsal-u-001.azurewebsites.net/swagger/v3/swagger.json",
+      "url": "https://localhost:7133/swagger/v3/swagger.json",
       "output": null,
       "newLineBehavior": "Auto"
     }
@@ -46,7 +46,7 @@
       "serializeTypeInformation": false,
       "queryNullValue": "",
       "operationGenerationMode": "MultipleClientsFromOperationId",
-      "additionalNamespaceUsages": [],
+      "additionalNamespaceUsages": ["System.IO"],
       "additionalContractNamespaceUsages": [],
       "generateJsonMethods": false,
       "enforceFlagEnums": false,

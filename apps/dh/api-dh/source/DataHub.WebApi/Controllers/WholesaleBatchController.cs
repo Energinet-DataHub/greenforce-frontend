@@ -103,16 +103,16 @@ namespace Energinet.DataHub.WebApi.Controllers
             return Ok(batchesWithGridAreasWithNames);
         }
 
-        /// <summary>
-        /// Get a batch.
-        /// </summary>
-        [HttpGet("ZippedBasisDataStream")]
-        [Produces("application/zip")]
-        public async Task<ActionResult<Stream>> GetAsync(Guid batchId)
-        {
-            var stream = await _clientV2_3.SettlementReportAsync(batchId);
-            return File(stream, MediaTypeNames.Application.Zip);
-        }
+        // /// <summary>
+        // /// Get a batch.
+        // /// </summary>
+        // [HttpGet("ZippedBasisDataStream")]
+        // [Produces("application/zip")]
+        // public async Task<ActionResult<Stream>> GetAsync(Guid batchId)
+        // {
+        //     var stream = await _clientV2_3.SettlementReportAsync(batchId);
+        //     return File(stream, MediaTypeNames.Application.Zip);
+        // }
 
         /// <summary>
         /// Get a batch.
