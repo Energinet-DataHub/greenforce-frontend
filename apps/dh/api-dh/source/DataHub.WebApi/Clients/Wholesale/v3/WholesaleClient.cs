@@ -542,7 +542,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -554,7 +554,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
@@ -669,57 +669,6 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         _1 = 1,
 
     }
-
-    // [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    // public partial class Stream
-    // {
-    //     [Newtonsoft.Json.JsonConstructor]
-    //
-    //     public Stream(bool @canRead, bool @canSeek, bool @canTimeout, bool @canWrite, long @length, long @position, int @readTimeout, int @writeTimeout)
-    //
-    //     {
-    //
-    //         this.CanRead = @canRead;
-    //
-    //         this.CanWrite = @canWrite;
-    //
-    //         this.CanSeek = @canSeek;
-    //
-    //         this.CanTimeout = @canTimeout;
-    //
-    //         this.Length = @length;
-    //
-    //         this.Position = @position;
-    //
-    //         this.ReadTimeout = @readTimeout;
-    //
-    //         this.WriteTimeout = @writeTimeout;
-    //
-    //     }    [Newtonsoft.Json.JsonProperty("canRead", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-    //     public bool CanRead { get; }
-    //
-    //     [Newtonsoft.Json.JsonProperty("canWrite", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-    //     public bool CanWrite { get; }
-    //
-    //     [Newtonsoft.Json.JsonProperty("canSeek", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-    //     public bool CanSeek { get; }
-    //
-    //     [Newtonsoft.Json.JsonProperty("canTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-    //     public bool CanTimeout { get; }
-    //
-    //     [Newtonsoft.Json.JsonProperty("length", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-    //     public long Length { get; }
-    //
-    //     [Newtonsoft.Json.JsonProperty("position", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-    //     public long Position { get; }
-    //
-    //     [Newtonsoft.Json.JsonProperty("readTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-    //     public int ReadTimeout { get; }
-    //
-    //     [Newtonsoft.Json.JsonProperty("writeTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-    //     public int WriteTimeout { get; }
-    //
-    // }
 
     /// <summary>
     /// TimeSeriesPoint

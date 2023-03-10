@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Core.TestCommon.AutoFixture.Attributes;
 using Energinet.DataHub.MarketParticipant.Client.Models;
@@ -171,25 +172,28 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             }
         }
 
-        // [Theory]
-        // [InlineAutoMoqData]
-        // public async Task PostAsync_WhenProcessStepResultIsFound_ReturnsOk(
-        //     ProcessStepResultRequestDtoV3 processStepResultRequestDto,
-        //     ProcessStepResultDto_V3 processStepResultDto)
-        // {
-        //     WholesaleClient_V3Mock
-        //         .Setup(m => m.TimeSeriesTypesAsync(
-        //             processStepResultRequestDto.BatchId,
-        //             processStepResultRequestDto.GridAreaCode,
-        //             (TimeSeriesType_V3)processStepResultRequestDto.TimeSeriesType,
-        //             processStepResultRequestDto.EnergySupplierGln,
-        //             processStepResultRequestDto.BalanceResponsiblePartyGln))
-        //         .ReturnsAsync(processStepResultDto);
-        //
-        //     var actual = await BffClient.PostAsJsonAsync(BatchProcessStepResultUrl, processStepResultRequestDto);
-        //
-        //     actual.StatusCode.Should().Be(HttpStatusCode.OK);
-        // }
+        [Theory]
+        [InlineAutoMoqData]
+        public async Task PostAsync_WhenProcessStepResultIsFound_ReturnsOk(
+            ProcessStepResultRequestDtoV3 processStepResultRequestDto,
+            ProcessStepResultDto_V3 processStepResultDto)
+        {
+            WholesaleClient_V3Mock
+                .Setup(m => m.TimeSeriesTypesAsync(
+                    processStepResultRequestDto.BatchId,
+                    processStepResultRequestDto.GridAreaCode,
+                    (TimeSeriesType_V3)processStepResultRequestDto.TimeSeriesType,
+                    processStepResultRequestDto.EnergySupplierGln,
+                    processStepResultRequestDto.BalanceResponsiblePartyGln,
+                    null,
+                    CancellationToken.None))
+                .ReturnsAsync(processStepResultDto);
+
+            var actual = await BffClient.PostAsJsonAsync(BatchProcessStepResultUrl, processStepResultRequestDto);
+
+            actual.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
         private void MockMarketParticipantClient()
         {
             MarketParticipantClientMock.Setup(d => d.GetGridAreasAsync()).ReturnsAsync(new List<GridAreaDto>

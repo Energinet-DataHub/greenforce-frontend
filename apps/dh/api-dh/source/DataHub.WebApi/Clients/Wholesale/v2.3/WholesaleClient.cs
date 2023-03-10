@@ -4,6 +4,8 @@
 // </auto-generated>
 //----------------------
 
+using System.IO;
+
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
 #pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
 #pragma warning disable 472 // Disable "CS0472 The result of the expression is always 'false' since a value of type 'Int32' is never equal to 'null' of type 'Int32?'
@@ -398,57 +400,6 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
 
         [Newtonsoft.Json.JsonProperty("marketRole", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public MarketRole MarketRole { get; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Stream
-    {
-        [Newtonsoft.Json.JsonConstructor]
-
-        public Stream(bool @canRead, bool @canSeek, bool @canTimeout, bool @canWrite, long @length, long @position, int @readTimeout, int @writeTimeout)
-
-        {
-
-            this.CanRead = @canRead;
-
-            this.CanWrite = @canWrite;
-
-            this.CanSeek = @canSeek;
-
-            this.CanTimeout = @canTimeout;
-
-            this.Length = @length;
-
-            this.Position = @position;
-
-            this.ReadTimeout = @readTimeout;
-
-            this.WriteTimeout = @writeTimeout;
-
-        }    [Newtonsoft.Json.JsonProperty("canRead", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool CanRead { get; }
-
-        [Newtonsoft.Json.JsonProperty("canWrite", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool CanWrite { get; }
-
-        [Newtonsoft.Json.JsonProperty("canSeek", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool CanSeek { get; }
-
-        [Newtonsoft.Json.JsonProperty("canTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool CanTimeout { get; }
-
-        [Newtonsoft.Json.JsonProperty("length", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public long Length { get; }
-
-        [Newtonsoft.Json.JsonProperty("position", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public long Position { get; }
-
-        [Newtonsoft.Json.JsonProperty("readTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int ReadTimeout { get; }
-
-        [Newtonsoft.Json.JsonProperty("writeTimeout", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int WriteTimeout { get; }
 
     }
 

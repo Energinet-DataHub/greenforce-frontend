@@ -18,7 +18,6 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Microsoft.AspNetCore.Mvc;
-using Stream = System.IO.Stream;
 
 namespace Energinet.DataHub.WebApi.Controllers
 {
