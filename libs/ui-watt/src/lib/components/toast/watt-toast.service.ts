@@ -15,7 +15,10 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import {
+  MatLegacySnackBar as MatSnackBar,
+  MatLegacySnackBarRef as MatSnackBarRef,
+} from '@angular/material/legacy-snack-bar';
 
 import { WattToastComponent, WattToastConfig } from './watt-toast.component';
 
