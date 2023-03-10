@@ -15,7 +15,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'charges.prices.drawer'">
-  <dh-charge-details-header [charge]="charge"> </dh-charge-details-header>
   <watt-tabs>
     <watt-tab label="{{ t('prices').toUpperCase() }}" (changed)="loadPrices()">
       <dh-charges-charge-prices-tab [charge]="this.charge"></dh-charges-charge-prices-tab>

@@ -17,12 +17,57 @@ using System.Collections.Generic;
 using System.Linq;
 using GraphQL.Types;
 using GraphQLParser.AST;
+using NodaTime;
+using NodaTime.Text;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class DateRangeType : ScalarGraphType
     {
-        private const string JsDateFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
+        private const string JsDateFormat = "yyyy-MM-ddTHH:mm:ss.fff'Z'";
+
+        private static Instant? Parse(object? value)
+        {
+            return value switch
+            {
+                string s when s == string.Empty => null,
+                string s => InstantPattern.ExtendedIso.Parse(s) switch
+                {
+                    { Success: true } result => result.Value,
+                    _ => throw new FormatException(),
+                },
+                _ => throw new FormatException(),
+            };
+        }
+
+        private static bool ContainsStartAndEnd<T>(IDictionary<string, T> dict)
+        {
+            return dict.Count == 2 && dict.ContainsKey("start") && dict.ContainsKey("end");
+        }
+
+        private static Instant? GetStartInstant(object? start)
+        {
+            return Parse(start);
+        }
+
+        private static Instant? GetEndInstant(object? end)
+        {
+            return Parse(end) switch
+            {
+                Instant instant => instant.Plus(Duration.FromMilliseconds(1)),
+                _ => null,
+            };
+        }
+
+        private static string FormatStart(Instant start)
+        {
+            return start.ToString(JsDateFormat, null);
+        }
+
+        private static string FormatEnd(Instant end)
+        {
+            return end.PlusTicks(-1).ToString(JsDateFormat, null);
+        }
 
         public DateRangeType()
         {
@@ -39,22 +84,22 @@ namespace Energinet.DataHub.WebApi.GraphQL
             if (value is GraphQLObjectValue objectValue)
             {
                 var entries = objectValue.Fields?.ToDictionary(
-                    x => x.Name.Value,
+                    x => (string)x.Name.Value,
                     x => x.Value switch
                     {
-                        GraphQLStringValue s => DateTimeOffset.Parse((string)s.Value),
+                        GraphQLStringValue s => (string)s.Value,
                         _ => throw new FormatException(),
                     });
 
-                if (entries == null || entries.Count != 2)
+                if (entries == null || !ContainsStartAndEnd(entries))
                 {
                     return ThrowLiteralConversionError(value);
                 }
 
-                var start = entries["start"];
-                var end = entries["end"].AddMilliseconds(1);
+                var start = GetStartInstant(entries["start"]);
+                var end = GetEndInstant(entries["end"]);
 
-                return Tuple.Create(start, end);
+                return new Interval(start, end);
             }
 
             return ThrowLiteralConversionError(value);
@@ -62,64 +107,49 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public override object? ParseValue(object? value)
         {
-            if (value == null)
+            return value switch
             {
-                return null;
-            }
-
-            if (value is IDictionary<string, object> dictionary)
-            {
-                var start = DateTimeOffset.Parse(dictionary["start"].ToString() ?? string.Empty);
-                var end = DateTimeOffset.Parse(dictionary["end"].ToString() ?? string.Empty);
-
-                if (dictionary.Count > 2)
-                {
-                    return ThrowValueConversionError(value);
-                }
-
-                return Tuple.Create(start, end.AddMilliseconds(1));
-            }
-
-            return ThrowValueConversionError(value);
+                null => null,
+                IDictionary<string, object> dict when ContainsStartAndEnd(dict) =>
+                    new Interval(GetStartInstant(dict["start"]), GetEndInstant(dict["end"]?.ToString())),
+                _ => ThrowValueConversionError(value),
+            };
         }
 
         public override object? Serialize(object? value)
         {
-            return value == null
-              ? null
-              : value is Tuple<DateTimeOffset, DateTimeOffset> dateRange
-              ? new { start = dateRange.Item1.ToString(JsDateFormat), end = dateRange.Item2.AddTicks(-1).ToString(JsDateFormat) }
-              : ThrowSerializationError(value);
+            return value switch
+            {
+                null => null,
+                Interval interval =>
+                    new { start = FormatStart(interval.Start), end = FormatEnd(interval.End) },
+                _ => ThrowSerializationError(value),
+            };
         }
 
         public override GraphQLValue ToAST(object? value)
         {
-            if (value == null)
+            return value switch
             {
-                return new GraphQLNullValue();
-            }
-
-            if (value is Tuple<DateTimeOffset, DateTimeOffset> dateRange)
-            {
-                return new GraphQLObjectValue
+                null => new GraphQLNullValue(),
+                Interval interval => new GraphQLObjectValue
                 {
                     Fields = new List<GraphQLObjectField>
                     {
                         new GraphQLObjectField
                         {
                             Name = new GraphQLName("start"),
-                            Value = new GraphQLStringValue(dateRange.Item1.ToString()),
+                            Value = new GraphQLStringValue(FormatStart(interval.Start)),
                         },
                         new GraphQLObjectField
                         {
                             Name = new GraphQLName("end"),
-                            Value = new GraphQLFloatValue(dateRange.Item2.ToString()),
+                            Value = new GraphQLStringValue(FormatEnd(interval.End)),
                         },
                     },
-                };
-            }
-
-            return ThrowASTConversionError(value);
+                },
+                _ => ThrowASTConversionError(value),
+            };
         }
     }
 }

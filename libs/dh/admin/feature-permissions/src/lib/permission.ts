@@ -14,16 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { WattTabComponent } from './watt-tab.component';
-import { WattTabsComponent } from './watt-tabs.component';
-
-@NgModule({
-  imports: [CommonModule, MatTabsModule],
-  declarations: [WattTabsComponent, WattTabComponent],
-  exports: [WattTabsComponent, WattTabComponent],
-})
-export class WattTabsModule {}
+export type Permission = ResultOf<typeof graphql.GetPermissionsDocument>['permissions'][0];

@@ -20,7 +20,7 @@ import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { PushModule } from '@rx-angular/template/push';
 
 import { WattDrawerModule, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -37,7 +37,8 @@ import { DhChargePriceMessageComponent } from './charge-message/dh-charge-price-
     CommonModule,
     WattDrawerModule,
     TranslocoModule,
-    WattTabsModule,
+    WattTabComponent,
+    WattTabsComponent,
     WattButtonModule,
     DhChargeDetailsHeaderComponent,
     DhChargeContentComponent,
