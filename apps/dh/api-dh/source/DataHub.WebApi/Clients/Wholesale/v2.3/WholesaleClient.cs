@@ -20,12 +20,24 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IWholesaleClient_V2_3
     {
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WholesaleActorDto>> ProcessStepResultAsync(string api_version, ProcessStepActorsRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WholesaleActorDto>> ProcessStepResultAsync(string api_version, ProcessStepActorsRequest body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WholesaleActorDto>> ProcessStepResultAsync(string api_version, ProcessStepActorsRequest body, System.Threading.CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Returns a stream containing the settlement report for batch with batchId.
+        /// </summary>
+        /// <param name="batchId">BatchId</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid? batchId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -34,7 +46,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
         /// <param name="batchId">BatchId</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid? batchId = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid? batchId, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -73,11 +85,19 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [System.Obsolete]
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WholesaleActorDto>> ProcessStepResultAsync(string api_version, ProcessStepActorsRequest body)
+        {
+            return ProcessStepResultAsync(api_version, body, System.Threading.CancellationToken.None);
+        }
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WholesaleActorDto>> ProcessStepResultAsync(string api_version, ProcessStepActorsRequest body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<WholesaleActorDto>> ProcessStepResultAsync(string api_version, ProcessStepActorsRequest body, System.Threading.CancellationToken cancellationToken)
         {
             if (api_version == null)
                 throw new System.ArgumentNullException("api_version");
@@ -150,6 +170,17 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
             }
         }
 
+        /// <summary>
+        /// Returns a stream containing the settlement report for batch with batchId.
+        /// </summary>
+        /// <param name="batchId">BatchId</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid? batchId)
+        {
+            return SettlementReportAsync(batchId, System.Threading.CancellationToken.None);
+        }
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns a stream containing the settlement report for batch with batchId.
@@ -157,7 +188,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
         /// <param name="batchId">BatchId</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid? batchId = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid? batchId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v2.3/SettlementReport?");

@@ -14,7 +14,7 @@
 
 using System;
 using Energinet.DataHub.MarketParticipant.Client.Models;
-using Energinet.DataHub.Wholesale.Contracts;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v2_1;
 using GraphQL;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +24,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
     public class GraphQLSchema : Schema
     {
         public GraphQLSchema(IServiceProvider provider)
-          : base(provider)
+            : base(provider)
         {
             this.RegisterTypeMapping<PermissionDetailsDto, PermissionDtoType>();
             this.RegisterTypeMapping<AddressDto, AddressDtoType>();

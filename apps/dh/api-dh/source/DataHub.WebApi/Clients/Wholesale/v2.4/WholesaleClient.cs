@@ -20,6 +20,16 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_4
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IWholesaleClient_V2_4
     {
+        /// <summary>
+        /// Calculation results provided by the following method:
+        /// <br/>When only 'EnergySupplierGln' is provided, a result is returned for a energy supplier for the requested grid area, for the specified time series type.
+        /// <br/>if only a 'BalanceResponsiblePartyGln' is provided, a result is returned for a balance responsible party for the requested grid area, for the specified time series type.
+        /// <br/>if both 'BalanceResponsiblePartyGln' and 'EnergySupplierGln' is provided, a result is returned for the balance responsible party's energy supplier for requested grid area, for the specified time series type.
+        /// <br/>if no 'BalanceResponsiblePartyGln' and 'EnergySupplierGln' is provided, a result is returned for the requested grid area, for the specified time series type.
+        /// </summary>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV3 body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -31,7 +41,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_4
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV3 body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV3 body, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -70,6 +80,20 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_4
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
+        /// <summary>
+        /// Calculation results provided by the following method:
+        /// <br/>When only 'EnergySupplierGln' is provided, a result is returned for a energy supplier for the requested grid area, for the specified time series type.
+        /// <br/>if only a 'BalanceResponsiblePartyGln' is provided, a result is returned for a balance responsible party for the requested grid area, for the specified time series type.
+        /// <br/>if both 'BalanceResponsiblePartyGln' and 'EnergySupplierGln' is provided, a result is returned for the balance responsible party's energy supplier for requested grid area, for the specified time series type.
+        /// <br/>if no 'BalanceResponsiblePartyGln' and 'EnergySupplierGln' is provided, a result is returned for the requested grid area, for the specified time series type.
+        /// </summary>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV3 body)
+        {
+            return ProcessStepResultAsync(api_version, body, System.Threading.CancellationToken.None);
+        }
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Calculation results provided by the following method:
@@ -80,7 +104,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_4
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV3 body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV3 body, System.Threading.CancellationToken cancellationToken)
         {
             if (api_version == null)
                 throw new System.ArgumentNullException("api_version");

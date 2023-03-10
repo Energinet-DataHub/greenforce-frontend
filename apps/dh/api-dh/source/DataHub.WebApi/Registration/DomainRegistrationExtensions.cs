@@ -17,7 +17,6 @@ using Energinet.DataHub.Charges.Clients.Registration.Charges.ServiceCollectionEx
 using Energinet.DataHub.MarketParticipant.Client.Extensions;
 using Energinet.DataHub.MessageArchive.Client.Extensions;
 using Energinet.DataHub.MeteringPoints.Client.Extensions;
-using Energinet.DataHub.Wholesale.Client;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -35,10 +34,7 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddMessageArchiveClient(
                     GetBaseUri(apiClientSettings.MessageArchiveBaseUrl))
                 .AddMarketParticipantClient(
-                    GetBaseUri(apiClientSettings.MarketParticipantBaseUrl))
-                .AddWholesaleClient(
-                    GetBaseUri(apiClientSettings.WholesaleBaseUrl),
-                    AuthorizationHeaderProvider);
+                    GetBaseUri(apiClientSettings.MarketParticipantBaseUrl));
 
             services.AddSingleton(apiClientSettings);
 

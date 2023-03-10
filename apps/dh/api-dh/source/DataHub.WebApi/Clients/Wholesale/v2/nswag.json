@@ -13,7 +13,7 @@
       "namespace": "Energinet.DataHub.WebApi.Clients.Wholesale.v2",
       "className": "{controller}WholesaleClient_V2",
       "output": "WholesaleClient.cs",
-      "generateOptionalParameters": true,
+      "generateOptionalParameters": false,
       "classStyle": "Record",
       "clientBaseClass": null,
       "configurationClass": null,

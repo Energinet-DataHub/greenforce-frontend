@@ -20,11 +20,14 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_2
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IWholesaleClient_V2_2
     {
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV2 body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV2 body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV2 body, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -63,10 +66,17 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_2
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV2 body)
+        {
+            return ProcessStepResultAsync(api_version, body, System.Threading.CancellationToken.None);
+        }
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV2 body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(string api_version, ProcessStepResultRequestDtoV2 body, System.Threading.CancellationToken cancellationToken)
         {
             if (api_version == null)
                 throw new System.ArgumentNullException("api_version");
