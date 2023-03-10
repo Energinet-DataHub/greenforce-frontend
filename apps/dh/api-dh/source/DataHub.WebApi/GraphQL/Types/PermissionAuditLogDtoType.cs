@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using GraphQL.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class PermissionAuditLogDtoType : ObjectGraphType<PermissionAuditLogDto>
+    public class PermissionAuditLogDtoType : ObjectGraphType<PermissionAuditLogViewDto>
     {
         public PermissionAuditLogDtoType()
         {
@@ -25,8 +25,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field(x => x.PermissionId).Description("Permission id");
             Field(x => x.ChangedByUserId).Description("Changed by user id");
             Field(x => x.Timestamp).Description("Time of change");
-            Field(x => x.PermissionChangeType).Description("Permission audit log type");
-            // Field(x => x.ChangedByUserName).Description("Changed by user name");
+            Field(x => x.PermissionAuditLogType).Description("Permission audit log type");
+            Field(x => x.ChangedByUserName).Description("Changed by user name");
         }
     }
 }
