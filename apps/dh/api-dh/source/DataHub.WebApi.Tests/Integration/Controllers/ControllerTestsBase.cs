@@ -36,6 +36,8 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         protected Mock<IWholesaleClient> WholesaleClientMock { get; }
 
+        protected Mock<IWholesaleClientV3> WholesaleClientV3Mock { get; }
+
         protected Mock<IMeteringPointClient> MeteringPointClientMock { get; }
 
         protected Mock<IMarketParticipantClient> MarketParticipantClientMock { get; }
@@ -46,24 +48,26 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             BffWebApiFixture bffWebApiFixture,
             WebApiFactory factory,
             ITestOutputHelper testOutputHelper)
-             : base(bffWebApiFixture, testOutputHelper)
+            : base(bffWebApiFixture, testOutputHelper)
         {
             WholesaleClientMock = new Mock<IWholesaleClient>();
+            WholesaleClientV3Mock = new Mock<IWholesaleClientV3>();
             MarketParticipantClientMock = new Mock<IMarketParticipantClient>();
             MeteringPointClientMock = new Mock<IMeteringPointClient>();
             ChargeClientMock = new Mock<IChargesClient>();
 
             BffClient = factory.WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureServices(services =>
                 {
-                    services.AddTransient(_ => WholesaleClientMock.Object);
-                    services.AddTransient(_ => MeteringPointClientMock.Object);
-                    services.AddTransient(_ => MarketParticipantClientMock.Object);
-                    services.AddTransient(_ => ChargeClientMock.Object);
-                });
-            })
-            .CreateClient();
+                    builder.ConfigureServices(services =>
+                    {
+                        services.AddTransient(_ => WholesaleClientMock.Object);
+                        services.AddTransient(_ => WholesaleClientV3Mock.Object);
+                        services.AddTransient(_ => MeteringPointClientMock.Object);
+                        services.AddTransient(_ => MarketParticipantClientMock.Object);
+                        services.AddTransient(_ => ChargeClientMock.Object);
+                    });
+                })
+                .CreateClient();
         }
 
         public Task InitializeAsync()
