@@ -6640,10 +6640,10 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@testing-library/angular@13.1.0":
-  version "13.1.0"
-  resolved "https://registry.yarnpkg.com/@testing-library/angular/-/angular-13.1.0.tgz#1ee348a3508ba26838f7cf2fe810e37535a6977d"
-  integrity sha512-v2mXYVyffUdyyXntVo9eW5ghVtEMSGmnl5vPU6C4shmGw3ExpDBZr1QepjbDMFFBNNYjVE43EstMnNVSAXDzuQ==
+"@testing-library/angular@13.3.0":
+  version "13.3.0"
+  resolved "https://registry.yarnpkg.com/@testing-library/angular/-/angular-13.3.0.tgz#df37c68f06fc9eed9d37898084e45064ed0eb866"
+  integrity sha512-uYAzOxBktytqV3+7OCqAXYs4yPsfKlmz253jJwxvEjgSez+mQSEjwk97RFYqZ1LWcDYnoybxxjsmZ6DYXu3SVQ==
   dependencies:
     "@testing-library/dom" "^8.0.0"
     tslib "^2.3.1"
