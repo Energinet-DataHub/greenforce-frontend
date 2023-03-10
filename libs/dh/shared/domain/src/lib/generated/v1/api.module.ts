@@ -8,7 +8,7 @@ import { MarketParticipantHttp } from './api/market-participant-http.service';
 import { MarketParticipantActorQueryHttp } from './api/market-participant-actor-query-http.service';
 import { MarketParticipantGridAreaHttp } from './api/market-participant-grid-area-http.service';
 import { MarketParticipantGridAreaOverviewHttp } from './api/market-participant-grid-area-overview-http.service';
-import { MarketParticipantPermissionHttp } from './api/market-participant-permission-http.service';
+import { MarketParticipantPermissionsHttp } from './api/market-participant-permissions-http.service';
 import { MarketParticipantUserHttp } from './api/market-participant-user-http.service';
 import { MarketParticipantUserOverviewHttp } from './api/market-participant-user-overview-http.service';
 import { MarketParticipantUserRoleHttp } from './api/market-participant-user-role-http.service';

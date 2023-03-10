@@ -730,6 +730,8 @@
     }
   },
   "wholesale": {
+    "BALANCE_FIXING": "Balance Fixing",
+    "AGGREGATION": "Aggregation",
     "startBatch": {
       "topBarTitle": "Start Batch",
       "startLabel": "Start",
@@ -737,10 +739,16 @@
       "gridAreaRequired": "Grid area is required",
       "invalidPeriod": "Invalid period",
       "dateRangeLabel": "Period",
+      "processTypeDropDownLabel": "Process Type",
       "gridAreaDropDownLabel": "Grid Areas",
       "creatingBatch": "Starting batch...",
       "creatingBatchSuccess": "The batch has been started.",
-      "creatingBatchError": "Oops! There was an error."
+      "creatingBatchError": "Oops! There was an error.",
+      "processTypes": {
+        "BalanceFixing": "Balance Fixing",
+        "Aggregation": "Aggregation"
+      },
+      "processTypeError": "Process type is required"
     },
     "searchBatch": {
       "topBarTitle": "Search Batch",
@@ -756,7 +764,8 @@
         "periodTo": "Period to",
         "executionTime": "Execution time",
         "status": "Status",
-        "basisData": "Basis data"
+        "basisData": "Basis data",
+        "processType": "Process type"
       },
       "download": "Download",
       "downloadFailed": "Download of basis data failed",
@@ -773,7 +782,9 @@
         "firstPageLabel": "first page",
         "lastPageLabel": "last page",
         "of": "of"
-      }
+      },
+      "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
+      "AGGREGATION": "{{wholesale.AGGREGATION}}"
     },
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
@@ -783,18 +794,19 @@
         "gridAreaName": "Grid area",
         "periodStart": "Period from",
         "periodEnd": "Period to",
-        "executionTimeStart": "Execution time",
+        "executionTime": "Execution time",
         "emptyTitle": "No processes found",
         "emptyHelperText": "Try changing the search criteria"
       },
       "processTypes": {
-        "BalanceFixing": "Balance fixing"
+        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}"
       },
       "filters": {
         "processType": "Process type",
         "gridArea": "Grid area",
         "period": "Period",
-        "executionTime": "Execution time"
+        "executionTime": "Execution time",
+        "executionTimeRequired": "Execution time is required"
       }
     },
     "calculationSteps": {
@@ -819,6 +831,7 @@
       "nonProfiledConsumptionPerGridArea": "Non-profiled consumption per grid area",
       "gridArea": "Grid area",
       "energySupplier": "Energy Supplier",
+      "balanceResponsible": "{{wholesale.actors.step-3-table-header}}",
       "meteringPointType": "Metering point type",
       "messageId": "Message ID",
       "calculationPeriod": "Calculation period",
@@ -831,7 +844,7 @@
       }
     },
     "timeSeriesPoints": {
-      "header": "Quantities ​​in the period",
+      "header": "Quantities in the period",
       "time": "time",
       "quantity": "quantity"
     },
@@ -1079,6 +1092,11 @@
           "name": "Name",
           "description": "Description"
         }
+      },
+      "permissionsTab": {
+        "headline": "{{ numberOfPermissions }} permissions",
+        "permissionName": "Name",
+        "permissionDescription": "Description"
       }
     }
   }

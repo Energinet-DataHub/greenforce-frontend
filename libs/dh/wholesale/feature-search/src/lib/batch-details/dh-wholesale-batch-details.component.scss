@@ -24,6 +24,14 @@
   margin-left: var(--watt-space-s);
 }
 
+watt-description-list {
+  margin-left: var(--watt-space-ml);
+}
+
+dh-wholesale-grid-areas {
+  margin: 0 var(--watt-space-ml);
+}
+
 .center {
   align-items: center;
   display: flex;

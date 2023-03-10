@@ -146,6 +146,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       batch$: Observable<{
         gridAreas: string[];
         dateRange: { start: string; end: string };
+        processType: ProcessType;
       }>
     ) => {
       return batch$.pipe(
@@ -153,7 +154,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
           this.setLoadingCreatingBatch(true);
 
           const batchRequest: BatchRequestDto = {
-            processType: ProcessType.BalanceFixing,
+            processType: batch.processType,
             gridAreaCodes: batch.gridAreas,
             startDate: batch.dateRange.start,
             endDate: batch.dateRange.end,

@@ -35,9 +35,9 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { PushModule } from '@rx-angular/template/push';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { settlementReportsProcess } from '@energinet-datahub/dh/wholesale/domain';
+import { SettlementReport } from '@energinet-datahub/dh/wholesale/domain';
 
-type settlementReportsTableData = WattTableDataSource<settlementReportsProcess>;
+type settlementReportsTableData = WattTableDataSource<SettlementReport>;
 
 @Component({
   standalone: true,
@@ -63,20 +63,20 @@ export class DhWholesaleTableComponent {
 
   selectedBatch$ = this.store.selectedBatch$;
 
-  @Input() set data(processes: settlementReportsProcess[]) {
+  @Input() set data(processes: SettlementReport[]) {
     this._data = new WattTableDataSource(processes);
   }
 
-  @Output() selectedRow: EventEmitter<settlementReportsProcess> = new EventEmitter();
-  @Output() download: EventEmitter<settlementReportsProcess> = new EventEmitter();
+  @Output() selectedRow: EventEmitter<SettlementReport> = new EventEmitter();
+  @Output() download: EventEmitter<SettlementReport> = new EventEmitter();
 
   _data: settlementReportsTableData = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<settlementReportsProcess> = {
+  columns: WattTableColumnDef<SettlementReport> = {
     processType: { accessor: 'processType' },
-    gridAreaName: { accessor: 'gridAreaName' },
+    gridAreaName: { accessor: (row) => row.gridArea.name },
     periodStart: { accessor: (row) => row.period?.start },
     periodEnd: { accessor: (row) => row.period?.end },
-    executionTimeStart: { accessor: 'executionTimeStart' },
+    executionTime: { accessor: (row) => row.executionTime },
   };
 
   translateHeader = (key: string) => translate(`wholesale.settlementReports.table.${key}`);

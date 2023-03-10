@@ -14,31 +14,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-drawer #drawer (closed)="closed.emit()">
-  <watt-drawer-topbar>
-    <ng-container *transloco="let transloco; read: 'wholesale'">
-      <watt-breadcrumbs>
-        <watt-breadcrumb (click)="drawer.close()">{{
-          transloco("searchBatch.topBarTitle")
-        }}</watt-breadcrumb>
-        <watt-breadcrumb>{{
-          transloco("batchDetails.headline", { batchId })
-        }}</watt-breadcrumb>
-      </watt-breadcrumbs>
-    </ng-container>
-  </watt-drawer-topbar>
-
-  <watt-drawer-content>
-    <ng-container *transloco="let transloco; read: 'wholesale'">
+<ng-container *transloco="let transloco; read: 'wholesale'">
+  <watt-drawer #drawer (closed)="closed.emit()">
+    <watt-drawer-topbar
+      ><watt-badge [type]="batch?.statusType ?? 'skeleton'" *ngIf="!error">{{
+        batch?.executionState ? transloco("searchBatch." + batch?.executionState) : "unknown"
+      }}</watt-badge></watt-drawer-topbar
+    >
+    <watt-drawer-heading>
       <div class="headline-container">
-        <watt-badge [type]="batch?.statusType ?? 'skeleton'" *ngIf="!error">{{
-          batch?.executionState ? transloco("searchBatch." + batch?.executionState) : "unknown"
-        }}</watt-badge>
         <h3 class="headline watt-headline-1">
           {{ transloco("batchDetails.headline", { batchId }) }}
         </h3>
       </div>
-
+    </watt-drawer-heading>
+    <watt-drawer-content>
       <watt-description-list [groups]="getBatchMetadata()"></watt-description-list>
 
       <ng-container *ngIf="batch">
@@ -63,6 +53,6 @@ limitations under the License.
         >
         </watt-empty-state>
       </div>
-    </ng-container>
-  </watt-drawer-content>
-</watt-drawer>
+    </watt-drawer-content>
+  </watt-drawer>
+</ng-container>

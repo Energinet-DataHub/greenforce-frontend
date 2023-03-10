@@ -14,16 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
+import { Component } from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
+import { DhWholesaleResultsComponent } from '../results/dh-wholesale-results.component';
 
-import { WattTabComponent } from './watt-tab.component';
-import { WattTabsComponent } from './watt-tabs.component';
-
-@NgModule({
-  imports: [CommonModule, MatTabsModule],
-  declarations: [WattTabsComponent, WattTabComponent],
-  exports: [WattTabsComponent, WattTabComponent],
+@Component({
+  standalone: true,
+  imports: [TranslocoModule, DhWholesaleResultsComponent],
+  template: `
+    <dh-wholesale-results
+      *transloco="let t; read: 'wholesale.processStepResults'"
+      [title]="t('nonProfiledConsumptionPerBalanceResponsible')"
+      [marketRole]="t('balanceResponsible')"
+    ></dh-wholesale-results>
+  `,
 })
-export class WattTabsModule {}
+export class DhWholesaleBalanceResponsiblesComponent {}
