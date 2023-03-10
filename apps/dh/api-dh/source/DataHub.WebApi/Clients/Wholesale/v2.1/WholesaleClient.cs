@@ -18,16 +18,8 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_1
     using System = global::System;
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial interface IWholesaleClientV2_1
+    public partial interface IWholesaleClient_V2_1
     {
-        /// <summary>
-        /// Get batches that matches the criteria specified in batchSearchDto
-        /// <br/>Period ends are 1 ms before midnight of the last day of the period.
-        /// </summary>
-        /// <param name="body">Search criteria</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BatchDtoV2>> SearchAsync(BatchSearchDtoV2 body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -37,14 +29,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_1
         /// <param name="body">Search criteria</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BatchDtoV2>> SearchAsync(BatchSearchDtoV2 body, System.Threading.CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Version 2.1: Quality added to points in result.
-        /// </summary>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(ProcessStepResultRequestDto body);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BatchDtoV2>> SearchAsync(BatchSearchDtoV2 body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -52,18 +37,18 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_1
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(ProcessStepResultRequestDto body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(ProcessStepResultRequestDto body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class WholesaleClientV2_1 : IWholesaleClientV2_1
+    public partial class WholesaleClient_V2_1 : IWholesaleClient_V2_1
     {
         private string _baseUrl = "";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public WholesaleClientV2_1(string baseUrl, System.Net.Http.HttpClient httpClient)
+        public WholesaleClient_V2_1(string baseUrl, System.Net.Http.HttpClient httpClient)
         {
             BaseUrl = baseUrl;
             _httpClient = httpClient;
@@ -91,18 +76,6 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_1
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
-        /// <summary>
-        /// Get batches that matches the criteria specified in batchSearchDto
-        /// <br/>Period ends are 1 ms before midnight of the last day of the period.
-        /// </summary>
-        /// <param name="body">Search criteria</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BatchDtoV2>> SearchAsync(BatchSearchDtoV2 body)
-        {
-            return SearchAsync(body, System.Threading.CancellationToken.None);
-        }
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Get batches that matches the criteria specified in batchSearchDto
@@ -111,7 +84,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_1
         /// <param name="body">Search criteria</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BatchDtoV2>> SearchAsync(BatchSearchDtoV2 body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BatchDtoV2>> SearchAsync(BatchSearchDtoV2 body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v2.1/Batch/Search");
@@ -179,23 +152,13 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_1
             }
         }
 
-        /// <summary>
-        /// Version 2.1: Quality added to points in result.
-        /// </summary>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(ProcessStepResultRequestDto body)
-        {
-            return ProcessStepResultAsync(body, System.Threading.CancellationToken.None);
-        }
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Version 2.1: Quality added to points in result.
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(ProcessStepResultRequestDto body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ProcessStepResultDto> ProcessStepResultAsync(ProcessStepResultRequestDto body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v2.1/ProcessStepResult");

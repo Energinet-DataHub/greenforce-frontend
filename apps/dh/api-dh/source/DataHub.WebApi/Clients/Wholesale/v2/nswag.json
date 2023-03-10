@@ -11,7 +11,7 @@
   "codeGenerators": {
     "openApiToCSharpClient": {
       "namespace": "Energinet.DataHub.WebApi.Clients.Wholesale.v2",
-      "className": "{controller}WholesaleClientV2",
+      "className": "{controller}WholesaleClient_V2",
       "clientBaseClass": null,
       "configurationClass": null,
       "generateClientClasses": true,

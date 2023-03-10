@@ -18,7 +18,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2
     using System = global::System;
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial interface IWholesaleClientV2
+    public partial interface IWholesaleClient_V2
     {
         /// <summary>
         /// Create a batch.
@@ -112,13 +112,13 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class WholesaleClientV2 : IWholesaleClientV2
+    public partial class WholesaleClient_V2 : IWholesaleClient_V2
     {
         private string _baseUrl = "";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public WholesaleClientV2(string baseUrl, System.Net.Http.HttpClient httpClient)
+        public WholesaleClient_V2(string baseUrl, System.Net.Http.HttpClient httpClient)
         {
             BaseUrl = baseUrl;
             _httpClient = httpClient;

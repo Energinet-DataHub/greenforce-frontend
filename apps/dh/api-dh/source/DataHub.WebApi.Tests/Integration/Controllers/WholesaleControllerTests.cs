@@ -27,7 +27,7 @@ using Moq;
 using Xunit;
 using Xunit.Abstractions;
 using BatchDtoV2_V2_1 = Energinet.DataHub.WebApi.Clients.Wholesale.v2_1.BatchDtoV2;
-using BatchRequestDtoV2 = Energinet.DataHub.WebApi.Clients.Wholesale.v2.BatchRequestDto;
+using BatchRequestDto_V2 = Energinet.DataHub.WebApi.Clients.Wholesale.v2.BatchRequestDto;
 using BatchSearchDtoV2_V2_1 = Energinet.DataHub.WebApi.Clients.Wholesale.v2_1.BatchSearchDtoV2;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
@@ -49,7 +49,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         [Theory]
         [InlineAutoMoqData]
-        public async Task CreateAsync_ReturnsOk(BatchRequestDtoV2 requestDto)
+        public async Task CreateAsync_ReturnsOk(BatchRequestDto_V2 requestDto)
         {
             MockMarketParticipantClient();
             var actual = await BffClient.PostAsJsonAsync(BatchCreateUrl, requestDto);

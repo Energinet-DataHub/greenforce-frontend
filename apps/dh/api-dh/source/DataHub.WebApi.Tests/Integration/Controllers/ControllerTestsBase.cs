@@ -38,9 +38,9 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         protected Mock<IWholesaleClient> WholesaleClientMock { get; }
 
-        protected Mock<IWholesaleClientV2> WholesaleClientV2Mock { get; }
+        protected Mock<IWholesaleClient_V2> WholesaleClient_V2Mock { get; }
 
-        protected Mock<IWholesaleClientV2_1> WholesaleClientV2_1Mock { get; }
+        protected Mock<IWholesaleClient_V2_1> WholesaleClient_V2_1Mock { get; }
 
         protected Mock<IMeteringPointClient> MeteringPointClientMock { get; }
 
@@ -55,8 +55,8 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
              : base(bffWebApiFixture, testOutputHelper)
         {
             WholesaleClientMock = new Mock<IWholesaleClient>();
-            WholesaleClientV2Mock = new Mock<IWholesaleClientV2>();
-            WholesaleClientV2_1Mock = new Mock<IWholesaleClientV2_1>();
+            WholesaleClient_V2Mock = new Mock<IWholesaleClient_V2>();
+            WholesaleClient_V2_1Mock = new Mock<IWholesaleClient_V2_1>();
             MarketParticipantClientMock = new Mock<IMarketParticipantClient>();
             MeteringPointClientMock = new Mock<IMeteringPointClient>();
             ChargeClientMock = new Mock<IChargesClient>();
@@ -66,8 +66,8 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 builder.ConfigureServices(services =>
                 {
                     services.AddTransient(_ => WholesaleClientMock.Object);
-                    services.AddTransient(_ => WholesaleClientV2Mock.Object);
-                    services.AddTransient(_ => WholesaleClientV2_1Mock.Object);
+                    services.AddTransient(_ => WholesaleClient_V2Mock.Object);
+                    services.AddTransient(_ => WholesaleClient_V2_1Mock.Object);
                     services.AddTransient(_ => MeteringPointClientMock.Object);
                     services.AddTransient(_ => MarketParticipantClientMock.Object);
                     services.AddTransient(_ => ChargeClientMock.Object);
