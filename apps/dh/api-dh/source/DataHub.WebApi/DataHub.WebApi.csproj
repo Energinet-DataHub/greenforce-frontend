@@ -45,10 +45,10 @@ limitations under the License.
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net60) run Clients/Wholesale/v3/nswag.json /variables:Configuration=$(Configuration)" />
   </Target>
   
-<!--  <Target Name="PostBuild" AfterTargets="PostBuildEvent">-->
-<!--    <Exec Command="dotnet tool restore" />-->
-<!--    <Exec Command="dotnet swagger tofile &#45;&#45;output $(OutputPath)/swagger.json $(OutputPath)/$(AssemblyName).dll v1" />-->
-<!--  </Target>-->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="dotnet tool restore" />
+    <Exec Command="dotnet swagger tofile --output $(OutputPath)/swagger.json $(OutputPath)/$(AssemblyName).dll v1" />
+  </Target>
 
   <ItemGroup>
     <PackageReference Include="GraphQL.DataLoader" Version="7.3.0" />
