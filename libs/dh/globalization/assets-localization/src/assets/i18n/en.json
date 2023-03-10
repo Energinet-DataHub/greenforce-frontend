@@ -1010,9 +1010,10 @@
               "status": "Status"
             }
           },
-          "count": "{{ count }} assigned",
-          "columns": {
-            "marketRole": "Markedsrolle",
+          "assigned": {
+            "count": "{{ count }} assigned",
+            "columns": {
+              "marketRole": "Markedsrolle",
               "name": "Navn",
               "description": "Beskrivelse"
             }
