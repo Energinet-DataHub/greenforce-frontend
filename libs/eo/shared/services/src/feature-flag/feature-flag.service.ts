@@ -30,34 +30,12 @@ export type allowedFeatureFlags = keyof typeof FeatureFlags;
 export class FeatureFlagService {
   #enabledFlags = new Set();
 
-  /**
-   * In case the user had previously saved a flag as enabled, get it from
-   * storage and then reset the storage to null, incase user tampered with
-   * it or has 'illegal' features set in localStorage.
-   */
-  constructor() {
-    const savedFlags = JSON.parse(localStorage.getItem('featureFlagsEnabled') ?? '[]');
-    localStorage.removeItem('featureFlagsEnabled');
-
-    savedFlags.forEach((element: string) => {
-      if (element in FeatureFlags) {
-        this.enableFeatureFlag(element);
-      }
-    });
-  }
-
   #addFlag(name: allowedFeatureFlags) {
     this.#enabledFlags.add(name);
-    this.#saveFlagsToMemory();
   }
 
   #removeFlag(name: allowedFeatureFlags) {
     this.#enabledFlags.delete(name);
-    this.#saveFlagsToMemory();
-  }
-
-  #saveFlagsToMemory() {
-    localStorage.setItem('featureFlagsEnabled', JSON.stringify([...this.#enabledFlags]));
   }
 
   getEnabledFlags() {

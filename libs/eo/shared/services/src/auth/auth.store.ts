@@ -14,10 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Injectable } from '@angular/core';
+import { ComponentStore } from '@ngrx/component-store';
 
-export * from './app-settings/app-settings.store';
-export * from './auth/auth.service';
-export * from './auth/auth.store';
-export * from './feature-flag/feature-flag.directive';
-export * from './feature-flag/feature-flag.service';
-export * from './idle-timer/idle-timer.service';
+interface AuthState {
+  loginToken: string;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class EoAuthStore extends ComponentStore<AuthState> {
+  constructor() {
+    super({ loginToken: '' });
+  }
+
+  readonly loginToken$ = this.select((state) => state.loginToken);
+  readonly setLoginToken = this.updater(
+    (state, loginToken: string): AuthState => ({ ...state, loginToken })
+  );
+}
