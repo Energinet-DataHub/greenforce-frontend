@@ -18,6 +18,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { CalendarDateRange } from '@energinet-datahub/eo/shared/services';
+import { tap } from 'rxjs';
 
 export interface EoOriginOfEnergyResponse {
   energySources: [
@@ -54,12 +55,14 @@ export class EoOriginOfEnergyService {
     };
     const encodedTimeZone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
-    return this.http.get<EoOriginOfEnergyResponse>(
-      `${this.#apiBase}/sources?dateFrom=${dateRange.start}&dateTo=${
-        dateRange.end
-      }&timeZone=${encodedTimeZone}&aggregation=Total`,
-      { withCredentials: true }
-    );
+    return this.http
+      .get<EoOriginOfEnergyResponse>(
+        `${this.#apiBase}/sources?dateFrom=${dateRange.start}&dateTo=${
+          dateRange.end
+        }&timeZone=${encodedTimeZone}&aggregation=Total`,
+        { withCredentials: true }
+      )
+      .pipe(tap((test) => console.log('test2', test)));
   }
 
   constructor(
