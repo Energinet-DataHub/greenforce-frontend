@@ -67,12 +67,12 @@ import { EoConsumptionStore } from './eo-consumption.store';
         <eo-consumption-page-info></eo-consumption-page-info>
         <eo-consumption-line-chart></eo-consumption-line-chart>
         <eo-date-picker
-          [onFeatureFlag]="'daterange'"
+          onFeatureFlag="daterange"
           *ngIf="appSettingsDates$ | async as dates"
           [dateRangeInput]="dates"
           (newDates)="setNewAppDates($event)"
         ></eo-date-picker>
-        <eo-resolution-picker [onFeatureFlag]="'resolution'"></eo-resolution-picker>
+        <eo-resolution-picker onFeatureFlag="resolution"></eo-resolution-picker>
       </eo-stack>
       <eo-stack size="L">
         <eo-consumption-page-tip></eo-consumption-page-tip>
