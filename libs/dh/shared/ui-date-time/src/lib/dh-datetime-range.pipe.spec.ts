@@ -14,34 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhDatePipe, pipeName } from './dh-date.pipe';
-import { TStringValue } from './dh-format-danish-datetime';
+import { DhDateTimeRangePipe, pipeName } from './dh-datetime-range.pipe';
 import { createPipeHarness, SpectacularPipeHarness } from '@ngworker/spectacular';
+import { TDateRangeValue } from './dh-format-danish-datetime';
 
-describe(DhDatePipe, () => {
+describe(DhDateTimeRangePipe.name, () => {
   beforeEach(() => {
     harness = createPipeHarness({
-      pipe: DhDatePipe,
+      pipe: DhDateTimeRangePipe,
       pipeName: pipeName,
       value: undefined,
     });
   });
 
-  let harness: SpectacularPipeHarness<TStringValue>;
+  let harness: SpectacularPipeHarness<TDateRangeValue>;
 
   describe('Validate date format', () => {
     test.each([
       [undefined, ''],
       [null, ''],
-      ['2021-12-31T23:00:00Z', '01-01-2022'], // Standard / Winter time
-      ['2021-06-30T22:00:00Z', '01-07-2021'], // Summer time
-    ])(
-      '"%s" returns "%s" when formatted',
-      async (value: undefined | null | string, result: string) => {
-        harness.value = value;
+      [
+        { start: '2021-01-01T00:00:00Z', end: '2021-01-01T00:00:00Z' },
+        '01-01-2021 01:00 - 01-01-2021 01:00',
+      ],
+      [
+        { start: '2021-12-31T23:00:00Z', end: '2022-01-01T00:00:00Z' },
+        '01-01-2022 00:00 - 01-01-2022 01:00',
+      ],
+    ])('"%s" returns "%s" when formatted', async (value: TDateRangeValue, result: string) => {
+      harness.value = value;
 
-        await expect(harness.text).toBe(result);
-      }
-    );
+      await expect(harness.text).toBe(result);
+    });
   });
 });

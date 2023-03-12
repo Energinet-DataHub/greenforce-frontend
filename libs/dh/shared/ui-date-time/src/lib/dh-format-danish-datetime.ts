@@ -16,10 +16,15 @@
  */
 import { formatInTimeZone } from 'date-fns-tz';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
+import { DateRange } from '@energinet-datahub/dh/shared/domain';
 
-export type TValue = string | null | undefined;
+export type TStringValue = string | TNullUndefined;
+export type TNullUndefined = null | undefined;
+export type TDateRangeValue = DateRange | TNullUndefined;
+export const dateTimeFormat = 'dd-MM-yyyy HH:mm';
+export const dateFormat = 'dd-MM-yyyy';
 
-export function dhFormatDanishDatetime(timeValue: TValue, format: string): string | null {
+export function dhFormatDanishDatetime(timeValue: TStringValue, format: string): string | null {
   if (timeValue == null) {
     return null;
   }
