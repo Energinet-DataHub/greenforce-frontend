@@ -20,7 +20,11 @@ import { RouterModule } from '@angular/router';
 import { EoCookieBannerComponentComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoProductLogoComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoAuthService, IdleTimerService } from '@energinet-datahub/eo/shared/services';
+import {
+  EoAuthService,
+  IdleTimerService,
+  TokenRefreshService,
+} from '@energinet-datahub/eo/shared/services';
 import { EoTitleStore } from '@energinet-datahub/eo/shared/utilities';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { PushModule } from '@rx-angular/template/push';
@@ -142,10 +146,12 @@ export class EoShellComponent implements OnDestroy {
   constructor(
     private titleStore: EoTitleStore,
     private idleTimerService: IdleTimerService,
+    private tokenRefreshService: TokenRefreshService,
     private authService: EoAuthService
   ) {
     this.getBannerStatus();
-    this.idleTimerService.startIdleMonitor();
+    this.idleTimerService.startMonitor();
+    this.tokenRefreshService.startMonitor();
     this.authService.handlePostLogin();
   }
 
@@ -154,7 +160,8 @@ export class EoShellComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.idleTimerService.stopIdleMonitor();
+    this.idleTimerService.stopMonitor();
+    this.tokenRefreshService.stopMonitor();
     this.authService.handlePostLogout();
   }
 }

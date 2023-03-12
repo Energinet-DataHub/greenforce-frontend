@@ -52,16 +52,16 @@ export class IdleTimerService {
     );
   }
 
-  startIdleMonitor() {
+  startMonitor() {
     this.subscription$ = this.attachMonitorsWithTimer().subscribe(() => this.showLogoutWarning());
   }
 
-  stopIdleMonitor() {
+  stopMonitor() {
     this.subscription$?.unsubscribe();
   }
 
   private showLogoutWarning() {
-    this.stopIdleMonitor();
+    this.stopMonitor();
 
     this.dialog
       .open(EoIdleTimerCountdownModalComponent, {
@@ -71,19 +71,16 @@ export class IdleTimerService {
       .afterClosed()
       .subscribe((result: string) => {
         if (result === 'logout') {
-          this.authService.logout().subscribe((response) => {
-            if (response.success) {
-              this.router.navigateByUrl(eoLandingPageRelativeUrl);
-              this.dialog.open(EoIdleTimerLoggedOutModalComponent, {
-                height: '500px',
-                autoFocus: false,
-              });
-            }
+          this.authService.logout();
+          this.router.navigateByUrl(eoLandingPageRelativeUrl);
+          this.dialog.open(EoIdleTimerLoggedOutModalComponent, {
+            height: '500px',
+            autoFocus: false,
           });
           return;
         }
 
-        this.startIdleMonitor();
+        this.startMonitor();
       });
   }
 }

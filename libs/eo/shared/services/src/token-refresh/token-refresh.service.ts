@@ -15,8 +15,19 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TokenRefreshService {}
+export class TokenRefreshService {
+  subscription$: Subscription | undefined;
+
+  startMonitor() {
+    // Empty for now
+  }
+
+  stopMonitor() {
+    this.subscription$?.unsubscribe();
+  }
+}

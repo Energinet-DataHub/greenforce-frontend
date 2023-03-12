@@ -18,7 +18,6 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import jwt_decode from 'jwt-decode';
-import { Observable } from 'rxjs';
 import { EoAuthStore, EoLoginToken } from './auth.store';
 
 export interface AuthLogoutResponse {
@@ -55,12 +54,8 @@ export class EoAuthService {
       .subscribe((response) => (window.location.href = response.next_url));
   }
 
-  logout(): Observable<AuthLogoutResponse> {
-    return this.http.post<AuthLogoutResponse>(
-      `${this.#authApiBase}/logout`,
-      {},
-      { withCredentials: true }
-    );
+  logout() {
+    this.http.post(`${this.#authApiBase}/logout`, {}, { withCredentials: true }).subscribe();
   }
 
   private handleToken() {
