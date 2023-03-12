@@ -64,8 +64,8 @@ export class EoAuthService {
 
   startLogin() {
     this.http
-      .get(`${this.#loginUrl}`)
-      .subscribe((response: any) => (window.location.href = response.next_url));
+      .get<{ next_url: string }>(`${this.#loginUrl}`)
+      .subscribe((response) => (window.location.href = response.next_url));
   }
 
   logout(): Observable<AuthLogoutResponse> {
