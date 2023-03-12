@@ -51,5 +51,5 @@ export class EoAuthStore extends ComponentStore<AuthState> {
     (state, loginToken: EoLoginToken): AuthState => ({ ...state, loginToken })
   );
 
-  readonly getScope$ = this.select((state) => state.loginToken?.scope.split(' '));
+  readonly getScope$ = this.select((state) => state.loginToken?.scope.split(' ') ?? []);
 }

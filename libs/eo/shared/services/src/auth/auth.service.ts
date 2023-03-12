@@ -16,7 +16,9 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { eoLandingPageRelativeUrl, eoTermsRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import jwt_decode from 'jwt-decode';
 import { EoAuthStore, EoLoginToken } from './auth.store';
 
@@ -34,6 +36,7 @@ export class EoAuthService {
   constructor(
     private http: HttpClient,
     private store: EoAuthStore,
+    private router: Router,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
     this.#authApiBase = `${apiEnvironment.apiBase}/auth`;
@@ -42,6 +45,7 @@ export class EoAuthService {
 
   handlePostLogin() {
     this.handleToken();
+    this.handleTermsAcceptance();
   }
 
   handlePostLogout() {
@@ -55,7 +59,18 @@ export class EoAuthService {
   }
 
   logout() {
-    this.http.post(`${this.#authApiBase}/logout`, {}, { withCredentials: true }).subscribe();
+    this.http.post(`${this.#authApiBase}/logout`, {}, { withCredentials: true }).subscribe({
+      next: () => this.router.navigateByUrl(eoLandingPageRelativeUrl),
+      error: () => this.router.navigateByUrl(eoLandingPageRelativeUrl),
+    });
+  }
+
+  private handleTermsAcceptance() {
+    this.store.getScope$.subscribe((scope) => {
+      if (scope.includes('accepted-terms') === false) {
+        this.router.navigate([eoTermsRoutePath]);
+      }
+    });
   }
 
   private handleToken() {
