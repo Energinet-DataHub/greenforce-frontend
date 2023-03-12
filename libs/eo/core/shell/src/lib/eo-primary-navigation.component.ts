@@ -16,13 +16,14 @@
  */
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
+import { EoFeatureFlagDirective } from '@energinet-datahub/eo/shared/services';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattNavListComponent, WattNavListItemComponent],
+  imports: [WattNavListComponent, WattNavListItemComponent, EoFeatureFlagDirective],
   selector: 'eo-primary-navigation',
   styles: [
     `
@@ -37,10 +38,16 @@ import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datah
   ],
   template: `
     <watt-nav-list>
-      <watt-nav-list-item link="{{ routes.dashboard }}"> Dashboard </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.production }}"> Production </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.meteringpoints }}"> Metering Points </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.certificates }}"
+      <watt-nav-list-item link="{{ routes.dashboard }}" onFeatureFlag="dashboard">
+        Dashboard
+      </watt-nav-list-item>
+      <watt-nav-list-item link="{{ routes.production }}" onFeatureFlag="production">
+        Production
+      </watt-nav-list-item>
+      <watt-nav-list-item link="{{ routes.meteringpoints }}" onFeatureFlag="meters">
+        Metering Points
+      </watt-nav-list-item>
+      <watt-nav-list-item link="{{ routes.certificates }}" onFeatureFlag="certificates"
         >Certificates
         <span style="padding-left:8px; font-weight:bold;color:var(--watt-color-secondary-dark);"
           >BETA</span

@@ -14,21 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { Injectable } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [WattButtonModule],
-  selector: 'eo-landing-page-login-button',
-  template: `<watt-button (click)="login()">Start</watt-button>`,
+@Injectable({
+  providedIn: 'root',
 })
-export class EoLandingPageLoginButtonComponent {
-  constructor(private authService: EoAuthService) {}
+export class TokenRefreshService {
+  subscription$: Subscription | undefined;
 
-  login() {
-    this.authService.login();
+  startMonitor() {
+    // Empty for now
+  }
+
+  stopMonitor() {
+    this.subscription$?.unsubscribe();
   }
 }
