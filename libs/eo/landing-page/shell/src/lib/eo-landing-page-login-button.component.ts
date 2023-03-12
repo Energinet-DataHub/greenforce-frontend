@@ -29,6 +29,6 @@ export class EoLandingPageLoginButtonComponent {
   constructor(private authService: EoAuthService) {}
 
   login() {
-    this.authService.startLogin();
+    this.authService.login();
   }
 }

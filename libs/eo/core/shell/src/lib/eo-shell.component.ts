@@ -155,5 +155,6 @@ export class EoShellComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.idleTimerService.stopIdleMonitor();
+    this.authService.handlePostLogout();
   }
 }

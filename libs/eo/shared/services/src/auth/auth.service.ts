@@ -45,7 +45,11 @@ export class EoAuthService {
     this.handleToken();
   }
 
-  startLogin() {
+  handlePostLogout() {
+    // empty for now
+  }
+
+  login() {
     this.http
       .get<{ next_url: string }>(`${this.#loginUrl}`)
       .subscribe((response) => (window.location.href = response.next_url));
