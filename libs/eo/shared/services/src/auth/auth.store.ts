@@ -17,8 +17,25 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 
+export interface EoLoginToken {
+  acl: boolean;
+  aud: string;
+  eat: string;
+  eit: string;
+  exp: Date;
+  ext: string;
+  iat: Date;
+  iss: string;
+  name: string;
+  nbf: Date;
+  /** @example "accepted-terms dashboard production meters certificates" */
+  scope: string;
+  sub: string;
+  trm: number;
+}
+
 interface AuthState {
-  loginToken: string;
+  loginToken: EoLoginToken | null;
 }
 
 @Injectable({
@@ -26,11 +43,13 @@ interface AuthState {
 })
 export class EoAuthStore extends ComponentStore<AuthState> {
   constructor() {
-    super({ loginToken: '' });
+    super({ loginToken: null });
   }
 
   readonly loginToken$ = this.select((state) => state.loginToken);
   readonly setLoginToken = this.updater(
-    (state, loginToken: string): AuthState => ({ ...state, loginToken })
+    (state, loginToken: EoLoginToken): AuthState => ({ ...state, loginToken })
   );
+
+  readonly getScope$ = this.select((state) => state.loginToken?.scope.split(' '));
 }
