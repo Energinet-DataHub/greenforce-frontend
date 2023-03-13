@@ -799,7 +799,8 @@
         "emptyHelperText": "Try changing the search criteria"
       },
       "processTypes": {
-        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}"
+        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
+        "AGGREGATION": "{{wholesale.AGGREGATION}}"
       },
       "filters": {
         "processType": "Process type",

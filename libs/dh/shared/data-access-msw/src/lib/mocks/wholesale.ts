@@ -226,6 +226,16 @@ const mockedSettlementReports: graphql.SettlementReport[] = [
     "gridArea": mockedGridAreas[0],
     "__typename": "SettlementReport"
   },
+  {
+    "processType": graphql.ProcessType.Aggregation,
+    "period": {
+      "start": "2020-01-28T23:00:00.000Z",
+      "end": "2020-01-29T22:59:59.998Z"
+    },
+    "executionTime": "2023-03-03T07:38:29.3776159+00:00",
+    "gridArea": mockedGridAreas[1],
+    "__typename": "SettlementReport"
+  },
 ];
 
 function getWholesaleSearchBatch() {
