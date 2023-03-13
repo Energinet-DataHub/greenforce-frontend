@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { ResultOf, VariablesOf } from '@graphql-typed-document-node/core';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
-export type SettlementReport = ResultOf<
-  typeof graphql.GetSettlementReportsDocument
->['settlementReports'][0];
-
-export type SettlementReportFilters = VariablesOf<typeof graphql.GetSettlementReportsDocument>;
+export type Permission = ResultOf<typeof graphql.GetPermissionsDocument>['permissions'][0];

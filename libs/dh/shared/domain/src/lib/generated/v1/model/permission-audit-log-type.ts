@@ -11,10 +11,10 @@
  */
 
 
-export type ProcessType = 'BalanceFixing' | 'Aggregation';
+export type PermissionAuditLogType = 'Unknown' | 'DescriptionChange';
 
-export const ProcessType = {
-    BalanceFixing: 'BalanceFixing' as ProcessType,
-    Aggregation: 'Aggregation' as ProcessType
+export const PermissionAuditLogType = {
+    Unknown: 'Unknown' as PermissionAuditLogType,
+    DescriptionChange: 'DescriptionChange' as PermissionAuditLogType
 };
 

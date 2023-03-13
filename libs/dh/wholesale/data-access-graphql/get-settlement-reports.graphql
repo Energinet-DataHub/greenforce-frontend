@@ -1,0 +1,11 @@
+query GetSettlementReports($period: DateRange, $executionTime: DateRange) {
+  settlementReports(period: $period, executionTime: $executionTime) {
+    processType
+    period
+    executionTime
+    gridArea {
+      code
+      name
+    }
+  }
+}

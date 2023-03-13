@@ -12,20 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.MarketParticipant.Client.Models;
-using GraphQL.Types;
-
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
 {
-    public class PermissionDtoType : ObjectGraphType<PermissionDetailsDto>
+    public enum PermissionAuditLogType
     {
-        public PermissionDtoType()
-        {
-            Name = "Permission";
-            Field(x => x.Id).Description("The ID of the permission.");
-            Field(x => x.Name).Description("The name of the permission.");
-            Field(x => x.Description).Description("The description of the permission.");
-            Field(x => x.Created).Description("The created date of the permission.");
-        }
+        Unknown = 0,
+        DescriptionChange = 1,
     }
 }

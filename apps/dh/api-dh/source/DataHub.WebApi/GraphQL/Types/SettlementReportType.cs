@@ -12,20 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using System.Linq;
+using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.Wholesale.Contracts;
+using GraphQL.DataLoader;
+using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class PermissionDtoType : ObjectGraphType<PermissionDetailsDto>
+    public class SettlementReportType : ObjectGraphType<SettlementReport>
     {
-        public PermissionDtoType()
+        public SettlementReportType()
         {
-            Name = "Permission";
-            Field(x => x.Id).Description("The ID of the permission.");
-            Field(x => x.Name).Description("The name of the permission.");
-            Field(x => x.Description).Description("The description of the permission.");
-            Field(x => x.Created).Description("The created date of the permission.");
+            Name = "SettlementReport";
+            Field(x => x.ProcessType).Description("The process type.");
+            Field(x => x.GridArea).Description("The grid area.");
+            Field<DateRangeType>("period")
+              .Resolve(context => context.Source.Period);
+            Field(x => x.ExecutionTime, nullable: true).Description("The execution time.");
         }
     }
 }

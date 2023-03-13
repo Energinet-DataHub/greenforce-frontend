@@ -49,6 +49,11 @@ limitations under the License.
       </div>
     </ng-container>
 
+    <!-- Process Type -->
+    <ng-container *wattTableCell="columns.processType; let batch">
+      {{ transloco(batch.processType) }}
+    </ng-container>
+
     <!-- Status -->
     <ng-container *wattTableCell="columns.status; let batch">
       <watt-badge [type]="batch.statusType">
