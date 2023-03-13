@@ -45,7 +45,13 @@
     align-self: stretch;
     grid-area: content;
     overflow: auto;
+    padding: 0 var(--watt-space-ml);
     border-top: 1px solid var(--watt-color-neutral-grey-300);
+
+    .watt-modal-content-full-width {
+      display: block;
+      margin: 0 calc(-1 * var(--watt-space-ml));
+    }
   }
 
   .watt-modal-scrollable {
