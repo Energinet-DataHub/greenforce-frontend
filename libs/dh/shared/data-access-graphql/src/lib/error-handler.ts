@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
+import { onError } from '@apollo/client/link/error';
 
-import { DhDatePipe } from './dh-date.pipe';
-import { DhDateTimePipe } from './dh-datetime.pipe';
-import { DhDateRangePipe } from './dh-date-range.pipe';
-import { DhDateTimeRangePipe } from './dh-datetime-range.pipe';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
-@NgModule({
-  declarations: [DhDatePipe, DhDateTimePipe, DhDateRangePipe, DhDateTimeRangePipe],
-  exports: [DhDatePipe, DhDateTimePipe, DhDateRangePipe, DhDateTimeRangePipe],
-})
-export class DhSharedUiDateTimeModule {}
+export const errorHandler = (logger: DhApplicationInsights) =>
+  onError(({ graphQLErrors }) => {
+    if (graphQLErrors) {
+      graphQLErrors.map(({ message }) => {
+        logger.trackException(new Error(message), 3);
+      });
+    }
+  });

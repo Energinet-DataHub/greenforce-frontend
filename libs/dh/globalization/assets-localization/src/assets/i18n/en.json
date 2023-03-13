@@ -794,7 +794,7 @@
         "gridAreaName": "Grid area",
         "periodStart": "Period from",
         "periodEnd": "Period to",
-        "executionTimeStart": "Execution time",
+        "executionTime": "Execution time",
         "emptyTitle": "No processes found",
         "emptyHelperText": "Try changing the search criteria"
       },
