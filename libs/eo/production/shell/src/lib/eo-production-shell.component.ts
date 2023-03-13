@@ -64,12 +64,12 @@ import { EoProductionStore } from './eo-production.store';
         <eo-production-info></eo-production-info>
         <eo-production-line-chart></eo-production-line-chart>
         <eo-date-picker
-          [onFeatureFlag]="'daterange'"
+          onFeatureFlag="daterange"
           *ngIf="appSettingsDates$ | async as dates"
           [dateRangeInput]="dates"
           (newDates)="setNewAppDates($event)"
         ></eo-date-picker>
-        <eo-resolution-picker [onFeatureFlag]="'resolution'"></eo-resolution-picker>
+        <eo-resolution-picker onFeatureFlag="resolution"></eo-resolution-picker>
       </eo-stack>
       <eo-stack size="L">
         <eo-production-tip></eo-production-tip>

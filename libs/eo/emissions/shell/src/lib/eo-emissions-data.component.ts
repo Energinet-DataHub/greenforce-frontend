@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -23,7 +23,7 @@ import { EoEmissionsStore } from './eo-emissions.store';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, WattSpinnerModule],
+  imports: [WattSpinnerModule, NgIf, AsyncPipe],
   selector: 'eo-emissions-data',
   styles: [
     `

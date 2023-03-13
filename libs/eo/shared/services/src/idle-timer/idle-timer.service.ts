@@ -17,14 +17,12 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import {
   EoIdleTimerCountdownModalComponent,
   EoIdleTimerLoggedOutModalComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/shared/utilities';
 import { fromEvent, merge, startWith, Subscription, switchMap, timer } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
+import { EoAuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -39,11 +37,7 @@ export class IdleTimerService {
     fromEvent(document, 'keyup')
   );
 
-  constructor(
-    private dialog: MatDialog,
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private dialog: MatDialog, private authService: EoAuthService) {}
 
   attachMonitorsWithTimer() {
     return this.monitoredEvents$.pipe(
@@ -52,16 +46,16 @@ export class IdleTimerService {
     );
   }
 
-  startIdleMonitor() {
+  startMonitor() {
     this.subscription$ = this.attachMonitorsWithTimer().subscribe(() => this.showLogoutWarning());
   }
 
-  stopIdleMonitor() {
+  stopMonitor() {
     this.subscription$?.unsubscribe();
   }
 
   private showLogoutWarning() {
-    this.stopIdleMonitor();
+    this.stopMonitor();
 
     this.dialog
       .open(EoIdleTimerCountdownModalComponent, {
@@ -71,19 +65,15 @@ export class IdleTimerService {
       .afterClosed()
       .subscribe((result: string) => {
         if (result === 'logout') {
-          this.authService.logout().subscribe((response) => {
-            if (response.success) {
-              this.router.navigateByUrl(eoLandingPageRelativeUrl);
-              this.dialog.open(EoIdleTimerLoggedOutModalComponent, {
-                height: '500px',
-                autoFocus: false,
-              });
-            }
+          this.authService.logout();
+          this.dialog.open(EoIdleTimerLoggedOutModalComponent, {
+            height: '500px',
+            autoFocus: false,
           });
           return;
         }
 
-        this.startIdleMonitor();
+        this.startMonitor();
       });
   }
 }
