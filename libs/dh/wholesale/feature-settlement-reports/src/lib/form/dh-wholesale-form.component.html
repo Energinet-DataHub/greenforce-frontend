@@ -37,12 +37,12 @@ limitations under the License.
     ></watt-dropdown>
   </watt-form-field>
 
-  <watt-form-field>
+  <watt-form-field class="date-range">
     <watt-label>{{ transloco("period") }}</watt-label>
     <watt-datepicker formControlName="period" [range]="true"></watt-datepicker>
   </watt-form-field>
 
-  <watt-form-field>
+  <watt-form-field class="date-range">
     <watt-label>{{ transloco("executionTime") }}</watt-label>
     <watt-datepicker formControlName="executionTime" [range]="true"></watt-datepicker>
     <watt-error *ngIf="filters.controls.executionTime?.errors?.rangeRequired">
