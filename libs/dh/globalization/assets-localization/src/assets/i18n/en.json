@@ -807,7 +807,8 @@
         "gridArea": "Grid area",
         "period": "Period",
         "executionTime": "Execution time",
-        "executionTimeRequired": "Execution time is required"
+        "executionTimeRequired": "Execution time is required",
+        "actor": "Actor"
       }
     },
     "calculationSteps": {

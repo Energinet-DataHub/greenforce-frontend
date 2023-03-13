@@ -31,7 +31,7 @@ limitations under the License.
   <watt-form-field>
     <watt-label>{{ transloco("gridArea") }}</watt-label>
     <watt-dropdown
-      formControlName="gridArea"
+      formControlName="gridAreas"
       [options]="gridAreaOptions$ | push"
       [multiple]="true"
     ></watt-dropdown>
@@ -48,5 +48,13 @@ limitations under the License.
     <watt-error *ngIf="filters.controls.executionTime?.errors?.rangeRequired">
       {{ transloco("executionTimeRequired") }}
     </watt-error>
+  </watt-form-field>
+
+  <watt-form-field>
+    <watt-label>{{ transloco("actor") }}</watt-label>
+    <watt-dropdown
+      formControlName="actor"
+      [options]="actorOptions"
+    ></watt-dropdown>
   </watt-form-field>
 </form>

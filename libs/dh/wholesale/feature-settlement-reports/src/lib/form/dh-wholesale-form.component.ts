@@ -26,14 +26,23 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, filter, map, Observable, Subject, takeUntil } from 'rxjs';
+import {
+  combineLatest,
+  debounceTime,
+  filter,
+  map,
+  Observable,
+  startWith,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { ProcessType } from '@energinet-datahub/dh/shared/domain';
+import { FilteredActorDto, ProcessType } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { PushModule } from '@rx-angular/template/push';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
@@ -68,6 +77,7 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private transloco = inject(TranslocoService);
   private store = inject(DhWholesaleBatchDataAccessApiStore);
+  private fb = inject(FormBuilder);
 
   processTypeOptions$: Observable<WattDropdownOption[]> = this.transloco
     .selectTranslateObject('wholesale.settlementReports.processTypes')
@@ -82,19 +92,52 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
       })
     );
 
-  gridAreaOptions$: Observable<WattDropdownOption[]> = this.store.gridAreas$.pipe(
-    exists(),
-    map((gridAreas) => {
-      return gridAreas.map((gridArea) => ({
-        value: gridArea.code,
-        displayValue: `${gridArea.name} (${gridArea.code})`,
-      }));
-    })
-  );
+  actors: FilteredActorDto[] = [
+    {
+      actorId: '10',
+      actorNumber: {
+        value: '1',
+      },
+      name: {
+        value: 'Actor (805)',
+      },
+      marketRoles: [],
+      gridAreaCodes: ['805'],
+    },
+    {
+      actorId: '20',
+      actorNumber: {
+        value: '1',
+      },
+      name: {
+        value: 'Actor (806)',
+      },
+      marketRoles: [],
+      gridAreaCodes: ['806'],
+    },
+    {
+      actorId: '30',
+      actorNumber: {
+        value: '1',
+      },
+      name: {
+        value: 'Actor (805, 806)',
+      },
+      marketRoles: [],
+      gridAreaCodes: ['805', '806'],
+    },
+  ];
+
+  actorOptions: WattDropdownOption[] = this.actors.map((actor) => {
+    return {
+      displayValue: actor.name.value,
+      value: actor.actorId,
+    };
+  });
 
   filters = this.fb.group({
     processType: [''],
-    gridArea: [''],
+    gridAreas: [['']],
     period: [
       {
         start: '',
@@ -108,9 +151,28 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
       },
       WattRangeValidators.required(),
     ],
+    actor: [''],
   });
 
-  constructor(private fb: FormBuilder) {}
+  gridAreaOptions$: Observable<WattDropdownOption[]> = combineLatest(
+    this.store.gridAreas$.pipe(exists()),
+    this.filters.controls.actor.valueChanges.pipe(startWith(null))
+  ).pipe(
+    map(([gridAreas, selectedActorId]) => {
+      const selectedActor = this.actors.find((x) => x.actorId === selectedActorId);
+      this.filters.patchValue({ gridAreas: selectedActor?.gridAreaCodes });
+
+      return gridAreas
+        .filter((gridArea) => {
+          if (!selectedActor) return true;
+          return selectedActor.gridAreaCodes.includes(gridArea.code);
+        })
+        .map((gridArea) => ({
+          value: gridArea.code,
+          displayValue: `${gridArea.name} (${gridArea.code})`,
+        }));
+    })
+  );
 
   private isComplete(filters: SettlementReportFilters) {
     return (
