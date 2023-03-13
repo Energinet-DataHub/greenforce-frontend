@@ -15,11 +15,29 @@
  * limitations under the License.
  */
 import { Pipe, PipeTransform } from '@angular/core';
-import { ActorMarketRoleViewDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  dhFormatDanishDatetime,
+  TDateRangeValue,
+  dateTimeFormat,
+} from './dh-format-danish-datetime';
 
-@Pipe({ name: 'joinMarketRoles', standalone: true })
-export class JoinMarketRoles implements PipeTransform {
-  transform(marketRoles: ActorMarketRoleViewDto[] | null | undefined) {
-    return marketRoles?.map((marketRole) => marketRole.eicFunction).join(', ') ?? '';
+export const pipeName = 'dhDateTimeRange';
+
+@Pipe({
+  name: pipeName,
+})
+export class DhDateTimeRangePipe implements PipeTransform {
+  /**
+   *
+   * @param range DateRange in ISO 8601 format (e.g. 2021-12-01T23:00:00Z)
+   * @returns
+   */
+  transform(range: TDateRangeValue): string | null {
+    if (range === undefined || range === null) return null;
+
+    return `${dhFormatDanishDatetime(range?.start, dateTimeFormat)} - ${dhFormatDanishDatetime(
+      range?.end,
+      dateTimeFormat
+    )}`;
   }
 }
