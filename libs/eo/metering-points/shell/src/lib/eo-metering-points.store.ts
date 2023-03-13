@@ -27,7 +27,7 @@ export interface EoMeteringPoint extends MeteringPoint {
 }
 
 interface EoMeteringPointsState {
-  loadingDone: boolean;
+  loading: boolean;
   meteringPoints: EoMeteringPoint[];
   error: HttpErrorResponse | null;
 }
@@ -41,7 +41,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     private certService: EoCertificatesService
   ) {
     super({
-      loadingDone: false,
+      loading: false,
       meteringPoints: [],
       error: null,
     });
@@ -49,12 +49,9 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     this.loadData();
   }
 
-  readonly loadingDone$ = this.select((state) => state.loadingDone);
-  private readonly setLoadingDone = this.updater(
-    (state, loadingDone: boolean): EoMeteringPointsState => ({
-      ...state,
-      loadingDone,
-    })
+  readonly loading$ = this.select((state) => state.loading);
+  private readonly setLoading = this.updater(
+    (state, loading: boolean): EoMeteringPointsState => ({ ...state, loading })
   );
 
   readonly meteringPoints$ = this.select((state) => state.meteringPoints);
@@ -86,6 +83,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   );
 
   loadData() {
+    this.setLoading(true);
     forkJoin([this.certService.getContracts(), this.service.getMeteringPoints()]).subscribe({
       next: ([contractList, mpList]) => {
         this.setMeteringPoints(
@@ -94,18 +92,22 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
             contract: contractList?.result.find((contract) => contract.gsrn === mp.gsrn),
           }))
         );
-        this.setLoadingDone(true);
+        this.setLoading(false);
       },
       error: (error) => {
         this.setError(error);
-        this.setLoadingDone(true);
+        this.setLoading(false);
       },
     });
   }
 
   createCertificateContract(gsrn: string) {
+    this.setLoading(true);
     this.certService.createContract(gsrn).subscribe({
-      next: (contract) => this.setCertificateContract(contract),
+      next: (contract) => {
+        this.setCertificateContract(contract);
+        this.setLoading(false);
+      },
       error: (error) => {
         this.setError(error);
         this.loadData();
