@@ -5,7 +5,10 @@ const config: CodegenConfig = {
   schema: 'https://localhost:5001/graphql',
   documents: 'libs/**/*.graphql',
   generates: {
-    'libs/dh/shared/domain/src/lib/graphql.ts': {
+    './schema.graphql': {
+      plugins: ['schema-ast'],
+    },
+    'libs/dh/shared/domain/src/lib/generated/graphql.ts': {
       plugins: [
         { add: { content: '/* eslint-disable */' } },
         'typescript',
@@ -13,9 +16,12 @@ const config: CodegenConfig = {
         'typed-document-node',
         'typescript-msw',
       ],
-    },
-    './schema.graphql': {
-      plugins: ['schema-ast'],
+      config: {
+        scalars: {
+          DateRange: '{ start: string, end: string}',
+          DateTimeOffset: 'string',
+        },
+      },
     },
   },
 };

@@ -14,11 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { ResultOf, VariablesOf } from '@graphql-typed-document-node/core';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { onError } from '@apollo/client/link/error';
 
-export type SettlementReport = ResultOf<
-  typeof graphql.GetSettlementReportsDocument
->['settlementReports'][0];
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
-export type SettlementReportFilters = VariablesOf<typeof graphql.GetSettlementReportsDocument>;
+export const errorHandler = (logger: DhApplicationInsights) =>
+  onError(({ graphQLErrors }) => {
+    if (graphQLErrors) {
+      graphQLErrors.map(({ message }) => {
+        logger.trackException(new Error(message), 3);
+      });
+    }
+  });

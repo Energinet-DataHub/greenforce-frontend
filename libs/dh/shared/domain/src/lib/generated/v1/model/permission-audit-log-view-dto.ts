@@ -9,12 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { PermissionAuditLogType } from './permission-audit-log-type';
 
 
-export type ProcessType = 'BalanceFixing' | 'Aggregation';
+export interface PermissionAuditLogViewDto { 
+    permissionId: number;
+    changedByUserId: string;
+    changedByUserName: string;
+    permissionAuditLogType: PermissionAuditLogType;
+    timestamp: string;
+}
 
-export const ProcessType = {
-    BalanceFixing: 'BalanceFixing' as ProcessType,
-    Aggregation: 'Aggregation' as ProcessType
-};
 

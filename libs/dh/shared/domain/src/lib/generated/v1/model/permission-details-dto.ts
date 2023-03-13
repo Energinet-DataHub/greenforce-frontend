@@ -15,6 +15,7 @@ export interface PermissionDetailsDto {
     id: number;
     name: string;
     description: string;
+    created: string;
 }
 
 

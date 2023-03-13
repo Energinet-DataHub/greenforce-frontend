@@ -38,7 +38,7 @@ limitations under the License.
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="Energinet.DataHub.Wholesale.Client" Version="5.0.10" />
+    <PackageReference Include="Energinet.DataHub.Wholesale.Client" Version="5.0.18" />
     <PackageReference Include="GraphQL.DataLoader" Version="7.3.0" />
     <PackageReference Include="GraphQL.MicrosoftDI" Version="7.2.2" />
     <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="7.2.0" />
@@ -49,7 +49,7 @@ limitations under the License.
     <PackageReference Include="Energinet.DataHub.Charges.Clients.Registration" Version="6.1.0" />
     <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="7.3.3" />
     <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="7.3.3" />
-    <PackageReference Condition="!Exists('$(MarketingParticipantProjectReference)')" Include="Energinet.DataHub.MarketParticipant.Client" Version="2.24.0" />
+    <PackageReference Condition="!Exists('$(MarketingParticipantProjectReference)')" Include="Energinet.DataHub.MarketParticipant.Client" Version="2.27.0" />
     <PackageReference Condition="!Exists('$(MessageArchiveClientAbstractionsProjectReference)')" Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
     <PackageReference Condition="!Exists('$(MessageArchiveClientProjectReference)')" Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="3.0.1" />
@@ -62,6 +62,7 @@ limitations under the License.
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="NodaTime" Version="3.1.6" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

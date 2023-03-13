@@ -7,6 +7,7 @@ query GetBatches($executionTime: DateRange) {
     isBasisDataDownloadAvailable
     period
     statusType
+    processType
     gridAreas {
       code
       name
