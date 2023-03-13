@@ -14,9 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+:host {
+  display: block;
+  margin: 24px var(--watt-space-s);
+}
 
-dh-admin-permission-detail {
-  watt-card {
-    margin: var(--watt-space-ml);
-  }
+.change-text {
+  margin: 0;
+}
+
+.no-results-text {
+  text-align: center;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
 }

@@ -14,18 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
-import { TranslocoModule } from '@ngneat/transloco';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
-import { Permission } from '../permission';
+import { WattCardModule } from '@energinet-datahub/watt/card';
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListGroups,
+} from '@energinet-datahub/watt/description-list';
+import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-admin-permission-detail',
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './dh-admin-permission-detail.component.html',
   styleUrls: ['./dh-admin-permission-detail.component.scss'],
-  imports: [CommonModule, WattDrawerModule, TranslocoModule],
+  imports: [
+    CommonModule,
+    WattDrawerModule,
+    TranslocoModule,
+    WattTabComponent,
+    WattTabsComponent,
+    WattCardModule,
+    WattDescriptionListComponent,
+  ],
 })
 export class DhAdminPermissionDetailComponent {
   @ViewChild('drawer')
@@ -44,5 +59,18 @@ export class DhAdminPermissionDetailComponent {
     console.log({ permission });
     this.selectedPermission = permission;
     this.drawer.open();
+  }
+
+  getMetadata(): WattDescriptionListGroups {
+    return [
+      {
+        term: translate('admin.userManagement.permissionDetail.permissionName'),
+        description: this.selectedPermission?.name ?? '',
+      },
+      {
+        term: translate('admin.userManagement.permissionDetail.permissionDescription'),
+        description: this.selectedPermission?.description ?? '',
+      },
+    ];
   }
 }
