@@ -14,6 +14,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Energinet.DataHub.Core.App.Common.Security;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -46,6 +47,13 @@ namespace Energinet.DataHub.WebApi.Controllers
         public Task<ActionResult> UpdateAsync(UpdatePermissionDto permissionDto)
         {
             return HandleExceptionAsync(() => _client.UpdatePermissionAsync(permissionDto));
+        }
+
+        [HttpGet]
+        [Route("GetPermissionAuditLogs")]
+        public Task<ActionResult<IEnumerable<PermissionAuditLogDto>>> GetAuditLogsAsync(int permissionId)
+        {
+            return HandleExceptionAsync(() => _client.GetAuditLogsAsync(permissionId));
         }
     }
 }
