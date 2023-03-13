@@ -790,8 +790,8 @@
         "emptyHelperText": "Prøv at ændre dine søgeindstillinger"
       },
       "processTypes": {
-        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
-        "AGGREGATION": "{{wholesale.AGGREGATION}}"
+        "BALANCE_FIXING": "Balancefiksering",
+        "AGGREGATION": "Aggregering"
       },
       "filters": {
         "processType": "Procestype",
