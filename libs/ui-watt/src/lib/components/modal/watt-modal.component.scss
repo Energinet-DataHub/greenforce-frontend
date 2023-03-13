@@ -18,12 +18,10 @@
   mat-dialog-container {
     position: relative;
     display: grid;
-    padding: var(--watt-space-s);
-    gap: var(--watt-space-s);
+    padding: 0;
     align-items: center;
     grid-template-columns: 1fr auto;
-    // 44px = large line height + medium spacing
-    grid-template-rows: 44px 1fr auto;
+    grid-template-rows: 60px 1fr auto;
     grid-template-areas:
       "title close"
       "content content"
@@ -33,13 +31,13 @@
   .watt-modal-close {
     grid-area: close;
     justify-self: end;
-    margin-right: 1px; // align with scrollbar and buttons
+    margin: var(--watt-space-s);
     color: var(--watt-color-primary);
   }
 
   .watt-modal-title {
     grid-area: title;
-    margin: 0 var(--watt-space-m);
+    margin: 0 var(--watt-space-ml);
     color: var(--watt-typography-text-color);
   }
 
@@ -47,7 +45,13 @@
     align-self: stretch;
     grid-area: content;
     overflow: auto;
-    margin: 0 var(--watt-space-m);
+    padding: 0 var(--watt-space-ml);
+    border-top: 1px solid var(--watt-color-neutral-grey-300);
+
+    .watt-modal-content-full-width {
+      display: block;
+      margin: 0 calc(-1 * var(--watt-space-ml));
+    }
   }
 
   .watt-modal-scrollable {
@@ -60,7 +64,7 @@
     grid-area: actions;
     display: flex;
     justify-content: flex-end;
-    padding: var(--watt-space-m);
+    padding: var(--watt-space-ml);
     gap: var(--watt-space-m);
   }
 }
