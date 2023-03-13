@@ -20,6 +20,10 @@
   margin: var(--watt-space-ml);
 }
 
+watt-table {
+  box-sizing: border-box;
+}
+
 watt-empty-state {
   padding: var(--watt-space-xl);
 }

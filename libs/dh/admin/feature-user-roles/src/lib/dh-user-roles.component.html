@@ -42,7 +42,6 @@ limitations under the License.
             [initialSelection]="actor.userRoles | filterUserRoles: false"
             [columns]="columns"
             sortBy="marketRole"
-            style="box-sizing: border-box"
             sortDirection="asc"
             [selectable]="selectMode"
             (selectionChange)="selectionChanged(actor.id, $event, actor.userRoles)"
