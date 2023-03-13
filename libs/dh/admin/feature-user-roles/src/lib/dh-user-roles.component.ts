@@ -45,6 +45,8 @@ import {
 import { UserOverviewItemDto, UserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 
 @Component({
   selector: 'dh-user-roles',
@@ -68,6 +70,8 @@ import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
     FormsModule,
     FilterUserRolesPipe,
     UserRolesIntoTablePipe,
+    [...WATT_EXPANDABLE_CARD_COMPONENTS],
+    WattBadgeComponent,
   ],
 })
 export class DhUserRolesComponent implements OnChanges {

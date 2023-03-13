@@ -24,27 +24,25 @@ limitations under the License.
       errorTrigger: hasGeneralError$
     "
   >
-    <mat-accordion multi displayMode="flat" class="container">
+    <mat-accordion multi class="container">
       <ng-container *ngFor="let actor of userRolesPrActor">
-        <mat-expansion-panel expanded class="expansionPanel">
-          <mat-expansion-panel-header>
-            <mat-panel-title *ngIf="actor.name" class="expansionPanelTitle"
-              >{{ actor.actorNumber }} – {{ actor.organizationName }} – {{ actor.name }}
-            </mat-panel-title>
-            <mat-panel-title *ngIf="!actor.name" class="expansionPanelTitle"
-              >{{ actor.actorNumber }} – {{ actor.organizationName }}</mat-panel-title
-            >
-            <mat-panel-description class="expansionPanelDescription" *ngIf="!selectMode"
-              >{{
-                t("assigned.count", { count: (actor.userRoles | filterUserRoles: false).length })
-              }}
-            </mat-panel-description>
-          </mat-expansion-panel-header>
+        <watt-expandable-card [expanded]="true">
+          <watt-badge *ngIf="!selectMode">{{
+            t("assigned.count", { count: (actor.userRoles | filterUserRoles: false).length })
+          }}</watt-badge>
+          <watt-expandable-card-title *ngIf="actor.name"
+            >{{ actor.actorNumber }} – {{ actor.organizationName }} – {{ actor.name }}
+          </watt-expandable-card-title>
+          <watt-expandable-card-title *ngIf="!actor.name"
+            >{{ actor.actorNumber }} – {{ actor.organizationName }}
+          </watt-expandable-card-title>
+
           <watt-table
             [dataSource]="actor.userRoles | filterUserRoles: selectMode | userRolesIntoTable"
             [initialSelection]="actor.userRoles | filterUserRoles: false"
             [columns]="columns"
             sortBy="marketRole"
+            style="box-sizing: border-box"
             sortDirection="asc"
             [selectable]="selectMode"
             (selectionChange)="selectionChanged(actor.id, $event, actor.userRoles)"
@@ -74,7 +72,7 @@ limitations under the License.
               {{ element.description }}
             </ng-container>
           </watt-table>
-        </mat-expansion-panel>
+        </watt-expandable-card>
       </ng-container>
     </mat-accordion>
   </ng-container>
