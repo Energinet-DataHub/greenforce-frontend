@@ -16,8 +16,8 @@
  */
 import { Component, EventEmitter, NgModule, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 @Component({

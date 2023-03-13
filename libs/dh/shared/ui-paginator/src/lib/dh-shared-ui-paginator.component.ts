@@ -24,11 +24,11 @@ import {
   EventEmitter,
 } from '@angular/core';
 import {
-  MatPaginator,
-  MatPaginatorIntl,
-  MatPaginatorModule,
-  PageEvent,
-} from '@angular/material/paginator';
+  MatLegacyPaginator as MatPaginator,
+  MatLegacyPaginatorIntl as MatPaginatorIntl,
+  MatLegacyPaginatorModule as MatPaginatorModule,
+  LegacyPageEvent as PageEvent,
+} from '@angular/material/legacy-paginator';
 import { TranslocoService } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
 
