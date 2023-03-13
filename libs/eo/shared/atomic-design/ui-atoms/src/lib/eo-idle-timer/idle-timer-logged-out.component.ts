@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
@@ -22,7 +21,7 @@ import { WattModalModule } from '@energinet-datahub/watt/modal';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [WattButtonModule, WattModalModule, CommonModule],
+  imports: [WattButtonModule, WattModalModule],
   selector: 'eo-idle-timer-modal',
   standalone: true,
   styles: [

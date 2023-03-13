@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
-import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -33,7 +33,7 @@ import { map } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [CommonModule, MatButtonToggleModule, LetModule],
+  imports: [MatButtonToggleModule, LetModule, AsyncPipe],
   selector: 'eo-resolution-picker',
   styles: [
     `

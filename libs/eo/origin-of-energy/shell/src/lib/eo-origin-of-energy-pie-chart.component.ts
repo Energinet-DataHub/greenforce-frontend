@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { EoPieChartComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -24,7 +24,7 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
 
 @Component({
   standalone: true,
-  imports: [EoPieChartComponent, CommonModule, WattSpinnerModule, LetModule],
+  imports: [EoPieChartComponent, WattSpinnerModule, LetModule, NgIf],
   selector: 'eo-origin-of-energy-pie-chart',
   template: `
     <ng-container *rxLet="loadingDone$ as loadingDone">

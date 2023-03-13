@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { DatePipe, UpperCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -26,7 +26,7 @@ import { EoCertificatesStore } from '../eo-certificates.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, EoStackComponent, CommonModule, RouterModule, LetModule],
+  imports: [MatCardModule, EoStackComponent, RouterModule, LetModule, UpperCasePipe, DatePipe],
   selector: 'eo-certificates',
   standalone: true,
   styles: [
