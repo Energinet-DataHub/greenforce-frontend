@@ -14,15 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { DhDatePipe } from './dh-date.pipe';
-import { DhDateTimePipe } from './dh-datetime.pipe';
-import { DhDateRangePipe } from './dh-date-range.pipe';
-import { DhDateTimeRangePipe } from './dh-datetime-range.pipe';
-
-@NgModule({
-  declarations: [DhDatePipe, DhDateTimePipe, DhDateRangePipe, DhDateTimeRangePipe],
-  exports: [DhDatePipe, DhDateTimePipe, DhDateRangePipe, DhDateTimeRangePipe],
-})
-export class DhSharedUiDateTimeModule {}
+export type Permission = ResultOf<typeof graphql.GetPermissionsDocument>['permissions'][0];

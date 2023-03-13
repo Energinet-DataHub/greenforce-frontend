@@ -446,24 +446,24 @@
   resolved "https://registry.yarnpkg.com/@assemblyscript/loader/-/loader-0.10.1.tgz#70e45678f06c72fa2e350e8553ec4a4d72b92e06"
   integrity sha512-H71nDOOL8Y7kWRLqf6Sums+01Q5msqBW2KhDUTemh1tvY04eSkSXrK0uj/4mmY0Xr16/3zyZmsrxN7CKuRbNRg==
 
-"@azure/msal-angular@2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@azure/msal-angular/-/msal-angular-2.5.1.tgz#8860e332b9f28f6370e2cfd39f528f66cf85d6b2"
-  integrity sha512-k+lS0k3kmxLBf3BlMHIJCg464ONcZvbpst3s0bl3X2xbcwtJUPefCv0CNVcAORSTM2QbZLP3IEvph2D+sqhUfg==
+"@azure/msal-angular@2.5.4":
+  version "2.5.4"
+  resolved "https://registry.yarnpkg.com/@azure/msal-angular/-/msal-angular-2.5.4.tgz#d3add53f5a9ca832e8b39749cbb96fe1171323fd"
+  integrity sha512-BX83pkTBlVP8oEC33MmGqXYY+WYm1jl/WyVndoeO5Q8tFvlqdANVIrdsgnCW3LAXx8L4tJIDIs32E8WHManMEQ==
   dependencies:
     tslib "^2.0.0"
 
-"@azure/msal-browser@2.32.1":
-  version "2.32.1"
-  resolved "https://registry.yarnpkg.com/@azure/msal-browser/-/msal-browser-2.32.1.tgz#785670d5bd066690e313ba32cd4638a473675598"
-  integrity sha512-2G3B12ZEIpiimi6/Yqq7KLk4ud1zZWoHvVd2kJ2VthN1HjMsZjdMUxeHkwMWaQ6RzO6mv9rZiuKmRX64xkXW9g==
+"@azure/msal-browser@2.34.0":
+  version "2.34.0"
+  resolved "https://registry.yarnpkg.com/@azure/msal-browser/-/msal-browser-2.34.0.tgz#e2aa497e74bfa3480c7f03cccd57244e8ab7de00"
+  integrity sha512-stoXdlfAtyVIMOp1lS5PorgO5f66MGRi3Q1FBlXhVZFTsTfAWrNdSOx1m/PXWHskWE9aXO+NEzXVOoWmDNnvNA==
   dependencies:
-    "@azure/msal-common" "^9.0.1"
+    "@azure/msal-common" "^11.0.0"
 
-"@azure/msal-common@^9.0.1":
-  version "9.1.0"
-  resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-9.1.0.tgz#07bdedfe6a0d4bf9b58747e2e9821e8925074195"
-  integrity sha512-Ai7SUJPkHOVUNAjepKp753ZXI8Haw5snTNIu+Vi6fdNPAH1KCuxSyWeBZT6hLDJSgfmYf/kazZqz7Q0BjyAGTA==
+"@azure/msal-common@^11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-11.0.0.tgz#d35bfa6cdd2a5b8c036ce427aa3fd36f8f985239"
+  integrity sha512-SZH8ObQ3Hq5v3ogVGBYJp1nNW7p+MtM4PH4wfNadBP9wf7K0beQHF9iOtRcjPOkwZf+ZD49oXqw91LndIkdk8g==
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.7", "@babel/code-frame@^7.18.6", "@babel/code-frame@^7.5.5", "@babel/code-frame@^7.8.3":
   version "7.18.6"
