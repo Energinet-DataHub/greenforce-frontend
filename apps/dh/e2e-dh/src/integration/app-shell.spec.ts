@@ -17,7 +17,7 @@
 import { test, expect } from '@playwright/test';
 
 // Appearantly there are some issues with `paths` so we need to use absolute paths for now.
-import { da as daTranslations } from '../../../../../libs/dh/globalization/assets-localization/src';
+import { da as daTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
 import * as appShell from '../support/app-shell.po';
 
@@ -29,8 +29,6 @@ test.describe('Application shell', () => {
   test('the application title is displayed', async ({ page }) => {
     test.slow();
     await page.waitForTimeout(5000);
-    await expect(appShell.getTitle(page)).toHaveText(
-      daTranslations.meteringPoint.search.title
-    );
+    await expect(appShell.getTitle(page)).toHaveText(daTranslations.meteringPoint.search.title);
   });
 });

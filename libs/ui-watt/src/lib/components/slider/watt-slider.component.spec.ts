@@ -19,7 +19,7 @@ import { render, screen } from '@testing-library/angular';
 import { WattSliderModule } from './watt-slider.module';
 import { WattSliderComponent } from './watt-slider.component';
 
-xdescribe(WattSliderComponent.name, () => {
+describe.skip(WattSliderComponent.name, () => {
   it('renders', async () => {
     await render(WattSliderComponent, {
       declarations: [WattSliderComponent],

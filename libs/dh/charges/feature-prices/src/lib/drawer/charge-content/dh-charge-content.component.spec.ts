@@ -102,7 +102,7 @@ describe(DhChargeContentComponent.name, () => {
     const priceTab = screen.getByRole('tab', { name: /prices/i });
 
     expect(priceTab).toBeInTheDocument();
-    expect(priceTab).toHaveClass('mat-tab-label-active');
+    expect(priceTab).toHaveClass('mdc-tab--active');
   });
 
   it('displays a date range', async () => {
