@@ -19,6 +19,8 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
+import { ActorViewDto } from '../model/actor-view-dto';
+// @ts-ignore
 import { CreateUserRoleDto } from '../model/create-user-role-dto';
 // @ts-ignore
 import { EicFunction } from '../model/eic-function';
@@ -32,8 +34,6 @@ import { UserRoleAuditLogsDto } from '../model/user-role-audit-logs-dto';
 import { UserRoleDto } from '../model/user-role-dto';
 // @ts-ignore
 import { UserRoleWithPermissionsDto } from '../model/user-role-with-permissions-dto';
-// @ts-ignore
-import { UserRolesViewDto } from '../model/user-roles-view-dto';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -463,9 +463,9 @@ export class MarketParticipantUserRoleHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserRoleGetUserRoleViewGet(userId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<UserRolesViewDto>;
-    public v1MarketParticipantUserRoleGetUserRoleViewGet(userId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<UserRolesViewDto>>;
-    public v1MarketParticipantUserRoleGetUserRoleViewGet(userId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<UserRolesViewDto>>;
+    public v1MarketParticipantUserRoleGetUserRoleViewGet(userId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<ActorViewDto>>;
+    public v1MarketParticipantUserRoleGetUserRoleViewGet(userId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<ActorViewDto>>>;
+    public v1MarketParticipantUserRoleGetUserRoleViewGet(userId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<ActorViewDto>>>;
     public v1MarketParticipantUserRoleGetUserRoleViewGet(userId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -515,7 +515,7 @@ export class MarketParticipantUserRoleHttp {
         }
 
         let localVarPath = `/v1/MarketParticipantUserRole/GetUserRoleView`;
-        return this.httpClient.request<UserRolesViewDto>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Array<ActorViewDto>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

@@ -14,12 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Pipe, PipeTransform } from '@angular/core';
-import { ActorMarketRoleViewDto } from '@energinet-datahub/dh/shared/domain';
+import { onError } from '@apollo/client/link/error';
 
-@Pipe({ name: 'joinMarketRoles', standalone: true })
-export class JoinMarketRoles implements PipeTransform {
-  transform(marketRoles: ActorMarketRoleViewDto[] | null | undefined) {
-    return marketRoles?.map((marketRole) => marketRole.eicFunction).join(', ') ?? '';
-  }
-}
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+
+export const errorHandler = (logger: DhApplicationInsights) =>
+  onError(({ graphQLErrors }) => {
+    if (graphQLErrors) {
+      graphQLErrors.map(({ message }) => {
+        logger.trackException(new Error(message), 3);
+      });
+    }
+  });

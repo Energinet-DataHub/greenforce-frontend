@@ -15,10 +15,14 @@
  * limitations under the License.
  */
 import { Component, Input } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
-
+import { translate, TranslocoModule } from '@ngneat/transloco';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListGroups,
+} from '@energinet-datahub/watt/description-list';
+import { emDash } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-user-master-data',
@@ -26,28 +30,33 @@ import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
   templateUrl: './dh-user-master-data.component.html',
   styles: [
     `
-      .master-data-list {
-        padding: 0;
-        margin: 0;
-
-        ul {
-          list-style: none;
-        }
-
-        li {
-          display: grid;
-          margin-top: var(--watt-space-s);
-          grid-template-columns: 20% 1fr;
-        }
-
-        li:not(:last-child) {
-          border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-        }
+      :host {
+        margin: var(--watt-space-ml);
+        display: block;
       }
     `,
   ],
-  imports: [WattCardModule, TranslocoModule],
+  imports: [WattCardModule, WattDescriptionListComponent, TranslocoModule],
 })
 export class DhUserMasterDataComponent {
   @Input() user: UserOverviewItemDto | null = null;
+
+  getMasterData(): WattDescriptionListGroups {
+    if (!this.user) return [];
+
+    return [
+      {
+        term: translate('admin.userManagement.tabs.masterData.name'),
+        description: this.user.name,
+      },
+      {
+        term: translate('admin.userManagement.tabs.masterData.email'),
+        description: this.user.email,
+      },
+      {
+        term: translate('admin.userManagement.tabs.masterData.phone'),
+        description: this.user.phoneNumber ?? emDash,
+      },
+    ];
+  }
 }

@@ -15,22 +15,32 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.editUser'">
-  <watt-modal [title]="user?.name ?? ''" #editUserModal (closed)="closeModal($event)">
+  <watt-modal size="large" [title]="user?.name ?? ''" #editUserModal (closed)="closeModal($event)">
     <watt-tabs>
-      <watt-tab [label]="t('tab.actor')"> aktør </watt-tab>
+      <watt-tab [label]="t('tab.masterData')">
+        <!-- This is a temporary read-only placeholder of user information. -->
+        <form class="masterDataForm">
+          <watt-form-field class="fullNameField">
+            <watt-label>{{ t("masterData.fullName") }}</watt-label>
+            <input wattInput disabled type="text" value="{{ user?.name }}" />
+          </watt-form-field>
+          <watt-form-field class="phoneField">
+            <watt-label>{{ t("masterData.phone") }}</watt-label>
+            <input wattInput disabled type="text" value="{{ user?.phoneNumber }}" />
+          </watt-form-field>
+        </form>
+      </watt-tab>
       <watt-tab [label]="t('tab.roles')">
         <dh-user-roles
           #userRoles
           [user]="user"
           [selectMode]="true"
+          class="userRoles"
           (updateUserRoles)="onSelectedUserRolesChanged($event)"
         ></dh-user-roles>
       </watt-tab>
     </watt-tabs>
     <watt-modal-actions>
-      <watt-button variant="secondary" class="margin-right-auto" (click)="deactivedUser()">
-        {{ t("deactivateUser") }}
-      </watt-button>
       <watt-button variant="secondary" (click)="close()">
         {{ t("cancel") }}
       </watt-button>
