@@ -7,6 +7,7 @@ query GetBatch($id: ID!) {
     isBasisDataDownloadAvailable
     period
     statusType
+    processType
     gridAreas {
       code
       name

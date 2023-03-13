@@ -24,7 +24,7 @@ import {
   WattDescriptionListGroups,
 } from '@energinet-datahub/watt/description-list';
 import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { Permission } from '../permission';
 
 @Component({
   selector: 'dh-admin-permission-detail',
@@ -45,7 +45,7 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
 export class DhAdminPermissionDetailComponent {
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
-  selectedPermission: graphql.Permission | null = null;
+  selectedPermission: Permission | null = null;
 
   @Output() closed = new EventEmitter<void>();
 
@@ -55,7 +55,7 @@ export class DhAdminPermissionDetailComponent {
     this.selectedPermission = null;
   }
 
-  open(permission: graphql.Permission): void {
+  open(permission: Permission): void {
     console.log({ permission });
     this.selectedPermission = permission;
     this.drawer.open();

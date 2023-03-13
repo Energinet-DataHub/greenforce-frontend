@@ -69,6 +69,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Warning,
     isBasisDataDownloadAvailable: false,
     gridAreas: mockedGridAreas,
+    processType: graphql.ProcessType.Aggregation,
   },
   {
     __typename: 'Batch',
@@ -80,6 +81,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Info,
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
+    processType: graphql.ProcessType.BalanceFixing,
   },
   {
     __typename: 'Batch',
@@ -91,6 +93,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Success,
     isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
+    processType: graphql.ProcessType.BalanceFixing,
   },
   {
     __typename: 'Batch',
@@ -102,6 +105,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Danger,
     isBasisDataDownloadAvailable: false,
     gridAreas: mockedGridAreas,
+    processType: graphql.ProcessType.BalanceFixing,
   },
   {
     __typename: 'Batch',
@@ -113,6 +117,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Warning,
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
+    processType: graphql.ProcessType.BalanceFixing,
   },
   {
     __typename: 'Batch',
@@ -124,6 +129,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Info,
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
+    processType: graphql.ProcessType.BalanceFixing,
   },
   {
     __typename: 'Batch',
@@ -135,6 +141,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Success,
     isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
+    processType: graphql.ProcessType.BalanceFixing,
   },
   {
     __typename: 'Batch',
@@ -146,6 +153,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Danger,
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
+    processType: graphql.ProcessType.BalanceFixing,
   },
   {
     __typename: 'Batch',
@@ -157,6 +165,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Warning,
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
+    processType: graphql.ProcessType.BalanceFixing,
   },
   {
     __typename: 'Batch',
@@ -168,6 +177,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Info,
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
+    processType: graphql.ProcessType.BalanceFixing,
   },
   {
     __typename: 'Batch',
@@ -179,6 +189,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Success,
     isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
+    processType: graphql.ProcessType.BalanceFixing,
   },
   {
     __typename: 'Batch',
@@ -190,6 +201,7 @@ const mockedBatches: graphql.Batch[] = [
     statusType: graphql.StatusType.Danger,
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
+    processType: graphql.ProcessType.BalanceFixing,
   },
 ];
 
