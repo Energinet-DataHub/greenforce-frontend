@@ -73,39 +73,6 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Get a batch.
         /// </summary>
-        [HttpPost("Search")]
-        public async Task<ActionResult<IEnumerable<BatchDto_V2_1>>> SearchAsync(BatchSearchDtoV2_V2_1 batchSearchDto)
-        {
-            var gridAreas = new List<GridAreaDto>();
-            var batchesWithGridAreasWithNames = new List<BatchDto_V2_1>();
-            var batches = (await _clientV2_1.SearchAsync(batchSearchDto).ConfigureAwait(false)).ToList();
-
-            if (batches.Any())
-            {
-                gridAreas = (await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false)).ToList();
-            }
-
-            foreach (var batch in batches)
-            {
-                var gridAreaDtos = gridAreas.Where(x => batch.GridAreaCodes.Contains(x.Code));
-
-                batchesWithGridAreasWithNames.Add(new BatchDto_V2_1(
-                    batch.BatchNumber,
-                    batch.PeriodStart,
-                    batch.PeriodEnd,
-                    batch.ExecutionTimeStart,
-                    batch.ExecutionTimeEnd,
-                    batch.ExecutionState,
-                    batch.IsBasisDataDownloadAvailable,
-                    gridAreaDtos.ToArray()));
-            }
-
-            return Ok(batchesWithGridAreasWithNames);
-        }
-
-        /// <summary>
-        /// Get a batch.
-        /// </summary>
         [HttpGet("ZippedBasisDataStream")]
         [Produces("application/zip")]
         public async Task<ActionResult<Stream>> GetAsync(Guid batchId)

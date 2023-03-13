@@ -403,8 +403,8 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v3/SettlementReport?");
-            urlBuilder_.Replace("{batchId}", System.Uri.EscapeDataString(ConvertToString(batchId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{gridAreaCode}", System.Uri.EscapeDataString(ConvertToString(gridAreaCode, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Append(System.Uri.EscapeDataString("batchId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(batchId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append(System.Uri.EscapeDataString("gridAreaCode") + "=").Append(System.Uri.EscapeDataString(ConvertToString(gridAreaCode, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             if (api_version != null)
             {
                 urlBuilder_.Append(System.Uri.EscapeDataString("api-version") + "=").Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
