@@ -16,6 +16,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Energinet.DataHub.MarketParticipant.Client;
+using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Energinet.DataHub.Wholesale.Client;
 using Energinet.DataHub.Wholesale.Contracts;
 using GraphQL;
@@ -34,6 +36,40 @@ namespace Energinet.DataHub.WebApi.GraphQL
                .WithScope()
                .WithService<IMarketParticipantPermissionsClient>()
                .ResolveAsync(async (context, client) => await client.GetPermissionsAsync());
+
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<PermissionAuditLogDtoType>>>>("permissionlogs")
+                .Argument<IdGraphType>("id", "The id of the permission")
+                .Resolve()
+                .WithScope()
+                .WithService<IMarketParticipantPermissionsClient>()
+                .WithService<IMarketParticipantClient>()
+                .ResolveAsync(async (context, permissionClient, userClient) =>
+                {
+                    var auditLogs = await permissionClient.GetAuditLogsAsync(context.GetArgument<int>("id"));
+                    var userLookup = new Dictionary<Guid, UserDto>();
+                    var auditLogsViewDtos = new List<PermissionAuditLogViewDto>();
+
+                    foreach (var log in auditLogs)
+                    {
+                        var userFoundInCache = userLookup.ContainsKey(log.ChangedByUserId);
+                        if (!userFoundInCache)
+                        {
+                            var user = await userClient.GetUserAsync(log.ChangedByUserId);
+                            userLookup.TryAdd(log.ChangedByUserId, user);
+                        }
+
+                        userLookup.TryGetValue(log.ChangedByUserId, out var userCache);
+
+                        auditLogsViewDtos.Add(new PermissionAuditLogViewDto(
+                            log.PermissionId,
+                            log.ChangedByUserId,
+                            userCache?.Name ?? throw new KeyNotFoundException("User not found"),
+                            log.PermissionChangeType == PermissionChangeType.DescriptionChange ? PermissionAuditLogType.DescriptionChange : PermissionAuditLogType.Unknown,
+                            log.Timestamp));
+                    }
+
+                    return auditLogsViewDtos;
+                });
 
             Field<ListGraphType<OrganizationDtoType>>("organizations")
                 .Resolve()
