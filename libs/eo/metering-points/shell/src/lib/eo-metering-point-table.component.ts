@@ -15,15 +15,17 @@
  * limitations under the License.
  */
 
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, MatTableModule, MatSortModule],
+  imports: [NgIf, MatTableModule, MatSortModule, WattBadgeComponent, AsyncPipe, WattSpinnerModule],
   standalone: true,
   selector: 'eo-metering-points-table',
   styles: [
@@ -42,6 +44,18 @@ import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.sto
 
       .link {
         text-decoration: none;
+        border: 1px solid var(--watt-color-primary-light);
+        border-radius: var(--watt-space-s);
+        padding: var(--watt-space-xs) var(--watt-space-s);
+        background: white;
+        display: flex;
+        align-items: center;
+        gap: var(--watt-space-xs);
+
+        &:hover:enabled {
+          cursor: pointer;
+          background-color: var(--watt-color-primary-light);
+        }
       }
     `,
   ],
@@ -84,16 +98,22 @@ import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.sto
         <mat-header-cell *matHeaderCellDef mat-sort-header>Granular Certificates</mat-header-cell>
         <mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.type === 'production'">
-            <span *ngIf="element.contract">Active</span>
-            <ng-container *ngIf="!element.contract">
-              <a class="link" (click)="createContract(element.gsrn)"> Enable </a>
-            </ng-container>
-          </ng-container></mat-cell
-        >
+            <watt-badge *ngIf="element.contract" type="success">Activated</watt-badge>
+            <button
+              *ngIf="!element.contract"
+              [disabled]="(loading$ | async) === true"
+              class="link"
+              (click)="createContract(element.gsrn)"
+            >
+              Activate
+              <watt-spinner *ngIf="(loading$ | async) === true" [diameter]="16"></watt-spinner>
+            </button>
+          </ng-container>
+        </mat-cell>
       </ng-container>
 
       <!-- No data to show -->
-      <ng-container *matNoDataRow> You do not have any metering points. </ng-container>
+      <ng-container *matNoDataRow>You do not have any metering points.</ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
@@ -103,7 +123,7 @@ import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.sto
 export class EoMeteringPointListComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
-  loadingDone$ = this.store.loadingDone$;
+  loading$ = this.store.loading$;
   meteringPoints$ = this.store.meteringPoints$;
   dataSource: MatTableDataSource<EoMeteringPoint> = new MatTableDataSource();
   displayedColumns: Array<string> = ['gsrn', 'address', 'tags', 'granular certificates'];
