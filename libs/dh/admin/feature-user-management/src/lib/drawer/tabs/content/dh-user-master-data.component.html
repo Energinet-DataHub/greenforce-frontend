@@ -15,20 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.masterData'">
-  <watt-card>
-    <ul class="master-data-list">
-      <li>
-        <span class="watt-label">{{ t("name") }}</span>
-        <span class="watt-text-s">{{ user?.name }}</span>
-      </li>
-      <li>
-        <span class="watt-label">{{ t("email") }}</span>
-        <span class="watt-text-s">{{ user?.email }}</span>
-      </li>
-      <li>
-        <span class="watt-label">{{ t("phone") }}</span>
-        <span class="watt-text-s">{{ user?.phoneNumber }}</span>
-      </li>
-    </ul>
+  <watt-card variant="solid">
+    <watt-description-list [groups]="getMasterData()"></watt-description-list>
   </watt-card>
 </ng-container>
