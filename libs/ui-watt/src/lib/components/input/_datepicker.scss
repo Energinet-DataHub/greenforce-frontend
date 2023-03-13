@@ -67,23 +67,3 @@
     -webkit-text-fill-color: $placeholder-color;
   }
 }
-
-%datepicker-form-field {
-  &.watt-form-field-normal {
-    watt-datepicker {
-      input.mat-datepicker-input,
-      input.mat-date-range-input-inner {
-        height: $input-height-normal;
-      }
-    }
-  }
-
-  &.watt-form-field-large {
-    watt-datepicker {
-      input.mat-datepicker-input,
-      input.mat-date-range-input-inner {
-        height: $input-height-large;
-      }
-    }
-  }
-}
