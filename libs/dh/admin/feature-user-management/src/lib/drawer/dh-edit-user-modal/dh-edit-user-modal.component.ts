@@ -65,8 +65,6 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
 
       .userRoles {
         display: block;
-        overflow: auto;
-        max-height: 60vh;
       }
 
       .fullNameField {
