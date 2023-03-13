@@ -26,10 +26,18 @@ limitations under the License.
     <watt-tabs>
       <watt-tab [label]="t('information')">
         <watt-card variant="solid">
-          <watt-description-list
-            [groupsPerRow]="3"
-            [groups]="getMetadata()"
-          ></watt-description-list>
+          <watt-description-list variant="stack">
+            <watt-description-list-item
+              [label]="t('permissionName')"
+              [value]="selectedPermission?.name"
+            >
+            </watt-description-list-item>
+            <watt-description-list-item
+              [label]="t('permissionDescription')"
+              [value]="selectedPermission?.description"
+            >
+            </watt-description-list-item>
+          </watt-description-list>
         </watt-card>
       </watt-tab>
     </watt-tabs>

@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import {
   WattDescriptionListComponent,
-  WattDescriptionListGroups,
+  WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
@@ -36,10 +36,11 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
     CommonModule,
     WattDrawerModule,
     TranslocoModule,
-    WattTabComponent,
-    WattTabsComponent,
     WattCardModule,
     WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
+    WattTabsComponent,
+    WattTabComponent,
   ],
 })
 export class DhAdminPermissionDetailComponent {
@@ -61,16 +62,16 @@ export class DhAdminPermissionDetailComponent {
     this.drawer.open();
   }
 
-  getMetadata(): WattDescriptionListGroups {
-    return [
-      {
-        term: translate('admin.userManagement.permissionDetail.permissionName'),
-        description: this.selectedPermission?.name ?? '',
-      },
-      {
-        term: translate('admin.userManagement.permissionDetail.permissionDescription'),
-        description: this.selectedPermission?.description ?? '',
-      },
-    ];
-  }
+  // getMetadata(): WattDescriptionListGroups {
+  //   return [
+  //     {
+  //       term: translate('admin.userManagement.permissionDetail.permissionName'),
+  //       description: this.selectedPermission?.name ?? '',
+  //     },
+  //     {
+  //       term: translate('admin.userManagement.permissionDetail.permissionDescription'),
+  //       description: this.selectedPermission?.description ?? '',
+  //     },
+  //   ];
+  // }
 }
