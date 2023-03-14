@@ -17,13 +17,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
 import { EoPrivacyPolicyComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import {
   EoFooterComponent,
   EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoAuthService } from '@energinet-datahub/eo/shared/services';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { EoTermsStore } from './eo-terms.store';
@@ -93,15 +93,14 @@ import { EoTermsStore } from './eo-terms.store';
 
     <eo-footer></eo-footer>
   `,
-  viewProviders: [EoLogOutStore],
 })
 export class EoTermsComponent {
   hasAcceptedTerms = false;
 
   constructor(
     private store: EoTermsStore,
-    private logOutStore: EoLogOutStore,
-    private router: Router
+    private router: Router,
+    private authService: EoAuthService
   ) {}
 
   onVersionChange(version: string): void {
@@ -109,7 +108,7 @@ export class EoTermsComponent {
   }
 
   onCancel(): void {
-    this.logOutStore.onLogOut();
+    this.authService.logout();
   }
 
   onAccept(): void {

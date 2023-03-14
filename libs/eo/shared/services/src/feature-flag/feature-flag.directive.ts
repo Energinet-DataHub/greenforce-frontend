@@ -15,15 +15,23 @@
  * limitations under the License.
  */
 import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
-import { allowedFeatureFlags, FeatureFlagService } from './feature-flag.service';
+import { EoAuthStore } from '../auth/auth.store';
+
+const knownFeatures = [
+  'accepted-terms',
+  'dashboard',
+  'production',
+  'meters',
+  'certificates',
+  'daterange', // To show the date range picker
+  'resolution', // To show the resolution component
+] as const;
+export type allowedFeatureFlags = typeof knownFeatures[number];
 
 /**
  * This directive can be used to show/hide a component based on the feature flags that are currently enabled.
  * @example
- * <div [onFeatureFlag]="'winter'">Test</div>
- *
- * To Enable: Append something like this '?enableFeature=daterange' to the URL
- * To Disable: Append something like this '?disableFeature=daterange' to the URL
+ * <div onFeatureFlag="dashboard">Test</div>
  */
 @Directive({
   selector: '[onFeatureFlag]',
@@ -32,17 +40,15 @@ import { allowedFeatureFlags, FeatureFlagService } from './feature-flag.service'
 export class EoFeatureFlagDirective implements AfterViewInit {
   /**
    * This directive can be used to show/hide a component based on the feature flags that are currently enabled.
-   * Look in Feature-flag service for list of currently supported flags.
    */
   @Input() onFeatureFlag: allowedFeatureFlags | undefined;
 
-  constructor(private elementRef: ElementRef, private featureFlagService: FeatureFlagService) {
-    this.elementRef.nativeElement.style.display = 'none';
-  }
+  constructor(private elementRef: ElementRef, private authStore: EoAuthStore) {}
 
   ngAfterViewInit() {
-    if (this.onFeatureFlag && this.featureFlagService.isFlagEnabled(this.onFeatureFlag)) {
-      this.elementRef.nativeElement.style.display = 'block';
-    }
+    this.authStore.getScope$.subscribe((flags) => {
+      this.elementRef.nativeElement.style.display =
+        this.onFeatureFlag && flags?.includes(this.onFeatureFlag) ? 'block' : 'none';
+    });
   }
 }

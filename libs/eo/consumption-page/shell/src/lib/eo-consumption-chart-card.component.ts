@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { EoLineChartComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
@@ -26,7 +26,7 @@ import { EoConsumptionStore } from './eo-consumption.store';
 
 @Component({
   standalone: true,
-  imports: [LetModule, MatCardModule, EoLineChartComponent, CommonModule, WattSpinnerModule],
+  imports: [LetModule, MatCardModule, EoLineChartComponent, WattSpinnerModule, NgIf, AsyncPipe],
   selector: 'eo-consumption-line-chart',
   template: ` <mat-card class="chart-card watt-space-inline-l">
     <h3 class="watt-space-stack-s">kWh</h3>

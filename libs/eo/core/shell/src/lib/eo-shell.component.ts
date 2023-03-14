@@ -14,13 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { EoCookieBannerComponentComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoProductLogoComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { IdleTimerService } from '@energinet-datahub/eo/shared/services';
+import {
+  EoAuthService,
+  IdleTimerService,
+  TokenRefreshService,
+} from '@energinet-datahub/eo/shared/services';
 import { EoTitleStore } from '@energinet-datahub/eo/shared/utilities';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { PushModule } from '@rx-angular/template/push';
@@ -38,7 +42,7 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
     EoProductLogoComponent,
     EoFooterComponent,
     PushModule,
-    CommonModule,
+    NgIf,
   ],
   selector: 'eo-shell',
   styles: [
@@ -139,9 +143,16 @@ export class EoShellComponent implements OnDestroy {
   title$: Observable<string> = this.titleStore.routeTitle$;
   cookiesSet: string | null = null;
 
-  constructor(private titleStore: EoTitleStore, private idleTimerService: IdleTimerService) {
+  constructor(
+    private titleStore: EoTitleStore,
+    private idleTimerService: IdleTimerService,
+    private tokenRefreshService: TokenRefreshService,
+    private authService: EoAuthService
+  ) {
     this.getBannerStatus();
-    this.idleTimerService.startIdleMonitor();
+    this.idleTimerService.startMonitor();
+    this.tokenRefreshService.startMonitor();
+    this.authService.handlePostLogin();
   }
 
   getBannerStatus() {
@@ -149,6 +160,8 @@ export class EoShellComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.idleTimerService.stopIdleMonitor();
+    this.idleTimerService.stopMonitor();
+    this.tokenRefreshService.stopMonitor();
+    this.authService.handlePostLogout();
   }
 }

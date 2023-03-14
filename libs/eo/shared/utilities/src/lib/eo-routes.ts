@@ -28,6 +28,7 @@ export const eoFaqRoutePath = `faq`;
 export const eoIntroductionRoutePath = 'introduction';
 export const eoSimultaneityRoutePath = 'simultaneity';
 export const eoGeographyRoutePath = 'geography';
+export const eoTermsRoutePath = 'terms';
 
 export const eoRoutes = {
   certificates: eoCertificatesRoutePath,
@@ -44,4 +45,5 @@ export const eoRoutes = {
   introduction: eoIntroductionRoutePath,
   simultaneity: eoSimultaneityRoutePath,
   geography: eoGeographyRoutePath,
+  terms: eoTermsRoutePath,
 };

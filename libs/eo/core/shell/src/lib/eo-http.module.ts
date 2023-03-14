@@ -16,17 +16,14 @@
  */
 import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-import {
-  eoAuthenticationInterceptorProvider,
-  eoAuthorizationInterceptorProvider,
-} from '@energinet-datahub/eo/auth/data-access-security';
+import { eoAuthorizationInterceptorProvider } from '@energinet-datahub/eo/auth/data-access-security';
 
 /**
  * Do not import directly. Use `EoHttpModule.forRoot`.
  */
 @NgModule({
   imports: [HttpClientModule],
-  providers: [eoAuthenticationInterceptorProvider, eoAuthorizationInterceptorProvider],
+  providers: [eoAuthorizationInterceptorProvider],
 })
 export class EoHttpRootModule {
   constructor(
