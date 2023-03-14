@@ -16,6 +16,19 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.masterData'">
   <watt-card variant="solid">
-    <watt-description-list [groups]="getMasterData()"></watt-description-list>
+    <watt-description-list variant="stack">
+      <watt-description-list-item
+        [label]="t('name')"
+        [value]="user?.name"
+      ></watt-description-list-item>
+      <watt-description-list-item
+        [label]="t('email')"
+        [value]="user?.email"
+      ></watt-description-list-item>
+      <watt-description-list-item
+        [label]="t('phone')"
+        [value]="user?.phoneNumber | dhEmDashFallback"
+      ></watt-description-list-item>
+    </watt-description-list>
   </watt-card>
 </ng-container>
