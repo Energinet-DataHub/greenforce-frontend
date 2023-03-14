@@ -24,9 +24,6 @@
  * Terms
  */
 import { execSync } from 'child_process';
-import { readFileSync } from 'fs';
-import * as path from 'path';
-import { fileURLToPath } from 'url';
 import * as core from '@actions/core';
 
 function readAffectedApps(base) {
@@ -62,6 +59,14 @@ function sanitizeAffectedOutput(affectedOutput) {
   return affectedOutput.replaceAll(/\s/g, '').split(',');
 }
 
+function readAllProjects() {
+  const projects = execSync(`npx nx show projects`, {
+    encoding: 'utf-8',
+  });
+
+  return projects.split('\n');
+}
+
 function validateProjectParameter(projectName) {
   if (!projectName) {
     console.error('No project argument passed.');
@@ -69,9 +74,8 @@ function validateProjectParameter(projectName) {
     process.exit(1);
   }
 
-  const workspacePath = path.resolve(__dirname, '../../../workspace.json');
-  const workspace = JSON.parse(readFileSync(workspacePath).toString());
-  const isProjectFound = workspace.projects[projectName] !== undefined;
+  const allProjects = readAllProjects();
+  const isProjectFound = allProjects.includes(projectName);
 
   if (!isProjectFound) {
     console.error(
@@ -82,8 +86,6 @@ function validateProjectParameter(projectName) {
   }
 }
 
-// Not available in an ES Module as of Node.js 12.x
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 let project;
 let base;
 

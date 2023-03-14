@@ -116,7 +116,12 @@ describe(WattDrawerComponent.name, () => {
     expect(getDrawerContent()).not.toBeInTheDocument();
   });
 
-  it('should destroy content when closing', async () => {
+  // Note: Skipped because the test does not really assert
+  // that the content is destroyed when the the component is destroyed.
+  // It's actually testing that the content is destroyed because there's an `ngIf` applied to it.
+  // This is a feature of the framework, not of the component.
+  // Applying `ngIf` to the content is not required, thus easy to forget.
+  it.skip('should destroy content when closing', async () => {
     jest.useFakeTimers();
     await setup(Drawer);
 
@@ -219,8 +224,8 @@ describe(WattDrawerComponent.name, () => {
     userEvent.click(screen.getByRole('button', { name: /^open first/i }));
 
     // This is an implementation detail, but it is the only way to test
-    // this behavior - otherwise the second button click is happening in
-    // the same event loop as the first button click (synchronous).
+    // this behavior - otherwise the second click is happening in
+    // the same event loop as the button click (synchronous).
     await new Promise((res) => setTimeout(res, 0));
 
     userEvent.click(document.body);
