@@ -16,7 +16,10 @@ using System;
 using System.Linq;
 using System.Net.Http;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v2;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v2_1;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v2_2;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v2_3;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v2_4;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -47,11 +50,32 @@ namespace Energinet.DataHub.WebApi.Registration
                 return new WholesaleClient_V2(wholesaleBaseUri.ToString(), httpClient);
             });
 
+            serviceCollection.AddScoped<IWholesaleClient_V2_1, WholesaleClient_V2_1>(provider =>
+            {
+                var httpClientFactory = provider.GetRequiredService<AuthorizedHttpClientFactory>();
+                var httpClient = httpClientFactory.CreateClient(wholesaleBaseUri);
+                return new WholesaleClient_V2_1(wholesaleBaseUri.ToString(), httpClient);
+            });
+
+            serviceCollection.AddScoped<IWholesaleClient_V2_2, WholesaleClient_V2_2>(provider =>
+            {
+                var httpClientFactory = provider.GetRequiredService<AuthorizedHttpClientFactory>();
+                var httpClient = httpClientFactory.CreateClient(wholesaleBaseUri);
+                return new WholesaleClient_V2_2(wholesaleBaseUri.ToString(), httpClient);
+            });
+
             serviceCollection.AddScoped<IWholesaleClient_V2_3, WholesaleClient_V2_3>(provider =>
             {
                 var httpClientFactory = provider.GetRequiredService<AuthorizedHttpClientFactory>();
                 var httpClient = httpClientFactory.CreateClient(wholesaleBaseUri);
                 return new WholesaleClient_V2_3(wholesaleBaseUri.ToString(), httpClient);
+            });
+
+            serviceCollection.AddScoped<IWholesaleClient_V2_4, WholesaleClient_V2_4>(provider =>
+            {
+                var httpClientFactory = provider.GetRequiredService<AuthorizedHttpClientFactory>();
+                var httpClient = httpClientFactory.CreateClient(wholesaleBaseUri);
+                return new WholesaleClient_V2_4(wholesaleBaseUri.ToString(), httpClient);
             });
 
             serviceCollection.AddScoped<IWholesaleClient_V3, IWholesaleClient_V3>(provider =>
