@@ -29,7 +29,6 @@ import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-
   selector: 'dh-role-permissions',
   standalone: true,
   templateUrl: './dh-role-permissions.component.html',
-  styles: [``],
   imports: [WATT_TABLE, WattCardModule, TranslocoModule],
 })
 export class DhRolePermissionsComponent implements OnChanges {
