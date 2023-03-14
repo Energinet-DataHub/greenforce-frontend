@@ -25,6 +25,9 @@ import {
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/shared/utilities';
 import { Observable, tap } from 'rxjs';
 
 /**
@@ -32,7 +35,13 @@ import { Observable, tap } from 'rxjs';
  */
 @Injectable()
 export class EoAuthorizationInterceptor implements HttpInterceptor {
-  constructor(private snackBar: MatSnackBar) {}
+  callsThatAllowRefresh = ['PUT', 'POST', 'DELETE'];
+
+  constructor(
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private authService: EoAuthService
+  ) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -40,9 +49,17 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     return nextHandler.handle(request).pipe(
       tap({
+        next: () => {
+          if (this.callsThatAllowRefresh.includes(request.method)) {
+            this.authService.refreshToken();
+          }
+        },
         error: (error) => {
           if (this.#is403ForbiddenResponse(error)) {
             this.#displayPermissionError();
+          }
+          if (this.#is401UnauthorizedResponse(error)) {
+            this.#navigateToLoginPage();
           }
         },
       })
@@ -55,6 +72,14 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
   #is403ForbiddenResponse(error: unknown): boolean {
     return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Forbidden;
+  }
+
+  #is401UnauthorizedResponse(error: unknown): boolean {
+    return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized;
+  }
+
+  #navigateToLoginPage() {
+    return this.router.navigateByUrl(eoLandingPageRelativeUrl);
   }
 }
 

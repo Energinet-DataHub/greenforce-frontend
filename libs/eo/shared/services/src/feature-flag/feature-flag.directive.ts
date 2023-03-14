@@ -43,15 +43,12 @@ export class EoFeatureFlagDirective implements AfterViewInit {
    */
   @Input() onFeatureFlag: allowedFeatureFlags | undefined;
 
-  constructor(private elementRef: ElementRef, private authStore: EoAuthStore) {
-    this.elementRef.nativeElement.style.display = 'none';
-  }
+  constructor(private elementRef: ElementRef, private authStore: EoAuthStore) {}
 
   ngAfterViewInit() {
     this.authStore.getScope$.subscribe((flags) => {
-      if (this.onFeatureFlag && flags?.includes(this.onFeatureFlag)) {
-        this.elementRef.nativeElement.style.display = 'block';
-      }
+      this.elementRef.nativeElement.style.display =
+        this.onFeatureFlag && flags?.includes(this.onFeatureFlag) ? 'block' : 'none';
     });
   }
 }

@@ -18,38 +18,37 @@ import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 
 export interface EoLoginToken {
-  acl: boolean;
-  aud: string;
-  eat: string;
-  eit: string;
-  exp: Date;
-  ext: string;
-  iat: Date;
-  iss: string;
-  name: string;
-  nbf: Date;
+  acl?: boolean;
+  aud?: string;
+  eat?: string;
+  eit?: string;
+  exp?: number;
+  ext?: string;
+  iat?: number;
+  iss?: string;
+  name?: string;
+  nbf?: number;
   /** @example "accepted-terms dashboard production meters certificates" */
-  scope: string;
-  sub: string;
-  trm: number;
+  scope?: string;
+  sub?: string;
+  trm?: number;
 }
 
-interface AuthState {
-  loginToken: EoLoginToken | null;
-}
+type AuthState = EoLoginToken;
 
 @Injectable({
   providedIn: 'root',
 })
 export class EoAuthStore extends ComponentStore<AuthState> {
   constructor() {
-    super({ loginToken: null });
+    super({});
   }
 
-  readonly loginToken$ = this.select((state) => state.loginToken);
-  readonly setLoginToken = this.updater(
-    (state, loginToken: EoLoginToken): AuthState => ({ ...state, loginToken })
-  );
+  readonly getScope$ = this.select((state) => state.scope?.split(' ') ?? []);
+  readonly getTokenExpiry$ = this.select((state) => state.exp);
 
-  readonly getScope$ = this.select((state) => state.loginToken?.scope.split(' ') ?? []);
+  readonly loginToken$ = this.select((state) => state);
+  readonly setLoginToken = this.updater(
+    (state, loginToken: EoLoginToken): AuthState => ({ ...state, ...loginToken })
+  );
 }

@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
-import { EoFeatureFlagDirective } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService, EoFeatureFlagDirective } from '@energinet-datahub/eo/shared/services';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
 
@@ -58,7 +57,6 @@ import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datah
       <watt-nav-list-item (click)="onLogOut()" role="link"> Log out </watt-nav-list-item>
     </watt-nav-list>
   `,
-  viewProviders: [EoLogOutStore],
 })
 export class EoPrimaryNavigationComponent {
   routes = eoRoutes;
@@ -68,9 +66,9 @@ export class EoPrimaryNavigationComponent {
     return 'Menu';
   }
 
-  constructor(private store: EoLogOutStore) {}
+  constructor(private authService: EoAuthService) {}
 
   onLogOut(): void {
-    this.store.onLogOut();
+    this.authService.logout();
   }
 }

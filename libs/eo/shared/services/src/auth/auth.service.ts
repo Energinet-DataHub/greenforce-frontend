@@ -52,6 +52,10 @@ export class EoAuthService {
     // empty for now
   }
 
+  refreshToken() {
+    this.handleToken();
+  }
+
   login() {
     this.http
       .get<{ next_url: string }>(`${this.#loginUrl}`)
@@ -80,7 +84,7 @@ export class EoAuthService {
     let token: EoLoginToken;
 
     try {
-      token = jwt_decode(this.getTokenFromCookie('loginToken'));
+      token = jwt_decode(this.getTokenFromCookie('Authorization'));
     } catch {
       token = jwt_decode(mockToken);
     }
