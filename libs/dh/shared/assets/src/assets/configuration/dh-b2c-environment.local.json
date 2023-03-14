@@ -1,6 +1,6 @@
 {
-  "clientId": "d91c10bb-1441-4ae5-9bf9-e6845567d018",
-  "backendId": "d91c10bb-1441-4ae5-9bf9-e6845567d018",
-  "authority": "https://devdatahubb2c.b2clogin.com/4a7411ea-ac71-4b63-9647-b8bd4c5a20e0/B2C_1_u001_signin",
-  "knownAuthorities": ["devdatahubb2c.b2clogin.com"]
+  "clientId": "88e5d356-0c71-49e9-b260-d0629f3c0445",
+  "backendId": null,
+  "authority": "https://dev002DataHubB2C.b2clogin.com/dev002DataHubB2C.onmicrosoft.com/B2C_1_sign_in_experiments",
+  "knownAuthorities": ["dev002DataHubB2C.b2clogin.com"]
 }
