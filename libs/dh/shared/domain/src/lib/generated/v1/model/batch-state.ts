@@ -11,12 +11,12 @@
  */
 
 
-export type BatchState = 'Pending' | 'Executing' | 'Completed' | 'Failed';
+export type BatchState = '_0' | '_1' | '_2' | '_3';
 
 export const BatchState = {
-    Pending: 'Pending' as BatchState,
-    Executing: 'Executing' as BatchState,
-    Completed: 'Completed' as BatchState,
-    Failed: 'Failed' as BatchState
+    _0: '_0' as BatchState,
+    _1: '_1' as BatchState,
+    _2: '_2' as BatchState,
+    _3: '_3' as BatchState
 };
 
