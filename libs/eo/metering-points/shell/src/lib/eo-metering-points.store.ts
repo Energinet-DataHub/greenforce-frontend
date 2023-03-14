@@ -24,10 +24,11 @@ import { EoMeteringPointsService, MeteringPoint } from './eo-metering-points.ser
 export interface EoMeteringPoint extends MeteringPoint {
   /** Granular certificate contract on metering point */
   contract?: EoCertificateContract;
+  /** Indicates whether a contract status is loading for the meteringpoint */
+  loadingContract: boolean;
 }
 
 interface EoMeteringPointsState {
-  loadingDone: boolean;
   meteringPoints: EoMeteringPoint[];
   error: HttpErrorResponse | null;
 }
@@ -41,21 +42,12 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     private certService: EoCertificatesService
   ) {
     super({
-      loadingDone: false,
       meteringPoints: [],
       error: null,
     });
 
     this.loadData();
   }
-
-  readonly loadingDone$ = this.select((state) => state.loadingDone);
-  private readonly setLoadingDone = this.updater(
-    (state, loadingDone: boolean): EoMeteringPointsState => ({
-      ...state,
-      loadingDone,
-    })
-  );
 
   readonly meteringPoints$ = this.select((state) => state.meteringPoints);
   private readonly setMeteringPoints = this.updater(
@@ -65,15 +57,21 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     })
   );
 
-  private readonly setCertificateContract = this.updater(
+  private readonly setContract = this.updater(
     (state, contract: EoCertificateContract): EoMeteringPointsState => ({
       ...state,
-      meteringPoints: state.meteringPoints.map((mp) => {
-        if (mp.gsrn === contract.gsrn) {
-          mp.contract = contract;
-        }
-        return mp;
-      }),
+      meteringPoints: state.meteringPoints.map((mp) =>
+        mp.gsrn === contract.gsrn ? { ...mp, contract } : mp
+      ),
+    })
+  );
+
+  private readonly setContractLoading = this.updater(
+    (state, gsrn: string): EoMeteringPointsState => ({
+      ...state,
+      meteringPoints: state.meteringPoints.map((mp) =>
+        mp.gsrn === gsrn ? { ...mp, loadingContract: !mp.loadingContract } : mp
+      ),
     })
   );
 
@@ -92,23 +90,26 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
           mpList.meteringPoints.map((mp: MeteringPoint) => ({
             ...mp,
             contract: contractList?.result.find((contract) => contract.gsrn === mp.gsrn),
+            loadingContract: false,
           }))
         );
-        this.setLoadingDone(true);
       },
       error: (error) => {
         this.setError(error);
-        this.setLoadingDone(true);
       },
     });
   }
 
   createCertificateContract(gsrn: string) {
+    this.setContractLoading(gsrn);
     this.certService.createContract(gsrn).subscribe({
-      next: (contract) => this.setCertificateContract(contract),
+      next: (contract) => {
+        this.setContract(contract);
+        this.setContractLoading(gsrn);
+      },
       error: (error) => {
         this.setError(error);
-        this.loadData();
+        this.setContractLoading(gsrn);
       },
     });
   }
