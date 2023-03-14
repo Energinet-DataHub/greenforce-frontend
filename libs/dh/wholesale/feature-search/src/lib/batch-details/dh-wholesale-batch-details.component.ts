@@ -73,32 +73,6 @@ export class DhWholesaleBatchDetailsComponent {
   error = false;
   loading = false;
 
-  // Lave en dateRange pipe
-
-  // TODO:
-  // This function is called a lot, consider adding a more declarative
-  // api to the watt-description-list (could also enable skeleton look)
-  // getBatchMetadata(): WattDescriptionListGroups {
-  //   const datePipe = new DhDatePipe();
-  //   const dateTimePipe = new DhDateTimePipe();
-  //   return [
-  //     {
-  //       term: translate('wholesale.batchDetails.calculationPeriod'),
-  //       description: this.batch?.period
-  //         ? `${datePipe.transform(this.batch?.period?.start)} - ${datePipe.transform(
-  //             this.batch?.period?.end
-  //           )}`
-  //         : '-',
-  //     },
-  //     {
-  //       term: translate('wholesale.batchDetails.executionTime'),
-  //       description: this.batch?.executionTimeStart
-  //         ? (dateTimePipe.transform(this.batch?.executionTimeStart) as string)
-  //         : '-',
-  //     },
-  //   ];
-  // }
-
   open(id: string): void {
     this.batchId = id;
     this.drawer.open();
