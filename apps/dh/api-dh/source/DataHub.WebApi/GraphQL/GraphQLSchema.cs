@@ -40,6 +40,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             this.RegisterTypeMapping<ProcessStepResultDto, ProcessStepType>();
             this.RegisterTypeMapping<TimeSeriesPointDto, TimeSeriesPointType>();
             this.RegisterTypeMapping<ProcessType, ProcessTypeEnum>();
+            this.RegisterTypeMapping<BatchState, BatchStateEnum>();
             this.RegisterTypeMapping<GridAreaDto, GridAreaType>();
             this.RegisterTypeMapping<PermissionAuditLogDto, PermissionAuditLogDtoType>();
             this.RegisterTypeMapping<PermissionChangeType, PermissionChangeTypeEnum>();

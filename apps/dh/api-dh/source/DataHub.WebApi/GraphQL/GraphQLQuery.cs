@@ -113,6 +113,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Argument<string[]>("gridAreaCodes", nullable: true)
                 .Argument<DateRangeType>("period")
                 .Argument<DateRangeType>("executionTime")
+                .Argument<BatchStateEnum>("batchState")
                 .Resolve()
                 .WithScope()
                 .WithService<IWholesaleClient_V2_1>()
