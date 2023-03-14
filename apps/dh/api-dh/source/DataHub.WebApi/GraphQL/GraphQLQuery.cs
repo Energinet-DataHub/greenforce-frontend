@@ -16,16 +16,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Energinet.DataHub.MarketParticipant.Client;
+using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v2;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v2_1;
-using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 using NodaTime;
 using BatchSearchDtoV2_V2_1 = Energinet.DataHub.WebApi.Clients.Wholesale.v2_1.BatchSearchDtoV2;
-using BatchState = Energinet.DataHub.WebApi.Clients.Wholesale.v2.BatchState;
 using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
 
 namespace Energinet.DataHub.WebApi.GraphQL

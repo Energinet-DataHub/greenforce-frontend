@@ -89,7 +89,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
             var responseMessage = await BffClient.GetAsync($"/v1/WholesaleBatch/Batch?batchId={batchId}");
 
-            var actual = await responseMessage.Content.ReadAsAsync<BatchDto_V2>();
+            var actual = await responseMessage.Content.ReadAsAsync<BatchDto>();
             foreach (var gridAreaDto in actual.GridAreas)
             {
                 Assert.NotNull(gridAreaDto.Name);
