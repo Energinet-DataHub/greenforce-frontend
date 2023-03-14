@@ -43,7 +43,6 @@ export class DhAdminPermissionDetailComponent {
   }
 
   open(permission: Permission): void {
-    console.log({ permission });
     this.selectedPermission = permission;
     this.drawer.open();
   }
