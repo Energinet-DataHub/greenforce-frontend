@@ -15,9 +15,11 @@
  * limitations under the License.
  */
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
+
+import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
+
 import { Permission } from '../permission';
 
 @Component({
@@ -41,7 +43,6 @@ export class DhAdminPermissionDetailComponent {
   }
 
   open(permission: Permission): void {
-    console.log({ permission });
     this.selectedPermission = permission;
     this.drawer.open();
   }
