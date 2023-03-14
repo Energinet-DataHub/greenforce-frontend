@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
+import { EoTermsService } from '@energinet-datahub/eo/shared/services';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable } from 'rxjs';
-import { AuthHttp } from '@energinet-datahub/eo/auth/data-access-api';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface EoPrivacyPolicyState {}
@@ -25,7 +25,7 @@ interface EoPrivacyPolicyState {}
 @Injectable()
 export class EoPrivacyPolicyStore extends ComponentStore<EoPrivacyPolicyState> {
   #response = this.select(
-    this.authHttp.getTerms().pipe(
+    this.termsService.getTerms().pipe(
       tapResponse(
         (response) => response,
         (error) => {
@@ -40,7 +40,7 @@ export class EoPrivacyPolicyStore extends ComponentStore<EoPrivacyPolicyState> {
   version$: Observable<string> = this.select(this.#response, (response) => response.version);
   privacyPolicy$: Observable<string> = this.select(this.#response, (response) => response.terms);
 
-  constructor(private authHttp: AuthHttp) {
+  constructor(private termsService: EoTermsService) {
     super(initialState);
   }
 }

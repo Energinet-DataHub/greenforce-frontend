@@ -23,10 +23,9 @@ import {
   EoFooterComponent,
   EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService, EoTermsStore } from '@energinet-datahub/eo/shared/services';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
-import { EoTermsStore } from './eo-terms.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

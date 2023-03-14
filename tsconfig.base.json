@@ -242,12 +242,6 @@
       "@energinet-datahub/dh/wholesale/shell": [
         "libs/dh/wholesale/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/auth/data-access-api": [
-        "libs/eo/auth/data-access-api/src/index.ts"
-      ],
-      "@energinet-datahub/eo/auth/data-access-security": [
-        "libs/eo/auth/data-access-security/src/index.ts"
-      ],
       "@energinet-datahub/eo/auth/routing-security": [
         "libs/eo/auth/routing-security/src/index.ts"
       ],

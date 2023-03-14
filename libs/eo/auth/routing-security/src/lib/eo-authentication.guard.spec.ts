@@ -18,12 +18,11 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AuthOidcQueryParameterName } from '@energinet-datahub/eo/auth/data-access-api';
 import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/shared/utilities';
 import { SpectacularAppComponent } from '@ngworker/spectacular';
 import { render, RenderResult } from '@testing-library/angular';
 
-import { EoAuthenticationGuard } from './eo-authentication.guard';
+import { AuthOidcQueryParameterName, EoAuthenticationGuard } from './eo-authentication.guard';
 
 describe(EoAuthenticationGuard.name, () => {
   @Component({

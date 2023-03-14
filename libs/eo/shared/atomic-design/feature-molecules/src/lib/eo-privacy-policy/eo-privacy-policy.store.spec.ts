@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 import { TestBed } from '@angular/core/testing';
+import { EoTermsService } from '@energinet-datahub/eo/shared/services';
 import { MockProvider } from 'ng-mocks';
-import { AuthHttp } from '@energinet-datahub/eo/auth/data-access-api';
-import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
 import { firstValueFrom, of } from 'rxjs';
+import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
 
 describe(EoPrivacyPolicyStore.name, () => {
   describe('Given the Auth API is available', () => {
@@ -26,7 +26,7 @@ describe(EoPrivacyPolicyStore.name, () => {
       TestBed.configureTestingModule({
         providers: [
           EoPrivacyPolicyStore,
-          MockProvider(AuthHttp, {
+          MockProvider(EoTermsService, {
             getTerms: () => of({ terms, version, headline: 'Privacy Policy' }),
           }),
         ],

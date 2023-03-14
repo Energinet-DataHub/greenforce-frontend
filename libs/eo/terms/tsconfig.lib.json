@@ -13,5 +13,5 @@
     "**/*.test.ts",
     "jest.config.ts"
   ],
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "../shared/services/src/terms/eo-terms.service.ts"]
 }

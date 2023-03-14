@@ -27,7 +27,7 @@ const mapToRouteData = pipe(map((event: ActivationEnd) => event.snapshot.data));
 export const mapToRouteTitle = pipe(
   filterActivationEnd,
   mapToRouteData,
-  map((data) => data.title as string | undefined),
+  map((data) => data['title'] as string | undefined),
   filter((title) => title !== undefined),
   map((title) => title as string)
 );

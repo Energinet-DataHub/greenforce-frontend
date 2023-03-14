@@ -48,10 +48,6 @@ export class EoAuthService {
     this.handleTermsAcceptance();
   }
 
-  handlePostLogout() {
-    // empty for now
-  }
-
   refreshToken() {
     this.handleToken();
   }

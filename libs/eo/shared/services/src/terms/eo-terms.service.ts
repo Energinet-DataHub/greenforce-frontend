@@ -18,7 +18,6 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { Observable } from 'rxjs';
-import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
 
 export interface AuthTermsResponse {
   /**
@@ -35,13 +34,18 @@ export interface AuthTermsResponse {
   readonly version: string;
 }
 
-export interface AuthLogoutResponse {
-  readonly success: boolean;
+export interface AuthTermsAcceptRequest {
+  accepted: boolean;
+  state: string;
+  /**
+   * A string: I.eg: "0.1"
+   */
+  version: string;
 }
 
-export interface AuthOidcLoginResponse {
+export interface AuthTermsAcceptResponse {
   /**
-   * The URL to redirect the user to in order to authenticate.
+   * A url
    */
   readonly next_url: string;
 }
@@ -49,9 +53,8 @@ export interface AuthOidcLoginResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthHttp {
+export class EoTermsService {
   #apiBase: string;
-
   constructor(
     private http: HttpClient,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
@@ -59,33 +62,13 @@ export class AuthHttp {
     this.#apiBase = `${apiEnvironment.apiBase}/auth`;
   }
 
-  /**
-   *
-   * @param feUrl Base URL for authentication web app.
-   * @param returnUrl Absolute URL to return to after authentication.
-   */
-  getOidcLogin(feUrl: string, returnUrl: string): Observable<AuthOidcLoginResponse> {
-    return this.http.get<AuthOidcLoginResponse>(`${this.#apiBase}/oidc/login`, {
-      params: {
-        [AuthOidcQueryParameterName.FeUrl]: feUrl,
-        [AuthOidcQueryParameterName.ReturnUrl]: returnUrl,
-      },
+  postAcceptTerms(payload: AuthTermsAcceptRequest): Observable<AuthTermsAcceptResponse> {
+    return this.http.post<AuthTermsAcceptResponse>(`${this.#apiBase}/terms/accept`, payload, {
+      withCredentials: true,
     });
   }
 
-  postLogout(): Observable<AuthLogoutResponse> {
-    return this.http.post<AuthLogoutResponse>(
-      `${this.#apiBase}/logout`,
-      {
-        // empty body
-      },
-      {
-        withCredentials: true,
-      }
-    );
-  }
-
-  getTerms(): Observable<AuthTermsResponse> {
+  getTerms() {
     return this.http.get<AuthTermsResponse>(`${this.#apiBase}/terms`);
   }
 }

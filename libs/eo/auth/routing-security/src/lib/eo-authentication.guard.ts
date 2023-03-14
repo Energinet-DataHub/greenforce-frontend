@@ -22,11 +22,24 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { AuthOidcQueryParameterName } from '@energinet-datahub/eo/auth/data-access-api';
 import {
   AbsoluteUrlGenerator,
   eoLandingPageRelativeUrl,
 } from '@energinet-datahub/eo/shared/utilities';
+
+export enum AuthOidcQueryParameterName {
+  Error = 'error',
+  ErrorCode = 'error_code',
+  /**
+   * Base URL for authentication web app.
+   */
+  FeUrl = 'fe_url',
+  /**
+   * Absolute URL to return to after authentication.
+   */
+  ReturnUrl = 'return_url',
+  Success = 'success',
+}
 
 /**
  * Redirects to login page if authentication fails.
