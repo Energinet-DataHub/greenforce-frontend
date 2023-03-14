@@ -42,7 +42,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
             this.RegisterTypeMapping<UserRoleWithPermissionsDto, UserRoleWithPermissionsDtoType>();
             this.RegisterTypeMapping<PermissionAuditLogDto, PermissionAuditLogDtoType>();
             this.RegisterTypeMapping<PermissionChangeType, PermissionChangeTypeEnum>();
-            this.RegisterTypeMapping<UserRoleWithPermissionsDto, UserRoleWithPermissionsDtoType>();
 
             Query = provider.GetRequiredService<GraphQLQuery>();
         }
