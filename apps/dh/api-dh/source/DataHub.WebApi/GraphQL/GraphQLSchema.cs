@@ -18,6 +18,8 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.v2_1;
 using GraphQL;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
+using BatchState = Energinet.DataHub.WebApi.Clients.Wholesale.v2.BatchState;
+using TimeSeriesType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.TimeSeriesType;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -38,6 +40,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             this.RegisterTypeMapping<ProcessStepResultDto, ProcessStepType>();
             this.RegisterTypeMapping<TimeSeriesPointDto, TimeSeriesPointType>();
             this.RegisterTypeMapping<ProcessType, ProcessTypeEnum>();
+            this.RegisterTypeMapping<BatchState, BatchStateEnum>();
             this.RegisterTypeMapping<GridAreaDto, GridAreaType>();
             this.RegisterTypeMapping<PermissionAuditLogDto, PermissionAuditLogDtoType>();
             this.RegisterTypeMapping<PermissionChangeType, PermissionChangeTypeEnum>();
