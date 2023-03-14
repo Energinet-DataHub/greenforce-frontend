@@ -11,10 +11,11 @@
  */
 
 
-export type PermissionAuditLogType = 'Unknown' | 'DescriptionChange';
+export type PermissionAuditLogType = 'Unknown' | 'DescriptionChange' | 'Created';
 
 export const PermissionAuditLogType = {
     Unknown: 'Unknown' as PermissionAuditLogType,
-    DescriptionChange: 'DescriptionChange' as PermissionAuditLogType
+    DescriptionChange: 'DescriptionChange' as PermissionAuditLogType,
+    Created: 'Created' as PermissionAuditLogType
 };
 
