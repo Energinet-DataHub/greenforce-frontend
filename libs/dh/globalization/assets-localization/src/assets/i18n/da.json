@@ -974,7 +974,6 @@
           }
         },
         "roles": {
-          "gln": "GLN {{ actorNumber }}",
           "tabLabel": "Brugerroller",
           "roles": "Brugerroller",
           "role": "Brugerrolle",
@@ -989,6 +988,14 @@
               "description": "Beskrivelse",
               "marketRole": "Markedsrolle",
               "status": "Status"
+            }
+          },
+          "assigned": {
+            "count": "{{ count }} tildelt",
+            "columns": {
+              "marketRole": "Markedsrolle",
+              "name": "Navn",
+              "description": "Beskrivelse"
             }
           },
           "createuserrole": "Ny brugerrolle",
@@ -1031,10 +1038,13 @@
       "editUser": {
         "cancel": "Fortryd",
         "save": "Gem",
-        "deactivateUser": "Deaktiver bruger",
         "tab": {
-          "actor": "Aktør",
-          "roles": "Roller"
+          "masterData": "Information",
+          "roles": "Brugerroller"
+        },
+        "masterData": {
+          "fullName": "Navn",
+          "phone": "Telefonnr."
         }
       },
       "editUserRole": {

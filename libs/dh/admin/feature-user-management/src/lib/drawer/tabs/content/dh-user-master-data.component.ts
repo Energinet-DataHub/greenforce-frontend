@@ -16,9 +16,13 @@
  */
 import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListItemComponent,
+} from '@energinet-datahub/watt/description-list';
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-user-master-data',
@@ -26,27 +30,19 @@ import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
   templateUrl: './dh-user-master-data.component.html',
   styles: [
     `
-      .master-data-list {
-        padding: 0;
-        margin: 0;
-
-        ul {
-          list-style: none;
-        }
-
-        li {
-          display: grid;
-          margin-top: var(--watt-space-s);
-          grid-template-columns: 20% 1fr;
-        }
-
-        li:not(:last-child) {
-          border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-        }
+      :host {
+        margin: var(--watt-space-ml);
+        display: block;
       }
     `,
   ],
-  imports: [WattCardModule, TranslocoModule],
+  imports: [
+    WattCardModule,
+    WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
+    TranslocoModule,
+    DhEmDashFallbackPipeScam,
+  ],
 })
 export class DhUserMasterDataComponent {
   @Input() user: UserOverviewItemDto | null = null;

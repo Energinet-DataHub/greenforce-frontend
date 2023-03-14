@@ -19,35 +19,23 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
-import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListItemComponent,
+} from '@energinet-datahub/watt/description-list';
 
 @Component({
   selector: 'dh-role-master-data',
   standalone: true,
   templateUrl: './dh-role-master-data.component.html',
-  styles: [
-    `
-      .master-data-list {
-        padding: 0;
-        margin: 0;
-
-        ul {
-          list-style: none;
-        }
-
-        li {
-          display: grid;
-          margin-top: var(--watt-space-m);
-          grid-template-columns: 20% 1fr;
-        }
-
-        li:not(:last-child) {
-          border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-        }
-      }
-    `,
+  imports: [
+    WattCardModule,
+    WattDescriptionListComponent,
+    TranslocoModule,
+    CommonModule,
+    WattDescriptionListItemComponent,
   ],
-  imports: [WattCardModule, TranslocoModule, NgIf],
 })
 export class DhRoleMasterDataComponent {
   @Input() role: UserRoleWithPermissionsDto | null = null;
