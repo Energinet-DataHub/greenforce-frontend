@@ -153,10 +153,10 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
     actor: [''],
   });
 
-  gridAreaOptions$: Observable<WattDropdownOption[]> = combineLatest(
+  gridAreaOptions$: Observable<WattDropdownOption[]> = combineLatest([
     this.store.gridAreas$.pipe(exists()),
     this.filters.controls.actor.valueChanges.pipe(startWith(null))
-  ).pipe(
+  ]).pipe(
     map(([gridAreas, selectedActorId]) => {
       const selectedActor = this.actors.find((x) => x.actorId === selectedActorId);
       this.filters.patchValue({ gridAreas: selectedActor?.gridAreaCodes });
