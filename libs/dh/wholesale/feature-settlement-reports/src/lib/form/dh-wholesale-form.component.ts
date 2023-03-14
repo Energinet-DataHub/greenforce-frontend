@@ -84,12 +84,10 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
     .selectTranslateObject('wholesale.settlementReports.processTypes')
     .pipe(
       map((translations) => {
-        return [
-          {
-            value: graphql.ProcessType.BalanceFixing,
-            displayValue: translations[graphql.ProcessType.BalanceFixing],
-          },
-        ];
+        return Object.entries(graphql.ProcessType).map(([, value]) => ({
+          value: value,
+          displayValue: translations[value],
+        }));
       })
     );
 
