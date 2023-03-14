@@ -81,7 +81,6 @@ export class DhWholesaleActorsComponent implements OnInit {
       .valueChanges.pipe(takeWhile((result) => result.loading, true))
       .subscribe({
         next: (result) => {
-          console.log(result);
           this.actors = result.data?.processStep?.actors ?? undefined;
           if (this.actors) this._dataSource.data = this.actors;
           this.loading = result.loading;
