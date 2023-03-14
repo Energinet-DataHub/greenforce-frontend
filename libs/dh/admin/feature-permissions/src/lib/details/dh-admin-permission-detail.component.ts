@@ -61,17 +61,4 @@ export class DhAdminPermissionDetailComponent {
     this.selectedPermission = permission;
     this.drawer.open();
   }
-
-  // getMetadata(): WattDescriptionListGroups {
-  //   return [
-  //     {
-  //       term: translate('admin.userManagement.permissionDetail.permissionName'),
-  //       description: this.selectedPermission?.name ?? '',
-  //     },
-  //     {
-  //       term: translate('admin.userManagement.permissionDetail.permissionDescription'),
-  //       description: this.selectedPermission?.description ?? '',
-  //     },
-  //   ];
-  // }
 }
