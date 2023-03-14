@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
@@ -67,17 +68,23 @@ namespace Energinet.DataHub.WebApi.Controllers
                     .ConfigureAwait(false);
 
                 var permissionAuditLogWithUser = new List<PermissionAuditLogViewDto>();
+                var userLookup = new Dictionary<Guid, UserDto>();
 
                 foreach (var auditLog in permissionAuditLogs)
                 {
-                    var userDto = await _marketParticipantClient
-                        .GetUserAsync(auditLog.ChangedByUserId)
-                        .ConfigureAwait(false);
+                    var userFoundInCache = userLookup.ContainsKey(auditLog.ChangedByUserId);
+                    if (!userFoundInCache)
+                    {
+                        var user = await _marketParticipantClient.GetUserAsync(auditLog.ChangedByUserId);
+                        userLookup.Add(auditLog.ChangedByUserId, user);
+                    }
+
+                    userLookup.TryGetValue(auditLog.ChangedByUserId, out var userDtoCache);
 
                     permissionAuditLogWithUser.Add(new PermissionAuditLogViewDto(
                         auditLog.PermissionId,
                         auditLog.ChangedByUserId,
-                        userDto.Name,
+                        userDtoCache?.Name ?? throw new KeyNotFoundException("User not found"),
                         auditLog.PermissionChangeType == PermissionChangeType.DescriptionChange ? PermissionAuditLogType.DescriptionChange : PermissionAuditLogType.Unknown,
                         auditLog.Timestamp));
                 }
