@@ -140,9 +140,9 @@ export class EoMeteringPointListComponent implements AfterViewInit {
       }
     };
 
-    this.store.meteringPoints$.subscribe((meteringPoints) => {
-      this.dataSource.data = meteringPoints;
-    });
+    this.store.meteringPoints$.subscribe(
+      (meteringPoints) => (this.dataSource.data = meteringPoints)
+    );
   }
 
   createContract(gsrn: string) {
