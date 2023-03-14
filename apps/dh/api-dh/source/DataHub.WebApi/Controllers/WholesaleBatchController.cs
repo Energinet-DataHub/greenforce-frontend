@@ -60,16 +60,5 @@ namespace Energinet.DataHub.WebApi.Controllers
             await _clientV2.BatchPOSTAsync(batchRequestDto).ConfigureAwait(false);
             return Ok();
         }
-
-        /// <summary>
-        /// Get a batch.
-        /// </summary>
-        [HttpGet("ZippedBasisDataStream")]
-        [Produces("application/zip")]
-        public async Task<ActionResult<Stream>> GetAsync(Guid batchId)
-        {
-            var stream = await _clientV2_3.SettlementReportAsync(batchId);
-            return File(stream, MediaTypeNames.Application.Zip);
-        }
     }
 }
