@@ -15,41 +15,28 @@
  * limitations under the License.
  */
 import { Component, Input } from '@angular/core';
-import { translate, TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
-import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   WattDescriptionListComponent,
-  WattDescriptionListGroups,
+  WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 
 @Component({
   selector: 'dh-role-master-data',
   standalone: true,
   templateUrl: './dh-role-master-data.component.html',
-  imports: [WattCardModule, WattDescriptionListComponent, TranslocoModule, NgIf],
+  imports: [
+    WattCardModule,
+    WattDescriptionListComponent,
+    TranslocoModule,
+    CommonModule,
+    WattDescriptionListItemComponent,
+  ],
 })
 export class DhRoleMasterDataComponent {
   @Input() role: UserRoleWithPermissionsDto | null = null;
-
-  getMasterData(): WattDescriptionListGroups {
-    if (!this.role) return [];
-
-    return [
-      {
-        term: translate('admin.userManagement.tabs.masterData.name'),
-        description: this.role.name,
-      },
-      {
-        term: translate('admin.userManagement.tabs.masterData.description'),
-        description: this.role.description,
-      },
-      {
-        term: translate('admin.userManagement.tabs.masterData.marketRole'),
-        description: translate('marketParticipant.marketRoles.' + this.role.eicFunction),
-      },
-    ];
-  }
 }
