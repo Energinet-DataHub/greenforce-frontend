@@ -42,15 +42,18 @@ namespace Energinet.DataHub.WebApi.Controllers
     {
         private readonly IWholesaleClient_V2 _clientV2;
         private readonly IWholesaleClient_V2_3 _clientV2_3;
+        private readonly IWholesaleClient_V3 _clientV3;
         private readonly IMarketParticipantClient _marketParticipantClient;
 
         public WholesaleBatchController(
             IWholesaleClient_V2 clientV2,
             IWholesaleClient_V2_3 clientV23,
+            IWholesaleClient_V3 clientV3,
             IMarketParticipantClient marketParticipantClient)
         {
             _clientV2 = clientV2;
             _clientV2_3 = clientV23;
+            _clientV3 = clientV3;
             _marketParticipantClient = marketParticipantClient;
         }
 
@@ -97,44 +100,44 @@ namespace Energinet.DataHub.WebApi.Controllers
                 gridAreaDtos.ToArray());
         }
 
-        // /// <summary>
-        // /// Get a processStepResult.
-        // /// </summary>
-        // [HttpPost("ProcessStepResult")]
-        // public async Task<ActionResult<ProcessStepResultDto_V3>> GetAsync(
-        //     ProcessStepResultRequestDtoV3 processStepResultRequestDto)
-        // {
-        //     var dto = await _clientV3.TimeSeriesTypesAsync(
-        //         processStepResultRequestDto.BatchId,
-        //         processStepResultRequestDto.GridAreaCode,
-        //         (TimeSeriesType_V3)processStepResultRequestDto.TimeSeriesType,
-        //         processStepResultRequestDto.EnergySupplierGln,
-        //         processStepResultRequestDto.BalanceResponsiblePartyGln,
-        //         "3").ConfigureAwait(false);
-        //     return Ok(dto);
-        // }
-        //
-        // /// <summary>
-        // /// Get a list of actors.
-        // /// </summary>
-        // [HttpPost("Actors")]
-        // public async Task<ActionResult<ActorDto_V3[]>> GetAsync(ProcessStepActorsRequest processStepActorsRequestDto)
-        // {
-        //     var batchId = processStepActorsRequestDto.BatchId;
-        //     var gridAreaCode = processStepActorsRequestDto.GridAreaCode;
-        //     var type = (TimeSeriesType_V3)processStepActorsRequestDto.Type;
-        //     var marketRole = processStepActorsRequestDto.MarketRole;
-        //     if (marketRole == MarketRole._0)
-        //     {
-        //         var energySupplierDto = await _clientV3.EnergySuppliersAsync(batchId, gridAreaCode, type)
-        //             .ConfigureAwait(false);
-        //         return Ok(energySupplierDto);
-        //     }
-        //
-        //     var balanceResponsiblePartyDto =
-        //         await _clientV3.BalanceResponsiblePartiesAsync(batchId, gridAreaCode, type)
-        //             .ConfigureAwait(false);
-        //     return Ok(balanceResponsiblePartyDto);
-        // }
+        /// <summary>
+        /// Get a processStepResult.
+        /// </summary>
+        [HttpPost("ProcessStepResult")]
+        public async Task<ActionResult<ProcessStepResultDto_V3>> GetAsync(
+            ProcessStepResultRequestDtoV3 processStepResultRequestDto)
+        {
+            var dto = await _clientV3.TimeSeriesTypesAsync(
+                processStepResultRequestDto.BatchId,
+                processStepResultRequestDto.GridAreaCode,
+                (TimeSeriesType_V3)processStepResultRequestDto.TimeSeriesType,
+                processStepResultRequestDto.EnergySupplierGln,
+                processStepResultRequestDto.BalanceResponsiblePartyGln,
+                "3").ConfigureAwait(false);
+            return Ok(dto);
+        }
+
+        /// <summary>
+        /// Get a list of actors.
+        /// </summary>
+        [HttpPost("Actors")]
+        public async Task<ActionResult<ActorDto_V3[]>> GetAsync(ProcessStepActorsRequest processStepActorsRequestDto)
+        {
+            var batchId = processStepActorsRequestDto.BatchId;
+            var gridAreaCode = processStepActorsRequestDto.GridAreaCode;
+            var type = (TimeSeriesType_V3)processStepActorsRequestDto.Type;
+            var marketRole = processStepActorsRequestDto.MarketRole;
+            if (marketRole == MarketRole._0)
+            {
+                var energySupplierDto = await _clientV3.EnergySuppliersAsync(batchId, gridAreaCode, type)
+                    .ConfigureAwait(false);
+                return Ok(energySupplierDto);
+            }
+
+            var balanceResponsiblePartyDto =
+                await _clientV3.BalanceResponsiblePartiesAsync(batchId, gridAreaCode, type)
+                    .ConfigureAwait(false);
+            return Ok(balanceResponsiblePartyDto);
+        }
     }
 }
