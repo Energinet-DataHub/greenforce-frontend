@@ -24,7 +24,6 @@ using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 using NodaTime;
-using BatchSearchDtoV2_V2_1 = Energinet.DataHub.WebApi.Clients.Wholesale.v2_1.BatchSearchDtoV2;
 using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
 
 namespace Energinet.DataHub.WebApi.GraphQL
@@ -96,6 +95,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<BatchType>>>>("batches")
                 .Argument<DateRangeType>("executionTime")
+                .Argument<BatchSearchType>("batchSearch")
                 .Resolve()
                 .WithScope()
                 .WithService<IWholesaleClient_V2_1>()
@@ -104,7 +104,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var interval = context.GetArgument<Interval>("executionTime");
                     var start = interval.Start.ToDateTimeOffset();
                     var end = interval.End.ToDateTimeOffset();
-                    var batchSearchDto = new BatchSearchDtoV2_V2_1(Clients.Wholesale.v2_1.BatchState._2, null, null, null, end, start);
+                    var batchSearchDto = new BatchSearchDtoV2(Clients.Wholesale.v2_1.BatchState._2, null, null, null, end, start);
                     return await client.SearchAsync(batchSearchDto);
                 });
 
@@ -113,6 +113,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Argument<string[]>("gridAreaCodes", nullable: true)
                 .Argument<DateRangeType>("period")
                 .Argument<DateRangeType>("executionTime")
+                .Argument<BatchSearchType>("batchSearch")
                 .Resolve()
                 .WithScope()
                 .WithService<IWholesaleClient_V2_1>()
@@ -130,7 +131,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var periodStart = period?.HasStart == true ? period?.Start.ToDateTimeOffset() : null;
                     var periodEnd = period?.HasEnd == true ? period?.End.ToDateTimeOffset() : null;
 
-                    var batchSearchDto = new BatchSearchDtoV2_V2_1(
+                    var batchSearchDto = new BatchSearchDtoV2(
                         Clients.Wholesale.v2_1.BatchState._2, // Completed
                         gridAreaCodes,
                         minExecutionTime,
