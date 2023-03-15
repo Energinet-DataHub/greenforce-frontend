@@ -17,9 +17,14 @@
 @use "@energinet-datahub/watt/utils" as watt;
 
 watt-tabs {
+  .mat-tab-group.mat-primary
+    .mat-tab-label.cdk-focused.cdk-keyboard-focused:focus {
+    background-color: var(--watt-color-primary-ultralight);
+  }
   .mat-tab-label {
     min-width: 120px;
     opacity: 1;
+    border-bottom: 2px solid transparent;
     @include watt.space-inset-m;
 
     .mat-tab-label-content {

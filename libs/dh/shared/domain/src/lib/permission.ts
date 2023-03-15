@@ -20,5 +20,6 @@ export const permissions = [
   'actors:manage',
   'users:manage',
   'user-roles:manage',
+  'permissions:manage',
 ] as const;
 export type Permission = typeof permissions[number];
