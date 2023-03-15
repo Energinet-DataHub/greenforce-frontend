@@ -37,7 +37,7 @@ runs:
           --no-build \
           --no-restore \
           --configuration Release \
-          --output '.\apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net6.0'
+          --output '.\apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net7.0'
 
     - name: Copy all bin folders
       shell: bash
