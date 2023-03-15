@@ -18,7 +18,7 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.v2_1;
 using GraphQL;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
-using BatchState = Energinet.DataHub.WebApi.Clients.Wholesale.v2.BatchState;
+using BatchState = Energinet.DataHub.WebApi.Clients.Wholesale.v2_1.BatchState;
 using TimeSeriesType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.TimeSeriesType;
 
 namespace Energinet.DataHub.WebApi.GraphQL

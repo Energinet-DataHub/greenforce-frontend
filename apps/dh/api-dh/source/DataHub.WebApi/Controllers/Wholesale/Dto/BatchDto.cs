@@ -15,6 +15,7 @@
 using System;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v2;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v2_1;
 
 namespace Energinet.DataHub.WebApi.Controllers.Wholesale.Dto
 {

@@ -11,6 +11,7 @@ export * from './asset-type';
 export * from './assigned-actor-dto';
 export * from './batch-dto';
 export * from './batch-request-dto';
+export * from './batch-search-dto-v2';
 export * from './batch-state';
 export * from './change-actor-dto';
 export * from './change-grid-area-dto';
