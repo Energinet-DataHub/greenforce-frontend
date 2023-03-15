@@ -58,13 +58,13 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
   standalone: true,
   styles: [
     `
-      :host {
-        display: block;
+      .tab-master-data {
+        margin: calc(var(--watt-space-ml) * 2) 0 0 var(--watt-space-ml);
+        width: 25rem;
       }
 
-      .form-wrapper {
-        padding-top: var(--watt-space-l);
-        width: 25rem;
+      .tab-permissions {
+        margin: 0 var(--watt-space-ml);
       }
 
       .spinner-container {
