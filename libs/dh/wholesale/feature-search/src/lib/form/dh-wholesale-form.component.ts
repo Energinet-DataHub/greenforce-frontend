@@ -44,7 +44,11 @@ export class DhWholesaleFormComponent {
   @Input() set executionTime(executionTime: { start: string; end: string }) {
     this.searchForm.patchValue({ executionTime });
   }
-  @Output() search = new EventEmitter<{ minExecutionTime: string; maxExecutionTime: string; filterByGridAreaCodes: string[]; }>();
+  @Output() search = new EventEmitter<{
+    minExecutionTime: string;
+    maxExecutionTime: string;
+    filterByGridAreaCodes: string[];
+  }>();
 
   searchForm = this.fb.group({
     executionTime: [this.executionTime, WattRangeValidators.required()],

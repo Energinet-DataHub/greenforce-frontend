@@ -101,7 +101,11 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
     this.destroy$.complete();
   }
 
-  onSearch(search: { minExecutionTime: string; maxExecutionTime: string; filterByGridAreaCodes: string[]; }) {
+  onSearch(search: {
+    minExecutionTime: string;
+    maxExecutionTime: string;
+    filterByGridAreaCodes: string[];
+  }) {
     this.query.refetch({
       executionTime: {
         start: search.minExecutionTime as string,
