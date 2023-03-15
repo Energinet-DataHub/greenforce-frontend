@@ -18,7 +18,7 @@
         ],
         "parallel": false
       },
-      "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net6.0"]
+      "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net7.0"]
     },
     "build-client": {
       "dependsOn": ["build"],
@@ -71,7 +71,7 @@
         "commands": ["npx ts-node tools/dh/api-dh/ci/stop-api-dh.ts"],
         "parallel": false
       },
-      "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net6.0"]
+      "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net7.0"]
     }
   },
   "tags": ["product:dh", "type:api"]
