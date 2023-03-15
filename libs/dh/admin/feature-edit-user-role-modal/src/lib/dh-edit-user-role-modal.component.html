@@ -23,9 +23,9 @@ limitations under the License.
       (ngSubmit)="save(userRole)"
       #form="ngForm"
     >
-      <watt-tabs class="watt-modal-content-full-width">
+      <watt-tabs class="watt-modal-content--full-width">
         <watt-tab [label]="t('tab.masterData.tabLabel')">
-          <div class="tabMasterData">
+          <div class="tab-master-data">
             <watt-form-field class="watt-space-stack-l">
               <watt-label>{{ t("tab.masterData.nameInputLabel") }}</watt-label>
               <input wattInput type="text" formControlName="name" />
@@ -48,7 +48,7 @@ limitations under the License.
         </watt-tab>
 
         <watt-tab [label]="t('tab.permissions.tabLabel')">
-          <div class="tabPermissions">
+          <div class="tab-permissions">
             <p class="watt-on-light--medium-emphasis">{{ t("tab.permissions.onEditMessage") }}</p>
 
             <div

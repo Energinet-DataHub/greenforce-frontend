@@ -57,21 +57,17 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
   templateUrl: './dh-edit-user-modal.component.html',
   styles: [
     `
-      .masterDataForm {
+      .master-data-form {
         display: flex;
         flex-direction: column;
         margin: var(--watt-space-ml) var(--watt-space-ml) 0 var(--watt-space-ml);
       }
 
-      .userRoles {
-        display: block;
-      }
-
-      .fullNameField {
+      .full-name-field {
         max-width: 512px;
       }
 
-      .phoneField {
+      .phone-field {
         max-width: 256px;
       }
     `,
