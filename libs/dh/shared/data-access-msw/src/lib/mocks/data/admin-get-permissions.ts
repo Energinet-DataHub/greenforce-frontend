@@ -20,12 +20,12 @@ export const adminPermissionsMock: graphql.GetPermissionsQuery = {
   permissions: [
     {
       id: 1,
-      name: 'OrganizationView',
+      name: 'organizations:view',
       description: 'Description for OrganizationView',
     },
     {
       id: 2,
-      name: 'OrganizationManage',
+      name: 'organizations:manage',
       description: 'Description for OrganizationManage',
     },
   ],

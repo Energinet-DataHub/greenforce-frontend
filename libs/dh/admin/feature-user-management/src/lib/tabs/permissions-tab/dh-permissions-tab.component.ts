@@ -15,13 +15,20 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
+
 import { DhAdminPermissionOverviewComponent } from '@energinet-datahub/dh/admin/feature-permissions';
 
 @Component({
   standalone: true,
   selector: 'dh-permissions-tab',
-  template: ` <dh-admin-permission-overview></dh-admin-permission-overview>`,
-  styles: [``],
+  template: `<dh-admin-permission-overview></dh-admin-permission-overview>`,
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
   imports: [DhAdminPermissionOverviewComponent],
 })
 export class DhPermissionsTabComponent {}
