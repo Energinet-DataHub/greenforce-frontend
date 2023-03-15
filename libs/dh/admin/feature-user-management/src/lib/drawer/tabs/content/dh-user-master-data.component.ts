@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 import { Component, Input } from '@angular/core';
-import { translate, TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import {
   WattDescriptionListComponent,
-  WattDescriptionListGroups,
+  WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
-import { emDash } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-user-master-data',
@@ -36,27 +36,14 @@ import { emDash } from '@energinet-datahub/dh/shared/ui-util';
       }
     `,
   ],
-  imports: [WattCardModule, WattDescriptionListComponent, TranslocoModule],
+  imports: [
+    WattCardModule,
+    WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
+    TranslocoModule,
+    DhEmDashFallbackPipeScam,
+  ],
 })
 export class DhUserMasterDataComponent {
   @Input() user: UserOverviewItemDto | null = null;
-
-  getMasterData(): WattDescriptionListGroups {
-    if (!this.user) return [];
-
-    return [
-      {
-        term: translate('admin.userManagement.tabs.masterData.name'),
-        description: this.user.name,
-      },
-      {
-        term: translate('admin.userManagement.tabs.masterData.email'),
-        description: this.user.email,
-      },
-      {
-        term: translate('admin.userManagement.tabs.masterData.phone'),
-        description: this.user.phoneNumber ?? emDash,
-      },
-    ];
-  }
 }
