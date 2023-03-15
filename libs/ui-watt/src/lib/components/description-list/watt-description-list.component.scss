@@ -17,21 +17,43 @@
 watt-description-list {
   display: block;
   margin: var(--watt-space-ml) 0;
+  &.watt-description-list-flow {
+    dl {
+      display: grid;
+      gap: var(--watt-space-ml);
+      grid-template-columns: repeat(
+        var(--watt-description-list-groups-per-row, 3),
+        1fr
+      );
 
-  dl {
-    display: grid;
-    gap: var(--watt-space-ml);
-    grid-template-columns: repeat(
-      var(--watt-description-list-groups-per-row, 3),
-      1fr
-    );
+      dd {
+        margin: 0;
+      }
 
-    dd {
-      margin: 0;
+      .force-new-row {
+        grid-column-start: 1;
+      }
     }
+  }
+  &.watt-description-list-stack {
+    dl {
+      display: grid;
+      gap: var(--watt-space-m);
+      grid-template-columns: 1fr;
 
-    .force-new-row {
-      grid-column-start: 1;
+      dd {
+        margin: 0;
+      }
+
+      dt {
+        width: 240px;
+      }
+
+      div {
+        display: flex;
+        border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+        padding-bottom: var(--watt-space-m);
+      }
     }
   }
 }

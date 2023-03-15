@@ -14,10 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface WattDescriptionListTerm {
-  term: string | number;
-  description: string | number;
-  forceNewRow?: boolean;
-}
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 
-export type WattDescriptionListGroups = WattDescriptionListTerm[];
+export const adminPermissionsMock: graphql.GetPermissionsQuery = {
+  permissions: [
+    {
+      id: 1,
+      name: 'OrganizationView',
+      description: 'Description for OrganizationView',
+    },
+    {
+      id: 2,
+      name: 'OrganizationManage',
+      description: 'Description for OrganizationManage',
+    },
+  ],
+};
