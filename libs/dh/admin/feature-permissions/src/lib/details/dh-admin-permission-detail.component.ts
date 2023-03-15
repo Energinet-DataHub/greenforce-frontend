@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 import { Component, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
-import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
+import { TranslocoModule } from '@ngneat/transloco';
+
+import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import {
   WattDescriptionListComponent,
