@@ -21,7 +21,7 @@ import { ActorTokenService } from './actor-token.service';
 
 describe(PermissionService.name, () => {
   // base64 encoded access token: { role: ['actors:manage'] }
-  const fakeAccessToken = 'ignored.eyJyb2xlIjpbImFjdG9yOm1hbmFnZSJdfQ';
+  const fakeAccessToken = 'ignored.eyJyb2xlIjpbImFjdG9yczptYW5hZ2UiXX0';
 
   test('should return true if permission is found within access token roles', async () => {
     // arrange
