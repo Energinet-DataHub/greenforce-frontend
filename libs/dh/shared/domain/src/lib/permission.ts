@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 export const permissions = [
-  'organization:manage',
-  'gridareas:manage',
-  'actor:manage',
+  'organizations:manage',
+  'grid-areas:manage',
+  'actors:manage',
   'users:manage',
-  'userrole:manage',
+  'user-roles:manage',
 ] as const;
 export type Permission = typeof permissions[number];
