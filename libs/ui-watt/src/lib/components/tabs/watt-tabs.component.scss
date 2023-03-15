@@ -20,6 +20,7 @@ watt-tabs {
   .mat-tab-label {
     min-width: 120px;
     opacity: 1;
+    border-bottom: 2px solid transparent;
     @include watt.space-inset-m;
 
     .mat-tab-label-content {
@@ -27,7 +28,6 @@ watt-tabs {
       color: var(--watt-on-light-medium-emphasis);
     }
 
-    &.mat-tab-label-active,
     &.mat-tab-label:hover {
       color: var(--watt-on-light-medium-emphasis);
       border-bottom: 2px solid var(--watt-color-primary);
