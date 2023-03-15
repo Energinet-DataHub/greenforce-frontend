@@ -11,33 +11,24 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using System;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+
+using Energinet.DataHub.WebApi.Clients.Wholesale.v2_1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using NodaTime;
+using GraphQL.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class SettlementReport
+    public class BatchSearchType : ObjectGraphType<BatchSearchDtoV2>
     {
-        public ProcessType ProcessType { get; set; }
-
-        public GridAreaDto GridArea { get; set; }
-
-        public Interval Period { get; set; }
-
-        public DateTimeOffset? ExecutionTime { get; set; }
-
-        public SettlementReport(
-            ProcessType processType,
-            GridAreaDto gridArea,
-            Interval period,
-            DateTimeOffset? executionTime)
+        public BatchSearchType()
         {
-            ProcessType = processType;
-            GridArea = gridArea;
-            Period = period;
-            ExecutionTime = executionTime;
+            Name = "BatchSearch";
+            Field(x => x.PeriodEnd);
+            Field(x => x.PeriodStart);
+            Field(x => x.MaxExecutionTime);
+            Field(x => x.MinExecutionTime);
+            Field(x => x.FilterByExecutionState);
+            Field(x => x.FilterByGridAreaCodes);
         }
     }
 }
