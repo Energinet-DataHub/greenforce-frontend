@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { EicFunction } from './eic-function';
 
 
 export interface PermissionDetailsDto { 
@@ -16,6 +17,7 @@ export interface PermissionDetailsDto {
     name: string;
     description: string;
     created: string;
+    assignableTo: Array<EicFunction>;
 }
 
 
