@@ -3,7 +3,7 @@
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "https://app-webapi-wholsal-u-001.azurewebsites.net/swagger/v2.1/swagger.json",
+      "url": "https://localhost:7133/swagger/v2.1/swagger.json",
       "output": null,
       "newLineBehavior": "Auto"
     }

@@ -375,6 +375,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_1
         public System.DateTimeOffset? ExecutionTimeEnd { get; }
 
         [Newtonsoft.Json.JsonProperty("executionState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public BatchState ExecutionState { get; }
 
         [Newtonsoft.Json.JsonProperty("isBasisDataDownloadAvailable", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -384,6 +385,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_1
         public System.Collections.Generic.ICollection<string> GridAreaCodes { get; }
 
         [Newtonsoft.Json.JsonProperty("processType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ProcessType ProcessType { get; }
 
     }
@@ -413,6 +415,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_1
         public System.Collections.Generic.ICollection<string> FilterByGridAreaCodes { get; }
 
         [Newtonsoft.Json.JsonProperty("filterByExecutionState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public BatchState FilterByExecutionState { get; }
 
         [Newtonsoft.Json.JsonProperty("minExecutionTime", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -433,13 +436,17 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_1
     public enum BatchState
     {
 
-        _0 = 0,
+        [System.Runtime.Serialization.EnumMember(Value = @"Pending")]
+        Pending = 0,
 
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = @"Executing")]
+        Executing = 1,
 
-        _2 = 2,
+        [System.Runtime.Serialization.EnumMember(Value = @"Completed")]
+        Completed = 2,
 
-        _3 = 3,
+        [System.Runtime.Serialization.EnumMember(Value = @"Failed")]
+        Failed = 3,
 
     }
 
@@ -463,6 +470,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_1
             this.TimeSeriesPoints = @timeSeriesPoints;
 
         }    [Newtonsoft.Json.JsonProperty("timeSeriesType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public TimeSeriesType TimeSeriesType { get; }
 
         [Newtonsoft.Json.JsonProperty("sum", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -501,6 +509,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_1
         public string GridAreaCode { get; }
 
         [Newtonsoft.Json.JsonProperty("processStepResult", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ProcessStepType ProcessStepResult { get; }
 
     }
@@ -509,7 +518,8 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_1
     public enum ProcessStepType
     {
 
-        _25 = 25,
+        [System.Runtime.Serialization.EnumMember(Value = @"AggregateProductionPerGridArea")]
+        AggregateProductionPerGridArea = 0,
 
     }
 
@@ -517,9 +527,11 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_1
     public enum ProcessType
     {
 
-        _0 = 0,
+        [System.Runtime.Serialization.EnumMember(Value = @"BalanceFixing")]
+        BalanceFixing = 0,
 
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = @"Aggregation")]
+        Aggregation = 1,
 
     }
 
@@ -553,11 +565,14 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_1
     public enum TimeSeriesType
     {
 
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = @"NonProfiledConsumption")]
+        NonProfiledConsumption = 0,
 
-        _2 = 2,
+        [System.Runtime.Serialization.EnumMember(Value = @"FlexConsumption")]
+        FlexConsumption = 1,
 
-        _3 = 3,
+        [System.Runtime.Serialization.EnumMember(Value = @"Production")]
+        Production = 2,
 
     }
 
