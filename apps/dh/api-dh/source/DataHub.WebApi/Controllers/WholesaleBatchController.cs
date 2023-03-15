@@ -85,7 +85,7 @@ namespace Energinet.DataHub.WebApi.Controllers
                     batch.PeriodEnd,
                     batch.ExecutionTimeStart,
                     batch.ExecutionTimeEnd,
-                    (BatchState)batch.ExecutionState,
+                    batch.ExecutionState,
                     batch.IsBasisDataDownloadAvailable,
                     gridAreaDtos.ToArray()));
             }
