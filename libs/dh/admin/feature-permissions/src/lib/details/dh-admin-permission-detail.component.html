@@ -20,7 +20,9 @@ limitations under the License.
   size="large"
   (closed)="onClose()"
 >
-  <watt-drawer-topbar>{{ selectedPermission?.name }}</watt-drawer-topbar>
+  <watt-drawer-heading>
+    <h2>{{ selectedPermission?.name }}</h2>
+  </watt-drawer-heading>
 
   <watt-drawer-content *ngIf="drawer.isOpen">
     <watt-tabs>
