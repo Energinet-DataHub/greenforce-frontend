@@ -26,7 +26,7 @@
       "options": {
         "commands": [
           "npm run check:java",
-          "openapi-generator-cli generate -o libs/dh/shared/domain/src/lib/generated/v1 -i apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0/swagger.json -g typescript-angular -p=fileNaming=kebab-case -p=serviceFileSuffix=-http.service -p=serviceSuffix=Http -p=supportsES6=true -p=taggedUnions=true -p=enumPropertyNaming=original",
+          "openapi-generator-cli generate -o libs/dh/shared/domain/src/lib/generated/v1 -i apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net7.0/swagger.json -g typescript-angular -p=fileNaming=kebab-case -p=serviceFileSuffix=-http.service -p=serviceSuffix=Http -p=supportsES6=true -p=taggedUnions=true -p=enumPropertyNaming=original",
           "rimraf libs/dh/shared/domain/src/lib/generated/v1/.openapi-generator/",
           "rimraf libs/dh/shared/domain/src/lib/generated/v1/.gitignore",
           "rimraf libs/dh/shared/domain/src/lib/generated/v1/git_push.sh"
