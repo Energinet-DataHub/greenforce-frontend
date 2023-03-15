@@ -25,7 +25,7 @@ import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 import { DanishLocaleModule } from '@energinet-datahub/gf/configuration-danish-locale';
 import { DrawerDatepickerService } from './drawer/charge-content/drawer-datepicker/drawer-datepicker.service';
-import { WattTopBarOutletComponent } from 'libs/ui-watt/src/lib/components/shell/top-bar';
+import { WattTopBarOutletComponent } from '@energinet-datahub/watt/shell';
 
 const wattDrawerName = 'watt-drawer';
 const dateTimeFormat = 'dd-MM-yyyy';

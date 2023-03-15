@@ -17,10 +17,11 @@
 import { HttpClientModule } from '@angular/common/http';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { MatSelectHarness } from '@angular/material/select/testing';
+import { MatLegacySelectHarness as MatSelectHarness } from '@angular/material/legacy-select/testing';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/angular';
 import { MockProvider } from 'ng-mocks';
+import { of } from 'rxjs';
 
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
@@ -30,7 +31,6 @@ import { UserOverviewItemDto, UserStatus } from '@energinet-datahub/dh/shared/do
 
 import { DhUsersTabComponent } from './dh-users-tab.component';
 import { searchDebounceTimeMs } from './dh-users-tab-search.component';
-import { of } from 'rxjs';
 
 const users: UserOverviewItemDto[] = [
   {

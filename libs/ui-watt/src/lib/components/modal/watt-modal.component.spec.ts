@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { render, screen, waitFor } from '@testing-library/angular';
-import user from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 
 import { WattButtonModule } from '../button';
 import { WattModalModule } from './watt-modal.module';
@@ -58,15 +58,15 @@ describe(WattModalComponent.name, () => {
 
   it('opens on button click', async () => {
     await setup();
-    user.click(screen.getByRole('button'));
+    userEvent.click(screen.getByRole('button'));
     await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
   });
 
   it('closes when rejected', async () => {
     const closed = jest.fn();
     await setup({ closed });
-    user.click(screen.getByRole('button'));
-    user.click(screen.getByText('No'));
+    userEvent.click(screen.getByRole('button'));
+    userEvent.click(screen.getByText('No'));
     await waitFor(() => expect(closed).toBeCalledWith(false));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
@@ -74,17 +74,17 @@ describe(WattModalComponent.name, () => {
   it('closes when accepted', async () => {
     const closed = jest.fn();
     await setup({ closed });
-    user.click(screen.getByRole('button'));
-    user.click(screen.getByText('Yes'));
+    userEvent.click(screen.getByRole('button'));
+    userEvent.click(screen.getByText('Yes'));
     await waitFor(() => expect(closed).toBeCalledWith(true));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it('closes on esc', async () => {
+  it('closes on ESC', async () => {
     const closed = jest.fn();
     await setup({ closed });
-    user.click(screen.getByRole('button'));
-    user.keyboard('[Escape]');
+    userEvent.click(screen.getByRole('button'));
+    userEvent.keyboard('[Escape]');
     await waitFor(() => expect(closed).toBeCalledWith(false));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
@@ -92,10 +92,10 @@ describe(WattModalComponent.name, () => {
   it('closes on close button click', async () => {
     const closed = jest.fn();
     await setup({ closed });
-    user.click(screen.getByRole('button'));
+    userEvent.click(screen.getByRole('button'));
     await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
 
-    user.click(screen.getByLabelText('Close'));
+    userEvent.click(screen.getByLabelText('Close'));
     await waitFor(() => expect(closed).toBeCalledWith(false));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
@@ -103,22 +103,22 @@ describe(WattModalComponent.name, () => {
   it('disables close button', async () => {
     const closed = jest.fn();
     await setup({ closed, disableClose: true });
-    user.click(screen.getByRole('button'));
+    userEvent.click(screen.getByRole('button'));
     expect(screen.queryByLabelText('Close')).not.toBeInTheDocument();
   });
 
   it('disables ESC', async () => {
     const closed = jest.fn();
     await setup({ closed, disableClose: true });
-    user.click(screen.getByRole('button'));
-    user.keyboard('[Escape]');
+    userEvent.click(screen.getByRole('button'));
+    userEvent.keyboard('[Escape]');
     await waitFor(() => expect(closed).not.toBeCalled());
     expect(screen.queryByRole('dialog')).toBeInTheDocument();
   });
 
   it('displays title', async () => {
     await setup();
-    user.click(screen.getByRole('button'));
+    userEvent.click(screen.getByRole('button'));
     await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
     expect(screen.getByRole('heading')).toHaveTextContent('Test Modal');
   });
