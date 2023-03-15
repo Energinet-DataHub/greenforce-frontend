@@ -95,7 +95,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<BatchType>>>>("batches")
                 .Argument<DateRangeType>("executionTime")
-                .Argument<BatchSearchType>("batchSearch")
                 .Resolve()
                 .WithScope()
                 .WithService<IWholesaleClient_V2_1>()
@@ -113,7 +112,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Argument<string[]>("gridAreaCodes", nullable: true)
                 .Argument<DateRangeType>("period")
                 .Argument<DateRangeType>("executionTime")
-                .Argument<BatchSearchType>("batchSearch")
                 .Resolve()
                 .WithScope()
                 .WithService<IWholesaleClient_V2_1>()
