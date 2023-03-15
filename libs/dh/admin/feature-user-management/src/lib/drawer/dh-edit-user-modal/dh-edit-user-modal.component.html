@@ -16,15 +16,15 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.editUser'">
   <watt-modal size="large" [title]="user?.name ?? ''" #editUserModal (closed)="closeModal($event)">
-    <watt-tabs>
+    <watt-tabs class="watt-modal-content--full-width">
       <watt-tab [label]="t('tab.masterData')">
         <!-- This is a temporary read-only placeholder of user information. -->
-        <form class="masterDataForm">
-          <watt-form-field class="fullNameField">
+        <form class="master-data-form">
+          <watt-form-field class="full-name-field">
             <watt-label>{{ t("masterData.fullName") }}</watt-label>
             <input wattInput disabled type="text" value="{{ user?.name }}" />
           </watt-form-field>
-          <watt-form-field class="phoneField">
+          <watt-form-field class="phone-field">
             <watt-label>{{ t("masterData.phone") }}</watt-label>
             <input wattInput disabled type="text" value="{{ user?.phoneNumber }}" />
           </watt-form-field>
@@ -35,7 +35,6 @@ limitations under the License.
           #userRoles
           [user]="user"
           [selectMode]="true"
-          class="userRoles"
           (updateUserRoles)="onSelectedUserRolesChanged($event)"
         ></dh-user-roles>
       </watt-tab>
