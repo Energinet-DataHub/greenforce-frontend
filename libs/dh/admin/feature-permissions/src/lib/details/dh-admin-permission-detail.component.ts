@@ -14,18 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
-import { TranslocoModule } from '@ngneat/transloco';
+import { Component, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslocoModule } from '@ngneat/transloco';
+
+import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
+import { WattCardModule } from '@energinet-datahub/watt/card';
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListItemComponent,
+} from '@energinet-datahub/watt/description-list';
+import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+
 import { Permission } from '../permission';
 
 @Component({
   selector: 'dh-admin-permission-detail',
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './dh-admin-permission-detail.component.html',
   styleUrls: ['./dh-admin-permission-detail.component.scss'],
-  imports: [CommonModule, WattDrawerModule, TranslocoModule],
+  imports: [
+    CommonModule,
+    WattDrawerModule,
+    TranslocoModule,
+    WattCardModule,
+    WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
+    WattTabsComponent,
+    WattTabComponent,
+    WattButtonModule,
+    DhPermissionRequiredDirective,
+  ],
 })
 export class DhAdminPermissionDetailComponent {
   @ViewChild('drawer')
@@ -41,7 +63,6 @@ export class DhAdminPermissionDetailComponent {
   }
 
   open(permission: Permission): void {
-    console.log({ permission });
     this.selectedPermission = permission;
     this.drawer.open();
   }

@@ -29,7 +29,16 @@ limitations under the License.
       </div>
     </watt-drawer-heading>
     <watt-drawer-content>
-      <watt-description-list [groups]="getBatchMetadata()"></watt-description-list>
+      <watt-description-list>
+        <watt-description-list-item
+          [label]="transloco('batchDetails.calculationPeriod')"
+          [value]="batch?.period | dhDateTimeRange | dhEmDashFallback"
+        ></watt-description-list-item>
+        <watt-description-list-item
+          [label]="transloco('batchDetails.executionTime')"
+          [value]="batch?.executionTimeStart | dhDateTime | dhEmDashFallback"
+        ></watt-description-list-item>
+      </watt-description-list>
 
       <ng-container *ngIf="batch">
         <dh-wholesale-grid-areas

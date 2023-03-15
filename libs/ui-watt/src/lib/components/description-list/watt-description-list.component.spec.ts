@@ -19,7 +19,7 @@ import { render, screen } from '@testing-library/angular';
 import { Story } from '@storybook/angular';
 
 import { WattDescriptionListComponent } from './watt-description-list.component';
-import Meta, { Default } from './watt-description-list.stories';
+import Meta, { Default } from './+storybook/watt-description-list.stories';
 
 const defaultStory = composeStory(Default, Meta);
 

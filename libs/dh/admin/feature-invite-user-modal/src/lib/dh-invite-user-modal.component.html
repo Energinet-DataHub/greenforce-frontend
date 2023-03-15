@@ -16,11 +16,12 @@ limitations under the License.
 -->
 <watt-modal
   #inviteUserModal
+  size="large"
   [title]="t('title')"
   (closed)="closeModal($event)"
   *transloco="let t; read: 'admin.userManagement.inviteUser'"
 >
-  <mat-stepper [linear]="true" #stepper>
+  <mat-stepper class="watt-modal-content--full-width" [linear]="true" #stepper>
     <ng-template matStepperIcon="edit">
       <watt-icon name="checkmark"></watt-icon>
     </ng-template>
@@ -96,12 +97,15 @@ limitations under the License.
     <mat-step [stepControl]="userRoles">
       <form [formGroup]="userRoles">
         <ng-template matStepLabel>{{ t("addUserRole") }}</ng-template>
+        <watt-error
+          class="user-role-error"
+          *ngIf="userRoles.controls.selectedUserRoles.hasError('required')"
+        >
+          {{ "shared.fieldRequiredErrorText" | transloco }}
+        </watt-error>
         <dh-assignable-user-roles
           (selectedUserRoles)="onSelectedUserRoles($event)"
         ></dh-assignable-user-roles>
-        <watt-error *ngIf="userRoles.controls.selectedUserRoles.hasError('required')">
-          {{ "shared.fieldRequiredErrorText" | transloco }}
-        </watt-error>
       </form>
       <div class="buttonWrapper">
         <watt-button variant="secondary" wattStepperPrevious>
