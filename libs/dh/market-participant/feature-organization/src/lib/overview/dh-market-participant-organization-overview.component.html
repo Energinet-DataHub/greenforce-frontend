@@ -96,7 +96,7 @@ limitations under the License.
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let element">
         <watt-button
-          *dhPermissionRequired="['organization:manage', 'actor:manage']"
+          *dhPermissionRequired="['organizations:manage', 'actors:manage']"
           variant="icon"
           icon="edit"
           [mat-menu-trigger-for]="menu"
@@ -104,7 +104,7 @@ limitations under the License.
         </watt-button>
         <mat-menu #menu="matMenu">
           <button
-            *dhPermissionRequired="['organization:manage']"
+            *dhPermissionRequired="['organizations:manage']"
             mat-menu-item
             (click)="onEditOrganization(element)"
           >
@@ -112,12 +112,12 @@ limitations under the License.
           </button>
           <button
             mat-menu-item
-            *dhPermissionRequired="['actor:manage']"
+            *dhPermissionRequired="['actors:manage']"
             (click)="onCreateActor(element)"
           >
             {{ t("createActor") }}
           </button>
-          <ng-container *dhPermissionRequired="['actor:manage']">
+          <ng-container *dhPermissionRequired="['actors:manage']">
             <button
               mat-menu-item
               (click)="onEditActor(element.organization.organizationId, element.actor.actorId)"

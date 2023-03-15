@@ -32,7 +32,7 @@ limitations under the License.
         <!-- Header -->
         <div
           class="create-organization-block watt-space-stack-m"
-          *dhPermissionRequired="['organization:manage']"
+          *dhPermissionRequired="['organizations:manage']"
         >
           <watt-button variant="primary" [disabled]="isLoading" (click)="createOrganization()"
             >{{ t("createOrganization") }}
