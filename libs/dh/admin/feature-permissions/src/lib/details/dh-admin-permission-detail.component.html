@@ -24,6 +24,12 @@ limitations under the License.
     <h2>{{ selectedPermission?.name }}</h2>
   </watt-drawer-heading>
 
+  <watt-drawer-actions>
+    <watt-button *dhPermissionRequired="['permissions:manage']" variant="secondary">{{
+      "admin.userManagement.drawer.edit" | transloco
+    }}</watt-button>
+  </watt-drawer-actions>
+
   <watt-drawer-content *ngIf="drawer.isOpen">
     <watt-tabs>
       <watt-tab [label]="t('information')">

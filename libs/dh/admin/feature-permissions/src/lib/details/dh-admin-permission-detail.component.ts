@@ -25,6 +25,9 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+
 import { Permission } from '../permission';
 
 @Component({
@@ -42,6 +45,8 @@ import { Permission } from '../permission';
     WattDescriptionListItemComponent,
     WattTabsComponent,
     WattTabComponent,
+    WattButtonModule,
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhAdminPermissionDetailComponent {
