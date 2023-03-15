@@ -21,9 +21,6 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.v2;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v2_3;
 using Energinet.DataHub.WebApi.Controllers.Wholesale.Dto;
 using Microsoft.AspNetCore.Mvc;
-using ActorDto_V3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ActorDto;
-using BatchRequestDto_V2 = Energinet.DataHub.WebApi.Clients.Wholesale.v2.BatchRequestDto;
-using BatchSearchDtoV2_V2_1 = Energinet.DataHub.WebApi.Clients.Wholesale.v2_1.BatchSearchDtoV2;
 using Stream = System.IO.Stream;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -50,7 +47,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Create a batch.
         /// </summary>
         [HttpPost]
-        public async Task<ActionResult> CreateAsync(BatchRequestDto_V2 batchRequestDto)
+        public async Task<ActionResult> CreateAsync(BatchRequestDto batchRequestDto)
         {
             await _clientV2.BatchPOSTAsync(batchRequestDto).ConfigureAwait(false);
             return Ok();
