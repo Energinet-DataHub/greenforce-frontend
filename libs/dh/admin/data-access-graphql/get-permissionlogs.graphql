@@ -1,0 +1,9 @@
+query GetPermissionLogs {
+  permissionlogs {
+    permissionId
+    changedByUserId
+    changedByUserName
+    permissionAuditLogType
+    timestamp
+  }
+}
