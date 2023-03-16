@@ -11,10 +11,10 @@
  */
 
 
-export type ProcessType = 'BalanceFixing' | 'Aggregation';
+export type ProcessType = '_0' | '_1';
 
 export const ProcessType = {
-    BalanceFixing: 'BalanceFixing' as ProcessType,
-    Aggregation: 'Aggregation' as ProcessType
+    _0: '_0' as ProcessType,
+    _1: '_1' as ProcessType
 };
 

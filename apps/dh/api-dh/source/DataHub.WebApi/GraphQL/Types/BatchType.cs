@@ -51,10 +51,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field<NonNullGraphType<StatusTypeEnum>>("statusType")
                 .Resolve(context => context.Source.ExecutionState switch
                 {
-                    BatchState.Pending => "warning",
-                    BatchState.Completed => "success",
-                    BatchState.Failed => "danger",
-                    BatchState.Executing => "info",
+                    BatchState._0 => "warning", // BatchState.Pending
+                    BatchState._2 => "success", // BatchState.Completed
+                    BatchState._3 => "danger", // BatchState.Failed
+                    BatchState._1 => "info", // BatchState.Executing
                     _ => "info",
                 });
 
