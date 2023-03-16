@@ -366,9 +366,11 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
     public enum MarketRole
     {
 
-        _0 = 0,
+        [System.Runtime.Serialization.EnumMember(Value = @"EnergySupplier")]
+        EnergySupplier = 0,
 
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = @"BalanceResponsibleParty")]
+        BalanceResponsibleParty = 1,
 
     }
 
@@ -396,9 +398,11 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
         public string GridAreaCode { get; }
 
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public TimeSeriesType Type { get; }
 
         [Newtonsoft.Json.JsonProperty("marketRole", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public MarketRole MarketRole { get; }
 
     }
@@ -407,11 +411,14 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_3
     public enum TimeSeriesType
     {
 
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = @"NonProfiledConsumption")]
+        NonProfiledConsumption = 0,
 
-        _2 = 2,
+        [System.Runtime.Serialization.EnumMember(Value = @"FlexConsumption")]
+        FlexConsumption = 1,
 
-        _3 = 3,
+        [System.Runtime.Serialization.EnumMember(Value = @"Production")]
+        Production = 2,
 
     }
 
