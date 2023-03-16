@@ -16,7 +16,7 @@ using System;
 using System.IO;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using Energinet.DataHub.Wholesale.Client;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -25,9 +25,9 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public sealed class WholesaleSettlementReportController : ControllerBase
     {
-        private readonly IWholesaleClientV3 _client;
+        private readonly IWholesaleClient_V3 _client;
 
-        public WholesaleSettlementReportController(IWholesaleClientV3 client)
+        public WholesaleSettlementReportController(IWholesaleClient_V3 client)
         {
             _client = client;
         }
@@ -35,9 +35,8 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<Stream>> GetAsync(Guid batchId, string gridAreaCode)
         {
-            return File(
-                await _client.GetSettlementReportAsStreamAsync(batchId, gridAreaCode).ConfigureAwait(false),
-                MediaTypeNames.Application.Zip);
+            var stream = await _client.SettlementReportAsync(batchId, gridAreaCode).ConfigureAwait(false);
+            return File(stream, MediaTypeNames.Application.Zip);
         }
     }
 }

@@ -16,7 +16,6 @@ using System;
 using System.Linq;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
-using Energinet.DataHub.Wholesale.Contracts;
 using GraphQL.DataLoader;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
@@ -31,7 +30,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field(x => x.ProcessType).Description("The process type.");
             Field(x => x.GridArea).Description("The grid area.");
             Field<DateRangeType>("period")
-              .Resolve(context => context.Source.Period);
+                .Resolve(context => context.Source.Period);
             Field(x => x.ExecutionTime, nullable: true).Description("The execution time.");
         }
     }
