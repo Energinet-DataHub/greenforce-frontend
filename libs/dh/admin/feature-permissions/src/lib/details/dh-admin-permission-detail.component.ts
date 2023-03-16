@@ -50,7 +50,7 @@ import { DhPermissionAuditLogsComponent } from './tabs/dh-admin-permission-audit
     WattButtonModule,
     DhPermissionRequiredDirective,
     DhEditPermissionModalComponent,
-    DhPermissionAuditLogsComponent
+    DhPermissionAuditLogsComponent,
   ],
 })
 export class DhAdminPermissionDetailComponent {
