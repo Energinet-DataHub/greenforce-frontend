@@ -29,7 +29,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> BalanceResponsiblePartiesAsync(System.Guid batchId, string gridAreaCode, TimeSeriesType timeSeriesType, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> GetListOfBalanceResponsiblePartiesAsync(System.Guid batchId, string gridAreaCode, TimeSeriesType timeSeriesType, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -37,7 +37,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> EnergySuppliersAsync(System.Guid batchId, string gridAreaCode, TimeSeriesType timeSeriesType, string balanceResponsibleParty = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> GetListOfEnergySuppliersAsync(System.Guid batchId, string gridAreaCode, TimeSeriesType timeSeriesType, string balanceResponsibleParty = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -54,7 +54,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <param name="balanceResponsiblePartyGln">The GLN for the balance responsible party the requested result</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ProcessStepResultDto> TimeSeriesTypesAsync(System.Guid batchId, string gridAreaCode, TimeSeriesType timeSeriesType, string energySupplierGln = null, string balanceResponsiblePartyGln = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ProcessStepResultDto> GetProcessStepResultAsync(System.Guid batchId, string gridAreaCode, TimeSeriesType timeSeriesType, string energySupplierGln = null, string balanceResponsiblePartyGln = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -109,7 +109,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> BalanceResponsiblePartiesAsync(System.Guid batchId, string gridAreaCode, TimeSeriesType timeSeriesType, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> GetListOfBalanceResponsiblePartiesAsync(System.Guid batchId, string gridAreaCode, TimeSeriesType timeSeriesType, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (batchId == null)
                 throw new System.ArgumentNullException("batchId");
@@ -196,7 +196,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> EnergySuppliersAsync(System.Guid batchId, string gridAreaCode, TimeSeriesType timeSeriesType, string balanceResponsibleParty = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> GetListOfEnergySuppliersAsync(System.Guid batchId, string gridAreaCode, TimeSeriesType timeSeriesType, string balanceResponsibleParty = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (batchId == null)
                 throw new System.ArgumentNullException("batchId");
@@ -296,7 +296,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <param name="balanceResponsiblePartyGln">The GLN for the balance responsible party the requested result</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ProcessStepResultDto> TimeSeriesTypesAsync(System.Guid batchId, string gridAreaCode, TimeSeriesType timeSeriesType, string energySupplierGln = null, string balanceResponsiblePartyGln = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ProcessStepResultDto> GetProcessStepResultAsync(System.Guid batchId, string gridAreaCode, TimeSeriesType timeSeriesType, string energySupplierGln = null, string balanceResponsiblePartyGln = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (batchId == null)
                 throw new System.ArgumentNullException("batchId");
@@ -656,6 +656,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         public System.Collections.Generic.ICollection<TimeSeriesPointDto> TimeSeriesPoints { get; }
 
         [Newtonsoft.Json.JsonProperty("processType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ProcessType ProcessType { get; }
 
     }
@@ -664,9 +665,11 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
     public enum ProcessType
     {
 
-        _0 = 0,
+        [System.Runtime.Serialization.EnumMember(Value = @"BalanceFixing")]
+        BalanceFixing = 0,
 
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = @"Aggregation")]
+        Aggregation = 1,
 
     }
 
@@ -712,11 +715,14 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
     public enum TimeSeriesType
     {
 
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = @"NonProfiledConsumption")]
+        NonProfiledConsumption = 0,
 
-        _2 = 2,
+        [System.Runtime.Serialization.EnumMember(Value = @"FlexConsumption")]
+        FlexConsumption = 1,
 
-        _3 = 3,
+        [System.Runtime.Serialization.EnumMember(Value = @"Production")]
+        Production = 2,
 
     }
 
