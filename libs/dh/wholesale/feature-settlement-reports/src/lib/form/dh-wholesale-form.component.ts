@@ -75,8 +75,8 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
       map((translations) => {
         return [
           {
-            value: ProcessType._0,
-            displayValue: translations[ProcessType._0],
+            value: ProcessType.BalanceFixing,
+            displayValue: translations[ProcessType.BalanceFixing],
           },
         ];
       })
