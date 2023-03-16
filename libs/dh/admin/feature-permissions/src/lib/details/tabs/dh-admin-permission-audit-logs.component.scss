@@ -14,7 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { graphql } from '@energinet-datahub/dh/shared/domain';
-import type { ResultOf } from '@graphql-typed-document-node/core';
+:host {
+  display: block;
+  margin: var(--watt-space-ml);
+}
 
-export type PermissionAuditLog = ResultOf<typeof graphql.GetPermissionsDocument>['permissions'];
+.change-text {
+  margin: 0;
+}
+
+.no-results-text {
+  text-align: center;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+}

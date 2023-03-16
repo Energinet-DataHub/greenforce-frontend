@@ -70,6 +70,7 @@ export type GraphQlQuery = {
   batches: Array<Batch>;
   organization?: Maybe<Organization>;
   organizations?: Maybe<Array<Maybe<Organization>>>;
+  permissionlogs: Array<PermissionAuditLog>;
   permissions: Array<Permission>;
   processStep?: Maybe<ProcessStep>;
   settlementReports: Array<SettlementReport>;
@@ -87,6 +88,11 @@ export type GraphQlQueryBatchesArgs = {
 
 
 export type GraphQlQueryOrganizationArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type GraphQlQueryPermissionlogsArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
 
@@ -155,6 +161,26 @@ export type Permission = {
   /** The name of the permission. */
   name: Scalars['String'];
 };
+
+export type PermissionAuditLog = {
+  __typename?: 'PermissionAuditLog';
+  /** Changed by user id */
+  changedByUserId: Scalars['ID'];
+  /** Changed by user name */
+  changedByUserName: Scalars['String'];
+  /** Permission audit log type */
+  permissionAuditLogType: PermissionAuditLogType;
+  /** Permission id */
+  permissionId: Scalars['Int'];
+  /** Time of change */
+  timestamp: Scalars['DateTimeOffset'];
+};
+
+export enum PermissionAuditLogType {
+  Created = 'CREATED',
+  DescriptionChange = 'DESCRIPTION_CHANGE',
+  Unknown = 'UNKNOWN'
+}
 
 export enum PriceAreaCode {
   Dk_1 = 'DK_1',

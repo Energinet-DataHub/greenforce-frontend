@@ -29,6 +29,7 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { Permission } from '../permission';
+import { DhPermissionAuditLogsComponent } from './tabs/dh-admin-permission-audit-logs.component';
 
 @Component({
   selector: 'dh-admin-permission-detail',
@@ -47,6 +48,7 @@ import { Permission } from '../permission';
     WattTabComponent,
     WattButtonModule,
     DhPermissionRequiredDirective,
+    DhPermissionAuditLogsComponent
   ],
 })
 export class DhAdminPermissionDetailComponent {
