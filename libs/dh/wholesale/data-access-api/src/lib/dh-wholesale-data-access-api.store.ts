@@ -24,9 +24,15 @@ import {
   MarketParticipantGridAreaHttp,
   BatchRequestDto,
   ProcessType,
+  BatchSearchDtoV2,
   BatchState,
   BatchDto,
   GridAreaDto,
+  ProcessStepResultRequestDtoV3,
+  ProcessStepResultDto,
+  WholesaleActorDto,
+  TimeSeriesType,
+  MarketRole,
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
@@ -35,11 +41,13 @@ import type { WattBadgeType } from '@energinet-datahub-types/watt/badge';
 interface State {
   batches?: batch[];
   gridAreas?: GridAreaDto[];
+  processStepResults?: ProcessStepResultDto;
   loadingBatches: boolean;
   loadingSettlementReports: boolean;
   selectedBatch?: batch;
   selectedGridArea?: GridAreaDto;
   loadingCreatingBatch: boolean;
+  actors?: WholesaleActorDto[];
 }
 
 const initialState: State = {
@@ -59,6 +67,8 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   );
   selectedBatch$ = this.select((x) => x.selectedBatch);
   selectedGridArea$ = this.select((x) => x.selectedGridArea);
+  processStepResults$ = this.select((x) => x.processStepResults);
+  actors$ = this.select((x) => x.actors);
 
   creatingBatchSuccessTrigger$: Subject<void> = new Subject();
   creatingBatchErrorTrigger$: Subject<void> = new Subject();
@@ -96,6 +106,13 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     })
   );
 
+  readonly setProcessStepResults = this.updater(
+    (state, processStepResults: ProcessStepResultDto | undefined): State => ({
+      ...state,
+      processStepResults,
+    })
+  );
+
   readonly setLoadingBatches = this.updater(
     (state, loadingBatches: boolean): State => ({
       ...state,
@@ -107,6 +124,13 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (state, loadingBatches: boolean): State => ({
       ...state,
       loadingBatches,
+    })
+  );
+
+  readonly setActors = this.updater(
+    (state, actors: WholesaleActorDto[]): State => ({
+      ...state,
+      actors,
     })
   );
 
@@ -153,6 +177,32 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     }
   );
 
+  readonly getBatches = this.effect((filter$: Observable<BatchSearchDtoV2>) => {
+    return filter$.pipe(
+      switchMap((filter: BatchSearchDtoV2) => {
+        this.setLoadingBatches(true);
+
+        return this.httpClient.v1WholesaleBatchSearchPost(filter).pipe(
+          tapResponse(
+            (batches) => {
+              const mappedBatches = batches.map((batch) => {
+                return {
+                  ...batch,
+                  statusType: this.getStatusType(batch.executionState),
+                };
+              });
+              this.setBatches(mappedBatches);
+            },
+            () => {
+              this.setLoadingBatches(false);
+              this.loadingBatchesErrorTrigger$.next();
+            }
+          )
+        );
+      })
+    );
+  });
+
   readonly getBatch = this.effect((batchNumber$: Observable<string>) => {
     return batchNumber$.pipe(
       switchMap((batchNumber) => {
@@ -184,6 +234,46 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       );
   });
 
+  readonly getProcessStepResults = this.effect(
+    (options$: Observable<ProcessStepResultRequestDtoV3>) => {
+      return options$.pipe(
+        switchMap((options) => {
+          this.setProcessStepResults(undefined); // We reset the process step results to force the loading spinner to show
+          return this.httpClient.v1WholesaleBatchProcessStepResultPost(options).pipe(
+            tapResponse(
+              (stepResults: ProcessStepResultDto) => this.setProcessStepResults(stepResults),
+              () => this.loadingProcessStepResultsErrorTrigger$.next()
+            )
+          );
+        })
+      );
+    }
+  );
+
+  readonly getActors = this.effect(
+    (options$: Observable<{ batchId: string; gridAreaCode: string; marketRole: MarketRole }>) => {
+      return options$.pipe(
+        switchMap(({ batchId, gridAreaCode, marketRole }) => {
+          return this.httpClient
+            .v1WholesaleBatchActorsPost({
+              batchId,
+              gridAreaCode,
+              type: TimeSeriesType.NonProfiledConsumption,
+              marketRole,
+            })
+            .pipe(
+              tapResponse(
+                (actors) => this.setActors(actors),
+                () => {
+                  this.loadingActorsErrorTrigger$.next();
+                }
+              )
+            );
+        })
+      );
+    }
+  );
+
   readonly getZippedBasisData = this.effect((batch$: Observable<BatchDto>) => {
     return batch$.pipe(
       switchMap((batch) => {
@@ -210,6 +300,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (state, batch: batch | undefined): State => ({
       ...state,
       selectedBatch: batch,
+      processStepResults: undefined,
     })
   );
 
@@ -230,11 +321,11 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   };
 
   private getStatusType(status: BatchState): WattBadgeType {
-    if (status === BatchState._0) {
+    if (status === BatchState.Pending) {
       return 'warning';
-    } else if (status === BatchState._2) {
+    } else if (status === BatchState.Completed) {
       return 'success';
-    } else if (status === BatchState._3) {
+    } else if (status === BatchState.Failed) {
       return 'danger';
     } else {
       return 'info';
