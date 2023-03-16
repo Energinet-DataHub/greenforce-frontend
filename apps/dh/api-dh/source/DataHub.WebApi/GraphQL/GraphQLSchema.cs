@@ -14,17 +14,19 @@
 
 using System;
 using Energinet.DataHub.MarketParticipant.Client.Models;
-using Energinet.DataHub.Wholesale.Contracts;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v2_1;
 using GraphQL;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
+using BatchState = Energinet.DataHub.WebApi.Clients.Wholesale.v2_1.BatchState;
+using TimeSeriesType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.TimeSeriesType;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class GraphQLSchema : Schema
     {
         public GraphQLSchema(IServiceProvider provider)
-          : base(provider)
+            : base(provider)
         {
             this.RegisterTypeMapping<PermissionDetailsDto, PermissionDtoType>();
             this.RegisterTypeMapping<AddressDto, AddressDtoType>();
@@ -37,6 +39,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             this.RegisterTypeMapping<BatchDtoV2, BatchType>();
             this.RegisterTypeMapping<ProcessStepResultDto, ProcessStepType>();
             this.RegisterTypeMapping<TimeSeriesPointDto, TimeSeriesPointType>();
+            this.RegisterTypeMapping<BatchSearchDtoV2, BatchSearchType>();
             this.RegisterTypeMapping<ProcessType, ProcessTypeEnum>();
             this.RegisterTypeMapping<GridAreaDto, GridAreaType>();
             this.RegisterTypeMapping<PermissionAuditLogDto, PermissionAuditLogDtoType>();

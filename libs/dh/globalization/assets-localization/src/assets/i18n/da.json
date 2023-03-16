@@ -1075,6 +1075,19 @@
         "cancel": "Fortryd",
         "save": "Gem"
       },
+      "editPermission": {
+        "tab": {
+          "masterData": {
+            "tabLabel": "Stamdata",
+            "descriptionInputLabel": "Beskrivelse"
+          },
+          "permissions": {
+            "tabLabel": "Roller"
+          }
+        },
+        "cancel": "Fortryd",
+        "save": "Gem"
+      },
       "permissionsTable": {
         "columns": {
           "name": "Navn",

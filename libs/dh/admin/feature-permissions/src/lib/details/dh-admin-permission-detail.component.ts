@@ -27,6 +27,7 @@ import {
 import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhEditPermissionModalComponent } from '@energinet-datahub/dh/admin/feature-edit-permission-modal';
 
 import { Permission } from '../permission';
 import { DhPermissionAuditLogsComponent } from './tabs/dh-admin-permission-audit-logs.component';
@@ -48,13 +49,16 @@ import { DhPermissionAuditLogsComponent } from './tabs/dh-admin-permission-audit
     WattTabComponent,
     WattButtonModule,
     DhPermissionRequiredDirective,
+    DhEditPermissionModalComponent,
     DhPermissionAuditLogsComponent
   ],
 })
 export class DhAdminPermissionDetailComponent {
-  @ViewChild('drawer')
+  @ViewChild(WattDrawerComponent)
   drawer!: WattDrawerComponent;
+
   selectedPermission: Permission | null = null;
+  isEditPermissionModalVisible = false;
 
   @Output() closed = new EventEmitter<void>();
 
@@ -67,5 +71,9 @@ export class DhAdminPermissionDetailComponent {
   open(permission: Permission): void {
     this.selectedPermission = permission;
     this.drawer.open();
+  }
+
+  modalOnClose(): void {
+    this.isEditPermissionModalVisible = false;
   }
 }
