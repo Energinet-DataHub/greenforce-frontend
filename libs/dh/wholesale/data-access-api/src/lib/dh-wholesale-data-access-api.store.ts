@@ -230,11 +230,11 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   };
 
   private getStatusType(status: BatchState): WattBadgeType {
-    if (status === BatchState.Pending) {
+    if (status === BatchState._0) {
       return 'warning';
-    } else if (status === BatchState.Completed) {
+    } else if (status === BatchState._2) {
       return 'success';
-    } else if (status === BatchState.Failed) {
+    } else if (status === BatchState._3) {
       return 'danger';
     } else {
       return 'info';

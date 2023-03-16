@@ -103,7 +103,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var interval = context.GetArgument<Interval>("executionTime");
                     var start = interval.Start.ToDateTimeOffset();
                     var end = interval.End.ToDateTimeOffset();
-                    var batchSearchDto = new BatchSearchDtoV2(Clients.Wholesale.v2_1.BatchState.Completed, null, null, null, end, start);
+                    var batchSearchDto = new BatchSearchDtoV2(Clients.Wholesale.v2_1.BatchState._2, null, null, null, end, start);
                     return await client.SearchAsync(batchSearchDto);
                 });
 
@@ -130,7 +130,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var periodEnd = period?.HasEnd == true ? period?.End.ToDateTimeOffset() : null;
 
                     var batchSearchDto = new BatchSearchDtoV2(
-                        Clients.Wholesale.v2_1.BatchState.Completed,
+                        Clients.Wholesale.v2_1.BatchState._2, // Completed
                         gridAreaCodes,
                         minExecutionTime,
                         maxExecutionTime,
@@ -147,7 +147,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                         var settlementReports = batch.GridAreaCodes
                             .Where(gridAreaCode => gridAreaCodes.Length == 0 || gridAreaCodes.Contains(gridAreaCode))
                             .Select(gridAreaCode => new SettlementReport(
-                                ProcessType.BalanceFixing,
+                                ProcessType._0, // BalanceFixing
                                 gridAreas.First(gridArea => gridArea.Code == gridAreaCode),
                                 new Interval(
                                     Instant.FromDateTimeOffset(batch.PeriodStart),

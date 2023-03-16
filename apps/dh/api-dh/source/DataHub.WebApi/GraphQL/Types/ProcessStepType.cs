@@ -48,8 +48,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
                     var request = step switch
                     {
-                        2 => new ProcessStepActorsRequest(batchId, gridArea, MarketRole.EnergySupplier, TimeSeriesType_V2_3.NonProfiledConsumption),
-                        3 => new ProcessStepActorsRequest(batchId, gridArea, MarketRole.BalanceResponsibleParty, TimeSeriesType_V2_3.NonProfiledConsumption),
+                        2 => new ProcessStepActorsRequest(batchId, gridArea, MarketRole._0, TimeSeriesType_V2_3._1),
+                        3 => new ProcessStepActorsRequest(batchId, gridArea, MarketRole._1, TimeSeriesType_V2_3._1),
                         _ => null,
                     };
 
@@ -64,16 +64,16 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var requestType = (TimeSeriesType_V3)request.Type;
                     var requestMarketRole = request.MarketRole;
                     var actors = new List<ActorDto_V3>();
-                    if (requestMarketRole == MarketRole.EnergySupplier)
+                    if (requestMarketRole == MarketRole._0)
                     {
                         actors = (List<ActorDto_V3>)await client
-                            .GetListOfEnergySuppliersAsync(requestBatchId, requestGridAreaCode, requestType)
+                            .EnergySuppliersAsync(requestBatchId, requestGridAreaCode, requestType)
                             .ConfigureAwait(false);
                     }
                     else
                     {
                         actors = (List<ActorDto_V3>)await client
-                            .GetListOfBalanceResponsiblePartiesAsync(requestBatchId, requestGridAreaCode, requestType)
+                            .BalanceResponsiblePartiesAsync(requestBatchId, requestGridAreaCode, requestType)
                             .ConfigureAwait(false);
                     }
 
@@ -104,19 +104,19 @@ namespace Energinet.DataHub.WebApi.GraphQL
                             batchId,
                             null,
                             gridArea,
-                            TimeSeriesType.Production),
+                            TimeSeriesType._3),
                         2 => new ProcessStepResultRequestDtoV3(
                             gln,
                             batchId,
                             null,
                             gridArea,
-                            TimeSeriesType.NonProfiledConsumption),
+                            TimeSeriesType._1),
                         3 => new ProcessStepResultRequestDtoV3(
                             null,
                             batchId,
                             gln,
                             gridArea,
-                            TimeSeriesType.NonProfiledConsumption),
+                            TimeSeriesType._1),
                         _ => throw new ExecutionError("Invalid step"),
                     };
 

@@ -272,7 +272,6 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_2
             this.TimeSeriesPoints = @timeSeriesPoints;
 
         }    [Newtonsoft.Json.JsonProperty("timeSeriesType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public TimeSeriesType TimeSeriesType { get; }
 
         [Newtonsoft.Json.JsonProperty("sum", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -313,7 +312,6 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_2
         public string GridAreaCode { get; }
 
         [Newtonsoft.Json.JsonProperty("timeSeriesType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public TimeSeriesType TimeSeriesType { get; }
 
         [Newtonsoft.Json.JsonProperty("gln", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -351,14 +349,11 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v2_2
     public enum TimeSeriesType
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"NonProfiledConsumption")]
-        NonProfiledConsumption = 0,
+        _1 = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"FlexConsumption")]
-        FlexConsumption = 1,
+        _2 = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Production")]
-        Production = 2,
+        _3 = 3,
 
     }
 
