@@ -14,19 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-  margin: var(--watt-space-ml) var(--watt-space-s);
-}
+import 'jest-preset-angular/setup-jest';
 
-.permissions-overview {
-  &__spinner {
-    display: flex;
-    justify-content: center;
-    padding: var(--watt-space-l) 0;
-  }
+import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSW } from '@energinet-datahub/dh/shared/test-util-msw';
 
-  &__error {
-    padding: var(--watt-space-xl) 0;
-  }
-}
+setupMSW();
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();
