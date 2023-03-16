@@ -14,19 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-  margin: var(--watt-space-ml) var(--watt-space-s);
-}
-
-.permissions-overview {
-  &__spinner {
-    display: flex;
-    justify-content: center;
-    padding: var(--watt-space-l) 0;
-  }
-
-  &__error {
-    padding: var(--watt-space-xl) 0;
-  }
-}
+export { DhEditPermissionModalComponent } from './lib/dh-edit-permission-modal.component';

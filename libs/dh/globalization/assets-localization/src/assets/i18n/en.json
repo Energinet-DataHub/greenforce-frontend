@@ -1102,6 +1102,19 @@
         "cancel": "Cancel",
         "save": "Save"
       },
+      "editPermission": {
+        "tab": {
+          "masterData": {
+            "tabLabel": "Master data",
+            "descriptionInputLabel": "Description"
+          },
+          "permissions": {
+            "tabLabel": "Roles"
+          }
+        },
+        "cancel": "Cancel",
+        "save": "Save"
+      },
       "permissionsTable": {
         "columns": {
           "name": "Name",
