@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
+import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-edit-permission-modal',
@@ -36,7 +37,10 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
   ],
 })
 export class DhEditPermissionModalComponent implements AfterViewInit {
-  @ViewChild(WattModalComponent) editPermissionModal!: WattModalComponent;
+  @ViewChild(WattModalComponent)
+  private editPermissionModal!: WattModalComponent;
+
+  @Input() permission!: PermissionDto;
 
   @Output() closed = new EventEmitter<void>();
 
