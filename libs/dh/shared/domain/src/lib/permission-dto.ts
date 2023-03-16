@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { graphql } from '@energinet-datahub/dh/shared/domain';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-export type PermissionDto = ResultOf<typeof graphql.GetPermissionsDocument>['permissions'][0];
+import { GetPermissionsDocument } from './generated/graphql';
+
+export type PermissionDto = ResultOf<typeof GetPermissionsDocument>['permissions'][0];
