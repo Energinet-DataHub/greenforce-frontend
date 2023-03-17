@@ -866,7 +866,7 @@
     "userManagement": {
       "inviteUser": {
         "title": "Invite user",
-        "informations": "Informations",
+        "informations": "Information",
         "addUserRole": "Add user role",
         "inviteUser": "Invite user",
         "name": "Name",
@@ -877,7 +877,12 @@
         "email": "Email",
         "phoneNumber": "Phone number",
         "phoneNumberError": "Phone number format +45 12345678",
-        "successMessage": "{{ email }} has been invited"
+        "successMessage": "{{ email }} has been invited",
+        "columns": {
+          "eicFunction": "Market role",
+          "name": "Name",
+          "description": "Description"
+        }
       },
       "download": "Download",
       "drawer": {
@@ -1097,6 +1102,16 @@
         "cancel": "Cancel",
         "save": "Save"
       },
+      "editPermission": {
+        "tab": {
+          "masterData": {
+            "tabLabel": "Master data",
+            "descriptionInputLabel": "Description"
+          }
+        },
+        "cancel": "Cancel",
+        "save": "Save"
+      },
       "permissionsTable": {
         "columns": {
           "name": "Name",
@@ -1105,6 +1120,11 @@
       },
       "permissionsTab": {
         "headline": "{{ numberOfPermissions }} permissions",
+        "permissionName": "Name",
+        "permissionDescription": "Description"
+      },
+      "permissionDetail": {
+        "information": "Information",
         "permissionName": "Name",
         "permissionDescription": "Description"
       }

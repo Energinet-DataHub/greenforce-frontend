@@ -57,7 +57,7 @@ const routes: Routes = [
       },
       {
         path: dhMarketParticipantOrganizationsCreatePath,
-        canActivate: [PermissionGuard(['organization:manage'])],
+        canActivate: [PermissionGuard(['organizations:manage'])],
         component: DhMarketParticipantEditOrganizationComponent,
       },
       {
@@ -70,7 +70,7 @@ const routes: Routes = [
           },
           {
             path: `${dhMarketParticipantOrganizationsEditPath}`,
-            canActivate: [PermissionGuard(['organization:manage'])],
+            canActivate: [PermissionGuard(['organizations:manage'])],
             component: DhMarketParticipantEditOrganizationComponent,
           },
           {
@@ -83,12 +83,12 @@ const routes: Routes = [
               },
               {
                 path: dhMarketParticipantActorsCreatePath,
-                canActivate: [PermissionGuard(['actor:manage'])],
+                canActivate: [PermissionGuard(['actors:manage'])],
                 component: DhMarketParticipantEditActorComponent,
               },
               {
                 path: `:${dhMarketParticipantActorIdParam}`,
-                canActivate: [PermissionGuard(['actor:manage'])],
+                canActivate: [PermissionGuard(['actors:manage'])],
                 children: [
                   {
                     path: '',

@@ -14,21 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-
-import { DhAdminPermissionOverviewComponent } from '@energinet-datahub/dh/admin/feature-permissions';
-
-@Component({
-  standalone: true,
-  selector: 'dh-permissions-tab',
-  template: `<dh-admin-permission-overview></dh-admin-permission-overview>`,
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  imports: [DhAdminPermissionOverviewComponent],
-})
-export class DhPermissionsTabComponent {}
+export { DhEditPermissionModalComponent } from './lib/dh-edit-permission-modal.component';

@@ -1,12 +1,12 @@
 [
   {
     "id": 1,
-    "name": "organization:manage",
+    "name": "organizations:manage",
     "description": "Permission to manage organization"
   },
   {
     "id": 2,
-    "name": "organization:view",
+    "name": "organizations:view",
     "description": "Permission to view organization"
   },
   {
@@ -16,7 +16,7 @@
   },
   {
     "id": 4,
-    "name": "userrole:manage",
+    "name": "user-roles:manage",
     "description": "Permission to manage user roles"
   }
 ]

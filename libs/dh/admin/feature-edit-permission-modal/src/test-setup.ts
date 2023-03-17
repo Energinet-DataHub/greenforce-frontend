@@ -14,21 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import 'jest-preset-angular/setup-jest';
 
-import { DhAdminPermissionOverviewComponent } from '@energinet-datahub/dh/admin/feature-permissions';
+import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSW } from '@energinet-datahub/dh/shared/test-util-msw';
 
-@Component({
-  standalone: true,
-  selector: 'dh-permissions-tab',
-  template: `<dh-admin-permission-overview></dh-admin-permission-overview>`,
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  imports: [DhAdminPermissionOverviewComponent],
-})
-export class DhPermissionsTabComponent {}
+setupMSW();
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();

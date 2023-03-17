@@ -14,13 +14,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-tab-group
-  dynamicHeight
-  animationDuration="0ms"
-  [disableRipple]="true"
-  (selectedIndexChange)="emitSelectedTabChange($event)"
->
-  <mat-tab [label]="tab.label" *ngFor="let tab of tabElements">
-    <ng-container *ngTemplateOutlet="tab.templateRef"></ng-container>
-  </mat-tab>
-</mat-tab-group>
+<ng-container *transloco="let t; read: 'admin.userManagement.editPermission'">
+  <watt-modal [title]="permission.name" (closed)="closeModal($event)">
+    <watt-tabs class="watt-modal-content--full-width">
+      <watt-tab [label]="t('tab.masterData.tabLabel')"></watt-tab>
+    </watt-tabs>
+
+    <watt-modal-actions>
+      <watt-button variant="secondary" (click)="closeModal(false)">
+        {{ t("cancel") }}
+      </watt-button>
+    </watt-modal-actions>
+  </watt-modal>
+</ng-container>
