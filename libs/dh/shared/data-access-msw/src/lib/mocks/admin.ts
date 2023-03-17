@@ -104,7 +104,7 @@ function getAdminPermissions() {
 }
 
 function putMarketParticipantPermissionsUpdate(apiBase: string) {
-  return rest.put(`${apiBase}/v1/MarketParticipantPermissions/Updates`, (req, res, ctx) => {
+  return rest.put(`${apiBase}/v1/MarketParticipantPermissions/Update`, (req, res, ctx) => {
     return res(ctx.status(200));
   });
 }
