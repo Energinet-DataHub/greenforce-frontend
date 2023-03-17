@@ -66,7 +66,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     })
   );
 
-  private readonly setContractLoading = this.updater(
+  private readonly toggleContractLoading = this.updater(
     (state, gsrn: string): EoMeteringPointsState => ({
       ...state,
       meteringPoints: state.meteringPoints.map((mp) =>
@@ -101,15 +101,15 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   }
 
   createCertificateContract(gsrn: string) {
-    this.setContractLoading(gsrn);
+    this.toggleContractLoading(gsrn);
     this.certService.createContract(gsrn).subscribe({
       next: (contract) => {
         this.setContract(contract);
-        this.setContractLoading(gsrn);
+        this.toggleContractLoading(gsrn);
       },
       error: (error) => {
         this.setError(error);
-        this.setContractLoading(gsrn);
+        this.toggleContractLoading(gsrn);
       },
     });
   }
