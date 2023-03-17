@@ -109,7 +109,7 @@ export class DhEditPermissionModalComponent implements AfterViewInit, OnChanges 
     }
 
     if (this.userPermissionsForm.pristine) {
-      this.closeModal(false);
+      return this.closeModal(false);
     }
 
     const onSuccessFn = () => {
