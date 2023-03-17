@@ -942,6 +942,13 @@
             "entry": "Ændring"
           },
           "logs": {
+            "permissionsDetails":
+            {
+              "auditLogType":{
+                "CREATED": "<b>{{ changedByUserName }}</b> tilføjede rettigheden til systemet",
+                "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede beskrivelsen på rettigheden"
+              }
+            },
             "auditLogType": {
               "UserRoleAdded": "<b>{{ changedByUserName }}</b> tilføjede rollen <b>{{ toValue }}</b>",
               "UserRoleRemoved": "<b>{{ changedByUserName }}</b> fjernede rollen <b>{{ toValue }}</b>",
@@ -1099,7 +1106,12 @@
       "permissionDetail": {
         "information": "Information",
         "permissionName": "Navn",
-        "permissionDescription": "Beskrivelse"
+        "permissionDescription": "Beskrivelse",
+        "tabs":{
+          "history": {
+            "tabLabel": "Historik"
+          }
+        }
       }
     }
   }

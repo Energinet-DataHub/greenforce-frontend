@@ -14,31 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import {
-  DhAdminUserManagementAuditLogsDataAccessApiStore,
-  DhUserAuditLogEntry,
-} from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { provideComponentStore } from '@ngrx/component-store';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { map } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { Permission } from '../../permission';
 import { PermissionAuditLog } from '../../permissionAuditLog';
+import { Apollo } from 'apollo-angular';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { ApolloError } from '@apollo/client';
+import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-admin-permission-audit-logs',
   standalone: true,
   templateUrl: './dh-admin-permission-audit-logs.component.html',
   styleUrls: ['./dh-admin-permission-audit-logs.component.scss'],
-  providers: [provideComponentStore(DhAdminUserManagementAuditLogsDataAccessApiStore)],
   imports: [
     CommonModule,
     LetModule,
@@ -51,45 +48,54 @@ import { PermissionAuditLog } from '../../permissionAuditLog';
     DhSharedUiDateTimeModule,
   ],
 })
-export class DhPermissionAuditLogsComponent implements OnChanges {
-  private dataSource = new WattTableDataSource<DhUserAuditLogEntry>();
+export class DhPermissionAuditLogsComponent implements OnInit, OnDestroy {
+  dataSource = new WattTableDataSource<PermissionAuditLog>();
 
-  @Input() selectedPermission: Permission | null = null;
+  @Input() selectedPermission: PermissionDto | null = null;
   auditLogs: PermissionAuditLog | null = null;
 
-  isLoading$ = this.store.isLoading$;
-  hasGeneralError$ = this.store.hasGeneralError$;
+  private apollo = inject(Apollo);
+  subscription!: Subscription;
+  permissionLogs?: PermissionAuditLog[];
+  loading = false;
+  error?: ApolloError;
 
-  auditLogCount$ = this.store.auditLogCount$;
-  auditLogs$ = this.store.auditLogs$.pipe(
-    map((logs) => {
-      this.dataSource.data = logs;
-      return this.dataSource;
-    })
-  );
-
-  columns: WattTableColumnDef<DhUserAuditLogEntry> = {
+  columns: WattTableColumnDef<PermissionAuditLog> = {
     timestamp: { accessor: 'timestamp' },
-    entry: { accessor: 'entry', sort: false },
+    entry: { accessor: 'permissionId', sort: false },
   };
 
   constructor(
-    private store: DhAdminUserManagementAuditLogsDataAccessApiStore,
     private trans: TranslocoService
   ) {}
 
-  ngOnChanges(): void {
-    this.reloadAuditLogs();
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
-  reloadAuditLogs() {
-    if (this.selectedPermission) {
-      console.log(this.selectedPermission.id);
-    }
+  ngOnInit(): void {
+    this.subscription = this.apollo
+      .watchQuery({
+        useInitialLoading: true,
+        notifyOnNetworkStatusChange: true,
+        query: graphql.GetPermissionLogsDocument,
+        variables: { id: this.selectedPermission?.id.toString() ?? '' },
+      })
+      .valueChanges.subscribe({
+        next: (result) => {
+          this.permissionLogs = result.data?.permissionlogs ?? undefined;
+          this.loading = result.loading;
+          this.error = result.error;
+          this.dataSource.data = result.data?.permissionlogs ?? [];
+        },
+        error: (error) => {
+          this.error = error;
+        },
+      });
   }
 
   translateHeader = (columnId: string): string => {
-    const baseKey = 'admin.userManagement.permissionDetail.tabs.history.columns';
+    const baseKey = 'admin.userManagement.tabs.history.columns';
     return this.trans.translate(`${baseKey}.${columnId}`);
   };
 }

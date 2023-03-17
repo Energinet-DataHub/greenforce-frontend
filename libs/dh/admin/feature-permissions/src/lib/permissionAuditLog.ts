@@ -17,4 +17,4 @@
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-export type PermissionAuditLog = ResultOf<typeof graphql.GetPermissionsDocument>['permissions'];
+export type PermissionAuditLog = ResultOf<typeof graphql.GetPermissionLogsDocument>['permissionlogs'][0];
