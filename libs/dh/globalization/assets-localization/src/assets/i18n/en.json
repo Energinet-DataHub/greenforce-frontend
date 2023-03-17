@@ -1107,9 +1107,6 @@
           "masterData": {
             "tabLabel": "Master data",
             "descriptionInputLabel": "Description"
-          },
-          "permissions": {
-            "tabLabel": "Roles"
           }
         },
         "cancel": "Cancel",
