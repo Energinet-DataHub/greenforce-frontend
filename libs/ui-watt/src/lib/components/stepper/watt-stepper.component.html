@@ -1,0 +1,14 @@
+<mat-stepper class="watt-stepper" [linear]="true" #stepper>
+  <ng-template matStepperIcon="edit">
+    <watt-icon name="checkmark"></watt-icon>
+  </ng-template>
+  <ng-template matStepperIcon="last">
+    <watt-icon name="checkmark"></watt-icon>
+  </ng-template>
+  <ng-template matStepperIcon="error" let-index="index">
+    {{ index + 1 }}
+  </ng-template>
+  <mat-step *ngFor="let step of stepElements">
+    <ng-container *ngTemplateOutlet="step.templateRef"></ng-container>
+  </mat-step>
+</mat-stepper>
