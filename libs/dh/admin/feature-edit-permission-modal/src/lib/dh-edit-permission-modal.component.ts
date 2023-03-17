@@ -77,7 +77,7 @@ export class DhEditPermissionModalComponent implements AfterViewInit, OnChanges 
   readonly userPermissionsForm = this.formBuilder.group({
     description: this.formBuilder.nonNullable.control('', [Validators.required]),
   });
-  readonly isLoading$ = this.store.isLoading$;
+  readonly isSaving$ = this.store.isSaving$;
 
   @ViewChild(WattModalComponent)
   private editPermissionModal!: WattModalComponent;

@@ -18,23 +18,23 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { exhaustMap, Observable, tap } from 'rxjs';
 
-import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantPermissionsHttp,
   UpdatePermissionDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhEditPermissionState {
-  readonly requestState: LoadingState | ErrorState;
+  readonly requestState: SavingState | ErrorState;
 }
 
 const initialState: DhEditPermissionState = {
-  requestState: LoadingState.INIT,
+  requestState: SavingState.INIT,
 };
 
 @Injectable()
 export class DhAdminEditPermissionStore extends ComponentStore<DhEditPermissionState> {
-  isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
+  isSaving$ = this.select((state) => state.requestState === SavingState.SAVING);
 
   constructor(private httpClient: MarketParticipantPermissionsHttp) {
     super(initialState);
@@ -50,13 +50,13 @@ export class DhAdminEditPermissionStore extends ComponentStore<DhEditPermissionS
     ) =>
       trigger$.pipe(
         tap(() => {
-          this.patchState({ requestState: LoadingState.LOADING });
+          this.patchState({ requestState: SavingState.SAVING });
         }),
         exhaustMap(({ updatedPermission, onSuccessFn, onErrorFn }) =>
           this.httpClient.v1MarketParticipantPermissionsUpdatePut(updatedPermission).pipe(
             tapResponse(
               () => {
-                this.patchState({ requestState: LoadingState.LOADED });
+                this.patchState({ requestState: SavingState.SAVED });
 
                 onSuccessFn();
               },

@@ -36,7 +36,7 @@ limitations under the License.
       <watt-button variant="secondary" (click)="closeModal(false)">
         {{ t("cancel") }}
       </watt-button>
-      <watt-button type="submit" formId="edit-permissions-form" [loading]="isLoading$ | push">
+      <watt-button type="submit" formId="edit-permissions-form" [loading]="isSaving$ | push">
         {{ t("save") }}
       </watt-button>
     </watt-modal-actions>
