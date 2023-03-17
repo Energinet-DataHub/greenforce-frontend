@@ -1076,6 +1076,8 @@
         "save": "Gem"
       },
       "editPermission": {
+        "saveSuccess": "Rettigheden blev opdateret",
+        "saveError": "Noget gik galt. Rettigheden blev ikke opdateret. Prøv igen",
         "tab": {
           "masterData": {
             "tabLabel": "Stamdata",
@@ -1083,7 +1085,10 @@
           }
         },
         "cancel": "Fortryd",
-        "save": "Gem"
+        "save": "Gem",
+        "validationErrors": {
+          "required": "{{ shared.fieldRequiredErrorText }}"
+        }
       },
       "permissionsTable": {
         "columns": {

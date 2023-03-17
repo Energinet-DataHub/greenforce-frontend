@@ -1103,6 +1103,8 @@
         "save": "Save"
       },
       "editPermission": {
+        "saveSuccess": "The permission was updated",
+        "saveError": "Something went wrong. The permission could not be updated. Please try again",
         "tab": {
           "masterData": {
             "tabLabel": "Master data",
@@ -1110,7 +1112,10 @@
           }
         },
         "cancel": "Cancel",
-        "save": "Save"
+        "save": "Save",
+        "validationErrors": {
+          "required": "{{ shared.fieldRequiredErrorText }}"
+        }
       },
       "permissionsTable": {
         "columns": {
