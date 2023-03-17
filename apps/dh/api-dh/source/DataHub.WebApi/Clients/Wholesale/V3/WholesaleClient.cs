@@ -64,7 +64,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <param name="gridAreaCode">GridAreaCode</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid batchId, string gridAreaCode, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Stream> GetSettlementReportAsStreamAsync(System.Guid batchId, string gridAreaCode, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -393,7 +393,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <param name="gridAreaCode">GridAreaCode</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Stream> SettlementReportAsync(System.Guid batchId, string gridAreaCode, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<Stream> GetSettlementReportAsStreamAsync(System.Guid batchId, string gridAreaCode, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (batchId == null)
                 throw new System.ArgumentNullException("batchId");
