@@ -15,20 +15,21 @@
  * limitations under the License.
  */
 import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { CommonModule } from '@angular/common';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { ApolloError } from '@apollo/client';
 import { Apollo } from 'apollo-angular';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { TranslocoModule } from '@ngneat/transloco';
+import { Subscription } from 'rxjs';
+
+import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { graphql, PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { Subscription } from 'rxjs';
+
 import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
-import { Permission } from '../permission';
 
 @Component({
   selector: 'dh-admin-permission-overview',
@@ -50,17 +51,17 @@ import { Permission } from '../permission';
 export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   private apollo = inject(Apollo);
   subscription!: Subscription;
-  permissions?: Permission[];
+  permissions?: PermissionDto[];
   loading = false;
   error?: ApolloError;
 
-  columns: WattTableColumnDef<Permission> = {
+  columns: WattTableColumnDef<PermissionDto> = {
     name: { accessor: 'name' },
     description: { accessor: 'description' },
   };
 
-  dataSource = new WattTableDataSource<Permission>();
-  activeRow: Permission | undefined = undefined;
+  dataSource = new WattTableDataSource<PermissionDto>();
+  activeRow: PermissionDto | undefined = undefined;
 
   @ViewChild(DhAdminPermissionDetailComponent)
   permissionDetail!: DhAdminPermissionDetailComponent;
@@ -89,7 +90,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
       });
   }
 
-  onRowClick(row: Permission): void {
+  onRowClick(row: PermissionDto): void {
     this.activeRow = row;
     this.permissionDetail.open(row);
   }
