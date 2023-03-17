@@ -13,8 +13,8 @@ import { BatchState } from './batch-state';
 
 
 export interface BatchSearchDtoV2 { 
-    filterByGridAreaCodes?: Array<string> | null;
-    filterByExecutionState: BatchState;
+    filterByGridAreaCodes: Array<string>;
+    filterByExecutionState?: BatchState;
     minExecutionTime?: string | null;
     maxExecutionTime?: string | null;
     periodStart?: string | null;

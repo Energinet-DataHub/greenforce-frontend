@@ -15,7 +15,6 @@
 using System;
 using System.IO;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
@@ -42,7 +41,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             var batchId = Guid.NewGuid();
             const string gridAreaCode = "123";
 
-            WholesaleClient_V3Mock.Setup(x => x.SettlementReportAsync(batchId, gridAreaCode, null, CancellationToken.None))
+            WholesaleClientV3Mock.Setup(x => x.GetSettlementReportAsStreamAsync(batchId, gridAreaCode))
                 .ReturnsAsync(Stream.Null);
 
             // act

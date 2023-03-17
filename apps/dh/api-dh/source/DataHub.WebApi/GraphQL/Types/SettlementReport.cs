@@ -13,7 +13,7 @@
 // limitations under the License.
 using System;
 using Energinet.DataHub.MarketParticipant.Client.Models;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.Wholesale.Contracts;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL

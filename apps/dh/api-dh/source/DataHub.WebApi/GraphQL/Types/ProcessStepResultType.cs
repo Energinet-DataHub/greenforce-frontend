@@ -14,7 +14,7 @@
 
 using System.Linq;
 using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v2_4;
+using Energinet.DataHub.Wholesale.Contracts;
 using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
