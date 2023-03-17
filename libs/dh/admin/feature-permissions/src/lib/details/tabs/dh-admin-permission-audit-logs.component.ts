@@ -65,9 +65,7 @@ export class DhPermissionAuditLogsComponent implements OnInit, OnDestroy {
     entry: { accessor: 'permissionId', sort: false },
   };
 
-  constructor(
-    private trans: TranslocoService
-  ) {}
+  constructor(private trans: TranslocoService) {}
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

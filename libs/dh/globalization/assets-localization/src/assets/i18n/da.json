@@ -942,9 +942,8 @@
             "entry": "Ændring"
           },
           "logs": {
-            "permissionsDetails":
-            {
-              "auditLogType":{
+            "permissionsDetails": {
+              "auditLogType": {
                 "CREATED": "<b>{{ changedByUserName }}</b> tilføjede rettigheden til systemet",
                 "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede beskrivelsen på rettigheden"
               }
@@ -1107,7 +1106,7 @@
         "information": "Information",
         "permissionName": "Navn",
         "permissionDescription": "Beskrivelse",
-        "tabs":{
+        "tabs": {
           "history": {
             "tabLabel": "Historik"
           }

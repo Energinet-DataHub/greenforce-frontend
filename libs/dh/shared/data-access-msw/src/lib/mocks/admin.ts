@@ -107,7 +107,9 @@ function getAdminPermissions() {
 function getAdminPermissionLogs() {
   return graphql.mockGetPermissionLogsQuery((req, res, ctx) => {
     const permId = req.variables.id;
-    const permissionlogs = adminPermissionPermissionLogsMock.filter((log) => log.permissionId.toString() === permId );
+    const permissionlogs = adminPermissionPermissionLogsMock.filter(
+      (log) => log.permissionId.toString() === permId
+    );
     return res(ctx.delay(300), ctx.data({ permissionlogs }));
-  })
+  });
 }

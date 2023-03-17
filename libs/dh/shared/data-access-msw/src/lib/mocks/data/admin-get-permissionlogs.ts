@@ -17,10 +17,9 @@
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { PermissionAuditLogType } from 'libs/dh/shared/domain/src/lib/generated/graphql';
 
-
 export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
   {
-    __typename: "PermissionAuditLog",
+    __typename: 'PermissionAuditLog',
     permissionId: 1,
     changedByUserId: '1',
     changedByUserName: 'datahub',
@@ -28,7 +27,7 @@ export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
     timestamp: '2023-03-17',
   },
   {
-    __typename: "PermissionAuditLog",
+    __typename: 'PermissionAuditLog',
     permissionId: 1,
     changedByUserId: '1',
     changedByUserName: 'datahub',
@@ -36,7 +35,7 @@ export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
     timestamp: '2023-03-18',
   },
   {
-    __typename: "PermissionAuditLog",
+    __typename: 'PermissionAuditLog',
     permissionId: 2,
     changedByUserId: '1',
     changedByUserName: 'datahub',
