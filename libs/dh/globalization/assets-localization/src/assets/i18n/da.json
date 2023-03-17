@@ -1080,9 +1080,6 @@
           "masterData": {
             "tabLabel": "Stamdata",
             "descriptionInputLabel": "Beskrivelse"
-          },
-          "permissions": {
-            "tabLabel": "Roller"
           }
         },
         "cancel": "Fortryd",
