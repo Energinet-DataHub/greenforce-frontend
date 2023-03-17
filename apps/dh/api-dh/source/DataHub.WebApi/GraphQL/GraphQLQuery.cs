@@ -17,14 +17,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v2;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v2_1;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
+using Energinet.DataHub.Wholesale.Client;
+using Energinet.DataHub.Wholesale.Contracts;
 using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 using NodaTime;
-using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -33,10 +32,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public GraphQLQuery()
         {
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<PermissionDtoType>>>>("permissions")
-                .Resolve()
-                .WithScope()
-                .WithService<IMarketParticipantPermissionsClient>()
-                .ResolveAsync(async (context, client) => await client.GetPermissionsAsync());
+               .Resolve()
+               .WithScope()
+               .WithService<IMarketParticipantPermissionsClient>()
+               .ResolveAsync(async (context, client) => await client.GetPermissionsAsync());
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<PermissionAuditLogDtoType>>>>("permissionlogs")
                 .Argument<IdGraphType>("id", "The id of the permission")
@@ -83,28 +82,27 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Resolve()
                 .WithScope()
                 .WithService<IMarketParticipantClient>()
-                .ResolveAsync(async (context, client) =>
-                    await client.GetOrganizationAsync(context.GetArgument<Guid>("id")));
+                .ResolveAsync(async (context, client) => await client.GetOrganizationAsync(context.GetArgument<Guid>("id")));
 
             Field<BatchType>("batch")
                 .Argument<IdGraphType>("id", "The id of the organization")
                 .Resolve()
                 .WithScope()
-                .WithService<IWholesaleClient_V2>()
-                .ResolveAsync(async (context, client) => await client.BatchGETAsync(context.GetArgument<Guid>("id")));
+                .WithService<IWholesaleClient>()
+                .ResolveAsync(async (context, client) => await client.GetBatchAsync(context.GetArgument<Guid>("id")));
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<BatchType>>>>("batches")
                 .Argument<DateRangeType>("executionTime")
                 .Resolve()
                 .WithScope()
-                .WithService<IWholesaleClient_V2_1>()
+                .WithService<IWholesaleClient>()
                 .ResolveAsync(async (context, client) =>
                 {
                     var interval = context.GetArgument<Interval>("executionTime");
                     var start = interval.Start.ToDateTimeOffset();
                     var end = interval.End.ToDateTimeOffset();
-                    var batchSearchDto = new BatchSearchDtoV2(Clients.Wholesale.v2_1.BatchState.Completed, null, null, null, end, start);
-                    return await client.SearchAsync(batchSearchDto);
+                    var batchSearchDto = new BatchSearchDto(start, end);
+                    return await client.GetBatchesAsync(batchSearchDto);
                 });
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<SettlementReportType>>>>("settlementReports")
@@ -114,7 +112,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Argument<DateRangeType>("executionTime")
                 .Resolve()
                 .WithScope()
-                .WithService<IWholesaleClient_V2_1>()
+                .WithService<IWholesaleClient>()
                 .WithService<IMarketParticipantClient>()
                 .ResolveAsync(async (context, wholesaleClient, marketParticipantClient) =>
                 {
@@ -123,22 +121,21 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var period = context.GetArgument<Interval?>("period");
                     var executionTime = context.GetArgument<Interval?>("executionTime");
 
-                    var minExecutionTime =
-                        executionTime?.HasStart == true ? executionTime?.Start.ToDateTimeOffset() : null;
+                    var minExecutionTime = executionTime?.HasStart == true ? executionTime?.Start.ToDateTimeOffset() : null;
                     var maxExecutionTime = executionTime?.HasEnd == true ? executionTime?.End.ToDateTimeOffset() : null;
                     var periodStart = period?.HasStart == true ? period?.Start.ToDateTimeOffset() : null;
                     var periodEnd = period?.HasEnd == true ? period?.End.ToDateTimeOffset() : null;
 
                     var batchSearchDto = new BatchSearchDtoV2(
-                        Clients.Wholesale.v2_1.BatchState.Completed,
                         gridAreaCodes,
+                        BatchState.Completed,
                         minExecutionTime,
                         maxExecutionTime,
                         periodStart,
                         periodEnd);
 
                     var gridAreasTask = marketParticipantClient.GetGridAreasAsync();
-                    var batchesTask = wholesaleClient.SearchAsync(batchSearchDto);
+                    var batchesTask = wholesaleClient.GetBatchesAsync(batchSearchDto);
                     var batches = await batchesTask;
                     var gridAreas = await gridAreasTask;
 

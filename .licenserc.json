@@ -1,9 +1,5 @@
 {
-  "ignore": [
-    "**/api-*/**/*",
-    "**/generated/**/*",
-    "apps/dh/api-dh/source/DataHub.WebApi/Clients/"
-  ],
+  "ignore": ["**/api-*/**/*", "**/generated/**/*"],
   "**/*.cs": [
     "// Copyright 2020 Energinet DataHub A/S",
     "//",

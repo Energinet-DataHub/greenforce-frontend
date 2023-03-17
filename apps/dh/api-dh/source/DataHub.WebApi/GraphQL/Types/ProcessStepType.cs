@@ -13,19 +13,12 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v2_4;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.Wholesale.Client;
+using Energinet.DataHub.Wholesale.Contracts;
 using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
-using ActorDto_V3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ActorDto;
-using MarketRole = Energinet.DataHub.WebApi.Clients.Wholesale.v2_3.MarketRole;
-using ProcessStepActorsRequest = Energinet.DataHub.WebApi.Clients.Wholesale.v2_3.ProcessStepActorsRequest;
-using TimeSeriesType = Energinet.DataHub.WebApi.Clients.Wholesale.v2_4.TimeSeriesType;
-using TimeSeriesType_V2_3 = Energinet.DataHub.WebApi.Clients.Wholesale.v2_3.TimeSeriesType;
-using TimeSeriesType_V3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.TimeSeriesType;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -36,92 +29,59 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Name = "ProcessStep";
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<ActorDtoType>>>>("actors")
-                .Resolve()
-                .WithScope()
-                .WithService<IWholesaleClient_V3>()
-                .ResolveAsync(async (context, client) =>
-                {
-                    var parent = context.Parent!;
-                    var batchId = parent.GetArgument<Guid>("batchId");
-                    var gridArea = parent.GetArgument<string>("gridArea");
-                    var step = parent.GetArgument<int>("step");
+               .Resolve()
+               .WithScope()
+               .WithService<IWholesaleClient>()
+               .ResolveAsync(async (context, client) =>
+               {
+                   var parent = context.Parent!;
+                   var batchId = parent.GetArgument<Guid>("batchId");
+                   var gridArea = parent.GetArgument<string>("gridArea");
+                   var step = parent.GetArgument<int>("step");
 
-                    var request = step switch
-                    {
-                        2 => new ProcessStepActorsRequest(batchId, gridArea, MarketRole.EnergySupplier, TimeSeriesType_V2_3.NonProfiledConsumption),
-                        3 => new ProcessStepActorsRequest(batchId, gridArea, MarketRole.BalanceResponsibleParty, TimeSeriesType_V2_3.NonProfiledConsumption),
-                        _ => null,
-                    };
+                   var request = step switch
+                   {
+                       2 => new ProcessStepActorsRequest(batchId, gridArea, TimeSeriesType.NonProfiledConsumption, MarketRole.EnergySupplier),
+                       3 => new ProcessStepActorsRequest(batchId, gridArea, TimeSeriesType.NonProfiledConsumption, MarketRole.BalanceResponsibleParty),
+                       _ => null,
+                   };
 
-                    if (request is null)
-                    {
-                        return Array.Empty<ActorDto_V3>();
-                    }
+                   if (request is null)
+                   {
+                       return Array.Empty<Actor>();
+                   }
 
-                    // TODO: Refactor this
-                    var requestBatchId = request.BatchId;
-                    var requestGridAreaCode = request.GridAreaCode;
-                    var requestType = (TimeSeriesType_V3)request.Type;
-                    var requestMarketRole = request.MarketRole;
-                    var actors = new List<ActorDto_V3>();
-                    if (requestMarketRole == MarketRole.EnergySupplier)
-                    {
-                        actors = (List<ActorDto_V3>)await client
-                            .GetListOfEnergySuppliersAsync(requestBatchId, requestGridAreaCode, requestType)
-                            .ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        actors = (List<ActorDto_V3>)await client
-                            .GetListOfBalanceResponsiblePartiesAsync(requestBatchId, requestGridAreaCode, requestType)
-                            .ConfigureAwait(false);
-                    }
-
-                    return actors == null
-                        ? Array.Empty<ActorDto_V3>()
-                        : actors
-                            .Where(actor => actor.Gln != null)
-                            .Select(actor => new ActorDto_V3(actor.Gln));
-                });
+                   var actors = await client.GetProcessStepActorsAsync(request);
+                   return actors == null
+                      ? Array.Empty<Actor>()
+                      : actors
+                          .Where(actor => actor.Gln != null)
+                          .Select(actor => new Actor(actor.Gln));
+               });
 
             Field<ProcessStepResultType>("result")
-                .Argument<StringGraphType>("gln")
-                .Resolve()
-                .WithScope()
-                .WithService<IWholesaleClient_V2_4>()
-                .ResolveAsync(async (context, client) =>
-                {
-                    var parent = context.Parent!;
-                    var batchId = parent.GetArgument<Guid>("batchId");
-                    var gridArea = parent.GetArgument<string>("gridArea");
-                    var step = parent.GetArgument<int>("step");
-                    var gln = context.GetArgument<string>("gln");
+               .Argument<StringGraphType>("gln")
+               .Resolve()
+               .WithScope()
+               .WithService<IWholesaleClient>()
+               .ResolveAsync(async (context, client) =>
+               {
+                   var parent = context.Parent!;
+                   var batchId = parent.GetArgument<Guid>("batchId");
+                   var gridArea = parent.GetArgument<string>("gridArea");
+                   var step = parent.GetArgument<int>("step");
+                   var gln = context.GetArgument<string>("gln");
 
-                    var request = step switch
-                    {
-                        1 => new ProcessStepResultRequestDtoV3(
-                            null,
-                            batchId,
-                            null,
-                            gridArea,
-                            TimeSeriesType.Production),
-                        2 => new ProcessStepResultRequestDtoV3(
-                            gln,
-                            batchId,
-                            null,
-                            gridArea,
-                            TimeSeriesType.NonProfiledConsumption),
-                        3 => new ProcessStepResultRequestDtoV3(
-                            null,
-                            batchId,
-                            gln,
-                            gridArea,
-                            TimeSeriesType.NonProfiledConsumption),
-                        _ => throw new ExecutionError("Invalid step"),
-                    };
+                   var request = step switch
+                   {
+                       1 => new ProcessStepResultRequestDtoV3(batchId, gridArea, TimeSeriesType.Production, null, null),
+                       2 => new ProcessStepResultRequestDtoV3(batchId, gridArea, TimeSeriesType.NonProfiledConsumption, gln, null),
+                       3 => new ProcessStepResultRequestDtoV3(batchId, gridArea, TimeSeriesType.NonProfiledConsumption, null, gln),
+                       _ => throw new ExecutionError("Invalid step"),
+                   };
 
-                    return await client.ProcessStepResultAsync("2.4", request);
-                });
+                   return await client.GetProcessStepResultAsync(request);
+               });
         }
     }
 }
