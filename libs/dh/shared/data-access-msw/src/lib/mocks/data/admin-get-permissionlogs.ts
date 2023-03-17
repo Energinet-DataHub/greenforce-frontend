@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { PermissionAuditLogType } from 'libs/dh/shared/domain/src/lib/generated/graphql';
 
 export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
   {
@@ -23,7 +22,7 @@ export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
     permissionId: 1,
     changedByUserId: '1',
     changedByUserName: 'datahub',
-    permissionAuditLogType: PermissionAuditLogType.Created,
+    permissionAuditLogType: graphql.PermissionAuditLogType.Created,
     timestamp: '2023-03-17',
   },
   {
@@ -31,7 +30,7 @@ export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
     permissionId: 1,
     changedByUserId: '1',
     changedByUserName: 'datahub',
-    permissionAuditLogType: PermissionAuditLogType.DescriptionChange,
+    permissionAuditLogType: graphql.PermissionAuditLogType.DescriptionChange,
     timestamp: '2023-03-18',
   },
   {
@@ -39,7 +38,7 @@ export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
     permissionId: 2,
     changedByUserId: '1',
     changedByUserName: 'datahub',
-    permissionAuditLogType: PermissionAuditLogType.Created,
+    permissionAuditLogType: graphql.PermissionAuditLogType.Created,
     timestamp: '2023-03-17',
   },
 ];
