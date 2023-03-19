@@ -48,6 +48,8 @@ export class EoTermsStore extends ComponentStore<EoTermsState> {
   );
 
   onAcceptTerms() {
+    // TODO: Når brugeren kommer ind på terms siden, og trykker accept, skal der sendes versionsnummer med
+    // som kommer fra trm claim i tokenet
     return combineLatest([this.#authState$, this.#version$]).pipe(
       switchMap(([state, version]) =>
         this.service.postAcceptTerms({ state, version, accepted: true })

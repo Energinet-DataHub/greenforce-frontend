@@ -111,14 +111,6 @@ export class EoTermsComponent {
   }
 
   onAccept(): void {
-    this.store.onAcceptTerms().subscribe({
-      next: (response) => window.location.replace(response.next_url),
-      error: () => {
-        this.router.navigate(['/'], {
-          state: { error: true },
-          replaceUrl: true,
-        });
-      },
-    });
+    this.store.onAcceptTerms();
   }
 }

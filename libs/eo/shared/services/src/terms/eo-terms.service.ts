@@ -34,15 +34,6 @@ export interface AuthTermsResponse {
   readonly version: string;
 }
 
-export interface AuthTermsAcceptRequest {
-  accepted: boolean;
-  state: string;
-  /**
-   * A string: I.eg: "0.1"
-   */
-  version: string;
-}
-
 export interface AuthTermsAcceptResponse {
   /**
    * A url
@@ -62,10 +53,12 @@ export class EoTermsService {
     this.#apiBase = `${apiEnvironment.apiBase}/auth`;
   }
 
-  postAcceptTerms(payload: AuthTermsAcceptRequest): Observable<AuthTermsAcceptResponse> {
-    return this.http.post<AuthTermsAcceptResponse>(`${this.#apiBase}/terms/accept`, payload, {
-      withCredentials: true,
-    });
+  postAcceptTerms(version: string): Observable<AuthTermsAcceptResponse> {
+    return this.http.post<AuthTermsAcceptResponse>(
+      `${this.#apiBase}/terms/accept`,
+      { version },
+      { withCredentials: true }
+    );
   }
 
   getTerms() {

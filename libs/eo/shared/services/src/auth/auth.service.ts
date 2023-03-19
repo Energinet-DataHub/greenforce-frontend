@@ -53,12 +53,12 @@ export class EoAuthService {
   }
 
   login() {
-    this.http
-      .get<{ next_url: string }>(`${this.#loginUrl}`)
-      .subscribe((response) => (window.location.href = response.next_url));
+    // Navigate til /api/auth/login
+    window.location.href = '/api/auth/login';
   }
 
   logout() {
+    // Navigate til /api/auth/logout med bearer token headeren
     this.http.post(`${this.#authApiBase}/logout`, {}, { withCredentials: true }).subscribe({
       next: () => this.router.navigateByUrl(eoLandingPageRelativeUrl),
       error: () => this.router.navigateByUrl(eoLandingPageRelativeUrl),
@@ -67,7 +67,7 @@ export class EoAuthService {
 
   private handleTermsAcceptance() {
     this.store.getScope$.subscribe((scope) => {
-      if (scope.includes('accepted-terms') === false) {
+      if (scope.includes('not-accepted-terms') === true) {
         this.router.navigate([eoTermsRoutePath]);
       }
     });
