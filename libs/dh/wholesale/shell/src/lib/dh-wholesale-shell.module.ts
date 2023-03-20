@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { Route } from '@angular/router';
+import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import {
   WHOLESALE_START_PROCESS_PATH,
@@ -26,6 +27,7 @@ import {
 export const WHOLESALE_SHELL: Route[] = [
   {
     path: WHOLESALE_START_PROCESS_PATH,
+    canActivate: [PermissionGuard(['settlements:manage'])],
     loadComponent: () =>
       import('@energinet-datahub/dh/wholesale/feature-start').then(
         (m) => m.DhWholesaleStartComponent
@@ -36,6 +38,7 @@ export const WHOLESALE_SHELL: Route[] = [
   },
   {
     path: WHOLESALE_SEARCH_BATCH_PATH,
+    canActivate: [PermissionGuard(['settlements:manage'])],
     loadComponent: () =>
       import('@energinet-datahub/dh/wholesale/feature-search').then(
         (m) => m.DhWholesaleSearchComponent
@@ -46,6 +49,7 @@ export const WHOLESALE_SHELL: Route[] = [
   },
   {
     path: WHOLESALE_SETTLEMENT_REPORTS_PATH,
+    canActivate: [PermissionGuard(['settlements:manage'])],
     loadComponent: () =>
       import('@energinet-datahub/dh/wholesale/feature-settlement-reports').then(
         (m) => m.DhWholesaleSettlementReportsComponent
@@ -57,6 +61,7 @@ export const WHOLESALE_SHELL: Route[] = [
   {
     path: `${WHOLESALE_CALCULATION_STEPS_PATH}/:batchId/:gridAreaCode`,
     data: { titleTranslationKey: 'wholesale.calculationSteps.topBarTitle' },
+    canActivate: [PermissionGuard(['settlements:manage'])],
     loadComponent: () =>
       import('@energinet-datahub/dh/wholesale/feature-calculation-steps').then(
         (m) => m.DhWholesaleCalculationStepsComponent
