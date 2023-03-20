@@ -27,7 +27,10 @@ namespace Energinet.DataHub.WebApi
         /// </summary>
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {
-            if (schema.Properties == null || !schema.Properties.Any()) return;
+            if (schema.Properties == null || !schema.Properties.Any())
+            {
+                return;
+            }
 
             FixNullableProperties(schema, context);
 
@@ -50,14 +53,20 @@ namespace Energinet.DataHub.WebApi
         {
             foreach (var (key, value) in schema.Properties)
             {
-                if (value.Reference == null) continue;
+                if (value.Reference == null)
+                {
+                    continue;
+                }
 
                 var field = context.Type
                     .GetMembers(BindingFlags.Public | BindingFlags.Instance)
                     .FirstOrDefault(x =>
                         string.Equals(x.Name, key, StringComparison.InvariantCultureIgnoreCase));
 
-                if (field == null) continue;
+                if (field == null)
+                {
+                    continue;
+                }
 
                 var fieldType = field switch
                 {

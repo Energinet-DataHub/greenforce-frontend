@@ -29,11 +29,13 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
-import { SettlementReport, SettlementReportFilters } from '@energinet-datahub/dh/wholesale/domain';
+import { SettlementReport } from '@energinet-datahub/dh/wholesale/domain';
 import { Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import sub from 'date-fns/sub';
+import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 @Component({
   selector: 'dh-wholesale-settlement-reports',
@@ -53,10 +55,13 @@ import sub from 'date-fns/sub';
   ],
   templateUrl: './dh-wholesale-settlement-reports.component.html',
   styleUrls: ['./dh-wholesale-settlement-reports.component.scss'],
+  providers: [DhWholesaleBatchDataAccessApiStore],
 })
 export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy {
   private apollo = inject(Apollo);
   private destroy$ = new Subject<void>();
+  private store = inject(DhWholesaleBatchDataAccessApiStore);
+  private selectedGridAreas?: string[];
 
   loading = false;
   error = false;
@@ -72,12 +77,21 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
     query: graphql.GetSettlementReportsDocument,
     variables: { executionTime: this.executionTime },
   });
+  filteredActors$ = this.store.filteredActors$.pipe(exists());
 
   ngOnInit() {
+    this.store.getFilteredActors();
+
     this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (result) => {
         this.loading = result.loading;
-        this.data = result.data?.settlementReports;
+        this.data = result.data?.settlementReports?.filter((x) => {
+          if (this.selectedGridAreas && this.selectedGridAreas.length > 0) {
+            return this.selectedGridAreas.includes(x.gridArea.code);
+          } else {
+            return true;
+          }
+        });
       },
       error: () => {
         this.error = true;
@@ -91,7 +105,9 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
     this.destroy$.complete();
   }
 
-  onFilterChange(filters: SettlementReportFilters) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onFilterChange(filters: any) {
+    this.selectedGridAreas = filters.gridAreas;
     this.query.refetch({
       executionTime: filters.executionTime,
       period: filters.period,
