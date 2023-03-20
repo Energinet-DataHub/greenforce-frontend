@@ -81,10 +81,10 @@ export class DhPermissionAuditLogsComponent implements OnInit, OnDestroy {
       })
       .valueChanges.subscribe({
         next: (result) => {
-          this.permissionLogs = result.data?.permissionlogs ?? undefined;
+          this.permissionLogs = result.data?.permissionLogs ?? undefined;
           this.loading = result.loading;
           this.error = result.error;
-          this.dataSource.data = result.data?.permissionlogs ?? [];
+          this.dataSource.data = result.data?.permissionLogs ?? [];
         },
         error: (error) => {
           this.error = error;
