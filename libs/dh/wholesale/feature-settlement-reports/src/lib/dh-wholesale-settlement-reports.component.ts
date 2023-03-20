@@ -85,7 +85,7 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
     this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (result) => {
         this.loading = result.loading;
-        this.data = result.data?.settlementReports.filter((x) => {
+        this.data = result.data?.settlementReports?.filter((x) => {
           if (this.selectedGridAreas && this.selectedGridAreas.length > 0) {
             return this.selectedGridAreas.includes(x.gridArea.code);
           } else {
