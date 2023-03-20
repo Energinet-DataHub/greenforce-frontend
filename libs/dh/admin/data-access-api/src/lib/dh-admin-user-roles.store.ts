@@ -133,7 +133,10 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
   );
 
   private updateRoles = this.updater(
-    (state: DhUserManagementState, userRolesPrActor: MarketParticipantActorViewDto[]): DhUserManagementState => ({
+    (
+      state: DhUserManagementState,
+      userRolesPrActor: MarketParticipantActorViewDto[]
+    ): DhUserManagementState => ({
       ...state,
       selectedRoles: userRolesPrActor.flatMap((actor) =>
         actor.userRoles.filter((userRole) => userRole.userActorId)

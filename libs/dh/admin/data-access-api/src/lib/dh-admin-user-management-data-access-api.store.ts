@@ -167,7 +167,10 @@ export class DhAdminUserManagementDataAccessApiStore
   );
 
   private updateUsers = this.updater(
-    (state: DhUserManagementState, response: MarketParticipantUserOverviewResultDto): DhUserManagementState => ({
+    (
+      state: DhUserManagementState,
+      response: MarketParticipantUserOverviewResultDto
+    ): DhUserManagementState => ({
       ...state,
       users: response.users,
       totalUserCount: response.totalUserCount,
@@ -213,7 +216,10 @@ export class DhAdminUserManagementDataAccessApiStore
     this.patchState({ statusFilter: userStatus, pageNumber: 1 });
   }
 
-  updateSort(sortProperty: MarketParticipantUserOverviewSortProperty, direction: MarketParticipantSortDirection) {
+  updateSort(
+    sortProperty: MarketParticipantUserOverviewSortProperty,
+    direction: MarketParticipantSortDirection
+  ) {
     this.patchState({ sortProperty, direction });
   }
 

@@ -34,9 +34,8 @@ import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-
 export class DhRolePermissionsComponent implements OnChanges {
   @Input() role: MarketParticipantUserRoleWithPermissionsDto | null = null;
 
-  readonly dataSource: WattTableDataSource<MarketParticipantPermissionDetailsDto> = new WattTableDataSource(
-    undefined
-  );
+  readonly dataSource: WattTableDataSource<MarketParticipantPermissionDetailsDto> =
+    new WattTableDataSource(undefined);
 
   columns: WattTableColumnDef<MarketParticipantPermissionDetailsDto> = {
     name: { accessor: 'name' },

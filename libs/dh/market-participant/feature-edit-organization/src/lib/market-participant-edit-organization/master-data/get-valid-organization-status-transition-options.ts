@@ -42,7 +42,9 @@ export const getValidOrganizationStatusTransitionOptions = (
       );
     case MarketParticipantOrganizationStatus.Deleted:
       return statuses.filter((x) =>
-        [MarketParticipantOrganizationStatus.Deleted.toLocaleLowerCase()].includes(x.value.toLowerCase())
+        [MarketParticipantOrganizationStatus.Deleted.toLocaleLowerCase()].includes(
+          x.value.toLowerCase()
+        )
       );
     default:
       return [];

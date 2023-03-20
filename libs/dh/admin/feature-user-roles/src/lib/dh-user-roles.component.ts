@@ -42,7 +42,10 @@ import {
   FilterUserRolesPipe,
   UserRolesIntoTablePipe,
 } from './dh-filter-user-roles-into-table.pipe';
-import { MarketParticipantUserOverviewItemDto, MarketParticipantUserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantUserOverviewItemDto,
+  MarketParticipantUserRoleViewDto,
+} from '@energinet-datahub/dh/shared/domain';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';

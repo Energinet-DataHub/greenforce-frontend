@@ -20,7 +20,10 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { MarketParticipantCreateUserRoleDto, MarketParticipantPermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantCreateUserRoleDto,
+  MarketParticipantPermissionDetailsDto,
+} from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 
 @Component({

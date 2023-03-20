@@ -18,7 +18,11 @@
 import { render, screen, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
-import { MarketParticipantActorMarketRoleDto, MarketParticipantActorStatus, MarketParticipantGridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantActorMarketRoleDto,
+  MarketParticipantActorStatus,
+  MarketParticipantGridAreaDto,
+} from '@energinet-datahub/dh/shared/domain';
 import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { EventEmitter } from '@angular/core';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';

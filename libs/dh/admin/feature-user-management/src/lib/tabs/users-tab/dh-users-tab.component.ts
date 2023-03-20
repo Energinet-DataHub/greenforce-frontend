@@ -151,8 +151,10 @@ export class DhUsersTabComponent {
     this.store.updateStatusFilter(value);
   }
 
-  sortChanged = (sortProperty: MarketParticipantUserOverviewSortProperty, direction: MarketParticipantSortDirection) =>
-    this.store.updateSort(sortProperty, direction);
+  sortChanged = (
+    sortProperty: MarketParticipantUserOverviewSortProperty,
+    direction: MarketParticipantSortDirection
+  ) => this.store.updateSort(sortProperty, direction);
 
   onActorFilterChanged(actorId: string | undefined): void {
     this.store.updateActorFilter(actorId);

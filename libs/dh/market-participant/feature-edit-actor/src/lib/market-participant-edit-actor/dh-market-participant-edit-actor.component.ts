@@ -34,7 +34,10 @@ import {
   dhMarketParticipantOrganizationsPath,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
-import { MarketParticipantActorContactDto, MarketParticipantActorStatus } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantActorContactDto,
+  MarketParticipantActorStatus,
+} from '@energinet-datahub/dh/shared/domain';
 import { WattModalModule, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
@@ -99,8 +102,10 @@ export class DhMarketParticipantEditActorComponent {
 
   readonly onSaved = (initialStatus: MarketParticipantActorStatus, changes: ActorChanges) => {
     if (
-      (changes.status === MarketParticipantActorStatus.Inactive && initialStatus !== MarketParticipantActorStatus.Inactive) ||
-      (changes.status == MarketParticipantActorStatus.Passive && initialStatus != MarketParticipantActorStatus.Passive)
+      (changes.status === MarketParticipantActorStatus.Inactive &&
+        initialStatus !== MarketParticipantActorStatus.Inactive) ||
+      (changes.status == MarketParticipantActorStatus.Passive &&
+        initialStatus != MarketParticipantActorStatus.Passive)
     ) {
       this.confirmationModal.open();
     } else {

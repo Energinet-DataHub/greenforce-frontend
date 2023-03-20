@@ -20,7 +20,10 @@ import { MarketParticipantUserRoleViewDto } from '@energinet-datahub/dh/shared/d
 
 @Pipe({ name: 'filterUserRoles', standalone: true })
 export class FilterUserRolesPipe implements PipeTransform {
-  transform(userRoles: MarketParticipantUserRoleViewDto[] | null | undefined, includeAllUserRoles: boolean = false) {
+  transform(
+    userRoles: MarketParticipantUserRoleViewDto[] | null | undefined,
+    includeAllUserRoles: boolean = false
+  ) {
     return (userRoles || []).filter((userRole) => userRole.userActorId || includeAllUserRoles);
   }
 }

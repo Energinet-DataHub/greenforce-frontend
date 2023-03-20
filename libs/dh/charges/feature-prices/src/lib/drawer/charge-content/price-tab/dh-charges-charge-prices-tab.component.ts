@@ -147,7 +147,8 @@ export class DhChargesChargePricesTabComponent implements OnInit, OnChanges, OnD
       this.searchCriteria.skip = 0;
 
       this.showDateTime =
-        this.charge?.resolution == ChargeResolution.PT1H || this.charge?.resolution == ChargeResolution.PT15M;
+        this.charge?.resolution == ChargeResolution.PT1H ||
+        this.charge?.resolution == ChargeResolution.PT15M;
 
       if (this.showDateTime) this.displayedColumns = ['fromDateTime', 'time', 'price'];
       else this.displayedColumns = ['fromDateTime', 'toDateTime', 'price'];

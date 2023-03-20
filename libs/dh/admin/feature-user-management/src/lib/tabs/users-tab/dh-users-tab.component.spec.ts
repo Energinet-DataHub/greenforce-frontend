@@ -26,7 +26,10 @@ import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
-import { MarketParticipantUserOverviewItemDto, UserStatus } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantUserOverviewItemDto,
+  UserStatus,
+} from '@energinet-datahub/dh/shared/domain';
 
 import { DhUsersTabComponent } from './dh-users-tab.component';
 import { searchDebounceTimeMs } from './dh-users-tab-search.component';
