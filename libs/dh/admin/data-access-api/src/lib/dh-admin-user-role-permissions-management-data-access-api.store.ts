@@ -21,11 +21,11 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
-  UserRoleWithPermissionsDto,
+  MarketParticipantUserRoleWithPermissionsDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserRoleWithPermissionsManagementState {
-  readonly userRole: UserRoleWithPermissionsDto | null;
+  readonly userRole: MarketParticipantUserRoleWithPermissionsDto | null;
   readonly requestState: LoadingState | ErrorState;
 }
 
@@ -42,7 +42,7 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
 
   userRole$ = this.select((state) => state.userRole).pipe(
     filter((userRole) => userRole != null),
-    map((userRole) => userRole as UserRoleWithPermissionsDto)
+    map((userRole) => userRole as MarketParticipantUserRoleWithPermissionsDto)
   );
 
   constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
@@ -78,7 +78,7 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
   private updateUserRole = this.updater(
     (
       state: DhUserRoleWithPermissionsManagementState,
-      response: UserRoleWithPermissionsDto | null
+      response: MarketParticipantUserRoleWithPermissionsDto | null
     ): DhUserRoleWithPermissionsManagementState => ({
       ...state,
       userRole: response,

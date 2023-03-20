@@ -22,8 +22,8 @@ import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   ChargeType,
   ChargeV1Dto,
-  Resolution,
-  VatClassification,
+  ChargeResolution,
+  ChargeVatClassification,
 } from '@energinet-datahub/dh/shared/domain';
 import userEvent from '@testing-library/user-event';
 import { DhMarketParticipantDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
@@ -41,10 +41,10 @@ const dateTimeFormat = 'dd-MM-yyyy';
 const charge: ChargeV1Dto = {
   id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
   chargeType: ChargeType.D02,
-  resolution: Resolution.P1D,
+  resolution: ChargeResolution.P1D,
   taxIndicator: false,
   transparentInvoicing: true,
-  vatClassification: VatClassification.NoVat,
+  vatClassification: ChargeVatClassification.NoVat,
   validFromDateTime: '2021-09-29T22:00:00Z',
   validToDateTime: '2021-10-29T22:00:00Z',
   chargeId: 'chargeid01',

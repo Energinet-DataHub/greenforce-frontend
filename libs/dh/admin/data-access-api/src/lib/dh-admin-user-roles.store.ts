@@ -26,14 +26,14 @@ import {
 import {
   MarketParticipantUserRoleHttp,
   MarketParticipantUserRoleAssignmentHttp,
-  UserRoleViewDto,
-  UpdateUserRoleAssignmentsDto,
-  ActorViewDto,
+  MarketParticipantUserRoleViewDto,
+  MarketParticipantUpdateUserRoleAssignmentsDto,
+  MarketParticipantActorViewDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserManagementState {
-  readonly userRolesPrActor: ActorViewDto[];
-  readonly selectedRoles: UserRoleViewDto[];
+  readonly userRolesPrActor: MarketParticipantActorViewDto[];
+  readonly selectedRoles: MarketParticipantUserRoleViewDto[];
   readonly requestState: LoadingState | ErrorState;
   readonly savingState: SavingState | ErrorState;
 }
@@ -47,7 +47,7 @@ const initialState: DhUserManagementState = {
 
 export type UpdateUserRolesWithActorId = {
   id: string;
-  userRolesToUpdate: UpdateUserRoleAssignmentsDto;
+  userRolesToUpdate: MarketParticipantUpdateUserRoleAssignmentsDto;
 };
 
 export type UpdateUserRoles = {
@@ -133,7 +133,7 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
   );
 
   private updateRoles = this.updater(
-    (state: DhUserManagementState, userRolesPrActor: ActorViewDto[]): DhUserManagementState => ({
+    (state: DhUserManagementState, userRolesPrActor: MarketParticipantActorViewDto[]): DhUserManagementState => ({
       ...state,
       selectedRoles: userRolesPrActor.flatMap((actor) =>
         actor.userRoles.filter((userRole) => userRole.userActorId)

@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { DbAdminAssignableUserRolesStore } from '@energinet-datahub/dh/admin/data-access-api';
-import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { FormsModule } from '@angular/forms';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
@@ -54,11 +54,11 @@ export class DhAssignableUserRolesComponent implements OnInit {
 
   readonly assignableUserRoles$ = this.assignableUserRolesStore.assignableUserRoles$;
   readonly hasGeneralError$ = this.assignableUserRolesStore.hasGeneralError$;
-  readonly dataSource: WattTableDataSource<UserRoleDto> = new WattTableDataSource<UserRoleDto>();
+  readonly dataSource: WattTableDataSource<MarketParticipantUserRoleDto> = new WattTableDataSource<MarketParticipantUserRoleDto>();
 
-  @Output() readonly selectedUserRoles = new EventEmitter<UserRoleDto[]>();
+  @Output() readonly selectedUserRoles = new EventEmitter<MarketParticipantUserRoleDto[]>();
 
-  columns: WattTableColumnDef<UserRoleDto> = {
+  columns: WattTableColumnDef<MarketParticipantUserRoleDto> = {
     eicFunction: { accessor: 'eicFunction' },
     name: { accessor: 'name' },
     description: { accessor: 'description', sort: false },
@@ -70,7 +70,7 @@ export class DhAssignableUserRolesComponent implements OnInit {
       .subscribe((userRoles) => (this.dataSource.data = userRoles));
   }
 
-  selectionChanged(userRoles: UserRoleDto[]) {
+  selectionChanged(userRoles: MarketParticipantUserRoleDto[]) {
     this.selectedUserRoles.emit(userRoles);
   }
 }

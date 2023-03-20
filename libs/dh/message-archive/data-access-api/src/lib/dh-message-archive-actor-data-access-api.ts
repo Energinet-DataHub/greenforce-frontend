@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ActorDto, MarketParticipantHttp } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantActorDto, MarketParticipantHttp } from '@energinet-datahub/dh/shared/domain';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { LoadingState, ErrorState } from '@energinet-datahub/dh/shared/data-access-api';
 import { map, Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 interface ActorsResultState {
-  readonly actorResult: ActorDto[] | null;
+  readonly actorResult: MarketParticipantActorDto[] | null;
   readonly loadingState: LoadingState | ErrorState;
 }
 
@@ -39,7 +39,7 @@ export class DhMessageArchiveActorDataAccessApiStore extends ComponentStore<Acto
 
   actors$ = this.select((state) => state.actorResult).pipe(
     map((actors) =>
-      (actors ?? []).flatMap((actor: ActorDto) => ({
+      (actors ?? []).flatMap((actor: MarketParticipantActorDto) => ({
         value: actor.actorNumber.value,
         displayValue: actor.name.value === '' ? actor.actorNumber.value : actor.name.value,
       }))
@@ -81,13 +81,13 @@ export class DhMessageArchiveActorDataAccessApiStore extends ComponentStore<Acto
   );
 
   private update = this.updater(
-    (state: ActorsResultState, actors: ActorDto[]): ActorsResultState => ({
+    (state: ActorsResultState, actors: MarketParticipantActorDto[]): ActorsResultState => ({
       ...state,
       actorResult: actors,
     })
   );
 
-  private updateStates = (actors: ActorDto[]) => {
+  private updateStates = (actors: MarketParticipantActorDto[]) => {
     this.update(actors);
 
     if (actors.length == 0) {

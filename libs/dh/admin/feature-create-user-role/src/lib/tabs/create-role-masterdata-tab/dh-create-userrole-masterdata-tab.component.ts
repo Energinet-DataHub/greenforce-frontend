@@ -37,17 +37,17 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import {
-  CreateUserRoleDto,
-  EicFunction,
-  UserRoleStatus,
+  MarketParticipantCreateUserRoleDto,
+  MarketParticipantEicFunction,
+  MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { map, of, Subject, takeUntil } from 'rxjs';
 
 interface UserRoleForm {
   name: FormControl<string>;
   description: FormControl<string>;
-  eicFunction: FormControl<EicFunction>;
-  roleStatus: FormControl<UserRoleStatus>;
+  eicFunction: FormControl<MarketParticipantEicFunction>;
+  roleStatus: FormControl<MarketParticipantUserRoleStatus>;
 }
 
 @Component({
@@ -75,15 +75,15 @@ export class DhCreateUserroleMasterdataTabComponent implements OnInit, OnDestroy
     ]),
     description: this.formBuilder.nonNullable.control('', Validators.required),
     eicFunction: this.formBuilder.nonNullable.control(
-      EicFunction.BalanceResponsibleParty,
+      MarketParticipantEicFunction.BalanceResponsibleParty,
       Validators.required
     ),
-    roleStatus: this.formBuilder.nonNullable.control(UserRoleStatus.Active, Validators.required),
+    roleStatus: this.formBuilder.nonNullable.control(MarketParticipantUserRoleStatus.Active, Validators.required),
   });
 
   @Output() formReady = of(this.userRoleForm);
-  @Output() eicFunctionSelected = new EventEmitter<EicFunction>();
-  @Output() valueChange = new EventEmitter<Partial<CreateUserRoleDto>>();
+  @Output() eicFunctionSelected = new EventEmitter<MarketParticipantEicFunction>();
+  @Output() valueChange = new EventEmitter<Partial<MarketParticipantCreateUserRoleDto>>();
 
   userRoleStatusOptions: WattDropdownOptions = [];
   eicFunctionOptions: WattDropdownOptions = [];
@@ -99,7 +99,7 @@ export class DhCreateUserroleMasterdataTabComponent implements OnInit, OnDestroy
     this.userRoleForm.valueChanges
       .pipe(
         map(
-          (formValue): Partial<CreateUserRoleDto> => ({
+          (formValue): Partial<MarketParticipantCreateUserRoleDto> => ({
             name: formValue.name,
             description: formValue.description,
             eicFunction: formValue.eicFunction,
@@ -128,7 +128,7 @@ export class DhCreateUserroleMasterdataTabComponent implements OnInit, OnDestroy
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (keys) => {
-          this.userRoleStatusOptions = Object.keys(UserRoleStatus)
+          this.userRoleStatusOptions = Object.keys(MarketParticipantUserRoleStatus)
             .map((entry) => {
               return {
                 value: entry,
@@ -146,7 +146,7 @@ export class DhCreateUserroleMasterdataTabComponent implements OnInit, OnDestroy
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (keys) => {
-          this.eicFunctionOptions = Object.keys(EicFunction)
+          this.eicFunctionOptions = Object.keys(MarketParticipantEicFunction)
             .map((entry) => {
               return {
                 value: entry,

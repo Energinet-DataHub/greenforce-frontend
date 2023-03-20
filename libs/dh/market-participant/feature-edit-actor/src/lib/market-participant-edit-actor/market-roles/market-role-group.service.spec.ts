@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { EicFunction } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantEicFunction } from '@energinet-datahub/dh/shared/domain';
 import { EditableMarketRoleRow } from './dh-market-participant-actor-market-roles.component';
 import { MarketRoleGroupService } from './market-role-group.service';
 
@@ -26,21 +26,21 @@ describe(MarketRoleGroupService.name, () => {
     const input: EditableMarketRoleRow[] = [
       {
         existing: true,
-        marketRole: EicFunction.BillingAgent,
+        marketRole: MarketParticipantEicFunction.BillingAgent,
         gridArea: 'ga1',
         meteringPointTypes: [],
         comment: 'comment ga1',
       },
       {
         existing: true,
-        marketRole: EicFunction.BalanceResponsibleParty,
+        marketRole: MarketParticipantEicFunction.BalanceResponsibleParty,
         gridArea: 'ga3',
         meteringPointTypes: [],
         comment: 'comment ga3',
       },
       {
         existing: true,
-        marketRole: EicFunction.BillingAgent,
+        marketRole: MarketParticipantEicFunction.BillingAgent,
         gridArea: 'ga2',
         meteringPointTypes: [],
         comment: 'comment ga2',
@@ -49,7 +49,7 @@ describe(MarketRoleGroupService.name, () => {
 
     // act
     const marketRoles = target.groupRows(input);
-    const agentMarketRoles = marketRoles.filter((x) => x.marketRole === EicFunction.BillingAgent);
+    const agentMarketRoles = marketRoles.filter((x) => x.marketRole === MarketParticipantEicFunction.BillingAgent);
     const agentMarketRoleGridAreas = agentMarketRoles[0].gridAreas;
     // assert
     expect(marketRoles[0].comment).toBe('comment ga1');

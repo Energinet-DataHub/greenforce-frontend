@@ -33,7 +33,7 @@ import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { ProcessType } from '@energinet-datahub/dh/shared/domain';
+import { WholesaleProcessType } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { PushModule } from '@rx-angular/template/push';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
@@ -75,8 +75,8 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
       map((translations) => {
         return [
           {
-            value: ProcessType.BalanceFixing,
-            displayValue: translations[ProcessType.BalanceFixing],
+            value: WholesaleProcessType.BalanceFixing,
+            displayValue: translations[WholesaleProcessType.BalanceFixing],
           },
         ];
       })

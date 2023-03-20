@@ -115,7 +115,7 @@ export type GridArea = {
   /** The grid area name. */
   name: Scalars['String'];
   /** The price area code for the grid area. */
-  priceAreaCode: PriceAreaCode;
+  priceAreaCode: MarketParticipantPriceAreaCode;
   /** Date that the grid area is valid from */
   validFrom: Scalars['DateTimeOffset'];
   /** Date that the grid area is valid to */
@@ -135,10 +135,10 @@ export type Organization = {
   /** The ID of the organization. */
   organizationId: Scalars['ID'];
   /** The status of the organization. */
-  status: OrganizationStatus;
+  status: MarketParticipantOrganizationStatus;
 };
 
-export enum OrganizationStatus {
+export enum MarketParticipantOrganizationStatus {
   Active = 'ACTIVE',
   Blocked = 'BLOCKED',
   Deleted = 'DELETED',
@@ -157,7 +157,7 @@ export type Permission = {
   name: Scalars['String'];
 };
 
-export enum PriceAreaCode {
+export enum MarketParticipantPriceAreaCode {
   Dk_1 = 'DK_1',
   Dk_2 = 'DK_2'
 }
@@ -230,7 +230,7 @@ export type GetBatchQueryVariables = Exact<{
 }>;
 
 
-export type GetBatchQuery = { __typename?: 'GraphQLQuery', batch?: { __typename?: 'Batch', id: string, executionState: BatchState, executionTimeEnd?: string | null, executionTimeStart?: string | null, isBasisDataDownloadAvailable: boolean, period?: { start: string, end: string} | null, statusType: StatusType, processType: ProcessType, gridAreas: Array<{ __typename?: 'GridArea', code: string, name: string, id: string, priceAreaCode: PriceAreaCode, validFrom: string }> } | null };
+export type GetBatchQuery = { __typename?: 'GraphQLQuery', batch?: { __typename?: 'Batch', id: string, executionState: BatchState, executionTimeEnd?: string | null, executionTimeStart?: string | null, isBasisDataDownloadAvailable: boolean, period?: { start: string, end: string} | null, statusType: StatusType, processType: ProcessType, gridAreas: Array<{ __typename?: 'GridArea', code: string, name: string, id: string, priceAreaCode: MarketParticipantPriceAreaCode, validFrom: string }> } | null };
 
 export type GetBatchesQueryVariables = Exact<{
   executionTime?: InputMaybe<Scalars['DateRange']>;

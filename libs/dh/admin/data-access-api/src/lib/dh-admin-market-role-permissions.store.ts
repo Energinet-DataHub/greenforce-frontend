@@ -21,13 +21,13 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
-  PermissionDetailsDto,
-  EicFunction,
+  MarketParticipantPermissionDetailsDto,
+  MarketParticipantEicFunction,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhMarketRolePermissionsState {
   readonly requestState: LoadingState | ErrorState;
-  readonly permissions: PermissionDetailsDto[];
+  readonly permissions: MarketParticipantPermissionDetailsDto[];
 }
 
 const initialState: DhMarketRolePermissionsState = {
@@ -46,7 +46,7 @@ export class DhAdminMarketRolePermissionsStore extends ComponentStore<DhMarketRo
     super(initialState);
   }
 
-  public readonly getPermissions = this.effect((trigger$: Observable<EicFunction>) =>
+  public readonly getPermissions = this.effect((trigger$: Observable<MarketParticipantEicFunction>) =>
     trigger$.pipe(
       tap(() => {
         this.resetState();
@@ -73,7 +73,7 @@ export class DhAdminMarketRolePermissionsStore extends ComponentStore<DhMarketRo
   private updatePermissions = this.updater(
     (
       state: DhMarketRolePermissionsState,
-      permissions: PermissionDetailsDto[]
+      permissions: MarketParticipantPermissionDetailsDto[]
     ): DhMarketRolePermissionsState => ({
       ...state,
       permissions,

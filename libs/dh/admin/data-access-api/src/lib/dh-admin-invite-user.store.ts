@@ -19,7 +19,7 @@ import { Observable, Subject, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
-import { MarketParticipantUserHttp, UserInvitationDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserHttp, MarketParticipantUserInvitationDto } from '@energinet-datahub/dh/shared/domain';
 
 interface State {
   readonly requestState: SavingState | ErrorState;
@@ -40,7 +40,7 @@ export class DbAdminInviteUserStore extends ComponentStore<State> {
   }
 
   readonly inviteUser = this.effect(
-    (trigger$: Observable<{ invitation: UserInvitationDto; onSuccess: () => void }>) =>
+    (trigger$: Observable<{ invitation: MarketParticipantUserInvitationDto; onSuccess: () => void }>) =>
       trigger$.pipe(
         tap(() => {
           this.resetState();

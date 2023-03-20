@@ -19,11 +19,11 @@ import { Observable, Subject, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
-import { MarketParticipantUserRoleHttp, UserRoleDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserRoleHttp, MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 
 interface State {
   readonly requestState: LoadingState | ErrorState;
-  readonly assignableUserRoles: UserRoleDto[];
+  readonly assignableUserRoles: MarketParticipantUserRoleDto[];
 }
 
 const initialState: State = {
@@ -69,7 +69,7 @@ export class DbAdminAssignableUserRolesStore extends ComponentStore<State> {
   );
 
   private updateRoles = this.updater(
-    (state: State, assignableUserRoles: UserRoleDto[]): State => ({
+    (state: State, assignableUserRoles: MarketParticipantUserRoleDto[]): State => ({
       ...state,
       assignableUserRoles,
     })

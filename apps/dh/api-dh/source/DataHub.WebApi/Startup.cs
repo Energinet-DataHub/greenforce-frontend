@@ -186,19 +186,19 @@ namespace Energinet.DataHub.WebApi
 
         private static string GetCustomSchemaIds(string? fullName)
         {
-            var domainList = new List<string>
+            var domainList = new Dictionary<string, string>
             {
-                "Wholesale",
-                "MeteringPoints",
-                "MarketParticipant",
-                "Charges",
+                { "Wholesale", "Wholesale" },
+                { "MeteringPoints", "MeteringPoint" },
+                { "MarketParticipant", "MarketParticipant" },
+                { "Charges", "Charge" },
             };
             if (fullName == null) return string.Empty;
             var fullNameSplit = fullName.Split(".");
             var domain = string.Empty;
-            foreach (var item in domainList.Where(item => fullNameSplit.Contains(item)))
+            foreach (var item in domainList.Where(item => fullNameSplit.Contains(item.Key)))
             {
-                domain = item;
+                domain = item.Value;
             }
 
             if (fullNameSplit.Last().Contains(domain))

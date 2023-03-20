@@ -29,9 +29,9 @@ import {
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import {
-  SortDirection,
-  UserOverviewSortProperty,
-  UserStatus,
+  MarketParticipantSortDirection,
+  MarketParticipantUserOverviewSortProperty,
+  MarketParticipantUserStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattCardModule } from '@energinet-datahub/watt/card';
@@ -147,11 +147,11 @@ export class DhUsersTabComponent {
     this.store.updateSearchText(value);
   }
 
-  onStatusChanged(value: UserStatus[]): void {
+  onStatusChanged(value: MarketParticipantUserStatus[]): void {
     this.store.updateStatusFilter(value);
   }
 
-  sortChanged = (sortProperty: UserOverviewSortProperty, direction: SortDirection) =>
+  sortChanged = (sortProperty: MarketParticipantUserOverviewSortProperty, direction: MarketParticipantSortDirection) =>
     this.store.updateSort(sortProperty, direction);
 
   onActorFilterChanged(actorId: string | undefined): void {

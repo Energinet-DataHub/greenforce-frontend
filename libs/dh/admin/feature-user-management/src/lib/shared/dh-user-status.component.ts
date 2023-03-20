@@ -19,7 +19,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { UserStatus } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-user-status',
@@ -33,5 +33,5 @@ import { UserStatus } from '@energinet-datahub/dh/shared/domain';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhUserStatusComponent {
-  @Input() status!: UserStatus;
+  @Input() status!: MarketParticipantUserStatus;
 }

@@ -36,7 +36,7 @@ import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
-import { EicFunction, UserRoleDto, UserRoleStatus } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantEicFunction, MarketParticipantUserRoleDto, MarketParticipantUserRoleStatus } from '@energinet-datahub/dh/shared/domain';
 import { take } from 'rxjs';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
@@ -65,7 +65,7 @@ import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
   ],
 })
 export class DhUserRolesTabComponent {
-  @Input() roles: UserRoleDto[] = [];
+  @Input() roles: MarketParticipantUserRoleDto[] = [];
   constructor(private router: Router) {}
 
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
@@ -75,11 +75,11 @@ export class DhUserRolesTabComponent {
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
-  updateFilterStatus(status: UserRoleStatus | null) {
+  updateFilterStatus(status: MarketParticipantUserRoleStatus | null) {
     this.store.setFilterStatus(status);
   }
 
-  updateFilterEicFunction(eicFunctions: EicFunction[] | null) {
+  updateFilterEicFunction(eicFunctions: MarketParticipantEicFunction[] | null) {
     this.store.setFilterEicFunction(eicFunctions);
   }
 
@@ -87,7 +87,7 @@ export class DhUserRolesTabComponent {
     this.store.getRoles();
   }
 
-  async download(roles: UserRoleDto[]) {
+  async download(roles: MarketParticipantUserRoleDto[]) {
     this.trans
       .selectTranslateObject('marketParticipant.marketRoles')
       .pipe(take(1))

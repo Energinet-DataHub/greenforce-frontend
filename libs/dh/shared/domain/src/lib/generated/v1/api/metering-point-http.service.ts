@@ -19,9 +19,9 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { MeteringPointsMeteringPointCimDto } from '../model/metering-points-metering-point-cim-dto';
+import { MeteringPointCimDto } from '../model/metering-point-cim-dto';
 // @ts-ignore
-import { MeteringPointsProcess } from '../model/metering-points-process';
+import { MeteringPointProcess } from '../model/metering-point-process';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -99,9 +99,9 @@ export class MeteringPointHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<MeteringPointsMeteringPointCimDto>;
-    public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<MeteringPointsMeteringPointCimDto>>;
-    public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<MeteringPointsMeteringPointCimDto>>;
+    public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<MeteringPointCimDto>;
+    public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<MeteringPointCimDto>>;
+    public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<MeteringPointCimDto>>;
     public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -151,7 +151,7 @@ export class MeteringPointHttp {
         }
 
         let localVarPath = `/v1/MeteringPoint/GetByGsrn`;
-        return this.httpClient.request<MeteringPointsMeteringPointCimDto>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<MeteringPointCimDto>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -170,9 +170,9 @@ export class MeteringPointHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MeteringPointGetProcessesByGsrnGet(gsrnNumber?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<MeteringPointsProcess>>;
-    public v1MeteringPointGetProcessesByGsrnGet(gsrnNumber?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<MeteringPointsProcess>>>;
-    public v1MeteringPointGetProcessesByGsrnGet(gsrnNumber?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<MeteringPointsProcess>>>;
+    public v1MeteringPointGetProcessesByGsrnGet(gsrnNumber?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<MeteringPointProcess>>;
+    public v1MeteringPointGetProcessesByGsrnGet(gsrnNumber?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<MeteringPointProcess>>>;
+    public v1MeteringPointGetProcessesByGsrnGet(gsrnNumber?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<MeteringPointProcess>>>;
     public v1MeteringPointGetProcessesByGsrnGet(gsrnNumber?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -222,7 +222,7 @@ export class MeteringPointHttp {
         }
 
         let localVarPath = `/v1/MeteringPoint/GetProcessesByGsrn`;
-        return this.httpClient.request<Array<MeteringPointsProcess>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Array<MeteringPointProcess>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
