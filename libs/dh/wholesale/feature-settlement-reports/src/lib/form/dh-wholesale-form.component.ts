@@ -75,7 +75,7 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
   }
   @Input() set actors(actors: FilteredActorDto[]) {
     this._actors = actors;
-    if(actors && actors.length > 0) {
+    if (actors && actors.length > 0) {
       this.filters.controls.actor.enable();
     }
     this.actorOptions = actors?.map((actor) => {
@@ -122,12 +122,12 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
       },
       WattRangeValidators.required(),
     ],
-    actor: [{value: '', disabled: true}],
+    actor: [{ value: '', disabled: true }],
   });
 
   gridAreaOptions$: Observable<WattDropdownOption[]> = combineLatest([
     this.store.gridAreas$.pipe(exists()),
-    this.filters.controls.actor.valueChanges.pipe(startWith(null))
+    this.filters.controls.actor.valueChanges.pipe(startWith(null)),
   ]).pipe(
     map(([gridAreas, selectedActorId]) => {
       const selectedActor = this._actors?.find((x) => x.actorId === selectedActorId);
