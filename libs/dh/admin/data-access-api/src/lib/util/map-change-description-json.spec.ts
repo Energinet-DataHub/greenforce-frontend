@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 import {
-  EicFunction,
+  MarketParticipantEicFunction,
   UserRoleChangeType,
-  UserRoleStatus,
+  MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
 import { mapChangeDescriptionJson } from './map-change-description-json';
@@ -27,8 +27,8 @@ describe(mapChangeDescriptionJson.prototype.name, () => {
     const changeDescriptionJson = {
       Name: 'New name',
       Description: 'New description',
-      EicFunction: EicFunction.BalanceResponsibleParty,
-      Status: UserRoleStatus.Inactive,
+      MarketParticipantEicFunction: MarketParticipantEicFunction.BalanceResponsibleParty,
+      Status: MarketParticipantUserRoleStatus.Inactive,
       Permissions: [3, 4],
     };
 
@@ -58,7 +58,7 @@ describe(mapChangeDescriptionJson.prototype.name, () => {
 
   it(`returns value when "UserRoleChangeType" is ${UserRoleChangeType.EicFunctionChange}`, () => {
     const changeDescriptionJson = {
-      EicFunction: EicFunction.BalanceResponsibleParty,
+      MarketParticipantEicFunction: MarketParticipantEicFunction.BalanceResponsibleParty,
     };
 
     const actual = mapChangeDescriptionJson(
@@ -66,11 +66,11 @@ describe(mapChangeDescriptionJson.prototype.name, () => {
       changeDescriptionJson
     );
 
-    expect(actual).toBe(changeDescriptionJson.EicFunction);
+    expect(actual).toBe(changeDescriptionJson.MarketParticipantEicFunction);
   });
 
   it(`returns value when "UserRoleChangeType" is ${UserRoleChangeType.StatusChange}`, () => {
-    const changeDescriptionJson = { Status: UserRoleStatus.Inactive };
+    const changeDescriptionJson = { Status: MarketParticipantUserRoleStatus.Inactive };
 
     const actual = mapChangeDescriptionJson(UserRoleChangeType.StatusChange, changeDescriptionJson);
 

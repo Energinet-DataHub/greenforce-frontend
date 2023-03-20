@@ -26,13 +26,16 @@ import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
-import { UserOverviewItemDto, UserStatus } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantUserOverviewItemDto,
+  UserStatus,
+} from '@energinet-datahub/dh/shared/domain';
 
 import { DhUsersTabComponent } from './dh-users-tab.component';
 import { searchDebounceTimeMs } from './dh-users-tab-search.component';
 import { of } from 'rxjs';
 
-const users: UserOverviewItemDto[] = [
+const users: MarketParticipantUserOverviewItemDto[] = [
   {
     id: '3ec41d91-fc6d-4364-ade6-b85576a91d04',
     email: 'testuser1@test.dk',
@@ -45,7 +48,7 @@ const users: UserOverviewItemDto[] = [
 ];
 
 describe(DhUsersTabComponent.name, () => {
-  async function setup(mockUsers: UserOverviewItemDto[] = []) {
+  async function setup(mockUsers: MarketParticipantUserOverviewItemDto[] = []) {
     const storeMock = MockProvider(
       DhAdminUserManagementDataAccessApiStore,
       {

@@ -18,12 +18,12 @@ import { asyncScheduler, firstValueFrom, Observable, of, scheduled } from 'rxjs'
 import { fakeAsync, tick } from '@angular/core/testing';
 
 import {
-  EicFunction,
+  MarketParticipantEicFunction,
   MarketParticipantUserRoleHttp,
   UserRoleAuditLogDto,
   UserRoleAuditLogsDto,
   UserRoleChangeType,
-  UserRoleStatus,
+  MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
 import {
@@ -35,8 +35,8 @@ const testUserRoleId = 'ff029a48-b06f-4300-8ec0-84d121a4b83f';
 const changeDescriptionJsonMock = {
   Name: 'New name',
   Description: 'New description',
-  EicFunction: EicFunction.BalanceResponsibleParty,
-  Status: UserRoleStatus.Inactive,
+  MarketParticipantEicFunction: MarketParticipantEicFunction.BalanceResponsibleParty,
+  Status: MarketParticipantUserRoleStatus.Inactive,
   Permissions: [3, 4],
 };
 
@@ -68,7 +68,9 @@ function generateMockResponse(): UserRoleAuditLogsDto {
       ),
       generateUserRoleAuditLog(
         'EicFunctionChange',
-        JSON.stringify({ EicFunction: changeDescriptionJsonMock.EicFunction })
+        JSON.stringify({
+          MarketParticipantEicFunction: changeDescriptionJsonMock.MarketParticipantEicFunction,
+        })
       ),
       generateUserRoleAuditLog(
         'StatusChange',
@@ -146,7 +148,7 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
         entry: {
           ...mockResponse.auditLogs[3],
           userRoleChangeType: UserRoleChangeType.EicFunctionChange,
-          changedValueTo: changeDescriptionJsonMock.EicFunction,
+          changedValueTo: changeDescriptionJsonMock.MarketParticipantEicFunction,
         },
       },
       {

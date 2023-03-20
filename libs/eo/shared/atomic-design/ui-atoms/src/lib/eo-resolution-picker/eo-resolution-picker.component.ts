@@ -24,7 +24,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { AppSettingsStore, Resolution } from '@energinet-datahub/eo/shared/services';
+import { AppSettingsStore, ChargeResolution } from '@energinet-datahub/eo/shared/services';
 import { LetModule } from '@rx-angular/template/let';
 import { differenceInDays, differenceInMonths, differenceInYears } from 'date-fns';
 import { map } from 'rxjs';
@@ -69,7 +69,7 @@ import { map } from 'rxjs';
       }
     `,
   ],
-  template: `<label class="watt-space-stack-s title">Resolution</label>
+  template: `<label class="watt-space-stack-s title">ChargeResolution</label>
     <mat-button-toggle-group
       [value]="appSettingsResolution$ | async"
       name="resolution"
@@ -114,9 +114,9 @@ export class EoResolutionPickerComponent {
 
   constructor(private appSettingsStore: AppSettingsStore) {}
 
-  @Output() newResolution = new EventEmitter<Resolution>();
+  @Output() newResolution = new EventEmitter<ChargeResolution>();
 
-  setResolution(resolution: Resolution) {
+  setResolution(resolution: ChargeResolution) {
     this.appSettingsStore.setResolution(resolution);
     this.newResolution.emit(resolution);
   }

@@ -18,7 +18,7 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   MarketParticipantGridAreaOverviewHttp,
-  PriceAreaCode,
+  MarketParticipantPriceAreaCode,
 } from '@energinet-datahub/dh/shared/domain';
 import { Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -38,7 +38,7 @@ export interface GridAreaOverviewRow {
   id: string;
   name: string;
   code: string;
-  priceAreaCode: PriceAreaCode;
+  priceAreaCode: MarketParticipantPriceAreaCode;
   validFrom: string;
   validTo?: string | null;
   actorNumber?: string | null;

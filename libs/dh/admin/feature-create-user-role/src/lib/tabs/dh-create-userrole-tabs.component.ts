@@ -31,9 +31,9 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { provideComponentStore } from '@ngrx/component-store';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import {
-  CreateUserRoleDto,
-  EicFunction,
-  UserRoleStatus,
+  MarketParticipantCreateUserRoleDto,
+  MarketParticipantEicFunction,
+  MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { Router } from '@angular/router';
 import { dhAdminPath, dhAdminUserManagementPath } from '@energinet-datahub/dh/admin/routing';
@@ -83,11 +83,11 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
 
   permissions$ = this.marketRolePermissionsStore.permissions$;
 
-  userRole: CreateUserRoleDto = {
+  userRole: MarketParticipantCreateUserRoleDto = {
     name: '',
     description: '',
-    eicFunction: EicFunction.BalanceResponsibleParty,
-    status: UserRoleStatus.Active,
+    eicFunction: MarketParticipantEicFunction.BalanceResponsibleParty,
+    status: MarketParticipantUserRoleStatus.Active,
     permissions: [],
   };
 
@@ -145,12 +145,12 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
     });
   }
 
-  patchUserRole(patch: Partial<CreateUserRoleDto>) {
+  patchUserRole(patch: Partial<MarketParticipantCreateUserRoleDto>) {
     if (!this.userRole) throw new Error('Missing user role');
     this.userRole = { ...this.userRole, ...patch };
   }
 
-  eicFunctionSelected(eicFunction: EicFunction) {
+  eicFunctionSelected(eicFunction: MarketParticipantEicFunction) {
     this.marketRolePermissionsStore.getPermissions(eicFunction);
     this.patchUserRole({ permissions: [] });
   }

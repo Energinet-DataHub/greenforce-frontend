@@ -25,7 +25,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { ActorStatus } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantActorStatus } from '@energinet-datahub/dh/shared/domain';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
@@ -44,7 +44,7 @@ export class DhMarketParticipantActorMasterDataComponent implements OnChanges, O
   @Input() changes?: ActorChanges;
 
   private destroy$ = new Subject<void>();
-  initialActorStatus?: ActorStatus;
+  initialActorStatus?: MarketParticipantActorStatus;
   allStatuses: WattDropdownOption[] = [];
   statuses: WattDropdownOption[] = [];
 
@@ -53,14 +53,14 @@ export class DhMarketParticipantActorMasterDataComponent implements OnChanges, O
       .selectTranslateObject('marketParticipant.actor.create.masterData.statuses')
       .pipe(takeUntil(this.destroy$))
       .subscribe((statusKeys) => {
-        this.allStatuses = Object.keys(ActorStatus)
+        this.allStatuses = Object.keys(MarketParticipantActorStatus)
           .map((key) => ({
             value: key,
             displayValue: statusKeys[key] ?? key,
           }))
           .sort((a, b) => a.displayValue.localeCompare(b.displayValue));
         this.statuses = getValidStatusTransitionOptions(
-          this.initialActorStatus ?? ActorStatus.New,
+          this.initialActorStatus ?? MarketParticipantActorStatus.New,
           this.allStatuses
         );
       });
@@ -69,7 +69,7 @@ export class DhMarketParticipantActorMasterDataComponent implements OnChanges, O
   ngOnChanges(): void {
     this.initialActorStatus = this.changes?.status;
     this.statuses = getValidStatusTransitionOptions(
-      this.initialActorStatus ?? ActorStatus.New,
+      this.initialActorStatus ?? MarketParticipantActorStatus.New,
       this.allStatuses
     );
   }
