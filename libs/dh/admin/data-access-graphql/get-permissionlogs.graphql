@@ -1,5 +1,5 @@
 query GetPermissionLogs($id: ID!) {
-  permissionlogs(id: $id) {
+  permissionLogs(id: $id) {
     permissionId
     changedByUserId
     changedByUserName
