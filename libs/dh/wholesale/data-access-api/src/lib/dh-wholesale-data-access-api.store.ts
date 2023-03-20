@@ -288,16 +288,14 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   );
 
   readonly getFilteredActors = this.effect(() => {
-    return this.marketParticipantHttp
-      .v1MarketParticipantOrganizationGetFilteredActorsGet()
-      .pipe(
-        tapResponse(
-          (filtedActors) => {
-            this.setFilteredActors(filtedActors);
-          },
-          () => this.loadingFilteredActorsErrorTrigger$.next()
-        )
-      );
+    return this.marketParticipantHttp.v1MarketParticipantOrganizationGetFilteredActorsGet().pipe(
+      tapResponse(
+        (filtedActors) => {
+          this.setFilteredActors(filtedActors);
+        },
+        () => this.loadingFilteredActorsErrorTrigger$.next()
+      )
+    );
   });
 
   readonly getZippedBasisData = this.effect((batch$: Observable<BatchDto>) => {

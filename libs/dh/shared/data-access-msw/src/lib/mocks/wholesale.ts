@@ -276,9 +276,12 @@ const mockedFilteredActors: FilteredActorDto[] = [
 ];
 
 function getFilteredActors(apiBase: string) {
-  return rest.get(`${apiBase}/v1/MarketParticipant/Organization/GetFilteredActors`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(mockedFilteredActors), ctx.delay(300));
-  });
+  return rest.get(
+    `${apiBase}/v1/MarketParticipant/Organization/GetFilteredActors`,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(mockedFilteredActors), ctx.delay(300));
+    }
+  );
 }
 
 function getWholesaleSearchBatch() {
