@@ -73,12 +73,25 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
   @Input() set executionTime(executionTime: { start: string; end: string }) {
     this.filters.patchValue({ executionTime });
   }
+  @Input() set actors(actors: FilteredActorDto[]) {
+    this._actors = actors;
+    if(actors && actors.length > 0) {
+      this.filters.controls.actor.enable();
+    }
+    this.actorOptions = actors?.map((actor) => {
+      return {
+        displayValue: actor.name.value,
+        value: actor.actorId,
+      };
+    });
+  }
   @Output() filterChange = new EventEmitter<SettlementReportFilters>();
 
   private destroy$ = new Subject<void>();
   private transloco = inject(TranslocoService);
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private fb = inject(FormBuilder);
+  private _actors: FilteredActorDto[] = [];
 
   processTypeOptions$: Observable<WattDropdownOption[]> = this.transloco
     .selectTranslateObject('wholesale.settlementReports.processTypes')
@@ -91,48 +104,7 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
       })
     );
 
-  actors: FilteredActorDto[] = [
-    {
-      actorId: '10',
-      actorNumber: {
-        value: '1',
-      },
-      name: {
-        value: 'Actor (805)',
-      },
-      marketRoles: [],
-      gridAreaCodes: ['805'],
-    },
-    {
-      actorId: '20',
-      actorNumber: {
-        value: '1',
-      },
-      name: {
-        value: 'Actor (806)',
-      },
-      marketRoles: [],
-      gridAreaCodes: ['806'],
-    },
-    {
-      actorId: '30',
-      actorNumber: {
-        value: '1',
-      },
-      name: {
-        value: 'Actor (805, 806)',
-      },
-      marketRoles: [],
-      gridAreaCodes: ['805', '806'],
-    },
-  ];
-
-  actorOptions: WattDropdownOption[] = this.actors.map((actor) => {
-    return {
-      displayValue: actor.name.value,
-      value: actor.actorId,
-    };
-  });
+  actorOptions!: WattDropdownOption[];
 
   filters = this.fb.group({
     processType: [''],
@@ -150,7 +122,7 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
       },
       WattRangeValidators.required(),
     ],
-    actor: [''],
+    actor: [{value: '', disabled: true}],
   });
 
   gridAreaOptions$: Observable<WattDropdownOption[]> = combineLatest([
@@ -158,7 +130,7 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
     this.filters.controls.actor.valueChanges.pipe(startWith(null))
   ]).pipe(
     map(([gridAreas, selectedActorId]) => {
-      const selectedActor = this.actors.find((x) => x.actorId === selectedActorId);
+      const selectedActor = this._actors?.find((x) => x.actorId === selectedActorId);
       this.filters.patchValue({ gridAreas: selectedActor?.gridAreaCodes });
 
       return gridAreas

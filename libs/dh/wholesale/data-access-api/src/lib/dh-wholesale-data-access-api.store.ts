@@ -33,6 +33,8 @@ import {
   WholesaleActorDto,
   TimeSeriesType,
   MarketRole,
+  MarketParticipantHttp,
+  FilteredActorDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
@@ -48,6 +50,7 @@ interface State {
   selectedGridArea?: GridAreaDto;
   loadingCreatingBatch: boolean;
   actors?: WholesaleActorDto[];
+  filteredActors?: FilteredActorDto[];
 }
 
 const initialState: State = {
@@ -69,6 +72,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   selectedGridArea$ = this.select((x) => x.selectedGridArea);
   processStepResults$ = this.select((x) => x.processStepResults);
   actors$ = this.select((x) => x.actors);
+  filteredActors$ = this.select((x) => x.filteredActors);
 
   creatingBatchSuccessTrigger$: Subject<void> = new Subject();
   creatingBatchErrorTrigger$: Subject<void> = new Subject();
@@ -82,10 +86,12 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   loadingBasisDataErrorTrigger$: Subject<void> = new Subject();
   loadingProcessStepResultsErrorTrigger$: Subject<void> = new Subject();
   loadingActorsErrorTrigger$: Subject<void> = new Subject();
+  loadingFilteredActorsErrorTrigger$: Subject<void> = new Subject();
 
   private document = inject(DOCUMENT);
   private httpClient = inject(WholesaleBatchHttp);
   private marketParticipantGridAreaHttpClient = inject(MarketParticipantGridAreaHttp);
+  private marketParticipantHttp = inject(MarketParticipantHttp);
 
   constructor() {
     super(initialState);
@@ -131,6 +137,13 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (state, actors: WholesaleActorDto[]): State => ({
       ...state,
       actors,
+    })
+  );
+
+  readonly setFilteredActors = this.updater(
+    (state, filteredActors: FilteredActorDto[]): State => ({
+      ...state,
+      filteredActors,
     })
   );
 
@@ -273,6 +286,19 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       );
     }
   );
+
+  readonly getFilteredActors = this.effect(() => {
+    return this.marketParticipantHttp
+      .v1MarketParticipantOrganizationGetFilteredActorsGet()
+      .pipe(
+        tapResponse(
+          (filtedActors) => {
+            this.setFilteredActors(filtedActors);
+          },
+          () => this.loadingFilteredActorsErrorTrigger$.next()
+        )
+      );
+  });
 
   readonly getZippedBasisData = this.effect((batch$: Observable<BatchDto>) => {
     return batch$.pipe(

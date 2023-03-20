@@ -799,7 +799,11 @@
         "period": "Periode",
         "executionTime": "Kørsel tid",
         "executionTimeRequired": "Eksekveringstid påkrævet",
-        "actor": "Aktør"
+        "actor": "Aktør",
+        "loadingActors": "Henter Aktører...",
+        "actorPlaceholder": "Vælg aktør",
+        "processTypePlaceholder": "Vælg procestype",
+        "gridAreasPlaceholder": "Vælg netområde(r)"
       }
     },
     "calculationSteps": {

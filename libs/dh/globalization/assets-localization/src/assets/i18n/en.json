@@ -808,7 +808,11 @@
         "period": "Period",
         "executionTime": "Execution time",
         "executionTimeRequired": "Execution time is required",
-        "actor": "Actor"
+        "actor": "Actor",
+        "loadingActors": "Loading actors...",
+        "actorPlaceholder": "Select actor",
+        "processTypePlaceholder": "Select process type",
+        "gridAreasPlaceholder": "Select grid area(s)"
       }
     },
     "calculationSteps": {

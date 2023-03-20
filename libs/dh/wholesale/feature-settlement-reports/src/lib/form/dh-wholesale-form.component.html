@@ -24,6 +24,7 @@ limitations under the License.
     <watt-dropdown
       formControlName="processType"
       [options]="processTypeOptions$ | push"
+      [placeholder]="transloco('processTypePlaceholder')"
       [multiple]="true"
     ></watt-dropdown>
   </watt-form-field>
@@ -33,6 +34,7 @@ limitations under the License.
     <watt-dropdown
       formControlName="gridAreas"
       [options]="gridAreaOptions$ | push"
+      [placeholder]="transloco('gridAreasPlaceholder')"
       [multiple]="true"
     ></watt-dropdown>
   </watt-form-field>
@@ -55,6 +57,7 @@ limitations under the License.
     <watt-dropdown
       formControlName="actor"
       [options]="actorOptions"
+      [placeholder]="filters.controls.actor.disabled ? transloco('loadingActors') : transloco('actorPlaceholder')"
     ></watt-dropdown>
   </watt-form-field>
 </form>
