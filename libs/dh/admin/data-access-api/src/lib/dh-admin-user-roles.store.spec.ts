@@ -15,43 +15,35 @@
  * limitations under the License.
  */
 import {
-  EicFunction,
   MarketParticipantUserRoleAssignmentHttp,
   MarketParticipantUserRoleHttp,
-  UserRolesViewDto,
+  ActorViewDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { firstValueFrom, Subject } from 'rxjs';
 import { DhAdminUserRolesStore } from './dh-admin-user-roles.store';
 
 describe('DhAdminUserRolesStore', () => {
   // Arrange
-  const userRoleView: UserRolesViewDto = {
-    organizations: [
-      {
-        id: '1',
-        name: 'Organization 1',
-        actors: [
-          {
-            id: '1',
-            actorNumber: '1',
-            name: 'Actor 1',
-            actorMarketRoles: [{ eicFunction: EicFunction.BalanceResponsibleParty }],
-            userRoles: [
-              {
-                id: '1',
-                name: 'Role 1',
-                description: 'Beskrivelse rolle 1',
-                userActorId: '1',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  };
+  const userRolesPrActor: ActorViewDto[] = [
+    {
+      id: '1',
+      organizationName: 'Organization 1',
+      actorNumber: '1',
+      name: 'Actor 1',
+      userRoles: [
+        {
+          id: '1',
+          marketRole: 'BalanceResponsibleParty',
+          name: 'Role 1',
+          description: 'Beskrivelse rolle 1',
+          userActorId: '1',
+        },
+      ],
+    },
+  ];
 
   test('should return user role view', async () => {
-    const observable = new Subject<UserRolesViewDto>();
+    const observable = new Subject<ActorViewDto[]>();
 
     const httpClient = {
       v1MarketParticipantUserRoleGetUserRoleViewGet: () => observable.asObservable(),
@@ -64,16 +56,16 @@ describe('DhAdminUserRolesStore', () => {
     const store = new DhAdminUserRolesStore(httpClient, httpClient1);
 
     store.getUserRolesView('1');
-    observable.next(userRoleView);
+    observable.next(userRolesPrActor);
     observable.complete();
 
     // Act
-    const result = await firstValueFrom(store.userRoleView$);
-    expect(result).toStrictEqual(userRoleView);
+    const result = await firstValueFrom(store.userRolesPrActor$);
+    expect(result).toStrictEqual(userRolesPrActor);
   });
 
   test('complete with no errors', async () => {
-    const observable = new Subject<UserRolesViewDto>();
+    const observable = new Subject<ActorViewDto[]>();
 
     const httpClient = {
       v1MarketParticipantUserRoleGetUserRoleViewGet: () => observable.asObservable(),
@@ -88,7 +80,7 @@ describe('DhAdminUserRolesStore', () => {
     const spyOnCall = jest.spyOn(store.hasGeneralError$, 'next');
 
     store.getUserRolesView('1');
-    observable.next(userRoleView);
+    observable.next(userRolesPrActor);
     observable.complete();
 
     // Act
@@ -96,7 +88,7 @@ describe('DhAdminUserRolesStore', () => {
   });
 
   test('complete with errors', async () => {
-    const observable = new Subject<UserRolesViewDto>();
+    const observable = new Subject<ActorViewDto[]>();
 
     const httpClient = {
       v1MarketParticipantUserRoleGetUserRoleViewGet: () => observable.asObservable(),

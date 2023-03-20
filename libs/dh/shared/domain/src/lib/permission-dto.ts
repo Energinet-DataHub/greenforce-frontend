@@ -14,10 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface WattDescriptionListTerm {
-  term: string | number;
-  description: string | number;
-  forceNewRow?: boolean;
-}
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
-export type WattDescriptionListGroups = WattDescriptionListTerm[];
+import { GetPermissionsDocument } from './generated/graphql';
+
+export type PermissionDto = ResultOf<typeof GetPermissionsDocument>['permissions'][0];

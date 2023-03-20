@@ -118,12 +118,12 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
     email: [{ value: '', disabled: true }, Validators.required],
     phoneNumber: [
       '',
-      Validators.compose([
+      [
         Validators.required,
         Validators.maxLength(12),
         Validators.minLength(12),
         Validators.pattern('^\\+[0-9]+ [0-9]+$'),
-      ]),
+      ],
     ],
   });
   userRoles = this.formBuilder.group({

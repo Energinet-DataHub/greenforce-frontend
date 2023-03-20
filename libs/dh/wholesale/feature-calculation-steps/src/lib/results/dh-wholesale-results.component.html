@@ -30,10 +30,23 @@ limitations under the License.
     </small>
   </p>
 
-  <watt-description-list
-    *ngIf="processStepResults"
-    [groups]="getMetadata()"
-  ></watt-description-list>
+  <watt-description-list *ngIf="processStepResults">
+    <watt-description-list-item
+      [label]="t('meteringPointType')"
+      [value]="t('timeSeriesType.' + processStepResults.timeSeriesType)"
+    ></watt-description-list-item>
+    <watt-description-list-item
+      [label]="t('calculationPeriod')"
+      [value]="batch?.period | dhDateRange"
+    >
+    </watt-description-list-item>
+    <watt-description-list-item [label]="t('sum')" [value]="processStepResults.sum + ' kWh'">
+    </watt-description-list-item>
+    <watt-description-list-item [label]="t('min')" [value]="processStepResults.min + ' kWh'">
+    </watt-description-list-item>
+    <watt-description-list-item [label]="t('max')" [value]="processStepResults.max + ' kWh'">
+    </watt-description-list-item>
+  </watt-description-list>
 
   <dh-wholesale-time-series-points
     *ngIf="processStepResults?.timeSeriesPoints"

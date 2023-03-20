@@ -11,9 +11,13 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using System.Collections.Generic;
 
-namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
+using Energinet.DataHub.MarketParticipant.Client.Models;
+using GraphQL.Types;
+
+namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public sealed record UserRolesViewDto(IEnumerable<OrganizationViewDto> Organizations);
+    public class PermissionChangeTypeEnum : EnumerationGraphType<PermissionChangeType>
+    {
+    }
 }

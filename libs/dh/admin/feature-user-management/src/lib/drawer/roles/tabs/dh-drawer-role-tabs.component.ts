@@ -28,6 +28,16 @@ import { DhRoleAuditLogsComponent } from './content/dh-role-audit-logs.component
   selector: 'dh-drawer-role-tabs',
   standalone: true,
   templateUrl: './dh-drawer-role-tabs.component.html',
+  styles: [
+    `
+      dh-role-master-data,
+      dh-role-permissions,
+      dh-role-audit-logs {
+        padding: var(--watt-space-ml);
+        display: block;
+      }
+    `,
+  ],
   imports: [
     TranslocoModule,
     WattTabComponent,

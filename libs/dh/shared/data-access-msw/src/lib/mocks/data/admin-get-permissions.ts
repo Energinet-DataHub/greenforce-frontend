@@ -14,12 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Pipe, PipeTransform } from '@angular/core';
-import { ActorMarketRoleViewDto } from '@energinet-datahub/dh/shared/domain';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 
-@Pipe({ name: 'joinMarketRoles', standalone: true })
-export class JoinMarketRoles implements PipeTransform {
-  transform(marketRoles: ActorMarketRoleViewDto[] | null | undefined) {
-    return marketRoles?.map((marketRole) => marketRole.eicFunction).join(', ') ?? '';
-  }
-}
+export const adminPermissionsMock: graphql.GetPermissionsQuery = {
+  permissions: [
+    {
+      id: 1,
+      name: 'organizations:view',
+      description: 'Description for OrganizationView',
+    },
+    {
+      id: 2,
+      name: 'organizations:manage',
+      description: 'Description for OrganizationManage',
+    },
+  ],
+};

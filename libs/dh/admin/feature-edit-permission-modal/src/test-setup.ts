@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { graphql } from '@energinet-datahub/dh/shared/domain';
-import type { ResultOf } from '@graphql-typed-document-node/core';
+import 'jest-preset-angular/setup-jest';
 
-export type Permission = ResultOf<typeof graphql.GetPermissionsDocument>['permissions'][0];
+import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSW } from '@energinet-datahub/dh/shared/test-util-msw';
+
+setupMSW();
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();

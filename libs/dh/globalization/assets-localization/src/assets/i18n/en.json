@@ -872,7 +872,7 @@
     "userManagement": {
       "inviteUser": {
         "title": "Invite user",
-        "informations": "Informations",
+        "informations": "Information",
         "addUserRole": "Add user role",
         "inviteUser": "Invite user",
         "name": "Name",
@@ -883,7 +883,12 @@
         "email": "Email",
         "phoneNumber": "Phone number",
         "phoneNumberError": "Phone number format +45 12345678",
-        "successMessage": "{{ email }} has been invited"
+        "successMessage": "{{ email }} has been invited",
+        "columns": {
+          "eicFunction": "Market role",
+          "name": "Name",
+          "description": "Description"
+        }
       },
       "download": "Download",
       "drawer": {
@@ -1000,7 +1005,6 @@
           }
         },
         "roles": {
-          "gln": "GLN {{ actorNumber }}",
           "tabLabel": "User roles",
           "roles": "User roles",
           "role": "User role",
@@ -1015,6 +1019,14 @@
               "description": "Description",
               "marketRole": "Market role",
               "status": "Status"
+            }
+          },
+          "assigned": {
+            "count": "{{ count }} assigned",
+            "columns": {
+              "marketRole": "Markedsrolle",
+              "name": "Navn",
+              "description": "Beskrivelse"
             }
           },
           "createuserrole": "Create user role",
@@ -1064,10 +1076,13 @@
       "editUser": {
         "cancel": "Cancel",
         "save": "Save",
-        "deactivateUser": "Deactivate user",
         "tab": {
-          "actor": "Actor",
-          "roles": "Roles"
+          "masterData": "Information",
+          "roles": "User roles"
+        },
+        "masterData": {
+          "fullName": "Name",
+          "phone": "Phone number"
         }
       },
       "editUserRole": {
@@ -1093,6 +1108,16 @@
         "cancel": "Cancel",
         "save": "Save"
       },
+      "editPermission": {
+        "tab": {
+          "masterData": {
+            "tabLabel": "Master data",
+            "descriptionInputLabel": "Description"
+          }
+        },
+        "cancel": "Cancel",
+        "save": "Save"
+      },
       "permissionsTable": {
         "columns": {
           "name": "Name",
@@ -1101,6 +1126,11 @@
       },
       "permissionsTab": {
         "headline": "{{ numberOfPermissions }} permissions",
+        "permissionName": "Name",
+        "permissionDescription": "Description"
+      },
+      "permissionDetail": {
+        "information": "Information",
         "permissionName": "Name",
         "permissionDescription": "Description"
       }

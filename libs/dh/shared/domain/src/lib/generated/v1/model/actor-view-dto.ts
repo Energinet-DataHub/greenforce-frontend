@@ -9,16 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ActorMarketRoleViewDto } from './actor-market-role-view-dto';
 import { UserRoleViewDto } from './user-role-view-dto';
 
 
 export interface ActorViewDto { 
     id: string;
+    organizationName: string;
     actorNumber: string;
     name: string;
     userRoles: Array<UserRoleViewDto>;
-    actorMarketRoles: Array<ActorMarketRoleViewDto>;
 }
 
 

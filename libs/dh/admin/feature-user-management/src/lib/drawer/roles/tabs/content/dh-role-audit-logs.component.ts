@@ -39,11 +39,6 @@ import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain'
   templateUrl: './dh-role-audit-logs.component.html',
   styles: [
     `
-      :host {
-        display: block;
-        margin: 24px var(--watt-space-s);
-      }
-
       h4 {
         margin: 0;
       }
