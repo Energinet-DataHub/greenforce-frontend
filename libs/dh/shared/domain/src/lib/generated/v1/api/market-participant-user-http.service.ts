@@ -19,11 +19,11 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { GetAssociatedUserActorsResponseDto } from '../model/get-associated-user-actors-response-dto';
+import { MarketParticipantGetAssociatedUserActorsResponseDto } from '../model/market-participant-get-associated-user-actors-response-dto';
 // @ts-ignore
-import { UserAuditLogsDto } from '../model/user-audit-logs-dto';
+import { MarketParticipantUserAuditLogsDto } from '../model/market-participant-user-audit-logs-dto';
 // @ts-ignore
-import { UserInvitationDto } from '../model/user-invitation-dto';
+import { MarketParticipantUserInvitationDto } from '../model/market-participant-user-invitation-dto';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -101,9 +101,9 @@ export class MarketParticipantUserHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserGetUserActorsByUserIdGet(userId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<GetAssociatedUserActorsResponseDto>;
-    public v1MarketParticipantUserGetUserActorsByUserIdGet(userId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<GetAssociatedUserActorsResponseDto>>;
-    public v1MarketParticipantUserGetUserActorsByUserIdGet(userId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<GetAssociatedUserActorsResponseDto>>;
+    public v1MarketParticipantUserGetUserActorsByUserIdGet(userId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<MarketParticipantGetAssociatedUserActorsResponseDto>;
+    public v1MarketParticipantUserGetUserActorsByUserIdGet(userId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<MarketParticipantGetAssociatedUserActorsResponseDto>>;
+    public v1MarketParticipantUserGetUserActorsByUserIdGet(userId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<MarketParticipantGetAssociatedUserActorsResponseDto>>;
     public v1MarketParticipantUserGetUserActorsByUserIdGet(userId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -153,7 +153,7 @@ export class MarketParticipantUserHttp {
         }
 
         let localVarPath = `/v1/MarketParticipantUser/GetUserActorsByUserId`;
-        return this.httpClient.request<GetAssociatedUserActorsResponseDto>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<MarketParticipantGetAssociatedUserActorsResponseDto>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -171,9 +171,9 @@ export class MarketParticipantUserHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserGetUserActorsGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<GetAssociatedUserActorsResponseDto>;
-    public v1MarketParticipantUserGetUserActorsGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<GetAssociatedUserActorsResponseDto>>;
-    public v1MarketParticipantUserGetUserActorsGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<GetAssociatedUserActorsResponseDto>>;
+    public v1MarketParticipantUserGetUserActorsGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<MarketParticipantGetAssociatedUserActorsResponseDto>;
+    public v1MarketParticipantUserGetUserActorsGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<MarketParticipantGetAssociatedUserActorsResponseDto>>;
+    public v1MarketParticipantUserGetUserActorsGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<MarketParticipantGetAssociatedUserActorsResponseDto>>;
     public v1MarketParticipantUserGetUserActorsGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
@@ -217,7 +217,7 @@ export class MarketParticipantUserHttp {
         }
 
         let localVarPath = `/v1/MarketParticipantUser/GetUserActors`;
-        return this.httpClient.request<GetAssociatedUserActorsResponseDto>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<MarketParticipantGetAssociatedUserActorsResponseDto>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -235,9 +235,9 @@ export class MarketParticipantUserHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserGetUserAuditLogsGet(userId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<UserAuditLogsDto>;
-    public v1MarketParticipantUserGetUserAuditLogsGet(userId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<UserAuditLogsDto>>;
-    public v1MarketParticipantUserGetUserAuditLogsGet(userId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<UserAuditLogsDto>>;
+    public v1MarketParticipantUserGetUserAuditLogsGet(userId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<MarketParticipantUserAuditLogsDto>;
+    public v1MarketParticipantUserGetUserAuditLogsGet(userId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<MarketParticipantUserAuditLogsDto>>;
+    public v1MarketParticipantUserGetUserAuditLogsGet(userId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<MarketParticipantUserAuditLogsDto>>;
     public v1MarketParticipantUserGetUserAuditLogsGet(userId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -287,7 +287,7 @@ export class MarketParticipantUserHttp {
         }
 
         let localVarPath = `/v1/MarketParticipantUser/GetUserAuditLogs`;
-        return this.httpClient.request<UserAuditLogsDto>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<MarketParticipantUserAuditLogsDto>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -301,14 +301,14 @@ export class MarketParticipantUserHttp {
     }
 
     /**
-     * @param userInvitationDto 
+     * @param marketParticipantUserInvitationDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserInviteUserPost(userInvitationDto?: UserInvitationDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1MarketParticipantUserInviteUserPost(userInvitationDto?: UserInvitationDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1MarketParticipantUserInviteUserPost(userInvitationDto?: UserInvitationDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1MarketParticipantUserInviteUserPost(userInvitationDto?: UserInvitationDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserInviteUserPost(marketParticipantUserInvitationDto?: MarketParticipantUserInvitationDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public v1MarketParticipantUserInviteUserPost(marketParticipantUserInvitationDto?: MarketParticipantUserInvitationDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public v1MarketParticipantUserInviteUserPost(marketParticipantUserInvitationDto?: MarketParticipantUserInvitationDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public v1MarketParticipantUserInviteUserPost(marketParticipantUserInvitationDto?: MarketParticipantUserInvitationDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -362,7 +362,7 @@ export class MarketParticipantUserHttp {
         return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: userInvitationDto,
+                body: marketParticipantUserInvitationDto,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

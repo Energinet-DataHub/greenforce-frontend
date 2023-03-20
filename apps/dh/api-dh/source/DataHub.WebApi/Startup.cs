@@ -13,7 +13,9 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Energinet.DataHub.Core.App.WebApp.Authentication;
@@ -70,6 +72,7 @@ namespace Energinet.DataHub.WebApi
 
                 config.SchemaFilter<RequireNonNullablePropertiesSchemaFilter>();
                 config.SupportNonNullableReferenceTypes();
+                config.CustomSchemaIds(x => GetCustomSchemaIds(x.FullName));
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -179,6 +182,32 @@ namespace Energinet.DataHub.WebApi
         protected virtual void SetupHealthEndpoints(IServiceCollection services, ApiClientSettings apiClientSettingsService)
         {
             services.SetupHealthEndpoints(apiClientSettingsService);
+        }
+
+        private static string GetCustomSchemaIds(string? fullName)
+        {
+            var domainList = new List<string>
+            {
+                "Wholesale",
+                "MeteringPoints",
+                "MarketParticipant",
+                "Charges",
+            };
+            if (fullName == null) return string.Empty;
+            var fullNameSplit = fullName.Split(".");
+            var domain = string.Empty;
+            foreach (var item in domainList.Where(item => fullNameSplit.Contains(item)))
+            {
+                domain = item;
+            }
+
+            if (fullNameSplit.Last().Contains(domain))
+            {
+                domain = string.Empty;
+            }
+
+            var customSchema = $"{domain}{fullNameSplit.Last()}";
+            return customSchema;
         }
     }
 }

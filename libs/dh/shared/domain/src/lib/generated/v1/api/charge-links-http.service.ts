@@ -19,7 +19,7 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { ChargeLinkV1Dto } from '../model/charge-link-v1-dto';
+import { ChargesChargeLinkV1Dto } from '../model/charges-charge-link-v1-dto';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -97,9 +97,9 @@ export class ChargeLinksHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1ChargeLinksGet(meteringPointId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<ChargeLinkV1Dto>>;
-    public v1ChargeLinksGet(meteringPointId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<ChargeLinkV1Dto>>>;
-    public v1ChargeLinksGet(meteringPointId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<ChargeLinkV1Dto>>>;
+    public v1ChargeLinksGet(meteringPointId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<ChargesChargeLinkV1Dto>>;
+    public v1ChargeLinksGet(meteringPointId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<ChargesChargeLinkV1Dto>>>;
+    public v1ChargeLinksGet(meteringPointId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<ChargesChargeLinkV1Dto>>>;
     public v1ChargeLinksGet(meteringPointId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -149,7 +149,7 @@ export class ChargeLinksHttp {
         }
 
         let localVarPath = `/v1/ChargeLinks`;
-        return this.httpClient.request<Array<ChargeLinkV1Dto>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Array<ChargesChargeLinkV1Dto>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
