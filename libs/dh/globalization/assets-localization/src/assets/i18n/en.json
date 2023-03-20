@@ -799,14 +799,20 @@
         "emptyHelperText": "Try changing the search criteria"
       },
       "processTypes": {
-        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}"
+        "BALANCE_FIXING": "Balance Fixing",
+        "AGGREGATION": "Aggregation"
       },
       "filters": {
         "processType": "Process type",
         "gridArea": "Grid area",
         "period": "Period",
         "executionTime": "Execution time",
-        "executionTimeRequired": "Execution time is required"
+        "executionTimeRequired": "Execution time is required",
+        "actor": "Actor",
+        "loadingActors": "Loading actors...",
+        "actorPlaceholder": "Select actor",
+        "processTypePlaceholder": "Select process type",
+        "gridAreasPlaceholder": "Select grid area(s)"
       }
     },
     "calculationSteps": {
