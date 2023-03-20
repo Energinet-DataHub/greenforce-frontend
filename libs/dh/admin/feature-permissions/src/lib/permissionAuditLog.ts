@@ -19,4 +19,4 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 
 export type PermissionAuditLog = ResultOf<
   typeof graphql.GetPermissionLogsDocument
->['permissionlogs'][0];
+>['permissionLogs'][0];
