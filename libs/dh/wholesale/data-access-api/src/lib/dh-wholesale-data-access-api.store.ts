@@ -34,7 +34,7 @@ import {
   WholesaleTimeSeriesType,
   WholesaleMarketRole,
   MarketParticipantHttp,
-  FilteredActorDto,
+  MarketParticipantFilteredActorDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
@@ -50,7 +50,7 @@ interface State {
   selectedGridArea?: MarketParticipantGridAreaDto;
   loadingCreatingBatch: boolean;
   actors?: WholesaleActorDto[];
-  filteredActors?: FilteredActorDto[];
+  filteredActors?: MarketParticipantFilteredActorDto[];
 }
 
 const initialState: State = {
@@ -141,7 +141,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   );
 
   readonly setFilteredActors = this.updater(
-    (state, filteredActors: FilteredActorDto[]): State => ({
+    (state, filteredActors: MarketParticipantFilteredActorDto[]): State => ({
       ...state,
       filteredActors,
     })
