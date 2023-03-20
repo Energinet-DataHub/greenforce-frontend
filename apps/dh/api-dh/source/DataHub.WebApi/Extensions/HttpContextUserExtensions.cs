@@ -16,7 +16,7 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 
-namespace Energinet.DataHub.WebApi.Controllers
+namespace Energinet.DataHub.WebApi.Extensions
 {
     public static class HttpContextUserExtensions
     {

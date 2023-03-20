@@ -790,14 +790,20 @@
         "emptyHelperText": "Prøv at ændre dine søgeindstillinger"
       },
       "processTypes": {
-        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}"
+        "BALANCE_FIXING": "Balancefiksering",
+        "AGGREGATION": "Aggregering"
       },
       "filters": {
         "processType": "Procestype",
         "gridArea": "Netområde",
         "period": "Periode",
         "executionTime": "Kørsel tid",
-        "executionTimeRequired": "Eksekveringstid påkrævet"
+        "executionTimeRequired": "Eksekveringstid påkrævet",
+        "actor": "Aktør",
+        "loadingActors": "Henter Aktører...",
+        "actorPlaceholder": "Vælg aktør",
+        "processTypePlaceholder": "Vælg procestype",
+        "gridAreasPlaceholder": "Vælg netområde(r)"
       }
     },
     "calculationSteps": {
