@@ -23,7 +23,7 @@ import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco'
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantEicFunction } from '@energinet-datahub/dh/shared/domain';
 import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
 import { take } from 'rxjs';
 
@@ -47,7 +47,7 @@ import { take } from 'rxjs';
 export class DhMarketParticipantMarketRolesOverviewComponent implements AfterViewInit {
   constructor(private trans: TranslocoService) {}
 
-  dataSource = new WattTableDataSource<string>(Object.keys(EicFunction));
+  dataSource = new WattTableDataSource<string>(Object.keys(MarketParticipantEicFunction));
 
   columns: WattTableColumnDef<string> = {
     name: { accessor: 'valueOf' },

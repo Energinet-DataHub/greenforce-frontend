@@ -24,7 +24,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
@@ -81,7 +81,7 @@ export class DhEditUserModalComponent implements AfterViewInit {
 
   @Output() closed = new EventEmitter<void>();
 
-  @Input() user: UserOverviewItemDto | null = null;
+  @Input() user: MarketParticipantUserOverviewItemDto | null = null;
 
   isLoading$ = this.store.isLoading$;
   isSaving$ = this.store.isSaving$;

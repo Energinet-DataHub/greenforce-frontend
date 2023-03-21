@@ -25,7 +25,7 @@ import {
   DhMarketParticipantOrganizationMasterDataComponentScam,
 } from './dh-market-participant-organization-master-data.component';
 import { en } from '@energinet-datahub/dh/globalization/assets-localization';
-import { OrganizationStatus } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantOrganizationStatus } from '@energinet-datahub/dh/shared/domain';
 
 describe(DhMarketParticipantOrganizationMasterDataComponent.name, () => {
   async function setup(changes: OrganizationChanges) {
@@ -48,7 +48,7 @@ describe(DhMarketParticipantOrganizationMasterDataComponent.name, () => {
     // arrange
     const changes = {
       address: { country: 'DK' },
-      status: OrganizationStatus.Active,
+      status: MarketParticipantOrganizationStatus.Active,
     };
 
     await setup(changes);
