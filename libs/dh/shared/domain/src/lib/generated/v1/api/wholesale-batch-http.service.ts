@@ -33,7 +33,7 @@ import { WholesaleProcessStepActorsRequest } from '../model/wholesale-process-st
 // @ts-ignore
 import { WholesaleProcessStepResultDto } from '../model/wholesale-process-step-result-dto';
 // @ts-ignore
-import { WholesaleTimeSeriesType } from '../model/wholesale-time-series-type';
+import { WholesaleProcessStepResultRequestDtoV3 } from '../model/wholesale-process-step-result-request-dto-v3';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -327,40 +327,14 @@ export class WholesaleBatchHttp {
 
     /**
      * Get a processStepResult.
-     * @param batchId 
-     * @param gridAreaCode 
-     * @param timeSeriesType 
-     * @param energySupplierGln 
-     * @param balanceResponsiblePartyGln 
+     * @param wholesaleProcessStepResultRequestDtoV3 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1WholesaleBatchProcessStepResultPost(batchId?: string, gridAreaCode?: string, timeSeriesType?: WholesaleTimeSeriesType, energySupplierGln?: string, balanceResponsiblePartyGln?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<WholesaleProcessStepResultDto>;
-    public v1WholesaleBatchProcessStepResultPost(batchId?: string, gridAreaCode?: string, timeSeriesType?: WholesaleTimeSeriesType, energySupplierGln?: string, balanceResponsiblePartyGln?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<WholesaleProcessStepResultDto>>;
-    public v1WholesaleBatchProcessStepResultPost(batchId?: string, gridAreaCode?: string, timeSeriesType?: WholesaleTimeSeriesType, energySupplierGln?: string, balanceResponsiblePartyGln?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<WholesaleProcessStepResultDto>>;
-    public v1WholesaleBatchProcessStepResultPost(batchId?: string, gridAreaCode?: string, timeSeriesType?: WholesaleTimeSeriesType, energySupplierGln?: string, balanceResponsiblePartyGln?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (batchId !== undefined && batchId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>batchId, 'batchId');
-        }
-        if (gridAreaCode !== undefined && gridAreaCode !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>gridAreaCode, 'gridAreaCode');
-        }
-        if (timeSeriesType !== undefined && timeSeriesType !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>timeSeriesType, 'timeSeriesType');
-        }
-        if (energySupplierGln !== undefined && energySupplierGln !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>energySupplierGln, 'energySupplierGln');
-        }
-        if (balanceResponsiblePartyGln !== undefined && balanceResponsiblePartyGln !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>balanceResponsiblePartyGln, 'balanceResponsiblePartyGln');
-        }
+    public v1WholesaleBatchProcessStepResultPost(wholesaleProcessStepResultRequestDtoV3?: WholesaleProcessStepResultRequestDtoV3, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<WholesaleProcessStepResultDto>;
+    public v1WholesaleBatchProcessStepResultPost(wholesaleProcessStepResultRequestDtoV3?: WholesaleProcessStepResultRequestDtoV3, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<WholesaleProcessStepResultDto>>;
+    public v1WholesaleBatchProcessStepResultPost(wholesaleProcessStepResultRequestDtoV3?: WholesaleProcessStepResultRequestDtoV3, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<WholesaleProcessStepResultDto>>;
+    public v1WholesaleBatchProcessStepResultPost(wholesaleProcessStepResultRequestDtoV3?: WholesaleProcessStepResultRequestDtoV3, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -391,6 +365,17 @@ export class WholesaleBatchHttp {
         }
 
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json',
+            'text/json',
+            'application/*+json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -406,7 +391,7 @@ export class WholesaleBatchHttp {
         return this.httpClient.request<WholesaleProcessStepResultDto>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                params: localVarQueryParameters,
+                body: wholesaleProcessStepResultRequestDtoV3,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

@@ -26,7 +26,6 @@ using Energinet.DataHub.Wholesale.Client;
 using Energinet.DataHub.Wholesale.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using ProcessStepResultDto = Energinet.DataHub.Wholesale.Contracts.ProcessStepResultDto;
-using TimeSeriesType = Energinet.DataHub.Wholesale.Contracts.TimeSeriesType;
 using TimeSeriesTypeV3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.TimeSeriesType;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -127,14 +126,14 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a processStepResult.
         /// </summary>
         [HttpPost("ProcessStepResult")]
-        public async Task<ActionResult<ProcessStepResultDto>> GetAsync(Guid batchId, string gridAreaCode, TimeSeriesType timeSeriesType, string? energySupplierGln, string? balanceResponsiblePartyGln)
+        public async Task<ActionResult<ProcessStepResultDto>> GetAsync(ProcessStepResultRequestDtoV3 processStepResultRequestDto)
         {
             var dto = await _clientV3.GetProcessStepResultAsync(
-                batchId,
-                gridAreaCode,
-                (TimeSeriesTypeV3)timeSeriesType,
-                energySupplierGln,
-                balanceResponsiblePartyGln).ConfigureAwait(false);
+                processStepResultRequestDto.BatchId,
+                processStepResultRequestDto.GridAreaCode,
+                (TimeSeriesTypeV3)processStepResultRequestDto.TimeSeriesType,
+                processStepResultRequestDto.EnergySupplierGln,
+                processStepResultRequestDto.BalanceResponsiblePartyGln).ConfigureAwait(false);
             return Ok(dto);
         }
 
