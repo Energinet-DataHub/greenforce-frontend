@@ -23,11 +23,11 @@ export type CalendarDateRange = {
   end: number;
 };
 
-export type ChargeResolution = 'HOUR' | 'DAY' | 'WEEK' | 'MONTH' | 'YEAR';
+export type Resolution = 'HOUR' | 'DAY' | 'WEEK' | 'MONTH' | 'YEAR';
 
 interface AppSettingsState {
   calendarDateRange: CalendarDateRange;
-  resolution: ChargeResolution;
+  resolution: Resolution;
 }
 
 @Injectable({
@@ -67,13 +67,13 @@ export class AppSettingsStore extends ComponentStore<AppSettingsState> {
 
   readonly resolution$ = this.select((state) => state.resolution);
   readonly setResolution = this.updater(
-    (state, resolution: ChargeResolution): AppSettingsState => ({
+    (state, resolution: Resolution): AppSettingsState => ({
       ...state,
       resolution,
     })
   );
 
-  getResolutionFromDateRange(dateRange: CalendarDateRange): ChargeResolution {
+  getResolutionFromDateRange(dateRange: CalendarDateRange): Resolution {
     const difference = differenceInDays(new Date(dateRange.end), new Date(dateRange.start));
 
     switch (true) {
