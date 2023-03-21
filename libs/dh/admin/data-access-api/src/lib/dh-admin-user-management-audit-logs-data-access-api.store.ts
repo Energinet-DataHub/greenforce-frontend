@@ -21,13 +21,13 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserHttp,
-  UserAuditLogsDto,
-  UserAuditLogDto,
+  MarketParticipantUserAuditLogsDto,
+  MarketParticipantUserAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 export interface DhUserAuditLogEntry {
   readonly timestamp: string;
-  readonly entry: UserAuditLogDto;
+  readonly entry: MarketParticipantUserAuditLogDto;
 }
 
 interface DhUserManagementAuditLogsState {
@@ -75,7 +75,7 @@ export class DhAdminUserManagementAuditLogsDataAccessApiStore extends ComponentS
     )
   );
 
-  private assignAuditLogs = (response: UserAuditLogsDto) => {
+  private assignAuditLogs = (response: MarketParticipantUserAuditLogsDto) => {
     const auditLogs = response.userAuditLogs.map((entry) => ({
       entry,
       timestamp: entry.timestamp,

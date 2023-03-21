@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantGridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { add, sub } from 'date-fns';
 import { filterValidGridAreas } from './grid-areas';
 
@@ -24,7 +24,7 @@ describe(filterValidGridAreas.name, () => {
     { validFrom: initialDateOffset },
     { validFrom: '1970-01-02T00:00:00+00:00' },
     { validFrom: '1970-01-04T00:00:00+00:00' },
-  ] as GridAreaDto[];
+  ] as MarketParticipantGridAreaDto[];
 
   it('should return all grid areas when date range is null', () => {
     const dateRange = null;
@@ -69,7 +69,7 @@ describe(filterValidGridAreas.name, () => {
     ]
       // We map the validFrom property since it is required by the filterValidGridAreas function and we don't care about it in this test
       .map((x) => {
-        return { ...x, validFrom: initialDateOffset } as GridAreaDto;
+        return { ...x, validFrom: initialDateOffset } as MarketParticipantGridAreaDto;
       });
     const expectedGridAreas = [gridAreas[1], gridAreas[2]];
 

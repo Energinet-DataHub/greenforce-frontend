@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 import {
-  EicFunction,
-  UserRoleChangeType,
-  UserRoleStatus,
+  MarketParticipantEicFunction,
+  MarketParticipantUserRoleChangeType,
+  MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
 export function mapChangeDescriptionJson(
-  userRoleChangeType: UserRoleChangeType,
+  userRoleChangeType: MarketParticipantUserRoleChangeType,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parsedChangeDescriptionJson: any
 ): string {
@@ -34,9 +34,9 @@ export function mapChangeDescriptionJson(
     case 'DescriptionChange':
       return parsedChangeDescriptionJson.Description as string;
     case 'EicFunctionChange':
-      return parsedChangeDescriptionJson.EicFunction as EicFunction;
+      return parsedChangeDescriptionJson.MarketParticipantEicFunction as MarketParticipantEicFunction;
     case 'StatusChange':
-      return parsedChangeDescriptionJson.Status as UserRoleStatus;
+      return parsedChangeDescriptionJson.Status as MarketParticipantUserRoleStatus;
     case 'PermissionsChange': {
       const permissions: number[] = parsedChangeDescriptionJson.Permissions;
 
