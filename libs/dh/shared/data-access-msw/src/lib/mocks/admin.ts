@@ -36,6 +36,7 @@ export function adminMocks(apiBase: string) {
     getMarketParticipantUserRoleGetUserRoleAuditLogs(apiBase),
     putMarketParticipantUserRoleUpdate(apiBase),
     getAdminPermissions(),
+    putMarketParticipantPermissionsUpdate(apiBase),
   ];
 }
 
@@ -99,5 +100,11 @@ function putMarketParticipantUserRoleUpdate(apiBase: string) {
 function getAdminPermissions() {
   return graphql.mockGetPermissionsQuery((req, res, ctx) => {
     return res(ctx.data(adminPermissionsMock));
+  });
+}
+
+function putMarketParticipantPermissionsUpdate(apiBase: string) {
+  return rest.put(`${apiBase}/v1/MarketParticipantPermissions/Update`, (req, res, ctx) => {
+    return res(ctx.status(200));
   });
 }
