@@ -66,28 +66,28 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   @ViewChild(DhAdminPermissionDetailComponent)
   permissionDetail!: DhAdminPermissionDetailComponent;
 
+  private getPermissionQuery = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: graphql.GetPermissionsDocument,
+  });
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.subscription = this.apollo
-      .watchQuery({
-        useInitialLoading: true,
-        notifyOnNetworkStatusChange: true,
-        query: graphql.GetPermissionsDocument,
-      })
-      .valueChanges.subscribe({
-        next: (result) => {
-          this.permissions = result.data?.permissions ?? undefined;
-          this.loading = result.loading;
-          this.error = result.error;
-          this.dataSource.data = result.data?.permissions ?? [];
-        },
-        error: (error) => {
-          this.error = error;
-        },
-      });
+    this.subscription = this.getPermissionQuery.valueChanges.subscribe({
+      next: (result) => {
+        this.permissions = result.data?.permissions ?? undefined;
+        this.loading = result.loading;
+        this.error = result.error;
+        this.dataSource.data = result.data?.permissions ?? [];
+      },
+      error: (error) => {
+        this.error = error;
+      },
+    });
   }
 
   onRowClick(row: PermissionDto): void {
@@ -97,5 +97,9 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
 
   onClosed(): void {
     this.activeRow = undefined;
+  }
+
+  onRefreshData(): void {
+    this.getPermissionQuery.refetch();
   }
 }

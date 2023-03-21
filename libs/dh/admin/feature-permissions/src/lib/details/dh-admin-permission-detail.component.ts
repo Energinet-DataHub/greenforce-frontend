@@ -58,6 +58,7 @@ export class DhAdminPermissionDetailComponent {
   isEditPermissionModalVisible = false;
 
   @Output() closed = new EventEmitter<void>();
+  @Output() refreshData = new EventEmitter<void>();
 
   onClose(): void {
     this.drawer.close();
@@ -70,7 +71,11 @@ export class DhAdminPermissionDetailComponent {
     this.drawer.open();
   }
 
-  modalOnClose(): void {
+  modalOnClose({ saveSuccess }: { saveSuccess: boolean }): void {
     this.isEditPermissionModalVisible = false;
+
+    if (saveSuccess) {
+      this.refreshData.emit();
+    }
   }
 }
