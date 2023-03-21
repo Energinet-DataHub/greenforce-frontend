@@ -47,7 +47,7 @@ export const mockedGridAreas: graphql.GridArea[] = [
     id: '1',
     code: '805',
     name: 'hello',
-    priceAreaCode: graphql.MarketParticipantPriceAreaCode.Dk_1,
+    priceAreaCode: graphql.PriceAreaCode.Dk_1,
     validFrom: '0001-01-01T00:00:00+00:00',
   },
   {
@@ -55,7 +55,7 @@ export const mockedGridAreas: graphql.GridArea[] = [
     id: '2',
     code: '806',
     name: 'hello again',
-    priceAreaCode: graphql.MarketParticipantPriceAreaCode.Dk_1,
+    priceAreaCode: graphql.PriceAreaCode.Dk_1,
     validFrom: '0001-01-01T00:00:00+00:00',
   },
 ];
