@@ -53,7 +53,7 @@ describe(DhSecondaryMasterDataComponent.name, () => {
 
   describe('test globalization', () => {
     it.each`
-      incommingValueObject                            | testId                 | expectedDisplayValue
+      incommingValueObject                                         | testId                 | expectedDisplayValue
       ${{ disconnectionType: MeteringPointDisconnectionType.D01 }} | ${'disconnectionType'} | ${enTranslations.meteringPoint.disconnectionType.D01}
       ${{ connectionType: MeteringPointConnectionType.D01 }}       | ${'connectionType'}    | ${enTranslations.meteringPoint.connectionType.D01}
       ${{ assetType: MeteringPointAssetType.D01 }}                 | ${'assetType'}         | ${enTranslations.meteringPoint.assetType.D01}
