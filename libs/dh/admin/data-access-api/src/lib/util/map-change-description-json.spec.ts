@@ -32,7 +32,10 @@ describe(mapChangeDescriptionJson.prototype.name, () => {
       Permissions: [3, 4],
     };
 
-    const actual = mapChangeDescriptionJson(MarketParticipantUserRoleChangeType.Created, changeDescriptionJson);
+    const actual = mapChangeDescriptionJson(
+      MarketParticipantUserRoleChangeType.Created,
+      changeDescriptionJson
+    );
 
     expect(actual).toBe('');
   });
@@ -40,7 +43,10 @@ describe(mapChangeDescriptionJson.prototype.name, () => {
   it(`returns value when "MarketParticipantUserRoleChangeType" is ${MarketParticipantUserRoleChangeType.NameChange}`, () => {
     const changeDescriptionJson = { Name: 'New name' };
 
-    const actual = mapChangeDescriptionJson(MarketParticipantUserRoleChangeType.NameChange, changeDescriptionJson);
+    const actual = mapChangeDescriptionJson(
+      MarketParticipantUserRoleChangeType.NameChange,
+      changeDescriptionJson
+    );
 
     expect(actual).toBe(changeDescriptionJson.Name);
   });
@@ -72,7 +78,10 @@ describe(mapChangeDescriptionJson.prototype.name, () => {
   it(`returns value when "MarketParticipantUserRoleChangeType" is ${MarketParticipantUserRoleChangeType.StatusChange}`, () => {
     const changeDescriptionJson = { Status: MarketParticipantUserRoleStatus.Inactive };
 
-    const actual = mapChangeDescriptionJson(MarketParticipantUserRoleChangeType.StatusChange, changeDescriptionJson);
+    const actual = mapChangeDescriptionJson(
+      MarketParticipantUserRoleChangeType.StatusChange,
+      changeDescriptionJson
+    );
 
     expect(actual).toBe(changeDescriptionJson.Status);
   });
@@ -90,7 +99,10 @@ describe(mapChangeDescriptionJson.prototype.name, () => {
 
   it(`throws when "MarketParticipantUserRoleChangeType" is unknown`, () => {
     expect(() =>
-      mapChangeDescriptionJson('UnknownUserRoleChangeType' as MarketParticipantUserRoleChangeType, {})
+      mapChangeDescriptionJson(
+        'UnknownUserRoleChangeType' as MarketParticipantUserRoleChangeType,
+        {}
+      )
     ).toThrowError();
   });
 });
