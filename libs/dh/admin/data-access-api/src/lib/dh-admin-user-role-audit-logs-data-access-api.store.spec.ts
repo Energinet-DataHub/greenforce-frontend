@@ -68,7 +68,9 @@ function generateMockResponse(): UserRoleAuditLogsDto {
       ),
       generateUserRoleAuditLog(
         'EicFunctionChange',
-        JSON.stringify({ MarketParticipantEicFunction: changeDescriptionJsonMock.MarketParticipantEicFunction })
+        JSON.stringify({
+          MarketParticipantEicFunction: changeDescriptionJsonMock.MarketParticipantEicFunction,
+        })
       ),
       generateUserRoleAuditLog(
         'StatusChange',

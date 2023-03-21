@@ -153,7 +153,10 @@ export class DhAdminUserRolesManagementDataAccessApiStore
   );
 
   private updateUserRoles = this.updater(
-    (state: DhUserRolesManagementState, response: MarketParticipantUserRoleDto[]): DhUserRolesManagementState => ({
+    (
+      state: DhUserRolesManagementState,
+      response: MarketParticipantUserRoleDto[]
+    ): DhUserRolesManagementState => ({
       ...state,
       roles: response,
     })

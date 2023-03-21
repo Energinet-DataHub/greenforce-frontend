@@ -34,7 +34,11 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { DateRange, MarketParticipantGridAreaDto, WholesaleProcessType } from '@energinet-datahub/dh/shared/domain';
+import {
+  DateRange,
+  MarketParticipantGridAreaDto,
+  WholesaleProcessType,
+} from '@energinet-datahub/dh/shared/domain';
 import { filterValidGridAreas } from '@energinet-datahub/dh/wholesale/domain';
 
 interface CreateBatchFormValues {
@@ -153,7 +157,9 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     this.minDate = new Date(Math.min(...validFromDates));
   }
 
-  private mapGridAreasToDropdownOptions(gridAreas: MarketParticipantGridAreaDto[]): WattDropdownOption[] {
+  private mapGridAreasToDropdownOptions(
+    gridAreas: MarketParticipantGridAreaDto[]
+  ): WattDropdownOption[] {
     return (
       gridAreas.map((gridArea) => {
         return {

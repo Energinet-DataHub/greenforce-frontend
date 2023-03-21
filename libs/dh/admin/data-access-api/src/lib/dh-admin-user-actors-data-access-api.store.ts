@@ -129,13 +129,18 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
   );
 
   private updateOrganization = this.updater(
-    (state: ActorsResultState, organization: MarketParticipantOrganizationDto | null): ActorsResultState => ({
+    (
+      state: ActorsResultState,
+      organization: MarketParticipantOrganizationDto | null
+    ): ActorsResultState => ({
       ...state,
       organizationResult: organization,
     })
   );
 
-  private updateOrganizationAndLoadingState = (organization: MarketParticipantOrganizationDto | null) => {
+  private updateOrganizationAndLoadingState = (
+    organization: MarketParticipantOrganizationDto | null
+  ) => {
     this.updateOrganization(organization);
 
     this.patchState({

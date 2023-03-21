@@ -19,7 +19,10 @@ import { Observable, Subject, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
-import { MarketParticipantUserRoleHttp, MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantUserRoleHttp,
+  MarketParticipantUserRoleDto,
+} from '@energinet-datahub/dh/shared/domain';
 
 interface State {
   readonly requestState: LoadingState | ErrorState;

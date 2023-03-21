@@ -74,7 +74,8 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit, OnDes
   @ViewChild(WattTableComponent<MarketParticipantUserRoleDto>)
   table!: WattTableComponent<MarketParticipantUserRoleDto>;
 
-  readonly dataSource: WattTableDataSource<MarketParticipantUserRoleDto> = new WattTableDataSource<MarketParticipantUserRoleDto>();
+  readonly dataSource: WattTableDataSource<MarketParticipantUserRoleDto> =
+    new WattTableDataSource<MarketParticipantUserRoleDto>();
 
   columns: WattTableColumnDef<MarketParticipantUserRoleDto> = {
     name: { accessor: 'name' },
@@ -84,8 +85,10 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit, OnDes
 
   filteredAndSortedData: MarketParticipantUserRoleDto[] = [];
 
-  activeRowComparator = (currentRow: MarketParticipantUserRoleDto, activeRow: MarketParticipantUserRoleDto): boolean =>
-    currentRow.id === activeRow.id;
+  activeRowComparator = (
+    currentRow: MarketParticipantUserRoleDto,
+    activeRow: MarketParticipantUserRoleDto
+  ): boolean => currentRow.id === activeRow.id;
 
   translateHeader = (key: string) =>
     translate(`admin.userManagement.tabs.roles.table.columns.${key}`);

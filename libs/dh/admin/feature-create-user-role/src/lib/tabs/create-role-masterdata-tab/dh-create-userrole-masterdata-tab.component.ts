@@ -78,7 +78,10 @@ export class DhCreateUserroleMasterdataTabComponent implements OnInit, OnDestroy
       MarketParticipantEicFunction.BalanceResponsibleParty,
       Validators.required
     ),
-    roleStatus: this.formBuilder.nonNullable.control(MarketParticipantUserRoleStatus.Active, Validators.required),
+    roleStatus: this.formBuilder.nonNullable.control(
+      MarketParticipantUserRoleStatus.Active,
+      Validators.required
+    ),
   });
 
   @Output() formReady = of(this.userRoleForm);

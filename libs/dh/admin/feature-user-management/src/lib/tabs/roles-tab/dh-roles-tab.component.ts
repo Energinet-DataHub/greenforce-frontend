@@ -36,7 +36,11 @@ import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
-import { MarketParticipantEicFunction, MarketParticipantUserRoleDto, MarketParticipantUserRoleStatus } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantEicFunction,
+  MarketParticipantUserRoleDto,
+  MarketParticipantUserRoleStatus,
+} from '@energinet-datahub/dh/shared/domain';
 import { take } from 'rxjs';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';

@@ -33,7 +33,10 @@ export class MarketRoleService {
   ];
 
   validEicFunctionGroups = [
-    [MarketParticipantEicFunction.GridAccessProvider, MarketParticipantEicFunction.MeteredDataResponsible],
+    [
+      MarketParticipantEicFunction.GridAccessProvider,
+      MarketParticipantEicFunction.MeteredDataResponsible,
+    ],
     [MarketParticipantEicFunction.SystemOperator],
     [
       MarketParticipantEicFunction.BalanceResponsibleParty,
@@ -46,7 +49,10 @@ export class MarketRoleService {
     [MarketParticipantEicFunction.DanishEnergyAgency],
   ];
 
-  notValidInAnySelectionGroup(item: MarketParticipantEicFunction, currentSelectedList: Array<MarketParticipantEicFunction>): boolean {
+  notValidInAnySelectionGroup(
+    item: MarketParticipantEicFunction,
+    currentSelectedList: Array<MarketParticipantEicFunction>
+  ): boolean {
     if (currentSelectedList.length === 0) {
       return false;
     }

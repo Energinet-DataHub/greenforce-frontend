@@ -22,7 +22,10 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
-import { MarketParticipantEicFunction, MarketParticipantUserRoleStatus } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantEicFunction,
+  MarketParticipantUserRoleStatus,
+} from '@energinet-datahub/dh/shared/domain';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
@@ -75,7 +78,9 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((e) => this.eicFunctionChanged.emit(e));
 
-    this.statusFormControl.setValue(this.statusListOptions[0].value as MarketParticipantUserRoleStatus);
+    this.statusFormControl.setValue(
+      this.statusListOptions[0].value as MarketParticipantUserRoleStatus
+    );
   }
 
   ngOnDestroy(): void {
@@ -105,12 +110,14 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (keys) => {
-          this.eicFunctionListListOptions = Object.keys(MarketParticipantEicFunction).map((entry) => {
-            return {
-              value: entry,
-              displayValue: keys[entry],
-            };
-          });
+          this.eicFunctionListListOptions = Object.keys(MarketParticipantEicFunction).map(
+            (entry) => {
+              return {
+                value: entry,
+                displayValue: keys[entry],
+              };
+            }
+          );
         },
       });
   }

@@ -46,28 +46,29 @@ export class DhAdminMarketRolePermissionsStore extends ComponentStore<DhMarketRo
     super(initialState);
   }
 
-  public readonly getPermissions = this.effect((trigger$: Observable<MarketParticipantEicFunction>) =>
-    trigger$.pipe(
-      tap(() => {
-        this.resetState();
-        this.setLoading(LoadingState.LOADING);
-      }),
-      switchMap((eicFunction) =>
-        this.httpClientUserRole.v1MarketParticipantUserRolePermissionsGet(eicFunction).pipe(
-          tapResponse(
-            (response) => {
-              this.setLoading(LoadingState.LOADED);
-              this.updatePermissions(response);
-            },
-            () => {
-              this.setLoading(LoadingState.LOADED);
-              this.updatePermissions([]);
-              this.handleError();
-            }
+  public readonly getPermissions = this.effect(
+    (trigger$: Observable<MarketParticipantEicFunction>) =>
+      trigger$.pipe(
+        tap(() => {
+          this.resetState();
+          this.setLoading(LoadingState.LOADING);
+        }),
+        switchMap((eicFunction) =>
+          this.httpClientUserRole.v1MarketParticipantUserRolePermissionsGet(eicFunction).pipe(
+            tapResponse(
+              (response) => {
+                this.setLoading(LoadingState.LOADED);
+                this.updatePermissions(response);
+              },
+              () => {
+                this.setLoading(LoadingState.LOADED);
+                this.updatePermissions([]);
+                this.handleError();
+              }
+            )
           )
         )
       )
-    )
   );
 
   private updatePermissions = this.updater(

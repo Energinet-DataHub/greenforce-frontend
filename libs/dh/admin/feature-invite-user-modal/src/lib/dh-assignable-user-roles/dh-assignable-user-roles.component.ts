@@ -54,7 +54,8 @@ export class DhAssignableUserRolesComponent implements OnInit {
 
   readonly assignableUserRoles$ = this.assignableUserRolesStore.assignableUserRoles$;
   readonly hasGeneralError$ = this.assignableUserRolesStore.hasGeneralError$;
-  readonly dataSource: WattTableDataSource<MarketParticipantUserRoleDto> = new WattTableDataSource<MarketParticipantUserRoleDto>();
+  readonly dataSource: WattTableDataSource<MarketParticipantUserRoleDto> =
+    new WattTableDataSource<MarketParticipantUserRoleDto>();
 
   @Output() readonly selectedUserRoles = new EventEmitter<MarketParticipantUserRoleDto[]>();
 

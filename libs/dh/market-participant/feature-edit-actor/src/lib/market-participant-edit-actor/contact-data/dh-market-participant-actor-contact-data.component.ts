@@ -35,7 +35,10 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { MarketParticipantActorContactDto, MarketParticipantContactCategory } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantActorContactDto,
+  MarketParticipantContactCategory,
+} from '@energinet-datahub/dh/shared/domain';
 
 interface EditableActorContactRow {
   contact: MarketParticipantActorContactDto;
@@ -63,10 +66,12 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
 
   columnIds = ['type', 'name', 'email', 'phone', 'delete'];
 
-  contactCategories: WattDropdownOption[] = Object.keys(MarketParticipantContactCategory).map((key) => ({
-    displayValue: key,
-    value: key,
-  }));
+  contactCategories: WattDropdownOption[] = Object.keys(MarketParticipantContactCategory).map(
+    (key) => ({
+      displayValue: key,
+      value: key,
+    })
+  );
 
   contactRows: EditableActorContactRow[] = [];
   deletedContacts: MarketParticipantActorContactDto[] = [];

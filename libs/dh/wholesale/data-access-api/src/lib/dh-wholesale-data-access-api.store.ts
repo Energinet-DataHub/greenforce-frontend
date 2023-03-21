@@ -254,7 +254,8 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
           this.setProcessStepResults(undefined); // We reset the process step results to force the loading spinner to show
           return this.httpClient.v1WholesaleBatchProcessStepResultPost(options).pipe(
             tapResponse(
-              (stepResults: WholesaleProcessStepResultDto) => this.setProcessStepResults(stepResults),
+              (stepResults: WholesaleProcessStepResultDto) =>
+                this.setProcessStepResults(stepResults),
               () => this.loadingProcessStepResultsErrorTrigger$.next()
             )
           );
@@ -264,7 +265,13 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   );
 
   readonly getActors = this.effect(
-    (options$: Observable<{ batchId: string; gridAreaCode: string; marketRole: WholesaleMarketRole }>) => {
+    (
+      options$: Observable<{
+        batchId: string;
+        gridAreaCode: string;
+        marketRole: WholesaleMarketRole;
+      }>
+    ) => {
       return options$.pipe(
         switchMap(({ batchId, gridAreaCode, marketRole }) => {
           return this.httpClient
@@ -335,10 +342,14 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     })
   );
 
-  readonly getGridArea$ = (gridAreaCode: string): Observable<MarketParticipantGridAreaDto | undefined> => {
+  readonly getGridArea$ = (
+    gridAreaCode: string
+  ): Observable<MarketParticipantGridAreaDto | undefined> => {
     return this.selectedBatch$.pipe(
       map((x) => {
-        return x?.gridAreas.filter((gridArea: MarketParticipantGridAreaDto) => gridArea.code === gridAreaCode)[0];
+        return x?.gridAreas.filter(
+          (gridArea: MarketParticipantGridAreaDto) => gridArea.code === gridAreaCode
+        )[0];
       }),
       tap((gridArea) => this.setSelectedGridArea(gridArea))
     );

@@ -19,7 +19,11 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { DhChargesChargePricesTabComponent } from './dh-charges-charge-prices-tab.component';
 import { render, screen } from '@testing-library/angular';
-import { ChargeType, ChargeResolution, ChargeVatClassification } from '@energinet-datahub/dh/shared/domain';
+import {
+  ChargeType,
+  ChargeResolution,
+  ChargeVatClassification,
+} from '@energinet-datahub/dh/shared/domain';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
 const charge = {
