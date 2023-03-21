@@ -11,10 +11,11 @@
  */
 
 
-export type MarketParticipantPermissionAuditLogType = 'Unknown' | 'DescriptionChange';
+export type MarketParticipantPermissionAuditLogType = 'Unknown' | 'DescriptionChange' | 'Created';
 
 export const MarketParticipantPermissionAuditLogType = {
     Unknown: 'Unknown' as MarketParticipantPermissionAuditLogType,
-    DescriptionChange: 'DescriptionChange' as MarketParticipantPermissionAuditLogType
+    DescriptionChange: 'DescriptionChange' as MarketParticipantPermissionAuditLogType,
+    Created: 'Created' as MarketParticipantPermissionAuditLogType
 };
 
