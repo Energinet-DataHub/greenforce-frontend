@@ -102,7 +102,6 @@ export * from './wholesale-batch-state';
 export * from './wholesale-market-role';
 export * from './wholesale-process-step-actors-request';
 export * from './wholesale-process-step-result-dto';
-export * from './wholesale-process-step-result-request-dto-v3';
 export * from './wholesale-process-type';
 export * from './wholesale-time-series-point-dto';
 export * from './wholesale-time-series-type';

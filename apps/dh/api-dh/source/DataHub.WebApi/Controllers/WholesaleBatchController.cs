@@ -20,10 +20,14 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Controllers.Wholesale.Dto;
 using Energinet.DataHub.Wholesale.Client;
 using Energinet.DataHub.Wholesale.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using ProcessStepResultDto = Energinet.DataHub.Wholesale.Contracts.ProcessStepResultDto;
+using TimeSeriesType = Energinet.DataHub.Wholesale.Contracts.TimeSeriesType;
+using TimeSeriesTypeV3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.TimeSeriesType;
 
 namespace Energinet.DataHub.WebApi.Controllers
 {
@@ -32,12 +36,14 @@ namespace Energinet.DataHub.WebApi.Controllers
     public class WholesaleBatchController : ControllerBase
     {
         private readonly IWholesaleClient _client;
+        private readonly IWholesaleClient_V3 _clientV3;
         private readonly IMarketParticipantClient _marketParticipantClient;
 
-        public WholesaleBatchController(IWholesaleClient client, IMarketParticipantClient marketParticipantClient)
+        public WholesaleBatchController(IWholesaleClient client, IMarketParticipantClient marketParticipantClient, IWholesaleClient_V3 clientV3)
         {
             _client = client;
             _marketParticipantClient = marketParticipantClient;
+            _clientV3 = clientV3;
         }
 
         /// <summary>
@@ -121,9 +127,14 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a processStepResult.
         /// </summary>
         [HttpPost("ProcessStepResult")]
-        public async Task<ActionResult<ProcessStepResultDto>> GetAsync(ProcessStepResultRequestDtoV3 processStepResultRequestDto)
+        public async Task<ActionResult<ProcessStepResultDto>> GetAsync(Guid batchId, string gridAreaCode, TimeSeriesType timeSeriesType, string? energySupplierGln, string? balanceResponsiblePartyGln)
         {
-            var dto = await _client.GetProcessStepResultAsync(processStepResultRequestDto).ConfigureAwait(false);
+            var dto = await _clientV3.GetProcessStepResultAsync(
+                batchId,
+                gridAreaCode,
+                (TimeSeriesTypeV3)timeSeriesType,
+                energySupplierGln,
+                balanceResponsiblePartyGln).ConfigureAwait(false);
             return Ok(dto);
         }
 
