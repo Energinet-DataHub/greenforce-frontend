@@ -247,29 +247,33 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   });
 
   readonly getProcessStepResults = this.effect(
-    (options$: Observable<{
-      batchId: string;
-      gridAreaCode: string;
-      timeSeriesType: WholesaleTimeSeriesType;
-      energySupplierGln: string | undefined;
-      balanceResponsiblePartyGln: string | undefined;
-    }>) => {
+    (
+      options$: Observable<{
+        batchId: string;
+        gridAreaCode: string;
+        timeSeriesType: WholesaleTimeSeriesType;
+        energySupplierGln: string | undefined;
+        balanceResponsiblePartyGln: string | undefined;
+      }>
+    ) => {
       return options$.pipe(
         switchMap((options) => {
           this.setProcessStepResults(undefined); // We reset the process step results to force the loading spinner to show
-          return this.httpClient.v1WholesaleBatchProcessStepResultPost(
-            options.batchId,
-            options.gridAreaCode,
-            options.timeSeriesType,
-            options.energySupplierGln,
-            options.balanceResponsiblePartyGln
-            ).pipe(
-            tapResponse(
-              (stepResults: WholesaleProcessStepResultDto) =>
-                this.setProcessStepResults(stepResults),
-              () => this.loadingProcessStepResultsErrorTrigger$.next()
+          return this.httpClient
+            .v1WholesaleBatchProcessStepResultPost(
+              options.batchId,
+              options.gridAreaCode,
+              options.timeSeriesType,
+              options.energySupplierGln,
+              options.balanceResponsiblePartyGln
             )
-          );
+            .pipe(
+              tapResponse(
+                (stepResults: WholesaleProcessStepResultDto) =>
+                  this.setProcessStepResults(stepResults),
+                () => this.loadingProcessStepResultsErrorTrigger$.next()
+              )
+            );
         })
       );
     }
