@@ -17,7 +17,7 @@
 import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
@@ -45,5 +45,5 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
   ],
 })
 export class DhUserMasterDataComponent {
-  @Input() user: UserOverviewItemDto | null = null;
+  @Input() user: MarketParticipantUserOverviewItemDto | null = null;
 }

@@ -31,7 +31,7 @@ import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
 import { LetModule } from '@rx-angular/template/let';
-import { OrganizationStatus } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantOrganizationStatus } from '@energinet-datahub/dh/shared/domain';
 import { getValidOrganizationStatusTransitionOptions } from './get-valid-organization-status-transition-options';
 
 @Component({
@@ -46,7 +46,7 @@ export class DhMarketParticipantOrganizationMasterDataComponent implements OnCha
   private destroy$ = new Subject<void>();
   countries: WattDropdownOption[] = [];
 
-  initialOrganizationStatus?: OrganizationStatus;
+  initialOrganizationStatus?: MarketParticipantOrganizationStatus;
   allStatuses: WattDropdownOption[] = [];
   statuses: WattDropdownOption[] = [];
 
@@ -67,12 +67,12 @@ export class DhMarketParticipantOrganizationMasterDataComponent implements OnCha
       .selectTranslateObject('marketParticipant.organization.create.masterData.statuses')
       .pipe(takeUntil(this.destroy$))
       .subscribe((statusKeys) => {
-        this.allStatuses = Object.keys(OrganizationStatus).map((key) => ({
+        this.allStatuses = Object.keys(MarketParticipantOrganizationStatus).map((key) => ({
           value: key,
           displayValue: statusKeys[key] ?? key,
         }));
         this.statuses = getValidOrganizationStatusTransitionOptions(
-          this.initialOrganizationStatus ?? OrganizationStatus.New,
+          this.initialOrganizationStatus ?? MarketParticipantOrganizationStatus.New,
           this.allStatuses
         );
       });
@@ -81,7 +81,7 @@ export class DhMarketParticipantOrganizationMasterDataComponent implements OnCha
   ngOnChanges(): void {
     this.initialOrganizationStatus = this.changes?.status;
     this.statuses = getValidOrganizationStatusTransitionOptions(
-      this.initialOrganizationStatus ?? OrganizationStatus.New,
+      this.initialOrganizationStatus ?? MarketParticipantOrganizationStatus.New,
       this.allStatuses
     );
   }

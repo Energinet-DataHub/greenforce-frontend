@@ -14,41 +14,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ActorStatus } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantActorStatus } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 export const getValidStatusTransitionOptions = (
-  status: ActorStatus,
+  status: MarketParticipantActorStatus,
   statuses: WattDropdownOption[]
 ) => {
   switch (status) {
-    case ActorStatus.New:
+    case MarketParticipantActorStatus.New:
       return statuses.filter((x) =>
         [
-          ActorStatus.New.toLowerCase(),
-          ActorStatus.Active.toLowerCase(),
-          ActorStatus.Inactive.toLowerCase(),
-          ActorStatus.Passive.toLowerCase(),
+          MarketParticipantActorStatus.New.toLowerCase(),
+          MarketParticipantActorStatus.Active.toLowerCase(),
+          MarketParticipantActorStatus.Inactive.toLowerCase(),
+          MarketParticipantActorStatus.Passive.toLowerCase(),
         ].includes(x.value.toLowerCase())
       );
-    case ActorStatus.Active:
+    case MarketParticipantActorStatus.Active:
       return statuses.filter((x) =>
         [
-          ActorStatus.Active.toLowerCase(),
-          ActorStatus.Inactive.toLowerCase(),
-          ActorStatus.Passive.toLowerCase(),
+          MarketParticipantActorStatus.Active.toLowerCase(),
+          MarketParticipantActorStatus.Inactive.toLowerCase(),
+          MarketParticipantActorStatus.Passive.toLowerCase(),
         ].includes(x.value.toLowerCase())
       );
-    case ActorStatus.Passive:
+    case MarketParticipantActorStatus.Passive:
       return statuses.filter((x) =>
         [
-          ActorStatus.Inactive.toLocaleLowerCase(),
-          ActorStatus.Passive.toLocaleLowerCase(),
+          MarketParticipantActorStatus.Inactive.toLocaleLowerCase(),
+          MarketParticipantActorStatus.Passive.toLocaleLowerCase(),
         ].includes(x.value.toLowerCase())
       );
-    case ActorStatus.Inactive:
+    case MarketParticipantActorStatus.Inactive:
       return statuses.filter((x) =>
-        [ActorStatus.Inactive.toLocaleLowerCase()].includes(x.value.toLowerCase())
+        [MarketParticipantActorStatus.Inactive.toLocaleLowerCase()].includes(x.value.toLowerCase())
       );
     default:
       return [];

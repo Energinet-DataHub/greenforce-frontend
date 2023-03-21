@@ -20,7 +20,7 @@ import {
   DhMarketParticipantDataAccessApiStore,
 } from '@energinet-datahub/dh/charges/data-access-api';
 import {
-  MarketParticipantV1Dto,
+  ChargeMarketParticipantV1Dto,
   MessageArchiveSearchCriteria,
   MessageArchiveSearchResultItemDto,
 } from '@energinet-datahub/dh/shared/domain';
@@ -74,7 +74,7 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
   message?: MessageArchiveSearchResultItemDto;
-  senderMarketParticipant?: MarketParticipantV1Dto;
+  senderMarketParticipant?: ChargeMarketParticipantV1Dto;
 
   messageHasGeneralError$ = this.chargeMessageArchiveStore.hasGeneralError$;
   messageIsSearching$ = this.chargeMessageArchiveStore.isSearching$;

@@ -17,14 +17,14 @@
 import {
   MarketParticipantUserRoleAssignmentHttp,
   MarketParticipantUserRoleHttp,
-  ActorViewDto,
+  MarketParticipantActorViewDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { firstValueFrom, Subject } from 'rxjs';
 import { DhAdminUserRolesStore } from './dh-admin-user-roles.store';
 
 describe('DhAdminUserRolesStore', () => {
   // Arrange
-  const userRolesPrActor: ActorViewDto[] = [
+  const userRolesPrActor: MarketParticipantActorViewDto[] = [
     {
       id: '1',
       organizationName: 'Organization 1',
@@ -43,7 +43,7 @@ describe('DhAdminUserRolesStore', () => {
   ];
 
   test('should return user role view', async () => {
-    const observable = new Subject<ActorViewDto[]>();
+    const observable = new Subject<MarketParticipantActorViewDto[]>();
 
     const httpClient = {
       v1MarketParticipantUserRoleGetUserRoleViewGet: () => observable.asObservable(),
@@ -65,7 +65,7 @@ describe('DhAdminUserRolesStore', () => {
   });
 
   test('complete with no errors', async () => {
-    const observable = new Subject<ActorViewDto[]>();
+    const observable = new Subject<MarketParticipantActorViewDto[]>();
 
     const httpClient = {
       v1MarketParticipantUserRoleGetUserRoleViewGet: () => observable.asObservable(),
@@ -88,7 +88,7 @@ describe('DhAdminUserRolesStore', () => {
   });
 
   test('complete with errors', async () => {
-    const observable = new Subject<ActorViewDto[]>();
+    const observable = new Subject<MarketParticipantActorViewDto[]>();
 
     const httpClient = {
       v1MarketParticipantUserRoleGetUserRoleViewGet: () => observable.asObservable(),

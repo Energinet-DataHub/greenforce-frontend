@@ -17,26 +17,26 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
-  ActorDto,
-  OrganizationDto,
+  MarketParticipantActorDto,
+  MarketParticipantOrganizationDto,
   MarketParticipantHttp,
   MarketParticipantGridAreaHttp,
-  GridAreaDto,
-  OrganizationWithActorsDto,
+  MarketParticipantGridAreaDto,
+  MarketParticipantOrganizationWithActorsDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { forkJoin, map, Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
 
 export interface OrganizationWithActorRow {
-  organization: OrganizationDto;
-  actor?: ActorDto;
+  organization: MarketParticipantOrganizationDto;
+  actor?: MarketParticipantActorDto;
 }
 
 interface MarketParticipantState {
   isLoading: boolean;
   rows: OrganizationWithActorRow[];
-  gridAreas: GridAreaDto[];
+  gridAreas: MarketParticipantGridAreaDto[];
 
   // Validation
   validation?: {
@@ -75,7 +75,7 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
     )
   );
 
-  private readonly mapToRows = (organizations: OrganizationWithActorsDto[]) => {
+  private readonly mapToRows = (organizations: MarketParticipantOrganizationWithActorsDto[]) => {
     const rows: OrganizationWithActorRow[] = [];
 
     for (const organization of organizations) {
