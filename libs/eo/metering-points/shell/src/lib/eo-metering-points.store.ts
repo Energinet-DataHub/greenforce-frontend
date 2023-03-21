@@ -29,6 +29,7 @@ export interface EoMeteringPoint extends MeteringPoint {
 }
 
 interface EoMeteringPointsState {
+  loading: boolean;
   meteringPoints: EoMeteringPoint[];
   error: HttpErrorResponse | null;
 }
@@ -42,12 +43,18 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     private certService: EoCertificatesService
   ) {
     super({
+      loading: false,
       meteringPoints: [],
       error: null,
     });
 
     this.loadData();
   }
+
+  readonly loading$ = this.select((state) => state.loading);
+  private readonly setLoading = this.updater(
+    (state, loading: boolean): EoMeteringPointsState => ({ ...state, loading })
+  );
 
   readonly meteringPoints$ = this.select((state) => state.meteringPoints);
   private readonly setMeteringPoints = this.updater(
@@ -84,8 +91,10 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   );
 
   loadData() {
+    this.setLoading(true);
     forkJoin([this.certService.getContracts(), this.service.getMeteringPoints()]).subscribe({
       next: ([contractList, mpList]) => {
+        this.setLoading(false);
         this.setMeteringPoints(
           mpList.meteringPoints.map((mp: MeteringPoint) => ({
             ...mp,
