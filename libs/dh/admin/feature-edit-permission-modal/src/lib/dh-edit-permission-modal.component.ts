@@ -33,7 +33,10 @@ import { PushModule } from '@rx-angular/template/push';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { PermissionDto, UpdatePermissionDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  PermissionDto,
+  MarketParticipantUpdatePermissionDto,
+} from '@energinet-datahub/dh/shared/domain';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { DhAdminEditPermissionStore } from '@energinet-datahub/dh/admin/data-access-api';
@@ -125,7 +128,7 @@ export class DhEditPermissionModalComponent implements AfterViewInit, OnChanges 
       this.toastService.open({ type: 'danger', message });
     };
 
-    const updatedPermission: UpdatePermissionDto = {
+    const updatedPermission: MarketParticipantUpdatePermissionDto = {
       id: this.permission.id,
       description: this.userPermissionsForm.controls.description.value,
     };

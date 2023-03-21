@@ -26,9 +26,9 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import {
-  SortDirection,
-  UserOverviewItemDto,
-  UserOverviewSortProperty,
+  MarketParticipantSortDirection,
+  MarketParticipantUserOverviewItemDto,
+  MarketParticipantUserOverviewSortProperty,
 } from '@energinet-datahub/dh/shared/domain';
 import {
   WattTableColumnDef,
@@ -73,7 +73,7 @@ import { Subject, takeUntil } from 'rxjs';
 export class DhUsersTabTableComponent implements AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
-  columns: WattTableColumnDef<UserOverviewItemDto> = {
+  columns: WattTableColumnDef<MarketParticipantUserOverviewItemDto> = {
     name: { accessor: 'name' },
     email: { accessor: 'email' },
     phoneNumber: { accessor: 'phoneNumber' },
@@ -81,25 +81,30 @@ export class DhUsersTabTableComponent implements AfterViewInit, OnDestroy {
     status: { accessor: 'status' },
   };
 
-  dataSource = new WattTableDataSource<UserOverviewItemDto>();
-  activeRow: UserOverviewItemDto | undefined = undefined;
+  dataSource = new WattTableDataSource<MarketParticipantUserOverviewItemDto>();
+  activeRow: MarketParticipantUserOverviewItemDto | undefined = undefined;
 
-  @Input() set users(value: UserOverviewItemDto[]) {
+  @Input() set users(value: MarketParticipantUserOverviewItemDto[]) {
     this.dataSource.data = value;
   }
 
-  @Input() sortChanged!: (prop: UserOverviewSortProperty, direction: SortDirection) => void;
+  @Input() sortChanged!: (
+    prop: MarketParticipantUserOverviewSortProperty,
+    direction: MarketParticipantSortDirection
+  ) => void;
 
   @ViewChild(DhUserDrawerComponent)
   drawer!: DhUserDrawerComponent;
 
   @ViewChild(WattTableComponent)
-  usersTable!: WattTableComponent<UserOverviewItemDto>;
+  usersTable!: WattTableComponent<MarketParticipantUserOverviewItemDto>;
 
   ngAfterViewInit(): void {
     this.usersTable.sortChange.pipe(takeUntil(this.destroy$)).subscribe((x) => {
-      const property = (x.active[0].toUpperCase() + x.active.slice(1)) as UserOverviewSortProperty;
-      const direction = (x.direction[0].toUpperCase() + x.direction.slice(1)) as SortDirection;
+      const property = (x.active[0].toUpperCase() +
+        x.active.slice(1)) as MarketParticipantUserOverviewSortProperty;
+      const direction = (x.direction[0].toUpperCase() +
+        x.direction.slice(1)) as MarketParticipantSortDirection;
       this.sortChanged(property, direction);
     });
   }
@@ -109,7 +114,7 @@ export class DhUsersTabTableComponent implements AfterViewInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  onRowClick(row: UserOverviewItemDto): void {
+  onRowClick(row: MarketParticipantUserOverviewItemDto): void {
     this.activeRow = row;
     this.drawer.open(row);
   }

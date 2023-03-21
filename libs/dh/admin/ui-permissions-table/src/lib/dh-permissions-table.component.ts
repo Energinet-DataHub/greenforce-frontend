@@ -31,7 +31,7 @@ import {
   WATT_TABLE,
   WattTableComponent,
 } from '@energinet-datahub/watt/table';
-import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantPermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-permissions-table',
@@ -49,18 +49,18 @@ import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
   imports: [TranslocoModule, WATT_TABLE],
 })
 export class DhPermissionsTableComponent implements OnChanges {
-  @Input() permissions: PermissionDetailsDto[] = [];
-  @Input() initialSelection: PermissionDetailsDto[] = [];
+  @Input() permissions: MarketParticipantPermissionDetailsDto[] = [];
+  @Input() initialSelection: MarketParticipantPermissionDetailsDto[] = [];
 
-  @Output() selectionChanged = new EventEmitter<PermissionDetailsDto[]>();
+  @Output() selectionChanged = new EventEmitter<MarketParticipantPermissionDetailsDto[]>();
 
-  @ViewChild(WattTableComponent<PermissionDetailsDto>)
-  permissionsTable!: WattTableComponent<PermissionDetailsDto>;
+  @ViewChild(WattTableComponent<MarketParticipantPermissionDetailsDto>)
+  permissionsTable!: WattTableComponent<MarketParticipantPermissionDetailsDto>;
 
-  readonly dataSource: WattTableDataSource<PermissionDetailsDto> =
-    new WattTableDataSource<PermissionDetailsDto>();
+  readonly dataSource: WattTableDataSource<MarketParticipantPermissionDetailsDto> =
+    new WattTableDataSource<MarketParticipantPermissionDetailsDto>();
 
-  columns: WattTableColumnDef<PermissionDetailsDto> = {
+  columns: WattTableColumnDef<MarketParticipantPermissionDetailsDto> = {
     name: { accessor: 'name' },
     description: { accessor: 'description' },
   };
@@ -70,7 +70,7 @@ export class DhPermissionsTableComponent implements OnChanges {
     if (this.permissionsTable) this.permissionsTable.clearSelection();
   }
 
-  onSelectionChange(selections: PermissionDetailsDto[]): void {
+  onSelectionChange(selections: MarketParticipantPermissionDetailsDto[]): void {
     this.selectionChanged.emit(selections);
   }
 }

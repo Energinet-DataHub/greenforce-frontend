@@ -39,9 +39,9 @@ import {
 } from '@energinet-datahub/dh/charges/data-access-api';
 import {
   ChargeType,
-  MarketParticipantV1Dto,
-  Resolution,
-  VatClassification,
+  ChargeMarketParticipantV1Dto,
+  ChargeResolution,
+  ChargeVatClassification,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { PushModule } from '@rx-angular/template/push';
@@ -76,7 +76,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     taxIndicator: new FormControl(false, Validators.required),
     senderMarketParticipantId: new FormControl('', Validators.required),
   });
-  selectedSenderMarketParticipant?: MarketParticipantV1Dto;
+  selectedSenderMarketParticipant?: ChargeMarketParticipantV1Dto;
 
   isTariff = false;
   isFormValid = false;
@@ -187,13 +187,13 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     this.chargesStore.createCharge({
       chargeType: charge.chargeType as ChargeType,
       effectiveDate: charge.effectiveDate as string,
-      resolution: ResolutionOptions[Number(resolution)] as Resolution,
+      resolution: ResolutionOptions[Number(resolution)] as ChargeResolution,
       chargeName: charge.chargeName as string,
       taxIndicator: charge.taxIndicator as boolean,
       transparentInvoicing: charge.transparentInvoicing as boolean,
       vatClassification: charge.vatClassification
-        ? VatClassification.Vat25
-        : VatClassification.NoVat,
+        ? ChargeVatClassification.Vat25
+        : ChargeVatClassification.NoVat,
       description: charge.description as string,
       senderProvidedChargeId: charge.senderProvidedChargeId as string,
       senderMarketParticipant: this.selectedSenderMarketParticipant,

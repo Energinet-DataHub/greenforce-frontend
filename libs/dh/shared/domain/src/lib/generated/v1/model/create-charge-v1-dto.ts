@@ -10,9 +10,9 @@
  * Do not edit the class manually.
  */
 import { ChargeType } from './charge-type';
-import { MarketParticipantV1Dto } from './market-participant-v1-dto';
-import { VatClassification } from './vat-classification';
-import { Resolution } from './resolution';
+import { ChargeVatClassification } from './charge-vat-classification';
+import { ChargeResolution } from './charge-resolution';
+import { ChargeMarketParticipantV1Dto } from './charge-market-participant-v1-dto';
 
 
 export interface CreateChargeV1Dto { 
@@ -23,9 +23,9 @@ export interface CreateChargeV1Dto {
     transparentInvoicing: boolean;
     effectiveDate: string;
     chargeType: ChargeType;
-    resolution: Resolution;
-    vatClassification: VatClassification;
-    senderMarketParticipant?: MarketParticipantV1Dto;
+    resolution: ChargeResolution;
+    vatClassification: ChargeVatClassification;
+    senderMarketParticipant?: ChargeMarketParticipantV1Dto;
 }
 
 

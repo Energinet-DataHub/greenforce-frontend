@@ -21,13 +21,13 @@ import { Observable, switchMap, tap } from 'rxjs';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
-  UserRoleAuditLogDto,
-  UserRoleAuditLogsDto,
+  MarketParticipantUserRoleAuditLogDto,
+  MarketParticipantUserRoleAuditLogsDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 import { mapChangeDescriptionJson } from './util/map-change-description-json';
 
-type UserRoleAuditLogExtended = UserRoleAuditLogDto & {
+type UserRoleAuditLogExtended = MarketParticipantUserRoleAuditLogDto & {
   changedValueTo: string;
 };
 
@@ -82,7 +82,7 @@ export class DhAdminUserRoleAuditLogsDataAccessApiStore extends ComponentStore<D
     )
   );
 
-  private assignAuditLogs = (response: UserRoleAuditLogsDto) => {
+  private assignAuditLogs = (response: MarketParticipantUserRoleAuditLogsDto) => {
     const auditLogs: DhRoleAuditLogEntry[] = response.auditLogs.map((entry) => ({
       entry: {
         ...entry,

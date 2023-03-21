@@ -21,7 +21,7 @@ import { exhaustMap, Observable, tap } from 'rxjs';
 import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantPermissionsHttp,
-  UpdatePermissionDto,
+  MarketParticipantUpdatePermissionDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhEditPermissionState {
@@ -43,7 +43,7 @@ export class DhAdminEditPermissionStore extends ComponentStore<DhEditPermissionS
   readonly updatePermission = this.effect(
     (
       trigger$: Observable<{
-        updatedPermission: UpdatePermissionDto;
+        updatedPermission: MarketParticipantUpdatePermissionDto;
         onSuccessFn: () => void;
         onErrorFn: () => void;
       }>

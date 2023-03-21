@@ -16,9 +16,9 @@
  */
 import { Injectable } from '@angular/core';
 import {
-  FilteredActorDto,
+  MarketParticipantFilteredActorDto,
   MarketParticipantHttp,
-  OrganizationDto,
+  MarketParticipantOrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { LoadingState, ErrorState } from '@energinet-datahub/dh/shared/data-access-api';
@@ -26,8 +26,8 @@ import { map, Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 interface ActorsResultState {
-  readonly actorResult: FilteredActorDto[] | null;
-  readonly organizationResult: OrganizationDto | null;
+  readonly actorResult: MarketParticipantFilteredActorDto[] | null;
+  readonly organizationResult: MarketParticipantOrganizationDto | null;
   readonly loadingState: LoadingState | ErrorState;
   readonly organizationLoadingState: LoadingState | ErrorState;
 }
@@ -53,7 +53,7 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
 
   actors$ = this.select((state) => state.actorResult).pipe(
     map((actors) =>
-      (actors ?? []).map((actor: FilteredActorDto) => ({
+      (actors ?? []).map((actor: MarketParticipantFilteredActorDto) => ({
         value: actor.actorId,
         displayValue:
           actor.name.value === ''
@@ -122,20 +122,25 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
   );
 
   private update = this.updater(
-    (state: ActorsResultState, actors: FilteredActorDto[]): ActorsResultState => ({
+    (state: ActorsResultState, actors: MarketParticipantFilteredActorDto[]): ActorsResultState => ({
       ...state,
       actorResult: actors,
     })
   );
 
   private updateOrganization = this.updater(
-    (state: ActorsResultState, organization: OrganizationDto | null): ActorsResultState => ({
+    (
+      state: ActorsResultState,
+      organization: MarketParticipantOrganizationDto | null
+    ): ActorsResultState => ({
       ...state,
       organizationResult: organization,
     })
   );
 
-  private updateOrganizationAndLoadingState = (organization: OrganizationDto | null) => {
+  private updateOrganizationAndLoadingState = (
+    organization: MarketParticipantOrganizationDto | null
+  ) => {
     this.updateOrganization(organization);
 
     this.patchState({
@@ -143,7 +148,7 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
     });
   };
 
-  private updateStates = (actors: FilteredActorDto[]) => {
+  private updateStates = (actors: MarketParticipantFilteredActorDto[]) => {
     this.update(actors);
 
     if (actors.length == 0) {
