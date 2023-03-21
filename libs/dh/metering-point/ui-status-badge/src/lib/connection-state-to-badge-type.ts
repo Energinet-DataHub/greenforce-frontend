@@ -14,20 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ConnectionState } from '@energinet-datahub/dh/shared/domain';
+import { MeteringPointConnectionState } from '@energinet-datahub/dh/shared/domain';
 import { WattBadgeType } from '@energinet-datahub/watt/badge';
 
 /**
  *
  * @throws {Error} if the specified connection state has an unknown value.
  */
-export function connectionStateToBadgeType(connectionState: ConnectionState): WattBadgeType {
+export function connectionStateToBadgeType(
+  connectionState: MeteringPointConnectionState
+): WattBadgeType {
   switch (connectionState) {
-    case ConnectionState.D02:
-    case ConnectionState.E23:
+    case MeteringPointConnectionState.D02:
+    case MeteringPointConnectionState.E23:
       return 'warning';
-    case ConnectionState.E22:
-    case ConnectionState.D03:
+    case MeteringPointConnectionState.E22:
+    case MeteringPointConnectionState.D03:
       return 'success';
     default:
       throw new Error(`Unknown connection state: ${connectionState}`);

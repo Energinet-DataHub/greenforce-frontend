@@ -18,7 +18,7 @@ import { render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
 
 import {
-  ConnectionState,
+  MeteringPointConnectionState,
   MeteringPointSimpleCimDto,
   MeteringPointType,
 } from '@energinet-datahub/dh/shared/domain';
@@ -34,21 +34,21 @@ const testData: MeteringPointSimpleCimDto[] = [
   {
     gsrnNumber: '570263739584198159',
     effectiveDate: '2020-01-03T00:00:00Z',
-    connectionState: ConnectionState.E22,
+    connectionState: MeteringPointConnectionState.E22,
     meteringPointId: '10',
     meteringPointType: MeteringPointType.D09,
   },
   {
     gsrnNumber: '574289323666998780',
     effectiveDate: '2020-01-02T00:00:00Z',
-    connectionState: ConnectionState.D03,
+    connectionState: MeteringPointConnectionState.D03,
     meteringPointId: '20',
     meteringPointType: MeteringPointType.D01,
   },
   {
     gsrnNumber: '579702678493999563',
     effectiveDate: '2020-04-01T00:00:00Z',
-    connectionState: ConnectionState.D02,
+    connectionState: MeteringPointConnectionState.D02,
     meteringPointId: '30',
     meteringPointType: MeteringPointType.D02,
   },

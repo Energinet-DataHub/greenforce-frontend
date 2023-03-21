@@ -46,9 +46,9 @@ import {
   DhAdminUserRoleWithPermissionsManagementDataAccessApiStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import {
-  PermissionDetailsDto,
-  UpdateUserRoleDto,
-  UserRoleWithPermissionsDto,
+  MarketParticipantPermissionDetailsDto,
+  MarketParticipantUpdateUserRoleDto,
+  MarketParticipantUserRoleWithPermissionsDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 
@@ -174,7 +174,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
     this.closed.emit({ saveSuccess });
   }
 
-  onSelectionChanged(selectedPermissions: PermissionDetailsDto[]): void {
+  onSelectionChanged(selectedPermissions: MarketParticipantPermissionDetailsDto[]): void {
     if (this.skipFirstPermissionSelectionEvent) {
       this.skipFirstPermissionSelectionEvent = false;
 
@@ -187,18 +187,18 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
     this.userRoleEditForm.markAsDirty();
   }
 
-  save(userRole: UserRoleWithPermissionsDto): void {
+  save(userRole: MarketParticipantUserRoleWithPermissionsDto): void {
     if (this.userRoleEditForm.invalid) {
       return;
     }
 
     if (this.userRoleEditForm.pristine) {
-      this.closeModal(false);
+      return this.closeModal(false);
     }
 
     const formControls = this.userRoleEditForm.controls;
 
-    const updatedUserRole: UpdateUserRoleDto = {
+    const updatedUserRole: MarketParticipantUpdateUserRoleDto = {
       name: formControls.name.value,
       description: formControls.description.value,
       permissions: formControls.permissionIds.value,

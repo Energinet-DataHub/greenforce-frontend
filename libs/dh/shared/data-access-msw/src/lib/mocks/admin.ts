@@ -38,6 +38,7 @@ export function adminMocks(apiBase: string) {
     putMarketParticipantUserRoleUpdate(apiBase),
     getAdminPermissions(),
     getAdminPermissionLogs(),
+    putMarketParticipantPermissionsUpdate(apiBase),
   ];
 }
 
@@ -111,5 +112,11 @@ function getAdminPermissionLogs() {
       (log) => log.permissionId.toString() === permId
     );
     return res(ctx.delay(300), ctx.data({ permissionLogs }));
+  });
+}
+
+function putMarketParticipantPermissionsUpdate(apiBase: string) {
+  return rest.put(`${apiBase}/v1/MarketParticipantPermissions/Update`, (req, res, ctx) => {
+    return res(ctx.status(200));
   });
 }

@@ -17,12 +17,12 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
-  AddressDto,
-  ChangeOrganizationDto,
-  ContactCategory,
-  CreateOrganizationDto,
+  MarketParticipantAddressDto,
+  MarketParticipantChangeOrganizationDto,
+  MarketParticipantContactCategory,
+  MarketParticipantCreateOrganizationDto,
   MarketParticipantHttp,
-  OrganizationStatus,
+  MarketParticipantOrganizationStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { catchError, EMPTY, map, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -32,15 +32,15 @@ export interface OrganizationChanges {
   organizationId?: string;
   name?: string;
   businessRegisterIdentifier?: string;
-  address: AddressDto;
+  address: MarketParticipantAddressDto;
   domain?: string;
   comment?: string;
-  status?: OrganizationStatus;
+  status?: MarketParticipantOrganizationStatus;
 }
 
 export interface ContactChanges {
   isValid: boolean;
-  category?: ContactCategory;
+  category?: MarketParticipantContactCategory;
   name?: string;
   email?: string;
   phone?: string | null;
@@ -60,7 +60,7 @@ export interface MarketParticipantEditOrganizationState {
 const initialState: MarketParticipantEditOrganizationState = {
   isLoading: false,
   isEditing: false,
-  changes: { address: { country: 'DK' }, status: OrganizationStatus.New },
+  changes: { address: { country: 'DK' }, status: MarketParticipantOrganizationStatus.New },
 };
 
 @Injectable()
@@ -83,7 +83,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
             isLoading: false,
             changes: {
               address: { country: 'DK' },
-              status: OrganizationStatus.New,
+              status: MarketParticipantOrganizationStatus.New,
             },
           });
           return EMPTY;
@@ -136,14 +136,14 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
       return this.httpClient
         .v1MarketParticipantOrganizationUpdateOrganizationPut(
           organizationChanges.organizationId,
-          organizationChanges as ChangeOrganizationDto
+          organizationChanges as MarketParticipantChangeOrganizationDto
         )
         .pipe(map(() => ({ ...organizationChanges, organizationSaved: true })));
     }
 
     return this.httpClient
       .v1MarketParticipantOrganizationCreateOrganizationPost(
-        organizationChanges as CreateOrganizationDto
+        organizationChanges as MarketParticipantCreateOrganizationDto
       )
       .pipe(
         map((organizationId) => ({

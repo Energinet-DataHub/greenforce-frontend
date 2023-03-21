@@ -10,20 +10,20 @@
  * Do not edit the class manually.
  */
 import { ChargeType } from './charge-type';
-import { VatClassification } from './vat-classification';
-import { Resolution } from './resolution';
+import { ChargeVatClassification } from './charge-vat-classification';
+import { ChargeResolution } from './charge-resolution';
 
 
 export interface ChargeV1Dto { 
     id: string;
     chargeType: ChargeType;
-    resolution: Resolution;
+    resolution: ChargeResolution;
     chargeId?: string | null;
     chargeName?: string | null;
     chargeDescription?: string | null;
     chargeOwner?: string | null;
     chargeOwnerName?: string | null;
-    vatClassification: VatClassification;
+    vatClassification: ChargeVatClassification;
     taxIndicator: boolean;
     transparentInvoicing: boolean;
     hasAnyPrices: boolean;

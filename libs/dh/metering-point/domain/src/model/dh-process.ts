@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Process } from '@energinet-datahub/dh/shared/domain';
+import { MeteringPointProcess } from '@energinet-datahub/dh/shared/domain';
 
-export interface DhProcess extends Process {
+export interface DhProcess extends MeteringPointProcess {
   hasDetailsErrors: boolean;
 }

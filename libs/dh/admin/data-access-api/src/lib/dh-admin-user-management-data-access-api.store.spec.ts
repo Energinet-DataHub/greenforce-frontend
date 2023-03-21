@@ -22,8 +22,8 @@ import { firstValueFrom, of } from 'rxjs';
 
 import {
   MarketParticipantUserOverviewHttp,
-  UserStatus,
-  UserOverviewFilterDto,
+  MarketParticipantUserStatus,
+  MarketParticipantUserOverviewFilterDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 import { DhAdminUserManagementDataAccessApiStore } from './dh-admin-user-management-data-access-api.store';
@@ -60,7 +60,7 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
   it('calls the API on initialization with default params', async () => {
     const { httpMock } = await setup();
 
-    const filterDto: UserOverviewFilterDto = {
+    const filterDto: MarketParticipantUserOverviewFilterDto = {
       actorId: undefined,
       userRoleIds: [],
       searchText: undefined,
@@ -93,7 +93,7 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
 
     tick();
 
-    const filterDto: UserOverviewFilterDto = {
+    const filterDto: MarketParticipantUserOverviewFilterDto = {
       actorId: undefined,
       userRoleIds: [],
       searchText: undefined,
@@ -121,7 +121,7 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
 
     tick();
 
-    const filterDto: UserOverviewFilterDto = {
+    const filterDto: MarketParticipantUserOverviewFilterDto = {
       actorId: undefined,
       userRoleIds: [],
       searchText: 'john',
@@ -145,13 +145,13 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
   then the API is called`, fakeAsync(async () => {
     const { httpMock, store } = await setup();
 
-    const newStatusFilters: UserStatus[] = ['Active', 'Inactive'];
+    const newStatusFilters: MarketParticipantUserStatus[] = ['Active', 'Inactive'];
 
     store.updateStatusFilter(newStatusFilters);
 
     tick();
 
-    const filterDto: UserOverviewFilterDto = {
+    const filterDto: MarketParticipantUserOverviewFilterDto = {
       actorId: undefined,
       userRoleIds: [],
       searchText: undefined,

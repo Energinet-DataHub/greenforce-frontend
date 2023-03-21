@@ -9,14 +9,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { MeteringPointConnectionState } from './metering-point-connection-state';
 import { MeteringPointType } from './metering-point-type';
-import { ConnectionState } from './connection-state';
 
 
 export interface MeteringPointSimpleCimDto { 
     meteringPointId: string;
     gsrnNumber: string;
-    connectionState: ConnectionState;
+    connectionState: MeteringPointConnectionState;
     meteringPointType: MeteringPointType;
     effectiveDate: string;
 }
