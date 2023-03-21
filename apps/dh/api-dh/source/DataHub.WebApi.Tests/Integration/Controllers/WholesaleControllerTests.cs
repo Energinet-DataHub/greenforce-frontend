@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Core.TestCommon.AutoFixture.Attributes;
 using Energinet.DataHub.MarketParticipant.Client.Models;
@@ -26,6 +27,8 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 using Xunit.Abstractions;
+using ProcessStepResultDtoV3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessStepResultDto;
+using TimeSeriesTypeV3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.TimeSeriesType;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
@@ -161,10 +164,10 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         [InlineAutoMoqData]
         public async Task PostAsync_WhenProcessStepResultIsFound_ReturnsOk(
             ProcessStepResultRequestDtoV3 processStepResultRequestDto,
-            ProcessStepResultDto processStepResultDto)
+            ProcessStepResultDtoV3 processStepResultDto)
         {
-            WholesaleClientMock
-                .Setup(m => m.GetProcessStepResultAsync(processStepResultRequestDto))
+            WholesaleClientV3Mock
+                .Setup(m => m.GetProcessStepResultAsync(processStepResultRequestDto.BatchId, processStepResultRequestDto.GridAreaCode, (TimeSeriesTypeV3)processStepResultRequestDto.TimeSeriesType, processStepResultRequestDto.EnergySupplierGln, processStepResultRequestDto.BalanceResponsiblePartyGln, null, CancellationToken.None))
                 .ReturnsAsync(processStepResultDto);
 
             var actual = await BffClient.PostAsJsonAsync(BatchProcessStepResultUrl, processStepResultRequestDto);
