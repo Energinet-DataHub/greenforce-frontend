@@ -20,9 +20,9 @@ import { fakeAsync, tick } from '@angular/core/testing';
 import {
   MarketParticipantEicFunction,
   MarketParticipantUserRoleHttp,
-  UserRoleAuditLogDto,
-  UserRoleAuditLogsDto,
-  UserRoleChangeType,
+  MarketParticipantUserRoleAuditLogDto,
+  MarketParticipantUserRoleAuditLogsDto,
+  MarketParticipantUserRoleChangeType,
   MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
@@ -41,9 +41,9 @@ const changeDescriptionJsonMock = {
 };
 
 function generateUserRoleAuditLog(
-  userRoleChangeType: UserRoleChangeType,
+  userRoleChangeType: MarketParticipantUserRoleChangeType,
   changeDescriptionJson: string
-): UserRoleAuditLogDto {
+): MarketParticipantUserRoleAuditLogDto {
   return {
     userRoleId: '',
     changedByUserId: '',
@@ -54,7 +54,7 @@ function generateUserRoleAuditLog(
   };
 }
 
-function generateMockResponse(): UserRoleAuditLogsDto {
+function generateMockResponse(): MarketParticipantUserRoleAuditLogsDto {
   return {
     auditLogs: [
       generateUserRoleAuditLog('Created', JSON.stringify(changeDescriptionJsonMock)),
@@ -84,7 +84,7 @@ function generateMockResponse(): UserRoleAuditLogsDto {
   };
 }
 
-const scheduleObservable = (value: Observable<UserRoleAuditLogsDto>) => {
+const scheduleObservable = (value: Observable<MarketParticipantUserRoleAuditLogsDto>) => {
   return scheduled(value, asyncScheduler);
 };
 
@@ -123,7 +123,7 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
         timestamp: '',
         entry: {
           ...mockResponse.auditLogs[0],
-          userRoleChangeType: UserRoleChangeType.Created,
+          userRoleChangeType: MarketParticipantUserRoleChangeType.Created,
           changedValueTo: '',
         },
       },
@@ -131,7 +131,7 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
         timestamp: '',
         entry: {
           ...mockResponse.auditLogs[1],
-          userRoleChangeType: UserRoleChangeType.NameChange,
+          userRoleChangeType: MarketParticipantUserRoleChangeType.NameChange,
           changedValueTo: changeDescriptionJsonMock.Name,
         },
       },
@@ -139,7 +139,7 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
         timestamp: '',
         entry: {
           ...mockResponse.auditLogs[2],
-          userRoleChangeType: UserRoleChangeType.DescriptionChange,
+          userRoleChangeType: MarketParticipantUserRoleChangeType.DescriptionChange,
           changedValueTo: changeDescriptionJsonMock.Description,
         },
       },
@@ -147,7 +147,7 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
         timestamp: '',
         entry: {
           ...mockResponse.auditLogs[3],
-          userRoleChangeType: UserRoleChangeType.EicFunctionChange,
+          userRoleChangeType: MarketParticipantUserRoleChangeType.EicFunctionChange,
           changedValueTo: changeDescriptionJsonMock.MarketParticipantEicFunction,
         },
       },
@@ -155,7 +155,7 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
         timestamp: '',
         entry: {
           ...mockResponse.auditLogs[4],
-          userRoleChangeType: UserRoleChangeType.StatusChange,
+          userRoleChangeType: MarketParticipantUserRoleChangeType.StatusChange,
           changedValueTo: changeDescriptionJsonMock.Status,
         },
       },
@@ -163,7 +163,7 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
         timestamp: '',
         entry: {
           ...mockResponse.auditLogs[5],
-          userRoleChangeType: UserRoleChangeType.PermissionsChange,
+          userRoleChangeType: MarketParticipantUserRoleChangeType.PermissionsChange,
           changedValueTo: `${changeDescriptionJsonMock.Permissions[0]}, ${changeDescriptionJsonMock.Permissions[1]}`,
         },
       },

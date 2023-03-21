@@ -28,7 +28,7 @@ import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import {
   MarketParticipantUserOverviewItemDto,
-  UserStatus,
+  MarketParticipantUserStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
 import { DhUsersTabComponent } from './dh-users-tab.component';
@@ -125,7 +125,7 @@ describe(DhUsersTabComponent.name, () => {
       await option.click();
     }
 
-    const allOptions = Object.keys(UserStatus);
+    const allOptions = Object.keys(MarketParticipantUserStatus);
     expect(store.updateStatusFilter).toHaveBeenCalledWith(allOptions);
   });
 });
