@@ -258,13 +258,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
                 this.setProcessStepResults(stepResults),
               () => this.loadingProcessStepResultsErrorTrigger$.next()
             )
-            .pipe(
-              tapResponse(
-                (stepResults: WholesaleProcessStepResultDto) =>
-                  this.setProcessStepResults(stepResults),
-                () => this.loadingProcessStepResultsErrorTrigger$.next()
-              )
-            );
+          );
         })
       );
     }
