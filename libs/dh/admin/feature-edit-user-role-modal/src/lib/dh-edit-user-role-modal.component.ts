@@ -193,7 +193,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
     }
 
     if (this.userRoleEditForm.pristine) {
-      this.closeModal(false);
+      return this.closeModal(false);
     }
 
     const formControls = this.userRoleEditForm.controls;
