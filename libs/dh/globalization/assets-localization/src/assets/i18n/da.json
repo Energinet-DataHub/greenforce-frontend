@@ -908,12 +908,12 @@
               },
               "logs": {
                 "roles": {
-                  "Created": "<b>{{ changedByUserName }}</b> oprettede rollen",
-                  "NameChange": "<b>{{ changedByUserName }}</b> ændrede navn på rollen til <b>{{ changedValueTo }}</b>",
+                  "Created": "<b>{{ changedByUserName }}</b> oprettede brugerrollen",
+                  "NameChange": "<b>{{ changedByUserName }}</b> ændrede navn på brugerrollen til <b>{{ changedValueTo }}</b>",
                   "DescriptionChange": "<b>{{ changedByUserName }}</b> ændrede beskrivelse til <b>{{ changedValueTo }}</b>",
                   "EicFunctionChange": "<b>{{ changedByUserName }}</b> ændrede eic function til <b>{{ changedValueTo }}</b>",
                   "StatusChange": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ changedValueTo }}</b>",
-                  "PermissionsChange": "<b>{{ changedByUserName }}</b> ændrede rettigheder på rollen til <b>{{ changedValueTo }}</b>"
+                  "PermissionsChange": "<b>{{ changedByUserName }}</b> ændrede rettigheder på brugerrollen til <b>{{ changedValueTo }}</b>"
                 }
               }
             }
@@ -949,8 +949,8 @@
           },
           "logs": {
             "auditLogType": {
-              "UserRoleAdded": "<b>{{ changedByUserName }}</b> tilføjede rollen <b>{{ toValue }}</b>",
-              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> fjernede rollen <b>{{ toValue }}</b>",
+              "UserRoleAdded": "<b>{{ changedByUserName }}</b> tilføjede brugerrollen <b>{{ toValue }}</b>",
+              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b>",
               "UserInvite": "<b>{{ changedByUserName }}</b> tilføjede brugeren til aktør <b>{{ toValue }}</b>"
             }
           },
