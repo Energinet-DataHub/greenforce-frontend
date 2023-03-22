@@ -4,7 +4,7 @@
   "documentGenerator": {
     "fromDocument": {
       "url": "https://app-webapi-wholsal-u-001.azurewebsites.net/swagger/v3/swagger.json",
-      "output": null,
+      "output": "swagger.json",
       "newLineBehavior": "Auto"
     }
   },

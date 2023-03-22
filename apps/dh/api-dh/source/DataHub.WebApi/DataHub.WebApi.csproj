@@ -37,7 +37,7 @@ limitations under the License.
   </PropertyGroup>
 
   <Target Name="NSwag" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' ">
-    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net60) run Clients/Wholesale/v3/nswag.json /variables:Configuration=$(Configuration)" />
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="if not exist Clients/Wholesale/v3/swagger.json $(NSwagExe_Net60) run Clients/Wholesale/v3/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/Wholesale/v3/swagger.json')" />
   </Target>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
