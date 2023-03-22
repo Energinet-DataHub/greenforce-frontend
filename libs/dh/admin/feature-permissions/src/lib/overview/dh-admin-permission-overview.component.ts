@@ -14,22 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApolloError } from '@apollo/client';
-import { Apollo } from 'apollo-angular';
 import { TranslocoModule } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
 
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { graphql, PermissionDto } from '@energinet-datahub/dh/shared/domain';
+import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 
 import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
+import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
 
 @Component({
   selector: 'dh-admin-permission-overview',
@@ -49,8 +49,9 @@ import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission
   ],
 })
 export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
-  private apollo = inject(Apollo);
-  subscription!: Subscription;
+  private getPermissionQuery = getPermissionsWatchQuery();
+  private subscription!: Subscription;
+
   permissions?: PermissionDto[];
   loading = false;
   error?: ApolloError;
@@ -65,12 +66,6 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
 
   @ViewChild(DhAdminPermissionDetailComponent)
   permissionDetail!: DhAdminPermissionDetailComponent;
-
-  private getPermissionQuery = this.apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
-    query: graphql.GetPermissionsDocument,
-  });
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
