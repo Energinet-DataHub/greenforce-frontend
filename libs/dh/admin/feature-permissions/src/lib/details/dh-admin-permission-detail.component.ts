@@ -17,6 +17,7 @@
 import { Component, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
+import { map, Subscription } from 'rxjs';
 
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { WattCardModule } from '@energinet-datahub/watt/card';
@@ -31,6 +32,8 @@ import { DhEditPermissionModalComponent } from '@energinet-datahub/dh/admin/feat
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhPermissionAuditLogsComponent } from './tabs/dh-admin-permission-audit-logs.component';
+import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
+
 @Component({
   selector: 'dh-admin-permission-detail',
   standalone: true,
@@ -53,6 +56,9 @@ import { DhPermissionAuditLogsComponent } from './tabs/dh-admin-permission-audit
   ],
 })
 export class DhAdminPermissionDetailComponent {
+  private getPermissionQuery = getPermissionsWatchQuery();
+  private subscription?: Subscription;
+
   @ViewChild(WattDrawerComponent)
   drawer!: WattDrawerComponent;
 
@@ -66,10 +72,14 @@ export class DhAdminPermissionDetailComponent {
     this.drawer.close();
     this.closed.emit();
     this.selectedPermission = null;
+
+    this.subscription?.unsubscribe();
   }
 
   open(permission: PermissionDto): void {
-    this.selectedPermission = permission;
+    this.subscription?.unsubscribe();
+    this.loadData(permission.id);
+
     this.drawer.open();
   }
 
@@ -79,5 +89,19 @@ export class DhAdminPermissionDetailComponent {
     if (saveSuccess) {
       this.refreshData.emit();
     }
+  }
+
+  private loadData(permissionId: number): void {
+    this.subscription = this.getPermissionQuery.valueChanges
+      .pipe(
+        map((result) =>
+          result.data.permissions.find((permission) => permission.id === permissionId)
+        )
+      )
+      .subscribe({
+        next: (result) => {
+          this.selectedPermission = result ?? null;
+        },
+      });
   }
 }
