@@ -43,7 +43,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     private certService: EoCertificatesService
   ) {
     super({
-      loading: false,
+      loading: true,
       meteringPoints: [],
       error: null,
     });
@@ -104,6 +104,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
         );
       },
       error: (error) => {
+        this.setLoading(false);
         this.setError(error);
       },
     });
