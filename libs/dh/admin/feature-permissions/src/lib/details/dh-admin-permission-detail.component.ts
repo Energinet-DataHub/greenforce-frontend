@@ -31,6 +31,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { DhEditPermissionModalComponent } from '@energinet-datahub/dh/admin/feature-edit-permission-modal';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 
+import { DhPermissionAuditLogsComponent } from './tabs/dh-admin-permission-audit-logs.component';
 import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
 
 @Component({
@@ -51,6 +52,7 @@ import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-que
     WattButtonModule,
     DhPermissionRequiredDirective,
     DhEditPermissionModalComponent,
+    DhPermissionAuditLogsComponent,
   ],
 })
 export class DhAdminPermissionDetailComponent {
