@@ -27,6 +27,7 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 using Xunit.Abstractions;
+using BatchRequestDto = Energinet.DataHub.WebApi.Clients.Wholesale.v3.BatchRequestDto;
 using ProcessStepResultDtoV3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessStepResultDto;
 using TimeSeriesTypeV3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.TimeSeriesType;
 
