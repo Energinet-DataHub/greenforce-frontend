@@ -75,7 +75,7 @@ namespace Energinet.DataHub.WebApi.Controllers
                 permissionAuditLogWithUser.Add(new PermissionAuditLogViewDto(
                     permissionId,
                     Guid.Empty,
-                    "Oprettet af DataHub",
+                    "DataHub",
                     PermissionAuditLogType.Created,
                     permission.Created));
 
