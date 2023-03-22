@@ -93,7 +93,7 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
       next: (result) => {
         this.loading = result.loading;
         this.data = result.data?.settlementReports
-          .filter((x) => {
+          ?.filter((x) => {
             if (this.selectedGridAreas && this.selectedGridAreas.length > 0) {
               return this.selectedGridAreas.includes(x.gridArea.code);
             } else {
@@ -131,13 +131,16 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onDownload(settlementReport: any) {
     this.store.downloadSettlementReportData(
-      of({ batchNumber: settlementReport.batchNumber, gridAreaCode: settlementReport.gridArea.code })
+      of({
+        batchNumber: settlementReport.batchNumber,
+        gridAreaCode: settlementReport.gridArea.code,
+      })
     );
     this.downloadErrorTrigger.pipe(first()).subscribe(() => {
       this.toastService.open({
         type: 'danger',
         message: this.translations.translate('wholesale.settlementReports.downloadFailed'),
       });
-    })
+    });
   }
 }
