@@ -40,9 +40,6 @@ export class DhFeatureFlagsService {
     dhEnvironment: DhAppEnvironmentConfig,
     @Inject(dhFeatureFlagsToken) private dhFeatureFlags: FeatureFlagConfig
   ) {
-    /**
-     * Treat pre-prod as prod
-     */
     this.environment = dhEnvironment.current;
   }
 
