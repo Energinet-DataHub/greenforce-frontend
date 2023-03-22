@@ -26,6 +26,7 @@ using Energinet.DataHub.Wholesale.Client;
 using Energinet.DataHub.Wholesale.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using BatchRequestDto = Energinet.DataHub.WebApi.Clients.Wholesale.v3.BatchRequestDto;
+using BatchSearchDtoV2 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.BatchSearchDtoV2;
 using ProcessStepResultDto = Energinet.DataHub.Wholesale.Contracts.ProcessStepResultDto;
 using TimeSeriesTypeV3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.TimeSeriesType;
 
@@ -65,7 +66,7 @@ namespace Energinet.DataHub.WebApi.Controllers
             var gridAreas = new List<GridAreaDto>();
             var batchesWithGridAreasWithNames = new List<BatchDto>();
 
-            var batches = (await _client.GetBatchesAsync(batchSearchDto).ConfigureAwait(false)).ToList();
+            var batches = (await _clientV3.SearchBatchesAsync(batchSearchDto).ConfigureAwait(false)).ToList();
 
             if (batches.Any())
             {
@@ -107,7 +108,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpGet("Batch")]
         public async Task<ActionResult<BatchDto>> GetBatchAsync(Guid batchId)
         {
-            var batch = await _client.GetBatchAsync(batchId);
+            var batch = await _clientV3.GetBatchAsync(batchId);
             var gridAreas = (await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false)).ToList();
 
             var gridAreaDtos = gridAreas.Where(x => batch!.GridAreaCodes.Contains(x.Code));
