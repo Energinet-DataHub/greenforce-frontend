@@ -38,7 +38,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                .WithService<IMarketParticipantPermissionsClient>()
                .ResolveAsync(async (context, client) => await client.GetPermissionsAsync());
 
-            Field<NonNullGraphType<ListGraphType<NonNullGraphType<PermissionAuditLogDtoType>>>>("permissionlogs")
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<PermissionAuditLogDtoType>>>>("permissionLogs")
                 .Argument<IdGraphType>("id", "The id of the permission")
                 .Resolve()
                 .WithScope()
@@ -46,9 +46,18 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .WithService<IMarketParticipantClient>()
                 .ResolveAsync(async (context, permissionClient, userClient) =>
                 {
-                    var auditLogs = await permissionClient.GetAuditLogsAsync(context.GetArgument<int>("id"));
+                    var permissionId = context.GetArgument<int>("id");
+                    var permission = (await permissionClient.GetPermissionsAsync()).Single(permission => permission.Id == permissionId);
+                    var auditLogs = await permissionClient.GetAuditLogsAsync(permissionId);
                     var userLookup = new Dictionary<Guid, UserDto>();
                     var auditLogsViewDtos = new List<PermissionAuditLogViewDto>();
+
+                    auditLogsViewDtos.Add(new PermissionAuditLogViewDto(
+                    permissionId,
+                    Guid.Empty,
+                    "DataHub",
+                    PermissionAuditLogType.Created,
+                    permission.Created));
 
                     foreach (var log in auditLogs)
                     {

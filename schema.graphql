@@ -4,6 +4,16 @@ schema {
 
 type Actor {
   """
+  The id of the actor.
+  """
+  id: ID
+
+  """
+  The name of the actor.
+  """
+  name: String
+
+  """
   The number of the actor.
   """
   number: String!
@@ -88,6 +98,7 @@ scalar DateTimeOffset
 scalar Decimal
 
 type GraphQLQuery {
+  actors: [Actor!]!
   batch(
     """
     The id of the organization
@@ -102,6 +113,12 @@ type GraphQLQuery {
     id: ID
   ): Organization
   organizations: [Organization]
+  permissionLogs(
+    """
+    The id of the permission
+    """
+    id: ID
+  ): [PermissionAuditLog!]!
   permissions: [Permission!]!
   processStep(
     """
@@ -218,6 +235,39 @@ type Permission {
   The name of the permission.
   """
   name: String!
+}
+
+type PermissionAuditLog {
+  """
+  Changed by user id
+  """
+  changedByUserId: ID!
+
+  """
+  Changed by user name
+  """
+  changedByUserName: String!
+
+  """
+  Permission audit log type
+  """
+  permissionAuditLogType: PermissionAuditLogType!
+
+  """
+  Permission id
+  """
+  permissionId: Int!
+
+  """
+  Time of change
+  """
+  timestamp: DateTimeOffset!
+}
+
+enum PermissionAuditLogType {
+  CREATED
+  DESCRIPTION_CHANGE
+  UNKNOWN
 }
 
 enum PriceAreaCode {

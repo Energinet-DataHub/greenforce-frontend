@@ -14,16 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-  margin: var(--watt-space-ml);
-}
+import { inject } from '@angular/core';
+import { Apollo } from 'apollo-angular';
 
-.no-results-text {
-  text-align: center;
-}
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 
-.spinner {
-  display: flex;
-  justify-content: center;
+export function getPermissionsWatchQuery() {
+  const apollo = inject(Apollo);
+
+  return apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: graphql.GetPermissionsDocument,
+  });
 }

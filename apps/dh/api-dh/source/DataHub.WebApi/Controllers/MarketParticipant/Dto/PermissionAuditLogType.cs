@@ -18,5 +18,6 @@ namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
     {
         Unknown = 0,
         DescriptionChange = 1,
+        Created = 2,
     }
 }

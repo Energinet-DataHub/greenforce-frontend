@@ -918,7 +918,7 @@
               "logs": {
                 "roles": {
                   "Created": "Role created by <b>{{ changedByUserName }}</b>",
-                  "NameChange": "<b>{{ changedByUserName }}</b> changed role name to <b>{{ changedValueTo }}</b>",
+                  "NameChange": "<b>{{ changedByUserName }}</b> changed user role name to <b>{{ changedValueTo }}</b>",
                   "DescriptionChange": "<b>{{ changedByUserName }}</b> changed description to <b>{{ changedValueTo }}</b>",
                   "EicFunctionChange": "<b>{{ changedByUserName }}</b> changed eic function to <b>{{ changedValueTo }}</b>",
                   "StatusChange": "<b>{{ changedByUserName }}</b> changed status to <b>{{ changedValueTo }}</b>",
@@ -961,6 +961,12 @@
             "entry": "Change"
           },
           "logs": {
+            "permissionDetails": {
+              "auditLogType": {
+                "CREATED": "<b>{{ changedByUserName }}</b> added the permission to the system",
+                "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> changed the description of the permission"
+              }
+            },
             "auditLogType": {
               "UserRoleAdded": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
               "UserRoleRemoved": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>",
@@ -1137,7 +1143,12 @@
       "permissionDetail": {
         "information": "Information",
         "permissionName": "Name",
-        "permissionDescription": "Description"
+        "permissionDescription": "Description",
+        "tabs": {
+          "history": {
+            "tabLabel": "History"
+          }
+        }
       }
     }
   }
