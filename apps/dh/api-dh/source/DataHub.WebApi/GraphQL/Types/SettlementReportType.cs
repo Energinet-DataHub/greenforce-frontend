@@ -28,6 +28,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public SettlementReportType()
         {
             Name = "SettlementReport";
+            Field(x => x.BatchNumber).Description("The batch number");
             Field(x => x.ProcessType).Description("The process type.");
             Field(x => x.GridArea).Description("The grid area.");
             Field<DateRangeType>("period")

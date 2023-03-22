@@ -789,6 +789,7 @@
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
       "download": "Download",
+      "downloadFailed": "Download failed",
       "table": {
         "title": "Processes",
         "processType": "Process type",

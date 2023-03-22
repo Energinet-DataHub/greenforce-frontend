@@ -780,6 +780,7 @@
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
       "download": "Download",
+      "downloadFailed": "Download fejlede",
       "table": {
         "title": "Processer",
         "processType": "Procestype",

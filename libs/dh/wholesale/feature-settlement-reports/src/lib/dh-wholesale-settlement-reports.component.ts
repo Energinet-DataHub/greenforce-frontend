@@ -18,13 +18,14 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import {
   DhWholesaleTableComponent,
@@ -32,7 +33,7 @@ import {
 } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
-import { Subject, takeUntil } from 'rxjs';
+import { first, of, Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { FilteredActorDto, graphql } from '@energinet-datahub/dh/shared/domain';
 import sub from 'date-fns/sub';
@@ -65,9 +66,12 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private selectedGridAreas?: string[];
   private selectedActor?: FilteredActorDto;
+  private toastService = inject(WattToastService);
+  private translations = inject(TranslocoService);
 
   loading = false;
   error = false;
+  downloadErrorTrigger = this.store.loadingSettlementReportDataErrorTrigger$;
   data: settlementReportsTableColumns[] = [];
   executionTime = {
     start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
@@ -124,7 +128,16 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onDownload(settlementReport: any) {
-    console.log(settlementReport);
+    this.store.downloadSettlementReportData(
+      of({ batchNumber: settlementReport.batchNumber, gridAreaCode: settlementReport.gridArea.code })
+    );
+    this.downloadErrorTrigger.pipe(first()).subscribe(() => {
+      this.toastService.open({
+        type: 'danger',
+        message: this.translations.translate('wholesale.settlementReports.downloadFailed'),
+      });
+    })
   }
 }
