@@ -14,22 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApolloError } from '@apollo/client';
-import { Apollo } from 'apollo-angular';
 import { TranslocoModule } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
 
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { graphql, PermissionDto } from '@energinet-datahub/dh/shared/domain';
+import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 
 import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
+import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
 
 @Component({
   selector: 'dh-admin-permission-overview',
@@ -49,8 +49,9 @@ import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission
   ],
 })
 export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
-  private apollo = inject(Apollo);
-  subscription!: Subscription;
+  private getPermissionQuery = getPermissionsWatchQuery();
+  private subscription!: Subscription;
+
   permissions?: PermissionDto[];
   loading = false;
   error?: ApolloError;
@@ -71,23 +72,17 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.apollo
-      .watchQuery({
-        useInitialLoading: true,
-        notifyOnNetworkStatusChange: true,
-        query: graphql.GetPermissionsDocument,
-      })
-      .valueChanges.subscribe({
-        next: (result) => {
-          this.permissions = result.data?.permissions ?? undefined;
-          this.loading = result.loading;
-          this.error = result.error;
-          this.dataSource.data = result.data?.permissions ?? [];
-        },
-        error: (error) => {
-          this.error = error;
-        },
-      });
+    this.subscription = this.getPermissionQuery.valueChanges.subscribe({
+      next: (result) => {
+        this.permissions = result.data?.permissions ?? undefined;
+        this.loading = result.loading;
+        this.error = result.error;
+        this.dataSource.data = result.data?.permissions ?? [];
+      },
+      error: (error) => {
+        this.error = error;
+      },
+    });
   }
 
   onRowClick(row: PermissionDto): void {
@@ -97,5 +92,9 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
 
   onClosed(): void {
     this.activeRow = undefined;
+  }
+
+  onRefreshData(): void {
+    this.getPermissionQuery.refetch();
   }
 }

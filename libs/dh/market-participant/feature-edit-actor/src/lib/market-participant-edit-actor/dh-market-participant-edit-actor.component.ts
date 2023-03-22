@@ -34,7 +34,10 @@ import {
   dhMarketParticipantOrganizationsPath,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
-import { ActorContactDto, ActorStatus } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantActorContactDto,
+  MarketParticipantActorStatus,
+} from '@energinet-datahub/dh/shared/domain';
 import { WattModalModule, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
@@ -88,7 +91,7 @@ export class DhMarketParticipantEditActorComponent {
   readonly onContactsChanged = (
     isValid: boolean,
     added: ActorContactChanges[],
-    removed: ActorContactDto[]
+    removed: MarketParticipantActorContactDto[]
   ) => {
     this.store.setContactChanges(isValid, added, removed);
   };
@@ -97,10 +100,12 @@ export class DhMarketParticipantEditActorComponent {
     this.backToOverview();
   };
 
-  readonly onSaved = (initialStatus: ActorStatus, changes: ActorChanges) => {
+  readonly onSaved = (initialStatus: MarketParticipantActorStatus, changes: ActorChanges) => {
     if (
-      (changes.status === ActorStatus.Inactive && initialStatus !== ActorStatus.Inactive) ||
-      (changes.status == ActorStatus.Passive && initialStatus != ActorStatus.Passive)
+      (changes.status === MarketParticipantActorStatus.Inactive &&
+        initialStatus !== MarketParticipantActorStatus.Inactive) ||
+      (changes.status == MarketParticipantActorStatus.Passive &&
+        initialStatus != MarketParticipantActorStatus.Passive)
     ) {
       this.confirmationModal.open();
     } else {

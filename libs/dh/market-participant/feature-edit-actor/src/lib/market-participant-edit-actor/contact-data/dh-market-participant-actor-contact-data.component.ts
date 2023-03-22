@@ -35,10 +35,13 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { ActorContactDto, ContactCategory } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantActorContactDto,
+  MarketParticipantContactCategory,
+} from '@energinet-datahub/dh/shared/domain';
 
 interface EditableActorContactRow {
-  contact: ActorContactDto;
+  contact: MarketParticipantActorContactDto;
   changed: ActorContactChanges;
   isExisting: boolean;
   isModified: boolean;
@@ -52,24 +55,26 @@ interface EditableActorContactRow {
   templateUrl: './dh-market-participant-actor-contact-data.component.html',
 })
 export class DhMarketParticipantActorContactDataComponent implements OnChanges {
-  @Input() contacts: ActorContactDto[] = [];
+  @Input() contacts: MarketParticipantActorContactDto[] = [];
   @Output() contactsChanged = new EventEmitter<{
     isValid: boolean;
     add: ActorContactChanges[];
-    remove: ActorContactDto[];
+    remove: MarketParticipantActorContactDto[];
   }>();
 
   constructor(private cd: ChangeDetectorRef) {}
 
   columnIds = ['type', 'name', 'email', 'phone', 'delete'];
 
-  contactCategories: WattDropdownOption[] = Object.keys(ContactCategory).map((key) => ({
-    displayValue: key,
-    value: key,
-  }));
+  contactCategories: WattDropdownOption[] = Object.keys(MarketParticipantContactCategory).map(
+    (key) => ({
+      displayValue: key,
+      value: key,
+    })
+  );
 
   contactRows: EditableActorContactRow[] = [];
-  deletedContacts: ActorContactDto[] = [];
+  deletedContacts: MarketParticipantActorContactDto[] = [];
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.contacts?.previousValue === changes.contacts?.currentValue) return;

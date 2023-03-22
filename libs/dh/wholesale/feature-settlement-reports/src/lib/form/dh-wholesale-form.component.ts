@@ -43,7 +43,7 @@ import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { FilteredActorDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantFilteredActorDto } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { PushModule } from '@rx-angular/template/push';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
@@ -74,7 +74,7 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
   @Input() set executionTime(executionTime: { start: string; end: string }) {
     this.filters.patchValue({ executionTime });
   }
-  @Input() set actors(actors: FilteredActorDto[]) {
+  @Input() set actors(actors: MarketParticipantFilteredActorDto[]) {
     this._actors = actors;
     if (actors && actors.length > 0) {
       this.filters.controls.actor.enable();
@@ -92,7 +92,7 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
   private transloco = inject(TranslocoService);
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private fb = inject(FormBuilder);
-  private _actors: FilteredActorDto[] = [];
+  private _actors: MarketParticipantFilteredActorDto[] = [];
 
   processTypeOptions$: Observable<WattDropdownOption[]> = this.transloco
     .selectTranslateObject('wholesale.settlementReports.processTypes')

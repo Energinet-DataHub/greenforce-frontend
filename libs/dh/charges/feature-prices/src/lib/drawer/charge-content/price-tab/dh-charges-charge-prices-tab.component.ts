@@ -37,7 +37,7 @@ import {
   ChargePricesSearchCriteriaV1Dto,
   ChargePriceV1Dto,
   ChargeV1Dto,
-  Resolution,
+  ChargeResolution,
   ChargePriceSortColumnName,
 } from '@energinet-datahub/dh/shared/domain';
 import { Subject, takeUntil } from 'rxjs';
@@ -147,7 +147,8 @@ export class DhChargesChargePricesTabComponent implements OnInit, OnChanges, OnD
       this.searchCriteria.skip = 0;
 
       this.showDateTime =
-        this.charge?.resolution == Resolution.PT1H || this.charge?.resolution == Resolution.PT15M;
+        this.charge?.resolution == ChargeResolution.PT1H ||
+        this.charge?.resolution == ChargeResolution.PT15M;
 
       if (this.showDateTime) this.displayedColumns = ['fromDateTime', 'time', 'price'];
       else this.displayedColumns = ['fromDateTime', 'toDateTime', 'price'];

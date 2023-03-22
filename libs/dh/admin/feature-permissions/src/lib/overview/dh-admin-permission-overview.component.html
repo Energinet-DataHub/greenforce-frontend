@@ -49,4 +49,7 @@ limitations under the License.
   ></watt-empty-state>
 </watt-card>
 
-<dh-admin-permission-detail (closed)="onClosed()"></dh-admin-permission-detail>
+<dh-admin-permission-detail
+  (closed)="onClosed()"
+  (refreshData)="onRefreshData()"
+></dh-admin-permission-detail>

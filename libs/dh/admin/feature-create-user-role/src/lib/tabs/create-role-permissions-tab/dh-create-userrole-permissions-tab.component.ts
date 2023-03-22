@@ -20,7 +20,10 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { CreateUserRoleDto, PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantCreateUserRoleDto,
+  MarketParticipantPermissionDetailsDto,
+} from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 
 @Component({
@@ -38,11 +41,11 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
   ],
 })
 export class DhCreateUserrolePermissionsTabComponent {
-  @Input() permissions: PermissionDetailsDto[] = [];
+  @Input() permissions: MarketParticipantPermissionDetailsDto[] = [];
 
-  @Output() valueChange = new EventEmitter<Partial<CreateUserRoleDto>>();
+  @Output() valueChange = new EventEmitter<Partial<MarketParticipantCreateUserRoleDto>>();
 
-  onSelectionChange(selections: PermissionDetailsDto[]): void {
+  onSelectionChange(selections: MarketParticipantPermissionDetailsDto[]): void {
     this.valueChange.emit({
       permissions: selections.map((perm) => perm.id),
     });

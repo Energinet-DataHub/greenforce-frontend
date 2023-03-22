@@ -21,7 +21,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { UserStatus } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-users-tab-status-filter',
@@ -50,13 +50,13 @@ import { UserStatus } from '@energinet-datahub/dh/shared/domain';
 export class DhUsersTabStatusFilterComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
-  statusControl = new FormControl<UserStatus[]>([], { nonNullable: true });
+  statusControl = new FormControl<MarketParticipantUserStatus[]>([], { nonNullable: true });
 
-  @Input() set initialValue(value: UserStatus[]) {
+  @Input() set initialValue(value: MarketParticipantUserStatus[]) {
     this.statusControl.setValue(value);
   }
 
-  @Output() changed = new EventEmitter<UserStatus[]>();
+  @Output() changed = new EventEmitter<MarketParticipantUserStatus[]>();
 
   userStatusOptions: WattDropdownOption[] = [];
 
@@ -80,7 +80,7 @@ export class DhUsersTabStatusFilterComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (keys) => {
-          this.userStatusOptions = Object.keys(UserStatus).map((entry) => {
+          this.userStatusOptions = Object.keys(MarketParticipantUserStatus).map((entry) => {
             return {
               value: entry,
               displayValue: keys[entry.toLowerCase()],

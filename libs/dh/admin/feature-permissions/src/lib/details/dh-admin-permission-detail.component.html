@@ -58,5 +58,5 @@ limitations under the License.
 <dh-edit-permission-modal
   *ngIf="isEditPermissionModalVisible && selectedPermission"
   [permission]="selectedPermission"
-  (closed)="modalOnClose()"
+  (closed)="modalOnClose($event)"
 ></dh-edit-permission-modal>

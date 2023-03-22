@@ -20,7 +20,7 @@ import { CommonModule } from '@angular/common';
 
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
 import { DhUserStatusComponent } from '../shared/dh-user-status.component';
@@ -46,7 +46,7 @@ export class DhUserDrawerComponent {
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
 
-  selectedUser: UserOverviewItemDto | null = null;
+  selectedUser: MarketParticipantUserOverviewItemDto | null = null;
 
   @Output() closed = new EventEmitter<void>();
 
@@ -58,7 +58,7 @@ export class DhUserDrawerComponent {
     this.selectedUser = null;
   }
 
-  open(user: UserOverviewItemDto): void {
+  open(user: MarketParticipantUserOverviewItemDto): void {
     this.selectedUser = user;
     this.drawer.open();
   }

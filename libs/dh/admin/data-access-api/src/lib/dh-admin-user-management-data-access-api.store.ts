@@ -21,23 +21,23 @@ import { ComponentStore, OnStoreInit, tapResponse } from '@ngrx/component-store'
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserOverviewHttp,
-  SortDirection,
-  UserOverviewItemDto,
-  UserOverviewResultDto,
-  UserOverviewSortProperty,
-  UserStatus,
+  MarketParticipantSortDirection,
+  MarketParticipantUserOverviewItemDto,
+  MarketParticipantUserOverviewResultDto,
+  MarketParticipantUserOverviewSortProperty,
+  MarketParticipantUserStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserManagementState {
-  readonly users: UserOverviewItemDto[];
+  readonly users: MarketParticipantUserOverviewItemDto[];
   readonly totalUserCount: number;
   readonly usersRequestState: LoadingState | ErrorState;
   readonly pageNumber: number;
   readonly pageSize: number;
-  readonly sortProperty: UserOverviewSortProperty;
-  readonly direction: SortDirection;
+  readonly sortProperty: MarketParticipantUserOverviewSortProperty;
+  readonly direction: MarketParticipantSortDirection;
   readonly searchText: string | undefined;
-  readonly statusFilter: UserStatus[];
+  readonly statusFilter: MarketParticipantUserStatus[];
   readonly actorIdFilter: string | undefined;
   readonly userRoleFilter: string[];
 }
@@ -167,7 +167,10 @@ export class DhAdminUserManagementDataAccessApiStore
   );
 
   private updateUsers = this.updater(
-    (state: DhUserManagementState, response: UserOverviewResultDto): DhUserManagementState => ({
+    (
+      state: DhUserManagementState,
+      response: MarketParticipantUserOverviewResultDto
+    ): DhUserManagementState => ({
       ...state,
       users: response.users,
       totalUserCount: response.totalUserCount,
@@ -209,11 +212,14 @@ export class DhAdminUserManagementDataAccessApiStore
     });
   }
 
-  updateStatusFilter(userStatus: UserStatus[]) {
+  updateStatusFilter(userStatus: MarketParticipantUserStatus[]) {
     this.patchState({ statusFilter: userStatus, pageNumber: 1 });
   }
 
-  updateSort(sortProperty: UserOverviewSortProperty, direction: SortDirection) {
+  updateSort(
+    sortProperty: MarketParticipantUserOverviewSortProperty,
+    direction: MarketParticipantSortDirection
+  ) {
     this.patchState({ sortProperty, direction });
   }
 

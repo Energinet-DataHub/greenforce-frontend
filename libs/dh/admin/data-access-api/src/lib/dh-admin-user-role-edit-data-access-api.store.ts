@@ -22,7 +22,7 @@ import { exhaustMap, filter, Observable, tap } from 'rxjs';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
-  UpdateUserRoleDto,
+  MarketParticipantUpdateUserRoleDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 import { DhAdminUserRolesManagementDataAccessApiStore } from './dh-admin-user-roles-management-data-access-api.store';
@@ -52,7 +52,7 @@ export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEdit
     (
       trigger$: Observable<{
         userRoleId: string;
-        updatedUserRole: UpdateUserRoleDto;
+        updatedUserRole: MarketParticipantUpdateUserRoleDto;
         onSuccessFn: () => void;
         onErrorFn: (statusCode: HttpStatusCode) => void;
       }>

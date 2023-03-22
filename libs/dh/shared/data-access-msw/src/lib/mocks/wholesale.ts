@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FilteredActorDto, graphql } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantFilteredActorDto, graphql } from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
 export function wholesaleMocks(apiBase: string) {
@@ -242,7 +242,7 @@ const mockedSettlementReports: graphql.SettlementReport[] = [
   },
 ];
 
-const mockedFilteredActors: FilteredActorDto[] = [
+const mockedFilteredActors: MarketParticipantFilteredActorDto[] = [
   {
     actorId: '10',
     actorNumber: {

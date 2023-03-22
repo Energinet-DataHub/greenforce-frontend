@@ -18,8 +18,8 @@ import { firstValueFrom, Subject } from 'rxjs';
 
 import {
   MarketParticipantUserHttp,
-  UserAuditLogsDto,
-  UserAuditLogDto,
+  MarketParticipantUserAuditLogsDto,
+  MarketParticipantUserAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain';
 import {
   DhAdminUserManagementAuditLogsDataAccessApiStore,
@@ -29,7 +29,7 @@ import {
 describe(DhAdminUserManagementAuditLogsDataAccessApiStore.name, () => {
   test('should return a mapped audit log', async () => {
     // arrange
-    const userAuditLogs: UserAuditLogDto[] = [
+    const userAuditLogs: MarketParticipantUserAuditLogDto[] = [
       {
         timestamp: '2023-01-09T14:40:23+00:00',
         auditLogType: 'UserRoleAdded',
@@ -44,7 +44,7 @@ describe(DhAdminUserManagementAuditLogsDataAccessApiStore.name, () => {
       },
     ];
 
-    const observable = new Subject<UserAuditLogsDto>();
+    const observable = new Subject<MarketParticipantUserAuditLogsDto>();
     const httpClient = {
       v1MarketParticipantUserGetUserAuditLogsGet: () => observable.asObservable(),
     } as MarketParticipantUserHttp;
@@ -62,9 +62,9 @@ describe(DhAdminUserManagementAuditLogsDataAccessApiStore.name, () => {
 
   test('should set success state on completion', async () => {
     // arrange
-    const userAuditLogs: UserAuditLogDto[] = [];
+    const userAuditLogs: MarketParticipantUserAuditLogDto[] = [];
 
-    const observable = new Subject<UserAuditLogsDto>();
+    const observable = new Subject<MarketParticipantUserAuditLogsDto>();
     const httpClient = {
       v1MarketParticipantUserGetUserAuditLogsGet: () => observable.asObservable(),
     } as MarketParticipantUserHttp;
@@ -85,7 +85,7 @@ describe(DhAdminUserManagementAuditLogsDataAccessApiStore.name, () => {
 
   test('should set error state on error', async () => {
     // arrange
-    const observable = new Subject<UserAuditLogsDto>();
+    const observable = new Subject<MarketParticipantUserAuditLogsDto>();
     observable.error('test_error');
 
     const httpClient = {

@@ -9,18 +9,18 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { SettlementMethod } from './settlement-method';
-import { AssetType } from './asset-type';
-import { ReadingOccurrence } from './reading-occurrence';
-import { ConnectionType } from './connection-type';
+import { MeteringPointUnit } from './metering-point-unit';
+import { MeteringPointMeteringMethod } from './metering-point-metering-method';
+import { MeteringPointNetSettlementGroup } from './metering-point-net-settlement-group';
+import { MeteringPointAssetType } from './metering-point-asset-type';
 import { MeteringPointSimpleCimDto } from './metering-point-simple-cim-dto';
-import { NetSettlementGroup } from './net-settlement-group';
+import { MeteringPointConnectionType } from './metering-point-connection-type';
+import { MeteringPointSettlementMethod } from './metering-point-settlement-method';
+import { MeteringPointConnectionState } from './metering-point-connection-state';
+import { MeteringPointDisconnectionType } from './metering-point-disconnection-type';
 import { MeteringPointType } from './metering-point-type';
-import { ProductId } from './product-id';
-import { ConnectionState } from './connection-state';
-import { Unit } from './unit';
-import { MeteringMethod } from './metering-method';
-import { DisconnectionType } from './disconnection-type';
+import { MeteringPointProductId } from './metering-point-product-id';
+import { MeteringPointReadingOccurrence } from './metering-point-reading-occurrence';
 
 
 export interface MeteringPointCimDto { 
@@ -30,9 +30,9 @@ export interface MeteringPointCimDto {
     postalCode: string;
     cityName: string;
     countryCode: string;
-    connectionState: ConnectionState;
-    meteringMethod: MeteringMethod;
-    readingOccurrence: ReadingOccurrence;
+    connectionState: MeteringPointConnectionState;
+    meteringMethod: MeteringPointMeteringMethod;
+    readingOccurrence: MeteringPointReadingOccurrence;
     meteringPointType: MeteringPointType;
     ratedCapacity?: number | null;
     ratedCurrent?: number | null;
@@ -40,8 +40,8 @@ export interface MeteringPointCimDto {
     gridAreaCode: string;
     linkedExtendedMasterdata?: string | null;
     locationDescription?: string | null;
-    productId: ProductId;
-    unit: Unit;
+    productId: MeteringPointProductId;
+    unit: MeteringPointUnit;
     effectiveDate: string;
     meterId?: string | null;
     streetCode?: string | null;
@@ -53,14 +53,14 @@ export interface MeteringPointCimDto {
     isActualAddress?: boolean | null;
     darReference?: string | null;
     capacity?: number | null;
-    assetType?: AssetType;
-    settlementMethod?: SettlementMethod;
+    assetType?: MeteringPointAssetType;
+    settlementMethod?: MeteringPointSettlementMethod;
     inAreaCode?: string | null;
     outAreaCode?: string | null;
-    netSettlementGroup?: NetSettlementGroup;
+    netSettlementGroup?: MeteringPointNetSettlementGroup;
     supplyStart?: string | null;
-    connectionType?: ConnectionType;
-    disconnectionType?: DisconnectionType;
+    connectionType?: MeteringPointConnectionType;
+    disconnectionType?: MeteringPointDisconnectionType;
     productionObligation?: boolean | null;
     childMeteringPoints?: Array<MeteringPointSimpleCimDto> | null;
     parentMeteringPoint?: MeteringPointSimpleCimDto;
