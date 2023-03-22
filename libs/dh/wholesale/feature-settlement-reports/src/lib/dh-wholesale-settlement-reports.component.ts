@@ -26,13 +26,15 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 
-import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
+import {
+  DhWholesaleTableComponent,
+  settlementReportsTableColumns,
+} from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
-import { SettlementReport } from '@energinet-datahub/dh/wholesale/domain';
 import { Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { FilteredActorDto, graphql } from '@energinet-datahub/dh/shared/domain';
 import sub from 'date-fns/sub';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
@@ -62,10 +64,11 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
   private destroy$ = new Subject<void>();
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private selectedGridAreas?: string[];
+  private selectedActor?: FilteredActorDto;
 
   loading = false;
   error = false;
-  data: SettlementReport[] = [];
+  data: settlementReportsTableColumns[] = [];
   executionTime = {
     start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
     end: new Date().toISOString(),
@@ -85,13 +88,19 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
     this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (result) => {
         this.loading = result.loading;
-        this.data = result.data?.settlementReports?.filter((x) => {
-          if (this.selectedGridAreas && this.selectedGridAreas.length > 0) {
-            return this.selectedGridAreas.includes(x.gridArea.code);
-          } else {
-            return true;
-          }
-        });
+        this.data = result.data?.settlementReports
+          .filter((x) => {
+            if (this.selectedGridAreas && this.selectedGridAreas.length > 0) {
+              return this.selectedGridAreas.includes(x.gridArea.code);
+            } else {
+              return true;
+            }
+          })
+          .map((x) => {
+            // Only enable download for grid access providers
+            const download = !!this.selectedActor?.marketRoles?.includes('GridAccessProvider');
+            return { ...x, download };
+          });
       },
       error: () => {
         this.error = true;
@@ -108,9 +117,14 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onFilterChange(filters: any) {
     this.selectedGridAreas = filters.gridAreas;
+    this.selectedActor = filters.actor;
     this.query.refetch({
       executionTime: filters.executionTime,
       period: filters.period,
     });
+  }
+
+  onDownload(settlementReport: any) {
+    console.log(settlementReport);
   }
 }

@@ -246,9 +246,11 @@ const mockedFilteredActors: FilteredActorDto[] = [
       value: '1',
     },
     name: {
-      value: 'Actor (805)',
+      value: 'EnergySupplier (805)',
     },
-    marketRoles: [],
+    marketRoles: [
+      'EnergySupplier'
+    ],
     gridAreaCodes: ['805'],
   },
   {
@@ -257,9 +259,11 @@ const mockedFilteredActors: FilteredActorDto[] = [
       value: '1',
     },
     name: {
-      value: 'Actor (806)',
+      value: 'GridAccessProvider (806)',
     },
-    marketRoles: [],
+    marketRoles: [
+      'GridAccessProvider'
+    ],
     gridAreaCodes: ['806'],
   },
   {
@@ -268,10 +272,39 @@ const mockedFilteredActors: FilteredActorDto[] = [
       value: '1',
     },
     name: {
-      value: 'Actor (805, 806)',
+      value: 'EnergySupplier (805, 806)',
     },
-    marketRoles: [],
+    marketRoles: [
+      'EnergySupplier'
+    ],
     gridAreaCodes: ['805', '806'],
+  },
+  {
+    actorId: '40',
+    actorNumber: {
+      value: '1',
+    },
+    name: {
+      value: 'GridAccessProvider (805, 806)',
+    },
+    marketRoles: [
+      'GridAccessProvider'
+    ],
+    gridAreaCodes: ['805', '806'],
+  },
+  // No grid areas found
+  {
+    actorId: '50',
+    actorNumber: {
+      value: '1',
+    },
+    name: {
+      value: 'GridAccessProvider (807, 808)',
+    },
+    marketRoles: [
+      'GridAccessProvider'
+    ],
+    gridAreaCodes: ['807', '808'],
   },
 ];
 

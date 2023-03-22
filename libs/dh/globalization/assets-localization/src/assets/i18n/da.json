@@ -779,6 +779,7 @@
     },
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
+      "download": "Download",
       "table": {
         "title": "Processer",
         "processType": "Procestype",
@@ -787,7 +788,8 @@
         "periodEnd": "Periode til",
         "executionTime": "Kørsel tid",
         "emptyTitle": "Ingen processer fundet",
-        "emptyHelperText": "Prøv at ændre dine søgeindstillinger"
+        "emptyHelperText": "Prøv at ændre dine søgeindstillinger",
+        "download": "—"
       },
       "processTypes": {
         "BALANCE_FIXING": "Balancefiksering",
