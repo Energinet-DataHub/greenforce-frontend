@@ -37,7 +37,7 @@ import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholes
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { SettlementReport } from '@energinet-datahub/dh/wholesale/domain';
 
-export type settlementReportsTableColumns = SettlementReport & { download: boolean; }
+export type settlementReportsTableColumns = SettlementReport & { download: boolean };
 type settlementReportsTableData = WattTableDataSource<settlementReportsTableColumns>;
 
 @Component({
@@ -78,7 +78,7 @@ export class DhWholesaleTableComponent {
     periodStart: { accessor: (row) => row.period?.start },
     periodEnd: { accessor: (row) => row.period?.end },
     executionTime: { accessor: (row) => row.executionTime },
-    download: { accessor: 'download' }
+    download: { accessor: 'download' },
   };
 
   translateHeader = (key: string) => translate(`wholesale.settlementReports.table.${key}`);

@@ -330,27 +330,31 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     );
   });
 
-  readonly downloadSettlementReportData = this.effect((options$: Observable<{batchNumber: string; gridAreaCode: string;}>) => {
-    return options$.pipe(
-      switchMap((options) => {
-        return this.wholesaleSettlementReportHttp.v1WholesaleSettlementReportGet(options.batchNumber, options.gridAreaCode).pipe(
-          tapResponse(
-            (data) => {
-              const blob = new Blob([data as unknown as BlobPart], {
-                type: 'application/zip',
-              });
-              const basisData = window.URL.createObjectURL(blob);
-              const link = this.document.createElement('a');
-              link.href = basisData;
-              link.download = `${options.batchNumber}.zip`;
-              link.click();
-            },
-            () => this.loadingSettlementReportDataErrorTrigger$.next()
-          )
-        );
-      })
-    );
-  });
+  readonly downloadSettlementReportData = this.effect(
+    (options$: Observable<{ batchNumber: string; gridAreaCode: string }>) => {
+      return options$.pipe(
+        switchMap((options) => {
+          return this.wholesaleSettlementReportHttp
+            .v1WholesaleSettlementReportGet(options.batchNumber, options.gridAreaCode)
+            .pipe(
+              tapResponse(
+                (data) => {
+                  const blob = new Blob([data as unknown as BlobPart], {
+                    type: 'application/zip',
+                  });
+                  const basisData = window.URL.createObjectURL(blob);
+                  const link = this.document.createElement('a');
+                  link.href = basisData;
+                  link.download = `${options.batchNumber}.zip`;
+                  link.click();
+                },
+                () => this.loadingSettlementReportDataErrorTrigger$.next()
+              )
+            );
+        })
+      );
+    }
+  );
 
   readonly setSelectedBatch = this.updater(
     (state, batch: batch | undefined): State => ({

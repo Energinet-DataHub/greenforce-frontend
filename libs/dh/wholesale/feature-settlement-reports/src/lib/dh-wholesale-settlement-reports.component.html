@@ -31,7 +31,11 @@ limitations under the License.
           [actors]="filteredActors$ | push"
         ></dh-wholesale-form>
 
-        <dh-wholesale-table *ngIf="data && !loading" [data]="data" (download)="onDownload($event)"></dh-wholesale-table>
+        <dh-wholesale-table
+          *ngIf="data && !loading"
+          [data]="data"
+          (download)="onDownload($event)"
+        ></dh-wholesale-table>
 
         <watt-spinner *ngIf="loading"></watt-spinner>
 

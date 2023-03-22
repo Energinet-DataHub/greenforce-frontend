@@ -251,9 +251,7 @@ const mockedFilteredActors: MarketParticipantFilteredActorDto[] = [
     name: {
       value: 'EnergySupplier (805)',
     },
-    marketRoles: [
-      'EnergySupplier'
-    ],
+    marketRoles: ['EnergySupplier'],
     gridAreaCodes: ['805'],
   },
   {
@@ -264,9 +262,7 @@ const mockedFilteredActors: MarketParticipantFilteredActorDto[] = [
     name: {
       value: 'GridAccessProvider (806)',
     },
-    marketRoles: [
-      'GridAccessProvider'
-    ],
+    marketRoles: ['GridAccessProvider'],
     gridAreaCodes: ['806'],
   },
   {
@@ -277,9 +273,7 @@ const mockedFilteredActors: MarketParticipantFilteredActorDto[] = [
     name: {
       value: 'EnergySupplier (805, 806)',
     },
-    marketRoles: [
-      'EnergySupplier'
-    ],
+    marketRoles: ['EnergySupplier'],
     gridAreaCodes: ['805', '806'],
   },
   {
@@ -290,9 +284,7 @@ const mockedFilteredActors: MarketParticipantFilteredActorDto[] = [
     name: {
       value: 'GridAccessProvider (805, 806)',
     },
-    marketRoles: [
-      'GridAccessProvider'
-    ],
+    marketRoles: ['GridAccessProvider'],
     gridAreaCodes: ['805', '806'],
   },
   // No grid areas found
@@ -304,9 +296,7 @@ const mockedFilteredActors: MarketParticipantFilteredActorDto[] = [
     name: {
       value: 'GridAccessProvider (807, 808)',
     },
-    marketRoles: [
-      'GridAccessProvider'
-    ],
+    marketRoles: ['GridAccessProvider'],
     gridAreaCodes: ['807', '808'],
   },
 ];
