@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -25,7 +25,7 @@ import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.sto
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, MatTableModule, MatSortModule, WattBadgeComponent, WattSpinnerModule],
+  imports: [NgIf, AsyncPipe, MatTableModule, MatSortModule, WattBadgeComponent, WattSpinnerModule],
   standalone: true,
   selector: 'eo-metering-points-table',
   styles: [
@@ -51,6 +51,15 @@ import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.sto
           cursor: pointer;
           background-color: var(--watt-color-primary-light);
         }
+      }
+
+      .loadingArea {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: white;
+        gap: 1rem;
+        padding: 2rem;
       }
     `,
   ],
@@ -108,11 +117,18 @@ import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.sto
       </ng-container>
 
       <!-- No data to show -->
-      <ng-container *matNoDataRow>You do not have any metering points.</ng-container>
+      <ng-container *ngIf="(isLoading$ | async) === false">
+        <ng-container *matNoDataRow>You do not have any metering points.</ng-container>
+      </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
     </mat-table>
+
+    <div class="loadingArea" *ngIf="(isLoading$ | async) === true">
+      Fetching metering points - please wait
+      <watt-spinner [diameter]="16"></watt-spinner>
+    </div>
   `,
 })
 export class EoMeteringPointListComponent implements AfterViewInit {
@@ -120,8 +136,11 @@ export class EoMeteringPointListComponent implements AfterViewInit {
 
   dataSource: MatTableDataSource<EoMeteringPoint> = new MatTableDataSource();
   displayedColumns: Array<string> = ['gsrn', 'address', 'tags', 'granular certificates'];
+  isLoading$;
 
-  constructor(private store: EoMeteringPointsStore) {}
+  constructor(private store: EoMeteringPointsStore) {
+    this.isLoading$ = this.store.loading$;
+  }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
