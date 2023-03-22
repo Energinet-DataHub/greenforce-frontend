@@ -22,10 +22,10 @@ limitations under the License.
 
     <ng-container *ngIf="!isLoading">
       <watt-card-title *rxLet="permissionLogs?.length as auditLogCount">
-        <h4 *ngIf="auditLogCount === 1 && !error" class="change-text">
+        <h4 *ngIf="auditLogCount === 1 && !error">
           {{t("changesSingular", {auditLogCount})}}
         </h4>
-        <h4 *ngIf="auditLogCount !== 1 && !error" class="change-text">
+        <h4 *ngIf="auditLogCount !== 1 && !error">
           {{t("changesPlural", {auditLogCount})}}
         </h4>
       </watt-card-title>
