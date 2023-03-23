@@ -113,7 +113,7 @@ type GraphQLQuery {
     id: ID
   ): Organization
   organizations: [Organization]
-  permissionlogs(
+  permissionLogs(
     """
     The id of the permission
     """
@@ -265,6 +265,7 @@ type PermissionAuditLog {
 }
 
 enum PermissionAuditLogType {
+  CREATED
   DESCRIPTION_CHANGE
   UNKNOWN
 }

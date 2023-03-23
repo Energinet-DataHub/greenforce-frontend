@@ -457,3 +457,5 @@ backend/*
 
 #ssl cert
 localhost.pem
+
+style-dirctionay-tokens
