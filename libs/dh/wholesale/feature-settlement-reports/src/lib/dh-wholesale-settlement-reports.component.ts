@@ -35,7 +35,7 @@ import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 import { first, of, Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
-import { FilteredActorDto, graphql } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantFilteredActorDto, graphql } from '@energinet-datahub/dh/shared/domain';
 import sub from 'date-fns/sub';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
@@ -65,7 +65,7 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
   private destroy$ = new Subject<void>();
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private selectedGridAreas?: string[];
-  private selectedActor?: FilteredActorDto;
+  private selectedActor?: MarketParticipantFilteredActorDto;
   private toastService = inject(WattToastService);
   private translations = inject(TranslocoService);
 
