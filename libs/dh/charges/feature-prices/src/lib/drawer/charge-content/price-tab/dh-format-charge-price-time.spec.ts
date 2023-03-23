@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { Resolution } from '@energinet-datahub/dh/shared/domain';
+import { ChargeResolution } from '@energinet-datahub/dh/shared/domain';
 import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
 
 const chargePrice15Minutes = {
@@ -34,7 +34,7 @@ describe('DhFormatChargePriceTime', () => {
   describe('getFromDateTime', () => {
     // Test is skipped because it fail in CI (different timezone)
     it.skip('when resolution is PT15M, returns fromDateTime in time format.', () => {
-      const fromDateTime = getFromDateTime(chargePrice15Minutes, Resolution.PT15M);
+      const fromDateTime = getFromDateTime(chargePrice15Minutes, ChargeResolution.PT15M);
 
       const expectedTime = '08:15';
 
@@ -42,7 +42,7 @@ describe('DhFormatChargePriceTime', () => {
     });
     // Test is skipped because it fail in CI (different timezone)
     it.skip('when resolution is PT1H, returns fromDateTime in hour format.', () => {
-      const fromDateTime = getFromDateTime(chargePriceHour, Resolution.PT1H);
+      const fromDateTime = getFromDateTime(chargePriceHour, ChargeResolution.PT1H);
 
       const expectedTime = '08';
 
@@ -53,7 +53,7 @@ describe('DhFormatChargePriceTime', () => {
   describe('getToDateTime', () => {
     // Test is skipped because it fail in CI (different timezone)
     it.skip('when resolution is PT15M, return toDateTime in time format', () => {
-      const toDateTime = getToDateTime(chargePrice15Minutes, Resolution.PT15M);
+      const toDateTime = getToDateTime(chargePrice15Minutes, ChargeResolution.PT15M);
 
       const expectedTime = '08:30';
 
@@ -62,7 +62,7 @@ describe('DhFormatChargePriceTime', () => {
 
     // Test is skipped because it fail in CI (different timezone)
     it.skip('when resolution is PT1H, return toDateTime in hour format', () => {
-      const toDateTime = getToDateTime(chargePriceHour, Resolution.PT1H);
+      const toDateTime = getToDateTime(chargePriceHour, ChargeResolution.PT1H);
 
       const expectedTime = '09';
 
@@ -77,8 +77,8 @@ describe('DhFormatChargePriceTime', () => {
         toDateTime: '2022-10-30T01:00:00+00:00',
       };
 
-      const fromDateTime = getFromDateTime(chargePrice, Resolution.PT1H);
-      const toDateTime = getToDateTime(chargePrice, Resolution.PT1H);
+      const fromDateTime = getFromDateTime(chargePrice, ChargeResolution.PT1H);
+      const toDateTime = getToDateTime(chargePrice, ChargeResolution.PT1H);
 
       const expectedFromHour = '02';
       const expectedToHour = '03';
@@ -95,8 +95,8 @@ describe('DhFormatChargePriceTime', () => {
         toDateTime: '2022-03-27T01:00:00+00:00',
       };
 
-      const fromDateTime = getFromDateTime(chargePrice, Resolution.PT1H);
-      const toDateTime = getToDateTime(chargePrice, Resolution.PT1H);
+      const fromDateTime = getFromDateTime(chargePrice, ChargeResolution.PT1H);
+      const toDateTime = getToDateTime(chargePrice, ChargeResolution.PT1H);
 
       const expectedFromHour = '01';
       const expectedToHour = '02';

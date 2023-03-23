@@ -16,7 +16,7 @@
  */
 import { Component, ViewChild, inject, OnInit, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { translate, TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
 
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
@@ -26,16 +26,16 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import {
   WattDescriptionListComponent,
-  WattDescriptionListGroups,
+  WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 
 import { DhWholesaleTimeSeriesPointsComponent } from '../time-series-points/dh-wholesale-time-series-points.component';
 import { Apollo } from 'apollo-angular';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { ActivatedRoute } from '@angular/router';
-import { DhDatePipe } from '@energinet-datahub/dh/shared/ui-date-time';
 
 @Component({
   selector: 'dh-wholesale-results',
@@ -54,6 +54,8 @@ import { DhDatePipe } from '@energinet-datahub/dh/shared/ui-date-time';
     WattSpinnerModule,
     ...WATT_BREADCRUMBS,
     WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
+    DhSharedUiDateTimeModule,
   ],
 })
 export class DhWholesaleResultsComponent implements OnInit, OnDestroy {
@@ -139,36 +141,5 @@ export class DhWholesaleResultsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  getMetadata(): WattDescriptionListGroups {
-    const datePipe = new DhDatePipe();
-    return [
-      {
-        term: translate('wholesale.processStepResults.meteringPointType'),
-        description: translate(
-          'wholesale.processStepResults.timeSeriesType.' + this.processStepResults?.timeSeriesType
-        ),
-      },
-      {
-        term: translate('wholesale.processStepResults.calculationPeriod'),
-        description: `${datePipe.transform(this.batch?.period?.start)} - ${datePipe.transform(
-          this.batch?.period?.end
-        )}`,
-      },
-      {
-        term: translate('wholesale.processStepResults.sum'),
-        description: `${this.processStepResults?.sum} kWh`,
-        forceNewRow: true,
-      },
-      {
-        term: translate('wholesale.processStepResults.min'),
-        description: `${this.processStepResults?.min} kWh`,
-      },
-      {
-        term: translate('wholesale.processStepResults.max'),
-        description: `${this.processStepResults?.max} kWh`,
-      },
-    ];
   }
 }

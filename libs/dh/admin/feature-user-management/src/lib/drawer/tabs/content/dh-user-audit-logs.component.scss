@@ -16,11 +16,7 @@
  */
 :host {
   display: block;
-  margin: 24px var(--watt-space-s);
-}
-
-.change-text {
-  margin: 0;
+  margin: var(--watt-space-ml);
 }
 
 .no-results-text {

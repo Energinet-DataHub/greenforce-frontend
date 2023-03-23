@@ -68,7 +68,7 @@ namespace Energinet.DataHub.WebApi.Controllers
 
         [HttpGet]
         [Route("GetUserRoleView")]
-        public async Task<ActionResult<UserRolesViewDto>> GetUserRoleViewAsync(Guid userId)
+        public async Task<ActionResult<IEnumerable<ActorViewDto>>> GetUserRoleViewAsync(Guid userId)
         {
             var usersActors = await _marketParticipantClient
                 .GetUserActorsAsync(userId)
@@ -81,15 +81,13 @@ namespace Energinet.DataHub.WebApi.Controllers
                 fetchedActors.Add(await _marketParticipantClient.GetActorAsync(actorId).ConfigureAwait(false));
             }
 
-            var organizationViews = new List<OrganizationViewDto>();
+            var actorViews = new List<ActorViewDto>();
 
             foreach (var organizationAndActors in fetchedActors.GroupBy(actor => actor.OrganizationId))
             {
                 var organization = await _marketParticipantClient
                     .GetOrganizationAsync(organizationAndActors.Key)
                     .ConfigureAwait(false);
-
-                var actorViews = new List<ActorViewDto>();
 
                 foreach (var actor in organizationAndActors)
                 {
@@ -104,21 +102,24 @@ namespace Energinet.DataHub.WebApi.Controllers
 
                     foreach (var userRole in await _userRoleClient.GetAssignableAsync(actor.ActorId).ConfigureAwait(false))
                     {
-                        actorUserRoles.Add(new UserRoleViewDto(userRole.Id, userRole.Name, userRole.Description, assignmentLookup.Contains(userRole.Id) ? actor.ActorId : null));
+                        actorUserRoles.Add(new UserRoleViewDto(
+                            userRole.Id,
+                            userRole.EicFunction,
+                            userRole.Name,
+                            userRole.Description,
+                            assignmentLookup.Contains(userRole.Id) ? actor.ActorId : null));
                     }
 
                     actorViews.Add(new ActorViewDto(
                         actor.ActorId,
+                        organization.Name,
                         actor.ActorNumber.Value,
                         actor.Name.Value,
-                        actorUserRoles,
-                        actor.MarketRoles.Select(mr => new ActorMarketRoleViewDto(mr.EicFunction))));
+                        actorUserRoles));
                 }
-
-                organizationViews.Add(new OrganizationViewDto(organization.OrganizationId, organization.Name, actorViews));
             }
 
-            return new UserRolesViewDto(organizationViews);
+            return actorViews;
         }
 
         [HttpPost]

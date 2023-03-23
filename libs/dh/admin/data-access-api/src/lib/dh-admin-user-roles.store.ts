@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { exhaustMap, filter, from, map, mergeMap, Observable, Subject, switchMap, tap } from 'rxjs';
+import { exhaustMap, from, mergeMap, Observable, Subject, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import {
@@ -26,33 +26,30 @@ import {
 import {
   MarketParticipantUserRoleHttp,
   MarketParticipantUserRoleAssignmentHttp,
-  UserRolesViewDto,
-  UserRoleViewDto,
-  UpdateUserRoleAssignmentsDto,
+  MarketParticipantUserRoleViewDto,
+  MarketParticipantUpdateUserRoleAssignmentsDto,
+  MarketParticipantActorViewDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserManagementState {
-  readonly userRolesView: UserRolesViewDto | null;
+  readonly userRolesPrActor: MarketParticipantActorViewDto[];
+  readonly selectedRoles: MarketParticipantUserRoleViewDto[];
   readonly requestState: LoadingState | ErrorState;
-  readonly numberOfSelectedRoles: number;
-  readonly numberOfAssigenableRoles: number;
-  readonly selectedRoles: UserRoleViewDto[];
   readonly savingState: SavingState | ErrorState;
 }
 
 const initialState: DhUserManagementState = {
-  userRolesView: null,
+  userRolesPrActor: [],
+  selectedRoles: [],
   requestState: LoadingState.INIT,
   savingState: SavingState.INIT,
-  numberOfSelectedRoles: 0,
-  numberOfAssigenableRoles: 0,
-  selectedRoles: [],
 };
 
 export type UpdateUserRolesWithActorId = {
   id: string;
-  userRolesToUpdate: UpdateUserRoleAssignmentsDto;
+  userRolesToUpdate: MarketParticipantUpdateUserRoleAssignmentsDto;
 };
+
 export type UpdateUserRoles = {
   actors: UpdateUserRolesWithActorId[];
 };
@@ -63,17 +60,9 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasGeneralError$ = new Subject<void>();
 
-  userRoleView$: Observable<UserRolesViewDto> = this.select((state) => state.userRolesView).pipe(
-    filter((userRolesView) => !!userRolesView),
-    map((userRolesView) => userRolesView as UserRolesViewDto)
-  );
-
   isSaving$ = this.select((state) => state.savingState === SavingState.SAVING);
-
-  numberOfSelectedRoles$ = this.select((state) => state.numberOfSelectedRoles);
-  numberOfAssignableRoles$ = this.select((state) => state.numberOfAssigenableRoles);
-
   selectedRoles$ = this.select((state) => state.selectedRoles);
+  userRolesPrActor$ = this.select((state) => state.userRolesPrActor);
 
   constructor(
     private marketParticipantUserRoleHttp: MarketParticipantUserRoleHttp,
@@ -146,26 +135,13 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
   private updateRoles = this.updater(
     (
       state: DhUserManagementState,
-      userRolesView: UserRolesViewDto | null
+      userRolesPrActor: MarketParticipantActorViewDto[]
     ): DhUserManagementState => ({
       ...state,
-      numberOfSelectedRoles:
-        userRolesView?.organizations.flatMap((org) =>
-          org.actors.flatMap((actor) =>
-            actor.userRoles.filter((userRole) => userRole.userActorId !== null)
-          )
-        ).length ?? 0,
-      selectedRoles:
-        userRolesView?.organizations.flatMap((org) =>
-          org.actors.flatMap((actor) =>
-            actor.userRoles.filter((userRole) => userRole.userActorId !== null)
-          )
-        ) ?? [],
-      numberOfAssigenableRoles:
-        userRolesView?.organizations.flatMap((org) =>
-          org.actors.flatMap((actor) => actor.userRoles)
-        ).length ?? 0,
-      userRolesView: userRolesView,
+      selectedRoles: userRolesPrActor.flatMap((actor) =>
+        actor.userRoles.filter((userRole) => userRole.userActorId)
+      ),
+      userRolesPrActor,
     })
   );
 
@@ -184,7 +160,7 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
   );
 
   private handleError = () => {
-    this.updateRoles(null);
+    this.updateRoles([]);
     this.hasGeneralError$.next();
   };
 

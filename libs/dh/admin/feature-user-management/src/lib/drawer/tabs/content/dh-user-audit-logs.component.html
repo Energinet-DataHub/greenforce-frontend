@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *rxLet="isLoading$ as isLoading">
-  <watt-card *transloco="let t; read: 'admin.userManagement.tabs.history'">
+  <watt-card variant="solid" *transloco="let t; read: 'admin.userManagement.tabs.history'">
     <div *ngIf="isLoading" class="spinner">
       <watt-spinner></watt-spinner>
     </div>
@@ -23,10 +23,10 @@ limitations under the License.
     <ng-container *ngIf="!isLoading">
       <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
         <watt-card-title *rxLet="auditLogCount$ as auditLogCount">
-          <h4 *ngIf="auditLogCount === 1 && !hasGeneralError" class="change-text">
+          <h4 *ngIf="auditLogCount === 1 && !hasGeneralError">
             {{t("changesSingular", {auditLogCount})}}
           </h4>
-          <h4 *ngIf="auditLogCount !== 1 && !hasGeneralError" class="change-text">
+          <h4 *ngIf="auditLogCount !== 1 && !hasGeneralError">
             {{t("changesPlural", {auditLogCount})}}
           </h4>
         </watt-card-title>

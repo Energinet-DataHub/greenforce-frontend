@@ -16,31 +16,50 @@
  */
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  ContentChildren,
   HostBinding,
+  inject,
   Input,
+  QueryList,
   ViewEncapsulation,
 } from '@angular/core';
 
-import { WattDescriptionListGroups } from './watt-description-list-term';
-
+import { WattDescriptionListItemComponent } from './watt-description-list-item.component';
 /**
  * Usage:
  * `import { WattDescriptionListComponent } from '@energinet-datahub/watt/description-list';`
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-description-list',
   styleUrls: ['./watt-description-list.component.scss'],
   templateUrl: './watt-description-list.component.html',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
 })
-export class WattDescriptionListComponent {
-  @Input() groups: WattDescriptionListGroups = [];
+class WattDescriptionListComponent<T> implements AfterViewInit {
+  cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  @ContentChildren(WattDescriptionListItemComponent)
+  public readonly descriptionItems: QueryList<WattDescriptionListItemComponent<T>> = new QueryList<
+    WattDescriptionListItemComponent<T>
+  >();
+  @Input() variant: 'flow' | 'stack' = 'flow';
+  @HostBinding('class')
+  get cssClass() {
+    return `watt-description-list-${this.variant}`;
+  }
   @HostBinding('style.--watt-description-list-groups-per-row')
   @Input()
   groupsPerRow!: number;
+
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
 }
+
+export { WattDescriptionListComponent, WattDescriptionListItemComponent };

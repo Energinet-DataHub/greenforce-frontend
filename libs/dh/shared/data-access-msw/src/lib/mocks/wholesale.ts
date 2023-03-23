@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantFilteredActorDto, graphql } from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
 export function wholesaleMocks(apiBase: string) {
@@ -25,6 +25,8 @@ export function wholesaleMocks(apiBase: string) {
     downloadBasisData(apiBase),
     getProcessStepResult(),
     getProcessStepActors(),
+    getSettlementReports(),
+    getFilteredActors(apiBase),
   ];
 }
 
@@ -214,6 +216,74 @@ const mockedActors: graphql.Actor[] = [
   { __typename: 'Actor', number: '5790000000006' },
 ];
 
+const mockedSettlementReports: graphql.SettlementReport[] = [
+  {
+    processType: graphql.ProcessType.BalanceFixing,
+    period: {
+      start: '2020-01-28T23:00:00.000Z',
+      end: '2020-01-29T22:59:59.998Z',
+    },
+    executionTime: '2023-03-03T07:38:29.3776159+00:00',
+    gridArea: mockedGridAreas[0],
+    __typename: 'SettlementReport',
+  },
+  {
+    processType: graphql.ProcessType.Aggregation,
+    period: {
+      start: '2020-01-28T23:00:00.000Z',
+      end: '2020-01-29T22:59:59.998Z',
+    },
+    executionTime: '2023-03-03T07:38:29.3776159+00:00',
+    gridArea: mockedGridAreas[1],
+    __typename: 'SettlementReport',
+  },
+];
+
+const mockedFilteredActors: MarketParticipantFilteredActorDto[] = [
+  {
+    actorId: '10',
+    actorNumber: {
+      value: '1',
+    },
+    name: {
+      value: 'Actor (805)',
+    },
+    marketRoles: [],
+    gridAreaCodes: ['805'],
+  },
+  {
+    actorId: '20',
+    actorNumber: {
+      value: '1',
+    },
+    name: {
+      value: 'Actor (806)',
+    },
+    marketRoles: [],
+    gridAreaCodes: ['806'],
+  },
+  {
+    actorId: '30',
+    actorNumber: {
+      value: '1',
+    },
+    name: {
+      value: 'Actor (805, 806)',
+    },
+    marketRoles: [],
+    gridAreaCodes: ['805', '806'],
+  },
+];
+
+function getFilteredActors(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipant/Organization/GetFilteredActors`,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(mockedFilteredActors), ctx.delay(300));
+    }
+  );
+}
+
 function getWholesaleSearchBatch() {
   return graphql.mockGetBatchQuery((req, res, ctx) => {
     const batchId = req.variables.id;
@@ -292,6 +362,12 @@ function getProcessStepResult() {
 function getProcessStepActors() {
   return graphql.mockGetProcessStepActorsQuery((req, res, ctx) => {
     return res(ctx.delay(300), ctx.data({ processStep: { actors: mockedActors } }));
+  });
+}
+
+function getSettlementReports() {
+  return graphql.mockGetSettlementReportsQuery((req, res, ctx) => {
+    return res(ctx.delay(300), ctx.data({ settlementReports: mockedSettlementReports }));
   });
 }
 

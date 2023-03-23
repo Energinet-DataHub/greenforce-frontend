@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
@@ -67,17 +69,31 @@ namespace Energinet.DataHub.WebApi.Controllers
                     .ConfigureAwait(false);
 
                 var permissionAuditLogWithUser = new List<PermissionAuditLogViewDto>();
+                var userLookup = new Dictionary<Guid, UserDto>();
+                var permission = (await _client.GetPermissionsAsync()).FirstOrDefault(x => x.Id == permissionId) ?? throw new InvalidOperationException($"Permission {permissionId} was not found");
+
+                permissionAuditLogWithUser.Add(new PermissionAuditLogViewDto(
+                    permissionId,
+                    Guid.Empty,
+                    "DataHub",
+                    PermissionAuditLogType.Created,
+                    permission.Created));
 
                 foreach (var auditLog in permissionAuditLogs)
                 {
-                    var userDto = await _marketParticipantClient
-                        .GetUserAsync(auditLog.ChangedByUserId)
-                        .ConfigureAwait(false);
+                    var userFoundInCache = userLookup.ContainsKey(auditLog.ChangedByUserId);
+                    if (!userFoundInCache)
+                    {
+                        var user = await _marketParticipantClient.GetUserAsync(auditLog.ChangedByUserId);
+                        userLookup.Add(auditLog.ChangedByUserId, user);
+                    }
+
+                    userLookup.TryGetValue(auditLog.ChangedByUserId, out var userDtoCache);
 
                     permissionAuditLogWithUser.Add(new PermissionAuditLogViewDto(
                         auditLog.PermissionId,
                         auditLog.ChangedByUserId,
-                        userDto.Name,
+                        userDtoCache?.Name ?? throw new KeyNotFoundException("User not found"),
                         auditLog.PermissionChangeType == PermissionChangeType.DescriptionChange ? PermissionAuditLogType.DescriptionChange : PermissionAuditLogType.Unknown,
                         auditLog.Timestamp));
                 }

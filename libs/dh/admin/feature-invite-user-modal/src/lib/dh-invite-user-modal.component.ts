@@ -53,7 +53,7 @@ import {
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-assignable-user-roles.component';
 import { Subscription, tap } from 'rxjs';
-import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -118,12 +118,12 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
     email: [{ value: '', disabled: true }, Validators.required],
     phoneNumber: [
       '',
-      Validators.compose([
+      [
         Validators.required,
         Validators.maxLength(12),
         Validators.minLength(12),
         Validators.pattern('^\\+[0-9]+ [0-9]+$'),
-      ]),
+      ],
     ],
   });
   userRoles = this.formBuilder.group({
@@ -181,7 +181,7 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  onSelectedUserRoles(userRoles: UserRoleDto[]) {
+  onSelectedUserRoles(userRoles: MarketParticipantUserRoleDto[]) {
     this.userRoles.controls.selectedUserRoles.setValue(userRoles.map((userRole) => userRole.id));
   }
 
