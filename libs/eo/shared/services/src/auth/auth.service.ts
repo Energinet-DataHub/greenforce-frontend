@@ -53,12 +53,12 @@ export class EoAuthService {
   }
 
   login() {
-    // Navigate til /api/auth/login
+    // TODO: Navigate til /api/auth/login
     window.location.href = '/api/auth/login';
   }
 
   logout() {
-    // Navigate til /api/auth/logout med bearer token headeren
+    // TODO: Navigate til /api/auth/logout med bearer token headeren
     this.http.post(`${this.#authApiBase}/logout`, {}, { withCredentials: true }).subscribe({
       next: () => this.router.navigateByUrl(eoLandingPageRelativeUrl),
       error: () => this.router.navigateByUrl(eoLandingPageRelativeUrl),

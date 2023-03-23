@@ -15,45 +15,28 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
-import { combineLatest, filter, map, Observable, switchMap } from 'rxjs';
+import { combineLatest, map, switchMap } from 'rxjs';
 import { EoTermsService } from './eo-terms.service';
 
 interface EoTermsState {
-  readonly version: string | null;
+  version: string;
 }
 
 @Injectable()
 export class EoTermsStore extends ComponentStore<EoTermsState> {
-  #authState$: Observable<string> = this.select(
-    this.route.queryParams,
-    (params) => params['state']
-  );
-
-  #version$: Observable<string> = this.select((state) => state.version).pipe(
-    filter((version) => version !== null),
-    map((version) => version as string)
-  );
-
-  constructor(private route: ActivatedRoute, private service: EoTermsService) {
-    super({ version: null });
+  constructor(private service: EoTermsService) {
+    super({ version: '0' });
   }
 
-  onVersionChange = this.updater<string>(
-    (state, version): EoTermsState => ({
-      ...state,
-      version,
-    })
-  );
+  #version$ = this.select((state) => state.version).pipe(map((version) => version));
+
+  setVersion = this.updater<string>((state, version): EoTermsState => ({ ...state, version }));
 
   onAcceptTerms() {
-    // TODO: Når brugeren kommer ind på terms siden, og trykker accept, skal der sendes versionsnummer med
-    // som kommer fra trm claim i tokenet
-    return combineLatest([this.#authState$, this.#version$]).pipe(
-      switchMap(([state, version]) =>
-        this.service.postAcceptTerms({ state, version, accepted: true })
-      )
+    // TODO: Når brugeren kommer ind på terms siden, og trykker accept, skal der sendes versionsnummer med som kommer fra trm claim i tokenet
+    return combineLatest([this.#version$]).pipe(
+      switchMap((version) => this.service.postAcceptTerms(version))
     );
   }
 }

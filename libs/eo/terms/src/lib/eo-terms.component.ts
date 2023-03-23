@@ -30,7 +30,6 @@ import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  providers: [EoTermsStore],
   imports: [
     FormsModule,
     WattButtonModule,
@@ -102,15 +101,17 @@ export class EoTermsComponent {
     private authService: EoAuthService
   ) {}
 
-  onVersionChange(version: string): void {
-    this.store.onVersionChange(version);
+  //TODO: Fix terms page
+
+  onVersionChange(version: string) {
+    this.store.setVersion(version);
   }
 
-  onCancel(): void {
+  onCancel() {
     this.authService.logout();
   }
 
-  onAccept(): void {
+  onAccept() {
     this.store.onAcceptTerms();
   }
 }

@@ -47,7 +47,7 @@ describe(EoTermsStore.name, () => {
 
     it('Then onAcceptTerms called postAcceptTerms as POST with state, version and accepted', async () => {
       const service = TestBed.inject(EoTermsService);
-      store.onVersionChange(version);
+      store.setVersion(version);
       store.onAcceptTerms().pipe(take(1)).subscribe();
       expect(service.postAcceptTerms).toHaveBeenCalledWith({
         state,
@@ -58,7 +58,7 @@ describe(EoTermsStore.name, () => {
     });
 
     it('Then onAcceptTerms returns an object with next_url string', async () => {
-      store.onVersionChange(version);
+      store.setVersion(version);
       await expect(firstValueFrom(store.onAcceptTerms())).resolves.toEqual({
         next_url: '/dashboard?success=1',
       });

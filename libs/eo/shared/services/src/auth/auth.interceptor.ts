@@ -26,9 +26,9 @@ import {
 import { ClassProvider, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { EoAuthService } from './auth.service';
 import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/shared/utilities';
 import { Observable, tap } from 'rxjs';
+import { EoAuthService } from './auth.service';
 
 /**
  * Displays an error when the user has insufficient permissions.
@@ -50,7 +50,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
     return nextHandler.handle(request).pipe(
       tap({
         next: () => {
-          // attach token as bearer token to all api calls
+          //TODO: attach token as bearer token to all api calls
           if (this.callsThatAllowRefresh.includes(request.method)) {
             // api/auth/token (GET) manuelt sæt header til at sende bearer token med
             this.authService.refreshToken();
