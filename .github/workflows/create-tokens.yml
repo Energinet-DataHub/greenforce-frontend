@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - 'tokens.json'
+    branches-ignore:
+      - 'main'
 
 jobs:
   build:
