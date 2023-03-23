@@ -55,7 +55,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     auditLogsViewDtos.Add(new PermissionAuditLogViewDto(
                     permissionId,
                     Guid.Empty,
-                    "Oprettet af DataHub",
+                    "DataHub",
                     PermissionAuditLogType.Created,
                     permission.Created));
 

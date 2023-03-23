@@ -53,7 +53,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateAsync(BatchRequestDto batchRequestDto)
         {
-            await _clientV3.CreateBatchAsync(batchRequestDto).ConfigureAwait(false);
+            await _client.CreateBatchAsync(batchRequestDto).ConfigureAwait(false);
             return Ok();
         }
 
