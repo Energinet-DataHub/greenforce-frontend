@@ -1,0 +1,19 @@
+name: CI
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.4.0
+      # Transform Figma Tokens JSON to something Style Dictionary can read
+      - run: npx token-transformer tokens.json tokens/input.json
+      # Convert tokens according to Style Dictionary config
+      - run: npx style-dictionary build --config style-dictionary-config.json
+      # Add files that were created during a run, e.g. created files from style dictionary or token-transformer.
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update Tokens
