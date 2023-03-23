@@ -26,7 +26,7 @@ import {
 import { ClassProvider, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService } from './auth.service';
 import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/shared/utilities';
 import { Observable, tap } from 'rxjs';
 
