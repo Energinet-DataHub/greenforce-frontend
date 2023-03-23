@@ -1,13 +1,13 @@
 /**
  * Do not edit directly
- * Generated on Thu, 23 Mar 2023 09:17:09 GMT
+ * Generated on Thu, 23 Mar 2023 09:24:02 GMT
  */
 
 :root {
   --bg-button-high-emphasis: #00847C;
   --bg-button-medium-emphasis: #ffffff;
   --bg-badge-success: #DFEBDA;
-  --bg-card: #ffffff;
+  --bg-card: #00847C;
   --bg-tab: #ffffff;
   --bg-table: #ffffff;
   --bg-table-column-header: #DFEBDA;
@@ -52,11 +52,23 @@
   --border-button-medium-emphasis: [object Object];
   --border-table-cell: [object Object];
   --border-tab-active: [object Object];
-  --typography-h1: [object Object];
-  --typography-h3: [object Object];
-  --typography-button: [object Object];
-  --typography-label: [object Object];
-  --typography-body: [object Object];
+  --typography-h1-font-family: Open Sans;
+  --typography-h1-font-weight: 600;
+  --typography-h1-font-size: 28px;
+  --typography-h3-font-family: Open Sans;
+  --typography-h3-font-weight: 600;
+  --typography-h3-font-size: 20px;
+  --typography-button-font-family: Open Sans;
+  --typography-button-font-weight: 600;
+  --typography-button-font-size: 16px;
+  --typography-label-font-family: Open Sans;
+  --typography-label-font-weight: 600;
+  --typography-label-font-size: 14px;
+  --typography-label-text-case: uppercase;
+  --typography-body-font-family: Open Sans;
+  --typography-body-font-weight: 400;
+  --typography-body-font-size: 14px;
+  --typography-body-text-case: As typed;
   --sizing-interactive-element: 44px;
   --color-primary-100: #ebf5f5;
   --color-primary-300: #b2d0d2;
