@@ -27,8 +27,12 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 using Xunit.Abstractions;
+using BatchDtoV2 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.BatchDtoV2;
 using BatchRequestDto = Energinet.DataHub.WebApi.Clients.Wholesale.v3.BatchRequestDto;
+using BatchSearchDtoV2 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.BatchSearchDtoV2;
+using BatchState = Energinet.DataHub.WebApi.Clients.Wholesale.v3.BatchState;
 using ProcessStepResultDtoV3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessStepResultDto;
+using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
 using TimeSeriesTypeV3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.TimeSeriesType;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
@@ -64,17 +68,17 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             MockMarketParticipantClient();
             var batchDtoV2 = new BatchDtoV2(
                 Guid.NewGuid(),
-                DateTimeOffset.Now,
-                DateTimeOffset.Now,
-                DateTimeOffset.Now,
-                DateTimeOffset.Now,
                 BatchState.Completed,
-                true,
+                DateTimeOffset.Now,
+                DateTimeOffset.Now,
                 new[] { GridAreaCode },
+                true,
+                DateTimeOffset.Now,
+                DateTimeOffset.Now,
                 ProcessType.BalanceFixing);
 
-            WholesaleClientMock
-                .Setup(m => m.GetBatchAsync(batchId))
+            WholesaleClientV3Mock
+                .Setup(m => m.GetBatchAsync(batchId, null, CancellationToken.None))
                 .ReturnsAsync(batchDtoV2);
             var responseMessage = await BffClient.GetAsync($"/v1/WholesaleBatch/Batch?batchId={batchId}");
 
@@ -93,17 +97,17 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             {
                 new(
                     Guid.NewGuid(),
-                    DateTimeOffset.Now,
-                    DateTimeOffset.Now,
-                    DateTimeOffset.Now,
-                    DateTimeOffset.Now,
                     BatchState.Completed,
-                    true,
+                    DateTimeOffset.Now,
+                    DateTimeOffset.Now,
                     new[] { GridAreaCode },
+                    true,
+                    DateTimeOffset.Now,
+                    DateTimeOffset.Now,
                     ProcessType.BalanceFixing),
             };
-            WholesaleClientMock
-                .Setup(m => m.GetBatchesAsync(searchDto))
+            WholesaleClientV3Mock
+                .Setup(m => m.SearchBatchesAsync(searchDto, null, CancellationToken.None))
                 .ReturnsAsync(batches);
 
             MockMarketParticipantClient();
@@ -118,8 +122,8 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         public async Task PostAsync_WhenNoBatchesFound_ReturnsOk(BatchSearchDtoV2 searchDto)
         {
             MockMarketParticipantClient();
-            WholesaleClientMock
-                .Setup(m => m.GetBatchesAsync(searchDto))
+            WholesaleClientV3Mock
+                .Setup(m => m.SearchBatchesAsync(searchDto, null, CancellationToken.None))
                 .ReturnsAsync(new List<BatchDtoV2>());
 
             var actual = await BffClient.PostAsJsonAsync(BatchSearchUrl, searchDto);
@@ -135,17 +139,17 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             {
                 new(
                     Guid.NewGuid(),
-                    DateTimeOffset.Now,
-                    DateTimeOffset.Now,
-                    DateTimeOffset.Now,
-                    DateTimeOffset.Now,
                     BatchState.Completed,
-                    true,
+                    DateTimeOffset.Now,
+                    DateTimeOffset.Now,
                     new[] { GridAreaCode },
+                    true,
+                    DateTimeOffset.Now,
+                    DateTimeOffset.Now,
                     ProcessType.BalanceFixing),
             };
-            WholesaleClientMock
-                .Setup(m => m.GetBatchesAsync(searchDto))
+            WholesaleClientV3Mock
+                .Setup(m => m.SearchBatchesAsync(searchDto, null, CancellationToken.None))
                 .ReturnsAsync(batches);
 
             MockMarketParticipantClient();
