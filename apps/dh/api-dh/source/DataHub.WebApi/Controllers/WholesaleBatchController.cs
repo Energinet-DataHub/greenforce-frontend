@@ -27,7 +27,7 @@ using Energinet.DataHub.Wholesale.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using BatchRequestDto = Energinet.DataHub.WebApi.Clients.Wholesale.v3.BatchRequestDto;
 using BatchSearchDtoV2 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.BatchSearchDtoV2;
-using ProcessStepResultDto = Energinet.DataHub.Wholesale.Contracts.ProcessStepResultDto;
+using ProcessStepResultDto = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessStepResultDto;
 using TimeSeriesTypeV3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.TimeSeriesType;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -53,7 +53,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateAsync(BatchRequestDto batchRequestDto)
         {
-            await _client.CreateBatchAsync(batchRequestDto).ConfigureAwait(false);
+            await _clientV3.CreateBatchAsync(batchRequestDto).ConfigureAwait(false);
             return Ok();
         }
 

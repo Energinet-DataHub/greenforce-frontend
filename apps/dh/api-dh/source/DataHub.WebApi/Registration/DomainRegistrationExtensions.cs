@@ -17,6 +17,7 @@ using Energinet.DataHub.Charges.Clients.Registration.Charges.ServiceCollectionEx
 using Energinet.DataHub.MarketParticipant.Client.Extensions;
 using Energinet.DataHub.MessageArchive.Client.Extensions;
 using Energinet.DataHub.MeteringPoints.Client.Extensions;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.Wholesale.Client;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +40,13 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddWholesaleClient(
                     GetBaseUri(apiClientSettings.WholesaleBaseUrl),
                     AuthorizationHeaderProvider);
+
+            services.AddScoped<IWholesaleClient_V3, IWholesaleClient_V3>(provider =>
+            {
+                var httpClientFactory = provider.GetRequiredService<AuthorizedHttpClientFactory>();
+                var httpClient = httpClientFactory.CreateClient(new Uri(apiClientSettings.WholesaleBaseUrl));
+                return new WholesaleClient_V3(apiClientSettings.WholesaleBaseUrl, httpClient);
+            });
 
             services.AddSingleton(apiClientSettings);
 
