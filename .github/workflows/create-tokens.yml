@@ -1,5 +1,8 @@
 name: Create design tokens
-on: [push]
+on:
+  push:
+      paths:
+        - 'tokens.json'
 
 jobs:
   build:
