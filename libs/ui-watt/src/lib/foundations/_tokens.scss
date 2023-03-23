@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Thu, 23 Mar 2023 09:24:02 GMT
+ * Generated on Thu, 23 Mar 2023 09:30:38 GMT
  */
 
 :root {
@@ -41,17 +41,33 @@
   --spacing-button-padding: 16px;
   --spacing-table-padding: 8px;
   --spacing-badge-padding: 4px;
-  --box-shadow-300: [object Object];
-  --box-shadow-card: [object Object];
+  --box-shadow-300-x: 0;
+  --box-shadow-300-y: 1;
+  --box-shadow-300-blur: 6;
+  --box-shadow-300-spread: 0;
+  --box-shadow-300-color: #0b3c5d26;
+  --box-shadow-300-type: dropShadow;
+  --box-shadow-card-x: 0;
+  --box-shadow-card-y: 1;
+  --box-shadow-card-blur: 6;
+  --box-shadow-card-spread: 0;
+  --box-shadow-card-color: #0b3c5d26;
+  --box-shadow-card-type: dropShadow;
   --size-300: 24rem;
   --size-500: 56rem;
   --size-table-cell: 56rem;
   --size-tab: 56rem;
   --size-button: 44rem;
   --size-badge: 24rem;
-  --border-button-medium-emphasis: [object Object];
-  --border-table-cell: [object Object];
-  --border-tab-active: [object Object];
+  --border-button-medium-emphasis-color: #00847C;
+  --border-button-medium-emphasis-width: 1px;
+  --border-button-medium-emphasis-style: solid;
+  --border-table-cell-color: #E0E0E0;
+  --border-table-cell-width: 1px;
+  --border-table-cell-style: solid;
+  --border-tab-active-color: #00847C;
+  --border-tab-active-width: 3px;
+  --border-tab-active-style: solid;
   --typography-h1-font-family: Open Sans;
   --typography-h1-font-weight: 600;
   --typography-h1-font-size: 28px;
