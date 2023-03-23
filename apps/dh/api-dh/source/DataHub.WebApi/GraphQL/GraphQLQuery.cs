@@ -154,6 +154,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                         var settlementReports = batch.GridAreaCodes
                             .Where(gridAreaCode => gridAreaCodes.Length == 0 || gridAreaCodes.Contains(gridAreaCode))
                             .Select(gridAreaCode => new SettlementReport(
+                                batch.BatchNumber,
                                 ProcessType.BalanceFixing,
                                 gridAreas.First(gridArea => gridArea.Code == gridAreaCode),
                                 new Interval(
