@@ -1,4 +1,4 @@
-name: CI
+name: Create design tokens
 on: [push]
 
 jobs:
