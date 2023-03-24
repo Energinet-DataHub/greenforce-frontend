@@ -103,8 +103,7 @@ export class StorybookColorsOverviewComponent {
     {
       name: 'data',
       title: 'Data Visualization',
-      description:
-        'Used for graphs and similar, where it is needed to differetiate multiple data.',
+      description: 'Used for graphs and similar, where it is needed to differetiate multiple data.',
       colors: [
         this.getColor('data-1', WattColor.data1),
         this.getColor('data-2', WattColor.data2),

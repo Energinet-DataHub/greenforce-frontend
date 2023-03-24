@@ -85,10 +85,8 @@ describe(EoAuthenticationGuard.name, () => {
       const expectedLoginUrl = router.serializeUrl(
         router.createUrlTree([eoLandingPageRelativeUrl], {
           queryParams: {
-            [AuthOidcQueryParameterName.Error]:
-              authenticationError.error.replace(/ /g, '+'),
-            [AuthOidcQueryParameterName.ErrorCode]:
-              authenticationError.errorCode,
+            [AuthOidcQueryParameterName.Error]: authenticationError.error.replace(/ /g, '+'),
+            [AuthOidcQueryParameterName.ErrorCode]: authenticationError.errorCode,
             [AuthOidcQueryParameterName.ReturnUrl]: `http://localhost/${guardedPath}/test`,
           },
         })
@@ -96,9 +94,7 @@ describe(EoAuthenticationGuard.name, () => {
 
       await view.navigate('/test/?' + failedAuthentication, guardedPath);
 
-      expect(decodeURIComponent(angularLocation.path())).toBe(
-        decodeURIComponent(expectedLoginUrl)
-      );
+      expect(decodeURIComponent(angularLocation.path())).toBe(decodeURIComponent(expectedLoginUrl));
     });
   });
 
@@ -115,28 +111,19 @@ describe(EoAuthenticationGuard.name, () => {
         })
       );
 
-      await view.navigate(
-        '/?' + new URLSearchParams(successfulAuthentication),
-        guardedPath
-      );
+      await view.navigate('/?' + new URLSearchParams(successfulAuthentication), guardedPath);
 
-      expect(decodeURIComponent(angularLocation.path())).toBe(
-        decodeURIComponent(expectedUrl)
-      );
+      expect(decodeURIComponent(angularLocation.path())).toBe(decodeURIComponent(expectedUrl));
     });
   });
 
   describe('Given a user who has not attempted to authenticate', () => {
     it('Then navigation is allowed', async () => {
-      const expectedUrl = router.serializeUrl(
-        router.createUrlTree([guardedPath])
-      );
+      const expectedUrl = router.serializeUrl(router.createUrlTree([guardedPath]));
 
       await view.navigate('/', guardedPath);
 
-      expect(decodeURIComponent(angularLocation.path())).toBe(
-        decodeURIComponent(expectedUrl)
-      );
+      expect(decodeURIComponent(angularLocation.path())).toBe(decodeURIComponent(expectedUrl));
     });
   });
 });

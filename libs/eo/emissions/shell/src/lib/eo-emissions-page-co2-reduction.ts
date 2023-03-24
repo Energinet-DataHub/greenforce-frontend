@@ -40,9 +40,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     />
     <div class="watt-space-inset-squish-m">
       <p>
-        Denmark must <strong>reduce</strong> greenhouse gas
-        <strong>emissions</strong> by <strong>70 percent</strong> in 2030
-        compared to 1990 [Klimaloven]
+        Denmark must <strong>reduce</strong> greenhouse gas <strong>emissions</strong> by
+        <strong>70 percent</strong> in 2030 compared to 1990 [Klimaloven]
       </p>
     </div>
   `,

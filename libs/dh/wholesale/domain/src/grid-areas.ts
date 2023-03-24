@@ -14,19 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DateRange, GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { DateRange, MarketParticipantGridAreaDto } from '@energinet-datahub/dh/shared/domain';
 
 export function filterValidGridAreas(
-  gridAreas: GridAreaDto[],
+  gridAreas: MarketParticipantGridAreaDto[],
   dateRange: DateRange | null
-): GridAreaDto[] {
+): MarketParticipantGridAreaDto[] {
   if (dateRange === null) return gridAreas;
   return gridAreas.filter((gridArea) => {
     const { validTo, validFrom } = gridArea;
 
     // Is valid from before the end of the date range
-    const isValidFrom =
-      new Date(validFrom).getTime() <= new Date(dateRange.end).getTime();
+    const isValidFrom = new Date(validFrom).getTime() <= new Date(dateRange.end).getTime();
 
     // Is valid to after the start of the date range
     const isValidTo = !validTo

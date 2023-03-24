@@ -32,11 +32,7 @@ if (environment.production) {
   enableProdMode();
 }
 
-Promise.all([
-  loadDhApiEnvironment(),
-  loadDhB2CEnvironment(),
-  loadDhAppEnvironment(),
-])
+Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhAppEnvironment()])
   .then(([dhApiEnvironment, dhB2CEnvironment, dhAppEnvironment]) => {
     platformBrowserDynamic([
       { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },

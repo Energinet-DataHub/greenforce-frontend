@@ -18,10 +18,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { TRANSLOCO_CONFIG, TRANSLOCO_LOADER } from '@ngneat/transloco';
 
-import {
-  DhTranslocoModule,
-  DhTranslocoRootModule,
-} from './dh-transloco.module';
+import { DhTranslocoModule, DhTranslocoRootModule } from './dh-transloco.module';
 
 describe(DhTranslocoModule.name, () => {
   it('TRANSLOCO_CONFIG is provided', () => {

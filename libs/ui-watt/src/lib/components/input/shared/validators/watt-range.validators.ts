@@ -21,24 +21,19 @@ import { WattRange } from '../watt-range';
 export class WattRangeValidators {
   static required(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      return (control.value as WattRange)?.start &&
-        (control.value as WattRange).end
+      return (control.value as WattRange)?.start && (control.value as WattRange).end
         ? null
         : { rangeRequired: true };
     };
   }
   static startRequired(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      return (control.value as WattRange)?.start
-        ? null
-        : { startOfRangeRequired: true };
+      return (control.value as WattRange)?.start ? null : { startOfRangeRequired: true };
     };
   }
   static endRequired(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      return (control.value as WattRange)?.end
-        ? null
-        : { endOfRangeRequired: true };
+      return (control.value as WattRange)?.end ? null : { endOfRangeRequired: true };
     };
   }
 }

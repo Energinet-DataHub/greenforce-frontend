@@ -20,21 +20,21 @@ limitations under the License.
     <watt-drawer-topbar *ngIf="drawer.isOpen" (closed)="drawer.close()">
       <span class="prices-label">{{ t("prices") }}</span>
       <watt-icon name="right"></watt-icon>
-      <span
-        [ngClass]="{ clickable: (message$ | push) !== undefined }"
-        (click)="goToCharge()"
-        >{{ charge?.chargeId }}</span
-      >
+      <span [ngClass]="{ clickable: (message$ | push) !== undefined }" (click)="goToCharge()">{{
+        charge?.chargeId
+      }}</span>
       <ng-container *ngIf="(message$ | push) !== undefined">
         <watt-icon name="right"></watt-icon>
         <span>{{ (message$ | push)?.messageId }}</span>
       </ng-container>
     </watt-drawer-topbar>
 
+    <watt-drawer-heading>
+      <dh-charge-details-header [charge]="charge"> </dh-charge-details-header>
+    </watt-drawer-heading>
+
     <watt-drawer-actions *ngIf="!showChargeMessage">
-      <watt-button variant="secondary" [disabled]="true">{{
-        t("stop")
-      }}</watt-button>
+      <watt-button variant="secondary" [disabled]="true">{{ t("stop") }}</watt-button>
       <watt-button [disabled]="true">{{ t("edit") }}</watt-button>
     </watt-drawer-actions>
 
@@ -44,9 +44,7 @@ limitations under the License.
           [charge]="charge"
           [hidden]="showChargeMessage === true"
         ></dh-charge-content>
-        <dh-charge-price-message
-          [hidden]="showChargeMessage === false"
-        ></dh-charge-price-message>
+        <dh-charge-price-message [hidden]="showChargeMessage === false"></dh-charge-price-message>
       </div>
     </watt-drawer-content>
   </watt-drawer>

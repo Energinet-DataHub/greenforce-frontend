@@ -21,7 +21,7 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 import { MatTableModule } from '@angular/material/table';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { GridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 interface AuditLogEntry {
@@ -31,19 +31,14 @@ interface AuditLogEntry {
 
 @Component({
   selector: 'dh-market-participant-gridarea-details-auditlog',
-  styleUrls: [
-    './dh-market-participant-gridarea-details-auditlog.component.scss',
-  ],
-  templateUrl:
-    './dh-market-participant-gridarea-details-auditlog.component.html',
+  styleUrls: ['./dh-market-participant-gridarea-details-auditlog.component.scss'],
+  templateUrl: './dh-market-participant-gridarea-details-auditlog.component.html',
 })
-export class DhMarketParticipantGridAreaDetailsAuditLogComponent
-  implements OnChanges
-{
+export class DhMarketParticipantGridAreaDetailsAuditLogComponent implements OnChanges {
   constructor(private translocoServie: TranslocoService) {}
 
   @Input() isLoading = false;
-  @Input() auditLogEntries: GridAreaAuditLogEntryDto[] = [];
+  @Input() auditLogEntries: MarketParticipantGridAreaAuditLogEntryDto[] = [];
 
   displayedColumns: string[] = ['timestamp', 'message'];
   rows: AuditLogEntry[] = [];
@@ -52,14 +47,11 @@ export class DhMarketParticipantGridAreaDetailsAuditLogComponent
     this.rows = this.auditLogEntries
       .map((entry) => {
         const translatedField = this.translocoServie.translate(
-          'marketParticipant.gridAreas.detailsAuditLog.fields.' +
-            entry.field.toLowerCase()
+          'marketParticipant.gridAreas.detailsAuditLog.fields.' + entry.field.toLowerCase()
         );
         const userDisplayName =
           entry.userDisplayName ??
-          this.translocoServie.translate(
-            'marketParticipant.gridAreas.detailsAuditLog.unknown'
-          );
+          this.translocoServie.translate('marketParticipant.gridAreas.detailsAuditLog.unknown');
         const message = this.translocoServie.translate(
           'marketParticipant.gridAreas.detailsAuditLog.messageKey',
           {

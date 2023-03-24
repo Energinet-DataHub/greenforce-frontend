@@ -29,7 +29,7 @@ namespace Energinet.DataHub.WebApi.Controllers
             }
             catch (MarketParticipantBadRequestException ex)
             {
-                return StatusCode(ex.StatusCode, ex.JsonError);
+                return StatusCode(ex.StatusCode, ex.JsonError.ToString());
             }
             catch (MarketParticipantException ex)
             {
@@ -46,7 +46,7 @@ namespace Energinet.DataHub.WebApi.Controllers
             }
             catch (MarketParticipantBadRequestException ex)
             {
-                return StatusCode(ex.StatusCode, ex.JsonError);
+                return StatusCode(ex.StatusCode, ex.JsonError.ToString());
             }
             catch (MarketParticipantException ex)
             {

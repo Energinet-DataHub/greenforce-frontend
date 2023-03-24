@@ -17,8 +17,8 @@
 import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
-import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
+import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhUserMasterDataComponent } from './content/dh-user-master-data.component';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
@@ -30,12 +30,13 @@ import { DhUserAuditLogsComponent } from './content/dh-user-audit-logs.component
   templateUrl: './dh-drawer-tabs.component.html',
   imports: [
     TranslocoModule,
-    WattTabsModule,
+    WattTabComponent,
+    WattTabsComponent,
     DhUserMasterDataComponent,
     DhUserRolesComponent,
     DhUserAuditLogsComponent,
   ],
 })
 export class DhTabsComponent {
-  @Input() user: UserOverviewItemDto | null = null;
+  @Input() user: MarketParticipantUserOverviewItemDto | null = null;
 }

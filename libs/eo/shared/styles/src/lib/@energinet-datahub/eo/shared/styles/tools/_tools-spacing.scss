@@ -17,10 +17,10 @@
 // INSET
 // Watt insets don't support an XXL size
 @mixin inset-xxl($important: true, $padding: false) {
-  $important-expression: '!important';
+  $important-expression: "!important";
 
   @if $important == false {
-    $important-expression: '';
+    $important-expression: "";
   }
 
   @if $padding == true {
@@ -33,10 +33,10 @@
 // SQUISHED INSET
 // Watt insets don't support `!important`
 @mixin squished-inset-m($important: true, $padding: false) {
-  $important-expression: '!important';
+  $important-expression: "!important";
 
   @if $important == false {
-    $important-expression: '';
+    $important-expression: "";
   }
 
   @if $padding == true {
@@ -48,10 +48,10 @@
 
 // Watt insets don't support an XXL size
 @mixin squished-inset-xxl($important: true, $padding: false) {
-  $important-expression: '!important';
+  $important-expression: "!important";
 
   @if $important == false {
-    $important-expression: '';
+    $important-expression: "";
   }
 
   @if $padding == true {
@@ -63,10 +63,10 @@
 
 // STRETCHED INSET
 @mixin stretched-inset-l($important: true, $padding: false) {
-  $important-expression: '!important';
+  $important-expression: "!important";
 
   @if $important == false {
-    $important-expression: '';
+    $important-expression: "";
   }
 
   @if $padding == true {

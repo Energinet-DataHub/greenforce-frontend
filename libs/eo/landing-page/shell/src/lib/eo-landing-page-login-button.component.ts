@@ -32,9 +32,7 @@ import { EoLandingPageStore } from './eo-landing-page.store';
     `,
   ],
   template: `
-    <watt-button
-      *rxLet="loginUrl$ as loginUrl"
-      (click)="this.authenticate(loginUrl)"
+    <watt-button *rxLet="loginUrl$ as loginUrl" (click)="this.authenticate(loginUrl)"
       >Start</watt-button
     >
   `,

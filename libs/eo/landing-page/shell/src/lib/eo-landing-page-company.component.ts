@@ -69,10 +69,9 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
       <div class="content-text">
         <h2>Who are we?</h2>
         <p class="watt-space-stack-l">
-          Energinet is an <strong>independent public enterprise</strong> owned
-          by the Danish Ministry of Climate and Energy. We own, operate and
-          develop the transmission systems for electricity and natural gas in
-          Denmark.
+          Energinet is an <strong>independent public enterprise</strong> owned by the Danish
+          Ministry of Climate and Energy. We own, operate and develop the transmission systems for
+          electricity and natural gas in Denmark.
         </p>
       </div>
       <img

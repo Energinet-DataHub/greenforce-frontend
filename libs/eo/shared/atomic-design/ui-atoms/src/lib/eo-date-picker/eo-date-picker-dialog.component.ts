@@ -17,11 +17,7 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Component, Inject, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  DateRange,
-  MatCalendar,
-  MatDatepickerModule,
-} from '@angular/material/datepicker';
+import { DateRange, MatCalendar, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { CalendarDateRange } from '@energinet-datahub/eo/shared/services';
@@ -136,9 +132,7 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
         [(ngModel)]="predefinedValue"
       >
         <mat-radio-button [value]="year2022">2022 (this year)</mat-radio-button>
-        <mat-radio-button [value]="year2021"
-          >2021 (last year)
-        </mat-radio-button>
+        <mat-radio-button [value]="year2021">2021 (last year) </mat-radio-button>
         <mat-radio-button [value]="year2020">2020</mat-radio-button>
         <mat-radio-button [value]="yearToDate">Year to date</mat-radio-button>
         <mat-radio-button [value]="last7days">Last 7 days</mat-radio-button>
@@ -157,9 +151,7 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
       >
       </mat-calendar>
       <div class="button-container">
-        <watt-button variant="secondary" (click)="closeCancel()">
-          Cancel
-        </watt-button>
+        <watt-button variant="secondary" (click)="closeCancel()"> Cancel </watt-button>
         <watt-button (click)="closeAndSendDatesToApp()">Update</watt-button>
       </div>
     </div>
@@ -177,22 +169,10 @@ export class EoDatePickerDialogComponent {
   year2020 = new DateRange(new Date(2020, 0, 1), new Date(2020, 11, 31));
   year2021 = new DateRange(new Date(2021, 0, 1), new Date(2021, 11, 31));
   year2022 = new DateRange(new Date(2022, 0, 1), new Date(2022, 11, 31));
-  last7days = new DateRange(
-    new Date(new Date().setDate(this.today.getDate() - 6)),
-    this.today
-  );
-  last30Days = new DateRange(
-    new Date(new Date().setDate(this.today.getDate() - 29)),
-    this.today
-  );
-  last90Days = new DateRange(
-    new Date(new Date().setDate(this.today.getDate() - 89)),
-    this.today
-  );
-  yearToDate = new DateRange(
-    new Date(Date.UTC(this.today.getFullYear(), 0, 1)),
-    this.today
-  );
+  last7days = new DateRange(new Date(new Date().setDate(this.today.getDate() - 6)), this.today);
+  last30Days = new DateRange(new Date(new Date().setDate(this.today.getDate() - 29)), this.today);
+  last90Days = new DateRange(new Date(new Date().setDate(this.today.getDate() - 89)), this.today);
+  yearToDate = new DateRange(new Date(Date.UTC(this.today.getFullYear(), 0, 1)), this.today);
 
   constructor(
     public dialogRef: MatDialogRef<EoDatePickerDialogComponent>,
@@ -226,10 +206,7 @@ export class EoDatePickerDialogComponent {
 
     if (!this.#startDate) {
       this.#startDate = UTCDate;
-    } else if (
-      !this.#endDate &&
-      UTCDate.getTime() >= this.#startDate.getTime()
-    ) {
+    } else if (!this.#endDate && UTCDate.getTime() >= this.#startDate.getTime()) {
       this.#endDate = UTCDate;
     } else {
       this.#startDate = UTCDate;
@@ -240,9 +217,7 @@ export class EoDatePickerDialogComponent {
   }
 
   toUTCDate(input: Date) {
-    return new Date(
-      Date.UTC(input.getFullYear(), input.getMonth(), input.getDate())
-    );
+    return new Date(Date.UTC(input.getFullYear(), input.getMonth(), input.getDate()));
   }
 
   closeCancel(): void {

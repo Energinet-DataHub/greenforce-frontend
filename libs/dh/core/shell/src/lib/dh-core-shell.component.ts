@@ -49,10 +49,7 @@ import { DhSelectedActorComponent } from '@energinet-datahub/dh/shared/feature-a
 export class DhCoreShellComponent {
   titleTranslationKey$ = this.dhTopBarStore.titleTranslationKey$;
 
-  constructor(
-    private authService: MsalService,
-    private dhTopBarStore: DhTopBarStore
-  ) {}
+  constructor(private authService: MsalService, private dhTopBarStore: DhTopBarStore) {}
 
   logout() {
     this.authService.logout();

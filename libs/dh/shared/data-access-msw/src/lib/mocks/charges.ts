@@ -18,8 +18,8 @@ import { rest } from 'msw';
 import {
   ChargePricesV1Dto,
   ChargeV1Dto,
-  MarketParticipantV1Dto,
-  VatClassification,
+  ChargeMarketParticipantV1Dto,
+  ChargeVatClassification,
   ChargeMessagesV1Dto,
   ChargeMessageType,
 } from '@energinet-datahub/dh/shared/domain';
@@ -50,7 +50,7 @@ function getCharges(apiBase: string) {
         resolution: 'PT15M',
         taxIndicator: false,
         transparentInvoicing: true,
-        vatClassification: VatClassification.Vat25,
+        vatClassification: ChargeVatClassification.Vat25,
         validFromDateTime: '2022-09-28T22:00:00',
         validToDateTime: '2022-10-29T22:00:00',
         chargeId: '0AA1F',
@@ -74,7 +74,7 @@ function searchCharges(apiBase: string) {
         resolution: 'P1D',
         taxIndicator: false,
         transparentInvoicing: true,
-        vatClassification: VatClassification.Vat25,
+        vatClassification: ChargeVatClassification.Vat25,
         validFromDateTime: '2022-09-27T22:00:00',
         validToDateTime: '2022-11-29T22:00:00',
         chargeId: '0AA1F',
@@ -90,7 +90,7 @@ function searchCharges(apiBase: string) {
         resolution: 'PT15M',
         taxIndicator: true,
         transparentInvoicing: true,
-        vatClassification: VatClassification.NoVat,
+        vatClassification: ChargeVatClassification.NoVat,
         validFromDateTime: '2022-09-29T22:00:00',
         validToDateTime: '2022-10-29T22:00:00',
         chargeId: '0AA1A',
@@ -106,7 +106,7 @@ function searchCharges(apiBase: string) {
         resolution: 'PT1H',
         taxIndicator: false,
         transparentInvoicing: false,
-        vatClassification: VatClassification.NoVat,
+        vatClassification: ChargeVatClassification.NoVat,
         validFromDateTime: '2021-09-29T22:00:00',
         validToDateTime: '2021-10-29T22:00:00',
         chargeId: 'chargeid01',
@@ -122,87 +122,78 @@ function searchCharges(apiBase: string) {
 }
 
 function getMarketParticipants(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/Charges/GetMarketParticipantsAsync`,
-    (req, res, ctx) => {
-      const result: MarketParticipantV1Dto[] = [
-        {
-          id: 'C5E0990A-713B-41E6-AB9C-A1B357A1EABD',
-          name: 'name 1',
-          marketParticipantId: '8100000000016',
-          businessProcessRole: 'DDZ',
-        },
-        {
-          id: 'C5E0990A-713B-41E6-AB9C-A1B357A1EABD',
-          name: 'name 2',
-          marketParticipantId: '8100000000030',
-          businessProcessRole: 'DDM',
-        },
-        {
-          id: 'S5E0990A-713B-41E6-AB9C-A1B357A1EABD',
-          name: 'name 12',
-          marketParticipantId: '8100000000030',
-        },
-      ];
-      return res(ctx.status(200), ctx.json(result));
-    }
-  );
+  return rest.get(`${apiBase}/v1/Charges/GetMarketParticipantsAsync`, (req, res, ctx) => {
+    const result: ChargeMarketParticipantV1Dto[] = [
+      {
+        id: 'C5E0990A-713B-41E6-AB9C-A1B357A1EABD',
+        name: 'name 1',
+        marketParticipantId: '8100000000016',
+        businessProcessRole: 'DDZ',
+      },
+      {
+        id: 'C5E0990A-713B-41E6-AB9C-A1B357A1EABD',
+        name: 'name 2',
+        marketParticipantId: '8100000000030',
+        businessProcessRole: 'DDM',
+      },
+      {
+        id: 'S5E0990A-713B-41E6-AB9C-A1B357A1EABD',
+        name: 'name 12',
+        marketParticipantId: '8100000000030',
+      },
+    ];
+    return res(ctx.status(200), ctx.json(result));
+  });
 }
 
 function searchChargePrices(apiBase: string) {
-  return rest.post(
-    `${apiBase}/v1/Charges/SearchChargePricesAsync`,
-    (req, res, ctx) => {
-      const result: ChargePricesV1Dto = {
-        totalAmount: 3,
-        chargePrices: [
-          {
-            price: 100.908,
-            fromDateTime: '2022-09-01T22:00:00',
-            toDateTime: '2022-09-02T22:00:00',
-          },
-          {
-            price: 200.123456,
-            fromDateTime: '2022-09-02T22:00:00',
-            toDateTime: '2022-09-03T22:00:00',
-          },
-          {
-            price: 100,
-            fromDateTime: '2022-09-03T22:00:00',
-            toDateTime: '2022-09-04T22:00:00',
-          },
-        ],
-      };
-      return res(ctx.status(200), ctx.json(result));
-    }
-  );
+  return rest.post(`${apiBase}/v1/Charges/SearchChargePricesAsync`, (req, res, ctx) => {
+    const result: ChargePricesV1Dto = {
+      totalAmount: 3,
+      chargePrices: [
+        {
+          price: 100.908,
+          fromDateTime: '2022-09-01T22:00:00',
+          toDateTime: '2022-09-02T22:00:00',
+        },
+        {
+          price: 200.123456,
+          fromDateTime: '2022-09-02T22:00:00',
+          toDateTime: '2022-09-03T22:00:00',
+        },
+        {
+          price: 100,
+          fromDateTime: '2022-09-03T22:00:00',
+          toDateTime: '2022-09-04T22:00:00',
+        },
+      ],
+    };
+    return res(ctx.status(200), ctx.json(result));
+  });
 }
 
 function searchChargeMessages(apiBase: string) {
-  return rest.post(
-    `${apiBase}/v1/Charges/SearchChargeMessagesAsync`,
-    (req, res, ctx) => {
-      const result: ChargeMessagesV1Dto = {
-        totalCount: 3,
-        chargeMessages: [
-          {
-            messageId: 'MessageId00001',
-            messageDateTime: '2022-10-01T22:00:00',
-            messageType: ChargeMessageType.D18,
-          },
-          {
-            messageId: 'MessageId00002',
-            messageDateTime: '2022-10-02T22:00:00',
-            messageType: ChargeMessageType.D18,
-          },
-          {
-            messageId: 'MessageId00003',
-            messageDateTime: '2022-10-03T22:00:00',
-            messageType: ChargeMessageType.D08,
-          },
-        ],
-      };
-      return res(ctx.status(200), ctx.json(result));
-    }
-  );
+  return rest.post(`${apiBase}/v1/Charges/SearchChargeMessagesAsync`, (req, res, ctx) => {
+    const result: ChargeMessagesV1Dto = {
+      totalCount: 3,
+      chargeMessages: [
+        {
+          messageId: 'MessageId00001',
+          messageDateTime: '2022-10-01T22:00:00',
+          messageType: ChargeMessageType.D18,
+        },
+        {
+          messageId: 'MessageId00002',
+          messageDateTime: '2022-10-02T22:00:00',
+          messageType: ChargeMessageType.D18,
+        },
+        {
+          messageId: 'MessageId00003',
+          messageDateTime: '2022-10-03T22:00:00',
+          messageType: ChargeMessageType.D08,
+        },
+      ],
+    };
+    return res(ctx.status(200), ctx.json(result));
+  });
 }

@@ -18,21 +18,11 @@ limitations under the License.
   <ng-container *rxLet="searching$ as searching">
     <ng-container *rxLet="continuationToken$ as continuationToken">
       <watt-top-bar>
-        <form
-          class="form"
-          [formGroup]="searchForm"
-          name="log-search-form"
-          (ngSubmit)="onSubmit()"
-        >
+        <form class="form" [formGroup]="searchForm" name="log-search-form" (ngSubmit)="onSubmit()">
           <!-- MessageId -->
           <watt-form-field>
             <watt-label>{{ transloco("messageId") }}</watt-label>
-            <input
-              formControlName="messageId"
-              wattInput
-              type="text"
-              name="messageId"
-            />
+            <input formControlName="messageId" wattInput type="text" name="messageId" />
           </watt-form-field>
           <!-- RSM -->
           <watt-form-field>
@@ -86,39 +76,25 @@ limitations under the License.
           <div class="rowContainer">
             <watt-form-field>
               <watt-label>{{ transloco("periode") }}</watt-label>
-              <watt-datepicker
-                formControlName="dateRange"
-                [range]="true"
-              ></watt-datepicker>
-              <watt-error
-                *ngIf="searchForm.controls.dateRange.errors?.rangeRequired"
-              >
+              <watt-datepicker formControlName="dateRange" [range]="true"></watt-datepicker>
+              <watt-error *ngIf="searchForm.controls.dateRange.errors?.rangeRequired">
                 {{ transloco("invalidDate") }}
               </watt-error>
             </watt-form-field>
 
             <watt-form-field>
               <watt-label>{{ transloco("time") }}</watt-label>
-              <watt-timepicker
-                formControlName="timeRange"
-                [range]="true"
-              ></watt-timepicker>
+              <watt-timepicker formControlName="timeRange" [range]="true"></watt-timepicker>
             </watt-form-field>
 
             <!-- Reference id -->
-            <watt-checkbox
-              formControlName="includeRelated"
-              wattInput
-              name="reference-id"
-              >{{ transloco("includeRelatedMessage") }}</watt-checkbox
-            >
+            <watt-checkbox formControlName="includeRelated" wattInput name="reference-id">{{
+              transloco("includeRelatedMessage")
+            }}</watt-checkbox>
             <div class="buttons-container">
-              <watt-button
-                (click)="resetSearchCritera()"
-                icon="remove"
-                variant="secondary"
-                >{{ transloco("clearSearch") }}</watt-button
-              >
+              <watt-button (click)="resetSearchCritera()" icon="remove" variant="secondary">{{
+                transloco("clearSearch")
+              }}</watt-button>
               <!-- Search -->
               <watt-button
                 *rxLet="searching$ as seaching"

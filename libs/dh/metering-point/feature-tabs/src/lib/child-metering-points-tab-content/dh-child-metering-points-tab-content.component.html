@@ -14,15 +14,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *ngIf="childMeteringPoints && childMeteringPoints.length > 0; else emptyTab"
->
-  <mat-table
-    #matTable
-    [dataSource]="sortedData"
-    matSort
-    (matSortChange)="sortData($event)"
-  >
+<ng-container *ngIf="childMeteringPoints && childMeteringPoints.length > 0; else emptyTab">
+  <mat-table #matTable [dataSource]="sortedData" matSort (matSortChange)="sortData($event)">
     <!-- Child Metering Point Definition -->
     <ng-container matColumnDef="childMeteringPoint">
       <mat-header-cell
@@ -31,17 +24,13 @@ limitations under the License.
         sortActionDescription="Sort by number"
         class="header-cell watt-label"
         >{{
-          "meteringPoint.overview.childMeteringPointsTab.headers.childMeteringPoint"
-            | transloco
+          "meteringPoint.overview.childMeteringPointsTab.headers.childMeteringPoint" | transloco
         }}</mat-header-cell
       >
       <mat-cell *matCellDef="let row">
         <div class="multi-line-cell">
           <div class="watt-text-s">
-            {{
-              "meteringPoint.meteringPointTypeCode." + row.meteringPointType
-                | transloco
-            }}
+            {{ "meteringPoint.meteringPointTypeCode." + row.meteringPointType | transloco }}
           </div>
           <div class="watt-text-s grey-text" data-testid="gsrn">
             {{ row.gsrnNumber }}
@@ -58,8 +47,7 @@ limitations under the License.
         sortActionDescription="Sort by number"
         class="header-cell watt-label"
         >{{
-          "meteringPoint.overview.childMeteringPointsTab.headers.effectivePeriod"
-            | transloco
+          "meteringPoint.overview.childMeteringPointsTab.headers.effectivePeriod" | transloco
         }}</mat-header-cell
       >
       <mat-cell *matCellDef="let row">
@@ -77,14 +65,11 @@ limitations under the License.
         sortActionDescription="Sort by number"
         class="header-cell watt-label"
         >{{
-          "meteringPoint.overview.childMeteringPointsTab.headers.status"
-            | transloco
+          "meteringPoint.overview.childMeteringPointsTab.headers.status" | transloco
         }}</mat-header-cell
       >
       <mat-cell *matCellDef="let row">
-        <dh-status-badge
-          [connectionState]="row.connectionState"
-        ></dh-status-badge>
+        <dh-status-badge [connectionState]="row.connectionState"></dh-status-badge>
       </mat-cell>
     </ng-container>
 
@@ -102,13 +87,9 @@ limitations under the License.
 <ng-template #emptyTab>
   <watt-empty-state
     size="small"
-    [title]="
-      'meteringPoint.overview.childMeteringPointsTab.noChildMeteringPointsTitle'
-        | transloco
-    "
+    [title]="'meteringPoint.overview.childMeteringPointsTab.noChildMeteringPointsTitle' | transloco"
     [message]="
-      'meteringPoint.overview.childMeteringPointsTab.noChildMeteringPointsText'
-        | transloco
+      'meteringPoint.overview.childMeteringPointsTab.noChildMeteringPointsText' | transloco
     "
   ></watt-empty-state>
 </ng-template>

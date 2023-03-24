@@ -36,13 +36,10 @@ import { GfRxAngularTestingModule } from './rx-angular/gf-rx-angular-testing.mod
 import 'zone.js/plugins/zone-error';
 
 function patchTestbed(): void {
-  const isUnpatched =
-    testbed.configureTestingModule === realConfigureTestingModule;
+  const isUnpatched = testbed.configureTestingModule === realConfigureTestingModule;
 
   if (isUnpatched) {
-    testbed.configureTestingModule = (
-      moduleDef: TestModuleMetadata
-    ): TestBed => {
+    testbed.configureTestingModule = (moduleDef: TestModuleMetadata): TestBed => {
       realConfigureTestingModule.call(testbed, {
         ...moduleDef,
         imports: [
@@ -86,15 +83,11 @@ function patchTestbed(): void {
  */
 export function setUpTestbed(): void {
   testbed.resetTestEnvironment();
-  testbed.initTestEnvironment(
-    BrowserDynamicTestingModule,
-    platformBrowserDynamicTesting(),
-    {
-      teardown: {
-        destroyAfterEach: true,
-      },
-    }
-  );
+  testbed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
+    teardown: {
+      destroyAfterEach: true,
+    },
+  });
 
   patchTestbed();
 }

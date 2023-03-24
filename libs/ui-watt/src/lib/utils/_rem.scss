@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use 'sass:math';
+@use "sass:math";
 $html-font-size: 16px;
 
 @function stripUnit($value) {

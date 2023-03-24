@@ -32,9 +32,7 @@ describe(`${EoInlineMessageComponent.name} component API`, () => {
     // Act
 
     // Assert
-    expect(
-      await screen.findByRole('img', { name: /test icon/i })
-    ).toBeInTheDocument();
+    expect(await screen.findByRole('img', { name: /test icon/i })).toBeInTheDocument();
   });
 
   it('projects content', async () => {

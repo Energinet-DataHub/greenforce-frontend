@@ -61,9 +61,7 @@ limitations under the License.
           {{ row.startDate | dhDate }}
         </div>
         <ng-container *ngIf="row.endDate">
-          <div class="watt-text-s secondary-text" *transloco="let transloco">
-            -
-          </div>
+          <div class="watt-text-s secondary-text" *transloco="let transloco">-</div>
           <div class="watt-text-s">
             <watt-icon name="date" size="s" class="primary-color"></watt-icon>
           </div>
@@ -86,25 +84,14 @@ limitations under the License.
         </ng-container>
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
-        <div
-          *ngIf="charges[0].chargeType !== chargeTypes.D03"
-          class="watt-text-s"
-        >
+        <div *ngIf="charges[0].chargeType !== chargeTypes.D03" class="watt-text-s">
           {{ row.quantity }}
         </div>
         <ng-container *ngIf="row.taxIndicator">
           <div class="watt-text-s" *transloco="let transloco">
-            <watt-icon
-              name="success"
-              size="s"
-              class="primary-color"
-            ></watt-icon>
+            <watt-icon name="success" size="s" class="primary-color"></watt-icon>
           </div>
-          <div
-            class="watt-text-s"
-            *transloco="let transloco"
-            data-testid="tax-cell"
-          >
+          <div class="watt-text-s" *transloco="let transloco" data-testid="tax-cell">
             {{ transloco("charges.taxIndicator") }}
           </div>
         </ng-container>
@@ -120,17 +107,9 @@ limitations under the License.
       <mat-cell *matCellDef="let row">
         <ng-container *ngIf="row.transparentInvoicing">
           <div class="watt-text-s">
-            <watt-icon
-              name="success"
-              size="s"
-              class="primary-color"
-            ></watt-icon>
+            <watt-icon name="success" size="s" class="primary-color"></watt-icon>
           </div>
-          <div
-            class="watt-text-s"
-            *transloco="let transloco"
-            data-testid="invoicing-cell"
-          >
+          <div class="watt-text-s" *transloco="let transloco" data-testid="invoicing-cell">
             {{ transloco("charges.transparentInvoicing") }}
           </div>
         </ng-container>
@@ -139,19 +118,10 @@ limitations under the License.
 
     <!-- Header and Row Declarations -->
     <mat-header-row
-      *matHeaderRowDef="[
-        'chargeType',
-        'owner',
-        'date',
-        'quantity',
-        'invoicing'
-      ]"
+      *matHeaderRowDef="['chargeType', 'owner', 'date', 'quantity', 'invoicing']"
     ></mat-header-row>
     <mat-row
-      *matRowDef="
-        let row;
-        columns: ['chargeType', 'owner', 'date', 'quantity', 'invoicing']
-      "
+      *matRowDef="let row; columns: ['chargeType', 'owner', 'date', 'quantity', 'invoicing']"
     >
     </mat-row>
   </mat-table>

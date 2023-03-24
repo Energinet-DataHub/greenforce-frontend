@@ -17,13 +17,13 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
-import { WattTabsComponent, WattTabsModule } from './../index';
+import { WattTabsComponent, WattTabComponent } from './../index';
 
 export default {
   title: 'Components/Tabs',
   decorators: [
     moduleMetadata({
-      imports: [BrowserAnimationsModule, WattTabsModule],
+      imports: [BrowserAnimationsModule, WattTabComponent],
     }),
   ],
   component: WattTabsComponent,

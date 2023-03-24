@@ -17,12 +17,7 @@
 import { render } from '@testing-library/angular';
 
 import { WattIcon } from './icons';
-import {
-  WattIconComponent,
-  WattIconModule,
-  WattIconSize,
-  WattIconState,
-} from './index';
+import { WattIconComponent, WattIconModule, WattIconSize, WattIconState } from './index';
 
 describe(WattIconComponent.name, () => {
   it('has default `size`', async () => {

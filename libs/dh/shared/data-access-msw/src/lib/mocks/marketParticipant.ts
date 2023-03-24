@@ -60,12 +60,9 @@ function getOrganization(apiBase: string) {
 }
 
 function getMarketParticipantGridArea(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/MarketParticipantGridArea/GetAllGridAreas`,
-    (req, res, ctx) => {
-      return res(ctx.json(gridAreaData));
-    }
-  );
+  return rest.get(`${apiBase}/v1/MarketParticipantGridArea/GetAllGridAreas`, (req, res, ctx) => {
+    return res(ctx.json(gridAreaData));
+  });
 }
 
 function getMarketParticipantGridAreaOverview(apiBase: string) {
@@ -78,33 +75,24 @@ function getMarketParticipantGridAreaOverview(apiBase: string) {
 }
 
 function getActor(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/MarketParticipant/Organization/GetActor`,
-    (req, res, ctx) => {
-      const { actorId } = req.params;
-      const actorDataWithUpdatedId = {
-        ...actorData,
-        actorId,
-      };
-      return res(ctx.json(actorDataWithUpdatedId));
-    }
-  );
+  return rest.get(`${apiBase}/v1/MarketParticipant/Organization/GetActor`, (req, res, ctx) => {
+    const { actorId } = req.params;
+    const actorDataWithUpdatedId = {
+      ...actorData,
+      actorId,
+    };
+    return res(ctx.json(actorDataWithUpdatedId));
+  });
 }
 
 function getActorContact(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/MarketParticipant/Organization/GetContacts`,
-    (req, res, ctx) => {
-      return res(ctx.json(actorContactsData));
-    }
-  );
+  return rest.get(`${apiBase}/v1/MarketParticipant/Organization/GetContacts`, (req, res, ctx) => {
+    return res(ctx.json(actorContactsData));
+  });
 }
 
 function getUserRoles(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/MarketParticipantUserRoleTemplate/users`,
-    (req, res, ctx) => {
-      return res(ctx.json(userRoleData));
-    }
-  );
+  return rest.get(`${apiBase}/v1/MarketParticipantUserRoleTemplate/users`, (req, res, ctx) => {
+    return res(ctx.json(userRoleData));
+  });
 }

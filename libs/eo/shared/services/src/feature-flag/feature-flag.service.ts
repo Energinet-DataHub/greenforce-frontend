@@ -36,9 +36,7 @@ export class FeatureFlagService {
    * it or has 'illegal' features set in localStorage.
    */
   constructor() {
-    const savedFlags = JSON.parse(
-      localStorage.getItem('featureFlagsEnabled') ?? '[]'
-    );
+    const savedFlags = JSON.parse(localStorage.getItem('featureFlagsEnabled') ?? '[]');
     localStorage.removeItem('featureFlagsEnabled');
 
     savedFlags.forEach((element: string) => {
@@ -59,10 +57,7 @@ export class FeatureFlagService {
   }
 
   #saveFlagsToMemory() {
-    localStorage.setItem(
-      'featureFlagsEnabled',
-      JSON.stringify([...this.#enabledFlags])
-    );
+    localStorage.setItem('featureFlagsEnabled', JSON.stringify([...this.#enabledFlags]));
   }
 
   getEnabledFlags() {

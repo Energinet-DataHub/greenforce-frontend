@@ -18,12 +18,9 @@ import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 
-import {
-  WattDrawerComponent,
-  WattDrawerModule,
-} from '@energinet-datahub/watt/drawer';
+import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
 import { DhUserStatusComponent } from '../shared/dh-user-status.component';
@@ -34,20 +31,6 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   selector: 'dh-user-drawer',
   standalone: true,
   templateUrl: './dh-user-drawer.component.html',
-  styles: [
-    `
-      .user-name__grid {
-        display: flex;
-        align-items: center;
-        gap: var(--watt-space-s);
-        margin-bottom: 28px; /* Magic UX number */
-      }
-
-      .user-name__headline {
-        margin: 0;
-      }
-    `,
-  ],
   imports: [
     CommonModule,
     TranslocoModule,
@@ -63,7 +46,7 @@ export class DhUserDrawerComponent {
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
 
-  selectedUser: UserOverviewItemDto | null = null;
+  selectedUser: MarketParticipantUserOverviewItemDto | null = null;
 
   @Output() closed = new EventEmitter<void>();
 
@@ -75,7 +58,7 @@ export class DhUserDrawerComponent {
     this.selectedUser = null;
   }
 
-  open(user: UserOverviewItemDto): void {
+  open(user: MarketParticipantUserOverviewItemDto): void {
     this.selectedUser = user;
     this.drawer.open();
   }

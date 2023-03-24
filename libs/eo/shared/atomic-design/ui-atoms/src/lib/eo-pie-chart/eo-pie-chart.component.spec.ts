@@ -45,10 +45,7 @@ describe(EoPieChartComponent.name, () => {
       dataIndex: 0,
     } as Context;
 
-    const output = component?.chartOptions?.plugins?.datalabels?.formatter?.(
-      value,
-      context
-    );
+    const output = component?.chartOptions?.plugins?.datalabels?.formatter?.(value, context);
 
     expect(output).toContain(`12%\n${label}`);
   });

@@ -14,8 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export {
-  WattBadgeComponent,
-  WattBadgeType,
-  WattBadgeSize,
-} from './watt-badge.component';
+export { WattBadgeComponent, WattBadgeType, WattBadgeSize } from './watt-badge.component';

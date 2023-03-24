@@ -48,9 +48,7 @@ limitations under the License.
         <watt-tab [label]="t('contactsHeader')">
           <dh-market-participant-actor-contact-data
             [contacts]="contacts$ | push"
-            (contactsChanged)="
-              onContactsChanged($event.isValid, $event.add, $event.remove)
-            "
+            (contactsChanged)="onContactsChanged($event.isValid, $event.add, $event.remove)"
           >
           </dh-market-participant-actor-contact-data>
         </watt-tab>
@@ -94,14 +92,10 @@ limitations under the License.
           </p>
           <watt-modal-actions>
             <ng-container *transloco="let t">
-              <watt-button (click)="confirmationModal.close(true)">{{
-                t("yes")
+              <watt-button (click)="confirmationModal.close(true)">{{ t("yes") }}</watt-button>
+              <watt-button variant="secondary" (click)="confirmationModal.close(false)">{{
+                t("no")
               }}</watt-button>
-              <watt-button
-                variant="secondary"
-                (click)="confirmationModal.close(false)"
-                >{{ t("no") }}</watt-button
-              >
             </ng-container>
           </watt-modal-actions>
         </watt-modal>

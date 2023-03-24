@@ -25,23 +25,14 @@ import {
   Optional,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  MatSnackBarModule,
-  MatSnackBarRef,
-  MAT_SNACK_BAR_DATA,
-} from '@angular/material/snack-bar';
+import { MatSnackBarModule, MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { fromEvent, repeat, Subscription, takeUntil, tap, timer } from 'rxjs';
 
 import { WattIconModule } from '../../foundations/icon';
 import { WattButtonModule } from '../button';
 import { WattSpinnerModule } from '../spinner';
 
-export type WattToastType =
-  | 'success'
-  | 'info'
-  | 'warning'
-  | 'danger'
-  | 'loading';
+export type WattToastType = 'success' | 'info' | 'warning' | 'danger' | 'loading';
 
 export interface WattToastConfig {
   duration?: number;
@@ -64,20 +55,12 @@ export type WattToastRef = MatSnackBarRef<WattToastComponent>;
   styleUrls: ['./watt-toast.component.scss'],
   templateUrl: './watt-toast.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatSnackBarModule,
-    WattButtonModule,
-    WattIconModule,
-    WattSpinnerModule,
-  ],
+  imports: [CommonModule, MatSnackBarModule, WattButtonModule, WattIconModule, WattSpinnerModule],
 })
 export class WattToastComponent {
   @HostBinding('class') get class() {
     this.cd.detectChanges(); // Make sure changes to the config will be detected
-    return this.config.type
-      ? `watt-toast watt-toast--${this.config.type}`
-      : 'watt-toast';
+    return this.config.type ? `watt-toast watt-toast--${this.config.type}` : 'watt-toast';
   }
 
   /**

@@ -28,14 +28,10 @@ import {
   DhRoleAuditLogEntry,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import {
-  WattTableColumnDef,
-  WattTableDataSource,
-  WATT_TABLE,
-} from '@energinet-datahub/watt/table';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-role-audit-logs',
@@ -43,11 +39,6 @@ import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain'
   templateUrl: './dh-role-audit-logs.component.html',
   styles: [
     `
-      :host {
-        display: block;
-        margin: 24px var(--watt-space-s);
-      }
-
       h4 {
         margin: 0;
       }
@@ -63,9 +54,7 @@ import { UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain'
       }
     `,
   ],
-  providers: [
-    provideComponentStore(DhAdminUserRoleAuditLogsDataAccessApiStore),
-  ],
+  providers: [provideComponentStore(DhAdminUserRoleAuditLogsDataAccessApiStore)],
   imports: [
     CommonModule,
     LetModule,
@@ -94,14 +83,12 @@ export class DhRoleAuditLogsComponent implements OnInit, OnChanges {
     entry: { accessor: 'entry', sort: false },
   };
 
-  @Input() role: UserRoleWithPermissionsDto | null = null;
+  @Input() role: MarketParticipantUserRoleWithPermissionsDto | null = null;
 
   ngOnInit(): void {
-    this.store.auditLogs$
-      .pipe(takeUntil(this.store.destroy$))
-      .subscribe((logs) => {
-        this.dataSource.data = logs;
-      });
+    this.store.auditLogs$.pipe(takeUntil(this.store.destroy$)).subscribe((logs) => {
+      this.dataSource.data = logs;
+    });
   }
 
   ngOnChanges(): void {

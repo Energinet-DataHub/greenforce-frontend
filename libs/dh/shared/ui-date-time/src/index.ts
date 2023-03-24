@@ -17,3 +17,5 @@
 export * from './lib/dh-shared-ui-date-time.module';
 export { DhDatePipe } from './lib/dh-date.pipe';
 export { DhDateTimePipe } from './lib/dh-datetime.pipe';
+export { DhDateTimeRangePipe } from './lib/dh-datetime-range.pipe';
+export { DhDateRangePipe } from './lib/dh-date-range.pipe';

@@ -62,8 +62,7 @@ export function getDefinitonByTerm(term: string | HTMLElement) {
   return definition;
 }
 
-export const getByTitle = (title: string) =>
-  screen.queryByTitle(title, { suggest: false });
+export const getByTitle = (title: string) => screen.queryByTitle(title, { suggest: false });
 
 function throwError(msg: string): void {
   screen.debug();

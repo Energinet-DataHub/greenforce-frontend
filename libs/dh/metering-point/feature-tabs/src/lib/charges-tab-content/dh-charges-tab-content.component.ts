@@ -41,16 +41,12 @@ export class DhChargesTabContentComponent {
     map((params) => params[dhMeteringPointIdParam] as string)
   );
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: DhChargeLinksDataAccessApiStore
-  ) {
+  constructor(private route: ActivatedRoute, private store: DhChargeLinksDataAccessApiStore) {
     this.loadChargesData();
   }
 
   tariffs$: Observable<Array<ChargeLinkV1Dto>> = this.store.tariffs$;
-  subscriptions$: Observable<Array<ChargeLinkV1Dto>> =
-    this.store.subscriptions$;
+  subscriptions$: Observable<Array<ChargeLinkV1Dto>> = this.store.subscriptions$;
   fees$: Observable<Array<ChargeLinkV1Dto>> = this.store.fees$;
   isLoading$ = this.store.isLoading$;
   chargesNotFound$ = this.store.chargesNotFound$;

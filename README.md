@@ -68,7 +68,7 @@ The application is deployed to five different environments as listed below:
 
 [dh-u-001]: https://jolly-sand-03f839703.azurestaticapps.net
 [dh-u-002]: https://wonderful-field-057109603.1.azurestaticapps.net
-[dh-t-001]: https://lively-river-0f22ad403.azurestaticapps.net
+[dh-t-001]: https://ashy-forest-09ecf8003.2.azurestaticapps.net
 
 <sub>\* This is identical to **U-001**, except it also hosts
 [B2C](https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/).

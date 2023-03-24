@@ -22,13 +22,13 @@ import {
   DhMarketParticipantActorContactDataComponent,
   DhMarketParticipantActorContactDataComponentScam,
 } from './dh-market-participant-actor-contact-data.component';
-import { ActorContactDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantActorContactDto } from '@energinet-datahub/dh/shared/domain';
 import { ActorContactChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { EventEmitter } from '@angular/core';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
 describe(DhMarketParticipantActorContactDataComponent.name, () => {
-  async function setup(contacts: ActorContactDto[]) {
+  async function setup(contacts: MarketParticipantActorContactDto[]) {
     const outputFn = jest.fn();
     const view = await render(DhMarketParticipantActorContactDataComponent, {
       componentProperties: {
@@ -36,13 +36,10 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
         contactsChanged: { emit: outputFn } as unknown as EventEmitter<{
           isValid: boolean;
           add: ActorContactChanges[];
-          remove: ActorContactDto[];
+          remove: MarketParticipantActorContactDto[];
         }>,
       },
-      imports: [
-        DhMarketParticipantActorContactDataComponentScam,
-        getTranslocoTestingModule(),
-      ],
+      imports: [DhMarketParticipantActorContactDataComponentScam, getTranslocoTestingModule()],
     });
 
     await runOnPushChangeDetection(view.fixture);
@@ -50,7 +47,7 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
     return { view, outputFn };
   }
 
-  const contacts: ActorContactDto[] = [
+  const contacts: MarketParticipantActorContactDto[] = [
     {
       contactId: 'E7199A8C-948C-4BA6-880E-8CBD8D0DB977',
       category: 'Default',

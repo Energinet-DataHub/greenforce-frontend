@@ -69,11 +69,7 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
         color: var(--watt-color-primary-dark-contrast);
       }
 
-      ::ng-deep
-        watt-shell
-        .watt-toolbar
-        watt-icon-button[icon='menu']
-        > button {
+      ::ng-deep watt-shell .watt-toolbar watt-icon-button[icon='menu'] > button {
         padding-left: 0; // Remove menu toggle left padding to collapse with top app bar padding
       }
 
@@ -120,17 +116,11 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
     `,
   ],
   template: `
-    <eo-cookie-banner
-      *ngIf="!cookiesSet"
-      (accepted)="getBannerStatus()"
-    ></eo-cookie-banner>
+    <eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getBannerStatus()"></eo-cookie-banner>
     <watt-shell>
       <ng-container watt-shell-sidenav>
         <div class="logo-container">
-          <img
-            class="logo"
-            src="/assets/images/energy-origin-logo-secondary.svg"
-          />
+          <img class="logo" src="/assets/images/energy-origin-logo-secondary.svg" />
         </div>
         <eo-primary-navigation></eo-primary-navigation>
       </ng-container>
@@ -149,10 +139,7 @@ export class EoShellComponent implements OnDestroy {
   title$: Observable<string> = this.titleStore.routeTitle$;
   cookiesSet: string | null = null;
 
-  constructor(
-    private titleStore: EoTitleStore,
-    private idleTimerService: IdleTimerService
-  ) {
+  constructor(private titleStore: EoTitleStore, private idleTimerService: IdleTimerService) {
     this.getBannerStatus();
     this.idleTimerService.startIdleMonitor();
   }

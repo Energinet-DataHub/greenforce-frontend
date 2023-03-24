@@ -21,18 +21,18 @@ import { DhChargesChargePricesTabComponent } from './dh-charges-charge-prices-ta
 import { render, screen } from '@testing-library/angular';
 import {
   ChargeType,
-  Resolution,
-  VatClassification,
+  ChargeResolution,
+  ChargeVatClassification,
 } from '@energinet-datahub/dh/shared/domain';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
 const charge = {
   id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
   chargeType: ChargeType.D02,
-  resolution: Resolution.P1D,
+  resolution: ChargeResolution.P1D,
   taxIndicator: false,
   transparentInvoicing: true,
-  vatClassification: VatClassification.NoVat,
+  vatClassification: ChargeVatClassification.NoVat,
   validFromDateTime: '2021-09-29T22:00:00',
   validToDateTime: '2021-10-29T22:00:00',
   chargeId: 'chargeid01',
@@ -46,11 +46,7 @@ const charge = {
 describe('DhChargesChargePricesTabComponent', () => {
   async function setup() {
     const { fixture } = await render(DhChargesChargePricesTabComponent, {
-      imports: [
-        getTranslocoTestingModule(),
-        DhApiModule.forRoot(),
-        HttpClientModule,
-      ],
+      imports: [getTranslocoTestingModule(), DhApiModule.forRoot(), HttpClientModule],
     });
 
     fixture.componentInstance.charge = charge;
@@ -67,9 +63,7 @@ describe('DhChargesChargePricesTabComponent', () => {
       name: new RegExp(enTranslations.charges.prices.noPricesForCharge),
     });
 
-    const message = screen.getByText(
-      enTranslations.charges.prices.noPricesForChargeText
-    );
+    const message = screen.getByText(enTranslations.charges.prices.noPricesForChargeText);
 
     expect(titleMessage).toBeInTheDocument();
     expect(message).toBeInTheDocument();

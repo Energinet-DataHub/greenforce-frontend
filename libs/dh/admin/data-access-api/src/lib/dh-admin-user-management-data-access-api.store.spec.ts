@@ -22,8 +22,8 @@ import { firstValueFrom, of } from 'rxjs';
 
 import {
   MarketParticipantUserOverviewHttp,
-  UserStatus,
-  UserOverviewFilterDto,
+  MarketParticipantUserStatus,
+  MarketParticipantUserOverviewFilterDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 import { DhAdminUserManagementDataAccessApiStore } from './dh-admin-user-management-data-access-api.store';
@@ -60,7 +60,7 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
   it('calls the API on initialization with default params', async () => {
     const { httpMock } = await setup();
 
-    const filterDto: UserOverviewFilterDto = {
+    const filterDto: MarketParticipantUserOverviewFilterDto = {
       actorId: undefined,
       userRoleIds: [],
       searchText: undefined,
@@ -75,9 +75,9 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
       filterDto,
     };
 
-    expect(
-      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
-    ).toHaveBeenCalledWith(...Object.values(actualParams));
+    expect(httpMock.v1MarketParticipantUserOverviewSearchUsersPost).toHaveBeenCalledWith(
+      ...Object.values(actualParams)
+    );
   });
 
   it(`when the page metadata is updated,
@@ -93,7 +93,7 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
 
     tick();
 
-    const filterDto: UserOverviewFilterDto = {
+    const filterDto: MarketParticipantUserOverviewFilterDto = {
       actorId: undefined,
       userRoleIds: [],
       searchText: undefined,
@@ -108,9 +108,9 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
       filterDto,
     };
 
-    expect(
-      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
-    ).toHaveBeenLastCalledWith(...Object.values(actualParams));
+    expect(httpMock.v1MarketParticipantUserOverviewSearchUsersPost).toHaveBeenLastCalledWith(
+      ...Object.values(actualParams)
+    );
   }));
 
   it(`when the search text is updated,
@@ -121,7 +121,7 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
 
     tick();
 
-    const filterDto: UserOverviewFilterDto = {
+    const filterDto: MarketParticipantUserOverviewFilterDto = {
       actorId: undefined,
       userRoleIds: [],
       searchText: 'john',
@@ -136,22 +136,22 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
       filterDto,
     };
 
-    expect(
-      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
-    ).toHaveBeenLastCalledWith(...Object.values(actualParams));
+    expect(httpMock.v1MarketParticipantUserOverviewSearchUsersPost).toHaveBeenLastCalledWith(
+      ...Object.values(actualParams)
+    );
   }));
 
   it(`when the status filter is updated,
   then the API is called`, fakeAsync(async () => {
     const { httpMock, store } = await setup();
 
-    const newStatusFilters: UserStatus[] = ['Active', 'Inactive'];
+    const newStatusFilters: MarketParticipantUserStatus[] = ['Active', 'Inactive'];
 
     store.updateStatusFilter(newStatusFilters);
 
     tick();
 
-    const filterDto: UserOverviewFilterDto = {
+    const filterDto: MarketParticipantUserOverviewFilterDto = {
       actorId: undefined,
       userRoleIds: [],
       searchText: undefined,
@@ -166,9 +166,9 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
       filterDto,
     };
 
-    expect(
-      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
-    ).toHaveBeenLastCalledWith(...Object.values(actualParams));
+    expect(httpMock.v1MarketParticipantUserOverviewSearchUsersPost).toHaveBeenLastCalledWith(
+      ...Object.values(actualParams)
+    );
   }));
 
   it(`when the reloadUsers method is called,
@@ -183,9 +183,9 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
     // 2. When `reloadUsers` is called
     const numberOfTimesCalled = 2;
 
-    expect(
-      httpMock.v1MarketParticipantUserOverviewSearchUsersPost
-    ).toHaveBeenCalledTimes(numberOfTimesCalled);
+    expect(httpMock.v1MarketParticipantUserOverviewSearchUsersPost).toHaveBeenCalledTimes(
+      numberOfTimesCalled
+    );
   }));
 
   describe('selectors', () => {

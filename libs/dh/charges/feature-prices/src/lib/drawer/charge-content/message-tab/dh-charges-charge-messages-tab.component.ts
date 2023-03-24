@@ -37,11 +37,7 @@ import {
   ChargeV1Dto,
   ChargeMessageSortColumnName,
 } from '@energinet-datahub/dh/shared/domain';
-import {
-  WattTableDataSource,
-  WattTableColumnDef,
-  WATT_TABLE,
-} from '@energinet-datahub/watt/table';
+import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -76,9 +72,7 @@ import { DhChargesPricesDrawerService } from '../../dh-charges-prices-drawer.ser
   providers: [DhChargeMessagesDataAccessApiStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhChargesChargeMessagesTabComponent
-  implements OnInit, OnChanges, OnDestroy
-{
+export class DhChargesChargeMessagesTabComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
@@ -126,23 +120,17 @@ export class DhChargesChargeMessagesTabComponent
   readonly dataSource: WattTableDataSource<ChargeMessageV1Dto> =
     new WattTableDataSource<ChargeMessageV1Dto>();
 
-  translateHeader = (key: string) =>
-    this.transloco.translate(`charges.prices.drawer.${key}`);
+  translateHeader = (key: string) => this.transloco.translate(`charges.prices.drawer.${key}`);
 
   ngOnInit() {
-    this.chargeMessagesStore.all$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((chargeMessages) => {
-        this.dataSource.data =
-          chargeMessages ?? new Array<ChargeMessageV1Dto>();
-        this.result = chargeMessages;
-      });
+    this.chargeMessagesStore.all$.pipe(takeUntil(this.destroy$)).subscribe((chargeMessages) => {
+      this.dataSource.data = chargeMessages ?? new Array<ChargeMessageV1Dto>();
+      this.result = chargeMessages;
+    });
 
-    this.chargeMessagesStore.totalCount$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((totalCount) => {
-        if (this.paginator) this.paginator.length = totalCount;
-      });
+    this.chargeMessagesStore.totalCount$.pipe(takeUntil(this.destroy$)).subscribe((totalCount) => {
+      if (this.paginator) this.paginator.length = totalCount;
+    });
   }
 
   ngOnChanges() {
@@ -169,8 +157,7 @@ export class DhChargesChargeMessagesTabComponent
     this.chargeMessagesSearchCriteria.chargeId = charge.id;
     this.chargeMessagesSearchCriteria.take = this.paginator.instance.pageSize;
 
-    const dateTimeRange =
-      this.drawerDatepickerComponent.formControlDateRange.value;
+    const dateTimeRange = this.drawerDatepickerComponent.formControlDateRange.value;
 
     if (dateTimeRange) {
       this.setSearchCriteriaDateRange({
@@ -178,9 +165,7 @@ export class DhChargesChargeMessagesTabComponent
         endDate: dateTimeRange.end,
       });
     }
-    this.chargeMessagesStore.searchChargeMessages(
-      this.chargeMessagesSearchCriteria
-    );
+    this.chargeMessagesStore.searchChargeMessages(this.chargeMessagesSearchCriteria);
 
     this.dataSource.sortingDataAccessor = ToLowerSort();
   }
@@ -204,20 +189,15 @@ export class DhChargesChargeMessagesTabComponent
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sortData(event: any) {
-    this.chargeMessagesSearchCriteria.chargeMessageSortColumnName =
-      event.active;
+    this.chargeMessagesSearchCriteria.chargeMessageSortColumnName = event.active;
     this.chargeMessagesSearchCriteria.isDescending = event.direction === 'desc';
-    this.chargeMessagesStore.searchChargeMessages(
-      this.chargeMessagesSearchCriteria
-    );
+    this.chargeMessagesStore.searchChargeMessages(this.chargeMessagesSearchCriteria);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handlePageEvent(event: any) {
     this.chargeMessagesSearchCriteria.skip = event.pageIndex * event.pageSize;
     this.chargeMessagesSearchCriteria.take = event.pageSize;
-    this.chargeMessagesStore.searchChargeMessages(
-      this.chargeMessagesSearchCriteria
-    );
+    this.chargeMessagesStore.searchChargeMessages(this.chargeMessagesSearchCriteria);
   }
 }

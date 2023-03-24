@@ -14,8 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-h4 {
-  margin: 0 0 var(--watt-space-l);
+
+.container {
+  display: block;
+  margin: var(--watt-space-ml);
+}
+
+watt-table {
+  box-sizing: border-box;
 }
 
 watt-empty-state {
@@ -26,30 +32,4 @@ watt-spinner {
   display: flex;
   justify-content: center;
   margin-top: var(--watt-space-xl);
-}
-
-.userRoles {
-  &.selectMode {
-    li {
-      grid-template-columns: 40px 1fr auto !important;
-    }
-  }
-  mat-divider {
-    color: var(--watt-color-neutral-grey-400);
-    margin: var(--watt-space-m) 0;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  li {
-    display: grid;
-    margin: var(--watt-space-s) 0 0 var(--watt-space-s);
-    grid-template-columns: 1fr 1fr;
-    justify-items: left;
-  }
-  h6 {
-    margin: 0 0 0 var(--watt-space-s);
-  }
 }

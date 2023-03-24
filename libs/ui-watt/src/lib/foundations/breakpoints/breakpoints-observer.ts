@@ -36,9 +36,7 @@ export interface WattBreakpointState {
 export class WattBreakpointsObserver {
   constructor(private breakpointObserver: BreakpointObserver) {}
 
-  observe(
-    breakpoints: WattBreakpoint | WattBreakpoint[]
-  ): Observable<WattBreakpointState> {
+  observe(breakpoints: WattBreakpoint | WattBreakpoint[]): Observable<WattBreakpointState> {
     return this.breakpointObserver.observe(breakpoints);
   }
 

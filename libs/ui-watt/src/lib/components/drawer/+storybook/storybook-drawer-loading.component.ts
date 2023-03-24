@@ -19,27 +19,14 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PushModule } from '@rx-angular/template/push';
-import {
-  delay,
-  distinctUntilChanged,
-  map,
-  tap,
-  Observable,
-  ReplaySubject,
-} from 'rxjs';
+import { delay, distinctUntilChanged, map, tap, Observable, ReplaySubject } from 'rxjs';
 import { WattButtonModule } from '../../button';
 import { WattSpinnerModule } from '../../spinner';
 import { WattDrawerModule } from '../watt-drawer.module';
 
 @Component({
   standalone: true,
-  imports: [
-    WattButtonModule,
-    WattDrawerModule,
-    WattSpinnerModule,
-    PushModule,
-    CommonModule,
-  ],
+  imports: [WattButtonModule, WattDrawerModule, WattSpinnerModule, PushModule, CommonModule],
   selector: 'watt-storybook-drawer-loading',
   template: `
     <watt-drawer #drawer size="small" [loading]="loading" (closed)="onClose()">
@@ -52,9 +39,7 @@ import { WattDrawerModule } from '../watt-drawer.module';
         <watt-button>Primary action</watt-button>
       </watt-drawer-actions>
 
-      <watt-drawer-content *ngIf="drawer.isOpen">{{
-        content$ | push
-      }}</watt-drawer-content>
+      <watt-drawer-content *ngIf="drawer.isOpen">{{ content$ | push }}</watt-drawer-content>
     </watt-drawer>
     <watt-button (click)="open('first')">Open first</watt-button>
     <br />

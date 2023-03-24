@@ -85,16 +85,11 @@ import { EoLandingPageStore } from './eo-landing-page.store';
     `,
   ],
   template: `
-    <eo-cookie-banner
-      *ngIf="!cookiesSet"
-      (accepted)="getCookieStatus()"
-    ></eo-cookie-banner>
+    <eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getCookieStatus()"></eo-cookie-banner>
     <eo-landing-page-header></eo-landing-page-header>
 
     <div class="u-positioning-context">
-      <eo-landing-page-notification
-        class="u-collapse-bottom"
-      ></eo-landing-page-notification>
+      <eo-landing-page-notification class="u-collapse-bottom"></eo-landing-page-notification>
 
       <eo-popup-message
         *ngIf="error"
@@ -128,10 +123,7 @@ export class EoLandingPageShellComponent {
   cookiesSet: string | null = null;
   error: { title: string; message: string } | null = null;
 
-  constructor(
-    private presenter: EoLandingPagePresenter,
-    private router: Router
-  ) {
+  constructor(private presenter: EoLandingPagePresenter, private router: Router) {
     this.getCookieStatus();
     this.checkForError();
   }

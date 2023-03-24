@@ -14,45 +14,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ConnectionState } from '@energinet-datahub/dh/shared/domain';
+import { MeteringPointConnectionState } from '@energinet-datahub/dh/shared/domain';
 
 import { connectionStateToBadgeType } from './connection-state-to-badge-type';
 
 describe(connectionStateToBadgeType.prototype.name, () => {
-  it(`Given connection state is "${ConnectionState.D02}"
+  it(`Given connection state is "${MeteringPointConnectionState.D02}"
     Then badge type is "warning"`, () => {
-    const actualBadgeType = connectionStateToBadgeType(ConnectionState.D02);
+    const actualBadgeType = connectionStateToBadgeType(MeteringPointConnectionState.D02);
 
     expect(actualBadgeType).toBe('warning');
   });
 
-  it(`Given connection state is "${ConnectionState.E23}"
+  it(`Given connection state is "${MeteringPointConnectionState.E23}"
     Then badge type is "warning"`, () => {
-    const actualBadgeType = connectionStateToBadgeType(ConnectionState.E23);
+    const actualBadgeType = connectionStateToBadgeType(MeteringPointConnectionState.E23);
 
     expect(actualBadgeType).toBe('warning');
   });
 
-  it(`Given connection state is "${ConnectionState.E22}"
+  it(`Given connection state is "${MeteringPointConnectionState.E22}"
     Then badge type is "warning"`, () => {
-    const actualBadgeType = connectionStateToBadgeType(ConnectionState.E22);
+    const actualBadgeType = connectionStateToBadgeType(MeteringPointConnectionState.E22);
 
     expect(actualBadgeType).toBe('success');
   });
 
-  it(`Given connection state is "${ConnectionState.D03}"
+  it(`Given connection state is "${MeteringPointConnectionState.D03}"
     Then badge type is "warning"`, () => {
-    const actualBadgeType = connectionStateToBadgeType(ConnectionState.D03);
+    const actualBadgeType = connectionStateToBadgeType(MeteringPointConnectionState.D03);
 
     expect(actualBadgeType).toBe('success');
   });
 
   it(`When an unknown connection state is specified
     Then an error is thrown"`, () => {
-    const unknowConnectionState = 'TEST' as ConnectionState;
+    const unknowConnectionState = 'TEST' as MeteringPointConnectionState;
 
-    expect(() =>
-      connectionStateToBadgeType(unknowConnectionState)
-    ).toThrowError(/unknown connection state/i);
+    expect(() => connectionStateToBadgeType(unknowConnectionState)).toThrowError(
+      /unknown connection state/i
+    );
   });
 });

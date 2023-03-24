@@ -15,13 +15,8 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  NgModule,
-} from '@angular/core';
-import { ProcessDetail } from '@energinet-datahub/dh/shared/domain';
+import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
+import { MeteringPointProcessDetail } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 import { WattIconModule } from '@energinet-datahub/watt/icon';
@@ -35,17 +30,17 @@ import { TranslocoModule } from '@ngneat/transloco';
   styleUrls: ['./dh-processes-detail-item.component.scss'],
 })
 export class DhProcessesDetailItemComponent {
-  private _detail!: ProcessDetail;
+  private _detail!: MeteringPointProcessDetail;
 
   @Input()
-  set detail(value: ProcessDetail) {
+  set detail(value: MeteringPointProcessDetail) {
     if (value === undefined) {
       throw new Error('ProcessDetail is undefined');
     }
 
     this._detail = value;
   }
-  get detail(): ProcessDetail {
+  get detail(): MeteringPointProcessDetail {
     return this._detail;
   }
 }

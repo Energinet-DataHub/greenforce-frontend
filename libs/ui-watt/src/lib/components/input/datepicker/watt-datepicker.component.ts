@@ -225,9 +225,7 @@ export class WattDatepickerComponent extends WattPickerBase {
       let value: Date | string = '';
 
       if (initialValue) {
-        value = this.parseDateShortFormat(
-          this.formatDateTimeFromModelToView(initialValue)
-        );
+        value = this.parseDateShortFormat(this.formatDateTimeFromModelToView(initialValue));
       }
 
       return { value };
@@ -236,10 +234,7 @@ export class WattDatepickerComponent extends WattPickerBase {
     const matStartDateChange$ = this.matStartDate.dateInput.pipe(
       startWith(getInitialValue((this.initialValue as WattRange)?.start)),
       tap(() => {
-        this.inputMaskService.setInputColor(
-          startDateInputElement,
-          maskedStartDate.inputMask
-        );
+        this.inputMaskService.setInputColor(startDateInputElement, maskedStartDate.inputMask);
       }),
       map(({ value }) => {
         let start = '';
@@ -255,10 +250,7 @@ export class WattDatepickerComponent extends WattPickerBase {
     const matEndDateChange$ = this.matEndDate.dateInput.pipe(
       startWith(getInitialValue((this.initialValue as WattRange)?.end)),
       tap(() => {
-        this.inputMaskService.setInputColor(
-          endDateInputElement,
-          maskedEndDate.inputMask
-        );
+        this.inputMaskService.setInputColor(endDateInputElement, maskedEndDate.inputMask);
       }),
       map(({ value }) => {
         let end = '';
@@ -305,13 +297,10 @@ export class WattDatepickerComponent extends WattPickerBase {
           start = this.formatDateFromViewToModel(parsedStartDate);
         }
 
-        const maybeEndDateInDanishTimeZone: Date | null =
-          this.setEndDateToDanishTimeZone(end);
+        const maybeEndDateInDanishTimeZone: Date | null = this.setEndDateToDanishTimeZone(end);
 
         if (maybeEndDateInDanishTimeZone != null) {
-          const endDateEndOfDay = this.setToEndOfDay(
-            maybeEndDateInDanishTimeZone
-          );
+          const endDateEndOfDay = this.setToEndOfDay(maybeEndDateInDanishTimeZone);
 
           this.matEndDate.value = endDateEndOfDay;
           end = this.formatDateFromViewToModel(endDateEndOfDay);
@@ -327,10 +316,7 @@ export class WattDatepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  protected setSingleValue(
-    value: Exclude<WattPickerValue, WattRange>,
-    input: HTMLInputElement
-  ) {
+  protected setSingleValue(value: Exclude<WattPickerValue, WattRange>, input: HTMLInputElement) {
     this.setValueToInput(value, input, this.matDatepickerInput);
   }
 
@@ -367,10 +353,7 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   private getInputFormat(): string {
-    const localeDateFormat = getLocaleDateFormat(
-      this.locale,
-      FormatWidth.Short
-    );
+    const localeDateFormat = getLocaleDateFormat(this.locale, FormatWidth.Short);
 
     return localeDateFormat
       .toLowerCase()
@@ -384,9 +367,7 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   private getPlaceholder(inputFormat: string): string {
-    return this.locale === danishLocaleCode
-      ? inputFormat.split('y').join('å')
-      : inputFormat;
+    return this.locale === danishLocaleCode ? inputFormat.split('y').join('å') : inputFormat;
   }
 
   /**
@@ -412,9 +393,7 @@ export class WattDatepickerComponent extends WattPickerBase {
     matDateInput: D
   ): void {
     nativeInput.value = value ? this.formatDateTimeFromModelToView(value) : '';
-    matDateInput.value = value
-      ? zonedTimeToUtc(value, danishTimeZoneIdentifier)
-      : null;
+    matDateInput.value = value ? zonedTimeToUtc(value, danishTimeZoneIdentifier) : null;
   }
 
   /**
@@ -463,9 +442,7 @@ export class WattDatepickerComponent extends WattPickerBase {
     if (isValid(dateBasedOnShortFormat)) {
       maybeDateInDanishTimeZone = this.toDanishTimeZone(dateBasedOnShortFormat);
     } else if (isValid(dateBasedOnISO8601Format)) {
-      maybeDateInDanishTimeZone = this.toDanishTimeZone(
-        dateBasedOnISO8601Format
-      );
+      maybeDateInDanishTimeZone = this.toDanishTimeZone(dateBasedOnISO8601Format);
     }
 
     return maybeDateInDanishTimeZone;

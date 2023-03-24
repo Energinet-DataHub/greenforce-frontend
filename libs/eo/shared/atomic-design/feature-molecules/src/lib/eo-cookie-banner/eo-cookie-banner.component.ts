@@ -53,13 +53,8 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
   template: `
     <mat-card>
       <h1>No cookies, no energy</h1>
-      <p>
-        Some are used for statistics and others are set by third party services.
-      </p>
-      <p>
-        By clicking OK you accept the use of the types of cookies selected
-        below.
-      </p>
+      <p>Some are used for statistics and others are set by third party services.</p>
+      <p>By clicking OK you accept the use of the types of cookies selected below.</p>
       <div class="buttons">
         <watt-button
           data-testid="button-only-necessary"
@@ -67,9 +62,7 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
           (click)="acceptNecessaryCookies()"
           >Only necessary
         </watt-button>
-        <watt-button
-          data-testid="button-accept-all"
-          (click)="acceptAllCookies()"
+        <watt-button data-testid="button-accept-all" (click)="acceptAllCookies()"
           >Accept all
         </watt-button>
       </div>

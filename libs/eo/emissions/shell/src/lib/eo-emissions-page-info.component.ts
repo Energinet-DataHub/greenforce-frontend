@@ -47,9 +47,7 @@ import { EoEmissionsStore } from './eo-emissions.store';
     <mat-card>
       <h4>Your emissions in 2021</h4>
       <eo-emissions-data class="output watt-space-stack-m"></eo-emissions-data>
-      <watt-button variant="text" icon="save" (click)="openSurvey()">
-        Export details
-      </watt-button>
+      <watt-button variant="text" icon="save" (click)="openSurvey()"> Export details </watt-button>
     </mat-card>
   `,
 })

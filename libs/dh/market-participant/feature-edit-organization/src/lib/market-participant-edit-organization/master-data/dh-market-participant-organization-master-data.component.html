@@ -14,9 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *transloco="let t; read: 'marketParticipant.organization.create.masterData'"
->
+<ng-container *transloco="let t; read: 'marketParticipant.organization.create.masterData'">
   <div class="form-container">
     <watt-form-field class="field-name">
       <watt-label>{{ t("organizationNameLabel") }}</watt-label>
@@ -41,9 +39,7 @@ limitations under the License.
         #businessRegisterIdentifierInputModel="ngModel"
         required
       />
-      <watt-error
-        *ngIf="businessRegisterIdentifierInputModel.hasError('required')"
-      >
+      <watt-error *ngIf="businessRegisterIdentifierInputModel.hasError('required')">
         {{ "shared.fieldRequiredErrorText" | transloco }}
       </watt-error>
     </watt-form-field>
@@ -145,9 +141,7 @@ limitations under the License.
       <watt-dropdown
         [(ngModel)]="changes.status"
         [options]="statuses"
-        [disabled]="
-          !changes.organizationId || initialOrganizationStatus === 'Deleted'
-        "
+        [disabled]="!changes.organizationId || initialOrganizationStatus === 'Deleted'"
         #statusInputModel="ngModel"
         required
         [showResetOption]="false"

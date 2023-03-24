@@ -8,28 +8,18 @@
     "permissions": [
       {
         "id": 1,
-        "name": "organization:manage",
+        "name": "organizations:manage",
         "description": "Permission to manage organization"
       },
       {
         "id": 2,
-        "name": "Organization:view",
+        "name": "organizations:view",
         "description": "Permission to view organization"
       },
       {
         "id": 3,
-        "name": "organization:manage",
-        "description": "Permission to manage organization"
-      },
-      {
-        "id": 4,
         "name": "user:manage",
         "description": "Permission to manage users"
-      },
-      {
-        "id": 5,
-        "name": "user:manage",
-        "description": "Permission to manage organization"
       }
     ]
   },
@@ -42,28 +32,18 @@
     "permissions": [
       {
         "id": 1,
-        "name": "organization:manage",
+        "name": "organizations:manage",
         "description": "Permission to manage organization"
       },
       {
         "id": 2,
-        "name": "Organization:view",
+        "name": "organizations:view",
         "description": "Permission to view organization"
       },
       {
         "id": 3,
-        "name": "organization:manage",
-        "description": "Permission to manage organization"
-      },
-      {
-        "id": 4,
         "name": "user:manage",
         "description": "Permission to manage users"
-      },
-      {
-        "id": 5,
-        "name": "user:manage",
-        "description": "Permission to manage organization"
       }
     ]
   }

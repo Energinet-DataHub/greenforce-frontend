@@ -47,9 +47,7 @@ import { EoEmissionsStore } from './eo-emissions.store';
       <h3>CO<sub>2</sub></h3>
     </div>
 
-    <ng-template #loading
-      ><watt-spinner [diameter]="36"></watt-spinner
-    ></ng-template>
+    <ng-template #loading><watt-spinner [diameter]="36"></watt-spinner></ng-template>
   `,
 })
 export class EoEmissionsDataComponent {

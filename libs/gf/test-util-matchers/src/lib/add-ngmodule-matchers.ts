@@ -76,9 +76,7 @@ export function addNgModuleMatchers(): void {
   });
 
   expect.extend({
-    toGuardAgainstMultipleInjectorRegistration<TRootModule>(
-      rootNgModuleType: Type<TRootModule>
-    ) {
+    toGuardAgainstMultipleInjectorRegistration<TRootModule>(rootNgModuleType: Type<TRootModule>) {
       const optionalAngularDependency = null;
       let didRootInstanceThrow = false;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

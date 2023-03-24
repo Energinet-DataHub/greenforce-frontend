@@ -39,9 +39,7 @@ describe(EoShellComponent.name, () => {
 
   it('displays the Watt shell', () => {
     // Assert
-    const wattShell = fixture.debugElement.query(
-      By.directive(WattShellComponent)
-    );
+    const wattShell = fixture.debugElement.query(By.directive(WattShellComponent));
     expect(wattShell.componentInstance).toBeInstanceOf(WattShellComponent);
   });
 });

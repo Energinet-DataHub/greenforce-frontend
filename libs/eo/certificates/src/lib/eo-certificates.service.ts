@@ -16,10 +16,7 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import {
-  EoApiEnvironment,
-  eoApiEnvironmentToken,
-} from '@energinet-datahub/eo/shared/environments';
+import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
 export interface EoCertificate {
   dateFrom: number;
@@ -61,20 +58,18 @@ export class EoCertificatesService {
   }
 
   getCertificates() {
-    return this.http.get<EoCertificateResponse>(
-      `${this.#apiBase}/certificates`,
-      { withCredentials: true }
-    );
+    return this.http.get<EoCertificateResponse>(`${this.#apiBase}/certificates`, {
+      withCredentials: true,
+    });
   }
 
   /**
    * Array of all the user's contracts for issuing granular certificates
    */
   getContracts() {
-    return this.http.get<EoContractResponse>(
-      `${this.#apiBase}/certificates/contracts`,
-      { withCredentials: true }
-    );
+    return this.http.get<EoContractResponse>(`${this.#apiBase}/certificates/contracts`, {
+      withCredentials: true,
+    });
   }
 
   /**

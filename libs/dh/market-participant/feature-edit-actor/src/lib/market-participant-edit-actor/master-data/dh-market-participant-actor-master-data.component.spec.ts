@@ -32,10 +32,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
       componentProperties: {
         changes: changes,
       },
-      imports: [
-        DhMarketParticipantActorMasterDataComponentScam,
-        getTranslocoTestingModule(),
-      ],
+      imports: [DhMarketParticipantActorMasterDataComponentScam, getTranslocoTestingModule()],
     });
 
     return { view };

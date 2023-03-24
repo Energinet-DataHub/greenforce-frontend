@@ -14,14 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Directive,
-  Input,
-  NgModule,
-  OnInit,
-  TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
+import { Directive, Input, NgModule, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 
 import { DhFeatureFlags } from './feature-flags';
 import { DhFeatureFlagsService } from './feature-flags.service';

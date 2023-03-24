@@ -23,10 +23,7 @@ import {
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import {
-  WattModalModule,
-  WattModalComponent,
-} from '@energinet-datahub/watt/modal';
+import { WattModalModule, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { FormsModule } from '@angular/forms';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';

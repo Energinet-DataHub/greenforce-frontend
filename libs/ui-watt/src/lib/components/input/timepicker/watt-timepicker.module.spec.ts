@@ -61,9 +61,7 @@ describe(WattTimepickerModule.name, () => {
       ],
     });
 
-    const [startTimeInput, endTimeInput] = screen.queryAllByRole(
-      'textbox'
-    ) as HTMLInputElement[];
+    const [startTimeInput, endTimeInput] = screen.queryAllByRole('textbox') as HTMLInputElement[];
 
     return {
       fixture,

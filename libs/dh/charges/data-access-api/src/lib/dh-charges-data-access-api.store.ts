@@ -24,10 +24,7 @@ import {
   CreateChargeV1Dto,
 } from '@energinet-datahub/dh/shared/domain';
 import { Observable, switchMap, tap } from 'rxjs';
-import {
-  ErrorState,
-  LoadingState,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 interface ChargesState {
   readonly charges?: Array<ChargeV1Dto>;
@@ -46,15 +43,9 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
   all$ = this.select((state) => state.charges);
 
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
-  isLoading$ = this.select(
-    (state) => state.requestState === LoadingState.LOADING
-  );
-  chargesNotFound$ = this.select(
-    (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
-  );
-  hasGeneralError$ = this.select(
-    (state) => state.requestState === ErrorState.GENERAL_ERROR
-  );
+  isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
+  chargesNotFound$ = this.select((state) => state.requestState === ErrorState.NOT_FOUND_ERROR);
+  hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
 
   isCreateRequestLoading$ = this.select(
     (state) => state.createRequestState === LoadingState.LOADING
@@ -70,64 +61,55 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
     super(initialState);
   }
 
-  readonly searchCharges = this.effect(
-    (searchCriteria: Observable<ChargeSearchCriteriaV1Dto>) => {
-      return searchCriteria.pipe(
-        tap(() => {
-          this.resetState();
+  readonly searchCharges = this.effect((searchCriteria: Observable<ChargeSearchCriteriaV1Dto>) => {
+    return searchCriteria.pipe(
+      tap(() => {
+        this.resetState();
 
-          this.setLoading(LoadingState.LOADING);
-        }),
-        switchMap((searchCriteria) =>
-          this.httpClient.v1ChargesSearchAsyncPost(searchCriteria).pipe(
-            tapResponse(
-              (chargesData) => {
-                this.setLoading(LoadingState.LOADED);
+        this.setLoading(LoadingState.LOADING);
+      }),
+      switchMap((searchCriteria) =>
+        this.httpClient.v1ChargesSearchAsyncPost(searchCriteria).pipe(
+          tapResponse(
+            (chargesData) => {
+              this.setLoading(LoadingState.LOADED);
 
-                this.updateChargesData(chargesData);
-              },
-              (error: HttpErrorResponse) => {
-                this.setLoading(LoadingState.LOADED);
-                this.handleError(error);
-              }
-            )
+              this.updateChargesData(chargesData);
+            },
+            (error: HttpErrorResponse) => {
+              this.setLoading(LoadingState.LOADED);
+              this.handleError(error);
+            }
           )
         )
-      );
-    }
-  );
+      )
+    );
+  });
 
-  readonly createCharge = this.effect(
-    (createChargeV1Dto: Observable<CreateChargeV1Dto>) => {
-      return createChargeV1Dto.pipe(
-        tap(() => {
-          this.resetState();
+  readonly createCharge = this.effect((createChargeV1Dto: Observable<CreateChargeV1Dto>) => {
+    return createChargeV1Dto.pipe(
+      tap(() => {
+        this.resetState();
 
-          this.setCreateRequestState(LoadingState.LOADING);
-        }),
-        switchMap((createChargeV1Dto) =>
-          this.httpClient
-            .v1ChargesCreateChargeAsyncPost(createChargeV1Dto)
-            .pipe(
-              tapResponse(
-                () => {
-                  this.setCreateRequestState(LoadingState.LOADED);
-                },
-                () => {
-                  this.handleCreateRequestError();
-                }
-              )
-            )
+        this.setCreateRequestState(LoadingState.LOADING);
+      }),
+      switchMap((createChargeV1Dto) =>
+        this.httpClient.v1ChargesCreateChargeAsyncPost(createChargeV1Dto).pipe(
+          tapResponse(
+            () => {
+              this.setCreateRequestState(LoadingState.LOADED);
+            },
+            () => {
+              this.handleCreateRequestError();
+            }
+          )
         )
-      );
-    }
-  );
+      )
+    );
+  });
 
   private updateChargesData = this.updater(
-    (
-      state: ChargesState,
-      chargesData: Array<ChargeV1Dto> | undefined
-    ): ChargesState => ({
+    (state: ChargesState, chargesData: Array<ChargeV1Dto> | undefined): ChargesState => ({
       ...state,
       charges: chargesData || [],
     })

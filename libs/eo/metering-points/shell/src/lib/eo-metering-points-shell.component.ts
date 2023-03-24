@@ -23,12 +23,7 @@ import { EoMeteringPointsStore } from './eo-metering-points.store';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    AsyncPipe,
-    NgIf,
-    EoPopupMessageComponent,
-    EoMeteringPointListComponent,
-  ],
+  imports: [AsyncPipe, NgIf, EoPopupMessageComponent, EoMeteringPointListComponent],
   selector: 'eo-metering-points-shell',
   styles: [``],
   template: `

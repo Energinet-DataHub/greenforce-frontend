@@ -14,9 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *transloco="let t; read: 'admin.userManagement.createrole.tabs.masterdata'"
->
+<ng-container *transloco="let t; read: 'admin.userManagement.createrole.tabs.masterdata'">
   <watt-card>
     <!-- Name -->
     <watt-form-field>
@@ -32,14 +30,8 @@ limitations under the License.
     <!-- Description -->
     <watt-form-field>
       <watt-label>{{ t("description") }}</watt-label>
-      <input
-        wattInput
-        type="text"
-        [formControl]="userRoleForm.controls.description"
-      />
-      <watt-error
-        *ngIf="userRoleForm.controls.description.hasError('required')"
-      >
+      <input wattInput type="text" [formControl]="userRoleForm.controls.description" />
+      <watt-error *ngIf="userRoleForm.controls.description.hasError('required')">
         {{ "shared.fieldRequiredErrorText" | transloco }}
       </watt-error>
     </watt-form-field>
@@ -69,9 +61,7 @@ limitations under the License.
         [placeholder]="t('selectEicFunctionStatus')"
       >
       </watt-dropdown>
-      <watt-error
-        *ngIf="userRoleForm.controls.eicFunction.hasError('required')"
-      >
+      <watt-error *ngIf="userRoleForm.controls.eicFunction.hasError('required')">
         {{ "shared.fieldRequiredErrorText" | transloco }}
       </watt-error>
     </watt-form-field>

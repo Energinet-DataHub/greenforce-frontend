@@ -19,10 +19,7 @@ import { LocalStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
 import { ActorStorage } from './actor-storage';
 
 describe(ActorStorage.name, () => {
-  const ids = [
-    '18918674-D8EB-483F-94E8-CE241AB502E5',
-    '898BF589-543C-42DA-8A72-120F0E263E86',
-  ];
+  const ids = ['18918674-D8EB-483F-94E8-CE241AB502E5', '898BF589-543C-42DA-8A72-120F0E263E86'];
 
   test('should return selected if set', async () => {
     // arrange

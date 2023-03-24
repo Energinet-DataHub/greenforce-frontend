@@ -14,9 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *transloco="let transloco; read: 'meteringPoint.overview.primaryMasterData'"
->
+<ng-container *transloco="let transloco; read: 'meteringPoint.overview.primaryMasterData'">
   <div class="column flex">
     <section class="align-top">
       <dl class="multiple-terms-and-descriptions">
@@ -24,9 +22,7 @@ limitations under the License.
         <dd class="watt-text-s">
           {{ primaryMasterData?.locationDescription | dhEmDashFallback }}
         </dd>
-        <dt class="watt-text-s text-dimmed">
-          {{ transloco("geoInfoReference") }}:
-        </dt>
+        <dt class="watt-text-s text-dimmed">{{ transloco("geoInfoReference") }}:</dt>
         <dd class="watt-text-s text-dimmed">
           {{ primaryMasterData?.darReference | dhEmDashFallback }}
         </dd>

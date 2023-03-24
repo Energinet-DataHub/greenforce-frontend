@@ -34,62 +34,48 @@ const initialState: ProcessesState = {
 
 @Injectable()
 export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState> {
-  processes$: Observable<DhProcess[]> = this.select(
-    (state) => state.processes
-  ).pipe(
+  processes$: Observable<DhProcess[]> = this.select((state) => state.processes).pipe(
     filter((processes) => !!processes),
     map((processes) => processes as DhProcess[])
   );
-  isLoading$ = this.select(
-    (state) => state.requestState === LoadingState.LOADING
-  );
-  processesNotFound$ = this.select(
-    (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
-  );
-  hasGeneralError$ = this.select(
-    (state) => state.requestState === ErrorState.GENERAL_ERROR
-  );
+  isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
+  processesNotFound$ = this.select((state) => state.requestState === ErrorState.NOT_FOUND_ERROR);
+  hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
 
   constructor(private httpClient: MeteringPointHttp) {
     super(initialState);
   }
 
-  readonly loadProcessData = this.effect(
-    (meteringPointId$: Observable<string>) => {
-      return meteringPointId$.pipe(
-        tap(() => {
-          this.resetState();
+  readonly loadProcessData = this.effect((meteringPointId$: Observable<string>) => {
+    return meteringPointId$.pipe(
+      tap(() => {
+        this.resetState();
 
-          this.setLoading(true);
-        }),
-        switchMap((id) =>
-          this.httpClient.v1MeteringPointGetProcessesByGsrnGet(id).pipe(
-            tapResponse(
-              (processesData) => {
-                this.setLoading(false);
+        this.setLoading(true);
+      }),
+      switchMap((id) =>
+        this.httpClient.v1MeteringPointGetProcessesByGsrnGet(id).pipe(
+          tapResponse(
+            (processesData) => {
+              this.setLoading(false);
 
-                const dhProcesses: DhProcess[] = processesData.map(
-                  (process) => ({
-                    ...process,
-                    hasDetailsErrors: process.details.some(
-                      (detail) => detail.errors.length > 0
-                    ),
-                  })
-                );
+              const dhProcesses: DhProcess[] = processesData.map((process) => ({
+                ...process,
+                hasDetailsErrors: process.details.some((detail) => detail.errors.length > 0),
+              }));
 
-                this.updateProcessesData(dhProcesses);
-              },
-              (error: HttpErrorResponse) => {
-                this.setLoading(false);
+              this.updateProcessesData(dhProcesses);
+            },
+            (error: HttpErrorResponse) => {
+              this.setLoading(false);
 
-                this.handleError(error);
-              }
-            )
+              this.handleError(error);
+            }
           )
         )
-      );
-    }
-  );
+      )
+    );
+  });
 
   private updateProcessesData = this.updater(
     (state: ProcessesState, processesData: DhProcess[]): ProcessesState => ({

@@ -35,15 +35,12 @@ import {
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
 import {
-  ActorContactDto,
-  ActorStatus,
+  MarketParticipantActorContactDto,
+  MarketParticipantActorStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import {
-  WattModalModule,
-  WattModalComponent,
-} from '@energinet-datahub/watt/modal';
+import { WattModalModule, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 
@@ -94,7 +91,7 @@ export class DhMarketParticipantEditActorComponent {
   readonly onContactsChanged = (
     isValid: boolean,
     added: ActorContactChanges[],
-    removed: ActorContactDto[]
+    removed: MarketParticipantActorContactDto[]
   ) => {
     this.store.setContactChanges(isValid, added, removed);
   };
@@ -103,12 +100,12 @@ export class DhMarketParticipantEditActorComponent {
     this.backToOverview();
   };
 
-  readonly onSaved = (initialStatus: ActorStatus, changes: ActorChanges) => {
+  readonly onSaved = (initialStatus: MarketParticipantActorStatus, changes: ActorChanges) => {
     if (
-      (changes.status === ActorStatus.Inactive &&
-        initialStatus !== ActorStatus.Inactive) ||
-      (changes.status == ActorStatus.Passive &&
-        initialStatus != ActorStatus.Passive)
+      (changes.status === MarketParticipantActorStatus.Inactive &&
+        initialStatus !== MarketParticipantActorStatus.Inactive) ||
+      (changes.status == MarketParticipantActorStatus.Passive &&
+        initialStatus != MarketParticipantActorStatus.Passive)
     ) {
       this.confirmationModal.open();
     } else {
@@ -121,9 +118,7 @@ export class DhMarketParticipantEditActorComponent {
   };
 
   private readonly backToOverview = () => {
-    this.router.navigateByUrl(
-      `${dhMarketParticipantPath}/${dhMarketParticipantOrganizationsPath}`
-    );
+    this.router.navigateByUrl(`${dhMarketParticipantPath}/${dhMarketParticipantOrganizationsPath}`);
   };
 }
 
@@ -134,7 +129,8 @@ export class DhMarketParticipantEditActorComponent {
     CommonModule,
     TranslocoModule,
     WattButtonModule,
-    WattTabsModule,
+    WattTabComponent,
+    WattTabsComponent,
     WattSpinnerModule,
     WattModalModule,
     PushModule,

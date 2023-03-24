@@ -18,7 +18,7 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   MarketParticipantGridAreaOverviewHttp,
-  PriceAreaCode,
+  MarketParticipantPriceAreaCode,
 } from '@energinet-datahub/dh/shared/domain';
 import { Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -38,7 +38,7 @@ export interface GridAreaOverviewRow {
   id: string;
   name: string;
   code: string;
-  priceAreaCode: PriceAreaCode;
+  priceAreaCode: MarketParticipantPriceAreaCode;
   validFrom: string;
   validTo?: string | null;
   actorNumber?: string | null;
@@ -57,39 +57,33 @@ export class DhMarketParticipantGridAreaOverviewDataAccessApiStore extends Compo
   rows$ = this.select((state) => state.rows);
   validationError$ = this.select((state) => state.validation);
 
-  constructor(
-    private gridAreaOverviewClient: MarketParticipantGridAreaOverviewHttp
-  ) {
+  constructor(private gridAreaOverviewClient: MarketParticipantGridAreaOverviewHttp) {
     super(initialState);
   }
 
   readonly init = this.effect((trigger$: Observable<void>) =>
     trigger$.pipe(
-      tap(() =>
-        this.patchState({ isLoading: true, rows: [], validation: undefined })
-      ),
+      tap(() => this.patchState({ isLoading: true, rows: [], validation: undefined })),
       switchMap(() => this.getOverview()),
       tap(() => this.patchState({ isLoading: false }))
     )
   );
 
   private readonly getOverview = () =>
-    this.gridAreaOverviewClient
-      .v1MarketParticipantGridAreaOverviewGetAllGridAreasGet()
-      .pipe(
-        tapResponse(
-          (rows) =>
-            this.patchState({
-              rows: rows
-                .map((row) => ({
-                  ...row,
-                  priceAreaCode: row.priceAreaCode,
-                }))
-                .sort((a, b) => a.code.localeCompare(b.code)),
-            }),
-          this.handleError
-        )
-      );
+    this.gridAreaOverviewClient.v1MarketParticipantGridAreaOverviewGetAllGridAreasGet().pipe(
+      tapResponse(
+        (rows) =>
+          this.patchState({
+            rows: rows
+              .map((row) => ({
+                ...row,
+                priceAreaCode: row.priceAreaCode,
+              }))
+              .sort((a, b) => a.code.localeCompare(b.code)),
+          }),
+        this.handleError
+      )
+    );
 
   private readonly handleError = (errorResponse: HttpErrorResponse) =>
     this.patchState({

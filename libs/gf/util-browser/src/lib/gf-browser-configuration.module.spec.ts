@@ -42,8 +42,6 @@ describe(GfBrowserConfigurationModule.name, () => {
   });
 
   it('guards against being registered in multiple injectors', () => {
-    expect(
-      GfBrowserConfigurationRootModule
-    ).toGuardAgainstMultipleInjectorRegistration();
+    expect(GfBrowserConfigurationRootModule).toGuardAgainstMultipleInjectorRegistration();
   });
 });

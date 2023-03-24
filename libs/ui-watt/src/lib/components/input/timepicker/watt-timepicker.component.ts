@@ -28,18 +28,9 @@ import {
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import {
-  BehaviorSubject,
-  distinctUntilChanged,
-  EMPTY,
-  map,
-  takeUntil,
-} from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, EMPTY, map, takeUntil } from 'rxjs';
 
-import {
-  WattInputMaskService,
-  WattMaskedInput,
-} from '../shared/watt-input-mask.service';
+import { WattInputMaskService, WattMaskedInput } from '../shared/watt-input-mask.service';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattRange } from '../shared/watt-range';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
@@ -154,9 +145,7 @@ export class WattTimepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  sliderSteps = [...Array(quartersInADay).keys()]
-    .map((x) => x * 15)
-    .concat(minutesInADay - 1);
+  sliderSteps = [...Array(quartersInADay).keys()].map((x) => x * 15).concat(minutesInADay - 1);
 
   /**
    * @ignore
@@ -250,12 +239,10 @@ export class WattTimepickerComponent extends WattPickerBase {
 
     // Synchronize the slider value with the input fields. Calling `update`
     // here automatically triggers an emit on the `timeRange$` observable.
-    this.sliderChange$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((sliderValue) => {
-        startInput.maskedInput.update(minutesToTime(sliderValue.min));
-        endInput.maskedInput.update(minutesToTime(sliderValue.max));
-      });
+    this.sliderChange$.pipe(takeUntil(this.destroy$)).subscribe((sliderValue) => {
+      startInput.maskedInput.update(minutesToTime(sliderValue.min));
+      endInput.maskedInput.update(minutesToTime(sliderValue.max));
+    });
 
     // Whenever the start input value changes, set (or remove)
     // the minimum allowed value for the end input value.
@@ -278,10 +265,7 @@ export class WattTimepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  protected setSingleValue(
-    value: Exclude<WattPickerValue, WattRange>,
-    input: HTMLInputElement
-  ) {
+  protected setSingleValue(value: Exclude<WattPickerValue, WattRange>, input: HTMLInputElement) {
     input.value = value ? value : '';
   }
 

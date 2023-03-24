@@ -22,8 +22,8 @@ import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   ChargeType,
   ChargeV1Dto,
-  Resolution,
-  VatClassification,
+  ChargeResolution,
+  ChargeVatClassification,
 } from '@energinet-datahub/dh/shared/domain';
 import userEvent from '@testing-library/user-event';
 import { DhMarketParticipantDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
@@ -41,10 +41,10 @@ const dateTimeFormat = 'dd-MM-yyyy';
 const charge: ChargeV1Dto = {
   id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
   chargeType: ChargeType.D02,
-  resolution: Resolution.P1D,
+  resolution: ChargeResolution.P1D,
   taxIndicator: false,
   transparentInvoicing: true,
-  vatClassification: VatClassification.NoVat,
+  vatClassification: ChargeVatClassification.NoVat,
   validFromDateTime: '2021-09-29T22:00:00Z',
   validToDateTime: '2021-10-29T22:00:00Z',
   chargeId: 'chargeid01',
@@ -108,12 +108,8 @@ describe(DhChargeContentComponent.name, () => {
   it('displays a date range', async () => {
     await setup();
 
-    const startDateInput = await waitFor(() =>
-      findInputElement(startDateInputSelector)
-    );
-    const endDateInput = await waitFor(() =>
-      findInputElement(endDateInputSelector)
-    );
+    const startDateInput = await waitFor(() => findInputElement(startDateInputSelector));
+    const endDateInput = await waitFor(() => findInputElement(endDateInputSelector));
 
     expect(startDateInput).toBeInTheDocument();
     expect(endDateInput).toBeInTheDocument();
@@ -122,19 +118,11 @@ describe(DhChargeContentComponent.name, () => {
   it.skip('date range should default to today', async () => {
     await setup();
 
-    const startDateInput = await waitFor(() =>
-      findInputElement(startDateInputSelector)
-    );
-    const endDateInput = await waitFor(() =>
-      findInputElement(endDateInputSelector)
-    );
+    const startDateInput = await waitFor(() => findInputElement(startDateInputSelector));
+    const endDateInput = await waitFor(() => findInputElement(endDateInputSelector));
 
     const now = new Date();
-    const expectedDate = formatInTimeZone(
-      now,
-      danishTimeZoneIdentifier,
-      dateTimeFormat
-    );
+    const expectedDate = formatInTimeZone(now, danishTimeZoneIdentifier, dateTimeFormat);
 
     expect(startDateInput.value).toEqual(expectedDate);
     expect(endDateInput.value).toEqual(expectedDate);
@@ -146,18 +134,10 @@ describe(DhChargeContentComponent.name, () => {
     const now = new Date();
     const tomorrow = add(now, { days: 1 });
 
-    let startDateInput = await waitFor(() =>
-      findInputElement(startDateInputSelector)
-    );
-    let endDateInput = await waitFor(() =>
-      findInputElement(endDateInputSelector)
-    );
+    let startDateInput = await waitFor(() => findInputElement(startDateInputSelector));
+    let endDateInput = await waitFor(() => findInputElement(endDateInputSelector));
 
-    const newDateToInput = formatInTimeZone(
-      tomorrow,
-      danishTimeZoneIdentifier,
-      'ddMMyyyy'
-    );
+    const newDateToInput = formatInTimeZone(tomorrow, danishTimeZoneIdentifier, 'ddMMyyyy');
 
     userEvent.clear(startDateInput);
     startDateInput.setSelectionRange(0, 0);
@@ -172,11 +152,7 @@ describe(DhChargeContentComponent.name, () => {
     startDateInput = findInputElement(startDateInputSelector);
     endDateInput = findInputElement(endDateInputSelector);
 
-    const expectedNewDate = formatInTimeZone(
-      tomorrow,
-      danishTimeZoneIdentifier,
-      dateTimeFormat
-    );
+    const expectedNewDate = formatInTimeZone(tomorrow, danishTimeZoneIdentifier, dateTimeFormat);
 
     expect(startDateInput.value).toEqual(expectedNewDate);
     expect(endDateInput.value).toEqual(expectedNewDate);

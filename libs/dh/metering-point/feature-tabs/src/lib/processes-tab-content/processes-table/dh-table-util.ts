@@ -24,13 +24,10 @@ export function wrapInTableRow<T>(dataRows: T[]): DhTableRow<T>[] {
   }));
 }
 
-export function getRowToExpand(
-  clickedElement: Element
-): HTMLElement | undefined {
+export function getRowToExpand(clickedElement: Element): HTMLElement | undefined {
   return (
     // Get the row next to the parent row
-    (clickedElement.closest('mat-row')?.nextElementSibling as HTMLElement) ??
-    undefined
+    (clickedElement.closest('mat-row')?.nextElementSibling as HTMLElement) ?? undefined
   );
 }
 
@@ -38,10 +35,6 @@ export function getRowHeight(rowElement: HTMLElement): number {
   return rowElement.children[0].clientHeight;
 }
 
-export function compareSortValues(
-  a: number | string,
-  b: number | string,
-  isAsc: boolean
-): number {
+export function compareSortValues(a: number | string, b: number | string, isAsc: boolean): number {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

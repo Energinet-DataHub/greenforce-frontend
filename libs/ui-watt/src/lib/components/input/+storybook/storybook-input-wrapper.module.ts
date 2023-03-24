@@ -35,10 +35,7 @@ import { WattIconModule } from './../../../foundations/icon';
     FormsModule,
     ReactiveFormsModule,
   ],
-  declarations: [
-    StorybookInputWrapperComponent,
-    StorybookInputOverviewComponent,
-  ],
+  declarations: [StorybookInputWrapperComponent, StorybookInputOverviewComponent],
   exports: [
     WattFormFieldModule,
     WattInputModule,

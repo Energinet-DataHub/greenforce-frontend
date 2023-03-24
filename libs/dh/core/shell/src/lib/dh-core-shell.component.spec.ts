@@ -40,9 +40,7 @@ describe(DhCoreShellComponent.name, () => {
   let view: RenderResult<DhCoreShellComponent>;
 
   it('displays the Watt shell', () => {
-    const wattShell = view.fixture.debugElement.query(
-      By.directive(WattShellComponent)
-    );
+    const wattShell = view.fixture.debugElement.query(By.directive(WattShellComponent));
 
     expect(wattShell.componentInstance).toBeInstanceOf(WattShellComponent);
   });

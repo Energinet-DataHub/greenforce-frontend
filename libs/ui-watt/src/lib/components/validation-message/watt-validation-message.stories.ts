@@ -40,9 +40,7 @@ import { ${WattValidationMessageModule.name} } from '@energinet-datahub/watt/val
 
 <watt-validation-message label="Label" message="Message" type="danger"></watt-validation-message>`;
 
-export const validationMessage: Story<WattValidationMessageComponent> = (
-  args
-) => ({
+export const validationMessage: Story<WattValidationMessageComponent> = (args) => ({
   props: args,
 });
 validationMessage.parameters = {

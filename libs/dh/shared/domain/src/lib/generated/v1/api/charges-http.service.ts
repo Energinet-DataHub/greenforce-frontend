@@ -19,6 +19,8 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
+import { ChargeMarketParticipantV1Dto } from '../model/charge-market-participant-v1-dto';
+// @ts-ignore
 import { ChargeMessagesSearchCriteriaV1Dto } from '../model/charge-messages-search-criteria-v1-dto';
 // @ts-ignore
 import { ChargeMessagesV1Dto } from '../model/charge-messages-v1-dto';
@@ -32,8 +34,6 @@ import { ChargeSearchCriteriaV1Dto } from '../model/charge-search-criteria-v1-dt
 import { ChargeV1Dto } from '../model/charge-v1-dto';
 // @ts-ignore
 import { CreateChargeV1Dto } from '../model/create-charge-v1-dto';
-// @ts-ignore
-import { MarketParticipantV1Dto } from '../model/market-participant-v1-dto';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -181,9 +181,9 @@ export class ChargesHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1ChargesGetMarketParticipantsAsyncGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<MarketParticipantV1Dto>>;
-    public v1ChargesGetMarketParticipantsAsyncGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<MarketParticipantV1Dto>>>;
-    public v1ChargesGetMarketParticipantsAsyncGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<MarketParticipantV1Dto>>>;
+    public v1ChargesGetMarketParticipantsAsyncGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<ChargeMarketParticipantV1Dto>>;
+    public v1ChargesGetMarketParticipantsAsyncGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<ChargeMarketParticipantV1Dto>>>;
+    public v1ChargesGetMarketParticipantsAsyncGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<ChargeMarketParticipantV1Dto>>>;
     public v1ChargesGetMarketParticipantsAsyncGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
@@ -227,7 +227,7 @@ export class ChargesHttp {
         }
 
         let localVarPath = `/v1/Charges/GetMarketParticipantsAsync`;
-        return this.httpClient.request<Array<MarketParticipantV1Dto>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Array<ChargeMarketParticipantV1Dto>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

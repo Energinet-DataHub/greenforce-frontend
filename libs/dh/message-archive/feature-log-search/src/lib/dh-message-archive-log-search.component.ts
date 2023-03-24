@@ -15,8 +15,12 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoModule } from '@ngneat/transloco';
+import { LetModule } from '@rx-angular/template/let';
+import { PushModule } from '@rx-angular/template/push';
+
 import {
   DhMessageArchiveActorDataAccessApiStore,
   DhMessageArchiveDataAccessApiStore,
@@ -38,10 +42,9 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTimepickerModule } from '@energinet-datahub/watt/timepicker';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
+
+import { ViewEncapsulation } from '@angular/core';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
-import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule } from '@rx-angular/template/let';
-import { PushModule } from '@rx-angular/template/push';
 import zonedTimeToUtc from 'date-fns-tz/zonedTimeToUtc';
 import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-message-archive-log-search-result.component';
 

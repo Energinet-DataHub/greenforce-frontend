@@ -23,10 +23,7 @@ import {
   MessageArchiveSearchResultItemDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import {
-  ErrorState,
-  LoadingState,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 interface SearchResultState {
   readonly searchResult?: MessageArchiveSearchResultItemDto;
@@ -45,39 +42,31 @@ export class DhChargeMessageArchiveDataAccessStore extends ComponentStore<Search
   }
 
   searchResult$ = this.select((state) => state.searchResult);
-  isSearching$ = this.select(
-    (state) => state.searchingState === LoadingState.LOADING
-  );
-  hasGeneralError$ = this.select(
-    (state) => state.searchingState === ErrorState.GENERAL_ERROR
-  );
+  isSearching$ = this.select((state) => state.searchingState === LoadingState.LOADING);
+  hasGeneralError$ = this.select((state) => state.searchingState === ErrorState.GENERAL_ERROR);
 
-  readonly searchLogs = this.effect(
-    (searchCriteria: Observable<MessageArchiveSearchCriteria>) => {
-      return searchCriteria.pipe(
-        tap(() => {
-          this.setLoading(true);
-          this.updateSearchResult([]);
-        }),
-        switchMap((searchCriteria) =>
-          this.httpClient
-            .v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria)
-            .pipe(
-              tapResponse(
-                (searchResult) => {
-                  this.setLoading(false);
-                  this.updateSearchResult(searchResult.result);
-                },
-                (error: HttpErrorResponse) => {
-                  this.setLoading(false);
-                  this.handleError(error);
-                }
-              )
-            )
+  readonly searchLogs = this.effect((searchCriteria: Observable<MessageArchiveSearchCriteria>) => {
+    return searchCriteria.pipe(
+      tap(() => {
+        this.setLoading(true);
+        this.updateSearchResult([]);
+      }),
+      switchMap((searchCriteria) =>
+        this.httpClient.v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria).pipe(
+          tapResponse(
+            (searchResult) => {
+              this.setLoading(false);
+              this.updateSearchResult(searchResult.result);
+            },
+            (error: HttpErrorResponse) => {
+              this.setLoading(false);
+              this.handleError(error);
+            }
+          )
         )
-      );
-    }
-  );
+      )
+    );
+  });
 
   private updateSearchResult = this.updater(
     (

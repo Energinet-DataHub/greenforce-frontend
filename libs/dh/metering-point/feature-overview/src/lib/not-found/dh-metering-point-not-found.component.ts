@@ -36,10 +36,7 @@ export class DhMeteringPointNotFoundComponent {
   constructor(private router: Router) {}
 
   goToSearch(): void {
-    const url = this.router.createUrlTree([
-      dhMeteringPointPath,
-      dhMeteringPointSearchPath,
-    ]);
+    const url = this.router.createUrlTree([dhMeteringPointPath, dhMeteringPointSearchPath]);
 
     this.router.navigateByUrl(url);
   }

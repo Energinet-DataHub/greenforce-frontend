@@ -25,8 +25,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory:
-    '../../../../coverage/libs/dh/market-participant/feature-edit-gridarea',
+  coverageDirectory: '../../../../coverage/libs/dh/market-participant/feature-edit-gridarea',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

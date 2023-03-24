@@ -23,10 +23,7 @@ export function marketParticipantUserMocks(apiBase: string) {
 }
 
 function getActors(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/MarketParticipantUser/GetUserActors`,
-    (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(marketParticipantUserActors));
-    }
-  );
+  return rest.get(`${apiBase}/v1/MarketParticipantUser/GetUserActors`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(marketParticipantUserActors));
+  });
 }

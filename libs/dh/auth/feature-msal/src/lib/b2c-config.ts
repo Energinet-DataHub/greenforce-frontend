@@ -15,10 +15,7 @@
  * limitations under the License.
  */
 
-import {
-  MsalGuardConfiguration,
-  MsalInterceptorConfiguration,
-} from '@azure/msal-angular';
+import { MsalGuardConfiguration, MsalInterceptorConfiguration } from '@azure/msal-angular';
 import {
   BrowserCacheLocation,
   InteractionType,
@@ -29,9 +26,7 @@ import {
 
 import { DhB2CEnvironment } from '@energinet-datahub/dh/shared/environments';
 
-export function MSALInstanceFactory(
-  config: DhB2CEnvironment
-): IPublicClientApplication {
+export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
       clientId: config.clientId,
@@ -57,9 +52,7 @@ export function MSALInstanceFactory(
 }
 
 function reloadOnLoginFailed(error: string) {
-  const loginFailed = error.includes(
-    'Error - Guard - error while logging in, unable to activate'
-  );
+  const loginFailed = error.includes('Error - Guard - error while logging in, unable to activate');
   if (loginFailed) {
     window.location.reload();
   }
@@ -81,9 +74,7 @@ export function MSALInterceptorConfigFactory(
   };
 }
 
-export function MSALGuardConfigFactory(
-  config: DhB2CEnvironment
-): MsalGuardConfiguration {
+export function MSALGuardConfigFactory(config: DhB2CEnvironment): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Redirect,
     authRequest: { scopes: [config.backendId || config.clientId] },

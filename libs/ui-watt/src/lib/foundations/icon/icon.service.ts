@@ -22,10 +22,7 @@ import { allIcons, customIcons, WattCustomIcon, WattIcon } from './icons';
 
 @Injectable({ providedIn: 'root' })
 export class WattIconService {
-  constructor(
-    private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer
-  ) {
+  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
     this.registerCustomIcons();
   }
 
@@ -41,14 +38,8 @@ export class WattIconService {
     this.addSvgIcon('custom-explore', '/assets/ui-watt/icons/explore.svg');
     this.addSvgIcon('custom-power', '/assets/ui-watt/icons/power.svg');
     this.addSvgIcon('custom-meter', '/assets/ui-watt/icons/meter.svg');
-    this.addSvgIcon(
-      'custom-map-marker',
-      '/assets/ui-watt/icons/map-marker.svg'
-    );
-    this.addSvgIcon(
-      'custom-primary-info',
-      '/assets/ui-watt/icons/primary-info.svg'
-    );
+    this.addSvgIcon('custom-map-marker', '/assets/ui-watt/icons/map-marker.svg');
+    this.addSvgIcon('custom-primary-info', '/assets/ui-watt/icons/primary-info.svg');
     this.addSvgIcon('custom-no-results', '/assets/ui-watt/icons/noResults.svg');
   }
 

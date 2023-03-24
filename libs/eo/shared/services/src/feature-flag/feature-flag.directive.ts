@@ -15,10 +15,7 @@
  * limitations under the License.
  */
 import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
-import {
-  allowedFeatureFlags,
-  FeatureFlagService,
-} from './feature-flag.service';
+import { allowedFeatureFlags, FeatureFlagService } from './feature-flag.service';
 
 /**
  * This directive can be used to show/hide a component based on the feature flags that are currently enabled.
@@ -39,18 +36,12 @@ export class EoFeatureFlagDirective implements AfterViewInit {
    */
   @Input() onFeatureFlag: allowedFeatureFlags | undefined;
 
-  constructor(
-    private elementRef: ElementRef,
-    private featureFlagService: FeatureFlagService
-  ) {
+  constructor(private elementRef: ElementRef, private featureFlagService: FeatureFlagService) {
     this.elementRef.nativeElement.style.display = 'none';
   }
 
   ngAfterViewInit() {
-    if (
-      this.onFeatureFlag &&
-      this.featureFlagService.isFlagEnabled(this.onFeatureFlag)
-    ) {
+    if (this.onFeatureFlag && this.featureFlagService.isFlagEnabled(this.onFeatureFlag)) {
       this.elementRef.nativeElement.style.display = 'block';
     }
   }

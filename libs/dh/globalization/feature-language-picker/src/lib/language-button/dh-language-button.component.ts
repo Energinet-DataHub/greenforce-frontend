@@ -22,10 +22,7 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  DisplayLanguage,
-  displayLanguages,
-} from '@energinet-datahub/dh/globalization/domain';
+import { DisplayLanguage, displayLanguages } from '@energinet-datahub/dh/globalization/domain';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

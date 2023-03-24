@@ -39,12 +39,7 @@ limitations under the License.
 
   <mat-sidenav-content>
     <mat-toolbar class="watt-toolbar">
-      <watt-button
-        *ngIf="isHandset$ | async"
-        variant="icon"
-        icon="menu"
-        (click)="drawer.toggle()"
-      >
+      <watt-button *ngIf="isHandset$ | async" variant="icon" icon="menu" (click)="drawer.toggle()">
       </watt-button>
 
       <ng-content select="[watt-shell-toolbar]"></ng-content>

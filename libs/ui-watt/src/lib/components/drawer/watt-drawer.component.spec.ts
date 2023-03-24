@@ -15,10 +15,7 @@
  * limitations under the License.
  */
 import { render, screen, waitFor } from '@testing-library/angular';
-import {
-  composeStories,
-  createMountableStoryComponent,
-} from '@storybook/testing-angular';
+import { composeStories, createMountableStoryComponent } from '@storybook/testing-angular';
 import { EventEmitter } from '@angular/core';
 import { Story } from '@storybook/angular';
 import userEvent from '@testing-library/user-event';
@@ -42,16 +39,13 @@ describe(WattDrawerComponent.name, () => {
     screen.getByRole('button', {
       name: 'close',
     });
-  const getDrawerTopBarContent: () => HTMLSpanElement | null = () =>
-    screen.queryByText(/top bar/i);
+  const getDrawerTopBarContent: () => HTMLSpanElement | null = () => screen.queryByText(/top bar/i);
   const getDrawerActions: () => HTMLButtonElement | null = () =>
     screen.queryByText(/Primary action/i);
   const getDrawerContent: () => HTMLParagraphElement | null = () =>
     screen.queryByText(/drawer has been opened for/i);
-  const getInitialTimer: () => HTMLParagraphElement | null = () =>
-    screen.queryByText(/0s/i);
-  const getStartedTimer: () => HTMLParagraphElement | null = () =>
-    screen.queryByText(/1s/i);
+  const getInitialTimer: () => HTMLParagraphElement | null = () => screen.queryByText(/0s/i);
+  const getStartedTimer: () => HTMLParagraphElement | null = () => screen.queryByText(/1s/i);
 
   // Fakes
   let closedOutput = jest.fn();
@@ -62,10 +56,7 @@ describe(WattDrawerComponent.name, () => {
     args?: Partial<WattDrawerComponent>
   ) {
     const { component, ngModule } = createMountableStoryComponent(
-      story(
-        { closed: closedOutput as unknown as EventEmitter<void>, ...args },
-        {} as never
-      )
+      story({ closed: closedOutput as unknown as EventEmitter<void>, ...args }, {} as never)
     );
     await render(component, { imports: [ngModule] });
   }

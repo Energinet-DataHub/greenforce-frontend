@@ -45,9 +45,7 @@ describe(WattDropdownModule.name, () => {
       hidden: true,
     });
 
-    const [visibleInput] = inputs.filter((input) =>
-      input.classList.contains('mat-input-element')
-    );
+    const [visibleInput] = inputs.filter((input) => input.classList.contains('mat-input-element'));
 
     return visibleInput;
   }
@@ -121,9 +119,7 @@ describe(WattDropdownModule.name, () => {
         userEvent.click(option);
       }
 
-      expect(fixture.componentInstance.dropdownControl.value).toBe(
-        firstDropdownOption.value
-      );
+      expect(fixture.componentInstance.dropdownControl.value).toBe(firstDropdownOption.value);
     });
 
     describe('single selection', () => {
@@ -170,9 +166,7 @@ describe(WattDropdownModule.name, () => {
 
         await matSelect.open();
 
-        const matOptions: DebugElement[] = fixture.debugElement.queryAll(
-          By.css(matOptionClass)
-        );
+        const matOptions: DebugElement[] = fixture.debugElement.queryAll(By.css(matOptionClass));
 
         // The first option is skipped because it holds the filter input
         const [, resetOptionDe] = matOptions;
@@ -194,16 +188,12 @@ describe(WattDropdownModule.name, () => {
 
         await matSelect.open();
 
-        const matOptions: DebugElement[] = fixture.debugElement.queryAll(
-          By.css(matOptionClass)
-        );
+        const matOptions: DebugElement[] = fixture.debugElement.queryAll(By.css(matOptionClass));
 
         // for each option, click the option and verify selected is not null
         matOptions.forEach((x) => {
           x.nativeElement.click();
-          expect(
-            fixture.componentInstance.dropdownControl.value
-          ).not.toBeNull();
+          expect(fixture.componentInstance.dropdownControl.value).not.toBeNull();
         });
       });
 
@@ -297,9 +287,7 @@ describe(WattDropdownModule.name, () => {
         expect(actialOptions.length).toBe(expectedOptions);
 
         const noOptionsFoundDe: DebugElement = fixture.debugElement.query(
-          By.css(
-            '.mat-select-search-inside-mat-option  .mat-select-search-no-entries-found'
-          )
+          By.css('.mat-select-search-inside-mat-option  .mat-select-search-no-entries-found')
         );
 
         const actualLabel = noOptionsFoundDe.nativeElement.textContent.trim();
@@ -361,9 +349,7 @@ describe(WattDropdownModule.name, () => {
         userEvent.click(option);
       }
 
-      expect(fixture.componentInstance.dropdownModel).toBe(
-        firstDropdownOption.value
-      );
+      expect(fixture.componentInstance.dropdownModel).toBe(firstDropdownOption.value);
     });
 
     describe('single selection', () => {
@@ -376,9 +362,7 @@ describe(WattDropdownModule.name, () => {
 
         await matSelect.open();
 
-        const matOptions: DebugElement[] = fixture.debugElement.queryAll(
-          By.css(matOptionClass)
-        );
+        const matOptions: DebugElement[] = fixture.debugElement.queryAll(By.css(matOptionClass));
 
         // The first option is skipped because it holds the filter input
         const [, resetOptionDe] = matOptions;
@@ -458,9 +442,7 @@ describe(WattDropdownModule.name, () => {
         expect(actialOptions.length).toBe(expectedOptions);
 
         const noOptionsFoundDe: DebugElement = fixture.debugElement.query(
-          By.css(
-            '.mat-select-search-inside-mat-option  .mat-select-search-no-entries-found'
-          )
+          By.css('.mat-select-search-inside-mat-option  .mat-select-search-no-entries-found')
         );
 
         const actualLabel = noOptionsFoundDe.nativeElement.textContent.trim();

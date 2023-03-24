@@ -27,11 +27,7 @@ import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
 import { WattButtonModule } from '../../button';
 import { WattToastService } from '../watt-toast.service';
-import {
-  WattToastComponent,
-  WattToastConfig,
-  WattToastType,
-} from '../watt-toast.component';
+import { WattToastComponent, WattToastConfig, WattToastType } from '../watt-toast.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

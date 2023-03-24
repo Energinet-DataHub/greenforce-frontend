@@ -15,10 +15,7 @@
  * limitations under the License.
  */
 import { Story } from '@storybook/angular';
-import {
-  composeStory,
-  createMountableStoryComponent,
-} from '@storybook/testing-angular';
+import { composeStory, createMountableStoryComponent } from '@storybook/testing-angular';
 import { fireEvent, render, screen, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { formatInTimeZone } from 'date-fns-tz';
@@ -49,10 +46,7 @@ function formatDateAs(value: string, format: string): string {
 }
 
 describe('Datepicker', () => {
-  const incompleteDateWithoutSeperatorsAs_ddMM = formatDateAs(
-    initialValueSingle,
-    'ddMM'
-  );
+  const incompleteDateWithoutSeperatorsAs_ddMM = formatDateAs(initialValueSingle, 'ddMM');
   const displayDateFormat = 'dd-MM-yyyy';
   const pasteDateFormat = 'yyyy-MM-dd';
 
@@ -103,10 +97,7 @@ describe('Datepicker', () => {
       it('should only output valid date', async () => {
         const { dateInput } = await setup(withFormControl);
         const expectedDate = initialValueSingle;
-        const expectedDateWithoutSeperators = formatDateAs(
-          expectedDate,
-          'ddMMyyyy'
-        );
+        const expectedDateWithoutSeperators = formatDateAs(expectedDate, 'ddMMyyyy');
         const lastOfExpectedDate = expectedDateWithoutSeperators.at(-1);
 
         dateInput.setSelectionRange(0, 0);
@@ -132,10 +123,7 @@ describe('Datepicker', () => {
         const { dateInput } = await setup(withFormControl);
 
         const dateToPaste = formatDateAs(initialValueSingle, pasteDateFormat);
-        const expectedDate = formatDateAs(
-          initialValueSingle,
-          displayDateFormat
-        );
+        const expectedDate = formatDateAs(initialValueSingle, displayDateFormat);
 
         const clipboardEvent: ClipboardEventInit = new Event('paste', {
           bubbles: true,
@@ -191,10 +179,7 @@ describe('Datepicker', () => {
       it('should only output valid start date', async () => {
         const { startDateInput } = await setup(withFormControl);
         const expectedDate = initialValueRangeStart;
-        const expectedDateWithoutSeperators = formatDateAs(
-          expectedDate,
-          'ddMMyyyy'
-        );
+        const expectedDateWithoutSeperators = formatDateAs(expectedDate, 'ddMMyyyy');
         const lastOfExpectedDate = expectedDateWithoutSeperators.at(-1);
 
         startDateInput.setSelectionRange(0, 0);
@@ -203,9 +188,7 @@ describe('Datepicker', () => {
         // Type start date
         userEvent.type(startDateInput, expectedDateWithoutSeperators);
 
-        expect(
-          screen.getByText(`{ "start": "${expectedDate}", "end": "" }`)
-        ).toBeInTheDocument();
+        expect(screen.getByText(`{ "start": "${expectedDate}", "end": "" }`)).toBeInTheDocument();
 
         // Remove last character
         userEvent.type(startDateInput, backspace);
@@ -215,18 +198,13 @@ describe('Datepicker', () => {
         // Type last character of start date back again
         userEvent.type(startDateInput, lastOfExpectedDate ?? '');
 
-        expect(
-          screen.getByText(`{ "start": "${expectedDate}", "end": "" }`)
-        ).toBeInTheDocument();
+        expect(screen.getByText(`{ "start": "${expectedDate}", "end": "" }`)).toBeInTheDocument();
       });
 
       it('should only output valid end date', async () => {
         const { endDateInput } = await setup(withFormControl);
         const expectedDate = initialValueRangeEnd_EndOfDay;
-        const expectedDateWithoutSeperators = formatDateAs(
-          expectedDate,
-          'ddMMyyyy'
-        );
+        const expectedDateWithoutSeperators = formatDateAs(expectedDate, 'ddMMyyyy');
         const lastOfExpectedDate = expectedDateWithoutSeperators.at(-1);
 
         endDateInput.setSelectionRange(0, 0);
@@ -235,9 +213,7 @@ describe('Datepicker', () => {
         // Type start date
         userEvent.type(endDateInput, expectedDateWithoutSeperators);
 
-        expect(
-          screen.getByText(`{ "start": "", "end": "${expectedDate}" }`)
-        ).toBeInTheDocument();
+        expect(screen.getByText(`{ "start": "", "end": "${expectedDate}" }`)).toBeInTheDocument();
 
         // Remove last character
         userEvent.type(endDateInput, backspace);
@@ -247,22 +223,14 @@ describe('Datepicker', () => {
         // Type last character of start date back again
         userEvent.type(endDateInput, lastOfExpectedDate ?? '');
 
-        expect(
-          screen.getByText(`{ "start": "", "end": "${expectedDate}" }`)
-        ).toBeInTheDocument();
+        expect(screen.getByText(`{ "start": "", "end": "${expectedDate}" }`)).toBeInTheDocument();
       });
 
       it('should be able to paste `yyyy-MM-dd` format into start date', async () => {
         const { startDateInput } = await setup(withFormControl);
 
-        const dateToPaste = formatDateAs(
-          initialValueRangeStart,
-          pasteDateFormat
-        );
-        const expectedDate = formatDateAs(
-          initialValueRangeStart,
-          displayDateFormat
-        );
+        const dateToPaste = formatDateAs(initialValueRangeStart, pasteDateFormat);
+        const expectedDate = formatDateAs(initialValueRangeStart, displayDateFormat);
 
         const clipboardEvent: ClipboardEventInit = new Event('paste', {
           bubbles: true,
@@ -285,14 +253,8 @@ describe('Datepicker', () => {
       it('should be able to paste `yyyy-MM-dd` format into end date', async () => {
         const { endDateInput } = await setup(withFormControl);
 
-        const dateToPaste = formatDateAs(
-          initialValueRangeEnd_EndOfDay,
-          pasteDateFormat
-        );
-        const expectedDate = formatDateAs(
-          initialValueRangeEnd_EndOfDay,
-          displayDateFormat
-        );
+        const dateToPaste = formatDateAs(initialValueRangeEnd_EndOfDay, pasteDateFormat);
+        const expectedDate = formatDateAs(initialValueRangeEnd_EndOfDay, displayDateFormat);
 
         const clipboardEvent: ClipboardEventInit = new Event('paste', {
           bubbles: true,
@@ -314,10 +276,7 @@ describe('Datepicker', () => {
 
       it('should jump to end date, when typing in start date, and start date is complete', async () => {
         const { startDateInput, endDateInput } = await setup(withFormControl);
-        const startDateWithoutSeperators = formatDateAs(
-          initialValueRangeStart,
-          'ddMMyyyy'
-        );
+        const startDateWithoutSeperators = formatDateAs(initialValueRangeStart, 'ddMMyyyy');
 
         userEvent.type(startDateInput, startDateWithoutSeperators + '04');
 
@@ -398,18 +357,14 @@ describe('Datepicker', () => {
       it('should not show error, before it has been touched', async () => {
         await setup(withValidations);
 
-        expect(
-          screen.queryByText(/Date range is required/i)
-        ).not.toBeInTheDocument();
+        expect(screen.queryByText(/Date range is required/i)).not.toBeInTheDocument();
       });
 
       it('should show error on lost focus', async () => {
         const { startDateInput } = await setup(withValidations);
         fireEvent.focusOut(startDateInput);
 
-        expect(
-          screen.queryByText(/Date range is required/i)
-        ).toBeInTheDocument();
+        expect(screen.queryByText(/Date range is required/i)).toBeInTheDocument();
       });
     });
   });
@@ -424,9 +379,7 @@ describe('Datepicker', () => {
 
     describe('and range', () => {
       it('should be disabled', async () => {
-        const { startDateInput, endDateInput } = await setup(
-          withFormControlDisabled
-        );
+        const { startDateInput, endDateInput } = await setup(withFormControlDisabled);
         expect(startDateInput).toBeDisabled();
         expect(endDateInput).toBeDisabled();
       });

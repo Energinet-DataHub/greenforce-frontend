@@ -34,9 +34,7 @@ const initialState: DhTopBarState = {
   providedIn: 'root',
 })
 export class DhTopBarStore extends ComponentStore<DhTopBarState> {
-  titleTranslationKey$: Observable<string> = this.select(
-    (state) => state.titleTranslationKey
-  );
+  titleTranslationKey$: Observable<string> = this.select((state) => state.titleTranslationKey);
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     super(initialState);

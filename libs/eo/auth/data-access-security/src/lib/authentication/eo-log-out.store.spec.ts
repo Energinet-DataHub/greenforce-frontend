@@ -54,9 +54,7 @@ describe(EoLogOutStore.name, () => {
       store.onLogOut();
 
       // Assert
-      expect(router.navigateByUrl).toHaveBeenCalledWith(
-        eoLandingPageRelativeUrl
-      );
+      expect(router.navigateByUrl).toHaveBeenCalledWith(eoLandingPageRelativeUrl);
       expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
     });
   });

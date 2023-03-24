@@ -16,35 +16,28 @@
  */
 import { Injectable } from '@angular/core';
 import { Observable, of, switchMap, tap } from 'rxjs';
-import {
-  ComponentStore,
-  OnStoreInit,
-  tapResponse,
-} from '@ngrx/component-store';
+import { ComponentStore, OnStoreInit, tapResponse } from '@ngrx/component-store';
 
-import {
-  ErrorState,
-  LoadingState,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserOverviewHttp,
-  SortDirection,
-  UserOverviewItemDto,
-  UserOverviewResultDto,
-  UserOverviewSortProperty,
-  UserStatus,
+  MarketParticipantSortDirection,
+  MarketParticipantUserOverviewItemDto,
+  MarketParticipantUserOverviewResultDto,
+  MarketParticipantUserOverviewSortProperty,
+  MarketParticipantUserStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserManagementState {
-  readonly users: UserOverviewItemDto[];
+  readonly users: MarketParticipantUserOverviewItemDto[];
   readonly totalUserCount: number;
   readonly usersRequestState: LoadingState | ErrorState;
   readonly pageNumber: number;
   readonly pageSize: number;
-  readonly sortProperty: UserOverviewSortProperty;
-  readonly direction: SortDirection;
+  readonly sortProperty: MarketParticipantUserOverviewSortProperty;
+  readonly direction: MarketParticipantSortDirection;
   readonly searchText: string | undefined;
-  readonly statusFilter: UserStatus[];
+  readonly statusFilter: MarketParticipantUserStatus[];
   readonly actorIdFilter: string | undefined;
   readonly userRoleFilter: string[];
 }
@@ -80,12 +73,8 @@ export class DhAdminUserManagementDataAccessApiStore
   extends ComponentStore<DhUserManagementState>
   implements OnStoreInit
 {
-  readonly isInit$ = this.select(
-    (state) => state.usersRequestState === LoadingState.INIT
-  );
-  readonly isLoading$ = this.select(
-    (state) => state.usersRequestState === LoadingState.LOADING
-  );
+  readonly isInit$ = this.select((state) => state.usersRequestState === LoadingState.INIT);
+  readonly isLoading$ = this.select((state) => state.usersRequestState === LoadingState.LOADING);
   readonly hasGeneralError$ = this.select(
     (state) => state.usersRequestState === ErrorState.GENERAL_ERROR
   );
@@ -100,70 +89,68 @@ export class DhAdminUserManagementDataAccessApiStore
   readonly paginatorPageIndex$ = this.select((state) => state.pageNumber - 1);
   readonly pageSize$ = this.select((state) => state.pageSize);
 
-  private readonly fetchUsersParams$: Observable<FetchUsersParams> =
-    this.select(
-      this.pageSize$,
-      this.select((state) => state.pageNumber),
-      this.select((state) => state.sortProperty),
-      this.select((state) => state.direction),
-      this.select((state) => state.searchText),
-      this.select((state) => state.statusFilter),
-      this.select((state) => state.actorIdFilter),
-      this.select((state) => state.userRoleFilter),
-      (
-        pageSize,
-        pageNumber,
-        sortProperty,
-        direction,
-        searchText,
-        statusFilter,
-        actorIdFilter,
-        userRoleFilter
-      ) => ({
-        pageSize,
-        pageNumber,
-        sortProperty,
-        direction,
-        searchText,
-        statusFilter,
-        actorIdFilter,
-        userRoleFilter,
-      }),
-      { debounce: true }
-    );
+  private readonly fetchUsersParams$: Observable<FetchUsersParams> = this.select(
+    this.pageSize$,
+    this.select((state) => state.pageNumber),
+    this.select((state) => state.sortProperty),
+    this.select((state) => state.direction),
+    this.select((state) => state.searchText),
+    this.select((state) => state.statusFilter),
+    this.select((state) => state.actorIdFilter),
+    this.select((state) => state.userRoleFilter),
+    (
+      pageSize,
+      pageNumber,
+      sortProperty,
+      direction,
+      searchText,
+      statusFilter,
+      actorIdFilter,
+      userRoleFilter
+    ) => ({
+      pageSize,
+      pageNumber,
+      sortProperty,
+      direction,
+      searchText,
+      statusFilter,
+      actorIdFilter,
+      userRoleFilter,
+    }),
+    { debounce: true }
+  );
 
   constructor(private httpClient: MarketParticipantUserOverviewHttp) {
     super(initialState);
   }
 
-  private readonly loadUsers = this.effect(
-    (fetchUsersParams$: Observable<FetchUsersParams>) =>
-      fetchUsersParams$.pipe(
-        tap(() => {
-          this.patchState({
-            usersRequestState: LoadingState.LOADING,
-            users: [],
-          });
-        }),
-        switchMap((fetchUsersParams) =>
-          this.getUsers(fetchUsersParams).pipe(
-            tapResponse(
-              (response) => {
-                this.patchState({ usersRequestState: LoadingState.LOADED });
+  private readonly loadUsers = this.effect((fetchUsersParams$: Observable<FetchUsersParams>) =>
+    fetchUsersParams$.pipe(
+      tap(() => {
+        this.patchState({
+          usersRequestState: LoadingState.LOADING,
+          users: [],
+        });
+      }),
+      switchMap((fetchUsersParams) =>
+        this.getUsers(fetchUsersParams).pipe(
+          tapResponse(
+            (response) => {
+              this.patchState({ usersRequestState: LoadingState.LOADED });
 
-                this.updateUsers(response);
-              },
-              () => {
-                this.updateUsers({ users: [], totalUserCount: 0 });
+              this.updateUsers(response);
+            },
+            () => {
+              this.updateUsers({ users: [], totalUserCount: 0 });
 
-                this.patchState({
-                  usersRequestState: ErrorState.GENERAL_ERROR,
-                });
-              }
-            )
+              this.patchState({
+                usersRequestState: ErrorState.GENERAL_ERROR,
+              });
+            }
           )
         )
       )
+    )
   );
 
   readonly updatePageMetadata = this.updater(
@@ -182,7 +169,7 @@ export class DhAdminUserManagementDataAccessApiStore
   private updateUsers = this.updater(
     (
       state: DhUserManagementState,
-      response: UserOverviewResultDto
+      response: MarketParticipantUserOverviewResultDto
     ): DhUserManagementState => ({
       ...state,
       users: response.users,
@@ -225,11 +212,14 @@ export class DhAdminUserManagementDataAccessApiStore
     });
   }
 
-  updateStatusFilter(userStatus: UserStatus[]) {
+  updateStatusFilter(userStatus: MarketParticipantUserStatus[]) {
     this.patchState({ statusFilter: userStatus, pageNumber: 1 });
   }
 
-  updateSort(sortProperty: UserOverviewSortProperty, direction: SortDirection) {
+  updateSort(
+    sortProperty: MarketParticipantUserOverviewSortProperty,
+    direction: MarketParticipantSortDirection
+  ) {
     this.patchState({ sortProperty, direction });
   }
 

@@ -16,14 +16,8 @@
  */
 import { render, screen } from '@testing-library/angular';
 
-import {
-  DhAppEnvironment,
-  dhAppEnvironmentToken,
-} from '@energinet-datahub/dh/shared/environments';
-import {
-  DhFeatureFlagDirective,
-  DhFeatureFlagDirectiveModule,
-} from './feature-flag.directive';
+import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { DhFeatureFlagDirective, DhFeatureFlagDirectiveModule } from './feature-flag.directive';
 import { FeatureFlagConfig } from './feature-flags';
 import { dhFeatureFlagsToken } from './feature-flags.service';
 
@@ -35,27 +29,20 @@ describe(DhFeatureFlagDirective.name, () => {
     },
     'disabled-flag': {
       created: '01-01-2022',
-      disabledEnvironments: [
-        DhAppEnvironment.local,
-        DhAppEnvironment.dev,
-        DhAppEnvironment.test,
-      ],
+      disabledEnvironments: [DhAppEnvironment.local, DhAppEnvironment.dev, DhAppEnvironment.test],
     },
   };
   const setup = async (featureFlagName = '') => {
-    await render(
-      `<div *dhFeatureFlag="'${featureFlagName}'">SOME CONTENT</div>`,
-      {
-        imports: [DhFeatureFlagDirectiveModule],
-        providers: [
-          {
-            provide: dhAppEnvironmentToken,
-            useValue: { current: DhAppEnvironment.test },
-          },
-          { provide: dhFeatureFlagsToken, useValue: featureFlagsConfigMock },
-        ],
-      }
-    );
+    await render(`<div *dhFeatureFlag="'${featureFlagName}'">SOME CONTENT</div>`, {
+      imports: [DhFeatureFlagDirectiveModule],
+      providers: [
+        {
+          provide: dhAppEnvironmentToken,
+          useValue: { current: DhAppEnvironment.test },
+        },
+        { provide: dhFeatureFlagsToken, useValue: featureFlagsConfigMock },
+      ],
+    });
   };
   const queryContent = () => screen.queryByText(/SOME CONTENT/i);
 

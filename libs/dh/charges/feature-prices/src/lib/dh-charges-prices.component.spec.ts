@@ -66,9 +66,7 @@ describe(DhChargesPricesComponent.name, () => {
 
     userEvent.click(searchButton);
 
-    const id = await waitFor(() =>
-      screen.getByRole('gridcell', { name: /0AA1F/i })
-    );
+    const id = await waitFor(() => screen.getByRole('gridcell', { name: /0AA1F/i }));
 
     expect(id).toBeInTheDocument();
   });
@@ -89,9 +87,7 @@ describe(DhChargesPricesComponent.name, () => {
 
     expect(idInputField).toHaveValue('');
 
-    const searchTextLabel = screen.getByText(
-      enTranslations.charges.prices.startSearchText
-    );
+    const searchTextLabel = screen.getByText(enTranslations.charges.prices.startSearchText);
     expect(searchTextLabel).toBeInTheDocument();
   });
 
@@ -102,9 +98,7 @@ describe(DhChargesPricesComponent.name, () => {
 
     userEvent.click(searchButton);
 
-    const id = await waitFor(() =>
-      screen.getByRole('gridcell', { name: /0AA1F/i })
-    );
+    const id = await waitFor(() => screen.getByRole('gridcell', { name: /0AA1F/i }));
 
     expect(id).toBeInTheDocument();
     userEvent.click(id);
@@ -123,9 +117,7 @@ describe(DhChargesPricesComponent.name, () => {
 
     userEvent.click(searchButton);
 
-    const id = await waitFor(() =>
-      screen.getByRole('gridcell', { name: /0AA1F/i })
-    );
+    const id = await waitFor(() => screen.getByRole('gridcell', { name: /0AA1F/i }));
 
     expect(id).toBeInTheDocument();
     userEvent.click(id);
@@ -145,11 +137,7 @@ describe(DhChargesPricesComponent.name, () => {
     expect(startDateInput).toBeInTheDocument();
 
     const now = new Date();
-    const expectedDate = formatInTimeZone(
-      now,
-      danishTimeZoneIdentifier,
-      dateTimeFormat
-    );
+    const expectedDate = formatInTimeZone(now, danishTimeZoneIdentifier, dateTimeFormat);
 
     expect(startDateInput.value).toEqual(expectedDate);
   });
@@ -161,9 +149,7 @@ describe(DhChargesPricesComponent.name, () => {
 
     userEvent.click(searchButton);
 
-    const tableCell = await waitFor(() =>
-      screen.getByRole('gridcell', { name: /0AA1F/i })
-    );
+    const tableCell = await waitFor(() => screen.getByRole('gridcell', { name: /0AA1F/i }));
 
     expect(tableCell).toBeInTheDocument();
     userEvent.click(tableCell);
@@ -227,9 +213,7 @@ describe(DhChargesPricesComponent.name, () => {
     });
 
     expect(startDateInput2).toBeInTheDocument();
-    const actualDateInput2 = new Date(
-      startDateInput2.value
-    ).toLocaleDateString();
+    const actualDateInput2 = new Date(startDateInput2.value).toLocaleDateString();
 
     expect(actualDateInput2).toEqual(expectedDate);
   });

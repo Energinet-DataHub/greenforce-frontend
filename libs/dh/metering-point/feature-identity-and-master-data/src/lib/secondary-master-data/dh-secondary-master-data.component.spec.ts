@@ -19,11 +19,11 @@ import { MatcherOptions } from '@testing-library/dom';
 
 import {
   MeteringPointCimDto,
-  DisconnectionType,
-  ConnectionType,
-  AssetType,
-  ProductId,
-  Unit,
+  MeteringPointDisconnectionType,
+  MeteringPointConnectionType,
+  MeteringPointAssetType,
+  MeteringPointProductId,
+  MeteringPointUnit,
   MeteringPointType,
 } from '@energinet-datahub/dh/shared/domain';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
@@ -35,8 +35,8 @@ import { DhSecondaryMasterDataComponent } from './dh-secondary-master-data.compo
 
 const meteringPointMock = {
   meteringPointType: MeteringPointType.E17,
-  productId: ProductId.EnergyActive,
-  unit: Unit.KWH,
+  productId: MeteringPointProductId.EnergyActive,
+  unit: MeteringPointUnit.KWH,
 } as MeteringPointCimDto;
 
 describe(DhSecondaryMasterDataComponent.name, () => {
@@ -53,55 +53,43 @@ describe(DhSecondaryMasterDataComponent.name, () => {
 
   describe('test globalization', () => {
     it.each`
-      incommingValueObject                            | testId                 | expectedDisplayValue
-      ${{ disconnectionType: DisconnectionType.D01 }} | ${'disconnectionType'} | ${enTranslations.meteringPoint.disconnectionType.D01}
-      ${{ connectionType: ConnectionType.D01 }}       | ${'connectionType'}    | ${enTranslations.meteringPoint.connectionType.D01}
-      ${{ assetType: AssetType.D01 }}                 | ${'assetType'}         | ${enTranslations.meteringPoint.assetType.D01}
-      ${{ productId: ProductId.EnergyActive }}        | ${'productId'}         | ${enTranslations.meteringPoint.productId.EnergyActive}
-      ${{ unit: Unit.KWH }}                           | ${'unit'}              | ${enTranslations.meteringPoint.unit.KWH}
-    `(
-      'displays correct value',
-      async ({ incommingValueObject, testId, expectedDisplayValue }) => {
-        const secondaryMasterData: MeteringPointCimDto = {
-          ...meteringPointMock,
-          ...incommingValueObject,
-        };
+      incommingValueObject                                         | testId                 | expectedDisplayValue
+      ${{ disconnectionType: MeteringPointDisconnectionType.D01 }} | ${'disconnectionType'} | ${enTranslations.meteringPoint.disconnectionType.D01}
+      ${{ connectionType: MeteringPointConnectionType.D01 }}       | ${'connectionType'}    | ${enTranslations.meteringPoint.connectionType.D01}
+      ${{ assetType: MeteringPointAssetType.D01 }}                 | ${'assetType'}         | ${enTranslations.meteringPoint.assetType.D01}
+      ${{ productId: MeteringPointProductId.EnergyActive }}        | ${'productId'}         | ${enTranslations.meteringPoint.productId.EnergyActive}
+      ${{ unit: MeteringPointUnit.KWH }}                           | ${'unit'}              | ${enTranslations.meteringPoint.unit.KWH}
+    `('displays correct value', async ({ incommingValueObject, testId, expectedDisplayValue }) => {
+      const secondaryMasterData: MeteringPointCimDto = {
+        ...meteringPointMock,
+        ...incommingValueObject,
+      };
 
-        await setup(secondaryMasterData);
+      await setup(secondaryMasterData);
 
-        const disableQuerySuggestions: MatcherOptions = { suggest: false };
-        const actualDisplayValue = screen.getByTestId(
-          testId,
-          disableQuerySuggestions
-        ).textContent;
+      const disableQuerySuggestions: MatcherOptions = { suggest: false };
+      const actualDisplayValue = screen.getByTestId(testId, disableQuerySuggestions).textContent;
 
-        expect(actualDisplayValue).toContain(expectedDisplayValue);
-      }
-    );
+      expect(actualDisplayValue).toContain(expectedDisplayValue);
+    });
 
     it.each`
       incommingValueObject                | testId
       ${{ disconnectionType: undefined }} | ${'disconnectionType'}
       ${{ connectionType: undefined }}    | ${'connectionType'}
       ${{ assetType: undefined }}         | ${'assetType'}
-    `(
-      'displays fallback value when undefined',
-      async ({ incommingValueObject, testId }) => {
-        const secondaryMasterData: MeteringPointCimDto = {
-          ...meteringPointMock,
-          ...incommingValueObject,
-        };
+    `('displays fallback value when undefined', async ({ incommingValueObject, testId }) => {
+      const secondaryMasterData: MeteringPointCimDto = {
+        ...meteringPointMock,
+        ...incommingValueObject,
+      };
 
-        await setup(secondaryMasterData);
+      await setup(secondaryMasterData);
 
-        const disableQuerySuggestions: MatcherOptions = { suggest: false };
-        const actualDisplayValue = screen.getByTestId(
-          testId,
-          disableQuerySuggestions
-        ).textContent;
+      const disableQuerySuggestions: MatcherOptions = { suggest: false };
+      const actualDisplayValue = screen.getByTestId(testId, disableQuerySuggestions).textContent;
 
-        expect(actualDisplayValue?.trim()).toBe(emDash);
-      }
-    );
+      expect(actualDisplayValue?.trim()).toBe(emDash);
+    });
   });
 });

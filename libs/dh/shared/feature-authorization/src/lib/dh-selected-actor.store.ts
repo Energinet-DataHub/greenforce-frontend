@@ -86,17 +86,13 @@ export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
                 selected: x.id === actorId,
               }))
               .sort((a, b) => {
-                const nameCompare = a.organizationName.localeCompare(
-                  b.organizationName
-                );
-                return nameCompare !== 0
-                  ? nameCompare
-                  : a.gln.localeCompare(b.gln);
+                const nameCompare = a.organizationName.localeCompare(b.organizationName);
+                return nameCompare !== 0 ? nameCompare : a.gln.localeCompare(b.gln);
               });
 
-            const actorGroups = Array.from(
-              this.groupBy(actors, 'organizationName').entries()
-            ).map((x) => ({ organizationName: x[0], actors: x[1] }));
+            const actorGroups = Array.from(this.groupBy(actors, 'organizationName').entries()).map(
+              (x) => ({ organizationName: x[0], actors: x[1] })
+            );
 
             return this.patchState({
               isLoading: false,
@@ -122,10 +118,7 @@ export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
 
   // todo mjm: shared helper function maybe?
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private groupBy<T extends { [key: string]: any }>(
-    source: T[],
-    groupingKey: keyof T
-  ) {
+  private groupBy<T extends { [key: string]: any }>(source: T[], groupingKey: keyof T) {
     return source.reduce((entryMap, e) => {
       const currentKey = e[groupingKey as string];
       return entryMap.set(currentKey, [...(entryMap.get(currentKey) || []), e]);

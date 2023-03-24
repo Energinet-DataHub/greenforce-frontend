@@ -27,11 +27,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  UntypedFormControl,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -50,9 +46,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./dh-metering-point-search-form.component.scss'],
   templateUrl: './dh-metering-point-search-form.component.html',
 })
-export class DhMeteringPointSearchFormComponent
-  implements AfterViewInit, OnDestroy
-{
+export class DhMeteringPointSearchFormComponent implements AfterViewInit, OnDestroy {
   @Input() loading = false;
   @Output() search = new EventEmitter<string>();
   @ViewChild('searchInput') searchInput?: ElementRef;
@@ -68,12 +62,10 @@ export class DhMeteringPointSearchFormComponent
   ) {}
 
   ngAfterViewInit() {
-    this.queryParamsSubscription = this.route.queryParams.subscribe(
-      (params) => {
-        this.setInitialValue(params.q);
-        this.focusSearchInput();
-      }
-    );
+    this.queryParamsSubscription = this.route.queryParams.subscribe((params) => {
+      this.setInitialValue(params.q);
+      this.focusSearchInput();
+    });
 
     this.focusSearchInput();
   }

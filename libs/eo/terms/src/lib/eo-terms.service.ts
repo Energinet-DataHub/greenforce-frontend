@@ -16,10 +16,7 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import {
-  EoApiEnvironment,
-  eoApiEnvironmentToken,
-} from '@energinet-datahub/eo/shared/environments';
+import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { Observable } from 'rxjs';
 
 export interface AuthTermsAcceptRequest {
@@ -50,13 +47,9 @@ export class EoTermsService {
     this.#apiBase = `${apiEnvironment.apiBase}/auth`;
   }
 
-  postAcceptTerms(
-    payload: AuthTermsAcceptRequest
-  ): Observable<AuthTermsAcceptResponse> {
-    return this.http.post<AuthTermsAcceptResponse>(
-      `${this.#apiBase}/terms/accept`,
-      payload,
-      { withCredentials: true }
-    );
+  postAcceptTerms(payload: AuthTermsAcceptRequest): Observable<AuthTermsAcceptResponse> {
+    return this.http.post<AuthTermsAcceptResponse>(`${this.#apiBase}/terms/accept`, payload, {
+      withCredentials: true,
+    });
   }
 }

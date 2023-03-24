@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use './spacing.import' as space;
+@use "./spacing.import" as space;
 
 .watt-space-inline-xxs {
   @include space.inline-xxs;

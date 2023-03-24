@@ -15,9 +15,4 @@
  * limitations under the License.
  */
 
-export type WattIconState =
-  | 'default'
-  | 'success'
-  | 'danger'
-  | 'warning'
-  | 'info';
+export type WattIconState = 'default' | 'success' | 'danger' | 'warning' | 'info';

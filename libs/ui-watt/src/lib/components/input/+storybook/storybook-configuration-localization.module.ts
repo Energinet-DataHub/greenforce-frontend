@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  NgModule,
-  Optional,
-  SkipSelf,
-  ModuleWithProviders,
-} from '@angular/core';
+import { NgModule, Optional, SkipSelf, ModuleWithProviders } from '@angular/core';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { DanishLocaleModule } from '@energinet-datahub/gf/configuration-danish-locale';

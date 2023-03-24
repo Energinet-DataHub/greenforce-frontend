@@ -39,7 +39,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { DhMarketParticipantOrganizationOverviewGridAreasScam } from './dh-market-participant-organization-overview-grid-areas-list.component';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantGridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { OrganizationWithActorRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -48,9 +48,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   styleUrls: ['./dh-market-participant-organization-overview.component.scss'],
   templateUrl: './dh-market-participant-organization-overview.component.html',
 })
-export class DhMarketParticipantOrganizationOverviewComponent
-  implements AfterViewInit, OnChanges
-{
+export class DhMarketParticipantOrganizationOverviewComponent implements AfterViewInit, OnChanges {
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
@@ -64,7 +62,7 @@ export class DhMarketParticipantOrganizationOverviewComponent
   ];
 
   @Input() rows: OrganizationWithActorRow[] = [];
-  @Input() gridAreas: GridAreaDto[] = [];
+  @Input() gridAreas: MarketParticipantGridAreaDto[] = [];
 
   @Output() editOrganization = new EventEmitter<string>();
   @Output() createActor = new EventEmitter<string>();
@@ -81,9 +79,7 @@ export class DhMarketParticipantOrganizationOverviewComponent
   ngOnChanges() {
     this.dataSource.data = this.rows;
     this.dataSource.paginator = this.paginator?.instance;
-    this.gridAreas.forEach(
-      (gridArea) => (this.gridAreasMap[gridArea.id] = gridArea.name)
-    );
+    this.gridAreas.forEach((gridArea) => (this.gridAreasMap[gridArea.id] = gridArea.name));
   }
 
   ngAfterViewInit() {

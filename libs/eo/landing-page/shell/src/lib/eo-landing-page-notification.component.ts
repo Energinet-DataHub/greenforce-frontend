@@ -42,11 +42,10 @@ import { WattIconModule } from '@energinet-datahub/watt/icon';
     <eo-inline-message>
       <watt-icon name="custom-primary-info"></watt-icon>
       <p>
-        The Energy Origin Platform is <strong>under development</strong> and new
-        functionalities will be released continuously. The first release of the
-        platform only offers <strong>data for companies</strong>. Data for
-        private users is intended to form part of one of the next releases. If
-        you want to influence the new functionality, join us at our
+        The Energy Origin Platform is <strong>under development</strong> and new functionalities
+        will be released continuously. The first release of the platform only offers
+        <strong>data for companies</strong>. Data for private users is intended to form part of one
+        of the next releases. If you want to influence the new functionality, join us at our
         <a
           href="https://www.linkedin.com/groups/12643238/"
           target="_blank"

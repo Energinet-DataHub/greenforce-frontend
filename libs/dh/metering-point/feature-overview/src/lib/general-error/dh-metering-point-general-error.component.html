@@ -16,10 +16,10 @@ limitations under the License.
 -->
 <watt-empty-state
   icon="custom-power"
-  [title]="'meteringPoint.overview.serverError.title' | transloco"
-  [message]="'meteringPoint.overview.serverError.message' | transloco"
+  [title]="'shared.error.title' | transloco"
+  [message]="'shared.error.message' | transloco"
 >
   <watt-button (click)="reload.emit()" variant="primary">
-    {{ "meteringPoint.overview.serverError.button" | transloco }}
+    {{ "shared.error.button" | transloco }}
   </watt-button>
 </watt-empty-state>

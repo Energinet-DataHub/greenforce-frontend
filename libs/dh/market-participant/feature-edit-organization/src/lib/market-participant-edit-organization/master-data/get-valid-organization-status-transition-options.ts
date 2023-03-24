@@ -14,35 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { OrganizationStatus } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantOrganizationStatus } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 export const getValidOrganizationStatusTransitionOptions = (
-  status: OrganizationStatus,
+  status: MarketParticipantOrganizationStatus,
   statuses: WattDropdownOption[]
 ) => {
   switch (status) {
-    case OrganizationStatus.New:
+    case MarketParticipantOrganizationStatus.New:
       return statuses.filter((x) =>
         [
-          OrganizationStatus.New.toLowerCase(),
-          OrganizationStatus.Active.toLowerCase(),
-          OrganizationStatus.Blocked.toLowerCase(),
-          OrganizationStatus.Deleted.toLocaleLowerCase(),
+          MarketParticipantOrganizationStatus.New.toLowerCase(),
+          MarketParticipantOrganizationStatus.Active.toLowerCase(),
+          MarketParticipantOrganizationStatus.Blocked.toLowerCase(),
+          MarketParticipantOrganizationStatus.Deleted.toLocaleLowerCase(),
         ].includes(x.value.toLowerCase())
       );
-    case OrganizationStatus.Active:
-    case OrganizationStatus.Blocked:
+    case MarketParticipantOrganizationStatus.Active:
+    case MarketParticipantOrganizationStatus.Blocked:
       return statuses.filter((x) =>
         [
-          OrganizationStatus.Active.toLowerCase(),
-          OrganizationStatus.Blocked.toLocaleLowerCase(),
-          OrganizationStatus.Deleted.toLocaleLowerCase(),
+          MarketParticipantOrganizationStatus.Active.toLowerCase(),
+          MarketParticipantOrganizationStatus.Blocked.toLocaleLowerCase(),
+          MarketParticipantOrganizationStatus.Deleted.toLocaleLowerCase(),
         ].includes(x.value.toLowerCase())
       );
-    case OrganizationStatus.Deleted:
+    case MarketParticipantOrganizationStatus.Deleted:
       return statuses.filter((x) =>
-        [OrganizationStatus.Deleted.toLocaleLowerCase()].includes(
+        [MarketParticipantOrganizationStatus.Deleted.toLocaleLowerCase()].includes(
           x.value.toLowerCase()
         )
       );

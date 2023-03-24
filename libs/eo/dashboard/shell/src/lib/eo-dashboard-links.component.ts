@@ -31,8 +31,8 @@ import { MatCardModule } from '@angular/material/card';
           target="_blank"
           rel="noopener noreferrer"
           >Danish Energy Agency - Energy and Climate Politics</a
-        ><br />The danish goverment policies around clomate and energy. Where
-        you can read about the danish energy plan for the next 10 years.
+        ><br />The danish goverment policies around clomate and energy. Where you can read about the
+        danish energy plan for the next 10 years.
       </li>
       <li>
         <a
@@ -40,27 +40,21 @@ import { MatCardModule } from '@angular/material/card';
           target="_blank"
           rel="noopener noreferrer"
           >Virksomhedsguiden.dk - Green transition (danish)</a
-        ><br />Describe how companies can become more green, with a lot of
-        instructions and templates.
+        ><br />Describe how companies can become more green, with a lot of instructions and
+        templates.
       </li>
       <li>
-        <a
-          href="https://en.energinet.dk/Green-Transition"
-          target="_blank"
-          rel="noopener noreferrer"
+        <a href="https://en.energinet.dk/Green-Transition" target="_blank" rel="noopener noreferrer"
           >Energinet - Green Transition</a
-        ><br />Energinet provide data regarding the transition to a more green
-        energy system in Denmark.
+        ><br />Energinet provide data regarding the transition to a more green energy system in
+        Denmark.
       </li>
       <li>
-        <a
-          href="https://www.iea.org/countries/denmark"
-          target="_blank"
-          rel="noopener noreferrer"
+        <a href="https://www.iea.org/countries/denmark" target="_blank" rel="noopener noreferrer"
           >IEA - Denmark</a
-        ><br />The International Energy Agency, is committed to shaping a secure
-        and sustainable energy future for all and provide data and comparison on
-        what they different countries are doing.
+        ><br />The International Energy Agency, is committed to shaping a secure and sustainable
+        energy future for all and provide data and comparison on what they different countries are
+        doing.
       </li>
     </ul>
   </mat-card>`,

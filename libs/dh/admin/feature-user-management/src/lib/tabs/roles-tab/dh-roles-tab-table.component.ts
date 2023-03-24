@@ -26,7 +26,7 @@ import {
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
 
-import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import {
   WattTableDataSource,
@@ -59,37 +59,35 @@ import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.compone
     TranslocoModule,
   ],
 })
-export class DhRolesTabTableComponent
-  implements OnChanges, AfterViewInit, OnDestroy
-{
+export class DhRolesTabTableComponent implements OnChanges, AfterViewInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
-  activeRow: UserRoleDto | undefined = undefined;
+  activeRow: MarketParticipantUserRoleDto | undefined = undefined;
 
-  @Input() roles: UserRoleDto[] = [];
+  @Input() roles: MarketParticipantUserRoleDto[] = [];
 
   @Input() paginator!: DhSharedUiPaginatorComponent;
 
   @ViewChild(DhRoleDrawerComponent)
   drawer!: DhRoleDrawerComponent;
 
-  @ViewChild(WattTableComponent<UserRoleDto>)
-  table!: WattTableComponent<UserRoleDto>;
+  @ViewChild(WattTableComponent<MarketParticipantUserRoleDto>)
+  table!: WattTableComponent<MarketParticipantUserRoleDto>;
 
-  readonly dataSource: WattTableDataSource<UserRoleDto> =
-    new WattTableDataSource<UserRoleDto>();
+  readonly dataSource: WattTableDataSource<MarketParticipantUserRoleDto> =
+    new WattTableDataSource<MarketParticipantUserRoleDto>();
 
-  columns: WattTableColumnDef<UserRoleDto> = {
+  columns: WattTableColumnDef<MarketParticipantUserRoleDto> = {
     name: { accessor: 'name' },
     marketRole: { accessor: 'eicFunction' },
     status: { accessor: 'status' },
   };
 
-  filteredAndSortedData: UserRoleDto[] = [];
+  filteredAndSortedData: MarketParticipantUserRoleDto[] = [];
 
   activeRowComparator = (
-    currentRow: UserRoleDto,
-    activeRow: UserRoleDto
+    currentRow: MarketParticipantUserRoleDto,
+    activeRow: MarketParticipantUserRoleDto
   ): boolean => currentRow.id === activeRow.id;
 
   translateHeader = (key: string) =>
@@ -124,7 +122,7 @@ export class DhRolesTabTableComponent
       );
   }
 
-  onRowClick(row: UserRoleDto): void {
+  onRowClick(row: MarketParticipantUserRoleDto): void {
     this.drawer.open(row);
     this.activeRow = row;
   }

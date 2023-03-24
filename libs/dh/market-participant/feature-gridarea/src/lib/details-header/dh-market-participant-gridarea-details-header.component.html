@@ -15,9 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<ng-container
-  *transloco="let t; read: 'marketParticipant.gridAreas.detailsHeader'"
->
+<ng-container *transloco="let t; read: 'marketParticipant.gridAreas.detailsHeader'">
   <ng-container *ngIf="gridArea">
     <div class="header-grid-area-code">
       {{ t("code") + " " + gridArea.code }}

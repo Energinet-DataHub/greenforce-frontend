@@ -93,14 +93,13 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         <eo-stack size="M">
           <p>
             energioprindelse.dk er hovedsageligt beregnet til, at du kan
-            <b>dokumentere</b>, hvor grøn du er. Du kan se alle
-            <b>dine data</b> og bruge dem i andre systemer.
+            <b>dokumentere</b>, hvor grøn du er. Du kan se alle <b>dine data</b> og bruge dem i
+            andre systemer.
           </p>
           <p>
             Det betyder overordnet at du kan se din andel
-            <b>vedvarende energi, emissioner, forbrugs- og produktionsdata</b>.
-            Derudover kan du også se dine <b>certifikater</b>, både dem du selv
-            har produceret, og dem du har købt.
+            <b>vedvarende energi, emissioner, forbrugs- og produktionsdata</b>. Derudover kan du
+            også se dine <b>certifikater</b>, både dem du selv har produceret, og dem du har købt.
           </p>
           <p>Alle disse informationer kan du f.eks. bruge i din CSR-rapport.</p>
         </eo-stack>
@@ -109,24 +108,22 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         <h3>Grøn energi med EnergiOprindelse</h3>
         <eo-stack size="M">
           <p>
-            Energiforbrugere oplever et stigende behov for kendskab til deres
-            energis oprindelse, både for at kunne holde øje med deres
-            <b>forbrug</b>, og for at kunne dokumentere hvor grønne de er, dvs.
-            andelen af <b>vedvarende</b> energi og mængden af <b>emissioner</b>.
+            Energiforbrugere oplever et stigende behov for kendskab til deres energis oprindelse,
+            både for at kunne holde øje med deres
+            <b>forbrug</b>, og for at kunne dokumentere hvor grønne de er, dvs. andelen af
+            <b>vedvarende</b> energi og mængden af <b>emissioner</b>.
           </p>
           <p>
-            Indtil nu har det <b>ikke været muligt at vide</b>, om ens energi
-            faktisk ér grøn, når det forbruges. Det skyldes, at man i dag kun
-            har mulighed for at købe oprindelsesgarantier, der baseres på
-            <b>årsbasis</b>. Dvs. at man får en garanti for, at der findes nok
-            vedvarende energi i nettet for året, til at matche ens forbrug - men
-            det betyder desværre ikke, at energien faktisk var grøn på
-            forbrugstidspunktet.
+            Indtil nu har det <b>ikke været muligt at vide</b>, om ens energi faktisk ér grøn, når
+            det forbruges. Det skyldes, at man i dag kun har mulighed for at købe
+            oprindelsesgarantier, der baseres på <b>årsbasis</b>. Dvs. at man får en garanti for, at
+            der findes nok vedvarende energi i nettet for året, til at matche ens forbrug - men det
+            betyder desværre ikke, at energien faktisk var grøn på forbrugstidspunktet.
           </p>
           <p>
-            Den usikkerhed gør EnergiOprindelse op med, for med platformen kan
-            energi, samt dens tilsvarende CO2-udledning, spores fra produktion
-            til forbrug helt ned på <b>timeniveau</b>.
+            Den usikkerhed gør EnergiOprindelse op med, for med platformen kan energi, samt dens
+            tilsvarende CO2-udledning, spores fra produktion til forbrug helt ned på
+            <b>timeniveau</b>.
           </p>
         </eo-stack>
       </eo-info-box>
@@ -135,16 +132,15 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         <eo-stack size="M">
           <p>
             Helt overordnet kan du blive mere grøn ved at:
-            <br />- <b>Flytte</b> dit forbrug <br />- <b>Producere</b> din egen
-            energi <br />- Bruge <b>mindre</b> energi <br />- Købe grønne
+            <br />- <b>Flytte</b> dit forbrug <br />- <b>Producere</b> din egen energi <br />- Bruge
+            <b>mindre</b> energi <br />- Købe grønne
             <b>certifikater</b>
           </p>
           <p>
-            Flere af disse muligheder kræver, at strømmen er produceret samtidig
-            med, at den bliver forbrugt. Denne
-            <a routerLink="../{{ routes.simultaneity }}">samtidighed</a> kan du
-            læse mere om, da det er en af de væsentlige ting i det nye
-            certifikat.
+            Flere af disse muligheder kræver, at strømmen er produceret samtidig med, at den bliver
+            forbrugt. Denne
+            <a routerLink="../{{ routes.simultaneity }}">samtidighed</a> kan du læse mere om, da det
+            er en af de væsentlige ting i det nye certifikat.
           </p>
         </eo-stack>
       </eo-info-box>
@@ -153,10 +149,9 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         <div class="text">
           <h4>Case</h4>
           <p>
-            Ivan Iværksætter prøver at lave energistyring ved at flytte sit
-            forbrug til tidspunkter, hvor strømmen er mere grøn. Han har også
-            investeret i solceller for at producere grøn strøm til sit eget
-            forbrug. Begge dele kan han tjekke resultatet af på
+            Ivan Iværksætter prøver at lave energistyring ved at flytte sit forbrug til tidspunkter,
+            hvor strømmen er mere grøn. Han har også investeret i solceller for at producere grøn
+            strøm til sit eget forbrug. Begge dele kan han tjekke resultatet af på
             energioprindelse.dk.
           </p>
         </div>
@@ -166,19 +161,15 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         <h3>GO- vs. GC-certifikater</h3>
         <eo-stack size="M">
           <p>
-            GO står for Guarantees of Origin, og er en oprindelsesgaranti, som
-            dokumenterer og garanterer, at der er produceret strøm fra
-            vedvarende energikilder. Garantien udstedes på årsbasis i Danmark af
-            Energinet.
+            GO står for Guarantees of Origin, og er en oprindelsesgaranti, som dokumenterer og
+            garanterer, at der er produceret strøm fra vedvarende energikilder. Garantien udstedes
+            på årsbasis i Danmark af Energinet.
           </p>
           <p>
-            Med denne nye platform introduceres GC-certifikaterne, der er
-            baseret på GO, og de to vil fungere parallelt. De nye
-            GC-certifikater giver mere værdi, da de håndterer
+            Med denne nye platform introduceres GC-certifikaterne, der er baseret på GO, og de to
+            vil fungere parallelt. De nye GC-certifikater giver mere værdi, da de håndterer
             <a routerLink="../{{ routes.simultaneity }}">samtidighed</a> og
-            <a routerLink="../{{ routes.geography }}"
-              >geografiske begrænsninger</a
-            >.
+            <a routerLink="../{{ routes.geography }}">geografiske begrænsninger</a>.
           </p>
         </eo-stack>
       </eo-info-box>
@@ -188,19 +179,17 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         <eo-stack size="M">
           <h1>Grøn energi</h1>
           <p>
-            Med denne platform har du mulighed for at spore din energis
-            oprindelse og se din andel af vedvarende energi og dine emissioner
-            baseret på dit forbrug i den enkelte time.
+            Med denne platform har du mulighed for at spore din energis oprindelse og se din andel
+            af vedvarende energi og dine emissioner baseret på dit forbrug i den enkelte time.
           </p></eo-stack
         >
       </div>
       <div class="goal-7">
         <img alt="UN climate goal 7" src="/assets/images/help/goal_7.png" />
         <p>
-          Bæredygtig energi er et af FN's 17 verdensmål, som indgår i
-          udviklingsdagsordenen for bæredygtig udvikling frem mod 2030. Målet
-          med verdensmål 7 er at sikre overkommelig, pålidelig, bæredygtig og
-          moderne energi for alle. Verdensmål 7 har helt specifikt fokus på
+          Bæredygtig energi er et af FN's 17 verdensmål, som indgår i udviklingsdagsordenen for
+          bæredygtig udvikling frem mod 2030. Målet med verdensmål 7 er at sikre overkommelig,
+          pålidelig, bæredygtig og moderne energi for alle. Verdensmål 7 har helt specifikt fokus på
           vedvarende energi og emissioner, som kan ses her på platformen. [<a
             href="https://www.verdensmaalene.dk/maal/7"
             target="_blank"
@@ -210,16 +199,12 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         </p>
       </div>
       <eo-info-box variant="dark">
-        <img
-          alt="Law Paragraph icon"
-          src="/assets/images/help/law_paragraph.png"
-        />
+        <img alt="Law Paragraph icon" src="/assets/images/help/law_paragraph.png" />
         <h3>Aftale om et grønt og sikkert Danmark</h3>
         <p>
-          Et bredt flertal i Folketinget er blevet enige om, at Danmark i 2030
-          skal have firedoblet produktion af sol- og vindenergi på land samt
-          mulighed for femdobling af havvindemøllestrøm. Der er derfor for alvor
-          sat turbo på den grønne omstilling.
+          Et bredt flertal i Folketinget er blevet enige om, at Danmark i 2030 skal have firedoblet
+          produktion af sol- og vindenergi på land samt mulighed for femdobling af
+          havvindemøllestrøm. Der er derfor for alvor sat turbo på den grønne omstilling.
         </p>
       </eo-info-box>
       <eo-info-box variant="dark">
@@ -227,9 +212,8 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         <h3>Power-to-X: Sikkerhed for grøn oprindelse</h3>
         <eo-stack size="M">
           <p>
-            EU Kommissionen skal beskrive metode, der kan dokumentere, at strøm
-            taget fra elnettet produceres samtidigt med produktion af grøn brint
-            til transport. (EU-direktiv ark. 27)
+            EU Kommissionen skal beskrive metode, der kan dokumentere, at strøm taget fra elnettet
+            produceres samtidigt med produktion af grøn brint til transport. (EU-direktiv ark. 27)
           </p>
           <p>Dette vil netop kunne gøres med EnergiOprindelse.</p>
         </eo-stack>
@@ -237,20 +221,16 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       <eo-info-box variant="light">
         <h3>CSR-rapport</h3>
         <p>
-          Corporate Social Responsibility, eller CSR som forkortelse, er
-          virksomheders sociale ansvar. Dette bliver ofte nedskrevet som en del
-          af virksomheders forretningsstrategi. I Danmark er det desuden lov, at
-          visse virksomheder skal aflevere en rapportering om samfundsansvar
-          inden for en række punkter. Et af punkterne er om brug af energi.
+          Corporate Social Responsibility, eller CSR som forkortelse, er virksomheders sociale
+          ansvar. Dette bliver ofte nedskrevet som en del af virksomheders forretningsstrategi. I
+          Danmark er det desuden lov, at visse virksomheder skal aflevere en rapportering om
+          samfundsansvar inden for en række punkter. Et af punkterne er om brug af energi.
         </p>
       </eo-info-box>
       <eo-info-box variant="light">
         <h3>Timedeklarationen</h3>
         <eo-stack size="M">
-          <p>
-            Ny deklaration der baseres på faktiske time-for-time overblik af
-            leveret strøm.
-          </p>
+          <p>Ny deklaration der baseres på faktiske time-for-time overblik af leveret strøm.</p>
           <p>
             Læs mere om timedeklaration her:
             <a

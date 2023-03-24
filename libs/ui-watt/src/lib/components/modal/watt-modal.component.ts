@@ -26,15 +26,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import {
-  exhaustMap,
-  ignoreElements,
-  map,
-  mergeWith,
-  Subject,
-  take,
-  tap,
-} from 'rxjs';
+import { exhaustMap, ignoreElements, map, mergeWith, Subject, take, tap } from 'rxjs';
 
 export type WattModalSize = 'small' | 'normal' | 'large';
 

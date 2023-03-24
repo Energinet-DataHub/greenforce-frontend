@@ -24,10 +24,10 @@
  * ex. @include watt.media('>Small') {}
  */
 $breakpoints: (
-  'Small': 600px,
-  'Medium': 960px,
-  'Large': 1280px,
-  'XLarge': 1920px,
+  "Small": 600px,
+  "Medium": 960px,
+  "Large": 1280px,
+  "XLarge": 1920px,
 ) !default;
 
 /**
@@ -35,18 +35,18 @@ $breakpoints: (
  * ex. @include watt.media('XSmall') {}
  */
 $media-expressions: (
-  'XSmall': '(max-width: 599.98px)',
-  'Small': '(min-width: 600px) and (max-width: 959.98px)',
-  'Medium': '(min-width: 960px) and (max-width: 1279.98px)',
-  'Large': '(min-width: 1280px) and (max-width: 1919.98px)',
-  'XLarge': '(min-width: 1920px)',
+  "XSmall": "(max-width: 599.98px)",
+  "Small": "(min-width: 600px) and (max-width: 959.98px)",
+  "Medium": "(min-width: 960px) and (max-width: 1279.98px)",
+  "Large": "(min-width: 1280px) and (max-width: 1919.98px)",
+  "XLarge": "(min-width: 1920px)",
 ) !default;
 
 /**
  * Defines a number to be added or subtracted from each unit when declaring breakpoints with exclusive intervals
  */
 $unit-intervals: (
-  'px': 0.02,
+  "px": 0.02,
 ) !default;
 
 /* prettier-ignore */

@@ -14,20 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ModuleWithProviders,
-  NgModule,
-  Optional,
-  SkipSelf,
-} from '@angular/core';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { dhTranslocoHttpLoaderProvider } from '@energinet-datahub/dh/globalization/data-access-localization';
 import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
 import { environment } from '@energinet-datahub/dh/shared/environments';
-import {
-  TRANSLOCO_CONFIG,
-  translocoConfig,
-  TranslocoModule,
-} from '@ngneat/transloco';
+import { TRANSLOCO_CONFIG, translocoConfig, TranslocoModule } from '@ngneat/transloco';
 
 export const dhTranslocoConfig = {
   availableLangs: [DisplayLanguage.Danish, DisplayLanguage.English],
@@ -82,8 +73,6 @@ export class DhTranslocoModule {
   }
 
   constructor() {
-    throw new Error(
-      'Do not import DhTranslocoModule directly. Use DhTranslocoModule.forRoot.'
-    );
+    throw new Error('Do not import DhTranslocoModule directly. Use DhTranslocoModule.forRoot.');
   }
 }

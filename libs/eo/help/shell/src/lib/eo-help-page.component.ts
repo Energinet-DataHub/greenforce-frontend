@@ -34,9 +34,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
   template: `
     <eo-stack size="M">
       <a routerLink="{{ routes.faq }}">FAQ</a>
-      <a routerLink="{{ routes.introduction }}"
-        >Introduction to Energy Origin (Danish only)</a
-      >
+      <a routerLink="{{ routes.introduction }}">Introduction to Energy Origin (Danish only)</a>
     </eo-stack>
   `,
 })

@@ -15,21 +15,12 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  Input,
-  NgModule,
-  OnChanges,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, NgModule, OnChanges, ViewChild } from '@angular/core';
 import { LetModule } from '@rx-angular/template/let';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
-import {
-  WattDrawerModule,
-  WattDrawerComponent,
-} from '@energinet-datahub/watt/drawer';
+import { WattDrawerModule, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -45,7 +36,7 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 import { DhMarketParticipantGridAreaDetailsHeaderScam } from '../details-header/dh-market-participant-gridarea-details-header.component';
 import { DhMarketParticipantGridAreaEditScam } from '../details-edit/dh-market-participant-gridarea-edit.component';
 import { DhMarketParticipantGridAreaDetailsAuditLogScam } from '../details-auditlog/dh-market-participant-gridarea-details-auditlog.component';
-import { GridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-market-participant-gridarea-overview',
@@ -55,15 +46,7 @@ import { GridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
 export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
   @ViewChild('drawer') drawer!: WattDrawerComponent;
 
-  columnIds = [
-    'code',
-    'name',
-    'actorName',
-    'actorNumber',
-    'priceAreaCode',
-    'validFrom',
-    'validTo',
-  ];
+  columnIds = ['code', 'name', 'actorName', 'actorNumber', 'priceAreaCode', 'validFrom', 'validTo'];
 
   @Input() gridAreas: GridAreaOverviewRow[] = [];
   @Input() gridChanges!: (changes: {
@@ -73,7 +56,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
   @Input() gridChangesLoading = false;
 
   @Input() isLoadingAuditLog = false;
-  @Input() activeGridAreaAuditLog: GridAreaAuditLogEntryDto[] = [];
+  @Input() activeGridAreaAuditLog: MarketParticipantGridAreaAuditLogEntryDto[] = [];
   @Input() getGridAreaData!: (gridAreaId: string) => void;
 
   readonly dataSource: MatTableDataSource<GridAreaOverviewRow> =

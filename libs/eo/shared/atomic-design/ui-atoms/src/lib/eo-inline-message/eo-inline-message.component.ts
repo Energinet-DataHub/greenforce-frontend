@@ -22,12 +22,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-export type InlineMessageType =
-  | 'danger'
-  | 'default'
-  | 'info'
-  | 'success'
-  | 'warning';
+export type InlineMessageType = 'danger' | 'default' | 'info' | 'success' | 'warning';
 
 const selector = 'eo-inline-message';
 
@@ -81,10 +76,7 @@ const selector = 'eo-inline-message';
 export class EoInlineMessageComponent {
   @HostBinding('className')
   get modifierClassName(): string {
-    return [
-      selector,
-      this.type === 'default' ? '' : `${selector}--${this.type}`,
-    ].join(' ');
+    return [selector, this.type === 'default' ? '' : `${selector}--${this.type}`].join(' ');
   }
 
   @Input()

@@ -69,9 +69,7 @@ import { EoProductionStore } from './eo-production.store';
           [dateRangeInput]="dates"
           (newDates)="setNewAppDates($event)"
         ></eo-date-picker>
-        <eo-resolution-picker
-          [onFeatureFlag]="'resolution'"
-        ></eo-resolution-picker>
+        <eo-resolution-picker [onFeatureFlag]="'resolution'"></eo-resolution-picker>
       </eo-stack>
       <eo-stack size="L">
         <eo-production-tip></eo-production-tip>

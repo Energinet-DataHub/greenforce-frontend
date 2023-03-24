@@ -24,10 +24,7 @@ import {
   ChargesHttp,
 } from '@energinet-datahub/dh/shared/domain';
 import { Observable, switchMap, tap } from 'rxjs';
-import {
-  ErrorState,
-  LoadingState,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 interface ChargeMessagesState {
   readonly chargeMessages?: Array<ChargeMessageV1Dto>;
@@ -47,15 +44,11 @@ export class DhChargeMessagesDataAccessApiStore extends ComponentStore<ChargeMes
   totalCount$ = this.select((state) => state.totalCount);
 
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
-  isLoading$ = this.select(
-    (state) => state.requestState === LoadingState.LOADING
-  );
+  isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   chargeMessagesNotFound$ = this.select(
     (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
   );
-  hasGeneralError$ = this.select(
-    (state) => state.requestState === ErrorState.GENERAL_ERROR
-  );
+  hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
 
   constructor(private httpClient: ChargesHttp) {
     super(initialState);
@@ -70,29 +63,24 @@ export class DhChargeMessagesDataAccessApiStore extends ComponentStore<ChargeMes
           this.setLoading(LoadingState.LOADING);
         }),
         switchMap((searchCriteria) =>
-          this.httpClient
-            .v1ChargesSearchChargeMessagesAsyncPost(searchCriteria)
-            .pipe(
-              tapResponse(
-                (result) => {
-                  this.updateStates(result);
-                },
-                (error: HttpErrorResponse) => {
-                  this.setLoading(LoadingState.LOADED);
-                  this.handleError(error);
-                }
-              )
+          this.httpClient.v1ChargesSearchChargeMessagesAsyncPost(searchCriteria).pipe(
+            tapResponse(
+              (result) => {
+                this.updateStates(result);
+              },
+              (error: HttpErrorResponse) => {
+                this.setLoading(LoadingState.LOADED);
+                this.handleError(error);
+              }
             )
+          )
         )
       );
     }
   );
 
   private update = this.updater(
-    (
-      state: ChargeMessagesState,
-      chargeMessages: ChargeMessagesV1Dto
-    ): ChargeMessagesState => ({
+    (state: ChargeMessagesState, chargeMessages: ChargeMessagesV1Dto): ChargeMessagesState => ({
       ...state,
       chargeMessages: chargeMessages.chargeMessages ?? undefined,
       totalCount: chargeMessages.totalCount,

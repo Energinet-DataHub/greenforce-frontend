@@ -14,21 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  BatchDto,
-  DateRange,
-  ProcessType,
-} from '@energinet-datahub/dh/shared/domain';
+import type { ResultOf, VariablesOf } from '@graphql-typed-document-node/core';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 
-export type settlementReportsProcess = BatchDto & {
-  processType: ProcessType;
-  gridAreaCode: string;
-  gridAreaName: string;
-};
+export type SettlementReport = ResultOf<
+  typeof graphql.GetSettlementReportsDocument
+>['settlementReports'][0];
 
-export interface SettlementReportsProcessFilters {
-  processType: string | null;
-  gridArea?: string | null;
-  period?: DateRange | null;
-  executionTime?: DateRange | null;
-}
+export type SettlementReportFilters = VariablesOf<typeof graphql.GetSettlementReportsDocument>;

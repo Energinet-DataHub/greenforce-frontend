@@ -17,10 +17,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
-import {
-  MeteringPointCimDto,
-  MeteringPointHttp,
-} from '@energinet-datahub/dh/shared/domain';
+import { MeteringPointCimDto, MeteringPointHttp } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ErrorState, LoadingState } from './states';
 
@@ -42,47 +39,41 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
     filter((meteringPoint) => !!meteringPoint),
     map((meteringPoint) => meteringPoint as MeteringPointCimDto)
   );
-  isLoading$ = this.select(
-    (state) => state.requestState === LoadingState.LOADING
-  );
+  isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   meteringPointNotFound$ = this.select(
     (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
   );
-  hasGeneralError$ = this.select(
-    (state) => state.requestState === ErrorState.GENERAL_ERROR
-  );
+  hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
 
   constructor(private httpClient: MeteringPointHttp) {
     super(initialState);
   }
 
-  readonly loadMeteringPointData = this.effect(
-    (meteringPointId$: Observable<string>) => {
-      return meteringPointId$.pipe(
-        tap(() => {
-          this.resetState();
+  readonly loadMeteringPointData = this.effect((meteringPointId$: Observable<string>) => {
+    return meteringPointId$.pipe(
+      tap(() => {
+        this.resetState();
 
-          this.setLoading(true);
-        }),
-        switchMap((id) =>
-          this.httpClient.v1MeteringPointGetByGsrnGet(id).pipe(
-            tapResponse(
-              (meteringPointData) => {
-                this.setLoading(false);
+        this.setLoading(true);
+      }),
+      switchMap((id) =>
+        this.httpClient.v1MeteringPointGetByGsrnGet(id).pipe(
+          tapResponse(
+            (meteringPointData) => {
+              this.setLoading(false);
 
-                this.updateMeteringPointData(meteringPointData);
-              },
-              (error: HttpErrorResponse) => {
-                this.setLoading(false);
+              this.updateMeteringPointData(meteringPointData);
+            },
+            (error: HttpErrorResponse) => {
+              this.setLoading(false);
 
-                this.handleError(error);
-              }
-            )
+              this.handleError(error);
+            }
           )
         )
-      );
-    }
-  );
+      )
+    );
+  });
 
   private updateMeteringPointData = this.updater(
     (

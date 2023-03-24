@@ -28,7 +28,7 @@ import {
 import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { map, Subject, takeUntil } from 'rxjs';
+import { combineLatest, map, Subject, takeUntil, tap } from 'rxjs';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 
@@ -37,13 +37,19 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattCardModule } from '@energinet-datahub/watt/card';
 import {
   DhAdminMarketRolePermissionsStore,
   DhAdminUserRoleEditDataAccessApiStore,
   DhAdminUserRoleWithPermissionsManagementDataAccessApiStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import { UpdateUserRoleDto, UserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantPermissionDetailsDto,
+  MarketParticipantUpdateUserRoleDto,
+  MarketParticipantUserRoleWithPermissionsDto,
+} from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 
 @Component({
@@ -52,13 +58,19 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
   standalone: true,
   styles: [
     `
-      :host {
-        display: block;
+      .tab-master-data {
+        margin: calc(var(--watt-space-ml) * 2) 0 0 var(--watt-space-ml);
+        width: 25rem;
       }
 
-      .form-wrapper {
-        padding-top: var(--watt-space-l);
-        width: 25rem;
+      .tab-permissions {
+        margin: 0 var(--watt-space-ml);
+      }
+
+      .spinner-container {
+        display: flex;
+        justify-content: center;
+        margin-top: var(--watt-space-m);
       }
     `,
   ],
@@ -70,10 +82,13 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
     WattModalModule,
     WattButtonModule,
     TranslocoModule,
-    WattTabsModule,
+    WattTabComponent,
+    WattTabsComponent,
     WattFormFieldModule,
     WattInputModule,
     ReactiveFormsModule,
+    WattSpinnerModule,
+    WattCardModule,
     DhPermissionsTableComponent,
   ],
 })
@@ -88,12 +103,29 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
 
+  private skipFirstPermissionSelectionEvent = true;
   private destroy$ = new Subject<void>();
 
   readonly userRole$ = this.userRoleWithPermissionsStore.userRole$;
   readonly roleName$ = this.userRole$.pipe(map((role) => role.name));
 
   readonly marketRolePermissions$ = this.marketRolePermissionsStore.permissions$;
+  readonly initiallySelectedPermissions$ = combineLatest([
+    this.marketRolePermissions$,
+    this.userRole$,
+  ]).pipe(
+    map(([marketRolePermissions, userRole]) => {
+      return marketRolePermissions.filter((marketRolePermission) => {
+        return userRole.permissions.some(
+          (userRolePermission) => userRolePermission.id === marketRolePermission.id
+        );
+      });
+    }),
+    tap((initiallySelectedPermissions) => {
+      this.skipFirstPermissionSelectionEvent = initiallySelectedPermissions.length > 0;
+    })
+  );
+  readonly marketRolePermissionsIsLoading$ = this.marketRolePermissionsStore.isLoading$;
 
   readonly isLoading$ = this.userRoleEditStore.isLoading$;
   readonly hasValidationError$ = this.userRoleEditStore.hasValidationError$;
@@ -101,6 +133,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   readonly userRoleEditForm = this.formBuilder.group({
     name: this.formBuilder.nonNullable.control('', [Validators.required]),
     description: this.formBuilder.nonNullable.control('', [Validators.required]),
+    permissionIds: this.formBuilder.nonNullable.control<number[]>([], [Validators.required]),
   });
 
   @ViewChild(WattModalComponent) editUserRoleModal!: WattModalComponent;
@@ -108,17 +141,20 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   @Output() closed = new EventEmitter<{ saveSuccess: boolean }>();
 
   ngOnInit(): void {
-    const formControls = this.userRoleEditForm.controls;
-
     this.userRole$.pipe(takeUntil(this.destroy$)).subscribe((userRole) => {
-      formControls.name.setValue(userRole.name);
-      formControls.description.setValue(userRole.description);
+      const permissionIds = userRole.permissions.map(({ id }) => id);
+
+      this.userRoleEditForm.patchValue({
+        name: userRole.name,
+        description: userRole.description,
+        permissionIds,
+      });
 
       this.marketRolePermissionsStore.getPermissions(userRole.eicFunction);
     });
 
     this.hasValidationError$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      formControls.name.setErrors({
+      this.userRoleEditForm.controls.name.setErrors({
         nameAlreadyExists: true,
       });
     });
@@ -138,14 +174,35 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
     this.closed.emit({ saveSuccess });
   }
 
-  save(userRole: UserRoleWithPermissionsDto): void {
+  onSelectionChanged(selectedPermissions: MarketParticipantPermissionDetailsDto[]): void {
+    if (this.skipFirstPermissionSelectionEvent) {
+      this.skipFirstPermissionSelectionEvent = false;
+
+      return;
+    }
+
+    const permissionIds = selectedPermissions.map(({ id }) => id);
+
+    this.userRoleEditForm.patchValue({ permissionIds });
+    this.userRoleEditForm.markAsDirty();
+  }
+
+  save(userRole: MarketParticipantUserRoleWithPermissionsDto): void {
+    if (this.userRoleEditForm.invalid) {
+      return;
+    }
+
+    if (this.userRoleEditForm.pristine) {
+      return this.closeModal(false);
+    }
+
     const formControls = this.userRoleEditForm.controls;
 
-    const updatedUserRole: UpdateUserRoleDto = {
+    const updatedUserRole: MarketParticipantUpdateUserRoleDto = {
       name: formControls.name.value,
       description: formControls.description.value,
+      permissions: formControls.permissionIds.value,
       status: userRole.status,
-      permissions: userRole.permissions.map((permissions) => permissions.id),
     };
 
     const onSuccessFn = () => {

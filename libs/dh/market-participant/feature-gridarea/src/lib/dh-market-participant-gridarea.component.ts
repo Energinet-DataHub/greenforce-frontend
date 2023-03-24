@@ -54,15 +54,11 @@ export class DhMarketParticipantGridAreaComponent {
 
   gridAreaChangesIsLoading$ = this.gridAreaEditStore.isLoading$;
 
-  onGridAreaChanged = (changes: {
-    gridAreaChanges: GridAreaChanges;
-    onCompleted: () => void;
-  }) => {
+  onGridAreaChanged = (changes: { gridAreaChanges: GridAreaChanges; onCompleted: () => void }) => {
     this.gridAreaEditStore.saveGridAreaChanges(changes);
   };
 
-  getGridAreaData = (gridAreaId: string) =>
-    this.gridAreaEditStore.getAuditLog(gridAreaId);
+  getGridAreaData = (gridAreaId: string) => this.gridAreaEditStore.getAuditLog(gridAreaId);
 }
 
 @NgModule({

@@ -26,13 +26,7 @@ import { EoConsumptionStore } from './eo-consumption.store';
 
 @Component({
   standalone: true,
-  imports: [
-    LetModule,
-    MatCardModule,
-    EoLineChartComponent,
-    CommonModule,
-    WattSpinnerModule,
-  ],
+  imports: [LetModule, MatCardModule, EoLineChartComponent, CommonModule, WattSpinnerModule],
   selector: 'eo-consumption-line-chart',
   template: ` <mat-card class="chart-card watt-space-inline-l">
     <h3 class="watt-space-stack-s">kWh</h3>
@@ -67,9 +61,7 @@ import { EoConsumptionStore } from './eo-consumption.store';
 export class EoConsumptionLineChartComponent {
   loadingDone$ = this.store.loadingDone$;
   dataInKWH$ = this.store.measurements$.pipe(
-    map((all) =>
-      all.map((one) => ({ ...one, value: Number(one.value / 1000) }))
-    )
+    map((all) => all.map((one) => ({ ...one, value: Number(one.value / 1000) })))
   );
 
   constructor(private store: EoConsumptionStore) {}

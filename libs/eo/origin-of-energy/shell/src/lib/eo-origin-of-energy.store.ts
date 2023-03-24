@@ -64,8 +64,7 @@ export class EoOriginOfEnergyStore extends ComponentStore<EoOriginOfEnergyState>
   readonly loadingDone$ = this.select((state) => state.loadingDone);
   readonly renewableTotal$ = this.select(
     (state) =>
-      state.energySources.reduce((acc, obj) => acc + obj.renewable, 0) /
-      state.energySources.length
+      state.energySources.reduce((acc, obj) => acc + obj.renewable, 0) / state.energySources.length
   );
   readonly error$ = this.select((state) => state.error);
 

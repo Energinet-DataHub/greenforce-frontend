@@ -16,12 +16,10 @@ limitations under the License.
 -->
 <nav class="breadcrumb">
   <a [routerLink]="meteringPointAbsolutePath" class="watt-text-s">{{
-    'meteringPoint.overview.breadcrumb.meteringPoints' | transloco
+    "meteringPoint.overview.breadcrumb.meteringPoints" | transloco
   }}</a>
   <watt-icon name="right"></watt-icon>
-  <ng-container
-    *ngIf="meteringPoint?.meteringPointType | dhIsParent; else isChild"
-  >
+  <ng-container *ngIf="meteringPoint?.meteringPointType | dhIsParent; else isChild">
     {{ meteringPoint?.gsrnNumber }}
   </ng-container>
 </nav>

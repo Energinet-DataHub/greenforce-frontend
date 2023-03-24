@@ -86,11 +86,7 @@ describe(DhChargesCreatePricesComponent.name, () => {
 
     const now = new Date();
     now.setDate(now.getDate() + 31);
-    const expectedDate = formatInTimeZone(
-      now,
-      danishTimeZoneIdentifier,
-      dateTimeFormat
-    );
+    const expectedDate = formatInTimeZone(now, danishTimeZoneIdentifier, dateTimeFormat);
     expect(effectiveDateInput.value).toEqual(expectedDate);
   });
 
@@ -133,9 +129,7 @@ describe(DhChargesCreatePricesComponent.name, () => {
     expect(chargeTypeDropdown.textContent).toBe(chargeType);
     expect(resolutionDropdown.textContent).toBe('Month');
 
-    const transparentInvoicingCheckbox = findCheckboxElement(
-      'transparent invoicing'
-    );
+    const transparentInvoicingCheckbox = findCheckboxElement('transparent invoicing');
     expect(transparentInvoicingCheckbox).toBeInTheDocument();
     expect(transparentInvoicingCheckbox.checked).toBe(false);
     expect(transparentInvoicingCheckbox).toBeDisabled();

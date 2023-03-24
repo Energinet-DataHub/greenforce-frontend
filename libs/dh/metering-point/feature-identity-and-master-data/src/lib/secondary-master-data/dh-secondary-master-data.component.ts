@@ -20,7 +20,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import {
   MeteringPointCimDto,
-  NetSettlementGroup,
+  MeteringPointNetSettlementGroup,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattExpansionModule } from '@energinet-datahub/watt/expansion';
@@ -80,17 +80,17 @@ export class DhSecondaryMasterDataComponent {
 
   get netSettlementGroupAsNumber(): number | undefined {
     switch (this.#secondaryMasterData?.netSettlementGroup) {
-      case NetSettlementGroup.Zero:
+      case MeteringPointNetSettlementGroup.Zero:
         return 0;
-      case NetSettlementGroup.One:
+      case MeteringPointNetSettlementGroup.One:
         return 1;
-      case NetSettlementGroup.Two:
+      case MeteringPointNetSettlementGroup.Two:
         return 2;
-      case NetSettlementGroup.Three:
+      case MeteringPointNetSettlementGroup.Three:
         return 3;
-      case NetSettlementGroup.Six:
+      case MeteringPointNetSettlementGroup.Six:
         return 6;
-      case NetSettlementGroup.NinetyNine:
+      case MeteringPointNetSettlementGroup.NinetyNine:
         return 99;
       default:
         return;

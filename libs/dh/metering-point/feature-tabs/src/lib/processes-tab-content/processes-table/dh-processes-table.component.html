@@ -24,8 +24,7 @@ limitations under the License.
   >
     <!-- Expand Definition -->
     <ng-container matColumnDef="rowExpandControl">
-      <mat-header-cell *matHeaderCellDef class="control-cell-header">
-      </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef class="control-cell-header"> </mat-header-cell>
       <mat-cell *matCellDef="let row" class="control-cell">
         <watt-icon name="right" size="l"></watt-icon>
       </mat-cell>
@@ -60,9 +59,7 @@ limitations under the License.
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <watt-icon name="date" size="s" class="date-icon"></watt-icon>
-        <span class="watt-text-s"
-          >{{ row.data.createdDate | dhDateTime }}
-        </span>
+        <span class="watt-text-s">{{ row.data.createdDate | dhDateTime }} </span>
       </mat-cell>
     </ng-container>
 
@@ -100,10 +97,7 @@ limitations under the License.
 
     <!-- Has Details Errors Definition -->
     <ng-container matColumnDef="hasDetailsErrors">
-      <mat-header-cell
-        *matHeaderCellDef
-        class="has-details-errors-cell-header"
-      ></mat-header-cell>
+      <mat-header-cell *matHeaderCellDef class="has-details-errors-cell-header"></mat-header-cell>
       <mat-cell *matCellDef="let row" class="has-details-errors-cell">
         <watt-icon
           [name]="row.data.hasDetailsErrors ? 'danger' : 'success'"
@@ -116,11 +110,7 @@ limitations under the License.
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
     <ng-container matColumnDef="expandedDetail">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell
-        mat-cell
-        *matCellDef="let row"
-        [attr.colspan]="displayedColumns.length"
-      >
+      <mat-cell mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
         <dh-processes-detail-item
           *ngFor="let detail of row.data.details"
           [detail]="detail"

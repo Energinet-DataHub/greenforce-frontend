@@ -55,9 +55,7 @@ import { WattModalModule } from '@energinet-datahub/watt/modal';
   ],
   template: `
     <span class="watt-headline-3 modal-header">Automatic logout</span>
-    <p class="content">
-      For security reasons you have been automatically logged out.
-    </p>
+    <p class="content">For security reasons you have been automatically logged out.</p>
     <div class="actions">
       <watt-button (click)="close()">Ok</watt-button>
     </div>
@@ -68,7 +66,5 @@ export class EoIdleTimerLoggedOutModalComponent {
     this.dialogRef.close(action);
   }
 
-  constructor(
-    private dialogRef: MatDialogRef<EoIdleTimerLoggedOutModalComponent>
-  ) {}
+  constructor(private dialogRef: MatDialogRef<EoIdleTimerLoggedOutModalComponent>) {}
 }

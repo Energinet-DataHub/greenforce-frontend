@@ -15,17 +15,9 @@
  * limitations under the License.
  */
 
-import {
-  HttpEvent,
-  HttpHandler,
-  HttpRequest,
-  HttpResponse,
-} from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import {
-  MarketParticipantUserHttp,
-  TokenHttp,
-} from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserHttp, TokenHttp } from '@energinet-datahub/dh/shared/domain';
 import { map, Observable, ReplaySubject, switchMap, tap } from 'rxjs';
 import { ActorStorage, actorStorageToken } from './actor-storage';
 
@@ -72,16 +64,14 @@ export class ActorTokenService {
   }
 
   public acquireToken = (): Observable<string> => {
-    return this.marketParticipantUserHttp
-      .v1MarketParticipantUserGetUserActorsGet()
-      .pipe(
-        tap((x) => this.actorStorage.setUserAssociatedActors(x.actorIds)),
-        switchMap(() => {
-          return this.tokenHttp
-            .v1TokenPost(this.actorStorage.getSelectedActor())
-            .pipe(map((r) => r.token));
-        })
-      );
+    return this.marketParticipantUserHttp.v1MarketParticipantUserGetUserActorsGet().pipe(
+      tap((x) => this.actorStorage.setUserAssociatedActors(x.actorIds)),
+      switchMap(() => {
+        return this.tokenHttp
+          .v1TokenPost(this.actorStorage.getSelectedActor())
+          .pipe(map((r) => r.token));
+      })
+    );
   };
 
   private updateCache(
@@ -92,10 +82,7 @@ export class ActorTokenService {
   ): Observable<HttpEvent<unknown>> {
     const externalToken = request.headers.get('Authorization');
 
-    if (!externalToken)
-      throw new Error(
-        'handleAuthFlow failed, no token in Authorization header.'
-      );
+    if (!externalToken) throw new Error('handleAuthFlow failed, no token in Authorization header.');
 
     const cachedEntry = readCache();
     if (cachedEntry && cachedEntry.token === externalToken) {
@@ -121,12 +108,8 @@ export class ActorTokenService {
     );
   }
 
-  private createCachedResponse(
-    cache: Observable<string>
-  ): Observable<HttpResponse<string>> {
-    return cache.pipe(
-      map((value) => new HttpResponse<string>({ body: value, status: 200 }))
-    );
+  private createCachedResponse(cache: Observable<string>): Observable<HttpResponse<string>> {
+    return cache.pipe(map((value) => new HttpResponse<string>({ body: value, status: 200 })));
   }
 
   private isUserActorsRequest(request: HttpRequest<unknown>): boolean {

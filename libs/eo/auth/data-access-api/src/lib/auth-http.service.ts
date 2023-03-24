@@ -16,10 +16,7 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import {
-  EoApiEnvironment,
-  eoApiEnvironmentToken,
-} from '@energinet-datahub/eo/shared/environments';
+import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { Observable } from 'rxjs';
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
 
@@ -67,10 +64,7 @@ export class AuthHttp {
    * @param feUrl Base URL for authentication web app.
    * @param returnUrl Absolute URL to return to after authentication.
    */
-  getOidcLogin(
-    feUrl: string,
-    returnUrl: string
-  ): Observable<AuthOidcLoginResponse> {
+  getOidcLogin(feUrl: string, returnUrl: string): Observable<AuthOidcLoginResponse> {
     return this.http.get<AuthOidcLoginResponse>(`${this.#apiBase}/oidc/login`, {
       params: {
         [AuthOidcQueryParameterName.FeUrl]: feUrl,

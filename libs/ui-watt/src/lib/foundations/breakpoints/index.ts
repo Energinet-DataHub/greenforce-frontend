@@ -14,8 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export {
-  WattBreakpointsObserver,
-  WattBreakpointState,
-} from './breakpoints-observer';
+export { WattBreakpointsObserver, WattBreakpointState } from './breakpoints-observer';
 export { WattBreakpoint } from './breakpoints';

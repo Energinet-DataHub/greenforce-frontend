@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@energinet-datahub/watt/utils' as watt;
+@use "@energinet-datahub/watt/utils" as watt;
 
 :host {
   display: block;
@@ -32,7 +32,7 @@
 .column {
   width: 100%;
 
-  @include watt.media('>=Small') {
+  @include watt.media(">=Small") {
     width: 50%;
   }
 }
@@ -52,7 +52,7 @@ section {
 dl {
   width: 100%;
   margin: 0;
-  @include watt.media('>=Small') {
+  @include watt.media(">=Small") {
     width: auto;
   }
 }
@@ -97,7 +97,7 @@ dl.multiple-terms-and-descriptions {
 .flex {
   display: flex;
   flex-wrap: wrap;
-  @include watt.media('>=Small') {
+  @include watt.media(">=Small") {
     flex-wrap: nowrap;
   }
 }

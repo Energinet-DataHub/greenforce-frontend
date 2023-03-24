@@ -35,9 +35,10 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { PushModule } from '@rx-angular/template/push';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { settlementReportsProcess } from '@energinet-datahub/dh/wholesale/domain';
+import { SettlementReport } from '@energinet-datahub/dh/wholesale/domain';
 
-type settlementReportsTableData = WattTableDataSource<settlementReportsProcess>;
+export type settlementReportsTableColumns = SettlementReport & { download: boolean };
+type settlementReportsTableData = WattTableDataSource<settlementReportsTableColumns>;
 
 @Component({
   standalone: true,
@@ -63,20 +64,21 @@ export class DhWholesaleTableComponent {
 
   selectedBatch$ = this.store.selectedBatch$;
 
-  @Input() set data(processes: settlementReportsProcess[]) {
+  @Input() set data(processes: settlementReportsTableColumns[]) {
     this._data = new WattTableDataSource(processes);
   }
 
-  @Output() selectedRow: EventEmitter<settlementReportsProcess> = new EventEmitter();
-  @Output() download: EventEmitter<settlementReportsProcess> = new EventEmitter();
+  @Output() selectedRow: EventEmitter<SettlementReport> = new EventEmitter();
+  @Output() download: EventEmitter<SettlementReport> = new EventEmitter();
 
   _data: settlementReportsTableData = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<settlementReportsProcess> = {
+  columns: WattTableColumnDef<settlementReportsTableColumns> = {
     processType: { accessor: 'processType' },
-    gridAreaName: { accessor: 'gridAreaName' },
-    periodStart: { accessor: 'periodStart' },
-    periodEnd: { accessor: 'periodEnd' },
-    executionTimeStart: { accessor: 'executionTimeStart' },
+    gridAreaName: { accessor: (row) => row.gridArea.name },
+    periodStart: { accessor: (row) => row.period?.start },
+    periodEnd: { accessor: (row) => row.period?.end },
+    executionTime: { accessor: (row) => row.executionTime },
+    download: { accessor: 'download' },
   };
 
   translateHeader = (key: string) => translate(`wholesale.settlementReports.table.${key}`);

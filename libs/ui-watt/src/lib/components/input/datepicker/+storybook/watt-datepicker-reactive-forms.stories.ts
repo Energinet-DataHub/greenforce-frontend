@@ -126,9 +126,7 @@ export const withInitialValue: Story<WattDatepickerStoryConfig> = (args) => ({
 export const withValidations: Story<WattDatepickerStoryConfig> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null, [Validators.required]),
-    exampleFormControlRange: new FormControl(null, [
-      WattRangeValidators.required(),
-    ]),
+    exampleFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
     withValidations: true,
     ...args,
   },
@@ -147,9 +145,7 @@ withValidations.play = async ({ canvasElement }) => {
   fireEvent.focusOut(startDateInput);
 };
 
-export const withFormControlDisabled: Story<WattDatepickerStoryConfig> = (
-  args
-) => ({
+export const withFormControlDisabled: Story<WattDatepickerStoryConfig> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl({ value: null, disabled: true }),
     exampleFormControlRange: new FormControl({ value: null, disabled: true }),

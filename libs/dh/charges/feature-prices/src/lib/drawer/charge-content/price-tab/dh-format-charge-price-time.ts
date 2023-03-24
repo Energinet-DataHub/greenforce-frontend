@@ -14,29 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChargePriceV1Dto,
-  Resolution,
-} from '@energinet-datahub/dh/shared/domain';
+import { ChargePriceV1Dto, ChargeResolution } from '@energinet-datahub/dh/shared/domain';
 import { format } from 'date-fns';
 
 const timeFormat = 'HH:mm';
 
-export function getFromDateTime(
-  price: ChargePriceV1Dto,
-  resolution: Resolution
-) {
+export function getFromDateTime(price: ChargePriceV1Dto, resolution: ChargeResolution) {
   const fromDateTime = new Date(price.fromDateTime);
 
-  if (resolution == Resolution.PT1H) return formatHours(fromDateTime, 0);
+  if (resolution == ChargeResolution.PT1H) return formatHours(fromDateTime, 0);
 
   return format(fromDateTime, timeFormat);
 }
 
-export function getToDateTime(price: ChargePriceV1Dto, resolution: Resolution) {
+export function getToDateTime(price: ChargePriceV1Dto, resolution: ChargeResolution) {
   const toDateTime = new Date(price.toDateTime);
 
-  if (resolution == Resolution.PT1H) {
+  if (resolution == ChargeResolution.PT1H) {
     const fromDateTime = new Date(price.fromDateTime);
 
     // If fromDateTime is winter and toDateTime is summer, remove 1 hour from ToDateTime

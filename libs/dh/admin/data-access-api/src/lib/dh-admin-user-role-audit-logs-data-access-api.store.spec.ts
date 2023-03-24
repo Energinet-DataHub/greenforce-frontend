@@ -14,22 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  asyncScheduler,
-  firstValueFrom,
-  Observable,
-  of,
-  scheduled,
-} from 'rxjs';
+import { asyncScheduler, firstValueFrom, Observable, of, scheduled } from 'rxjs';
 import { fakeAsync, tick } from '@angular/core/testing';
 
 import {
-  EicFunction,
+  MarketParticipantEicFunction,
   MarketParticipantUserRoleHttp,
-  UserRoleAuditLogDto,
-  UserRoleAuditLogsDto,
-  UserRoleChangeType,
-  UserRoleStatus,
+  MarketParticipantUserRoleAuditLogDto,
+  MarketParticipantUserRoleAuditLogsDto,
+  MarketParticipantUserRoleChangeType,
+  MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
 import {
@@ -41,15 +35,15 @@ const testUserRoleId = 'ff029a48-b06f-4300-8ec0-84d121a4b83f';
 const changeDescriptionJsonMock = {
   Name: 'New name',
   Description: 'New description',
-  EicFunction: EicFunction.BalanceResponsibleParty,
-  Status: UserRoleStatus.Inactive,
+  MarketParticipantEicFunction: MarketParticipantEicFunction.BalanceResponsibleParty,
+  Status: MarketParticipantUserRoleStatus.Inactive,
   Permissions: [3, 4],
 };
 
 function generateUserRoleAuditLog(
-  userRoleChangeType: UserRoleChangeType,
+  userRoleChangeType: MarketParticipantUserRoleChangeType,
   changeDescriptionJson: string
-): UserRoleAuditLogDto {
+): MarketParticipantUserRoleAuditLogDto {
   return {
     userRoleId: '',
     changedByUserId: '',
@@ -60,13 +54,10 @@ function generateUserRoleAuditLog(
   };
 }
 
-function generateMockResponse(): UserRoleAuditLogsDto {
+function generateMockResponse(): MarketParticipantUserRoleAuditLogsDto {
   return {
     auditLogs: [
-      generateUserRoleAuditLog(
-        'Created',
-        JSON.stringify(changeDescriptionJsonMock)
-      ),
+      generateUserRoleAuditLog('Created', JSON.stringify(changeDescriptionJsonMock)),
       generateUserRoleAuditLog(
         'NameChange',
         JSON.stringify({ Name: changeDescriptionJsonMock.Name })
@@ -77,7 +68,9 @@ function generateMockResponse(): UserRoleAuditLogsDto {
       ),
       generateUserRoleAuditLog(
         'EicFunctionChange',
-        JSON.stringify({ EicFunction: changeDescriptionJsonMock.EicFunction })
+        JSON.stringify({
+          MarketParticipantEicFunction: changeDescriptionJsonMock.MarketParticipantEicFunction,
+        })
       ),
       generateUserRoleAuditLog(
         'StatusChange',
@@ -91,7 +84,7 @@ function generateMockResponse(): UserRoleAuditLogsDto {
   };
 }
 
-const scheduleObservable = (value: Observable<UserRoleAuditLogsDto>) => {
+const scheduleObservable = (value: Observable<MarketParticipantUserRoleAuditLogsDto>) => {
   return scheduled(value, asyncScheduler);
 };
 
@@ -106,9 +99,9 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
     const store = new DhAdminUserRoleAuditLogsDataAccessApiStore(httpClient);
     store.getAuditLogs(of(testUserRoleId));
 
-    expect(
-      httpClient.v1MarketParticipantUserRoleGetUserRoleAuditLogsGet
-    ).toHaveBeenCalledWith(testUserRoleId);
+    expect(httpClient.v1MarketParticipantUserRoleGetUserRoleAuditLogsGet).toHaveBeenCalledWith(
+      testUserRoleId
+    );
   });
 
   test('`auditLogs$` returns a mapped response', fakeAsync(async () => {
@@ -130,7 +123,7 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
         timestamp: '',
         entry: {
           ...mockResponse.auditLogs[0],
-          userRoleChangeType: UserRoleChangeType.Created,
+          userRoleChangeType: MarketParticipantUserRoleChangeType.Created,
           changedValueTo: '',
         },
       },
@@ -138,7 +131,7 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
         timestamp: '',
         entry: {
           ...mockResponse.auditLogs[1],
-          userRoleChangeType: UserRoleChangeType.NameChange,
+          userRoleChangeType: MarketParticipantUserRoleChangeType.NameChange,
           changedValueTo: changeDescriptionJsonMock.Name,
         },
       },
@@ -146,7 +139,7 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
         timestamp: '',
         entry: {
           ...mockResponse.auditLogs[2],
-          userRoleChangeType: UserRoleChangeType.DescriptionChange,
+          userRoleChangeType: MarketParticipantUserRoleChangeType.DescriptionChange,
           changedValueTo: changeDescriptionJsonMock.Description,
         },
       },
@@ -154,15 +147,15 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
         timestamp: '',
         entry: {
           ...mockResponse.auditLogs[3],
-          userRoleChangeType: UserRoleChangeType.EicFunctionChange,
-          changedValueTo: changeDescriptionJsonMock.EicFunction,
+          userRoleChangeType: MarketParticipantUserRoleChangeType.EicFunctionChange,
+          changedValueTo: changeDescriptionJsonMock.MarketParticipantEicFunction,
         },
       },
       {
         timestamp: '',
         entry: {
           ...mockResponse.auditLogs[4],
-          userRoleChangeType: UserRoleChangeType.StatusChange,
+          userRoleChangeType: MarketParticipantUserRoleChangeType.StatusChange,
           changedValueTo: changeDescriptionJsonMock.Status,
         },
       },
@@ -170,7 +163,7 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
         timestamp: '',
         entry: {
           ...mockResponse.auditLogs[5],
-          userRoleChangeType: UserRoleChangeType.PermissionsChange,
+          userRoleChangeType: MarketParticipantUserRoleChangeType.PermissionsChange,
           changedValueTo: `${changeDescriptionJsonMock.Permissions[0]}, ${changeDescriptionJsonMock.Permissions[1]}`,
         },
       },
@@ -178,8 +171,6 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
     const actualValue = await firstValueFrom(store.auditLogs$);
 
     expect(actualValue).toStrictEqual(expectedValue);
-    expect(
-      httpClient.v1MarketParticipantUserRoleGetUserRoleAuditLogsGet
-    ).toHaveBeenCalled();
+    expect(httpClient.v1MarketParticipantUserRoleGetUserRoleAuditLogsGet).toHaveBeenCalled();
   }));
 });

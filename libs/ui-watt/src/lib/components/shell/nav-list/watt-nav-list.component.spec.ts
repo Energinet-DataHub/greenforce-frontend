@@ -265,11 +265,7 @@ describe(WattNavListComponent.name, () => {
         <router-outlet></router-outlet>
       `,
         {
-          imports: [
-            WattNavListComponent,
-            WattNavListItemComponent,
-            RouterModule,
-          ],
+          imports: [WattNavListComponent, WattNavListItemComponent, RouterModule],
           routes: [
             {
               path: 'top-page',

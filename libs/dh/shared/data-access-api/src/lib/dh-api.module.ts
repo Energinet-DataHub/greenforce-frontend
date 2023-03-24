@@ -15,13 +15,7 @@
  * limitations under the License.
  */
 import { HttpClient } from '@angular/common/http';
-import {
-  inject,
-  ModuleWithProviders,
-  NgModule,
-  Optional,
-  SkipSelf,
-} from '@angular/core';
+import { inject, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
@@ -78,8 +72,6 @@ export class DhApiModule {
   }
 
   constructor() {
-    throw new Error(
-      'Do not import DhApiModule directly. Use DhApiModule.forRoot.'
-    );
+    throw new Error('Do not import DhApiModule directly. Use DhApiModule.forRoot.');
   }
 }

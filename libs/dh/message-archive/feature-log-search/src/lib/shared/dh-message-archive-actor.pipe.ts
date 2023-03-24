@@ -25,8 +25,6 @@ export class ActorNamePipe implements PipeTransform {
   ): string | undefined {
     if (!actorId) return undefined;
     const actor = actors?.find((x) => x.value === actorId);
-    return actor?.displayValue === actor?.value
-      ? undefined
-      : actor?.displayValue;
+    return actor?.displayValue === actor?.value ? undefined : actor?.displayValue;
   }
 }

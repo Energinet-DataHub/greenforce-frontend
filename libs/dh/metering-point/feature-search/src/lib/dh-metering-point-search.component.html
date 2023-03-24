@@ -32,7 +32,7 @@ limitations under the License.
   <watt-empty-state
     *ngIf="hasGeneralError$ | push"
     icon="custom-power"
-    [title]="transloco('serverErrorTitle')"
-    [message]="transloco('serverErrorMessage')"
+    [title]="'shared.error.title' | transloco"
+    [message]="'shared.error.message' | transloco"
   ></watt-empty-state>
 </ng-container>

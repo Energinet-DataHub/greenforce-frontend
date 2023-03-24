@@ -14,30 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-import {
-  ChargeTypes,
-  ValidityOptions,
-} from '@energinet-datahub/dh/charges/domain';
+import { ChargeTypes, ValidityOptions } from '@energinet-datahub/dh/charges/domain';
 
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
-import {
-  WattDropdownModule,
-  WattDropdownOptions,
-} from '@energinet-datahub/watt/dropdown';
+import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
@@ -77,10 +66,7 @@ import { ChargeSearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-charges-prices.component.html',
   styleUrls: ['./dh-charges-prices.component.scss'],
-  providers: [
-    DhChargesDataAccessApiStore,
-    DhMarketParticipantDataAccessApiStore,
-  ],
+  providers: [DhChargesDataAccessApiStore, DhMarketParticipantDataAccessApiStore],
 })
 export class DhChargesPricesComponent implements OnInit, OnDestroy {
   chargeTypeOptions: WattDropdownOptions = [];
@@ -157,8 +143,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
             .map((chargeTypeKey) => {
               return {
                 value: chargeTypeKey,
-                displayValue:
-                  translationKeys[ChargeTypes[Number(chargeTypeKey)]],
+                displayValue: translationKeys[ChargeTypes[Number(chargeTypeKey)]],
               };
             });
         },

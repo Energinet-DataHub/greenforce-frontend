@@ -57,10 +57,7 @@ export class DhMeteringPointOverviewComponent {
   meteringPointNotFound$ = this.store.meteringPointNotFound$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: DhMeteringPointDataAccessApiStore
-  ) {
+  constructor(private route: ActivatedRoute, private store: DhMeteringPointDataAccessApiStore) {
     this.loadMeteringPointData();
   }
 

@@ -37,17 +37,13 @@ import {
   ChargePricesSearchCriteriaV1Dto,
   ChargePriceV1Dto,
   ChargeV1Dto,
-  Resolution,
+  ChargeResolution,
   ChargePriceSortColumnName,
 } from '@energinet-datahub/dh/shared/domain';
 import { Subject, takeUntil } from 'rxjs';
 import { PushModule } from '@rx-angular/template/push';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import {
-  WattTableDataSource,
-  WattTableColumnDef,
-  WATT_TABLE,
-} from '@energinet-datahub/watt/table';
+import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -79,9 +75,7 @@ import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
   providers: [DhChargePricesDataAccessApiStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhChargesChargePricesTabComponent
-  implements OnInit, OnChanges, OnDestroy
-{
+export class DhChargesChargePricesTabComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
 
@@ -137,18 +131,14 @@ export class DhChargesChargePricesTabComponent
       : this.transloco.translate(`charges.prices.priceTab.${key}`);
 
   ngOnInit() {
-    this.chargePricesStore.all$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((chargePrices) => {
-        this.dataSource.data = chargePrices ?? new Array<ChargePriceV1Dto>();
-        this.result = chargePrices;
-      });
+    this.chargePricesStore.all$.pipe(takeUntil(this.destroy$)).subscribe((chargePrices) => {
+      this.dataSource.data = chargePrices ?? new Array<ChargePriceV1Dto>();
+      this.result = chargePrices;
+    });
 
-    this.chargePricesStore.totalAmount$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((totalAmount) => {
-        if (this.paginator) this.paginator.length = totalAmount;
-      });
+    this.chargePricesStore.totalAmount$.pipe(takeUntil(this.destroy$)).subscribe((totalAmount) => {
+      if (this.paginator) this.paginator.length = totalAmount;
+    });
   }
 
   ngOnChanges() {
@@ -157,11 +147,10 @@ export class DhChargesChargePricesTabComponent
       this.searchCriteria.skip = 0;
 
       this.showDateTime =
-        this.charge?.resolution == Resolution.PT1H ||
-        this.charge?.resolution == Resolution.PT15M;
+        this.charge?.resolution == ChargeResolution.PT1H ||
+        this.charge?.resolution == ChargeResolution.PT15M;
 
-      if (this.showDateTime)
-        this.displayedColumns = ['fromDateTime', 'time', 'price'];
+      if (this.showDateTime) this.displayedColumns = ['fromDateTime', 'time', 'price'];
       else this.displayedColumns = ['fromDateTime', 'toDateTime', 'price'];
 
       if (this.paginator) {
@@ -198,8 +187,7 @@ export class DhChargesChargePricesTabComponent
         this.searchCriteria.chargeId = charge.id;
         this.searchCriteria.take = this.paginator.instance.pageSize;
 
-        const dateTimeRange =
-          this.drawerDatepickerComponent.formControlDateRange.value;
+        const dateTimeRange = this.drawerDatepickerComponent.formControlDateRange.value;
 
         if (dateTimeRange) {
           this.setSearchCriteriaDateRange({

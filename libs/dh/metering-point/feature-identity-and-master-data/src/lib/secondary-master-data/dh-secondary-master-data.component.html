@@ -15,12 +15,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'meteringPoint.secondaryMasterData'">
-  <watt-expansion
-    [openLabel]="t('expansion.openLabel')"
-    [closeLabel]="t('expansion.closeLabel')"
-  >
+  <watt-expansion [openLabel]="t('expansion.openLabel')" [closeLabel]="t('expansion.closeLabel')">
     <div class="watt-text-l">
-      {{ t('technicalSpecificationTitle') }}
+      {{ t("technicalSpecificationTitle") }}
     </div>
     <dl>
       <div
@@ -31,7 +28,7 @@ limitations under the License.
         "
       >
         <dt class="watt-label">
-          {{ t('netSettlementGroup') }}
+          {{ t("netSettlementGroup") }}
         </dt>
         <dd class="watt-text-m">
           {{ netSettlementGroupAsNumber | dhEmDashFallback }}
@@ -45,12 +42,10 @@ limitations under the License.
         "
       >
         <dt class="watt-label">
-          {{ t('disconnectionType') }}
+          {{ t("disconnectionType") }}
         </dt>
         <dd class="watt-text-m" data-testid="disconnectionType">
-          {{
-            translationKeys?.disconnectionType | transloco | dhEmDashFallback
-          }}
+          {{ translationKeys?.disconnectionType | transloco | dhEmDashFallback }}
         </dd>
       </div>
       <div
@@ -61,14 +56,10 @@ limitations under the License.
         "
       >
         <dt class="watt-label">
-          {{ t('productionObligation') }}
+          {{ t("productionObligation") }}
         </dt>
         <dd class="watt-text-m">
-          {{
-            secondaryMasterData?.productionObligation
-              | dhYesNo
-              | dhEmDashFallback
-          }}
+          {{ secondaryMasterData?.productionObligation | dhYesNo | dhEmDashFallback }}
         </dd>
       </div>
       <div
@@ -79,7 +70,7 @@ limitations under the License.
         "
       >
         <dt class="watt-label">
-          {{ t('connectionType') }}
+          {{ t("connectionType") }}
         </dt>
         <dd class="watt-text-m" data-testid="connectionType">
           {{ translationKeys?.connectionType | transloco | dhEmDashFallback }}
@@ -87,13 +78,10 @@ limitations under the License.
       </div>
       <div
         class="smd-list__row"
-        *dhShowForMeteringPointType="
-          secondaryMasterData?.meteringPointType;
-          property: 'inAreaCode'
-        "
+        *dhShowForMeteringPointType="secondaryMasterData?.meteringPointType; property: 'inAreaCode'"
       >
         <dt class="watt-label">
-          {{ t('inAreaCode') }}
+          {{ t("inAreaCode") }}
         </dt>
         <dd class="watt-text-m">
           {{ secondaryMasterData?.inAreaCode | dhEmDashFallback }}
@@ -107,7 +95,7 @@ limitations under the License.
         "
       >
         <dt class="watt-label">
-          {{ t('outAreaCode') }}
+          {{ t("outAreaCode") }}
         </dt>
         <dd class="watt-text-m">
           {{ secondaryMasterData?.outAreaCode | dhEmDashFallback }}
@@ -121,7 +109,7 @@ limitations under the License.
         "
       >
         <dt class="watt-label">
-          {{ t('gridAreaName') }}
+          {{ t("gridAreaName") }}
         </dt>
         <dd class="watt-text-m">
           {{ secondaryMasterData?.gridAreaName | dhEmDashFallback }} ({{
@@ -131,13 +119,10 @@ limitations under the License.
       </div>
       <div
         class="smd-list__row"
-        *dhShowForMeteringPointType="
-          secondaryMasterData?.meteringPointType;
-          property: 'capacity'
-        "
+        *dhShowForMeteringPointType="secondaryMasterData?.meteringPointType; property: 'capacity'"
       >
         <dt class="watt-label">
-          {{ t('capacity') }}
+          {{ t("capacity") }}
         </dt>
         <dd class="watt-text-m">
           {{
@@ -149,13 +134,10 @@ limitations under the License.
       </div>
       <div
         class="smd-list__row"
-        *dhShowForMeteringPointType="
-          secondaryMasterData?.meteringPointType;
-          property: 'assetType'
-        "
+        *dhShowForMeteringPointType="secondaryMasterData?.meteringPointType; property: 'assetType'"
       >
         <dt class="watt-label">
-          {{ t('assetType') }}
+          {{ t("assetType") }}
         </dt>
         <dd class="watt-text-m" data-testid="assetType">
           {{ translationKeys?.assetType | transloco | dhEmDashFallback }}
@@ -169,7 +151,7 @@ limitations under the License.
         "
       >
         <dt class="watt-label">
-          {{ t('ratedCapacity') }}
+          {{ t("ratedCapacity") }}
         </dt>
         <dd class="watt-text-m">
           {{
@@ -187,7 +169,7 @@ limitations under the License.
         "
       >
         <dt class="watt-label">
-          {{ t('ratedCurrent') }}
+          {{ t("ratedCurrent") }}
         </dt>
         <dd class="watt-text-m">
           {{
@@ -205,7 +187,7 @@ limitations under the License.
         "
       >
         <dt class="watt-label">
-          {{ t('powerPlantGsrnNumber') }}
+          {{ t("powerPlantGsrnNumber") }}
         </dt>
         <dd class="watt-text-m">
           {{ secondaryMasterData?.powerPlantGsrnNumber | dhEmDashFallback }}
@@ -219,7 +201,7 @@ limitations under the License.
         "
       >
         <dt class="watt-label">
-          {{ t('productId') }}
+          {{ t("productId") }}
         </dt>
         <dd class="watt-text-m" data-testid="productId">
           {{ translationKeys?.productId | transloco }}
@@ -227,13 +209,10 @@ limitations under the License.
       </div>
       <div
         class="smd-list__row"
-        *dhShowForMeteringPointType="
-          secondaryMasterData?.meteringPointType;
-          property: 'unitType'
-        "
+        *dhShowForMeteringPointType="secondaryMasterData?.meteringPointType; property: 'unitType'"
       >
         <dt class="watt-label">
-          {{ t('unit') }}
+          {{ t("unit") }}
         </dt>
         <dd class="watt-text-m" data-testid="unit">
           {{ translationKeys?.unit | transloco }}
@@ -247,7 +226,7 @@ limitations under the License.
         "
       >
         <dt class="watt-label">
-          {{ t('effectiveDate') }}
+          {{ t("effectiveDate") }}
         </dt>
         <dd class="watt-text-m">
           {{ secondaryMasterData?.effectiveDate | dhDate }}
@@ -256,7 +235,7 @@ limitations under the License.
     </dl>
     <ng-container *ngIf="secondaryMasterData?.meteringPointType | dhIsParent">
       <div class="watt-text-l">
-        {{ t('locationDetailTitle') }}
+        {{ t("locationDetailTitle") }}
       </div>
       <dl>
         <div
@@ -267,7 +246,7 @@ limitations under the License.
           "
         >
           <dt class="watt-label">
-            {{ t('streetCode') }}
+            {{ t("streetCode") }}
           </dt>
           <dd class="watt-text-m">
             {{ secondaryMasterData?.streetCode | dhEmDashFallback }}
@@ -281,7 +260,7 @@ limitations under the License.
           "
         >
           <dt class="watt-label">
-            {{ t('municipalityCode') }}
+            {{ t("municipalityCode") }}
           </dt>
           <dd class="watt-text-m">
             {{ secondaryMasterData?.municipalityCode | dhEmDashFallback }}
@@ -295,7 +274,7 @@ limitations under the License.
           "
         >
           <dt class="watt-label">
-            {{ t('countryCode') }}
+            {{ t("countryCode") }}
           </dt>
           <dd class="watt-text-m">
             {{ secondaryMasterData?.countryCode }}

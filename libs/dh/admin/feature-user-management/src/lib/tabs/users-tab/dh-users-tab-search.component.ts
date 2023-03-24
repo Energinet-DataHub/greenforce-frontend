@@ -14,13 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -37,11 +31,7 @@ export const searchDebounceTimeMs = 250;
   template: `
     <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
       <watt-form-field class="search-field">
-        <input
-          wattInput
-          [formControl]="searchControl"
-          [placeholder]="t('searchPlaceholder')"
-        />
+        <input wattInput [formControl]="searchControl" [placeholder]="t('searchPlaceholder')" />
         <watt-button wattSuffix variant="icon" icon="search"></watt-button>
       </watt-form-field>
     </ng-container>
@@ -74,11 +64,7 @@ export class DhUsersTabSearchComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.searchControl.valueChanges
-      .pipe(
-        debounceTime(searchDebounceTimeMs),
-        distinctUntilChanged(),
-        takeUntil(this.destroy$)
-      )
+      .pipe(debounceTime(searchDebounceTimeMs), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((value) => this.search.emit(value));
   }
 

@@ -24,16 +24,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import {
-  AppSettingsStore,
-  Resolution,
-} from '@energinet-datahub/eo/shared/services';
+import { AppSettingsStore, Resolution } from '@energinet-datahub/eo/shared/services';
 import { LetModule } from '@rx-angular/template/let';
-import {
-  differenceInDays,
-  differenceInMonths,
-  differenceInYears,
-} from 'date-fns';
+import { differenceInDays, differenceInMonths, differenceInYears } from 'date-fns';
 import { map } from 'rxjs';
 
 @Component({
@@ -61,8 +54,7 @@ import { map } from 'rxjs';
         border-color: var(--watt-color-primary);
       }
 
-      mat-button-toggle.mat-button-toggle-appearance-standard
-        .mat-button-toggle-label-content {
+      mat-button-toggle.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
         line-height: unset;
         padding: 9px 14px; /* Magic UX number */
       }
@@ -89,9 +81,7 @@ import { map } from 'rxjs';
         value="HOUR"
         >Per Hour</mat-button-toggle
       >
-      <mat-button-toggle (change)="setResolution('DAY')" value="DAY"
-        >Day</mat-button-toggle
-      >
+      <mat-button-toggle (change)="setResolution('DAY')" value="DAY">Day</mat-button-toggle>
       <mat-button-toggle
         [disabled]="!(differenceIn.days >= 7)"
         (change)="setResolution('WEEK')"

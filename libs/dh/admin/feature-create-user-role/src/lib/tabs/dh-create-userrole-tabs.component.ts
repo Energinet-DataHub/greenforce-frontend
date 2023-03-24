@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { DhCreateUserroleMasterdataTabComponent } from './create-role-masterdata-tab/dh-create-userrole-masterdata-tab.component';
 import { DhCreateUserrolePermissionsTabComponent } from './create-role-permissions-tab/dh-create-userrole-permissions-tab.component';
@@ -31,9 +31,9 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { provideComponentStore } from '@ngrx/component-store';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import {
-  CreateUserRoleDto,
-  EicFunction,
-  UserRoleStatus,
+  MarketParticipantCreateUserRoleDto,
+  MarketParticipantEicFunction,
+  MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { Router } from '@angular/router';
 import { dhAdminPath, dhAdminUserManagementPath } from '@energinet-datahub/dh/admin/routing';
@@ -63,7 +63,8 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
     CommonModule,
     PushModule,
     LetModule,
-    WattTabsModule,
+    WattTabComponent,
+    WattTabsComponent,
     WattValidationMessageModule,
     DhCreateUserroleMasterdataTabComponent,
     DhCreateUserrolePermissionsTabComponent,
@@ -82,11 +83,11 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
 
   permissions$ = this.marketRolePermissionsStore.permissions$;
 
-  userRole: CreateUserRoleDto = {
+  userRole: MarketParticipantCreateUserRoleDto = {
     name: '',
     description: '',
-    eicFunction: EicFunction.BalanceResponsibleParty,
-    status: UserRoleStatus.Active,
+    eicFunction: MarketParticipantEicFunction.BalanceResponsibleParty,
+    status: MarketParticipantUserRoleStatus.Active,
     permissions: [],
   };
 
@@ -144,12 +145,12 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
     });
   }
 
-  patchUserRole(patch: Partial<CreateUserRoleDto>) {
+  patchUserRole(patch: Partial<MarketParticipantCreateUserRoleDto>) {
     if (!this.userRole) throw new Error('Missing user role');
     this.userRole = { ...this.userRole, ...patch };
   }
 
-  eicFunctionSelected(eicFunction: EicFunction) {
+  eicFunctionSelected(eicFunction: MarketParticipantEicFunction) {
     this.marketRolePermissionsStore.getPermissions(eicFunction);
     this.patchUserRole({ permissions: [] });
   }

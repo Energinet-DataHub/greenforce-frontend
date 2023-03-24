@@ -16,11 +16,7 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
-import {
-  Translation,
-  TRANSLOCO_LOADER,
-  TranslocoLoader,
-} from '@ngneat/transloco';
+import { Translation, TRANSLOCO_LOADER, TranslocoLoader } from '@ngneat/transloco';
 import { Observable } from 'rxjs';
 
 @Injectable()

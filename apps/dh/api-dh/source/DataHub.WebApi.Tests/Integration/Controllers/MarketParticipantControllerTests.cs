@@ -52,12 +52,16 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
             var organizations = new List<OrganizationDto>
             {
-                organization with { Actors = new[] { actor with { ActorId = actorId }, actor with { ActorId = Guid.NewGuid() } } },
+                organization,
             };
 
-            var gridAreas = organizations
-                .SelectMany(o => o.Actors)
-                .SelectMany(a => a.MarketRoles)
+            var actors = new List<ActorDto>
+            {
+                actor with { ActorId = actorId, OrganizationId = organization.OrganizationId },
+            };
+
+            var gridAreas = actor
+                .MarketRoles
                 .SelectMany(m => m.GridAreas)
                 .Select(g => g.Id)
                 .Distinct()
@@ -66,6 +70,10 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             MarketParticipantClientMock
                 .Setup(client => client.GetOrganizationsAsync())
                 .ReturnsAsync(organizations);
+
+            MarketParticipantClientMock
+                .Setup(client => client.GetActorsAsync(organization.OrganizationId))
+                .ReturnsAsync(actors);
 
             MarketParticipantClientMock
                 .Setup(client => client.GetGridAreasAsync())
@@ -90,12 +98,16 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
             var organizations = new List<OrganizationDto>
             {
-                organization with { Actors = new[] { actor with { ActorId = actorId }, actor with { ActorId = Guid.NewGuid() } } },
+                organization,
             };
 
-            var gridAreas = organizations
-                .SelectMany(o => o.Actors)
-                .SelectMany(a => a.MarketRoles)
+            var actors = new List<ActorDto>
+            {
+                actor with { ActorId = actorId, OrganizationId = organization.OrganizationId },
+            };
+
+            var gridAreas = actor
+                .MarketRoles
                 .SelectMany(m => m.GridAreas)
                 .Select(g => g.Id)
                 .Distinct()
@@ -104,6 +116,10 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             MarketParticipantClientMock
                 .Setup(client => client.GetOrganizationsAsync())
                 .ReturnsAsync(organizations);
+
+            MarketParticipantClientMock
+                .Setup(client => client.GetActorsAsync(organization.OrganizationId))
+                .ReturnsAsync(actors);
 
             MarketParticipantClientMock
                 .Setup(client => client.GetGridAreasAsync())
@@ -116,7 +132,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var result = await actual.Content.ReadAsAsync<IEnumerable<FilteredActorDto>>();
-            var expected = organizations.SelectMany(o => o.Actors).Select(x => x.ActorId);
+            var expected = actors.Select(x => x.ActorId);
             var actualIds = result.Select(r => r.ActorId);
 
             actualIds.Should().BeEquivalentTo(expected);

@@ -14,21 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  TranslocoTestingModule,
-  TranslocoTestingOptions,
-} from '@ngneat/transloco';
+import { TranslocoTestingModule, TranslocoTestingOptions } from '@ngneat/transloco';
 
-import {
-  da,
-  en,
-} from '@energinet-datahub/dh/globalization/assets-localization';
+import { da, en } from '@energinet-datahub/dh/globalization/assets-localization';
 import { dhTranslocoConfig } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
 
-export function getTranslocoTestingModule(
-  options: TranslocoTestingOptions = {}
-) {
+export function getTranslocoTestingModule(options: TranslocoTestingOptions = {}) {
   return TranslocoTestingModule.forRoot({
     langs: { da, en },
     translocoConfig: {

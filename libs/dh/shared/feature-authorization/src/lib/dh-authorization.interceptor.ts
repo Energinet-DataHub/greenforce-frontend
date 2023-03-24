@@ -46,10 +46,7 @@ export class DhAuthorizationInterceptor implements HttpInterceptor {
       switchMap((internalToken) => {
         return nextHandler.handle(
           request.clone({
-            headers: request.headers.set(
-              'Authorization',
-              `Bearer ${internalToken}`
-            ),
+            headers: request.headers.set('Authorization', `Bearer ${internalToken}`),
           })
         );
       })

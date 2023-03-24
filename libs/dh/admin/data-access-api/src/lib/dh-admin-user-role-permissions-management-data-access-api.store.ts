@@ -18,17 +18,14 @@ import { Injectable } from '@angular/core';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
-import {
-  ErrorState,
-  LoadingState,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
-  UserRoleWithPermissionsDto,
+  MarketParticipantUserRoleWithPermissionsDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserRoleWithPermissionsManagementState {
-  readonly userRole: UserRoleWithPermissionsDto | null;
+  readonly userRole: MarketParticipantUserRoleWithPermissionsDto | null;
   readonly requestState: LoadingState | ErrorState;
 }
 
@@ -40,16 +37,12 @@ const initialState: DhUserRoleWithPermissionsManagementState = {
 @Injectable()
 export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends ComponentStore<DhUserRoleWithPermissionsManagementState> {
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
-  isLoading$ = this.select(
-    (state) => state.requestState === LoadingState.LOADING
-  );
-  hasGeneralError$ = this.select(
-    (state) => state.requestState === ErrorState.GENERAL_ERROR
-  );
+  isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
+  hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
 
   userRole$ = this.select((state) => state.userRole).pipe(
     filter((userRole) => userRole != null),
-    map((userRole) => userRole as UserRoleWithPermissionsDto)
+    map((userRole) => userRole as MarketParticipantUserRoleWithPermissionsDto)
   );
 
   constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
@@ -85,7 +78,7 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
   private updateUserRole = this.updater(
     (
       state: DhUserRoleWithPermissionsManagementState,
-      response: UserRoleWithPermissionsDto | null
+      response: MarketParticipantUserRoleWithPermissionsDto | null
     ): DhUserRoleWithPermissionsManagementState => ({
       ...state,
       userRole: response,
@@ -93,10 +86,7 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
   );
 
   private setLoading = this.updater(
-    (
-      state,
-      loadingState: LoadingState
-    ): DhUserRoleWithPermissionsManagementState => ({
+    (state, loadingState: LoadingState): DhUserRoleWithPermissionsManagementState => ({
       ...state,
       requestState: loadingState,
     })

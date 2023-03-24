@@ -80,18 +80,14 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
     DhEmDashFallbackPipeScam,
   ],
 })
-export class DhMessageArchiveLogSearchResultComponent
-  implements AfterViewInit, OnChanges
-{
+export class DhMessageArchiveLogSearchResultComponent implements AfterViewInit, OnChanges {
   activeRow: MessageArchiveSearchResultItemDto | undefined;
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(DhMessageArchiveDrawerComponent)
   messageDrawer!: DhMessageArchiveDrawerComponent;
   @Input() searchResult: Array<MessageArchiveSearchResultItemDto> = [];
-  @Output() showLogDownloadPage =
-    new EventEmitter<MessageArchiveSearchResultItemDto>();
-  @Output() downloadLogFile =
-    new EventEmitter<MessageArchiveSearchResultItemDto>();
+  @Output() showLogDownloadPage = new EventEmitter<MessageArchiveSearchResultItemDto>();
+  @Output() downloadLogFile = new EventEmitter<MessageArchiveSearchResultItemDto>();
   @Input() isSearching = false;
 
   columns: WattTableColumnDef<MessageArchiveSearchResultItemDto>;

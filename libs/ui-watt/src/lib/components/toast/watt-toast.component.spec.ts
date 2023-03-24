@@ -14,16 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  composeStories,
-  createMountableStoryComponent,
-} from '@storybook/testing-angular';
-import {
-  queryByTestId,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/angular';
+import { composeStories, createMountableStoryComponent } from '@storybook/testing-angular';
+import { queryByTestId, render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import * as toastStories from './+storybook/watt-toast.stories';
@@ -31,11 +23,9 @@ import * as toastStories from './+storybook/watt-toast.stories';
 const { Overview } = composeStories(toastStories);
 
 describe('Toast', () => {
-  const getOpenToastButton = async () =>
-    screen.getByRole('button', { name: /Open toast/ });
+  const getOpenToastButton = async () => screen.getByRole('button', { name: /Open toast/ });
   const getToast = async () =>
-    screen.queryByText('You successfully launched a toast!')?.parentElement
-      ?.parentElement;
+    screen.queryByText('You successfully launched a toast!')?.parentElement?.parentElement;
 
   async function setup(args: Partial<toastStories.WattToastStoryConfig> = {}) {
     const { component, ngModule } = createMountableStoryComponent(

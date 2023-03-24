@@ -24,21 +24,20 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { PushModule } from '@rx-angular/template/push';
-import {
-  WattModalComponent,
-  WattModalModule,
-} from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import {
   DhAdminUserRolesStore,
   UpdateUserRoles,
 } from '@energinet-datahub/dh/admin/data-access-api';
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WattInputModule } from '@energinet-datahub/watt/input';
 
 @Component({
   selector: 'dh-edit-user-modal',
@@ -48,12 +47,31 @@ import {
     WattModalModule,
     WattButtonModule,
     TranslocoModule,
-    WattTabsModule,
+    WattTabComponent,
+    WattTabsComponent,
+    WattInputModule,
+    WattFormFieldModule,
     PushModule,
     DhUserRolesComponent,
   ],
   templateUrl: './dh-edit-user-modal.component.html',
-  styles: ['.margin-right-auto {margin-right:auto}'],
+  styles: [
+    `
+      .master-data-form {
+        display: flex;
+        flex-direction: column;
+        margin: var(--watt-space-ml) var(--watt-space-ml) 0 var(--watt-space-ml);
+      }
+
+      .full-name-field {
+        max-width: 512px;
+      }
+
+      .phone-field {
+        max-width: 256px;
+      }
+    `,
+  ],
 })
 export class DhEditUserModalComponent implements AfterViewInit {
   private readonly store = inject(DhAdminUserRolesStore);
@@ -63,7 +81,7 @@ export class DhEditUserModalComponent implements AfterViewInit {
 
   @Output() closed = new EventEmitter<void>();
 
-  @Input() user: UserOverviewItemDto | null = null;
+  @Input() user: MarketParticipantUserOverviewItemDto | null = null;
 
   isLoading$ = this.store.isLoading$;
   isSaving$ = this.store.isSaving$;
@@ -95,10 +113,6 @@ export class DhEditUserModalComponent implements AfterViewInit {
     this.userRoles.resetUpdateUserRoles();
     this.editUserModal.close(status);
     this.closed.emit();
-  }
-
-  deactivedUser(): void {
-    console.error('Not implemented yet');
   }
 
   close(): void {

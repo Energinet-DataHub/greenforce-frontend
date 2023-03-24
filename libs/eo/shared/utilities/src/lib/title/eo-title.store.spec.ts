@@ -66,9 +66,7 @@ describe(EoTitleStore.name, () => {
       router.navigateByUrl('metering-points/123456789012345');
 
       // Assert
-      expect(await whenRouteTitle).toBe(
-        'Metering point detail for: 123456789012345'
-      );
+      expect(await whenRouteTitle).toBe('Metering point detail for: 123456789012345');
     });
   });
 

@@ -38,9 +38,7 @@ export default {
   component: StorybookEmptyStateOverviewComponent,
 } as Meta<StorybookEmptyStateOverviewComponent>;
 
-export const overview: Story<StorybookEmptyStateOverviewComponent> = (
-  args
-) => ({
+export const overview: Story<StorybookEmptyStateOverviewComponent> = (args) => ({
   props: args,
 });
 
@@ -57,8 +55,7 @@ export const withCallToAction: Story<WattEmptyStateComponent> = (args) => ({
 withCallToAction.args = {
   icon: 'power',
   title: 'An unexpected error occured',
-  message:
-    'Try again or contact your system administrator if you keep getting this error.',
+  message: 'Try again or contact your system administrator if you keep getting this error.',
 };
 withCallToAction.parameters = {
   docs: {
@@ -77,8 +74,7 @@ export const withoutIcon: Story<WattEmptyStateComponent> = (args) => ({
 });
 withoutIcon.args = {
   title: 'No results for ‘test’',
-  message:
-    'Try adjusting your search or filter to find what you are looking for.',
+  message: 'Try adjusting your search or filter to find what you are looking for.',
 };
 withoutIcon.parameters = {
   docs: {
@@ -98,8 +94,7 @@ export const small: Story<WattEmptyStateComponent> = (args) => ({
 small.args = {
   icon: undefined,
   title: 'No results for ‘test’',
-  message:
-    'Try adjusting your search or filter to find what you are looking for.',
+  message: 'Try adjusting your search or filter to find what you are looking for.',
 };
 
 small.parameters = {

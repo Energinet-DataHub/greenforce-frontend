@@ -17,25 +17,26 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
-  ActorDto,
-  OrganizationDto,
+  MarketParticipantActorDto,
+  MarketParticipantOrganizationDto,
   MarketParticipantHttp,
   MarketParticipantGridAreaHttp,
-  GridAreaDto,
+  MarketParticipantGridAreaDto,
+  MarketParticipantOrganizationWithActorsDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { forkJoin, map, Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
 
 export interface OrganizationWithActorRow {
-  organization: OrganizationDto;
-  actor?: ActorDto;
+  organization: MarketParticipantOrganizationDto;
+  actor?: MarketParticipantActorDto;
 }
 
 interface MarketParticipantState {
   isLoading: boolean;
   rows: OrganizationWithActorRow[];
-  gridAreas: GridAreaDto[];
+  gridAreas: MarketParticipantGridAreaDto[];
 
   // Validation
   validation?: {
@@ -65,9 +66,7 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
 
   readonly loadOverviewRows = this.effect((trigger$: Observable<void>) =>
     trigger$.pipe(
-      tap(() =>
-        this.patchState({ isLoading: true, rows: [], validation: undefined })
-      ),
+      tap(() => this.patchState({ isLoading: true, rows: [], validation: undefined })),
       switchMap(() =>
         forkJoin([this.getOrganizations(), this.getGridAreas()]).pipe(
           tap(() => this.patchState({ isLoading: false }))
@@ -76,16 +75,16 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
     )
   );
 
-  private readonly mapToRows = (organizations: OrganizationDto[]) => {
+  private readonly mapToRows = (organizations: MarketParticipantOrganizationWithActorsDto[]) => {
     const rows: OrganizationWithActorRow[] = [];
 
     for (const organization of organizations) {
       if (organization.actors.length > 0) {
         for (const actor of organization.actors) {
-          rows.push({ organization, actor });
+          rows.push({ organization: organization.organization, actor });
         }
       } else {
-        rows.push({ organization });
+        rows.push({ organization: organization.organization });
       }
     }
 
@@ -94,22 +93,20 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
 
   private readonly getOrganizations = () =>
     this.httpClient
-      .v1MarketParticipantOrganizationGetAllOrganizationsGet()
+      .v1MarketParticipantOrganizationGetAllOrganizationsWithActorsGet()
       .pipe(map(this.mapToRows))
       .pipe(tapResponse((rows) => this.patchState({ rows }), this.handleError));
 
   private readonly getGridAreas = () =>
-    this.gridAreaHttpClient
-      .v1MarketParticipantGridAreaGetAllGridAreasGet()
-      .pipe(
-        tapResponse(
-          (gridAreas) =>
-            this.patchState({
-              gridAreas: gridAreas.sort((a, b) => a.code.localeCompare(b.code)),
-            }),
-          this.handleError
-        )
-      );
+    this.gridAreaHttpClient.v1MarketParticipantGridAreaGetAllGridAreasGet().pipe(
+      tapResponse(
+        (gridAreas) =>
+          this.patchState({
+            gridAreas: gridAreas.sort((a, b) => a.code.localeCompare(b.code)),
+          }),
+        this.handleError
+      )
+    );
 
   private readonly handleError = (errorResponse: HttpErrorResponse) =>
     this.patchState({

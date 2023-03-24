@@ -72,9 +72,7 @@ import { EoConsumptionStore } from './eo-consumption.store';
           [dateRangeInput]="dates"
           (newDates)="setNewAppDates($event)"
         ></eo-date-picker>
-        <eo-resolution-picker
-          [onFeatureFlag]="'resolution'"
-        ></eo-resolution-picker>
+        <eo-resolution-picker [onFeatureFlag]="'resolution'"></eo-resolution-picker>
       </eo-stack>
       <eo-stack size="L">
         <eo-consumption-page-tip></eo-consumption-page-tip>

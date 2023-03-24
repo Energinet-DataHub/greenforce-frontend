@@ -27,15 +27,15 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import {
-  UserOverviewItemDto,
-  UserStatus,
+  MarketParticipantUserOverviewItemDto,
+  MarketParticipantUserStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
 import { DhUsersTabComponent } from './dh-users-tab.component';
 import { searchDebounceTimeMs } from './dh-users-tab-search.component';
 import { of } from 'rxjs';
 
-const users: UserOverviewItemDto[] = [
+const users: MarketParticipantUserOverviewItemDto[] = [
   {
     id: '3ec41d91-fc6d-4364-ade6-b85576a91d04',
     email: 'testuser1@test.dk',
@@ -48,7 +48,7 @@ const users: UserOverviewItemDto[] = [
 ];
 
 describe(DhUsersTabComponent.name, () => {
-  async function setup(mockUsers: UserOverviewItemDto[] = []) {
+  async function setup(mockUsers: MarketParticipantUserOverviewItemDto[] = []) {
     const storeMock = MockProvider(
       DhAdminUserManagementDataAccessApiStore,
       {
@@ -61,11 +61,7 @@ describe(DhUsersTabComponent.name, () => {
     );
 
     const { fixture } = await render(DhUsersTabComponent, {
-      imports: [
-        getTranslocoTestingModule(),
-        HttpClientModule,
-        DhApiModule.forRoot(),
-      ],
+      imports: [getTranslocoTestingModule(), HttpClientModule, DhApiModule.forRoot()],
       componentProviders: [storeMock],
     });
 
@@ -96,10 +92,7 @@ describe(DhUsersTabComponent.name, () => {
       name: new RegExp(testUser.phoneNumber ?? '', 'i'),
     });
     const status = screen.getByRole('gridcell', {
-      name: new RegExp(
-        enTranslations.admin.userManagement.userStatus.active,
-        'i'
-      ),
+      name: new RegExp(enTranslations.admin.userManagement.userStatus.active, 'i'),
     });
 
     expect(name).toBeInTheDocument();
@@ -132,7 +125,7 @@ describe(DhUsersTabComponent.name, () => {
       await option.click();
     }
 
-    const allOptions = Object.keys(UserStatus);
+    const allOptions = Object.keys(MarketParticipantUserStatus);
     expect(store.updateStatusFilter).toHaveBeenCalledWith(allOptions);
   });
 });

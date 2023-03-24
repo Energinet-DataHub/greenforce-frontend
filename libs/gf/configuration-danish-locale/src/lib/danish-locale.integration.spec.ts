@@ -87,11 +87,7 @@ describe('Danish locale', () => {
 
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    const hourAndMinutesInCurrentTimeZone = formatInTimeZone(
-      testDate,
-      timeZone,
-      'HH.mm'
-    );
+    const hourAndMinutesInCurrentTimeZone = formatInTimeZone(testDate, timeZone, 'HH.mm');
     const dayInCurrentTimeZone = formatInTimeZone(testDate, timeZone, 'd');
 
     expect(harness.text).toBe(

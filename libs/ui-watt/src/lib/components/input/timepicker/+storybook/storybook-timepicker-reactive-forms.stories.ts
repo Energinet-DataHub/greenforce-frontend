@@ -106,9 +106,7 @@ export const withInitialValue: Story<WattTimepickerComponent> = (args) => ({
 export const withValidations: Story<WattTimepickerComponent> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null, [Validators.required]),
-    exampleFormControlRange: new FormControl(null, [
-      WattRangeValidators.required(),
-    ]),
+    exampleFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
     withValidations: true,
     ...args,
   },
@@ -127,9 +125,7 @@ withValidations.play = async ({ canvasElement }) => {
   fireEvent.focusOut(startTimeInput);
 };
 
-export const withFormControlDisabled: Story<WattTimepickerComponent> = (
-  args
-) => ({
+export const withFormControlDisabled: Story<WattTimepickerComponent> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl({ value: null, disabled: true }),
     exampleFormControlRange: new FormControl({ value: null, disabled: true }),

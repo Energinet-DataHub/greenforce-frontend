@@ -19,15 +19,15 @@ import { test, expect } from '@playwright/test';
 const environments = [
   {
     name: 'U001',
-    url: 'https://jolly-sand-03f839703.azurestaticapps.net',
+    url: 'https://jolly-sand-03f839703.azurestaticapps.net/',
   },
   {
     name: 'U002',
-    url: 'https://wonderful-field-057109603.1.azurestaticapps.net',
+    url: 'https://wonderful-field-057109603.1.azurestaticapps.net/',
   },
   {
     name: 'T001',
-    url: 'https://lively-river-0f22ad403.azurestaticapps.net',
+    url: 'https://ashy-forest-09ecf8003.2.azurestaticapps.net/',
   },
 ];
 

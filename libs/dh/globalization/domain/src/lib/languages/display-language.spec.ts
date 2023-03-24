@@ -28,9 +28,7 @@ describe('Display language', () => {
     Then it is accepted`, () => {
     const expectedDisplayLanguage = 'da';
 
-    const actualDisplayLanguage: DisplayLanguage = toDisplayLanguage(
-      expectedDisplayLanguage
-    );
+    const actualDisplayLanguage: DisplayLanguage = toDisplayLanguage(expectedDisplayLanguage);
 
     expect(actualDisplayLanguage).toBe(expectedDisplayLanguage);
   });

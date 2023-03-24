@@ -26,17 +26,7 @@ import { FormFieldComponent } from './form-field.component';
 
 @NgModule({
   imports: [CommonModule, MatFormFieldModule, MatInputModule],
-  declarations: [
-    FormFieldComponent,
-    WattErrorComponent,
-    WattLabelComponent,
-    WattHintComponent,
-  ],
-  exports: [
-    FormFieldComponent,
-    WattErrorComponent,
-    WattLabelComponent,
-    WattHintComponent,
-  ],
+  declarations: [FormFieldComponent, WattErrorComponent, WattLabelComponent, WattHintComponent],
+  exports: [FormFieldComponent, WattErrorComponent, WattLabelComponent, WattHintComponent],
 })
 export class WattFormFieldModule {}

@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 @mixin centered-content($important: true) {
-  $important-expression: '!important';
+  $important-expression: "!important";
 
   @if $important == false {
-    $important-expression: '';
+    $important-expression: "";
   }
 
   display: flex #{$important-expression};

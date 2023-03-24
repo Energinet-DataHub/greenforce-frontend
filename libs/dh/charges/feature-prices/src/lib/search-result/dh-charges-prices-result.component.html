@@ -20,19 +20,13 @@ limitations under the License.
       <h3>
         <ng-container *ngIf="this.result">
           {{ this.result.length }}
-          {{
-            this.result.length === 1 ? t("resultLength") : t("resultsLength")
-          }}
+          {{ this.result.length === 1 ? t("resultLength") : t("resultsLength") }}
         </ng-container>
       </h3>
 
       <div class="pagination-container">
         <!-- Download -->
-        <watt-button
-          icon="openInNew"
-          variant="text"
-          (click)="downloadClicked()"
-        >
+        <watt-button icon="openInNew" variant="text" (click)="downloadClicked()">
           {{ t("Download") }}
         </watt-button>
 
@@ -80,9 +74,7 @@ limitations under the License.
       </ng-container>
 
       <!-- valid from date column -->
-      <ng-container
-        *wattTableCell="table.columns.validFromDateTime; let element"
-      >
+      <ng-container *wattTableCell="table.columns.validFromDateTime; let element">
         {{ element.validFromDateTime | dhDate }}
       </ng-container>
 
@@ -98,9 +90,7 @@ limitations under the License.
     </div>
 
     <!-- Empty -->
-    <ng-container
-      *ngIf="!hasLoadingError && !isInit && result && result.length === 0"
-    >
+    <ng-container *ngIf="!hasLoadingError && !isInit && result && result.length === 0">
       <watt-empty-state
         class="no-result-div"
         icon="custom-explore"
@@ -128,13 +118,11 @@ limitations under the License.
       <watt-empty-state
         class="loading-error"
         icon="custom-power"
-        title="{{ t('loadingErrorTitle') }}"
-        message="{{ t('loadingErrorMessage') }}"
+        title="{{ 'shared.error.title' | transloco }}"
+        message="{{ 'shared.error.message' | transloco }}"
       ></watt-empty-state>
     </ng-container>
   </div>
 
-  <dh-charges-prices-drawer
-    (closed)="drawerClosed()"
-  ></dh-charges-prices-drawer>
+  <dh-charges-prices-drawer (closed)="drawerClosed()"></dh-charges-prices-drawer>
 </ng-container>

@@ -16,25 +16,22 @@
  */
 import { Injectable } from '@angular/core';
 import { Observable, switchMap, tap, withLatestFrom, map } from 'rxjs';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import {
-  ErrorState,
-  LoadingState,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { ComponentStore, OnStoreInit, tapResponse } from '@ngrx/component-store';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
-  EicFunction,
-  UserRoleStatus,
-  UserRoleDto,
+  MarketParticipantEicFunction,
+  MarketParticipantUserRoleStatus,
+  MarketParticipantUserRoleDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserRolesManagementState {
-  readonly roles: UserRoleDto[];
+  readonly roles: MarketParticipantUserRoleDto[];
   readonly requestState: LoadingState | ErrorState;
   validation?: { error: string };
   readonly filterModel: {
-    status: UserRoleStatus | null;
-    eicFunctions: EicFunction[] | null;
+    status: MarketParticipantUserRoleStatus | null;
+    eicFunctions: MarketParticipantEicFunction[] | null;
   };
 }
 
@@ -45,34 +42,30 @@ const initialState: DhUserRolesManagementState = {
 };
 
 @Injectable()
-export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore<DhUserRolesManagementState> {
+export class DhAdminUserRolesManagementDataAccessApiStore
+  extends ComponentStore<DhUserRolesManagementState>
+  implements OnStoreInit
+{
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
-  isLoading$ = this.select(
-    (state) => state.requestState === LoadingState.LOADING
-  );
-  hasGeneralError$ = this.select(
-    (state) => state.requestState === ErrorState.GENERAL_ERROR
-  );
+  isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
+  hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
   filterModel$ = this.select((state) => state.filterModel);
 
   roles$ = this.select((state) => state.roles);
 
-  rolesFiltered$ = this.select(
-    this.roles$,
-    this.filterModel$,
-    (roles, filter) =>
-      roles.filter(
-        (r) =>
-          (filter.status == null || r.status == filter.status) &&
-          (!filter.eicFunctions ||
-            filter.eicFunctions.length == 0 ||
-            filter.eicFunctions.includes(r.eicFunction))
-      )
+  rolesFiltered$ = this.select(this.roles$, this.filterModel$, (roles, filter) =>
+    roles.filter(
+      (role) =>
+        (filter.status == null || role.status == filter.status) &&
+        (!filter.eicFunctions ||
+          filter.eicFunctions.length == 0 ||
+          filter.eicFunctions.includes(role.eicFunction))
+    )
   );
 
   rolesOptions$ = this.select((state) => state.roles).pipe(
     map((roles) =>
-      roles.map((role: UserRoleDto) => ({
+      roles.map((role: MarketParticipantUserRoleDto) => ({
         value: role.id,
         displayValue: role.name,
       }))
@@ -113,7 +106,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   readonly setFilterStatus = this.updater(
     (
       state: DhUserRolesManagementState,
-      statusUpdate: UserRoleStatus | null
+      statusUpdate: MarketParticipantUserRoleStatus | null
     ): DhUserRolesManagementState => ({
       ...state,
       filterModel: {
@@ -149,7 +142,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   readonly setFilterEicFunction = this.updater(
     (
       state: DhUserRolesManagementState,
-      eicFunctions: EicFunction[] | null
+      eicFunctions: MarketParticipantEicFunction[] | null
     ): DhUserRolesManagementState => ({
       ...state,
       filterModel: {
@@ -162,7 +155,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore extends ComponentStore
   private updateUserRoles = this.updater(
     (
       state: DhUserRolesManagementState,
-      response: UserRoleDto[]
+      response: MarketParticipantUserRoleDto[]
     ): DhUserRolesManagementState => ({
       ...state,
       roles: response,

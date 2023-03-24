@@ -46,19 +46,14 @@ export class EoAuthenticationInterceptor implements HttpInterceptor {
         catchError(
           (error: unknown): Observable<never> =>
             this.#is401UnauthorizedResponse(error)
-              ? this.#navigateToLoginPage().pipe(
-                  switchMapTo(throwError(() => error))
-                )
+              ? this.#navigateToLoginPage().pipe(switchMapTo(throwError(() => error)))
               : throwError(() => error)
         )
       );
   }
 
   #is401UnauthorizedResponse(error: unknown): boolean {
-    return (
-      error instanceof HttpErrorResponse &&
-      error.status === HttpStatusCode.Unauthorized
-    );
+    return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized;
   }
 
   #navigateToLoginPage(): Observable<boolean> {

@@ -15,15 +15,8 @@
  * limitations under the License.
  */
 import { Location } from '@angular/common';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpStatusCode,
-} from '@angular/common/http';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -49,9 +42,7 @@ describe(EoAuthenticationInterceptor.name, () => {
       declarations: [TestAuthComponent],
       imports: [
         HttpClientTestingModule,
-        RouterTestingModule.withRoutes([
-          { path: '', component: TestAuthComponent },
-        ]),
+        RouterTestingModule.withRoutes([{ path: '', component: TestAuthComponent }]),
       ],
       providers: [eoAuthenticationInterceptorProvider],
     });
@@ -103,9 +94,7 @@ describe(EoAuthenticationInterceptor.name, () => {
       const whenResponse = sendRequest();
       respondWith401Unauthorized(dummyResponseErrorMessage);
 
-      await whenResponse.catch(() =>
-        expect(appLocation.path()).toBe(eoLandingPageRelativeUrl)
-      );
+      await whenResponse.catch(() => expect(appLocation.path()).toBe(eoLandingPageRelativeUrl));
     });
   });
 

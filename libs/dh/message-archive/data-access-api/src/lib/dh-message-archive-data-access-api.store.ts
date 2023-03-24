@@ -23,10 +23,7 @@ import {
   MessageArchiveSearchResultItemDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import {
-  ErrorState,
-  LoadingState,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 interface SearchResultState {
   readonly searchResult: Array<MessageArchiveSearchResultItemDto>;
   readonly loadingState: LoadingState | ErrorState;
@@ -47,52 +44,42 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
 
   isInit$ = this.select((state) => state.loadingState === LoadingState.INIT);
 
-  searchResult$: Observable<Array<MessageArchiveSearchResultItemDto>> =
-    this.select((state) => state.searchResult).pipe(
-      filter((searchResult) => !!searchResult),
-      map(
-        (searchResult) =>
-          searchResult as Array<MessageArchiveSearchResultItemDto>
-      )
-    );
+  searchResult$: Observable<Array<MessageArchiveSearchResultItemDto>> = this.select(
+    (state) => state.searchResult
+  ).pipe(
+    filter((searchResult) => !!searchResult),
+    map((searchResult) => searchResult as Array<MessageArchiveSearchResultItemDto>)
+  );
   continuationToken$: Observable<string | null | undefined> = this.select(
     (state) => state.continuationToken
   );
-  isSearching$ = this.select(
-    (state) => state.loadingState === LoadingState.LOADING
-  );
-  hasGeneralError$ = this.select(
-    (state) => state.loadingState === ErrorState.GENERAL_ERROR
-  );
+  isSearching$ = this.select((state) => state.loadingState === LoadingState.LOADING);
+  hasGeneralError$ = this.select((state) => state.loadingState === ErrorState.GENERAL_ERROR);
 
-  readonly searchLogs = this.effect(
-    (searchCriteria: Observable<MessageArchiveSearchCriteria>) => {
-      return searchCriteria.pipe(
-        tap((e) => {
-          this.setLoading(true);
-          this.updateContinuationToken(e.continuationToken);
-          this.updateSearchResult([]);
-        }),
-        switchMap((searchCriteria) => {
-          return this.httpClient
-            .v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria)
-            .pipe(
-              tapResponse(
-                (searchResult) => {
-                  this.setLoading(false);
-                  this.updateSearchResult(searchResult?.result ?? []);
-                  this.updateContinuationToken(searchResult?.continuationToken);
-                },
-                (error: HttpErrorResponse) => {
-                  this.setLoading(false);
-                  this.handleError(error);
-                }
-              )
-            );
-        })
-      );
-    }
-  );
+  readonly searchLogs = this.effect((searchCriteria: Observable<MessageArchiveSearchCriteria>) => {
+    return searchCriteria.pipe(
+      tap((e) => {
+        this.setLoading(true);
+        this.updateContinuationToken(e.continuationToken);
+        this.updateSearchResult([]);
+      }),
+      switchMap((searchCriteria) => {
+        return this.httpClient.v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria).pipe(
+          tapResponse(
+            (searchResult) => {
+              this.setLoading(false);
+              this.updateSearchResult(searchResult?.result ?? []);
+              this.updateContinuationToken(searchResult?.continuationToken);
+            },
+            (error: HttpErrorResponse) => {
+              this.setLoading(false);
+              this.handleError(error);
+            }
+          )
+        );
+      })
+    );
+  });
 
   private updateSearchResult = this.updater(
     (

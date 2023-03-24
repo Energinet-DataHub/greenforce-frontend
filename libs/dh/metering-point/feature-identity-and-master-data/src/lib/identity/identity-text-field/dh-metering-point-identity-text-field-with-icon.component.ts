@@ -28,12 +28,7 @@ import { WattIcon, WattIconModule } from '@energinet-datahub/watt/icon';
       ngClass="watt-space-inline-xs"
       [ngStyle]="{ display: 'inline-flex' }"
     >
-      <watt-icon
-        [name]="iconName"
-        [label]="iconName"
-        size="s"
-        aria-hidden
-      ></watt-icon>
+      <watt-icon [name]="iconName" [label]="iconName" size="s" aria-hidden></watt-icon>
     </span>
 
     <span>{{ text }}</span>`,

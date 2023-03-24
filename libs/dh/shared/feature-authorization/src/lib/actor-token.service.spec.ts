@@ -16,16 +16,8 @@
  */
 
 import { ActorTokenService } from './actor-token.service';
-import {
-  MarketParticipantUserHttp,
-  TokenHttp,
-} from '@energinet-datahub/dh/shared/domain';
-import {
-  HttpHandler,
-  HttpRequest,
-  HttpHeaders,
-  HttpResponse,
-} from '@angular/common/http';
+import { MarketParticipantUserHttp, TokenHttp } from '@energinet-datahub/dh/shared/domain';
+import { HttpHandler, HttpRequest, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { firstValueFrom, of } from 'rxjs';
 import { ActorStorage } from './actor-storage';
 import { LocalStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
@@ -59,10 +51,7 @@ describe(ActorTokenService.name, () => {
 
   test('should return true if request is for getting token', async () => {
     // arrange
-    const request = new HttpRequest<string>(
-      'GET',
-      'https://localhost:5000/v1/Token'
-    );
+    const request = new HttpRequest<string>('GET', 'https://localhost:5000/v1/Token');
 
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
@@ -79,10 +68,7 @@ describe(ActorTokenService.name, () => {
 
   test('should return false if request is not for authentication flow', async () => {
     // arrange
-    const request = new HttpRequest<string>(
-      'GET',
-      'https://localhost:5000/v1/Not/Relevant'
-    );
+    const request = new HttpRequest<string>('GET', 'https://localhost:5000/v1/Not/Relevant');
 
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,

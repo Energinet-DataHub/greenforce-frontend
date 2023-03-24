@@ -24,6 +24,10 @@ h1 {
   margin: 0;
 }
 
+.margin {
+  margin: 0 var(--watt-space-ml);
+}
+
 //temporarily style watt-expansion button
 :host ::ng-deep.mat-button.watt-button--primary {
   background-color: transparent;
@@ -33,6 +37,7 @@ h1 {
 .charge-property-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+  margin: 0 var(--watt-space-ml);
 }
 
 .charge-property {
