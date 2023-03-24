@@ -47,8 +47,7 @@ export class EoProductionService {
     return this.http.get<EoProductionResponse>(
       `${this.#apiBase}/measurements/production?dateFrom=${dateRange.start}&dateTo=${
         dateRange.end
-      }&timeZone=${encodedTimeZone}&aggregation=Month`,
-      { withCredentials: true }
+      }&timeZone=${encodedTimeZone}&aggregation=Month`
     );
   }
 
