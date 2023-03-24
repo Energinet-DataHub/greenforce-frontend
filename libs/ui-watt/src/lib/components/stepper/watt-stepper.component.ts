@@ -83,13 +83,13 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
     );
   }
 
-  next(): void {
-    this.stepper.next();
-  }
+  // next(): void {
+  //   this.stepper.next();
+  // }
 
-  previous(): void {
-    this.stepper.previous();
-  }
+  // previous(): void {
+  //   this.stepper.previous();
+  // }
 
   complete(): void {
     this.completed.emit();
