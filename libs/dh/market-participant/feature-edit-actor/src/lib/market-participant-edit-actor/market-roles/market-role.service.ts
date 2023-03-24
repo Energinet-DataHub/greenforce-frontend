@@ -58,9 +58,7 @@ export class MarketRoleService {
     }
 
     const possibleGroups = [];
-    for (let index = 0; index < this.validEicFunctionGroups.length; index++) {
-      const group = this.validEicFunctionGroups[index];
-
+    for (const group of this.validEicFunctionGroups) {
       if (
         currentSelectedList.length &&
         currentSelectedList.every((gItem) => group.indexOf(gItem) >= 0)
