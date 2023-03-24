@@ -16,10 +16,11 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { eoLandingPageRelativeUrl, eoTermsRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import jwt_decode from 'jwt-decode';
+import { take } from 'rxjs';
 import { EoAuthStore, EoLoginToken } from './auth.store';
 
 export interface AuthLogoutResponse {
@@ -37,6 +38,7 @@ export class EoAuthService {
     private http: HttpClient,
     private store: EoAuthStore,
     private router: Router,
+    private route: ActivatedRoute,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
     this.#authApiBase = `${apiEnvironment.apiBase}/auth`;
@@ -81,21 +83,18 @@ export class EoAuthService {
     let decodedToken: EoLoginToken;
     let token: string;
 
-    try {
-      decodedToken = jwt_decode(this.getTokenFromCookie('Authentication'));
-      token = this.getTokenFromCookie('Authentication').replace('Authentication=', '');
-      console.log('setting token correctly');
-    } catch {
-      decodedToken = jwt_decode(mockToken);
-      token = mockToken;
-      console.log('setting mock token');
-    }
-
-    this.store.token.next(token);
-    this.store.setTokenClaims(decodedToken);
-  }
-
-  private getTokenFromCookie(cookieName: string) {
-    return document.cookie.split(';').find((c) => c.trim().startsWith(`${cookieName}=`)) ?? '';
+    this.route.queryParams.pipe(take(1)).subscribe((test) => {
+      try {
+        decodedToken = jwt_decode(test['token']);
+        token = test['token'];
+        console.log('setting token correctly');
+      } catch {
+        decodedToken = jwt_decode(mockToken);
+        token = mockToken;
+        console.log('setting mock token');
+      }
+      this.store.token.next(token);
+      this.store.setTokenClaims(decodedToken);
+    });
   }
 }
