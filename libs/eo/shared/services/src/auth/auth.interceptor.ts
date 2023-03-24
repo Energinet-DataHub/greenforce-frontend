@@ -52,7 +52,6 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
       tap({
         next: () => {
           if (this.callsThatAllowRefresh.includes(request.method)) {
-            // api/auth/token (GET) manuelt sæt header til at sende bearer token med
             this.authService.refreshToken();
           }
         },
