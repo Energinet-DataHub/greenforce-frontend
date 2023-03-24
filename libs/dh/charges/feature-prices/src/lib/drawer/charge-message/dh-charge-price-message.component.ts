@@ -14,30 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDividerModule } from '@angular/material/divider';
 import {
   DhChargeMessageArchiveDataAccessStore,
   DhMarketParticipantDataAccessApiStore,
 } from '@energinet-datahub/dh/charges/data-access-api';
+import { DhMessageArchiveDataAccessBlobApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
 import {
   ChargeMarketParticipantV1Dto,
   MessageArchiveSearchCriteria,
   MessageArchiveSearchResultItemDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { PushModule } from '@rx-angular/template/push';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
+import { PushModule } from '@rx-angular/template/push';
 import { Subject, take, takeUntil } from 'rxjs';
 import { DhChargesPricesDrawerService } from '../dh-charges-prices-drawer.service';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { TranslocoModule } from '@ngneat/transloco';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { DhMessageArchiveDataAccessBlobApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { CommonModule } from '@angular/common';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { MatDividerModule } from '@angular/material/divider';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 
 @Component({
   standalone: true,
@@ -68,7 +68,7 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   ) {}
 
   private regexLogNameWithDateFolder = new RegExp(
-    /\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/
+    /\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])\/.*/
   );
   private regexLogNameIsSingleGuid = new RegExp(/[\da-zA-Z]{8}-([\da-zA-Z]{4}-){3}[\da-zA-Z]{12}$/);
 
@@ -154,7 +154,8 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
     if (this.regexLogNameWithDateFolder.test(logUrl)) {
       const match = this.regexLogNameWithDateFolder.exec(logUrl);
       return match != null ? match[0] : '';
-    } else if (this.regexLogNameIsSingleGuid.test(logUrl)) {
+    }
+    if (this.regexLogNameIsSingleGuid.test(logUrl)) {
       const match = this.regexLogNameIsSingleGuid.exec(logUrl);
       return match != null ? match[0] : '';
     }
