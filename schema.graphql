@@ -296,6 +296,11 @@ enum ProcessType {
 
 type SettlementReport {
   """
+  The batch number
+  """
+  batchNumber: ID!
+
+  """
   The execution time.
   """
   executionTime: DateTimeOffset
