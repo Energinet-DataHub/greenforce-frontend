@@ -1,6 +1,6 @@
 {
-  "clientId": "034f00bd-fb6f-4397-9bf9-5b979672cd16",
-  "scopeUri": "https://dev002DataHubB2C.onmicrosoft.com/api://backend-bff/api",
+  "clientId": "4281f496-ce5b-4b04-b655-505e834c2f6e",
+  "scopeUri": "https://dev002DataHubB2C.onmicrosoft.com/backend-bff/api",
   "authority": "https://dev002DataHubB2C.b2clogin.com/dev002DataHubB2C.onmicrosoft.com/B2C_1_SignInFlow",
   "knownAuthorities": ["dev002DataHubB2C.b2clogin.com"]
 }
