@@ -1,0 +1,49 @@
+<watt-stepper>
+  <watt-stepper-step label="User" [stepControl]="user" nextButtonLabel="Email">
+    <form [formGroup]="user">
+      <watt-form-field class="firstname">
+        <watt-label>firstname</watt-label>
+        <input [formControl]="user.controls.firstname" wattInput type="text" />
+        <watt-error *ngIf="user.controls.firstname.hasError('required')">Error</watt-error>
+      </watt-form-field>
+      <watt-form-field class="lastname">
+        <watt-label>lastname</watt-label>
+        <input [formControl]="user.controls.lastname" wattInput type="text" />
+        <watt-error *ngIf="user.controls.lastname.hasError('required')"> Error </watt-error>
+      </watt-form-field>
+    </form>
+  </watt-stepper-step>
+  <watt-stepper-step
+    label="Email"
+    [stepControl]="email"
+    nextButtonLabel="Address"
+    previousButtonLabel="User"
+  >
+    <form [formGroup]="email">
+      <watt-form-field class="email">
+        <watt-label>email</watt-label>
+        <input [formControl]="email.controls.email" wattInput type="text" />
+        <watt-error *ngIf="email.controls.email.hasError('required')">Error</watt-error>
+      </watt-form-field>
+    </form>
+  </watt-stepper-step>
+  <watt-stepper-step
+    label="Address"
+    [stepControl]="address"
+    nextButtonLabel="Create"
+    previousButtonLabel="Email"
+  >
+    <form [formGroup]="address">
+      <watt-form-field class="street">
+        <watt-label>street</watt-label>
+        <input [formControl]="address.controls.street" wattInput type="text" />
+        <watt-error *ngIf="address.controls.street.hasError('required')">Error</watt-error>
+      </watt-form-field>
+      <watt-form-field class="city">
+        <watt-label>city</watt-label>
+        <input [formControl]="address.controls.city" wattInput type="text" />
+        <watt-error *ngIf="address.controls.city.hasError('required')"> Error </watt-error>
+      </watt-form-field>
+    </form>
+  </watt-stepper-step>
+</watt-stepper>
