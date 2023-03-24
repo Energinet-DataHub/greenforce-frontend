@@ -34,6 +34,7 @@ import {
   WholesaleTimeSeriesType,
   WholesaleMarketRole,
   MarketParticipantHttp,
+  WholesaleSettlementReportHttp,
   MarketParticipantFilteredActorDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { batch } from '@energinet-datahub/dh/wholesale/domain';
@@ -84,6 +85,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
   loadingBatchErrorTrigger$: Subject<void> = new Subject();
   loadingBasisDataErrorTrigger$: Subject<void> = new Subject();
+  loadingSettlementReportDataErrorTrigger$: Subject<void> = new Subject();
   loadingProcessStepResultsErrorTrigger$: Subject<void> = new Subject();
   loadingActorsErrorTrigger$: Subject<void> = new Subject();
   loadingFilteredActorsErrorTrigger$: Subject<void> = new Subject();
@@ -92,6 +94,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   private httpClient = inject(WholesaleBatchHttp);
   private marketParticipantGridAreaHttpClient = inject(MarketParticipantGridAreaHttp);
   private marketParticipantHttp = inject(MarketParticipantHttp);
+  private wholesaleSettlementReportHttp = inject(WholesaleSettlementReportHttp);
 
   constructor() {
     super(initialState);
@@ -326,6 +329,32 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       })
     );
   });
+
+  readonly downloadSettlementReportData = this.effect(
+    (options$: Observable<{ batchNumber: string; gridAreaCode: string }>) => {
+      return options$.pipe(
+        switchMap((options) => {
+          return this.wholesaleSettlementReportHttp
+            .v1WholesaleSettlementReportGet(options.batchNumber, options.gridAreaCode)
+            .pipe(
+              tapResponse(
+                (data) => {
+                  const blob = new Blob([data as unknown as BlobPart], {
+                    type: 'application/zip',
+                  });
+                  const basisData = window.URL.createObjectURL(blob);
+                  const link = this.document.createElement('a');
+                  link.href = basisData;
+                  link.download = `${options.batchNumber}.zip`;
+                  link.click();
+                },
+                () => this.loadingSettlementReportDataErrorTrigger$.next()
+              )
+            );
+        })
+      );
+    }
+  );
 
   readonly setSelectedBatch = this.updater(
     (state, batch: batch | undefined): State => ({

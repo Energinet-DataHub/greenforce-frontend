@@ -29,6 +29,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
   combineLatest,
   debounceTime,
+  distinctUntilChanged,
   filter,
   map,
   Observable,
@@ -131,7 +132,7 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
   ]).pipe(
     map(([gridAreas, selectedActorId]) => {
       const selectedActor = this._actors?.find((x) => x.actorId === selectedActorId);
-      this.filters.patchValue({ gridAreas: selectedActor?.gridAreaCodes });
+      this.filters.patchValue({ gridAreas: selectedActor?.gridAreaCodes || null });
 
       return gridAreas
         .filter((gridArea) => {
@@ -154,9 +155,27 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.filters.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(200), filter(this.isComplete))
-      .subscribe((filters: SettlementReportFilters) => {
-        this.filterChange.emit(filters as SettlementReportFilters);
+      .pipe(
+        takeUntil(this.destroy$),
+        distinctUntilChanged((a, b) => {
+          // We need the raw values object, as disabled form fields won't be part of the valuesChanges otherwise.
+          const rawValues = this.filters.getRawValue();
+          return JSON.stringify({ ...rawValues, ...a }) === JSON.stringify({ ...rawValues, ...b });
+        }),
+        debounceTime(200),
+        filter(this.isComplete)
+      )
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .subscribe((filters: any) => {
+        if (!filters.gridAreas && filters.actor) {
+          this.filters.controls.actor.reset();
+          return;
+        }
+
+        this.filterChange.emit({
+          ...filters,
+          actor: this._actors?.find((x) => x.actorId === filters.actor),
+        } as SettlementReportFilters);
       });
   }
 

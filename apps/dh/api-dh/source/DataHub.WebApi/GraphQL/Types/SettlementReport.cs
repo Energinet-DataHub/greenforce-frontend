@@ -20,6 +20,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class SettlementReport
     {
+        public Guid BatchNumber { get; set; }
+
         public ProcessType ProcessType { get; set; }
 
         public GridAreaDto GridArea { get; set; }
@@ -29,11 +31,13 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public DateTimeOffset? ExecutionTime { get; set; }
 
         public SettlementReport(
+            Guid batchNumber,
             ProcessType processType,
             GridAreaDto gridArea,
             Interval period,
             DateTimeOffset? executionTime)
         {
+            BatchNumber = batchNumber;
             ProcessType = processType;
             GridArea = gridArea;
             Period = period;
