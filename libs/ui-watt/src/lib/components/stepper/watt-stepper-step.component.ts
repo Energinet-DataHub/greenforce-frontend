@@ -14,17 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CdkStepperPrevious } from '@angular/cdk/stepper';
-import { Directive, HostBinding, Input } from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { MatStep } from '@angular/material/stepper';
 
-@Directive({
-  selector: 'watt-button[wattStepperPrevious]',
+@Component({
+  selector: 'watt-stepper-step',
+  template: `<ng-template #templateRef>
+    <ng-content></ng-content>
+  </ng-template>`,
   standalone: true,
 })
-export class WattStepperButtonPreviousDirective extends CdkStepperPrevious {
-  @Input() type: 'submit' | 'button' = 'submit';
-  @HostBinding('class') classes = 'watt-stepper-previous';
-  @HostBinding('attr.type') get typeAttr() {
-    return this.type;
-  }
+export class WattStepperStepComponent extends MatStep {
+  @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null = null;
+  @Input() public nextButtonLabel?: string;
+  @Input() public previousButtonLabel?: string;
 }
