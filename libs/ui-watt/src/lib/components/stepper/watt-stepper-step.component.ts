@@ -14,5 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WATT_STEPPER, WattStepperComponent } from './watt-stepper.component';
-export { WattStepperStepComponent } from './watt-stepper-step.component';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { MatStep } from '@angular/material/stepper';
+
+@Component({
+  selector: 'watt-stepper-step',
+  template: `<ng-template #templateRef>
+    <ng-content></ng-content>
+  </ng-template>`,
+  standalone: true,
+})
+export class WattStepperStepComponent extends MatStep {
+  @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null = null;
+  @Input() public nextButtonLabel?: string;
+  @Input() public previousButtonLabel?: string;
+}
