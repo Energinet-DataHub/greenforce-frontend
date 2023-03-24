@@ -79,6 +79,8 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
   };
 
   query = this.apollo.watchQuery({
+    fetchPolicy: 'cache-only',
+    nextFetchPolicy: 'cache-first',
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: graphql.GetSettlementReportsDocument,
