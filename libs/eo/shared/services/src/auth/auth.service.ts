@@ -50,10 +50,12 @@ export class EoAuthService {
   }
 
   refreshToken() {
-    this.http.get<string>(`${this.#authApiBase}/token`).subscribe((newToken) => {
-      sessionStorage.setItem('token', newToken);
-      this.handleToken();
-    });
+    this.http
+      .get(`${this.#authApiBase}/token`, { responseType: 'text' })
+      .subscribe(async (newToken) => {
+        sessionStorage.setItem('token', newToken);
+        this.handleToken();
+      });
   }
 
   login() {

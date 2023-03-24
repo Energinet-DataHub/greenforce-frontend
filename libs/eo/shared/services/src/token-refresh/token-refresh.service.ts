@@ -16,15 +16,9 @@
  */
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import {
-  EoIdleTimerCountdownModalComponent,
-  EoIdleTimerLoggedOutModalComponent,
-} from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { Subscription, switchMap, tap, timer } from 'rxjs';
+import { combineLatest, Subscription, switchMap, timer } from 'rxjs';
 import { EoAuthService } from '../auth/auth.service';
 import { EoAuthStore } from '../auth/auth.store';
-import { IdleTimerService } from '../idle-timer/idle-timer.service';
 
 @Injectable({
   providedIn: 'root',
@@ -32,55 +26,28 @@ import { IdleTimerService } from '../idle-timer/idle-timer.service';
 export class TokenRefreshService {
   subscription$: Subscription | undefined;
 
-  constructor(
-    private store: EoAuthStore,
-    private dialog: MatDialog,
-    private authService: EoAuthService,
-    private idleService: IdleTimerService
-  ) {}
+  constructor(private store: EoAuthStore, private authService: EoAuthService) {}
 
   startMonitor() {
     this.subscription$ = timer(0, 1000)
       .pipe(
-        switchMap(() => this.store.getTokenExpiry$),
-        tap((val) => {
-          // If logintoken exp is less than 5 minutes away from now
-          // TODO: Don't do popup, just call refresh api
-          // /api/auth/token (GET). Body der kommer tilbage indeholder token
-          if (val && val - new Date().getTime() / 1000 <= 300) {
-            // Call refresh of token
-          }
-        })
+        switchMap(() =>
+          combineLatest({ exp: this.store.getTokenExpiry$, iat: this.store.getTokenIssuedAt$ })
+        )
       )
-      .subscribe();
+      .subscribe(({ exp, iat }) => this.whenTimeThresholdReached(exp, iat));
   }
 
   stopMonitor() {
     this.subscription$?.unsubscribe();
   }
 
-  private showLogoutWarning() {
-    this.stopMonitor();
-    this.idleService.stopMonitor();
-
-    this.dialog
-      .open(EoIdleTimerCountdownModalComponent, {
-        height: '500px',
-        autoFocus: false,
-      })
-      .afterClosed()
-      .subscribe((result: string) => {
-        if (result === 'logout') {
-          this.authService.logout();
-          this.dialog.open(EoIdleTimerLoggedOutModalComponent, {
-            height: '500px',
-            autoFocus: false,
-          });
-          return;
-        }
-
-        this.startMonitor();
-        this.idleService.startMonitor();
-      });
+  whenTimeThresholdReached(exp: number, iat: number) {
+    const totalTime = exp - iat;
+    const twentyPercent = totalTime * 0.2;
+    const remainingTime = exp - Date.now() / 1000;
+    if (remainingTime < twentyPercent) {
+      this.authService.refreshToken();
+    }
   }
 }

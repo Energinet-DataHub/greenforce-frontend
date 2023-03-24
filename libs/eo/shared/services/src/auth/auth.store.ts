@@ -48,11 +48,12 @@ export class EoAuthStore extends ComponentStore<AuthState> {
     super({});
   }
 
-  readonly getScope$ = this.select((state) => state.scope?.split(' ') ?? []);
-  readonly getTokenExpiry$ = this.select((state) => state.exp);
-  readonly getTermsVersion$ = this.select((state) => state.trm);
+  getScope$ = this.select((state) => state.scope?.split(' ') ?? []);
+  getTokenIssuedAt$ = this.select((state) => state.iat ?? 0);
+  getTokenExpiry$ = this.select((state) => state.exp ?? 0);
+  getTermsVersion$ = this.select((state) => state.trm);
 
-  readonly setTokenClaims = this.updater(
+  setTokenClaims = this.updater(
     (state, claim: EoLoginToken): AuthState => ({ ...state, ...claim })
   );
 }

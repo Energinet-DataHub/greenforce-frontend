@@ -24,8 +24,6 @@ import {
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/shared/utilities';
 import { tap } from 'rxjs';
 import { EoAuthService } from './auth.service';
 import { EoAuthStore } from './auth.store';
@@ -39,7 +37,6 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
   constructor(
     private snackBar: MatSnackBar,
-    private router: Router,
     private authService: EoAuthService,
     private authStore: EoAuthStore
   ) {}
@@ -60,7 +57,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
             this.#displayPermissionError();
           }
           if (this.#is401UnauthorizedResponse(error)) {
-            this.#navigateToLoginPage();
+            this.authService.logout();
           }
         },
       })
@@ -77,10 +74,6 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
   #is401UnauthorizedResponse(error: unknown): boolean {
     return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized;
-  }
-
-  #navigateToLoginPage() {
-    return this.router.navigateByUrl(eoLandingPageRelativeUrl);
   }
 }
 
