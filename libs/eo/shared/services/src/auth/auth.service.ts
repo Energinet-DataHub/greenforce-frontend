@@ -50,8 +50,10 @@ export class EoAuthService {
   }
 
   refreshToken() {
-    // api/auth/token (GET) manuelt sæt header til at sende bearer token med
-    this.handleToken();
+    this.http.get<string>(`${this.#authApiBase}/token`).subscribe((newToken) => {
+      sessionStorage.setItem('token', newToken);
+      this.handleToken();
+    });
   }
 
   login() {
@@ -62,6 +64,7 @@ export class EoAuthService {
 
   logout() {
     // TODO: Navigate til /api/auth/logout med bearer token headeren
+    sessionStorage.removeItem('token');
     this.http.post(`${this.#authApiBase}/logout`, {}).subscribe({
       next: () => this.router.navigateByUrl(eoLandingPageRelativeUrl),
       error: () => this.router.navigateByUrl(eoLandingPageRelativeUrl),
@@ -79,10 +82,16 @@ export class EoAuthService {
   private handleToken() {
     const token = sessionStorage.getItem('token') ?? this.route.snapshot.queryParamMap.get('token');
     if (!token) return;
+
     const decodedToken = jwt_decode(token) as EoLoginToken;
 
-    this.store.token.next(token);
     sessionStorage.setItem('token', token);
+    this.store.token.next(token);
     this.store.setTokenClaims(decodedToken);
+
+    this.router.navigate([], {
+      queryParams: { token: undefined },
+      replaceUrl: true,
+    });
   }
 }

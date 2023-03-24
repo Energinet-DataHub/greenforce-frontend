@@ -46,7 +46,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<unknown>, nextHandler: HttpHandler) {
     const request = req.clone({
-      headers: req.headers.append('Authorization', `Bearer ${this.authStore.token.getValue()}`),
+      headers: req.headers.set('Authorization', `Bearer ${this.authStore.token.getValue()}`),
     });
     return nextHandler.handle(request).pipe(
       tap({
@@ -56,7 +56,6 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
           }
         },
         error: (error) => {
-          console.log('error call', request);
           if (this.#is403ForbiddenResponse(error)) {
             this.#displayPermissionError();
           }
