@@ -15,34 +15,20 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { EoAuthService } from '@energinet-datahub/eo/shared/services';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { LetModule } from '@rx-angular/template/let';
-import { EoLandingPageStore } from './eo-landing-page.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattButtonModule, LetModule],
+  imports: [WattButtonModule],
   selector: 'eo-landing-page-login-button',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  template: `
-    <watt-button *rxLet="loginUrl$ as loginUrl" (click)="this.authenticate(loginUrl)"
-      >Start</watt-button
-    >
-  `,
+  template: `<watt-button (click)="login()">Start</watt-button>`,
 })
 export class EoLandingPageLoginButtonComponent {
-  loginUrl$ = this.landingPageStore.authenticationUrl$;
+  constructor(private authService: EoAuthService) {}
 
-  authenticate(url: string) {
-    window.location.href = url;
+  login() {
+    this.authService.login();
   }
-
-  constructor(private landingPageStore: EoLandingPageStore) {}
 }
