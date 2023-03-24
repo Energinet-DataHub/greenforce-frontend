@@ -22,10 +22,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 import { lastValueFrom } from 'rxjs';
 
-import {
-  EoAuthorizationInterceptor,
-  eoAuthorizationInterceptorProvider,
-} from './eo-authorization.interceptor';
+import { EoAuthorizationInterceptor, eoAuthorizationInterceptorProvider } from './auth.interceptor';
 
 @Component({
   template: '',

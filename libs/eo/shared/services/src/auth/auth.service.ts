@@ -16,8 +16,11 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { Observable } from 'rxjs';
+import { eoLandingPageRelativeUrl, eoTermsRoutePath } from '@energinet-datahub/eo/shared/utilities';
+import jwt_decode from 'jwt-decode';
+import { EoAuthStore, EoLoginToken } from './auth.store';
 
 export interface AuthLogoutResponse {
   readonly success: boolean;
@@ -26,23 +29,70 @@ export interface AuthLogoutResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
-  #apiBase: string;
+export class EoAuthService {
+  #loginUrl: string;
+  #authApiBase: string;
 
   constructor(
     private http: HttpClient,
+    private store: EoAuthStore,
+    private router: Router,
+    private route: ActivatedRoute,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
-    this.#apiBase = `${apiEnvironment.apiBase}/auth`;
+    this.#authApiBase = `${apiEnvironment.apiBase}/auth`;
+    this.#loginUrl = `${apiEnvironment.apiBase}/auth/oidc/login?fe_url=${window.location.origin}&return_url=${window.location.origin}/dashboard`;
   }
 
-  logout(): Observable<AuthLogoutResponse> {
-    return this.http.post<AuthLogoutResponse>(
-      `${this.#apiBase}/logout`,
-      {
-        // empty body
-      },
-      { withCredentials: true }
-    );
+  handlePostLogin() {
+    this.handleToken();
+    this.handleTermsAcceptance();
+  }
+
+  refreshToken() {
+    this.http
+      .get(`${this.#authApiBase}/token`, { responseType: 'text' })
+      .subscribe(async (newToken) => {
+        sessionStorage.setItem('token', newToken);
+        this.handleToken();
+      });
+  }
+
+  login() {
+    window.location.href = `${this.#authApiBase}/login?overrideRedirectionUri=${
+      window.location.protocol
+    }//${window.location.host}/dashboard`;
+  }
+
+  logout() {
+    sessionStorage.removeItem('token');
+    this.http.post(`${this.#authApiBase}/logout`, {}).subscribe({
+      next: () => this.router.navigateByUrl(eoLandingPageRelativeUrl),
+      error: () => this.router.navigateByUrl(eoLandingPageRelativeUrl),
+    });
+  }
+
+  private handleTermsAcceptance() {
+    this.store.getScope$.subscribe((scope) => {
+      if (scope.includes('not-accepted-terms') === true) {
+        this.router.navigate([eoTermsRoutePath]);
+      }
+    });
+  }
+
+  private handleToken() {
+    const token = sessionStorage.getItem('token') ?? this.route.snapshot.queryParamMap.get('token');
+    if (!token) return;
+
+    const decodedToken = jwt_decode(token) as EoLoginToken;
+
+    sessionStorage.setItem('token', token);
+    this.store.token.next(token);
+    this.store.setTokenClaims(decodedToken);
+
+    this.router.navigate([], {
+      queryParams: { token: undefined },
+      replaceUrl: true,
+    });
   }
 }
