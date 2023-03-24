@@ -1,0 +1,43 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<mat-stepper animationDuration="0" class="watt-stepper" [linear]="true" #stepper>
+  <ng-template matStepperIcon="edit">
+    <watt-icon name="checkmark"></watt-icon>
+  </ng-template>
+  <ng-template matStepperIcon="last">
+    <watt-icon name="checkmark"></watt-icon>
+  </ng-template>
+  <ng-template matStepperIcon="error" let-index="index">
+    {{ index + 1 }}
+  </ng-template>
+  <mat-step *ngFor="let step of steps" [stepControl]="step.stepControl">
+    <ng-template matStepLabel>{{ step.label }}</ng-template>
+    <ng-container *ngTemplateOutlet="step.templateRef"></ng-container>
+    <div class="buttonWrapper">
+      <watt-button *ngIf="onFirstStep$ | push" variant="secondary" wattStepperPrevious>
+        <watt-icon name="left"></watt-icon>
+        {{ step.previousButtonLabel }}
+      </watt-button>
+      <watt-button *ngIf="!(onLastStep$ | push)" variant="secondary" wattStepperNext>
+        {{ step.nextButtonLabel }}<watt-icon name="right"></watt-icon>
+      </watt-button>
+      <watt-button *ngIf="onLastStep$ | push" variant="primary" (click)="complete()">{{
+        step.nextButtonLabel
+      }}</watt-button>
+    </div>
+  </mat-step>
+</mat-stepper>
