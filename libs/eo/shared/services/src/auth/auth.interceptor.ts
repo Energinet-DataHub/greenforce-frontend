@@ -16,7 +16,6 @@
  */
 import {
   HttpErrorResponse,
-  HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
@@ -27,8 +26,9 @@ import { ClassProvider, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/shared/utilities';
-import { Observable, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { EoAuthService } from './auth.service';
+import { EoAuthStore } from './auth.store';
 
 /**
  * Displays an error when the user has insufficient permissions.
@@ -40,23 +40,24 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   constructor(
     private snackBar: MatSnackBar,
     private router: Router,
-    private authService: EoAuthService
+    private authService: EoAuthService,
+    private authStore: EoAuthStore
   ) {}
 
-  intercept(
-    request: HttpRequest<unknown>,
-    nextHandler: HttpHandler
-  ): Observable<HttpEvent<unknown>> {
+  intercept(req: HttpRequest<unknown>, nextHandler: HttpHandler) {
+    const request = req.clone({
+      headers: req.headers.append('Authorization', `Bearer ${this.authStore.token.getValue()}`),
+    });
     return nextHandler.handle(request).pipe(
       tap({
         next: () => {
-          //TODO: attach token as bearer token to all api calls
           if (this.callsThatAllowRefresh.includes(request.method)) {
             // api/auth/token (GET) manuelt sæt header til at sende bearer token med
             this.authService.refreshToken();
           }
         },
         error: (error) => {
+          console.log('error call', request);
           if (this.#is403ForbiddenResponse(error)) {
             this.#displayPermissionError();
           }
@@ -68,7 +69,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
     );
   }
 
-  #displayPermissionError(): Observable<void> {
+  #displayPermissionError() {
     return this.snackBar.open('You do not have permission to perform this action.').afterOpened();
   }
 

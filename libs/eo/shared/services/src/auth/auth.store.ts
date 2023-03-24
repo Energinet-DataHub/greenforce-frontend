@@ -16,6 +16,7 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
+import { BehaviorSubject } from 'rxjs';
 
 export interface EoLoginToken {
   acl?: boolean;
@@ -41,6 +42,8 @@ type AuthState = EoLoginToken;
   providedIn: 'root',
 })
 export class EoAuthStore extends ComponentStore<AuthState> {
+  public token = new BehaviorSubject<string>('');
+
   constructor() {
     super({});
   }
@@ -49,8 +52,7 @@ export class EoAuthStore extends ComponentStore<AuthState> {
   readonly getTokenExpiry$ = this.select((state) => state.exp);
   readonly getTermsVersion$ = this.select((state) => state.trm);
 
-  readonly loginToken$ = this.select((state) => state);
-  readonly setLoginToken = this.updater(
-    (state, loginToken: EoLoginToken): AuthState => ({ ...state, ...loginToken })
+  readonly setTokenClaims = this.updater(
+    (state, claim: EoLoginToken): AuthState => ({ ...state, ...claim })
   );
 }
