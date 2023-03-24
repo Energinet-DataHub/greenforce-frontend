@@ -57,10 +57,6 @@ export class EoTermsService {
 
   acceptTerms(): Observable<AuthTermsAcceptResponse> {
     const version = this.authStore.getTermsVersion$.pipe(take(1)).subscribe();
-    return this.http.post<AuthTermsAcceptResponse>(
-      `${this.#apiBase}/terms/accept`,
-      { version },
-      { withCredentials: true }
-    );
+    return this.http.post<AuthTermsAcceptResponse>(`${this.#apiBase}/terms/accept`, { version });
   }
 }

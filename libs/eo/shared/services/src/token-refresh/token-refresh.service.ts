@@ -45,8 +45,10 @@ export class TokenRefreshService {
         switchMap(() => this.store.getTokenExpiry$),
         tap((val) => {
           // If logintoken exp is less than 5 minutes away from now
+          // TODO: Don't do popup, just call refresh api
+          // /api/auth/token (GET). Body der kommer tilbage indeholder token
           if (val && val - new Date().getTime() / 1000 <= 300) {
-            this.showLogoutWarning();
+            // Call refresh of token
           }
         })
       )

@@ -53,12 +53,14 @@ export class EoAuthService {
   }
 
   login() {
-    window.location.href = `${this.#authApiBase}/login`;
+    window.location.href = `${this.#authApiBase}/login?overrideRedirectionUri=${
+      window.location.protocol
+    }//${window.location.host}/dashboard`;
   }
 
   logout() {
     // TODO: Navigate til /api/auth/logout med bearer token headeren
-    this.http.post(`${this.#authApiBase}/logout`, {}, { withCredentials: true }).subscribe({
+    this.http.post(`${this.#authApiBase}/logout`, {}).subscribe({
       next: () => this.router.navigateByUrl(eoLandingPageRelativeUrl),
       error: () => this.router.navigateByUrl(eoLandingPageRelativeUrl),
     });
@@ -82,9 +84,11 @@ export class EoAuthService {
     try {
       decodedToken = jwt_decode(this.getTokenFromCookie('Authorization'));
       token = this.getTokenFromCookie('Authorization').replace('Authorization=', '');
+      console.log('setting token correctly');
     } catch {
       decodedToken = jwt_decode(mockToken);
       token = mockToken;
+      console.log('setting mock token');
     }
 
     this.store.token.next(token);
