@@ -16,38 +16,41 @@
  */
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import {
   EoIdleTimerCountdownModalComponent,
   EoIdleTimerLoggedOutModalComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { fromEvent, merge, startWith, Subscription, switchMap, timer } from 'rxjs';
+import { Subscription, switchMap, tap, timer } from 'rxjs';
 import { EoAuthService } from '../auth/auth.service';
+import { EoAuthStore } from '../auth/auth.store';
+import { IdleTimerService } from '../idle-timer/idle-timer.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class IdleTimerService {
-  allowedInactiveTime = 900000; // 15 minutes in milliseconds
-  dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent> | undefined;
+export class TokenRefreshService {
   subscription$: Subscription | undefined;
-  monitoredEvents$ = merge(
-    fromEvent(document, 'visibilitychange'),
-    fromEvent(document, 'click'),
-    fromEvent(document, 'keyup')
-  );
 
-  constructor(private dialog: MatDialog, private authService: EoAuthService) {}
-
-  attachMonitorsWithTimer() {
-    return this.monitoredEvents$.pipe(
-      startWith(0), // Starts timer, no matter if user already interacted or not
-      switchMap(() => timer(this.allowedInactiveTime))
-    );
-  }
+  constructor(
+    private store: EoAuthStore,
+    private dialog: MatDialog,
+    private authService: EoAuthService,
+    private idleService: IdleTimerService
+  ) {}
 
   startMonitor() {
-    this.subscription$ = this.attachMonitorsWithTimer().subscribe(() => this.showLogoutWarning());
+    this.subscription$ = timer(0, 1000)
+      .pipe(
+        switchMap(() => this.store.getTokenExpiry$),
+        tap((val) => {
+          // If logintoken exp is less than 5 minutes away from now
+          if (val && val - new Date().getTime() / 1000 <= 300) {
+            this.showLogoutWarning();
+          }
+        })
+      )
+      .subscribe();
   }
 
   stopMonitor() {
@@ -56,6 +59,7 @@ export class IdleTimerService {
 
   private showLogoutWarning() {
     this.stopMonitor();
+    this.idleService.stopMonitor();
 
     this.dialog
       .open(EoIdleTimerCountdownModalComponent, {
@@ -74,6 +78,7 @@ export class IdleTimerService {
         }
 
         this.startMonitor();
+        this.idleService.startMonitor();
       });
   }
 }
