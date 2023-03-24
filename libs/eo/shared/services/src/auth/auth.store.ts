@@ -31,6 +31,7 @@ export interface EoLoginToken {
   /** @example "accepted-terms dashboard production meters certificates" */
   scope?: string;
   sub?: string;
+  /** @example 3 - To indicate that the latest terms version is 3 */
   trm?: number;
 }
 
@@ -46,6 +47,7 @@ export class EoAuthStore extends ComponentStore<AuthState> {
 
   readonly getScope$ = this.select((state) => state.scope?.split(' ') ?? []);
   readonly getTokenExpiry$ = this.select((state) => state.exp);
+  readonly getTermsVersion$ = this.select((state) => state.trm);
 
   readonly loginToken$ = this.select((state) => state);
   readonly setLoginToken = this.updater(

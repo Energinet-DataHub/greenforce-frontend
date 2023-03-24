@@ -53,8 +53,7 @@ export class EoAuthService {
   }
 
   login() {
-    // TODO: Navigate til /api/auth/login
-    window.location.href = '/api/auth/login';
+    window.location.href = `${this.#authApiBase}/login`;
   }
 
   logout() {

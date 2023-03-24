@@ -23,7 +23,7 @@ import {
   EoFooterComponent,
   EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoAuthService, EoTermsStore } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService, EoTermsService } from '@energinet-datahub/eo/shared/services';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 
@@ -67,10 +67,7 @@ import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
       <div class="eo-layout-centered-content">
         <div class="content-wrapper">
           <eo-scroll-view class="watt-space-stack-l">
-            <eo-privacy-policy
-              class="watt-space-stack-l"
-              (versionChange)="onVersionChange($event)"
-            ></eo-privacy-policy>
+            <eo-privacy-policy class="watt-space-stack-l"></eo-privacy-policy>
           </eo-scroll-view>
           <div class="watt-space-stack-m">
             <watt-checkbox [(ngModel)]="hasAcceptedTerms">
@@ -96,22 +93,24 @@ export class EoTermsComponent {
   hasAcceptedTerms = false;
 
   constructor(
-    private store: EoTermsStore,
-    private router: Router,
-    private authService: EoAuthService
+    private authService: EoAuthService,
+    private termsService: EoTermsService,
+    private router: Router
   ) {}
-
-  //TODO: Fix terms page
-
-  onVersionChange(version: string) {
-    this.store.setVersion(version);
-  }
 
   onCancel() {
     this.authService.logout();
   }
 
   onAccept() {
-    this.store.onAcceptTerms();
+    this.termsService.acceptTerms().subscribe({
+      next: (response) => window.location.replace(response.next_url),
+      error: () => {
+        this.router.navigate(['/'], {
+          state: { error: true },
+          replaceUrl: true,
+        });
+      },
+    });
   }
 }

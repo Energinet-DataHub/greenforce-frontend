@@ -17,7 +17,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
+import { EoAuthStore } from '../auth/auth.store';
 
 export interface AuthTermsResponse {
   /**
@@ -48,20 +49,18 @@ export class EoTermsService {
   #apiBase: string;
   constructor(
     private http: HttpClient,
+    private authStore: EoAuthStore,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
     this.#apiBase = `${apiEnvironment.apiBase}/auth`;
   }
 
-  postAcceptTerms(version: string): Observable<AuthTermsAcceptResponse> {
+  acceptTerms(): Observable<AuthTermsAcceptResponse> {
+    const version = this.authStore.getTermsVersion$.pipe(take(1)).subscribe();
     return this.http.post<AuthTermsAcceptResponse>(
       `${this.#apiBase}/terms/accept`,
       { version },
       { withCredentials: true }
     );
-  }
-
-  getTerms() {
-    return this.http.get<AuthTermsResponse>(`${this.#apiBase}/terms`);
   }
 }
