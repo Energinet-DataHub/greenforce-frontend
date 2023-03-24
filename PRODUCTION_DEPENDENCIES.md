@@ -33,6 +33,7 @@
 | [graphql](https://github.com/graphql/graphql-js) | 16.6.0 | MIT |
 | [include-media](https://github.com/eduardoboucas/include-media) | 1.4.10 | MIT |
 | [inputmask](https://github.com/RobinHerbots/Inputmask) | 5.0.7 | MIT |
+| [jwt-decode](https://github.com/auth0/jwt-decode) | 3.1.2 | MIT |
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 3.0.11 | ISC |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 5.0.0 | MIT |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.5.7 | Apache-2.0 |
