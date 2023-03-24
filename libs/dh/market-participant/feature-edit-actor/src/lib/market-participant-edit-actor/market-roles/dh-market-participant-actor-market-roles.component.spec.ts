@@ -18,7 +18,11 @@
 import { render, screen, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
-import { ActorMarketRoleDto, ActorStatus, GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantActorMarketRoleDto,
+  MarketParticipantActorStatus,
+  MarketParticipantGridAreaDto,
+} from '@energinet-datahub/dh/shared/domain';
 import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { EventEmitter } from '@angular/core';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
@@ -30,9 +34,9 @@ import { en } from '@energinet-datahub/dh/globalization/assets-localization';
 
 describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
   async function setup(
-    actorStatus: ActorStatus,
-    gridAreas: GridAreaDto[],
-    existingActorMarketRoles: ActorMarketRoleDto[]
+    actorStatus: MarketParticipantActorStatus,
+    gridAreas: MarketParticipantGridAreaDto[],
+    existingActorMarketRoles: MarketParticipantActorMarketRoleDto[]
   ) {
     const outputFn = jest.fn();
     const view = await render(DhMarketParticipantActorMarketRolesComponent, {
@@ -52,7 +56,7 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
     return { view, outputFn };
   }
 
-  const gridAreas: GridAreaDto[] = [
+  const gridAreas: MarketParticipantGridAreaDto[] = [
     {
       id: '9117A657-2839-4DA5-94DC-89F7EE55F62F',
       code: 'code',
@@ -64,7 +68,7 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
 
   test('should add new', async () => {
     // arrange
-    const { outputFn } = await setup(ActorStatus.New, gridAreas, []);
+    const { outputFn } = await setup(MarketParticipantActorStatus.New, gridAreas, []);
 
     const expected = {
       isValid: true,
@@ -128,7 +132,7 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
 
   test('should remove existing if status is new', async () => {
     // arrange
-    const { outputFn } = await setup(ActorStatus.New, gridAreas, [
+    const { outputFn } = await setup(MarketParticipantActorStatus.New, gridAreas, [
       {
         eicFunction: 'BalanceResponsibleParty',
         gridAreas: [{ id: gridAreas[0].id, meteringPointTypes: ['D01VeProduction'] }],
@@ -150,7 +154,7 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
 
   test('should not remove existing if status is not new', async () => {
     // arrange
-    const { outputFn } = await setup(ActorStatus.Active, gridAreas, [
+    const { outputFn } = await setup(MarketParticipantActorStatus.Active, gridAreas, [
       {
         eicFunction: 'BalanceResponsibleParty',
         gridAreas: [{ id: gridAreas[0].id, meteringPointTypes: ['D01VeProduction'] }],

@@ -19,16 +19,20 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { DhChargesChargePricesTabComponent } from './dh-charges-charge-prices-tab.component';
 import { render, screen } from '@testing-library/angular';
-import { ChargeType, Resolution, VatClassification } from '@energinet-datahub/dh/shared/domain';
+import {
+  ChargeType,
+  ChargeResolution,
+  ChargeVatClassification,
+} from '@energinet-datahub/dh/shared/domain';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
 const charge = {
   id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
   chargeType: ChargeType.D02,
-  resolution: Resolution.P1D,
+  resolution: ChargeResolution.P1D,
   taxIndicator: false,
   transparentInvoicing: true,
-  vatClassification: VatClassification.NoVat,
+  vatClassification: ChargeVatClassification.NoVat,
   validFromDateTime: '2021-09-29T22:00:00',
   validToDateTime: '2021-10-29T22:00:00',
   chargeId: 'chargeid01',

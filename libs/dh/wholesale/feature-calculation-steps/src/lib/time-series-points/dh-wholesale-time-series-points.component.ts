@@ -19,7 +19,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { TimeSeriesPointDto } from '@energinet-datahub/dh/shared/domain';
+import { WholesaleTimeSeriesPointDto } from '@energinet-datahub/dh/shared/domain';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
@@ -42,12 +42,12 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleTimeSeriesPointsComponent {
-  @Input() set data(timeSeriesPoints: TimeSeriesPointDto[]) {
+  @Input() set data(timeSeriesPoints: WholesaleTimeSeriesPointDto[]) {
     this._data = new WattTableDataSource(timeSeriesPoints);
   }
 
-  _data: WattTableDataSource<TimeSeriesPointDto> = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<TimeSeriesPointDto> = {
+  _data: WattTableDataSource<WholesaleTimeSeriesPointDto> = new WattTableDataSource(undefined);
+  columns: WattTableColumnDef<WholesaleTimeSeriesPointDto> = {
     time: { accessor: 'time' },
     quantity: { accessor: 'quantity' },
   };

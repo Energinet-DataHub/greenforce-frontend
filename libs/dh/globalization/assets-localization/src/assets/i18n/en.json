@@ -788,6 +788,8 @@
     },
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
+      "download": "Download",
+      "downloadFailed": "Download failed",
       "table": {
         "title": "Processes",
         "processType": "Process type",
@@ -796,17 +798,24 @@
         "periodEnd": "Period to",
         "executionTime": "Execution time",
         "emptyTitle": "No processes found",
-        "emptyHelperText": "Try changing the search criteria"
+        "emptyHelperText": "Try changing the search criteria",
+        "download": "—"
       },
       "processTypes": {
-        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}"
+        "BALANCE_FIXING": "Balance Fixing",
+        "AGGREGATION": "Aggregation"
       },
       "filters": {
         "processType": "Process type",
         "gridArea": "Grid area",
         "period": "Period",
         "executionTime": "Execution time",
-        "executionTimeRequired": "Execution time is required"
+        "executionTimeRequired": "Execution time is required",
+        "actor": "Actor",
+        "loadingActors": "Loading actors...",
+        "actorPlaceholder": "Select actor",
+        "processTypePlaceholder": "Select process type",
+        "gridAreasPlaceholder": "Select grid area(s)"
       }
     },
     "calculationSteps": {
@@ -912,7 +921,7 @@
               "logs": {
                 "roles": {
                   "Created": "Role created by <b>{{ changedByUserName }}</b>",
-                  "NameChange": "<b>{{ changedByUserName }}</b> changed role name to <b>{{ changedValueTo }}</b>",
+                  "NameChange": "<b>{{ changedByUserName }}</b> changed user role name to <b>{{ changedValueTo }}</b>",
                   "DescriptionChange": "<b>{{ changedByUserName }}</b> changed description to <b>{{ changedValueTo }}</b>",
                   "EicFunctionChange": "<b>{{ changedByUserName }}</b> changed eic function to <b>{{ changedValueTo }}</b>",
                   "StatusChange": "<b>{{ changedByUserName }}</b> changed status to <b>{{ changedValueTo }}</b>",
@@ -955,6 +964,12 @@
             "entry": "Change"
           },
           "logs": {
+            "permissionDetails": {
+              "auditLogType": {
+                "CREATED": "<b>{{ changedByUserName }}</b> added the permission to the system",
+                "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> changed the description of the permission"
+              }
+            },
             "auditLogType": {
               "UserRoleAdded": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
               "UserRoleRemoved": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>",
@@ -1102,6 +1117,21 @@
         "cancel": "Cancel",
         "save": "Save"
       },
+      "editPermission": {
+        "saveSuccess": "The permission was updated",
+        "saveError": "Something went wrong. The permission could not be updated. Please try again",
+        "tab": {
+          "masterData": {
+            "tabLabel": "Master data",
+            "descriptionInputLabel": "Description"
+          }
+        },
+        "cancel": "Cancel",
+        "save": "Save",
+        "validationErrors": {
+          "required": "{{ shared.fieldRequiredErrorText }}"
+        }
+      },
       "permissionsTable": {
         "columns": {
           "name": "Name",
@@ -1116,7 +1146,12 @@
       "permissionDetail": {
         "information": "Information",
         "permissionName": "Name",
-        "permissionDescription": "Description"
+        "permissionDescription": "Description",
+        "tabs": {
+          "history": {
+            "tabLabel": "History"
+          }
+        }
       }
     }
   }

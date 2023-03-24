@@ -17,6 +17,7 @@
 import { Component, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
+import { map, Subscription } from 'rxjs';
 
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { WattCardModule } from '@energinet-datahub/watt/card';
@@ -27,8 +28,11 @@ import {
 import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhEditPermissionModalComponent } from '@energinet-datahub/dh/admin/feature-edit-permission-modal';
+import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 
-import { Permission } from '../permission';
+import { DhPermissionAuditLogsComponent } from './tabs/dh-admin-permission-audit-logs.component';
+import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
 
 @Component({
   selector: 'dh-admin-permission-detail',
@@ -47,23 +51,57 @@ import { Permission } from '../permission';
     WattTabComponent,
     WattButtonModule,
     DhPermissionRequiredDirective,
+    DhEditPermissionModalComponent,
+    DhPermissionAuditLogsComponent,
   ],
 })
 export class DhAdminPermissionDetailComponent {
-  @ViewChild('drawer')
+  private getPermissionQuery = getPermissionsWatchQuery();
+  private subscription?: Subscription;
+
+  @ViewChild(WattDrawerComponent)
   drawer!: WattDrawerComponent;
-  selectedPermission: Permission | null = null;
+
+  selectedPermission: PermissionDto | null = null;
+  isEditPermissionModalVisible = false;
 
   @Output() closed = new EventEmitter<void>();
+  @Output() refreshData = new EventEmitter<void>();
 
   onClose(): void {
     this.drawer.close();
     this.closed.emit();
     this.selectedPermission = null;
+
+    this.subscription?.unsubscribe();
   }
 
-  open(permission: Permission): void {
-    this.selectedPermission = permission;
+  open(permission: PermissionDto): void {
+    this.subscription?.unsubscribe();
+    this.loadData(permission.id);
+
     this.drawer.open();
+  }
+
+  modalOnClose({ saveSuccess }: { saveSuccess: boolean }): void {
+    this.isEditPermissionModalVisible = false;
+
+    if (saveSuccess) {
+      this.refreshData.emit();
+    }
+  }
+
+  private loadData(permissionId: number): void {
+    this.subscription = this.getPermissionQuery.valueChanges
+      .pipe(
+        map((result) =>
+          result.data.permissions.find((permission) => permission.id === permissionId)
+        )
+      )
+      .subscribe({
+        next: (result) => {
+          this.selectedPermission = result ?? null;
+        },
+      });
   }
 }

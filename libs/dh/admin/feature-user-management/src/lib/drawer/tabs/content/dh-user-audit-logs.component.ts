@@ -30,7 +30,7 @@ import { provideComponentStore } from '@ngrx/component-store';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { map } from 'rxjs';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-user-audit-logs',
@@ -53,7 +53,7 @@ import { UserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 export class DhUserAuditLogsComponent implements OnChanges {
   private dataSource = new WattTableDataSource<DhUserAuditLogEntry>();
 
-  @Input() user: UserOverviewItemDto | null = null;
+  @Input() user: MarketParticipantUserOverviewItemDto | null = null;
 
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;

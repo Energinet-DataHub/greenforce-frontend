@@ -25,9 +25,12 @@ limitations under the License.
   </watt-drawer-heading>
 
   <watt-drawer-actions>
-    <watt-button *dhPermissionRequired="['permissions:manage']" variant="secondary">{{
-      "admin.userManagement.drawer.edit" | transloco
-    }}</watt-button>
+    <watt-button
+      *dhPermissionRequired="['permissions:manage']"
+      variant="secondary"
+      (click)="isEditPermissionModalVisible = true"
+      >{{ "admin.userManagement.drawer.edit" | transloco }}</watt-button
+    >
   </watt-drawer-actions>
 
   <watt-drawer-content *ngIf="drawer.isOpen">
@@ -48,6 +51,17 @@ limitations under the License.
           </watt-description-list>
         </watt-card>
       </watt-tab>
+      <watt-tab [label]="t('tabs.history.tabLabel')">
+        <dh-admin-permission-audit-logs
+          [selectedPermission]="selectedPermission"
+        ></dh-admin-permission-audit-logs>
+      </watt-tab>
     </watt-tabs>
   </watt-drawer-content>
 </watt-drawer>
+
+<dh-edit-permission-modal
+  *ngIf="isEditPermissionModalVisible && selectedPermission"
+  [permission]="selectedPermission"
+  (closed)="modalOnClose($event)"
+></dh-edit-permission-modal>

@@ -41,17 +41,19 @@ limitations under the License.
     </ng-container>
   </watt-nav-list>
 
-  <watt-nav-list [expandable]="true" [title]="transloco('wholesale.menuGroupLabel')">
-    <watt-nav-list-item link="/wholesale/start-process">{{
-      transloco("wholesale.startBatch")
-    }}</watt-nav-list-item>
-    <watt-nav-list-item link="/wholesale/search-batch">{{
-      transloco("wholesale.searchBatch")
-    }}</watt-nav-list-item>
-    <watt-nav-list-item link="/wholesale/settlement-reports">{{
-      transloco("wholesale.settlementReports")
-    }}</watt-nav-list-item>
-  </watt-nav-list>
+  <ng-container *dhPermissionRequired="['settlements:manage']">
+    <watt-nav-list [expandable]="true" [title]="transloco('wholesale.menuGroupLabel')">
+      <watt-nav-list-item link="/wholesale/start-process">{{
+        transloco("wholesale.startBatch")
+      }}</watt-nav-list-item>
+      <watt-nav-list-item link="/wholesale/search-batch">{{
+        transloco("wholesale.searchBatch")
+      }}</watt-nav-list-item>
+      <watt-nav-list-item link="/wholesale/settlement-reports">{{
+        transloco("wholesale.settlementReports")
+      }}</watt-nav-list-item>
+    </watt-nav-list>
+  </ng-container>
 
   <ng-container *dhPermissionRequired="['users:manage']">
     <watt-nav-list [expandable]="true" [title]="transloco('admin.menuGroupLabel')">

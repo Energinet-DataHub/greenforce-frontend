@@ -18,6 +18,7 @@ using System.Linq;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.Wholesale.Client;
 using Energinet.DataHub.Wholesale.Contracts;
 using GraphQL;
@@ -37,7 +38,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                .WithService<IMarketParticipantPermissionsClient>()
                .ResolveAsync(async (context, client) => await client.GetPermissionsAsync());
 
-            Field<NonNullGraphType<ListGraphType<NonNullGraphType<PermissionAuditLogDtoType>>>>("permissionlogs")
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<PermissionAuditLogDtoType>>>>("permissionLogs")
                 .Argument<IdGraphType>("id", "The id of the permission")
                 .Resolve()
                 .WithScope()
@@ -45,9 +46,18 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .WithService<IMarketParticipantClient>()
                 .ResolveAsync(async (context, permissionClient, userClient) =>
                 {
-                    var auditLogs = await permissionClient.GetAuditLogsAsync(context.GetArgument<int>("id"));
+                    var permissionId = context.GetArgument<int>("id");
+                    var permission = (await permissionClient.GetPermissionsAsync()).Single(permission => permission.Id == permissionId);
+                    var auditLogs = await permissionClient.GetAuditLogsAsync(permissionId);
                     var userLookup = new Dictionary<Guid, UserDto>();
                     var auditLogsViewDtos = new List<PermissionAuditLogViewDto>();
+
+                    auditLogsViewDtos.Add(new PermissionAuditLogViewDto(
+                    permissionId,
+                    Guid.Empty,
+                    "DataHub",
+                    PermissionAuditLogType.Created,
+                    permission.Created));
 
                     foreach (var log in auditLogs)
                     {
@@ -144,6 +154,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                         var settlementReports = batch.GridAreaCodes
                             .Where(gridAreaCode => gridAreaCodes.Length == 0 || gridAreaCodes.Contains(gridAreaCode))
                             .Select(gridAreaCode => new SettlementReport(
+                                batch.BatchNumber,
                                 ProcessType.BalanceFixing,
                                 gridAreas.First(gridArea => gridArea.Code == gridAreaCode),
                                 new Interval(
@@ -161,6 +172,34 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Argument<NonNullGraphType<IdGraphType>>("batchId", "The batch id the process belongs to.")
                 .Argument<NonNullGraphType<StringGraphType>>("gridArea", "The grid area code for the process.")
                 .Resolve(context => new { });
+
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<ActorDtoType>>>>("actors")
+               .Resolve()
+               .WithScope()
+               .WithService<IMarketParticipantClient>()
+               .ResolveAsync(async (context, client) =>
+               {
+                   var gridAreas = await client.GetGridAreasAsync();
+                   var gridAreasLookup = gridAreas.ToDictionary(x => x.Id);
+                   var organizations = await client.GetOrganizationsAsync();
+                   var actors = new List<ActorDto>();
+
+                   foreach (var organization in organizations)
+                   {
+                       actors.AddRange(await client.GetActorsAsync(organization.OrganizationId));
+                   }
+
+                   var accessibleActors = actors.Select(x => new Actor(x.ActorNumber.Value) { Id = x.ActorId, Name = x.Name.Value });
+
+                   // TODO: Is this the right place to filter this list?
+                   if (context.User!.IsFas())
+                   {
+                       return accessibleActors;
+                   }
+
+                   var actorId = context.User!.GetAssociatedActor();
+                   return accessibleActors.Where(actor => actor.Id == actorId);
+               });
         }
     }
 }

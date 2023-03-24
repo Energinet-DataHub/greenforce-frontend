@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { ConnectionState } from '@energinet-datahub/dh/shared/domain';
+import { MeteringPointConnectionState } from '@energinet-datahub/dh/shared/domain';
 import { WattBadgeComponent, WattBadgeType } from '@energinet-datahub/watt/badge';
 
 import { connectionStateToBadgeType } from './connection-state-to-badge-type';
@@ -35,7 +35,7 @@ export class DhStatusBadgeComponent {
   badgeType?: WattBadgeType;
 
   @Input()
-  set connectionState(value: ConnectionState | undefined) {
+  set connectionState(value: MeteringPointConnectionState | undefined) {
     if (value == undefined) {
       return;
     }

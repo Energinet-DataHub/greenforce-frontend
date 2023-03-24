@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { graphql, MarketParticipantFilteredActorDto } from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
 export function wholesaleMocks(apiBase: string) {
@@ -23,8 +23,11 @@ export function wholesaleMocks(apiBase: string) {
     getWholesaleSearchBatch(),
     getWholesaleSearchBatches(),
     downloadBasisData(apiBase),
+    downloadSettlementReportData(apiBase),
     getProcessStepResult(),
     getProcessStepActors(),
+    getSettlementReports(),
+    getFilteredActors(apiBase),
   ];
 }
 
@@ -214,6 +217,99 @@ const mockedActors: graphql.Actor[] = [
   { __typename: 'Actor', number: '5790000000006' },
 ];
 
+const mockedSettlementReports: graphql.SettlementReport[] = [
+  {
+    batchNumber: '8ff516a1-95b0-4f07-9b58-3fb94791c63b',
+    processType: graphql.ProcessType.BalanceFixing,
+    period: {
+      start: '2020-01-28T23:00:00.000Z',
+      end: '2020-01-29T22:59:59.998Z',
+    },
+    executionTime: '2023-03-03T07:38:29.3776159+00:00',
+    gridArea: mockedGridAreas[0],
+    __typename: 'SettlementReport',
+  },
+  {
+    batchNumber: '911d0c33-3232-49e1-a0ef-bcef313d1098',
+    processType: graphql.ProcessType.Aggregation,
+    period: {
+      start: '2020-01-28T23:00:00.000Z',
+      end: '2020-01-29T22:59:59.998Z',
+    },
+    executionTime: '2023-03-03T07:38:29.3776159+00:00',
+    gridArea: mockedGridAreas[1],
+    __typename: 'SettlementReport',
+  },
+];
+
+const mockedFilteredActors: MarketParticipantFilteredActorDto[] = [
+  {
+    actorId: '10',
+    actorNumber: {
+      value: '1',
+    },
+    name: {
+      value: 'EnergySupplier (805)',
+    },
+    marketRoles: ['EnergySupplier'],
+    gridAreaCodes: ['805'],
+  },
+  {
+    actorId: '20',
+    actorNumber: {
+      value: '1',
+    },
+    name: {
+      value: 'GridAccessProvider (806)',
+    },
+    marketRoles: ['GridAccessProvider'],
+    gridAreaCodes: ['806'],
+  },
+  {
+    actorId: '30',
+    actorNumber: {
+      value: '1',
+    },
+    name: {
+      value: 'EnergySupplier (805, 806)',
+    },
+    marketRoles: ['EnergySupplier'],
+    gridAreaCodes: ['805', '806'],
+  },
+  {
+    actorId: '40',
+    actorNumber: {
+      value: '1',
+    },
+    name: {
+      value: 'GridAccessProvider (805, 806)',
+    },
+    marketRoles: ['GridAccessProvider'],
+    gridAreaCodes: ['805', '806'],
+  },
+  // No grid areas found
+  {
+    actorId: '50',
+    actorNumber: {
+      value: '1',
+    },
+    name: {
+      value: 'GridAccessProvider (807, 808)',
+    },
+    marketRoles: ['GridAccessProvider'],
+    gridAreaCodes: ['807', '808'],
+  },
+];
+
+function getFilteredActors(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipant/Organization/GetFilteredActors`,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(mockedFilteredActors), ctx.delay(300));
+    }
+  );
+}
+
 function getWholesaleSearchBatch() {
   return graphql.mockGetBatchQuery((req, res, ctx) => {
     const batchId = req.variables.id;
@@ -228,7 +324,7 @@ function downloadBasisData(apiBase: string) {
 
     /*
       // Convert "base64" image to "ArrayBuffer".
-      const imageBuffer = await fetch('FAKE_BASIS_DATA').then((res) =>
+      const imageBuffer = await fetch('assets/logo-light.svg').then((res) =>
         res.arrayBuffer()
       );
       return res(
@@ -237,7 +333,26 @@ function downloadBasisData(apiBase: string) {
         // Respond with the "ArrayBuffer".
         ctx.body(imageBuffer)
       );
-      */
+    */
+  });
+}
+
+function downloadSettlementReportData(apiBase: string) {
+  return rest.get(`${apiBase}/v1/WholesaleSettlementReport`, async (req, res, ctx) => {
+    return res(ctx.status(500));
+
+    /*
+      // Convert "base64" image to "ArrayBuffer".
+      const imageBuffer = await fetch('assets/logo-light.svg').then((res) =>
+        res.arrayBuffer()
+      );
+      return res(
+        ctx.set('Content-Length', imageBuffer.byteLength.toString()),
+        ctx.set('Content-Type', 'image/svg+xml'),
+        // Respond with the "ArrayBuffer".
+        ctx.body(imageBuffer)
+      );
+    */
   });
 }
 
@@ -292,6 +407,12 @@ function getProcessStepResult() {
 function getProcessStepActors() {
   return graphql.mockGetProcessStepActorsQuery((req, res, ctx) => {
     return res(ctx.delay(300), ctx.data({ processStep: { actors: mockedActors } }));
+  });
+}
+
+function getSettlementReports() {
+  return graphql.mockGetSettlementReportsQuery((req, res, ctx) => {
+    return res(ctx.delay(300), ctx.data({ settlementReports: mockedSettlementReports }));
   });
 }
 
