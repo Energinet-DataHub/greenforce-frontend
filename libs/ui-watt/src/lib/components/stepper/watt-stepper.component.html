@@ -28,11 +28,11 @@ limitations under the License.
     <ng-template matStepLabel>{{ step.label }}</ng-template>
     <ng-container *ngTemplateOutlet="step.templateRef"></ng-container>
     <div class="buttonWrapper">
-      <watt-button *ngIf="onFirstStep$ | push" variant="secondary" wattStepperPrevious>
+      <watt-button *ngIf="onFirstStep$ | push" variant="secondary" (click)="previousStep()">
         <watt-icon name="left"></watt-icon>
         {{ step.previousButtonLabel }}
       </watt-button>
-      <watt-button *ngIf="!(onLastStep$ | push)" variant="secondary" wattStepperNext>
+      <watt-button *ngIf="!(onLastStep$ | push)" variant="secondary" (click)="nextStep()">
         {{ step.nextButtonLabel }}<watt-icon name="right"></watt-icon>
       </watt-button>
       <watt-button *ngIf="onLastStep$ | push" variant="primary" (click)="complete()">{{

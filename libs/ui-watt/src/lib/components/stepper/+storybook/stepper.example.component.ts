@@ -28,6 +28,16 @@ import { CommonModule } from '@angular/common';
   selector: 'watt-stepper-example',
   standalone: true,
   templateUrl: './stepper.example.component.html',
+  styles: [
+    `
+      form {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: var(--watt-space-m);
+      }
+    `,
+  ],
   imports: [
     WATT_STEPPER,
     WattInputModule,
@@ -46,4 +56,8 @@ export class StepperExampleComponent {
   });
   address = new FormBuilder().group({ street: [''], city: [''] });
   email = new FormBuilder().group({ email: [''] });
+
+  complete(): void {
+    console.log('completed');
+  }
 }

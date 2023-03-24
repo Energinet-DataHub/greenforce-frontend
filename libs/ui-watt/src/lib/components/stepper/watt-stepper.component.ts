@@ -28,12 +28,10 @@ import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { WattStepperStepComponent } from './watt-stepper-step.component';
 import { WattIconModule } from '../../foundations/icon/icon.module';
 import { CommonModule } from '@angular/common';
-import { CdkStepper, StepperSelectionEvent } from '@angular/cdk/stepper';
+import { CdkStepper, StepperSelectionEvent, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { PushModule } from '@rx-angular/template/push';
 import { from, map, Observable, of, startWith, withLatestFrom } from 'rxjs';
 import { WattButtonModule } from '../button';
-import { WattStepperButtonNextDirective } from './watt-stepper-button-next';
-import { WattStepperButtonPreviousDirective } from './watt-stepper-button-previous';
 
 @Component({
   selector: 'watt-stepper',
@@ -47,11 +45,13 @@ import { WattStepperButtonPreviousDirective } from './watt-stepper-button-previo
     CommonModule,
     WattIconModule,
     WattButtonModule,
-    WattStepperButtonNextDirective,
-    WattStepperButtonPreviousDirective,
     PushModule,
   ],
   providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { showError: true, displayDefaultIndicatorType: false },
+    },
     { provide: CdkStepper, useExisting: WattStepperComponent },
     { provide: MatStepper, useExisting: WattStepperComponent },
   ],
@@ -81,6 +81,15 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
       map((index) => index.selectedIndex > 0),
       startWith(false)
     );
+  }
+
+  nextStep(): void {
+    this.selected?.stepControl.markAllAsTouched();
+    this.stepper.next();
+  }
+
+  previousStep(): void {
+    this.stepper.previous();
   }
 
   complete(): void {
