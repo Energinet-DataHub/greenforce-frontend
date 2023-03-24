@@ -65,7 +65,6 @@ export class EoAuthService {
   }
 
   logout() {
-    // TODO: Navigate til /api/auth/logout med bearer token headeren
     sessionStorage.removeItem('token');
     this.http.post(`${this.#authApiBase}/logout`, {}).subscribe({
       next: () => this.router.navigateByUrl(eoLandingPageRelativeUrl),

@@ -29,7 +29,7 @@ export class TokenRefreshService {
   constructor(private store: EoAuthStore, private authService: EoAuthService) {}
 
   startMonitor() {
-    this.subscription$ = timer(0, 1000)
+    this.subscription$ = timer(0, 5000)
       .pipe(
         switchMap(() =>
           combineLatest({ exp: this.store.getTokenExpiry$, iat: this.store.getTokenIssuedAt$ })
