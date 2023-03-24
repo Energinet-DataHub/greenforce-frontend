@@ -177,7 +177,7 @@ namespace Energinet.DataHub.WebApi
 
             app.UseGraphQL("/graphql", config =>
             {
-                config.AuthorizationRequired = true;
+                config.AuthorizationRequired = !Environment.IsDevelopment();
             });
 
             if (Environment.IsDevelopment())
