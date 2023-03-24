@@ -28,7 +28,7 @@ import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { WattStepperStepComponent } from './watt-stepper-step.component';
 import { WattIconModule } from '../../foundations/icon/icon.module';
 import { CommonModule } from '@angular/common';
-import { CdkStepper, StepperSelectionEvent, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { CdkStepper, StepperSelectionEvent } from '@angular/cdk/stepper';
 import { PushModule } from '@rx-angular/template/push';
 import { from, map, Observable, of, startWith, withLatestFrom } from 'rxjs';
 import { WattButtonModule } from '../button';
@@ -82,14 +82,6 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
       startWith(false)
     );
   }
-
-  // next(): void {
-  //   this.stepper.next();
-  // }
-
-  // previous(): void {
-  //   this.stepper.previous();
-  // }
 
   complete(): void {
     this.completed.emit();
