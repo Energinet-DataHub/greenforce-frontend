@@ -82,8 +82,8 @@ export class EoAuthService {
     let token: string;
 
     try {
-      decodedToken = jwt_decode(this.getTokenFromCookie('Authorization'));
-      token = this.getTokenFromCookie('Authorization').replace('Authorization=', '');
+      decodedToken = jwt_decode(this.getTokenFromCookie('Authentication'));
+      token = this.getTokenFromCookie('Authentication').replace('Authentication=', '');
       console.log('setting token correctly');
     } catch {
       decodedToken = jwt_decode(mockToken);
