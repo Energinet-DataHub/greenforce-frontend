@@ -17,21 +17,19 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
 import { EoPrivacyPolicyComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import {
   EoFooterComponent,
   EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoAuthService, EoTermsService } from '@energinet-datahub/eo/shared/services';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
-import { EoTermsStore } from './eo-terms.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  providers: [EoTermsStore],
   imports: [
     FormsModule,
     WattButtonModule,
@@ -69,10 +67,7 @@ import { EoTermsStore } from './eo-terms.store';
       <div class="eo-layout-centered-content">
         <div class="content-wrapper">
           <eo-scroll-view class="watt-space-stack-l">
-            <eo-privacy-policy
-              class="watt-space-stack-l"
-              (versionChange)="onVersionChange($event)"
-            ></eo-privacy-policy>
+            <eo-privacy-policy class="watt-space-stack-l"></eo-privacy-policy>
           </eo-scroll-view>
           <div class="watt-space-stack-m">
             <watt-checkbox [(ngModel)]="hasAcceptedTerms">
@@ -93,27 +88,22 @@ import { EoTermsStore } from './eo-terms.store';
 
     <eo-footer></eo-footer>
   `,
-  viewProviders: [EoLogOutStore],
 })
 export class EoTermsComponent {
   hasAcceptedTerms = false;
 
   constructor(
-    private store: EoTermsStore,
-    private logOutStore: EoLogOutStore,
+    private authService: EoAuthService,
+    private termsService: EoTermsService,
     private router: Router
   ) {}
 
-  onVersionChange(version: string): void {
-    this.store.onVersionChange(version);
+  onCancel() {
+    this.authService.logout();
   }
 
-  onCancel(): void {
-    this.logOutStore.onLogOut();
-  }
-
-  onAccept(): void {
-    this.store.onAcceptTerms().subscribe({
+  onAccept() {
+    this.termsService.acceptTerms().subscribe({
       next: (response) => window.location.replace(response.next_url),
       error: () => {
         this.router.navigate(['/'], {
