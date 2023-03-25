@@ -18,7 +18,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { eoLandingPageRelativeUrl, eoTermsRoutePath } from '@energinet-datahub/eo/shared/utilities';
+import { eoTermsRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import jwt_decode from 'jwt-decode';
 import { EoAuthStore, EoLoginToken } from './auth.store';
 
@@ -66,10 +66,9 @@ export class EoAuthService {
 
   logout() {
     sessionStorage.removeItem('token');
-    this.http.post(`${this.#authApiBase}/logout`, {}).subscribe({
-      next: () => this.router.navigateByUrl(eoLandingPageRelativeUrl),
-      error: () => this.router.navigateByUrl(eoLandingPageRelativeUrl),
-    });
+    window.location.href = `${this.#authApiBase}/logout?overrideRedirectionUri=${
+      window.location.protocol
+    }//${window.location.host}`;
   }
 
   private handleTermsAcceptance() {
