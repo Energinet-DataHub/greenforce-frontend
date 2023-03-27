@@ -64,6 +64,7 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
   private apollo = inject(Apollo);
   private destroy$ = new Subject<void>();
   private store = inject(DhWholesaleBatchDataAccessApiStore);
+  private selectedProcessTypes: graphql.ProcessType[] | null = null;
   private selectedGridAreas?: string[];
   private selectedActor?: MarketParticipantFilteredActorDto;
   private toastService = inject(WattToastService);
@@ -96,6 +97,10 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
         this.loading = result.loading;
         this.data = result.data?.settlementReports
           ?.filter((x) => {
+            if(!this.selectedProcessTypes || this.selectedProcessTypes?.length === 0) return true;
+            return this.selectedProcessTypes?.includes(x.processType);
+          })
+          ?.filter((x) => {
             if (this.selectedGridAreas && this.selectedGridAreas.length > 0) {
               return this.selectedGridAreas.includes(x.gridArea.code);
             } else {
@@ -122,6 +127,7 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onFilterChange(filters: any) {
+    this.selectedProcessTypes = filters.processTypes;
     this.selectedGridAreas = filters.gridAreas;
     this.selectedActor = filters.actor;
     this.query.refetch({
