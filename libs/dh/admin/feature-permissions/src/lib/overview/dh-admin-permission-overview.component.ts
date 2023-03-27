@@ -49,7 +49,7 @@ import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-que
   ],
 })
 export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
-  private getPermissionQuery = getPermissionsWatchQuery();
+  private getPermissionsQuery = getPermissionsWatchQuery();
   private subscription!: Subscription;
 
   permissions?: PermissionDto[];
@@ -72,7 +72,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.getPermissionQuery.valueChanges.subscribe({
+    this.subscription = this.getPermissionsQuery.valueChanges.subscribe({
       next: (result) => {
         this.permissions = result.data?.permissions ?? undefined;
         this.loading = result.loading;
@@ -95,6 +95,6 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   }
 
   onRefreshData(): void {
-    this.getPermissionQuery.refetch();
+    this.getPermissionsQuery.refetch();
   }
 }

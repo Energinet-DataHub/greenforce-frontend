@@ -56,7 +56,7 @@ import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-que
   ],
 })
 export class DhAdminPermissionDetailComponent {
-  private getPermissionQuery = getPermissionsWatchQuery();
+  private getPermissionsQuery = getPermissionsWatchQuery();
   private subscription?: Subscription;
 
   @ViewChild(WattDrawerComponent)
@@ -92,7 +92,7 @@ export class DhAdminPermissionDetailComponent {
   }
 
   private loadData(permissionId: number): void {
-    this.subscription = this.getPermissionQuery.valueChanges
+    this.subscription = this.getPermissionsQuery.valueChanges
       .pipe(
         map((result) =>
           result.data.permissions.find((permission) => permission.id === permissionId)
