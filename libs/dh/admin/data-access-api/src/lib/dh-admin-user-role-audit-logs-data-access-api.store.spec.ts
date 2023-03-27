@@ -80,10 +80,7 @@ function generateMockResponse(): MarketParticipantUserRoleAuditLogsDto {
         'PermissionsChange',
         JSON.stringify({ Permissions: changeDescriptionJsonMock.Permissions })
       ),
-      generateUserRoleAuditLog(
-        'PermissionsChange',
-        JSON.stringify({ Permissions: [] })
-      ),
+      generateUserRoleAuditLog('PermissionsChange', JSON.stringify({ Permissions: [] })),
     ],
   };
 }
