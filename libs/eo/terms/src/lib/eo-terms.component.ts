@@ -106,7 +106,9 @@ export class EoTermsComponent {
 
   onAccept() {
     this.termsService.acceptTerms().subscribe({
-      next: (response) => window.location.replace(response.next_url),
+      next: (response) => {
+        if (response?.next_url) window.location.replace(response.next_url);
+      },
       error: () => {
         this.router.navigate(['/'], {
           state: { error: true },

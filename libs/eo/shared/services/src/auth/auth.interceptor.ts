@@ -16,9 +16,11 @@
  */
 import {
   HttpErrorResponse,
+  HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
+  HttpResponse,
   HttpStatusCode,
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
@@ -30,7 +32,7 @@ import { EoAuthStore } from './auth.store';
 
 @Injectable()
 export class EoAuthorizationInterceptor implements HttpInterceptor {
-  callsThatAllowRefresh = ['PUT', 'POST', 'DELETE'];
+  TokenRefreshCalls = ['PUT', 'POST', 'DELETE'];
 
   constructor(
     private snackBar: MatSnackBar,
@@ -44,21 +46,19 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
     });
     return nextHandler.handle(request).pipe(
       tap({
-        next: () => {
-          if (this.callsThatAllowRefresh.includes(request.method)) {
-            this.authService.refreshToken();
-          }
-        },
+        next: (httpEvent) => this.#HandleTokenRefresh(httpEvent, request),
         error: (error) => {
-          if (this.#is403ForbiddenResponse(error)) {
-            this.#displayPermissionError();
-          }
-          if (this.#is401UnauthorizedResponse(error)) {
-            this.authService.logout();
-          }
+          if (this.#is403ForbiddenResponse(error)) this.#displayPermissionError();
+          if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
+          if (this.TokenRefreshCalls.includes(request.method)) this.authService.refreshToken();
         },
       })
     );
+  }
+
+  #HandleTokenRefresh(event: HttpEvent<unknown>, request: HttpRequest<unknown>) {
+    if (event instanceof HttpResponse && this.TokenRefreshCalls.includes(request.method))
+      this.authService.refreshToken();
   }
 
   #displayPermissionError() {
