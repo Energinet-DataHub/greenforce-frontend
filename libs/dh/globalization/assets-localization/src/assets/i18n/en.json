@@ -925,7 +925,8 @@
                   "DescriptionChange": "<b>{{ changedByUserName }}</b> changed description to <b>{{ changedValueTo }}</b>",
                   "EicFunctionChange": "<b>{{ changedByUserName }}</b> changed eic function to <b>{{ changedValueTo }}</b>",
                   "StatusChange": "<b>{{ changedByUserName }}</b> changed status to <b>{{ changedValueTo }}</b>",
-                  "PermissionsChange": "<b>{{ changedByUserName }}</b> changed permissions to <b>{{ changedValueTo }}</b>"
+                  "PermissionAdded": "<b>{{ changedByUserName }}</b> added permission <b>{{ changedValueTo }}</b>",
+                  "PermissionRemoved": "<b>{{ changedByUserName }}</b> removed permissionr<b>{{ changedValueTo }}</b>"
                 }
               },
               "generalError": {
