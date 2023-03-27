@@ -13,8 +13,8 @@ import { WholesaleBatchState } from './wholesale-batch-state';
 
 
 export interface WholesaleBatchSearchDtoV2 { 
-    filterByGridAreaCodes: Array<string>;
-    filterByExecutionState?: WholesaleBatchState;
+    filterByGridAreaCodes?: Array<string> | null;
+    filterByExecutionState: WholesaleBatchState;
     minExecutionTime?: string | null;
     maxExecutionTime?: string | null;
     periodStart?: string | null;
