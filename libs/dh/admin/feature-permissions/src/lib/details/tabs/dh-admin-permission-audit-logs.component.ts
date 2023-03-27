@@ -14,7 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnInit, OnDestroy, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  inject,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
@@ -26,7 +34,7 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { Subscription } from 'rxjs';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { PermissionAuditLog } from '../../permissionAuditLog';
-import { Apollo } from 'apollo-angular';
+import { Apollo, QueryRef } from 'apollo-angular';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { ApolloError } from '@apollo/client';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
@@ -48,14 +56,21 @@ import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
     DhSharedUiDateTimeModule,
   ],
 })
-export class DhPermissionAuditLogsComponent implements OnInit, OnDestroy {
+export class DhPermissionAuditLogsComponent implements OnInit, OnChanges, OnDestroy {
   dataSource = new WattTableDataSource<PermissionAuditLog>();
 
   @Input() selectedPermission: PermissionDto | null = null;
   auditLogs: PermissionAuditLog | null = null;
 
   private apollo = inject(Apollo);
-  subscription!: Subscription;
+  private getPermissionLogsQuery?: QueryRef<
+    graphql.GetPermissionLogsQuery,
+    {
+      id: string;
+    }
+  >;
+  private subscription?: Subscription;
+
   permissionLogs?: PermissionAuditLog[];
   loading = false;
   error?: ApolloError;
@@ -67,29 +82,37 @@ export class DhPermissionAuditLogsComponent implements OnInit, OnDestroy {
 
   constructor(private trans: TranslocoService) {}
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  ngOnInit(): void {
+    this.getPermissionLogsQuery = this.apollo.watchQuery({
+      useInitialLoading: true,
+      notifyOnNetworkStatusChange: true,
+      query: graphql.GetPermissionLogsDocument,
+      variables: { id: this.selectedPermission?.id.toString() ?? '' },
+    });
+
+    this.subscription = this.getPermissionLogsQuery.valueChanges.subscribe({
+      next: (result) => {
+        this.permissionLogs = result.data?.permissionLogs ?? undefined;
+        this.loading = result.loading;
+        this.error = result.error;
+        this.dataSource.data = result.data?.permissionLogs ?? [];
+      },
+      error: (error) => {
+        this.error = error;
+      },
+    });
   }
 
-  ngOnInit(): void {
-    this.subscription = this.apollo
-      .watchQuery({
-        useInitialLoading: true,
-        notifyOnNetworkStatusChange: true,
-        query: graphql.GetPermissionLogsDocument,
-        variables: { id: this.selectedPermission?.id.toString() ?? '' },
-      })
-      .valueChanges.subscribe({
-        next: (result) => {
-          this.permissionLogs = result.data?.permissionLogs ?? undefined;
-          this.loading = result.loading;
-          this.error = result.error;
-          this.dataSource.data = result.data?.permissionLogs ?? [];
-        },
-        error: (error) => {
-          this.error = error;
-        },
-      });
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.selectedPermission.currentValue) {
+      const id = changes.selectedPermission.currentValue.id.toString();
+
+      this.getPermissionLogsQuery?.refetch({ id });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 
   translateHeader = (columnId: string): string => {
