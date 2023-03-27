@@ -94,7 +94,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
     this.activeRow = undefined;
   }
 
-  onRefreshData(): void {
+  refreshData(): void {
     this.getPermissionsQuery.refetch();
   }
 }
