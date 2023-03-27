@@ -52,6 +52,7 @@ export class EoAuthStore extends ComponentStore<AuthState> {
   }
 
   getScope$ = this.select((state) => state.scope?.split(' ') ?? []);
+  getTokenNotBefore$ = this.select((state) => state.nbf ?? 0);
   getTokenIssuedAt$ = this.select((state) => state.iat ?? 0);
   getTokenExpiry$ = this.select((state) => state.exp ?? 0);
   getTermsVersion$ = this.select((state) => state.trm);

@@ -32,21 +32,21 @@ export class TokenRefreshService {
     this.subscription$ = timer(0, 5000)
       .pipe(
         switchMap(() =>
-          combineLatest({ exp: this.store.getTokenExpiry$, iat: this.store.getTokenIssuedAt$ })
+          combineLatest({ exp: this.store.getTokenExpiry$, nbf: this.store.getTokenNotBefore$ })
         )
       )
-      .subscribe(({ exp, iat }) => this.whenTimeThresholdReached(exp, iat));
+      .subscribe(({ exp, nbf }) => this.whenTimeThresholdReached(exp, nbf));
   }
 
   stopMonitor() {
     this.subscription$?.unsubscribe();
   }
 
-  whenTimeThresholdReached(exp: number, iat: number) {
-    const totalTime = exp - iat;
-    const twentyPercent = totalTime * 0.2;
+  whenTimeThresholdReached(exp: number, nbf: number) {
+    const totalTime = exp - nbf;
+    const timeLeftThreshold = totalTime * 0.2;
     const remainingTime = exp - Date.now() / 1000;
-    if (remainingTime < twentyPercent) {
+    if (remainingTime <= timeLeftThreshold) {
       this.authService.refreshToken();
     }
   }
