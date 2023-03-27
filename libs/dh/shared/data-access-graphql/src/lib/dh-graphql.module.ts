@@ -17,7 +17,7 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
-import { InMemoryCache, ApolloLink } from '@apollo/client/core';
+import { InMemoryCache, ApolloLink, Operation } from '@apollo/client/core';
 
 import { DhApiEnvironment, dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
@@ -62,7 +62,11 @@ export class DhGraphQLModule {
               }),
               link: ApolloLink.from([
                 errorHandler(dhApplicationInsights),
-                httpLink.create({ uri: `${dhApiEnvironment.apiBase}/graphql` }),
+                httpLink.create({
+                  uri: (operation: Operation) => {
+                    return `${dhApiEnvironment.apiBase}/graphql?${operation.operationName}`;
+                  },
+                }),
               ]),
             };
           },

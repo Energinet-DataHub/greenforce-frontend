@@ -37,7 +37,8 @@ import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholes
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { SettlementReport } from '@energinet-datahub/dh/wholesale/domain';
 
-type settlementReportsTableData = WattTableDataSource<SettlementReport>;
+export type settlementReportsTableColumns = SettlementReport & { download: boolean };
+type settlementReportsTableData = WattTableDataSource<settlementReportsTableColumns>;
 
 @Component({
   standalone: true,
@@ -63,7 +64,7 @@ export class DhWholesaleTableComponent {
 
   selectedBatch$ = this.store.selectedBatch$;
 
-  @Input() set data(processes: SettlementReport[]) {
+  @Input() set data(processes: settlementReportsTableColumns[]) {
     this._data = new WattTableDataSource(processes);
   }
 
@@ -71,12 +72,13 @@ export class DhWholesaleTableComponent {
   @Output() download: EventEmitter<SettlementReport> = new EventEmitter();
 
   _data: settlementReportsTableData = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<SettlementReport> = {
+  columns: WattTableColumnDef<settlementReportsTableColumns> = {
     processType: { accessor: 'processType' },
     gridAreaName: { accessor: (row) => row.gridArea.name },
     periodStart: { accessor: (row) => row.period?.start },
     periodEnd: { accessor: (row) => row.period?.end },
     executionTime: { accessor: (row) => row.executionTime },
+    download: { accessor: 'download' },
   };
 
   translateHeader = (key: string) => translate(`wholesale.settlementReports.table.${key}`);

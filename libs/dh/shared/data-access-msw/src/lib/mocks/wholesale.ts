@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { MarketParticipantFilteredActorDto, graphql } from '@energinet-datahub/dh/shared/domain';
+import { graphql, MarketParticipantFilteredActorDto } from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
 export function wholesaleMocks(apiBase: string) {
@@ -23,6 +23,7 @@ export function wholesaleMocks(apiBase: string) {
     getWholesaleSearchBatch(),
     getWholesaleSearchBatches(),
     downloadBasisData(apiBase),
+    downloadSettlementReportData(apiBase),
     getProcessStepResult(),
     getProcessStepActors(),
     getSettlementReports(),
@@ -218,6 +219,7 @@ const mockedActors: graphql.Actor[] = [
 
 const mockedSettlementReports: graphql.SettlementReport[] = [
   {
+    batchNumber: '8ff516a1-95b0-4f07-9b58-3fb94791c63b',
     processType: graphql.ProcessType.BalanceFixing,
     period: {
       start: '2020-01-28T23:00:00.000Z',
@@ -228,6 +230,7 @@ const mockedSettlementReports: graphql.SettlementReport[] = [
     __typename: 'SettlementReport',
   },
   {
+    batchNumber: '911d0c33-3232-49e1-a0ef-bcef313d1098',
     processType: graphql.ProcessType.Aggregation,
     period: {
       start: '2020-01-28T23:00:00.000Z',
@@ -246,9 +249,9 @@ const mockedFilteredActors: MarketParticipantFilteredActorDto[] = [
       value: '1',
     },
     name: {
-      value: 'Actor (805)',
+      value: 'EnergySupplier (805)',
     },
-    marketRoles: [],
+    marketRoles: ['EnergySupplier'],
     gridAreaCodes: ['805'],
   },
   {
@@ -257,9 +260,9 @@ const mockedFilteredActors: MarketParticipantFilteredActorDto[] = [
       value: '1',
     },
     name: {
-      value: 'Actor (806)',
+      value: 'GridAccessProvider (806)',
     },
-    marketRoles: [],
+    marketRoles: ['GridAccessProvider'],
     gridAreaCodes: ['806'],
   },
   {
@@ -268,10 +271,33 @@ const mockedFilteredActors: MarketParticipantFilteredActorDto[] = [
       value: '1',
     },
     name: {
-      value: 'Actor (805, 806)',
+      value: 'EnergySupplier (805, 806)',
     },
-    marketRoles: [],
+    marketRoles: ['EnergySupplier'],
     gridAreaCodes: ['805', '806'],
+  },
+  {
+    actorId: '40',
+    actorNumber: {
+      value: '1',
+    },
+    name: {
+      value: 'GridAccessProvider (805, 806)',
+    },
+    marketRoles: ['GridAccessProvider'],
+    gridAreaCodes: ['805', '806'],
+  },
+  // No grid areas found
+  {
+    actorId: '50',
+    actorNumber: {
+      value: '1',
+    },
+    name: {
+      value: 'GridAccessProvider (807, 808)',
+    },
+    marketRoles: ['GridAccessProvider'],
+    gridAreaCodes: ['807', '808'],
   },
 ];
 
@@ -298,7 +324,7 @@ function downloadBasisData(apiBase: string) {
 
     /*
       // Convert "base64" image to "ArrayBuffer".
-      const imageBuffer = await fetch('FAKE_BASIS_DATA').then((res) =>
+      const imageBuffer = await fetch('assets/logo-light.svg').then((res) =>
         res.arrayBuffer()
       );
       return res(
@@ -307,7 +333,26 @@ function downloadBasisData(apiBase: string) {
         // Respond with the "ArrayBuffer".
         ctx.body(imageBuffer)
       );
-      */
+    */
+  });
+}
+
+function downloadSettlementReportData(apiBase: string) {
+  return rest.get(`${apiBase}/v1/WholesaleSettlementReport`, async (req, res, ctx) => {
+    return res(ctx.status(500));
+
+    /*
+      // Convert "base64" image to "ArrayBuffer".
+      const imageBuffer = await fetch('assets/logo-light.svg').then((res) =>
+        res.arrayBuffer()
+      );
+      return res(
+        ctx.set('Content-Length', imageBuffer.byteLength.toString()),
+        ctx.set('Content-Type', 'image/svg+xml'),
+        // Respond with the "ArrayBuffer".
+        ctx.body(imageBuffer)
+      );
+    */
   });
 }
 
