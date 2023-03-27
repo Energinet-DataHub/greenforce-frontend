@@ -47,6 +47,7 @@ import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-as
 import { Subscription, tap } from 'rxjs';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -67,7 +68,6 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
     WattDropdownModule,
     PushModule,
     DhAssignableUserRolesComponent,
-    WattStepperComponent,
     WATT_STEPPER,
   ],
 })

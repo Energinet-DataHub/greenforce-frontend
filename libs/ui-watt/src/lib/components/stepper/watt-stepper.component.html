@@ -27,7 +27,7 @@ limitations under the License.
   <mat-step *ngFor="let step of steps" [stepControl]="step.stepControl">
     <ng-template matStepLabel>{{ step.label }}</ng-template>
     <ng-container *ngTemplateOutlet="step.templateRef"></ng-container>
-    <div class="buttonWrapper">
+    <div class="button-wrapper">
       <watt-button *ngIf="onFirstStep$ | push" variant="secondary" (click)="previousStep()">
         <watt-icon name="left"></watt-icon>
         {{ step.previousButtonLabel }}
