@@ -33,6 +33,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         [HttpGet]
+        [Produces("application/zip")]
         public async Task<ActionResult<Stream>> GetAsync(Guid batchId, string gridAreaCode)
         {
             return File(
