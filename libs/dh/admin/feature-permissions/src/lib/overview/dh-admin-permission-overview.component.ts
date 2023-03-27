@@ -67,10 +67,6 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   @ViewChild(DhAdminPermissionDetailComponent)
   permissionDetail!: DhAdminPermissionDetailComponent;
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
   ngOnInit(): void {
     this.subscription = this.getPermissionsQuery.valueChanges.subscribe({
       next: (result) => {
@@ -83,6 +79,10 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
         this.error = error;
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   onRowClick(row: PermissionDto): void {
