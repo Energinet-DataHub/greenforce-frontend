@@ -41,6 +41,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
             this.RegisterTypeMapping<GridAreaDto, GridAreaType>();
             this.RegisterTypeMapping<PermissionAuditLogDto, PermissionAuditLogDtoType>();
             this.RegisterTypeMapping<PermissionChangeType, PermissionChangeTypeEnum>();
+            this.RegisterTypeMapping<UserRoleStatus, UserRoleStatusEnum>();
+            this.RegisterTypeMapping<EicFunction, EicFunctionEnum>();
 
             Query = provider.GetRequiredService<GraphQLQuery>();
         }
