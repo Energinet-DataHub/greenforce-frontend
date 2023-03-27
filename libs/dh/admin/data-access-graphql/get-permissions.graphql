@@ -3,5 +3,14 @@ query GetPermissions {
     id
     name
     description
+    created
+    assignableTo
+    userRoles {
+      id
+      name
+      description
+      eicFunction
+      status
+    }
   }
 }

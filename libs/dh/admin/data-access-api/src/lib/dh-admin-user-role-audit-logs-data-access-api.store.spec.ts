@@ -80,6 +80,7 @@ function generateMockResponse(): MarketParticipantUserRoleAuditLogsDto {
         'PermissionsChange',
         JSON.stringify({ Permissions: changeDescriptionJsonMock.Permissions })
       ),
+      generateUserRoleAuditLog('PermissionsChange', JSON.stringify({ Permissions: [] })),
     ],
   };
 }
@@ -164,7 +165,35 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
         entry: {
           ...mockResponse.auditLogs[5],
           userRoleChangeType: MarketParticipantUserRoleChangeType.PermissionsChange,
-          changedValueTo: `${changeDescriptionJsonMock.Permissions[0]}, ${changeDescriptionJsonMock.Permissions[1]}`,
+          changedValueTo: `${changeDescriptionJsonMock.Permissions[0]}`,
+          changeType: 'added',
+        },
+      },
+      {
+        timestamp: '',
+        entry: {
+          ...mockResponse.auditLogs[5],
+          userRoleChangeType: MarketParticipantUserRoleChangeType.PermissionsChange,
+          changedValueTo: `${changeDescriptionJsonMock.Permissions[1]}`,
+          changeType: 'added',
+        },
+      },
+      {
+        timestamp: '',
+        entry: {
+          ...mockResponse.auditLogs[6],
+          userRoleChangeType: MarketParticipantUserRoleChangeType.PermissionsChange,
+          changedValueTo: `${changeDescriptionJsonMock.Permissions[0]}`,
+          changeType: 'removed',
+        },
+      },
+      {
+        timestamp: '',
+        entry: {
+          ...mockResponse.auditLogs[6],
+          userRoleChangeType: MarketParticipantUserRoleChangeType.PermissionsChange,
+          changedValueTo: `${changeDescriptionJsonMock.Permissions[1]}`,
+          changeType: 'removed',
         },
       },
     ];
