@@ -11,10 +11,22 @@
  */
 
 
+/**
+ * TimeSeriesPoint
+ */
 export interface WholesaleTimeSeriesPointDto { 
+    /**
+     * The observation time for the measured \'Quantity\'
+     */
     time: string;
+    /**
+     * Quantity has a scale of 3
+     */
     quantity: number;
-    quality: string;
+    /**
+     * Any of the values from Energinet.DataHub.Wholesale.WebApi.V3.ProcessStepResult.TimeSeriesPointQuality
+     */
+    quality?: string | null;
 }
 
 
