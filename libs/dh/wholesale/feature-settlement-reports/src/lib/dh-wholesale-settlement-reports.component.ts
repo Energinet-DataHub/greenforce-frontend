@@ -97,7 +97,7 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
         this.loading = result.loading;
         this.data = result.data?.settlementReports
           ?.filter((x) => {
-            if(!this.selectedProcessTypes || this.selectedProcessTypes?.length === 0) return true;
+            if (!this.selectedProcessTypes || this.selectedProcessTypes?.length === 0) return true;
             return this.selectedProcessTypes?.includes(x.processType);
           })
           ?.filter((x) => {
