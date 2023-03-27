@@ -58,7 +58,7 @@ export class EoTermsService {
   acceptTerms(): Observable<AuthTermsAcceptResponse> {
     return this.authStore.getTermsVersion$.pipe(
       switchMap((version) =>
-        this.http.post<AuthTermsAcceptResponse>(`${this.#apiBase}/terms/accept`, { version })
+        this.http.put<AuthTermsAcceptResponse>(`${this.#apiBase}/terms/accept`, { version })
       )
     );
   }
