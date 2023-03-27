@@ -113,7 +113,10 @@ export class DhAdminUserRoleAuditLogsDataAccessApiStore extends ComponentStore<D
 
       const permissionChagnes: { type: ChangeType; perms: number[] }[] = [
         { type: 'added', perms: currPermissions.filter((perm) => !prevPermissions.includes(perm)) },
-        { type: 'removed', perms: prevPermissions.filter((perm) => !currPermissions.includes(perm)) },
+        {
+          type: 'removed',
+          perms: prevPermissions.filter((perm) => !currPermissions.includes(perm)),
+        },
       ];
 
       permissionChagnes.forEach((x) =>
