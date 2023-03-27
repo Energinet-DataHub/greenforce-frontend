@@ -52,7 +52,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   private getPermissionsQuery = getPermissionsWatchQuery();
   private subscription!: Subscription;
 
-  permissions?: PermissionDto[];
+  permissions: PermissionDto[] = [];
   loading = false;
   error?: ApolloError;
 
@@ -74,7 +74,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription = this.getPermissionsQuery.valueChanges.subscribe({
       next: (result) => {
-        this.permissions = result.data?.permissions ?? undefined;
+        this.permissions = result.data?.permissions ?? [];
         this.loading = result.loading;
         this.error = result.error;
         this.dataSource.data = result.data?.permissions ?? [];
