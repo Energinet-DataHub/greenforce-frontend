@@ -34,7 +34,7 @@ import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { Router } from '@angular/router';
-import { dhAdminPath, dhAdminUserManagementPath } from '@energinet-datahub/dh/admin/routing';
+import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 @Component({
   selector: 'dh-role-drawer',
   standalone: true,
@@ -54,6 +54,7 @@ import { dhAdminPath, dhAdminUserManagementPath } from '@energinet-datahub/dh/ad
     DhTabDataGeneralErrorComponent,
     DhEditUserRoleModalComponent,
     DhPermissionRequiredDirective,
+    WattModalModule,
   ],
 })
 export class DhRoleDrawerComponent {
@@ -69,6 +70,8 @@ export class DhRoleDrawerComponent {
 
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
+
+  @ViewChild('confirmationModal') confirmationModal!: WattModalComponent;
 
   isEditUserRoleModalVisible = false;
 
@@ -101,6 +104,27 @@ export class DhRoleDrawerComponent {
     }
   }
 
+  confirmationClosed(succes: boolean): void {
+      if (succes && this.basicUserRole) {
+        this.toastService.open({
+          message: this.translocoService.translate('admin.userManagement.drawer.disablingUserRole'),
+          type: 'info',
+        });
+        this.store.disableUserRole({
+          userRoleId: this.basicUserRole.id,
+          onSuccessFn: () => {
+            this.toastService.open({
+              message: this.translocoService.translate(
+                'admin.userManagement.drawer.userroleDisabled'
+              ),
+              type: 'success',
+            });
+            this.onDeActivated();
+          },
+        });
+      }
+  }
+
   loadUserRoleWithPermissions() {
     if (this.basicUserRole) {
       this.store.getUserRole(this.basicUserRole.id);
@@ -108,23 +132,6 @@ export class DhRoleDrawerComponent {
   }
 
   disableUserRole() {
-    if (this.basicUserRole) {
-      this.toastService.open({
-        message: this.translocoService.translate('admin.userManagement.drawer.disablingUserRole'),
-        type: 'info',
-      });
-      this.store.disableUserRole({
-        userRoleId: this.basicUserRole.id,
-        onSuccessFn: () => {
-          this.toastService.open({
-            message: this.translocoService.translate(
-              'admin.userManagement.drawer.userroleDisabled'
-            ),
-            type: 'success',
-          });
-          this.onDeActivated();
-        },
-      });
-    }
+    this.confirmationModal.open();
   }
 }

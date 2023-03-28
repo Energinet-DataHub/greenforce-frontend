@@ -62,6 +62,30 @@ limitations under the License.
     </watt-drawer-content>
   </watt-drawer>
 
+  <ng-container>
+    <watt-modal
+      #confirmationModal
+      [size]="'small'"
+      [title]="t('deactivateWarningTitle')"
+      [disableClose]="true"
+      (closed)="confirmationClosed($event)"
+    >
+      <p>
+        {{
+          t("deactivateWarning")
+        }}
+      </p>
+      <watt-modal-actions>
+        <ng-container *transloco="let t">
+          <watt-button (click)="confirmationModal.close(true)">{{ t("yes") }}</watt-button>
+          <watt-button variant="secondary" (click)="confirmationModal.close(false)">{{
+            t("no")
+          }}</watt-button>
+        </ng-container>
+      </watt-modal-actions>
+    </watt-modal>
+  </ng-container>
+
   <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
     <dh-edit-user-role-modal
       *ngIf="isEditUserRoleModalVisible && userRoleWithPermissions.status === 'Active'"
