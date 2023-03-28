@@ -71,7 +71,7 @@ export class DhPermissionAuditLogsComponent implements OnInit, OnChanges, OnDest
   >;
   private subscription?: Subscription;
 
-  permissionLogs?: PermissionAuditLog[];
+  permissionLogs: PermissionAuditLog[] = [];
   loading = false;
   error?: ApolloError;
 
@@ -92,7 +92,7 @@ export class DhPermissionAuditLogsComponent implements OnInit, OnChanges, OnDest
 
     this.subscription = this.getPermissionLogsQuery.valueChanges.subscribe({
       next: (result) => {
-        this.permissionLogs = result.data?.permissionLogs ?? undefined;
+        this.permissionLogs = result.data?.permissionLogs ?? [];
         this.loading = result.loading;
         this.error = result.error;
         this.dataSource.data = result.data?.permissionLogs ?? [];
