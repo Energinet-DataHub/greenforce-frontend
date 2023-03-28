@@ -54,7 +54,13 @@ limitations under the License.
               *wattTableCell="columns.entry; header: t('table.columns.entry'); let element"
             >
               <div
-                [innerHTML]="t('logs.roles.' + element.entry.userRoleChangeType, element.entry)"
+                [innerHTML]="
+                  element.entry.userRoleChangeType === 'PermissionsChange'
+                    ? element.entry.changeType === 'added'
+                      ? t('logs.roles.PermissionAdded', element.entry)
+                      : t('logs.roles.PermissionRemoved', element.entry)
+                    : t('logs.roles.' + element.entry.userRoleChangeType, element.entry)
+                "
               ></div>
             </ng-container>
           </watt-table>
