@@ -31,20 +31,12 @@ import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/mod
 import { CommonModule } from '@angular/common';
 import { PushModule } from '@rx-angular/template/push';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { MatDividerModule } from '@angular/material/divider';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
-import {
-  WattStepperButtonNextDirective,
-  WattStepperButtonPreviousDirective,
-} from '@energinet-datahub/watt/stepper';
-import { MatInputModule } from '@angular/material/input';
-import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { WATT_STEPPER, WattStepperComponent } from '@energinet-datahub/watt/stepper';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import {
   DbAdminAssignableUserRolesStore,
@@ -55,39 +47,28 @@ import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-as
 import { Subscription, tap } from 'rxjs';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    DbAdminAssignableUserRolesStore,
-    DbAdminInviteUserStore,
-    {
-      provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { showError: true },
-    },
-  ],
+  providers: [DbAdminAssignableUserRolesStore, DbAdminInviteUserStore],
   selector: 'dh-invite-user-modal',
   templateUrl: './dh-invite-user-modal.component.html',
   styleUrls: ['./dh-invite-user-modal.component.scss'],
   standalone: true,
   imports: [
     WattModalModule,
-    MatStepperModule,
     WattButtonModule,
-    WattStepperButtonNextDirective,
-    WattStepperButtonPreviousDirective,
     TranslocoModule,
-    MatDividerModule,
     WattIconModule,
     CommonModule,
     ReactiveFormsModule,
     WattInputModule,
     WattFormFieldModule,
-    MatFormFieldModule,
-    MatInputModule,
     WattDropdownModule,
     PushModule,
     DhAssignableUserRolesComponent,
+    WATT_STEPPER,
   ],
 })
 export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
@@ -99,7 +80,7 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   private readonly translocoService = inject(TranslocoService);
 
   @ViewChild('inviteUserModal') inviteUserModal!: WattModalComponent;
-  @ViewChild('stepper') stepper!: MatStepper;
+  @ViewChild('stepper') stepper!: WattStepperComponent;
   @Output() closed = new EventEmitter<void>();
 
   readonly actorOptions$ = this.actorStore.actors$;

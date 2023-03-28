@@ -21,19 +21,18 @@ limitations under the License.
   (closed)="closeModal($event)"
   *transloco="let t; read: 'admin.userManagement.inviteUser'"
 >
-  <mat-stepper class="watt-modal-content--full-width" [linear]="true" #stepper>
-    <ng-template matStepperIcon="edit">
-      <watt-icon name="checkmark"></watt-icon>
-    </ng-template>
-    <ng-template matStepperIcon="last">
-      <watt-icon name="checkmark"></watt-icon>
-    </ng-template>
-    <ng-template matStepperIcon="error" let-index="index">
-      {{ index + 1 }}
-    </ng-template>
-    <mat-step [stepControl]="userInfo">
+  <watt-stepper
+    class="watt-modal-content--full-width"
+    [linear]="true"
+    #stepper
+    (completed)="inviteUser()"
+  >
+    <watt-stepper-step
+      [label]="t('informations')"
+      [stepControl]="userInfo"
+      [nextButtonLabel]="t('addUserRole')"
+    >
       <form [formGroup]="userInfo" class="userInfoForm">
-        <ng-template matStepLabel>{{ t("informations") }}</ng-template>
         <watt-form-field>
           <watt-label>{{ t("actor") }}</watt-label>
           <watt-dropdown
@@ -87,16 +86,15 @@ limitations under the License.
           </watt-error>
         </watt-form-field>
       </form>
-      <div class="buttonWrapper">
-        <watt-button variant="secondary" wattStepperNext
-          >{{ t("addUserRole") }} <watt-icon name="right"></watt-icon
-        ></watt-button>
-      </div>
-    </mat-step>
+    </watt-stepper-step>
 
-    <mat-step [stepControl]="userRoles">
+    <watt-stepper-step
+      [stepControl]="userRoles"
+      [label]="t('addUserRole')"
+      [previousButtonLabel]="t('informations')"
+      [nextButtonLabel]="t('inviteUser')"
+    >
       <form [formGroup]="userRoles">
-        <ng-template matStepLabel>{{ t("addUserRole") }}</ng-template>
         <watt-error
           class="user-role-error"
           *ngIf="userRoles.controls.selectedUserRoles.hasError('required')"
@@ -107,15 +105,6 @@ limitations under the License.
           (selectedUserRoles)="onSelectedUserRoles($event)"
         ></dh-assignable-user-roles>
       </form>
-      <div class="buttonWrapper">
-        <watt-button variant="secondary" wattStepperPrevious>
-          <watt-icon name="left"></watt-icon>
-          {{ t("informations") }}
-        </watt-button>
-        <watt-button variant="primary" [loading]="isInvitingUser$ | push" (click)="inviteUser()">{{
-          t("inviteUser")
-        }}</watt-button>
-      </div>
-    </mat-step>
-  </mat-stepper>
+    </watt-stepper-step>
+  </watt-stepper>
 </watt-modal>

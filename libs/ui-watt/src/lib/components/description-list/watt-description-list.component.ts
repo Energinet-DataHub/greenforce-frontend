@@ -62,4 +62,4 @@ class WattDescriptionListComponent<T> implements AfterViewInit {
   }
 }
 
-export { WattDescriptionListComponent, WattDescriptionListItemComponent };
+export { WattDescriptionListItemComponent, WattDescriptionListComponent };
