@@ -1149,6 +1149,15 @@
         "permissionName": "Name",
         "permissionDescription": "Description",
         "tabs": {
+          "userRoles": {
+            "rolesPlural": "{{ userRoleCount }} roles",
+            "rolesSingular": "{{ userRoleCount }} role",
+            "tabLabel": "Roles",
+            "noEntries": "No results",
+            "columns": {
+              "name": "Name"
+            }
+          },
           "history": {
             "tabLabel": "History"
           }

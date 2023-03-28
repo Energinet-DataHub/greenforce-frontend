@@ -1,38 +1,33 @@
 <ng-container *rxLet="loading as isLoading">
-  <watt-card variant="solid" *transloco="let t; read: 'admin.userManagement.tabs.history'">
+  <watt-card
+    variant="solid"
+    *transloco="let t; read: 'admin.userManagement.permissionDetail.tabs.userRoles'"
+  >
     <div *ngIf="isLoading" class="spinner">
       <watt-spinner></watt-spinner>
     </div>
 
     <ng-container *ngIf="!isLoading">
-      <watt-card-title *rxLet="permissionLogs?.length as auditLogCount">
-        <h4 *ngIf="auditLogCount === 1 && !error">
-          {{t("changesSingular", {auditLogCount})}}
+      <watt-card-title *rxLet="userRoles?.length as userRoleCount">
+        <h4 *ngIf="userRoleCount === 1 && !error">
+          {{t("rolesSingular", {userRoleCount})}}
         </h4>
-        <h4 *ngIf="auditLogCount !== 1 && !error">
-          {{t("changesPlural", {auditLogCount})}}
+        <h4 *ngIf="userRoleCount !== 1 && !error">
+          {{t("rolesPlural", {userRoleCount})}}
         </h4>
       </watt-card-title>
 
       <watt-table
         [columns]="columns"
         [dataSource]="dataSource"
-        sortBy="timestamp"
+        sortBy="name"
         sortDirection="desc"
         [sortClear]="false"
         [resolveHeader]="translateHeader"
         *ngIf="!error"
       >
-        <ng-container *wattTableCell="columns['timestamp']; let element">
-          {{ element.timestamp | dhDateTime }}
-        </ng-container>
-
-        <ng-container *wattTableCell="columns['entry']; let element">
-          <div
-            [innerHTML]="
-              t('logs.permissionsDetails.auditLogType.' + element.permissionAuditLogType, element)
-            "
-          ></div>
+        <ng-container *wattTableCell="columns['name']; let element">
+          {{ element.name }}
         </ng-container>
       </watt-table>
 
@@ -43,8 +38,8 @@
         [message]="'shared.error.message' | transloco"
       ></watt-empty-state>
 
-      <ng-container *rxLet="permissionLogs?.length as auditLogCount">
-        <h4 *ngIf="auditLogCount === 0" class="no-results-text">
+      <ng-container *rxLet="userRoles?.length as userRoleCount">
+        <h4 *ngIf="userRoleCount === 0" class="no-results-text">
           {{ t("noEntries") }}
         </h4>
       </ng-container>

@@ -1122,6 +1122,15 @@
         "permissionName": "Navn",
         "permissionDescription": "Beskrivelse",
         "tabs": {
+          "userRoles": {
+            "rolesPlural": "{{ userRoleCount }} roller",
+            "rolesSingular": "{{ userRoleCount }} rolle",
+            "tabLabel": "Roller",
+            "noEntries": "Ingen resultater",
+            "columns": {
+              "name": "Navn"
+            }
+          },
           "history": {
             "tabLabel": "Historik"
           }
