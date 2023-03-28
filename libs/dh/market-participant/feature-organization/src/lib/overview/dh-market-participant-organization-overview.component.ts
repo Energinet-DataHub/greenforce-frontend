@@ -42,7 +42,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { DhMarketParticipantOrganizationOverviewGridAreasScam } from './dh-market-participant-organization-overview-grid-areas-list.component';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantGridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { OrganizationWithActorRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -65,7 +65,7 @@ export class DhMarketParticipantOrganizationOverviewComponent implements AfterVi
   ];
 
   @Input() rows: OrganizationWithActorRow[] = [];
-  @Input() gridAreas: GridAreaDto[] = [];
+  @Input() gridAreas: MarketParticipantGridAreaDto[] = [];
 
   @Output() editOrganization = new EventEmitter<string>();
   @Output() createActor = new EventEmitter<string>();

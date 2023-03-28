@@ -25,6 +25,7 @@ import marketParticipantUserGetUserAuditLogs from './data/marketParticipantUserG
 import marketParticipantUserRoleGetUserRoleWithPermissions from './data/marketParticipantUserRoleGetUserRoleWithPermissions.json';
 import marketParticipantUserRoleGetUserRoleAuditLogs from './data/marketParticipantUserRoleGetUserRoleAuditLogs.json';
 import { adminPermissionsMock } from './data/admin-get-permissions';
+import { adminPermissionPermissionLogsMock } from './data/admin-get-permissionlogs';
 
 export function adminMocks(apiBase: string) {
   return [
@@ -36,6 +37,8 @@ export function adminMocks(apiBase: string) {
     getMarketParticipantUserRoleGetUserRoleAuditLogs(apiBase),
     putMarketParticipantUserRoleUpdate(apiBase),
     getAdminPermissions(),
+    getAdminPermissionLogs(),
+    putMarketParticipantPermissionsUpdate(apiBase),
   ];
 }
 
@@ -99,5 +102,21 @@ function putMarketParticipantUserRoleUpdate(apiBase: string) {
 function getAdminPermissions() {
   return graphql.mockGetPermissionsQuery((req, res, ctx) => {
     return res(ctx.data(adminPermissionsMock));
+  });
+}
+
+function getAdminPermissionLogs() {
+  return graphql.mockGetPermissionLogsQuery((req, res, ctx) => {
+    const permId = req.variables.id;
+    const permissionLogs = adminPermissionPermissionLogsMock.filter(
+      (log) => log.permissionId.toString() === permId
+    );
+    return res(ctx.delay(300), ctx.data({ permissionLogs }));
+  });
+}
+
+function putMarketParticipantPermissionsUpdate(apiBase: string) {
+  return rest.put(`${apiBase}/v1/MarketParticipantPermissions/Update`, (req, res, ctx) => {
+    return res(ctx.status(200));
   });
 }

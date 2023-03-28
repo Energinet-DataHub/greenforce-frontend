@@ -21,7 +21,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
-  CreateUserRoleDto,
+  MarketParticipantCreateUserRoleDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhCreateUserRoleManagementState {
@@ -45,7 +45,7 @@ export class DhAdminCreateUserRoleManagementDataAccessApiStore extends Component
   readonly createUserRole = this.effect(
     (
       trigger$: Observable<{
-        createUserRoleDto: CreateUserRoleDto;
+        createUserRoleDto: MarketParticipantCreateUserRoleDto;
         onSaveCompletedFn: () => void;
       }>
     ) => {
@@ -77,7 +77,7 @@ export class DhAdminCreateUserRoleManagementDataAccessApiStore extends Component
     })
   );
 
-  private readonly saveUserRole = (newRole: CreateUserRoleDto) => {
+  private readonly saveUserRole = (newRole: MarketParticipantCreateUserRoleDto) => {
     return this.httpClientUserRole.v1MarketParticipantUserRoleCreatePost(newRole);
   };
 }

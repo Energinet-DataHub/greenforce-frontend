@@ -15,26 +15,24 @@
  * limitations under the License.
  */
 
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import {
   MatLegacyTableDataSource as MatTableDataSource,
   MatLegacyTableModule as MatTableModule,
 } from '@angular/material/legacy-table';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, MatTableModule, MatSortModule],
+  imports: [NgIf, AsyncPipe, MatTableModule, MatSortModule, WattBadgeComponent, WattSpinnerModule],
   standalone: true,
   selector: 'eo-metering-points-table',
   styles: [
     `
-      :host {
-        display: block;
-      }
-
       .tag {
         display: inline-flex;
         background-color: var(--watt-color-primary-light);
@@ -44,7 +42,27 @@ import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.sto
       }
 
       .link {
-        text-decoration: none;
+        border: 1px solid var(--watt-color-primary-light);
+        border-radius: var(--watt-space-s);
+        padding: var(--watt-space-xs) 0;
+        background: white;
+        display: flex;
+        justify-content: center;
+        width: 65px;
+
+        &:hover:enabled {
+          cursor: pointer;
+          background-color: var(--watt-color-primary-light);
+        }
+      }
+
+      .loadingArea {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: white;
+        gap: 1rem;
+        padding: 2rem;
       }
     `,
   ],
@@ -87,31 +105,45 @@ import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.sto
         <mat-header-cell *matHeaderCellDef mat-sort-header>Granular Certificates</mat-header-cell>
         <mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.type === 'production'">
-            <span *ngIf="element.contract">Active</span>
-            <ng-container *ngIf="!element.contract">
-              <a class="link" (click)="createContract(element.gsrn)"> Enable </a>
-            </ng-container>
-          </ng-container></mat-cell
-        >
+            <watt-badge *ngIf="element.contract" type="success">Activated</watt-badge>
+            <button
+              *ngIf="!element.contract"
+              [disabled]="element.loadingContract"
+              class="link"
+              (click)="createContract(element.gsrn)"
+            >
+              <ng-container *ngIf="!element.loadingContract">Activate</ng-container>
+              <watt-spinner *ngIf="element.loadingContract" [diameter]="16"></watt-spinner>
+            </button>
+          </ng-container>
+        </mat-cell>
       </ng-container>
 
       <!-- No data to show -->
-      <ng-container *matNoDataRow> You do not have any metering points. </ng-container>
+      <ng-container *ngIf="(isLoading$ | async) === false">
+        <ng-container *matNoDataRow>You do not have any metering points.</ng-container>
+      </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
     </mat-table>
+
+    <div class="loadingArea" *ngIf="(isLoading$ | async) === true">
+      Fetching metering points - please wait
+      <watt-spinner [diameter]="16"></watt-spinner>
+    </div>
   `,
 })
 export class EoMeteringPointListComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
-  loadingDone$ = this.store.loadingDone$;
-  meteringPoints$ = this.store.meteringPoints$;
   dataSource: MatTableDataSource<EoMeteringPoint> = new MatTableDataSource();
   displayedColumns: Array<string> = ['gsrn', 'address', 'tags', 'granular certificates'];
+  isLoading$;
 
-  constructor(private store: EoMeteringPointsStore) {}
+  constructor(private store: EoMeteringPointsStore) {
+    this.isLoading$ = this.store.loading$;
+  }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;

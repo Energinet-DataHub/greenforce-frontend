@@ -1,0 +1,9 @@
+query GetPermissionLogs($id: ID!) {
+  permissionLogs(id: $id) {
+    permissionId
+    changedByUserId
+    changedByUserName
+    permissionAuditLogType
+    timestamp
+  }
+}

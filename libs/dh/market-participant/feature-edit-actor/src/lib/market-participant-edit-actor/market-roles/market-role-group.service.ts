@@ -19,7 +19,7 @@ import {
   MarketRole,
   MarketRoleGridArea,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantEicFunction } from '@energinet-datahub/dh/shared/domain';
 import { EditableMarketRoleRow } from './dh-market-participant-actor-market-roles.component';
 
 @Injectable()
@@ -46,7 +46,7 @@ export class MarketRoleGroupService {
 
       const marketRole: MarketRole = {
         comment: row.comment,
-        marketRole: row.marketRole ?? EicFunction.BalanceResponsibleParty,
+        marketRole: row.marketRole ?? MarketParticipantEicFunction.BalanceResponsibleParty,
         gridAreas: [gridArea],
       };
 

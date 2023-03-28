@@ -20,18 +20,18 @@ import { ComponentStore, OnStoreInit, tapResponse } from '@ngrx/component-store'
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
-  EicFunction,
-  UserRoleStatus,
-  UserRoleDto,
+  MarketParticipantEicFunction,
+  MarketParticipantUserRoleStatus,
+  MarketParticipantUserRoleDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserRolesManagementState {
-  readonly roles: UserRoleDto[];
+  readonly roles: MarketParticipantUserRoleDto[];
   readonly requestState: LoadingState | ErrorState;
   validation?: { error: string };
   readonly filterModel: {
-    status: UserRoleStatus | null;
-    eicFunctions: EicFunction[] | null;
+    status: MarketParticipantUserRoleStatus | null;
+    eicFunctions: MarketParticipantEicFunction[] | null;
   };
 }
 
@@ -65,7 +65,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore
 
   rolesOptions$ = this.select((state) => state.roles).pipe(
     map((roles) =>
-      roles.map((role: UserRoleDto) => ({
+      roles.map((role: MarketParticipantUserRoleDto) => ({
         value: role.id,
         displayValue: role.name,
       }))
@@ -106,7 +106,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore
   readonly setFilterStatus = this.updater(
     (
       state: DhUserRolesManagementState,
-      statusUpdate: UserRoleStatus | null
+      statusUpdate: MarketParticipantUserRoleStatus | null
     ): DhUserRolesManagementState => ({
       ...state,
       filterModel: {
@@ -142,7 +142,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore
   readonly setFilterEicFunction = this.updater(
     (
       state: DhUserRolesManagementState,
-      eicFunctions: EicFunction[] | null
+      eicFunctions: MarketParticipantEicFunction[] | null
     ): DhUserRolesManagementState => ({
       ...state,
       filterModel: {
@@ -153,7 +153,10 @@ export class DhAdminUserRolesManagementDataAccessApiStore
   );
 
   private updateUserRoles = this.updater(
-    (state: DhUserRolesManagementState, response: UserRoleDto[]): DhUserRolesManagementState => ({
+    (
+      state: DhUserRolesManagementState,
+      response: MarketParticipantUserRoleDto[]
+    ): DhUserRolesManagementState => ({
       ...state,
       roles: response,
     })

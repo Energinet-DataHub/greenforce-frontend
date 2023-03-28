@@ -779,6 +779,8 @@
     },
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
+      "download": "Download",
+      "downloadFailed": "Download fejlede",
       "table": {
         "title": "Processer",
         "processType": "Procestype",
@@ -787,17 +789,24 @@
         "periodEnd": "Periode til",
         "executionTime": "Kørsel tid",
         "emptyTitle": "Ingen processer fundet",
-        "emptyHelperText": "Prøv at ændre dine søgeindstillinger"
+        "emptyHelperText": "Prøv at ændre dine søgeindstillinger",
+        "download": "—"
       },
       "processTypes": {
-        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}"
+        "BALANCE_FIXING": "Balancefiksering",
+        "AGGREGATION": "Aggregering"
       },
       "filters": {
         "processType": "Procestype",
         "gridArea": "Netområde",
         "period": "Periode",
         "executionTime": "Kørsel tid",
-        "executionTimeRequired": "Eksekveringstid påkrævet"
+        "executionTimeRequired": "Eksekveringstid påkrævet",
+        "actor": "Aktør",
+        "loadingActors": "Henter Aktører...",
+        "actorPlaceholder": "Vælg aktør",
+        "processTypePlaceholder": "Vælg procestype",
+        "gridAreasPlaceholder": "Vælg netområde(r)"
       }
     },
     "calculationSteps": {
@@ -857,7 +866,7 @@
     "userManagement": {
       "inviteUser": {
         "title": "Inviter bruger",
-        "informations": "Informationer",
+        "informations": "Information",
         "addUserRole": "Tildel brugerroller",
         "inviteUser": "Inviter bruger",
         "name": "Navn",
@@ -868,7 +877,12 @@
         "email": "Email",
         "phoneNumber": "Telefonnr.",
         "phoneNumberError": "Telefonnr. format +45 12345678",
-        "successMessage": "{{ email }} blev inviteret"
+        "successMessage": "{{ email }} blev inviteret",
+        "columns": {
+          "eicFunction": "Markedsrolle",
+          "name": "Navn",
+          "description": "Beskrivelse"
+        }
       },
       "download": "Download",
       "drawer": {
@@ -897,12 +911,13 @@
               },
               "logs": {
                 "roles": {
-                  "Created": "<b>{{ changedByUserName }}</b> oprettede rollen",
-                  "NameChange": "<b>{{ changedByUserName }}</b> ændrede navn på rollen til <b>{{ changedValueTo }}</b>",
+                  "Created": "<b>{{ changedByUserName }}</b> oprettede brugerrollen",
+                  "NameChange": "<b>{{ changedByUserName }}</b> ændrede navn på brugerrollen til <b>{{ changedValueTo }}</b>",
                   "DescriptionChange": "<b>{{ changedByUserName }}</b> ændrede beskrivelse til <b>{{ changedValueTo }}</b>",
                   "EicFunctionChange": "<b>{{ changedByUserName }}</b> ændrede eic function til <b>{{ changedValueTo }}</b>",
                   "StatusChange": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ changedValueTo }}</b>",
-                  "PermissionsChange": "<b>{{ changedByUserName }}</b> ændrede rettigheder på rollen til <b>{{ changedValueTo }}</b>"
+                  "PermissionAdded": "<b>{{ changedByUserName }}</b> tilføjede rettigheden <b>{{ changedValueTo }}</b>",
+                  "PermissionRemoved": "<b>{{ changedByUserName }}</b> fjernede rettigheden <b>{{ changedValueTo }}</b>"
                 }
               }
             }
@@ -937,9 +952,15 @@
             "entry": "Ændring"
           },
           "logs": {
+            "permissionsDetails": {
+              "auditLogType": {
+                "CREATED": "<b>{{ changedByUserName }}</b> tilføjede rettigheden til systemet",
+                "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede beskrivelsen på rettigheden"
+              }
+            },
             "auditLogType": {
-              "UserRoleAdded": "<b>{{ changedByUserName }}</b> tilføjede rollen <b>{{ toValue }}</b>",
-              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> fjernede rollen <b>{{ toValue }}</b>",
+              "UserRoleAdded": "<b>{{ changedByUserName }}</b> tilføjede brugerrollen <b>{{ toValue }}</b>",
+              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b>",
               "UserInvite": "<b>{{ changedByUserName }}</b> tilføjede brugeren til aktør <b>{{ toValue }}</b>"
             }
           },
@@ -1070,6 +1091,21 @@
         "cancel": "Fortryd",
         "save": "Gem"
       },
+      "editPermission": {
+        "saveSuccess": "Rettigheden blev opdateret",
+        "saveError": "Noget gik galt. Rettigheden blev ikke opdateret. Prøv igen",
+        "tab": {
+          "masterData": {
+            "tabLabel": "Stamdata",
+            "descriptionInputLabel": "Beskrivelse"
+          }
+        },
+        "cancel": "Fortryd",
+        "save": "Gem",
+        "validationErrors": {
+          "required": "{{ shared.fieldRequiredErrorText }}"
+        }
+      },
       "permissionsTable": {
         "columns": {
           "name": "Navn",
@@ -1080,6 +1116,16 @@
         "headline": "{{ numberOfPermissions }} rettigheder",
         "permissionName": "Navn",
         "permissionDescription": "Beskrivelse"
+      },
+      "permissionDetail": {
+        "information": "Information",
+        "permissionName": "Navn",
+        "permissionDescription": "Beskrivelse",
+        "tabs": {
+          "history": {
+            "tabLabel": "Historik"
+          }
+        }
       }
     }
   }

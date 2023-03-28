@@ -26,3 +26,4 @@ export * from './lib/dh-admin-user-role-edit-data-access-api.store';
 export * from './lib/dh-admin-assignable-user-roles.store';
 export * from './lib/dh-admin-market-role-permissions.store';
 export * from './lib/dh-admin-invite-user.store';
+export * from './lib/dh-admin-edit-permission.store';

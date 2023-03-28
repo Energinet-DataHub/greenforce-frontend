@@ -4,6 +4,16 @@ schema {
 
 type Actor {
   """
+  The id of the actor.
+  """
+  id: ID
+
+  """
+  The name of the actor.
+  """
+  name: String
+
+  """
   The number of the actor.
   """
   number: String!
@@ -87,7 +97,25 @@ scalar DateTimeOffset
 
 scalar Decimal
 
+enum EicFunction {
+  BALANCE_RESPONSIBLE_PARTY
+  BILLING_AGENT
+  DANISH_ENERGY_AGENCY
+  DATA_HUB_ADMINISTRATOR
+  EL_OVERBLIK
+  ENERGY_SUPPLIER
+  GRID_ACCESS_PROVIDER
+  IMBALANCE_SETTLEMENT_RESPONSIBLE
+  INDEPENDENT_AGGREGATOR
+  METERED_DATA_ADMINISTRATOR
+  METERED_DATA_RESPONSIBLE
+  METERING_POINT_ADMINISTRATOR
+  SERIAL_ENERGY_TRADER
+  SYSTEM_OPERATOR
+}
+
 type GraphQLQuery {
+  actors: [Actor!]!
   batch(
     """
     The id of the organization
@@ -102,6 +130,12 @@ type GraphQLQuery {
     id: ID
   ): Organization
   organizations: [Organization]
+  permissionLogs(
+    """
+    The id of the permission
+    """
+    id: ID
+  ): [PermissionAuditLog!]!
   permissions: [Permission!]!
   processStep(
     """
@@ -200,6 +234,11 @@ enum OrganizationStatus {
 
 type Permission {
   """
+  The EIC functions this permission is assignable to.
+  """
+  assignableTo: [EicFunction!]!
+
+  """
   The created date of the permission.
   """
   created: DateTimeOffset!
@@ -218,6 +257,40 @@ type Permission {
   The name of the permission.
   """
   name: String!
+  userRoles: [UserRole!]!
+}
+
+type PermissionAuditLog {
+  """
+  Changed by user id
+  """
+  changedByUserId: ID!
+
+  """
+  Changed by user name
+  """
+  changedByUserName: String!
+
+  """
+  Permission audit log type
+  """
+  permissionAuditLogType: PermissionAuditLogType!
+
+  """
+  Permission id
+  """
+  permissionId: Int!
+
+  """
+  Time of change
+  """
+  timestamp: DateTimeOffset!
+}
+
+enum PermissionAuditLogType {
+  CREATED
+  DESCRIPTION_CHANGE
+  UNKNOWN
 }
 
 enum PriceAreaCode {
@@ -245,6 +318,11 @@ enum ProcessType {
 }
 
 type SettlementReport {
+  """
+  The batch number
+  """
+  batchNumber: ID!
+
   """
   The execution time.
   """
@@ -282,4 +360,36 @@ enum TimeSeriesType {
   FLEX_CONSUMPTION
   NON_PROFILED_CONSUMPTION
   PRODUCTION
+}
+
+type UserRole {
+  """
+  The user role description
+  """
+  description: String!
+
+  """
+  The EIC function the user role belongs to
+  """
+  eicFunction: EicFunction!
+
+  """
+  The user role id.
+  """
+  id: ID!
+
+  """
+  The user role name.
+  """
+  name: String!
+
+  """
+  The user role status
+  """
+  status: UserRoleStatus!
+}
+
+enum UserRoleStatus {
+  ACTIVE
+  INACTIVE
 }

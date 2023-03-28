@@ -39,7 +39,7 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 import { DhMarketParticipantGridAreaDetailsHeaderScam } from '../details-header/dh-market-participant-gridarea-details-header.component';
 import { DhMarketParticipantGridAreaEditScam } from '../details-edit/dh-market-participant-gridarea-edit.component';
 import { DhMarketParticipantGridAreaDetailsAuditLogScam } from '../details-auditlog/dh-market-participant-gridarea-details-auditlog.component';
-import { GridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-market-participant-gridarea-overview',
@@ -59,7 +59,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
   @Input() gridChangesLoading = false;
 
   @Input() isLoadingAuditLog = false;
-  @Input() activeGridAreaAuditLog: GridAreaAuditLogEntryDto[] = [];
+  @Input() activeGridAreaAuditLog: MarketParticipantGridAreaAuditLogEntryDto[] = [];
   @Input() getGridAreaData!: (gridAreaId: string) => void;
 
   readonly dataSource: MatTableDataSource<GridAreaOverviewRow> =

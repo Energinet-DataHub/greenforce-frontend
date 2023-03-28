@@ -14,21 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ApolloError } from '@apollo/client';
+import { TranslocoModule } from '@ngneat/transloco';
+import { Subscription } from 'rxjs';
+
+import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { ApolloError } from '@apollo/client';
-import { Apollo } from 'apollo-angular';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { TranslocoModule } from '@ngneat/transloco';
+import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { Subscription } from 'rxjs';
+
 import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
-import { Permission } from '../permission';
+import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
 
 @Component({
   selector: 'dh-admin-permission-overview',
@@ -48,53 +49,52 @@ import { Permission } from '../permission';
   ],
 })
 export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
-  private apollo = inject(Apollo);
-  subscription!: Subscription;
-  permissions?: Permission[];
+  private getPermissionsQuery = getPermissionsWatchQuery();
+  private subscription!: Subscription;
+
+  permissions: PermissionDto[] = [];
   loading = false;
   error?: ApolloError;
 
-  columns: WattTableColumnDef<Permission> = {
+  columns: WattTableColumnDef<PermissionDto> = {
     name: { accessor: 'name' },
     description: { accessor: 'description' },
   };
 
-  dataSource = new WattTableDataSource<Permission>();
-  activeRow: Permission | undefined = undefined;
+  dataSource = new WattTableDataSource<PermissionDto>();
+  activeRow: PermissionDto | undefined = undefined;
 
   @ViewChild(DhAdminPermissionDetailComponent)
   permissionDetail!: DhAdminPermissionDetailComponent;
+
+  ngOnInit(): void {
+    this.subscription = this.getPermissionsQuery.valueChanges.subscribe({
+      next: (result) => {
+        this.permissions = result.data?.permissions ?? [];
+        this.loading = result.loading;
+        this.error = result.error;
+        this.dataSource.data = result.data?.permissions ?? [];
+      },
+      error: (error) => {
+        this.error = error;
+      },
+    });
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  ngOnInit(): void {
-    this.subscription = this.apollo
-      .watchQuery({
-        useInitialLoading: true,
-        notifyOnNetworkStatusChange: true,
-        query: graphql.GetPermissionsDocument,
-      })
-      .valueChanges.subscribe({
-        next: (result) => {
-          this.permissions = result.data?.permissions ?? undefined;
-          this.loading = result.loading;
-          this.error = result.error;
-          this.dataSource.data = result.data?.permissions ?? [];
-        },
-        error: (error) => {
-          this.error = error;
-        },
-      });
-  }
-
-  onRowClick(row: Permission): void {
+  onRowClick(row: PermissionDto): void {
     this.activeRow = row;
     this.permissionDetail.open(row);
   }
 
   onClosed(): void {
     this.activeRow = undefined;
+  }
+
+  refreshData(): void {
+    this.getPermissionsQuery.refetch();
   }
 }

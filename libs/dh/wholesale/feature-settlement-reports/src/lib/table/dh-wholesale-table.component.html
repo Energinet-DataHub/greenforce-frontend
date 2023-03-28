@@ -49,6 +49,18 @@ limitations under the License.
     <ng-container *wattTableCell="columns.executionTime; let process">
       {{ process.executionTime | dhDateTime }}
     </ng-container>
+
+    <!-- Download -->
+    <ng-container *wattTableCell="columns.download; let process">
+      <watt-button
+        variant="icon"
+        title="{{ transloco('download') }}"
+        icon="download"
+        [disabled]="!process.download"
+        (click)="download.emit(process)"
+      >
+      </watt-button>
+    </ng-container>
   </watt-table>
 
   <!-- No Batches found -->

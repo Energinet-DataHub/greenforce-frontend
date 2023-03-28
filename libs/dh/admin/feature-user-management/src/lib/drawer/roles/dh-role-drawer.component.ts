@@ -24,7 +24,7 @@ import { LetModule } from '@rx-angular/template/let';
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { UserRoleDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhEditUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-edit-user-role-modal';
 
@@ -56,7 +56,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 })
 export class DhRoleDrawerComponent {
   private readonly store = inject(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore);
-  private basicUserRole: UserRoleDto | null = null;
+  private basicUserRole: MarketParticipantUserRoleDto | null = null;
 
   userRoleWithPermissions$ = this.store.userRole$;
   isLoading$ = this.store.isLoading$;
@@ -75,7 +75,7 @@ export class DhRoleDrawerComponent {
     this.basicUserRole = null;
   }
 
-  open(role: UserRoleDto): void {
+  open(role: MarketParticipantUserRoleDto): void {
     this.basicUserRole = role;
     this.drawer.open();
     this.loadUserRoleWithPermissions();

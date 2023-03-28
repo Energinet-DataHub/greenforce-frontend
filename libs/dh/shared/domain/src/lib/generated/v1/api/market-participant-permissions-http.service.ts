@@ -19,11 +19,11 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { PermissionAuditLogsViewDto } from '../model/permission-audit-logs-view-dto';
+import { MarketParticipantPermissionAuditLogsViewDto } from '../model/market-participant-permission-audit-logs-view-dto';
 // @ts-ignore
-import { PermissionDetailsDto } from '../model/permission-details-dto';
+import { MarketParticipantPermissionDetailsDto } from '../model/market-participant-permission-details-dto';
 // @ts-ignore
-import { UpdatePermissionDto } from '../model/update-permission-dto';
+import { MarketParticipantUpdatePermissionDto } from '../model/market-participant-update-permission-dto';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -101,9 +101,9 @@ export class MarketParticipantPermissionsHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantPermissionsGetPermissionAuditLogsGet(permissionId?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<PermissionAuditLogsViewDto>;
-    public v1MarketParticipantPermissionsGetPermissionAuditLogsGet(permissionId?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<PermissionAuditLogsViewDto>>;
-    public v1MarketParticipantPermissionsGetPermissionAuditLogsGet(permissionId?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<PermissionAuditLogsViewDto>>;
+    public v1MarketParticipantPermissionsGetPermissionAuditLogsGet(permissionId?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<MarketParticipantPermissionAuditLogsViewDto>;
+    public v1MarketParticipantPermissionsGetPermissionAuditLogsGet(permissionId?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<MarketParticipantPermissionAuditLogsViewDto>>;
+    public v1MarketParticipantPermissionsGetPermissionAuditLogsGet(permissionId?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<MarketParticipantPermissionAuditLogsViewDto>>;
     public v1MarketParticipantPermissionsGetPermissionAuditLogsGet(permissionId?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -153,7 +153,7 @@ export class MarketParticipantPermissionsHttp {
         }
 
         let localVarPath = `/v1/MarketParticipantPermissions/GetPermissionAuditLogs`;
-        return this.httpClient.request<PermissionAuditLogsViewDto>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<MarketParticipantPermissionAuditLogsViewDto>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -171,9 +171,9 @@ export class MarketParticipantPermissionsHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantPermissionsGetPermissionsGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<PermissionDetailsDto>>;
-    public v1MarketParticipantPermissionsGetPermissionsGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<PermissionDetailsDto>>>;
-    public v1MarketParticipantPermissionsGetPermissionsGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<PermissionDetailsDto>>>;
+    public v1MarketParticipantPermissionsGetPermissionsGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<MarketParticipantPermissionDetailsDto>>;
+    public v1MarketParticipantPermissionsGetPermissionsGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<MarketParticipantPermissionDetailsDto>>>;
+    public v1MarketParticipantPermissionsGetPermissionsGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<MarketParticipantPermissionDetailsDto>>>;
     public v1MarketParticipantPermissionsGetPermissionsGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
@@ -217,7 +217,7 @@ export class MarketParticipantPermissionsHttp {
         }
 
         let localVarPath = `/v1/MarketParticipantPermissions/GetPermissions`;
-        return this.httpClient.request<Array<PermissionDetailsDto>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Array<MarketParticipantPermissionDetailsDto>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -230,14 +230,14 @@ export class MarketParticipantPermissionsHttp {
     }
 
     /**
-     * @param updatePermissionDto 
+     * @param marketParticipantUpdatePermissionDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantPermissionsUpdatePut(updatePermissionDto?: UpdatePermissionDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1MarketParticipantPermissionsUpdatePut(updatePermissionDto?: UpdatePermissionDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1MarketParticipantPermissionsUpdatePut(updatePermissionDto?: UpdatePermissionDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1MarketParticipantPermissionsUpdatePut(updatePermissionDto?: UpdatePermissionDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantPermissionsUpdatePut(marketParticipantUpdatePermissionDto?: MarketParticipantUpdatePermissionDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public v1MarketParticipantPermissionsUpdatePut(marketParticipantUpdatePermissionDto?: MarketParticipantUpdatePermissionDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public v1MarketParticipantPermissionsUpdatePut(marketParticipantUpdatePermissionDto?: MarketParticipantUpdatePermissionDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public v1MarketParticipantPermissionsUpdatePut(marketParticipantUpdatePermissionDto?: MarketParticipantUpdatePermissionDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -291,7 +291,7 @@ export class MarketParticipantPermissionsHttp {
         return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: updatePermissionDto,
+                body: marketParticipantUpdatePermissionDto,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
