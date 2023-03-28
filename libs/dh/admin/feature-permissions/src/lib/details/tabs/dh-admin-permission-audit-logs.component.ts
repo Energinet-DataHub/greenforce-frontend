@@ -104,7 +104,10 @@ export class DhPermissionAuditLogsComponent implements OnInit, OnChanges, OnDest
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectedPermission.currentValue) {
+    if (
+      changes.selectedPermission.firstChange === false &&
+      changes.selectedPermission.currentValue
+    ) {
       const id = changes.selectedPermission.currentValue.id.toString();
 
       this.getPermissionLogsQuery?.refetch({ id });

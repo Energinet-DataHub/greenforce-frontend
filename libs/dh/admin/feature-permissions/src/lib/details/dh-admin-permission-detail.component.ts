@@ -88,6 +88,7 @@ export class DhAdminPermissionDetailComponent {
 
     if (saveSuccess) {
       this.updated.emit();
+      this.refreshData();
     }
   }
 
@@ -100,8 +101,12 @@ export class DhAdminPermissionDetailComponent {
       )
       .subscribe({
         next: (result) => {
-          this.selectedPermission = result ?? null;
+          this.selectedPermission = result ? { ...result } : null;
         },
       });
+  }
+
+  private refreshData(): void {
+    this.getPermissionsQuery.refetch();
   }
 }
