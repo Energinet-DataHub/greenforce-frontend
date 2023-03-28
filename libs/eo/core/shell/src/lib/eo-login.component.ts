@@ -14,21 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { EoAuthService, EoAuthStore } from '@energinet-datahub/eo/shared/services';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattButtonModule],
-  selector: 'eo-landing-page-login-button',
-  template: `<watt-button (click)="login()">Start</watt-button>`,
+  selector: 'eo-login',
+  styles: [``],
+  template: ``,
 })
-export class EoLandingPageLoginButtonComponent {
-  constructor(private authService: EoAuthService) {}
-
-  login() {
-    this.authService.startLogin();
+export class EoLoginComponent {
+  constructor(private service: EoAuthService, private store: EoAuthStore, private router: Router) {
+    this.service.handlePostLogin();
+    this.store.getScope$.subscribe((scope) => {
+      if (scope.includes('not-accepted-terms')) this.router.navigate(['/terms']);
+      if (scope.includes('accepted-terms') && scope.includes('dashboard'))
+        this.router.navigate(['/dashboard']);
+    });
   }
 }

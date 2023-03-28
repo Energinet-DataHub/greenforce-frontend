@@ -96,9 +96,7 @@ export class EoTermsComponent {
     private authService: EoAuthService,
     private termsService: EoTermsService,
     private router: Router
-  ) {
-    this.authService.handlePostLogin();
-  }
+  ) {}
 
   onCancel() {
     this.authService.logout();

@@ -15,76 +15,23 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivateChild,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
-import {
-  AbsoluteUrlGenerator,
-  eoLandingPageRelativeUrl,
-} from '@energinet-datahub/eo/shared/utilities';
+import { CanActivate, Router } from '@angular/router';
+import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { map } from 'rxjs';
 
-export enum AuthOidcQueryParameterName {
-  Error = 'error',
-  ErrorCode = 'error_code',
-  /**
-   * Base URL for authentication web app.
-   */
-  FeUrl = 'fe_url',
-  /**
-   * Absolute URL to return to after authentication.
-   */
-  ReturnUrl = 'return_url',
-  Success = 'success',
-}
-
-/**
- * Redirects to login page if authentication fails.
- */
 @Injectable({
   providedIn: 'root',
 })
-export class EoAuthenticationGuard implements CanActivateChild {
-  constructor(private router: Router, private urlGenerator: AbsoluteUrlGenerator) {}
+export class EoAuthenticationGuard implements CanActivate {
+  constructor(private router: Router, private authStore: EoAuthStore) {}
 
-  #loginUrl(routerState: RouterStateSnapshot): UrlTree {
-    const loginUrl = this.router.createUrlTree([eoLandingPageRelativeUrl]);
-    const absoluteReturnUrl = new URL(this.urlGenerator.fromUrl(routerState.url));
-
-    if (absoluteReturnUrl.searchParams.has(AuthOidcQueryParameterName.Error)) {
-      loginUrl.queryParams[AuthOidcQueryParameterName.Error] = absoluteReturnUrl.searchParams.get(
-        AuthOidcQueryParameterName.Error
-      );
-      absoluteReturnUrl.searchParams.delete(AuthOidcQueryParameterName.Error);
-    }
-
-    if (absoluteReturnUrl.searchParams.has(AuthOidcQueryParameterName.ErrorCode)) {
-      loginUrl.queryParams[AuthOidcQueryParameterName.ErrorCode] =
-        absoluteReturnUrl.searchParams.get(AuthOidcQueryParameterName.ErrorCode);
-      absoluteReturnUrl.searchParams.delete(AuthOidcQueryParameterName.ErrorCode);
-    }
-
-    absoluteReturnUrl.searchParams.delete(AuthOidcQueryParameterName.Success);
-
-    loginUrl.queryParams[AuthOidcQueryParameterName.ReturnUrl] = absoluteReturnUrl.toString();
-
-    return loginUrl;
-  }
-
-  canActivateChild(
-    route: ActivatedRouteSnapshot,
-    routerState: RouterStateSnapshot
-  ): boolean | UrlTree {
-    const authenticationSuccess = '1';
-    const isAuthenticationCallback = route.queryParamMap.has(AuthOidcQueryParameterName.Success);
-    const isAuthenticationSuccessful =
-      route.queryParamMap.get(AuthOidcQueryParameterName.Success) === authenticationSuccess;
-
-    const allowNavigation = !isAuthenticationCallback || isAuthenticationSuccessful;
-
-    return allowNavigation ? true : this.#loginUrl(routerState);
+  canActivate() {
+    return this.authStore.getScope$.pipe(
+      map((scope) => {
+        if (scope.includes('not-accepted-terms')) this.router.navigate(['/terms']);
+        if (!this.authStore.token.getValue()) this.router.navigate(['']);
+        return !!scope.includes('accepted-terms');
+      })
+    );
   }
 }

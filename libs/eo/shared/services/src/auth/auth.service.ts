@@ -18,7 +18,6 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { eoTermsRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import jwt_decode from 'jwt-decode';
 import { EoAuthStore, EoLoginToken } from './auth.store';
 
@@ -30,7 +29,6 @@ export interface AuthLogoutResponse {
   providedIn: 'root',
 })
 export class EoAuthService {
-  #loginUrl: string;
   #authApiBase: string;
 
   constructor(
@@ -41,27 +39,32 @@ export class EoAuthService {
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
     this.#authApiBase = `${apiEnvironment.apiBase}/auth`;
-    this.#loginUrl = `${apiEnvironment.apiBase}/auth/oidc/login?fe_url=${window.location.origin}&return_url=${window.location.origin}/dashboard`;
+  }
+
+  checkForExistingToken() {
+    this.handleToken(sessionStorage.getItem('token'));
   }
 
   handlePostLogin() {
-    this.handleToken();
-    this.handleTermsAcceptance();
+    this.handleToken(this.route.snapshot.queryParamMap.get('token'));
+    this.router.navigate([], {
+      queryParams: { token: undefined },
+      replaceUrl: true,
+    });
   }
 
   refreshToken() {
     this.http
       .get(`${this.#authApiBase}/token`, { responseType: 'text' })
       .subscribe(async (newToken) => {
-        sessionStorage.setItem('token', newToken);
-        this.handleToken();
+        this.handleToken(newToken);
       });
   }
 
-  login() {
+  startLogin() {
     window.location.href = `${this.#authApiBase}/login?overrideRedirectionUri=${
       window.location.protocol
-    }//${window.location.host}/dashboard`;
+    }//${window.location.host}/login`;
   }
 
   logout() {
@@ -71,16 +74,7 @@ export class EoAuthService {
     }//${window.location.host}`;
   }
 
-  private handleTermsAcceptance() {
-    this.store.getScope$.subscribe((scope) => {
-      if (scope.includes('not-accepted-terms') === true) {
-        this.router.navigate([eoTermsRoutePath]);
-      }
-    });
-  }
-
-  private handleToken() {
-    const token = sessionStorage.getItem('token') ?? this.route.snapshot.queryParamMap.get('token');
+  private handleToken(token: string | null) {
     if (!token) return;
 
     const decodedToken = jwt_decode(token) as EoLoginToken;
@@ -88,10 +82,5 @@ export class EoAuthService {
     sessionStorage.setItem('token', token);
     this.store.token.next(token);
     this.store.setTokenClaims(decodedToken);
-
-    this.router.navigate([], {
-      queryParams: { token: undefined },
-      replaceUrl: true,
-    });
   }
 }
