@@ -889,6 +889,8 @@
       "drawer": {
         "edit": "Rediger",
         "disable": "Deaktiver",
+        "disablingUserRole": "Deaktiverer bruger rollen",
+        "userroleDisabled": "Bruger rollen blev deaktiveret.",
         "roles": {
           "tabs": {
             "masterData": {

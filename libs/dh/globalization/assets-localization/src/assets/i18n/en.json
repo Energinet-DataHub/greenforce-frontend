@@ -898,6 +898,8 @@
       "drawer": {
         "edit": "Edit",
         "disable": "Disable",
+        "disablingUserRole": "Disabling user role",
+        "userroleDisabled": "The user role was deactivated",
         "roles": {
           "tabs": {
             "masterData": {

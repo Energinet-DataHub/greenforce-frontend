@@ -73,10 +73,17 @@ export class DhRoleDrawerComponent {
   isEditUserRoleModalVisible = false;
 
   @Output() closed = new EventEmitter<void>();
+  @Output() userRoleDeactivated = new EventEmitter<void>();
 
   onClose(): void {
     this.drawer.close();
     this.closed.emit();
+    this.basicUserRole = null;
+  }
+
+  onDeActivated(): void {
+    this.drawer.close();
+    this.userRoleDeactivated.emit();
     this.basicUserRole = null;
   }
 
@@ -115,9 +122,7 @@ export class DhRoleDrawerComponent {
             ),
             type: 'success',
           });
-          const url = this.router.createUrlTree([dhAdminPath, dhAdminUserManagementPath]);
-
-          this.router.navigateByUrl(url);
+          this.onDeActivated();
         },
       });
     }
