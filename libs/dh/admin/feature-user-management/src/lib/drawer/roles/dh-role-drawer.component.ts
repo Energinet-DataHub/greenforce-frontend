@@ -105,24 +105,24 @@ export class DhRoleDrawerComponent {
   }
 
   confirmationClosed(succes: boolean): void {
-      if (succes && this.basicUserRole) {
-        this.toastService.open({
-          message: this.translocoService.translate('admin.userManagement.drawer.disablingUserRole'),
-          type: 'info',
-        });
-        this.store.disableUserRole({
-          userRoleId: this.basicUserRole.id,
-          onSuccessFn: () => {
-            this.toastService.open({
-              message: this.translocoService.translate(
-                'admin.userManagement.drawer.userroleDisabled'
-              ),
-              type: 'success',
-            });
-            this.onDeActivated();
-          },
-        });
-      }
+    if (succes && this.basicUserRole) {
+      this.toastService.open({
+        message: this.translocoService.translate('admin.userManagement.drawer.disablingUserRole'),
+        type: 'info',
+      });
+      this.store.disableUserRole({
+        userRoleId: this.basicUserRole.id,
+        onSuccessFn: () => {
+          this.toastService.open({
+            message: this.translocoService.translate(
+              'admin.userManagement.drawer.userroleDisabled'
+            ),
+            type: 'success',
+          });
+          this.onDeActivated();
+        },
+      });
+    }
   }
 
   loadUserRoleWithPermissions() {
