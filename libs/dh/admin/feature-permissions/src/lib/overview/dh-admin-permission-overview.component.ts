@@ -17,14 +17,15 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApolloError } from '@apollo/client';
-import { TranslocoModule } from '@ngneat/transloco';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
 
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipeScam, exportCsv } from '@energinet-datahub/dh/shared/ui-util';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 
@@ -40,6 +41,7 @@ import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-que
     CommonModule,
     TranslocoModule,
     DhPermissionsTableComponent,
+    WattButtonModule,
     WattSpinnerModule,
     WattEmptyStateModule,
     WattCardModule,
@@ -49,10 +51,10 @@ import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-que
   ],
 })
 export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
-  private getPermissionQuery = getPermissionsWatchQuery();
+  private getPermissionsQuery = getPermissionsWatchQuery();
   private subscription!: Subscription;
 
-  permissions?: PermissionDto[];
+  permissions: PermissionDto[] = [];
   loading = false;
   error?: ApolloError;
 
@@ -67,14 +69,10 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   @ViewChild(DhAdminPermissionDetailComponent)
   permissionDetail!: DhAdminPermissionDetailComponent;
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
   ngOnInit(): void {
-    this.subscription = this.getPermissionQuery.valueChanges.subscribe({
+    this.subscription = this.getPermissionsQuery.valueChanges.subscribe({
       next: (result) => {
-        this.permissions = result.data?.permissions ?? undefined;
+        this.permissions = result.data?.permissions ?? [];
         this.loading = result.loading;
         this.error = result.error;
         this.dataSource.data = result.data?.permissions ?? [];
@@ -83,6 +81,10 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
         this.error = error;
       },
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   onRowClick(row: PermissionDto): void {
@@ -94,7 +96,26 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
     this.activeRow = undefined;
   }
 
-  onRefreshData(): void {
-    this.getPermissionQuery.refetch();
+  refreshData(): void {
+    this.getPermissionsQuery.refetch();
+  }
+
+  exportAsCsv(): void {
+    if (this.dataSource.sort) {
+      const basePath = 'admin.userManagement.permissionsTab.';
+      const headers = [
+        translate(basePath + 'permissionName'),
+        translate(basePath + 'permissionDescription'),
+      ];
+
+      const marketRoles = this.dataSource.sortData(
+        [...this.dataSource.filteredData],
+        this.dataSource.sort
+      );
+
+      const lines = marketRoles.map((x) => [x.name, x.description]);
+
+      exportCsv(headers, lines);
+    }
   }
 }

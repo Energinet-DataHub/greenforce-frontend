@@ -16,7 +16,14 @@ limitations under the License.
 -->
 <watt-card *transloco="let t; read: 'admin.userManagement.permissionsTab'">
   <watt-card-title>
-    <h4>{{ t("headline", { numberOfPermissions: permissions?.length ?? 0 }) }}</h4>
+    <div class="card-title-container">
+      <h4>{{ t("headline", { numberOfPermissions: permissions.length }) }}</h4>
+      <div class="card-title-buttons-container">
+        <watt-button *transloco="let t" icon="download" variant="text" (click)="exportAsCsv()">{{
+          t("shared.download")
+        }}</watt-button>
+      </div>
+    </div>
   </watt-card-title>
   <watt-table
     [dataSource]="dataSource"
@@ -51,5 +58,5 @@ limitations under the License.
 
 <dh-admin-permission-detail
   (closed)="onClosed()"
-  (refreshData)="onRefreshData()"
+  (updated)="refreshData()"
 ></dh-admin-permission-detail>
