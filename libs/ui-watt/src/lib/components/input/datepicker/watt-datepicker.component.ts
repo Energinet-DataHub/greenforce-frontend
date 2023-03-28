@@ -35,7 +35,7 @@ import {
   MatStartDate,
   MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
 } from '@angular/material/datepicker';
-import { MatFormFieldControl } from '@angular/material/form-field';
+import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
 import { combineLatest, map, merge, startWith, takeUntil, tap } from 'rxjs';
 import { parse, isValid, parseISO, set } from 'date-fns';
 import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';

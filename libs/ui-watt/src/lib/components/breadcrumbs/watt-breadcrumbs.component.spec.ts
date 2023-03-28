@@ -17,10 +17,10 @@
 import { composeStory, createMountableStoryComponent } from '@storybook/testing-angular';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/angular';
 import { Story } from '@storybook/angular';
-import Meta, { Overview } from './watt-breadcrumbs.stories';
-
-import { WattBreadcrumbsComponent } from './watt-breadcrumbs.component';
 import userEvent from '@testing-library/user-event';
+
+import Meta, { Overview } from './watt-breadcrumbs.stories';
+import { WattBreadcrumbsComponent } from './watt-breadcrumbs.component';
 
 const overviewStory = composeStory(Overview, Meta);
 

@@ -16,3 +16,4 @@
  */
 export { setupServiceWorker } from './lib/setup-service-worker';
 export { handlers, onUnhandledRequest } from './lib/handlers';
+export * from './lib/mocks/metering-point';

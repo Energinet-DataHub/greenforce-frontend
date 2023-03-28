@@ -17,7 +17,7 @@
 
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { EoLineChartComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { LetModule } from '@rx-angular/template/let';
