@@ -108,7 +108,7 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
   actorOptions!: WattDropdownOption[];
 
   filters = this.fb.group({
-    processType: [''],
+    processTypes: [[]],
     gridAreas: [['']],
     period: [
       {
