@@ -24,7 +24,8 @@
       "next": "Næste side",
       "previous": "Forrige side",
       "ariaLabel": "Vælg side"
-    }
+    },
+    "download": "Download"
   },
   "clipboard": {
     "success": "Kopieret til udklipsholder",
