@@ -23,9 +23,6 @@ import {
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-
-import { WattCardModule } from '@energinet-datahub/watt/card';
 import {
   FormControl,
   FormsModule,
@@ -33,6 +30,10 @@ import {
   ReactiveFormsModule,
   FormBuilder,
 } from '@angular/forms';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { map, of, Subject, takeUntil } from 'rxjs';
+
+import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -40,7 +41,6 @@ import {
   MarketParticipantCreateUserRoleDto,
   MarketParticipantEicFunction,
 } from '@energinet-datahub/dh/shared/domain';
-import { map, of, Subject, takeUntil } from 'rxjs';
 
 interface UserRoleForm {
   name: FormControl<string>;
