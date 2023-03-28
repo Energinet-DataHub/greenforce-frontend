@@ -28,9 +28,16 @@ export class EoLoginComponent {
   constructor(private service: EoAuthService, private store: EoAuthStore, private router: Router) {
     this.service.handlePostLogin();
     this.store.getScope$.subscribe((scope) => {
-      if (scope.includes('not-accepted-terms')) this.router.navigate(['/terms']);
-      if (scope.includes('accepted-terms') && scope.includes('dashboard'))
+      if (scope.includes('not-accepted-terms')) {
+        this.router.navigate(['/terms']);
+        return;
+      }
+      if (scope.includes('accepted-terms') && scope.includes('dashboard')) {
         this.router.navigate(['/dashboard']);
+        return;
+      }
+      this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
+      this.service.logout();
     });
   }
 }

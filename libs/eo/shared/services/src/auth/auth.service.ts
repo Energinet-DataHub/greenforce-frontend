@@ -46,6 +46,7 @@ export class EoAuthService {
   }
 
   handlePostLogin() {
+    this.clearToken();
     this.handleToken(this.route.snapshot.queryParamMap.get('token'));
     this.router.navigate([], {
       queryParams: { token: undefined },
@@ -72,6 +73,12 @@ export class EoAuthService {
     window.location.href = `${this.#authApiBase}/logout?overrideRedirectionUri=${
       window.location.protocol
     }//${window.location.host}`;
+  }
+
+  private clearToken() {
+    sessionStorage.removeItem('token');
+    this.store.token.next('');
+    this.store.setTokenClaims({});
   }
 
   private handleToken(token: string | null) {
