@@ -15,67 +15,62 @@
  * limitations under the License.
  */
 import {
-  HTTP_INTERCEPTORS,
   HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
+  HttpResponse,
   HttpStatusCode,
+  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
-import { FeatureFlagService } from '@energinet-datahub/eo/shared/services';
-import { Observable, tap, take } from 'rxjs';
+import { tap } from 'rxjs';
+import { EoAuthService } from './auth.service';
+import { EoAuthStore } from './auth.store';
 
-/**
- * Displays an error when the user has insufficient permissions.
- */
 @Injectable()
 export class EoAuthorizationInterceptor implements HttpInterceptor {
+  TokenRefreshCalls = ['PUT', 'POST', 'DELETE'];
+
   constructor(
     private snackBar: MatSnackBar,
-    private route: ActivatedRoute,
-    private featureFlagService: FeatureFlagService
+    private authService: EoAuthService,
+    private authStore: EoAuthStore
   ) {}
 
-  intercept(
-    request: HttpRequest<unknown>,
-    nextHandler: HttpHandler
-  ): Observable<HttpEvent<unknown>> {
+  intercept(req: HttpRequest<unknown>, nextHandler: HttpHandler) {
+    const request = req.clone({
+      headers: req.headers.set('Authorization', `Bearer ${this.authStore.token.getValue()}`),
+    });
     return nextHandler.handle(request).pipe(
       tap({
-        next: () => {
-          this.#checkForFeatureFlaggingInQueryParams();
-        },
+        next: (httpEvent) => this.#HandleTokenRefresh(httpEvent, request),
         error: (error) => {
-          if (this.#is403ForbiddenResponse(error)) {
-            this.#displayPermissionError();
-          }
+          if (this.#is403ForbiddenResponse(error)) this.#displayPermissionError();
+          if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
+          if (this.TokenRefreshCalls.includes(request.method)) this.authService.refreshToken();
         },
       })
     );
   }
 
-  #displayPermissionError(): Observable<void> {
-    return this.snackBar.open('You do not have permission to perform this action.').afterOpened();
+  #HandleTokenRefresh(event: HttpEvent<unknown>, request: HttpRequest<unknown>) {
+    if (event instanceof HttpResponse && this.TokenRefreshCalls.includes(request.method))
+      this.authService.refreshToken();
   }
 
-  #checkForFeatureFlaggingInQueryParams() {
-    this.route.queryParams.pipe(take(1)).subscribe((params) => {
-      if (params['enableFeature']) {
-        this.featureFlagService.enableFeatureFlag(params['enableFeature']);
-        return;
-      }
-      if (params['disableFeature']) {
-        this.featureFlagService.disableFeatureFlag(params['disableFeature']);
-      }
-    });
+  #displayPermissionError() {
+    return this.snackBar.open('You do not have permission to perform this action.').afterOpened();
   }
 
   #is403ForbiddenResponse(error: unknown): boolean {
     return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Forbidden;
+  }
+
+  #is401UnauthorizedResponse(error: unknown): boolean {
+    return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized;
   }
 }
 

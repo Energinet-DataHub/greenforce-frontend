@@ -16,8 +16,10 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { Observable } from 'rxjs';
+import jwt_decode from 'jwt-decode';
+import { EoAuthStore, EoLoginToken } from './auth.store';
 
 export interface AuthLogoutResponse {
   readonly success: boolean;
@@ -26,23 +28,66 @@ export interface AuthLogoutResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
-  #apiBase: string;
+export class EoAuthService {
+  #authApiBase: string;
 
   constructor(
     private http: HttpClient,
+    private store: EoAuthStore,
+    private router: Router,
+    private route: ActivatedRoute,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
-    this.#apiBase = `${apiEnvironment.apiBase}/auth`;
+    this.#authApiBase = `${apiEnvironment.apiBase}/auth`;
   }
 
-  logout(): Observable<AuthLogoutResponse> {
-    return this.http.post<AuthLogoutResponse>(
-      `${this.#apiBase}/logout`,
-      {
-        // empty body
-      },
-      { withCredentials: true }
-    );
+  checkForExistingToken() {
+    this.handleToken(sessionStorage.getItem('token'));
+  }
+
+  handlePostLogin() {
+    this.clearToken();
+    this.handleToken(this.route.snapshot.queryParamMap.get('token'));
+    this.router.navigate([], {
+      queryParams: { token: undefined },
+      replaceUrl: true,
+    });
+  }
+
+  refreshToken() {
+    this.http
+      .get(`${this.#authApiBase}/token`, { responseType: 'text' })
+      .subscribe(async (newToken) => {
+        this.handleToken(newToken);
+      });
+  }
+
+  startLogin() {
+    window.location.href = `${this.#authApiBase}/login?overrideRedirectionUri=${
+      window.location.protocol
+    }//${window.location.host}/login`;
+  }
+
+  logout() {
+    sessionStorage.removeItem('token');
+    window.location.href = `${this.#authApiBase}/logout?overrideRedirectionUri=${
+      window.location.protocol
+    }//${window.location.host}`;
+  }
+
+  private clearToken() {
+    sessionStorage.removeItem('token');
+    this.store.token.next('');
+    this.store.setTokenClaims({});
+  }
+
+  private handleToken(token: string | null) {
+    if (!token) return;
+
+    const decodedToken = jwt_decode(token) as EoLoginToken;
+
+    sessionStorage.setItem('token', token);
+    this.store.token.next(token);
+    this.store.setTokenClaims(decodedToken);
   }
 }
