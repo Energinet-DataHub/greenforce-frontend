@@ -86,7 +86,7 @@ export class DhCreateUserroleMasterdataTabComponent implements OnInit, OnDestroy
 
   private destroy$ = new Subject<void>();
 
-  constructor(private trans: TranslocoService, private formBuilder: FormBuilder) {}
+  constructor(private transloco: TranslocoService, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.buildEicFunctionOptions();
@@ -117,7 +117,7 @@ export class DhCreateUserroleMasterdataTabComponent implements OnInit, OnDestroy
   }
 
   private buildEicFunctionOptions() {
-    this.trans
+    this.transloco
       .selectTranslateObject('marketParticipant.marketRoles')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
