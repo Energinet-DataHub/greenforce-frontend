@@ -59,8 +59,8 @@ import { dhAdminPath, dhAdminUserManagementPath } from '@energinet-datahub/dh/ad
 export class DhRoleDrawerComponent {
   private readonly store = inject(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore);
   private toastService = inject(WattToastService);
-  private translocoService = inject(TranslocoService)
-  private router = inject(Router)
+  private translocoService = inject(TranslocoService);
+  private router = inject(Router);
   basicUserRole: MarketParticipantUserRoleDto | null = null;
 
   userRoleWithPermissions$ = this.store.userRole$;
@@ -73,7 +73,6 @@ export class DhRoleDrawerComponent {
   isEditUserRoleModalVisible = false;
 
   @Output() closed = new EventEmitter<void>();
-
 
   onClose(): void {
     this.drawer.close();
@@ -104,9 +103,7 @@ export class DhRoleDrawerComponent {
   disableUserRole() {
     if (this.basicUserRole) {
       this.toastService.open({
-        message: this.translocoService.translate(
-          'admin.userManagement.drawer.disablingUserRole'
-        ),
+        message: this.translocoService.translate('admin.userManagement.drawer.disablingUserRole'),
         type: 'info',
       });
       this.store.disableUserRole({
@@ -121,8 +118,8 @@ export class DhRoleDrawerComponent {
           const url = this.router.createUrlTree([dhAdminPath, dhAdminUserManagementPath]);
 
           this.router.navigateByUrl(url);
-        }
-      })
+        },
+      });
     }
   }
 }
