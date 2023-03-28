@@ -97,6 +97,23 @@ scalar DateTimeOffset
 
 scalar Decimal
 
+enum EicFunction {
+  BALANCE_RESPONSIBLE_PARTY
+  BILLING_AGENT
+  DANISH_ENERGY_AGENCY
+  DATA_HUB_ADMINISTRATOR
+  EL_OVERBLIK
+  ENERGY_SUPPLIER
+  GRID_ACCESS_PROVIDER
+  IMBALANCE_SETTLEMENT_RESPONSIBLE
+  INDEPENDENT_AGGREGATOR
+  METERED_DATA_ADMINISTRATOR
+  METERED_DATA_RESPONSIBLE
+  METERING_POINT_ADMINISTRATOR
+  SERIAL_ENERGY_TRADER
+  SYSTEM_OPERATOR
+}
+
 type GraphQLQuery {
   actors: [Actor!]!
   batch(
@@ -217,6 +234,11 @@ enum OrganizationStatus {
 
 type Permission {
   """
+  The EIC functions this permission is assignable to.
+  """
+  assignableTo: [EicFunction!]!
+
+  """
   The created date of the permission.
   """
   created: DateTimeOffset!
@@ -235,6 +257,7 @@ type Permission {
   The name of the permission.
   """
   name: String!
+  userRoles: [UserRole!]!
 }
 
 type PermissionAuditLog {
@@ -337,4 +360,36 @@ enum TimeSeriesType {
   FLEX_CONSUMPTION
   NON_PROFILED_CONSUMPTION
   PRODUCTION
+}
+
+type UserRole {
+  """
+  The user role description
+  """
+  description: String!
+
+  """
+  The EIC function the user role belongs to
+  """
+  eicFunction: EicFunction!
+
+  """
+  The user role id.
+  """
+  id: ID!
+
+  """
+  The user role name.
+  """
+  name: String!
+
+  """
+  The user role status
+  """
+  status: UserRoleStatus!
+}
+
+enum UserRoleStatus {
+  ACTIVE
+  INACTIVE
 }
