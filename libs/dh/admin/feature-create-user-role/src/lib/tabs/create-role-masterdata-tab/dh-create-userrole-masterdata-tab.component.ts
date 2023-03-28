@@ -39,7 +39,6 @@ import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt
 import {
   MarketParticipantCreateUserRoleDto,
   MarketParticipantEicFunction,
-  MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { map, of, Subject, takeUntil } from 'rxjs';
 
@@ -47,7 +46,6 @@ interface UserRoleForm {
   name: FormControl<string>;
   description: FormControl<string>;
   eicFunction: FormControl<MarketParticipantEicFunction>;
-  roleStatus: FormControl<MarketParticipantUserRoleStatus>;
 }
 
 @Component({
@@ -78,17 +76,12 @@ export class DhCreateUserroleMasterdataTabComponent implements OnInit, OnDestroy
       MarketParticipantEicFunction.BalanceResponsibleParty,
       Validators.required
     ),
-    roleStatus: this.formBuilder.nonNullable.control(
-      MarketParticipantUserRoleStatus.Active,
-      Validators.required
-    ),
   });
 
   @Output() formReady = of(this.userRoleForm);
   @Output() eicFunctionSelected = new EventEmitter<MarketParticipantEicFunction>();
   @Output() valueChange = new EventEmitter<Partial<MarketParticipantCreateUserRoleDto>>();
 
-  userRoleStatusOptions: WattDropdownOptions = [];
   eicFunctionOptions: WattDropdownOptions = [];
 
   private destroy$ = new Subject<void>();
@@ -96,7 +89,6 @@ export class DhCreateUserroleMasterdataTabComponent implements OnInit, OnDestroy
   constructor(private trans: TranslocoService, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.buildUserRoleStatusOptions();
     this.buildEicFunctionOptions();
 
     this.userRoleForm.valueChanges
@@ -106,7 +98,6 @@ export class DhCreateUserroleMasterdataTabComponent implements OnInit, OnDestroy
             name: formValue.name,
             description: formValue.description,
             eicFunction: formValue.eicFunction,
-            status: formValue.roleStatus,
           })
         ),
         takeUntil(this.destroy$)
@@ -123,24 +114,6 @@ export class DhCreateUserroleMasterdataTabComponent implements OnInit, OnDestroy
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  private buildUserRoleStatusOptions() {
-    this.trans
-      .selectTranslateObject('admin.userManagement.roleStatus')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (keys) => {
-          this.userRoleStatusOptions = Object.keys(MarketParticipantUserRoleStatus)
-            .map((entry) => {
-              return {
-                value: entry,
-                displayValue: keys[entry.toLowerCase()],
-              };
-            })
-            .sort((a, b) => a.displayValue.localeCompare(b.displayValue));
-        },
-      });
   }
 
   private buildEicFunctionOptions() {

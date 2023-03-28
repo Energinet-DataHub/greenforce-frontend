@@ -1044,8 +1044,6 @@
             "nameMaxLengthErrorText": "Navn skal være under 250 karakterer",
             "name": "Navn",
             "description": "Beskrivelse",
-            "roleStatus": "Status",
-            "selectUserroleStatus": "Vælg status",
             "eicFunction": "Markedsrolle",
             "selectEicFunctionStatus": "Vælg markedsrolle"
           },
