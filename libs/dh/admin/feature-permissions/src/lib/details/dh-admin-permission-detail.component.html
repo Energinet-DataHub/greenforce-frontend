@@ -51,6 +51,11 @@ limitations under the License.
           </watt-description-list>
         </watt-card>
       </watt-tab>
+      <watt-tab>
+        <dh-admin-permission-roles
+          [selectedPermission]="selectedPermission"
+        ></dh-admin-permission-roles>
+      </watt-tab>
       <watt-tab [label]="t('tabs.history.tabLabel')">
         <dh-admin-permission-audit-logs
           [selectedPermission]="selectedPermission"

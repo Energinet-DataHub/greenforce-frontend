@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { TranslocoModule } from '@ngneat/transloco';
-import { Permission, PermissionDto } from '@energinet-datahub/dh/shared/domain';
+import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs';
+import { ApolloError } from '@apollo/client';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-admin-permission-roles',
@@ -23,11 +25,17 @@ import { Subscription } from 'rxjs';
     TranslocoModule,
   ],
 })
-export class DhAdminPermissionRolesComponent {
+export class DhAdminPermissionRolesComponent implements OnInit {
   @Input() selectedPermission: PermissionDto | null = null;
-
-  dataSource = new WattTableDataSource<Permission>();
-
-  subscription!: Subscription;
   private apollo = inject(Apollo);
+
+  dataSource = new WattTableDataSource<graphql.UserRole>();
+
+  columns: WattTableColumnDef<graphql.UserRole> = {
+    name: { accessor: 'name' },
+  };
+
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
 }
