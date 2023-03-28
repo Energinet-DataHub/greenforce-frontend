@@ -23,7 +23,6 @@ import {
   MarketParticipantUserRoleHttp,
   MarketParticipantUserRoleWithPermissionsDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 interface DhUserRoleWithPermissionsManagementState {
   readonly userRole: MarketParticipantUserRoleWithPermissionsDto | null;
