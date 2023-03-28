@@ -896,6 +896,7 @@
       "download": "Download",
       "drawer": {
         "edit": "Edit",
+        "disable": "Disable",
         "roles": {
           "tabs": {
             "masterData": {
@@ -974,7 +975,8 @@
             "auditLogType": {
               "UserRoleAdded": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
               "UserRoleRemoved": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>",
-              "UserInvite": "<b>{{ changedByUserName }}</b> added user to <b>{{ toValue }}</b> market party"
+              "UserInvite": "<b>{{ changedByUserName }}</b> added user to <b>{{ toValue }}</b> market party",
+              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b> due to the role being deactivated"
             }
           },
           "generalError": {

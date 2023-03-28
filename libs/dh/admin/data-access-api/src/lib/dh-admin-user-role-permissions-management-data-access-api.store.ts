@@ -23,6 +23,7 @@ import {
   MarketParticipantUserRoleHttp,
   MarketParticipantUserRoleWithPermissionsDto,
 } from '@energinet-datahub/dh/shared/domain';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 interface DhUserRoleWithPermissionsManagementState {
   readonly userRole: MarketParticipantUserRoleWithPermissionsDto | null;
@@ -73,6 +74,35 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
           )
       )
     )
+  );
+
+  readonly disableUserRole = this.effect(
+    (
+      trigger$: Observable<{
+        userRoleId: string;
+        onSuccessFn: () => void;
+      }>
+    ) =>
+      trigger$.pipe(
+        tap(() => {
+          this.patchState({ requestState: LoadingState.LOADING });
+        }),
+        switchMap(({ userRoleId, onSuccessFn }) =>
+          this.httpClientUserRole.v1MarketParticipantUserRoleDeactivateGet(userRoleId).pipe(
+            tapResponse(
+              () => {
+                this.patchState({ requestState: LoadingState.LOADED });
+                onSuccessFn();
+              },
+              () => {
+                this.setLoading(LoadingState.LOADED);
+                this.updateUserRole(null);
+                this.handleError();
+              }
+            )
+          )
+        )
+      )
   );
 
   private updateUserRole = this.updater(
