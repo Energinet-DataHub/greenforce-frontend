@@ -33,6 +33,7 @@ import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhPermissionAuditLogsComponent } from './tabs/dh-admin-permission-audit-logs.component';
 import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
+import { DhAdminPermissionRolesComponent } from './tabs/dh-admin-permission-roles.component';
 
 @Component({
   selector: 'dh-admin-permission-detail',
@@ -53,6 +54,7 @@ import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-que
     DhPermissionRequiredDirective,
     DhEditPermissionModalComponent,
     DhPermissionAuditLogsComponent,
+    DhAdminPermissionRolesComponent,
   ],
 })
 export class DhAdminPermissionDetailComponent {
