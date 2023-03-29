@@ -35,21 +35,7 @@ limitations under the License.
         {{ "shared.fieldRequiredErrorText" | transloco }}
       </watt-error>
     </watt-form-field>
-    <!-- Userrole status -->
-    <watt-form-field>
-      <watt-label>{{ t("roleStatus") }}</watt-label>
-      <watt-dropdown
-        [formControl]="userRoleForm.controls.roleStatus"
-        [options]="userRoleStatusOptions"
-        name="status"
-        [showResetOption]="false"
-        [placeholder]="t('selectUserroleStatus')"
-      >
-      </watt-dropdown>
-      <watt-error *ngIf="userRoleForm.controls.roleStatus.hasError('required')">
-        {{ "shared.fieldRequiredErrorText" | transloco }}
-      </watt-error>
-    </watt-form-field>
+
     <!-- Eic Function -->
     <watt-form-field>
       <watt-label>{{ t("eicFunction") }}</watt-label>

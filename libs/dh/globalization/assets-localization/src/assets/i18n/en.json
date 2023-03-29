@@ -1072,8 +1072,6 @@
             "nameMaxLengthErrorText": "Name field must be under 250 characters",
             "name": "Name",
             "description": "Description",
-            "roleStatus": "Status",
-            "selectUserroleStatus": "Select status",
             "eicFunction": "Market role",
             "selectEicFunctionStatus": "Select market role"
           },
