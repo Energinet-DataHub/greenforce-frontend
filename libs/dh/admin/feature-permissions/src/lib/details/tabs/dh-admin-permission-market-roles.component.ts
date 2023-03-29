@@ -36,13 +36,13 @@ import { ApolloError } from '@apollo/client';
 import { LetModule } from '@rx-angular/template/let';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-type UserRole = ResultOf<
+type MarketRole = ResultOf<
   typeof graphql.GetPermissionDetailsDocument
->['permission']['userRoles'][number];
+>['permission']['assignableTo'][number];
 
 @Component({
-  selector: 'dh-admin-permission-roles',
-  templateUrl: './dh-admin-permission-roles.component.html',
+  selector: 'dh-admin-permission-market-roles',
+  templateUrl: './dh-admin-permission-market-roles.component.html',
   styles: [
     `
       :host {
@@ -70,20 +70,20 @@ type UserRole = ResultOf<
     LetModule,
   ],
 })
-export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDestroy {
+export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selectedPermission: PermissionDto | null = null;
   private apollo = inject(Apollo);
   private trans: TranslocoService = inject(TranslocoService);
 
   subscription!: Subscription;
-  userRoles: UserRole[] = [];
+  marketRoles?: MarketRole[];
   loading = false;
   error?: ApolloError;
 
-  dataSource = new WattTableDataSource<UserRole>();
+  dataSource = new WattTableDataSource<MarketRole>();
 
-  columns: WattTableColumnDef<UserRole> = {
-    name: { accessor: 'name' },
+  columns: WattTableColumnDef<MarketRole> = {
+    name: { accessor: null },
   };
 
   private getPermissionQuery?: QueryRef<
@@ -103,10 +103,10 @@ export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDes
 
     this.subscription = this.getPermissionQuery.valueChanges.subscribe({
       next: (result) => {
-        this.userRoles = result.data?.permission?.userRoles ?? [];
+        this.marketRoles = result.data?.permission?.assignableTo ?? [];
         this.loading = result.loading;
         this.error = result.error;
-        this.dataSource.data = this.userRoles;
+        this.dataSource.data = this.marketRoles;
       },
       error: (error) => {
         this.error = error;
@@ -128,9 +128,4 @@ export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDes
       this.getPermissionQuery?.refetch({ id });
     }
   }
-
-  translateHeader = (columnId: string): string => {
-    const baseKey = 'admin.userManagement.permissionDetail.tabs.userRoles.columns';
-    return this.trans.translate(`${baseKey}.${columnId}`);
-  };
 }
