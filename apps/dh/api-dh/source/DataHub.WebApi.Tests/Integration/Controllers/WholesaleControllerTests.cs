@@ -168,16 +168,16 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         public async Task GetAsync_WhenProcessStepResultIsFound_ReturnsOk(
             Guid batchId,
             string gridAreaCode,
+            TimeSeriesType timeSeriesType,
             string? energySupplierGln,
             string? balanceResponsiblePartyGln,
             ProcessStepResultDto processStepResultDto)
         {
-            var timeSeriesType = TimeSeriesType.Production;
             WholesaleClientV3Mock
                 .Setup(m => m.GetProcessStepResultAsync(batchId, gridAreaCode, timeSeriesType, energySupplierGln, balanceResponsiblePartyGln, null, CancellationToken.None))
                 .ReturnsAsync(processStepResultDto);
 
-            var actual = await BffClient.GetAsync($"{BaseUrl}/{batchId}/processes/{gridAreaCode}/time-series-types/{timeSeriesType}");
+            var actual = await BffClient.GetAsync($"{BaseUrl}/{batchId}/processes/{gridAreaCode}/time-series-types/{timeSeriesType}?energySupplierGln={energySupplierGln}&balanceResponsiblePartyGln={balanceResponsiblePartyGln}");
 
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
