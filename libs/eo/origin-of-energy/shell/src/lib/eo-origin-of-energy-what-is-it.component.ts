@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 
 @Component({
   standalone: true,
