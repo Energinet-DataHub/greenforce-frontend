@@ -1,0 +1,16 @@
+query GetPermissionDetails($id: ID!) {
+  permission(id: $id) {
+    id
+    name
+    description
+    created
+    assignableTo
+    userRoles {
+      id
+      name
+      description
+      eicFunction
+      status
+    }
+  }
+}
