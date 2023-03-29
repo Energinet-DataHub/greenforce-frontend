@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -40,7 +40,7 @@ import { EoDatePickerDialogComponent } from './eo-date-picker-dialog.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [MatIconModule, MatDialogModule, CommonModule],
+  imports: [MatIconModule, MatDialogModule, DatePipe],
   selector: 'eo-date-picker',
   styles: [
     `
