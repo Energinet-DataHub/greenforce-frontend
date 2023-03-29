@@ -54,12 +54,16 @@ export class EoAuthService {
     });
   }
 
-  refreshToken() {
-    this.http
-      .get(`${this.#authApiBase}/token`, { responseType: 'text' })
-      .subscribe(async (newToken) => {
-        this.handleToken(newToken);
-      });
+  refreshToken(waitTime = 0) {
+    setTimeout(
+      () =>
+        this.http
+          .get(`${this.#authApiBase}/token`, { responseType: 'text' })
+          .subscribe(async (newToken) => {
+            this.handleToken(newToken);
+          }),
+      waitTime
+    );
   }
 
   startLogin() {

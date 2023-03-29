@@ -41,24 +41,24 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   ) {}
 
   intercept(req: HttpRequest<unknown>, nextHandler: HttpHandler) {
-    const request = req.clone({
+    const tokenRefreshTrigger = this.TokenRefreshCalls.includes(req.method);
+    const authorizedRequest = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${this.authStore.token.getValue()}`),
     });
-    return nextHandler.handle(request).pipe(
+    return nextHandler.handle(authorizedRequest).pipe(
       tap({
-        next: (httpEvent) => this.#HandleTokenRefresh(httpEvent, request),
+        next: (httpEvent) => tokenRefreshTrigger && this.#HandleTokenRefresh(httpEvent),
         error: (error) => {
           if (this.#is403ForbiddenResponse(error)) this.#displayPermissionError();
           if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
-          if (this.TokenRefreshCalls.includes(request.method)) this.authService.refreshToken();
+          tokenRefreshTrigger && this.authService.refreshToken(100);
         },
       })
     );
   }
 
-  #HandleTokenRefresh(event: HttpEvent<unknown>, request: HttpRequest<unknown>) {
-    if (event instanceof HttpResponse && this.TokenRefreshCalls.includes(request.method))
-      this.authService.refreshToken();
+  #HandleTokenRefresh(event: HttpEvent<unknown>) {
+    if (event instanceof HttpResponse) this.authService.refreshToken(100);
   }
 
   #displayPermissionError() {
