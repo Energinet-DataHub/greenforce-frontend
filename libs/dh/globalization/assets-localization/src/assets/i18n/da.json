@@ -1132,6 +1132,15 @@
           },
           "history": {
             "tabLabel": "Historik"
+          },
+          "marketRoles": {
+            "rolesPlural": "{{ marketRoles }} roller",
+            "rolesSingular": "{{ marketRoles }} rolle",
+            "tabLabel": "Markedsroller",
+            "noEntries": "Ingen resultater",
+            "columns": {
+              "name": "Navn"
+            }
           }
         }
       }
