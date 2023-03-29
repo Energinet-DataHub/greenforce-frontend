@@ -20,10 +20,6 @@ watt-datepicker {
   @extend %datepicker;
 }
 
-watt-form-field {
-  @extend %datepicker-form-field;
-}
-
 .mat-calendar .mat-calendar-header {
   margin-top: -10px;
 }

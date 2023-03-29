@@ -16,7 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattModalModule } from '@energinet-datahub/watt/modal';
 

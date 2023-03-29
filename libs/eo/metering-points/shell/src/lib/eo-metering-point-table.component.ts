@@ -18,7 +18,10 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import {
+  MatLegacyTableDataSource as MatTableDataSource,
+  MatLegacyTableModule as MatTableModule,
+} from '@angular/material/legacy-table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.store';
