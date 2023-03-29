@@ -14,20 +14,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.Controllers.Wholesale.Dto;
 using Energinet.DataHub.Wholesale.Client;
-using Energinet.DataHub.Wholesale.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using BatchRequestDto = Energinet.DataHub.Wholesale.Contracts.BatchRequestDto;
-using ProcessStepResultDto = Energinet.DataHub.Wholesale.Contracts.ProcessStepResultDto;
-using TimeSeriesTypeV3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.TimeSeriesType;
+using BatchDto = Energinet.DataHub.WebApi.Controllers.Wholesale.Dto.BatchDto;
 
 namespace Energinet.DataHub.WebApi.Controllers
 {
@@ -52,7 +46,11 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateAsync(BatchRequestDto batchRequestDto)
         {
-            await _client.CreateBatchAsync(batchRequestDto).ConfigureAwait(false);
+            // batchRequestDto = batchRequestDto with { EndDate = batchRequestDto.EndDate.AddMilliseconds(1) };
+            // var periodEnd = Instant.FromDateTimeOffset(batchRequestDto.EndDate);
+            // if (new ZonedDateTime(periodEnd, _dateTimeZone).TimeOfDay != LocalTime.Midnight)
+            //     throw new BusinessValidationException($"The period end '{periodEnd.ToString()}' must be 1 ms before midnight.");
+            await _clientV3.CreateBatchAsync(batchRequestDto).ConfigureAwait(false);
             return Ok();
         }
 
@@ -60,12 +58,18 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a batch.
         /// </summary>
         [HttpPost("Search")]
-        public async Task<ActionResult<IEnumerable<BatchDto>>> SearchAsync(BatchSearchDtoV2 batchSearchDto)
+        public async Task<ActionResult<IEnumerable<BatchDto>>> SearchAsync(
+            IEnumerable<string>? gridAreaCodes,
+            BatchState? executionState,
+            DateTimeOffset? minExecutionTime,
+            DateTimeOffset? maxExecutionTime,
+            DateTimeOffset? periodStart,
+            DateTimeOffset? periodEnd)
         {
             var gridAreas = new List<GridAreaDto>();
             var batchesWithGridAreasWithNames = new List<BatchDto>();
 
-            var batches = (await _client.GetBatchesAsync(batchSearchDto).ConfigureAwait(false)).ToList();
+            var batches = (await _clientV3.SearchBatchesAsync(gridAreaCodes, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd).ConfigureAwait(false)).ToList();
 
             if (batches.Any())
             {
@@ -77,13 +81,13 @@ namespace Energinet.DataHub.WebApi.Controllers
                 var gridAreaDtos = gridAreas.Where(x => batch.GridAreaCodes.Contains(x.Code));
 
                 batchesWithGridAreasWithNames.Add(new BatchDto(
-                    batch.BatchNumber,
+                    batch.BatchId,
                     batch.PeriodStart,
                     batch.PeriodEnd,
                     batch.ExecutionTimeStart,
                     batch.ExecutionTimeEnd,
                     batch.ExecutionState,
-                    batch.IsBasisDataDownloadAvailable,
+                    batch.AreSettlementReportsCreated,
                     gridAreaDtos.ToArray()));
             }
 
@@ -93,59 +97,58 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Get a batch.
         /// </summary>
-        [HttpGet("ZippedBasisDataStream")]
-        [Produces("application/zip")]
-        public async Task<ActionResult<Stream>> GetAsync(Guid batchId)
-        {
-            var stream = await _client.GetZippedBasisDataStreamAsync(batchId);
-            return File(stream, MediaTypeNames.Application.Zip);
-        }
-
-        /// <summary>
-        /// Get a batch.
-        /// </summary>
         [HttpGet("Batch")]
         public async Task<ActionResult<BatchDto>> GetBatchAsync(Guid batchId)
         {
-            var batch = await _client.GetBatchAsync(batchId);
+            var batch = await _clientV3.GetBatchAsync(batchId);
             var gridAreas = (await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false)).ToList();
 
             var gridAreaDtos = gridAreas.Where(x => batch!.GridAreaCodes.Contains(x.Code));
 
             return new BatchDto(
-                batch!.BatchNumber,
+                batch!.BatchId,
                 batch.PeriodStart,
                 batch.PeriodEnd,
                 batch.ExecutionTimeStart,
                 batch.ExecutionTimeEnd,
                 batch.ExecutionState,
-                batch.IsBasisDataDownloadAvailable,
+                batch.AreSettlementReportsCreated,
                 gridAreaDtos.ToArray());
         }
 
         /// <summary>
         /// Get a processStepResult.
         /// </summary>
+        /// <param name="batchId"></param>
+        /// <param name="gridAreaCode"></param>
+        /// <param name="timeSeriesType"></param>
+        /// <param name="energySupplierGln"></param>
+        /// <param name="balanceResponsiblePartyGln"></param>
         [HttpPost("ProcessStepResult")]
-        public async Task<ActionResult<ProcessStepResultDto>> GetAsync(ProcessStepResultRequestDtoV3 processStepResultRequestDto)
+        public async Task<ActionResult<ProcessStepResultDto>> GetAsync(
+            [FromRoute]Guid batchId,
+            [FromRoute]string gridAreaCode,
+            [FromRoute]TimeSeriesType timeSeriesType,
+            [FromQuery] string energySupplierGln,
+            [FromQuery] string balanceResponsiblePartyGln)
         {
             var dto = await _clientV3.GetProcessStepResultAsync(
-                processStepResultRequestDto.BatchId,
-                processStepResultRequestDto.GridAreaCode,
-                (TimeSeriesTypeV3)processStepResultRequestDto.TimeSeriesType,
-                processStepResultRequestDto.EnergySupplierGln,
-                processStepResultRequestDto.BalanceResponsiblePartyGln).ConfigureAwait(false);
+                batchId,
+                gridAreaCode,
+                timeSeriesType,
+                energySupplierGln,
+                balanceResponsiblePartyGln).ConfigureAwait(false);
             return Ok(dto);
         }
 
-        /// <summary>
-        /// Get a list of actors.
-        /// </summary>
-        [HttpPost("Actors")]
-        public async Task<ActionResult<WholesaleActorDto[]>> GetAsync(ProcessStepActorsRequest processStepActorsRequestDto)
-        {
-            var dto = await _client.GetProcessStepActorsAsync(processStepActorsRequestDto).ConfigureAwait(false);
-            return Ok(dto);
-        }
+        // /// <summary>
+        // /// Get a list of actors.
+        // /// </summary>
+        // [HttpPost("Actors")]
+        // public async Task<ActionResult<ActorDto[]>> GetAsync(ProcessStepActorsRequest processStepActorsRequestDto)
+        // {
+        //     var dto = await _client.GetProcessStepActorsAsync(processStepActorsRequestDto).ConfigureAwait(false);
+        //     return Ok(dto);
+        // }
     }
 }

@@ -5,12 +5,12 @@
     "version": "3.0"
   },
   "paths": {
-    "/v3/batch": {
+    "/v3/batches": {
       "post": {
         "tags": [
           "Batch"
         ],
-        "summary": "Create a batch.\r\nPeriod end must be exactly 1 ms before midnight.",
+        "summary": "Create a batch.",
         "operationId": "CreateBatch",
         "parameters": [
           {
@@ -49,6 +49,132 @@
                 "schema": {
                   "type": "string",
                   "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Batch"
+        ],
+        "summary": "Get batches that matches the criteria specified",
+        "operationId": "SearchBatches",
+        "parameters": [
+          {
+            "name": "gridAreaCodes",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "executionState",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "$ref": "#/components/schemas/BatchState"
+            }
+          },
+          {
+            "name": "minExecutionTime",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "maxExecutionTime",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "periodStart",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "periodEnd",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BatchDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/batches/{batchId}": {
+      "get": {
+        "tags": [
+          "Batch"
+        ],
+        "summary": "Returns a batch matching batchId.",
+        "operationId": "GetBatch",
+        "parameters": [
+          {
+            "name": "batchId",
+            "in": "path",
+            "required": true,
+            "description": "BatchId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchDto"
                 }
               }
             }
@@ -315,6 +441,63 @@
           }
         }
       },
+      "BatchDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "runId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "batchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "resolution": {
+            "type": "string",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "executionTimeStart": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "executionTimeEnd": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "executionState": {
+            "$ref": "#/components/schemas/BatchState"
+          },
+          "areSettlementReportsCreated": {
+            "type": "boolean"
+          },
+          "gridAreaCodes": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "processType": {
+            "$ref": "#/components/schemas/ProcessType"
+          }
+        }
+      },
       "BatchRequestDto": {
         "type": "object",
         "additionalProperties": false,
@@ -338,6 +521,15 @@
             "format": "date-time"
           }
         }
+      },
+      "BatchState": {
+        "type": "string",
+        "enum": [
+          "Pending",
+          "Executing",
+          "Completed",
+          "Failed"
+        ]
       },
       "ProcessStepResultDto": {
         "type": "object",
