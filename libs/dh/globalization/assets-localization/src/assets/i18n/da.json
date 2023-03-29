@@ -24,7 +24,8 @@
       "next": "Næste side",
       "previous": "Forrige side",
       "ariaLabel": "Vælg side"
-    }
+    },
+    "download": "Download"
   },
   "clipboard": {
     "success": "Kopieret til udklipsholder",
@@ -1044,8 +1045,6 @@
             "nameMaxLengthErrorText": "Navn skal være under 250 karakterer",
             "name": "Navn",
             "description": "Beskrivelse",
-            "roleStatus": "Status",
-            "selectUserroleStatus": "Vælg status",
             "eicFunction": "Markedsrolle",
             "selectEicFunctionStatus": "Vælg markedsrolle"
           },
