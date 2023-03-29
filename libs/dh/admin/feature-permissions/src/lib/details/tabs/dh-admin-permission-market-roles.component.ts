@@ -36,14 +36,29 @@ import { ApolloError } from '@apollo/client';
 import { LetModule } from '@rx-angular/template/let';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-type UserRole = ResultOf<
+type MarketRole = ResultOf<
   typeof graphql.GetPermissionDetailsDocument
->['permission']['userRoles'][number];
+>['permission']['assignableTo'][number];
 
 @Component({
   selector: 'dh-admin-permission-market-roles',
   templateUrl: './dh-admin-permission-market-roles.component.html',
-  styles: [``],
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      .no-results-text {
+        text-align: center;
+      }
+
+      .spinner {
+        display: flex;
+        justify-content: center;
+      }
+    `,
+  ],
   standalone: true,
   imports: [
     CommonModule,
@@ -61,14 +76,14 @@ export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges,
   private trans: TranslocoService = inject(TranslocoService);
 
   subscription!: Subscription;
-  marketRoles?: UserRole[];
+  marketRoles?: MarketRole[];
   loading = false;
   error?: ApolloError;
 
-  dataSource = new WattTableDataSource<UserRole>();
+  dataSource = new WattTableDataSource<MarketRole>();
 
-  columns: WattTableColumnDef<UserRole> = {
-    name: { accessor: 'name' },
+  columns: WattTableColumnDef<MarketRole> = {
+    name: { accessor: null },
   };
 
   private getPermissionQuery?: QueryRef<
@@ -88,7 +103,7 @@ export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges,
 
     this.subscription = this.getPermissionQuery.valueChanges.subscribe({
       next: (result) => {
-        this.marketRoles = result.data?.permission?.marketRoles ?? [];
+        this.marketRoles = result.data?.permission?.assignableTo ?? [];
         this.loading = result.loading;
         this.error = result.error;
         this.dataSource.data = this.marketRoles;

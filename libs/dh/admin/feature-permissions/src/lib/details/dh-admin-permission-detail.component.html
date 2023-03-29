@@ -41,25 +41,25 @@ limitations under the License.
             <watt-description-list-item
               [label]="t('permissionName')"
               [value]="selectedPermission?.name"
-            >
-            </watt-description-list-item>
+            />
             <watt-description-list-item
               [label]="t('permissionDescription')"
               [value]="selectedPermission?.description"
-            >
-            </watt-description-list-item>
+            />
           </watt-description-list>
         </watt-card>
       </watt-tab>
       <watt-tab [label]="t('tabs.userRoles.tabLabel')">
         <dh-admin-permission-roles
-          [selectedPermission]="selectedPermission"
-        ></dh-admin-permission-roles>
+          [selectedPermission]="selectedPermission" />
+      </watt-tab>
+      <watt-tab [label]="t('tabs.marketRoles.tabLabel')">
+        <dh-admin-permission-market-roles
+          [selectedPermission]="selectedPermission" />
       </watt-tab>
       <watt-tab [label]="t('tabs.history.tabLabel')">
         <dh-admin-permission-audit-logs
-          [selectedPermission]="selectedPermission"
-        ></dh-admin-permission-audit-logs>
+          [selectedPermission]="selectedPermission" />
       </watt-tab>
     </watt-tabs>
   </watt-drawer-content>

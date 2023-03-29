@@ -43,7 +43,22 @@ type UserRole = ResultOf<
 @Component({
   selector: 'dh-admin-permission-roles',
   templateUrl: './dh-admin-permission-roles.component.html',
-  styles: [``],
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      .no-results-text {
+        text-align: center;
+      }
+
+      .spinner {
+        display: flex;
+        justify-content: center;
+      }
+    `,
+  ],
   standalone: true,
   imports: [
     CommonModule,
