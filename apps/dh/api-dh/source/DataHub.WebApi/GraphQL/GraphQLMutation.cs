@@ -23,7 +23,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
     {
         public GraphQLMutation()
         {
-            Name = "Mutation";
             Field<NonNullGraphType<PermissionDtoType>>("permission")
                 .Argument<NonNullGraphType<UpdatePermissionInputType>>("permission", "Permission to update")
                 .Resolve()
@@ -33,7 +32,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     {
                         var updatePermissionDto = context.GetArgument<UpdatePermissionDto>("permission");
                         await client.UpdatePermissionAsync(updatePermissionDto);
-                        return client.GetPermissionAsync(updatePermissionDto.Id);
+                        return await client.GetPermissionAsync(updatePermissionDto.Id);
                     });
         }
     }
