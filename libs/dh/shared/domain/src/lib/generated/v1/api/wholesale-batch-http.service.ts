@@ -19,21 +19,15 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { Stream } from '../model/stream';
-// @ts-ignore
-import { WholesaleActorDto } from '../model/wholesale-actor-dto';
-// @ts-ignore
 import { WholesaleBatchDto } from '../model/wholesale-batch-dto';
 // @ts-ignore
 import { WholesaleBatchRequestDto } from '../model/wholesale-batch-request-dto';
 // @ts-ignore
-import { WholesaleBatchSearchDtoV2 } from '../model/wholesale-batch-search-dto-v2';
-// @ts-ignore
-import { WholesaleProcessStepActorsRequest } from '../model/wholesale-process-step-actors-request';
+import { WholesaleBatchState } from '../model/wholesale-batch-state';
 // @ts-ignore
 import { WholesaleProcessStepResultDto } from '../model/wholesale-process-step-result-dto';
 // @ts-ignore
-import { WholesaleProcessStepResultRequestDtoV3 } from '../model/wholesale-process-step-result-request-dto-v3';
+import { WholesaleTimeSeriesType } from '../model/wholesale-time-series-type';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -106,15 +100,18 @@ export class WholesaleBatchHttp {
     }
 
     /**
-     * Get a list of actors.
-     * @param wholesaleProcessStepActorsRequest 
+     * Get a batch.
+     * @param batchId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1WholesaleBatchActorsPost(wholesaleProcessStepActorsRequest?: WholesaleProcessStepActorsRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<WholesaleActorDto>>;
-    public v1WholesaleBatchActorsPost(wholesaleProcessStepActorsRequest?: WholesaleProcessStepActorsRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<WholesaleActorDto>>>;
-    public v1WholesaleBatchActorsPost(wholesaleProcessStepActorsRequest?: WholesaleProcessStepActorsRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<WholesaleActorDto>>>;
-    public v1WholesaleBatchActorsPost(wholesaleProcessStepActorsRequest?: WholesaleProcessStepActorsRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1WholesaleBatchBatchIdGet(batchId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<WholesaleBatchDto>;
+    public v1WholesaleBatchBatchIdGet(batchId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<WholesaleBatchDto>>;
+    public v1WholesaleBatchBatchIdGet(batchId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<WholesaleBatchDto>>;
+    public v1WholesaleBatchBatchIdGet(batchId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+        if (batchId === null || batchId === undefined) {
+            throw new Error('Required parameter batchId was null or undefined when calling v1WholesaleBatchBatchIdGet.');
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -145,17 +142,6 @@ export class WholesaleBatchHttp {
         }
 
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/*+json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -167,11 +153,10 @@ export class WholesaleBatchHttp {
             }
         }
 
-        let localVarPath = `/v1/WholesaleBatch/Actors`;
-        return this.httpClient.request<Array<WholesaleActorDto>>('post', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/v1/WholesaleBatch/${this.configuration.encodeParam({name: "batchId", value: batchId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
+        return this.httpClient.request<WholesaleBatchDto>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: wholesaleProcessStepActorsRequest,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -182,20 +167,37 @@ export class WholesaleBatchHttp {
     }
 
     /**
-     * Get a batch.
+     * Get a processStepResult.
      * @param batchId 
+     * @param gridAreaCode 
+     * @param timeSeriesType 
+     * @param energySupplierGln 
+     * @param balanceResponsiblePartyGln 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1WholesaleBatchBatchGet(batchId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<WholesaleBatchDto>;
-    public v1WholesaleBatchBatchGet(batchId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<WholesaleBatchDto>>;
-    public v1WholesaleBatchBatchGet(batchId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<WholesaleBatchDto>>;
-    public v1WholesaleBatchBatchGet(batchId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1WholesaleBatchBatchIdProcessesGridAreaCodeTimeSeriesTypesTimeSeriesTypeGet(batchId: string, gridAreaCode: string, timeSeriesType: WholesaleTimeSeriesType, energySupplierGln?: string, balanceResponsiblePartyGln?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<WholesaleProcessStepResultDto>;
+    public v1WholesaleBatchBatchIdProcessesGridAreaCodeTimeSeriesTypesTimeSeriesTypeGet(batchId: string, gridAreaCode: string, timeSeriesType: WholesaleTimeSeriesType, energySupplierGln?: string, balanceResponsiblePartyGln?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<WholesaleProcessStepResultDto>>;
+    public v1WholesaleBatchBatchIdProcessesGridAreaCodeTimeSeriesTypesTimeSeriesTypeGet(batchId: string, gridAreaCode: string, timeSeriesType: WholesaleTimeSeriesType, energySupplierGln?: string, balanceResponsiblePartyGln?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<WholesaleProcessStepResultDto>>;
+    public v1WholesaleBatchBatchIdProcessesGridAreaCodeTimeSeriesTypesTimeSeriesTypeGet(batchId: string, gridAreaCode: string, timeSeriesType: WholesaleTimeSeriesType, energySupplierGln?: string, balanceResponsiblePartyGln?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+        if (batchId === null || batchId === undefined) {
+            throw new Error('Required parameter batchId was null or undefined when calling v1WholesaleBatchBatchIdProcessesGridAreaCodeTimeSeriesTypesTimeSeriesTypeGet.');
+        }
+        if (gridAreaCode === null || gridAreaCode === undefined) {
+            throw new Error('Required parameter gridAreaCode was null or undefined when calling v1WholesaleBatchBatchIdProcessesGridAreaCodeTimeSeriesTypesTimeSeriesTypeGet.');
+        }
+        if (timeSeriesType === null || timeSeriesType === undefined) {
+            throw new Error('Required parameter timeSeriesType was null or undefined when calling v1WholesaleBatchBatchIdProcessesGridAreaCodeTimeSeriesTypesTimeSeriesTypeGet.');
+        }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (batchId !== undefined && batchId !== null) {
+        if (energySupplierGln !== undefined && energySupplierGln !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>batchId, 'batchId');
+            <any>energySupplierGln, 'energySupplierGln');
+        }
+        if (balanceResponsiblePartyGln !== undefined && balanceResponsiblePartyGln !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>balanceResponsiblePartyGln, 'balanceResponsiblePartyGln');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -238,8 +240,106 @@ export class WholesaleBatchHttp {
             }
         }
 
-        let localVarPath = `/v1/WholesaleBatch/Batch`;
-        return this.httpClient.request<WholesaleBatchDto>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/v1/WholesaleBatch/${this.configuration.encodeParam({name: "batchId", value: batchId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/processes/${this.configuration.encodeParam({name: "gridAreaCode", value: gridAreaCode, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/time-series-types/${this.configuration.encodeParam({name: "timeSeriesType", value: timeSeriesType, in: "path", style: "simple", explode: false, dataType: "WholesaleTimeSeriesType", dataFormat: undefined})}`;
+        return this.httpClient.request<WholesaleProcessStepResultDto>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get batches
+     * @param gridAreaCodes 
+     * @param executionState 
+     * @param minExecutionTime 
+     * @param maxExecutionTime 
+     * @param periodStart 
+     * @param periodEnd 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public v1WholesaleBatchGet(gridAreaCodes?: Array<string>, executionState?: WholesaleBatchState, minExecutionTime?: string, maxExecutionTime?: string, periodStart?: string, periodEnd?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<WholesaleBatchDto>>;
+    public v1WholesaleBatchGet(gridAreaCodes?: Array<string>, executionState?: WholesaleBatchState, minExecutionTime?: string, maxExecutionTime?: string, periodStart?: string, periodEnd?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<WholesaleBatchDto>>>;
+    public v1WholesaleBatchGet(gridAreaCodes?: Array<string>, executionState?: WholesaleBatchState, minExecutionTime?: string, maxExecutionTime?: string, periodStart?: string, periodEnd?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<WholesaleBatchDto>>>;
+    public v1WholesaleBatchGet(gridAreaCodes?: Array<string>, executionState?: WholesaleBatchState, minExecutionTime?: string, maxExecutionTime?: string, periodStart?: string, periodEnd?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (gridAreaCodes) {
+            gridAreaCodes.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'gridAreaCodes');
+            })
+        }
+        if (executionState !== undefined && executionState !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>executionState, 'executionState');
+        }
+        if (minExecutionTime !== undefined && minExecutionTime !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>minExecutionTime, 'minExecutionTime');
+        }
+        if (maxExecutionTime !== undefined && maxExecutionTime !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>maxExecutionTime, 'maxExecutionTime');
+        }
+        if (periodStart !== undefined && periodStart !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>periodStart, 'periodStart');
+        }
+        if (periodEnd !== undefined && periodEnd !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>periodEnd, 'periodEnd');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (Bearer) required
+        localVarCredential = this.configuration.lookupCredential('Bearer');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/v1/WholesaleBatch`;
+        return this.httpClient.request<Array<WholesaleBatchDto>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -316,227 +416,6 @@ export class WholesaleBatchHttp {
             {
                 context: localVarHttpContext,
                 body: wholesaleBatchRequestDto,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Get a processStepResult.
-     * @param wholesaleProcessStepResultRequestDtoV3 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public v1WholesaleBatchProcessStepResultPost(wholesaleProcessStepResultRequestDtoV3?: WholesaleProcessStepResultRequestDtoV3, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<WholesaleProcessStepResultDto>;
-    public v1WholesaleBatchProcessStepResultPost(wholesaleProcessStepResultRequestDtoV3?: WholesaleProcessStepResultRequestDtoV3, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<WholesaleProcessStepResultDto>>;
-    public v1WholesaleBatchProcessStepResultPost(wholesaleProcessStepResultRequestDtoV3?: WholesaleProcessStepResultRequestDtoV3, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<WholesaleProcessStepResultDto>>;
-    public v1WholesaleBatchProcessStepResultPost(wholesaleProcessStepResultRequestDtoV3?: WholesaleProcessStepResultRequestDtoV3, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (Bearer) required
-        localVarCredential = this.configuration.lookupCredential('Bearer');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'text/plain',
-                'application/json',
-                'text/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/*+json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/v1/WholesaleBatch/ProcessStepResult`;
-        return this.httpClient.request<WholesaleProcessStepResultDto>('post', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: wholesaleProcessStepResultRequestDtoV3,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Get a batch.
-     * @param wholesaleBatchSearchDtoV2 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public v1WholesaleBatchSearchPost(wholesaleBatchSearchDtoV2?: WholesaleBatchSearchDtoV2, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<WholesaleBatchDto>>;
-    public v1WholesaleBatchSearchPost(wholesaleBatchSearchDtoV2?: WholesaleBatchSearchDtoV2, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<WholesaleBatchDto>>>;
-    public v1WholesaleBatchSearchPost(wholesaleBatchSearchDtoV2?: WholesaleBatchSearchDtoV2, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<WholesaleBatchDto>>>;
-    public v1WholesaleBatchSearchPost(wholesaleBatchSearchDtoV2?: WholesaleBatchSearchDtoV2, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (Bearer) required
-        localVarCredential = this.configuration.lookupCredential('Bearer');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'text/plain',
-                'application/json',
-                'text/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/*+json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/v1/WholesaleBatch/Search`;
-        return this.httpClient.request<Array<WholesaleBatchDto>>('post', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: wholesaleBatchSearchDtoV2,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Get a batch.
-     * @param batchId 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public v1WholesaleBatchZippedBasisDataStreamGet(batchId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<Stream>;
-    public v1WholesaleBatchZippedBasisDataStreamGet(batchId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<HttpResponse<Stream>>;
-    public v1WholesaleBatchZippedBasisDataStreamGet(batchId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<HttpEvent<Stream>>;
-    public v1WholesaleBatchZippedBasisDataStreamGet(batchId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<any> {
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (batchId !== undefined && batchId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>batchId, 'batchId');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (Bearer) required
-        localVarCredential = this.configuration.lookupCredential('Bearer');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/zip'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/v1/WholesaleBatch/ZippedBasisDataStream`;
-        return this.httpClient.request<Stream>('get', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
