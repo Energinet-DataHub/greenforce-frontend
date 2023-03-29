@@ -57,6 +57,29 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
+        /// Get a batch.
+        /// </summary>
+        /// <param name="batchId"></param>
+        [HttpGet("{batchId}")]
+        public async Task<ActionResult<BatchDto>> GetBatchAsync([FromRoute]Guid batchId)
+        {
+            var batch = await _client.GetBatchAsync(batchId);
+            var gridAreas = (await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false)).ToList();
+
+            var gridAreaDtos = gridAreas.Where(x => batch!.GridAreaCodes.Contains(x.Code));
+
+            return new BatchDto(
+                batch.BatchId,
+                batch.PeriodStart,
+                batch.PeriodEnd,
+                batch.ExecutionTimeStart,
+                batch.ExecutionTimeEnd,
+                batch.ExecutionState,
+                batch.AreSettlementReportsCreated,
+                gridAreaDtos.ToArray());
+        }
+
+        /// <summary>
         /// Get batches
         /// </summary>
         /// <param name="gridAreaCodes"></param>
@@ -77,7 +100,7 @@ namespace Energinet.DataHub.WebApi.Controllers
             var gridAreas = new List<GridAreaDto>();
             var batchesWithGridAreasWithNames = new List<BatchDto>();
 
-            var batches = (await _client.SearchBatchesAsync(gridAreaCodes, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd).ConfigureAwait(false)).ToList();
+            var batches = await _client.SearchBatchesAsync(gridAreaCodes, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd).ConfigureAwait(false);
 
             if (batches.Any())
             {
@@ -100,29 +123,6 @@ namespace Energinet.DataHub.WebApi.Controllers
             }
 
             return Ok(batchesWithGridAreasWithNames);
-        }
-
-        /// <summary>
-        /// Get a batch.
-        /// </summary>
-        /// <param name="batchId"></param>
-        [HttpGet("{batchId}")]
-        public async Task<ActionResult<BatchDto>> GetBatchAsync([FromRoute]Guid batchId)
-        {
-            var batch = await _client.GetBatchAsync(batchId);
-            var gridAreas = (await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false)).ToList();
-
-            var gridAreaDtos = gridAreas.Where(x => batch!.GridAreaCodes.Contains(x.Code));
-
-            return new BatchDto(
-                batch!.BatchId,
-                batch.PeriodStart,
-                batch.PeriodEnd,
-                batch.ExecutionTimeStart,
-                batch.ExecutionTimeEnd,
-                batch.ExecutionState,
-                batch.AreSettlementReportsCreated,
-                gridAreaDtos.ToArray());
         }
 
         /// <summary>
@@ -149,15 +149,5 @@ namespace Energinet.DataHub.WebApi.Controllers
                 balanceResponsiblePartyGln).ConfigureAwait(false);
             return Ok(dto);
         }
-
-        // /// <summary>
-        // /// Get a list of actors.
-        // /// </summary>
-        // [HttpPost("Actors")]
-        // public async Task<ActionResult<ActorDto[]>> GetAsync(ProcessStepActorsRequest processStepActorsRequestDto)
-        // {
-        //     var dto = await _client.GetProcessStepActorsAsync(processStepActorsRequestDto).ConfigureAwait(false);
-        //     return Ok(dto);
-        // }
     }
 }

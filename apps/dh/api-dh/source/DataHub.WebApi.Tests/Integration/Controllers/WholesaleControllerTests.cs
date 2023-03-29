@@ -20,16 +20,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Core.TestCommon.AutoFixture.Attributes;
 using Energinet.DataHub.MarketParticipant.Client.Models;
-using Energinet.DataHub.WebApi.Controllers.Wholesale.Dto;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
-using Energinet.DataHub.Wholesale.Contracts;
 using FluentAssertions;
 using Moq;
 using Xunit;
 using Xunit.Abstractions;
-using BatchRequestDto = Energinet.DataHub.WebApi.Clients.Wholesale.v3.BatchRequestDto;
-using ProcessStepResultDtoV3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessStepResultDto;
-using TimeSeriesTypeV3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.TimeSeriesType;
+using BatchDto = Energinet.DataHub.WebApi.Controllers.Wholesale.Dto.BatchDto;
+using BatchDtoV3 = Energinet.DataHub.WebApi.Clients.Wholesale.v3.BatchDto;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
@@ -43,9 +41,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         {
         }
 
-        private const string BatchCreateUrl = "/v1/wholesalebatch";
-        private const string BatchSearchUrl = "/v1/wholesalebatch/search";
-        private const string BatchProcessStepResultUrl = "/v1/wholesalebatch/processstepresult";
+        private const string BaseUrl = "/v1/wholesalebatch";
         private const string GridAreaCode = "805";
 
         [Theory]
@@ -53,7 +49,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         public async Task CreateAsync_ReturnsOk(BatchRequestDto requestDto)
         {
             MockMarketParticipantClient();
-            var actual = await BffClient.PostAsJsonAsync(BatchCreateUrl, requestDto);
+            var actual = await BffClient.PostAsJsonAsync(BaseUrl, requestDto);
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
@@ -62,21 +58,24 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         public async Task GetAsync_ReturnsBatch_WithGridAreaNames(Guid batchId)
         {
             MockMarketParticipantClient();
-            var batchDtoV2 = new BatchDtoV2(
-                Guid.NewGuid(),
-                DateTimeOffset.Now,
-                DateTimeOffset.Now,
-                DateTimeOffset.Now,
-                DateTimeOffset.Now,
-                BatchState.Completed,
+            var batchDtoV3 = new BatchDtoV3(
                 true,
+                Guid.NewGuid(),
+                BatchState.Completed,
+                DateTimeOffset.Now,
+                DateTimeOffset.Now,
                 new[] { GridAreaCode },
-                ProcessType.BalanceFixing);
+                DateTimeOffset.Now,
+                DateTimeOffset.Now,
+                ProcessType.BalanceFixing,
+                string.Empty,
+                null,
+                string.Empty);
 
-            WholesaleClientMock
-                .Setup(m => m.GetBatchAsync(batchId))
-                .ReturnsAsync(batchDtoV2);
-            var responseMessage = await BffClient.GetAsync($"/v1/WholesaleBatch/Batch?batchId={batchId}");
+            WholesaleClientV3Mock
+                .Setup(m => m.GetBatchAsync(batchId, null, CancellationToken.None))
+                .ReturnsAsync(batchDtoV3);
+            var responseMessage = await BffClient.GetAsync($"{BaseUrl}/{batchId}");
 
             var actual = await responseMessage.Content.ReadAsAsync<BatchDto>();
             foreach (var gridAreaDto in actual.GridAreas)
@@ -85,72 +84,75 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             }
         }
 
-        [Theory]
-        [InlineAutoMoqData]
-        public async Task PostAsync_WhenBatchesFound_ReturnsOk(BatchSearchDtoV2 searchDto)
+        [Fact]
+        public async Task SearchAsync_WhenBatchesFound_ReturnsOk()
         {
-            var batches = new List<BatchDtoV2>
+            var batches = new List<BatchDtoV3>
             {
-                new(
-                    Guid.NewGuid(),
-                    DateTimeOffset.Now,
-                    DateTimeOffset.Now,
-                    DateTimeOffset.Now,
-                    DateTimeOffset.Now,
-                    BatchState.Completed,
+                new BatchDtoV3(
                     true,
+                    Guid.NewGuid(),
+                    BatchState.Completed,
+                    DateTimeOffset.Now,
+                    DateTimeOffset.Now,
                     new[] { GridAreaCode },
-                    ProcessType.BalanceFixing),
+                    DateTimeOffset.Now,
+                    DateTimeOffset.Now,
+                    ProcessType.BalanceFixing,
+                    string.Empty,
+                    null,
+                    string.Empty),
             };
-            WholesaleClientMock
-                .Setup(m => m.GetBatchesAsync(searchDto))
+            WholesaleClientV3Mock
+                .Setup(m => m.SearchBatchesAsync(It.IsAny<ICollection<string>>(), null, null, null, null, null, null, CancellationToken.None))
                 .ReturnsAsync(batches);
 
             MockMarketParticipantClient();
 
-            var actual = await BffClient.PostAsJsonAsync(BatchSearchUrl, searchDto);
+            var actual = await BffClient.GetAsync(BaseUrl);
 
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Theory]
-        [InlineAutoMoqData]
-        public async Task PostAsync_WhenNoBatchesFound_ReturnsOk(BatchSearchDtoV2 searchDto)
+        [Fact]
+        public async Task SearchAsync_WhenNoBatchesFound_ReturnsOk()
         {
             MockMarketParticipantClient();
-            WholesaleClientMock
-                .Setup(m => m.GetBatchesAsync(searchDto))
-                .ReturnsAsync(new List<BatchDtoV2>());
+            WholesaleClientV3Mock
+                .Setup(m => m.SearchBatchesAsync(It.IsAny<ICollection<string>>(), null, null, null, null, null, null, CancellationToken.None))
+                .ReturnsAsync(new List<BatchDtoV3>());
 
-            var actual = await BffClient.PostAsJsonAsync(BatchSearchUrl, searchDto);
+            var actual = await BffClient.GetAsync(BaseUrl);
 
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Theory]
-        [InlineAutoMoqData]
-        public async Task PostAsync_WhenBatchesFound_GridAreasHaveNames(BatchSearchDtoV2 searchDto)
+        [Fact]
+        public async Task SearchAsync_WhenBatchesFound_GridAreasHaveNames()
         {
-            var batches = new List<BatchDtoV2>
+            var batches = new List<BatchDtoV3>
             {
-                new(
-                    Guid.NewGuid(),
-                    DateTimeOffset.Now,
-                    DateTimeOffset.Now,
-                    DateTimeOffset.Now,
-                    DateTimeOffset.Now,
-                    BatchState.Completed,
+                new BatchDtoV3(
                     true,
+                    Guid.NewGuid(),
+                    BatchState.Completed,
+                    DateTimeOffset.Now,
+                    DateTimeOffset.Now,
                     new[] { GridAreaCode },
-                    ProcessType.BalanceFixing),
+                    DateTimeOffset.Now,
+                    DateTimeOffset.Now,
+                    ProcessType.BalanceFixing,
+                    string.Empty,
+                    null,
+                    string.Empty),
             };
-            WholesaleClientMock
-                .Setup(m => m.GetBatchesAsync(searchDto))
+            WholesaleClientV3Mock
+                .Setup(m => m.SearchBatchesAsync(It.IsAny<ICollection<string>>(), null, null, null, null, null, null, CancellationToken.None))
                 .ReturnsAsync(batches);
 
             MockMarketParticipantClient();
 
-            var responseMessage = await BffClient.PostAsJsonAsync(BatchSearchUrl, searchDto);
+            var responseMessage = await BffClient.GetAsync(BaseUrl);
             var actual = await responseMessage.Content.ReadAsAsync<IEnumerable<BatchDto>>();
             foreach (var batchDto in actual)
             {
@@ -163,15 +165,19 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         [Theory]
         [InlineAutoMoqData]
-        public async Task PostAsync_WhenProcessStepResultIsFound_ReturnsOk(
-            ProcessStepResultRequestDtoV3 processStepResultRequestDto,
-            ProcessStepResultDtoV3 processStepResultDto)
+        public async Task GetAsync_WhenProcessStepResultIsFound_ReturnsOk(
+            Guid batchId,
+            string gridAreaCode,
+            string? energySupplierGln,
+            string? balanceResponsiblePartyGln,
+            ProcessStepResultDto processStepResultDto)
         {
+            var timeSeriesType = TimeSeriesType.Production;
             WholesaleClientV3Mock
-                .Setup(m => m.GetProcessStepResultAsync(processStepResultRequestDto.BatchId, processStepResultRequestDto.GridAreaCode, (TimeSeriesTypeV3)processStepResultRequestDto.TimeSeriesType, processStepResultRequestDto.EnergySupplierGln, processStepResultRequestDto.BalanceResponsiblePartyGln, null, CancellationToken.None))
+                .Setup(m => m.GetProcessStepResultAsync(batchId, gridAreaCode, timeSeriesType, energySupplierGln, balanceResponsiblePartyGln, null, CancellationToken.None))
                 .ReturnsAsync(processStepResultDto);
 
-            var actual = await BffClient.PostAsJsonAsync(BatchProcessStepResultUrl, processStepResultRequestDto);
+            var actual = await BffClient.GetAsync($"{BaseUrl}/{batchId}/processes/{gridAreaCode}/time-series-types/{timeSeriesType}");
 
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
