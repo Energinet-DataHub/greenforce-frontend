@@ -101,6 +101,10 @@ type GraphQLQuery {
     id: ID
   ): Organization
   organizations: [Organization]
+  permission(
+    """The id of the permission"""
+    id: ID
+  ): Permission!
   permissionLogs(
     """The id of the permission"""
     id: ID
