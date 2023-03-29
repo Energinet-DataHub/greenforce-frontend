@@ -14,8 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { WholesaleBatchDto } from '@energinet-datahub/dh/shared/domain';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+import { graphql, WholesaleBatchDto } from '@energinet-datahub/dh/shared/domain';
 
 import type { WattBadgeType } from '@energinet-datahub-types/watt/badge';
 
 export type batch = WholesaleBatchDto & { statusType: WattBadgeType };
+
+export type ProcessStepActor = Exclude<
+  ResultOf<typeof graphql.GetProcessStepActorsDocument>['processStep'],
+  null | undefined
+>['actors'][0];

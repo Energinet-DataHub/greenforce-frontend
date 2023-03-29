@@ -207,7 +207,12 @@ namespace Energinet.DataHub.WebApi
                 { "MarketParticipant", "MarketParticipant" },
                 { "Charges", "Charge" },
             };
-            if (fullName == null) return string.Empty;
+
+            if (fullName == null)
+            {
+                return string.Empty;
+            }
+
             var fullNameSplit = fullName.Split(".");
             var domain = string.Empty;
             foreach (var item in domainList.Where(item => fullNameSplit.Contains(item.Key)))

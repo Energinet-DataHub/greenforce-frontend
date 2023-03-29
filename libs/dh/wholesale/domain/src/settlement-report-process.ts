@@ -22,3 +22,5 @@ export type SettlementReport = ResultOf<
 >['settlementReports'][0];
 
 export type SettlementReportFilters = VariablesOf<typeof graphql.GetSettlementReportsDocument>;
+
+export type ActorFilter = ResultOf<typeof graphql.GetActorFilterDocument>['actors'];

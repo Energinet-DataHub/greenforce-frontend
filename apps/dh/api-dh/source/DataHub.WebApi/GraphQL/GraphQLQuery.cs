@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
@@ -180,16 +181,21 @@ namespace Energinet.DataHub.WebApi.GraphQL
                .ResolveAsync(async (context, client) =>
                {
                    var gridAreas = await client.GetGridAreasAsync();
-                   var gridAreasLookup = gridAreas.ToDictionary(x => x.Id);
+                   var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
                    var organizations = await client.GetOrganizationsAsync();
-                   var actors = new List<ActorDto>();
 
-                   foreach (var organization in organizations)
+                   var tasks = organizations.Select(organization => client.GetActorsAsync(organization.OrganizationId));
+                   var actors = (await Task.WhenAll(tasks)).SelectMany(x => x);
+                   var accessibleActors = actors.Select(x => new Actor(x.ActorNumber.Value)
                    {
-                       actors.AddRange(await client.GetActorsAsync(organization.OrganizationId));
-                   }
-
-                   var accessibleActors = actors.Select(x => new Actor(x.ActorNumber.Value) { Id = x.ActorId, Name = x.Name.Value });
+                       Id = x.ActorId,
+                       Name = x.Name.Value,
+                       GridAreaCodes = x.MarketRoles
+                          .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
+                          .Distinct()
+                          .Select(gridAreaId => gridAreaLookup[gridAreaId].Code)
+                          .ToArray(),
+                   });
 
                    // TODO: Is this the right place to filter this list?
                    if (context.User!.IsFas())
