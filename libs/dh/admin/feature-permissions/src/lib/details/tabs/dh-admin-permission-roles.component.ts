@@ -61,7 +61,7 @@ export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDes
   private trans: TranslocoService = inject(TranslocoService);
 
   subscription!: Subscription;
-  userRoles?: UserRole[];
+  userRoles: UserRole[] = [];
   loading = false;
   error?: ApolloError;
 
@@ -113,9 +113,4 @@ export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDes
       this.getPermissionQuery?.refetch({ id });
     }
   }
-
-  translateHeader = (columnId: string): string => {
-    const baseKey = 'admin.userManagement.permissionDetail.tabs.userRoles.columns';
-    return this.trans.translate(`${baseKey}.${columnId}`);
-  };
 }

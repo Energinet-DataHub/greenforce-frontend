@@ -24,7 +24,7 @@ limitations under the License.
     </div>
 
     <ng-container *ngIf="!isLoading">
-      <watt-card-title *rxLet="userRoles?.length as userRoleCount">
+      <watt-card-title *rxLet="userRoles.length as userRoleCount">
         <h4 *ngIf="userRoleCount === 1 && !error">
           {{t("rolesSingular", {userRoleCount})}}
         </h4>
@@ -39,10 +39,9 @@ limitations under the License.
         sortBy="name"
         sortDirection="desc"
         [sortClear]="false"
-        [resolveHeader]="translateHeader"
         *ngIf="!error"
       >
-        <ng-container *wattTableCell="columns['name']; let element">
+        <ng-container *wattTableCell="columns.name; header: t('columns.name'); let element">
           {{ element.name }}
         </ng-container>
       </watt-table>
@@ -54,7 +53,7 @@ limitations under the License.
         [message]="'shared.error.message' | transloco"
       ></watt-empty-state>
 
-      <ng-container *rxLet="userRoles?.length as userRoleCount">
+      <ng-container *rxLet="userRoles.length as userRoleCount">
         <h4 *ngIf="userRoleCount === 0" class="no-results-text">
           {{ t("noEntries") }}
         </h4>
