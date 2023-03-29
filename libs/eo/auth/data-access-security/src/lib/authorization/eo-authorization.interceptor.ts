@@ -24,7 +24,7 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { FeatureFlagService } from '@energinet-datahub/eo/shared/services';
 import { Observable, tap, take } from 'rxjs';

@@ -17,14 +17,15 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApolloError } from '@apollo/client';
-import { TranslocoModule } from '@ngneat/transloco';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
 
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipeScam, exportCsv } from '@energinet-datahub/dh/shared/ui-util';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 
@@ -40,6 +41,7 @@ import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-que
     CommonModule,
     TranslocoModule,
     DhPermissionsTableComponent,
+    WattButtonModule,
     WattSpinnerModule,
     WattEmptyStateModule,
     WattCardModule,
@@ -81,7 +83,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
@@ -96,5 +98,24 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
 
   refreshData(): void {
     this.getPermissionsQuery.refetch();
+  }
+
+  exportAsCsv(): void {
+    if (this.dataSource.sort) {
+      const basePath = 'admin.userManagement.permissionsTab.';
+      const headers = [
+        translate(basePath + 'permissionName'),
+        translate(basePath + 'permissionDescription'),
+      ];
+
+      const marketRoles = this.dataSource.sortData(
+        [...this.dataSource.filteredData],
+        this.dataSource.sort
+      );
+
+      const lines = marketRoles.map((x) => [x.name, x.description]);
+
+      exportCsv(headers, lines);
+    }
   }
 }
