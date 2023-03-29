@@ -73,7 +73,6 @@ type UserRole = ResultOf<
 export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selectedPermission: PermissionDto | null = null;
   private apollo = inject(Apollo);
-  private trans: TranslocoService = inject(TranslocoService);
 
   subscription!: Subscription;
   userRoles: UserRole[] = [];
@@ -128,9 +127,4 @@ export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDes
       this.getPermissionQuery?.refetch({ id });
     }
   }
-
-  translateHeader = (columnId: string): string => {
-    const baseKey = 'admin.userManagement.permissionDetail.tabs.userRoles.columns';
-    return this.trans.translate(`${baseKey}.${columnId}`);
-  };
 }

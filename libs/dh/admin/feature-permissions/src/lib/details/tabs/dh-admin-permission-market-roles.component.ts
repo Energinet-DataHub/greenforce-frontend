@@ -73,10 +73,9 @@ type MarketRole = ResultOf<
 export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selectedPermission: PermissionDto | null = null;
   private apollo = inject(Apollo);
-  private trans: TranslocoService = inject(TranslocoService);
 
   subscription!: Subscription;
-  marketRoles?: MarketRole[];
+  marketRoles: MarketRole[] = [];
   loading = false;
   error?: ApolloError;
 
