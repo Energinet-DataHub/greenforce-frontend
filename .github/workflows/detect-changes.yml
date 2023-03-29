@@ -60,7 +60,7 @@ jobs:
               - 'apps/dh/api-dh/**'
 
       # needed for nx affected command
-      - name: 'PR: Fetch base branch Git history'
+      - name: "PR: Fetch base branch Git history"
         if: ${{ env.IS_PULL_REQUEST == 'true' }}
         run: git fetch --no-tags origin ${{ env.BASE_BRANCH }}
 
@@ -68,7 +68,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: .nvmrc
-          cache: 'yarn'
+          cache: "yarn"
 
       - name: Disable workspace NGCC run
         uses: ./.github/actions/setup-postinstall

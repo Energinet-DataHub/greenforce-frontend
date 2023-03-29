@@ -13,10 +13,10 @@ inputs:
     description: The yaml path containing the version to compare between the head (feature) branch and the base (main) branch.
     required: true
   base-yaml-file:
-    description: 'Optional: The path of the yaml version file in the base (main) branch.'
+    description: "Optional: The path of the yaml version file in the base (main) branch."
     required: false
   base-yaml-path:
-    description: 'Optional: The path of the yaml version file in the base (main) branch.'
+    description: "Optional: The path of the yaml version file in the base (main) branch."
     required: false
 
 runs:
@@ -47,7 +47,7 @@ runs:
     - name: Get next valid semvers
       id: semvers
       if: steps.is-prev-tag-valid.outcome == 'success'
-      uses: 'WyriHaximus/github-action-next-semvers@v1'
+      uses: "WyriHaximus/github-action-next-semvers@v1"
       with:
         version: ${{ steps.previous-tag.outputs.result }}
 
@@ -74,8 +74,8 @@ runs:
         valueFile: ${{ inputs.yaml-file }}
         propertyPath: ${{ inputs.yaml-path }}
         value: ${{ steps.semvers.outputs.patch }}
-        message: 'Chore: bump version to ${{ steps.semvers.outputs.patch }} for ${{ inputs.yaml-file }}'
+        message: "Chore: bump version to ${{ steps.semvers.outputs.patch }} for ${{ inputs.yaml-file }}"
         branch: ${{ github.head_ref }}
-        commitUserName: 'github-actions[bot]'
-        commitUserEmail: 'github-actions[bot]@users.noreply.github.com'
+        commitUserName: "github-actions[bot]"
+        commitUserEmail: "github-actions[bot]@users.noreply.github.com"
         token: ${{ inputs.token }}
