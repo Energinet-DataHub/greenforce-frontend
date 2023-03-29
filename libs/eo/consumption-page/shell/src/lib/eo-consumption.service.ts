@@ -55,8 +55,7 @@ export class EoConsumptionService {
     return this.http.get<EoConsumptionResponse>(
       `${this.#apiBase}/measurements/consumption?dateFrom=${dateRange.start}&dateTo=${
         dateRange.end
-      }&timeZone=${encodedTimeZone}&aggregation=Month`,
-      { withCredentials: true }
+      }&timeZone=${encodedTimeZone}&aggregation=Month`
     );
   }
 }

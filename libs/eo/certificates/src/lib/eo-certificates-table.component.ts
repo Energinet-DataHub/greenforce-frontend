@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import {
   MatLegacyPaginator as MatPaginator,
@@ -33,7 +33,7 @@ import { EoCertificatesStore } from './eo-certificates.store';
 @Component({
   selector: 'eo-certificates-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MatPaginatorModule, MatTableModule, MatSortModule, RouterModule],
+  imports: [MatPaginatorModule, MatTableModule, MatSortModule, RouterModule, DatePipe],
   standalone: true,
   styles: [
     `
