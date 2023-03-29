@@ -19,22 +19,13 @@ import { ComponentStore } from '@ngrx/component-store';
 import { BehaviorSubject } from 'rxjs';
 
 export interface EoLoginToken {
-  acl?: boolean;
-  actor?: string;
   atv?: number;
-  aud?: string;
-  eat?: string;
-  eit?: string;
   exp?: number;
-  ext?: string;
-  iat?: number;
-  iss?: string;
   name?: string;
   nbf?: number;
   /** @example "accepted-terms dashboard production meters certificates" */
   scope?: string;
   sub?: string;
-  subject?: string;
   /** @example 3 - To indicate that the latest terms version is 3 */
   trm?: number;
 }
@@ -53,9 +44,9 @@ export class EoAuthStore extends ComponentStore<AuthState> {
 
   getScope$ = this.select((state) => state.scope?.split(' ') ?? []);
   getTokenNotBefore$ = this.select((state) => state.nbf ?? 0);
-  getTokenIssuedAt$ = this.select((state) => state.iat ?? 0);
   getTokenExpiry$ = this.select((state) => state.exp ?? 0);
   getTermsVersion$ = this.select((state) => state.trm);
+  isTokenExpired$ = this.select((state) => Date.now() / 1000 > (state.exp ?? 0));
 
   setTokenClaims = this.updater(
     (state, claim: EoLoginToken): AuthState => ({ ...state, ...claim })

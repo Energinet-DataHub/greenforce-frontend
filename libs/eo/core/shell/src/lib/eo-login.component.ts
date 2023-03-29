@@ -26,7 +26,7 @@ import { EoAuthService, EoAuthStore } from '@energinet-datahub/eo/shared/service
 })
 export class EoLoginComponent {
   constructor(private service: EoAuthService, private store: EoAuthStore, private router: Router) {
-    this.service.handlePostLogin();
+    this.service.handleLogin();
     this.store.getScope$.subscribe((scope) => {
       if (scope.includes('not-accepted-terms')) {
         this.router.navigate(['/terms']);
@@ -36,8 +36,11 @@ export class EoLoginComponent {
         this.router.navigate(['/dashboard']);
         return;
       }
+
       this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
-      this.service.logout();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      if (!urlParams.toString().includes('errorCode')) this.service.logout();
     });
   }
 }

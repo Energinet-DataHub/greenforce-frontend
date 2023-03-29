@@ -20,7 +20,7 @@ import { RouterModule } from '@angular/router';
 import { EoCookieBannerComponentComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoProductLogoComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { IdleTimerService, TokenRefreshService } from '@energinet-datahub/eo/shared/services';
+import { IdleTimerService } from '@energinet-datahub/eo/shared/services';
 import { EoTitleStore } from '@energinet-datahub/eo/shared/utilities';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { PushModule } from '@rx-angular/template/push';
@@ -139,13 +139,8 @@ export class EoShellComponent implements OnDestroy {
   title$: Observable<string> = this.titleStore.routeTitle$;
   cookiesSet: string | null = null;
 
-  constructor(
-    private titleStore: EoTitleStore,
-    private idleTimerService: IdleTimerService,
-    private tokenRefreshService: TokenRefreshService
-  ) {
+  constructor(private titleStore: EoTitleStore, private idleTimerService: IdleTimerService) {
     this.idleTimerService.startMonitor();
-    this.tokenRefreshService.startMonitor();
     this.getBannerStatus();
   }
 
@@ -155,6 +150,5 @@ export class EoShellComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.idleTimerService.stopMonitor();
-    this.tokenRefreshService.stopMonitor();
   }
 }

@@ -19,6 +19,7 @@ import { Inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import jwt_decode from 'jwt-decode';
+import { combineLatest, Subscription, switchMap, timer } from 'rxjs';
 import { EoAuthStore, EoLoginToken } from './auth.store';
 
 export interface AuthLogoutResponse {
@@ -29,6 +30,7 @@ export interface AuthLogoutResponse {
   providedIn: 'root',
 })
 export class EoAuthService {
+  subscription$: Subscription | undefined;
   #authApiBase: string;
 
   constructor(
@@ -45,7 +47,7 @@ export class EoAuthService {
     this.handleToken(sessionStorage.getItem('token'));
   }
 
-  handlePostLogin() {
+  handleLogin() {
     this.clearToken();
     this.handleToken(this.route.snapshot.queryParamMap.get('token'));
     this.router.navigate([], {
@@ -55,6 +57,7 @@ export class EoAuthService {
   }
 
   refreshToken(waitTime = 0) {
+    /** We add a delay so changes in backend can propagate out before we ask for a token again */
     setTimeout(
       () =>
         this.http
@@ -67,22 +70,29 @@ export class EoAuthService {
   }
 
   startLogin() {
-    window.location.href = `${this.#authApiBase}/login?overrideRedirectionUri=${
-      window.location.protocol
-    }//${window.location.host}/login`;
+    const loginUrl = `${this.#authApiBase}/login`;
+    window.location.href = window.location.host.includes('localhost')
+      ? `${loginUrl}?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/login`
+      : loginUrl;
   }
 
   logout() {
+    this.stopMonitor();
     sessionStorage.removeItem('token');
-    window.location.href = `${this.#authApiBase}/logout?overrideRedirectionUri=${
-      window.location.protocol
-    }//${window.location.host}`;
+    const logoutUrl = `${this.#authApiBase}/logout`;
+    window.location.href = window.location.host.includes('localhost')
+      ? `${logoutUrl}?overrideRedirectionUri=${window.location.protocol}//${window.location.host}`
+      : logoutUrl;
   }
 
   private clearToken() {
-    sessionStorage.removeItem('token');
-    this.store.token.next('');
-    this.store.setTokenClaims({});
+    this.store.isTokenExpired$.subscribe((state) => {
+      if (state === true) {
+        sessionStorage.removeItem('token');
+        this.store.token.next('');
+        this.store.setTokenClaims({});
+      }
+    });
   }
 
   private handleToken(token: string | null) {
@@ -93,5 +103,30 @@ export class EoAuthService {
     sessionStorage.setItem('token', token);
     this.store.token.next(token);
     this.store.setTokenClaims(decodedToken);
+    this.store.isTokenExpired$.subscribe((expired) => !expired && this.startMonitor());
+  }
+
+  private startMonitor() {
+    this.subscription$?.unsubscribe();
+    this.subscription$ = timer(0, 5000)
+      .pipe(
+        switchMap(() =>
+          combineLatest({ exp: this.store.getTokenExpiry$, nbf: this.store.getTokenNotBefore$ })
+        )
+      )
+      .subscribe(({ exp, nbf }) => this.whenTimeThresholdReached(exp, nbf));
+  }
+
+  private stopMonitor() {
+    this.subscription$?.unsubscribe();
+  }
+
+  private whenTimeThresholdReached(exp: number, nbf: number) {
+    const totalTime = exp - nbf;
+    const timeLeftThreshold = totalTime * 0.2;
+    const remainingTime = exp - Date.now() / 1000;
+    if (remainingTime <= timeLeftThreshold) {
+      this.refreshToken();
+    }
   }
 }
