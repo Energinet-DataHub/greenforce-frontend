@@ -40,6 +40,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Create a batch.
         /// </summary>
+        /// <param name="batchRequestDto"></param>
         [HttpPost]
         public async Task<ActionResult> CreateAsync(BatchRequestDto batchRequestDto)
         {
@@ -56,9 +57,15 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Get a batch.
+        /// Get batches
         /// </summary>
-        [HttpPost("Search")]
+        /// <param name="gridAreaCodes"></param>
+        /// <param name="executionState"></param>
+        /// <param name="minExecutionTime"></param>
+        /// <param name="maxExecutionTime"></param>
+        /// <param name="periodStart"></param>
+        /// <param name="periodEnd"></param>
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<BatchDto>>> SearchAsync(
             [FromQuery]IEnumerable<string>? gridAreaCodes,
             [FromQuery]BatchState? executionState,
@@ -98,8 +105,9 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Get a batch.
         /// </summary>
-        [HttpGet("Batch")]
-        public async Task<ActionResult<BatchDto>> GetBatchAsync(Guid batchId)
+        /// <param name="batchId"></param>
+        [HttpGet("{batchId}")]
+        public async Task<ActionResult<BatchDto>> GetBatchAsync([FromRoute]Guid batchId)
         {
             var batch = await _client.GetBatchAsync(batchId);
             var gridAreas = (await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false)).ToList();
@@ -125,7 +133,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <param name="timeSeriesType"></param>
         /// <param name="energySupplierGln"></param>
         /// <param name="balanceResponsiblePartyGln"></param>
-        [HttpPost("ProcessStepResult")]
+        [HttpGet("{batchId}/processes/{gridAreaCode}/time-series-types/{timeSeriesType}")]
         public async Task<ActionResult<ProcessStepResultDto>> GetAsync(
             [FromRoute]Guid batchId,
             [FromRoute]string gridAreaCode,
