@@ -16,7 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
