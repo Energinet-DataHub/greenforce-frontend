@@ -37,7 +37,7 @@ jobs:
     if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v10
     with:
-      SOLUTION_FILE_PATH: "apps/dh/api-dh/DataHub.WebApi.sln"
+      SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       ENVIRONMENT: AzureAuth
     secrets:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
@@ -97,8 +97,8 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.PAT_TOKEN }}
-          repository: "${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}"
-          event-type: "ui-deployment-request-domain"
+          repository: '${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}'
+          event-type: 'ui-deployment-request-domain'
           client-payload: '{"domain_pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet_deploy": "${{ needs.changes.outputs.dh_dotnet }}", "frontend_deploy": "${{ needs.changes.outputs.dh_frontend }}"}'
 
   #
@@ -117,6 +117,6 @@ jobs:
       contains(needs.*.result, 'failure')
     uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v10
     with:
-      TEAM_NAME: "TexasRangers"
-      SUBJECT: "Deployment dispatch failed: UI + BFF"
+      TEAM_NAME: 'TexasRangers'
+      SUBJECT: 'Deployment dispatch failed: UI + BFF'
     secrets: inherit

@@ -2,9 +2,9 @@ name: Create design tokens
 on:
   push:
     paths:
-      - "tokens.json"
+      - 'tokens.json'
     branches-ignore:
-      - "main"
+      - 'main'
 
 jobs:
   build:
