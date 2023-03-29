@@ -16,19 +16,21 @@
  */
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 
-export const adminPermissionsMock: graphql.GetPermissionsQuery = {
-  permissions: [
-    {
-      id: 1,
-      name: 'organizations:view',
-      description: 'Description for OrganizationView',
-      created: '2023-03-07T00:00:00+00:00',
-    },
-    {
-      id: 2,
-      name: 'organizations:manage',
-      description: 'Description for OrganizationManage',
-      created: '2023-03-07T00:00:00+00:00',
-    },
-  ],
+export const adminPermissionDetailsMock: graphql.GetPermissionDetailsQuery = {
+  permission: {
+    id: 1,
+    name: 'organizations:view',
+    description: 'Description for OrganizationView',
+    created: '2023-03-07T00:00:00+00:00',
+    assignableTo: [graphql.EicFunction.BalanceResponsibleParty, graphql.EicFunction.BillingAgent],
+    userRoles: [
+      {
+        id: '2ca09c29-ffc9-4155-d925-08db05f27124',
+        name: 'Test role 1',
+        description: 'Description 1',
+        eicFunction: graphql.EicFunction.BillingAgent,
+        status: graphql.UserRoleStatus.Active,
+      },
+    ],
+  },
 };

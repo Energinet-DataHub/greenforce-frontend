@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { RouterModule, Routes } from '@angular/router';
 import { EoAuthenticationGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {

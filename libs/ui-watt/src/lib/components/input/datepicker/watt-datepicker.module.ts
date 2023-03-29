@@ -16,7 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { NgModule } from '@angular/core';
 
 import { WattDatepickerComponent } from './watt-datepicker.component';

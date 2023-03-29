@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -25,7 +26,7 @@ import {
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { tap } from 'rxjs';
 import { EoAuthService } from './auth.service';
 import { EoAuthStore } from './auth.store';

@@ -1072,8 +1072,6 @@
             "nameMaxLengthErrorText": "Name field must be under 250 characters",
             "name": "Name",
             "description": "Description",
-            "roleStatus": "Status",
-            "selectUserroleStatus": "Select status",
             "eicFunction": "Market role",
             "selectEicFunctionStatus": "Select market role"
           },
@@ -1150,6 +1148,15 @@
         "permissionName": "Name",
         "permissionDescription": "Description",
         "tabs": {
+          "userRoles": {
+            "rolesPlural": "{{ userRoleCount }} roles",
+            "rolesSingular": "{{ userRoleCount }} role",
+            "tabLabel": "Roles",
+            "noEntries": "No results",
+            "columns": {
+              "name": "Name"
+            }
+          },
           "history": {
             "tabLabel": "History"
           }
