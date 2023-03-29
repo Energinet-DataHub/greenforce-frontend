@@ -17,11 +17,12 @@
 
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { MatDrawer } from '@angular/material/sidenav';
 import { PushModule } from '@rx-angular/template/push';
 import { delay, distinctUntilChanged, map, tap, Observable, ReplaySubject } from 'rxjs';
+
 import { WattButtonModule } from '../../button';
 import { WattSpinnerModule } from '../../spinner';
+import { WattDrawerComponent } from '../watt-drawer.component';
 import { WattDrawerModule } from '../watt-drawer.module';
 
 @Component({
@@ -48,18 +49,22 @@ import { WattDrawerModule } from '../watt-drawer.module';
   `,
 })
 export class WattStorybookDrawerLoadingComponent {
-  private id$ = new ReplaySubject(1);
+  private id$ = new ReplaySubject<string>(1);
+
   content$: Observable<string>;
   loading = false;
 
   @Output() closed = new EventEmitter<void>();
 
-  @ViewChild('drawer') drawer!: MatDrawer;
+  @ViewChild('drawer') drawer!: WattDrawerComponent;
 
   constructor() {
     this.content$ = this.id$.pipe(
-      distinctUntilChanged(),
-      tap(() => (this.loading = true)),
+      distinctUntilChanged<string>(),
+      tap(() => {
+        // Avoid `ExpressionChangedAfterItHasBeenCheckedError` in the wrapping component
+        setTimeout(() => (this.loading = true));
+      }),
       delay(1000),
       tap(() => (this.loading = false)),
       map((id) => `This is the ${id} drawer`)

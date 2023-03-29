@@ -22,9 +22,9 @@ import { DhGraphQLModule } from '@energinet-datahub/dh/shared/data-access-graphq
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 import { WattToastModule } from '@energinet-datahub/watt/toast';
+import { WattTopBarOutletComponent } from '@energinet-datahub/watt/shell';
 
 import { DhWholesaleSearchComponent } from './dh-wholesale-search.component';
-import { WattTopBarOutletComponent } from 'libs/ui-watt/src/lib/components/shell/top-bar';
 
 async function setup() {
   await render(
