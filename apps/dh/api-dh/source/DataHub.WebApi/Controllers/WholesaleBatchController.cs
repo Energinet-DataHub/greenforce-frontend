@@ -19,7 +19,6 @@ using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.Wholesale.Client;
 using Microsoft.AspNetCore.Mvc;
 using BatchDto = Energinet.DataHub.WebApi.Controllers.Wholesale.Dto.BatchDto;
 
@@ -29,15 +28,13 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public class WholesaleBatchController : ControllerBase
     {
-        private readonly IWholesaleClient _client;
-        private readonly IWholesaleClient_V3 _clientV3;
+        private readonly IWholesaleClient_V3 _client;
         private readonly IMarketParticipantClient _marketParticipantClient;
 
-        public WholesaleBatchController(IWholesaleClient client, IMarketParticipantClient marketParticipantClient, IWholesaleClient_V3 clientV3)
+        public WholesaleBatchController(IMarketParticipantClient marketParticipantClient, IWholesaleClient_V3 client)
         {
-            _client = client;
             _marketParticipantClient = marketParticipantClient;
-            _clientV3 = clientV3;
+            _client = client;
         }
 
         /// <summary>
@@ -46,11 +43,15 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateAsync(BatchRequestDto batchRequestDto)
         {
-            // batchRequestDto = batchRequestDto with { EndDate = batchRequestDto.EndDate.AddMilliseconds(1) };
-            // var periodEnd = Instant.FromDateTimeOffset(batchRequestDto.EndDate);
-            // if (new ZonedDateTime(periodEnd, _dateTimeZone).TimeOfDay != LocalTime.Midnight)
-            //     throw new BusinessValidationException($"The period end '{periodEnd.ToString()}' must be 1 ms before midnight.");
-            await _clientV3.CreateBatchAsync(batchRequestDto).ConfigureAwait(false);
+            // hacks
+            var dateTimeOffset = batchRequestDto.EndDate.AddMilliseconds(1);
+            var batchRequestDtoNew = new BatchRequestDto(
+                dateTimeOffset,
+                batchRequestDto.GridAreaCodes,
+                batchRequestDto.ProcessType,
+                batchRequestDto.StartDate);
+
+            await _client.CreateBatchAsync(batchRequestDtoNew).ConfigureAwait(false);
             return Ok();
         }
 
@@ -59,17 +60,17 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// </summary>
         [HttpPost("Search")]
         public async Task<ActionResult<IEnumerable<BatchDto>>> SearchAsync(
-            IEnumerable<string>? gridAreaCodes,
-            BatchState? executionState,
-            DateTimeOffset? minExecutionTime,
-            DateTimeOffset? maxExecutionTime,
-            DateTimeOffset? periodStart,
-            DateTimeOffset? periodEnd)
+            [FromQuery]IEnumerable<string>? gridAreaCodes,
+            [FromQuery]BatchState? executionState,
+            [FromQuery]DateTimeOffset? minExecutionTime,
+            [FromQuery]DateTimeOffset? maxExecutionTime,
+            [FromQuery]DateTimeOffset? periodStart,
+            [FromQuery]DateTimeOffset? periodEnd)
         {
             var gridAreas = new List<GridAreaDto>();
             var batchesWithGridAreasWithNames = new List<BatchDto>();
 
-            var batches = (await _clientV3.SearchBatchesAsync(gridAreaCodes, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd).ConfigureAwait(false)).ToList();
+            var batches = (await _client.SearchBatchesAsync(gridAreaCodes, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd).ConfigureAwait(false)).ToList();
 
             if (batches.Any())
             {
@@ -100,7 +101,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpGet("Batch")]
         public async Task<ActionResult<BatchDto>> GetBatchAsync(Guid batchId)
         {
-            var batch = await _clientV3.GetBatchAsync(batchId);
+            var batch = await _client.GetBatchAsync(batchId);
             var gridAreas = (await _marketParticipantClient.GetGridAreasAsync().ConfigureAwait(false)).ToList();
 
             var gridAreaDtos = gridAreas.Where(x => batch!.GridAreaCodes.Contains(x.Code));
@@ -129,10 +130,10 @@ namespace Energinet.DataHub.WebApi.Controllers
             [FromRoute]Guid batchId,
             [FromRoute]string gridAreaCode,
             [FromRoute]TimeSeriesType timeSeriesType,
-            [FromQuery] string energySupplierGln,
-            [FromQuery] string balanceResponsiblePartyGln)
+            [FromQuery] string? energySupplierGln,
+            [FromQuery] string? balanceResponsiblePartyGln)
         {
-            var dto = await _clientV3.GetProcessStepResultAsync(
+            var dto = await _client.GetProcessStepResultAsync(
                 batchId,
                 gridAreaCode,
                 timeSeriesType,
