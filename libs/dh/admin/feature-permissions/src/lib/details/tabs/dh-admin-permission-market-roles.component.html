@@ -39,10 +39,9 @@ limitations under the License.
         sortBy="name"
         sortDirection="desc"
         [sortClear]="false"
-        [resolveHeader]="translateHeader"
         *ngIf="!error"
       >
-        <ng-container *wattTableCell="columns['name']; let element">
+        <ng-container *wattTableCell="columns.name; header: t('columns.name'); let element">
           {{ element }}
         </ng-container>
       </watt-table>

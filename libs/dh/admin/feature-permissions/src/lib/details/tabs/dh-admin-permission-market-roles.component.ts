@@ -128,9 +128,4 @@ export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges,
       this.getPermissionQuery?.refetch({ id });
     }
   }
-
-  translateHeader = (columnId: string): string => {
-    const baseKey = 'admin.userManagement.permissionDetail.tabs.marketRoles.columns';
-    return this.trans.translate(`${baseKey}.${columnId}`);
-  };
 }
