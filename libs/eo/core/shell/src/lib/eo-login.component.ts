@@ -17,6 +17,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { EoAuthService, EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { combineLatest } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -27,20 +28,16 @@ import { EoAuthService, EoAuthStore } from '@energinet-datahub/eo/shared/service
 export class EoLoginComponent {
   constructor(private service: EoAuthService, private store: EoAuthStore, private router: Router) {
     this.service.handleLogin();
-    this.store.getScope$.subscribe((scope) => {
-      if (scope.includes('not-accepted-terms')) {
-        this.router.navigate(['/terms']);
-        return;
+    combineLatest([this.store.getScope$, this.store.isTokenExpired$]).subscribe(
+      ([scope, isTokenExpired]) => {
+        if (scope.includes('not-accepted-terms')) {
+          this.router.navigate(['/terms']);
+        } else if (scope.includes('accepted-terms') && scope.includes('dashboard')) {
+          this.router.navigate(['/dashboard']);
+        } else if (isTokenExpired) {
+          this.service.logout();
+        } else this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
       }
-      if (scope.includes('accepted-terms') && scope.includes('dashboard')) {
-        this.router.navigate(['/dashboard']);
-        return;
-      }
-
-      this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
-
-      const urlParams = new URLSearchParams(window.location.search);
-      if (!urlParams.toString().includes('errorCode')) this.service.logout();
-    });
+    );
   }
 }
