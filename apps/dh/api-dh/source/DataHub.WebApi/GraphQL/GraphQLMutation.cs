@@ -13,9 +13,11 @@
 // limitations under the License.
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
+using Contracts = Energinet.DataHub.Wholesale.Contracts;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -33,6 +35,51 @@ namespace Energinet.DataHub.WebApi.GraphQL
                         var updatePermissionDto = context.GetArgument<UpdatePermissionDto>("permission");
                         await client.UpdatePermissionAsync(updatePermissionDto);
                         return await client.GetPermissionAsync(updatePermissionDto.Id);
+                    });
+
+            Field<NonNullGraphType<BatchType>>("createBatch")
+                .Argument<NonNullGraphType<CreateBatchInputType>>("input", "Batch to create")
+                .Resolve()
+                .WithScope()
+                .WithService<IWholesaleClient_V3>()
+                .ResolveAsync(async (context, client) =>
+                    {
+                        var input = context.GetArgument<CreateBatchInput>("input");
+
+                        if (!input.Period.HasEnd || !input.Period.HasStart)
+                        {
+                            throw new ExecutionError("Period cannot be open-ended");
+                        }
+
+                        var start = input.Period.Start.ToDateTimeOffset();
+                        var end = input.Period.End.ToDateTimeOffset();
+                        var gridAreaCodes = input.GridAreaCodes;
+                        var processType = input.ProcessType switch
+                        {
+                            Contracts.ProcessType.Aggregation => ProcessType.Aggregation,
+                            Contracts.ProcessType.BalanceFixing => ProcessType.BalanceFixing,
+                            _ => throw new ExecutionError("Invalid process type"), // impossible
+                        };
+
+                        var batchRequestDto = new BatchRequestDto(
+                            end,
+                            input.GridAreaCodes,
+                            processType,
+                            start);
+
+                        var guid = await client.CreateBatchAsync(batchRequestDto);
+
+                        // TODO: Don't mix new with old...
+                        return new Contracts.BatchDtoV2(
+                            guid,
+                            start,
+                            end,
+                            null,
+                            null,
+                            Contracts.BatchState.Pending,
+                            false,
+                            gridAreaCodes,
+                            input.ProcessType);
                     });
         }
     }

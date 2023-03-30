@@ -68,6 +68,15 @@ export enum BatchState {
   Pending = 'PENDING'
 }
 
+export type CreateBatchInput = {
+  /** The grid areas to be included in the batch. */
+  gridAreaCodes: Array<Scalars['String']>;
+  /** The period for the batch. */
+  period: Scalars['DateRange'];
+  /** The process type for the batch. */
+  processType: ProcessType;
+};
+
 export enum EicFunction {
   BalanceResponsibleParty = 'BALANCE_RESPONSIBLE_PARTY',
   BillingAgent = 'BILLING_AGENT',
@@ -87,7 +96,13 @@ export enum EicFunction {
 
 export type GraphQlMutation = {
   __typename?: 'GraphQLMutation';
+  createBatch: Batch;
   permission: Permission;
+};
+
+
+export type GraphQlMutationCreateBatchArgs = {
+  input: CreateBatchInput;
 };
 
 
