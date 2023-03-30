@@ -109,10 +109,17 @@ namespace Energinet.DataHub.WebApi.Controllers
                         .GetAsync(auditLog.UserRoleId)
                         .ConfigureAwait(false);
 
+                    var auditLogType = auditLog.AssignmentType switch {
+                        UserRoleAssignmentTypeAuditLog.Added => UserAuditLogType.UserRoleAdded,
+                        UserRoleAssignmentTypeAuditLog.Removed => UserAuditLogType.UserRoleRemoved,
+                        UserRoleAssignmentTypeAuditLog.RemovedDueToDeactivation => UserAuditLogType.UserRoleRemovedDueToDeactivation,
+                        _ => UserAuditLogType.UserRoleAdded,
+                    };
+
                     userAuditLogs.Add(new UserAuditLogDto(
                         userRoleDto.Name,
                         changedByUserDto.Name,
-                        auditLog.AssignmentType == UserRoleAssignmentTypeAuditLog.Added ? UserAuditLogType.UserRoleAdded : UserAuditLogType.UserRoleRemoved,
+                        auditLogType,
                         auditLog.Timestamp));
                 }
 

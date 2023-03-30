@@ -9,16 +9,35 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { WholesaleTimeSeriesType } from './wholesale-time-series-type';
+import { WholesaleProcessType } from './wholesale-process-type';
 import { WholesaleTimeSeriesPointDto } from './wholesale-time-series-point-dto';
 
 
+/**
+ * Result data from a specific step in a process
+ */
 export interface WholesaleProcessStepResultDto { 
-    timeSeriesType: WholesaleTimeSeriesType;
+    /**
+     * Sum has a scale of 3
+     */
     sum: number;
+    /**
+     * Min has a scale of 3
+     */
     min: number;
+    /**
+     * Max has a scale of 3
+     */
     max: number;
-    timeSeriesPoints: Array<WholesaleTimeSeriesPointDto>;
+    periodStart: string;
+    periodEnd: string;
+    resolution?: string | null;
+    /**
+     * kWh
+     */
+    unit?: string | null;
+    timeSeriesPoints?: Array<WholesaleTimeSeriesPointDto> | null;
+    processType: WholesaleProcessType;
 }
 
 
