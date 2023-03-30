@@ -436,8 +436,7 @@
         "additionalProperties": false,
         "properties": {
           "gln": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       },
@@ -463,12 +462,10 @@
             "format": "date-time"
           },
           "resolution": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "unit": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "executionTimeStart": {
             "type": "string",
@@ -488,7 +485,6 @@
           },
           "gridAreaCodes": {
             "type": "array",
-            "nullable": true,
             "items": {
               "type": "string"
             }
@@ -507,7 +503,6 @@
           },
           "gridAreaCodes": {
             "type": "array",
-            "nullable": true,
             "items": {
               "type": "string"
             }
@@ -563,18 +558,15 @@
           },
           "resolution": {
             "type": "string",
-            "description": "",
-            "nullable": true
+            "description": ""
           },
           "unit": {
             "type": "string",
-            "description": "kWh",
-            "nullable": true
+            "description": "kWh"
           },
           "timeSeriesPoints": {
             "type": "array",
             "description": "",
-            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TimeSeriesPointDto"
             }
@@ -647,8 +639,7 @@
           },
           "quality": {
             "type": "string",
-            "description": "Any of the values from Energinet.DataHub.Wholesale.WebApi.V3.ProcessStepResult.TimeSeriesPointQuality",
-            "nullable": true
+            "description": "Any of the values from Energinet.DataHub.Wholesale.WebApi.V3.ProcessStepResult.TimeSeriesPointQuality"
           }
         }
       },
@@ -660,6 +651,20 @@
           "Production"
         ]
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        "scheme": "bearer"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [
+        "Bearer"
+      ]
+    }
+  ]
 }
