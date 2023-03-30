@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, EventEmitter, inject, Output, ViewChild } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { PushModule } from '@rx-angular/template/push';
@@ -32,7 +32,8 @@ import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component'
 import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-data-general-error.component';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 @Component({
   selector: 'dh-role-drawer',
   standalone: true,
@@ -52,11 +53,14 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     DhTabDataGeneralErrorComponent,
     DhEditUserRoleModalComponent,
     DhPermissionRequiredDirective,
+    WattModalModule,
   ],
 })
 export class DhRoleDrawerComponent {
   private readonly store = inject(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore);
-  private basicUserRole: MarketParticipantUserRoleDto | null = null;
+  private toastService = inject(WattToastService);
+  private translocoService = inject(TranslocoService);
+  basicUserRole: MarketParticipantUserRoleDto | null = null;
 
   userRoleWithPermissions$ = this.store.userRole$;
   isLoading$ = this.store.isLoading$;
@@ -65,13 +69,22 @@ export class DhRoleDrawerComponent {
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
 
+  @ViewChild('confirmationModal') confirmationModal!: WattModalComponent;
+
   isEditUserRoleModalVisible = false;
 
   @Output() closed = new EventEmitter<void>();
+  @Output() userRoleDeactivated = new EventEmitter<void>();
 
   onClose(): void {
     this.drawer.close();
     this.closed.emit();
+    this.basicUserRole = null;
+  }
+
+  onDeActivated(): void {
+    this.drawer.close();
+    this.userRoleDeactivated.emit();
     this.basicUserRole = null;
   }
 
@@ -89,9 +102,34 @@ export class DhRoleDrawerComponent {
     }
   }
 
+  confirmationClosed(succes: boolean): void {
+    if (succes && this.basicUserRole) {
+      this.toastService.open({
+        message: this.translocoService.translate('admin.userManagement.drawer.disablingUserRole'),
+        type: 'info',
+      });
+      this.store.disableUserRole({
+        userRoleId: this.basicUserRole.id,
+        onSuccessFn: () => {
+          this.toastService.open({
+            message: this.translocoService.translate(
+              'admin.userManagement.drawer.userroleDisabled'
+            ),
+            type: 'success',
+          });
+          this.onDeActivated();
+        },
+      });
+    }
+  }
+
   loadUserRoleWithPermissions() {
     if (this.basicUserRole) {
       this.store.getUserRole(this.basicUserRole.id);
     }
+  }
+
+  disableUserRole() {
+    this.confirmationModal.open();
   }
 }
