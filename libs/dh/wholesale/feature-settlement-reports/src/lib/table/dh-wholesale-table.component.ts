@@ -20,8 +20,7 @@ import {
   Component,
   Input,
   Output,
-  EventEmitter,
-  inject,
+  EventEmitter
 } from '@angular/core';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
@@ -33,7 +32,6 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 
 import { PushModule } from '@rx-angular/template/push';
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { SettlementReport } from '@energinet-datahub/dh/wholesale/domain';
 
