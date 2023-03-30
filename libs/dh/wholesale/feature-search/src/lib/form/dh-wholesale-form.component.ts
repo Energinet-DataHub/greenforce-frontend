@@ -23,7 +23,7 @@ import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WholesaleBatchSearchDtoV2 } from '@energinet-datahub/dh/shared/domain';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   standalone: true,
@@ -45,7 +45,7 @@ export class DhWholesaleFormComponent {
   @Input() set executionTime(executionTime: { start: string; end: string }) {
     this.searchForm.patchValue({ executionTime });
   }
-  @Output() search = new EventEmitter<WholesaleBatchSearchDtoV2>();
+  @Output() search = new EventEmitter<graphql.GetBatchesQueryVariables>();
 
   searchForm = this.fb.group({
     executionTime: [this.executionTime, WattRangeValidators.required()],
@@ -56,10 +56,6 @@ export class DhWholesaleFormComponent {
   onSubmit() {
     if (!this.searchForm?.value?.executionTime) return;
 
-    this.search.emit({
-      filterByGridAreaCodes: [],
-      minExecutionTime: this.searchForm?.value?.executionTime?.start,
-      maxExecutionTime: this.searchForm?.value?.executionTime?.end,
-    });
+    this.search.emit({executionTime : this.searchForm?.value?.executionTime});
   }
 }

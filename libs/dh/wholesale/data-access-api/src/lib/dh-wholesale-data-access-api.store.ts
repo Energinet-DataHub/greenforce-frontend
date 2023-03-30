@@ -24,33 +24,19 @@ import {
   MarketParticipantGridAreaHttp,
   WholesaleBatchRequestDto,
   WholesaleProcessType,
-  WholesaleBatchSearchDtoV2,
-  WholesaleBatchState,
-  WholesaleBatchDto,
   MarketParticipantGridAreaDto,
-  WholesaleProcessStepResultRequestDtoV3,
-  WholesaleProcessStepResultDto,
-  WholesaleActorDto,
-  WholesaleTimeSeriesType,
-  WholesaleMarketRole,
   MarketParticipantHttp,
   WholesaleSettlementReportHttp,
   MarketParticipantFilteredActorDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { batch } from '@energinet-datahub/dh/wholesale/domain';
 
-import type { WattBadgeType } from '@energinet-datahub-types/watt/badge';
 
 interface State {
-  batches?: batch[];
   gridAreas?: MarketParticipantGridAreaDto[];
-  processStepResults?: WholesaleProcessStepResultDto;
   loadingBatches: boolean;
   loadingSettlementReports: boolean;
-  selectedBatch?: batch;
   selectedGridArea?: MarketParticipantGridAreaDto;
   loadingCreatingBatch: boolean;
-  actors?: WholesaleActorDto[];
   filteredActors?: MarketParticipantFilteredActorDto[];
 }
 
@@ -64,15 +50,11 @@ const initialState: State = {
   providedIn: 'root',
 })
 export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
-  batches$ = this.select((x) => x.batches);
   gridAreas$ = this.select((x) => x.gridAreas).pipe(
     // Ensure gridAreas$ will not emit undefined, which will cause no loading indicator to be shown
     filter((x) => !!x)
   );
-  selectedBatch$ = this.select((x) => x.selectedBatch);
   selectedGridArea$ = this.select((x) => x.selectedGridArea);
-  processStepResults$ = this.select((x) => x.processStepResults);
-  actors$ = this.select((x) => x.actors);
   filteredActors$ = this.select((x) => x.filteredActors);
 
   creatingBatchSuccessTrigger$: Subject<void> = new Subject();
@@ -107,21 +89,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     })
   );
 
-  readonly setBatches = this.updater(
-    (state, batches: batch[]): State => ({
-      ...state,
-      batches: batches,
-      loadingBatches: false,
-    })
-  );
-
-  readonly setProcessStepResults = this.updater(
-    (state, processStepResults: WholesaleProcessStepResultDto | undefined): State => ({
-      ...state,
-      processStepResults,
-    })
-  );
-
   readonly setLoadingBatches = this.updater(
     (state, loadingBatches: boolean): State => ({
       ...state,
@@ -133,13 +100,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (state, loadingBatches: boolean): State => ({
       ...state,
       loadingBatches,
-    })
-  );
-
-  readonly setActors = this.updater(
-    (state, actors: WholesaleActorDto[]): State => ({
-      ...state,
-      actors,
     })
   );
 
@@ -193,50 +153,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     }
   );
 
-  readonly getBatches = this.effect((filter$: Observable<WholesaleBatchSearchDtoV2>) => {
-    return filter$.pipe(
-      switchMap((filter: WholesaleBatchSearchDtoV2) => {
-        this.setLoadingBatches(true);
-
-        return this.httpClient.v1WholesaleBatchSearchPost(filter).pipe(
-          tapResponse(
-            (batches) => {
-              const mappedBatches = batches.map((batch) => {
-                return {
-                  ...batch,
-                  statusType: this.getStatusType(batch.executionState),
-                };
-              });
-              this.setBatches(mappedBatches);
-            },
-            () => {
-              this.setLoadingBatches(false);
-              this.loadingBatchesErrorTrigger$.next();
-            }
-          )
-        );
-      })
-    );
-  });
-
-  readonly getBatch = this.effect((batchNumber$: Observable<string>) => {
-    return batchNumber$.pipe(
-      switchMap((batchNumber) => {
-        return this.httpClient.v1WholesaleBatchBatchGet(batchNumber).pipe(
-          tapResponse(
-            (batch) => {
-              this.setSelectedBatch({
-                ...batch,
-                statusType: this.getStatusType(batch.executionState),
-              });
-            },
-            () => this.loadingBatchErrorTrigger$.next()
-          )
-        );
-      })
-    );
-  });
-
   readonly getGridAreas = this.effect(() => {
     return this.marketParticipantGridAreaHttpClient
       .v1MarketParticipantGridAreaGetAllGridAreasGet()
@@ -250,53 +166,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       );
   });
 
-  readonly getProcessStepResults = this.effect(
-    (options$: Observable<WholesaleProcessStepResultRequestDtoV3>) => {
-      return options$.pipe(
-        switchMap((options) => {
-          this.setProcessStepResults(undefined); // We reset the process step results to force the loading spinner to show
-          return this.httpClient.v1WholesaleBatchProcessStepResultPost(options).pipe(
-            tapResponse(
-              (stepResults: WholesaleProcessStepResultDto) =>
-                this.setProcessStepResults(stepResults),
-              () => this.loadingProcessStepResultsErrorTrigger$.next()
-            )
-          );
-        })
-      );
-    }
-  );
-
-  readonly getActors = this.effect(
-    (
-      options$: Observable<{
-        batchId: string;
-        gridAreaCode: string;
-        marketRole: WholesaleMarketRole;
-      }>
-    ) => {
-      return options$.pipe(
-        switchMap(({ batchId, gridAreaCode, marketRole }) => {
-          return this.httpClient
-            .v1WholesaleBatchActorsPost({
-              batchId,
-              gridAreaCode,
-              type: WholesaleTimeSeriesType.NonProfiledConsumption,
-              marketRole,
-            })
-            .pipe(
-              tapResponse(
-                (actors) => this.setActors(actors),
-                () => {
-                  this.loadingActorsErrorTrigger$.next();
-                }
-              )
-            );
-        })
-      );
-    }
-  );
-
   readonly getFilteredActors = this.effect(() => {
     return this.marketParticipantHttp.v1MarketParticipantOrganizationGetFilteredActorsGet().pipe(
       tapResponse(
@@ -305,28 +174,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
         },
         () => this.loadingFilteredActorsErrorTrigger$.next()
       )
-    );
-  });
-
-  readonly getZippedBasisData = this.effect((batch$: Observable<WholesaleBatchDto>) => {
-    return batch$.pipe(
-      switchMap((batch) => {
-        return this.httpClient.v1WholesaleBatchZippedBasisDataStreamGet(batch.batchId).pipe(
-          tapResponse(
-            (data) => {
-              const blob = new Blob([data as unknown as BlobPart], {
-                type: 'application/zip',
-              });
-              const basisData = window.URL.createObjectURL(blob);
-              const link = this.document.createElement('a');
-              link.href = basisData;
-              link.download = `${batch.batchId}.zip`;
-              link.click();
-            },
-            () => this.loadingBasisDataErrorTrigger$.next()
-          )
-        );
-      })
     );
   });
 
@@ -356,43 +203,10 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     }
   );
 
-  readonly setSelectedBatch = this.updater(
-    (state, batch: batch | undefined): State => ({
-      ...state,
-      selectedBatch: batch,
-      processStepResults: undefined,
-    })
-  );
-
   readonly setSelectedGridArea = this.updater(
     (state, gridArea: MarketParticipantGridAreaDto | undefined): State => ({
       ...state,
       selectedGridArea: gridArea,
     })
   );
-
-  readonly getGridArea$ = (
-    gridAreaCode: string
-  ): Observable<MarketParticipantGridAreaDto | undefined> => {
-    return this.selectedBatch$.pipe(
-      map((x) => {
-        return x?.gridAreas.filter(
-          (gridArea: MarketParticipantGridAreaDto) => gridArea.code === gridAreaCode
-        )[0];
-      }),
-      tap((gridArea) => this.setSelectedGridArea(gridArea))
-    );
-  };
-
-  private getStatusType(status: WholesaleBatchState): WattBadgeType {
-    if (status === WholesaleBatchState.Pending) {
-      return 'warning';
-    } else if (status === WholesaleBatchState.Completed) {
-      return 'success';
-    } else if (status === WholesaleBatchState.Failed) {
-      return 'danger';
-    } else {
-      return 'info';
-    }
-  }
 }

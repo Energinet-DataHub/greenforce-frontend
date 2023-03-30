@@ -60,9 +60,6 @@ type settlementReportsTableData = WattTableDataSource<settlementReportsTableColu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleTableComponent {
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
-
-  selectedBatch$ = this.store.selectedBatch$;
 
   @Input() set data(processes: settlementReportsTableColumns[]) {
     this._data = new WattTableDataSource(processes);
