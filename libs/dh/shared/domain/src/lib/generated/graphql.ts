@@ -91,6 +91,7 @@ export type GraphQlQuery = {
   actors: Array<Actor>;
   batch?: Maybe<Batch>;
   batches: Array<Batch>;
+  gridAreas: Array<GridArea>;
   organization?: Maybe<Organization>;
   organizations?: Maybe<Array<Maybe<Organization>>>;
   permission: Permission;

@@ -123,6 +123,7 @@ type GraphQLQuery {
     id: ID
   ): Batch
   batches(executionTime: DateRange): [Batch!]!
+  gridAreas: [GridArea!]!
   organization(
     """
     The id of the organization
