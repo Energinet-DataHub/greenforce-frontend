@@ -1149,9 +1149,9 @@
         "permissionDescription": "Description",
         "tabs": {
           "userRoles": {
-            "rolesPlural": "{{ userRoleCount }} roles",
-            "rolesSingular": "{{ userRoleCount }} role",
-            "tabLabel": "Roles",
+            "rolesPlural": "{{ userRoleCount }} User roles",
+            "rolesSingular": "{{ userRoleCount }} User role",
+            "tabLabel": "User Roles",
             "noEntries": "No results",
             "columns": {
               "name": "Name"
@@ -1161,8 +1161,8 @@
             "tabLabel": "History"
           },
           "marketRoles": {
-            "rolesPlural": "{{ marketRoles }} roles",
-            "rolesSingular": "{{ marketRoles }} role",
+            "rolesPlural": "{{ marketRoleCount }} Market roles",
+            "rolesSingular": "{{ marketRoleCount }} Market role",
             "tabLabel": "Market roles",
             "noEntries": "No market roles found",
             "columns": {
