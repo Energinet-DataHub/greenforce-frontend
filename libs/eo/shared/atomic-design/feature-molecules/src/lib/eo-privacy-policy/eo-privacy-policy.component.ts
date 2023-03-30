@@ -14,22 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Output } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { PushModule } from '@rx-angular/template/push';
-import { Observable } from 'rxjs';
-import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [EoScrollViewComponent, PushModule],
+  imports: [EoScrollViewComponent, AsyncPipe],
   selector: 'eo-privacy-policy',
-
   styles: [
     `
-      @use '@energinet-datahub/watt/utils' as watt;
-
       :host {
         display: block;
       }
@@ -40,11 +36,15 @@ import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
 
       .policy ::ng-deep {
         h2 {
-          margin-top: 16px;
+          margin-bottom: 16px;
         }
 
         h3 {
           margin-top: 16px;
+        }
+
+        p {
+          margin-bottom: 16px;
         }
 
         ol {
@@ -85,13 +85,10 @@ import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
       }
     `,
   ],
-  template: ` <div class="policy" [innerHTML]="privacyPolicy$ | push"></div> `,
-  viewProviders: [EoPrivacyPolicyStore],
+  template: ` <div class="policy" [innerHTML]="privacyPolicy$ | async"></div> `,
 })
 export class EoPrivacyPolicyComponent {
-  @Output() versionChange = this.store.version$;
+  privacyPolicy$ = this.http.get('/assets/html/privacy-policy.html', { responseType: 'text' });
 
-  privacyPolicy$: Observable<string> = this.store.privacyPolicy$;
-
-  constructor(private store: EoPrivacyPolicyStore) {}
+  constructor(private http: HttpClient) {}
 }

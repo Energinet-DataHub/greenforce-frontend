@@ -57,8 +57,7 @@ export class EoOriginOfEnergyService {
     return this.http.get<EoOriginOfEnergyResponse>(
       `${this.#apiBase}/sources?dateFrom=${dateRange.start}&dateTo=${
         dateRange.end
-      }&timeZone=${encodedTimeZone}&aggregation=Total`,
-      { withCredentials: true }
+      }&timeZone=${encodedTimeZone}&aggregation=Total`
     );
   }
 
