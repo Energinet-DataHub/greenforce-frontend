@@ -38,7 +38,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: ${{ env.NODE_VERSION_FILE }}
-          cache: 'yarn'
+          cache: "yarn"
 
       - name: Disable workspace NGCC run
         uses: ./.github/actions/setup-postinstall
