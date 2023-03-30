@@ -54,7 +54,7 @@ jobs:
         with:
           fetch-depth: 0
       # needed for nx affected command
-      - name: "PR: Fetch base branch Git history"
+      - name: 'PR: Fetch base branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
 
@@ -238,7 +238,7 @@ jobs:
           chart-folder: build/infrastructure/eo/chart
           chart-repository: ${{ github.repository_owner }}/helm-charts
           chart-version: ${{ needs.define_build.outputs.chart_version }}
-          version_yaml_path_prefix: ""
+          version_yaml_path_prefix: ''
 
   update-environment:
     name: Update preview environment

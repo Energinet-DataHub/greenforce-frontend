@@ -70,7 +70,7 @@ jobs:
           # 👇 Chromatic projectToken, refer to the manage page to obtain it.
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           exitZeroOnChanges: true # 👈 Option to prevent the workflow from failing
-          buildScriptName: "designsystem:build"
+          buildScriptName: 'designsystem:build'
 
   #
   # Send notification to teams channel if deployment dispatch failed
@@ -84,5 +84,5 @@ jobs:
     uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v10
     with:
       TEAM_NAME: TexasRangers
-      SUBJECT: "Deployment dispatch failed: Watt + UI"
+      SUBJECT: 'Deployment dispatch failed: Watt + UI'
     secrets: inherit
