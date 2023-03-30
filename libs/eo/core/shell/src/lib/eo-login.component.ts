@@ -17,7 +17,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { EoAuthService, EoAuthStore } from '@energinet-datahub/eo/shared/services';
-import { combineLatest } from 'rxjs';
+import { combineLatest, take } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -28,16 +28,20 @@ import { combineLatest } from 'rxjs';
 export class EoLoginComponent {
   constructor(private service: EoAuthService, private store: EoAuthStore, private router: Router) {
     this.service.handleLogin();
-    combineLatest([this.store.getScope$, this.store.isTokenExpired$]).subscribe(
-      ([scope, isTokenExpired]) => {
+    combineLatest([this.store.getScope$, this.store.isTokenExpired$])
+      .pipe(take(1))
+      .subscribe(([scope, isTokenExpired]) => {
         if (scope.includes('not-accepted-terms')) {
           this.router.navigate(['/terms']);
         } else if (scope.includes('accepted-terms') && scope.includes('dashboard')) {
           this.router.navigate(['/dashboard']);
         } else if (isTokenExpired) {
+          console.log('session expired', this.store.token.getValue());
           this.service.logout();
-        } else this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
-      }
-    );
+        } else {
+          console.log('fallback');
+          this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
+        }
+      });
   }
 }

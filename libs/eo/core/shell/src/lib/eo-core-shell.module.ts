@@ -54,10 +54,10 @@ const routes: Routes = [
   {
     path: '',
     component: EoShellComponent,
+    canActivate: [EoAuthenticationGuard],
     children: [
       {
         path: eoCertificatesRoutePath,
-        canActivate: [EoAuthenticationGuard],
         loadChildren: () =>
           import('@energinet-datahub/eo/certificates').then(
             (esModule) => esModule.EoCertificatesModule
@@ -65,7 +65,6 @@ const routes: Routes = [
       },
       {
         path: eoDashboardRoutePath,
-        canActivate: [EoAuthenticationGuard],
         data: { title: 'Dashboard' },
         loadChildren: () =>
           import('@energinet-datahub/eo/dashboard/shell').then(
@@ -74,7 +73,6 @@ const routes: Routes = [
       },
       {
         path: eoOriginOfEnergyRoutePath,
-        canActivate: [EoAuthenticationGuard],
         data: { title: 'Renewable Share' },
         loadChildren: () =>
           import('@energinet-datahub/eo/origin-of-energy/shell').then(
@@ -83,7 +81,6 @@ const routes: Routes = [
       },
       {
         path: eoConsumptionPageRoutePath,
-        canActivate: [EoAuthenticationGuard],
         data: { title: 'Consumption' },
         loadChildren: () =>
           import('@energinet-datahub/eo/consumption-page/shell').then(
@@ -92,7 +89,6 @@ const routes: Routes = [
       },
       {
         path: eoProductionRoutePath,
-        canActivate: [EoAuthenticationGuard],
         data: { title: 'Production' },
         loadChildren: () =>
           import('@energinet-datahub/eo/production/shell').then(
@@ -101,7 +97,6 @@ const routes: Routes = [
       },
       {
         path: eoMeteringPointsRoutePath,
-        canActivate: [EoAuthenticationGuard],
         data: { title: 'Metering points' },
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
@@ -110,7 +105,6 @@ const routes: Routes = [
       },
       {
         path: eoEmissionsRoutePath,
-        canActivate: [EoAuthenticationGuard],
         data: { title: 'Emissions' },
         loadChildren: () =>
           import('@energinet-datahub/eo/emissions/shell').then(

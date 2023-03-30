@@ -30,6 +30,7 @@ export class EoAuthenticationGuard implements CanActivate {
       map((scope) => {
         if (scope.includes('not-accepted-terms')) this.router.navigate(['/terms']);
         if (!this.authStore.token.getValue()) this.router.navigate(['']);
+
         return !!scope.includes('accepted-terms');
       })
     );

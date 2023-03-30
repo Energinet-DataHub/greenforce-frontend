@@ -19,7 +19,7 @@ import { Inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import jwt_decode from 'jwt-decode';
-import { combineLatest, Subscription, switchMap, timer } from 'rxjs';
+import { combineLatest, Subscription, switchMap, take, timer } from 'rxjs';
 import { EoAuthStore, EoLoginToken } from './auth.store';
 
 export interface AuthLogoutResponse {
@@ -103,7 +103,9 @@ export class EoAuthService {
     sessionStorage.setItem('token', token);
     this.store.token.next(token);
     this.store.setTokenClaims(decodedToken);
-    this.store.isTokenExpired$.subscribe((expired) => !expired && this.startMonitor());
+    this.store.isTokenExpired$
+      .pipe(take(1))
+      .subscribe((expired) => !expired && this.startMonitor());
   }
 
   private startMonitor() {
