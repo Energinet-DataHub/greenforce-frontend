@@ -887,7 +887,14 @@
       },
       "download": "Download",
       "drawer": {
-        "edit": "Rediger",
+        "edit": "Rediger rettighed",
+        "disable": "Deaktiver",
+        "disablingUserRole": "Deaktiverer bruger rollen",
+        "userroleDisabled": "Bruger rollen blev deaktiveret.",
+        "deactivateWarningTitle": "Deaktiver bruger rolle permanent?",
+        "continue": "Deaktiver brugerrolle",
+        "cancel": "Fortryd",
+        "deactivateWarning": "Du er ved at deaktivere bruger rollen. Dette vil fjerne bruger rollen fra alle tilknyttede brugere, og forhindre yderligere ændringer af rollen.",
         "roles": {
           "tabs": {
             "masterData": {
@@ -962,7 +969,8 @@
             "auditLogType": {
               "UserRoleAdded": "<b>{{ changedByUserName }}</b> tilføjede brugerrollen <b>{{ toValue }}</b>",
               "UserRoleRemoved": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b>",
-              "UserInvite": "<b>{{ changedByUserName }}</b> tilføjede brugeren til aktør <b>{{ toValue }}</b>"
+              "UserInvite": "<b>{{ changedByUserName }}</b> tilføjede brugeren til aktør <b>{{ toValue }}</b>",
+              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b> fordi rollen blev deaktiveret"
             }
           },
           "generalError": {
@@ -1122,9 +1130,9 @@
         "permissionDescription": "Beskrivelse",
         "tabs": {
           "userRoles": {
-            "rolesPlural": "{{ userRoleCount }} roller",
-            "rolesSingular": "{{ userRoleCount }} rolle",
-            "tabLabel": "Roller",
+            "rolesPlural": "{{ userRoleCount }} Brugerroller",
+            "rolesSingular": "{{ userRoleCount }} Brugerrolle",
+            "tabLabel": "Brugerroller",
             "noEntries": "Ingen resultater",
             "columns": {
               "name": "Navn"
@@ -1132,6 +1140,15 @@
           },
           "history": {
             "tabLabel": "Historik"
+          },
+          "marketRoles": {
+            "rolesPlural": "{{ marketRoleCount }} Markedsroller",
+            "rolesSingular": "{{ marketRoleCount }} Markedsrolle",
+            "tabLabel": "Markedsroller",
+            "noEntries": "Ingen resultater",
+            "columns": {
+              "name": "Navn"
+            }
           }
         }
       }

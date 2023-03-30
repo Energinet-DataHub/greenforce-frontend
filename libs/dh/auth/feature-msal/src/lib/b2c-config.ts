@@ -66,7 +66,7 @@ export function MSALInterceptorConfigFactory(
   // Note: A scope value of `null` indicates that a resource is to be unprotected and will not get tokens.
   // The order here matters. Resources with `null` scope must be first.
   protectedResourceMap.set('/assets/*', null);
-  protectedResourceMap.set('*', [config.backendId || config.clientId]);
+  protectedResourceMap.set('*', [config.scopeUri]);
 
   return {
     interactionType: InteractionType.Redirect,
@@ -77,6 +77,6 @@ export function MSALInterceptorConfigFactory(
 export function MSALGuardConfigFactory(config: DhB2CEnvironment): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Redirect,
-    authRequest: { scopes: [config.backendId || config.clientId] },
+    authRequest: { scopes: [config.scopeUri] },
   };
 }

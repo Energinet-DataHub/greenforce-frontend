@@ -12,11 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Energinet.DataHub.MarketParticipant.Client.Models;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using GraphQL.Types;
 
-namespace Energinet.DataHub.WebApi.Controllers.Wholesale.Dto
+namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public sealed record BatchDto(Guid BatchId, DateTimeOffset PeriodStart, DateTimeOffset PeriodEnd, DateTimeOffset? ExecutionTimeStart, DateTimeOffset? ExecutionTimeEnd, BatchState ExecutionState, bool IsBasisDataDownloadAvailable, GridAreaDto[] GridAreas);
+    public class UpdatePermissionInputType : InputObjectGraphType<UpdatePermissionDto>
+    {
+        public UpdatePermissionInputType()
+        {
+            Name = "UpdatePermissionInput";
+            Field(x => x.Id).Description("The id of the permission to update");
+            Field(x => x.Description).Description("The description of the permission to update");
+        }
+    }
 }

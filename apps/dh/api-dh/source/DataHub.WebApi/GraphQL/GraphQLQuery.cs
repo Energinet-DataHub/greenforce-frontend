@@ -37,11 +37,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Resolve()
                 .WithScope()
                 .WithService<IMarketParticipantPermissionsClient>()
-                .ResolveAsync(async (context, client) =>
-                {
-                    var id = context.GetArgument<int>("id");
-                    return await client.GetPermissionAsync(id);
-                });
+                .ResolveAsync(async (context, client) => await client.GetPermissionAsync(context.GetArgument<int>("id")));
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<PermissionDtoType>>>>("permissions")
                .Resolve()
@@ -104,6 +100,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .WithScope()
                 .WithService<IMarketParticipantClient>()
                 .ResolveAsync(async (context, client) => await client.GetOrganizationAsync(context.GetArgument<Guid>("id")));
+
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<GridAreaType>>>>("gridAreas")
+                .Resolve()
+                .WithScope()
+                .WithService<IMarketParticipantClient>()
+                .ResolveAsync(async (context, client) => await client.GetGridAreasAsync());
 
             Field<BatchType>("batch")
                 .Argument<IdGraphType>("id", "The id of the organization")
