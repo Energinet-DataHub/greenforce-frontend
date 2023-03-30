@@ -33,7 +33,6 @@ import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-data-general-error.component';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { Router } from '@angular/router';
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 @Component({
   selector: 'dh-role-drawer',
@@ -61,7 +60,6 @@ export class DhRoleDrawerComponent {
   private readonly store = inject(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore);
   private toastService = inject(WattToastService);
   private translocoService = inject(TranslocoService);
-  private router = inject(Router);
   basicUserRole: MarketParticipantUserRoleDto | null = null;
 
   userRoleWithPermissions$ = this.store.userRole$;
