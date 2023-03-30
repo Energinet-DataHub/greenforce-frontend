@@ -76,11 +76,11 @@ import { EoCertificatesStore } from '../eo-certificates.store';
               <div>{{ cert?.quantity?.toLocaleString() }} Wh</div>
               <b>Start time</b>
               <div>
-                {{ cert?.dateFrom | date: 'HH:mm dd-MMM-y z' | uppercase }}
+                {{ cert?.dateFrom | date : 'HH:mm dd-MMM-y z' | uppercase }}
               </div>
               <b>Start time</b>
               <div>
-                {{ cert?.dateTo | date: 'HH:mm dd-MMM-y z' | uppercase }}
+                {{ cert?.dateTo | date : 'HH:mm dd-MMM-y z' | uppercase }}
               </div>
               <b>GSRN</b>
               <div>{{ cert?.gsrn }}</div>

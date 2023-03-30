@@ -27,7 +27,7 @@ const knownFeatures = [
   'daterange', // To show the date range picker
   'resolution', // To show the resolution component
 ] as const;
-export type allowedFeatureFlags = typeof knownFeatures[number];
+export type allowedFeatureFlags = (typeof knownFeatures)[number];
 
 /**
  * This directive can be used to show/hide a component based on the feature flags that are currently enabled.

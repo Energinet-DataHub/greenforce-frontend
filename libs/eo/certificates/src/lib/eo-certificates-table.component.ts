@@ -54,7 +54,7 @@ import { EoCertificatesStore } from './eo-certificates.store';
       <ng-container matColumnDef="dateFrom">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Time </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element.dateFrom | date: 'dd-MMM-y HH:mm' }}-{{ element.dateTo | date: 'HH:mm' }}
+          {{ element.dateFrom | date : 'dd-MMM-y HH:mm' }}-{{ element.dateTo | date : 'HH:mm' }}
         </mat-cell>
       </ng-container>
 
