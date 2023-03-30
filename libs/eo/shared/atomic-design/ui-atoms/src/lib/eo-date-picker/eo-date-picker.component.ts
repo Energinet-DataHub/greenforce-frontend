@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -40,7 +40,7 @@ import { EoDatePickerDialogComponent } from './eo-date-picker-dialog.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [MatIconModule, MatDialogModule, CommonModule],
+  imports: [MatIconModule, MatDialogModule, DatePipe],
   selector: 'eo-date-picker',
   styles: [
     `
@@ -81,8 +81,8 @@ import { EoDatePickerDialogComponent } from './eo-date-picker-dialog.component';
     <div #selector class="dateSelector" (click)="openDialog()">
       <mat-icon>calendar_today</mat-icon>
       <span>
-        {{ datesShown.start | date: 'd. MMM y':'UTC' }} -
-        {{ datesShown.end | date: 'd. MMM y':'UTC' }}</span
+        {{ datesShown.start | date : 'd. MMM y' : 'UTC' }} -
+        {{ datesShown.end | date : 'd. MMM y' : 'UTC' }}</span
       >
       <mat-icon>keyboard_arrow_down</mat-icon>
     </div> `,
