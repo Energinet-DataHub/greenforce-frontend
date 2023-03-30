@@ -15,14 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
@@ -33,7 +26,6 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 
 import { PushModule } from '@rx-angular/template/push';
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { SettlementReport } from '@energinet-datahub/dh/wholesale/domain';
 
@@ -60,10 +52,6 @@ type settlementReportsTableData = WattTableDataSource<settlementReportsTableColu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleTableComponent {
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
-
-  selectedBatch$ = this.store.selectedBatch$;
-
   @Input() set data(processes: settlementReportsTableColumns[]) {
     this._data = new WattTableDataSource(processes);
   }

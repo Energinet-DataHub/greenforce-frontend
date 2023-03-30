@@ -26,11 +26,27 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Create a batch.
-        /// <br/>Period end must be exactly 1 ms before midnight.
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Guid> CreateBatchAsync(BatchRequestDto body, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Get batches that matches the criteria specified
+        /// </summary>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BatchDto>> SearchBatchesAsync(System.Collections.Generic.IEnumerable<string> gridAreaCodes = null, BatchState? executionState = null, System.DateTimeOffset? minExecutionTime = null, System.DateTimeOffset? maxExecutionTime = null, System.DateTimeOffset? periodStart = null, System.DateTimeOffset? periodEnd = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns a batch matching batchId.
+        /// </summary>
+        /// <param name="batchId">BatchId</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<BatchDto> GetBatchAsync(System.Guid batchId, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -115,7 +131,6 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Create a batch.
-        /// <br/>Period end must be exactly 1 ms before midnight.
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -125,7 +140,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                 throw new System.ArgumentNullException("body");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v3/batch?");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v3/batches?");
             if (api_version != null)
             {
                 urlBuilder_.Append(System.Uri.EscapeDataString("api-version") + "=").Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
@@ -169,6 +184,185 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                         if (status_ == 200)
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<System.Guid>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Get batches that matches the criteria specified
+        /// </summary>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BatchDto>> SearchBatchesAsync(System.Collections.Generic.IEnumerable<string> gridAreaCodes = null, BatchState? executionState = null, System.DateTimeOffset? minExecutionTime = null, System.DateTimeOffset? maxExecutionTime = null, System.DateTimeOffset? periodStart = null, System.DateTimeOffset? periodEnd = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v3/batches?");
+            if (gridAreaCodes != null)
+            {
+                foreach (var item_ in gridAreaCodes) { urlBuilder_.Append(System.Uri.EscapeDataString("gridAreaCodes") + "=").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+            }
+            if (executionState != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("executionState") + "=").Append(System.Uri.EscapeDataString(ConvertToString(executionState, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (minExecutionTime != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("minExecutionTime") + "=").Append(System.Uri.EscapeDataString(minExecutionTime.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (maxExecutionTime != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("maxExecutionTime") + "=").Append(System.Uri.EscapeDataString(maxExecutionTime.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (periodStart != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("periodStart") + "=").Append(System.Uri.EscapeDataString(periodStart.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (periodEnd != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("periodEnd") + "=").Append(System.Uri.EscapeDataString(periodEnd.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (api_version != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("api-version") + "=").Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<BatchDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns a batch matching batchId.
+        /// </summary>
+        /// <param name="batchId">BatchId</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<BatchDto> GetBatchAsync(System.Guid batchId, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            if (batchId == null)
+                throw new System.ArgumentNullException("batchId");
+
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v3/batches/{batchId}?");
+            urlBuilder_.Replace("{batchId}", System.Uri.EscapeDataString(ConvertToString(batchId, System.Globalization.CultureInfo.InvariantCulture)));
+            if (api_version != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("api-version") + "=").Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<BatchDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -645,8 +839,81 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
 
             this.Gln = @gln;
 
-        }    [Newtonsoft.Json.JsonProperty("gln", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        }    [Newtonsoft.Json.JsonProperty("gln", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Gln { get; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class BatchDto
+    {
+        [Newtonsoft.Json.JsonConstructor]
+
+        public BatchDto(bool @areSettlementReportsCreated, System.Guid @batchId, BatchState @executionState, System.DateTimeOffset? @executionTimeEnd, System.DateTimeOffset? @executionTimeStart, System.Collections.Generic.ICollection<string> @gridAreaCodes, System.DateTimeOffset @periodEnd, System.DateTimeOffset @periodStart, ProcessType @processType, string @resolution, long? @runId, string @unit)
+
+        {
+
+            this.RunId = @runId;
+
+            this.BatchId = @batchId;
+
+            this.PeriodStart = @periodStart;
+
+            this.PeriodEnd = @periodEnd;
+
+            this.Resolution = @resolution;
+
+            this.Unit = @unit;
+
+            this.ExecutionTimeStart = @executionTimeStart;
+
+            this.ExecutionTimeEnd = @executionTimeEnd;
+
+            this.ExecutionState = @executionState;
+
+            this.AreSettlementReportsCreated = @areSettlementReportsCreated;
+
+            this.GridAreaCodes = @gridAreaCodes;
+
+            this.ProcessType = @processType;
+
+        }    [Newtonsoft.Json.JsonProperty("runId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long? RunId { get; }
+
+        [Newtonsoft.Json.JsonProperty("batchId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid BatchId { get; }
+
+        [Newtonsoft.Json.JsonProperty("periodStart", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset PeriodStart { get; }
+
+        [Newtonsoft.Json.JsonProperty("periodEnd", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset PeriodEnd { get; }
+
+        [Newtonsoft.Json.JsonProperty("resolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Resolution { get; }
+
+        [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Unit { get; }
+
+        [Newtonsoft.Json.JsonProperty("executionTimeStart", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? ExecutionTimeStart { get; }
+
+        [Newtonsoft.Json.JsonProperty("executionTimeEnd", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? ExecutionTimeEnd { get; }
+
+        [Newtonsoft.Json.JsonProperty("executionState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public BatchState ExecutionState { get; }
+
+        [Newtonsoft.Json.JsonProperty("areSettlementReportsCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool AreSettlementReportsCreated { get; }
+
+        [Newtonsoft.Json.JsonProperty("gridAreaCodes", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<string> GridAreaCodes { get; }
+
+        [Newtonsoft.Json.JsonProperty("processType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public ProcessType ProcessType { get; }
 
     }
 
@@ -671,7 +938,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ProcessType ProcessType { get; }
 
-        [Newtonsoft.Json.JsonProperty("gridAreaCodes", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("gridAreaCodes", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<string> GridAreaCodes { get; }
 
         [Newtonsoft.Json.JsonProperty("startDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -679,6 +946,24 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
 
         [Newtonsoft.Json.JsonProperty("endDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset EndDate { get; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum BatchState
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Pending")]
+        Pending = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Executing")]
+        Executing = 1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Completed")]
+        Completed = 2,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Failed")]
+        Failed = 3,
 
     }
 
@@ -736,16 +1021,16 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         [Newtonsoft.Json.JsonProperty("periodEnd", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset PeriodEnd { get; }
 
-        [Newtonsoft.Json.JsonProperty("resolution", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("resolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Resolution { get; }
 
         /// <summary>
         /// kWh
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Unit { get; }
 
-        [Newtonsoft.Json.JsonProperty("timeSeriesPoints", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("timeSeriesPoints", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<TimeSeriesPointDto> TimeSeriesPoints { get; }
 
         [Newtonsoft.Json.JsonProperty("processType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -799,7 +1084,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <summary>
         /// Any of the values from Energinet.DataHub.Wholesale.WebApi.V3.ProcessStepResult.TimeSeriesPointQuality
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("quality", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("quality", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Quality { get; }
 
     }
