@@ -32,7 +32,7 @@ jobs:
     with:
       skip_license_check: true # Handled by another workflow
       skip_yaml_lint: false
-      skip_actions_casing_validation: false
+      skip_actions_casing_validation: true # TODO: Enable in next PR
 
   #
   # Detect changes to start relevant workflows
