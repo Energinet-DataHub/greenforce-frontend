@@ -176,5 +176,12 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             return HandleExceptionAsync(() => _userRoleClient.GetPermissionDetailsAsync(eicFunction));
         }
+
+        [HttpGet]
+        [Route("Deactivate")]
+        public Task<ActionResult> DeactivateRoleAsync(Guid roleId)
+        {
+            return HandleExceptionAsync(() => _userRoleClient.DeactivateUserRoleAsync(roleId));
+        }
     }
 }
