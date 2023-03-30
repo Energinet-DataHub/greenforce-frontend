@@ -26,6 +26,7 @@ import marketParticipantUserRoleGetUserRoleWithPermissions from './data/marketPa
 import marketParticipantUserRoleGetUserRoleAuditLogs from './data/marketParticipantUserRoleGetUserRoleAuditLogs.json';
 import { adminPermissionsMock } from './data/admin-get-permissions';
 import { adminPermissionPermissionLogsMock } from './data/admin-get-permissionlogs';
+import { adminPermissionDetailsMock } from './data/admin-get-permission-details';
 
 export function adminMocks(apiBase: string) {
   return [
@@ -38,6 +39,7 @@ export function adminMocks(apiBase: string) {
     putMarketParticipantUserRoleUpdate(apiBase),
     getAdminPermissions(),
     getAdminPermissionLogs(),
+    getAdminPermissionDetails(),
     putMarketParticipantPermissionsUpdate(apiBase),
   ];
 }
@@ -102,6 +104,12 @@ function putMarketParticipantUserRoleUpdate(apiBase: string) {
 function getAdminPermissions() {
   return graphql.mockGetPermissionsQuery((req, res, ctx) => {
     return res(ctx.data(adminPermissionsMock));
+  });
+}
+
+function getAdminPermissionDetails() {
+  return graphql.mockGetPermissionDetailsQuery((req, res, ctx) => {
+    return res(ctx.data(adminPermissionDetailsMock));
   });
 }
 
