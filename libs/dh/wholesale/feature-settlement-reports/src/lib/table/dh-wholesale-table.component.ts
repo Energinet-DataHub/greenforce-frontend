@@ -60,7 +60,6 @@ type settlementReportsTableData = WattTableDataSource<settlementReportsTableColu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleTableComponent {
-
   @Input() set data(processes: settlementReportsTableColumns[]) {
     this._data = new WattTableDataSource(processes);
   }

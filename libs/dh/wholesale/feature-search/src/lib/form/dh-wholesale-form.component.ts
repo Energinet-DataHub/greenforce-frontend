@@ -56,6 +56,6 @@ export class DhWholesaleFormComponent {
   onSubmit() {
     if (!this.searchForm?.value?.executionTime) return;
 
-    this.search.emit({executionTime : this.searchForm?.value?.executionTime});
+    this.search.emit({ executionTime: this.searchForm?.value?.executionTime });
   }
 }
