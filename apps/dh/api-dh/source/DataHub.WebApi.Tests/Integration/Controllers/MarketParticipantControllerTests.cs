@@ -72,7 +72,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .ReturnsAsync(organizations);
 
             MarketParticipantClientMock
-                .Setup(client => client.GetActorsAsync(organization.OrganizationId))
+                .Setup(client => client.GetActorsAsync())
                 .ReturnsAsync(actors);
 
             MarketParticipantClientMock
@@ -118,7 +118,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .ReturnsAsync(organizations);
 
             MarketParticipantClientMock
-                .Setup(client => client.GetActorsAsync(organization.OrganizationId))
+                .Setup(client => client.GetActorsAsync())
                 .ReturnsAsync(actors);
 
             MarketParticipantClientMock
