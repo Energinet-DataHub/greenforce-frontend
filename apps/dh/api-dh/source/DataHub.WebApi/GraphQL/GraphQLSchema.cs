@@ -45,6 +45,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             this.RegisterTypeMapping<EicFunction, EicFunctionEnum>();
 
             Query = provider.GetRequiredService<GraphQLQuery>();
+            Mutation = provider.GetRequiredService<GraphQLMutation>();
         }
     }
 }
