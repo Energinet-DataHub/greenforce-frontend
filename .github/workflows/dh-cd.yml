@@ -37,7 +37,7 @@ jobs:
     if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v10
     with:
-      SOLUTION_FILE_PATH: "apps/dh/api-dh/DataHub.WebApi.sln"
+      SOLUTION_FILE_PATH: apps/dh/api-dh/DataHub.WebApi.sln
       ENVIRONMENT: AzureAuth
     secrets:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
@@ -70,14 +70,7 @@ jobs:
 
   dispatch_deploment_event:
     runs-on: ubuntu-latest
-    needs: [
-        # Necessary to be able to use its outputs in the dispatch event
-        changes,
-        # .NET
-        dotnet_promote_prerelease,
-        # Frontend
-        frontend_promote_prerelease,
-      ]
+    needs: [changes, dotnet_promote_prerelease, frontend_promote_prerelease]
     if: |
       always() &&
       !contains(needs.*.result, 'failure') &&
@@ -97,8 +90,9 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.PAT_TOKEN }}
-          repository: "${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}"
-          event-type: "ui-deployment-request-domain"
+          repository: ${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}
+          event-type: ui-deployment-request-domain
+          # yamllint disable-line rule:quoted-strings
           client-payload: '{"domain_pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet_deploy": "${{ needs.changes.outputs.dh_dotnet }}", "frontend_deploy": "${{ needs.changes.outputs.dh_frontend }}"}'
 
   #
@@ -117,6 +111,6 @@ jobs:
       contains(needs.*.result, 'failure')
     uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v10
     with:
-      TEAM_NAME: "TexasRangers"
+      TEAM_NAME: TexasRangers
       SUBJECT: "Deployment dispatch failed: UI + BFF"
     secrets: inherit
