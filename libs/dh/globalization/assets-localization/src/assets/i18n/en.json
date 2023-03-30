@@ -897,6 +897,13 @@
       "download": "Download",
       "drawer": {
         "edit": "Edit",
+        "disable": "Disable",
+        "disablingUserRole": "Disabling user role",
+        "userroleDisabled": "The user role was deactivated",
+        "deactivateWarningTitle": "Disable user role permanently?",
+        "deactivateWarning": "You are about the disable the user role. This will remove the role from all users, and prevent further updates to the role.",
+        "continue": "Deactivate user role",
+        "cancel": "Cancel",
         "roles": {
           "tabs": {
             "masterData": {
@@ -975,7 +982,8 @@
             "auditLogType": {
               "UserRoleAdded": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
               "UserRoleRemoved": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>",
-              "UserInvite": "<b>{{ changedByUserName }}</b> added user to <b>{{ toValue }}</b> market party"
+              "UserInvite": "<b>{{ changedByUserName }}</b> added user to <b>{{ toValue }}</b> market party",
+              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b> due to the role being deactivated"
             }
           },
           "generalError": {

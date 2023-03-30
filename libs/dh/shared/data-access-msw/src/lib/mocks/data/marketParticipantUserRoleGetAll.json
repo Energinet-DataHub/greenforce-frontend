@@ -4,7 +4,7 @@
     "name": "Balanceansvarlig",
     "description": "Beskrivevlse for Balance ansvarlig",
     "eicFunction": "EnergySupplier",
-    "status": "Active"
+    "status": "Inactive"
   },
   {
     "id": "512b2941-e82e-4097-aa4b-ec322871a3e6",
