@@ -22,7 +22,7 @@ import { map } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class EoAuthenticationGuard implements CanActivate {
+export class EoScopeGuard implements CanActivate {
   constructor(private router: Router, private authStore: EoAuthStore) {}
 
   canActivate() {

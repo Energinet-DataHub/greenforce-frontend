@@ -17,7 +17,7 @@
 import { NgModule } from '@angular/core';
 import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { RouterModule, Routes } from '@angular/router';
-import { EoAuthenticationGuard } from '@energinet-datahub/eo/auth/routing-security';
+import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
   eoCertificatesRoutePath,
   eoConsumptionPageRoutePath,
@@ -54,7 +54,7 @@ const routes: Routes = [
   {
     path: '',
     component: EoShellComponent,
-    canActivate: [EoAuthenticationGuard],
+    canActivate: [EoScopeGuard],
     children: [
       {
         path: eoCertificatesRoutePath,

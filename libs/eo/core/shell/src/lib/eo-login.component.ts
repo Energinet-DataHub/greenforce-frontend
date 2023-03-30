@@ -36,12 +36,8 @@ export class EoLoginComponent {
         } else if (scope.includes('accepted-terms') && scope.includes('dashboard')) {
           this.router.navigate(['/dashboard']);
         } else if (isTokenExpired) {
-          console.log('session expired', this.store.token.getValue());
           this.service.logout();
-        } else {
-          console.log('fallback');
-          this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
-        }
+        } else this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
       });
   }
 }
