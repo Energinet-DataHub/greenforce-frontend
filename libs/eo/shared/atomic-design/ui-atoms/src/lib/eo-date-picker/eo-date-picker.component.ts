@@ -81,8 +81,8 @@ import { EoDatePickerDialogComponent } from './eo-date-picker-dialog.component';
     <div #selector class="dateSelector" (click)="openDialog()">
       <mat-icon>calendar_today</mat-icon>
       <span>
-        {{ datesShown.start | date: 'd. MMM y':'UTC' }} -
-        {{ datesShown.end | date: 'd. MMM y':'UTC' }}</span
+        {{ datesShown.start | date : 'd. MMM y' : 'UTC' }} -
+        {{ datesShown.end | date : 'd. MMM y' : 'UTC' }}</span
       >
       <mat-icon>keyboard_arrow_down</mat-icon>
     </div> `,
