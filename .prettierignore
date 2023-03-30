@@ -3,6 +3,7 @@
 /dist
 /coverage
 **/generated/**/*
+schema.graphql
 
 # Ignore API applications (BFF's)
 **/api-*/**/*
