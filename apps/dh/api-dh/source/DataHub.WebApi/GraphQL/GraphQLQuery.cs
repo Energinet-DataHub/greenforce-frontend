@@ -105,6 +105,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .WithService<IMarketParticipantClient>()
                 .ResolveAsync(async (context, client) => await client.GetOrganizationAsync(context.GetArgument<Guid>("id")));
 
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<GridAreaType>>>>("gridAreas")
+                .Resolve()
+                .WithScope()
+                .WithService<IMarketParticipantClient>()
+                .ResolveAsync(async (context, client) => await client.GetGridAreasAsync());
+
             Field<BatchType>("batch")
                 .Argument<IdGraphType>("id", "The id of the organization")
                 .Resolve()
