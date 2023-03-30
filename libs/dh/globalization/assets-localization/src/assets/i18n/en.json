@@ -900,8 +900,10 @@
         "disable": "Disable",
         "disablingUserRole": "Disabling user role",
         "userroleDisabled": "The user role was deactivated",
-        "deactivateWarningTitle": "Disabling user role",
+        "deactivateWarningTitle": "Disable user role permanently?",
         "deactivateWarning": "You are about the disable the user role. This will remove the role from all users, and prevent further updates to the role.",
+        "continue": "Deactivate user role",
+        "cancel": "Cancel",
         "roles": {
           "tabs": {
             "masterData": {

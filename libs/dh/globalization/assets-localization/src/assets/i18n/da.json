@@ -891,8 +891,10 @@
         "disable": "Deaktiver",
         "disablingUserRole": "Deaktiverer bruger rollen",
         "userroleDisabled": "Bruger rollen blev deaktiveret.",
-        "deactivateWarningTitle": "Deaktivering af bruger rolle",
+        "deactivateWarningTitle": "Deaktiver bruger rolle permanent?",
         "deactivateWarning": "Du er ved at deaktivere bruger rollen. Dette vil fjerne bruger rollen fra alle tilknyttede brugere, og forhindre yderligere ændringer af rollen.",
+        "continue": "Deaktiver brugerrolle",
+        "cancel": "Fortryd",
         "roles": {
           "tabs": {
             "masterData": {

@@ -73,10 +73,10 @@ limitations under the License.
       {{ t("deactivateWarning") }}
     </p>
     <watt-modal-actions>
-        <watt-button (click)="confirmationModal.close(true)">{{ t("yes") }}</watt-button>
-        <watt-button variant="secondary" (click)="confirmationModal.close(false)">{{
-          t("no")
-        }}</watt-button>
+      <watt-button variant="secondary" (click)="confirmationModal.close(false)">{{
+        t("cancel")
+      }}</watt-button>
+      <watt-button variant="secondary" (click)="confirmationModal.close(true)">{{ t("continue") }}</watt-button>
     </watt-modal-actions>
   </watt-modal>
 
