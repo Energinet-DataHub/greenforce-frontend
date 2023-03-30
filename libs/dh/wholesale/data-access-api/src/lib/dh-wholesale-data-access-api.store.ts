@@ -30,7 +30,6 @@ import {
   MarketParticipantFilteredActorDto,
 } from '@energinet-datahub/dh/shared/domain';
 
-
 interface State {
   gridAreas?: MarketParticipantGridAreaDto[];
   loadingBatches: boolean;
