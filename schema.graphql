@@ -1,5 +1,6 @@
 schema {
   query: GraphQLQuery
+  mutation: GraphQLMutation
 }
 
 type Actor {
@@ -84,6 +85,13 @@ enum EicFunction {
   METERING_POINT_ADMINISTRATOR
   SERIAL_ENERGY_TRADER
   SYSTEM_OPERATOR
+}
+
+type GraphQLMutation {
+  permission(
+    """Permission to update"""
+    permission: UpdatePermissionInput!
+  ): Permission!
 }
 
 type GraphQLQuery {
@@ -266,6 +274,14 @@ enum TimeSeriesType {
   FLEX_CONSUMPTION
   NON_PROFILED_CONSUMPTION
   PRODUCTION
+}
+
+input UpdatePermissionInput {
+  """The description of the permission to update"""
+  description: String!
+
+  """The id of the permission to update"""
+  id: Int!
 }
 
 type UserRole {

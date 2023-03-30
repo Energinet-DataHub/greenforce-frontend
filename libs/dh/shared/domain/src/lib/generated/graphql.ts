@@ -85,6 +85,16 @@ export enum EicFunction {
   SystemOperator = 'SYSTEM_OPERATOR'
 }
 
+export type GraphQlMutation = {
+  __typename?: 'GraphQLMutation';
+  permission: Permission;
+};
+
+
+export type GraphQlMutationPermissionArgs = {
+  permission: UpdatePermissionInput;
+};
+
 export type GraphQlQuery = {
   __typename?: 'GraphQLQuery';
   actors: Array<Actor>;
@@ -278,6 +288,13 @@ export enum TimeSeriesType {
   NonProfiledConsumption = 'NON_PROFILED_CONSUMPTION',
   Production = 'PRODUCTION'
 }
+
+export type UpdatePermissionInput = {
+  /** The description of the permission to update */
+  description: Scalars['String'];
+  /** The id of the permission to update */
+  id: Scalars['Int'];
+};
 
 export type UserRole = {
   __typename?: 'UserRole';
