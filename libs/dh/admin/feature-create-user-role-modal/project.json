@@ -11,12 +11,6 @@
       "options": {
         "jestConfig": "libs/dh/admin/feature-create-user-role-modal/jest.config.ts",
         "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
       }
     },
     "lint": {

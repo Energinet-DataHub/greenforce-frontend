@@ -9,9 +9,9 @@
   },
   "exclude": [
     "src/test-setup.ts",
-    "src/**/*.spec.ts",
+    "**/*.spec.ts",
     "jest.config.ts",
-    "src/**/*.test.ts"
+    "**/*.test.ts"
   ],
-  "include": ["src/**/*.ts"]
+  "include": ["**/*.ts"]
 }
