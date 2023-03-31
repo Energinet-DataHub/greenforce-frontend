@@ -44,12 +44,13 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             // hacks
             var dateTimeOffset = batchRequestDto.EndDate.AddMilliseconds(1);
-            var batchRequestDtoNew = new BatchRequestDto(
-                dateTimeOffset,
-                batchRequestDto.GridAreaCodes,
-                batchRequestDto.ProcessType,
-                batchRequestDto.StartDate);
-
+            var batchRequestDtoNew = new BatchRequestDto()
+            {
+                ProcessType = batchRequestDto.ProcessType,
+                GridAreaCodes = batchRequestDto.GridAreaCodes,
+                StartDate = batchRequestDto.StartDate,
+                EndDate = dateTimeOffset,
+            };
             await _clientV3.CreateBatchAsync(batchRequestDtoNew).ConfigureAwait(false);
             return Ok();
         }

@@ -831,121 +831,69 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ActorDto
     {
-        [Newtonsoft.Json.JsonConstructor]
-
-        public ActorDto(string @gln)
-
-        {
-
-            this.Gln = @gln;
-
-        }    [Newtonsoft.Json.JsonProperty("gln", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Gln { get; }
+        [Newtonsoft.Json.JsonProperty("gln", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Gln { get; set; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class BatchDto
     {
-        [Newtonsoft.Json.JsonConstructor]
-
-        public BatchDto(bool @areSettlementReportsCreated, System.Guid @batchId, BatchState @executionState, System.DateTimeOffset? @executionTimeEnd, System.DateTimeOffset? @executionTimeStart, System.Collections.Generic.ICollection<string> @gridAreaCodes, System.DateTimeOffset @periodEnd, System.DateTimeOffset @periodStart, ProcessType @processType, string @resolution, long? @runId, string @unit)
-
-        {
-
-            this.RunId = @runId;
-
-            this.BatchId = @batchId;
-
-            this.PeriodStart = @periodStart;
-
-            this.PeriodEnd = @periodEnd;
-
-            this.Resolution = @resolution;
-
-            this.Unit = @unit;
-
-            this.ExecutionTimeStart = @executionTimeStart;
-
-            this.ExecutionTimeEnd = @executionTimeEnd;
-
-            this.ExecutionState = @executionState;
-
-            this.AreSettlementReportsCreated = @areSettlementReportsCreated;
-
-            this.GridAreaCodes = @gridAreaCodes;
-
-            this.ProcessType = @processType;
-
-        }    [Newtonsoft.Json.JsonProperty("runId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public long? RunId { get; }
+        [Newtonsoft.Json.JsonProperty("runId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long? RunId { get; set; }
 
         [Newtonsoft.Json.JsonProperty("batchId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid BatchId { get; }
+        public System.Guid BatchId { get; set; }
 
         [Newtonsoft.Json.JsonProperty("periodStart", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset PeriodStart { get; }
+        public System.DateTimeOffset PeriodStart { get; set; }
 
         [Newtonsoft.Json.JsonProperty("periodEnd", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset PeriodEnd { get; }
+        public System.DateTimeOffset PeriodEnd { get; set; }
 
         [Newtonsoft.Json.JsonProperty("resolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Resolution { get; }
+        public string Resolution { get; set; }
 
         [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Unit { get; }
+        public string Unit { get; set; }
 
         [Newtonsoft.Json.JsonProperty("executionTimeStart", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset? ExecutionTimeStart { get; }
+        public System.DateTimeOffset? ExecutionTimeStart { get; set; }
 
         [Newtonsoft.Json.JsonProperty("executionTimeEnd", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset? ExecutionTimeEnd { get; }
+        public System.DateTimeOffset? ExecutionTimeEnd { get; set; }
 
         [Newtonsoft.Json.JsonProperty("executionState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public BatchState ExecutionState { get; }
+        public BatchState ExecutionState { get; set; }
 
         [Newtonsoft.Json.JsonProperty("areSettlementReportsCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool AreSettlementReportsCreated { get; }
+        public bool AreSettlementReportsCreated { get; set; }
 
         [Newtonsoft.Json.JsonProperty("gridAreaCodes", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<string> GridAreaCodes { get; }
+        public System.Collections.Generic.ICollection<string> GridAreaCodes { get; set; }
 
         [Newtonsoft.Json.JsonProperty("processType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public ProcessType ProcessType { get; }
+        public ProcessType ProcessType { get; set; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class BatchRequestDto
     {
-        [Newtonsoft.Json.JsonConstructor]
-
-        public BatchRequestDto(System.DateTimeOffset @endDate, System.Collections.Generic.ICollection<string> @gridAreaCodes, ProcessType @processType, System.DateTimeOffset @startDate)
-
-        {
-
-            this.ProcessType = @processType;
-
-            this.GridAreaCodes = @gridAreaCodes;
-
-            this.StartDate = @startDate;
-
-            this.EndDate = @endDate;
-
-        }    [Newtonsoft.Json.JsonProperty("processType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("processType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public ProcessType ProcessType { get; }
+        public ProcessType ProcessType { get; set; }
 
         [Newtonsoft.Json.JsonProperty("gridAreaCodes", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<string> GridAreaCodes { get; }
+        public System.Collections.Generic.ICollection<string> GridAreaCodes { get; set; }
 
         [Newtonsoft.Json.JsonProperty("startDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset StartDate { get; }
+        public System.DateTimeOffset StartDate { get; set; }
 
         [Newtonsoft.Json.JsonProperty("endDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset EndDate { get; }
+        public System.DateTimeOffset EndDate { get; set; }
 
     }
 
@@ -973,69 +921,45 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ProcessStepResultDto
     {
-        [Newtonsoft.Json.JsonConstructor]
-
-        public ProcessStepResultDto(double @max, double @min, System.DateTimeOffset @periodEnd, System.DateTimeOffset @periodStart, ProcessType @processType, string @resolution, double @sum, System.Collections.Generic.ICollection<TimeSeriesPointDto> @timeSeriesPoints, string @unit)
-
-        {
-
-            this.Sum = @sum;
-
-            this.Min = @min;
-
-            this.Max = @max;
-
-            this.PeriodStart = @periodStart;
-
-            this.PeriodEnd = @periodEnd;
-
-            this.Resolution = @resolution;
-
-            this.Unit = @unit;
-
-            this.TimeSeriesPoints = @timeSeriesPoints;
-
-            this.ProcessType = @processType;
-
-        }    /// <summary>
+        /// <summary>
         /// Sum has a scale of 3
         /// </summary>
         [Newtonsoft.Json.JsonProperty("sum", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Sum { get; }
+        public double Sum { get; set; }
 
         /// <summary>
         /// Min has a scale of 3
         /// </summary>
         [Newtonsoft.Json.JsonProperty("min", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Min { get; }
+        public double Min { get; set; }
 
         /// <summary>
         /// Max has a scale of 3
         /// </summary>
         [Newtonsoft.Json.JsonProperty("max", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Max { get; }
+        public double Max { get; set; }
 
         [Newtonsoft.Json.JsonProperty("periodStart", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset PeriodStart { get; }
+        public System.DateTimeOffset PeriodStart { get; set; }
 
         [Newtonsoft.Json.JsonProperty("periodEnd", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset PeriodEnd { get; }
+        public System.DateTimeOffset PeriodEnd { get; set; }
 
         [Newtonsoft.Json.JsonProperty("resolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Resolution { get; }
+        public string Resolution { get; set; }
 
         /// <summary>
         /// kWh
         /// </summary>
         [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Unit { get; }
+        public string Unit { get; set; }
 
         [Newtonsoft.Json.JsonProperty("timeSeriesPoints", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<TimeSeriesPointDto> TimeSeriesPoints { get; }
+        public System.Collections.Generic.ICollection<TimeSeriesPointDto> TimeSeriesPoints { get; set; }
 
         [Newtonsoft.Json.JsonProperty("processType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public ProcessType ProcessType { get; }
+        public ProcessType ProcessType { get; set; }
 
     }
 
@@ -1057,35 +981,23 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class TimeSeriesPointDto
     {
-        [Newtonsoft.Json.JsonConstructor]
-
-        public TimeSeriesPointDto(string @quality, double @quantity, System.DateTimeOffset @time)
-
-        {
-
-            this.Time = @time;
-
-            this.Quantity = @quantity;
-
-            this.Quality = @quality;
-
-        }    /// <summary>
+        /// <summary>
         /// The observation time for the measured 'Quantity'
         /// </summary>
         [Newtonsoft.Json.JsonProperty("time", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset Time { get; }
+        public System.DateTimeOffset Time { get; set; }
 
         /// <summary>
         /// Quantity has a scale of 3
         /// </summary>
         [Newtonsoft.Json.JsonProperty("quantity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Quantity { get; }
+        public double Quantity { get; set; }
 
         /// <summary>
         /// Any of the values from Energinet.DataHub.Wholesale.WebApi.V3.ProcessStepResult.TimeSeriesPointQuality
         /// </summary>
         [Newtonsoft.Json.JsonProperty("quality", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Quality { get; }
+        public string Quality { get; set; }
 
     }
 
