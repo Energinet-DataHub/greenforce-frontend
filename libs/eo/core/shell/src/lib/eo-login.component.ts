@@ -31,12 +31,14 @@ export class EoLoginComponent {
     combineLatest([this.store.getScope$, this.store.isTokenExpired$])
       .pipe(take(1))
       .subscribe(([scope, isTokenExpired]) => {
-        if (scope.includes('not-accepted-terms')) {
+        if (scope.length == 0) {
+          this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
+        } else if (isTokenExpired) {
+          this.service.logout();
+        } else if (scope.includes('not-accepted-terms')) {
           this.router.navigate(['/terms']);
         } else if (scope.includes('accepted-terms') && scope.includes('dashboard')) {
           this.router.navigate(['/dashboard']);
-        } else if (isTokenExpired) {
-          this.service.logout();
         } else this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
       });
   }
