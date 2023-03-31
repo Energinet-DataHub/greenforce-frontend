@@ -27,20 +27,20 @@ jobs:
   dotnet_ci_build:
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@v10
     with:
-      SOLUTION_FILE_PATH: apps/dh/api-dh/DataHub.WebApi.sln
-      RELEASE_NAME_PREFIX: ui_dotnet
+      solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
+      release_name_prefix: ui_dotnet
 
   # Run all tests in 'Tests.dll'
   dotnet_ci_test:
     needs: dotnet_ci_build
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-postbuild-test.yml@v10
     with:
-      TESTS_DLL_FILE_PATH: \apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net7.0\Energinet.DataHub.WebApi.Tests.dll
-      DOWNLOAD_ATTEMPT_LIMIT: 12
-      ENVIRONMENT: AzureAuth
+      tests_dll_file_path: \apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net7.0\Energinet.DataHub.WebApi.Tests.dll
+      download_attempt_limit: 12
+      environment: AzureAuth
     secrets:
-      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      AZURE_SPN_ID: ${{ secrets.AZURE_SPN_ID_OIDC }}
-      AZURE_KEYVAULT_URL: ${{ secrets.AZURE_KEYVAULT_URL }}
-      AZURE_B2CSECRETS_KEYVAULT_URL: ${{ secrets.AZURE_B2CSECRETS_KEYVAULT_URL }}
+      azure_tenant_id: ${{ secrets.azure_tenant_id }}
+      azure_subscription_id: ${{ secrets.azure_subscription_id }}
+      azure_spn_id: ${{ secrets.azure_spn_id_oidc }}
+      azure_keyvault_url: ${{ secrets.azure_keyvault_url }}
+      azure_b2csecrets_keyvault_url: ${{ secrets.azure_b2csecrets_keyvault_url }}
