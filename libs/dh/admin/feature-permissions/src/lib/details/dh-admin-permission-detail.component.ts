@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { map, Subscription } from 'rxjs';
@@ -35,6 +35,7 @@ import { DhPermissionAuditLogsComponent } from './tabs/dh-admin-permission-audit
 import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
 import { DhAdminPermissionRolesComponent } from './tabs/dh-admin-permission-roles.component';
 import { DhAdminPermissionMarketRolesComponent } from './tabs/dh-admin-permission-market-roles.component';
+import { Apollo } from 'apollo-angular';
 
 @Component({
   selector: 'dh-admin-permission-detail',
@@ -60,7 +61,7 @@ import { DhAdminPermissionMarketRolesComponent } from './tabs/dh-admin-permissio
   ],
 })
 export class DhAdminPermissionDetailComponent {
-  private getPermissionsQuery = getPermissionsWatchQuery();
+  private getPermissionsQuery = getPermissionsWatchQuery(inject(Apollo));
   private subscription?: Subscription;
 
   @ViewChild(WattDrawerComponent)

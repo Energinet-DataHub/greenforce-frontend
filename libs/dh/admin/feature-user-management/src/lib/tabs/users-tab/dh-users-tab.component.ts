@@ -39,12 +39,12 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
-import { DhUsersTabSearchComponent } from './dh-users-tab-search.component';
 import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.component';
 import { DhUsersTabActorFilterComponent } from './dh-users-tab-actor-filter.component';
 import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filter.component';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhInviteUserModalComponent } from '@energinet-datahub/dh/admin/feature-invite-user-modal';
+import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
 
 @Component({
   selector: 'dh-users-tab',
@@ -99,7 +99,6 @@ import { DhInviteUserModalComponent } from '@energinet-datahub/dh/admin/feature-
     WattSpinnerModule,
     WattCardModule,
     DhUsersTabTableComponent,
-    DhUsersTabSearchComponent,
     DhUsersTabStatusFilterComponent,
     DhSharedUiPaginatorComponent,
     DhUsersTabGeneralErrorComponent,
@@ -108,6 +107,7 @@ import { DhInviteUserModalComponent } from '@energinet-datahub/dh/admin/feature-
     WattButtonModule,
     DhPermissionRequiredDirective,
     DhInviteUserModalComponent,
+    DhSharedUiSearchComponent
   ],
 })
 export class DhUsersTabComponent {

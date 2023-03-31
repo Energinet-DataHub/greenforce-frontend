@@ -115,7 +115,10 @@ type GraphQLQuery {
     """The id of the permission"""
     id: ID
   ): [PermissionAuditLog!]!
-  permissions: [Permission!]!
+  permissions(
+    """The search term for which to look for in name and description"""
+    searchTerm: String
+  ): [Permission!]!
   processStep(
     """The batch id the process belongs to."""
     batchId: ID!

@@ -28,7 +28,7 @@ using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class GraphQLQuery : ObjectGraphType
+    public sealed class GraphQLQuery : ObjectGraphType
     {
         public GraphQLQuery()
         {
@@ -40,10 +40,20 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .ResolveAsync(async (context, client) => await client.GetPermissionAsync(context.GetArgument<int>("id")));
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<PermissionDtoType>>>>("permissions")
-               .Resolve()
-               .WithScope()
-               .WithService<IMarketParticipantPermissionsClient>()
-               .ResolveAsync(async (context, client) => await client.GetPermissionsAsync());
+                .Argument<StringGraphType>("searchTerm", "The search term for which to look for in name and description")
+                .Resolve()
+                .WithScope()
+                .WithService<IMarketParticipantPermissionsClient>()
+                .ResolveAsync(async (context, client) =>
+                {
+                    var searchTerm = context.GetArgument<string?>("searchTerm");
+                    var permissionDetailsDtos = await client.GetPermissionsAsync();
+                    return searchTerm is not null
+                        ? permissionDetailsDtos.Where(x =>
+                            x.Name.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) ||
+                            x.Description.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase))
+                        : permissionDetailsDtos;
+                });
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<PermissionAuditLogDtoType>>>>("permissionLogs")
                 .Argument<IdGraphType>("id", "The id of the permission")
@@ -57,14 +67,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var permission = (await permissionClient.GetPermissionsAsync()).Single(permission => permission.Id == permissionId);
                     var auditLogs = await permissionClient.GetAuditLogsAsync(permissionId);
                     var userLookup = new Dictionary<Guid, UserDto>();
-                    var auditLogsViewDtos = new List<PermissionAuditLogViewDto>();
-
-                    auditLogsViewDtos.Add(new PermissionAuditLogViewDto(
-                    permissionId,
-                    Guid.Empty,
-                    "DataHub",
-                    PermissionAuditLogType.Created,
-                    permission.Created));
+                    var auditLogsViewDtos = new List<PermissionAuditLogViewDto>
+                    {
+                        new(permissionId,
+                            Guid.Empty,
+                            "DataHub",
+                            PermissionAuditLogType.Created,
+                            permission.Created),
+                    };
 
                     foreach (var log in auditLogs)
                     {

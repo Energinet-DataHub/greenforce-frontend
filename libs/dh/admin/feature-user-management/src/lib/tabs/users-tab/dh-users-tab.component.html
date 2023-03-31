@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
   <div class="filter-container">
-    <dh-users-tab-search (search)="onSearch($event)"></dh-users-tab-search>
+    <dh-shared-ui-search (search)="onSearch($event)" [placeholder]="t('searchPlaceholder')"></dh-shared-ui-search>
     <dh-users-tab-status-filter
       [initialValue]="initialStatusFilter$ | push"
       (changed)="onStatusChanged($event)"
