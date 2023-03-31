@@ -19,12 +19,7 @@ export default {
   displayName: 'eo-production-shell',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.spec.json',
-      stringifyContentPathRegex: '\\.(html|svg)$',
-    },
-  },
+  globals: {},
   coverageDirectory: '../../../../coverage/libs/eo/production/shell',
   /**
    * https://stackoverflow.com/questions/42260218/jest-setup-syntaxerror-unexpected-token-export
@@ -32,7 +27,13 @@ export default {
    */
   moduleNameMapper: { 'lodash-es': 'lodash' },
   transform: {
-    '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
+    '^.+\\.(ts|mjs|js|html)$': [
+      'jest-preset-angular',
+      {
+        tsconfig: '<rootDir>/tsconfig.spec.json',
+        stringifyContentPathRegex: '\\.(html|svg)$',
+      },
+    ],
   },
   transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
   snapshotSerializers: [
