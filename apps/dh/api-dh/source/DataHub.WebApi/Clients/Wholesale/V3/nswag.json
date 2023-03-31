@@ -14,7 +14,7 @@
       "className": "{controller}WholesaleClient_V3",
       "output": "WholesaleClient.cs",
       "generateOptionalParameters": true,
-      "classStyle": "Record",
+      "classStyle": "Poco",
       "excludedTypeNames": ["Stream"],
       "additionalNamespaceUsages": ["System.IO"],
       "clientBaseClass": null,

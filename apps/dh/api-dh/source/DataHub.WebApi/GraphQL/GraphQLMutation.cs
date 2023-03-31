@@ -25,14 +25,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
     {
         public GraphQLMutation()
         {
-            Field<NonNullGraphType<PermissionDtoType>>("permission")
-                .Argument<NonNullGraphType<UpdatePermissionInputType>>("permission", "Permission to update")
+            Field<NonNullGraphType<PermissionDtoType>>("updatePermission")
+                .Argument<NonNullGraphType<UpdatePermissionInputType>>("input", "Permission to update")
                 .Resolve()
                 .WithScope()
                 .WithService<IMarketParticipantPermissionsClient>()
                 .ResolveAsync(async (context, client) =>
                     {
-                        var updatePermissionDto = context.GetArgument<UpdatePermissionDto>("permission");
+                        var updatePermissionDto = context.GetArgument<UpdatePermissionDto>("input");
                         await client.UpdatePermissionAsync(updatePermissionDto);
                         return await client.GetPermissionAsync(updatePermissionDto.Id);
                     });
@@ -61,11 +61,13 @@ namespace Energinet.DataHub.WebApi.GraphQL
                             _ => throw new ExecutionError("Invalid process type"), // impossible
                         };
 
-                        var batchRequestDto = new BatchRequestDto(
-                            end,
-                            input.GridAreaCodes,
-                            processType,
-                            start);
+                        var batchRequestDto = new BatchRequestDto
+                        {
+                            StartDate = start,
+                            EndDate = end,
+                            GridAreaCodes = input.GridAreaCodes,
+                            ProcessType = processType,
+                        };
 
                         var guid = await client.CreateBatchAsync(batchRequestDto);
 
