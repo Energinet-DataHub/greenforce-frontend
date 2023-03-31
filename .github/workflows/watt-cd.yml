@@ -84,5 +84,5 @@ jobs:
     uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v10
     with:
       TEAM_NAME: TexasRangers
-      SUBJECT: 'Deployment dispatch failed: Watt + UI'
+      SUBJECT: "Deployment dispatch failed: Watt + UI"
     secrets: inherit
