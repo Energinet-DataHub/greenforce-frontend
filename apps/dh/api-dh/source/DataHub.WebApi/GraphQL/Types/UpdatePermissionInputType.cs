@@ -12,13 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
+using Energinet.DataHub.MarketParticipant.Client.Models;
+using GraphQL.Types;
+
+namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public enum UserAuditLogType
+    public class UpdatePermissionInputType : InputObjectGraphType<UpdatePermissionDto>
     {
-        UserInvite,
-        UserRoleAdded,
-        UserRoleRemoved,
-        UserRoleRemovedDueToDeactivation,
+        public UpdatePermissionInputType()
+        {
+            Name = "UpdatePermissionInput";
+            Field(x => x.Id).Description("The id of the permission to update");
+            Field(x => x.Description).Description("The description of the permission to update");
+        }
     }
 }

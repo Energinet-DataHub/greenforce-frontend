@@ -18,9 +18,11 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { translate, TranslocoModule } from '@ngneat/transloco';
@@ -67,6 +69,7 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit, OnDes
   @Input() roles: MarketParticipantUserRoleDto[] = [];
 
   @Input() paginator!: DhSharedUiPaginatorComponent;
+  @Output() userRoleDeactivated = new EventEmitter<void>();
 
   @ViewChild(DhRoleDrawerComponent)
   drawer!: DhRoleDrawerComponent;
@@ -129,6 +132,11 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit, OnDes
 
   onClosed(): void {
     this.activeRow = undefined;
+  }
+
+  onDeActivated(): void {
+    this.activeRow = undefined;
+    this.userRoleDeactivated.emit();
   }
 
   ngOnDestroy(): void {

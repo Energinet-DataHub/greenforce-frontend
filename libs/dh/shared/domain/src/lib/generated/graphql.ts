@@ -14,7 +14,6 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateRange: { start: string, end: string};
-  /** The `DateTimeOffset` scalar type represents a date, time and offset from UTC. `DateTimeOffset` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
   DateTimeOffset: string;
   Decimal: any;
 };
@@ -86,11 +85,22 @@ export enum EicFunction {
   SystemOperator = 'SYSTEM_OPERATOR'
 }
 
+export type GraphQlMutation = {
+  __typename?: 'GraphQLMutation';
+  updatePermission: Permission;
+};
+
+
+export type GraphQlMutationUpdatePermissionArgs = {
+  input: UpdatePermissionInput;
+};
+
 export type GraphQlQuery = {
   __typename?: 'GraphQLQuery';
   actors: Array<Actor>;
   batch?: Maybe<Batch>;
   batches: Array<Batch>;
+  gridAreas: Array<GridArea>;
   organization?: Maybe<Organization>;
   organizations?: Maybe<Array<Maybe<Organization>>>;
   permission: Permission;
@@ -98,6 +108,7 @@ export type GraphQlQuery = {
   permissions: Array<Permission>;
   processStep?: Maybe<ProcessStep>;
   settlementReports: Array<SettlementReport>;
+  userrole: UserRoleWithPermissions;
 };
 
 
@@ -138,6 +149,11 @@ export type GraphQlQuerySettlementReportsArgs = {
   gridAreaCodes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   period?: InputMaybe<Scalars['DateRange']>;
   processType?: InputMaybe<ProcessType>;
+};
+
+
+export type GraphQlQueryUserroleArgs = {
+  id?: InputMaybe<Scalars['ID']>;
 };
 
 export type GridArea = {
@@ -279,6 +295,13 @@ export enum TimeSeriesType {
   Production = 'PRODUCTION'
 }
 
+export type UpdatePermissionInput = {
+  /** The description of the permission to update */
+  description: Scalars['String'];
+  /** The id of the permission to update */
+  id: Scalars['Int'];
+};
+
 export type UserRole = {
   __typename?: 'UserRole';
   /** The user role description */
@@ -297,6 +320,22 @@ export enum UserRoleStatus {
   Active = 'ACTIVE',
   Inactive = 'INACTIVE'
 }
+
+export type UserRoleWithPermissions = {
+  __typename?: 'UserRoleWithPermissions';
+  /** User role description. */
+  description?: Maybe<Scalars['String']>;
+  /** User role market role. */
+  eicFunction?: Maybe<EicFunction>;
+  /** User role id */
+  id: Scalars['ID'];
+  /** User role name */
+  name: Scalars['String'];
+  /** User role permissions. */
+  permissions?: Maybe<Array<Maybe<Permission>>>;
+  /** User role status. */
+  status?: Maybe<UserRoleStatus>;
+};
 
 export type GetPermissionDetailsQueryVariables = Exact<{
   id: Scalars['ID'];

@@ -39,12 +39,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
             this.RegisterTypeMapping<TimeSeriesPointDto, TimeSeriesPointType>();
             this.RegisterTypeMapping<ProcessType, ProcessTypeEnum>();
             this.RegisterTypeMapping<GridAreaDto, GridAreaType>();
+            this.RegisterTypeMapping<UserRoleWithPermissionsDto, UserRoleWithPermissionsDtoType>();
             this.RegisterTypeMapping<PermissionAuditLogDto, PermissionAuditLogDtoType>();
             this.RegisterTypeMapping<PermissionChangeType, PermissionChangeTypeEnum>();
             this.RegisterTypeMapping<UserRoleStatus, UserRoleStatusEnum>();
             this.RegisterTypeMapping<EicFunction, EicFunctionEnum>();
 
             Query = provider.GetRequiredService<GraphQLQuery>();
+            Mutation = provider.GetRequiredService<GraphQLMutation>();
         }
     }
 }
