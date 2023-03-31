@@ -19,13 +19,13 @@ Navigate to the folder of your consuming project and run one of next commands.
 
 _published:_
 
-```
+```shell
 npm install @ --save
 ```
 
 _without publishing (not recommended):_
 
-```
+```shell
 npm install PATH_TO_GENERATED_PACKAGE/dist.tgz --save
 ```
 
@@ -35,13 +35,13 @@ _using `npm link`:_
 
 In PATH_TO_GENERATED_PACKAGE/dist:
 
-```
+```shell
 npm link
 ```
 
 In your project:
 
-```
+```shell
 npm link
 ```
 
