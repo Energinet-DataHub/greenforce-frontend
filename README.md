@@ -17,17 +17,17 @@ frontends backed by [Nx] and [Angular].
 - [General](#general)
 - [Prerequisites](#prerequisites)
 - [DataHub](#datahub)
-    - [Documentation](#documentation)
-    - [Getting Started](#getting-started)
-    - [Development](#development)
-    - [Backend For Frontend (BFF)](#backend-for-frontend-bff)
-    - [Configuration](#configuration)
+  - [Documentation](#documentation)
+  - [Getting Started](#getting-started)
+  - [Development](#development)
+  - [Backend For Frontend (BFF)](#backend-for-frontend-bff)
+  - [Configuration](#configuration)
 - [Energy Origin](#energy-origin)
 - [Watt Design System](#watt-design-system)
 - [Workspace](#workspace)
-    - [Applications](#applications)
-    - [Libraries](#libraries)
-    - [Tools](#tools)
+  - [Applications](#applications)
+  - [Libraries](#libraries)
+  - [Tools](#tools)
 - [Scripts](#scripts)
 - [Workflows (CI/CD)](#workflows-cicd)
 - [Visual Studio Code](#visual-studio-code)
@@ -66,8 +66,8 @@ The application is deployed to five different environments as listed below:
 [dh-t-001]: https://ashy-forest-09ecf8003.2.azurestaticapps.net
 
 > This is identical to **U-001**, except it also hosts
-[B2C](https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/).
-This service can be accessed from **localhost**, **U-001** and **U-002**.
+> [B2C](https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/).
+> This service can be accessed from **localhost**, **U-001** and **U-002**.
 
 ### Documentation
 
@@ -241,7 +241,7 @@ There are many different library types which are listed further below, but they
 all follow the same naming convention:
 
 > The special `gf` product can be used for libraries that must be shared
-across multiple products.
+> across multiple products.
 
 ```|
 ...
@@ -260,8 +260,8 @@ contain, their name and which other **library**\* types they are allowed to
 depend on:
 
 > Only
-libraries of type `data-access` may have dependencies to apps and only apps of type
-`api`.
+> libraries of type `data-access` may have dependencies to apps and only apps of type
+> `api`.
 
 #### Library types
 
@@ -313,7 +313,7 @@ Workflows are located in `.github/workflows` which currently contains the follow
 - `dh-backend-cd.yml`: Used by DataHub for publishing a release, dispatching a deployment request, and updating BFF code coverage.
 - `dh-backend-ci.yml`: Used by the BFF for `app-dh`.
 - `dh-frontend-cd.yml`: Used by DataHub frontend for publishing a release and dispatching a
-    deployment request.
+  deployment request.
 - `eo-cd.yml`: Used by "Energy Origin" app.
 - `frontend-ci.yml`: Used to build, test, format and lint all frontend apps.
 - `license-check-ci.yml`: Used to check for license headers in files and adding them if missing.
