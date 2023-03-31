@@ -36,7 +36,7 @@ frontends backed by [Nx] and [Angular].
 
 > The documentation in this README assumes the reader has a general understanding
 > of [Nx] and [Angular]. For beginners in these technologies, the
-> [Core Nx Tutorial](https://nx.dev/getting-started/core-tutorial) and
+> [Core Nx Tutorial](https://nx.dev/getting-started) and
 > [Angular Tour of Heroes](https://angular.io/tutorial) serves as a good
 > introduction.
 
