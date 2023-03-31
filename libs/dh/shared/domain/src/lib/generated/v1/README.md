@@ -3,8 +3,7 @@
 ### Building
 
 To install the required dependencies and to build the typescript sources run:
-
-```shell
+```
 npm install
 npm run build
 ```
@@ -35,25 +34,26 @@ _using `npm link`:_
 
 In PATH_TO_GENERATED_PACKAGE/dist:
 
-```shell
+```
 npm link
 ```
 
 In your project:
 
-```shell
+```
 npm link
 ```
 
 __Note for Windows users:__ The Angular CLI has troubles to use linked npm packages.
-Please refer to this [issue 8284](https://github.com/angular/angular-cli/issues/8284) for a solution / workaround.
+Please refer to this issue https://github.com/angular/angular-cli/issues/8284 for a solution / workaround.
 Published packages are not effected by this issue.
+
 
 #### General usage
 
 In your Angular project:
 
-```typescript
+```
 // without configuring providers
 import { ApiModule } from '';
 import { HttpClientModule } from '@angular/common/http';
@@ -129,12 +129,11 @@ Note: The ApiModule is restricted to being instantiated once app wide.
 This is to ensure that all services are treated as singletons.
 
 #### Using multiple OpenAPI files / APIs / ApiModules
-
 In order to use multiple `ApiModules` generated from different OpenAPI files,
 you can create an alias name when importing the modules
 in order to avoid naming conflicts:
 
-```typescript
+```
 import { ApiModule } from 'my-api-path';
 import { ApiModule as OtherApiModule } from 'my-other-api-path';
 import { HttpClientModule } from '@angular/common/http';
@@ -153,8 +152,8 @@ export class AppModule {
 }
 ```
 
-### Set service base path
 
+### Set service base path
 If different than the generated base path, during app bootstrap, you can provide the base path to your service.
 
 ```typescript
@@ -164,7 +163,6 @@ bootstrap(AppComponent, [
     { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
 ]);
 ```
-
 or
 
 ```typescript
@@ -179,8 +177,8 @@ import { BASE_PATH } from '';
 export class AppModule {}
 ```
 
-#### Using @angular/cli
 
+#### Using @angular/cli
 First extend your `src/environments/*.ts` files by adding the corresponding base path:
 
 ```typescript
@@ -192,7 +190,7 @@ export const environment = {
 
 In the src/app/app.module.ts:
 
-```typescript
+```
 import { BASE_PATH } from '';
 import { environment } from '../environments/environment';
 
@@ -220,7 +218,6 @@ pass an arrow-function or method-reference to the `encodeParam` property of the 
 (see [General Usage](#general-usage) above).
 
 Example value for use in your Configuration-Provider:
-
 ```typescript
 new Configuration({
     encodeParam: (param: Param) => myFancyParamEncoder(param),
