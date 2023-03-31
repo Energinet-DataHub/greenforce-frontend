@@ -26,7 +26,7 @@ name: Prepare dotnet outputs
 #
 
 inputs:
-  OUTPUT_PATH:
+  output_path:
     required: true
 
 runs:
@@ -40,14 +40,14 @@ runs:
           --no-build \
           --no-restore \
           --configuration Release \
-          --output '${{ inputs.OUTPUT_PATH }}\functions\bff'
+          --output '${{ inputs.output_path }}\functions\bff'
 
     - name: Publish Swagger
       shell: bash
       run: |
-        cp "${{ github.workspace }}/apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net7.0/swagger.json" "${{ inputs.OUTPUT_PATH }}"
+        cp "${{ github.workspace }}/apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net7.0/swagger.json" "${{ inputs.output_path }}"
 
     - name: Publish Graphql
       shell: bash
       run: |
-        cp "${{ github.workspace }}/schema.graphql" "${{ inputs.OUTPUT_PATH }}"
+        cp "${{ github.workspace }}/schema.graphql" "${{ inputs.output_path }}"
