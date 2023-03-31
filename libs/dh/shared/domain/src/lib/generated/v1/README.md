@@ -29,7 +29,7 @@ _without publishing (not recommended):_
 npm install PATH_TO_GENERATED_PACKAGE/dist.tgz --save
 ```
 
-_It's important to take the tgz file, otherwise you'll get trouble with links on windows_
+_It's important to take the tgz file, otherwise you'll get trouble with links on windows._
 
 _using `npm link`:_
 
