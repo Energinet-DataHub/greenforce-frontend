@@ -40,9 +40,7 @@ Feature flags can be used by the `*dhFeatureflag` directive or the `DhFeatureFla
 Use the feature flags within templates with the feature flag structural directive.
 
 ```html
-<ng-container *dhFeatureFlag="my-awesome-feature-flag">
-  SOME CONTENT
-</ng-container>
+<ng-container *dhFeatureFlag="my-awesome-feature-flag"> SOME CONTENT </ng-container>
 ```
 
 **Notice:** Using feature flags with the structural directive, you will need to import the `DhFeatureFlagDirectiveModule`.
