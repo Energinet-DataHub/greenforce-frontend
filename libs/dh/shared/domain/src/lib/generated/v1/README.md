@@ -18,30 +18,28 @@ Navigate to the folder of your consuming project and run one of next commands.
 
 _published:_
 
-```shell
+```
 npm install @ --save
 ```
 
 _without publishing (not recommended):_
 
-```shell
+```
 npm install PATH_TO_GENERATED_PACKAGE/dist.tgz --save
 ```
 
-_It's important to take the tgz file, otherwise you'll get trouble with links on windows._
+_It's important to take the tgz file, otherwise you'll get trouble with links on windows_
 
 _using `npm link`:_
 
 In PATH_TO_GENERATED_PACKAGE/dist:
-
 ```
 npm link
 ```
 
 In your project:
-
 ```
-npm link
+npm link 
 ```
 
 __Note for Windows users:__ The Angular CLI has troubles to use linked npm packages.
@@ -52,6 +50,7 @@ Published packages are not effected by this issue.
 #### General usage
 
 In your Angular project:
+
 
 ```
 // without configuring providers
@@ -72,7 +71,7 @@ import { HttpClientModule } from '@angular/common/http';
 export class AppModule {}
 ```
 
-```typescript
+```
 // configuring providers
 import { ApiModule, Configuration, ConfigurationParameters } from '';
 
@@ -92,7 +91,7 @@ export function apiConfigFactory (): Configuration {
 export class AppModule {}
 ```
 
-```typescript
+```
 // configuring providers with an authentication service that manages your access tokens
 import { ApiModule, Configuration } from '';
 
@@ -117,7 +116,7 @@ import { ApiModule, Configuration } from '';
 export class AppModule {}
 ```
 
-```typescript
+```
 import { DefaultApi } from '';
 
 export class AppComponent {
@@ -132,7 +131,6 @@ This is to ensure that all services are treated as singletons.
 In order to use multiple `ApiModules` generated from different OpenAPI files,
 you can create an alias name when importing the modules
 in order to avoid naming conflicts:
-
 ```
 import { ApiModule } from 'my-api-path';
 import { ApiModule as OtherApiModule } from 'my-other-api-path';
@@ -156,7 +154,7 @@ export class AppModule {
 ### Set service base path
 If different than the generated base path, during app bootstrap, you can provide the base path to your service.
 
-```typescript
+```
 import { BASE_PATH } from '';
 
 bootstrap(AppComponent, [
@@ -165,7 +163,7 @@ bootstrap(AppComponent, [
 ```
 or
 
-```typescript
+```
 import { BASE_PATH } from '';
 
 @NgModule({
@@ -181,7 +179,7 @@ export class AppModule {}
 #### Using @angular/cli
 First extend your `src/environments/*.ts` files by adding the corresponding base path:
 
-```typescript
+```
 export const environment = {
   production: false,
   API_BASE_PATH: 'http://127.0.0.1:8080'
@@ -189,7 +187,6 @@ export const environment = {
 ```
 
 In the src/app/app.module.ts:
-
 ```
 import { BASE_PATH } from '';
 import { environment } from '../environments/environment';
