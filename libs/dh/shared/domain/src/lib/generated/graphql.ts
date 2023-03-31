@@ -108,6 +108,7 @@ export type GraphQlQuery = {
   permissions: Array<Permission>;
   processStep?: Maybe<ProcessStep>;
   settlementReports: Array<SettlementReport>;
+  userrole: UserRoleWithPermissions;
 };
 
 
@@ -148,6 +149,11 @@ export type GraphQlQuerySettlementReportsArgs = {
   gridAreaCodes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   period?: InputMaybe<Scalars['DateRange']>;
   processType?: InputMaybe<ProcessType>;
+};
+
+
+export type GraphQlQueryUserroleArgs = {
+  id?: InputMaybe<Scalars['ID']>;
 };
 
 export type GridArea = {
@@ -314,6 +320,22 @@ export enum UserRoleStatus {
   Active = 'ACTIVE',
   Inactive = 'INACTIVE'
 }
+
+export type UserRoleWithPermissions = {
+  __typename?: 'UserRoleWithPermissions';
+  /** User role description. */
+  description?: Maybe<Scalars['String']>;
+  /** User role market role. */
+  eicFunction?: Maybe<EicFunction>;
+  /** User role id */
+  id: Scalars['ID'];
+  /** User role name */
+  name: Scalars['String'];
+  /** User role permissions. */
+  permissions?: Maybe<Array<Maybe<Permission>>>;
+  /** User role status. */
+  status?: Maybe<UserRoleStatus>;
+};
 
 export type GetPermissionDetailsQueryVariables = Exact<{
   id: Scalars['ID'];
