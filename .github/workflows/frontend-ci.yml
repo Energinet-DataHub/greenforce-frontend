@@ -57,17 +57,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # needed for nx affected command
-      - name: 'PR: Check out source code with current branch Git history'
+      - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
       # needed for nx affected command
-      - name: 'PR: Fetch base branch Git history'
+      - name: "PR: Fetch base branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
-      - name: 'Merge: Check out source code'
+      - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v3
 
@@ -75,7 +75,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: ${{ env.node-version-file }}
-          cache: 'yarn'
+          cache: yarn
 
       - name: Set yarn version ${{ env.yarn-version }}
         run: yarn set version ${{ env.yarn-version }}
@@ -83,12 +83,12 @@ jobs:
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
-      - name: 'PR: Production build of affected products'
+      - name: "PR: Production build of affected products"
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:build --base=origin/$BASE_BRANCH
           --max-parallel=$NX_MAX_PARALLEL
 
-      - name: 'Merge: Production build of all products'
+      - name: "Merge: Production build of all products"
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn build --max-parallel=$NX_MAX_PARALLEL
 
@@ -118,17 +118,17 @@ jobs:
 
     steps:
       # needed for nx affected command
-      - name: 'PR: Check out source code with current branch Git history'
+      - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
       # needed for nx affected command
-      - name: 'PR: Fetch base branch Git history'
+      - name: "PR: Fetch base branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
-      - name: 'Merge: Check out source code'
+      - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v3
 
@@ -136,7 +136,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: ${{ env.node-version-file }}
-          cache: 'yarn'
+          cache: yarn
 
       - name: Set yarn version ${{ env.yarn-version }}
         run: yarn set version ${{ env.yarn-version }}
@@ -146,16 +146,16 @@ jobs:
 
       - name: Install Playwright
         run: npx playwright install --with-deps
-      - name: 'PR: End-to-end test affected products'
+      - name: "PR: End-to-end test affected products"
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
           --max-parallel=$NX_MAX_PARALLEL
-      - name: 'Merge: End-to-end test all products'
+      - name: "Merge: End-to-end test all products"
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn e2e --configuration=ci --max-parallel=$NX_MAX_PARALLEL
 
   format:
-    name: 'PR: Format'
+    name: "PR: Format"
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
@@ -175,7 +175,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: ${{ env.node-version-file }}
-          cache: 'yarn'
+          cache: yarn
 
       - name: Disable Angular Compatibility Compiler
         uses: ./.github/actions/setup-postinstall
@@ -210,7 +210,7 @@ jobs:
 
     steps:
       # needed for nx affected command
-      - name: 'PR: Check out source code with current branch Git history'
+      - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v3
         with:
@@ -218,10 +218,10 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.PAT_TOKEN }}
       # needed for nx affected command
-      - name: 'PR: Fetch base branch Git history'
+      - name: "PR: Fetch base branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
-      - name: 'Merge: Check out source code'
+      - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v3
 
@@ -229,7 +229,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: ${{ env.node-version-file }}
-          cache: 'yarn'
+          cache: yarn
 
       - name: Disable Angular Compatibility Compiler
         uses: ./.github/actions/setup-postinstall
@@ -245,10 +245,10 @@ jobs:
       - name: Revert postinstall changes
         run: git reset --hard
 
-      - name: 'PR: Fix affected projects using lint rules'
+      - name: "PR: Fix affected projects using lint rules"
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:lint:fix --base=origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL
-      - name: 'PR: Commit fixed files'
+      - name: "PR: Commit fixed files"
         if: ${{ env.is-pull-request == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
@@ -256,7 +256,7 @@ jobs:
           git add -A || cd .
           git commit -m "style: lint" || cd .
           git push origin --force-with-lease || cd .
-      - name: 'Merge: Lint workspace and all projects'
+      - name: "Merge: Lint workspace and all projects"
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn lint --max-parallel=$NX_MAX_PARALLEL
 
@@ -266,17 +266,17 @@ jobs:
 
     steps:
       # needed for nx affected command
-      - name: 'PR: Check out source code with current branch Git history'
+      - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
       # needed for nx affected command
-      - name: 'PR: Fetch base branch Git history'
+      - name: "PR: Fetch base branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
-      - name: 'Merge: Check out source code'
+      - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v3
 
@@ -284,7 +284,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: ${{ env.node-version-file }}
-          cache: 'yarn'
+          cache: yarn
 
       - name: Set yarn version ${{ env.yarn-version }}
         run: yarn set version ${{ env.yarn-version }}
@@ -292,11 +292,11 @@ jobs:
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
-      - name: 'PR: Test affected projects'
+      - name: "PR: Test affected projects"
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:test --base=origin/$BASE_BRANCH
           --max-parallel=$NX_MAX_PARALLEL
 
-      - name: 'Merge: Test all projects'
+      - name: "Merge: Test all projects"
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn test --max-parallel=$NX_MAX_PARALLEL

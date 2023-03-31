@@ -1,8 +1,8 @@
-name: 'Dependencies have changed'
-description: 'Tell if dependencies have changed'
+name: Dependencies have changed
+description: Tell if dependencies have changed
 outputs:
   dependencies-have-changed:
-    description: 'Tells if dependencies have changed'
+    description: Tells if dependencies have changed
     value: ${{ steps.dependenciesHasChanged.outputs.dependencies-have-changed }}
 
 runs:
