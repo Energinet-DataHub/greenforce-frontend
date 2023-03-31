@@ -36,7 +36,7 @@ frontends backed by [Nx] and [Angular].
 
 > The documentation in this README assumes the reader has a general understanding
 > of [Nx] and [Angular]. For beginners in these technologies, the
-> [Core Nx Tutorial](https://nx.dev/getting-started/core-tutorial) and
+> [Core Nx Tutorial](https://nx.dev/getting-started) and
 > [Angular Tour of Heroes](https://angular.io/tutorial) serves as a good
 > introduction.
 
@@ -49,14 +49,9 @@ over the Angular CLI._
 
 ## Prerequisites
 
-<dl>
-  <dt><a href="https://volta.sh">Volta</a></dt>
-  <dd>Manager for JavaScript command-line tools like Node.js® and Yarn.</dd>
-  <dt><a href="https://dotnet.microsoft.com/en-us/download">.NET SDK</a></dt>
-  <dd>Required for running and developing the Backend For Frontend.</dd>
-  <dt><a href="https://www.java.com/en/download/">Java</a></dt>
-  <dd>Required for generating HttpClients and DTOs based on Swagger definition.</dd>
-</dl>
+- [Volta](https://volta.sh): Manager for JavaScript command-line tools like Node.js® and Yarn.
+- [.NET SDK](https://dotnet.microsoft.com/en-us/download): Required for running and developing the Backend For Frontend.
+- [Java](https://www.java.com/en/download/): Required for generating HttpClients and DTOs based on Swagger definition. <!-- markdown-link-check-disable-line -->
 
 ## DataHub
 
@@ -70,9 +65,9 @@ The application is deployed to five different environments as listed below:
 [dh-u-002]: https://wonderful-field-057109603.1.azurestaticapps.net
 [dh-t-001]: https://ashy-forest-09ecf8003.2.azurestaticapps.net
 
-<sub>\* This is identical to **U-001**, except it also hosts
-[B2C](https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/).
-This service can be accessed from **localhost**, **U-001** and **U-002**.</sub>
+> This is identical to **U-001**, except it also hosts
+> [B2C](https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/).
+> This service can be accessed from **localhost**, **U-001** and **U-002**.
 
 ### Documentation
 
@@ -130,7 +125,7 @@ Running the following command\* will create a new domain with
 yarn nx workspace-generator dh-domain-generator
 ```
 
-<sub>\* Also available in [Nx Console](https://nx.dev/core-features/integrate-with-editors).</sub>
+> Also available in [Nx Console](https://nx.dev/core-features/integrate-with-editors).
 
 ### Backend For Frontend (BFF)
 
@@ -167,17 +162,7 @@ It is located in `libs/ui-watt` and can be imported from
 `@energinet-datahub/watt` in other libraries.
 
 The design system is showcased using [Storybook](https://storybook.js.org),
-which is currently deployed to four different environments:
-
-| Development         | Test                |
-| ------------------- | ------------------- |
-| [U-001][watt-u-001] | [T-001][watt-t-001] |
-
-[watt-u-001]: https://lively-ocean-04c4e1403.1.azurestaticapps.net
-[watt-t-001]: https://green-hill-085d93003.1.azurestaticapps.net/
-
-_Note: There is currently no differences between the environments, but this
-might change in the future._
+and can be found here: [Latest version (main)](https://main--61765fc47451ff003afe62ff.chromatic.com/)
 
 To use components or other functionality from Watt, import as in the following
 example:
@@ -245,8 +230,8 @@ either related to a single product or shared across multiple products\*.
 There are many different library types which are listed further below, but they
 all follow the same naming convention:
 
-<sub>\* The special `gf` product can be used for libraries that must be shared
-across multiple products.</sub>
+> The special `gf` product can be used for libraries that must be shared
+> across multiple products.
 
 ```|
 ...
@@ -264,11 +249,11 @@ Following is an exhaustive list of permitted library types, what they should
 contain, their name and which other **library**\* types they are allowed to
 depend on:
 
-<sub>\* Only
-libraries of type `data-access` may have dependencies to apps and only apps of type
-`api`.</sub>
+> Only
+> libraries of type `data-access` may have dependencies to apps and only apps of type
+> `api`.
 
-<a name="library-types"></a>
+#### Library types
 
 | Type                | Contains                                                                                                                               | Name                   | Allowed Dependencies                                                                                               |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------ |
@@ -306,10 +291,7 @@ documentation on how to work with them, see
 
 ## Scripts
 
-<dl>
-  <dt><code>yarn dep-graph</code></dt>
-  <dd>Generate a dependency graph for the applications in the monorepo.</dd>
-</dl>
+- `yarn dep-graph`: Generate a dependency graph for the applications in the monorepo.
 
 ## Workflows (CI/CD)
 
@@ -317,45 +299,18 @@ The repository is using [GitHub Actions workflows](https://docs.github.com/en/ac
 for automation including CI/CD pipelines for each application.
 Workflows are located in `.github/workflows` which currently contains the following:
 
-<dl>
-  <dt><code>app-dh-healthchecks.yml</code></dt>
-  <dd>
-    Used for running health check and E2E tests every hour against all DataHub
-    environments.
-  </dd>
-  <dt><code>dh-backend-cd.yml</code></dt>
-  <dd>
-    Used by DataHub for publishing a release, dispatching a deployment request,
-    and updating BFF code coverage.
-  </dd>
-  <dt><code>dh-backend-ci.yml</code></dt>
-  <dd>Used by the BFF for <code>app-dh</code>.</dd>
-  <dt><code>dh-frontend-cd.yml</code></dt>
-  <dd>
-    Used by DataHub frontend for publishing a release and dispatching a
-    deployment request.
-  </dd>
-  <dt><code>eo-cd.yml</code></dt>
-  <dd>Used by "Energy Origin" app.</dd>
-  <dt><code>frontend-ci.yml</code></dt>
-  <dd>Used to build, test, format and lint all frontend apps.</dd>
-  <dt><code>license-check-ci.yml</code></dt>
-  <dd>Used to check for license headers in files and adding them if missing.</dd>
-  <dt><code>production-dependencies-license-check.yml</code></dt>
-  <dd>Used for documenting used versions and licenses of production dependencies.</dd>
-  <dt><code>watt-backend-cd.yml</code></dt>
-  <dd>
-    Used by Watt for publishing a release and dispatching a deployment request
-    of infrastructure as code (IaC).
-  </dd>
-  <dt><code>watt-backend-ci.yml</code></dt>
-  <dd>Used by Watt for creating a pre-release of IaC.</dd>
-  <dt><code>watt-frontend-cd.yml</code></dt>
-  <dd>
-    Used by Watt for deploying to Chromatic, publishing a release, and
-    dispatching a deployment request.
-  </dd>
-</dl>
+- `app-dh-healthchecks.yml`: Used for running health check and E2E tests every hour against all DataHub environments.
+- `dh-backend-cd.yml`: Used by DataHub for publishing a release, dispatching a deployment request, and updating BFF code coverage.
+- `dh-backend-ci.yml`: Used by the BFF for `app-dh`.
+- `dh-frontend-cd.yml`: Used by DataHub frontend for publishing a release and dispatching a
+  deployment request.
+- `eo-cd.yml`: Used by "Energy Origin" app.
+- `frontend-ci.yml`: Used to build, test, format and lint all frontend apps.
+- `license-check-ci.yml`: Used to check for license headers in files and adding them if missing.
+- `production-dependencies-license-check.yml`: Used for documenting used versions and licenses of production dependencies.
+- `watt-backend-cd.yml`: Used by Watt for publishing a release and dispatching a deployment request of infrastructure as code (IaC).
+- `watt-backend-ci.yml`: Used by Watt for creating a pre-release of IaC.
+- `watt-frontend-cd.yml`: Used by Watt for deploying to Chromatic, publishing a release, and dispatching a deployment request.
 
 _Bots are used for certain trivial tasks such as adding license headers to files,
 formatting code, fixing lint errors, and generating API clients based on OpenAPI.

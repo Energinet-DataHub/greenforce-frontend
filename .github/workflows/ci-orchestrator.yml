@@ -25,6 +25,17 @@ on:
 
 jobs:
   #
+  # Markdown check and YAML validation
+  #
+  ci_base:
+    uses: Energinet-DataHub/.github/.github/workflows/ci-base.yml@v10
+    with:
+      skip_license_check: true # Handled by another workflow
+      skip_markdown_check: false
+      skip_yaml_lint: true # TODO: Enable in next PR
+      skip_actions_casing_validation: true # TODO: Enable in next PR
+
+  #
   # Detect changes to start relevant workflows
   #
   changes:
@@ -59,14 +70,7 @@ jobs:
   #
   allow_merge_ci_orchestrator:
     runs-on: ubuntu-latest
-    needs: [
-        # DataHub UI
-        dh_ci_frontend,
-        dh_ci_dotnet,
-
-        # Watt
-        watt_ci_frontend,
-      ]
+    needs: [ci_base, dh_ci_frontend, dh_ci_dotnet, watt_ci_frontend]
     if: |
       always()
     steps:
