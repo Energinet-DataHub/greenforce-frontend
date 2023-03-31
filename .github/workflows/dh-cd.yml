@@ -37,21 +37,21 @@ jobs:
     if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v10
     with:
-      SOLUTION_FILE_PATH: apps/dh/api-dh/DataHub.WebApi.sln
-      ENVIRONMENT: AzureAuth
+      solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
+      environment: AzureAuth
     secrets:
-      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      AZURE_SPN_ID: ${{ secrets.AZURE_SPN_ID_OIDC }}
-      AZURE_KEYVAULT_URL: ${{ secrets.AZURE_KEYVAULT_URL }}
-      AZURE_B2CSECRETS_KEYVAULT_URL: ${{ secrets.AZURE_B2CSECRETS_KEYVAULT_URL }}
+      azure_tenant_id: ${{ secrets.azure_tenant_id }}
+      azure_subscription_id: ${{ secrets.azure_subscription_id }}
+      azure_spn_id: ${{ secrets.azure_spn_id_oidc }}
+      azure_keyvault_url: ${{ secrets.azure_keyvault_url }}
+      azure_b2csecrets_keyvault_url: ${{ secrets.azure_b2csecrets_keyvault_url }}
 
   dotnet_promote_prerelease:
     needs: changes
     if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v10
     with:
-      RELEASE_NAME_PREFIX: ui_dotnet
+      release_name_prefix: ui_dotnet
 
   #
   # Frontend
@@ -62,7 +62,7 @@ jobs:
     if: ${{ needs.changes.outputs.dh_frontend == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v10
     with:
-      RELEASE_NAME_PREFIX: ui_frontend
+      release_name_prefix: ui_frontend
 
   #
   # Dispatch deployment request
@@ -89,8 +89,8 @@ jobs:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.PAT_TOKEN }}
-          repository: ${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}
+          token: ${{ secrets.pat_token }}
+          repository: ${{ secrets.environment_repository_path }}
           event-type: ui-deployment-request-domain
           # yamllint disable-line rule:quoted-strings
           client-payload: '{"domain_pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet_deploy": "${{ needs.changes.outputs.dh_dotnet }}", "frontend_deploy": "${{ needs.changes.outputs.dh_frontend }}"}'
@@ -111,6 +111,6 @@ jobs:
       contains(needs.*.result, 'failure')
     uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v10
     with:
-      TEAM_NAME: TexasRangers
-      SUBJECT: "Deployment dispatch failed: UI + BFF"
+      team_name: TexasRangers
+      subject: "Deployment dispatch failed: UI + BFF"
     secrets: inherit
