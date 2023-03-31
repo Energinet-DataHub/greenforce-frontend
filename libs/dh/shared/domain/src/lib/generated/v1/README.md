@@ -53,7 +53,7 @@ Published packages are not effected by this issue.
 
 In your Angular project:
 
-```
+```typescript
 // without configuring providers
 import { ApiModule } from '';
 import { HttpClientModule } from '@angular/common/http';
@@ -72,7 +72,7 @@ import { HttpClientModule } from '@angular/common/http';
 export class AppModule {}
 ```
 
-```
+```typescript
 // configuring providers
 import { ApiModule, Configuration, ConfigurationParameters } from '';
 
@@ -92,7 +92,7 @@ export function apiConfigFactory (): Configuration {
 export class AppModule {}
 ```
 
-```
+```typescript
 // configuring providers with an authentication service that manages your access tokens
 import { ApiModule, Configuration } from '';
 
@@ -117,7 +117,7 @@ import { ApiModule, Configuration } from '';
 export class AppModule {}
 ```
 
-```
+```typescript
 import { DefaultApi } from '';
 
 export class AppComponent {
@@ -134,7 +134,7 @@ In order to use multiple `ApiModules` generated from different OpenAPI files,
 you can create an alias name when importing the modules
 in order to avoid naming conflicts:
 
-```
+```typescript
 import { ApiModule } from 'my-api-path';
 import { ApiModule as OtherApiModule } from 'my-other-api-path';
 import { HttpClientModule } from '@angular/common/http';
@@ -157,7 +157,7 @@ export class AppModule {
 
 If different than the generated base path, during app bootstrap, you can provide the base path to your service.
 
-```
+```typescript
 import { BASE_PATH } from '';
 
 bootstrap(AppComponent, [
@@ -167,7 +167,7 @@ bootstrap(AppComponent, [
 
 or
 
-```
+```typescript
 import { BASE_PATH } from '';
 
 @NgModule({
@@ -183,7 +183,7 @@ export class AppModule {}
 
 First extend your `src/environments/*.ts` files by adding the corresponding base path:
 
-```
+```typescript
 export const environment = {
   production: false,
   API_BASE_PATH: 'http://127.0.0.1:8080'
@@ -192,7 +192,7 @@ export const environment = {
 
 In the src/app/app.module.ts:
 
-```
+```typescript
 import { BASE_PATH } from '';
 import { environment } from '../environments/environment';
 
