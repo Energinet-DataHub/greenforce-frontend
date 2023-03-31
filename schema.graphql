@@ -91,9 +91,9 @@ enum EicFunction {
 }
 
 type GraphQLMutation {
-  permission(
+  updatePermission(
     """Permission to update"""
-    permission: UpdatePermissionInput!
+    input: UpdatePermissionInput!
   ): Permission!
 }
 
