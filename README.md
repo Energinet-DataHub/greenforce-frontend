@@ -17,17 +17,17 @@ frontends backed by [Nx] and [Angular].
 - [General](#general)
 - [Prerequisites](#prerequisites)
 - [DataHub](#datahub)
-  - [Documentation](#documentation)
-  - [Getting Started](#getting-started)
-  - [Development](#development)
-  - [Backend For Frontend (BFF)](#backend-for-frontend-bff)
-  - [Configuration](#configuration)
+    - [Documentation](#documentation)
+    - [Getting Started](#getting-started)
+    - [Development](#development)
+    - [Backend For Frontend (BFF)](#backend-for-frontend-bff)
+    - [Configuration](#configuration)
 - [Energy Origin](#energy-origin)
 - [Watt Design System](#watt-design-system)
 - [Workspace](#workspace)
-  - [Applications](#applications)
-  - [Libraries](#libraries)
-  - [Tools](#tools)
+    - [Applications](#applications)
+    - [Libraries](#libraries)
+    - [Tools](#tools)
 - [Scripts](#scripts)
 - [Workflows (CI/CD)](#workflows-cicd)
 - [Visual Studio Code](#visual-studio-code)
@@ -51,7 +51,7 @@ over the Angular CLI._
 
 - [Volta](https://volta.sh): Manager for JavaScript command-line tools like Node.js® and Yarn.
 - [.NET SDK](https://dotnet.microsoft.com/en-us/download): Required for running and developing the Backend For Frontend.
-- [Java](https://www.java.com/en/download/): Required for generating HttpClients and DTOs based on Swagger definition.
+- [Java](https://www.java.com/en/download/): Required for generating HttpClients and DTOs based on Swagger definition. <!-- markdown-link-check-disable-line -->
 
 ## DataHub
 
