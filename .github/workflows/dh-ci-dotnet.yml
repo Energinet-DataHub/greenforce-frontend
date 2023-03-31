@@ -27,7 +27,7 @@ jobs:
   dotnet_ci_build:
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@v10
     with:
-      SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
+      SOLUTION_FILE_PATH: apps/dh/api-dh/DataHub.WebApi.sln
       RELEASE_NAME_PREFIX: ui_dotnet
 
   # Run all tests in 'Tests.dll'
@@ -35,7 +35,7 @@ jobs:
     needs: dotnet_ci_build
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-postbuild-test.yml@v10
     with:
-      TESTS_DLL_FILE_PATH: '\apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net7.0\Energinet.DataHub.WebApi.Tests.dll'
+      TESTS_DLL_FILE_PATH: \apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net7.0\Energinet.DataHub.WebApi.Tests.dll
       DOWNLOAD_ATTEMPT_LIMIT: 12
       ENVIRONMENT: AzureAuth
     secrets:
