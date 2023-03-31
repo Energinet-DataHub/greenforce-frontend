@@ -20,9 +20,50 @@ limitations under the License.
   size="large"
   (closed)="onClose()"
 >
-  <watt-drawer-topbar>{{ selectedPermission?.name }}</watt-drawer-topbar>
+  <watt-drawer-heading>
+    <h2>{{ selectedPermission?.name }}</h2>
+  </watt-drawer-heading>
 
-  <watt-drawer-actions> </watt-drawer-actions>
+  <watt-drawer-actions>
+    <watt-button
+      *dhPermissionRequired="['permissions:manage']"
+      variant="secondary"
+      (click)="isEditPermissionModalVisible = true"
+      >{{ "admin.userManagement.drawer.edit" | transloco }}</watt-button
+    >
+  </watt-drawer-actions>
 
-  <watt-drawer-content *ngIf="drawer.isOpen"> Give me content </watt-drawer-content>
+  <watt-drawer-content *ngIf="drawer.isOpen">
+    <watt-tabs>
+      <watt-tab [label]="t('information')">
+        <watt-card variant="solid">
+          <watt-description-list variant="stack">
+            <watt-description-list-item
+              [label]="t('permissionName')"
+              [value]="selectedPermission?.name"
+            />
+            <watt-description-list-item
+              [label]="t('permissionDescription')"
+              [value]="selectedPermission?.description"
+            />
+          </watt-description-list>
+        </watt-card>
+      </watt-tab>
+      <watt-tab [label]="t('tabs.userRoles.tabLabel')">
+        <dh-admin-permission-roles [selectedPermission]="selectedPermission" />
+      </watt-tab>
+      <watt-tab [label]="t('tabs.marketRoles.tabLabel')">
+        <dh-admin-permission-market-roles [selectedPermission]="selectedPermission" />
+      </watt-tab>
+      <watt-tab [label]="t('tabs.history.tabLabel')">
+        <dh-admin-permission-audit-logs [selectedPermission]="selectedPermission" />
+      </watt-tab>
+    </watt-tabs>
+  </watt-drawer-content>
 </watt-drawer>
+
+<dh-edit-permission-modal
+  *ngIf="isEditPermissionModalVisible && selectedPermission"
+  [permission]="selectedPermission"
+  (closed)="modalOnClose($event)"
+></dh-edit-permission-modal>

@@ -1,0 +1,670 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Wholesale Web API",
+    "version": "3.0"
+  },
+  "paths": {
+    "/v3/batches": {
+      "post": {
+        "tags": [
+          "Batch"
+        ],
+        "summary": "Create a batch.",
+        "operationId": "CreateBatch",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Batch"
+        ],
+        "summary": "Get batches that matches the criteria specified",
+        "operationId": "SearchBatches",
+        "parameters": [
+          {
+            "name": "gridAreaCodes",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "executionState",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "$ref": "#/components/schemas/BatchState"
+            }
+          },
+          {
+            "name": "minExecutionTime",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "maxExecutionTime",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "periodStart",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "periodEnd",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BatchDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/batches/{batchId}": {
+      "get": {
+        "tags": [
+          "Batch"
+        ],
+        "summary": "Returns a batch matching batchId.",
+        "operationId": "GetBatch",
+        "parameters": [
+          {
+            "name": "batchId",
+            "in": "path",
+            "required": true,
+            "description": "BatchId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/batches/{batchId}/processes/{gridAreaCode}/time-series-types/{timeSeriesType}/balance-responsible-parties": {
+      "get": {
+        "tags": [
+          "ProcessStepBalanceResponsibleParty"
+        ],
+        "summary": "Balance responsible parties.",
+        "operationId": "GetListOfBalanceResponsibleParties",
+        "parameters": [
+          {
+            "name": "batchId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "gridAreaCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeSeriesType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/TimeSeriesType"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActorDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/batches/{batchId}/processes/{gridAreaCode}/time-series-types/{timeSeriesType}/energy-suppliers": {
+      "get": {
+        "tags": [
+          "ProcessStepEnergySupplier"
+        ],
+        "summary": "Returns a list of Energy suppliers. If balance responsible party is specified by the balanceResponsibleParty parameter only the energy suppliers associated with that balance responsible party is returned",
+        "operationId": "GetListOfEnergySuppliers",
+        "parameters": [
+          {
+            "name": "batchId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "gridAreaCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeSeriesType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/TimeSeriesType"
+            }
+          },
+          {
+            "name": "balanceResponsibleParty",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActorDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/batches/{batchId}/processes/{gridAreaCode}/time-series-types/{timeSeriesType}": {
+      "get": {
+        "tags": [
+          "ProcessStepResult"
+        ],
+        "summary": "Calculation results provided by the following method:\r\nWhen only 'energySupplierGln' is provided, a result is returned for a energy supplier for the requested grid area, for the specified time series type.\r\nif only a 'balanceResponsiblePartyGln' is provided, a result is returned for a balance responsible party for the requested grid area, for the specified time series type.\r\nif both 'balanceResponsiblePartyGln' and 'energySupplierGln' is provided, a result is returned for the balance responsible party's energy supplier for requested grid area, for the specified time series type.\r\nif no 'balanceResponsiblePartyGln' and 'energySupplierGln' is provided, a result is returned for the requested grid area, for the specified time series type.",
+        "operationId": "GetProcessStepResult",
+        "parameters": [
+          {
+            "name": "batchId",
+            "in": "path",
+            "required": true,
+            "description": "The id to identify the batch the request is for",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "gridAreaCode",
+            "in": "path",
+            "required": true,
+            "description": "The grid area the requested result is in",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeSeriesType",
+            "in": "path",
+            "required": true,
+            "description": "The time series type the result has",
+            "schema": {
+              "$ref": "#/components/schemas/TimeSeriesType"
+            }
+          },
+          {
+            "name": "energySupplierGln",
+            "in": "query",
+            "description": "The GLN for the energy supplier the requested result",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "balanceResponsiblePartyGln",
+            "in": "query",
+            "description": "The GLN for the balance responsible party the requested result",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessStepResultDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/SettlementReport": {
+      "get": {
+        "tags": [
+          "SettlementReport"
+        ],
+        "summary": "Returns a stream containing the settlement report for batch with batchId and gridAreaCode.",
+        "operationId": "GetSettlementReportAsStreamAsync",
+        "parameters": [
+          {
+            "name": "batchId",
+            "in": "query",
+            "required": true,
+            "description": "BatchId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "gridAreaCode",
+            "in": "query",
+            "required": true,
+            "description": "GridAreaCode",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "$ref": "#/components/schemas/Stream"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ActorDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "gln": {
+            "type": "string"
+          }
+        }
+      },
+      "BatchDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "runId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "batchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "resolution": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "executionTimeStart": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "executionTimeEnd": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "executionState": {
+            "$ref": "#/components/schemas/BatchState"
+          },
+          "areSettlementReportsCreated": {
+            "type": "boolean"
+          },
+          "gridAreaCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "processType": {
+            "$ref": "#/components/schemas/ProcessType"
+          }
+        }
+      },
+      "BatchRequestDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "processType": {
+            "$ref": "#/components/schemas/ProcessType"
+          },
+          "gridAreaCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "BatchState": {
+        "type": "string",
+        "enum": [
+          "Pending",
+          "Executing",
+          "Completed",
+          "Failed"
+        ]
+      },
+      "ProcessStepResultDto": {
+        "type": "object",
+        "description": "Result data from a specific step in a process",
+        "additionalProperties": false,
+        "properties": {
+          "sum": {
+            "type": "number",
+            "description": "Sum has a scale of 3",
+            "format": "double"
+          },
+          "min": {
+            "type": "number",
+            "description": "Min has a scale of 3",
+            "format": "double"
+          },
+          "max": {
+            "type": "number",
+            "description": "Max has a scale of 3",
+            "format": "double"
+          },
+          "periodStart": {
+            "type": "string",
+            "description": "",
+            "format": "date-time"
+          },
+          "periodEnd": {
+            "type": "string",
+            "description": "",
+            "format": "date-time"
+          },
+          "resolution": {
+            "type": "string",
+            "description": ""
+          },
+          "unit": {
+            "type": "string",
+            "description": "kWh"
+          },
+          "timeSeriesPoints": {
+            "type": "array",
+            "description": "",
+            "items": {
+              "$ref": "#/components/schemas/TimeSeriesPointDto"
+            }
+          },
+          "processType": {
+            "$ref": "#/components/schemas/ProcessType"
+          }
+        }
+      },
+      "ProcessType": {
+        "type": "string",
+        "enum": [
+          "BalanceFixing",
+          "Aggregation"
+        ]
+      },
+      "Stream": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "canRead": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "canWrite": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "canSeek": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "canTimeout": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "length": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64"
+          },
+          "position": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "readTimeout": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "writeTimeout": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "TimeSeriesPointDto": {
+        "type": "object",
+        "description": "TimeSeriesPoint",
+        "additionalProperties": false,
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "The observation time for the measured 'Quantity'",
+            "format": "date-time"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Quantity has a scale of 3",
+            "format": "double"
+          },
+          "quality": {
+            "type": "string",
+            "description": "Any of the values from Energinet.DataHub.Wholesale.WebApi.V3.ProcessStepResult.TimeSeriesPointQuality"
+          }
+        }
+      },
+      "TimeSeriesType": {
+        "type": "string",
+        "enum": [
+          "NonProfiledConsumption",
+          "FlexConsumption",
+          "Production"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [
+        "Bearer"
+      ]
+    }
+  ]
+}

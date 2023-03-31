@@ -42,7 +42,10 @@ import {
   FilterUserRolesPipe,
   UserRolesIntoTablePipe,
 } from './dh-filter-user-roles-into-table.pipe';
-import { UserOverviewItemDto, UserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantUserOverviewItemDto,
+  MarketParticipantUserRoleViewDto,
+} from '@energinet-datahub/dh/shared/domain';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
@@ -76,7 +79,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 })
 export class DhUserRolesComponent implements OnChanges {
   private readonly store = inject(DhAdminUserRolesStore);
-  @Input() user: UserOverviewItemDto | null = null;
+  @Input() user: MarketParticipantUserOverviewItemDto | null = null;
   @Input() selectMode = false;
   @Output() updateUserRoles = new EventEmitter<UpdateUserRoles>();
 
@@ -84,7 +87,7 @@ export class DhUserRolesComponent implements OnChanges {
   hasGeneralError$ = this.store.hasGeneralError$;
   userRolesPrActor$ = this.store.userRolesPrActor$;
 
-  columns: WattTableColumnDef<UserRoleViewDto> = {
+  columns: WattTableColumnDef<MarketParticipantUserRoleViewDto> = {
     marketRole: { accessor: 'marketRole' },
     name: { accessor: 'name' },
     description: { accessor: 'description', sort: false },
@@ -108,8 +111,8 @@ export class DhUserRolesComponent implements OnChanges {
 
   selectionChanged(
     actorId: string,
-    userRoles: UserRoleViewDto[],
-    allAssignable: UserRoleViewDto[]
+    userRoles: MarketParticipantUserRoleViewDto[],
+    allAssignable: MarketParticipantUserRoleViewDto[]
   ) {
     const actor = this.getOrAddActor(actorId);
 

@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
@@ -26,6 +28,17 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field(x => x.Name).Description("The name of the permission.");
             Field(x => x.Description).Description("The description of the permission.");
             Field(x => x.Created).Description("The created date of the permission.");
+            Field(x => x.AssignableTo).Description("The EIC functions this permission is assignable to.");
+
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<UserRoleType>>>>("userRoles")
+               .Resolve()
+               .WithScope()
+               .WithService<IMarketParticipantUserRoleClient>()
+               .ResolveAsync(async (context, client) =>
+               {
+                   var userRoles = await client.GetAssignedToPermissionAsync(context.Source.Id);
+                   return userRoles;
+               });
         }
     }
 }

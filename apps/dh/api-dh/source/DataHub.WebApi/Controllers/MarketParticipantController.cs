@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
+using Energinet.DataHub.WebApi.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -57,15 +58,19 @@ namespace Energinet.DataHub.WebApi.Controllers
                     .GetOrganizationsAsync()
                     .ConfigureAwait(false);
 
-                var result = new List<OrganizationWithActorsDto>();
+                var allActors = await _client
+                    .GetActorsAsync()
+                    .ConfigureAwait(false);
 
-                foreach (var organization in organizations)
+                var groupByOrganization = allActors.ToLookup(a => a.OrganizationId);
+
+                var result = organizations.Select(organization =>
                 {
-                    var actors = await _client.GetActorsAsync(organization.OrganizationId);
-                    result.Add(new OrganizationWithActorsDto(organization, actors));
-                }
+                    var actors = groupByOrganization[organization.OrganizationId];
+                    return new OrganizationWithActorsDto(organization, actors);
+                });
 
-                return (IEnumerable<OrganizationWithActorsDto>)result;
+                return result;
             });
         }
 
@@ -120,16 +125,9 @@ namespace Energinet.DataHub.WebApi.Controllers
                 var gridAreas = await _client.GetGridAreasAsync().ConfigureAwait(false);
                 var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
 
-                var organizations = await _client
-                    .GetOrganizationsAsync()
+                var actors = await _client
+                    .GetActorsAsync()
                     .ConfigureAwait(false);
-
-                var actors = new List<ActorDto>();
-
-                foreach (var organizationDto in organizations)
-                {
-                    actors.AddRange(await _client.GetActorsAsync(organizationDto.OrganizationId).ConfigureAwait(false));
-                }
 
                 var accessibleActors = actors
                     .Select(x =>

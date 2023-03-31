@@ -22,7 +22,7 @@ import { Apollo } from 'apollo-angular';
 import { sub, startOfDay, endOfDay } from 'date-fns';
 import { Subject, takeUntil } from 'rxjs';
 
-import { BatchSearchDtoV2, graphql } from '@energinet-datahub/dh/shared/domain';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
@@ -101,11 +101,11 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
     this.destroy$.complete();
   }
 
-  onSearch(search: BatchSearchDtoV2) {
+  onSearch(search: graphql.GetBatchesQueryVariables) {
     this.query.refetch({
       executionTime: {
-        start: search.minExecutionTime as string,
-        end: search.maxExecutionTime as string,
+        start: search.executionTime?.start as string,
+        end: search.executionTime?.end as string,
       },
     });
   }

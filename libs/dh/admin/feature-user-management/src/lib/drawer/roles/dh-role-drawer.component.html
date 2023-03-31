@@ -26,9 +26,15 @@ limitations under the License.
         <h2>{{ userRoleWithPermissions.name }}</h2>
       </ng-container>
     </watt-drawer-heading>
-    <watt-drawer-actions>
+    <watt-drawer-actions *ngIf="basicUserRole?.status !== 'Inactive'">
       <watt-button
-        *dhPermissionRequired="['userrole:manage']"
+        *dhPermissionRequired="['user-roles:manage']"
+        variant="secondary"
+        (click)="disableUserRole()"
+        >{{ t("disable") }}</watt-button
+      >
+      <watt-button
+        *dhPermissionRequired="['user-roles:manage']"
         variant="secondary"
         (click)="isEditUserRoleModalVisible = true"
         >{{ t("edit") }}</watt-button
@@ -56,8 +62,30 @@ limitations under the License.
     </watt-drawer-content>
   </watt-drawer>
 
-  <dh-edit-user-role-modal
-    *ngIf="isEditUserRoleModalVisible"
-    (closed)="modalOnClose($event)"
-  ></dh-edit-user-role-modal>
+  <watt-modal
+    #confirmationModal
+    [size]="'small'"
+    [title]="t('deactivateWarningTitle')"
+    [disableClose]="true"
+    (closed)="confirmationClosed($event)"
+  >
+    <p>
+      {{ t("deactivateWarning") }}
+    </p>
+    <watt-modal-actions>
+      <watt-button variant="secondary" (click)="confirmationModal.close(false)">{{
+        t("cancel")
+      }}</watt-button>
+      <watt-button variant="secondary" (click)="confirmationModal.close(true)">{{
+        t("continue")
+      }}</watt-button>
+    </watt-modal-actions>
+  </watt-modal>
+
+  <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
+    <dh-edit-user-role-modal
+      *ngIf="isEditUserRoleModalVisible && userRoleWithPermissions.status === 'Active'"
+      (closed)="modalOnClose($event)"
+    ></dh-edit-user-role-modal>
+  </ng-container>
 </ng-container>

@@ -16,45 +16,49 @@
  */
 
 import { Injectable } from '@angular/core';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantEicFunction } from '@energinet-datahub/dh/shared/domain';
 
 @Injectable()
 export class MarketRoleService {
   getAvailableMarketRoles = [
-    EicFunction.GridAccessProvider,
-    EicFunction.SystemOperator,
-    EicFunction.BalanceResponsibleParty,
-    EicFunction.EnergySupplier,
-    EicFunction.MeteredDataResponsible,
-    EicFunction.ImbalanceSettlementResponsible,
-    EicFunction.MeteringPointAdministrator,
-    EicFunction.MeteredDataAdministrator,
-    EicFunction.DanishEnergyAgency,
+    MarketParticipantEicFunction.GridAccessProvider,
+    MarketParticipantEicFunction.SystemOperator,
+    MarketParticipantEicFunction.BalanceResponsibleParty,
+    MarketParticipantEicFunction.EnergySupplier,
+    MarketParticipantEicFunction.MeteredDataResponsible,
+    MarketParticipantEicFunction.ImbalanceSettlementResponsible,
+    MarketParticipantEicFunction.MeteringPointAdministrator,
+    MarketParticipantEicFunction.MeteredDataAdministrator,
+    MarketParticipantEicFunction.DanishEnergyAgency,
   ];
 
   validEicFunctionGroups = [
-    [EicFunction.GridAccessProvider, EicFunction.MeteredDataResponsible],
-    [EicFunction.SystemOperator],
     [
-      EicFunction.BalanceResponsibleParty,
-      EicFunction.EnergySupplier,
-      EicFunction.MeteredDataResponsible,
+      MarketParticipantEicFunction.GridAccessProvider,
+      MarketParticipantEicFunction.MeteredDataResponsible,
     ],
-    [EicFunction.ImbalanceSettlementResponsible],
-    [EicFunction.MeteringPointAdministrator],
-    [EicFunction.MeteredDataAdministrator],
-    [EicFunction.DanishEnergyAgency],
+    [MarketParticipantEicFunction.SystemOperator],
+    [
+      MarketParticipantEicFunction.BalanceResponsibleParty,
+      MarketParticipantEicFunction.EnergySupplier,
+      MarketParticipantEicFunction.MeteredDataResponsible,
+    ],
+    [MarketParticipantEicFunction.ImbalanceSettlementResponsible],
+    [MarketParticipantEicFunction.MeteringPointAdministrator],
+    [MarketParticipantEicFunction.MeteredDataAdministrator],
+    [MarketParticipantEicFunction.DanishEnergyAgency],
   ];
 
-  notValidInAnySelectionGroup(item: EicFunction, currentSelectedList: Array<EicFunction>): boolean {
+  notValidInAnySelectionGroup(
+    item: MarketParticipantEicFunction,
+    currentSelectedList: Array<MarketParticipantEicFunction>
+  ): boolean {
     if (currentSelectedList.length === 0) {
       return false;
     }
 
     const possibleGroups = [];
-    for (let index = 0; index < this.validEicFunctionGroups.length; index++) {
-      const group = this.validEicFunctionGroups[index];
-
+    for (const group of this.validEicFunctionGroups) {
       if (
         currentSelectedList.length &&
         currentSelectedList.every((gItem) => group.indexOf(gItem) >= 0)

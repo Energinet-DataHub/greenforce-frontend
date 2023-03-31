@@ -17,12 +17,12 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { MarketParticipantV1Dto, ChargesHttp } from '@energinet-datahub/dh/shared/domain';
+import { ChargeMarketParticipantV1Dto, ChargesHttp } from '@energinet-datahub/dh/shared/domain';
 import { Observable, switchMap, tap } from 'rxjs';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 interface MarketParticipantState {
-  readonly marketParticipants?: Array<MarketParticipantV1Dto>;
+  readonly marketParticipants?: Array<ChargeMarketParticipantV1Dto>;
   readonly requestState: LoadingState | ErrorState;
 }
 
@@ -71,7 +71,7 @@ export class DhMarketParticipantDataAccessApiStore extends ComponentStore<Market
   private updateMarketParticipantsData = this.updater(
     (
       state: MarketParticipantState,
-      marketParticipants: Array<MarketParticipantV1Dto> | undefined
+      marketParticipants: Array<ChargeMarketParticipantV1Dto> | undefined
     ): MarketParticipantState => ({
       ...state,
       marketParticipants: marketParticipants || [],

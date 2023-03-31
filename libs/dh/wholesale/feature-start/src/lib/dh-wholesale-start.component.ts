@@ -34,11 +34,15 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { DateRange, GridAreaDto, ProcessType } from '@energinet-datahub/dh/shared/domain';
+import {
+  DateRange,
+  MarketParticipantGridAreaDto,
+  WholesaleProcessType,
+} from '@energinet-datahub/dh/shared/domain';
 import { filterValidGridAreas } from '@energinet-datahub/dh/wholesale/domain';
 
 interface CreateBatchFormValues {
-  processType: FormControl<ProcessType | null>;
+  processType: FormControl<WholesaleProcessType | null>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<DateRange | null>;
 }
@@ -120,9 +124,9 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
       .selectTranslateObject('wholesale.startBatch.processTypes')
       .pipe(takeUntil(this.destroy$))
       .subscribe((processTypesTranlation) => {
-        this.processTypes = Object.keys(ProcessType).map((key) => ({
+        this.processTypes = Object.keys(WholesaleProcessType).map((key) => ({
           displayValue: processTypesTranlation[key],
-          value: ProcessType[key as ProcessType],
+          value: WholesaleProcessType[key as WholesaleProcessType],
         }));
       });
   }
@@ -145,7 +149,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     });
   }
 
-  private setMinDate(gridAreas: GridAreaDto[]) {
+  private setMinDate(gridAreas: MarketParticipantGridAreaDto[]) {
     if (gridAreas.length === 0) return;
     const validFromDates: number[] = gridAreas.map((gridArea) => {
       return new Date(gridArea.validFrom).getTime();
@@ -153,7 +157,9 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     this.minDate = new Date(Math.min(...validFromDates));
   }
 
-  private mapGridAreasToDropdownOptions(gridAreas: GridAreaDto[]): WattDropdownOption[] {
+  private mapGridAreasToDropdownOptions(
+    gridAreas: MarketParticipantGridAreaDto[]
+  ): WattDropdownOption[] {
     return (
       gridAreas.map((gridArea) => {
         return {
@@ -203,7 +209,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     });
   }
 
-  private validatePeriod(gridAreas: GridAreaDto[]) {
+  private validatePeriod(gridAreas: MarketParticipantGridAreaDto[]) {
     if (gridAreas.length === 0) {
       this.createBatchForm.controls.dateRange.setErrors({
         ...this.createBatchForm.controls.dateRange.errors,

@@ -26,8 +26,11 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LetModule } from '@rx-angular/template/let';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
+import {
+  MatLegacyTableDataSource as MatTableDataSource,
+  MatLegacyTableModule as MatTableModule,
+} from '@angular/material/legacy-table';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattIconModule } from '@energinet-datahub/watt/icon';
@@ -39,7 +42,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { DhMarketParticipantOrganizationOverviewGridAreasScam } from './dh-market-participant-organization-overview-grid-areas-list.component';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantGridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { OrganizationWithActorRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -62,7 +65,7 @@ export class DhMarketParticipantOrganizationOverviewComponent implements AfterVi
   ];
 
   @Input() rows: OrganizationWithActorRow[] = [];
-  @Input() gridAreas: GridAreaDto[] = [];
+  @Input() gridAreas: MarketParticipantGridAreaDto[] = [];
 
   @Output() editOrganization = new EventEmitter<string>();
   @Output() createActor = new EventEmitter<string>();

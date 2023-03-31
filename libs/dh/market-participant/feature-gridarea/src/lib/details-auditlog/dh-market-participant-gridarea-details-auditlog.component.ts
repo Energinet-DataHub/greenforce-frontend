@@ -18,10 +18,10 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnChanges } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { MatTableModule } from '@angular/material/table';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { GridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 interface AuditLogEntry {
@@ -38,7 +38,7 @@ export class DhMarketParticipantGridAreaDetailsAuditLogComponent implements OnCh
   constructor(private translocoServie: TranslocoService) {}
 
   @Input() isLoading = false;
-  @Input() auditLogEntries: GridAreaAuditLogEntryDto[] = [];
+  @Input() auditLogEntries: MarketParticipantGridAreaAuditLogEntryDto[] = [];
 
   displayedColumns: string[] = ['timestamp', 'message'];
   rows: AuditLogEntry[] = [];

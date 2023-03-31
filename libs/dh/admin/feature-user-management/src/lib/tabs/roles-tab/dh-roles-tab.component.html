@@ -34,7 +34,7 @@ limitations under the License.
             <div class="create-role-table-buttons">
               <watt-button
                 *transloco="let t; read: 'admin.userManagement'"
-                icon="openInNew"
+                icon="download"
                 variant="text"
                 (click)="download(rolesTable.filteredAndSortedData)"
                 >{{ t("download") }}</watt-button
@@ -43,7 +43,7 @@ limitations under the License.
               <dh-shared-ui-paginator #paginator [length]="roles.length"> </dh-shared-ui-paginator>
 
               <watt-button
-                *dhPermissionRequired="['userrole:manage']"
+                *dhPermissionRequired="['user-roles:manage']"
                 icon="plus"
                 variant="secondary"
                 (click)="createUserRole()"
@@ -56,6 +56,7 @@ limitations under the License.
           #rolesTable
           [roles]="roles"
           [paginator]="paginator"
+          (userRoleDeactivated)="reloadRoles()"
         ></dh-roles-tab-table>
       </watt-card>
     </ng-container>

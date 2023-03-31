@@ -16,6 +16,19 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.masterData'">
   <watt-card variant="solid">
-    <watt-description-list [groups]="getMasterData()"></watt-description-list>
+    <watt-description-list variant="stack">
+      <watt-description-list-item
+        [label]="t('name')"
+        [value]="role?.name"
+      ></watt-description-list-item>
+      <watt-description-list-item
+        [label]="t('description')"
+        [value]="role?.description"
+      ></watt-description-list-item>
+      <watt-description-list-item
+        [label]="t('marketRole')"
+        [value]="'marketParticipant.marketRoles.' + this.role?.eicFunction | transloco"
+      ></watt-description-list-item>
+    </watt-description-list>
   </watt-card>
 </ng-container>

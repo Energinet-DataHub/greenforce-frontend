@@ -27,17 +27,17 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { MatTableModule } from '@angular/material/table';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { FormsModule } from '@angular/forms';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import {
-  ActorMarketRoleDto,
-  ActorStatus,
-  EicFunction,
-  GridAreaDto,
+  MarketParticipantActorMarketRoleDto,
+  MarketParticipantActorStatus,
+  MarketParticipantEicFunction,
+  MarketParticipantGridAreaDto,
   MarketParticipantMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain';
 import { MarketRoleService } from './market-role.service';
@@ -46,7 +46,7 @@ import { MarketRoleGroupService } from './market-role-group.service';
 
 export interface EditableMarketRoleRow {
   existing: boolean;
-  marketRole?: EicFunction;
+  marketRole?: MarketParticipantEicFunction;
   gridArea?: string;
   meteringPointTypes?: MarketParticipantMeteringPointType[];
   comment?: string | null;
@@ -60,9 +60,9 @@ export interface EditableMarketRoleRow {
   providers: [MarketRoleService, MarketRoleGroupService],
 })
 export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
-  @Input() actorStatus?: ActorStatus;
-  @Input() gridAreas: GridAreaDto[] = [];
-  @Input() actorMarketRoles?: ActorMarketRoleDto[] = [];
+  @Input() actorStatus?: MarketParticipantActorStatus;
+  @Input() gridAreas: MarketParticipantGridAreaDto[] = [];
+  @Input() actorMarketRoles?: MarketParticipantActorMarketRoleDto[] = [];
   @Input() comment?: string;
 
   @Output() changed = new EventEmitter<MarketRoleChanges>();
@@ -70,7 +70,7 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   columnIds = ['marketRole', 'gridArea', 'meteringPointTypes', 'comment', 'delete'];
 
   rows: EditableMarketRoleRow[] = [];
-  deleted: { marketRole?: EicFunction }[] = [];
+  deleted: { marketRole?: MarketParticipantEicFunction }[] = [];
 
   availableMeteringPointTypes = Object.values(MarketParticipantMeteringPointType);
 
@@ -153,7 +153,7 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   readonly calculateAvailableMarketRoles = () => {
     const currentlySelectedMarketRoles = this.rows
       .filter((x) => !!x.marketRole)
-      .map((x) => x.marketRole as EicFunction);
+      .map((x) => x.marketRole as MarketParticipantEicFunction);
 
     const availableMarketRoles = this.marketRoleService.getAvailableMarketRoles.filter(
       (x) => !this.marketRoleService.notValidInAnySelectionGroup(x, currentlySelectedMarketRoles)
@@ -185,7 +185,7 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   };
 
   readonly isReadonly = (row: EditableMarketRoleRow) =>
-    row.existing && this.actorStatus !== ActorStatus.New;
+    row.existing && this.actorStatus !== MarketParticipantActorStatus.New;
 }
 
 @NgModule({

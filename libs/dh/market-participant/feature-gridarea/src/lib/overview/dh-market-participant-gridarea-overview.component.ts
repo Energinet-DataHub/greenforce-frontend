@@ -17,7 +17,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnChanges, ViewChild } from '@angular/core';
 import { LetModule } from '@rx-angular/template/let';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import {
+  MatLegacyTableDataSource as MatTableDataSource,
+  MatLegacyTableModule as MatTableModule,
+} from '@angular/material/legacy-table';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattDrawerModule, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
@@ -26,7 +29,7 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import {
   GridAreaChanges,
@@ -36,7 +39,7 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 import { DhMarketParticipantGridAreaDetailsHeaderScam } from '../details-header/dh-market-participant-gridarea-details-header.component';
 import { DhMarketParticipantGridAreaEditScam } from '../details-edit/dh-market-participant-gridarea-edit.component';
 import { DhMarketParticipantGridAreaDetailsAuditLogScam } from '../details-auditlog/dh-market-participant-gridarea-details-auditlog.component';
-import { GridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-market-participant-gridarea-overview',
@@ -56,7 +59,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
   @Input() gridChangesLoading = false;
 
   @Input() isLoadingAuditLog = false;
-  @Input() activeGridAreaAuditLog: GridAreaAuditLogEntryDto[] = [];
+  @Input() activeGridAreaAuditLog: MarketParticipantGridAreaAuditLogEntryDto[] = [];
   @Input() getGridAreaData!: (gridAreaId: string) => void;
 
   readonly dataSource: MatTableDataSource<GridAreaOverviewRow> =
