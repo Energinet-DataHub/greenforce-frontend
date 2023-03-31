@@ -87,12 +87,12 @@ export enum EicFunction {
 
 export type GraphQlMutation = {
   __typename?: 'GraphQLMutation';
-  permission: Permission;
+  updatePermission: Permission;
 };
 
 
-export type GraphQlMutationPermissionArgs = {
-  permission: UpdatePermissionInput;
+export type GraphQlMutationUpdatePermissionArgs = {
+  input: UpdatePermissionInput;
 };
 
 export type GraphQlQuery = {
