@@ -113,7 +113,7 @@ describe(DhUsersTabComponent.name, () => {
     expect(store.updateSearchText).toHaveBeenCalledWith(inputValue);
   }));
 
-  it('forwards status filter value to store', async () => {
+  it('forwards status filter value to store', fakeAsync(async () => {
     const { store, matSelect } = await setup();
 
     await matSelect.open();
@@ -127,5 +127,5 @@ describe(DhUsersTabComponent.name, () => {
 
     const allOptions = Object.keys(MarketParticipantUserStatus);
     expect(store.updateStatusFilter).toHaveBeenCalledWith(allOptions);
-  });
+  }));
 });

@@ -23,14 +23,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
     {
         public GraphQLMutation()
         {
-            Field<NonNullGraphType<PermissionDtoType>>("permission")
-                .Argument<NonNullGraphType<UpdatePermissionInputType>>("permission", "Permission to update")
+            Field<NonNullGraphType<PermissionDtoType>>("updatePermission")
+                .Argument<NonNullGraphType<UpdatePermissionInputType>>("input", "Permission to update")
                 .Resolve()
                 .WithScope()
                 .WithService<IMarketParticipantPermissionsClient>()
                 .ResolveAsync(async (context, client) =>
                     {
-                        var updatePermissionDto = context.GetArgument<UpdatePermissionDto>("permission");
+                        var updatePermissionDto = context.GetArgument<UpdatePermissionDto>("input");
                         await client.UpdatePermissionAsync(updatePermissionDto);
                         return await client.GetPermissionAsync(updatePermissionDto.Id);
                     });
