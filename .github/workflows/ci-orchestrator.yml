@@ -25,7 +25,7 @@ on:
 
 jobs:
   #
-  # YAML validation
+  # Markdown check and YAML validation
   #
   ci_base:
     uses: Energinet-DataHub/.github/.github/workflows/ci-base.yml@v10

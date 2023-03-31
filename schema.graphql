@@ -88,9 +88,9 @@ enum EicFunction {
 }
 
 type GraphQLMutation {
-  permission(
+  updatePermission(
     """Permission to update"""
-    permission: UpdatePermissionInput!
+    input: UpdatePermissionInput!
   ): Permission!
 }
 
@@ -127,6 +127,10 @@ type GraphQLQuery {
     step: Int!
   ): ProcessStep
   settlementReports(executionTime: DateRange, gridAreaCodes: [String], period: DateRange, processType: ProcessType): [SettlementReport!]!
+  userrole(
+    """The id of the user role"""
+    id: ID
+  ): UserRoleWithPermissions!
 }
 
 type GridArea {
@@ -304,4 +308,24 @@ type UserRole {
 enum UserRoleStatus {
   ACTIVE
   INACTIVE
+}
+
+type UserRoleWithPermissions {
+  """User role description."""
+  description: String
+
+  """User role market role."""
+  eicFunction: EicFunction
+
+  """User role id"""
+  id: ID!
+
+  """User role name"""
+  name: String!
+
+  """User role permissions."""
+  permissions: [Permission]
+
+  """User role status."""
+  status: UserRoleStatus
 }

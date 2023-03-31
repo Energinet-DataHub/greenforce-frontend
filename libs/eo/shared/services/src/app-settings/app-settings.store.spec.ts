@@ -19,8 +19,8 @@ import { AppSettingsStore } from './app-settings.store';
 
 describe(AppSettingsStore.name, () => {
   let store: AppSettingsStore;
-  const firstJan2021 = 1609459200000;
-  const firstJan2022 = 1640995200000;
+  const firstJan2021 = new Date(2021, 0, 1).getTime();
+  const firstJan2022 = new Date(2022, 0, 1).getTime();
 
   beforeEach(() => {
     store = TestBed.inject(AppSettingsStore);
