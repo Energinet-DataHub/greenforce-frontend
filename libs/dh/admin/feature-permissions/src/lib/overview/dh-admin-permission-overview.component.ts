@@ -92,7 +92,10 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
 
   refreshData(): void {
     this.subscription?.unsubscribe();
-    this.subscription = getPermissionsWatchQuery(this.apollo, this.searchTerm || undefined).valueChanges.subscribe({
+    this.subscription = getPermissionsWatchQuery(
+      this.apollo,
+      this.searchTerm || undefined
+    ).valueChanges.subscribe({
       next: (result) => {
         this.permissions = result.data?.permissions ?? [];
         this.loading = result.loading;
@@ -106,7 +109,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   }
 
   search(searchTerm: string): void {
-    this.searchTerm = searchTerm
+    this.searchTerm = searchTerm;
     this.refreshData();
   }
 

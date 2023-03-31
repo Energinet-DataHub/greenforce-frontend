@@ -107,7 +107,7 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
     WattButtonModule,
     DhPermissionRequiredDirective,
     DhInviteUserModalComponent,
-    DhSharedUiSearchComponent
+    DhSharedUiSearchComponent,
   ],
 })
 export class DhUsersTabComponent {
