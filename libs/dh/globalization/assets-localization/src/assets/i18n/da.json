@@ -1126,13 +1126,14 @@
         "permissionDescription": "Beskrivelse"
       },
       "permissionDetail": {
+        "edit": "Rediger rettighed",
         "information": "Information",
         "permissionName": "Navn",
         "permissionDescription": "Beskrivelse",
         "tabs": {
           "userRoles": {
-            "rolesPlural": "{{ userRoleCount }} Brugerroller",
-            "rolesSingular": "{{ userRoleCount }} Brugerrolle",
+            "rolesPlural": "{{ userRoleCount }} brugerroller",
+            "rolesSingular": "{{ userRoleCount }} brugerrolle",
             "tabLabel": "Brugerroller",
             "noEntries": "Ingen resultater",
             "columns": {
@@ -1143,8 +1144,8 @@
             "tabLabel": "Historik"
           },
           "marketRoles": {
-            "rolesPlural": "{{ marketRoleCount }} Markedsroller",
-            "rolesSingular": "{{ marketRoleCount }} Markedsrolle",
+            "rolesPlural": "{{ marketRoleCount }} markedsroller",
+            "rolesSingular": "{{ marketRoleCount }} markedsrolle",
             "tabLabel": "Markedsroller",
             "noEntries": "Ingen resultater",
             "columns": {
