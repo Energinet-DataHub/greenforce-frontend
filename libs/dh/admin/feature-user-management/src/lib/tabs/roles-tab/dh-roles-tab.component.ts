@@ -33,6 +33,8 @@ import {
   MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhCreateUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-create-user-role-modal';
+import { WattModalModule } from '@energinet-datahub/watt/modal';
 import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
@@ -60,6 +62,8 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
     DhTabDataGeneralErrorComponent,
     LetModule,
     DhPermissionRequiredDirective,
+    DhCreateUserRoleModalComponent,
+    WattModalModule,
   ],
 })
 export class DhUserRolesTabComponent {
@@ -72,6 +76,8 @@ export class DhUserRolesTabComponent {
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
+  isCreateUserRoleModalVisible = false;
+
   updateFilterStatus(status: MarketParticipantUserRoleStatus | null) {
     this.store.setFilterStatus(status);
   }
@@ -82,6 +88,14 @@ export class DhUserRolesTabComponent {
 
   reloadRoles(): void {
     this.store.getRoles();
+  }
+
+  modalOnClose({ saveSuccess }: { saveSuccess: boolean }): void {
+    this.isCreateUserRoleModalVisible = false;
+
+    if (saveSuccess) {
+      this.reloadRoles();
+    }
   }
 
   async download(roles: MarketParticipantUserRoleDto[]) {
