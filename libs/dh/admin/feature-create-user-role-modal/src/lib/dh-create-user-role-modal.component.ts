@@ -44,7 +44,6 @@ import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { DhAdminCreateUserRoleComponent } from '@energinet-datahub/dh/admin/feature-create-user-role';
 import {
   MarketParticipantCreateUserRoleDto,
   MarketParticipantEicFunction,
@@ -89,7 +88,6 @@ interface UserRoleForm {
     LetModule,
     WATT_STEPPER,
     WattEmptyStateModule,
-    DhAdminCreateUserRoleComponent,
     DhPermissionsTableComponent,
   ],
 })
