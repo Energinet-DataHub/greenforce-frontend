@@ -416,11 +416,66 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": null,
             "content": {
-              "application/zip": {
+              "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/Stream"
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/SettlementReport/ZippedBasisDataStream": {
+      "post": {
+        "tags": [
+          "SettlementReport"
+        ],
+        "summary": "Returns a stream containing the settlement report for a batch matching batchId",
+        "operationId": "ZippedBasisDataStream",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "BatchId",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": null,
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -582,45 +637,6 @@
           "BalanceFixing",
           "Aggregation"
         ]
-      },
-      "Stream": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "canRead": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "canWrite": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "canSeek": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "canTimeout": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "length": {
-            "type": "integer",
-            "readOnly": true,
-            "format": "int64"
-          },
-          "position": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "readTimeout": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "writeTimeout": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
       },
       "TimeSeriesPointDto": {
         "type": "object",

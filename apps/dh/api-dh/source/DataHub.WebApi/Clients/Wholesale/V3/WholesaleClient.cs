@@ -4,8 +4,6 @@
 // </auto-generated>
 //----------------------
 
-using System.IO;
-
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
 #pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
 #pragma warning disable 472 // Disable "CS0472 The result of the expression is always 'false' since a value of type 'Int32' is never equal to 'null' of type 'Int32?'
@@ -87,9 +85,16 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// </summary>
         /// <param name="batchId">BatchId</param>
         /// <param name="gridAreaCode">GridAreaCode</param>
-        /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Stream> GetSettlementReportAsStreamAsync(System.Guid batchId, string gridAreaCode, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<FileResponse> GetSettlementReportAsStreamAsync(System.Guid batchId, string gridAreaCode, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns a stream containing the settlement report for a batch matching batchId
+        /// </summary>
+        /// <param name="body">BatchId</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<FileResponse> ZippedBasisDataStreamAsync(string api_version = null, System.Guid? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -98,18 +103,18 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
     {
         private string _baseUrl = "";
         private System.Net.Http.HttpClient _httpClient;
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        private System.Lazy<System.Text.Json.JsonSerializerOptions> _settings;
 
         public WholesaleClient_V3(string baseUrl, System.Net.Http.HttpClient httpClient)
         {
             BaseUrl = baseUrl;
             _httpClient = httpClient;
-            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            _settings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(CreateSerializerSettings);
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
+        private System.Text.Json.JsonSerializerOptions CreateSerializerSettings()
         {
-            var settings = new Newtonsoft.Json.JsonSerializerSettings();
+            var settings = new System.Text.Json.JsonSerializerOptions();
             UpdateJsonSerializerSettings(settings);
             return settings;
         }
@@ -120,9 +125,9 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
             set { _baseUrl = value; }
         }
 
-        public Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
+        public System.Text.Json.JsonSerializerOptions JsonSerializerSettings { get { return _settings.Value; } }
 
-        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
+        partial void UpdateJsonSerializerSettings(System.Text.Json.JsonSerializerOptions settings);
 
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
@@ -153,7 +158,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, _settings.Value);
+                    var json_ = System.Text.Json.JsonSerializer.Serialize(body, _settings.Value);
                     var content_ = new System.Net.Http.StringContent(json_);
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -677,9 +682,8 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// </summary>
         /// <param name="batchId">BatchId</param>
         /// <param name="gridAreaCode">GridAreaCode</param>
-        /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<Stream> GetSettlementReportAsStreamAsync(System.Guid batchId, string gridAreaCode, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<FileResponse> GetSettlementReportAsStreamAsync(System.Guid batchId, string gridAreaCode, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (batchId == null)
                 throw new System.ArgumentNullException("batchId");
@@ -704,7 +708,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/zip"));
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -714,8 +718,114 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                     PrepareRequest(client_, request_, url_);
 
                     var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var stream = await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                    return stream;
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200 || status_ == 206)
+                        {
+                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                            var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
+                            disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                            return fileResponse_;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns a stream containing the settlement report for a batch matching batchId
+        /// </summary>
+        /// <param name="body">BatchId</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<FileResponse> ZippedBasisDataStreamAsync(string api_version = null, System.Guid? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v3/SettlementReport/ZippedBasisDataStream?");
+            if (api_version != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("api-version") + "=").Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = System.Text.Json.JsonSerializer.Serialize(body, _settings.Value);
+                    var content_ = new System.Net.Http.StringContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200 || status_ == 206)
+                        {
+                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                            var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
+                            disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                            return fileResponse_;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
                 }
             }
             finally
@@ -752,10 +862,10 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                 var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
                 {
-                    var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
+                    var typedBody = System.Text.Json.JsonSerializer.Deserialize<T>(responseText, JsonSerializerSettings);
                     return new ObjectResponseResult<T>(typedBody, responseText);
                 }
-                catch (Newtonsoft.Json.JsonException exception)
+                catch (System.Text.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
                     throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
@@ -766,15 +876,12 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                 try
                 {
                     using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
-                    using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
                     {
-                        var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
-                        var typedBody = serializer.Deserialize<T>(jsonTextReader);
+                        var typedBody = await System.Text.Json.JsonSerializer.DeserializeAsync<T>(responseStream, JsonSerializerSettings, cancellationToken).ConfigureAwait(false);
                         return new ObjectResponseResult<T>(typedBody, string.Empty);
                     }
                 }
-                catch (Newtonsoft.Json.JsonException exception)
+                catch (System.Text.Json.JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
                     throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
@@ -797,7 +904,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -809,7 +916,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
@@ -831,7 +938,10 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ActorDto
     {
-        [Newtonsoft.Json.JsonProperty("gln", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+
+        [System.Text.Json.Serialization.JsonPropertyName("gln")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public string Gln { get; set; }
 
     }
@@ -839,42 +949,67 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class BatchDto
     {
-        [Newtonsoft.Json.JsonProperty("runId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+
+        [System.Text.Json.Serialization.JsonPropertyName("runId")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public long? RunId { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("batchId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Text.Json.Serialization.JsonPropertyName("batchId")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public System.Guid BatchId { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("periodStart", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Text.Json.Serialization.JsonPropertyName("periodStart")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public System.DateTimeOffset PeriodStart { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("periodEnd", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Text.Json.Serialization.JsonPropertyName("periodEnd")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public System.DateTimeOffset PeriodEnd { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("resolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Text.Json.Serialization.JsonPropertyName("resolution")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public string Resolution { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Text.Json.Serialization.JsonPropertyName("unit")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public string Unit { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("executionTimeStart", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Text.Json.Serialization.JsonPropertyName("executionTimeStart")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public System.DateTimeOffset? ExecutionTimeStart { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("executionTimeEnd", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Text.Json.Serialization.JsonPropertyName("executionTimeEnd")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public System.DateTimeOffset? ExecutionTimeEnd { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("executionState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [System.Text.Json.Serialization.JsonPropertyName("executionState")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public BatchState ExecutionState { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("areSettlementReportsCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Text.Json.Serialization.JsonPropertyName("areSettlementReportsCreated")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public bool AreSettlementReportsCreated { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("gridAreaCodes", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Text.Json.Serialization.JsonPropertyName("gridAreaCodes")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public System.Collections.Generic.ICollection<string> GridAreaCodes { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("processType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [System.Text.Json.Serialization.JsonPropertyName("processType")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public ProcessType ProcessType { get; set; }
 
     }
@@ -882,17 +1017,26 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class BatchRequestDto
     {
-        [Newtonsoft.Json.JsonProperty("processType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+
+        [System.Text.Json.Serialization.JsonPropertyName("processType")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public ProcessType ProcessType { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("gridAreaCodes", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Text.Json.Serialization.JsonPropertyName("gridAreaCodes")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public System.Collections.Generic.ICollection<string> GridAreaCodes { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("startDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Text.Json.Serialization.JsonPropertyName("startDate")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public System.DateTimeOffset StartDate { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("endDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Text.Json.Serialization.JsonPropertyName("endDate")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public System.DateTimeOffset EndDate { get; set; }
 
     }
@@ -924,41 +1068,63 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <summary>
         /// Sum has a scale of 3
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("sum", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+
+        [System.Text.Json.Serialization.JsonPropertyName("sum")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public double Sum { get; set; }
 
         /// <summary>
         /// Min has a scale of 3
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("min", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+
+        [System.Text.Json.Serialization.JsonPropertyName("min")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public double Min { get; set; }
 
         /// <summary>
         /// Max has a scale of 3
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("max", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+
+        [System.Text.Json.Serialization.JsonPropertyName("max")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public double Max { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("periodStart", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Text.Json.Serialization.JsonPropertyName("periodStart")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public System.DateTimeOffset PeriodStart { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("periodEnd", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Text.Json.Serialization.JsonPropertyName("periodEnd")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public System.DateTimeOffset PeriodEnd { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("resolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Text.Json.Serialization.JsonPropertyName("resolution")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public string Resolution { get; set; }
 
         /// <summary>
         /// kWh
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+
+        [System.Text.Json.Serialization.JsonPropertyName("unit")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public string Unit { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("timeSeriesPoints", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Text.Json.Serialization.JsonPropertyName("timeSeriesPoints")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public System.Collections.Generic.ICollection<TimeSeriesPointDto> TimeSeriesPoints { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("processType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [System.Text.Json.Serialization.JsonPropertyName("processType")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public ProcessType ProcessType { get; set; }
 
     }
@@ -984,19 +1150,28 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <summary>
         /// The observation time for the measured 'Quantity'
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("time", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+
+        [System.Text.Json.Serialization.JsonPropertyName("time")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public System.DateTimeOffset Time { get; set; }
 
         /// <summary>
         /// Quantity has a scale of 3
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("quantity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+
+        [System.Text.Json.Serialization.JsonPropertyName("quantity")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public double Quantity { get; set; }
 
         /// <summary>
         /// Any of the values from Energinet.DataHub.Wholesale.WebApi.V3.ProcessStepResult.TimeSeriesPointQuality
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("quality", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+
+        [System.Text.Json.Serialization.JsonPropertyName("quality")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public string Quality { get; set; }
 
     }
@@ -1016,6 +1191,41 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
 
     }
 
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class FileResponse : System.IDisposable
+    {
+        private System.IDisposable _client;
+        private System.IDisposable _response;
+
+        public int StatusCode { get; private set; }
+
+        public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
+
+        public System.IO.Stream Stream { get; private set; }
+
+        public bool IsPartial
+        {
+            get { return StatusCode == 206; }
+        }
+
+        public FileResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
+        {
+            StatusCode = statusCode;
+            Headers = headers;
+            Stream = stream;
+            _client = client;
+            _response = response;
+        }
+
+        public void Dispose()
+        {
+            Stream.Dispose();
+            if (_response != null)
+                _response.Dispose();
+            if (_client != null)
+                _client.Dispose();
+        }
+    }
 
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
