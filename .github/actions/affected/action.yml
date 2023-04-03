@@ -34,5 +34,5 @@ inputs:
     required: true
 
 runs:
-  using: 'node16'
-  main: 'affected.mjs'
+  using: node16
+  main: affected.mjs
