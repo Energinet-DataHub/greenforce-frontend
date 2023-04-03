@@ -134,7 +134,10 @@ export class DhCreateUserroleTabsComponent implements OnInit, OnDestroy {
     });
     this.createUserRoleStore.createUserRole({
       createUserRoleDto: this.userRole,
-      onSaveCompletedFn: this.backToOverviewAfterSave,
+      onSuccessFn: this.backToOverviewAfterSave,
+      onErrorFn: () => {
+        // Error is handled in store
+      },
     });
 
     this.toastService.open({

@@ -46,22 +46,26 @@ export class DhAdminCreateUserRoleManagementDataAccessApiStore extends Component
     (
       trigger$: Observable<{
         createUserRoleDto: MarketParticipantCreateUserRoleDto;
-        onSaveCompletedFn: () => void;
+        onSuccessFn: () => void;
+        onErrorFn: () => void;
       }>
     ) => {
       return trigger$.pipe(
         tap(() => {
           this.setLoading(LoadingState.INIT);
         }),
-        switchMap(({ createUserRoleDto, onSaveCompletedFn }) =>
+        switchMap(({ createUserRoleDto, onSuccessFn, onErrorFn }) =>
           this.saveUserRole(createUserRoleDto).pipe(
             tapResponse(
               () => {
                 this.setLoading(LoadingState.LOADED);
-                onSaveCompletedFn();
+
+                onSuccessFn();
               },
               () => {
                 this.setLoading(ErrorState.GENERAL_ERROR);
+
+                onErrorFn();
               }
             )
           )
