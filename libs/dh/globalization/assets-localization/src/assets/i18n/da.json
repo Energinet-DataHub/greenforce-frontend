@@ -1041,11 +1041,24 @@
       "createrole": {
         "headline": "Ny brugerrolle",
         "save": "Opret brugerrolle",
-        "cancel": "Annuller",
         "createRoleRequest": {
           "start": "Opretter brugerrolle",
           "error": "Der opstod desværre en fejl, da vi skulle oprette brugerrollen.",
           "success": "Brugerrollen er oprettet"
+        },
+        "steps": {
+          "masterData": {
+            "label": "Stamdata",
+            "eicFunction": "Markedsrolle",
+            "selectEicFunctionStatus": "Vælg markedsrolle",
+            "name": "Navn",
+            "nameMaxLengthErrorText": "Navn skal være under 250 karakterer",
+            "description": "Beskrivelse"
+          },
+          "permissions": {
+            "label": "Tildel rettigheder",
+            "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle"
+          }
         },
         "tabs": {
           "masterdata": {
