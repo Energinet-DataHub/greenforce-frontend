@@ -1059,21 +1059,6 @@
             "label": "Tildel rettigheder",
             "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle"
           }
-        },
-        "tabs": {
-          "masterdata": {
-            "tabLabel": "Stamdata",
-            "nameMaxLengthErrorText": "Navn skal være under 250 karakterer",
-            "name": "Navn",
-            "description": "Beskrivelse",
-            "eicFunction": "Markedsrolle",
-            "selectEicFunctionStatus": "Vælg markedsrolle"
-          },
-          "permissions": {
-            "tabLabel": "Rettigheder",
-            "title": "Rettigheder",
-            "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle"
-          }
         }
       },
       "editUser": {

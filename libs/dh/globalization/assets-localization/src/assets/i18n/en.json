@@ -1086,21 +1086,6 @@
             "label": "Assign permissions",
             "noPermissions": "No permissions found for the selected market role"
           }
-        },
-        "tabs": {
-          "masterdata": {
-            "tabLabel": "Master data",
-            "nameMaxLengthErrorText": "Name field must be under 250 characters",
-            "name": "Name",
-            "description": "Description",
-            "eicFunction": "Market role",
-            "selectEicFunctionStatus": "Select market role"
-          },
-          "permissions": {
-            "tabLabel": "Permissions",
-            "title": "Permissions",
-            "noPermissions": "No permissions found for the selected market role"
-          }
         }
       },
       "editUser": {
