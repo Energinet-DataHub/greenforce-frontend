@@ -31,8 +31,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field(x => x.Sum);
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<TimeSeriesPointType>>>>("timeSeriesPoints")
                 .Resolve(context => context.Source.TimeSeriesPoints);
-            // TODO: LRN should be TimeSeriesType
-            Field(x => x.Resolution).Name("timeSeriesType");
+            Field(x => x.TimeSeriesType);
 
             Field<StringGraphType>("breadcrumb")
                .Resolve()
