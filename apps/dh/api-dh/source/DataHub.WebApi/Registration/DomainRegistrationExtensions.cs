@@ -18,7 +18,6 @@ using Energinet.DataHub.MarketParticipant.Client.Extensions;
 using Energinet.DataHub.MessageArchive.Client.Extensions;
 using Energinet.DataHub.MeteringPoints.Client.Extensions;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.Wholesale.Client;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -36,10 +35,7 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddMessageArchiveClient(
                     GetBaseUri(apiClientSettings.MessageArchiveBaseUrl))
                 .AddMarketParticipantClient(
-                    GetBaseUri(apiClientSettings.MarketParticipantBaseUrl))
-                .AddWholesaleClient(
-                    GetBaseUri(apiClientSettings.WholesaleBaseUrl),
-                    AuthorizationHeaderProvider);
+                    GetBaseUri(apiClientSettings.MarketParticipantBaseUrl));
 
             services.AddScoped<IWholesaleClient_V3, IWholesaleClient_V3>(provider =>
             {
@@ -60,12 +56,6 @@ namespace Energinet.DataHub.WebApi.Registration
                 ? url
                 : new Uri(emptyUrl);
             return baseUri;
-        }
-
-        private static string AuthorizationHeaderProvider(IServiceProvider serviceProvider)
-        {
-            var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
-            return (string?)httpContextAccessor.HttpContext!.Request.Headers["Authorization"] ?? string.Empty;
         }
     }
 }
