@@ -32,7 +32,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<TimeSeriesPointType>>>>("timeSeriesPoints")
                 .Resolve(context => context.Source.TimeSeriesPoints);
             // TODO: LRN should be TimeSeriesType
-            Field(x => x.ProcessType);
+            Field(x => x.Resolution).Name("timeSeriesType");
 
             Field<StringGraphType>("breadcrumb")
                .Resolve()
