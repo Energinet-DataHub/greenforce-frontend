@@ -235,7 +235,7 @@ type ProcessStepResult {
   min: Float!
   sum: Float!
   timeSeriesPoints: [TimeSeriesPoint!]!
-  timeSeriesType: String!
+  timeSeriesType: TimeSeriesType!
 }
 
 enum ProcessType {
@@ -270,6 +270,12 @@ type TimeSeriesPoint {
   quality: String!
   quantity: Float!
   time: DateTimeOffset!
+}
+
+enum TimeSeriesType {
+  FLEX_CONSUMPTION
+  NON_PROFILED_CONSUMPTION
+  PRODUCTION
 }
 
 input UpdatePermissionInput {
