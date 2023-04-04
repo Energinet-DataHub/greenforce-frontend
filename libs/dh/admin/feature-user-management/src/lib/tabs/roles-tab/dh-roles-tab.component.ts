@@ -33,7 +33,7 @@ import {
   MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhCreateUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-create-user-role-modal';
+import { DhCreateUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-create-user-role';
 import { WattModalModule } from '@energinet-datahub/watt/modal';
 import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
 

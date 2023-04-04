@@ -27,8 +27,8 @@
       "@energinet-datahub/dh/admin/data-access-graphql": [
         "libs/dh/admin/data-access-graphql/src/index.ts"
       ],
-      "@energinet-datahub/dh/admin/feature-create-user-role-modal": [
-        "libs/dh/admin/feature-create-user-role-modal/src/index.ts"
+      "@energinet-datahub/dh/admin/feature-create-user-role": [
+        "libs/dh/admin/feature-create-user-role/src/index.ts"
       ],
       "@energinet-datahub/dh/admin/feature-edit-permission-modal": [
         "libs/dh/admin/feature-edit-permission-modal/src/index.ts"
