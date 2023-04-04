@@ -1,0 +1,107 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<watt-modal
+  #createUserRoleModal
+  size="large"
+  [title]="t('headline')"
+  (closed)="closeModal($event)"
+  *transloco="let t; read: 'admin.userManagement.createrole'"
+>
+  <watt-stepper
+    class="watt-modal-content--full-width"
+    [linear]="true"
+    (completed)="createUserRole()"
+    #stepper
+  >
+    <watt-stepper-step
+      [stepControl]="userRoleForm"
+      [label]="t('steps.masterData.label')"
+      [nextButtonLabel]="t('steps.permissions.label')"
+    >
+      <form [formGroup]="userRoleForm" class="user-role-form">
+        <!-- Eic Function -->
+        <watt-form-field>
+          <watt-label>{{ t("steps.masterData.eicFunction") }}</watt-label>
+          <watt-dropdown
+            formControlName="eicFunction"
+            [options]="eicFunctionOptions"
+            name="eicFunction"
+            [showResetOption]="false"
+            [placeholder]="t('steps.masterData.selectEicFunctionStatus')"
+          >
+          </watt-dropdown>
+          <watt-error *ngIf="userRoleForm.controls.eicFunction.hasError('required')">
+            {{ "shared.fieldRequiredErrorText" | transloco }}
+          </watt-error>
+        </watt-form-field>
+
+        <!-- Name -->
+        <watt-form-field>
+          <watt-label>{{ t("steps.masterData.name") }}</watt-label>
+          <input wattInput type="text" formControlName="name" />
+          <watt-error *ngIf="userRoleForm.controls.name.hasError('required')">
+            {{ "shared.fieldRequiredErrorText" | transloco }}
+          </watt-error>
+          <watt-error *ngIf="userRoleForm.controls.name.hasError('maxlength')">
+            {{ t("steps.masterData.nameMaxLengthErrorText") }}
+          </watt-error>
+        </watt-form-field>
+
+        <!-- Description -->
+        <watt-form-field>
+          <watt-label>{{ t("steps.masterData.description") }}</watt-label>
+          <textarea wattInput formControlName="description"></textarea>
+          <watt-error *ngIf="userRoleForm.controls.description.hasError('required')">
+            {{ "shared.fieldRequiredErrorText" | transloco }}
+          </watt-error>
+        </watt-form-field>
+      </form>
+    </watt-stepper-step>
+
+    <watt-stepper-step
+      [stepControl]="selectedPermissions"
+      [label]="t('steps.permissions.label')"
+      [previousButtonLabel]="t('steps.masterData.label')"
+      [nextButtonLabel]="t('save')"
+    >
+      <watt-error
+        class="permissions-error"
+        *ngIf="
+          (isSubmitted || selectedPermissions.touched) && selectedPermissions.hasError('required')
+        "
+      >
+        {{ "shared.fieldRequiredErrorText" | transloco }}
+      </watt-error>
+
+      <ng-container *rxLet="permissions$ as permissions">
+        <dh-permissions-table
+          [permissions]="permissions"
+          (selectionChanged)="onSelectionChange($event)"
+        ></dh-permissions-table>
+
+        <!-- Empty -->
+        <div *ngIf="permissions.length === 0" class="no-permissions-container">
+          <watt-empty-state
+            icon="custom-power"
+            size="small"
+            [title]="t('noPermissions')"
+          ></watt-empty-state>
+        </div>
+      </ng-container>
+    </watt-stepper-step>
+  </watt-stepper>
+</watt-modal>
