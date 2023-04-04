@@ -116,8 +116,4 @@ export class DhUserRolesTabComponent {
         exportCsv(headers, lines);
       });
   }
-
-  readonly createUserRole = () => {
-    console.log('create user role');
-  };
 }
