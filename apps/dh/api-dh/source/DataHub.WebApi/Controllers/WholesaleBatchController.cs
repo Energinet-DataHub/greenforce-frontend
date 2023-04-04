@@ -17,7 +17,6 @@ using System.IO;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.Wholesale.Client;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -27,12 +26,10 @@ namespace Energinet.DataHub.WebApi.Controllers
     public class WholesaleBatchController : ControllerBase
     {
         private readonly IWholesaleClient_V3 _clientV3;
-        private readonly IWholesaleClient _client;
 
-        public WholesaleBatchController(IWholesaleClient_V3 clientV3, IWholesaleClient client)
+        public WholesaleBatchController(IWholesaleClient_V3 clientV3)
         {
             _clientV3 = clientV3;
-            _client = client;
         }
 
         /// <summary>
@@ -62,7 +59,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [Produces("application/zip")]
         public async Task<ActionResult<Stream>> GetAsync(Guid batchId)
         {
-            var stream = await _client.GetZippedBasisDataStreamAsync(batchId);
+            var stream = await _clientV3.GetSettlementReportAsStreamAsync(batchId, null);
             return File(stream, MediaTypeNames.Application.Zip);
         }
     }

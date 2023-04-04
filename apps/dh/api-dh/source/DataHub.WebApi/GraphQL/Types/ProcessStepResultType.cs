@@ -14,7 +14,7 @@
 
 using System.Linq;
 using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.Wholesale.Contracts;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
@@ -31,7 +31,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field(x => x.Sum);
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<TimeSeriesPointType>>>>("timeSeriesPoints")
                 .Resolve(context => context.Source.TimeSeriesPoints);
-            Field(x => x.TimeSeriesType);
+            Field(x => x.Resolution);
 
             Field<StringGraphType>("breadcrumb")
                .Resolve()
