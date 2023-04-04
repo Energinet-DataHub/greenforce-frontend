@@ -16,11 +16,11 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'dh-admin-feature-create-user-role',
+  displayName: 'dh-admin-feature-create-user-role-modal',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},
-  coverageDirectory: '../../../../coverage/libs/dh/admin/feature-create-user-role',
+  coverageDirectory: '../../../../coverage/libs/dh/admin/feature-create-user-role-modal',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
