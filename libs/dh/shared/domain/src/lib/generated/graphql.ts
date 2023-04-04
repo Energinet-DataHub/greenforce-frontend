@@ -14,9 +14,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateRange: { start: string, end: string};
-  /** The `DateTimeOffset` scalar type represents a date, time and offset from UTC. `DateTimeOffset` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
   DateTimeOffset: string;
-  Decimal: any;
 };
 
 export type Actor = {
@@ -250,11 +248,11 @@ export type ProcessStepResultArgs = {
 export type ProcessStepResult = {
   __typename?: 'ProcessStepResult';
   breadcrumb?: Maybe<Scalars['String']>;
-  max: Scalars['Decimal'];
-  min: Scalars['Decimal'];
-  sum: Scalars['Decimal'];
+  max: Scalars['Float'];
+  min: Scalars['Float'];
+  sum: Scalars['Float'];
   timeSeriesPoints: Array<TimeSeriesPoint>;
-  timeSeriesType: TimeSeriesType;
+  timeSeriesType: Scalars['String'];
 };
 
 export enum ProcessType {
@@ -286,15 +284,9 @@ export enum StatusType {
 export type TimeSeriesPoint = {
   __typename?: 'TimeSeriesPoint';
   quality: Scalars['String'];
-  quantity: Scalars['Decimal'];
+  quantity: Scalars['Float'];
   time: Scalars['DateTimeOffset'];
 };
-
-export enum TimeSeriesType {
-  FlexConsumption = 'FLEX_CONSUMPTION',
-  NonProfiledConsumption = 'NON_PROFILED_CONSUMPTION',
-  Production = 'PRODUCTION'
-}
 
 export type UpdatePermissionInput = {
   /** The description of the permission to update */
@@ -388,7 +380,7 @@ export type GetProcessStepResultQueryVariables = Exact<{
 }>;
 
 
-export type GetProcessStepResultQuery = { __typename?: 'GraphQLQuery', processStep?: { __typename?: 'ProcessStep', result?: { __typename?: 'ProcessStepResult', breadcrumb?: string | null, min: any, max: any, sum: any, timeSeriesType: TimeSeriesType, timeSeriesPoints: Array<{ __typename?: 'TimeSeriesPoint', quality: string, quantity: any, time: string }> } | null } | null };
+export type GetProcessStepResultQuery = { __typename?: 'GraphQLQuery', processStep?: { __typename?: 'ProcessStep', result?: { __typename?: 'ProcessStepResult', breadcrumb?: string | null, min: number, max: number, sum: number, timeSeriesType: string, timeSeriesPoints: Array<{ __typename?: 'TimeSeriesPoint', quality: string, quantity: number, time: string }> } | null } | null };
 
 export type GetSettlementReportsQueryVariables = Exact<{
   period?: InputMaybe<Scalars['DateRange']>;
