@@ -72,7 +72,7 @@
     "@azure/msal-browser": "2.35.0",
     "@microsoft/applicationinsights-angularplugin-js": "3.0.1",
     "@microsoft/applicationinsights-web": "2.8.11",
-    "@ngneat/transloco": "4.2.2",
+    "@ngneat/transloco": "4.2.6",
     "@ngrx/component-store": "15.3.0",
     "@popperjs/core": "2.11.7",
     "@rx-angular/cdk": "1.0.0-rc.4",
