@@ -1,5 +1,6 @@
 {
   "name": "eo-production-shell",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/eo/production/shell/src",
   "prefix": "eo",

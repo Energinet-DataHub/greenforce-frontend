@@ -18,32 +18,28 @@ import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { take } from 'rxjs';
+import { PushModule } from '@rx-angular/template/push';
+import { LetModule } from '@rx-angular/template/let';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-
-import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
-import { Router } from '@angular/router';
-import {
-  dhAdminPath,
-  dhAdminUserManagementPath,
-  dhAdminUserRoleManagementCreatePath,
-} from '@energinet-datahub/dh/admin/routing';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.component';
-import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-general-error.component';
 import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
 import {
   MarketParticipantEicFunction,
   MarketParticipantUserRoleDto,
   MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { take } from 'rxjs';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhCreateUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-create-user-role-modal';
+import { WattModalModule } from '@energinet-datahub/watt/modal';
 import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
+
+import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
+import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.component';
+import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-general-error.component';
 
 @Component({
   selector: 'dh-roles-tab',
@@ -66,11 +62,12 @@ import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
     DhTabDataGeneralErrorComponent,
     LetModule,
     DhPermissionRequiredDirective,
+    DhCreateUserRoleModalComponent,
+    WattModalModule,
   ],
 })
 export class DhUserRolesTabComponent {
   @Input() roles: MarketParticipantUserRoleDto[] = [];
-  constructor(private router: Router) {}
 
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
   private readonly trans = inject(TranslocoService);
@@ -78,6 +75,8 @@ export class DhUserRolesTabComponent {
   roles$ = this.store.rolesFiltered$;
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
+
+  isCreateUserRoleModalVisible = false;
 
   updateFilterStatus(status: MarketParticipantUserRoleStatus | null) {
     this.store.setFilterStatus(status);
@@ -89,6 +88,14 @@ export class DhUserRolesTabComponent {
 
   reloadRoles(): void {
     this.store.getRoles();
+  }
+
+  modalOnClose({ saveSuccess }: { saveSuccess: boolean }): void {
+    this.isCreateUserRoleModalVisible = false;
+
+    if (saveSuccess) {
+      this.reloadRoles();
+    }
   }
 
   async download(roles: MarketParticipantUserRoleDto[]) {
@@ -111,12 +118,6 @@ export class DhUserRolesTabComponent {
   }
 
   readonly createUserRole = () => {
-    const url = this.router.createUrlTree([
-      dhAdminPath,
-      dhAdminUserManagementPath,
-      dhAdminUserRoleManagementCreatePath,
-    ]);
-
-    this.router.navigateByUrl(url);
+    console.log('create user role');
   };
 }
