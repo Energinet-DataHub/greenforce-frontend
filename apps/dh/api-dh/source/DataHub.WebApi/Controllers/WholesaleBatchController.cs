@@ -59,8 +59,8 @@ namespace Energinet.DataHub.WebApi.Controllers
         [Produces("application/zip")]
         public async Task<ActionResult<Stream>> GetAsync(Guid batchId)
         {
-            var stream = await _clientV3.GetSettlementReportAsStreamAsync(batchId, null);
-            return File(stream, MediaTypeNames.Application.Zip);
+            var basisDataStreamAsync = await _clientV3.ZippedBasisDataStreamAsync(batchId);
+            return File(basisDataStreamAsync.Stream, MediaTypeNames.Application.Zip);
         }
     }
 }
