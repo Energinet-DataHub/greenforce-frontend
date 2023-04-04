@@ -3993,17 +3993,17 @@
     replace-in-file "^6.2.0"
     tslib "^2.2.0"
 
-"@ngrx/component-store@15.3.0":
-  version "15.3.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/component-store/-/component-store-15.3.0.tgz#782777826a7bdce9252564dd49f0884573a3dee2"
-  integrity sha512-fbCx5dA7fZXNHxUSPUiW4Yx/tsBPLTbJUIus+/P4blPfTLFfHuLBDua06Z87PZ41pKoLUCAvoOffQ+cOOE6dzw==
+"@ngrx/component-store@15.4.0":
+  version "15.4.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/component-store/-/component-store-15.4.0.tgz#de2479530c8318b6de0b001e59064f202b2a4617"
+  integrity sha512-lkpBAg2ccehNazkXVt43veuHXJcIHdKin1/eCGxKePDt+zZ02WgDHfwSmS9Wa0AODo/N+uUUJZpXTb5mD7liAA==
   dependencies:
     tslib "^2.0.0"
 
-"@ngrx/eslint-plugin@15.3.0":
-  version "15.3.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/eslint-plugin/-/eslint-plugin-15.3.0.tgz#0d82682ef048193fdab25fc0336a54392b0a1593"
-  integrity sha512-lYELIGQOBbE9Jgo4bpX1UNahqnW5oEU9IbjqsdPZ+7ybHwnL5QzWIUusYnfJee/+chvEsEMhkXsgqEQENjMOdQ==
+"@ngrx/eslint-plugin@15.4.0":
+  version "15.4.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/eslint-plugin/-/eslint-plugin-15.4.0.tgz#ae024aa2858aabf3e32b802305011511c001b4f3"
+  integrity sha512-o7dJMuJidETXkgPUd137ujGGHFz2xDhZt52bCTQyVaG8wF7gyUqhzDRVLtayUdiwUsdQ1z14SKHbQ1QDYung7g==
   dependencies:
     "@typescript-eslint/experimental-utils" "^5.4.0"
     eslint-etc "^5.1.0"
