@@ -4550,20 +4550,20 @@
   resolved "https://registry.yarnpkg.com/@repeaterjs/repeater/-/repeater-3.0.4.tgz#a04d63f4d1bf5540a41b01a921c9a7fddc3bd1ca"
   integrity sha512-AW8PKd6iX3vAZ0vA43nOUOnbq/X5ihgU+mSXXqunMkeQADGiqw/PY0JNeYtD5sr0PAy51YPgAPbDoeapv9r8WA==
 
-"@rx-angular/cdk@1.0.0-rc.4":
-  version "1.0.0-rc.4"
-  resolved "https://registry.yarnpkg.com/@rx-angular/cdk/-/cdk-1.0.0-rc.4.tgz#12eb0e9a4322158176e267ee39ea4e429610038c"
-  integrity sha512-uFl6vCTcPf52Y0mfYxGwSkl6d/wDjCI33iXM8/J0VblGitNsiVdjxGWAbleh2eLlIVZOyYTuvi3N4sA9wwymRw==
+"@rx-angular/cdk@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@rx-angular/cdk/-/cdk-1.0.0.tgz#3563bc48919ec0253863dc33972cf73a81f48c26"
+  integrity sha512-lr0/FvdVE4eW1l54W4ZctfbXiYNzQL86pLPoCtqIlb2CF3pfeh76T6cj4VzlLtQMisJuXRGc5yEd1JnldAF7sA==
   dependencies:
-    ng-morph "^2.1.1"
+    ng-morph "^2.1.3"
     tslib "^2.4.1"
 
-"@rx-angular/template@1.0.0-rc.5":
-  version "1.0.0-rc.5"
-  resolved "https://registry.yarnpkg.com/@rx-angular/template/-/template-1.0.0-rc.5.tgz#1f4a319912846941b59c1f06df337e70c9fd0aa6"
-  integrity sha512-ldL3obon1IkmZi2M+/rcwYAcNP9xGY787Ssj8SiPKdmxTJOaCn8pRxE9ss4sLg6NJrIku4/7jVPfKFKJKol9LA==
+"@rx-angular/template@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@rx-angular/template/-/template-1.0.0.tgz#f5bdff00a0d7feb5d2decfd376dbb48a321980da"
+  integrity sha512-7Yq4SAbLtWcLp5FyUFe74XExn6LSiDbT1L5yzs+yygywqGi7lAVJBrdLg1R77Esta5klxS9XJZisdxmRHeFaKg==
   dependencies:
-    ng-morph "^2.1.1"
+    ng-morph "^2.1.3"
     tslib "^2.4.1"
 
 "@schematics/angular@15.2.4":
@@ -15816,13 +15816,6 @@ minimalistic-crypto-utils@^1.0.1:
   resolved "https://registry.yarnpkg.com/minimalistic-crypto-utils/-/minimalistic-crypto-utils-1.0.1.tgz#f6c00c1c0b082246e5c4d99dfb8c7c083b2b582a"
   integrity sha512-JIYlbt6g8i5jKfJ3xz7rF0LXmv2TkDxBLUkiBeZ7bAx4GnnNMr8xFpGnOxn6GhTEHx3SjRrZEoU+j04prX1ktg==
 
-minimatch@3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
-  integrity sha512-yJHVQEhyqPLUTgt9B83PXu6W3rx4MvvHvSUvToogpwoGDOUQ+yDrR0HRot+yOCdCO7u4hX3pWft6kWBBcqh0UA==
-  dependencies:
-    brace-expansion "^1.1.7"
-
 minimatch@3.0.5:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.5.tgz#4da8f1290ee0f0f8e83d60ca69f8f134068604a3"
@@ -16162,13 +16155,13 @@ ng-mocks@14.0.1:
   resolved "https://registry.yarnpkg.com/ng-mocks/-/ng-mocks-14.0.1.tgz#bdcbe624332ea1a38f383ab4ed04e91cc78c2c53"
   integrity sha512-wwIBQimfU5cpDmpyRRYYCNf2/M+8MObOJvsrdxvlhSE2t8QAJn1bJXbyL5SFjw1T4DreHwbH3mQzUqPdPLeyBA==
 
-ng-morph@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/ng-morph/-/ng-morph-2.1.1.tgz#93d0daf4096c26463b5ac42014222a40e9c0be6c"
-  integrity sha512-mUziQxQm0YnP9WOCy2WRZVq6xNf+WgAvosdPU+hwmGUinoZ6vBrP3GECoRmM7Aor0PDG1KNIarJsDNS7BlxTLQ==
+ng-morph@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/ng-morph/-/ng-morph-2.1.3.tgz#def40b5a1f8ba92416705a9b7c6688ed2b575a4d"
+  integrity sha512-bFeSMSn2ORgtYw4ZmwISJ/RGdZxi03IwODrnXB6FbTEvmyfuTCB7x0FyQsm8euNX43fTp3FZclCZpRmO8t5w8w==
   dependencies:
     jsonc-parser "3.0.0"
-    minimatch "3.0.4"
+    minimatch "3.0.5"
     multimatch "5.0.0"
     ts-morph "10.0.2"
 
