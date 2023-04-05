@@ -21,7 +21,7 @@ namespace Energinet.DataHub.WebApi
     /// Factory to create an <see cref="T:System.Net.Http.HttpClient" />, which will re-apply the authorization header
     /// from the current HTTP context.
     /// </summary>
-    public class AuthorizedHttpClientFactory : HttpClient
+    public class AuthorizedHttpClientFactory
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly Func<string> _authorizationHeaderProvider;

@@ -39,7 +39,7 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddMarketParticipantClient(
                     GetBaseUri(apiClientSettings.MarketParticipantBaseUrl))
                 .AddWholesaleClient(
-                    apiClientSettings.WholesaleBaseUrl,
+                    new Uri(apiClientSettings.WholesaleBaseUrl),
                     AuthorizationHeaderProvider);
 
             services.AddSingleton(apiClientSettings);
@@ -58,7 +58,7 @@ namespace Energinet.DataHub.WebApi.Registration
 
         private static IServiceCollection AddWholesaleClient(
             this IServiceCollection serviceCollection,
-            string wholesaleBaseUri,
+            Uri wholesaleBaseUri,
             Func<IServiceProvider, string> authorizationHeaderProvider)
         {
             if (serviceCollection.All(x => x.ServiceType != typeof(IHttpClientFactory)))
@@ -67,7 +67,10 @@ namespace Energinet.DataHub.WebApi.Registration
             }
 
             serviceCollection.AddSingleton(provider => new AuthorizedHttpClientFactory(provider.GetRequiredService<IHttpClientFactory>(), () => authorizationHeaderProvider(provider)));
-            serviceCollection.AddScoped<IWholesaleClient_V3, WholesaleClient_V3>(provider => new WholesaleClient_V3(wholesaleBaseUri, provider.GetRequiredService<AuthorizedHttpClientFactory>()));
+            serviceCollection.AddScoped<IWholesaleClient_V3, WholesaleClient_V3>(
+                provider => new WholesaleClient_V3(
+                    wholesaleBaseUri.ToString(),
+                    provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(wholesaleBaseUri)));
             return serviceCollection;
         }
 
