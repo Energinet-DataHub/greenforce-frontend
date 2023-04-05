@@ -39,7 +39,7 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddMarketParticipantClient(
                     GetBaseUri(apiClientSettings.MarketParticipantBaseUrl))
                 .AddWholesaleClient(
-                    new Uri(apiClientSettings.WholesaleBaseUrl),
+                    GetBaseUri(apiClientSettings.WholesaleBaseUrl),
                     AuthorizationHeaderProvider);
 
             services.AddSingleton(apiClientSettings);
