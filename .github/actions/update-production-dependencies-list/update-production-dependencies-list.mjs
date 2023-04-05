@@ -26,7 +26,7 @@ function writeProductionDependencyLicenses(licenses) {
     .join('\n');
 
   try {
-    fs.writeFileSync('PRODUCTION_DEPENDENCIES.md', `${header}${content}`);
+    fs.writeFileSync('PRODUCTION_DEPENDENCIES.md', `${header}${content}\n`);
   } catch (err) {
     console.error(err);
   }
