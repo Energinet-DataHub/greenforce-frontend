@@ -14,8 +14,7 @@
 
 using System;
 using System.Linq;
-using Energinet.DataHub.Wholesale.Client;
-using Energinet.DataHub.Wholesale.Contracts;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
@@ -31,7 +30,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<ActorDtoType>>>>("actors")
                .Resolve()
                .WithScope()
-               .WithService<IWholesaleClient>()
+               .WithService<IWholesaleClient_V3>()
                .ResolveAsync(async (context, client) =>
                {
                    var parent = context.Parent!;
@@ -39,19 +38,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
                    var gridArea = parent.GetArgument<string>("gridArea");
                    var step = parent.GetArgument<int>("step");
 
-                   var request = step switch
-                   {
-                       2 => new ProcessStepActorsRequest(batchId, gridArea, TimeSeriesType.NonProfiledConsumption, MarketRole.EnergySupplier),
-                       3 => new ProcessStepActorsRequest(batchId, gridArea, TimeSeriesType.NonProfiledConsumption, MarketRole.BalanceResponsibleParty),
-                       _ => null,
-                   };
-
-                   if (request is null)
+                   if (step != 2 || step != 3)
                    {
                        return Array.Empty<Actor>();
                    }
 
-                   var actors = await client.GetProcessStepActorsAsync(request);
+                   var actors = step == 2 ? await client.GetListOfEnergySuppliersAsync(batchId, gridArea, TimeSeriesType.NonProfiledConsumption)
+                       : await client.GetListOfBalanceResponsiblePartiesAsync(batchId, gridArea, TimeSeriesType.NonProfiledConsumption);
+
                    return actors == null
                       ? Array.Empty<Actor>()
                       : actors
@@ -63,7 +57,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                .Argument<StringGraphType>("gln")
                .Resolve()
                .WithScope()
-               .WithService<IWholesaleClient>()
+               .WithService<IWholesaleClient_V3>()
                .ResolveAsync(async (context, client) =>
                {
                    var parent = context.Parent!;
@@ -72,15 +66,22 @@ namespace Energinet.DataHub.WebApi.GraphQL
                    var step = parent.GetArgument<int>("step");
                    var gln = context.GetArgument<string>("gln");
 
-                   var request = step switch
+                   return step switch
                    {
-                       1 => new ProcessStepResultRequestDtoV3(batchId, gridArea, TimeSeriesType.Production, null, null),
-                       2 => new ProcessStepResultRequestDtoV3(batchId, gridArea, TimeSeriesType.NonProfiledConsumption, gln, null),
-                       3 => new ProcessStepResultRequestDtoV3(batchId, gridArea, TimeSeriesType.NonProfiledConsumption, null, gln),
+                       1 => await client.GetProcessStepResultAsync(batchId, gridArea, TimeSeriesType.Production),
+                       2 => await client.GetProcessStepResultAsync(
+                           batchId,
+                           gridArea,
+                           TimeSeriesType.NonProfiledConsumption,
+                           gln),
+                       3 => await client.GetProcessStepResultAsync(
+                           batchId,
+                           gridArea,
+                           TimeSeriesType.NonProfiledConsumption,
+                           null,
+                           gln),
                        _ => throw new ExecutionError("Invalid step"),
                    };
-
-                   return await client.GetProcessStepResultAsync(request);
                });
         }
     }
