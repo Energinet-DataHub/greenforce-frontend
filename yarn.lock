@@ -7292,10 +7292,10 @@ apache-md5@^1.0.6:
   resolved "https://registry.yarnpkg.com/apache-md5/-/apache-md5-1.1.7.tgz#dcef1802700cc231d60c5e08fd088f2f9b36375a"
   integrity sha512-JtHjzZmJxtzfTSjsCyHgPR155HBe5WGyUyHTaEkfy46qhwCFKx1Epm6nAxgUG3WfUZP1dWhGqj9Z2NOBeZ+uBw==
 
-apollo-angular@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/apollo-angular/-/apollo-angular-4.2.0.tgz#45abc3c94ba4ef7ddbae208de15a1c21eb38940d"
-  integrity sha512-P0kNcDnaAtV1Tu7YChY8/No+GS8B1Fsimo/Sx4WoH86n2xweQXzwmxAiNCDnmwn8GRduRP4AiotdeLpFxHPyvA==
+apollo-angular@4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/apollo-angular/-/apollo-angular-4.2.1.tgz#74f805195c3bf908b41a16ac3d0e5693faeb4739"
+  integrity sha512-lMFVZmw7hIa4+VGutoiUMwHWggXFiDhbsrnZddQYzfdV6lkJRjm0hANG0KxXoaoLqEqkGTHdq5DaMCdsp6E4rw==
   dependencies:
     tslib "^2.0.0"
 
