@@ -38,7 +38,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                    var gridArea = parent.GetArgument<string>("gridArea");
                    var step = parent.GetArgument<int>("step");
 
-                   if (step != 2 || step != 3)
+                   if (step != 2 && step != 3)
                    {
                        return Array.Empty<Actor>();
                    }
