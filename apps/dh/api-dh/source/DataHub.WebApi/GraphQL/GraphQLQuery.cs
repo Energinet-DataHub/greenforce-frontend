@@ -131,7 +131,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var interval = context.GetArgument<Interval>("executionTime");
                     var start = interval.Start.ToDateTimeOffset();
                     var end = interval.End.ToDateTimeOffset();
-                    return await client.SearchBatchesAsync(null, null, null, null, start, end);
+                    return await client.SearchBatchesAsync(null, null, start, end);
                 });
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<SettlementReportType>>>>("settlementReports")
