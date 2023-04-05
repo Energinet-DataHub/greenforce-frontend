@@ -13,6 +13,8 @@
 // limitations under the License.
 
 using System;
+using System.Linq;
+using System.Net.Http;
 using Energinet.DataHub.Charges.Clients.Registration.Charges.ServiceCollectionExtensions;
 using Energinet.DataHub.MarketParticipant.Client.Extensions;
 using Energinet.DataHub.MessageArchive.Client.Extensions;
@@ -35,14 +37,10 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddMessageArchiveClient(
                     GetBaseUri(apiClientSettings.MessageArchiveBaseUrl))
                 .AddMarketParticipantClient(
-                    GetBaseUri(apiClientSettings.MarketParticipantBaseUrl));
-
-            services.AddScoped<IWholesaleClient_V3, IWholesaleClient_V3>(provider =>
-            {
-                var httpClientFactory = provider.GetRequiredService<AuthorizedHttpClientFactory>();
-                var httpClient = httpClientFactory.CreateClient(new Uri(apiClientSettings.WholesaleBaseUrl));
-                return new WholesaleClient_V3(apiClientSettings.WholesaleBaseUrl, httpClient);
-            });
+                    GetBaseUri(apiClientSettings.MarketParticipantBaseUrl))
+                .AddWholesaleClient(
+                    GetBaseUri(apiClientSettings.WholesaleBaseUrl),
+                    AuthorizationHeaderProvider);
 
             services.AddSingleton(apiClientSettings);
 
@@ -56,6 +54,30 @@ namespace Energinet.DataHub.WebApi.Registration
                 ? url
                 : new Uri(emptyUrl);
             return baseUri;
+        }
+
+        private static IServiceCollection AddWholesaleClient(
+            this IServiceCollection serviceCollection,
+            Uri wholesaleBaseUri,
+            Func<IServiceProvider, string> authorizationHeaderProvider)
+        {
+            if (serviceCollection.All(x => x.ServiceType != typeof(IHttpClientFactory)))
+            {
+                serviceCollection.AddHttpClient();
+            }
+
+            serviceCollection.AddSingleton(provider => new AuthorizedHttpClientFactory(provider.GetRequiredService<IHttpClientFactory>(), () => authorizationHeaderProvider(provider)));
+            serviceCollection.AddScoped<IWholesaleClient_V3, WholesaleClient_V3>(
+                provider => new WholesaleClient_V3(
+                    wholesaleBaseUri.ToString(),
+                    provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(wholesaleBaseUri)));
+            return serviceCollection;
+        }
+
+        private static string AuthorizationHeaderProvider(IServiceProvider serviceProvider)
+        {
+            var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
+            return (string?)httpContextAccessor.HttpContext!.Request.Headers["Authorization"] ?? string.Empty;
         }
     }
 }
