@@ -17,7 +17,7 @@
 | [apollo/client](https://github.com/apollographql/apollo-client) | 3.7.11 | MIT |
 | [azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 2.5.5 | MIT |
 | [azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 2.35.0 | MIT |
-| [microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 3.0.1 | MIT |
+| [microsoft/applicationinsights-angularplugin-js](undefined) | 3.0.1 | MIT |
 | [microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.11 | MIT |
 | [ngneat/transloco](https://github.com/ngneat/transloco) | 4.2.6 | MIT |
 | [ngrx/component-store](https://github.com/ngrx/platform) | 15.4.0 | MIT |
