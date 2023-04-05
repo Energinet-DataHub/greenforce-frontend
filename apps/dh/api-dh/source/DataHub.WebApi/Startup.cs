@@ -119,6 +119,7 @@ namespace Energinet.DataHub.WebApi
 
             var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>()
                                     ?? new ApiClientSettings();
+            services.AddScoped<AuthorizedHttpClientFactory>();
             services.AddDomainClients(apiClientSettings);
             services.AddGraphQLSchema();
             services.AddGraphQL(options =>

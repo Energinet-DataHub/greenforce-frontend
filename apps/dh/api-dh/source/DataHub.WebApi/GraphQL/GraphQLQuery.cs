@@ -156,7 +156,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var periodEnd = period?.HasEnd == true ? period?.End.ToDateTimeOffset() : null;
 
                     var gridAreasTask = marketParticipantClient.GetGridAreasAsync();
-                    var batchesTask = wholesaleClient.SearchBatchesAsync(gridAreaCodes, Clients.Wholesale.v3.BatchState.Completed, minExecutionTime, maxExecutionTime, periodStart, periodEnd);
+                    var batchesTask = wholesaleClient.SearchBatchesAsync(gridAreaCodes, BatchState.Completed, minExecutionTime, maxExecutionTime, periodStart, periodEnd);
                     var batches = await batchesTask;
                     var gridAreas = await gridAreasTask;
 
