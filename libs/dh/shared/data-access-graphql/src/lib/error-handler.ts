@@ -21,8 +21,8 @@ import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-applica
 export const errorHandler = (logger: DhApplicationInsights) =>
   onError(({ graphQLErrors }) => {
     if (graphQLErrors) {
-      graphQLErrors.map(({ message }) => {
-        logger.trackException(new Error(message), 3);
+      graphQLErrors.map(({ message, extensions }) => {
+        logger.trackException(new Error((extensions['details'] as string) || message), 3);
       });
     }
   });
