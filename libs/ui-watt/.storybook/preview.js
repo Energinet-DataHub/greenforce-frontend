@@ -12,7 +12,11 @@ export const parameters = {
       date: /Date$/,
     },
   },
-  docs: { inlineStories: true },
+  docs: {
+    story: {
+      inline: true
+    }
+  },
   viewport: {
     viewports: INITIAL_VIEWPORTS,
   },
