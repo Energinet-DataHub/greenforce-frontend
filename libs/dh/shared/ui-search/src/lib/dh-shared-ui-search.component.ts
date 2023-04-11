@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -26,12 +26,12 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
 export const searchDebounceTimeMs = 250;
 
 @Component({
-  selector: 'dh-users-tab-search',
+  selector: 'dh-shared-ui-search',
   standalone: true,
   template: `
-    <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
+    <ng-container *transloco="let t; read: 'shared'">
       <watt-form-field class="search-field">
-        <input wattInput [formControl]="searchControl" [placeholder]="t('searchPlaceholder')" />
+        <input wattInput [formControl]="searchControl" [placeholder]="placeholder ?? t('search')" />
         <watt-button wattSuffix variant="icon" icon="search"></watt-button>
       </watt-form-field>
     </ng-container>
@@ -55,10 +55,11 @@ export const searchDebounceTimeMs = 250;
     WattButtonModule,
   ],
 })
-export class DhUsersTabSearchComponent implements OnInit, OnDestroy {
+export class DhSharedUiSearchComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   searchControl = new FormControl('', { nonNullable: true });
+  @Input() placeholder?: string;
 
   @Output() search = new EventEmitter<string>();
 

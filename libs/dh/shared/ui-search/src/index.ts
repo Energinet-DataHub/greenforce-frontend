@@ -14,16 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { inject } from '@angular/core';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { Apollo } from 'apollo-angular';
-
-export function getPermissionsWatchQuery(searchTerm?: string) {
-  const apollo = inject(Apollo);
-  return apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
-    query: graphql.GetPermissionsDocument,
-    variables: { searchTerm },
-  });
-}
+export * from './lib/dh-shared-ui-search.component';
