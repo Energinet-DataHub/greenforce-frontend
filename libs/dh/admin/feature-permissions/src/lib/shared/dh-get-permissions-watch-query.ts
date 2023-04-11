@@ -22,6 +22,6 @@ export function getPermissionsWatchQuery(apollo: Apollo, searchTerm?: string) {
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: graphql.GetPermissionsDocument,
-    variables: searchTerm ? { searchTerm } : undefined,
+    variables: { searchTerm },
   });
 }

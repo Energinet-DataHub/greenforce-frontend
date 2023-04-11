@@ -18,7 +18,7 @@ import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApolloError } from '@apollo/client';
 import { translate, TranslocoModule } from '@ngneat/transloco';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
@@ -55,7 +55,9 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
 })
 export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   private apollo = inject(Apollo);
-  private subscription?: Subscription;
+  private destroy$ = new Subject<void>();
+
+  query = getPermissionsWatchQuery(this.apollo, undefined);
 
   permissions: PermissionDto[] = [];
   loading = false;
@@ -74,11 +76,23 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   permissionDetail!: DhAdminPermissionDetailComponent;
 
   ngOnInit(): void {
-    this.refreshData();
+    this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (result) => {
+        this.permissions = result.data?.permissions ?? [];
+        this.loading = result.loading;
+        this.error = result.error;
+        this.dataSource.data = result.data?.permissions ?? [];
+      },
+      error: (error) => {
+        this.error = error;
+      },
+    });
+    this.refresh();
   }
 
   ngOnDestroy() {
-    this.subscription?.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onRowClick(row: PermissionDto): void {
@@ -90,27 +104,13 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
     this.activeRow = undefined;
   }
 
-  refreshData(): void {
-    this.subscription?.unsubscribe();
-    this.subscription = getPermissionsWatchQuery(
-      this.apollo,
-      this.searchTerm || undefined
-    ).valueChanges.subscribe({
-      next: (result) => {
-        this.permissions = result.data?.permissions ?? [];
-        this.loading = result.loading;
-        this.error = result.error;
-        this.dataSource.data = result.data?.permissions ?? [];
-      },
-      error: (error) => {
-        this.error = error;
-      },
-    });
+  search(searchTerm?: string): void {
+    this.searchTerm = searchTerm;
+    this.refresh();
   }
 
-  search(searchTerm: string): void {
-    this.searchTerm = searchTerm;
-    this.refreshData();
+  refresh(): void {
+    this.query.refetch({ searchTerm: this.searchTerm || undefined });
   }
 
   exportAsCsv(): void {
