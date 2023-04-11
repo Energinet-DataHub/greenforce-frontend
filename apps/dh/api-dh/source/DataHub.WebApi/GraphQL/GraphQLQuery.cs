@@ -193,10 +193,13 @@ namespace Energinet.DataHub.WebApi.GraphQL
                {
                    var gridAreas = await client.GetGridAreasAsync();
                    var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
-                   var organizations = await client.GetOrganizationsAsync();
+                   var actors = await client.GetActorsAsync();
 
-                   var tasks = organizations.Select(organization => client.GetActorsAsync(organization.OrganizationId));
-                   var actors = (await Task.WhenAll(tasks)).SelectMany(x => x);
+                   if (actors == null)
+                   {
+                       return Array.Empty<Actor>();
+                   }
+
                    var accessibleActors = actors.Select(x => new Actor(x.ActorNumber.Value)
                    {
                        Id = x.ActorId,
