@@ -22,5 +22,8 @@ export interface MarketParticipantUserRoleWithPermissionsDto {
     status: MarketParticipantUserRoleStatus;
     permissions: Array<MarketParticipantPermissionDetailsDto>;
 }
+export namespace MarketParticipantUserRoleWithPermissionsDto {
+}
+
 
 

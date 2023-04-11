@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, tap } from 'rxjs';
+import { Observable, exhaustMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
@@ -46,22 +46,26 @@ export class DhAdminCreateUserRoleManagementDataAccessApiStore extends Component
     (
       trigger$: Observable<{
         createUserRoleDto: MarketParticipantCreateUserRoleDto;
-        onSaveCompletedFn: () => void;
+        onSuccessFn: () => void;
+        onErrorFn: () => void;
       }>
     ) => {
       return trigger$.pipe(
         tap(() => {
           this.setLoading(LoadingState.INIT);
         }),
-        switchMap(({ createUserRoleDto, onSaveCompletedFn }) =>
+        exhaustMap(({ createUserRoleDto, onSuccessFn, onErrorFn }) =>
           this.saveUserRole(createUserRoleDto).pipe(
             tapResponse(
               () => {
                 this.setLoading(LoadingState.LOADED);
-                onSaveCompletedFn();
+
+                onSuccessFn();
               },
               () => {
                 this.setLoading(ErrorState.GENERAL_ERROR);
+
+                onErrorFn();
               }
             )
           )
