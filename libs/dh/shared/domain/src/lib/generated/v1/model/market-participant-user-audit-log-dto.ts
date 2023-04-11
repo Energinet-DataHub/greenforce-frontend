@@ -18,5 +18,8 @@ export interface MarketParticipantUserAuditLogDto {
     auditLogType: MarketParticipantUserAuditLogType;
     timestamp: string;
 }
+export namespace MarketParticipantUserAuditLogDto {
+}
+
 
 

@@ -22,5 +22,8 @@ export interface MeteringPointProcess {
     status: MeteringPointProcessStatus;
     details: Array<MeteringPointProcessDetail>;
 }
+export namespace MeteringPointProcess {
+}
+
 
 

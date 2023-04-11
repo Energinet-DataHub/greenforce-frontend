@@ -18,5 +18,8 @@ export interface WholesaleBatchRequestDto {
     startDate: string;
     endDate: string;
 }
+export namespace WholesaleBatchRequestDto {
+}
+
 
 
