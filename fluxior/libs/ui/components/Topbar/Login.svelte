@@ -3,9 +3,11 @@
   import { page } from '$app/stores';
 </script>
 
-<button on:click={() => signIn('azure-ad-b2c')}
-  ><span class="material-icons">login</span>Log ind</button
->
+{#if $page.data.session}
+  <button on:click={() => signOut()}><span class="material-icons" />Log ud</button>
+{:else}
+  <button on:click={() => signIn('azure-ad-b2c')}><span class="material-icons" />Log ind</button>
+{/if}
 
 <style lang="scss">
   button {

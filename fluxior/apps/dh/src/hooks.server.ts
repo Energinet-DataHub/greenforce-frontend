@@ -6,19 +6,49 @@ import type { Provider } from '@auth/core/providers';
 export const handle = SvelteKitAuth({
   debug: true,
   secret: env.secret,
+  callbacks: {
+    async jwt({ token, account, profile, isNewUser, user }) {
+      console.log({ token, account, profile, isNewUser, user });
+      // Persist the OAuth access_token to the token right after signin
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+      return token;
+    },
+    async session({ session, token, user }) {
+      // Send properties to the client, like an access_token from a provider.
+      session.accessToken = token.accessToken;
+      return session;
+    }
+  },
   providers: [
     AzureADB2C({
-      //issuer: 'https://fluxiororg.b2clogin.com/fluxiororg.onmicrosoft.com/v2.0',
-      tenantId: 'fluxiororg',
-      clientId: '2047be93-878e-4360-9b43-ca6e7beb9b5b',
-      clientSecret: 'mJK8Q~GcXlnw861P7PbEbApud8k~MaaywYENpcR~',
-      primaryUserFlow: 'B2C_1A_SIGNUP_SIGNIN'
-      // wellKnown: 'https://devdatahubb2c.b2clogin.com/4a7411ea-ac71-4b63-9647-b8bd4c5a20e0/B2C_1_u001_signin/v2.0/.well-known/openid-configuration',
-      // authorization: {
-      //   params: { scope: 'openid profile offline_access' }
-      // }
-      // checks: ['pkce', 'state'],
-      // client: { token_endpoint_auth_method: 'none' }
+      issuer:
+        'https://devdatahubb2c.b2clogin.com/devdatahubb2c.onmicrosoft.com/b2c_1_signinflow/v2.0',
+      token:
+        'https://devdatahubb2c.b2clogin.com/devdatahubb2c.onmicrosoft.com/b2c_1_signinflow/oauth2/v2.0/token',
+      userinfo: 'https://graph.microsoft.com/oidc/userinfo',
+      clientId: '1982d7c0-9b07-4c41-85ac-476967b10101',
+      clientSecret: 'Pzu8Q~Rg5fnk.~mOyzsKbPLWyA6BuMPLesW7IaDD',
+      primaryUserFlow: 'b2c_1_signinflow',
+      authorization: {
+        params: { scope: '1982d7c0-9b07-4c41-85ac-476967b10101 openid profile email' }
+      },
+      profile: (profile) => {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          image: null
+        };
+      }
     }) as Provider
   ]
 });
+
+// tenantId: 'fluxiororg',
+//       clientId: '2047be93-878e-4360-9b43-ca6e7beb9b5b',
+//       clientSecret: 'mJK8Q~GcXlnw861P7PbEbApud8k~MaaywYENpcR~',
+//       primaryUserFlow: 'B2C_1A_SIGNUP_SIGNIN',
+//       authorization: {
+//         params: { scope: '2047be93-878e-4360-9b43-ca6e7beb9b5b openid profile email' }
+//       },
