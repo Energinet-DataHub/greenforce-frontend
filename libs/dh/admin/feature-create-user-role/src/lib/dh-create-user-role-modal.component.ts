@@ -43,7 +43,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import {
   MarketParticipantCreateUserRoleDto,
   MarketParticipantEicFunction,
@@ -87,7 +87,7 @@ interface UserRoleForm {
     PushModule,
     LetModule,
     WATT_STEPPER,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     DhPermissionsTableComponent,
   ],
 })

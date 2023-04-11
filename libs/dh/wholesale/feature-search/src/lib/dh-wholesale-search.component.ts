@@ -23,7 +23,7 @@ import { sub, startOfDay, endOfDay } from 'date-fns';
 import { Subject, takeUntil } from 'rxjs';
 
 import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 
@@ -42,7 +42,7 @@ type Batch = Omit<graphql.Batch, 'gridAreas'>;
     DhWholesaleFormComponent,
     DhWholesaleTableComponent,
     TranslocoModule,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     WattSpinnerModule,
     WattTopBarComponent,
   ],
