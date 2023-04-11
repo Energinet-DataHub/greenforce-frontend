@@ -20,7 +20,6 @@ import {
   Output,
   EventEmitter,
   ViewEncapsulation,
-  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -42,7 +41,6 @@ import { DhPermissionAuditLogsComponent } from './tabs/dh-admin-permission-audit
 import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
 import { DhAdminPermissionRolesComponent } from './tabs/dh-admin-permission-roles.component';
 import { DhAdminPermissionMarketRolesComponent } from './tabs/dh-admin-permission-market-roles.component';
-import { Apollo } from 'apollo-angular';
 
 @Component({
   selector: 'dh-admin-permission-detail',
@@ -68,7 +66,7 @@ import { Apollo } from 'apollo-angular';
   ],
 })
 export class DhAdminPermissionDetailComponent {
-  private getPermissionsQuery = getPermissionsWatchQuery(inject(Apollo));
+  private getPermissionsQuery = getPermissionsWatchQuery();
   private subscription?: Subscription;
 
   @ViewChild(WattDrawerComponent)
@@ -84,14 +82,12 @@ export class DhAdminPermissionDetailComponent {
     this.drawer.close();
     this.closed.emit();
     this.selectedPermission = null;
-
     this.subscription?.unsubscribe();
   }
 
   open(permission: PermissionDto): void {
     this.subscription?.unsubscribe();
     this.loadData(permission.id);
-
     this.drawer.open();
   }
 

@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Apollo } from 'apollo-angular';
+import { inject } from '@angular/core';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { Apollo } from 'apollo-angular';
 
-export function getPermissionsWatchQuery(apollo: Apollo, searchTerm?: string) {
+export function getPermissionsWatchQuery(searchTerm?: string) {
+  const apollo = inject(Apollo);
   return apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,

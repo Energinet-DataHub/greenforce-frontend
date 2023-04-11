@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApolloError } from '@apollo/client';
 import { translate, TranslocoModule } from '@ngneat/transloco';
@@ -31,7 +31,6 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 
 import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
 import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
-import { Apollo } from 'apollo-angular';
 import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
 
 @Component({
@@ -54,11 +53,9 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
   ],
 })
 export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
-  private apollo = inject(Apollo);
   private destroy$ = new Subject<void>();
 
-  query = getPermissionsWatchQuery(this.apollo, undefined);
-
+  query = getPermissionsWatchQuery();
   permissions: PermissionDto[] = [];
   loading = false;
   error?: ApolloError;
@@ -87,7 +84,6 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
         this.error = error;
       },
     });
-    this.refresh();
   }
 
   ngOnDestroy() {
