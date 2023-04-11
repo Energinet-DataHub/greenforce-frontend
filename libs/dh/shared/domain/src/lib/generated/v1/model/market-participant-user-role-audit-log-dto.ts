@@ -20,5 +20,8 @@ export interface MarketParticipantUserRoleAuditLogDto {
     userRoleChangeType: MarketParticipantUserRoleChangeType;
     changeDescriptionJson: string;
 }
+export namespace MarketParticipantUserRoleAuditLogDto {
+}
+
 
 

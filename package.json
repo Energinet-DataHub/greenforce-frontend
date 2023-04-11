@@ -128,7 +128,7 @@
     "@nrwl/nx-cloud": "15.3.5",
     "@nrwl/storybook": "15.9.2",
     "@nrwl/workspace": "15.9.2",
-    "@openapitools/openapi-generator-cli": "2.5.2",
+    "@openapitools/openapi-generator-cli": "2.6.0",
     "@playwright/test": "1.32.3",
     "@schematics/angular": "15.2.5",
     "@storybook/addon-a11y": "6.5.15",
