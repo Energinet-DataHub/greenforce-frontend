@@ -68,8 +68,6 @@ The `DateTimeOffset` scalar type represents a date, time and offset from UTC. `D
 """
 scalar DateTimeOffset
 
-scalar Decimal
-
 enum EicFunction {
   BALANCE_RESPONSIBLE_PARTY
   BILLING_AGENT
@@ -236,9 +234,9 @@ type ProcessStep {
 
 type ProcessStepResult {
   breadcrumb: String
-  max: Decimal!
-  min: Decimal!
-  sum: Decimal!
+  max: Float!
+  min: Float!
+  sum: Float!
   timeSeriesPoints: [TimeSeriesPoint!]!
   timeSeriesType: TimeSeriesType!
 }
@@ -273,7 +271,7 @@ enum StatusType {
 
 type TimeSeriesPoint {
   quality: String!
-  quantity: Decimal!
+  quantity: Float!
   time: DateTimeOffset!
 }
 

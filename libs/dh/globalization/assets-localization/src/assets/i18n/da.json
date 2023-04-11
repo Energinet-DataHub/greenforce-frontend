@@ -1042,24 +1042,22 @@
       "createrole": {
         "headline": "Ny brugerrolle",
         "save": "Opret brugerrolle",
-        "cancel": "Annuller",
         "createRoleRequest": {
           "start": "Opretter brugerrolle",
           "error": "Der opstod desværre en fejl, da vi skulle oprette brugerrollen.",
           "success": "Brugerrollen er oprettet"
         },
-        "tabs": {
-          "masterdata": {
-            "tabLabel": "Stamdata",
-            "nameMaxLengthErrorText": "Navn skal være under 250 karakterer",
-            "name": "Navn",
-            "description": "Beskrivelse",
+        "steps": {
+          "masterData": {
+            "label": "Stamdata",
             "eicFunction": "Markedsrolle",
-            "selectEicFunctionStatus": "Vælg markedsrolle"
+            "selectEicFunctionStatus": "Vælg markedsrolle",
+            "name": "Navn",
+            "nameMaxLengthErrorText": "Navn skal være under 250 karakterer",
+            "description": "Beskrivelse"
           },
           "permissions": {
-            "tabLabel": "Rettigheder",
-            "title": "Rettigheder",
+            "label": "Tildel rettigheder",
             "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle"
           }
         }
@@ -1126,13 +1124,14 @@
         "permissionDescription": "Beskrivelse"
       },
       "permissionDetail": {
+        "edit": "Rediger rettighed",
         "information": "Information",
         "permissionName": "Navn",
         "permissionDescription": "Beskrivelse",
         "tabs": {
           "userRoles": {
-            "rolesPlural": "{{ userRoleCount }} Brugerroller",
-            "rolesSingular": "{{ userRoleCount }} Brugerrolle",
+            "rolesPlural": "{{ userRoleCount }} brugerroller",
+            "rolesSingular": "{{ userRoleCount }} brugerrolle",
             "tabLabel": "Brugerroller",
             "noEntries": "Ingen resultater",
             "columns": {
@@ -1143,8 +1142,8 @@
             "tabLabel": "Historik"
           },
           "marketRoles": {
-            "rolesPlural": "{{ marketRoleCount }} Markedsroller",
-            "rolesSingular": "{{ marketRoleCount }} Markedsrolle",
+            "rolesPlural": "{{ marketRoleCount }} markedsroller",
+            "rolesSingular": "{{ marketRoleCount }} markedsrolle",
             "tabLabel": "Markedsroller",
             "noEntries": "Ingen resultater",
             "columns": {

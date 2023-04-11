@@ -14,3 +14,11 @@ trim_trailing_whitespace = false
 
 [*.{ts,tsx,js,html}]
 max_line_length = 100
+
+# PowerShell files
+[*.{ps1, psm1, psd1}]
+indent_size = 4
+
+# YAML files
+[*.{yml,yaml}]
+indent_size = 2
