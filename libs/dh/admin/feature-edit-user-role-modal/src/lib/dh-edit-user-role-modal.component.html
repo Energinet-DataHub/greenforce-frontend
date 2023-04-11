@@ -64,7 +64,7 @@ limitations under the License.
               </watt-card-title>
 
               <dh-permissions-table
-                [permissions]="marketRolePermissions$ | push: { strategy: 'global' }"
+                [permissions]="marketRolePermissions$ | push : { strategy: 'native' }"
                 [initialSelection]="initiallySelectedPermissions$ | push"
                 (selectionChanged)="onSelectionChanged($event)"
               ></dh-permissions-table>
