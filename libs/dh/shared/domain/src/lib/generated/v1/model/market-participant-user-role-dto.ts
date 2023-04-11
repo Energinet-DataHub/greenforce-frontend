@@ -20,5 +20,8 @@ export interface MarketParticipantUserRoleDto {
     eicFunction: MarketParticipantEicFunction;
     status: MarketParticipantUserRoleStatus;
 }
+export namespace MarketParticipantUserRoleDto {
+}
+
 
 

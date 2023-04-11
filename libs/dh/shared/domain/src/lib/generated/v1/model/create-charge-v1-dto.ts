@@ -27,5 +27,8 @@ export interface CreateChargeV1Dto {
     vatClassification: ChargeVatClassification;
     senderMarketParticipant?: ChargeMarketParticipantV1Dto;
 }
+export namespace CreateChargeV1Dto {
+}
+
 
 

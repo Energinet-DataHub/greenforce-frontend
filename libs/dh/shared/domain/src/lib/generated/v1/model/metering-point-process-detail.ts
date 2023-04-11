@@ -24,5 +24,8 @@ export interface MeteringPointProcessDetail {
     status: MeteringPointProcessStatus;
     errors: Array<MeteringPointProcessDetailError>;
 }
+export namespace MeteringPointProcessDetail {
+}
+
 
 

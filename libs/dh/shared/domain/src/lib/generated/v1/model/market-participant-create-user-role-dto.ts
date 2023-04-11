@@ -20,5 +20,8 @@ export interface MarketParticipantCreateUserRoleDto {
     eicFunction: MarketParticipantEicFunction;
     permissions: Array<number>;
 }
+export namespace MarketParticipantCreateUserRoleDto {
+}
+
 
 

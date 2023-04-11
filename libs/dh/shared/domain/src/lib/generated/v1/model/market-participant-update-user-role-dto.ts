@@ -18,5 +18,8 @@ export interface MarketParticipantUpdateUserRoleDto {
     status: MarketParticipantUserRoleStatus;
     permissions: Array<number>;
 }
+export namespace MarketParticipantUpdateUserRoleDto {
+}
+
 
 
