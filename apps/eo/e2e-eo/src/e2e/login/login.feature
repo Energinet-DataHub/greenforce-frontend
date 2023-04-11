@@ -10,11 +10,12 @@ Feature: Login
     And I see Charlotte CSRs login button and click it
     Then I can see the dashboard page
 
-  Scenario: Login as Thomas Tesla is NOT allowed
-    Given I am on the landing page
-    When I click the first start button to login
-    And I see Thomas Tesla's login button and click it
-    Then I am on the landing page again with an error in the URL
+  # DISABLED UNTIL PRIVATE LOGINS ARE ALLOWED
+  # Scenario: Login as Thomas Tesla is allowed
+  #   Given I am on the landing page
+  #   When I click the first start button to login
+  #   And I see Thomas Tesla's login button and click it
+  #   Then I can see the dashboard page
 
   Scenario: Login as Ivan Iværksætter is allowed
     Given I am on the landing page
