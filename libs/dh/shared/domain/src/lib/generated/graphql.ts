@@ -15,7 +15,6 @@ export type Scalars = {
   Float: number;
   DateRange: { start: string, end: string};
   DateTimeOffset: string;
-  Decimal: any;
 };
 
 export type Actor = {
@@ -264,9 +263,9 @@ export type ProcessStepResultArgs = {
 export type ProcessStepResult = {
   __typename?: 'ProcessStepResult';
   breadcrumb?: Maybe<Scalars['String']>;
-  max: Scalars['Decimal'];
-  min: Scalars['Decimal'];
-  sum: Scalars['Decimal'];
+  max: Scalars['Float'];
+  min: Scalars['Float'];
+  sum: Scalars['Float'];
   timeSeriesPoints: Array<TimeSeriesPoint>;
   timeSeriesType: TimeSeriesType;
 };
@@ -300,7 +299,7 @@ export enum StatusType {
 export type TimeSeriesPoint = {
   __typename?: 'TimeSeriesPoint';
   quality: Scalars['String'];
-  quantity: Scalars['Decimal'];
+  quantity: Scalars['Float'];
   time: Scalars['DateTimeOffset'];
 };
 
@@ -402,7 +401,7 @@ export type GetProcessStepResultQueryVariables = Exact<{
 }>;
 
 
-export type GetProcessStepResultQuery = { __typename?: 'GraphQLQuery', processStep?: { __typename?: 'ProcessStep', result?: { __typename?: 'ProcessStepResult', breadcrumb?: string | null, min: any, max: any, sum: any, timeSeriesType: TimeSeriesType, timeSeriesPoints: Array<{ __typename?: 'TimeSeriesPoint', quality: string, quantity: any, time: string }> } | null } | null };
+export type GetProcessStepResultQuery = { __typename?: 'GraphQLQuery', processStep?: { __typename?: 'ProcessStep', result?: { __typename?: 'ProcessStepResult', breadcrumb?: string | null, min: number, max: number, sum: number, timeSeriesType: TimeSeriesType, timeSeriesPoints: Array<{ __typename?: 'TimeSeriesPoint', quality: string, quantity: number, time: string }> } | null } | null };
 
 export type GetSettlementReportsQueryVariables = Exact<{
   period?: InputMaybe<Scalars['DateRange']>;
