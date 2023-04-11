@@ -76,14 +76,12 @@ export class DhAdminPermissionDetailComponent {
     this.drawer.close();
     this.closed.emit();
     this.selectedPermission = null;
-
     this.subscription?.unsubscribe();
   }
 
   open(permission: PermissionDto): void {
     this.subscription?.unsubscribe();
     this.loadData(permission.id);
-
     this.drawer.open();
   }
 
