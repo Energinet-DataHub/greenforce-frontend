@@ -17,7 +17,6 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
-using Contracts = Energinet.DataHub.Wholesale.Contracts;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -51,37 +50,28 @@ namespace Energinet.DataHub.WebApi.GraphQL
                             throw new ExecutionError("Period cannot be open-ended");
                         }
 
-                        var start = input.Period.Start.ToDateTimeOffset();
-                        var end = input.Period.End.ToDateTimeOffset();
-                        var gridAreaCodes = input.GridAreaCodes;
-                        var processType = input.ProcessType switch
-                        {
-                            Contracts.ProcessType.Aggregation => ProcessType.Aggregation,
-                            Contracts.ProcessType.BalanceFixing => ProcessType.BalanceFixing,
-                            _ => throw new ExecutionError("Invalid process type"), // impossible
-                        };
-
                         var batchRequestDto = new BatchRequestDto
                         {
-                            StartDate = start,
-                            EndDate = end,
+                            StartDate = input.Period.Start.ToDateTimeOffset(),
+                            EndDate = input.Period.End.ToDateTimeOffset(),
                             GridAreaCodes = input.GridAreaCodes,
-                            ProcessType = processType,
+                            ProcessType = input.ProcessType,
                         };
 
                         var guid = await client.CreateBatchAsync(batchRequestDto);
 
-                        // TODO: Don't mix new with old...
-                        return new Contracts.BatchDtoV2(
-                            guid,
-                            start,
-                            end,
-                            null,
-                            null,
-                            Contracts.BatchState.Pending,
-                            false,
-                            gridAreaCodes,
-                            input.ProcessType);
+                        return new BatchDto
+                        {
+                            BatchId = guid,
+                            ExecutionState = BatchState.Pending,
+                            PeriodStart = batchRequestDto.StartDate,
+                            PeriodEnd = batchRequestDto.EndDate,
+                            ExecutionTimeEnd = null,
+                            ExecutionTimeStart = null,
+                            AreSettlementReportsCreated = false,
+                            GridAreaCodes = batchRequestDto.GridAreaCodes,
+                            ProcessType = batchRequestDto.ProcessType,
+                        };
                     });
         }
     }
