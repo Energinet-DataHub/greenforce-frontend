@@ -1,5 +1,6 @@
 {
   "name": "dh-wholesale-data-access-graphql",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/dh/wholesale/data-access-graphql",
   "prefix": "dh",

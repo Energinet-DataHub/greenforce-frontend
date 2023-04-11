@@ -37,7 +37,8 @@ const makeFeatureFlags = satisfies<FeatureFlagConfig>();
  * },
  */
 
-const created = '01-02-2023';
+const created = '01-04-2023';
+
 export const dhFeatureFlagsConfig = makeFeatureFlags({
   start_wholesale_process_feature_flag: {
     created,

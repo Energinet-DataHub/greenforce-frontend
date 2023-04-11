@@ -68,8 +68,6 @@ The `DateTimeOffset` scalar type represents a date, time and offset from UTC. `D
 """
 scalar DateTimeOffset
 
-scalar Decimal
-
 enum EicFunction {
   BALANCE_RESPONSIBLE_PARTY
   BILLING_AGENT
@@ -127,6 +125,10 @@ type GraphQLQuery {
     step: Int!
   ): ProcessStep
   settlementReports(executionTime: DateRange, gridAreaCodes: [String], period: DateRange, processType: ProcessType): [SettlementReport!]!
+  userrole(
+    """The id of the user role"""
+    id: ID
+  ): UserRoleWithPermissions!
 }
 
 type GridArea {
@@ -229,9 +231,9 @@ type ProcessStep {
 
 type ProcessStepResult {
   breadcrumb: String
-  max: Decimal!
-  min: Decimal!
-  sum: Decimal!
+  max: Float!
+  min: Float!
+  sum: Float!
   timeSeriesPoints: [TimeSeriesPoint!]!
   timeSeriesType: TimeSeriesType!
 }
@@ -266,7 +268,7 @@ enum StatusType {
 
 type TimeSeriesPoint {
   quality: String!
-  quantity: Decimal!
+  quantity: Float!
   time: DateTimeOffset!
 }
 
@@ -304,4 +306,24 @@ type UserRole {
 enum UserRoleStatus {
   ACTIVE
   INACTIVE
+}
+
+type UserRoleWithPermissions {
+  """User role description."""
+  description: String
+
+  """User role market role."""
+  eicFunction: EicFunction
+
+  """User role id"""
+  id: ID!
+
+  """User role name"""
+  name: String!
+
+  """User role permissions."""
+  permissions: [Permission]
+
+  """User role status."""
+  status: UserRoleStatus
 }
