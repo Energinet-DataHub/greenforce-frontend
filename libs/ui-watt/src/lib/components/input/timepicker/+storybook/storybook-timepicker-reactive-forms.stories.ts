@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { applicationConfig, Meta, moduleMetadata, Story } from '@storybook/angular';
 import { within, fireEvent } from '@storybook/testing-library';
+import { importProvidersFrom } from '@angular/core';
 
 import { StorybookConfigurationLocalizationModule } from '../../+storybook/storybook-configuration-localization.module';
 import { WattFormFieldModule } from '../../../form-field/form-field.module';
@@ -28,13 +29,17 @@ import { WattTimepickerModule } from '../watt-timepicker.module';
 export default {
   title: 'Components/Timepicker',
   decorators: [
+    applicationConfig({
+      providers: [
+        provideAnimations(),
+        importProvidersFrom(StorybookConfigurationLocalizationModule.forRoot())
+      ]
+    }),
     moduleMetadata({
       imports: [
         ReactiveFormsModule,
         WattFormFieldModule,
         WattTimepickerModule,
-        BrowserAnimationsModule,
-        StorybookConfigurationLocalizationModule.forRoot(),
       ],
     }),
   ],
