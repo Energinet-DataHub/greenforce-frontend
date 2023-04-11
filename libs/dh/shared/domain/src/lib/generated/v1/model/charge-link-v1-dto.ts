@@ -24,5 +24,8 @@ export interface ChargeLinkV1Dto {
     startDate: string;
     endDate?: string | null;
 }
+export namespace ChargeLinkV1Dto {
+}
+
 
 

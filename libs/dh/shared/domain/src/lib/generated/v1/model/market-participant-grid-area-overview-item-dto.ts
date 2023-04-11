@@ -23,5 +23,8 @@ export interface MarketParticipantGridAreaOverviewItemDto {
     actorName?: string | null;
     fullFlexDate?: string | null;
 }
+export namespace MarketParticipantGridAreaOverviewItemDto {
+}
+
 
 

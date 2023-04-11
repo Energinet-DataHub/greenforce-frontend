@@ -20,5 +20,8 @@ export interface MarketParticipantChangeOrganizationDto {
     comment?: string | null;
     status: MarketParticipantOrganizationStatus;
 }
+export namespace MarketParticipantChangeOrganizationDto {
+}
+
 
 
