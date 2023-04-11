@@ -14,7 +14,7 @@
 
 using System;
 using Energinet.DataHub.MarketParticipant.Client.Models;
-using Energinet.DataHub.Wholesale.Contracts;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using GraphQL;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,11 +34,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
             this.RegisterTypeMapping<ActorNameDto, ActorNameDtoType>();
             this.RegisterTypeMapping<ActorMarketRoleDto, ActorMarketRoleDtoType>();
             this.RegisterTypeMapping<ActorGridAreaDto, ActorGridAreaDtoType>();
-            this.RegisterTypeMapping<BatchDtoV2, BatchType>();
+            this.RegisterTypeMapping<BatchDto, BatchType>();
             this.RegisterTypeMapping<ProcessStepResultDto, ProcessStepType>();
             this.RegisterTypeMapping<TimeSeriesPointDto, TimeSeriesPointType>();
             this.RegisterTypeMapping<ProcessType, ProcessTypeEnum>();
             this.RegisterTypeMapping<GridAreaDto, GridAreaType>();
+            this.RegisterTypeMapping<UserRoleWithPermissionsDto, UserRoleWithPermissionsDtoType>();
             this.RegisterTypeMapping<PermissionAuditLogDto, PermissionAuditLogDtoType>();
             this.RegisterTypeMapping<PermissionChangeType, PermissionChangeTypeEnum>();
             this.RegisterTypeMapping<UserRoleStatus, UserRoleStatusEnum>();

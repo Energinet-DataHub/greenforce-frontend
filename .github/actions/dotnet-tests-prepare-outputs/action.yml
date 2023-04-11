@@ -21,7 +21,7 @@ name: Prepare dotnet tests outputs
 #
 
 inputs:
-  OUTPUT_PATH:
+  output_path:
     required: true
 
 runs:
@@ -43,8 +43,8 @@ runs:
       shell: bash
       run: |
         # Create base directory
-        mkdir -p '${{ inputs.OUTPUT_PATH }}/apps/dh/api-dh/source' ';'
+        mkdir -p '${{ inputs.output_path }}/apps/dh/api-dh/source' ';'
         # Copy everything from apps/dh/api-dh/source to the new directory
-        cp -a apps/dh/api-dh/source/. '${{ inputs.OUTPUT_PATH }}/apps/dh/api-dh/source'
+        cp -a apps/dh/api-dh/source/. '${{ inputs.output_path }}/apps/dh/api-dh/source'
         # Remove obj-directories from artifact
-        find ${{ inputs.OUTPUT_PATH }}/ -type d -name 'obj' -exec rm -rf {} +
+        find ${{ inputs.output_path }}/ -type d -name 'obj' -exec rm -rf {} +

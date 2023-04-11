@@ -1,5 +1,6 @@
 {
   "name": "eo-consumption-page-shell",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/eo/consumption-page/shell/src",
   "prefix": "eo",

@@ -14,8 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.buttons {
-  display: flex;
-  justify-content: flex-start;
-  gap: var(--watt-space-s);
+@use "@energinet-datahub/watt/utils" as watt;
+
+.watt-modal-panel {
+  .user-role-form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--watt-space-m);
+    max-width: 25rem;
+  }
+
+  .permissions-error {
+    display: block;
+    margin-bottom: var(--watt-space-ml);
+  }
+
+  .no-permissions-container {
+    margin-top: var(--watt-space-m);
+  }
 }

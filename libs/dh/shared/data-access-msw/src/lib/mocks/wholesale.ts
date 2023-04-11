@@ -346,22 +346,22 @@ function getProcessStepResult() {
             timeSeriesPoints: [
               {
                 time: periodStart,
-                quantity: `${_randomIntFromInterval(0, 15)}.518`,
+                quantity: parseFloat(`${_randomIntFromInterval(0, 15)}.518`),
                 quality: '',
               },
               {
                 time: periodEnd,
-                quantity: `${_randomIntFromInterval(0, 15)}.518`,
+                quantity: parseFloat(`${_randomIntFromInterval(0, 15)}.518`),
                 quality: '',
               },
               {
                 time: periodStart,
-                quantity: `${_randomIntFromInterval(0, 15)}.518`,
+                quantity: parseFloat(`${_randomIntFromInterval(0, 15)}.518`),
                 quality: '',
               },
               {
                 time: periodEnd,
-                quantity: `${_randomIntFromInterval(0, 15)}.518`,
+                quantity: parseFloat(`${_randomIntFromInterval(0, 15)}.518`),
                 quality: '',
               },
             ],

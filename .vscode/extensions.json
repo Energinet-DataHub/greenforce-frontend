@@ -9,6 +9,8 @@
     "firsttris.vscode-jest-runner",
     "ms-playwright.playwright",
     "ms-vsliveshare.vsliveshare",
-    "GraphQL.vscode-graphql"
+    "GraphQL.vscode-graphql",
+    "ms-vscode.powershell",
+    "redhat.vscode-yaml"
   ]
 }
