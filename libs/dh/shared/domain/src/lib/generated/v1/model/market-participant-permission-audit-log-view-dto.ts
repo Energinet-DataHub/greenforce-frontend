@@ -19,5 +19,8 @@ export interface MarketParticipantPermissionAuditLogViewDto {
     permissionAuditLogType: MarketParticipantPermissionAuditLogType;
     timestamp: string;
 }
+export namespace MarketParticipantPermissionAuditLogViewDto {
+}
+
 
 
