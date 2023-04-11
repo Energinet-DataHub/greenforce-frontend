@@ -1,17 +1,28 @@
 {
   "root": true,
-  "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx"],
+  "ignorePatterns": [
+    "**/*"
+  ],
+  "plugins": [
+    "@nrwl/nx"
+  ],
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "files": [
+        "*.ts",
+        "*.tsx",
+        "*.js",
+        "*.jsx"
+      ],
       "rules": {
         "@typescript-eslint/no-restricted-imports": [
           "error",
           {
             "patterns": [
               {
-                "group": ["@energinet-datahub-types/**"],
+                "group": [
+                  "@energinet-datahub-types/**"
+                ],
                 "message": "`@energinet-datahub-types` may only be used for type imports.",
                 "allowTypeImports": true
               }
@@ -22,7 +33,9 @@
           "error",
           {
             "enforceBuildableLibDependency": true,
-            "allow": ["@energinet-datahub-types"],
+            "allow": [
+              "@energinet-datahub-types"
+            ],
             "depConstraints": [
               {
                 "sourceTag": "type:app",
@@ -168,11 +181,16 @@
               },
               {
                 "sourceTag": "type:assets",
-                "onlyDependOnLibsWithTags": ["type:assets"]
+                "onlyDependOnLibsWithTags": [
+                  "type:assets"
+                ]
               },
               {
                 "sourceTag": "type:styles",
-                "onlyDependOnLibsWithTags": ["type:assets", "type:styles"]
+                "onlyDependOnLibsWithTags": [
+                  "type:assets",
+                  "type:styles"
+                ]
               },
               {
                 "sourceTag": "product:dh",
@@ -192,15 +210,22 @@
               },
               {
                 "sourceTag": "product:gf",
-                "onlyDependOnLibsWithTags": ["product:gf"]
+                "onlyDependOnLibsWithTags": [
+                  "product:gf"
+                ]
               },
               {
                 "sourceTag": "product:watt",
-                "onlyDependOnLibsWithTags": ["product:watt", "type:test-util"]
+                "onlyDependOnLibsWithTags": [
+                  "product:watt",
+                  "type:test-util"
+                ]
               },
               {
                 "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
+                "onlyDependOnLibsWithTags": [
+                  "*"
+                ]
               }
             ]
           }
@@ -208,24 +233,50 @@
       }
     },
     {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"]
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "extends": [
+        "plugin:@nrwl/nx/typescript"
+      ]
     },
     {
-      "files": ["*.ts"],
-      "extends": ["plugin:@ngrx/component-store-strict"]
+      "files": [
+        "*.ts"
+      ],
+      "extends": [
+        "plugin:@ngrx/component-store-strict"
+      ]
     },
     {
-      "files": ["*.js", "*.ts"],
-      "extends": ["plugin:sonarjs/recommended"],
+      "files": [
+        "*.js",
+        "*.ts"
+      ],
+      "extends": [
+        "plugin:sonarjs/recommended"
+      ],
       "rules": {
-        "sonarjs/cognitive-complexity": ["error", 8]
+        "sonarjs/cognitive-complexity": [
+          "error",
+          8
+        ]
       }
     },
     {
-      "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nrwl/nx/javascript"],
+      "files": [
+        "*.js",
+        "*.jsx"
+      ],
+      "extends": [
+        "plugin:@nrwl/nx/javascript"
+      ],
       "rules": {}
     }
+  ],
+  "extends": [
+    null,
+    "plugin:storybook/recommended"
   ]
 }
