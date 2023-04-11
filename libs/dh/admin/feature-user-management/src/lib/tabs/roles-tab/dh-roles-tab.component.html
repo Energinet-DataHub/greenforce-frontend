@@ -46,7 +46,7 @@ limitations under the License.
                 *dhPermissionRequired="['user-roles:manage']"
                 icon="plus"
                 variant="secondary"
-                (click)="createUserRole()"
+                (click)="isCreateUserRoleModalVisible = true"
                 >{{ t("createuserrole") }}
               </watt-button>
             </div>
@@ -68,3 +68,8 @@ limitations under the License.
     </div>
   </ng-container>
 </ng-container>
+
+<dh-create-user-role-modal
+  *ngIf="isCreateUserRoleModalVisible"
+  (closed)="modalOnClose($event)"
+></dh-create-user-role-modal>

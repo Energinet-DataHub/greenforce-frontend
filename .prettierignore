@@ -28,3 +28,7 @@ PRODUCTION_DEPENDENCIES.md
 # Ignore README.md as formatting conflicts with markdown lint
 
 README.md
+
+# Ignore .github
+
+.github/**/*

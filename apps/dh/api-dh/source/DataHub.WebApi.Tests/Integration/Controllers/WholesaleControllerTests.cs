@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Core.TestCommon.AutoFixture.Attributes;
 using Energinet.DataHub.MarketParticipant.Client.Models;
@@ -46,8 +47,14 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         [InlineAutoMoqData]
         public async Task CreateAsync_ReturnsOk(BatchRequestDto requestDto)
         {
+            // Arrange
             MockMarketParticipantClient();
+            WholesaleClientV3Mock.Setup(x => x.CreateBatchAsync(new BatchRequestDto(), null, CancellationToken.None))
+                .ReturnsAsync(Guid.NewGuid);
+            // Act
             var actual = await BffClient.PostAsJsonAsync(BaseUrl, requestDto);
+
+            // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 

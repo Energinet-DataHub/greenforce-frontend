@@ -1067,26 +1067,24 @@
         }
       },
       "createrole": {
-        "headline": "Create user role",
-        "save": "Save",
-        "cancel": "Cancel",
+        "headline": "New user role",
+        "save": "Create user role",
         "createRoleRequest": {
           "start": "Creating user role",
           "error": "Unfortunately, an error occurred while creating the user role.",
           "success": "User role created."
         },
-        "tabs": {
-          "masterdata": {
-            "tabLabel": "Master data",
-            "nameMaxLengthErrorText": "Name field must be under 250 characters",
-            "name": "Name",
-            "description": "Description",
+        "steps": {
+          "masterData": {
+            "label": "Master data",
             "eicFunction": "Market role",
-            "selectEicFunctionStatus": "Select market role"
+            "selectEicFunctionStatus": "Select market role",
+            "name": "Name",
+            "nameMaxLengthErrorText": "Name field must be under 250 characters",
+            "description": "Description"
           },
           "permissions": {
-            "tabLabel": "Permissions",
-            "title": "Permissions",
+            "label": "Assign permissions",
             "noPermissions": "No permissions found for the selected market role"
           }
         }
