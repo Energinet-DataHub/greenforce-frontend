@@ -19,5 +19,8 @@ export interface MarketParticipantActorContactDto {
     email: string;
     phone?: string | null;
 }
+export namespace MarketParticipantActorContactDto {
+}
+
 
 

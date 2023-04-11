@@ -22,5 +22,8 @@ export interface MarketParticipantOrganizationDto {
     status: MarketParticipantOrganizationStatus;
     address: MarketParticipantAddressDto;
 }
+export namespace MarketParticipantOrganizationDto {
+}
+
 
 
