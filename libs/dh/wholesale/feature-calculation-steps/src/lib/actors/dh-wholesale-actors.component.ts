@@ -21,6 +21,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ApolloError } from '@apollo/client';
 import { Apollo } from 'apollo-angular';
 
+import { ProcessStepActor } from '@energinet-datahub/dh/wholesale/domain';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -52,13 +53,13 @@ export class DhWholesaleActorsComponent implements OnInit {
 
   @Output() rowClick = new EventEmitter<{ step: string; gln: string }>();
 
-  _columns!: WattTableColumnDef<graphql.Actor>;
+  _columns!: WattTableColumnDef<ProcessStepActor>;
 
-  _dataSource = new WattTableDataSource<graphql.Actor>();
-  actors?: graphql.Actor[];
+  _dataSource = new WattTableDataSource<ProcessStepActor>();
+  actors?: ProcessStepActor[];
   loading = false;
   error?: ApolloError;
-  selectedActor?: graphql.Actor;
+  selectedActor?: ProcessStepActor;
   routeActorNumber?: string;
 
   ngOnInit() {
@@ -95,7 +96,7 @@ export class DhWholesaleActorsComponent implements OnInit {
   getActiveActor = () =>
     this.actors?.find((actor) => actor.number === this.route.firstChild?.snapshot.params.gln);
 
-  onRowClick = (actor: graphql.Actor) => {
+  onRowClick = (actor: ProcessStepActor) => {
     this.rowClick.emit({ step: this.step, gln: actor.number });
   };
 }

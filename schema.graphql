@@ -4,11 +4,14 @@ schema {
 }
 
 type Actor {
+  """The grid areas the actor belongs to."""
+  gridAreaCodes: [String!]!
+
   """The id of the actor."""
-  id: ID
+  id: ID!
 
   """The name of the actor."""
-  name: String
+  name: String!
 
   """The number of the actor."""
   number: String!
