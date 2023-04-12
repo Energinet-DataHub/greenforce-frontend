@@ -13,25 +13,13 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Energinet.DataHub.Core.FunctionApp.TestCommon.Configuration.B2C;
 using Microsoft.Extensions.Configuration;
 
 namespace Energinet.DataHub.WebApi.Tests.Fixtures
 {
     public class BffWebApiFixture : WebApiFixture
     {
-        public BffWebApiFixture()
-        {
-            AuthorizationConfiguration = new B2CAuthorizationConfiguration(
-                usedForSystemTests: false,
-                "u001",
-                new List<string> { "md" });
-        }
-
-        public B2CAuthorizationConfiguration AuthorizationConfiguration { get; }
-
         /// <inheritdoc/>
         protected override Task OnInitializeWebApiDependenciesAsync(IConfiguration configuration)
         {
@@ -39,8 +27,10 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
             Environment.SetEnvironmentVariable("ApiClientSettings__MessageArchiveBaseUrl", "http://localhost:8080/messagearchive");
             Environment.SetEnvironmentVariable("ApiClientSettings__MarketParticipantBaseUrl", "http://localhost:8080/marketparticipant");
             Environment.SetEnvironmentVariable("ApiClientSettings__WholesaleBaseUrl", "http://localhost:8080/wholesale");
-            Environment.SetEnvironmentVariable("EXTERNAL_OPEN_ID_URL", AuthorizationConfiguration.FrontendOpenIdConfigurationUrl);
-            Environment.SetEnvironmentVariable("BACKEND_SERVICE_APP_ID", AuthorizationConfiguration.FrontendApp.AppId);
+
+            // These values are required Startup.cs configuration, but the actual token validation is mocked.
+            Environment.SetEnvironmentVariable("EXTERNAL_OPEN_ID_URL", "http://localhost:8080/");
+            Environment.SetEnvironmentVariable("BACKEND_BFF_APP_ID", "00000000-0000-0000-0000-000000000000");
 
             return Task.CompletedTask;
         }
