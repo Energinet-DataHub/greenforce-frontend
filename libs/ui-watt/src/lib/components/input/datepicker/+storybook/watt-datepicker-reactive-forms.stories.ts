@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { applicationConfig, Meta, moduleMetadata, Story } from '@storybook/angular';
 import { within, fireEvent } from '@storybook/testing-library';
 
 import { StorybookConfigurationLocalizationModule } from '../../+storybook/storybook-configuration-localization.module';
@@ -24,6 +24,7 @@ import { WattDatepickerComponent } from '../watt-datepicker.component';
 import { WattDatepickerModule } from '../watt-datepicker.module';
 import { WattFormFieldModule } from '../../../form-field/form-field.module';
 import { WattRangeValidators } from '../../shared/validators';
+import { importProvidersFrom } from '@angular/core';
 
 export const initialValueSingle = '2022-09-02T22:00:00.000Z';
 export const initialValueRangeStart = initialValueSingle;
@@ -37,14 +38,14 @@ export interface WattDatepickerStoryConfig extends WattDatepickerComponent {
 export default {
   title: 'Components/Datepicker',
   decorators: [
-    moduleMetadata({
-      imports: [
-        ReactiveFormsModule,
-        WattFormFieldModule,
-        WattDatepickerModule,
-        BrowserAnimationsModule,
-        StorybookConfigurationLocalizationModule.forRoot(),
+    applicationConfig({
+      providers: [
+        provideAnimations(),
+        importProvidersFrom(StorybookConfigurationLocalizationModule.forRoot()),
       ],
+    }),
+    moduleMetadata({
+      imports: [ReactiveFormsModule, WattFormFieldModule, WattDatepickerModule],
     }),
   ],
   component: WattDatepickerComponent,

@@ -15,17 +15,21 @@
  * limitations under the License.
  */
 import { HttpClientModule } from '@angular/common/http';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { WattIconComponent } from '../icon.component';
 import { WattIconSize } from '../watt-icon-size';
 import { StorybookIconOverviewModule } from './storybook-icon-overview.module';
+import { importProvidersFrom } from '@angular/core';
 
 const defaultIconSize: WattIconSize = 'm';
 
 export default {
   title: 'Foundations/Icons',
   decorators: [
+    applicationConfig({
+      providers: [importProvidersFrom(HttpClientModule)],
+    }),
     moduleMetadata({
       imports: [StorybookIconOverviewModule, HttpClientModule],
     }),
