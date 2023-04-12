@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
 import { StorybookSpacingOverviewComponent } from './storybook-spacing-overview.component';
 import { StorybookSpacingOverviewModule } from './storybook-spacing-overview.module';
@@ -41,7 +41,7 @@ export default {
 } as Meta<StorybookSpacingOverviewComponent>;
 
 //👇 We create a “template” of how args map to rendering
-const Template: Story<StorybookSpacingOverviewComponent> = (args) => ({
+const Template: StoryFn<StorybookSpacingOverviewComponent> = (args) => ({
   props: args,
 });
 

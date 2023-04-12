@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
 import { WattCardModule } from './watt-card.module';
 import { WattCardComponent } from './watt-card.component';
@@ -29,7 +29,7 @@ export default {
   ],
 } as Meta<WattCardComponent>;
 
-export const withTitle: Story<WattCardComponent> = (args) => ({
+export const WithTitle: StoryFn<WattCardComponent> = (args) => ({
   props: args,
   template: `
   <watt-card>
@@ -42,9 +42,9 @@ export const withTitle: Story<WattCardComponent> = (args) => ({
   `,
 });
 
-withTitle.args = {};
+WithTitle.args = {};
 
-export const withoutTitle: Story<WattCardComponent> = (args) => ({
+export const WithoutTitle: StoryFn<WattCardComponent> = (args) => ({
   props: args,
   template: `
   <watt-card>
@@ -53,9 +53,9 @@ export const withoutTitle: Story<WattCardComponent> = (args) => ({
   `,
 });
 
-withoutTitle.args = {};
+WithoutTitle.args = {};
 
-export const cardWithVariant: Story<WattCardComponent> = (args) => ({
+export const CardWithVariant: StoryFn<WattCardComponent> = (args) => ({
   props: args,
   template: `
   <watt-card variant="${args.variant}">
@@ -68,6 +68,6 @@ export const cardWithVariant: Story<WattCardComponent> = (args) => ({
   `,
 });
 
-cardWithVariant.args = {
+CardWithVariant.args = {
   variant: 'solid',
 };

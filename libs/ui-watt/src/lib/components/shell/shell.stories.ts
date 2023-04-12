@@ -16,11 +16,11 @@
  */
 
 import { APP_INITIALIZER, Component } from '@angular/core';
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryFn, applicationConfig, moduleMetadata } from '@storybook/angular';
 import { APP_BASE_HREF } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { Router, RouterModule, provideRouter } from '@angular/router';
+import { provideLocationMocks } from '@angular/common/testing';
 
 import { WattNavListComponent, WattNavListItemComponent } from './nav-list';
 import { WattShellComponent } from './shell.component';
@@ -30,25 +30,29 @@ export default {
   title: 'Components/Shell',
   component: WattShellComponent,
   decorators: [
+    applicationConfig({
+      providers: [provideAnimations(), provideLocationMocks()],
+    }),
     moduleMetadata({
       imports: [
-        RouterTestingModule,
-        BrowserAnimationsModule,
+        RouterModule,
         WattShellComponent,
         WattTopBarOutletComponent,
+        WattNavListComponent,
+        WattNavListItemComponent,
       ],
     }),
   ],
 } as Meta<WattShellComponent>;
 
 //👇 We create a “template” of how args map to rendering
-const Template: Story<WattShellComponent> = (args) => ({
+const Template: StoryFn<WattShellComponent> = (args) => ({
   props: args,
 });
 
 //👇 Each story then reuses that template
-export const shell = Template.bind({});
-shell.storyName = 'Empty';
+export const Shell = Template.bind({});
+Shell.storyName = 'Empty';
 
 const withContentTemplate = `
 <watt-shell>
@@ -64,11 +68,11 @@ const withContentTemplate = `
 </watt-shell>
 `;
 
-export const withContent = () => ({
+export const WithContent = () => ({
   template: withContentTemplate,
 });
-withContent.storyName = 'With content';
-withContent.parameters = {
+WithContent.storyName = 'With content';
+WithContent.parameters = {
   docs: {
     source: {
       code: withContentTemplate,
@@ -112,14 +116,14 @@ function generateComponent(template: string) {
   return StorybookPageComponent;
 }
 
-export const withSidebarNavigation = () => ({
+export const WithSidebarNavigation = () => ({
   template: withSidebarNavigationTemplate,
 });
-withSidebarNavigation.storyName = 'With sidebar navigation';
-withSidebarNavigation.decorators = [
-  moduleMetadata({
-    imports: [
-      RouterTestingModule.withRoutes([
+WithSidebarNavigation.storyName = 'With sidebar navigation';
+WithSidebarNavigation.decorators = [
+  applicationConfig({
+    providers: [
+      provideRouter([
         { path: '', redirectTo: 'menu-2', pathMatch: 'full' },
         { path: 'menu-1', component: generateComponent('Page 1') },
         { path: 'menu-2', component: generateComponent('Page 2') },
@@ -128,9 +132,10 @@ withSidebarNavigation.decorators = [
         { path: 'menu-5', component: generateComponent('Page 5') },
         { path: 'menu-6', component: generateComponent('Page 6') },
       ]),
-      WattNavListComponent,
-      WattNavListItemComponent,
     ],
+  }),
+  moduleMetadata({
+    imports: [WattNavListComponent, WattNavListItemComponent],
     providers: [
       {
         provide: APP_BASE_HREF,
@@ -146,7 +151,7 @@ withSidebarNavigation.decorators = [
     ],
   }),
 ];
-withSidebarNavigation.parameters = {
+WithSidebarNavigation.parameters = {
   docs: {
     source: {
       code: withSidebarNavigationTemplate,
@@ -173,14 +178,14 @@ const withTopBarTemplate = `
 </watt-shell>
 `;
 
-export const withTopBar = () => ({
+export const WithTopBar = () => ({
   template: withTopBarTemplate,
 });
-withTopBar.storyName = 'With top bar';
-withTopBar.decorators = [
-  moduleMetadata({
-    imports: [
-      RouterTestingModule.withRoutes([
+WithTopBar.storyName = 'With top bar';
+WithTopBar.decorators = [
+  applicationConfig({
+    providers: [
+      provideRouter([
         { path: '', redirectTo: 'with-top-bar', pathMatch: 'full' },
         {
           path: 'with-top-bar',
@@ -193,9 +198,10 @@ withTopBar.decorators = [
           component: generateComponent('This page does not have a top bar'),
         },
       ]),
-      WattNavListComponent,
-      WattNavListItemComponent,
     ],
+  }),
+  moduleMetadata({
+    imports: [WattNavListComponent, WattNavListItemComponent],
     providers: [
       {
         provide: APP_BASE_HREF,
@@ -211,7 +217,7 @@ withTopBar.decorators = [
     ],
   }),
 ];
-withTopBar.parameters = {
+WithTopBar.parameters = {
   docs: {
     source: {
       code: `
