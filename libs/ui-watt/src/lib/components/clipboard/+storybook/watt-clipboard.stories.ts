@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { moduleMetadata, Story, Meta, applicationConfig } from '@storybook/angular';
 import { WattToastModule } from '../../toast/watt-toast.module';
 

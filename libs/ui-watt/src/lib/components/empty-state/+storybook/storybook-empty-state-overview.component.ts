@@ -16,7 +16,7 @@
  */
 import { Component } from '@angular/core';
 import { WattEmptyStateComponent } from '../empty-state.component';
-import { WattButtonModule } from '@energinet-datahub-types/watt/button';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

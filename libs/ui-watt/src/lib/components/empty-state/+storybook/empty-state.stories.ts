@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 import { applicationConfig, Meta, moduleMetadata, Story } from '@storybook/angular';
-
-import { WattEmptyStateComponent } from '../empty-state.component';
-import { StorybookEmptyStateOverviewComponent } from './storybook-empty-state-overview.component';
 import { importProvidersFrom } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { WattButtonModule } from '@energinet-datahub-types/watt/button';
+
+import { WattEmptyStateComponent } from '../empty-state.component';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+
+import { StorybookEmptyStateOverviewComponent } from './storybook-empty-state-overview.component';
 
 export default {
   title: 'Components/Empty State',
