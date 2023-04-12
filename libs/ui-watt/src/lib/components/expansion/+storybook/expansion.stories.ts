@@ -23,9 +23,7 @@ export default {
   title: 'Components/Expansion Panel',
   decorators: [
     applicationConfig({
-      providers: [
-        provideAnimations()
-      ]
+      providers: [provideAnimations()],
     }),
     moduleMetadata({
       imports: [WattExpansionModule],

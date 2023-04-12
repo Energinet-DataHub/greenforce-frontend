@@ -32,15 +32,11 @@ export default {
     applicationConfig({
       providers: [
         provideAnimations(),
-        importProvidersFrom(StorybookConfigurationLocalizationModule.forRoot())
-      ]
+        importProvidersFrom(StorybookConfigurationLocalizationModule.forRoot()),
+      ],
     }),
     moduleMetadata({
-      imports: [
-        ReactiveFormsModule,
-        WattFormFieldModule,
-        WattTimepickerModule,
-      ],
+      imports: [ReactiveFormsModule, WattFormFieldModule, WattTimepickerModule],
     }),
   ],
   component: WattTimepickerComponent,

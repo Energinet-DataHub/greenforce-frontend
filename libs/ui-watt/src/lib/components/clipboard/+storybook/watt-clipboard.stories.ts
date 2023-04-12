@@ -26,15 +26,10 @@ export default {
   title: 'Components/Clipboard',
   decorators: [
     applicationConfig({
-      providers: [
-        importProvidersFrom(WattToastModule.forRoot()),
-        provideAnimations()
-      ]
+      providers: [importProvidersFrom(WattToastModule.forRoot()), provideAnimations()],
     }),
     moduleMetadata({
-      imports: [
-        WattStorybookClipboardComponent
-      ],
+      imports: [WattStorybookClipboardComponent],
     }),
   ],
 } as Meta<WattCopyToClipboardDirective>;

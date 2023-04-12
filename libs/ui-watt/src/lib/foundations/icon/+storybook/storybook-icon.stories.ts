@@ -28,9 +28,7 @@ export default {
   title: 'Foundations/Icons',
   decorators: [
     applicationConfig({
-      providers: [
-        importProvidersFrom(HttpClientModule)
-      ]
+      providers: [importProvidersFrom(HttpClientModule)],
     }),
     moduleMetadata({
       imports: [StorybookIconOverviewModule, HttpClientModule],

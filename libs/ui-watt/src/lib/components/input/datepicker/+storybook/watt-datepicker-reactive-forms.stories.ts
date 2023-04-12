@@ -41,15 +41,11 @@ export default {
     applicationConfig({
       providers: [
         provideAnimations(),
-        importProvidersFrom(StorybookConfigurationLocalizationModule.forRoot())
-      ]
+        importProvidersFrom(StorybookConfigurationLocalizationModule.forRoot()),
+      ],
     }),
     moduleMetadata({
-      imports: [
-        ReactiveFormsModule,
-        WattFormFieldModule,
-        WattDatepickerModule
-      ],
+      imports: [ReactiveFormsModule, WattFormFieldModule, WattDatepickerModule],
     }),
   ],
   component: WattDatepickerComponent,

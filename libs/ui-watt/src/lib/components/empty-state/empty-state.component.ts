@@ -30,10 +30,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './empty-state.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [
-    CommonModule,
-    WattIconModule
-  ]
+  imports: [CommonModule, WattIconModule],
 })
 export class WattEmptyStateComponent {
   @Input() icon?: WattIcon;

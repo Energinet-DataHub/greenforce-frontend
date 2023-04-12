@@ -26,16 +26,10 @@ export default {
   title: 'Components/Empty State',
   decorators: [
     applicationConfig({
-      providers: [
-        importProvidersFrom(HttpClientModule)
-      ]
+      providers: [importProvidersFrom(HttpClientModule)],
     }),
     moduleMetadata({
-      imports: [
-        StorybookEmptyStateOverviewComponent,
-        WattEmptyStateComponent,
-        WattButtonModule
-      ],
+      imports: [StorybookEmptyStateOverviewComponent, WattEmptyStateComponent, WattButtonModule],
     }),
   ],
   component: StorybookEmptyStateOverviewComponent,
