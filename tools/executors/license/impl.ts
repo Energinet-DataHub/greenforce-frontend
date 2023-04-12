@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import * as fs from 'fs';
-import * as glob from 'glob';
+import { globSync } from 'glob';
 import * as path from 'path';
 
 import * as config from '../../../.licenserc.json';
@@ -24,22 +24,23 @@ interface LicenseExecutorOptions {
   dryRun: boolean;
 }
 
-export default async function addLicenseExecutor(
-  options: LicenseExecutorOptions
-) {
+interface JSONObject {
+  [x: string]: string[];
+}
+
+export default async function addLicenseExecutor(options: LicenseExecutorOptions) {
   const globs = Object.keys(config).filter((glob) => glob !== 'ignore');
 
   let success = true;
 
   console.info(`Adding licenses...`);
-  const files = glob.sync(`{,!(node_modules|dist)/**/*}*{${globs.join(',')}}`, {
+  const files = globSync(`{,!(node_modules|dist)/**/*}*{${globs.join(',')}}`, {
     ignore: config.ignore,
   });
 
   files.forEach((file) => {
     try {
-      const isDirectory =
-        fs.existsSync(file) && fs.lstatSync(file).isDirectory();
+      const isDirectory = fs.existsSync(file) && fs.lstatSync(file).isDirectory();
       if (isDirectory) return;
 
       const data = fs.readFileSync(file, 'utf8');
@@ -66,12 +67,12 @@ export default async function addLicenseExecutor(
   return { success };
 }
 
-function getLicenseConfig(config, file): string[] {
+function getLicenseConfig(config: JSONObject, file: string): string[] {
   const fileExt = path.extname(file).replace('.', '');
   const key = Object.keys(config).find((glob) => {
     return glob.includes(fileExt);
   });
-  return config[key];
+  return config[key as string];
 }
 
 function addLicense(
@@ -93,7 +94,10 @@ function addLicense(
 }
 
 function checkForLicense(content: string, license: string): boolean {
-  if (!license) return;
+  if (!license) {
+    return false;
+  }
+
   return removeWhitespace(content).startsWith(removeWhitespace(license));
 }
 

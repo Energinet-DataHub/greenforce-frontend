@@ -41,9 +41,7 @@ var __awaiter =
         }
       }
       function step(result) {
-        result.done
-          ? resolve(result.value)
-          : adopt(result.value).then(fulfilled, rejected);
+        result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
       }
       step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -79,7 +77,7 @@ var __generator =
     }
     function step(op) {
       if (f) throw new TypeError('Generator is already executing.');
-      while (_)
+      while ((g && ((g = 0), op[0] && (_ = 0)), _))
         try {
           if (
             ((f = 1),
@@ -166,7 +164,7 @@ exports.__esModule = true;
  * limitations under the License.
  */
 var fs = require('fs');
-var glob = require('glob');
+var glob_1 = require('glob');
 var path = require('path');
 var config = require('../../../.licenserc.json');
 function addLicenseExecutor(options) {
@@ -178,21 +176,17 @@ function addLicenseExecutor(options) {
       });
       success = true;
       console.info('Adding licenses...');
-      files = glob.sync(
-        '{,!(node_modules|dist)/**/*}*{' + globs.join(',') + '}',
-        {
-          ignore: config.ignore,
-        }
-      );
+      files = (0, glob_1.globSync)('{,!(node_modules|dist)/**/*}*{'.concat(globs.join(','), '}'), {
+        ignore: config.ignore,
+      });
       files.forEach(function (file) {
         try {
-          var isDirectory =
-            fs.existsSync(file) && fs.lstatSync(file).isDirectory();
+          var isDirectory = fs.existsSync(file) && fs.lstatSync(file).isDirectory();
           if (isDirectory) return;
           var data = fs.readFileSync(file, 'utf8');
           var licenseConfig = getLicenseConfig(config, file);
           if (!licenseConfig) {
-            console.error('No license config found for: ' + file);
+            console.error('No license config found for: '.concat(file));
             success = false;
             return;
           }
@@ -203,7 +197,7 @@ function addLicenseExecutor(options) {
             if (!result) success = false;
           }
         } catch (err) {
-          console.error("Couldn't read file: " + file + ', ' + err);
+          console.error("Couldn't read file: ".concat(file, ', ').concat(err));
           success = false;
         }
       });
@@ -232,7 +226,9 @@ function addLicense(file, content, license, options) {
   }
 }
 function checkForLicense(content, license) {
-  if (!license) return;
+  if (!license) {
+    return false;
+  }
   return removeWhitespace(content).startsWith(removeWhitespace(license));
 }
 function removeWhitespace(str) {
