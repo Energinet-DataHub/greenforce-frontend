@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-import { APP_INITIALIZER, Component, importProvidersFrom } from '@angular/core';
+import { APP_INITIALIZER, Component } from '@angular/core';
 import { Meta, StoryFn, applicationConfig, moduleMetadata } from '@storybook/angular';
 import { APP_BASE_HREF } from '@angular/common';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { Router, RouterModule } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule, provideRouter } from '@angular/router';
+import { provideLocationMocks } from '@angular/common/testing';
 
 import { WattNavListComponent, WattNavListItemComponent } from './nav-list';
 import { WattShellComponent } from './shell.component';
@@ -31,7 +31,7 @@ export default {
   component: WattShellComponent,
   decorators: [
     applicationConfig({
-      providers: [provideAnimations(), importProvidersFrom(RouterTestingModule)],
+      providers: [provideAnimations(), provideLocationMocks()],
     }),
     moduleMetadata({
       imports: [
@@ -123,17 +123,15 @@ WithSidebarNavigation.storyName = 'With sidebar navigation';
 WithSidebarNavigation.decorators = [
   applicationConfig({
     providers: [
-      importProvidersFrom(
-        RouterTestingModule.withRoutes([
-          { path: '', redirectTo: 'menu-2', pathMatch: 'full' },
-          { path: 'menu-1', component: generateComponent('Page 1') },
-          { path: 'menu-2', component: generateComponent('Page 2') },
-          { path: 'menu-3', component: generateComponent('Page 3') },
-          { path: 'menu-4', component: generateComponent('Page 4') },
-          { path: 'menu-5', component: generateComponent('Page 5') },
-          { path: 'menu-6', component: generateComponent('Page 6') },
-        ])
-      ),
+      provideRouter([
+        { path: '', redirectTo: 'menu-2', pathMatch: 'full' },
+        { path: 'menu-1', component: generateComponent('Page 1') },
+        { path: 'menu-2', component: generateComponent('Page 2') },
+        { path: 'menu-3', component: generateComponent('Page 3') },
+        { path: 'menu-4', component: generateComponent('Page 4') },
+        { path: 'menu-5', component: generateComponent('Page 5') },
+        { path: 'menu-6', component: generateComponent('Page 6') },
+      ]),
     ],
   }),
   moduleMetadata({
@@ -187,21 +185,19 @@ WithTopBar.storyName = 'With top bar';
 WithTopBar.decorators = [
   applicationConfig({
     providers: [
-      importProvidersFrom(
-        RouterTestingModule.withRoutes([
-          { path: '', redirectTo: 'with-top-bar', pathMatch: 'full' },
-          {
-            path: 'with-top-bar',
-            component: generateComponent(
-              '<watt-top-bar>Top Bar</watt-top-bar> This page has a top bar'
-            ),
-          },
-          {
-            path: 'without-top-bar',
-            component: generateComponent('This page does not have a top bar'),
-          },
-        ])
-      ),
+      provideRouter([
+        { path: '', redirectTo: 'with-top-bar', pathMatch: 'full' },
+        {
+          path: 'with-top-bar',
+          component: generateComponent(
+            '<watt-top-bar>Top Bar</watt-top-bar> This page has a top bar'
+          ),
+        },
+        {
+          path: 'without-top-bar',
+          component: generateComponent('This page does not have a top bar'),
+        },
+      ]),
     ],
   }),
   moduleMetadata({
