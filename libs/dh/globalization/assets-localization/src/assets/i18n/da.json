@@ -738,8 +738,8 @@
       "creatingBatch": "Starter batch...",
       "creatingBatchSuccess": "Dit batch er startet.",
       "processTypes": {
-        "BalanceFixing": "Balancefiksering",
-        "Aggregation": "Aggregering"
+        "BALANCE_FIXING": "Balancefiksering",
+        "AGGREGATION": "Aggregering"
       },
       "processTypeError": "Procestype påkrævet"
     },

@@ -44,6 +44,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             this.RegisterTypeMapping<PermissionChangeType, PermissionChangeTypeEnum>();
             this.RegisterTypeMapping<UserRoleStatus, UserRoleStatusEnum>();
             this.RegisterTypeMapping<EicFunction, EicFunctionEnum>();
+            this.RegisterTypeMapping<NodaTime.Interval, DateRangeType>();
 
             Query = provider.GetRequiredService<GraphQLQuery>();
             Mutation = provider.GetRequiredService<GraphQLMutation>();
