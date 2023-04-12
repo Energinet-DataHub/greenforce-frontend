@@ -14,22 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { moduleMetadata, Story, Meta, applicationConfig } from '@storybook/angular';
 import { WattButtonModule } from '../button';
 import { WattInputModule } from '../input/input.module';
 import { WattFormFieldModule } from '../form-field/form-field.module';
 import { WattModalModule } from './watt-modal.module';
 import { WattModalComponent } from './watt-modal.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { WattTooltipDirective } from '../tooltip';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 export default {
   title: 'Components/Modal',
   component: WattModalComponent,
   decorators: [
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
     moduleMetadata({
       imports: [
-        BrowserAnimationsModule,
+        ReactiveFormsModule,
         WattButtonModule,
         WattFormFieldModule,
         WattInputModule,
@@ -61,7 +65,7 @@ Small.args = {
 };
 
 export const Normal: Story<WattModalComponent> = (args) => ({
-  props: args,
+  props: { ...args, exampleFormControl: new FormControl(null) },
   template: `
     <watt-button (click)="modal.open()">{{title}}</watt-button>
     <watt-modal #modal [title]="title" [size]="size" [disableClose]="disableClose" closeLabel="Close modal">

@@ -23,7 +23,7 @@ import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-pa
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { PushModule } from '@rx-angular/template/push';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -42,7 +42,7 @@ type settlementReportsTableData = WattTableDataSource<settlementReportsTableColu
     TranslocoModule,
     WattBadgeComponent,
     WattButtonModule,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     DhSharedUiPaginatorComponent,
     WattPaginatorComponent,
   ],

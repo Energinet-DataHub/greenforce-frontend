@@ -29,7 +29,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { provideComponentStore } from '@ngrx/component-store';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { map } from 'rxjs';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
@@ -45,7 +45,7 @@ import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shar
     TranslocoModule,
     WattCardModule,
     WattSpinnerModule,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     WATT_TABLE,
     DhSharedUiDateTimeModule,
   ],
