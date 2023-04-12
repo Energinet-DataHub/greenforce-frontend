@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { graphql, MarketParticipantFilteredActorDto } from '@energinet-datahub/dh/shared/domain';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { ActorFilter, ProcessStepActor } from '@energinet-datahub/dh/wholesale/domain';
 import { rest } from 'msw';
 
 export function wholesaleMocks(apiBase: string) {
@@ -27,7 +28,7 @@ export function wholesaleMocks(apiBase: string) {
     getProcessStepResult(),
     getProcessStepActors(),
     getSettlementReports(),
-    getFilteredActors(apiBase),
+    getFilteredActors(),
   ];
 }
 
@@ -211,7 +212,7 @@ const mockedBatches: graphql.Batch[] = [
   },
 ];
 
-const mockedActors: graphql.Actor[] = [
+const mockedActors: ProcessStepActor[] = [
   { __typename: 'Actor', number: '5790000000001' },
   { __typename: 'Actor', number: '5790000000002' },
   { __typename: 'Actor', number: '5790000000003' },
@@ -245,72 +246,39 @@ const mockedSettlementReports: graphql.SettlementReport[] = [
   },
 ];
 
-const mockedFilteredActors: MarketParticipantFilteredActorDto[] = [
+const mockedFilteredActors: ActorFilter = [
   {
-    actorId: '10',
-    actorNumber: {
-      value: '1',
-    },
-    name: {
-      value: 'EnergySupplier (805)',
-    },
-    marketRoles: ['EnergySupplier'],
+    value: '10',
+    displayValue: 'EnergySupplier (805)',
     gridAreaCodes: ['805'],
   },
   {
-    actorId: '20',
-    actorNumber: {
-      value: '1',
-    },
-    name: {
-      value: 'GridAccessProvider (806)',
-    },
-    marketRoles: ['GridAccessProvider'],
+    value: '20',
+    displayValue: 'GridAccessProvider (806)',
     gridAreaCodes: ['806'],
   },
   {
-    actorId: '30',
-    actorNumber: {
-      value: '1',
-    },
-    name: {
-      value: 'EnergySupplier (805, 806)',
-    },
-    marketRoles: ['EnergySupplier'],
+    value: '30',
+    displayValue: 'EnergySupplier (805, 806)',
     gridAreaCodes: ['805', '806'],
   },
   {
-    actorId: '40',
-    actorNumber: {
-      value: '1',
-    },
-    name: {
-      value: 'GridAccessProvider (805, 806)',
-    },
-    marketRoles: ['GridAccessProvider'],
+    value: '40',
+    displayValue: 'GridAccessProvider (805, 806)',
     gridAreaCodes: ['805', '806'],
   },
   // No grid areas found
   {
-    actorId: '50',
-    actorNumber: {
-      value: '1',
-    },
-    name: {
-      value: 'GridAccessProvider (807, 808)',
-    },
-    marketRoles: ['GridAccessProvider'],
+    value: '50',
+    displayValue: 'GridAccessProvider (807, 808)',
     gridAreaCodes: ['807', '808'],
   },
 ];
 
-function getFilteredActors(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/MarketParticipant/Organization/GetFilteredActors`,
-    (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(mockedFilteredActors), ctx.delay(300));
-    }
-  );
+function getFilteredActors() {
+  return graphql.mockGetActorFilterQuery((req, res, ctx) => {
+    return res(ctx.status(200), ctx.data({ actors: mockedFilteredActors }), ctx.delay(300));
+  });
 }
 
 function getWholesaleSearchBatch() {
