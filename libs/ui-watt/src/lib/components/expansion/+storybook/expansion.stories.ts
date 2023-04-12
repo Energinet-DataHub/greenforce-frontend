@@ -43,27 +43,27 @@ const template: Story<WattExpansionComponent> = (args) => ({
   </watt-expansion>`,
 });
 
-export const collapsed = template.bind({});
-collapsed.parameters = {
+export const Collapsed = template.bind({});
+Collapsed.parameters = {
   docs: {
     source: {
       code: '<watt-expansion openLabel="Show more" closeLabel="Show less">YOUR AMAZING CONTENT</watt-expansion>',
     },
   },
 };
-collapsed.args = {
+Collapsed.args = {
   openLabel: 'Show more',
   closeLabel: 'Show less',
   expanded: false,
 };
 
-export const expanded = template.bind({});
-expanded.args = {
+export const Expanded = template.bind({});
+Expanded.args = {
   openLabel: 'Show more',
   closeLabel: 'Show less',
   expanded: true,
 };
-expanded.parameters = {
+Expanded.parameters = {
   docs: {
     source: {
       code: '<watt-expansion openLabel="Show more" closeLabel="Show less" expanded="true">YOUR AMAZING CONTENT</watt-expansion>',

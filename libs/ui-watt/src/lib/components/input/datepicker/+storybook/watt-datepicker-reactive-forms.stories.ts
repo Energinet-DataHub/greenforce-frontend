@@ -83,7 +83,7 @@ const template = `
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlRange?.errors | json }}</code></p>
 `;
 
-export const withFormControl: Story<WattDatepickerStoryConfig> = (args) => ({
+export const WithFormControl: Story<WattDatepickerStoryConfig> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null),
     exampleFormControlRange: new FormControl(null),
@@ -92,7 +92,7 @@ export const withFormControl: Story<WattDatepickerStoryConfig> = (args) => ({
   template,
 });
 
-withFormControl.parameters = {
+WithFormControl.parameters = {
   docs: {
     source: {
       code: `
@@ -105,7 +105,7 @@ exampleFormControl = new FormControl();
   },
 };
 
-export const withInitialValue: Story<WattDatepickerStoryConfig> = (args) => ({
+export const WithInitialValue: Story<WattDatepickerStoryConfig> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(initialValueSingle),
     exampleFormControlRange: new FormControl({
@@ -124,7 +124,7 @@ export const withInitialValue: Story<WattDatepickerStoryConfig> = (args) => ({
   },
 });
 
-export const withValidations: Story<WattDatepickerStoryConfig> = (args) => ({
+export const WithValidations: Story<WattDatepickerStoryConfig> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null, [Validators.required]),
     exampleFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
@@ -134,7 +134,7 @@ export const withValidations: Story<WattDatepickerStoryConfig> = (args) => ({
   template,
 });
 
-withValidations.play = async ({ canvasElement }) => {
+WithValidations.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   const dateInput: HTMLInputElement = canvas.getByRole('textbox', {
     name: /^date-input/i,
@@ -146,7 +146,7 @@ withValidations.play = async ({ canvasElement }) => {
   fireEvent.focusOut(startDateInput);
 };
 
-export const withFormControlDisabled: Story<WattDatepickerStoryConfig> = (args) => ({
+export const WithFormControlDisabled: Story<WattDatepickerStoryConfig> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl({ value: null, disabled: true }),
     exampleFormControlRange: new FormControl({ value: null, disabled: true }),

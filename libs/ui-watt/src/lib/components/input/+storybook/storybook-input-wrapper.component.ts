@@ -18,8 +18,8 @@ import { CommonModule } from '@angular/common';
 import { Component, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattFormFieldModule } from '../../form-field';
+import { WattButtonModule } from '../../button';
 import { WattIconModule } from '../../../foundations/icon/icon.module';
 import { WattInputModule } from '../input.module';
 

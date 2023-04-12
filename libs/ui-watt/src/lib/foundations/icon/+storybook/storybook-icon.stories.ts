@@ -44,8 +44,8 @@ const Template: Story<WattIconComponent> = (args) => ({
 });
 
 //👇 Each story then reuses that template
-export const icons = Template.bind({});
-icons.parameters = {
+export const Icons = Template.bind({});
+Icons.parameters = {
   controls: { hideNoControlsWarning: true },
   docs: {
     source: {
@@ -56,7 +56,7 @@ import { WattIconModule } from '@energinet-datahub/watt/icon';
     },
   },
 };
-icons.argTypes = {
+Icons.argTypes = {
   label: {
     description: 'Description of the icon used for `aria-label`',
     control: false,

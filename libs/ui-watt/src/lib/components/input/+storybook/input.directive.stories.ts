@@ -47,8 +47,8 @@ const overviewTemplate: Story = () => ({
   template: `<storybook-input-overview></storybook-input-overview>`,
 });
 
-export const overview = overviewTemplate.bind({});
-overview.argTypes = {
+export const Overview = overviewTemplate.bind({});
+Overview.argTypes = {
   disabled: {
     table: {
       disable: true,
@@ -105,7 +105,7 @@ overview.argTypes = {
     },
   },
 };
-overview.parameters = {
+Overview.parameters = {
   controls: { hideNoControlsWarning: true },
   docs: {
     source: {
@@ -124,11 +124,11 @@ exampleFormControl = new FormControl('');
   },
 };
 
-export const assistiveText = Template.bind({});
-assistiveText.args = {
+export const AssistiveText = Template.bind({});
+AssistiveText.args = {
   hasHint: true,
 };
-assistiveText.parameters = {
+AssistiveText.parameters = {
   docs: {
     source: {
       code: `HTML:
