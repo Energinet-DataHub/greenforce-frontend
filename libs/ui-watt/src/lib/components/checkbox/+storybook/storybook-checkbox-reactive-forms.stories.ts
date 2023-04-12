@@ -45,13 +45,13 @@ exampleFormControl = new FormControl(true);
 
 <watt-checkbox [formControl]="exampleFormControl">Keep me signed in</watt-checkbox>`;
 
-export const withFormControl: Story<WattCheckboxComponent> = () => ({
+export const WithFormControl: Story<WattCheckboxComponent> = () => ({
   props: {
     exampleFormControl: new FormControl(true),
   },
   template: `<watt-checkbox [formControl]="exampleFormControl">Keep me signed in</watt-checkbox>`,
 });
-withFormControl.parameters = {
+WithFormControl.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,

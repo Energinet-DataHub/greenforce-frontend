@@ -15,17 +15,21 @@
  * limitations under the License.
  */
 import { HttpClientModule } from '@angular/common/http';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { WattIconComponent } from '../icon.component';
 import { WattIconSize } from '../watt-icon-size';
 import { StorybookIconOverviewModule } from './storybook-icon-overview.module';
+import { importProvidersFrom } from '@angular/core';
 
 const defaultIconSize: WattIconSize = 'm';
 
 export default {
   title: 'Foundations/Icons',
   decorators: [
+    applicationConfig({
+      providers: [importProvidersFrom(HttpClientModule)],
+    }),
     moduleMetadata({
       imports: [StorybookIconOverviewModule, HttpClientModule],
     }),
@@ -40,8 +44,8 @@ const Template: Story<WattIconComponent> = (args) => ({
 });
 
 //👇 Each story then reuses that template
-export const icons = Template.bind({});
-icons.parameters = {
+export const Icons = Template.bind({});
+Icons.parameters = {
   controls: { hideNoControlsWarning: true },
   docs: {
     source: {
@@ -52,7 +56,7 @@ import { WattIconModule } from '@energinet-datahub/watt/icon';
     },
   },
 };
-icons.argTypes = {
+Icons.argTypes = {
   label: {
     description: 'Description of the icon used for `aria-label`',
     control: false,

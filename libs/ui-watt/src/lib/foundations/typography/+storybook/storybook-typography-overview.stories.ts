@@ -58,11 +58,11 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.h1.mixin}
 `;
 
-export const h1 = () => ({
+export const H1 = () => ({
   template: typographyHtmlSnippets.h1.tag,
 });
-h1.storyName = 'Headline 1';
-h1.parameters = {
+H1.storyName = 'Headline 1';
+H1.parameters = {
   docs: {
     source: {
       code: h1CodeExample,
@@ -81,11 +81,11 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.h2.mixin}
 `;
 
-export const h2 = () => ({
+export const H2 = () => ({
   template: typographyHtmlSnippets.h2.tag,
 });
-h2.storyName = 'Headline 2';
-h2.parameters = {
+H2.storyName = 'Headline 2';
+H2.parameters = {
   docs: {
     source: {
       code: h2CodeExample,
@@ -104,11 +104,11 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.h3.mixin}
 `;
 
-export const h3 = () => ({
+export const H3 = () => ({
   template: typographyHtmlSnippets.h3.tag,
 });
-h3.storyName = 'Headline 3';
-h3.parameters = {
+H3.storyName = 'Headline 3';
+H3.parameters = {
   docs: {
     source: {
       code: h3CodeExample,
@@ -127,11 +127,11 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.h4.mixin}
 `;
 
-export const h4 = () => ({
+export const H4 = () => ({
   template: typographyHtmlSnippets.h4.tag,
 });
-h4.storyName = 'Headline 4';
-h4.parameters = {
+H4.storyName = 'Headline 4';
+H4.parameters = {
   docs: {
     source: {
       code: h4CodeExample,
@@ -150,11 +150,11 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.h5.mixin}
 `;
 
-export const h5 = () => ({
+export const H5 = () => ({
   template: typographyHtmlSnippets.h5.tag,
 });
-h5.storyName = 'Headline 5';
-h5.parameters = {
+H5.storyName = 'Headline 5';
+H5.parameters = {
   docs: {
     source: {
       code: h5CodeExample,
@@ -170,11 +170,11 @@ SCSS mixin
 ${typographyHtmlSnippets.textL.mixin}
 `;
 
-export const textL = () => ({
+export const TextL = () => ({
   template: typographyHtmlSnippets.textL.class,
 });
-textL.storyName = 'Large';
-textL.parameters = {
+TextL.storyName = 'Large';
+TextL.parameters = {
   docs: {
     source: {
       code: textLCodeExample,
@@ -193,11 +193,11 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.bodyTextM.mixin}
 `;
 
-export const bodyTextM = () => ({
+export const BodyTextM = () => ({
   template: typographyHtmlSnippets.bodyTextM.tag,
 });
-bodyTextM.storyName = 'Normal';
-bodyTextM.parameters = {
+BodyTextM.storyName = 'Normal';
+BodyTextM.parameters = {
   docs: {
     source: {
       code: bodyTextMCodeExample,
@@ -216,11 +216,11 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.textS.mixin}
 `;
 
-export const textS = () => ({
+export const TextS = () => ({
   template: typographyHtmlSnippets.textS.tag,
 });
-textS.storyName = 'Small';
-textS.parameters = {
+TextS.storyName = 'Small';
+TextS.parameters = {
   docs: {
     source: {
       code: textSCodeExample,
@@ -236,11 +236,11 @@ SCSS mixin
 ${typographyHtmlSnippets.textLHighlighted.mixin}
 `;
 
-export const textLHightlighted = () => ({
+export const TextLHightlighted = () => ({
   template: typographyHtmlSnippets.textLHighlighted.class,
 });
-textLHightlighted.storyName = 'Large-highlighted';
-textLHightlighted.parameters = {
+TextLHightlighted.storyName = 'Large-highlighted';
+TextLHightlighted.parameters = {
   docs: {
     source: {
       code: textLHighlightedCodeExample,
@@ -259,11 +259,11 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.bodyTextMHighlighted.mixin}
 `;
 
-export const bodyTextMHighlighted = () => ({
+export const BodyTextMHighlighted = () => ({
   template: typographyHtmlSnippets.bodyTextMHighlighted.tag,
 });
-bodyTextMHighlighted.storyName = 'Normal-highlighted';
-bodyTextMHighlighted.parameters = {
+BodyTextMHighlighted.storyName = 'Normal-highlighted';
+BodyTextMHighlighted.parameters = {
   docs: {
     source: {
       code: bodyTextMHighlightedCodeExample,
@@ -282,11 +282,11 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.textSHighlighted.mixin}
 `;
 
-export const textSHighlighted = () => ({
+export const TextSHighlighted = () => ({
   template: typographyHtmlSnippets.textSHighlighted.tag,
 });
-textSHighlighted.storyName = 'Small-highlighted';
-textSHighlighted.parameters = {
+TextSHighlighted.storyName = 'Small-highlighted';
+TextSHighlighted.parameters = {
   docs: {
     source: {
       code: textSHightlightedCodeExample,
@@ -305,11 +305,10 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.button.mixin}
 `;
 
-export const button = () => ({
+export const Button = () => ({
   template: typographyHtmlSnippets.button.storybook,
 });
-button.storyName = 'Button';
-button.parameters = {
+Button.parameters = {
   docs: {
     source: {
       code: buttonCodeExample,
@@ -328,11 +327,10 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.label.mixin}
 `;
 
-export const label = () => ({
+export const Label = () => ({
   template: typographyHtmlSnippets.label.class,
 });
-label.storyName = 'Label';
-label.parameters = {
+Label.parameters = {
   docs: {
     source: {
       code: labelCodeExample,
@@ -351,11 +349,11 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.link.mixin}
 `;
 
-export const link = () => ({
+export const Link = () => ({
   template: typographyHtmlSnippets.link.class,
 });
-link.storyName = 'Normal Link';
-link.parameters = {
+Link.storyName = 'Normal Link';
+Link.parameters = {
   docs: {
     source: {
       code: linkCodeExample,
@@ -374,11 +372,11 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.linkS.mixin}
 `;
 
-export const linkS = () => ({
+export const LinkS = () => ({
   template: typographyHtmlSnippets.linkS.class,
 });
-linkS.storyName = 'Small Link';
-linkS.parameters = {
+LinkS.storyName = 'Small Link';
+LinkS.parameters = {
   docs: {
     source: {
       code: linkSCodeExample,

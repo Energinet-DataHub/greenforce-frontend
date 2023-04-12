@@ -35,12 +35,12 @@ const template = `<watt-tabs>
   <watt-tab label="Third">Some awesome content for the third tab</watt-tab>
 </watt-tabs>`;
 
-export const tabs: Story<WattTabsComponent> = (args) => ({
+export const Tabs: Story<WattTabsComponent> = (args) => ({
   props: args,
   template,
 });
 
-tabs.parameters = {
+Tabs.parameters = {
   docs: {
     source: {
       code: template,
