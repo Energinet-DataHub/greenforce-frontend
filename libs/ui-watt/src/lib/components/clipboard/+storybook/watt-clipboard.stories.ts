@@ -14,27 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
 import { WattToastModule } from '../../toast/watt-toast.module';
 
 import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
 import { WattStorybookClipboardComponent } from './storybook-clipboard.component';
+import { importProvidersFrom } from '@angular/core';
 
 export default {
   title: 'Components/Clipboard',
   decorators: [
+    applicationConfig({
+      providers: [importProvidersFrom(WattToastModule.forRoot()), provideAnimations()],
+    }),
     moduleMetadata({
-      imports: [
-        WattToastModule.forRoot(),
-        BrowserAnimationsModule,
-        WattStorybookClipboardComponent,
-      ],
+      imports: [WattStorybookClipboardComponent],
     }),
   ],
 } as Meta<WattCopyToClipboardDirective>;
 
-export const Overview: Story<WattCopyToClipboardDirective> = (args) => ({
+export const Overview: StoryFn<WattCopyToClipboardDirective> = (args) => ({
   props: args,
   template: `<watt-storybook-clipboard></watt-storybook-clipboard>`,
 });

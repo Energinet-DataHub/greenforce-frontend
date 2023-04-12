@@ -27,7 +27,7 @@ import {
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PermissionDto, graphql } from '@energinet-datahub/dh/shared/domain';
 import { Apollo, QueryRef } from 'apollo-angular';
@@ -65,7 +65,7 @@ type MarketRole = ResultOf<
     WattCardModule,
     WattSpinnerModule,
     WATT_TABLE,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     TranslocoModule,
     LetModule,
   ],

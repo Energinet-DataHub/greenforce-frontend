@@ -1,6 +1,10 @@
 module.exports = {
-  core: { builder: 'webpack5' },
-  staticDirs: [{ from: '../src/assets', to: 'assets/ui-watt' }],
+  staticDirs: [
+    {
+      from: '../src/assets',
+      to: 'assets/ui-watt',
+    },
+  ],
   stories: [
     '../src/lib/intro.stories.mdx',
     '../src/lib/**/*.stories.mdx',
@@ -12,5 +16,13 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     'storybook-addon-pseudo-states',
+    '@storybook/addon-mdx-gfm',
   ],
+  framework: {
+    name: '@storybook/angular',
+    options: {},
+  },
+  docs: {
+    autodocs: true,
+  },
 };

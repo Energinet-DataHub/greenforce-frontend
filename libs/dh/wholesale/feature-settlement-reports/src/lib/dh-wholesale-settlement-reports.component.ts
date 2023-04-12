@@ -23,7 +23,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
@@ -51,7 +51,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
     LetModule,
     PushModule,
     TranslocoModule,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     WattSpinnerModule,
     WattTopBarComponent,
     WattCardModule,

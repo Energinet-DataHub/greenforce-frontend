@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 import { fireEvent, within } from '@storybook/testing-library';
 
 import { WattButtonModule } from '../../button';
@@ -84,7 +84,7 @@ const template = `
 <watt-button (click)="drawer.close()">Close drawer from outside of the drawer</watt-button>
 `;
 
-const Drawer: Story<WattDrawerComponent> = (args) => ({
+const Drawer: StoryFn<WattDrawerComponent> = (args) => ({
   props: args,
   template,
 });
@@ -120,7 +120,7 @@ Normal.args = { size: 'normal' };
 export const Large = Drawer.bind({});
 Large.args = { size: 'large' };
 
-export const Multiple: Story<WattDrawerComponent> = (args) => ({
+export const Multiple: StoryFn<WattDrawerComponent> = (args) => ({
   props: args,
   template: `
     <watt-drawer #first (closed)="closed()">
@@ -140,12 +140,12 @@ export const Multiple: Story<WattDrawerComponent> = (args) => ({
   `,
 });
 
-export const Loading: Story<WattDrawerComponent> = (args) => ({
+export const Loading: StoryFn<WattDrawerComponent> = (args) => ({
   props: args,
   template: `<watt-storybook-drawer-loading (closed)="closed()"></watt-storybook-drawer-loading>`,
 });
 
-export const WithModal: Story<WattDrawerComponent> = (args) => ({
+export const WithModal: StoryFn<WattDrawerComponent> = (args) => ({
   props: args,
   template: `
     <watt-modal #modal title="Much Overlay" closeLabel="Halp">

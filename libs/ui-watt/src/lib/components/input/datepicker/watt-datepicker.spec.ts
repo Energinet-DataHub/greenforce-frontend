@@ -24,10 +24,10 @@ import Meta, {
   initialValueSingle,
   initialValueRangeStart,
   initialValueRangeEnd_EndOfDay,
-  withFormControl as WithFormControl,
-  withInitialValue as WithInitialValue,
-  withValidations as WithValidations,
-  withFormControlDisabled as WithFormControlDisabled,
+  WithFormControl,
+  WithInitialValue,
+  WithValidations,
+  WithFormControlDisabled,
   WattDatepickerStoryConfig,
 } from './+storybook/watt-datepicker-reactive-forms.stories';
 import { danishTimeZoneIdentifier } from './watt-datepicker.component';
