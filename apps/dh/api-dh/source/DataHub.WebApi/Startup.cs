@@ -98,8 +98,8 @@ namespace Energinet.DataHub.WebApi
 
             var externalOpenIdUrl = Configuration.GetValue<string>("EXTERNAL_OPEN_ID_URL") ?? string.Empty;
             var internalOpenIdUrl = Configuration.GetValue<string>("INTERNAL_OPEN_ID_URL") ?? string.Empty;
-            var backendAppId = Configuration.GetValue<string>("BACKEND_SERVICE_APP_ID") ?? string.Empty;
-            services.AddJwtBearerAuthentication(externalOpenIdUrl, internalOpenIdUrl, backendAppId);
+            var backendBffAppId = Configuration.GetValue<string>("BACKEND_BFF_APP_ID") ?? string.Empty;
+            services.AddJwtBearerAuthentication(externalOpenIdUrl, internalOpenIdUrl, backendBffAppId);
 
             services.AddAuthorization(options =>
             {
