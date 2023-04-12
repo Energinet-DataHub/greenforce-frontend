@@ -24,9 +24,6 @@ import { WattButtonModule } from '@energinet-datahub-types/watt/button';
   templateUrl: './storybook-empty-state-overview.component.html',
   styleUrls: ['./storybook-empty-state-overview.component.scss'],
   standalone: true,
-  imports: [
-    WattEmptyStateComponent,
-    WattButtonModule
-  ]
+  imports: [WattEmptyStateComponent, WattButtonModule],
 })
 export class StorybookEmptyStateOverviewComponent {}

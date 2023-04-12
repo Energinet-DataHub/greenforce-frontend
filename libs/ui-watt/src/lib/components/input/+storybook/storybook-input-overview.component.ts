@@ -23,8 +23,6 @@ import { StorybookInputWrapperComponent } from './storybook-input-wrapper.compon
   styleUrls: ['./storybook-input-overview.component.scss'],
   templateUrl: './storybook-input-overview.component.html',
   standalone: true,
-  imports: [
-    StorybookInputWrapperComponent
-  ]
+  imports: [StorybookInputWrapperComponent],
 })
 export class StorybookInputOverviewComponent {}

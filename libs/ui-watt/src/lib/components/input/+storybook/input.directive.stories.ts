@@ -26,9 +26,7 @@ export default {
   component: StorybookInputWrapperComponent,
   decorators: [
     applicationConfig({
-      providers: [
-        provideAnimations()
-      ]
+      providers: [provideAnimations()],
     }),
     moduleMetadata({
       imports: [StorybookInputOverviewComponent],

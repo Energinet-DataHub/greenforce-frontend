@@ -29,9 +29,7 @@ export default {
   component: WattModalComponent,
   decorators: [
     applicationConfig({
-      providers: [
-        provideAnimations()
-      ]
+      providers: [provideAnimations()],
     }),
     moduleMetadata({
       imports: [
@@ -67,7 +65,7 @@ Small.args = {
 };
 
 export const Normal: Story<WattModalComponent> = (args) => ({
-  props: {...args, exampleFormControl: new FormControl(null)},
+  props: { ...args, exampleFormControl: new FormControl(null) },
   template: `
     <watt-button (click)="modal.open()">{{title}}</watt-button>
     <watt-modal #modal [title]="title" [size]="size" [disableClose]="disableClose" closeLabel="Close modal">
@@ -91,7 +89,7 @@ export const Normal: Story<WattModalComponent> = (args) => ({
 Normal.args = {
   title: 'Create User',
   size: 'normal',
-  disableClose: false
+  disableClose: false,
 };
 
 export const Large: Story<WattModalComponent> = (args) => ({

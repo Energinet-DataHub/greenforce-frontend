@@ -28,9 +28,7 @@ export default {
   component: WattExpandableCardComponent,
   decorators: [
     applicationConfig({
-      providers: [
-        provideAnimations()
-      ]
+      providers: [provideAnimations()],
     }),
     moduleMetadata({
       imports: [WattBadgeComponent, WATT_EXPANDABLE_CARD_COMPONENTS],
