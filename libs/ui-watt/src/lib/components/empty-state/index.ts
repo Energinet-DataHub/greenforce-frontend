@@ -14,5 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattEmptyStateModule } from './empty-state.module';
 export { WattEmptyStateComponent } from './empty-state.component';

@@ -16,12 +16,14 @@
  */
 import { render, screen } from '@testing-library/angular';
 import { composeStory, createMountableStoryComponent } from '@storybook/testing-angular';
+import userEvent from '@testing-library/user-event';
 
 import { WattTooltipDirective } from './watt-tooltip.directive';
 import Meta, { Overview } from './+storybook/watt-tooltip.stories';
-import userEvent from '@testing-library/user-event';
 
-const Story = composeStory(Overview, Meta);
+// TODO: Remove this when we have a better solution
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Story = composeStory(Overview as any, Meta as any);
 
 async function setup() {
   const { component, ngModule } = createMountableStoryComponent(Story({}, {} as never));

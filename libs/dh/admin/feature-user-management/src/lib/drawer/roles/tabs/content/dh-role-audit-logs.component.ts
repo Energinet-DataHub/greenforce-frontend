@@ -30,7 +30,7 @@ import {
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { MarketParticipantUserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
@@ -62,7 +62,7 @@ import { MarketParticipantUserRoleWithPermissionsDto } from '@energinet-datahub/
     TranslocoModule,
     WattCardModule,
     WattSpinnerModule,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     WATT_TABLE,
     DhSharedUiDateTimeModule,
   ],
