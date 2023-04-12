@@ -14,16 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { WattExpansionComponent, WattExpansionModule } from './../index';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export default {
   title: 'Components/Expansion Panel',
   decorators: [
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
     moduleMetadata({
-      imports: [BrowserAnimationsModule, WattExpansionModule],
+      imports: [WattExpansionModule],
     }),
   ],
   component: WattExpansionComponent,

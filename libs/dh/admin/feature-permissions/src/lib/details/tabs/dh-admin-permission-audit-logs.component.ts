@@ -32,7 +32,7 @@ import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { Subscription } from 'rxjs';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { PermissionAuditLog } from '../../permissionAuditLog';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
@@ -51,7 +51,7 @@ import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
     TranslocoModule,
     WattCardModule,
     WattSpinnerModule,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     WATT_TABLE,
     DhSharedUiDateTimeModule,
   ],

@@ -14,25 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { applicationConfig, Meta, moduleMetadata, Story } from '@storybook/angular';
+import { importProvidersFrom } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
-import { WattButtonModule } from '../../button/watt-button.module';
 import { WattEmptyStateComponent } from '../empty-state.component';
-import { WattEmptyStateModule } from '../empty-state.module';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+
 import { StorybookEmptyStateOverviewComponent } from './storybook-empty-state-overview.component';
-import { StorybookEmptyStateOverviewModule } from './storybook-empty-state-overview.module';
 
 export default {
   title: 'Components/Empty State',
   decorators: [
+    applicationConfig({
+      providers: [importProvidersFrom(HttpClientModule)],
+    }),
     moduleMetadata({
-      imports: [
-        StorybookEmptyStateOverviewModule,
-        WattEmptyStateModule,
-        WattButtonModule,
-        HttpClientModule,
-      ],
+      imports: [StorybookEmptyStateOverviewComponent, WattEmptyStateComponent, WattButtonModule],
     }),
   ],
   component: StorybookEmptyStateOverviewComponent,

@@ -14,13 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { Component, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattIconModule } from '../../../foundations/icon/icon.module';
+import { WattInputModule } from '../input.module';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'storybook-input-wrapper',
   styleUrls: ['./storybook-input-wrapper.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    WattFormFieldModule,
+    WattIconModule,
+    WattInputModule,
+    WattButtonModule,
+  ],
   template: `<watt-form-field>
     <watt-label>{{ label }}</watt-label>
     <watt-icon
