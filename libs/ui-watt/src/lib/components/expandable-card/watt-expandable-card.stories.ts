@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, Story, Meta, applicationConfig } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { WattBadgeComponent } from '../badge';
@@ -36,7 +36,7 @@ export default {
   ],
 } as Meta;
 
-export const Overview: Story<WattExpandableCardComponent> = (args) => ({
+export const Overview: StoryFn<WattExpandableCardComponent> = (args) => ({
   props: args,
   template: `
     <watt-expandable-card [expanded]="expanded">

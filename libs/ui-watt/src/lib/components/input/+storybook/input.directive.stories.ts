@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, Story, Meta, applicationConfig } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { StorybookInputWrapperComponent } from './storybook-input-wrapper.component';
 import StorybookInputOverviewDocs from './storybook-input-overview.mdx';
 import { StorybookInputOverviewComponent } from './storybook-input-overview.component';
-import { provideAnimations } from '@angular/platform-browser/animations';
 
 export default {
   title: 'Components/Text Field',
@@ -39,11 +39,11 @@ export default {
   },
 } as Meta<StorybookInputWrapperComponent>;
 
-const Template: Story<StorybookInputWrapperComponent> = (args) => ({
+const Template: StoryFn<StorybookInputWrapperComponent> = (args) => ({
   props: args,
 });
 
-const overviewTemplate: Story = () => ({
+const overviewTemplate: StoryFn = () => ({
   template: `<storybook-input-overview></storybook-input-overview>`,
 });
 

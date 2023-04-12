@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { moduleMetadata, Story, Meta, applicationConfig } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
 import { WattToastModule } from '../../toast/watt-toast.module';
 
 import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
@@ -34,7 +34,7 @@ export default {
   ],
 } as Meta<WattCopyToClipboardDirective>;
 
-export const Overview: Story<WattCopyToClipboardDirective> = (args) => ({
+export const Overview: StoryFn<WattCopyToClipboardDirective> = (args) => ({
   props: args,
   template: `<watt-storybook-clipboard></watt-storybook-clipboard>`,
 });
