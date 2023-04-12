@@ -22,8 +22,8 @@
 | [ngneat/transloco](https://github.com/ngneat/transloco) | 4.2.6 | MIT |
 | [ngrx/component-store](https://github.com/ngrx/platform) | 15.4.0 | MIT |
 | [popperjs/core](https://github.com/popperjs/popper-core) | 2.11.7 | MIT |
-| [rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 2.0.0 | MIT |
-| [rx-angular/template](https://github.com/rx-angular/rx-angular) | 2.0.0 | MIT |
+| [rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 14.0.0 | MIT |
+| [rx-angular/template](https://github.com/rx-angular/rx-angular) | 14.0.0 | MIT |
 | [vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
 | [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 4.2.1 | MIT |
 | [chart.js](https://github.com/chartjs/Chart.js) | 3.8.0 | MIT |
@@ -31,7 +31,7 @@
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 1.3.7 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.6.0 | MIT |
-| [include-media](https://github.com/eduardoboucas/include-media) | 1.4.10 | MIT |
+| [include-media](https://github.com/eduardoboucas/include-media) | 2.0.0 | MIT |
 | [inputmask](https://github.com/RobinHerbots/Inputmask) | 5.0.7 | MIT |
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 3.0.11 | ISC |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 6.0.0 | MIT |
