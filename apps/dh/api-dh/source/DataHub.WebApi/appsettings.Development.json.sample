@@ -6,6 +6,7 @@
       "Microsoft.Hosting.Lifetime": "Information"
     }
   },
+
   "ApiClientSettings": {
     "MeteringPointBaseUrl": "https://localhost:5001",
     "ChargesBaseUrl": "https://localhost:5001",
@@ -13,6 +14,9 @@
     "MarketParticipantBaseUrl": "https://localhost:5001",
     "MessageArchiveBaseUrl": "https://localhost:5001"
   },
+
   "B2C_TENANT_ID" : "B2C_TENANT_ID",
-  "FRONTEND_SERVICE_APP_ID" : "FRONTEND_SERVICE_APP_ID"
+  "BACKEND_BFF_APP_ID": "BACKEND_BFF_APP_ID",
+  "EXTERNAL_OPEN_ID_URL": "EXTERNAL_OPEN_ID_URL",
+  "INTERNAL_OPEN_ID_URL": "INTERNAL_OPEN_ID_URL"
 }
