@@ -18,7 +18,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApolloError } from '@apollo/client';
 import { translate, TranslocoModule } from '@ngneat/transloco';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -31,6 +31,7 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 
 import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
 import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
+import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
 
 @Component({
   selector: 'dh-admin-permission-overview',
@@ -48,15 +49,17 @@ import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-que
     DhEmDashFallbackPipeScam,
     WATT_TABLE,
     DhAdminPermissionDetailComponent,
+    DhSharedUiSearchComponent,
   ],
 })
 export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
-  private getPermissionsQuery = getPermissionsWatchQuery();
-  private subscription!: Subscription;
+  private destroy$ = new Subject<void>();
 
+  query = getPermissionsWatchQuery();
   permissions: PermissionDto[] = [];
   loading = false;
   error?: ApolloError;
+  searchTerm?: string;
 
   columns: WattTableColumnDef<PermissionDto> = {
     name: { accessor: 'name' },
@@ -70,7 +73,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   permissionDetail!: DhAdminPermissionDetailComponent;
 
   ngOnInit(): void {
-    this.subscription = this.getPermissionsQuery.valueChanges.subscribe({
+    this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (result) => {
         this.permissions = result.data?.permissions ?? [];
         this.loading = result.loading;
@@ -84,7 +87,8 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onRowClick(row: PermissionDto): void {
@@ -96,8 +100,13 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
     this.activeRow = undefined;
   }
 
-  refreshData(): void {
-    this.getPermissionsQuery.refetch();
+  search(searchTerm?: string): void {
+    this.searchTerm = searchTerm;
+    this.refresh();
+  }
+
+  refresh(): void {
+    this.query.refetch({ searchTerm: this.searchTerm || undefined });
   }
 
   exportAsCsv(): void {

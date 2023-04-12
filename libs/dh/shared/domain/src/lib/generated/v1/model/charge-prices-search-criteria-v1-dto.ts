@@ -21,5 +21,8 @@ export interface ChargePricesSearchCriteriaV1Dto {
     skip: number;
     take: number;
 }
+export namespace ChargePricesSearchCriteriaV1Dto {
+}
+
 
 

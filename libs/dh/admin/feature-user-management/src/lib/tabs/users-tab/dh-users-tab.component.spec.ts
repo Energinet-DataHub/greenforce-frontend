@@ -33,7 +33,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 
 import { DhUsersTabComponent } from './dh-users-tab.component';
-import { searchDebounceTimeMs } from './dh-users-tab-search.component';
+import { searchDebounceTimeMs } from '@energinet-datahub/dh/shared/ui-search';
 
 const users: MarketParticipantUserOverviewItemDto[] = [
   {

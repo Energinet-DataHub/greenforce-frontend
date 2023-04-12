@@ -25,7 +25,8 @@
       "previous": "Previous page",
       "ariaLabel": "Select page"
     },
-    "download": "Download"
+    "download": "Download",
+    "search": "Search"
   },
   "clipboard": {
     "success": "Copied to clipboard",

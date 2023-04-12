@@ -20,5 +20,8 @@ export interface MeteringPointSimpleCimDto {
     meteringPointType: MeteringPointType;
     effectiveDate: string;
 }
+export namespace MeteringPointSimpleCimDto {
+}
+
 
 
