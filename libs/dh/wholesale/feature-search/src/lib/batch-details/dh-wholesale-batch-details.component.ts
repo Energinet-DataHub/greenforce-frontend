@@ -28,7 +28,7 @@ import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
@@ -50,7 +50,7 @@ import { Subscription, takeUntil } from 'rxjs';
     WattDrawerModule,
     ...WATT_BREADCRUMBS,
     WattSpinnerModule,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     DhEmDashFallbackPipeScam,

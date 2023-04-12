@@ -45,13 +45,13 @@ exampleModel = true;
 
 <watt-checkbox [(ngModel)]="exampleModel">Keep me signed in</watt-checkbox>`;
 
-export const withModel: Story<WattCheckboxComponent> = () => ({
+export const WithModel: Story<WattCheckboxComponent> = () => ({
   props: {
     exampleModel: true,
   },
   template: `<watt-checkbox [(ngModel)]="exampleModel">Keep me signed in</watt-checkbox>`,
 });
-withModel.parameters = {
+WithModel.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
