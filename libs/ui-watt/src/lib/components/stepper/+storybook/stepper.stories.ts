@@ -30,12 +30,12 @@ export default {
 
 const template = `<watt-stepper-example></watt-stepper-example>`;
 
-export const stepper: Story = (args) => ({
+export const Stepper: Story = (args) => ({
   props: args,
   template,
 });
 
-stepper.parameters = {
+Stepper.parameters = {
   docs: {
     source: {
       code: template,

@@ -15,11 +15,14 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
+import { StorybookInputWrapperComponent } from './storybook-input-wrapper.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'storybook-input-overview',
   styleUrls: ['./storybook-input-overview.component.scss'],
   templateUrl: './storybook-input-overview.component.html',
+  standalone: true,
+  imports: [StorybookInputWrapperComponent],
 })
 export class StorybookInputOverviewComponent {}

@@ -29,7 +29,7 @@ export default {
   ],
 } as Meta<WattCardComponent>;
 
-export const withTitle: Story<WattCardComponent> = (args) => ({
+export const WithTitle: Story<WattCardComponent> = (args) => ({
   props: args,
   template: `
   <watt-card>
@@ -42,9 +42,9 @@ export const withTitle: Story<WattCardComponent> = (args) => ({
   `,
 });
 
-withTitle.args = {};
+WithTitle.args = {};
 
-export const withoutTitle: Story<WattCardComponent> = (args) => ({
+export const WithoutTitle: Story<WattCardComponent> = (args) => ({
   props: args,
   template: `
   <watt-card>
@@ -53,9 +53,9 @@ export const withoutTitle: Story<WattCardComponent> = (args) => ({
   `,
 });
 
-withoutTitle.args = {};
+WithoutTitle.args = {};
 
-export const cardWithVariant: Story<WattCardComponent> = (args) => ({
+export const CardWithVariant: Story<WattCardComponent> = (args) => ({
   props: args,
   template: `
   <watt-card variant="${args.variant}">
@@ -68,6 +68,6 @@ export const cardWithVariant: Story<WattCardComponent> = (args) => ({
   `,
 });
 
-cardWithVariant.args = {
+CardWithVariant.args = {
   variant: 'solid',
 };

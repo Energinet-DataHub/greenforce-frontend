@@ -47,8 +47,8 @@ const Template: Story<WattShellComponent> = (args) => ({
 });
 
 //👇 Each story then reuses that template
-export const shell = Template.bind({});
-shell.storyName = 'Empty';
+export const Shell = Template.bind({});
+Shell.storyName = 'Empty';
 
 const withContentTemplate = `
 <watt-shell>
@@ -64,11 +64,11 @@ const withContentTemplate = `
 </watt-shell>
 `;
 
-export const withContent = () => ({
+export const WithContent = () => ({
   template: withContentTemplate,
 });
-withContent.storyName = 'With content';
-withContent.parameters = {
+WithContent.storyName = 'With content';
+WithContent.parameters = {
   docs: {
     source: {
       code: withContentTemplate,
@@ -112,11 +112,11 @@ function generateComponent(template: string) {
   return StorybookPageComponent;
 }
 
-export const withSidebarNavigation = () => ({
+export const WithSidebarNavigation = () => ({
   template: withSidebarNavigationTemplate,
 });
-withSidebarNavigation.storyName = 'With sidebar navigation';
-withSidebarNavigation.decorators = [
+WithSidebarNavigation.storyName = 'With sidebar navigation';
+WithSidebarNavigation.decorators = [
   moduleMetadata({
     imports: [
       RouterTestingModule.withRoutes([
@@ -146,7 +146,7 @@ withSidebarNavigation.decorators = [
     ],
   }),
 ];
-withSidebarNavigation.parameters = {
+WithSidebarNavigation.parameters = {
   docs: {
     source: {
       code: withSidebarNavigationTemplate,
@@ -173,11 +173,11 @@ const withTopBarTemplate = `
 </watt-shell>
 `;
 
-export const withTopBar = () => ({
+export const WithTopBar = () => ({
   template: withTopBarTemplate,
 });
-withTopBar.storyName = 'With top bar';
-withTopBar.decorators = [
+WithTopBar.storyName = 'With top bar';
+WithTopBar.decorators = [
   moduleMetadata({
     imports: [
       RouterTestingModule.withRoutes([
@@ -211,7 +211,7 @@ withTopBar.decorators = [
     ],
   }),
 ];
-withTopBar.parameters = {
+WithTopBar.parameters = {
   docs: {
     source: {
       code: `

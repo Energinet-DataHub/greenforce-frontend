@@ -38,8 +38,8 @@ const statesTemplate: Story = () => ({
   </watt-card>`,
 });
 
-export const states = statesTemplate.bind({});
-states.parameters = {
+export const States = statesTemplate.bind({});
+States.parameters = {
   docs: { disable: true },
   pseudo: {
     hover: ['.hover'],
