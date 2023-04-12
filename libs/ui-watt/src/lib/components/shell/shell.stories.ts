@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-import { APP_INITIALIZER, Component } from '@angular/core';
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { APP_INITIALIZER, Component, importProvidersFrom } from '@angular/core';
+import { Meta, StoryFn, applicationConfig, moduleMetadata } from '@storybook/angular';
 import { APP_BASE_HREF } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { Router, RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { WattNavListComponent, WattNavListItemComponent } from './nav-list';
@@ -30,19 +30,23 @@ export default {
   title: 'Components/Shell',
   component: WattShellComponent,
   decorators: [
+    applicationConfig({
+      providers: [provideAnimations(), importProvidersFrom(RouterTestingModule)],
+    }),
     moduleMetadata({
       imports: [
-        RouterTestingModule,
-        BrowserAnimationsModule,
+        RouterModule,
         WattShellComponent,
         WattTopBarOutletComponent,
+        WattNavListComponent,
+        WattNavListItemComponent,
       ],
     }),
   ],
 } as Meta<WattShellComponent>;
 
 //👇 We create a “template” of how args map to rendering
-const Template: Story<WattShellComponent> = (args) => ({
+const Template: StoryFn<WattShellComponent> = (args) => ({
   props: args,
 });
 
@@ -117,20 +121,23 @@ export const WithSidebarNavigation = () => ({
 });
 WithSidebarNavigation.storyName = 'With sidebar navigation';
 WithSidebarNavigation.decorators = [
-  moduleMetadata({
-    imports: [
-      RouterTestingModule.withRoutes([
-        { path: '', redirectTo: 'menu-2', pathMatch: 'full' },
-        { path: 'menu-1', component: generateComponent('Page 1') },
-        { path: 'menu-2', component: generateComponent('Page 2') },
-        { path: 'menu-3', component: generateComponent('Page 3') },
-        { path: 'menu-4', component: generateComponent('Page 4') },
-        { path: 'menu-5', component: generateComponent('Page 5') },
-        { path: 'menu-6', component: generateComponent('Page 6') },
-      ]),
-      WattNavListComponent,
-      WattNavListItemComponent,
+  applicationConfig({
+    providers: [
+      importProvidersFrom(
+        RouterTestingModule.withRoutes([
+          { path: '', redirectTo: 'menu-2', pathMatch: 'full' },
+          { path: 'menu-1', component: generateComponent('Page 1') },
+          { path: 'menu-2', component: generateComponent('Page 2') },
+          { path: 'menu-3', component: generateComponent('Page 3') },
+          { path: 'menu-4', component: generateComponent('Page 4') },
+          { path: 'menu-5', component: generateComponent('Page 5') },
+          { path: 'menu-6', component: generateComponent('Page 6') },
+        ])
+      ),
     ],
+  }),
+  moduleMetadata({
+    imports: [WattNavListComponent, WattNavListItemComponent],
     providers: [
       {
         provide: APP_BASE_HREF,
@@ -178,24 +185,27 @@ export const WithTopBar = () => ({
 });
 WithTopBar.storyName = 'With top bar';
 WithTopBar.decorators = [
-  moduleMetadata({
-    imports: [
-      RouterTestingModule.withRoutes([
-        { path: '', redirectTo: 'with-top-bar', pathMatch: 'full' },
-        {
-          path: 'with-top-bar',
-          component: generateComponent(
-            '<watt-top-bar>Top Bar</watt-top-bar> This page has a top bar'
-          ),
-        },
-        {
-          path: 'without-top-bar',
-          component: generateComponent('This page does not have a top bar'),
-        },
-      ]),
-      WattNavListComponent,
-      WattNavListItemComponent,
+  applicationConfig({
+    providers: [
+      importProvidersFrom(
+        RouterTestingModule.withRoutes([
+          { path: '', redirectTo: 'with-top-bar', pathMatch: 'full' },
+          {
+            path: 'with-top-bar',
+            component: generateComponent(
+              '<watt-top-bar>Top Bar</watt-top-bar> This page has a top bar'
+            ),
+          },
+          {
+            path: 'without-top-bar',
+            component: generateComponent('This page does not have a top bar'),
+          },
+        ])
+      ),
     ],
+  }),
+  moduleMetadata({
+    imports: [WattNavListComponent, WattNavListItemComponent],
     providers: [
       {
         provide: APP_BASE_HREF,
