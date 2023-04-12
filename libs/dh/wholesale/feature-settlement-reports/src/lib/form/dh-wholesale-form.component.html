@@ -56,7 +56,7 @@ limitations under the License.
     <watt-label>{{ transloco("actor") }}</watt-label>
     <watt-dropdown
       formControlName="actor"
-      [options]="actorOptions"
+      [options]="actors"
       [placeholder]="
         filters.controls.actor.disabled ? transloco('loadingActors') : transloco('actorPlaceholder')
       "

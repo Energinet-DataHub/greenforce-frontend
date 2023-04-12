@@ -18,11 +18,13 @@ namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class Actor
     {
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; } = Guid.Empty;
 
-        public string? Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         public string Number { get; set; }
+
+        public string[] GridAreaCodes { get; set; } = Array.Empty<string>();
 
         public Actor(string number)
         {
