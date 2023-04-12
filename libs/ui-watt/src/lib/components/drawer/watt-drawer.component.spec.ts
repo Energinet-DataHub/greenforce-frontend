@@ -17,13 +17,15 @@
 import { render, screen, waitFor } from '@testing-library/angular';
 import { composeStories, createMountableStoryComponent } from '@storybook/testing-angular';
 import { EventEmitter } from '@angular/core';
-import { Story } from '@storybook/angular';
+import { StoryFn } from '@storybook/angular';
 import userEvent from '@testing-library/user-event';
 
 import { WattDrawerComponent } from './watt-drawer.component';
 import * as drawerStories from './+storybook/watt-drawer.stories';
 
-const { Normal: Drawer, Multiple, Loading } = composeStories(drawerStories);
+// TODO: Remove this when we have a better solution
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const { Normal: Drawer, Multiple, Loading } = composeStories(drawerStories as any) as any;
 
 describe(WattDrawerComponent.name, () => {
   // Queries
@@ -52,7 +54,7 @@ describe(WattDrawerComponent.name, () => {
 
   // Setup
   async function setup(
-    story: Story<Partial<WattDrawerComponent>>,
+    story: StoryFn<Partial<WattDrawerComponent>>,
     args?: Partial<WattDrawerComponent>
   ) {
     const { component, ngModule } = createMountableStoryComponent(

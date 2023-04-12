@@ -20,7 +20,9 @@ import userEvent from '@testing-library/user-event';
 
 import * as toastStories from './+storybook/watt-toast.stories';
 
-const { Overview } = composeStories(toastStories);
+// TODO: Remove this when we have a better solution
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const { Overview } = composeStories(toastStories as any) as any;
 
 describe('Toast', () => {
   const getOpenToastButton = async () => screen.getByRole('button', { name: /Open toast/ });
