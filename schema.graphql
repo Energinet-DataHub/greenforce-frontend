@@ -64,6 +64,17 @@ enum BatchState {
   PENDING
 }
 
+input CreateBatchInput {
+  """The grid areas to be included in the batch."""
+  gridAreaCodes: [String!]!
+
+  """The period for the batch."""
+  period: DateRange!
+
+  """The process type for the batch."""
+  processType: ProcessType!
+}
+
 scalar DateRange
 
 """
@@ -89,6 +100,10 @@ enum EicFunction {
 }
 
 type GraphQLMutation {
+  createBatch(
+    """Batch to create"""
+    input: CreateBatchInput!
+  ): Batch!
   updatePermission(
     """Permission to update"""
     input: UpdatePermissionInput!
