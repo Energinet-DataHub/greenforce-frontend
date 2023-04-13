@@ -17,7 +17,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 @Component({
@@ -35,7 +35,7 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
       }}</watt-button>
     </watt-empty-state>
   `,
-  imports: [TranslocoModule, WattButtonModule, WattEmptyStateModule],
+  imports: [TranslocoModule, WattButtonModule, WattEmptyStateComponent],
 })
 export class DhTabDataGeneralErrorComponent {
   @Output() reload = new EventEmitter<void>();

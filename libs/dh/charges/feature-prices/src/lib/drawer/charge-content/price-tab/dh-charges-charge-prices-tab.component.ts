@@ -46,7 +46,7 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { zonedTimeToUtc } from 'date-fns-tz';
@@ -60,7 +60,7 @@ import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
     DhDrawerDatepickerComponent,
     WattIconModule,
     WattButtonModule,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     WattTooltipDirective,
     WattSpinnerModule,
     TranslocoModule,

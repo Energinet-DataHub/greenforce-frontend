@@ -16,7 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
@@ -27,7 +27,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 export class DhChargesNotFoundComponent {}
 
 @NgModule({
-  imports: [CommonModule, TranslocoModule, WattEmptyStateModule],
+  imports: [CommonModule, TranslocoModule, WattEmptyStateComponent],
   declarations: [DhChargesNotFoundComponent],
   exports: [DhChargesNotFoundComponent],
 })

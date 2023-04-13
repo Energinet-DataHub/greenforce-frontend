@@ -16,16 +16,18 @@
  */
 import { composeStory, createMountableStoryComponent } from '@storybook/testing-angular';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/angular';
-import { Story } from '@storybook/angular';
+import { StoryFn } from '@storybook/angular';
 import userEvent from '@testing-library/user-event';
 
 import Meta, { Overview } from './watt-breadcrumbs.stories';
 import { WattBreadcrumbsComponent } from './watt-breadcrumbs.component';
 
-const overviewStory = composeStory(Overview, Meta);
+// TODO: Remove this when we have a better solution
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const overviewStory = composeStory(Overview as any, Meta as any) as unknown as StoryFn;
 
 describe(WattBreadcrumbsComponent.name, () => {
-  async function setup(story: Story, clickSpy?: unknown) {
+  async function setup(story: StoryFn, clickSpy?: unknown) {
     const { component, ngModule } = createMountableStoryComponent(
       story({ onClick: clickSpy }, {} as never)
     );
