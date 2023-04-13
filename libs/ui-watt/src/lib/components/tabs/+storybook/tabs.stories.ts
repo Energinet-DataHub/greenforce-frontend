@@ -19,7 +19,7 @@ import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattTabsComponent, WattTabComponent } from './../index';
 
-export default {
+const meta: Meta<WattTabsComponent> = {
   title: 'Components/Tabs',
   decorators: [
     moduleMetadata({
@@ -27,7 +27,9 @@ export default {
     }),
   ],
   component: WattTabsComponent,
-} as Meta<WattTabsComponent>;
+};
+
+export default meta;
 
 const template = `<watt-tabs>
   <watt-tab label="First">Some awesome content for the first tab</watt-tab>

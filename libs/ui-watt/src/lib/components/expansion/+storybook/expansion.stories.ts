@@ -19,7 +19,7 @@ import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/ang
 import { WattExpansionComponent, WattExpansionModule } from './../index';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
-export default {
+const meta: Meta<WattExpansionComponent> = {
   title: 'Components/Expansion Panel',
   decorators: [
     applicationConfig({
@@ -30,7 +30,9 @@ export default {
     }),
   ],
   component: WattExpansionComponent,
-} as Meta<WattExpansionComponent>;
+};
+
+export default meta;
 
 const template: StoryFn<WattExpansionComponent> = (args) => ({
   props: args,

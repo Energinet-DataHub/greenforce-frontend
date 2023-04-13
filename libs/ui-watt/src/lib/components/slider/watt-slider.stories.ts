@@ -19,7 +19,7 @@ import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 import { WattSliderComponent } from './watt-slider.component';
 import { WattSliderModule } from './watt-slider.module';
 
-export default {
+const meta: Meta<WattSliderComponent> = {
   title: 'Components/Slider',
   component: WattSliderComponent,
   decorators: [
@@ -27,7 +27,9 @@ export default {
       imports: [WattSliderModule],
     }),
   ],
-} as Meta<WattSliderComponent>;
+};
+
+export default meta;
 
 export const Overview: StoryFn<WattSliderComponent> = (args) => ({
   props: args,

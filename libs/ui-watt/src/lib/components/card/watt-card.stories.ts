@@ -19,7 +19,7 @@ import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 import { WattCardModule } from './watt-card.module';
 import { WattCardComponent } from './watt-card.component';
 
-export default {
+const meta: Meta<WattCardComponent> = {
   title: 'Components/Card',
   component: WattCardComponent,
   decorators: [
@@ -27,7 +27,9 @@ export default {
       imports: [WattCardModule],
     }),
   ],
-} as Meta<WattCardComponent>;
+};
+
+export default meta;
 
 export const WithTitle: StoryFn<WattCardComponent> = (args) => ({
   props: args,

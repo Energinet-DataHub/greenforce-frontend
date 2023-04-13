@@ -18,10 +18,12 @@ import { Meta, StoryFn } from '@storybook/angular';
 
 import { WattBadgeComponent } from './watt-badge.component';
 
-export default {
+const meta: Meta<WattBadgeComponent> = {
   title: 'Components/Badge',
   component: WattBadgeComponent,
-} as Meta<WattBadgeComponent>;
+};
+
+export default meta;
 
 const Template: StoryFn<WattBadgeComponent> = (args) => ({
   props: args,

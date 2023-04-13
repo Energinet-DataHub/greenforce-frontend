@@ -19,7 +19,7 @@ import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 import { WattChipsComponent } from './watt-chips.component';
 import { WattChipsModule } from './watt-chips.module';
 
-export default {
+const meta: Meta<WattChipsComponent> = {
   title: 'Components/Chips',
   component: WattChipsComponent,
   decorators: [
@@ -27,7 +27,9 @@ export default {
       imports: [WattChipsModule],
     }),
   ],
-} as Meta<WattChipsComponent>;
+};
+
+export default meta;
 
 export const Overview: StoryFn<WattChipsComponent> = (args) => ({
   props: args,

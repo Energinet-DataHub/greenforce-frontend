@@ -20,7 +20,7 @@ import { typographyHtmlSnippets } from './shared/typography-html-snippets';
 import { StorybookTypographyOverviewComponent } from './storybook-typography-overview.component';
 import { StorybookTypographyOverviewModule } from './storybook-typography-overview.module';
 
-export default {
+const meta: Meta<StorybookTypographyOverviewComponent> = {
   title: 'Foundations/Typography',
   component: StorybookTypographyOverviewComponent,
   decorators: [
@@ -28,7 +28,9 @@ export default {
       imports: [StorybookTypographyOverviewModule],
     }),
   ],
-} as Meta<StorybookTypographyOverviewComponent>;
+};
+
+export default meta;
 
 //👇 We create a “template” of how args map to rendering
 const Template: StoryFn<StorybookTypographyOverviewComponent> = (args) => ({

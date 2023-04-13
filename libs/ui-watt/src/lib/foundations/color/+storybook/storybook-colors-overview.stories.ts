@@ -19,7 +19,7 @@ import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 import { StorybookColorsOverviewComponent } from './storybook-colors-overview.component';
 import { StorybookColorsOverviewModule } from './storybook-colors-overview.module';
 
-export default {
+const meta: Meta<StorybookColorsOverviewComponent> = {
   title: 'Foundations/Colors',
   component: StorybookColorsOverviewComponent,
   decorators: [
@@ -27,7 +27,9 @@ export default {
       imports: [StorybookColorsOverviewModule],
     }),
   ],
-} as Meta<StorybookColorsOverviewComponent>;
+};
+
+export default meta;
 
 //👇 We create a “template” of how args map to rendering
 const Template: StoryFn<StorybookColorsOverviewComponent> = (args) => ({

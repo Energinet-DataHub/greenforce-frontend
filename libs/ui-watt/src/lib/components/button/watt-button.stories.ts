@@ -19,11 +19,13 @@ import { StorybookButtonOverviewModule } from './+storybook/storybook-button-ove
 import { WattButtonComponent } from './watt-button.component';
 import { WattButtonModule } from './watt-button.module';
 
-export default {
+const meta: Meta<WattButtonComponent> = {
   title: 'Components/Button',
   component: WattButtonComponent,
   decorators: [moduleMetadata({ imports: [WattButtonModule] })],
-} as Meta<WattButtonComponent>;
+};
+
+export default meta;
 
 const howToUseGuide = `
 1. Import ${WattButtonModule.name} in a module

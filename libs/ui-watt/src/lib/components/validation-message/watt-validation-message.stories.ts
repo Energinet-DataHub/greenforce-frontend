@@ -19,7 +19,7 @@ import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { WattValidationMessageComponent } from './watt-validation-message.component';
 import { WattValidationMessageModule } from './watt-validation-message.module';
 
-export default {
+const meta: Meta<WattValidationMessageComponent> = {
   title: 'Components/Validation Message',
   component: WattValidationMessageComponent,
   decorators: [
@@ -27,7 +27,9 @@ export default {
       imports: [WattValidationMessageModule],
     }),
   ],
-} as Meta<WattValidationMessageComponent>;
+};
+
+export default meta;
 
 const howToUseGuideBasic = `
 How to use

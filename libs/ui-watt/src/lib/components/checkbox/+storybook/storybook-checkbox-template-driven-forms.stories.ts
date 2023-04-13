@@ -20,7 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { WattCheckboxModule } from '../watt-checkbox.module';
 import { WattCheckboxComponent } from '../watt-checkbox.component';
 
-export default {
+const meta: Meta<WattCheckboxComponent> = {
   title: 'Components/Checkbox/Template-Driven Forms',
   component: WattCheckboxComponent,
   decorators: [
@@ -28,7 +28,9 @@ export default {
       imports: [FormsModule, WattCheckboxModule],
     }),
   ],
-} as Meta<WattCheckboxComponent>;
+};
+
+export default meta;
 
 const howToUseGuideBasic = `
 How to use

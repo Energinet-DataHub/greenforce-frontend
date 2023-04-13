@@ -31,7 +31,7 @@ const dropdownOptions: WattDropdownOption[] = [
   { value: 'joules', displayValue: 'Joules' },
 ];
 
-export default {
+const meta: Meta<WattDropdownComponent> = {
   title: 'Components/Dropdown/Template-driven Forms',
   component: WattDropdownComponent,
   decorators: [
@@ -39,7 +39,9 @@ export default {
       imports: [FormsModule, BrowserAnimationsModule, WattDropdownModule, WattFormFieldModule],
     }),
   ],
-} as Meta<WattDropdownComponent>;
+};
+
+export default meta;
 
 const howToUseGuideBasic = `
  How to use

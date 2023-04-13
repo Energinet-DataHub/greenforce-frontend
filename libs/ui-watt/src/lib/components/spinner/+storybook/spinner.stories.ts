@@ -18,7 +18,7 @@ import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattSpinnerComponent, WattSpinnerModule } from './../index';
 
-export default {
+const meta: Meta<WattSpinnerComponent> = {
   title: 'Components/Spinner',
   decorators: [
     moduleMetadata({
@@ -26,7 +26,9 @@ export default {
     }),
   ],
   component: WattSpinnerComponent,
-} as Meta<WattSpinnerComponent>;
+};
+
+export default meta;
 
 export const Spinner: StoryFn<WattSpinnerComponent> = (args) => ({
   props: args,

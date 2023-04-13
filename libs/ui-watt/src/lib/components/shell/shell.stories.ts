@@ -26,7 +26,7 @@ import { WattNavListComponent, WattNavListItemComponent } from './nav-list';
 import { WattShellComponent } from './shell.component';
 import { WattTopBarComponent, WattTopBarOutletComponent } from './top-bar';
 
-export default {
+const meta: Meta<WattShellComponent> = {
   title: 'Components/Shell',
   component: WattShellComponent,
   decorators: [
@@ -43,7 +43,9 @@ export default {
       ],
     }),
   ],
-} as Meta<WattShellComponent>;
+};
+
+export default meta;
 
 //👇 We create a “template” of how args map to rendering
 const Template: StoryFn<WattShellComponent> = (args) => ({

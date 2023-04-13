@@ -20,7 +20,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { StorybookInputWrapperComponent } from './storybook-input-wrapper.component';
 import { StorybookInputOverviewComponent } from './storybook-input-overview.component';
 
-export default {
+const meta: Meta<StorybookInputWrapperComponent> = {
   title: 'Components/Text Field',
   component: StorybookInputWrapperComponent,
   decorators: [
@@ -31,7 +31,9 @@ export default {
       imports: [StorybookInputOverviewComponent],
     }),
   ],
-} as Meta<StorybookInputWrapperComponent>;
+};
+
+export default meta;
 
 const Template: StoryFn<StorybookInputWrapperComponent> = (args) => ({
   props: args,

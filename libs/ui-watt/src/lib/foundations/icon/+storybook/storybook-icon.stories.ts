@@ -24,7 +24,7 @@ import { importProvidersFrom } from '@angular/core';
 
 const defaultIconSize: WattIconSize = 'm';
 
-export default {
+const meta: Meta<WattIconComponent> = {
   title: 'Foundations/Icons',
   decorators: [
     applicationConfig({
@@ -35,7 +35,9 @@ export default {
     }),
   ],
   component: WattIconComponent,
-} as Meta<WattIconComponent>;
+};
+
+export default meta;
 
 //👇 We create a “template” of how args map to rendering
 const Template: StoryFn<WattIconComponent> = (args) => ({

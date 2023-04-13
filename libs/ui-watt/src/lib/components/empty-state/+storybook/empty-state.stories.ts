@@ -22,7 +22,7 @@ import { WattEmptyStateComponent } from '../empty-state.component';
 import { WattButtonModule } from '../../button';
 import { StorybookEmptyStateOverviewComponent } from './storybook-empty-state-overview.component';
 
-export default {
+const meta: Meta<StorybookEmptyStateOverviewComponent> = {
   title: 'Components/Empty State',
   decorators: [
     applicationConfig({
@@ -33,7 +33,9 @@ export default {
     }),
   ],
   component: StorybookEmptyStateOverviewComponent,
-} as Meta<StorybookEmptyStateOverviewComponent>;
+};
+
+export default meta;
 
 export const Overview: StoryFn<StorybookEmptyStateOverviewComponent> = (args) => ({
   props: args,

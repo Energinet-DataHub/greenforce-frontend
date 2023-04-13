@@ -25,7 +25,7 @@ import { WattModalModule } from './watt-modal.module';
 import { WattModalComponent } from './watt-modal.component';
 import { WattTooltipDirective } from '../tooltip';
 
-export default {
+const meta: Meta<WattModalComponent> = {
   title: 'Components/Modal',
   component: WattModalComponent,
   decorators: [
@@ -43,7 +43,9 @@ export default {
       ],
     }),
   ],
-} as Meta<WattModalComponent>;
+};
+
+export default meta;
 
 export const Small: StoryFn<WattModalComponent> = (args) => ({
   props: args,

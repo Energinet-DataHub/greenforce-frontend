@@ -21,7 +21,7 @@ import { WattCheckboxStatesModule } from './storybook-checkbox-states.module';
 import { WattCheckboxModule } from '../watt-checkbox.module';
 import { WattCardModule } from '../../card';
 
-export default {
+const meta: Meta<WattCheckboxComponent> = {
   title: 'Components/Checkbox',
   component: WattCheckboxComponent,
   decorators: [
@@ -29,7 +29,9 @@ export default {
       imports: [WattCheckboxModule, WattCheckboxStatesModule, WattCardModule],
     }),
   ],
-} as Meta<WattCheckboxComponent>;
+};
+
+export default meta;
 
 const statesTemplate: StoryFn = () => ({
   template: `
