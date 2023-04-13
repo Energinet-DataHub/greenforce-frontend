@@ -24,6 +24,7 @@ import * as toastStories from './+storybook/watt-toast.stories';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const { Overview } = composeStories(toastStories as any) as any;
 
+// NOTE: Skipped because of errors in `@storybook/testing-angular` package
 describe.skip('Toast', () => {
   const getOpenToastButton = async () => screen.getByRole('button', { name: /Open toast/ });
   const getToast = async () =>
