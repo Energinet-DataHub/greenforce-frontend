@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Story } from '@storybook/angular';
+import { StoryFn } from '@storybook/angular';
 import { composeStory, createMountableStoryComponent } from '@storybook/testing-angular';
 import { fireEvent, render, screen, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
@@ -24,18 +24,26 @@ import Meta, {
   initialValueSingle,
   initialValueRangeStart,
   initialValueRangeEnd_EndOfDay,
-  withFormControl as WithFormControl,
-  withInitialValue as WithInitialValue,
-  withValidations as WithValidations,
-  withFormControlDisabled as WithFormControlDisabled,
+  WithFormControl,
+  WithInitialValue,
+  WithValidations,
+  WithFormControlDisabled,
   WattDatepickerStoryConfig,
 } from './+storybook/watt-datepicker-reactive-forms.stories';
 import { danishTimeZoneIdentifier } from './watt-datepicker.component';
+import { StorybookConfigurationLocalizationModule } from '../+storybook/storybook-configuration-localization.module';
+import { importProvidersFrom } from '@angular/core';
 
-const withFormControl = composeStory(WithFormControl, Meta);
-const withInitialValue = composeStory(WithInitialValue, Meta);
-const withValidations = composeStory(WithValidations, Meta);
-const withFormControlDisabled = composeStory(WithFormControlDisabled, Meta);
+// TODO: Remove this when we have a better solution
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const withFormControl = composeStory(WithFormControl as any, Meta as any) as unknown as StoryFn;
+const withInitialValue = composeStory(WithInitialValue as any, Meta as any) as unknown as StoryFn;
+const withValidations = composeStory(WithValidations as any, Meta as any) as unknown as StoryFn;
+const withFormControlDisabled = composeStory(
+  WithFormControlDisabled as any,
+  Meta as any
+) as unknown as StoryFn;
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 const defaultOutputSingle = '""';
 const defaultOutputRange = '{ "start": "", "end": "" }';
@@ -50,11 +58,14 @@ describe('Datepicker', () => {
   const displayDateFormat = 'dd-MM-yyyy';
   const pasteDateFormat = 'yyyy-MM-dd';
 
-  async function setup(story: Story<Partial<WattDatepickerStoryConfig>>) {
+  async function setup(story: StoryFn<Partial<WattDatepickerStoryConfig>>) {
     const { component, ngModule } = createMountableStoryComponent(
       story({ disableAnimations: true, ...story }, {} as never)
     );
-    const { fixture } = await render(component, { imports: [ngModule] });
+    const { fixture } = await render(component, {
+      imports: [ngModule],
+      providers: [importProvidersFrom(StorybookConfigurationLocalizationModule.forRoot())],
+    });
 
     const dateInput: HTMLInputElement = screen.getByRole('textbox', {
       name: /^date-input/i,

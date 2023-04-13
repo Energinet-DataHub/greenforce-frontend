@@ -38,7 +38,7 @@ import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import {
   WattTableComponent,
   WattTableColumnDef,
@@ -70,7 +70,7 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
     MatSortModule,
     WattIconModule,
     WattTableComponent,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     WattButtonModule,
     WattBadgeComponent,
     DhSharedUiDateTimeModule,

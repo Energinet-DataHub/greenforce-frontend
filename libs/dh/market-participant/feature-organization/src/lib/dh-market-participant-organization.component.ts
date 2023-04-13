@@ -21,7 +21,7 @@ import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { Router } from '@angular/router';
 import {
@@ -111,7 +111,7 @@ export class DhMarketParticipantOrganizationComponent {
     LetModule,
     TranslocoModule,
     WattButtonModule,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     WattSpinnerModule,
     WattTabComponent,
     WattTabsComponent,
