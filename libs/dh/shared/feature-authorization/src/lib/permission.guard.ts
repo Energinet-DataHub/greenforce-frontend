@@ -16,7 +16,7 @@
  */
 
 import { inject } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { PermissionService } from './permission.service';
 import { Permission } from '@energinet-datahub/dh/shared/domain';
 import { concatAll, from, map, reduce } from 'rxjs';
@@ -24,7 +24,10 @@ import { concatAll, from, map, reduce } from 'rxjs';
 export function PermissionGuard(permissions: Permission[]): CanActivateFn {
   return () => {
     const permissionService = inject(PermissionService);
-    return permissionGuardCore(permissions, permissionService);
+    const router = inject(Router);
+    return permissionGuardCore(permissions, permissionService).pipe(
+      map((hasPermission) => hasPermission || router.parseUrl('/'))
+    );
   };
 }
 
