@@ -1,4 +1,4 @@
-/**
+{/**
  * @license
  * Copyright 2020 Energinet DataHub A/S
  *
@@ -13,16 +13,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-import { NgModule } from '@angular/core';
+ */}
 
-import { WattButtonModule } from '../../button/watt-button.module';
-import { WattEmptyStateModule } from '../empty-state.module';
-import { StorybookEmptyStateOverviewComponent } from './storybook-empty-state-overview.component';
+import { Meta } from '@storybook/addon-docs';
 
-@NgModule({
-  declarations: [StorybookEmptyStateOverviewComponent],
-  exports: [StorybookEmptyStateOverviewComponent],
-  imports: [WattEmptyStateModule, WattButtonModule],
-})
-export class StorybookEmptyStateOverviewModule {}
+<Meta title="Introduction" />
+
+# Welcome to Watt Design System
+
+The units of power

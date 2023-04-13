@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -70,7 +70,7 @@ const howToUseGuideBasic = `
   <watt-dropdown [(ngModel)]="singleSelectionModel" [options]="options"></watt-dropdown>
  </watt-form-field>`;
 
-export const singleSelect: Story<WattDropdownComponent> = (
+export const SingleSelect: StoryFn<WattDropdownComponent> = (
   args: Partial<WattDropdownComponent>
 ) => ({
   props: {
@@ -85,11 +85,11 @@ export const singleSelect: Story<WattDropdownComponent> = (
       [options]="options"></watt-dropdown>
   </watt-form-field>`,
 });
-singleSelect.args = {
+SingleSelect.args = {
   options: dropdownOptions,
   placeholder: 'Select a team',
 };
-singleSelect.parameters = {
+SingleSelect.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
@@ -97,7 +97,7 @@ singleSelect.parameters = {
   },
 };
 
-export const multiSelect: Story<WattDropdownComponent> = (
+export const MultiSelect: StoryFn<WattDropdownComponent> = (
   args: Partial<WattDropdownComponent>
 ) => ({
   props: {
@@ -115,12 +115,12 @@ export const multiSelect: Story<WattDropdownComponent> = (
       [options]="options"></watt-dropdown>
   </watt-form-field>`,
 });
-multiSelect.args = {
+MultiSelect.args = {
   options: dropdownOptions,
   placeholder: 'Select a team',
   noOptionsFoundLabel: 'No team found.',
 };
-multiSelect.parameters = {
+MultiSelect.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
@@ -128,7 +128,7 @@ multiSelect.parameters = {
   },
 };
 
-export const withLabel: Story<WattDropdownComponent> = () => ({
+export const WithLabel: StoryFn<WattDropdownComponent> = () => ({
   props: {
     singleSelectionModel: '',
   },
@@ -137,7 +137,7 @@ export const withLabel: Story<WattDropdownComponent> = () => ({
     <watt-dropdown [(ngModel)]="singleSelectionModel"></watt-dropdown>
   </watt-form-field>`,
 });
-withLabel.parameters = {
+WithLabel.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
@@ -145,7 +145,7 @@ withLabel.parameters = {
   },
 };
 
-export const withValidation: Story<WattDropdownComponent> = () => ({
+export const WithValidation: StoryFn<WattDropdownComponent> = () => ({
   props: {
     singleSelectionModel: '',
     options: dropdownOptions,
@@ -164,7 +164,7 @@ export const withValidation: Story<WattDropdownComponent> = () => ({
     </watt-error>
   </watt-form-field>`,
 });
-withValidation.parameters = {
+WithValidation.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,

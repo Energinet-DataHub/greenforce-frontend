@@ -14,22 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattExpansionComponent, WattExpansionModule } from './../index';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export default {
   title: 'Components/Expansion Panel',
   decorators: [
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
     moduleMetadata({
-      imports: [BrowserAnimationsModule, WattExpansionModule],
+      imports: [WattExpansionModule],
     }),
   ],
   component: WattExpansionComponent,
 } as Meta<WattExpansionComponent>;
 
-const template: Story<WattExpansionComponent> = (args) => ({
+const template: StoryFn<WattExpansionComponent> = (args) => ({
   props: args,
   template: `<watt-expansion openLabel="${args.openLabel}" closeLabel="${args.closeLabel}" expanded="${args.expanded}">
     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil assumenda sint similique maiores aliquam consectetur earum, qui facere delectus distinctio perferendis dolorum officia numquam ipsa architecto mollitia debitis sed exercitationem.
@@ -40,27 +43,27 @@ const template: Story<WattExpansionComponent> = (args) => ({
   </watt-expansion>`,
 });
 
-export const collapsed = template.bind({});
-collapsed.parameters = {
+export const Collapsed = template.bind({});
+Collapsed.parameters = {
   docs: {
     source: {
       code: '<watt-expansion openLabel="Show more" closeLabel="Show less">YOUR AMAZING CONTENT</watt-expansion>',
     },
   },
 };
-collapsed.args = {
+Collapsed.args = {
   openLabel: 'Show more',
   closeLabel: 'Show less',
   expanded: false,
 };
 
-export const expanded = template.bind({});
-expanded.args = {
+export const Expanded = template.bind({});
+Expanded.args = {
   openLabel: 'Show more',
   closeLabel: 'Show less',
   expanded: true,
 };
-expanded.parameters = {
+Expanded.parameters = {
   docs: {
     source: {
       code: '<watt-expansion openLabel="Show more" closeLabel="Show less" expanded="true">YOUR AMAZING CONTENT</watt-expansion>',

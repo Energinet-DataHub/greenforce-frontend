@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, Story } from '@storybook/angular';
+import { Meta, StoryFn } from '@storybook/angular';
 
 import { WattBadgeComponent } from './watt-badge.component';
 
@@ -23,7 +23,7 @@ export default {
   component: WattBadgeComponent,
 } as Meta<WattBadgeComponent>;
 
-const Template: Story<WattBadgeComponent> = (args) => ({
+const Template: StoryFn<WattBadgeComponent> = (args) => ({
   props: args,
   template: `
     <div style="display: flex; gap: var(--watt-space-m);">

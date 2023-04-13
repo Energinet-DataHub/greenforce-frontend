@@ -30,7 +30,7 @@ import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
@@ -40,7 +40,7 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
     CommonModule,
     MatSortModule,
     TranslocoModule,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     WattPaginatorComponent,
     WattCardModule,
   ],
