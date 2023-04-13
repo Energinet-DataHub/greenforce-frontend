@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
@@ -33,11 +33,15 @@ import {
 } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
-import { first, of, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
-import { MarketParticipantFilteredActorDto, graphql } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantFilteredActorDto,
+  graphql,
+  WholesaleSettlementReportHttp,
+} from '@energinet-datahub/dh/shared/domain';
 import sub from 'date-fns/sub';
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+import { SettlementReport } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
   selector: 'dh-wholesale-settlement-reports',
@@ -57,21 +61,20 @@ import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholes
   ],
   templateUrl: './dh-wholesale-settlement-reports.component.html',
   styleUrls: ['./dh-wholesale-settlement-reports.component.scss'],
-  providers: [DhWholesaleBatchDataAccessApiStore],
 })
 export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy {
+  private document = inject(DOCUMENT);
   private apollo = inject(Apollo);
   private destroy$ = new Subject<void>();
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
   private selectedProcessTypes: graphql.ProcessType[] | null = null;
   private selectedGridAreas?: string[];
   private selectedActor?: MarketParticipantFilteredActorDto;
   private toastService = inject(WattToastService);
   private translations = inject(TranslocoService);
+  private wholesaleSettlementReportHttp = inject(WholesaleSettlementReportHttp);
 
   loading = false;
   error = false;
-  downloadErrorTrigger = this.store.loadingSettlementReportDataErrorTrigger$;
   data: settlementReportsTableColumns[] = [];
   executionTime = {
     start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
@@ -132,19 +135,26 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onDownload(settlementReport: any) {
-    this.store.downloadSettlementReportData(
-      of({
-        batchNumber: settlementReport.batchNumber,
-        gridAreaCode: settlementReport.gridArea.code,
-      })
-    );
-    this.downloadErrorTrigger.pipe(first()).subscribe(() => {
-      this.toastService.open({
-        type: 'danger',
-        message: this.translations.translate('wholesale.settlementReports.downloadFailed'),
+  onDownload(settlementReport: SettlementReport) {
+    this.wholesaleSettlementReportHttp
+      .v1WholesaleSettlementReportGet(settlementReport.batchNumber, settlementReport.gridArea.code)
+      .subscribe({
+        next: (data) => {
+          const blob = new Blob([data as unknown as BlobPart], {
+            type: 'application/zip',
+          });
+          const basisData = window.URL.createObjectURL(blob);
+          const link = this.document.createElement('a');
+          link.href = basisData;
+          link.download = `${settlementReport.batchNumber}.zip`;
+          link.click();
+        },
+        error: () => {
+          this.toastService.open({
+            type: 'danger',
+            message: this.translations.translate('wholesale.settlementReports.downloadFailed'),
+          });
+        },
       });
-    });
   }
 }
