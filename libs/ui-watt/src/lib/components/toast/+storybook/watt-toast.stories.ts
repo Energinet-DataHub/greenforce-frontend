@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
 import { WattToastConfig } from '../watt-toast.component';
 import { StorybookToastModule } from './storybook-toast.component';
@@ -41,7 +41,7 @@ export interface WattToastStoryConfig extends WattToastConfig {
   message: string;
 }
 
-export const Overview: Story<WattToastStoryConfig> = (args) => ({
+export const Overview: StoryFn<WattToastStoryConfig> = (args) => ({
   props: args,
   template: `<storybook-toast [config]="{type, duration, message, action, actionLabel}"></storybook-toast>`,
   moduleMetadata: {

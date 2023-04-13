@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { ChargeLinkV1Dto, ChargeType } from '@energinet-datahub/dh/shared/domain';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
@@ -38,7 +38,7 @@ export class DhChargeItemComponent {
   imports: [
     TranslocoModule,
     CommonModule,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     MatTableModule,
     DhSharedUiDateTimeModule,
     WattIconModule,

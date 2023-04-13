@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattTabsComponent, WattTabComponent } from './../index';
 
-export default {
+const meta: Meta<WattTabsComponent> = {
   title: 'Components/Tabs',
   decorators: [
     moduleMetadata({
@@ -27,7 +27,9 @@ export default {
     }),
   ],
   component: WattTabsComponent,
-} as Meta<WattTabsComponent>;
+};
+
+export default meta;
 
 const template = `<watt-tabs>
   <watt-tab label="First">Some awesome content for the first tab</watt-tab>
@@ -35,12 +37,12 @@ const template = `<watt-tabs>
   <watt-tab label="Third">Some awesome content for the third tab</watt-tab>
 </watt-tabs>`;
 
-export const tabs: Story<WattTabsComponent> = (args) => ({
+export const Tabs: StoryFn<WattTabsComponent> = (args) => ({
   props: args,
   template,
 });
 
-tabs.parameters = {
+Tabs.parameters = {
   docs: {
     source: {
       code: template,

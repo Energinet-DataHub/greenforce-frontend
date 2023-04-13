@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattCheckboxComponent } from '../watt-checkbox.component';
 import { WattCheckboxStatesModule } from './storybook-checkbox-states.module';
 import { WattCheckboxModule } from '../watt-checkbox.module';
 import { WattCardModule } from '../../card';
 
-export default {
+const meta: Meta<WattCheckboxComponent> = {
   title: 'Components/Checkbox',
   component: WattCheckboxComponent,
   decorators: [
@@ -29,17 +29,19 @@ export default {
       imports: [WattCheckboxModule, WattCheckboxStatesModule, WattCardModule],
     }),
   ],
-} as Meta<WattCheckboxComponent>;
+};
 
-const statesTemplate: Story = () => ({
+export default meta;
+
+const statesTemplate: StoryFn = () => ({
   template: `
   <watt-card>
     <storybook-checkbox-states></storybook-checkbox-states>
   </watt-card>`,
 });
 
-export const states = statesTemplate.bind({});
-states.parameters = {
+export const States = statesTemplate.bind({});
+States.parameters = {
   docs: { disable: true },
   pseudo: {
     hover: ['.hover'],
