@@ -13,6 +13,7 @@
 // limitations under the License.
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
@@ -33,6 +34,44 @@ namespace Energinet.DataHub.WebApi.GraphQL
                         var updatePermissionDto = context.GetArgument<UpdatePermissionDto>("input");
                         await client.UpdatePermissionAsync(updatePermissionDto);
                         return await client.GetPermissionAsync(updatePermissionDto.Id);
+                    });
+
+            Field<NonNullGraphType<BatchType>>("createBatch")
+                .Argument<NonNullGraphType<CreateBatchInputType>>("input", "Batch to create")
+                .Resolve()
+                .WithScope()
+                .WithService<IWholesaleClient_V3>()
+                .ResolveAsync(async (context, client) =>
+                    {
+                        var input = context.GetArgument<CreateBatchInput>("input");
+
+                        if (!input.Period.HasEnd || !input.Period.HasStart)
+                        {
+                            throw new ExecutionError("Period cannot be open-ended");
+                        }
+
+                        var batchRequestDto = new BatchRequestDto
+                        {
+                            StartDate = input.Period.Start.ToDateTimeOffset(),
+                            EndDate = input.Period.End.ToDateTimeOffset(),
+                            GridAreaCodes = input.GridAreaCodes,
+                            ProcessType = input.ProcessType,
+                        };
+
+                        var guid = await client.CreateBatchAsync(batchRequestDto);
+
+                        return new BatchDto
+                        {
+                            BatchId = guid,
+                            ExecutionState = BatchState.Pending,
+                            PeriodStart = batchRequestDto.StartDate,
+                            PeriodEnd = batchRequestDto.EndDate,
+                            ExecutionTimeEnd = null,
+                            ExecutionTimeStart = null,
+                            AreSettlementReportsCreated = false,
+                            GridAreaCodes = batchRequestDto.GridAreaCodes,
+                            ProcessType = batchRequestDto.ProcessType,
+                        };
                     });
         }
     }

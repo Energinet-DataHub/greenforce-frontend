@@ -20,7 +20,7 @@ import { rest } from 'msw';
 
 export function wholesaleMocks(apiBase: string) {
   return [
-    postWholesaleBatch(apiBase),
+    createBatch(),
     getWholesaleSearchBatch(),
     getWholesaleSearchBatches(),
     downloadBasisData(apiBase),
@@ -32,9 +32,12 @@ export function wholesaleMocks(apiBase: string) {
   ];
 }
 
-function postWholesaleBatch(apiBase: string) {
-  return rest.post(`${apiBase}/v1/WholesaleBatch`, (req, res, ctx) => {
-    return res(ctx.status(200));
+function createBatch() {
+  return graphql.mockCreateBatchMutation((_req, res, ctx) => {
+    return res(
+      ctx.delay(500),
+      ctx.data({ createBatch: { id: '779195a4-2505-4290-97a6-f3eba2b7d179' } })
+    );
   });
 }
 
