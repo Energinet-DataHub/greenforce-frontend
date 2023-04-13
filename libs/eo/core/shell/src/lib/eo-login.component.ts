@@ -17,13 +17,24 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { EoAuthService, EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { combineLatest, take } from 'rxjs';
 
 @Component({
   standalone: true,
   selector: 'eo-login',
-  styles: [``],
-  template: ``,
+  imports: [WattSpinnerModule],
+  styles: [
+    `
+      .spinner {
+        display: flex;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+      }
+    `,
+  ],
+  template: `<div class="spinner"><watt-spinner></watt-spinner></div>`,
 })
 export class EoLoginComponent {
   constructor(private service: EoAuthService, private store: EoAuthStore, private router: Router) {

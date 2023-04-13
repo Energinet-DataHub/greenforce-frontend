@@ -16,6 +16,7 @@
  */
 
 import {
+  HTTP_INTERCEPTORS,
   HttpErrorResponse,
   HttpEvent,
   HttpHandler,
@@ -23,11 +24,10 @@ import {
   HttpRequest,
   HttpResponse,
   HttpStatusCode,
-  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
-import { tap } from 'rxjs';
+import { delay, tap } from 'rxjs';
 import { EoAuthService } from './auth.service';
 import { EoAuthStore } from './auth.store';
 
@@ -52,14 +52,16 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
         error: (error) => {
           if (this.#is403ForbiddenResponse(error)) this.#displayPermissionError();
           if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
-          tokenRefreshTrigger && this.authService.refreshToken(100);
+          tokenRefreshTrigger && this.authService.refreshToken();
         },
-      })
+      }),
+      /** We add a delay so changes in backend can propagate out before we ask for a token again */
+      delay(tokenRefreshTrigger ? 100 : 0)
     );
   }
 
   #HandleTokenRefresh(event: HttpEvent<unknown>) {
-    if (event instanceof HttpResponse) this.authService.refreshToken(100);
+    if (event instanceof HttpResponse) this.authService.refreshToken();
   }
 
   #displayPermissionError() {

@@ -19,7 +19,7 @@ import { Inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import jwt_decode from 'jwt-decode';
-import { combineLatest, Subscription, switchMap, take, timer } from 'rxjs';
+import { Subscription, combineLatest, switchMap, take, timer } from 'rxjs';
 import { EoAuthStore, EoLoginToken } from './auth.store';
 
 export interface AuthLogoutResponse {
@@ -56,17 +56,12 @@ export class EoAuthService {
     });
   }
 
-  refreshToken(waitTime = 0) {
-    /** We add a delay so changes in backend can propagate out before we ask for a token again */
-    setTimeout(
-      () =>
-        this.http
-          .get(`${this.#authApiBase}/token`, { responseType: 'text' })
-          .subscribe(async (newToken) => {
-            this.handleToken(newToken);
-          }),
-      waitTime
-    );
+  refreshToken() {
+    this.http
+      .get(`${this.#authApiBase}/token`, { responseType: 'text' })
+      .subscribe(async (newToken) => {
+        this.handleToken(newToken);
+      });
   }
 
   startLogin() {

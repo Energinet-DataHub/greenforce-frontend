@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -26,6 +27,7 @@ import {
 import { EoAuthService, EoTermsService } from '@energinet-datahub/eo/shared/services';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,6 +40,8 @@ import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
     EoHeaderComponent,
     EoPrivacyPolicyComponent,
     EoScrollViewComponent,
+    WattSpinnerModule,
+    NgIf,
   ],
   selector: 'eo-auth-terms',
   styles: [
@@ -70,7 +74,7 @@ import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
             <eo-privacy-policy class="watt-space-stack-l"></eo-privacy-policy>
           </eo-scroll-view>
           <div class="watt-space-stack-m">
-            <watt-checkbox [(ngModel)]="hasAcceptedTerms">
+            <watt-checkbox [(ngModel)]="hasAcceptedPrivacyPolicy">
               I have seen the Privacy Policy
             </watt-checkbox>
           </div>
@@ -79,7 +83,12 @@ import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
             Back
           </watt-button>
 
-          <watt-button variant="primary" (click)="onAccept()" [disabled]="!hasAcceptedTerms">
+          <watt-button
+            variant="primary"
+            (click)="onAccept()"
+            [disabled]="!hasAcceptedPrivacyPolicy"
+            [loading]="startedAcceptFlow"
+          >
             Accept terms
           </watt-button>
         </div>
@@ -90,7 +99,8 @@ import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
   `,
 })
 export class EoTermsComponent {
-  hasAcceptedTerms = false;
+  hasAcceptedPrivacyPolicy = false;
+  startedAcceptFlow = false;
 
   constructor(
     private authService: EoAuthService,
@@ -103,6 +113,8 @@ export class EoTermsComponent {
   }
 
   onAccept() {
+    if (this.startedAcceptFlow) return;
+    this.startedAcceptFlow = true;
     this.termsService.acceptTerms().subscribe({
       next: () => this.router.navigate(['/login']),
       error: () => this.router.navigate(['/']),
