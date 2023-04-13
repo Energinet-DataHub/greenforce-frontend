@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/ui-watt"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/ui-watt"
+      ],
       "options": {
         "jestConfig": "libs/ui-watt/jest.config.ts",
         "passWithNoTests": true
@@ -21,7 +23,9 @@
           "libs/ui-watt/src/**/*.html"
         ]
       },
-      "outputs": ["{options.outputFile}"]
+      "outputs": [
+        "{options.outputFile}"
+      ]
     },
     "storybook": {
       "executor": "@storybook/angular:start-storybook",
@@ -31,7 +35,12 @@
         "configDir": "libs/ui-watt/.storybook",
         "browserTarget": "ui-watt:build-storybook",
         "compodoc": true,
-        "compodocArgs": ["-e", "json", "-d", "./libs/ui-watt"]
+        "compodocArgs": [
+          "-e",
+          "json",
+          "-d",
+          "./libs/ui-watt"
+        ]
       },
       "configurations": {
         "ci": {
@@ -41,24 +50,47 @@
     },
     "build-storybook": {
       "executor": "@storybook/angular:build-storybook",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
-        "styles": ["libs/ui-watt/.storybook/styles.scss"],
+        "styles": [
+          "libs/ui-watt/.storybook/styles.scss"
+        ],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/ui-watt/src/lib/styles"]
+          "includePaths": [
+            "libs/ui-watt/src/lib/styles"
+          ]
         },
         "outputDir": "dist/designsystem",
         "configDir": "libs/ui-watt/.storybook",
         "browserTarget": "ui-watt:build-storybook",
         "compodoc": true,
-        "compodocArgs": ["-e", "json", "-d", "./libs/ui-watt"]
+        "compodocArgs": [
+          "-e",
+          "json",
+          "-d",
+          "./libs/ui-watt"
+        ]
       },
       "configurations": {
         "ci": {
           "quiet": true
         }
       }
+    },
+    "component-test": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "libs/ui-watt/cypress.config.ts",
+        "testingType": "component",
+        "skipServe": true,
+        "devServerTarget": "app-dh:build"
+      }
     }
   },
-  "tags": ["product:watt", "type:ui"]
+  "tags": [
+    "product:watt",
+    "type:ui"
+  ]
 }
