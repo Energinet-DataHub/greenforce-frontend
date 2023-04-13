@@ -38,7 +38,6 @@ import { Apollo } from 'apollo-angular';
 import { MarketParticipantFilteredActorDto, graphql } from '@energinet-datahub/dh/shared/domain';
 import sub from 'date-fns/sub';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 @Component({
   selector: 'dh-wholesale-settlement-reports',
@@ -87,11 +86,8 @@ export class DhWholesaleSettlementReportsComponent implements OnInit, OnDestroy 
     query: graphql.GetSettlementReportsDocument,
     variables: { executionTime: this.executionTime },
   });
-  filteredActors$ = this.store.filteredActors$.pipe(exists());
 
   ngOnInit() {
-    this.store.getFilteredActors();
-
     this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (result) => {
         this.loading = result.loading;

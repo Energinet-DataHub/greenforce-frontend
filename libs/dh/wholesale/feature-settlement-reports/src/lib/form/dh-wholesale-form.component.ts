@@ -24,6 +24,7 @@ import {
   Input,
   inject,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -38,17 +39,17 @@ import {
   takeUntil,
 } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { Apollo } from 'apollo-angular';
 
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { MarketParticipantFilteredActorDto } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { PushModule } from '@rx-angular/template/push';
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { SettlementReportFilters } from '@energinet-datahub/dh/wholesale/domain';
+import { ActorFilter, SettlementReportFilters } from '@energinet-datahub/dh/wholesale/domain';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
@@ -69,30 +70,24 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
   styleUrls: ['./dh-wholesale-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
+export class DhWholesaleFormComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() loading = false;
   @Input() set executionTime(executionTime: { start: string; end: string }) {
     this.filters.patchValue({ executionTime });
-  }
-  @Input() set actors(actors: MarketParticipantFilteredActorDto[]) {
-    this._actors = actors;
-    if (actors && actors.length > 0) {
-      this.filters.controls.actor.enable();
-    }
-    this.actorOptions = actors?.map((actor) => {
-      return {
-        displayValue: actor.name.value,
-        value: actor.actorId,
-      };
-    });
   }
   @Output() filterChange = new EventEmitter<SettlementReportFilters>();
 
   private destroy$ = new Subject<void>();
   private transloco = inject(TranslocoService);
+  private apollo = inject(Apollo);
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private fb = inject(FormBuilder);
-  private _actors: MarketParticipantFilteredActorDto[] = [];
+
+  query = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: graphql.GetActorFilterDocument,
+  });
 
   processTypeOptions$: Observable<WattDropdownOption[]> = this.transloco
     .selectTranslateObject('wholesale.settlementReports.processTypes')
@@ -105,7 +100,7 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
       })
     );
 
-  actorOptions!: WattDropdownOption[];
+  actors!: ActorFilter;
 
   filters = this.fb.group({
     processTypes: [[]],
@@ -131,7 +126,7 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
     this.filters.controls.actor.valueChanges.pipe(startWith(null)),
   ]).pipe(
     map(([gridAreas, selectedActorId]) => {
-      const selectedActor = this._actors?.find((x) => x.actorId === selectedActorId);
+      const selectedActor = this.actors?.find((x) => x.value === selectedActorId);
       this.filters.patchValue({ gridAreas: selectedActor?.gridAreaCodes || null });
 
       return gridAreas
@@ -151,6 +146,15 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
       Boolean(filters.period?.start) === Boolean(filters.period?.end) &&
       Boolean(filters.executionTime?.start) === Boolean(filters.executionTime?.end)
     );
+  }
+
+  ngOnInit() {
+    this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (result) => {
+        this.actors = result.data?.actors ?? [];
+        if (!result.loading) this.filters.controls.actor.enable();
+      },
+    });
   }
 
   ngAfterViewInit() {
@@ -174,7 +178,7 @@ export class DhWholesaleFormComponent implements AfterViewInit, OnDestroy {
 
         this.filterChange.emit({
           ...filters,
-          actor: this._actors?.find((x) => x.actorId === filters.actor),
+          actor: this.actors?.find((x) => x.value === filters.actor),
         } as SettlementReportFilters);
       });
   }
