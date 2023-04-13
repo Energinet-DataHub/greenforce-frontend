@@ -58,18 +58,14 @@ export class EoCertificatesService {
   }
 
   getCertificates() {
-    return this.http.get<EoCertificateResponse>(`${this.#apiBase}/certificates`, {
-      withCredentials: true,
-    });
+    return this.http.get<EoCertificateResponse>(`${this.#apiBase}/certificates`);
   }
 
   /**
    * Array of all the user's contracts for issuing granular certificates
    */
   getContracts() {
-    return this.http.get<EoContractResponse>(`${this.#apiBase}/certificates/contracts`, {
-      withCredentials: true,
-    });
+    return this.http.get<EoContractResponse>(`${this.#apiBase}/certificates/contracts`);
   }
 
   /**
@@ -77,10 +73,9 @@ export class EoCertificatesService {
    * Sends request to create a GC contract for a specific meteringpoint
    */
   createContract(gsrn: string) {
-    return this.http.post<EoCertificateContract>(
-      `${this.#apiBase}/certificates/contracts`,
-      { gsrn, startDate: Math.floor(new Date().getTime() / 1000) },
-      { withCredentials: true }
-    );
+    return this.http.post<EoCertificateContract>(`${this.#apiBase}/certificates/contracts`, {
+      gsrn,
+      startDate: Math.floor(new Date().getTime() / 1000),
+    });
   }
 }
