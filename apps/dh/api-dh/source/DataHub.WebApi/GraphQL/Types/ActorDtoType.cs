@@ -22,9 +22,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
         {
             Name = "Actor";
 
-            Field(x => x.Id, nullable: true).Description("The id of the actor.");
+            Field(x => x.Id).Description("The id of the actor.");
             Field(x => x.Number).Description("The number of the actor.");
-            Field(x => x.Name, nullable: true).Description("The name of the actor.");
+            Field(x => x.Name).Description("The name of the actor.");
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<StringGraphType>>>>("GridAreaCodes")
+                .Resolve(x => x.Source.GridAreaCodes)
+                .Description("The grid areas the actor belongs to.");
 
             // Below are commented out since the actor number is currently
             // the only field that market participant and wholesale have in common

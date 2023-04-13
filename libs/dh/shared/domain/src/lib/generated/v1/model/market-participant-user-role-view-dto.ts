@@ -19,5 +19,8 @@ export interface MarketParticipantUserRoleViewDto {
     description: string;
     userActorId?: string | null;
 }
+export namespace MarketParticipantUserRoleViewDto {
+}
+
 
 

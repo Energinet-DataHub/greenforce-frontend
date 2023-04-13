@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
@@ -28,7 +29,7 @@ using ActorDto = Energinet.DataHub.MarketParticipant.Client.Models.ActorDto;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class GraphQLQuery : ObjectGraphType
+    public sealed class GraphQLQuery : ObjectGraphType
     {
         public GraphQLQuery()
         {
@@ -40,10 +41,20 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .ResolveAsync(async (context, client) => await client.GetPermissionAsync(context.GetArgument<int>("id")));
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<PermissionDtoType>>>>("permissions")
-               .Resolve()
-               .WithScope()
-               .WithService<IMarketParticipantPermissionsClient>()
-               .ResolveAsync(async (context, client) => await client.GetPermissionsAsync());
+                .Argument<StringGraphType>("searchTerm", "The search term for which to look for in name and description")
+                .Resolve()
+                .WithScope()
+                .WithService<IMarketParticipantPermissionsClient>()
+                .ResolveAsync(async (context, client) =>
+                {
+                    var searchTerm = context.GetArgument<string?>("searchTerm");
+                    var permissionDetailsDtos = await client.GetPermissionsAsync();
+                    return searchTerm is not null
+                        ? permissionDetailsDtos.Where(x =>
+                            x.Name.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) ||
+                            x.Description.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase))
+                        : permissionDetailsDtos;
+                });
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<PermissionAuditLogDtoType>>>>("permissionLogs")
                 .Argument<IdGraphType>("id", "The id of the permission")
@@ -57,14 +68,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var permission = (await permissionClient.GetPermissionsAsync()).Single(permission => permission.Id == permissionId);
                     var auditLogs = await permissionClient.GetAuditLogsAsync(permissionId);
                     var userLookup = new Dictionary<Guid, UserDto>();
-                    var auditLogsViewDtos = new List<PermissionAuditLogViewDto>();
-
-                    auditLogsViewDtos.Add(new PermissionAuditLogViewDto(
-                    permissionId,
-                    Guid.Empty,
-                    "DataHub",
-                    PermissionAuditLogType.Created,
-                    permission.Created));
+                    var auditLogsViewDtos = new List<PermissionAuditLogViewDto>
+                    {
+                        new(permissionId,
+                            Guid.Empty,
+                            "DataHub",
+                            PermissionAuditLogType.Created,
+                            permission.Created),
+                    };
 
                     foreach (var log in auditLogs)
                     {
@@ -191,16 +202,24 @@ namespace Energinet.DataHub.WebApi.GraphQL
                .ResolveAsync(async (context, client) =>
                {
                    var gridAreas = await client.GetGridAreasAsync();
-                   var gridAreasLookup = gridAreas.ToDictionary(x => x.Id);
-                   var organizations = await client.GetOrganizationsAsync();
-                   var actors = new List<ActorDto>();
+                   var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
+                   var actors = await client.GetActorsAsync();
 
-                   foreach (var organization in organizations)
+                   if (actors == null)
                    {
-                       actors.AddRange(await client.GetActorsAsync(organization.OrganizationId));
+                       return Array.Empty<Actor>();
                    }
 
-                   var accessibleActors = actors.Select(x => new Actor(x.ActorNumber.Value) { Id = x.ActorId, Name = x.Name.Value });
+                   var accessibleActors = actors.Select(x => new Actor(x.ActorNumber.Value)
+                   {
+                       Id = x.ActorId,
+                       Name = x.Name.Value,
+                       GridAreaCodes = x.MarketRoles
+                          .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
+                          .Distinct()
+                          .Select(gridAreaId => gridAreaLookup[gridAreaId].Code)
+                          .ToArray(),
+                   });
 
                    // TODO: Is this the right place to filter this list?
                    if (context.User!.IsFas())

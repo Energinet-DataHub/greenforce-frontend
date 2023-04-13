@@ -15,16 +15,15 @@
  * limitations under the License.
  */
 import { inject } from '@angular/core';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { Apollo } from 'apollo-angular';
 
-import { graphql } from '@energinet-datahub/dh/shared/domain';
-
-export function getPermissionsWatchQuery() {
+export function getPermissionsWatchQuery(searchTerm?: string) {
   const apollo = inject(Apollo);
-
   return apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: graphql.GetPermissionsDocument,
+    variables: { searchTerm },
   });
 }

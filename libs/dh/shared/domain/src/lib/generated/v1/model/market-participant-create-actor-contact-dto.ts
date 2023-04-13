@@ -18,5 +18,8 @@ export interface MarketParticipantCreateActorContactDto {
     email: string;
     phone?: string | null;
 }
+export namespace MarketParticipantCreateActorContactDto {
+}
+
 
 

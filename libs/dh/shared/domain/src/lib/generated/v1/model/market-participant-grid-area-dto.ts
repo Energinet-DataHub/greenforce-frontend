@@ -20,5 +20,8 @@ export interface MarketParticipantGridAreaDto {
     validFrom: string;
     validTo?: string | null;
 }
+export namespace MarketParticipantGridAreaDto {
+}
+
 
 

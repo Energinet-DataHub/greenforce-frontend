@@ -25,7 +25,8 @@
       "previous": "Forrige side",
       "ariaLabel": "Vælg side"
     },
-    "download": "Download"
+    "download": "Download",
+    "search": "Søg"
   },
   "clipboard": {
     "success": "Kopieret til udklipsholder",
@@ -737,8 +738,8 @@
       "creatingBatch": "Starter batch...",
       "creatingBatchSuccess": "Dit batch er startet.",
       "processTypes": {
-        "BalanceFixing": "Balancefiksering",
-        "Aggregation": "Aggregering"
+        "BALANCE_FIXING": "Balancefiksering",
+        "AGGREGATION": "Aggregering"
       },
       "processTypeError": "Procestype påkrævet"
     },

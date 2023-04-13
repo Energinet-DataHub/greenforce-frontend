@@ -98,8 +98,8 @@ namespace Energinet.DataHub.WebApi
 
             var externalOpenIdUrl = Configuration.GetValue<string>("EXTERNAL_OPEN_ID_URL") ?? string.Empty;
             var internalOpenIdUrl = Configuration.GetValue<string>("INTERNAL_OPEN_ID_URL") ?? string.Empty;
-            var backendAppId = Configuration.GetValue<string>("BACKEND_SERVICE_APP_ID") ?? string.Empty;
-            services.AddJwtBearerAuthentication(externalOpenIdUrl, internalOpenIdUrl, backendAppId);
+            var backendBffAppId = Configuration.GetValue<string>("BACKEND_BFF_APP_ID") ?? string.Empty;
+            services.AddJwtBearerAuthentication(externalOpenIdUrl, internalOpenIdUrl, backendBffAppId);
 
             services.AddAuthorization(options =>
             {
@@ -207,7 +207,12 @@ namespace Energinet.DataHub.WebApi
                 { "MarketParticipant", "MarketParticipant" },
                 { "Charges", "Charge" },
             };
-            if (fullName == null) return string.Empty;
+
+            if (fullName == null)
+            {
+                return string.Empty;
+            }
+
             var fullNameSplit = fullName.Split(".");
             var domain = string.Empty;
             foreach (var item in domainList.Where(item => fullNameSplit.Contains(item.Key)))

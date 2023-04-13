@@ -22,5 +22,8 @@ export interface MarketParticipantUserOverviewItemDto {
     createdDate: string;
     assignedActors: Array<MarketParticipantAssignedActorDto>;
 }
+export namespace MarketParticipantUserOverviewItemDto {
+}
+
 
 

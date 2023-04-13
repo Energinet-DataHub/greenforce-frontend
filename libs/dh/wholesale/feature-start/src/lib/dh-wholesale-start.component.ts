@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { combineLatest, first, map, Observable, startWith, Subject, takeUntil } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Apollo } from 'apollo-angular';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
@@ -34,15 +35,12 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import {
-  DateRange,
-  MarketParticipantGridAreaDto,
-  WholesaleProcessType,
-} from '@energinet-datahub/dh/shared/domain';
+import { DateRange, MarketParticipantGridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { filterValidGridAreas } from '@energinet-datahub/dh/wholesale/domain';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 
 interface CreateBatchFormValues {
-  processType: FormControl<WholesaleProcessType | null>;
+  processType: FormControl<graphql.ProcessType | null>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<DateRange | null>;
 }
@@ -74,6 +72,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   private toast = inject(WattToastService);
   private transloco = inject(TranslocoService);
   private router = inject(Router);
+  private apollo = inject(Apollo);
 
   private destroy$ = new Subject<void>();
 
@@ -111,7 +110,11 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     this.getProcessTypes();
     this.store.getGridAreas();
     this.toggleGridAreasControl();
-    this.initCreatingBatchListeners();
+
+    // Close toast on navigation
+    this.router.events.pipe(first((event) => event instanceof NavigationEnd)).subscribe(() => {
+      this.toast.dismiss();
+    });
   }
 
   ngOnDestroy(): void {
@@ -123,10 +126,10 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     this.transloco
       .selectTranslateObject('wholesale.startBatch.processTypes')
       .pipe(takeUntil(this.destroy$))
-      .subscribe((processTypesTranlation) => {
-        this.processTypes = Object.keys(WholesaleProcessType).map((key) => ({
-          displayValue: processTypesTranlation[key],
-          value: WholesaleProcessType[key as WholesaleProcessType],
+      .subscribe((processTypesTranslation) => {
+        this.processTypes = Object.values(graphql.ProcessType).map((value) => ({
+          displayValue: processTypesTranslation[value],
+          value,
         }));
       });
   }
@@ -141,12 +144,44 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     )
       return;
 
-    this.store.createBatch({ gridAreas, dateRange, processType });
-
-    this.toast.open({
-      type: 'loading',
-      message: this.transloco.translate('wholesale.startBatch.creatingBatch'),
-    });
+    this.apollo
+      .mutate({
+        useMutationLoading: true,
+        mutation: graphql.CreateBatchDocument,
+        variables: {
+          input: {
+            gridAreaCodes: gridAreas,
+            period: dateRange,
+            processType: processType,
+          },
+        },
+      })
+      .subscribe({
+        next: (result) => {
+          if (result.loading) {
+            this.toast.open({
+              type: 'loading',
+              message: this.transloco.translate('wholesale.startBatch.creatingBatch'),
+            });
+          } else if (result.errors) {
+            this.toast.update({
+              type: 'danger',
+              message: this.transloco.translate('shared.error.title'),
+            });
+          } else {
+            this.toast.update({
+              type: 'success',
+              message: this.transloco.translate('wholesale.startBatch.creatingBatchSuccess'),
+            });
+          }
+        },
+        error: () => {
+          this.toast.update({
+            type: 'danger',
+            message: this.transloco.translate('shared.error.title'),
+          });
+        },
+      });
   }
 
   private setMinDate(gridAreas: MarketParticipantGridAreaDto[]) {
@@ -177,35 +212,6 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
       const disableGridAreas = this.createBatchForm.controls.dateRange.invalid;
 
       disableGridAreas ? gridAreasControl.disable() : gridAreasControl.enable();
-    });
-  }
-
-  private initCreatingBatchListeners() {
-    // Close toast on navigation
-    this.router.events.pipe(first((event) => event instanceof NavigationEnd)).subscribe(() => {
-      this.toast.dismiss();
-    });
-
-    this.store.creatingBatchSuccessTrigger$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.onBatchCreatedSuccess());
-
-    this.store.creatingBatchErrorTrigger$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.onBatchCreatedError());
-  }
-
-  private onBatchCreatedSuccess() {
-    this.toast.update({
-      type: 'success',
-      message: this.transloco.translate('wholesale.startBatch.creatingBatchSuccess'),
-    });
-  }
-
-  private onBatchCreatedError() {
-    this.toast.update({
-      type: 'danger',
-      message: this.transloco.translate('shared.error.title'),
     });
   }
 
