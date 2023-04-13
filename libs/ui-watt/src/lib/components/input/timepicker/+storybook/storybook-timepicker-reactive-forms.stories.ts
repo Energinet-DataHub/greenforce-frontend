@@ -16,7 +16,7 @@
  */
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { applicationConfig, Meta, moduleMetadata, Story } from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { within, fireEvent } from '@storybook/testing-library';
 import { importProvidersFrom } from '@angular/core';
 
@@ -70,7 +70,7 @@ const template = `
 
 const initialValue = '00:00';
 
-export const WithFormControl: Story<WattTimepickerComponent> = (args) => ({
+export const WithFormControl: StoryFn<WattTimepickerComponent> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null),
     exampleFormControlRange: new FormControl(null),
@@ -92,7 +92,7 @@ WithFormControl.parameters = {
   },
 };
 
-export const WithInitialValue: Story<WattTimepickerComponent> = (args) => ({
+export const WithInitialValue: StoryFn<WattTimepickerComponent> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(initialValue),
     exampleFormControlRange: new FormControl({
@@ -104,7 +104,7 @@ export const WithInitialValue: Story<WattTimepickerComponent> = (args) => ({
   template,
 });
 
-export const WithValidations: Story<WattTimepickerComponent> = (args) => ({
+export const WithValidations: StoryFn<WattTimepickerComponent> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null, [Validators.required]),
     exampleFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
@@ -126,7 +126,7 @@ WithValidations.play = async ({ canvasElement }) => {
   fireEvent.focusOut(startTimeInput);
 };
 
-export const WithFormControlDisabled: Story<WattTimepickerComponent> = (args) => ({
+export const WithFormControlDisabled: StoryFn<WattTimepickerComponent> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl({ value: null, disabled: true }),
     exampleFormControlRange: new FormControl({ value: null, disabled: true }),

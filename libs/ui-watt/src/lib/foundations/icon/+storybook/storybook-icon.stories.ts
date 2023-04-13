@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { HttpClientModule } from '@angular/common/http';
-import { applicationConfig, Meta, moduleMetadata, Story } from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattIconComponent } from '../icon.component';
 import { WattIconSize } from '../watt-icon-size';
@@ -38,7 +38,7 @@ export default {
 } as Meta<WattIconComponent>;
 
 //👇 We create a “template” of how args map to rendering
-const Template: Story<WattIconComponent> = (args) => ({
+const Template: StoryFn<WattIconComponent> = (args) => ({
   props: args,
   template: `<storybook-icon-overview></storybook-icon-overview>`,
 });

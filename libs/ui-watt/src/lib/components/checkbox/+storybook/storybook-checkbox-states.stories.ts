@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattCheckboxComponent } from '../watt-checkbox.component';
 import { WattCheckboxStatesModule } from './storybook-checkbox-states.module';
@@ -31,7 +31,7 @@ export default {
   ],
 } as Meta<WattCheckboxComponent>;
 
-const statesTemplate: Story = () => ({
+const statesTemplate: StoryFn = () => ({
   template: `
   <watt-card>
     <storybook-checkbox-states></storybook-checkbox-states>

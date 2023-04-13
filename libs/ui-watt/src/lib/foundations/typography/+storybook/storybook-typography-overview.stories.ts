@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { typographyHtmlSnippets } from './shared/typography-html-snippets';
 import { StorybookTypographyOverviewComponent } from './storybook-typography-overview.component';
@@ -31,7 +31,7 @@ export default {
 } as Meta<StorybookTypographyOverviewComponent>;
 
 //👇 We create a “template” of how args map to rendering
-const Template: Story<StorybookTypographyOverviewComponent> = (args) => ({
+const Template: StoryFn<StorybookTypographyOverviewComponent> = (args) => ({
   props: args,
 });
 

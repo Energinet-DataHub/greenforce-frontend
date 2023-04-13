@@ -16,6 +16,7 @@
  */}
 
 import {
+  Meta,
   Title,
   Subtitle,
   Description,
@@ -25,14 +26,11 @@ import {
 } from '@storybook/addon-docs';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
-<Title />
-<Subtitle />
-<Description />
-<Primary />
+<Meta title="Components/Text Field" />
 
 ## How to use
 
-Import the `WattFormFieldModule` and `WattInputModule` module
+Import the `WattFormFieldModule` and `WattInputModule` modules.
 
 ```typescript
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
@@ -45,9 +43,3 @@ class YourModule {}
 ```
 
 **\*NOTE:** Remember also to import `FormsModule` and `ReactiveFormsModule` from Angular.
-
-<Stories />
-
-export const Component = () => {
-  return <SyntaxHighlighter />;
-};

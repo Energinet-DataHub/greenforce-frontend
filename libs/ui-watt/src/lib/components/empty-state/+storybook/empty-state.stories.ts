@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { applicationConfig, Meta, moduleMetadata, Story } from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { importProvidersFrom } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 import { WattEmptyStateComponent } from '../empty-state.component';
 import { WattButtonModule } from '../../button';
-
 import { StorybookEmptyStateOverviewComponent } from './storybook-empty-state-overview.component';
 
 export default {
@@ -36,7 +35,7 @@ export default {
   component: StorybookEmptyStateOverviewComponent,
 } as Meta<StorybookEmptyStateOverviewComponent>;
 
-export const Overview: Story<StorybookEmptyStateOverviewComponent> = (args) => ({
+export const Overview: StoryFn<StorybookEmptyStateOverviewComponent> = (args) => ({
   props: args,
 });
 
@@ -46,7 +45,7 @@ const emptyStateWithCallBackTemplate = (
   <watt-button variant="primary" size="normal">Go Back</watt-button>
 </watt-empty-state>`;
 
-export const WithCallToAction: Story<WattEmptyStateComponent> = (args) => ({
+export const WithCallToAction: StoryFn<WattEmptyStateComponent> = (args) => ({
   props: args,
   template: emptyStateWithCallBackTemplate(args),
 });
@@ -66,7 +65,7 @@ WithCallToAction.parameters = {
 const withoutIconTemplate = (args: Partial<WattEmptyStateComponent>) =>
   `<watt-empty-state title="${args.title}" message="${args.message}"></watt-empty-state>`;
 
-export const WithoutIcon: Story<WattEmptyStateComponent> = (args) => ({
+export const WithoutIcon: StoryFn<WattEmptyStateComponent> = (args) => ({
   props: args,
   template: withoutIconTemplate(args),
 });
@@ -85,7 +84,7 @@ WithoutIcon.parameters = {
 const smallTemplate = (args: Partial<WattEmptyStateComponent>) =>
   `<watt-empty-state size="small" title="${args.title}" message="${args.message}"></watt-empty-state>`;
 
-export const Small: Story<WattEmptyStateComponent> = (args) => ({
+export const Small: StoryFn<WattEmptyStateComponent> = (args) => ({
   props: args,
   template: smallTemplate(args),
 });

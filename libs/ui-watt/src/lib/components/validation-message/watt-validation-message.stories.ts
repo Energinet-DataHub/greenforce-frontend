@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattValidationMessageComponent } from './watt-validation-message.component';
 import { WattValidationMessageModule } from './watt-validation-message.module';
@@ -40,7 +40,7 @@ import { ${WattValidationMessageModule.name} } from '@energinet-datahub/watt/val
 
 <watt-validation-message label="Label" message="Message" type="danger"></watt-validation-message>`;
 
-export const ValidationMessage: Story<WattValidationMessageComponent> = (args) => ({
+export const ValidationMessage: StoryFn<WattValidationMessageComponent> = (args) => ({
   props: args,
 });
 ValidationMessage.parameters = {

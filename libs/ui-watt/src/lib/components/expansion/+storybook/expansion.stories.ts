@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { applicationConfig, Meta, moduleMetadata, Story } from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattExpansionComponent, WattExpansionModule } from './../index';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -32,7 +32,7 @@ export default {
   component: WattExpansionComponent,
 } as Meta<WattExpansionComponent>;
 
-const template: Story<WattExpansionComponent> = (args) => ({
+const template: StoryFn<WattExpansionComponent> = (args) => ({
   props: args,
   template: `<watt-expansion openLabel="${args.openLabel}" closeLabel="${args.closeLabel}" expanded="${args.expanded}">
     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil assumenda sint similique maiores aliquam consectetur earum, qui facere delectus distinctio perferendis dolorum officia numquam ipsa architecto mollitia debitis sed exercitationem.

@@ -18,7 +18,6 @@ import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/ang
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { StorybookInputWrapperComponent } from './storybook-input-wrapper.component';
-import StorybookInputOverviewDocs from './storybook-input-overview.mdx';
 import { StorybookInputOverviewComponent } from './storybook-input-overview.component';
 
 export default {
@@ -32,11 +31,6 @@ export default {
       imports: [StorybookInputOverviewComponent],
     }),
   ],
-  parameters: {
-    docs: {
-      page: StorybookInputOverviewDocs,
-    },
-  },
 } as Meta<StorybookInputWrapperComponent>;
 
 const Template: StoryFn<StorybookInputWrapperComponent> = (args) => ({

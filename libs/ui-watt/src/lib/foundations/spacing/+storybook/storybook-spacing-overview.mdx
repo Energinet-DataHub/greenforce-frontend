@@ -15,26 +15,14 @@
  * limitations under the License.
  */}
 
-import {
-  Title,
-  Subtitle,
-  Description,
-  Primary,
-  Stories,
-  PRIMARY_STORY,
-} from '@storybook/addon-docs';
+import { Meta } from '@storybook/addon-docs';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
-<Title />
-<Subtitle />
-<Description />
-<Primary />
+<Meta title="Foundations/Spacing" />
 
-## How to use
+# How to use
 
-### SCSS/CSS
-
-#### CSS Custom Variables
+## CSS Custom Variables
 
 ```css
 --watt-space-xs
@@ -44,7 +32,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 --watt-space-xl
 ```
 
-#### Mixins
+### SCSS Mixins
 
 ```scss
 @use '@energinet-datahub/watt/utils' as watt;
@@ -121,9 +109,3 @@ Available classes
 <div class="watt-space-inline-l">...</div>
 <div class="watt-space-inline-xl">...</div>
 ```
-
-<Stories />
-
-export const Component = () => {
-  return <SyntaxHighlighter />;
-};

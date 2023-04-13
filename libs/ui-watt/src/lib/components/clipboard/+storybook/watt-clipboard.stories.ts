@@ -16,13 +16,13 @@
  */
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
-import { WattToastModule } from '../../toast/watt-toast.module';
-
-import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
-import { WattStorybookClipboardComponent } from './storybook-clipboard.component';
 import { importProvidersFrom } from '@angular/core';
 
-export default {
+import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
+import { WattToastModule } from '../../toast/watt-toast.module';
+import { WattStorybookClipboardComponent } from './storybook-clipboard.component';
+
+const meta: Meta<WattCopyToClipboardDirective> = {
   title: 'Components/Clipboard',
   decorators: [
     applicationConfig({
@@ -32,7 +32,9 @@ export default {
       imports: [WattStorybookClipboardComponent],
     }),
   ],
-} as Meta<WattCopyToClipboardDirective>;
+};
+
+export default meta;
 
 export const Overview: StoryFn<WattCopyToClipboardDirective> = (args) => ({
   props: args,

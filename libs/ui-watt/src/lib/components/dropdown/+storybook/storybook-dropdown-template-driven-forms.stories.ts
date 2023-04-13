@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -70,7 +70,7 @@ const howToUseGuideBasic = `
   <watt-dropdown [(ngModel)]="singleSelectionModel" [options]="options"></watt-dropdown>
  </watt-form-field>`;
 
-export const SingleSelect: Story<WattDropdownComponent> = (
+export const SingleSelect: StoryFn<WattDropdownComponent> = (
   args: Partial<WattDropdownComponent>
 ) => ({
   props: {
@@ -97,7 +97,7 @@ SingleSelect.parameters = {
   },
 };
 
-export const MultiSelect: Story<WattDropdownComponent> = (
+export const MultiSelect: StoryFn<WattDropdownComponent> = (
   args: Partial<WattDropdownComponent>
 ) => ({
   props: {
@@ -128,7 +128,7 @@ MultiSelect.parameters = {
   },
 };
 
-export const WithLabel: Story<WattDropdownComponent> = () => ({
+export const WithLabel: StoryFn<WattDropdownComponent> = () => ({
   props: {
     singleSelectionModel: '',
   },
@@ -145,7 +145,7 @@ WithLabel.parameters = {
   },
 };
 
-export const WithValidation: Story<WattDropdownComponent> = () => ({
+export const WithValidation: StoryFn<WattDropdownComponent> = () => ({
   props: {
     singleSelectionModel: '',
     options: dropdownOptions,
