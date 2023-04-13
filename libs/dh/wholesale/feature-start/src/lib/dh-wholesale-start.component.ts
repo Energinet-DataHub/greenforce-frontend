@@ -34,7 +34,7 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { DateRange, MarketParticipantGridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { DateRange } from '@energinet-datahub/dh/shared/domain';
 import { filterValidGridAreas, GridArea } from '@energinet-datahub/dh/wholesale/domain';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 
