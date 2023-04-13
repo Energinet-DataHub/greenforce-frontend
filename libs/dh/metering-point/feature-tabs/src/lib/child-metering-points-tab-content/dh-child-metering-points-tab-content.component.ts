@@ -29,7 +29,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { RouterModule } from '@angular/router';
 
 import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhMeteringPointStatusBadgeScam } from '@energinet-datahub/dh/metering-point/ui-status-badge';
 import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/domain';
@@ -96,7 +96,7 @@ export class DhChildMeteringPointsTabContentComponent implements AfterViewInit {
     WattIconModule,
     MatSortModule,
     CommonModule,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     RouterModule,
     DhSharedUiDateTimeModule,
   ],

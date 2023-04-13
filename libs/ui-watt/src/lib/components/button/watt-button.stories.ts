@@ -14,16 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 import { StorybookButtonOverviewModule } from './+storybook/storybook-button-overview.module';
 import { WattButtonComponent } from './watt-button.component';
 import { WattButtonModule } from './watt-button.module';
 
-export default {
+const meta: Meta<WattButtonComponent> = {
   title: 'Components/Button',
   component: WattButtonComponent,
   decorators: [moduleMetadata({ imports: [WattButtonModule] })],
-} as Meta<WattButtonComponent>;
+};
+
+export default meta;
 
 const howToUseGuide = `
 1. Import ${WattButtonModule.name} in a module
@@ -45,7 +47,7 @@ Overview.parameters = {
 };
 
 //👇 We create a “template” of how args map to rendering
-const ButtonStory: Story<WattButtonComponent> = (args) => ({
+const ButtonStory: StoryFn<WattButtonComponent> = (args) => ({
   props: args,
   template: `<watt-button>Button</watt-button>`,
 });

@@ -26,7 +26,7 @@ import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattDrawerModule, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
@@ -96,7 +96,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
     WattBadgeComponent,
     WattButtonModule,
     WattIconModule,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     WattSpinnerModule,
     WattValidationMessageModule,
     DhEmDashFallbackPipeScam,
