@@ -11,7 +11,7 @@
     "eslint-config-custom": "workspace:*",
     "prettier": "^2.8.7",
     "prettier-plugin-svelte": "^2.10.0",
-    "turbo": "^1.9.0"
+    "turbo": "^1.9.1"
   },
   "packageManager": "pnpm@7.15.0"
 }
