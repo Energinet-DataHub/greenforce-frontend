@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
-import { mount } from 'cypress/angular'
+import { mount } from 'cypress/angular';
+import '@testing-library/cypress/add-commands';
 
 // ***********************************************
 // This example commands.ts shows you how to

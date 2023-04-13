@@ -52,5 +52,7 @@ it('should type', () => {
     ]
   });
 
-  cy.get('input[aria-label="date-input"]').type('22-02-2222');
+  cy.findByRole('textbox', {
+    name: /^date-input/i,
+  }).type('22-02-2222');
 });
