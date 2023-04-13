@@ -1,4 +1,5 @@
 import adapter from '@sveltejs/adapter-auto';
+import path from 'path'
 import preprocess from 'svelte-preprocess';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -19,6 +20,9 @@ const config = {
   ],
 
   kit: {
+    alias: {
+      $houdini: path.resolve('.', '$houdini')
+  },
     adapter: adapter()
   }
 };

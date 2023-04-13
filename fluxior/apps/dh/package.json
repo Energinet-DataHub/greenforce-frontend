@@ -2,7 +2,7 @@
   "name": "web",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite dev --port 3000 --open",
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 vite dev --port 3000 --open",
     "build": "vite build",
     "package": "vite package",
     "preview": "vite preview",
@@ -21,6 +21,8 @@
     "@sveltejs/adapter-auto": "^2.0.0",
     "@sveltejs/kit": "^1.15.4",
     "eslint-config-custom": "workspace:*",
+    "houdini": "^1.1.7",
+    "houdini-svelte": "^1.1.7",
     "svelte": "^3.58.0",
     "svelte-check": "^3.2.0",
     "svelte-preprocess": "^5.0.3",

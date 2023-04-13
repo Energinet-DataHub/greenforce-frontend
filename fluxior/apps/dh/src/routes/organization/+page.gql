@@ -1,0 +1,7 @@
+query Organiations {
+  organizations {
+    organizationId
+    name
+    status
+  }
+}
