@@ -16,18 +16,21 @@
  */
 import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 
-import { WattIcon } from '../../foundations/icon';
+import { WattIcon, WattIconModule } from '../../foundations/icon';
 import { WattIconSize } from '../../foundations/icon/watt-icon-size';
+import { CommonModule } from '@angular/common';
 
 /**
  * Usage:
- * `import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';`
+ * `import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';`
  */
 @Component({
   selector: 'watt-empty-state',
   styleUrls: ['./empty-state.component.scss'],
   templateUrl: './empty-state.component.html',
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [CommonModule, WattIconModule],
 })
 export class WattEmptyStateComponent {
   @Input() icon?: WattIcon;

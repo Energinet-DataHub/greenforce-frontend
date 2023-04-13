@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { FormsModule } from '@angular/forms';
 
 import { WattCheckboxModule } from '../watt-checkbox.module';
 import { WattCheckboxComponent } from '../watt-checkbox.component';
 
-export default {
+const meta: Meta<WattCheckboxComponent> = {
   title: 'Components/Checkbox/Template-Driven Forms',
   component: WattCheckboxComponent,
   decorators: [
@@ -28,7 +28,9 @@ export default {
       imports: [FormsModule, WattCheckboxModule],
     }),
   ],
-} as Meta<WattCheckboxComponent>;
+};
+
+export default meta;
 
 const howToUseGuideBasic = `
 How to use
@@ -45,13 +47,13 @@ exampleModel = true;
 
 <watt-checkbox [(ngModel)]="exampleModel">Keep me signed in</watt-checkbox>`;
 
-export const withModel: Story<WattCheckboxComponent> = () => ({
+export const WithModel: StoryFn<WattCheckboxComponent> = () => ({
   props: {
     exampleModel: true,
   },
   template: `<watt-checkbox [(ngModel)]="exampleModel">Keep me signed in</watt-checkbox>`,
 });
-withModel.parameters = {
+WithModel.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
@@ -78,7 +80,7 @@ isDisabled = true;
 
 <watt-checkbox [(ngModel)]="exampleModel" [disabled]="isDisabled">Keep me signed in</watt-checkbox>`;
 
-export const Disabled: Story<WattCheckboxComponent> = () => ({
+export const Disabled: StoryFn<WattCheckboxComponent> = () => ({
   props: {
     exampleModel: true,
     isDisabled: true,

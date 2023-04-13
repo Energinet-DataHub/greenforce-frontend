@@ -16,15 +16,17 @@
  */
 import { composeStory, createMountableStoryComponent } from '@storybook/testing-angular';
 import { render, screen } from '@testing-library/angular';
-import { Story } from '@storybook/angular';
+import { StoryFn } from '@storybook/angular';
 
 import { WattDescriptionListComponent } from './watt-description-list.component';
 import Meta, { Default } from './+storybook/watt-description-list.stories';
 
-const defaultStory = composeStory(Default, Meta);
+// TODO: Remove this when we have a better solution
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const defaultStory = composeStory(Default as any, Meta as any) as unknown as StoryFn;
 
 describe(WattDescriptionListComponent.name, () => {
-  async function setup(story: Story, clickSpy?: unknown) {
+  async function setup(story: StoryFn, clickSpy?: unknown) {
     const { component, ngModule } = createMountableStoryComponent(
       story({ onClick: clickSpy }, {} as never)
     );

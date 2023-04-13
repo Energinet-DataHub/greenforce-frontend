@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattValidationMessageComponent } from './watt-validation-message.component';
 import { WattValidationMessageModule } from './watt-validation-message.module';
 
-export default {
+const meta: Meta<WattValidationMessageComponent> = {
   title: 'Components/Validation Message',
   component: WattValidationMessageComponent,
   decorators: [
@@ -27,7 +27,9 @@ export default {
       imports: [WattValidationMessageModule],
     }),
   ],
-} as Meta<WattValidationMessageComponent>;
+};
+
+export default meta;
 
 const howToUseGuideBasic = `
 How to use
@@ -40,17 +42,17 @@ import { ${WattValidationMessageModule.name} } from '@energinet-datahub/watt/val
 
 <watt-validation-message label="Label" message="Message" type="danger"></watt-validation-message>`;
 
-export const validationMessage: Story<WattValidationMessageComponent> = (args) => ({
+export const ValidationMessage: StoryFn<WattValidationMessageComponent> = (args) => ({
   props: args,
 });
-validationMessage.parameters = {
+ValidationMessage.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
     },
   },
 };
-validationMessage.args = {
+ValidationMessage.args = {
   label: 'Info',
   message: 'The metering point is not active',
   type: 'info',

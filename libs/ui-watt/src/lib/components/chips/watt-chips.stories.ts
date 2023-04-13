@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
 import { WattChipsComponent } from './watt-chips.component';
 import { WattChipsModule } from './watt-chips.module';
 
-export default {
+const meta: Meta<WattChipsComponent> = {
   title: 'Components/Chips',
   component: WattChipsComponent,
   decorators: [
@@ -27,9 +27,11 @@ export default {
       imports: [WattChipsModule],
     }),
   ],
-} as Meta<WattChipsComponent>;
+};
 
-export const Overview: Story<WattChipsComponent> = (args) => ({
+export default meta;
+
+export const Overview: StoryFn<WattChipsComponent> = (args) => ({
   props: args,
 });
 

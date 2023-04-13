@@ -14,15 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
 import { StorybookSpacingOverviewComponent } from './storybook-spacing-overview.component';
 import { StorybookSpacingOverviewModule } from './storybook-spacing-overview.module';
-import StorybookSpacingOverviewDocs from './storybook-spacing-overview.mdx';
 
-const emptySourceCodeBlock = ' ';
-
-export default {
+const meta: Meta<StorybookSpacingOverviewComponent> = {
   title: 'Foundations/Spacing',
   component: StorybookSpacingOverviewComponent,
   decorators: [
@@ -30,18 +27,12 @@ export default {
       imports: [StorybookSpacingOverviewModule],
     }),
   ],
-  parameters: {
-    docs: {
-      page: StorybookSpacingOverviewDocs,
-      source: {
-        code: emptySourceCodeBlock,
-      },
-    },
-  },
-} as Meta<StorybookSpacingOverviewComponent>;
+};
+
+export default meta;
 
 //👇 We create a “template” of how args map to rendering
-const Template: Story<StorybookSpacingOverviewComponent> = (args) => ({
+const Template: StoryFn<StorybookSpacingOverviewComponent> = (args) => ({
   props: args,
 });
 
