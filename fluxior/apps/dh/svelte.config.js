@@ -19,12 +19,12 @@ const config = {
     })
   ],
 
-  kit: {
-    alias: {
-      $houdini: path.resolve('.', '$houdini')
-  },
-    adapter: adapter()
-  }
+	kit: {
+		adapter: adapter(),
+		alias: {
+			$houdini: './$houdini',
+		}
+	}
 };
 
 export default config;

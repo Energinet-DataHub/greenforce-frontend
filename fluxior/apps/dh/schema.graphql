@@ -4,11 +4,14 @@ schema {
 }
 
 type Actor {
+  """The grid areas the actor belongs to."""
+  gridAreaCodes: [String!]!
+
   """The id of the actor."""
-  id: ID
+  id: ID!
 
   """The name of the actor."""
-  name: String
+  name: String!
 
   """The number of the actor."""
   number: String!
@@ -61,6 +64,17 @@ enum BatchState {
   PENDING
 }
 
+input CreateBatchInput {
+  """The grid areas to be included in the batch."""
+  gridAreaCodes: [String!]!
+
+  """The period for the batch."""
+  period: DateRange!
+
+  """The process type for the batch."""
+  processType: ProcessType!
+}
+
 scalar DateRange
 
 """
@@ -86,6 +100,10 @@ enum EicFunction {
 }
 
 type GraphQLMutation {
+  createBatch(
+    """Batch to create"""
+    input: CreateBatchInput!
+  ): Batch!
   updatePermission(
     """Permission to update"""
     input: UpdatePermissionInput!
@@ -113,7 +131,10 @@ type GraphQLQuery {
     """The id of the permission"""
     id: ID
   ): [PermissionAuditLog!]!
-  permissions: [Permission!]!
+  permissions(
+    """The search term for which to look for in name and description"""
+    searchTerm: String
+  ): [Permission!]!
   processStep(
     """The batch id the process belongs to."""
     batchId: ID!

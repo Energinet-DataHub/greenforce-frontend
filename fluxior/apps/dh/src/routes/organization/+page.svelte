@@ -5,5 +5,5 @@
 </script>
 
 <div>
-  {$Organiations}
+  {JSON.stringify($Organiations)}
 </div>

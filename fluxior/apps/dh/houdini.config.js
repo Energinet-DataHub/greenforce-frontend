@@ -1,12 +1,13 @@
+/// <references types="houdini-svelte">
+
 /** @type {import('houdini').ConfigFile} */
 const config = {
-   logLevel: 'full',
-   watchSchema: {
-        url: 'https://localhost:5001/graphql',
+    "watchSchema": {
+        "url": "https://localhost:5001/graphql"
     },
-  "plugins": {
-    "houdini-svelte": {}
-  }
+    "plugins": {
+        "houdini-svelte": {}
+    }
 }
 
 export default config

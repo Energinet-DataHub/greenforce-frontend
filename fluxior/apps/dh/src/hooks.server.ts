@@ -8,32 +8,53 @@ import type { Handle } from '@sveltejs/kit';
 export const handle = SvelteKitAuth(async (event) => {
   const authOptions: SvelteKitAuthConfig = {
     debug: false,
-    secret: env.secret,
+    trustHost: true,
+    secret: env.AUTH_SECRET,
     callbacks: {
       async session({ session, token }) {
-        session.accessToken = token.accessToken;
+        // session.accessToken = token.accessToken;
         setSession(event, token);
         return session;
       },
       async jwt({ token, account }) {
         if (account) {
-          token.accessToken = account.access_token;
+          console.log(account.access_token);
+          try {
+            const actorIds = await fetch(
+              'https://localhost:5001/v1/MarketParticipantUser/GetUserActors',
+              {
+                credentials: 'include',
+                headers: {
+                  Accept: 'application/json',
+                  Authorization: `Bearer ${account.access_token}`,
+                  'Content-Type': 'application/json'
+                }
+              }
+            );
+            console.log(actorIds.statusText);
+            const test = await actorIds.text();
+            console.log(test);
+            // console.log(actorIds, account.access_token);
+          } catch (e) {
+            console.error(e);
+          }
+
+          //token.accessToken = account.access_token;
         }
         return token;
       }
     },
     providers: [
       AzureADB2C({
-        issuer: 'https://devdatahubb2c.b2clogin.com/4a7411ea-ac71-4b63-9647-b8bd4c5a20e0/v2.0/',
-        token:
-          'https://devdatahubb2c.b2clogin.com/devdatahubb2c.onmicrosoft.com/b2c_1_signinflow/oauth2/v2.0/token',
-        userinfo: 'https://graph.microsoft.com/oidc/userinfo',
-        clientId: '1982d7c0-9b07-4c41-85ac-476967b10101',
-        clientSecret: 'Pzu8Q~Rg5fnk.~mOyzsKbPLWyA6BuMPLesW7IaDD',
+        issuer: env.AZURE_AD_B2C_TENANT_ISSUER,
+        token: env.AZURE_AD_B2C_TOKEN_ENDPOINT,
+        userinfo: env.AZURE_AD_B2C_TOKEN_ENDPOINT,
+        clientId: env.AZURE_AD_B2C_CLIENT_ID,
+        clientSecret: env.AZURE_AD_B2C_CLIENT_SECRET,
         authorization: {
-          url: 'https://devdatahubb2c.b2clogin.com/devdatahubb2c.onmicrosoft.com/b2c_1_signinflow/oauth2/v2.0/authorize',
+          url: env.AZURE_AD_B2C_AUTH_ENDPOINT,
           params: {
-            scope: '1982d7c0-9b07-4c41-85ac-476967b10101 openid profile email'
+            scope: `${env.AZURE_AD_B2C_CLIENT_ID} openid profile email`
           }
         }
       }) as Provider
