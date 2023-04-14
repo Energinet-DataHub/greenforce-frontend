@@ -108,7 +108,7 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
     ],
   });
   userRoles = this.formBuilder.group({
-    selectedUserRoles: [[''], Validators.required],
+    selectedUserRoles: [[] as string[], Validators.required],
   });
 
   ngAfterViewInit(): void {
@@ -163,6 +163,7 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   }
 
   onSelectedUserRoles(userRoles: MarketParticipantUserRoleDto[]) {
+    this.userRoles.controls.selectedUserRoles.markAsTouched();
     this.userRoles.controls.selectedUserRoles.setValue(userRoles.map((userRole) => userRole.id));
   }
 
