@@ -84,7 +84,7 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
   }
 
   nextStep(): void {
-    this.selected?.stepControl.markAllAsTouched();
+    this.stepper.selected?.stepControl.markAllAsTouched();
     this.stepper.next();
   }
 
@@ -93,6 +93,7 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
   }
 
   complete(): void {
+    this.stepper.selected?.stepControl.markAllAsTouched();
     this.completed.emit();
   }
 }
