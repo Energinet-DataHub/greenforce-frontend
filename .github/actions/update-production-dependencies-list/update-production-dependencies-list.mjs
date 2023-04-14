@@ -18,16 +18,10 @@ function writeProductionDependencyLicenses(licenses) {
   `;
   const content = Object.entries(parsedLicenses)
     .map(([key, value]) => {
-      const splittedKey = key.split('@');
-      const name = splittedKey[splittedKey.length - 2];
-      const version = key.split('@')[splittedKey.length - 1];
+      const atSymbolLastIndex = key.lastIndexOf('@');
 
-      // For some reason, `license-checker-rseidelsohn` doesn't include a `repository` property for `microsoft/applicationinsights-angularplugin-js`. In this case the `repository` will be `undefined` in the final output.
-      // When that happens, the `CI orchestrator` action will fail because the link will not pass Markdown lint checks.
-      // This is a temporary workaround to fix the issue.
-      if (name === "microsoft/applicationinsights-angularplugin-js") {
-        value.repository = "https://github.com/microsoft/applicationinsights-angularplugin-js"
-      }
+      const name = key.slice(0, atSymbolLastIndex);
+      const version = key.slice(atSymbolLastIndex + 1);
 
       return `| [${name}](${value.repository}) | ${version} | ${value.licenses} |`;
     })
