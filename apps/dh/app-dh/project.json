@@ -12,7 +12,7 @@
         "outputPath": "dist/apps/dh/app-dh",
         "index": "apps/dh/app-dh/src/index.html",
         "main": "apps/dh/app-dh/src/main.ts",
-        "polyfills": "apps/dh/app-dh/src/polyfills.ts",
+        "polyfills": "zone.js",
         "tsConfig": "apps/dh/app-dh/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "allowedCommonJsDependencies": [
