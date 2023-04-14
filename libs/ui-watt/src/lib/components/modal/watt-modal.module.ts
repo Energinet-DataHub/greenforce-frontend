@@ -26,6 +26,12 @@ import { WattModalComponent, WattModalActionsComponent } from './watt-modal.comp
 @NgModule({
   declarations: [WattModalComponent, WattModalActionsComponent],
   exports: [WattModalComponent, WattModalActionsComponent],
-  imports: [CommonModule, MatDialogModule, WattResizeObserverDirective, WattButtonModule, WattSpinnerModule],
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    WattResizeObserverDirective,
+    WattButtonModule,
+    WattSpinnerModule,
+  ],
 })
 export class WattModalModule {}
