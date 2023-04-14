@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using System;
 using GraphQL.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class EicFunctionEnum : AsIsCaseEnumerationGraphType<EicFunction>
+    public class AsIsCaseEnumerationGraphType<T> : EnumerationGraphType<T>
+    where T : Enum
     {
+        protected override string ChangeEnumCase(string val) => val;
     }
 }
