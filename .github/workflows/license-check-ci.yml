@@ -54,13 +54,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: ${{ env.node-version-file }}
-          cache: yarn
 
-      - name: Set yarn version ${{ env.yarn-version }}
-        run: yarn set version ${{ env.yarn-version }}
-
-      - name: Install package dependencies
-        run: yarn install --frozen-lockfile --non-interactive
+      - name: 📥 Monorepo install
+        uses: ./.github/actions/yarn-nm-install
 
       - name: Add license to all projects
         run: yarn nx run workspace-tools:add-license
