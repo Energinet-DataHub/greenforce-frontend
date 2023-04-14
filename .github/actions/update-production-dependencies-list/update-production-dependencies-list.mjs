@@ -18,9 +18,10 @@ function writeProductionDependencyLicenses(licenses) {
   `;
   const content = Object.entries(parsedLicenses)
     .map(([key, value]) => {
-      const splittedKey = key.split('@');
-      const name = splittedKey[splittedKey.length - 2];
-      const version = key.split('@')[splittedKey.length - 1];
+      const atSymbolLastIndex = key.lastIndexOf('@');
+
+      const name = key.slice(0, atSymbolLastIndex);
+      const version = key.slice(atSymbolLastIndex + 1);
 
       return `| [${name}](${value.repository}) | ${version} | ${value.licenses} |`;
     })
