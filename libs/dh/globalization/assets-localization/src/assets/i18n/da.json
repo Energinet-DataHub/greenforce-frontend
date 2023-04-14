@@ -879,6 +879,7 @@
         "email": "Email",
         "phoneNumber": "Telefonnr.",
         "phoneNumberError": "Telefonnr. format +45 12345678",
+        "noUserRolesError": "Mindst én brugerrolle skal vælges.",
         "successMessage": "{{ email }} blev inviteret",
         "columns": {
           "eicFunction": "Markedsrolle",
