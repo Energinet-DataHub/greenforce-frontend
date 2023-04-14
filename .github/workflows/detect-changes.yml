@@ -75,8 +75,8 @@ jobs:
         with:
           ngcc: false
 
-      - name: Set yarn version 1.22.19
-        run: yarn set version 1.22.19
+      - name: Set yarn version 3.5.0
+        run: yarn set version 3.5.0
 
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
