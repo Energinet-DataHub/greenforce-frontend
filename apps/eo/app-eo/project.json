@@ -32,7 +32,7 @@
         "inlineStyleLanguage": "scss",
         "main": "apps/eo/app-eo/src/main.ts",
         "outputPath": "dist/apps/eo/app-eo",
-        "polyfills": "apps/eo/app-eo/src/polyfills.ts",
+        "polyfills": "zone.js",
         "scripts": [],
         "stylePreprocessorOptions": {
           "includePaths": [
