@@ -24,7 +24,7 @@ import {
   EoFooterComponent,
   EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoAuthService, EoTermsService } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService, EoAuthStore, EoTermsService } from '@energinet-datahub/eo/shared/services';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -105,6 +105,7 @@ export class EoTermsComponent {
   constructor(
     private authService: EoAuthService,
     private termsService: EoTermsService,
+    private authStore: EoAuthStore,
     private router: Router
   ) {}
 
@@ -115,8 +116,12 @@ export class EoTermsComponent {
   onAccept() {
     if (this.startedAcceptFlow) return;
     this.startedAcceptFlow = true;
+
     this.termsService.acceptTerms().subscribe({
-      next: () => this.router.navigate(['/login']),
+      next: (x) => {
+        console.log('accept done', x);
+        this.router.navigate(['/login']);
+      },
       error: () => this.router.navigate(['/']),
     });
   }

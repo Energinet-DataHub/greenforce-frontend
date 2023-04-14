@@ -27,7 +27,7 @@ import {
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
-import { delay, tap } from 'rxjs';
+import { concatWith, tap } from 'rxjs';
 import { EoAuthService } from './auth.service';
 import { EoAuthStore } from './auth.store';
 
@@ -46,17 +46,25 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
     const authorizedRequest = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${this.authStore.token.getValue()}`),
     });
+
+    if (tokenRefreshTrigger) {
+      /*       return concat(nextHandler.handle(authorizedRequest), this.authService.refreshToken()).pipe(
+       mergeMap(val=>val)
+      ); */
+
+      return nextHandler
+        .handle(authorizedRequest)
+        .pipe(concatWith(this.authService.refreshToken()));
+    }
+
     return nextHandler.handle(authorizedRequest).pipe(
       tap({
-        next: (httpEvent) => tokenRefreshTrigger && this.#HandleTokenRefresh(httpEvent),
         error: (error) => {
           if (this.#is403ForbiddenResponse(error)) this.#displayPermissionError();
           if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
           tokenRefreshTrigger && this.authService.refreshToken();
         },
-      }),
-      /** We add a delay so changes in backend can propagate out before we ask for a token again */
-      delay(tokenRefreshTrigger ? 100 : 0)
+      })
     );
   }
 
