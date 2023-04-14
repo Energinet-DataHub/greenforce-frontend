@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattSpinnerComponent, WattSpinnerModule } from './../index';
 
-export default {
+const meta: Meta<WattSpinnerComponent> = {
   title: 'Components/Spinner',
   decorators: [
     moduleMetadata({
@@ -26,8 +26,10 @@ export default {
     }),
   ],
   component: WattSpinnerComponent,
-} as Meta<WattSpinnerComponent>;
+};
 
-export const Spinner: Story<WattSpinnerComponent> = (args) => ({
+export default meta;
+
+export const Spinner: StoryFn<WattSpinnerComponent> = (args) => ({
   props: args,
 });

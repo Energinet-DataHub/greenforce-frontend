@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { componentWrapperDecorator, moduleMetadata, Story } from '@storybook/angular';
+import { componentWrapperDecorator, moduleMetadata, StoryFn } from '@storybook/angular';
+import { MatSortModule } from '@angular/material/sort';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { WattStorybookTableDecoratorComponent } from './storybook-table-decorator.component';
 import { WattTableColumnDef, WATT_TABLE } from '../watt-table.component';
 import { WattTableDataSource } from '../watt-table-data-source';
 import { WattIconModule } from '../../../foundations/icon/icon.module';
-import { MatSortModule } from '@angular/material/sort';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 function removeDecoratorFromSource(snippet: string) {
   const matches = snippet.match(/^<.+?>(.+)<\/.+>$/s);
@@ -75,7 +75,7 @@ export default {
   parameters: { docs: { transformSource: removeDecoratorFromSource } },
 };
 
-export const Table: Story = (args) => {
+export const Table: StoryFn = (args) => {
   return {
     props: args,
     template: `

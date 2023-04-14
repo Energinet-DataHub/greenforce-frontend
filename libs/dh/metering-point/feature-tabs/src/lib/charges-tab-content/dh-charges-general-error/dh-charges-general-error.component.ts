@@ -17,7 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 @Component({
   selector: 'dh-charges-general-error',
@@ -27,7 +27,7 @@ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 export class DhChargesGeneralErrorComponent {}
 
 @NgModule({
-  imports: [TranslocoModule, CommonModule, WattEmptyStateModule],
+  imports: [TranslocoModule, CommonModule, WattEmptyStateComponent],
   declarations: [DhChargesGeneralErrorComponent],
   exports: [DhChargesGeneralErrorComponent],
 })
