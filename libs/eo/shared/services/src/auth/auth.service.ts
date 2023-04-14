@@ -99,7 +99,6 @@ export class EoAuthService {
     this.store.isTokenExpired$
       .pipe(take(1))
       .subscribe((expired) => !expired && this.startMonitor());
-    console.log('token set');
   }
 
   private startMonitor() {
