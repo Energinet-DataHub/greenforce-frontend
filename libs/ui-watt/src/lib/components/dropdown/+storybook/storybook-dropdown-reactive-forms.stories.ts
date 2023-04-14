@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -31,7 +31,7 @@ const dropdownOptions: WattDropdownOption[] = [
   { value: 'joules', displayValue: 'Joules' },
 ];
 
-export default {
+const meta: Meta<WattDropdownComponent> = {
   title: 'Components/Dropdown/Reactive Forms',
   component: WattDropdownComponent,
   decorators: [
@@ -45,7 +45,9 @@ export default {
       ],
     }),
   ],
-} as Meta<WattDropdownComponent>;
+};
+
+export default meta;
 
 const howToUseGuideBasic = `
  How to use
@@ -72,7 +74,7 @@ const howToUseGuideBasic = `
   <watt-dropdown [formControl]="exampleFormControl" [options]="options"></watt-dropdown>
  </watt-form-field>`;
 
-export const singleSelect: Story<WattDropdownComponent> = (
+export const SingleSelect: StoryFn<WattDropdownComponent> = (
   args: Partial<WattDropdownComponent>
 ) => ({
   props: {
@@ -87,11 +89,11 @@ export const singleSelect: Story<WattDropdownComponent> = (
       [options]="options"></watt-dropdown>
   </watt-form-field>`,
 });
-singleSelect.args = {
+SingleSelect.args = {
   options: dropdownOptions,
   placeholder: 'Select a team',
 };
-singleSelect.parameters = {
+SingleSelect.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
@@ -99,7 +101,7 @@ singleSelect.parameters = {
   },
 };
 
-export const multiSelect: Story<WattDropdownComponent> = (
+export const MultiSelect: StoryFn<WattDropdownComponent> = (
   args: Partial<WattDropdownComponent>
 ) => ({
   props: {
@@ -117,12 +119,12 @@ export const multiSelect: Story<WattDropdownComponent> = (
       [options]="options"></watt-dropdown>
   </watt-form-field>`,
 });
-multiSelect.args = {
+MultiSelect.args = {
   options: dropdownOptions,
   placeholder: 'Select a team',
   noOptionsFoundLabel: 'No team found.',
 };
-multiSelect.parameters = {
+MultiSelect.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
@@ -130,7 +132,7 @@ multiSelect.parameters = {
   },
 };
 
-export const withLabel: Story<WattDropdownComponent> = () => ({
+export const WithLabel: StoryFn<WattDropdownComponent> = () => ({
   props: {
     exampleFormControl: new FormControl(null),
   },
@@ -139,7 +141,7 @@ export const withLabel: Story<WattDropdownComponent> = () => ({
     <watt-dropdown [formControl]="exampleFormControl"></watt-dropdown>
   </watt-form-field>`,
 });
-withLabel.parameters = {
+WithLabel.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
@@ -147,7 +149,7 @@ withLabel.parameters = {
   },
 };
 
-export const withValidation: Story<WattDropdownComponent> = () => ({
+export const WithValidation: StoryFn<WattDropdownComponent> = () => ({
   props: {
     exampleFormControl: new FormControl(null, Validators.required),
     options: dropdownOptions,
@@ -162,7 +164,7 @@ export const withValidation: Story<WattDropdownComponent> = () => ({
     </watt-error>
   </watt-form-field>`,
 });
-withValidation.parameters = {
+WithValidation.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
@@ -170,7 +172,7 @@ withValidation.parameters = {
   },
 };
 
-export const withFormControlDisabled: Story<WattDropdownComponent> = () => ({
+export const WithFormControlDisabled: StoryFn<WattDropdownComponent> = () => ({
   props: {
     exampleFormControl: new FormControl({ value: null, disabled: true }),
     options: dropdownOptions,
@@ -181,7 +183,7 @@ export const withFormControlDisabled: Story<WattDropdownComponent> = () => ({
     <watt-dropdown [formControl]="exampleFormControl" [options]="options" [placeholder]="placeholder"></watt-dropdown>
   </watt-form-field>`,
 });
-withValidation.parameters = {
+WithValidation.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,

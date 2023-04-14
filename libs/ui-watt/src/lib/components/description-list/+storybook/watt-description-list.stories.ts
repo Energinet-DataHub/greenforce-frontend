@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
 import {
   WattDescriptionListComponent,
@@ -30,7 +30,7 @@ export default {
   ],
 } as Meta;
 
-const Template: Story = (args) => ({
+const Template: StoryFn = (args) => ({
   props: args,
   template: `
     <watt-description-list [variant]=variant [groupsPerRow]=groupsPerRow>

@@ -25,7 +25,7 @@ import { ProcessStepActor } from '@energinet-datahub/dh/wholesale/domain';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { takeWhile } from 'rxjs';
 
@@ -36,7 +36,7 @@ import { takeWhile } from 'rxjs';
     CommonModule,
     TranslocoModule,
     WATT_TABLE,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     WattPaginatorComponent,
     WattSpinnerModule,
   ],

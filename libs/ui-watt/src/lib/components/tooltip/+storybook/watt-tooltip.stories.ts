@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { within, userEvent } from '@storybook/testing-library';
 
 import { WattButtonModule } from '../../button/watt-button.module';
@@ -58,7 +58,7 @@ const template = `
     </div>
  `;
 
-export const Overview: Story = () => ({
+export const Overview: StoryFn = () => ({
   template,
 });
 

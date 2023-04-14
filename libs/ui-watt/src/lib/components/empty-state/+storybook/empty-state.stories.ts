@@ -14,31 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { importProvidersFrom } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
-import { WattButtonModule } from '../../button/watt-button.module';
 import { WattEmptyStateComponent } from '../empty-state.component';
-import { WattEmptyStateModule } from '../empty-state.module';
+import { WattButtonModule } from '../../button';
 import { StorybookEmptyStateOverviewComponent } from './storybook-empty-state-overview.component';
-import { StorybookEmptyStateOverviewModule } from './storybook-empty-state-overview.module';
 
-export default {
+const meta: Meta<StorybookEmptyStateOverviewComponent> = {
   title: 'Components/Empty State',
   decorators: [
+    applicationConfig({
+      providers: [importProvidersFrom(HttpClientModule)],
+    }),
     moduleMetadata({
-      imports: [
-        StorybookEmptyStateOverviewModule,
-        WattEmptyStateModule,
-        WattButtonModule,
-        HttpClientModule,
-      ],
+      imports: [StorybookEmptyStateOverviewComponent, WattEmptyStateComponent, WattButtonModule],
     }),
   ],
   component: StorybookEmptyStateOverviewComponent,
-} as Meta<StorybookEmptyStateOverviewComponent>;
+};
 
-export const overview: Story<StorybookEmptyStateOverviewComponent> = (args) => ({
+export default meta;
+
+export const Overview: StoryFn<StorybookEmptyStateOverviewComponent> = (args) => ({
   props: args,
 });
 
@@ -48,19 +47,19 @@ const emptyStateWithCallBackTemplate = (
   <watt-button variant="primary" size="normal">Go Back</watt-button>
 </watt-empty-state>`;
 
-export const withCallToAction: Story<WattEmptyStateComponent> = (args) => ({
+export const WithCallToAction: StoryFn<WattEmptyStateComponent> = (args) => ({
   props: args,
   template: emptyStateWithCallBackTemplate(args),
 });
-withCallToAction.args = {
+WithCallToAction.args = {
   icon: 'power',
   title: 'An unexpected error occured',
   message: 'Try again or contact your system administrator if you keep getting this error.',
 };
-withCallToAction.parameters = {
+WithCallToAction.parameters = {
   docs: {
     source: {
-      code: emptyStateWithCallBackTemplate(withCallToAction.args),
+      code: emptyStateWithCallBackTemplate(WithCallToAction.args),
     },
   },
 };
@@ -68,18 +67,18 @@ withCallToAction.parameters = {
 const withoutIconTemplate = (args: Partial<WattEmptyStateComponent>) =>
   `<watt-empty-state title="${args.title}" message="${args.message}"></watt-empty-state>`;
 
-export const withoutIcon: Story<WattEmptyStateComponent> = (args) => ({
+export const WithoutIcon: StoryFn<WattEmptyStateComponent> = (args) => ({
   props: args,
   template: withoutIconTemplate(args),
 });
-withoutIcon.args = {
+WithoutIcon.args = {
   title: 'No results for ‘test’',
   message: 'Try adjusting your search or filter to find what you are looking for.',
 };
-withoutIcon.parameters = {
+WithoutIcon.parameters = {
   docs: {
     source: {
-      code: withoutIconTemplate(withoutIcon.args),
+      code: withoutIconTemplate(WithoutIcon.args),
     },
   },
 };
@@ -87,20 +86,20 @@ withoutIcon.parameters = {
 const smallTemplate = (args: Partial<WattEmptyStateComponent>) =>
   `<watt-empty-state size="small" title="${args.title}" message="${args.message}"></watt-empty-state>`;
 
-export const small: Story<WattEmptyStateComponent> = (args) => ({
+export const Small: StoryFn<WattEmptyStateComponent> = (args) => ({
   props: args,
   template: smallTemplate(args),
 });
-small.args = {
+Small.args = {
   icon: undefined,
   title: 'No results for ‘test’',
   message: 'Try adjusting your search or filter to find what you are looking for.',
 };
 
-small.parameters = {
+Small.parameters = {
   docs: {
     source: {
-      code: smallTemplate(small.args),
+      code: smallTemplate(Small.args),
     },
   },
 };

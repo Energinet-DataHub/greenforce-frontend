@@ -20,7 +20,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
@@ -31,7 +31,7 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
     WATT_TABLE,
     CommonModule,
     TranslocoModule,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     WattCardModule,
     DhSharedUiDateTimeModule,
     WattPaginatorComponent,

@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { WattCheckboxModule } from '../watt-checkbox.module';
 import { WattCheckboxComponent } from '../watt-checkbox.component';
 
-export default {
+const meta: Meta<WattCheckboxComponent> = {
   title: 'Components/Checkbox/Reactive Forms',
   component: WattCheckboxComponent,
   decorators: [
@@ -28,7 +28,9 @@ export default {
       imports: [ReactiveFormsModule, WattCheckboxModule],
     }),
   ],
-} as Meta<WattCheckboxComponent>;
+};
+
+export default meta;
 
 const howToUseGuideBasic = `
 How to use
@@ -45,13 +47,13 @@ exampleFormControl = new FormControl(true);
 
 <watt-checkbox [formControl]="exampleFormControl">Keep me signed in</watt-checkbox>`;
 
-export const withFormControl: Story<WattCheckboxComponent> = () => ({
+export const WithFormControl: StoryFn<WattCheckboxComponent> = () => ({
   props: {
     exampleFormControl: new FormControl(true),
   },
   template: `<watt-checkbox [formControl]="exampleFormControl">Keep me signed in</watt-checkbox>`,
 });
-withFormControl.parameters = {
+WithFormControl.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
@@ -74,7 +76,7 @@ exampleFormControl = new FormControl({ value: true, disabled: true }),
 
 <watt-checkbox [formControl]="exampleFormControl">Keep me signed in</watt-checkbox>`;
 
-export const Disabled: Story<WattCheckboxComponent> = () => ({
+export const Disabled: StoryFn<WattCheckboxComponent> = () => ({
   props: {
     exampleFormControl: new FormControl({ value: true, disabled: true }),
   },

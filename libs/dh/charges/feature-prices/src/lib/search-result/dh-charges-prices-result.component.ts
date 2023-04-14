@@ -24,7 +24,7 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 
@@ -44,7 +44,7 @@ import formatInTimeZone from 'date-fns-tz/formatInTimeZone';
     LetModule,
     WattIconModule,
     WattButtonModule,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
     DhFeatureFlagDirectiveModule,
     WattTooltipDirective,
     WattSpinnerModule,

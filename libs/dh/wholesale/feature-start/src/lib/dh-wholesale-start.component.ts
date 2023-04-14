@@ -27,7 +27,7 @@ import { PushModule } from '@rx-angular/template/push';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -62,7 +62,7 @@ interface CreateBatchFormValues {
     WattDropdownModule,
     WattFormFieldModule,
     WattSpinnerModule,
-    WattEmptyStateModule,
+    WattEmptyStateComponent,
   ],
 })
 export class DhWholesaleStartComponent implements OnInit, OnDestroy {

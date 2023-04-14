@@ -14,22 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { provideAnimations } from '@angular/platform-browser/animations';
+
 import { WattButtonModule } from '../button';
 import { WattInputModule } from '../input/input.module';
 import { WattFormFieldModule } from '../form-field/form-field.module';
 import { WattModalModule } from './watt-modal.module';
 import { WattModalComponent } from './watt-modal.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WattTooltipDirective } from '../tooltip';
 
-export default {
+const meta: Meta<WattModalComponent> = {
   title: 'Components/Modal',
   component: WattModalComponent,
   decorators: [
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
     moduleMetadata({
       imports: [
-        BrowserAnimationsModule,
+        ReactiveFormsModule,
         WattButtonModule,
         WattFormFieldModule,
         WattInputModule,
@@ -38,9 +43,11 @@ export default {
       ],
     }),
   ],
-} as Meta<WattModalComponent>;
+};
 
-export const Small: Story<WattModalComponent> = (args) => ({
+export default meta;
+
+export const Small: StoryFn<WattModalComponent> = (args) => ({
   props: args,
   template: `
     <watt-button (click)="modal.open()">{{title}}</watt-button>
@@ -60,8 +67,8 @@ Small.args = {
   disableClose: true,
 };
 
-export const Normal: Story<WattModalComponent> = (args) => ({
-  props: args,
+export const Normal: StoryFn<WattModalComponent> = (args) => ({
+  props: { ...args, exampleFormControl: new FormControl(null) },
   template: `
     <watt-button (click)="modal.open()">{{title}}</watt-button>
     <watt-modal #modal [title]="title" [size]="size" [disableClose]="disableClose" closeLabel="Close modal">
@@ -88,7 +95,7 @@ Normal.args = {
   disableClose: false,
 };
 
-export const Large: Story<WattModalComponent> = (args) => ({
+export const Large: StoryFn<WattModalComponent> = (args) => ({
   props: args,
   template: `
     <watt-button (click)="modal.open()">{{title}}</watt-button>
