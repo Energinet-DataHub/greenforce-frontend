@@ -18,7 +18,6 @@
 import {
   HTTP_INTERCEPTORS,
   HttpErrorResponse,
-  HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
@@ -27,7 +26,7 @@ import {
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
-import { concatWith, tap } from 'rxjs';
+import { concatMap, filter, map, tap } from 'rxjs';
 import { EoAuthService } from './auth.service';
 import { EoAuthStore } from './auth.store';
 
@@ -48,13 +47,10 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
     });
 
     if (tokenRefreshTrigger) {
-      /*       return concat(nextHandler.handle(authorizedRequest), this.authService.refreshToken()).pipe(
-       mergeMap(val=>val)
-      ); */
-
-      return nextHandler
-        .handle(authorizedRequest)
-        .pipe(concatWith(this.authService.refreshToken()));
+      return nextHandler.handle(authorizedRequest).pipe(
+        filter((event) => event instanceof HttpResponse),
+        concatMap((httpEvent) => this.authService.refreshToken().pipe(map(() => httpEvent)))
+      );
     }
 
     return nextHandler.handle(authorizedRequest).pipe(
@@ -66,10 +62,6 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
         },
       })
     );
-  }
-
-  #HandleTokenRefresh(event: HttpEvent<unknown>) {
-    if (event instanceof HttpResponse) this.authService.refreshToken();
   }
 
   #displayPermissionError() {
