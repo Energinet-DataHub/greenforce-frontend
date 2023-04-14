@@ -23,7 +23,7 @@ watt-form-field {
     --watt-space-m
   ); // margin is added to take up space for the floating label
   --input-border-color: var(--watt-color-neutral-grey-400);
-  --input-color: var(--watt-color-primary-dark);
+  --input-color: var(--watt-typography-text-color);
   --input-background: var(--watt-color-neutral-white);
   --label-margin-bottom: 4px;
 
