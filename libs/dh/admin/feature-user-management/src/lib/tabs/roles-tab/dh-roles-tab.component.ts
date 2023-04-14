@@ -106,12 +106,12 @@ export class DhUserRolesTabComponent {
         const basePath = 'admin.userManagement.tabs.roles.table.columns.';
 
         const headers = [
-          translate(basePath + 'name'),
-          translate(basePath + 'marketRole'),
-          translate(basePath + 'status'),
+          `"${translate(basePath + 'name')}"`,
+          `"${translate(basePath + 'marketRole')}"`,
+          `"${translate(basePath + 'status')}"`,
         ];
 
-        const lines = roles.map((x) => [x.name, rolesTranslations[x.eicFunction], x.status]);
+        const lines = roles.map((x) => [`"${x.name}"`, `"${rolesTranslations[x.eicFunction]}"`, `"${x.status}"`]);
 
         exportCsv(headers, lines);
       });
