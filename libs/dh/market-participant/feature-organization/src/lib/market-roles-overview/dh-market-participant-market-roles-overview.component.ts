@@ -75,7 +75,10 @@ export class DhMarketParticipantMarketRolesOverviewComponent implements AfterVie
       .subscribe((translations) => {
         const basePath = 'marketParticipant.marketRolesOverview.columns.';
 
-        const headers = [`"${translate(basePath + 'name')}"`, `"${translate(basePath + 'description')}"`];
+        const headers = [
+          `"${translate(basePath + 'name')}"`,
+          `"${translate(basePath + 'description')}"`,
+        ];
 
         if (this.dataSource.sort) {
           const marketRoles = this.dataSource.sortData(

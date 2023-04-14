@@ -111,7 +111,11 @@ export class DhUserRolesTabComponent {
           `"${translate(basePath + 'status')}"`,
         ];
 
-        const lines = roles.map((x) => [`"${x.name}"`, `"${rolesTranslations[x.eicFunction]}"`, `"${x.status}"`]);
+        const lines = roles.map((x) => [
+          `"${x.name}"`,
+          `"${rolesTranslations[x.eicFunction]}"`,
+          `"${x.status}"`,
+        ]);
 
         exportCsv(headers, lines);
       });
