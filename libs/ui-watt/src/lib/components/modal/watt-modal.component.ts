@@ -62,6 +62,10 @@ export class WattModalComponent implements AfterViewInit {
   @Input()
   size: WattModalSize = 'normal';
 
+  /** Whether the drawer should show a loading state.  */
+  @Input()
+  loading = false;
+
   /** Disable ESC, close button and backdrop click as methods of closing. */
   @Input()
   disableClose = false;
