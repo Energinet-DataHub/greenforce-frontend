@@ -62,7 +62,7 @@ export class WattModalComponent implements AfterViewInit {
   @Input()
   size: WattModalSize = 'normal';
 
-  /** Whether the drawer should show a loading state.  */
+  /** Whether the modal should show a loading state. */
   @Input()
   loading = false;
 
