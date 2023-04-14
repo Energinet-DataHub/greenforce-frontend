@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { EoCookieBannerComponentComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
@@ -38,7 +38,7 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
     EoProductLogoComponent,
     EoFooterComponent,
     PushModule,
-    CommonModule,
+    NgIf,
   ],
   selector: 'eo-shell',
   styles: [
@@ -140,8 +140,8 @@ export class EoShellComponent implements OnDestroy {
   cookiesSet: string | null = null;
 
   constructor(private titleStore: EoTitleStore, private idleTimerService: IdleTimerService) {
+    this.idleTimerService.startMonitor();
     this.getBannerStatus();
-    this.idleTimerService.startIdleMonitor();
   }
 
   getBannerStatus() {
@@ -149,6 +149,6 @@ export class EoShellComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.idleTimerService.stopIdleMonitor();
+    this.idleTimerService.stopMonitor();
   }
 }
