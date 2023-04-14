@@ -26,7 +26,7 @@ import {
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
-import { concatMap, filter, map, tap } from 'rxjs';
+import { catchError, concatMap, filter, map, take, tap, throwError } from 'rxjs';
 import { EoAuthService } from './auth.service';
 import { EoAuthStore } from './auth.store';
 
@@ -49,7 +49,13 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
     if (tokenRefreshTrigger) {
       return nextHandler.handle(authorizedRequest).pipe(
         filter((event) => event instanceof HttpResponse),
-        concatMap((httpEvent) => this.authService.refreshToken().pipe(map(() => httpEvent)))
+        concatMap((httpEvent) => this.authService.refreshToken().pipe(map(() => httpEvent))),
+        catchError((error) => {
+          if (this.#is403ForbiddenResponse(error)) this.#displayPermissionError();
+          if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
+          this.authService.refreshToken().pipe(take(1)).subscribe();
+          return throwError(() => new Error(`An error occurred`));
+        })
       );
     }
 
