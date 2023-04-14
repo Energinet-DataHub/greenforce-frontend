@@ -113,8 +113,8 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
     if (this.dataSource.sort) {
       const basePath = 'admin.userManagement.permissionsTab.';
       const headers = [
-        translate(basePath + 'permissionName'),
-        translate(basePath + 'permissionDescription'),
+        `"${translate(basePath + 'permissionName')}"`,
+        `"${translate(basePath + 'permissionDescription')}"`,
       ];
 
       const marketRoles = this.dataSource.sortData(
@@ -122,7 +122,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
         this.dataSource.sort
       );
 
-      const lines = marketRoles.map((x) => [x.name, x.description]);
+      const lines = marketRoles.map((x) => [`"${x.name}"`, `"${x.description}"`]);
 
       exportCsv(headers, lines);
     }
