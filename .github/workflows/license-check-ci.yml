@@ -60,7 +60,7 @@ jobs:
         run: yarn set version ${{ env.yarn-version }}
 
       - name: Install package dependencies
-        run: yarn install --frozen-lockfile --non-interactive
+        run: yarn install --frozen-lockfile
 
       - name: Add license to all projects
         run: yarn nx run workspace-tools:add-license
