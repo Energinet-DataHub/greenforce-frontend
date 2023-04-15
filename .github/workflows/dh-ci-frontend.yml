@@ -44,18 +44,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: ${{ env.NODE_VERSION_FILE }}
-          cache: yarn
 
       - name: Disable workspace NGCC run
         uses: ./.github/actions/setup-postinstall
         with:
           ngcc: false
 
-      - name: Set yarn version ${{ env.YARN_VERSION }}
-        run: yarn set version ${{ env.YARN_VERSION }}
-
-      - name: Install package dependencies
-        run: yarn install --frozen-lockfile --non-interactive
+      - name: 📥 Monorepo install
+        uses: ./.github/actions/yarn-nm-install
 
       - name: Angular Compatibility Compiler
         run: npm run ngcc:dh
@@ -113,13 +109,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: ${{ env.NODE_VERSION_FILE }}
-          cache: yarn
 
-      - name: Set yarn version ${{ env.YARN_VERSION }}
-        run: yarn set version ${{ env.YARN_VERSION }}
-
-      - name: Install package dependencies
-        run: yarn install --frozen-lockfile --non-interactive
+      - name: 📥 Monorepo install
+        uses: ./.github/actions/yarn-nm-install
 
       - name: Generate API client
         run: yarn nx run api-dh:build-client

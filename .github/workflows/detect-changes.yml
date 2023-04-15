@@ -68,18 +68,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: .nvmrc
-          cache: yarn
 
       - name: Disable workspace NGCC run
         uses: ./.github/actions/setup-postinstall
         with:
           ngcc: false
 
-      - name: Set yarn version 3.5.0
-        run: yarn set version 3.5.0
-
-      - name: Install package dependencies
-        run: yarn install --frozen-lockfile --non-interactive
+      - name: 📥 Monorepo install
+        uses: ./.github/actions/yarn-nm-install
 
       - name: Is DH affected?
         id: dh_affected
