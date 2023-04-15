@@ -42,6 +42,7 @@ mono_crash.*
 [Rr]elease/
 [Rr]eleases/
 !.yarn/[Rr]eleases/
+.yarn/install-state.gz
 x64/
 x86/
 [Aa][Rr][Mm]/
