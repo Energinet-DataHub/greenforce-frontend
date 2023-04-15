@@ -7,7 +7,7 @@ concurrency:
 env:
   node-version-file: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  yarn-version: 1.22.19
+  yarn-version: 3.5.0
 
 on:
   pull_request:
@@ -39,27 +39,9 @@ jobs:
         id: dependencies_have_changed
         uses: ./.github/actions/dependencies-have-changed
 
-      # node_modules are needed for license-checker
-      - name: Get Yarn cache directory path
-        id: yarn-cache-dir-path
+      - name: 📥 Monorepo install
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - name: Cache Yarn cache directory
-        if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
-      - name: Set yarn version ${{ env.yarn-version }}
-        if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
-        run: yarn set version ${{ env.yarn-version }}
-
-      - name: Install package dependencies
-        if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
-        run: yarn install --production --ignore-scripts --frozen-lockfile --non-interactive
+        uses: ./.github/actions/yarn-nm-install
 
       - name: Read .allowed-licenses.json
         id: allowed-licenses
@@ -69,7 +51,7 @@ jobs:
       - name: Run license-checker
         id: licenseChecker
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
-        run: echo DEPENDENCIES=$(npx license-checker-rseidelsohn@3 --direct --production --onlyAllow="${{ steps.allowed-licenses.outputs.FILE }}" --json --excludePrivatePackages) >> $GITHUB_OUTPUT
+        run: echo DEPENDENCIES=$(npx license-checker-rseidelsohn@4 --direct --production --onlyAllow="${{ steps.allowed-licenses.outputs.FILE }}" --json --excludePrivatePackages) >> $GITHUB_OUTPUT
       - name: Update PRODUCTION_DEPENDENCIES.md
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
         uses: ./.github/actions/update-production-dependencies-list
