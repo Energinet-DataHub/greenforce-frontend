@@ -60,7 +60,7 @@ jobs:
         run: yarn set version ${{ env.yarn-version }}
 
       - name: Install package dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable --immutable-cache
 
       - name: Add license to all projects
         run: yarn nx run workspace-tools:add-license
