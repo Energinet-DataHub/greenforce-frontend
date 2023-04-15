@@ -41,8 +41,6 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-!.yarn/[Rr]eleases/
-.yarn/install-state.gz
 x64/
 x86/
 [Aa][Rr][Mm]/
@@ -451,7 +449,10 @@ documentation.json
 playwright-storage-state.json
 apps/dh/e2e-dh/.env.local
 
+# Yarn
 .yarnrc
+!.yarn/[Rr]eleases/
+install-state.gz
 
 #Poor man monorepo
 backend/*
