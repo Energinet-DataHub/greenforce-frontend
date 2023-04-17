@@ -20,11 +20,18 @@ import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/lega
 
 import { WattResizeObserverDirective } from '../../utils/resize-observer';
 import { WattButtonModule } from '../button';
+import { WattSpinnerModule } from '../spinner';
 import { WattModalComponent, WattModalActionsComponent } from './watt-modal.component';
 
 @NgModule({
   declarations: [WattModalComponent, WattModalActionsComponent],
   exports: [WattModalComponent, WattModalActionsComponent],
-  imports: [CommonModule, MatDialogModule, WattResizeObserverDirective, WattButtonModule],
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    WattResizeObserverDirective,
+    WattButtonModule,
+    WattSpinnerModule,
+  ],
 })
 export class WattModalModule {}
