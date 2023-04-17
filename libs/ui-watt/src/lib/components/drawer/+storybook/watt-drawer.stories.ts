@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import { StoryObj, moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 import { fireEvent, within } from '@storybook/testing-library';
 
 import { WattButtonModule } from '../../button';
@@ -111,60 +111,72 @@ Drawer.play = async ({ canvasElement }) => {
   fireEvent.click(openDrawerButton);
 };
 
-export const Small = Drawer.bind({});
-Small.args = { size: 'small' };
+export const Small = {
+  render: Drawer,
+  args: { size: 'small' },
+};
 
-export const Normal = Drawer.bind({});
-Normal.args = { size: 'normal' };
+export const Normal = {
+  render: Drawer,
+  args: { size: 'normal' },
+};
 
-export const Large = Drawer.bind({});
-Large.args = { size: 'large' };
+export const Large = {
+  render: Drawer,
+  args: { size: 'large' },
+};
 
-export const Multiple: StoryFn<WattDrawerComponent> = (args) => ({
-  props: args,
-  template: `
-    <watt-drawer #first (closed)="closed()">
-      <watt-drawer-content *ngIf="first.isOpen">
-        First drawer
-      </watt-drawer-content>
-    </watt-drawer>
+export const Multiple: StoryObj<WattDrawerComponent> = {
+  render: (args) => ({
+    props: args,
+    template: `
+      <watt-drawer #first (closed)="closed()">
+        <watt-drawer-content *ngIf="first.isOpen">
+          First drawer
+        </watt-drawer-content>
+      </watt-drawer>
 
-    <watt-drawer #second (closed)="closed()">
-      <watt-drawer-content *ngIf="second.isOpen">
-        Second drawer
-      </watt-drawer-content>
-    </watt-drawer>
+      <watt-drawer #second (closed)="closed()">
+        <watt-drawer-content *ngIf="second.isOpen">
+          Second drawer
+        </watt-drawer-content>
+      </watt-drawer>
 
-    <watt-button (click)="first.open()">Open first</watt-button><br /><br />
-    <watt-button (click)="second.open()">Open second</watt-button>
-  `,
-});
+      <watt-button (click)="first.open()">Open first</watt-button><br /><br />
+      <watt-button (click)="second.open()">Open second</watt-button>
+    `,
+  }),
+};
 
-export const Loading: StoryFn<WattDrawerComponent> = (args) => ({
-  props: args,
-  template: `<watt-storybook-drawer-loading (closed)="closed()"></watt-storybook-drawer-loading>`,
-});
+export const Loading: StoryObj<WattDrawerComponent> = {
+  render: (args) => ({
+    props: args,
+    template: `<watt-storybook-drawer-loading (closed)="closed()"></watt-storybook-drawer-loading>`,
+  }),
+};
 
-export const WithModal: StoryFn<WattDrawerComponent> = (args) => ({
-  props: args,
-  template: `
-    <watt-modal #modal title="Much Overlay" closeLabel="Halp">
-      <p>I am a modal within a drawer within a web page within a browser within a window within an operating system within a computer within a room within a house within a city within a country on a planet within a solar system within a galaxy within a super cluster within a universe within a modal within a drawer...</p>
-      <watt-modal-actions>
-        <watt-button variant="secondary" (click)="modal.close(false)">Halp</watt-button>
-        <watt-button (click)="modal.close(true)">Whoa</watt-button>
-      </watt-modal-actions>
-    </watt-modal>
+export const WithModal: StoryObj<WattDrawerComponent> = {
+  render: (args) => ({
+    props: args,
+    template: `
+      <watt-modal #modal title="Much Overlay" closeLabel="Halp">
+        <p>I am a modal within a drawer within a web page within a browser within a window within an operating system within a computer within a room within a house within a city within a country on a planet within a solar system within a galaxy within a super cluster within a universe within a modal within a drawer...</p>
+        <watt-modal-actions>
+          <watt-button variant="secondary" (click)="modal.close(false)">Halp</watt-button>
+          <watt-button (click)="modal.close(true)">Whoa</watt-button>
+        </watt-modal-actions>
+      </watt-modal>
 
-    <watt-drawer #drawer (closed)="closed()" size="small">
-      <watt-drawer-topbar>
-        <span>Top bar</span>
-      </watt-drawer-topbar>
-      <watt-drawer-actions>
-        <watt-button (click)="modal.open()">Open Modal</watt-button>
-      </watt-drawer-actions>
-    </watt-drawer>
+      <watt-drawer #drawer (closed)="closed()" size="small">
+        <watt-drawer-topbar>
+          <span>Top bar</span>
+        </watt-drawer-topbar>
+        <watt-drawer-actions>
+          <watt-button (click)="modal.open()">Open Modal</watt-button>
+        </watt-drawer-actions>
+      </watt-drawer>
 
-    <watt-button (click)="drawer.open()">Open drawer</watt-button><br /><br />
-  `,
-});
+      <watt-button (click)="drawer.open()">Open drawer</watt-button><br /><br />
+    `,
+  }),
+};

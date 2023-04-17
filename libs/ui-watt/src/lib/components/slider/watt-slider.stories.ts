@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import { StoryObj, moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
 import { WattSliderComponent } from './watt-slider.component';
 import { WattSliderModule } from './watt-slider.module';
@@ -31,10 +31,12 @@ const meta: Meta<WattSliderComponent> = {
 
 export default meta;
 
-export const Overview: StoryFn<WattSliderComponent> = (args) => ({
-  props: args,
-});
+export const Overview: StoryObj<WattSliderComponent> = {
+  render: (args) => ({
+    props: args,
+  }),
 
-Overview.args = {
-  value: { min: 0, max: 100 },
+  args: {
+    value: { min: 0, max: 100 },
+  },
 };

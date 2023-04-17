@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
+import {
+  moduleMetadata,
+  StoryFn,
+  Meta,
+  applicationConfig,
+} from '@storybook/angular';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { StorybookInputWrapperComponent } from './storybook-input-wrapper.component';
@@ -43,101 +48,109 @@ const overviewTemplate: StoryFn = () => ({
   template: `<storybook-input-overview></storybook-input-overview>`,
 });
 
-export const Overview = overviewTemplate.bind({});
-Overview.argTypes = {
-  disabled: {
-    table: {
-      disable: true,
+export const Overview = {
+  render: overviewTemplate,
+
+  argTypes: {
+    disabled: {
+      table: {
+        disable: true,
+      },
+    },
+    focused: {
+      table: {
+        disable: true,
+      },
+    },
+    hasError: {
+      table: {
+        disable: true,
+      },
+    },
+    hasHint: {
+      table: {
+        disable: true,
+      },
+    },
+    hasPrefix: {
+      table: {
+        disable: true,
+      },
+    },
+    hasSuffix: {
+      table: {
+        disable: true,
+      },
+    },
+    label: {
+      table: {
+        disable: true,
+      },
+    },
+    placeholder: {
+      table: {
+        disable: true,
+      },
+    },
+    required: {
+      table: {
+        disable: true,
+      },
+    },
+    size: {
+      table: {
+        disable: true,
+      },
+    },
+    isTextArea: {
+      table: {
+        disable: true,
+      },
     },
   },
-  focused: {
-    table: {
-      disable: true,
-    },
-  },
-  hasError: {
-    table: {
-      disable: true,
-    },
-  },
-  hasHint: {
-    table: {
-      disable: true,
-    },
-  },
-  hasPrefix: {
-    table: {
-      disable: true,
-    },
-  },
-  hasSuffix: {
-    table: {
-      disable: true,
-    },
-  },
-  label: {
-    table: {
-      disable: true,
-    },
-  },
-  placeholder: {
-    table: {
-      disable: true,
-    },
-  },
-  required: {
-    table: {
-      disable: true,
-    },
-  },
-  size: {
-    table: {
-      disable: true,
-    },
-  },
-  isTextArea: {
-    table: {
-      disable: true,
+
+  parameters: {
+    controls: { hideNoControlsWarning: true },
+    docs: {
+      source: {
+        code: `HTML:
+  <watt-form-field>
+    <watt-label>label</watt-label>
+    <input wattInput [formControl]="exampleFormControl" />
+    <watt-hint>Some hint</watt-hint>
+    <watt-hint align="end">{{exampleFormControl.value.length}} / 256</watt-hint>
+  </watt-form-field>
+
+  TypeScript:
+  exampleFormControl = new FormControl('');
+  `,
+      },
     },
   },
 };
-Overview.parameters = {
-  controls: { hideNoControlsWarning: true },
-  docs: {
-    source: {
-      code: `HTML:
-<watt-form-field>
-  <watt-label>label</watt-label>
-  <input wattInput [formControl]="exampleFormControl" />
-  <watt-hint>Some hint</watt-hint>
-  <watt-hint align="end">{{exampleFormControl.value.length}} / 256</watt-hint>
-</watt-form-field>
 
-TypeScript:
-exampleFormControl = new FormControl('');
-`,
-    },
+export const AssistiveText = {
+  render: Template,
+
+  args: {
+    hasHint: true,
   },
-};
 
-export const AssistiveText = Template.bind({});
-AssistiveText.args = {
-  hasHint: true,
-};
-AssistiveText.parameters = {
-  docs: {
-    source: {
-      code: `HTML:
-<watt-form-field>
-  <watt-label>label</watt-label>
-  <input wattInput [formControl]="exampleFormControl" />
-  <watt-hint>Some hint</watt-hint>
-  <watt-hint align="end">{{exampleFormControl.value.length}} / 256</watt-hint>
-</watt-form-field>
+  parameters: {
+    docs: {
+      source: {
+        code: `HTML:
+  <watt-form-field>
+    <watt-label>label</watt-label>
+    <input wattInput [formControl]="exampleFormControl" />
+    <watt-hint>Some hint</watt-hint>
+    <watt-hint align="end">{{exampleFormControl.value.length}} / 256</watt-hint>
+  </watt-form-field>
 
-TypeScript:
-exampleFormControl = new FormControl('');
-`,
+  TypeScript:
+  exampleFormControl = new FormControl('');
+  `,
+      },
     },
   },
 };

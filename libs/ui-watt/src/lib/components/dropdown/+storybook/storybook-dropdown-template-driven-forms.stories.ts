@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { StoryObj, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -36,7 +36,12 @@ const meta: Meta<WattDropdownComponent> = {
   component: WattDropdownComponent,
   decorators: [
     moduleMetadata({
-      imports: [FormsModule, BrowserAnimationsModule, WattDropdownModule, WattFormFieldModule],
+      imports: [
+        FormsModule,
+        BrowserAnimationsModule,
+        WattDropdownModule,
+        WattFormFieldModule,
+      ],
     }),
   ],
 };
@@ -72,104 +77,114 @@ const howToUseGuideBasic = `
   <watt-dropdown [(ngModel)]="singleSelectionModel" [options]="options"></watt-dropdown>
  </watt-form-field>`;
 
-export const SingleSelect: StoryFn<WattDropdownComponent> = (
-  args: Partial<WattDropdownComponent>
-) => ({
-  props: {
-    singleSelectionModel: '',
-    options: args.options,
-    placeholder: args.placeholder,
-  },
-  template: `<watt-form-field>
-    <watt-dropdown
-      [(ngModel)]="singleSelectionModel"
-      [placeholder]="placeholder"
-      [options]="options"></watt-dropdown>
-  </watt-form-field>`,
-});
-SingleSelect.args = {
-  options: dropdownOptions,
-  placeholder: 'Select a team',
-};
-SingleSelect.parameters = {
-  docs: {
-    source: {
-      code: howToUseGuideBasic,
+export const SingleSelect: StoryObj<WattDropdownComponent> = {
+  render: (args: Partial<WattDropdownComponent>) => ({
+    props: {
+      singleSelectionModel: '',
+      options: args.options,
+      placeholder: args.placeholder,
     },
-  },
-};
+    template: `<watt-form-field>
+      <watt-dropdown
+        [(ngModel)]="singleSelectionModel"
+        [placeholder]="placeholder"
+        [options]="options"></watt-dropdown>
+    </watt-form-field>`,
+  }),
 
-export const MultiSelect: StoryFn<WattDropdownComponent> = (
-  args: Partial<WattDropdownComponent>
-) => ({
-  props: {
-    multiSelectionModel: null,
-    options: args.options,
-    placeholder: args.placeholder,
-    noOptionsFoundLabel: args.noOptionsFoundLabel,
-  },
-  template: `<watt-form-field>
-    <watt-dropdown
-      [multiple]="true"
-      [(ngModel)]="multiSelectionModel"
-      [placeholder]="placeholder"
-      [noOptionsFoundLabel]="noOptionsFoundLabel"
-      [options]="options"></watt-dropdown>
-  </watt-form-field>`,
-});
-MultiSelect.args = {
-  options: dropdownOptions,
-  placeholder: 'Select a team',
-  noOptionsFoundLabel: 'No team found.',
-};
-MultiSelect.parameters = {
-  docs: {
-    source: {
-      code: howToUseGuideBasic,
-    },
-  },
-};
-
-export const WithLabel: StoryFn<WattDropdownComponent> = () => ({
-  props: {
-    singleSelectionModel: '',
-  },
-  template: `<watt-form-field>
-    <watt-label>Label</watt-label>
-    <watt-dropdown [(ngModel)]="singleSelectionModel"></watt-dropdown>
-  </watt-form-field>`,
-});
-WithLabel.parameters = {
-  docs: {
-    source: {
-      code: howToUseGuideBasic,
-    },
-  },
-};
-
-export const WithValidation: StoryFn<WattDropdownComponent> = () => ({
-  props: {
-    singleSelectionModel: '',
+  args: {
     options: dropdownOptions,
+    placeholder: 'Select a team',
   },
-  template: `<watt-form-field>
-    <watt-label>Label</watt-label>
 
-    <watt-dropdown
-      #singleSelection="ngModel"
-      [(ngModel)]="singleSelectionModel"
-      required
-      [options]="options"></watt-dropdown>
+  parameters: {
+    docs: {
+      source: {
+        code: howToUseGuideBasic,
+      },
+    },
+  },
+};
 
-    <watt-error *ngIf="singleSelection.errors?.required">
-      Field is required
-    </watt-error>
-  </watt-form-field>`,
-});
-WithValidation.parameters = {
-  docs: {
-    source: {
-      code: howToUseGuideBasic,
+export const MultiSelect: StoryObj<WattDropdownComponent> = {
+  render: (args: Partial<WattDropdownComponent>) => ({
+    props: {
+      multiSelectionModel: null,
+      options: args.options,
+      placeholder: args.placeholder,
+      noOptionsFoundLabel: args.noOptionsFoundLabel,
+    },
+    template: `<watt-form-field>
+      <watt-dropdown
+        [multiple]="true"
+        [(ngModel)]="multiSelectionModel"
+        [placeholder]="placeholder"
+        [noOptionsFoundLabel]="noOptionsFoundLabel"
+        [options]="options"></watt-dropdown>
+    </watt-form-field>`,
+  }),
+
+  args: {
+    options: dropdownOptions,
+    placeholder: 'Select a team',
+    noOptionsFoundLabel: 'No team found.',
+  },
+
+  parameters: {
+    docs: {
+      source: {
+        code: howToUseGuideBasic,
+      },
+    },
+  },
+};
+
+export const WithLabel: StoryObj<WattDropdownComponent> = {
+  render: () => ({
+    props: {
+      singleSelectionModel: '',
+    },
+    template: `<watt-form-field>
+      <watt-label>Label</watt-label>
+      <watt-dropdown [(ngModel)]="singleSelectionModel"></watt-dropdown>
+    </watt-form-field>`,
+  }),
+
+  parameters: {
+    docs: {
+      source: {
+        code: howToUseGuideBasic,
+      },
+    },
+  },
+};
+
+export const WithValidation: StoryObj<WattDropdownComponent> = {
+  render: () => ({
+    props: {
+      singleSelectionModel: '',
+      options: dropdownOptions,
+    },
+    template: `<watt-form-field>
+      <watt-label>Label</watt-label>
+
+      <watt-dropdown
+        #singleSelection="ngModel"
+        [(ngModel)]="singleSelectionModel"
+        required
+        [options]="options"></watt-dropdown>
+
+      <watt-error *ngIf="singleSelection.errors?.required">
+        Field is required
+      </watt-error>
+    </watt-form-field>`,
+  }),
+
+  parameters: {
+    docs: {
+      source: {
+        code: howToUseGuideBasic,
+      },
     },
   },
 };

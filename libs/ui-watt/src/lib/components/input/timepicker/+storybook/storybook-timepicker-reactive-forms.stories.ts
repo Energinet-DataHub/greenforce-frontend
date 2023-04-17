@@ -16,7 +16,13 @@
  */
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  StoryObj,
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 import { within, fireEvent } from '@storybook/testing-library';
 import { importProvidersFrom } from '@angular/core';
 
@@ -70,67 +76,80 @@ const template = `
 
 const initialValue = '00:00';
 
-export const WithFormControl: StoryFn<WattTimepickerComponent> = (args) => ({
-  props: {
-    exampleFormControlSingle: new FormControl(null),
-    exampleFormControlRange: new FormControl(null),
-    ...args,
-  },
-  template,
-});
+export const WithFormControl: StoryObj<WattTimepickerComponent> = {
+  render: (args) => ({
+    props: {
+      exampleFormControlSingle: new FormControl(null),
+      exampleFormControlRange: new FormControl(null),
+      ...args,
+    },
+    template,
+  }),
 
-WithFormControl.parameters = {
-  docs: {
-    source: {
-      code: `
- HTML
- ${template}
- TypeScript
- exampleFormControl = new FormControl();
-       `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+   HTML
+   ${template}
+   TypeScript
+   exampleFormControl = new FormControl();
+         `,
+      },
     },
   },
 };
 
-export const WithInitialValue: StoryFn<WattTimepickerComponent> = (args) => ({
-  props: {
-    exampleFormControlSingle: new FormControl(initialValue),
-    exampleFormControlRange: new FormControl({
-      start: initialValue,
-      end: '23:59',
-    }),
-    ...args,
-  },
-  template,
-});
-
-export const WithValidations: StoryFn<WattTimepickerComponent> = (args) => ({
-  props: {
-    exampleFormControlSingle: new FormControl(null, [Validators.required]),
-    exampleFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
-    withValidations: true,
-    ...args,
-  },
-  template,
-});
-
-WithValidations.play = async ({ canvasElement }) => {
-  const canvas = within(canvasElement);
-  const timeInput: HTMLInputElement = canvas.getByRole('textbox', {
-    name: /^time-input/i,
-  });
-  const startTimeInput: HTMLInputElement = canvas.getByRole('textbox', {
-    name: /start-time-input/i,
-  });
-  fireEvent.focusOut(timeInput);
-  fireEvent.focusOut(startTimeInput);
+export const WithInitialValue: StoryObj<WattTimepickerComponent> = {
+  render: (args) => ({
+    props: {
+      exampleFormControlSingle: new FormControl(initialValue),
+      exampleFormControlRange: new FormControl({
+        start: initialValue,
+        end: '23:59',
+      }),
+      ...args,
+    },
+    template,
+  }),
 };
 
-export const WithFormControlDisabled: StoryFn<WattTimepickerComponent> = (args) => ({
-  props: {
-    exampleFormControlSingle: new FormControl({ value: null, disabled: true }),
-    exampleFormControlRange: new FormControl({ value: null, disabled: true }),
-    ...args,
+export const WithValidations: StoryObj<WattTimepickerComponent> = {
+  render: (args) => ({
+    props: {
+      exampleFormControlSingle: new FormControl(null, [Validators.required]),
+      exampleFormControlRange: new FormControl(null, [
+        WattRangeValidators.required(),
+      ]),
+      withValidations: true,
+      ...args,
+    },
+    template,
+  }),
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const timeInput: HTMLInputElement = canvas.getByRole('textbox', {
+      name: /^time-input/i,
+    });
+    const startTimeInput: HTMLInputElement = canvas.getByRole('textbox', {
+      name: /start-time-input/i,
+    });
+    fireEvent.focusOut(timeInput);
+    fireEvent.focusOut(startTimeInput);
   },
-  template,
-});
+};
+
+export const WithFormControlDisabled: StoryObj<WattTimepickerComponent> = {
+  render: (args) => ({
+    props: {
+      exampleFormControlSingle: new FormControl({
+        value: null,
+        disabled: true,
+      }),
+      exampleFormControlRange: new FormControl({ value: null, disabled: true }),
+      ...args,
+    },
+    template,
+  }),
+};

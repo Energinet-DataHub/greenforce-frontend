@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { StoryObj, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattValidationMessageComponent } from './watt-validation-message.component';
 import { WattValidationMessageModule } from './watt-validation-message.module';
@@ -42,18 +42,22 @@ import { ${WattValidationMessageModule.name} } from '@energinet-datahub/watt/val
 
 <watt-validation-message label="Label" message="Message" type="danger"></watt-validation-message>`;
 
-export const ValidationMessage: StoryFn<WattValidationMessageComponent> = (args) => ({
-  props: args,
-});
-ValidationMessage.parameters = {
-  docs: {
-    source: {
-      code: howToUseGuideBasic,
+export const ValidationMessage: StoryObj<WattValidationMessageComponent> = {
+  render: (args) => ({
+    props: args,
+  }),
+
+  parameters: {
+    docs: {
+      source: {
+        code: howToUseGuideBasic,
+      },
     },
   },
-};
-ValidationMessage.args = {
-  label: 'Info',
-  message: 'The metering point is not active',
-  type: 'info',
+
+  args: {
+    label: 'Info',
+    message: 'The metering point is not active',
+    type: 'info',
+  },
 };

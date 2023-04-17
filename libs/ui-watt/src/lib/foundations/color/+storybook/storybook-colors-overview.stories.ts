@@ -36,21 +36,23 @@ const Template: StoryFn<StorybookColorsOverviewComponent> = (args) => ({
   props: args,
 });
 
-//👇 Each story then reuses that template
-export const Colors = Template.bind({});
-Colors.parameters = {
-  docs: {
-    source: {
-      code: `// Usage from SCSS / CSS (tip: hover over the color sample, and click to copy to clipboard):
-.my-element {
-  background: var(<color-variable>);
-}
+export const Colors = {
+  render: Template,
 
-// Usage from TypeScript:
-1. import { WattColor, WattColorHelperService } from '@energinet-datahub/watt/color';
-2. Inject the WattColorHelperService
-3. Use WattColorHelperService.getColor(WattColor.<color-name>);
-`,
+  parameters: {
+    docs: {
+      source: {
+        code: `// Usage from SCSS / CSS (tip: hover over the color sample, and click to copy to clipboard):
+  .my-element {
+    background: var(<color-variable>);
+  }
+
+  // Usage from TypeScript:
+  1. import { WattColor, WattColorHelperService } from '@energinet-datahub/watt/color';
+  2. Inject the WattColorHelperService
+  3. Use WattColorHelperService.getColor(WattColor.<color-name>);
+  `,
+      },
     },
   },
 };

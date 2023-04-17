@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { componentWrapperDecorator, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  StoryObj,
+  componentWrapperDecorator,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 import { MatSortModule } from '@angular/material/sort';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -75,60 +80,62 @@ export default {
   parameters: { docs: { transformSource: removeDecoratorFromSource } },
 };
 
-export const Table: StoryFn = (args) => {
-  return {
-    props: args,
-    template: `
-      <watt-table
-        #table
-        description="Atomic Elements"
-        sortBy="position"
-        sortDirection="asc"
-        [dataSource]="dataSource"
-        [columns]="columns"
-        [selectable]="selectable"
-        [initialSelection]="initialSelection"
-        [suppressRowHoverHighlight]="suppressRowHoverHighlight"
-        [activeRow]="activeRow"
-        (rowClick)="activeRow = $event"
-        >
-        <ng-container *wattTableCell="table.columns.name; let element">
-          <div class="watt-text-s">
-            {{ element.name }}
-            <div class="watt-on-light--medium-emphasis">
-              Weight: {{ element.weight }}
+export const Table: StoryObj = {
+  render: (args) => {
+    return {
+      props: args,
+      template: `
+        <watt-table
+          #table
+          description="Atomic Elements"
+          sortBy="position"
+          sortDirection="asc"
+          [dataSource]="dataSource"
+          [columns]="columns"
+          [selectable]="selectable"
+          [initialSelection]="initialSelection"
+          [suppressRowHoverHighlight]="suppressRowHoverHighlight"
+          [activeRow]="activeRow"
+          (rowClick)="activeRow = $event"
+          >
+          <ng-container *wattTableCell="table.columns.name; let element">
+            <div class="watt-text-s">
+              {{ element.name }}
+              <div class="watt-on-light--medium-emphasis">
+                Weight: {{ element.weight }}
+              </div>
             </div>
-          </div>
-        </ng-container>
-        <ng-container *wattTableCell="table.columns.symbol; let element">
-          <div style="display: flex">
-            <watt-icon
-              name="date"
-              size="s"
-              class="date-icon watt-space-inline-s"
-            ></watt-icon>
-            <span class="watt-text-s">{{ element.symbol }}</span>
-          </div>
-        </ng-container>
-      </watt-table>
-    `,
-  };
-};
+          </ng-container>
+          <ng-container *wattTableCell="table.columns.symbol; let element">
+            <div style="display: flex">
+              <watt-icon
+                name="date"
+                size="s"
+                class="date-icon watt-space-inline-s"
+              ></watt-icon>
+              <span class="watt-text-s">{{ element.symbol }}</span>
+            </div>
+          </ng-container>
+        </watt-table>
+      `,
+    };
+  },
 
-Table.args = {
-  selectable: true,
-  suppressRowHoverHighlight: false,
-  columns: {
-    position: { accessor: 'position', size: 'min-content' },
-    name: { accessor: 'name' },
-    symbol: { accessor: 'symbol', sort: false },
-  } as WattTableColumnDef<PeriodicElement>,
-  dataSource: new WattTableDataSource(periodicElements),
-  initialSelection: [periodicElements[0], periodicElements[1]],
-  activeRow: undefined,
-};
+  args: {
+    selectable: true,
+    suppressRowHoverHighlight: false,
+    columns: {
+      position: { accessor: 'position', size: 'min-content' },
+      name: { accessor: 'name' },
+      symbol: { accessor: 'symbol', sort: false },
+    } as WattTableColumnDef<PeriodicElement>,
+    dataSource: new WattTableDataSource(periodicElements),
+    initialSelection: [periodicElements[0], periodicElements[1]],
+    activeRow: undefined,
+  },
 
-Table.argTypes = {
-  activeRow: { control: false },
-  dataSource: { control: false },
+  argTypes: {
+    activeRow: { control: false },
+    dataSource: { control: false },
+  },
 };

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { StoryObj, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattTabsComponent, WattTabComponent } from './../index';
 
@@ -37,15 +37,17 @@ const template = `<watt-tabs>
   <watt-tab label="Third">Some awesome content for the third tab</watt-tab>
 </watt-tabs>`;
 
-export const Tabs: StoryFn<WattTabsComponent> = (args) => ({
-  props: args,
-  template,
-});
+export const Tabs: StoryObj<WattTabsComponent> = {
+  render: (args) => ({
+    props: args,
+    template,
+  }),
 
-Tabs.parameters = {
-  docs: {
-    source: {
-      code: template,
+  parameters: {
+    docs: {
+      source: {
+        code: template,
+      },
     },
   },
 };

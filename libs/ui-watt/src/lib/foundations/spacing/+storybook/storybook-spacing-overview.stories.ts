@@ -36,5 +36,6 @@ const Template: StoryFn<StorybookSpacingOverviewComponent> = (args) => ({
   props: args,
 });
 
-//👇 Each story then reuses that template
-export const Spacing = Template.bind({});
+export const Spacing = {
+  render: Template,
+};

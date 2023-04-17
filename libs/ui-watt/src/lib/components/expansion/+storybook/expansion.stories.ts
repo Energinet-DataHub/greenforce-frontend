@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 
 import { WattExpansionComponent, WattExpansionModule } from './../index';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -45,30 +50,38 @@ const template: StoryFn<WattExpansionComponent> = (args) => ({
   </watt-expansion>`,
 });
 
-export const Collapsed = template.bind({});
-Collapsed.parameters = {
-  docs: {
-    source: {
-      code: '<watt-expansion openLabel="Show more" closeLabel="Show less">YOUR AMAZING CONTENT</watt-expansion>',
+export const Collapsed = {
+  render: template,
+
+  parameters: {
+    docs: {
+      source: {
+        code: '<watt-expansion openLabel="Show more" closeLabel="Show less">YOUR AMAZING CONTENT</watt-expansion>',
+      },
     },
   },
-};
-Collapsed.args = {
-  openLabel: 'Show more',
-  closeLabel: 'Show less',
-  expanded: false,
+
+  args: {
+    openLabel: 'Show more',
+    closeLabel: 'Show less',
+    expanded: false,
+  },
 };
 
-export const Expanded = template.bind({});
-Expanded.args = {
-  openLabel: 'Show more',
-  closeLabel: 'Show less',
-  expanded: true,
-};
-Expanded.parameters = {
-  docs: {
-    source: {
-      code: '<watt-expansion openLabel="Show more" closeLabel="Show less" expanded="true">YOUR AMAZING CONTENT</watt-expansion>',
+export const Expanded = {
+  render: template,
+
+  args: {
+    openLabel: 'Show more',
+    closeLabel: 'Show less',
+    expanded: true,
+  },
+
+  parameters: {
+    docs: {
+      source: {
+        code: '<watt-expansion openLabel="Show more" closeLabel="Show less" expanded="true">YOUR AMAZING CONTENT</watt-expansion>',
+      },
     },
   },
 };

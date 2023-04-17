@@ -140,6 +140,7 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   protected initSingleInput() {
+
     const pickerInputElement = this.input.nativeElement;
     const { onChange$, inputMask } = this.inputMaskService.mask(
       this.initialValue as string | null,
@@ -184,7 +185,9 @@ export class WattDatepickerComponent extends WattPickerBase {
     merge(onInputOnChange$, matDatepickerChange$)
       .pipe(takeUntil(this.destroy$))
       .subscribe((value: string) => {
-        this.changeParentValue(value);
+        setTimeout(() => {
+          this.changeParentValue(value);
+        });
       });
   }
 
@@ -306,10 +309,11 @@ export class WattDatepickerComponent extends WattPickerBase {
           end = this.formatDateFromViewToModel(endDateEndOfDay);
         }
 
-        this.changeParentValue({ start, end });
-
         // Needed for updating the datepicker in components with `ChangeDetectionStrategy.OnPush`;
-        setTimeout(() => this.cdr.markForCheck());
+        setTimeout(() => {
+          this.changeParentValue({ start, end });
+          this.cdr.markForCheck()
+        });
       });
   }
 

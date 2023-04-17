@@ -15,8 +15,17 @@
  * limitations under the License.
  */
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
-import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  BrowserAnimationsModule,
+  provideAnimations,
+} from '@angular/platform-browser/animations';
+import {
+  StoryObj,
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 import { within, fireEvent } from '@storybook/testing-library';
 
 import { StorybookConfigurationLocalizationModule } from '../../+storybook/storybook-configuration-localization.module';
@@ -83,74 +92,90 @@ const template = `
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlRange?.errors | json }}</code></p>
 `;
 
-export const WithFormControl: StoryFn<WattDatepickerStoryConfig> = (args) => ({
-  props: {
-    exampleFormControlSingle: new FormControl(null),
-    exampleFormControlRange: new FormControl(null),
-    ...args,
-  },
-  template,
-});
+export const WithFormControl: StoryObj<WattDatepickerStoryConfig> = {
+  render: (args) => ({
+    props: {
+      exampleFormControlSingle: new FormControl(''),
+      exampleFormControlRange: new FormControl({
+        start: '',
+        end: ''
+      }),
+      ...args,
+    },
+    template,
+  }),
 
-WithFormControl.parameters = {
-  docs: {
-    source: {
-      code: `
-HTML
-${template}
-TypeScript
-exampleFormControl = new FormControl();
-      `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+  HTML
+  ${template}
+  TypeScript
+  exampleFormControl = new FormControl();
+        `,
+      },
     },
   },
 };
 
-export const WithInitialValue: StoryFn<WattDatepickerStoryConfig> = (args) => ({
-  props: {
-    exampleFormControlSingle: new FormControl(initialValueSingle),
-    exampleFormControlRange: new FormControl({
-      start: initialValueRangeStart,
-      end: initialValueRangeEnd_StartOfDay,
-    }),
-    ...args,
-  },
-  template,
-  moduleMetadata: {
-    imports: [
-      BrowserAnimationsModule.withConfig({
-        disableAnimations: !!args.disableAnimations,
+export const WithInitialValue: StoryObj<WattDatepickerStoryConfig> = {
+  render: (args) => ({
+    props: {
+      exampleFormControlSingle: new FormControl(initialValueSingle),
+      exampleFormControlRange: new FormControl({
+        start: initialValueRangeStart,
+        end: initialValueRangeEnd_StartOfDay,
       }),
-    ],
-  },
-});
-
-export const WithValidations: StoryFn<WattDatepickerStoryConfig> = (args) => ({
-  props: {
-    exampleFormControlSingle: new FormControl(null, [Validators.required]),
-    exampleFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
-    withValidations: true,
-    ...args,
-  },
-  template,
-});
-
-WithValidations.play = async ({ canvasElement }) => {
-  const canvas = within(canvasElement);
-  const dateInput: HTMLInputElement = canvas.getByRole('textbox', {
-    name: /^date-input/i,
-  });
-  const startDateInput: HTMLInputElement = canvas.getByRole('textbox', {
-    name: /start-date-input/i,
-  });
-  fireEvent.focusOut(dateInput);
-  fireEvent.focusOut(startDateInput);
+      ...args,
+    },
+    template,
+    moduleMetadata: {
+      imports: [
+        BrowserAnimationsModule.withConfig({
+          disableAnimations: !!args.disableAnimations,
+        }),
+      ],
+    },
+  }),
 };
 
-export const WithFormControlDisabled: StoryFn<WattDatepickerStoryConfig> = (args) => ({
-  props: {
-    exampleFormControlSingle: new FormControl({ value: null, disabled: true }),
-    exampleFormControlRange: new FormControl({ value: null, disabled: true }),
-    ...args,
+export const WithValidations: StoryObj<WattDatepickerStoryConfig> = {
+  render: (args) => ({
+    props: {
+      exampleFormControlSingle: new FormControl(null, [Validators.required]),
+      exampleFormControlRange: new FormControl(null, [
+        WattRangeValidators.required(),
+      ]),
+      withValidations: true,
+      ...args,
+    },
+    template,
+  }),
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const dateInput: HTMLInputElement = canvas.getByRole('textbox', {
+      name: /^date-input/i,
+    });
+    const startDateInput: HTMLInputElement = canvas.getByRole('textbox', {
+      name: /start-date-input/i,
+    });
+    fireEvent.focusOut(dateInput);
+    fireEvent.focusOut(startDateInput);
   },
-  template,
-});
+};
+
+export const WithFormControlDisabled: StoryObj<WattDatepickerStoryConfig> = {
+  render: (args) => ({
+    props: {
+      exampleFormControlSingle: new FormControl({
+        value: null,
+        disabled: true,
+      }),
+      exampleFormControlRange: new FormControl({ value: null, disabled: true }),
+      ...args,
+    },
+    template,
+  }),
+};

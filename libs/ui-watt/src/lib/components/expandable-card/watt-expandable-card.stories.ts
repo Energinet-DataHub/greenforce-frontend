@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
+import {
+  StoryObj,
+  moduleMetadata,
+  StoryFn,
+  Meta,
+  applicationConfig,
+} from '@storybook/angular';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { WattBadgeComponent } from '../badge';
@@ -36,22 +42,24 @@ export default {
   ],
 } as Meta;
 
-export const Overview: StoryFn<WattExpandableCardComponent> = (args) => ({
-  props: args,
-  template: `
-    <watt-expandable-card [expanded]="expanded">
-      <watt-badge size="large">02</watt-badge>
-      <watt-expandable-card-title>The Cosmos Awaits</watt-expandable-card-title>
-      <p>
-        The sky calls to us preserve and cherish that pale blue dot citizens of
-        distant epochs rich in heavy atoms the only home we've ever known cosmic
-        fugue. Vanquish the impossible a mote of dust suspended in a sunbeam
-        Sea of Tranquility Rig Veda invent the universe another world.
-      </p>
-    </watt-expandable-card>
-  `,
-});
+export const Overview: StoryObj<WattExpandableCardComponent> = {
+  render: (args) => ({
+    props: args,
+    template: `
+      <watt-expandable-card [expanded]="expanded">
+        <watt-badge size="large">02</watt-badge>
+        <watt-expandable-card-title>The Cosmos Awaits</watt-expandable-card-title>
+        <p>
+          The sky calls to us preserve and cherish that pale blue dot citizens of
+          distant epochs rich in heavy atoms the only home we've ever known cosmic
+          fugue. Vanquish the impossible a mote of dust suspended in a sunbeam
+          Sea of Tranquility Rig Veda invent the universe another world.
+        </p>
+      </watt-expandable-card>
+    `,
+  }),
 
-Overview.args = {
-  expanded: false,
+  args: {
+    expanded: false,
+  },
 };

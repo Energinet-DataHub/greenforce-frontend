@@ -15,7 +15,13 @@
  * limitations under the License.
  */
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
+import {
+  StoryObj,
+  moduleMetadata,
+  StoryFn,
+  Meta,
+  applicationConfig,
+} from '@storybook/angular';
 import { importProvidersFrom } from '@angular/core';
 
 import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
@@ -26,7 +32,10 @@ const meta: Meta<WattCopyToClipboardDirective> = {
   title: 'Components/Clipboard',
   decorators: [
     applicationConfig({
-      providers: [importProvidersFrom(WattToastModule.forRoot()), provideAnimations()],
+      providers: [
+        importProvidersFrom(WattToastModule.forRoot()),
+        provideAnimations(),
+      ],
     }),
     moduleMetadata({
       imports: [WattStorybookClipboardComponent],
@@ -36,21 +45,23 @@ const meta: Meta<WattCopyToClipboardDirective> = {
 
 export default meta;
 
-export const Overview: StoryFn<WattCopyToClipboardDirective> = (args) => ({
-  props: args,
-  template: `<watt-storybook-clipboard></watt-storybook-clipboard>`,
-});
+export const Overview: StoryObj<WattCopyToClipboardDirective> = {
+  render: (args) => ({
+    props: args,
+    template: `<watt-storybook-clipboard></watt-storybook-clipboard>`,
+  }),
 
-Overview.parameters = {
-  docs: {
-    source: {
-      code: `
-        <span
-          [wattCopyToClipboard]="hunter2"
-          wattTooltip="Copy password"
-          wattTooltipPosition="above"
-        >*******</span>
-      `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+          <span
+            [wattCopyToClipboard]="hunter2"
+            wattTooltip="Copy password"
+            wattTooltipPosition="above"
+          >*******</span>
+        `,
+      },
     },
   },
 };

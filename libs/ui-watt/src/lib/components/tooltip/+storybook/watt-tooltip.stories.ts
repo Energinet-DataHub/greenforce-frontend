@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { StoryObj, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { within, userEvent } from '@storybook/testing-library';
 
 import { WattButtonModule } from '../../button/watt-button.module';
@@ -58,30 +58,32 @@ const template = `
     </div>
  `;
 
-export const Overview: StoryFn = () => ({
-  template,
-});
+export const Overview: StoryObj = {
+  render: () => ({
+    template,
+  }),
 
-Overview.parameters = {
-  docs: {
-    source: {
-      code: `<watt-button
-      wattTooltip="Click me"
-      wattTooltipPosition="right"
-    >Button</watt-button>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `<watt-button
+        wattTooltip="Click me"
+        wattTooltipPosition="right"
+      >Button</watt-button>`,
+      },
     },
   },
-};
 
-Overview.play = async ({ canvasElement }) => {
-  const canvas = within(canvasElement);
-  const positions: HTMLElement = canvas.getByTestId('positions');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const positions: HTMLElement = canvas.getByTestId('positions');
 
-  // Positions are not visible by default, to hide them from the docs page.
-  const container = positions.parentElement?.parentElement;
-  if (container) {
-    container.style.display = 'block';
-  }
+    // Positions are not visible by default, to hide them from the docs page.
+    const container = positions.parentElement?.parentElement;
+    if (container) {
+      container.style.display = 'block';
+    }
 
-  userEvent.hover(positions);
+    userEvent.hover(positions);
+  },
 };
