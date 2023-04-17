@@ -1,0 +1,8 @@
+query GetGridAreas {
+  gridAreas {
+    code
+    name
+    validTo
+    validFrom
+  }
+}
