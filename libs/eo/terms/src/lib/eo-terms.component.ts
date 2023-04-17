@@ -14,24 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
 import { EoPrivacyPolicyComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import {
   EoFooterComponent,
   EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoAuthService, EoAuthStore, EoTermsService } from '@energinet-datahub/eo/shared/services';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
-import { EoTermsStore } from './eo-terms.store';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  providers: [EoTermsStore],
   imports: [
     FormsModule,
     WattButtonModule,
@@ -40,6 +40,8 @@ import { EoTermsStore } from './eo-terms.store';
     EoHeaderComponent,
     EoPrivacyPolicyComponent,
     EoScrollViewComponent,
+    WattSpinnerModule,
+    NgIf,
   ],
   selector: 'eo-auth-terms',
   styles: [
@@ -69,13 +71,10 @@ import { EoTermsStore } from './eo-terms.store';
       <div class="eo-layout-centered-content">
         <div class="content-wrapper">
           <eo-scroll-view class="watt-space-stack-l">
-            <eo-privacy-policy
-              class="watt-space-stack-l"
-              (versionChange)="onVersionChange($event)"
-            ></eo-privacy-policy>
+            <eo-privacy-policy class="watt-space-stack-l"></eo-privacy-policy>
           </eo-scroll-view>
           <div class="watt-space-stack-m">
-            <watt-checkbox [(ngModel)]="hasAcceptedTerms">
+            <watt-checkbox [(ngModel)]="hasAcceptedPrivacyPolicy">
               I have seen the Privacy Policy
             </watt-checkbox>
           </div>
@@ -84,7 +83,12 @@ import { EoTermsStore } from './eo-terms.store';
             Back
           </watt-button>
 
-          <watt-button variant="primary" (click)="onAccept()" [disabled]="!hasAcceptedTerms">
+          <watt-button
+            variant="primary"
+            (click)="onAccept()"
+            [disabled]="!hasAcceptedPrivacyPolicy"
+            [loading]="startedAcceptFlow"
+          >
             Accept terms
           </watt-button>
         </div>
@@ -93,34 +97,29 @@ import { EoTermsStore } from './eo-terms.store';
 
     <eo-footer></eo-footer>
   `,
-  viewProviders: [EoLogOutStore],
 })
 export class EoTermsComponent {
-  hasAcceptedTerms = false;
+  hasAcceptedPrivacyPolicy = false;
+  startedAcceptFlow = false;
 
   constructor(
-    private store: EoTermsStore,
-    private logOutStore: EoLogOutStore,
+    private authService: EoAuthService,
+    private termsService: EoTermsService,
+    private authStore: EoAuthStore,
     private router: Router
   ) {}
 
-  onVersionChange(version: string): void {
-    this.store.onVersionChange(version);
+  onCancel() {
+    this.authService.logout();
   }
 
-  onCancel(): void {
-    this.logOutStore.onLogOut();
-  }
+  onAccept() {
+    if (this.startedAcceptFlow) return;
+    this.startedAcceptFlow = true;
 
-  onAccept(): void {
-    this.store.onAcceptTerms().subscribe({
-      next: (response) => window.location.replace(response.next_url),
-      error: () => {
-        this.router.navigate(['/'], {
-          state: { error: true },
-          replaceUrl: true,
-        });
-      },
+    this.termsService.acceptTerms().subscribe({
+      next: (_) => this.router.navigate(['/login']),
+      error: () => this.router.navigate(['/']),
     });
   }
 }
