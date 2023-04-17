@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -23,7 +23,7 @@ import { EoConsumptionStore } from './eo-consumption.store';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatCardModule, CommonModule, WattSpinnerModule],
+  imports: [MatCardModule, WattSpinnerModule, NgIf, AsyncPipe],
   selector: 'eo-consumption-page-info',
   styles: [
     `

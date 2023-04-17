@@ -17,7 +17,7 @@
 import { NgModule } from '@angular/core';
 import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { RouterModule, Routes } from '@angular/router';
-import { EoAuthenticationGuard } from '@energinet-datahub/eo/auth/routing-security';
+import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
   eoCertificatesRoutePath,
   eoConsumptionPageRoutePath,
@@ -31,6 +31,7 @@ import {
 } from '@energinet-datahub/eo/shared/utilities';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 import { EoHttpModule } from './eo-http.module';
+import { EoLoginComponent } from './eo-login.component';
 import { EoMaterialModule } from './eo-material.module';
 import { EoShellComponent } from './eo-shell.component';
 
@@ -43,6 +44,7 @@ const routes: Routes = [
         (esModule) => esModule.EoLandingPageShellModule
       ),
   },
+  { path: 'login', component: EoLoginComponent },
   {
     path: 'terms',
     data: { title: 'Terms' },
@@ -52,7 +54,7 @@ const routes: Routes = [
   {
     path: '',
     component: EoShellComponent,
-    canActivateChild: [EoAuthenticationGuard],
+    canActivate: [EoScopeGuard],
     children: [
       {
         path: eoCertificatesRoutePath,
@@ -128,7 +130,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  exports: [RouterModule],
   imports: [
     GfBrowserConfigurationModule.forRoot(),
     EoHttpModule.forRoot(),

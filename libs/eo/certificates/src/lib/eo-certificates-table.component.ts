@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import {
   MatLegacyPaginator as MatPaginator,
@@ -33,7 +33,7 @@ import { EoCertificatesStore } from './eo-certificates.store';
 @Component({
   selector: 'eo-certificates-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MatPaginatorModule, MatTableModule, MatSortModule, RouterModule],
+  imports: [MatPaginatorModule, MatTableModule, MatSortModule, RouterModule, DatePipe],
   standalone: true,
   styles: [
     `
@@ -54,7 +54,7 @@ import { EoCertificatesStore } from './eo-certificates.store';
       <ng-container matColumnDef="dateFrom">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Time </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element.dateFrom | date: 'dd-MMM-y HH:mm' }}-{{ element.dateTo | date: 'HH:mm' }}
+          {{ element.dateFrom | date : 'dd-MMM-y HH:mm' }}-{{ element.dateTo | date : 'HH:mm' }}
         </mat-cell>
       </ng-container>
 
