@@ -40,7 +40,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
     private authStore: EoAuthStore
   ) {}
 
-  // tslint:disable:cyclomatic-complexity
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   intercept(req: HttpRequest<unknown>, nextHandler: HttpHandler) {
     const tokenRefreshTrigger = this.TokenRefreshCalls.includes(req.method);
     const authorizedRequest = req.clone({
@@ -70,7 +70,6 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
       })
     );
   }
-  // tslint:enable:cyclomatic-complexity
 
   #displayPermissionError() {
     return this.snackBar.open('You do not have permission to perform this action.').afterOpened();
