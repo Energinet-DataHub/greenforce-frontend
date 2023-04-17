@@ -118,7 +118,7 @@ export class EoTermsComponent {
     this.startedAcceptFlow = true;
 
     this.termsService.acceptTerms().subscribe({
-      next: (x) => this.router.navigate(['/login']),
+      next: (_) => this.router.navigate(['/login']),
       error: () => this.router.navigate(['/']),
     });
   }
