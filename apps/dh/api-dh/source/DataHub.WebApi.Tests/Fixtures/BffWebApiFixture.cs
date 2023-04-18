@@ -24,7 +24,6 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
         protected override Task OnInitializeWebApiDependenciesAsync(IConfiguration configuration)
         {
             Environment.SetEnvironmentVariable("ApiClientSettings__ChargesBaseUrl", "http://localhost:8080/charges");
-            Environment.SetEnvironmentVariable("ApiClientSettings__MessageArchiveBaseUrl", "http://localhost:8080/messagearchive");
             Environment.SetEnvironmentVariable("ApiClientSettings__MarketParticipantBaseUrl", "http://localhost:8080/marketparticipant");
             Environment.SetEnvironmentVariable("ApiClientSettings__WholesaleBaseUrl", "http://localhost:8080/wholesale");
 

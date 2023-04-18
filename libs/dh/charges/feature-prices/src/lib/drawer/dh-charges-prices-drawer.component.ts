@@ -29,7 +29,6 @@ import { DhChargeDetailsHeaderComponent } from './charge-content/details-header/
 import { DhChargesPricesDrawerService } from './dh-charges-prices-drawer.service';
 import { Subject, takeUntil } from 'rxjs';
 import { DhChargeContentComponent } from './charge-content/dh-charge-content.component';
-import { DhChargePriceMessageComponent } from './charge-message/dh-charge-price-message.component';
 
 @Component({
   standalone: true,
@@ -42,7 +41,6 @@ import { DhChargePriceMessageComponent } from './charge-message/dh-charge-price-
     WattButtonModule,
     DhChargeDetailsHeaderComponent,
     DhChargeContentComponent,
-    DhChargePriceMessageComponent,
     PushModule,
     WattIconModule,
   ],
