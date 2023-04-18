@@ -30,6 +30,10 @@ namespace Energinet.DataHub.WebApi.Registration
         public static IServiceCollection AddDomainClients(this IServiceCollection services, ApiClientSettings apiClientSettings)
         {
             services
+                .AddHttpClient()
+                .AddHttpContextAccessor()
+                .AddSingleton(provider => new AuthorizedHttpClientFactory(provider.GetRequiredService<IHttpClientFactory>(), () => AuthorizationHeaderProvider(provider)))
+                .RegisterEDIServices(apiClientSettings.MessageArchiveBaseUrl)
                 .AddChargesClient(
                     GetBaseUri(apiClientSettings.ChargesBaseUrl))
                 .AddMeteringPointClient(
