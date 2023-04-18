@@ -47,8 +47,6 @@ import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { PushModule } from '@rx-angular/template/push';
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { ActorFilter, SettlementReportFilters } from '@energinet-datahub/dh/wholesale/domain';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 
@@ -64,7 +62,6 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
     WattDropdownModule,
     PushModule,
   ],
-  providers: [DhWholesaleBatchDataAccessApiStore],
   selector: 'dh-wholesale-form',
   templateUrl: './dh-wholesale-form.component.html',
   styleUrls: ['./dh-wholesale-form.component.scss'],
@@ -80,13 +77,16 @@ export class DhWholesaleFormComponent implements OnInit, AfterViewInit, OnDestro
   private destroy$ = new Subject<void>();
   private transloco = inject(TranslocoService);
   private apollo = inject(Apollo);
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
   private fb = inject(FormBuilder);
 
-  query = this.apollo.watchQuery({
+  actorsQuery = this.apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: graphql.GetActorFilterDocument,
+  });
+
+  gridAreasQuery = this.apollo.watchQuery({
+    query: graphql.GetGridAreasDocument,
   });
 
   processTypeOptions$: Observable<WattDropdownOption[]> = this.transloco
@@ -122,7 +122,7 @@ export class DhWholesaleFormComponent implements OnInit, AfterViewInit, OnDestro
   });
 
   gridAreaOptions$: Observable<WattDropdownOption[]> = combineLatest([
-    this.store.gridAreas$.pipe(exists()),
+    this.gridAreasQuery.valueChanges.pipe(map((result) => result.data?.gridAreas ?? [])),
     this.filters.controls.actor.valueChanges.pipe(startWith(null)),
   ]).pipe(
     map(([gridAreas, selectedActorId]) => {
@@ -149,7 +149,7 @@ export class DhWholesaleFormComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   ngOnInit() {
-    this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
+    this.actorsQuery.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (result) => {
         this.actors = result.data?.actors ?? [];
         if (!result.loading) this.filters.controls.actor.enable();

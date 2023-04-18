@@ -29,6 +29,7 @@ export function wholesaleMocks(apiBase: string) {
     getProcessStepActors(),
     getSettlementReports(),
     getFilteredActors(),
+    getGridAreas(),
   ];
 }
 
@@ -384,6 +385,12 @@ function getProcessStepActors() {
 function getSettlementReports() {
   return graphql.mockGetSettlementReportsQuery((req, res, ctx) => {
     return res(ctx.delay(300), ctx.data({ settlementReports: mockedSettlementReports }));
+  });
+}
+
+function getGridAreas() {
+  return graphql.mockGetGridAreasQuery((req, res, ctx) => {
+    return res(ctx.delay(300), ctx.data({ gridAreas: mockedGridAreas }));
   });
 }
 

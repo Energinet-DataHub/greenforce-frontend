@@ -15481,6 +15481,7 @@ cors@latest:
     jest-environment-jsdom: 29.4.3
     jest-preset-angular: 13.0.1
     jest-preview: 0.3.1
+    jwt-decode: ^3.1.2
     kill-port-process: 3.1.0
     msw: 1.2.1
     ng-mocks: 14.0.1
@@ -21625,6 +21626,13 @@ cors@latest:
     jwa: ^1.4.1
     safe-buffer: ^5.0.1
   checksum: f0213fe5b79344c56cd443428d8f65c16bf842dc8cb8f5aed693e1e91d79c20741663ad6eff07a6d2c433d1831acc9814e8d7bada6a0471fbb91d09ceb2bf5c2
+  languageName: node
+  linkType: hard
+
+"jwt-decode@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "jwt-decode@npm:3.1.2"
+  checksum: 20a4b072d44ce3479f42d0d2c8d3dabeb353081ba4982e40b83a779f2459a70be26441be6c160bfc8c3c6eadf9f6380a036fbb06ac5406b5674e35d8c4205eeb
   languageName: node
   linkType: hard
 
