@@ -19,12 +19,12 @@ import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '
 @Component({
   standalone: true,
   selector: 'watt-tab',
-  template: `<ng-template #templateRef>
+  template: `<ng-template>
     <ng-content></ng-content>
   </ng-template>`,
 })
 export class WattTabComponent {
-  @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null = null;
+  @ViewChild(TemplateRef) public templateRef: TemplateRef<unknown> | null = null;
 
   @Input() label = '';
 
