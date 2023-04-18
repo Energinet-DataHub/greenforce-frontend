@@ -31,7 +31,6 @@ import { EoLandingPageIntroductionComponent } from './eo-landing-page-introducti
 import { EoLandingPageNotificationComponent } from './eo-landing-page-notification.component';
 import { EoLandingPageOriginOfEnergyComponent } from './eo-landing-page-origin-of-energy.component';
 import { EoLandingPagePresenter } from './eo-landing-page.presenter';
-import { EoLandingPageStore } from './eo-landing-page.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -113,7 +112,7 @@ import { EoLandingPageStore } from './eo-landing-page.store';
 
     <eo-footer></eo-footer>
   `,
-  viewProviders: [EoLandingPageStore, EoLandingPagePresenter],
+  viewProviders: [EoLandingPagePresenter],
 })
 export class EoLandingPageShellComponent {
   @HostBinding('style.--eo-landing-page-content-max-width')

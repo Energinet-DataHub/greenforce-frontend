@@ -52,8 +52,7 @@ export class EoEmissionsService {
     return this.http.get<EoEmissionsResponse>(
       `${this.#apiBase}/emissions?dateFrom=${dateRange.start}&dateTo=${
         dateRange.end
-      }&timeZone=${encodedTimeZone}&aggregation=Total`,
-      { withCredentials: true }
+      }&timeZone=${encodedTimeZone}&aggregation=Total`
     );
   }
 

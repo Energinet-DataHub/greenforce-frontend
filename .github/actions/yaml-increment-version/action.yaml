@@ -39,7 +39,7 @@ runs:
 
     - name: Check if previous tag is valid semver
       id: is-prev-tag-valid
-      uses: rubenesp87/semver-validation-action@cd30707b188980006854de19df716fc9cf39f37f
+      uses: rubenesp87/semver-validation-action@0.1.0
       continue-on-error: true # Accept old versions to be invalid since new versions are checked they are valid
       with:
         version: ${{ steps.previous-tag.outputs.result }}
@@ -63,7 +63,7 @@ runs:
         yaml_path: ${{ inputs.yaml-path }}
 
     - name: Check if current tag is valid semver
-      uses: rubenesp87/semver-validation-action@cd30707b188980006854de19df716fc9cf39f37f
+      uses: rubenesp87/semver-validation-action@0.1.0
       with:
         version: ${{ steps.current-tag.outputs.result }}
 
