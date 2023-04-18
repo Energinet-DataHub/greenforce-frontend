@@ -75,7 +75,9 @@ limitations under the License.
           [showResetOption]="false"
           [multiple]="true"
         ></watt-dropdown>
-        <watt-hint *transloco="let transloco; read: 'shared'">{{ transloco("selectedValues", {count: createBatchForm.controls.gridAreas.value?.length}) }}</watt-hint>
+        <watt-hint *transloco="let transloco; read: 'shared'">{{
+          transloco("selectedValues", { count: createBatchForm.controls.gridAreas.value?.length })
+        }}</watt-hint>
         <watt-error *ngIf="createBatchForm.controls.gridAreas.errors?.required">
           {{ transloco("startBatch.gridAreaRequired") }}
         </watt-error>

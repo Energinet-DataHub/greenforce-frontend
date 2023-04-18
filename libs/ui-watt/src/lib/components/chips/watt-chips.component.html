@@ -20,6 +20,7 @@ limitations under the License.
     [selected]="selection === option.value"
     [disabled]="option.disabled"
     (click)="onClick(option.value)"
-    ><watt-icon name="checkmark" *ngIf="selection === option.value"></watt-icon> {{ option.label }}</mat-chip
+    ><watt-icon name="checkmark" *ngIf="selection === option.value"></watt-icon>
+    {{ option.label }}</mat-chip
   >
 </mat-chip-list>

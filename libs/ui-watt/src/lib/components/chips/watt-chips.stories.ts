@@ -20,7 +20,7 @@ import { WattChipsComponent } from './watt-chips.component';
 
 const meta: Meta<WattChipsComponent> = {
   title: 'Components/Chips',
-  component: WattChipsComponent
+  component: WattChipsComponent,
 };
 
 export default meta;
