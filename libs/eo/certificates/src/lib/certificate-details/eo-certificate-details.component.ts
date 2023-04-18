@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { DatePipe, UpperCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -26,7 +26,7 @@ import { EoCertificatesStore } from '../eo-certificates.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, EoStackComponent, CommonModule, RouterModule, LetModule],
+  imports: [MatCardModule, EoStackComponent, RouterModule, LetModule, UpperCasePipe, DatePipe],
   selector: 'eo-certificates',
   standalone: true,
   styles: [
@@ -76,11 +76,11 @@ import { EoCertificatesStore } from '../eo-certificates.store';
               <div>{{ cert?.quantity?.toLocaleString() }} Wh</div>
               <b>Start time</b>
               <div>
-                {{ cert?.dateFrom | date: 'HH:mm dd-MMM-y z' | uppercase }}
+                {{ cert?.dateFrom | date : 'HH:mm dd-MMM-y z' | uppercase }}
               </div>
               <b>Start time</b>
               <div>
-                {{ cert?.dateTo | date: 'HH:mm dd-MMM-y z' | uppercase }}
+                {{ cert?.dateTo | date : 'HH:mm dd-MMM-y z' | uppercase }}
               </div>
               <b>GSRN</b>
               <div>{{ cert?.gsrn }}</div>
