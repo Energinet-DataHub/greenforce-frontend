@@ -17,7 +17,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
-import { combineLatest, first, map, Observable, startWith, Subject, takeUntil } from 'rxjs';
+import { combineLatest, first, map, Observable, startWith, Subject, takeUntil, tap } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -32,6 +32,11 @@ import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import {
+  WattChipsComponent,
+  WattChipsOption,
+  WattChipsSelection,
+} from '@energinet-datahub/watt/chips';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { DateRange } from '@energinet-datahub/dh/shared/domain';
@@ -63,6 +68,7 @@ interface CreateBatchFormValues {
     WattFormFieldModule,
     WattSpinnerModule,
     WattEmptyStateComponent,
+    WattChipsComponent,
   ],
 })
 export class DhWholesaleStartComponent implements OnInit, OnDestroy {
@@ -71,6 +77,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private apollo = inject(Apollo);
 
+  private executionTypeChanged$ = new Subject<void>();
   private destroy$ = new Subject<void>();
 
   loadingCreateBatch = false;
@@ -92,17 +99,22 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   onDateRangeChange$ = this.createBatchForm.controls.dateRange.valueChanges.pipe(startWith(null));
 
   processTypes: WattDropdownOption[] = [];
+  executionTypes: WattChipsOption[] = [];
+
+  selectedExecutionType = 'ACTUAL';
 
   gridAreas$: Observable<WattDropdownOption[]> = combineLatest([
     this.gridAreasQuery.valueChanges.pipe(map((result) => result.data?.gridAreas ?? [])),
     this.onDateRangeChange$,
+    this.executionTypeChanged$.pipe(startWith('')),
   ]).pipe(
     map(([gridAreas, dateRange]) => filterValidGridAreas(gridAreas, dateRange)),
     map((gridAreas) => {
       this.setMinDate(gridAreas);
       this.validatePeriod(gridAreas);
       return this.mapGridAreasToDropdownOptions(gridAreas);
-    })
+    }),
+    tap((gridAreas) => this.selectGridAreas(gridAreas))
   );
 
   minDate?: Date;
@@ -110,6 +122,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getProcessTypes();
+    this.getExecutionTypes();
     this.toggleGridAreasControl();
 
     // Close toast on navigation
@@ -121,6 +134,12 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.executionTypeChanged$.complete();
+  }
+
+  onExecutionTypeSelected(selection: WattChipsSelection) {
+    this.selectedExecutionType = selection as string;
+    this.executionTypeChanged$.next();
   }
 
   private getProcessTypes(): void {
@@ -131,6 +150,19 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
         this.processTypes = Object.values(graphql.ProcessType).map((value) => ({
           displayValue: processTypesTranslation[value],
           value,
+        }));
+      });
+  }
+
+  private getExecutionTypes(): void {
+    this.transloco
+      .selectTranslateObject('wholesale.startBatch.executionTypes')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((executionTypesTranslation) => {
+        this.executionTypes = Object.keys(executionTypesTranslation).map((key) => ({
+          label: executionTypesTranslation[key],
+          value: key,
+          disabled: key !== 'ACTUAL',
         }));
       });
   }
@@ -186,6 +218,18 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
           });
         },
       });
+  }
+
+  private selectGridAreas(gridAreas: WattDropdownOption[]) {
+    if (this.selectedExecutionType === 'ACTUAL') {
+      this.createBatchForm.patchValue({
+        gridAreas: gridAreas.map((gridArea) => gridArea.value),
+      });
+    } else {
+      this.createBatchForm.patchValue({
+        gridAreas: [],
+      });
+    }
   }
 
   private setMinDate(gridAreas: GridArea[]) {
