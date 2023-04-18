@@ -39,7 +39,7 @@ export { WattTabComponent } from './watt-tab.component';
   styleUrls: ['./watt-tabs.component.scss'],
   templateUrl: './watt-tabs.component.html',
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   imports: [CommonModule, MatTabsModule],
 })
 export class WattTabsComponent implements AfterViewInit {
