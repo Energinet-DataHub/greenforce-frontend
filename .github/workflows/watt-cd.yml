@@ -18,7 +18,7 @@ name: Watt CD
 env:
   node-version-file: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  yarn-version: 1.22.19
+  yarn-version: 3.5.0
 
 on:
   push:
@@ -53,13 +53,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: ${{ env.node-version-file }}
-          cache: yarn
 
-      - name: Set yarn version ${{ env.yarn-version }}
-        run: yarn set version ${{ env.yarn-version }}
-
-      - name: Install package dependencies
-        run: yarn install --frozen-lockfile --non-interactive
+      - name: 📥 Monorepo install
+        uses: ./.github/actions/yarn-nm-install
 
         # 👇 Adds Chromatic as a step in the workflow
       - name: Publish to Chromatic
