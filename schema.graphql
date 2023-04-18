@@ -83,20 +83,20 @@ The `DateTimeOffset` scalar type represents a date, time and offset from UTC. `D
 scalar DateTimeOffset
 
 enum EicFunction {
-  BALANCE_RESPONSIBLE_PARTY
-  BILLING_AGENT
-  DANISH_ENERGY_AGENCY
-  DATA_HUB_ADMINISTRATOR
-  EL_OVERBLIK
-  ENERGY_SUPPLIER
-  GRID_ACCESS_PROVIDER
-  IMBALANCE_SETTLEMENT_RESPONSIBLE
-  INDEPENDENT_AGGREGATOR
-  METERED_DATA_ADMINISTRATOR
-  METERED_DATA_RESPONSIBLE
-  METERING_POINT_ADMINISTRATOR
-  SERIAL_ENERGY_TRADER
-  SYSTEM_OPERATOR
+  BalanceResponsibleParty
+  BillingAgent
+  DanishEnergyAgency
+  DataHubAdministrator
+  ElOverblik
+  EnergySupplier
+  GridAccessProvider
+  ImbalanceSettlementResponsible
+  IndependentAggregator
+  MeteredDataAdministrator
+  MeteredDataResponsible
+  MeteringPointAdministrator
+  SerialEnergyTrader
+  SystemOperator
 }
 
 type GraphQLMutation {
@@ -232,6 +232,9 @@ type PermissionAuditLog {
 
   """Time of change"""
   timestamp: DateTimeOffset!
+
+  """The new value after the change"""
+  value: String!
 }
 
 enum PermissionAuditLogType {
