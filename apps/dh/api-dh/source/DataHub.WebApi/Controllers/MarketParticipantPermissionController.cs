@@ -77,7 +77,8 @@ namespace Energinet.DataHub.WebApi.Controllers
                     Guid.Empty,
                     "DataHub",
                     PermissionAuditLogType.Created,
-                    permission.Created));
+                    permission.Created,
+                    string.Empty));
 
                 foreach (var auditLog in permissionAuditLogs)
                 {
@@ -95,7 +96,8 @@ namespace Energinet.DataHub.WebApi.Controllers
                         auditLog.ChangedByUserId,
                         userDtoCache?.Name ?? throw new KeyNotFoundException("User not found"),
                         auditLog.PermissionChangeType == PermissionChangeType.DescriptionChange ? PermissionAuditLogType.DescriptionChange : PermissionAuditLogType.Unknown,
-                        auditLog.Timestamp));
+                        auditLog.Timestamp,
+                        auditLog.Value));
                 }
 
                 return new PermissionAuditLogsViewDto(permissionAuditLogWithUser);
