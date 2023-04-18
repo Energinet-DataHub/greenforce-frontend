@@ -59,8 +59,7 @@ Add appsettings.Development.json with valid settings:
 
 `ApiClientSettings`  
 `> MeteringPointBaseUrl`  
-`> ChargesBaseUrl`  
-`> MessageArchiveBaseUrl`  
+`> ChargesBaseUrl`
 `> MarketParticipantBaseUrl`  
 `> WholesaleBaseUrl`  
 `FRONTEND_SERVICE_APP_ID`  

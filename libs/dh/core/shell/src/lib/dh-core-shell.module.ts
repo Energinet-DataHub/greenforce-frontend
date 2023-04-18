@@ -70,14 +70,15 @@ const routes: Routes = [
           ),
         canActivate: [MsalGuard],
       },
-      {
-        path: 'message-archive',
-        loadChildren: () =>
-          import('@energinet-datahub/dh/message-archive/shell').then(
-            (esModule) => esModule.DhMessageArchiveShellModule
-          ),
-        canActivate: [MsalGuard],
-      },
+      // Removed for now, because backend is being refactored
+      // {
+      //   path: 'message-archive',
+      //   loadChildren: () =>
+      //     import('@energinet-datahub/dh/message-archive/shell').then(
+      //       (esModule) => esModule.DhMessageArchiveShellModule
+      //     ),
+      //   canActivate: [MsalGuard],
+      // },
       {
         path: dhMarketParticipantPath,
         loadChildren: () =>
