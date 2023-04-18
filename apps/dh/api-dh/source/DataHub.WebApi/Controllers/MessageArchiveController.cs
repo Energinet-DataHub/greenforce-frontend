@@ -15,10 +15,8 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.MessageArchive.Client.Abstractions;
 using Energinet.DataHub.MessageArchive.Client.Abstractions.Models;
 using Energinet.DataHub.WebApi.Clients.EDI;
 using Microsoft.AspNetCore.Mvc;
@@ -29,12 +27,10 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public class MessageArchiveController : ControllerBase
     {
-        private readonly IMessageArchiveClient _messageArchiveClient;
         private readonly ArchivedMessagesSearch _archivedMessagesSearch;
 
-        public MessageArchiveController(IMessageArchiveClient messageArchiveClient, ArchivedMessagesSearch archivedMessagesSearch)
+        public MessageArchiveController(ArchivedMessagesSearch archivedMessagesSearch)
         {
-            _messageArchiveClient = messageArchiveClient;
             _archivedMessagesSearch = archivedMessagesSearch ?? throw new ArgumentNullException(nameof(archivedMessagesSearch));
         }
 
@@ -56,12 +52,9 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <param name="logName">log name</param>
         /// <returns>log content</returns>
         [HttpGet("DownloadRequestResponseLogContent")]
-        public async Task<ActionResult<Stream>> DownloadRequestResponseLogContentAsync(string logName)
+        public Task<ActionResult<Stream>> DownloadRequestResponseLogContentAsync(string logName)
         {
-            var decodedLogName = Uri.EscapeDataString(logName);
-            var stream = await _messageArchiveClient.GetStreamFromStorageAsync(decodedLogName).ConfigureAwait(false);
-
-            return File(stream, MediaTypeNames.Text.Plain);
+            throw new NotImplementedException();
         }
     }
 }

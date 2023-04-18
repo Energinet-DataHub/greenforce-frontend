@@ -36,17 +36,17 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
             var response = await _httpClient.GetAsync(url, cancellationToken);
             response.EnsureSuccessStatusCode();
 
-            var searchResultResponse =
-                await response.Content.ReadFromJsonAsync<SearchResultResponse>().ConfigureAwait(false);
+            var searchResultResponseMessages =
+                await response.Content.ReadFromJsonAsync<IReadOnlyList<ArchivedMessageDto>>().ConfigureAwait(false);
 
-            if (searchResultResponse == null)
+            if (searchResultResponseMessages == null)
             {
                 throw new InvalidOperationException("Could not parse response content from EDI.");
             }
 
             var result = new List<ArchivedMessage>();
 
-            foreach (var archivedMessageDto in searchResultResponse.Messages)
+            foreach (var archivedMessageDto in searchResultResponseMessages)
             {
                 result.Add(new ArchivedMessage(
                     archivedMessageDto.MessageId,
@@ -68,8 +68,6 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
         DateTimeOffset? CreatedDate,
         string? SenderGln,
         string? ReceiverGln);
-
-    public sealed record SearchResultResponse(IReadOnlyList<ArchivedMessageDto> Messages);
 
     public sealed record ArchivedMessageDto(
         string MessageId,
