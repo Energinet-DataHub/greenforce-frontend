@@ -17,7 +17,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.MessageArchive.Client.Abstractions.Models;
 using Energinet.DataHub.WebApi.Clients.EDI;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,7 +38,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// </summary>
         /// <returns>Search result.</returns>
         [HttpPost("SearchRequestResponseLogs")]
-        public async Task<ActionResult<MessageArchiveSearchResultsDto>> SearchRequestResponseLogsAsync(CancellationToken cancellationToken)
+        public async Task<ActionResult<SearchResult>> SearchRequestResponseLogsAsync(CancellationToken cancellationToken)
         {
             var result = await _archivedMessagesSearch.SearchAsync(cancellationToken).ConfigureAwait(false);
 
@@ -49,10 +48,9 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Download log content as stream.
         /// </summary>
-        /// <param name="logName">log name</param>
         /// <returns>log content</returns>
         [HttpGet("DownloadRequestResponseLogContent")]
-        public Task<ActionResult<Stream>> DownloadRequestResponseLogContentAsync(string logName)
+        public Task<ActionResult<Stream>> DownloadRequestResponseLogContentAsync()
         {
             throw new NotImplementedException();
         }
