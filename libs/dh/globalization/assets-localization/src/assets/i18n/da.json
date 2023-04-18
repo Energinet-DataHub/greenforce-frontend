@@ -26,7 +26,8 @@
       "ariaLabel": "Vælg side"
     },
     "download": "Download",
-    "search": "Søg"
+    "search": "Søg",
+    "selectedValues": "{{count}} valgt(e)"
   },
   "clipboard": {
     "success": "Kopieret til udklipsholder",
@@ -734,12 +735,17 @@
       "invalidPeriod": "Ugyldig periode",
       "dateRangeLabel": "Periode",
       "processTypeDropDownLabel": "Procestype",
+      "executionTypeLabel": "Afviklingstype",
       "gridAreaDropDownLabel": "Netområder",
       "creatingBatch": "Starter batch...",
       "creatingBatchSuccess": "Dit batch er startet.",
       "processTypes": {
         "BALANCE_FIXING": "Balancefiksering",
         "AGGREGATION": "Aggregering"
+      },
+      "executionTypes": {
+        "ACTUAL": "Faktisk",
+        "SIMULATION": "Simulering"
       },
       "processTypeError": "Procestype påkrævet"
     },

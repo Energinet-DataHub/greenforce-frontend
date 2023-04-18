@@ -23,7 +23,7 @@ import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import {
-  WattChipsModule,
+  WattChipsComponent,
   WattChipsSelection,
   WattChipsOption,
 } from '@energinet-datahub/watt/chips';
@@ -38,7 +38,7 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
     ReactiveFormsModule,
     WattFormFieldModule,
     WattDatepickerModule,
-    WattChipsModule,
+    WattChipsComponent,
     DhFeatureFlagDirectiveModule,
   ],
   selector: 'dh-drawer-datepicker',
