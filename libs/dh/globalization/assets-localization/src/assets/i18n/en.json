@@ -975,7 +975,7 @@
             "entry": "Change"
           },
           "logs": {
-            "permissionDetails": {
+            "permissionsDetails": {
               "auditLogType": {
                 "CREATED": "<b>{{ changedByUserName }}</b> added the permission to the system",
                 "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> changed the description of the permission to <b>{{ value }}</b>"
