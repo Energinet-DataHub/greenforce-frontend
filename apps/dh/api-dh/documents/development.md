@@ -1,21 +1,14 @@
-# Development notes
+# Development
 
-Notes regarding the development of the DataHub Backend-for-frontend (BFF).
+Notes regarding the development of the DataHub Backend-For-Frontend (BFF).
 
 ## Setup of BFF
 
-Before you're able to run the BFF locally you need to copy
-`build/ci/dh/api-dh/ci.appsettings.Development.json` ->
-`apps/dh/api-dh/source/DataHub.WebApi/appsettings.Development.json`.
-If you're using PowerShell Core or another Terminal that supports `cp`,
-you can do it with:
-
-```sh
-yarn nx run api-dh:ci-configuration
-```
-
-Otherwise you need to do the copying manually. This should be done everytime a
-new client is added.
+Before you're able to run the BFF locally you need an `appsettings.Development.json`
+file in the `apps/dh/api-dh/source/DataHub.WebApi/` folder. Either create one from
+`apps/dh/api-dh/source/DataHub.WebApi/appsettings.Development.json.sample` or if
+you are an internal DataHub employee, take a loot at the
+[`dev-secrets`](https://github.com/Energinet-DataHub/dev-secrets) repository.
 
 ## Generating HttpClient and DTOs
 
@@ -52,19 +45,6 @@ This workflow builds, lint, format and runs tests for the frontend applications 
 ### `api-dh-ci.yml`
 
 This workflow verifies the ASP.NET Core Web API by building and running all tests.
-
-## Setup local environment
-
-Add appsettings.Development.json with valid settings:
-
-`ApiClientSettings`  
-`> MeteringPointBaseUrl`  
-`> ChargesBaseUrl`  
-`> MessageArchiveBaseUrl`  
-`> MarketParticipantBaseUrl`  
-`> WholesaleBaseUrl`  
-`FRONTEND_SERVICE_APP_ID`  
-`FRONTEND_OPEN_ID_URL`
 
 ## OpenAPI
 
