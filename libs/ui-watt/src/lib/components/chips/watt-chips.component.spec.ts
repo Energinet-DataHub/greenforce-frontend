@@ -41,7 +41,6 @@ function setup(componentProperties: Properties) {
       (selectionChange)="selectionChange($event)"
       ></watt-chips>`,
     {
-      declarations: [WattChipsComponent],
       imports: [WattChipsComponent],
       componentProperties,
     }
