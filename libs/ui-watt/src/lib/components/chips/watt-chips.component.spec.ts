@@ -18,7 +18,6 @@
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
-import { WattChipsModule } from './watt-chips.module';
 import { WattChipsComponent, WattChipsOption, WattChipsSelection } from './watt-chips.component';
 
 const options = [
@@ -43,7 +42,7 @@ function setup(componentProperties: Properties) {
       ></watt-chips>`,
     {
       declarations: [WattChipsComponent],
-      imports: [WattChipsModule],
+      imports: [WattChipsComponent],
       componentProperties,
     }
   );

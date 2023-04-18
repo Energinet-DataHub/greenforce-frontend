@@ -14,19 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import { StoryFn, Meta } from '@storybook/angular';
 
 import { WattChipsComponent } from './watt-chips.component';
-import { WattChipsModule } from './watt-chips.module';
 
 const meta: Meta<WattChipsComponent> = {
   title: 'Components/Chips',
-  component: WattChipsComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [WattChipsModule],
-    }),
-  ],
+  component: WattChipsComponent
 };
 
 export default meta;
