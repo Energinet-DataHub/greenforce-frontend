@@ -55,7 +55,7 @@ export const mockedGridAreas: graphql.GridArea[] = [
     name: 'hello',
     priceAreaCode: graphql.PriceAreaCode.Dk_1,
     validFrom: '0001-01-01T00:00:00+00:00',
-    validTo: null
+    validTo: null,
   },
   {
     __typename: 'GridArea',
@@ -64,7 +64,7 @@ export const mockedGridAreas: graphql.GridArea[] = [
     name: 'hello again',
     priceAreaCode: graphql.PriceAreaCode.Dk_1,
     validFrom: '0001-01-01T00:00:00+00:00',
-    validTo: null
+    validTo: null,
   },
 ];
 

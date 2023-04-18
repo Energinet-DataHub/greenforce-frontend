@@ -162,7 +162,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
         this.executionTypes = Object.keys(executionTypesTranslation).map((key) => ({
           label: executionTypesTranslation[key],
           value: key,
-          disabled: key !== 'ACTUAL'
+          disabled: key !== 'ACTUAL',
         }));
       });
   }

@@ -48,11 +48,7 @@ export type WattChipsSelection = string | null;
   styleUrls: ['./watt-chips.component.scss'],
   templateUrl: './watt-chips.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatChipsModule,
-    WattIconModule
-  ]
+  imports: [CommonModule, MatChipsModule, WattIconModule],
 })
 export class WattChipsComponent {
   /** List of chip options to display. */
