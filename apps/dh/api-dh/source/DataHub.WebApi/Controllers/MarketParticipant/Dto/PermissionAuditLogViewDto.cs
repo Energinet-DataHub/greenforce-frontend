@@ -21,5 +21,6 @@ namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
         Guid ChangedByUserId,
         string ChangedByUserName,
         PermissionAuditLogType PermissionAuditLogType,
-        DateTimeOffset Timestamp);
+        DateTimeOffset Timestamp,
+        string Value);
 }

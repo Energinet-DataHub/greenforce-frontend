@@ -965,7 +965,7 @@
             "permissionsDetails": {
               "auditLogType": {
                 "CREATED": "<b>{{ changedByUserName }}</b> tilføjede rettigheden til systemet",
-                "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede beskrivelsen på rettigheden"
+                "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede beskrivelsen på rettigheden til <b>{{ value }}</b>"
               }
             },
             "auditLogType": {

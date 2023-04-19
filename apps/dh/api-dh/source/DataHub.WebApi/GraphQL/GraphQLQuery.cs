@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
@@ -25,7 +24,6 @@ using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 using NodaTime;
-using ActorDto = Energinet.DataHub.MarketParticipant.Client.Models.ActorDto;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -74,7 +72,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                             Guid.Empty,
                             "DataHub",
                             PermissionAuditLogType.Created,
-                            permission.Created),
+                            permission.Created,
+                            string.Empty),
                     };
 
                     foreach (var log in auditLogs)
@@ -93,7 +92,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                             log.ChangedByUserId,
                             userCache?.Name ?? throw new KeyNotFoundException("User not found"),
                             log.PermissionChangeType == PermissionChangeType.DescriptionChange ? PermissionAuditLogType.DescriptionChange : PermissionAuditLogType.Unknown,
-                            log.Timestamp));
+                            log.Timestamp,
+                            log.Value));
                     }
 
                     return auditLogsViewDtos;
@@ -204,11 +204,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
                    var gridAreas = await client.GetGridAreasAsync();
                    var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
                    var actors = await client.GetActorsAsync();
-
-                   if (actors == null)
-                   {
-                       return Array.Empty<Actor>();
-                   }
 
                    var accessibleActors = actors.Select(x => new Actor(x.ActorNumber.Value)
                    {
