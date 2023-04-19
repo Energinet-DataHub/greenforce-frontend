@@ -19,6 +19,13 @@
   max-width: 300px;
 }
 
-watt-form-field:not(:last-of-type) {
+watt-form-field {
+  margin-bottom: var(--watt-space-l);
+}
+
+watt-chips {
+  display: block;
+  padding-bottom: 1.25em;
+  margin-top: 4px;
   margin-bottom: var(--watt-space-l);
 }
