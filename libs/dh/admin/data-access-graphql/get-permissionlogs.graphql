@@ -5,5 +5,6 @@ query GetPermissionLogs($id: ID!) {
     changedByUserName
     permissionAuditLogType
     timestamp
+    value
   }
 }

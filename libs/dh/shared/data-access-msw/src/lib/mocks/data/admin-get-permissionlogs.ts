@@ -24,6 +24,7 @@ export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
     changedByUserName: 'datahub',
     permissionAuditLogType: graphql.PermissionAuditLogType.Created,
     timestamp: '2023-03-17',
+    value: 'val1',
   },
   {
     __typename: 'PermissionAuditLog',
@@ -32,6 +33,7 @@ export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
     changedByUserName: 'datahub',
     permissionAuditLogType: graphql.PermissionAuditLogType.DescriptionChange,
     timestamp: '2023-03-18',
+    value: 'val2',
   },
   {
     __typename: 'PermissionAuditLog',
@@ -40,5 +42,6 @@ export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
     changedByUserName: 'datahub',
     permissionAuditLogType: graphql.PermissionAuditLogType.Created,
     timestamp: '2023-03-17',
+    value: 'val3',
   },
 ];
