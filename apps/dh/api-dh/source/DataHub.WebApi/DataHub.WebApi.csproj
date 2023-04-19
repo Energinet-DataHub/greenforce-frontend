@@ -27,7 +27,7 @@ limitations under the License.
     <WarningsAsErrors />
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>false</IsPackable>
-    <MarketingParticipantProjectReference>../../../../../backend/geh-market-participant/source/marketparticipant/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi/Energinet.DataHub.MarketParticipant.Client.csproj</MarketingParticipantProjectReference>
+    <MarketingParticipantProjectReference>../../../../../backend/geh-market-participant/source/api-client/Energinet.DataHub.MarketParticipant.Client/source/Energinet.DataHub.MarketParticipant.Client/Energinet.DataHub.MarketParticipant.Client.csproj</MarketingParticipantProjectReference>
   </PropertyGroup>
 
   <PropertyGroup>
