@@ -62,7 +62,7 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
         this.setLoading(true);
         // this.updateContinuationToken(e.continuationToken);
         this.updateSearchResult([]);
-      }),
+      })
       // switchMap((searchCriteria) => {
       //   return this.httpClient.v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria).pipe(
       //     tapResponse(
@@ -82,10 +82,7 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
   });
 
   private updateSearchResult = this.updater(
-    (
-      state: SearchResultState,
-      searchResult: Array<ArchivedMessage> | []
-    ): SearchResultState => {
+    (state: SearchResultState, searchResult: Array<ArchivedMessage> | []): SearchResultState => {
       return {
         ...state,
         searchResult: state.continuationToken

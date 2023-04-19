@@ -49,7 +49,7 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
       tap(() => {
         this.resetState();
         this.setLoading(true);
-      }),
+      })
       // switchMap((logName) =>
       //   this.httpClient
       //     .v1MessageArchiveDownloadRequestResponseLogContentGet(logName, 'body', false, {
