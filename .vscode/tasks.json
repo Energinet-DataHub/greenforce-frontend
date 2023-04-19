@@ -14,24 +14,12 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "build message archive",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "build",
-        "${workspaceFolder}/backend/geh-message-archive/source/Energinet.DataHub.MessageArchive.EntryPoint.WebApi/Energinet.DataHub.MessageArchive.EntryPoint.WebApi.csproj",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
       "label": "build market participant",
       "command": "dotnet",
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/backend/geh-market-participant/source/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi.csproj",
+        "${workspaceFolder}/backend/geh-market-participant/source/marketparticipant/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
