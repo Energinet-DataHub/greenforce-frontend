@@ -37,17 +37,20 @@ const Template: StoryFn<StorybookTypographyOverviewComponent> = (args) => ({
   props: args,
 });
 
-//👇 Each story then reuses that template
-export const Typography = Template.bind({});
-const emptySourceCodeBlock = ' ';
-Typography.storyName = 'Overview';
-Typography.parameters = {
-  docs: {
-    source: {
-      code: emptySourceCodeBlock,
+export const Typography = {
+  render: Template,
+  name: 'Overview',
+
+  parameters: {
+    docs: {
+      source: {
+        code: emptySourceCodeBlock,
+      },
     },
   },
 };
+
+const emptySourceCodeBlock = ' ';
 
 const h1CodeExample = `
 Recommended
@@ -60,14 +63,18 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.h1.mixin}
 `;
 
-export const H1 = () => ({
-  template: typographyHtmlSnippets.h1.tag,
-});
-H1.storyName = 'Headline 1';
-H1.parameters = {
-  docs: {
-    source: {
-      code: h1CodeExample,
+export const H1 = {
+  render: () => ({
+    template: typographyHtmlSnippets.h1.tag,
+  }),
+
+  name: 'Headline 1',
+
+  parameters: {
+    docs: {
+      source: {
+        code: h1CodeExample,
+      },
     },
   },
 };
@@ -83,14 +90,18 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.h2.mixin}
 `;
 
-export const H2 = () => ({
-  template: typographyHtmlSnippets.h2.tag,
-});
-H2.storyName = 'Headline 2';
-H2.parameters = {
-  docs: {
-    source: {
-      code: h2CodeExample,
+export const H2 = {
+  render: () => ({
+    template: typographyHtmlSnippets.h2.tag,
+  }),
+
+  name: 'Headline 2',
+
+  parameters: {
+    docs: {
+      source: {
+        code: h2CodeExample,
+      },
     },
   },
 };
@@ -106,14 +117,18 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.h3.mixin}
 `;
 
-export const H3 = () => ({
-  template: typographyHtmlSnippets.h3.tag,
-});
-H3.storyName = 'Headline 3';
-H3.parameters = {
-  docs: {
-    source: {
-      code: h3CodeExample,
+export const H3 = {
+  render: () => ({
+    template: typographyHtmlSnippets.h3.tag,
+  }),
+
+  name: 'Headline 3',
+
+  parameters: {
+    docs: {
+      source: {
+        code: h3CodeExample,
+      },
     },
   },
 };
@@ -129,14 +144,18 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.h4.mixin}
 `;
 
-export const H4 = () => ({
-  template: typographyHtmlSnippets.h4.tag,
-});
-H4.storyName = 'Headline 4';
-H4.parameters = {
-  docs: {
-    source: {
-      code: h4CodeExample,
+export const H4 = {
+  render: () => ({
+    template: typographyHtmlSnippets.h4.tag,
+  }),
+
+  name: 'Headline 4',
+
+  parameters: {
+    docs: {
+      source: {
+        code: h4CodeExample,
+      },
     },
   },
 };
@@ -152,14 +171,18 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.h5.mixin}
 `;
 
-export const H5 = () => ({
-  template: typographyHtmlSnippets.h5.tag,
-});
-H5.storyName = 'Headline 5';
-H5.parameters = {
-  docs: {
-    source: {
-      code: h5CodeExample,
+export const H5 = {
+  render: () => ({
+    template: typographyHtmlSnippets.h5.tag,
+  }),
+
+  name: 'Headline 5',
+
+  parameters: {
+    docs: {
+      source: {
+        code: h5CodeExample,
+      },
     },
   },
 };
@@ -172,14 +195,18 @@ SCSS mixin
 ${typographyHtmlSnippets.textL.mixin}
 `;
 
-export const TextL = () => ({
-  template: typographyHtmlSnippets.textL.class,
-});
-TextL.storyName = 'Large';
-TextL.parameters = {
-  docs: {
-    source: {
-      code: textLCodeExample,
+export const TextL = {
+  render: () => ({
+    template: typographyHtmlSnippets.textL.class,
+  }),
+
+  name: 'Large',
+
+  parameters: {
+    docs: {
+      source: {
+        code: textLCodeExample,
+      },
     },
   },
 };
@@ -195,14 +222,18 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.bodyTextM.mixin}
 `;
 
-export const BodyTextM = () => ({
-  template: typographyHtmlSnippets.bodyTextM.tag,
-});
-BodyTextM.storyName = 'Normal';
-BodyTextM.parameters = {
-  docs: {
-    source: {
-      code: bodyTextMCodeExample,
+export const BodyTextM = {
+  render: () => ({
+    template: typographyHtmlSnippets.bodyTextM.tag,
+  }),
+
+  name: 'Normal',
+
+  parameters: {
+    docs: {
+      source: {
+        code: bodyTextMCodeExample,
+      },
     },
   },
 };
@@ -218,14 +249,18 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.textS.mixin}
 `;
 
-export const TextS = () => ({
-  template: typographyHtmlSnippets.textS.tag,
-});
-TextS.storyName = 'Small';
-TextS.parameters = {
-  docs: {
-    source: {
-      code: textSCodeExample,
+export const TextS = {
+  render: () => ({
+    template: typographyHtmlSnippets.textS.tag,
+  }),
+
+  name: 'Small',
+
+  parameters: {
+    docs: {
+      source: {
+        code: textSCodeExample,
+      },
     },
   },
 };
@@ -238,14 +273,18 @@ SCSS mixin
 ${typographyHtmlSnippets.textLHighlighted.mixin}
 `;
 
-export const TextLHightlighted = () => ({
-  template: typographyHtmlSnippets.textLHighlighted.class,
-});
-TextLHightlighted.storyName = 'Large-highlighted';
-TextLHightlighted.parameters = {
-  docs: {
-    source: {
-      code: textLHighlightedCodeExample,
+export const TextLHightlighted = {
+  render: () => ({
+    template: typographyHtmlSnippets.textLHighlighted.class,
+  }),
+
+  name: 'Large-highlighted',
+
+  parameters: {
+    docs: {
+      source: {
+        code: textLHighlightedCodeExample,
+      },
     },
   },
 };
@@ -261,14 +300,18 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.bodyTextMHighlighted.mixin}
 `;
 
-export const BodyTextMHighlighted = () => ({
-  template: typographyHtmlSnippets.bodyTextMHighlighted.tag,
-});
-BodyTextMHighlighted.storyName = 'Normal-highlighted';
-BodyTextMHighlighted.parameters = {
-  docs: {
-    source: {
-      code: bodyTextMHighlightedCodeExample,
+export const BodyTextMHighlighted = {
+  render: () => ({
+    template: typographyHtmlSnippets.bodyTextMHighlighted.tag,
+  }),
+
+  name: 'Normal-highlighted',
+
+  parameters: {
+    docs: {
+      source: {
+        code: bodyTextMHighlightedCodeExample,
+      },
     },
   },
 };
@@ -284,14 +327,18 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.textSHighlighted.mixin}
 `;
 
-export const TextSHighlighted = () => ({
-  template: typographyHtmlSnippets.textSHighlighted.tag,
-});
-TextSHighlighted.storyName = 'Small-highlighted';
-TextSHighlighted.parameters = {
-  docs: {
-    source: {
-      code: textSHightlightedCodeExample,
+export const TextSHighlighted = {
+  render: () => ({
+    template: typographyHtmlSnippets.textSHighlighted.tag,
+  }),
+
+  name: 'Small-highlighted',
+
+  parameters: {
+    docs: {
+      source: {
+        code: textSHightlightedCodeExample,
+      },
     },
   },
 };
@@ -307,13 +354,16 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.button.mixin}
 `;
 
-export const Button = () => ({
-  template: typographyHtmlSnippets.button.storybook,
-});
-Button.parameters = {
-  docs: {
-    source: {
-      code: buttonCodeExample,
+export const Button = {
+  render: () => ({
+    template: typographyHtmlSnippets.button.storybook,
+  }),
+
+  parameters: {
+    docs: {
+      source: {
+        code: buttonCodeExample,
+      },
     },
   },
 };
@@ -329,13 +379,16 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.label.mixin}
 `;
 
-export const Label = () => ({
-  template: typographyHtmlSnippets.label.class,
-});
-Label.parameters = {
-  docs: {
-    source: {
-      code: labelCodeExample,
+export const Label = {
+  render: () => ({
+    template: typographyHtmlSnippets.label.class,
+  }),
+
+  parameters: {
+    docs: {
+      source: {
+        code: labelCodeExample,
+      },
     },
   },
 };
@@ -351,14 +404,18 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.link.mixin}
 `;
 
-export const Link = () => ({
-  template: typographyHtmlSnippets.link.class,
-});
-Link.storyName = 'Normal Link';
-Link.parameters = {
-  docs: {
-    source: {
-      code: linkCodeExample,
+export const Link = {
+  render: () => ({
+    template: typographyHtmlSnippets.link.class,
+  }),
+
+  name: 'Normal Link',
+
+  parameters: {
+    docs: {
+      source: {
+        code: linkCodeExample,
+      },
     },
   },
 };
@@ -374,14 +431,18 @@ Alternative (SCSS mixin)
 ${typographyHtmlSnippets.linkS.mixin}
 `;
 
-export const LinkS = () => ({
-  template: typographyHtmlSnippets.linkS.class,
-});
-LinkS.storyName = 'Small Link';
-LinkS.parameters = {
-  docs: {
-    source: {
-      code: linkSCodeExample,
+export const LinkS = {
+  render: () => ({
+    template: typographyHtmlSnippets.linkS.class,
+  }),
+
+  name: 'Small Link',
+
+  parameters: {
+    docs: {
+      source: {
+        code: linkSCodeExample,
+      },
     },
   },
 };

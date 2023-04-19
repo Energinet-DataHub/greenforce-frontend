@@ -58,6 +58,15 @@
           "quiet": true
         }
       }
+    },
+    "component-test": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "libs/ui-watt/cypress.config.ts",
+        "testingType": "component",
+        "skipServe": true,
+        "devServerTarget": "app-dh:build"
+      }
     }
   },
   "tags": ["product:watt", "type:ui"]

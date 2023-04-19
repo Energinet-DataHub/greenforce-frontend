@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import { StoryObj, moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
 import { WattToastConfig } from '../watt-toast.component';
 import { StorybookToastModule } from './storybook-toast.component';
@@ -41,82 +41,84 @@ export interface WattToastStoryConfig extends WattToastConfig {
   message: string;
 }
 
-export const Overview: StoryFn<WattToastStoryConfig> = (args) => ({
-  props: args,
-  template: `<storybook-toast [config]="{type, duration, message, action, actionLabel}"></storybook-toast>`,
-  moduleMetadata: {
-    imports: [
-      BrowserAnimationsModule.withConfig({
-        disableAnimations: !!args.disableAnimations,
-      }),
-    ],
-  },
-});
+export const Overview: StoryObj<WattToastStoryConfig> = {
+  render: (args) => ({
+    props: args,
+    template: `<storybook-toast [config]="{type, duration, message, action, actionLabel}"></storybook-toast>`,
+    moduleMetadata: {
+      imports: [
+        BrowserAnimationsModule.withConfig({
+          disableAnimations: !!args.disableAnimations,
+        }),
+      ],
+    },
+  }),
 
-Overview.args = {
-  type: undefined,
-  message: 'You successfully launched a toast!',
-  action: (ref) => {
-    alert('Call alert, and dismiss the toast!');
-    ref.dismiss();
+  args: {
+    type: undefined,
+    message: 'You successfully launched a toast!',
+    action: (ref) => {
+      alert('Call alert, and dismiss the toast!');
+      ref.dismiss();
+    },
+    actionLabel: 'action',
   },
-  actionLabel: 'action',
-};
 
-Overview.argTypes = {
-  type: {
-    options: ['success', 'info', 'warning', 'danger', 'loading', undefined],
-    description: '`WattToastType`',
-    control: {
-      type: 'radio',
-      labels: { undefined: 'default (no provided type)' },
+  argTypes: {
+    type: {
+      options: ['success', 'info', 'warning', 'danger', 'loading', undefined],
+      description: '`WattToastType`',
+      control: {
+        type: 'radio',
+        labels: { undefined: 'default (no provided type)' },
+      },
+    },
+    duration: {
+      defaultValue: 5000,
+      control: { type: 'number', min: 1000, max: 10000, step: 1000 },
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '5000ms' },
+      },
+    },
+    message: {
+      description: '`string`',
+    },
+    action: {
+      action: 'clicked',
+      table: {
+        type: { summary: '(ref: WattToastRef) => void' },
+        defaultValue: { summary: null },
+      },
     },
   },
-  duration: {
-    defaultValue: 5000,
-    control: { type: 'number', min: 1000, max: 10000, step: 1000 },
-    table: {
-      type: { summary: 'number' },
-      defaultValue: { summary: '5000ms' },
-    },
-  },
-  message: {
-    description: '`string`',
-  },
-  action: {
-    action: 'clicked',
-    table: {
-      type: { summary: '(ref: WattToastRef) => void' },
-      defaultValue: { summary: null },
-    },
-  },
-};
 
-Overview.parameters = {
-  docs: {
-    source: {
-      code: `
-      import { WattToastService, WattToastRef } from "@energinet-datahub/watt";
+  parameters: {
+    docs: {
+      source: {
+        code: `
+        import { WattToastService, WattToastRef } from "@energinet-datahub/watt";
 
-@Component({
-  selector: 'my-awesome-component',
-  template: '<watt-button (click)="makeToast()">Make toast!</watt-button>',
-})
-export class MyAwesomeComponent {
-  constructor(private toast: WattToastService) {}
+  @Component({
+    selector: 'my-awesome-component',
+    template: '<watt-button (click)="makeToast()">Make toast!</watt-button>',
+  })
+  export class MyAwesomeComponent {
+    constructor(private toast: WattToastService) {}
 
-  makeToast() {
-    this.toast.open({
-        message: 'Some awesome message!',
-        action: (ref: WattToastRef) => {
-            // Do something and dismiss the toast
-            ref.dismiss();
-        }
-    });
-  }
-}`,
-      language: 'ts',
-      type: 'code',
+    makeToast() {
+      this.toast.open({
+          message: 'Some awesome message!',
+          action: (ref: WattToastRef) => {
+              // Do something and dismiss the toast
+              ref.dismiss();
+          }
+      });
+    }
+  }`,
+        language: 'ts',
+        type: 'code',
+      },
     },
   },
 };

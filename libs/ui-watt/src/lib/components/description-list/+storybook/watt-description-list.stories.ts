@@ -43,26 +43,30 @@ const Template: StoryFn = (args) => ({
   `,
 });
 
-export const Default = Template.bind({});
+export const Default = {
+  render: Template,
 
-Default.argTypes = {
-  variant: {
-    control: {
-      type: 'radio',
-      options: ['flow', 'stack'],
+  argTypes: {
+    variant: {
+      control: {
+        type: 'radio',
+        options: ['flow', 'stack'],
+      },
     },
+  },
+
+  args: {
+    groupsPerRow: 3,
+    variant: 'flow',
   },
 };
 
-Default.args = {
-  groupsPerRow: 3,
-  variant: 'flow',
-};
+export const ForceNewRow = {
+  render: Template,
 
-export const ForceNewRow = Template.bind({});
-
-ForceNewRow.args = {
-  forceNewRow: true,
-  groupsPerRow: 3,
-  variant: 'flow',
+  args: {
+    forceNewRow: true,
+    groupsPerRow: 3,
+    variant: 'flow',
+  },
 };

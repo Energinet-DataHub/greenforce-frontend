@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { StoryObj, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattSpinnerComponent, WattSpinnerModule } from './../index';
 
@@ -30,6 +30,8 @@ const meta: Meta<WattSpinnerComponent> = {
 
 export default meta;
 
-export const Spinner: StoryFn<WattSpinnerComponent> = (args) => ({
-  props: args,
-});
+export const Spinner: StoryObj<WattSpinnerComponent> = {
+  render: (args) => ({
+    props: args,
+  }),
+};

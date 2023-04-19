@@ -38,8 +38,12 @@ const Template: StoryFn<WattBadgeComponent> = (args) => ({
   `,
 });
 
-export const Normal = Template.bind({});
-Normal.args = { size: 'normal' };
+export const Normal = {
+  render: Template,
+  args: { size: 'normal' },
+};
 
-export const Large = Template.bind({});
-Large.args = { size: 'large' };
+export const Large = {
+  render: Template,
+  args: { size: 'large' },
+};

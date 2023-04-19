@@ -34,16 +34,20 @@ import { ${WattButtonModule.name} } from '@energinet-datahub/watt/button';
 2. Use <watt-button>Button</watt-button>
 `;
 
-export const Overview = () => ({
-  template: '<storybook-button-overview></storybook-button-overview>',
-});
-Overview.decorators = [
-  moduleMetadata({
-    imports: [StorybookButtonOverviewModule],
+export const Overview = {
+  render: () => ({
+    template: '<storybook-button-overview></storybook-button-overview>',
   }),
-];
-Overview.parameters = {
-  docs: { source: { code: howToUseGuide } },
+
+  decorators: [
+    moduleMetadata({
+      imports: [StorybookButtonOverviewModule],
+    }),
+  ],
+
+  parameters: {
+    docs: { source: { code: howToUseGuide } },
+  },
 };
 
 //👇 We create a “template” of how args map to rendering
@@ -52,7 +56,10 @@ const ButtonStory: StoryFn<WattButtonComponent> = (args) => ({
   template: `<watt-button>Button</watt-button>`,
 });
 
-export const Button = ButtonStory.bind({});
-Button.args = {
-  variant: 'primary',
+export const Button = {
+  render: ButtonStory,
+
+  args: {
+    variant: 'primary',
+  },
 };

@@ -18,7 +18,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { APP_INITIALIZER, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { StoryFn, Meta, moduleMetadata } from '@storybook/angular';
+import { StoryObj, StoryFn, Meta, moduleMetadata } from '@storybook/angular';
 
 import { WATT_BREADCRUMBS, WattBreadcrumbsComponent } from './watt-breadcrumbs.component';
 
@@ -69,19 +69,21 @@ export default {
   argTypes: { onClick: { action: 'clicked' } },
 } as Meta;
 
-export const Overview: StoryFn<WattBreadcrumbsComponent> = (args) => ({
-  props: args,
-  template: `
-    <p>"Components" has a click handler, see actions tab.</p>
-    <p>"Breadcrumbs" has a routerLink.</p>
-    <p>"Overview" has neither.</p>
+export const Overview: StoryObj<WattBreadcrumbsComponent> = {
+  render: (args) => ({
+    props: args,
+    template: `
+      <p>"Components" has a click handler, see actions tab.</p>
+      <p>"Breadcrumbs" has a routerLink.</p>
+      <p>"Overview" has neither.</p>
 
-    <watt-breadcrumbs>
-      <watt-breadcrumb (click)="onClick()">Components</watt-breadcrumb>
-      <watt-breadcrumb [routerLink]="['breadcrumbs']">Breadcrumbs</watt-breadcrumb>
-      <watt-breadcrumb>Overview</watt-breadcrumb>
-    </watt-breadcrumbs>
+      <watt-breadcrumbs>
+        <watt-breadcrumb (click)="onClick()">Components</watt-breadcrumb>
+        <watt-breadcrumb [routerLink]="['breadcrumbs']">Breadcrumbs</watt-breadcrumb>
+        <watt-breadcrumb>Overview</watt-breadcrumb>
+      </watt-breadcrumbs>
 
-    <router-outlet></router-outlet>
-  `,
-});
+      <router-outlet></router-outlet>
+    `,
+  }),
+};

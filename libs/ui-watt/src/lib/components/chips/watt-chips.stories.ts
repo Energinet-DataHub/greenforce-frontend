@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import { StoryObj, moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
 import { WattChipsComponent } from './watt-chips.component';
 import { WattChipsModule } from './watt-chips.module';
@@ -31,18 +31,20 @@ const meta: Meta<WattChipsComponent> = {
 
 export default meta;
 
-export const Overview: StoryFn<WattChipsComponent> = (args) => ({
-  props: args,
-});
+export const Overview: StoryObj<WattChipsComponent> = {
+  render: (args) => ({
+    props: args,
+  }),
 
-Overview.args = {
-  selection: 'd',
-  options: [
-    { label: 'Day', value: 'd' },
-    { label: 'Week', value: 'w' },
-    { label: 'Month', value: 'm' },
-    { label: 'Quarter', value: 'q' },
-    { label: 'Year', value: 'y' },
-    { label: 'Custom', value: 'c' },
-  ],
+  args: {
+    selection: 'd',
+    options: [
+      { label: 'Day', value: 'd' },
+      { label: 'Week', value: 'w' },
+      { label: 'Month', value: 'm' },
+      { label: 'Quarter', value: 'q' },
+      { label: 'Year', value: 'y' },
+      { label: 'Custom', value: 'c' },
+    ],
+  },
 };

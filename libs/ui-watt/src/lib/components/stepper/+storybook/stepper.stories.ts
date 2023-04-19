@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { StoryObj, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { StepperExampleComponent } from './stepper.example.component';
 
 const meta: Meta<StepperExampleComponent> = {
@@ -32,15 +32,17 @@ export default meta;
 
 const template = `<watt-stepper-example></watt-stepper-example>`;
 
-export const Stepper: StoryFn = (args) => ({
-  props: args,
-  template,
-});
+export const Stepper: StoryObj = {
+  render: (args) => ({
+    props: args,
+    template,
+  }),
 
-Stepper.parameters = {
-  docs: {
-    source: {
-      code: template,
+  parameters: {
+    docs: {
+      source: {
+        code: template,
+      },
     },
   },
 };

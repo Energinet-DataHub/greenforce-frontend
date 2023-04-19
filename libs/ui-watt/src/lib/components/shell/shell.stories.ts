@@ -52,9 +52,10 @@ const Template: StoryFn<WattShellComponent> = (args) => ({
   props: args,
 });
 
-//👇 Each story then reuses that template
-export const Shell = Template.bind({});
-Shell.storyName = 'Empty';
+export const Shell = {
+  render: Template,
+  name: 'Empty',
+};
 
 const withContentTemplate = `
 <watt-shell>
@@ -70,14 +71,18 @@ const withContentTemplate = `
 </watt-shell>
 `;
 
-export const WithContent = () => ({
-  template: withContentTemplate,
-});
-WithContent.storyName = 'With content';
-WithContent.parameters = {
-  docs: {
-    source: {
-      code: withContentTemplate,
+export const WithContent = {
+  render: () => ({
+    template: withContentTemplate,
+  }),
+
+  name: 'With content',
+
+  parameters: {
+    docs: {
+      source: {
+        code: withContentTemplate,
+      },
     },
   },
 };
@@ -118,45 +123,50 @@ function generateComponent(template: string) {
   return StorybookPageComponent;
 }
 
-export const WithSidebarNavigation = () => ({
-  template: withSidebarNavigationTemplate,
-});
-WithSidebarNavigation.storyName = 'With sidebar navigation';
-WithSidebarNavigation.decorators = [
-  applicationConfig({
-    providers: [
-      provideRouter([
-        { path: '', redirectTo: 'menu-2', pathMatch: 'full' },
-        { path: 'menu-1', component: generateComponent('Page 1') },
-        { path: 'menu-2', component: generateComponent('Page 2') },
-        { path: 'menu-3', component: generateComponent('Page 3') },
-        { path: 'menu-4', component: generateComponent('Page 4') },
-        { path: 'menu-5', component: generateComponent('Page 5') },
-        { path: 'menu-6', component: generateComponent('Page 6') },
-      ]),
-    ],
+export const WithSidebarNavigation = {
+  render: () => ({
+    template: withSidebarNavigationTemplate,
   }),
-  moduleMetadata({
-    imports: [WattNavListComponent, WattNavListItemComponent],
-    providers: [
-      {
-        provide: APP_BASE_HREF,
-        useValue: '/iframe.html/',
+
+  name: 'With sidebar navigation',
+
+  decorators: [
+    applicationConfig({
+      providers: [
+        provideRouter([
+          { path: '', redirectTo: 'menu-2', pathMatch: 'full' },
+          { path: 'menu-1', component: generateComponent('Page 1') },
+          { path: 'menu-2', component: generateComponent('Page 2') },
+          { path: 'menu-3', component: generateComponent('Page 3') },
+          { path: 'menu-4', component: generateComponent('Page 4') },
+          { path: 'menu-5', component: generateComponent('Page 5') },
+          { path: 'menu-6', component: generateComponent('Page 6') },
+        ]),
+      ],
+    }),
+    moduleMetadata({
+      imports: [WattNavListComponent, WattNavListItemComponent],
+      providers: [
+        {
+          provide: APP_BASE_HREF,
+          useValue: '/iframe.html/',
+        },
+        // Perform the initial navigation. Without it the redirect in the route definition will not happen
+        {
+          provide: APP_INITIALIZER,
+          useFactory: (router: Router) => () => router.initialNavigation(),
+          deps: [Router],
+          multi: true,
+        },
+      ],
+    }),
+  ],
+
+  parameters: {
+    docs: {
+      source: {
+        code: withSidebarNavigationTemplate,
       },
-      // Perform the initial navigation. Without it the redirect in the route definition will not happen
-      {
-        provide: APP_INITIALIZER,
-        useFactory: (router: Router) => () => router.initialNavigation(),
-        deps: [Router],
-        multi: true,
-      },
-    ],
-  }),
-];
-WithSidebarNavigation.parameters = {
-  docs: {
-    source: {
-      code: withSidebarNavigationTemplate,
     },
   },
 };
@@ -180,61 +190,66 @@ const withTopBarTemplate = `
 </watt-shell>
 `;
 
-export const WithTopBar = () => ({
-  template: withTopBarTemplate,
-});
-WithTopBar.storyName = 'With top bar';
-WithTopBar.decorators = [
-  applicationConfig({
-    providers: [
-      provideRouter([
-        { path: '', redirectTo: 'with-top-bar', pathMatch: 'full' },
-        {
-          path: 'with-top-bar',
-          component: generateComponent(
-            '<watt-top-bar>Top Bar</watt-top-bar> This page has a top bar'
-          ),
-        },
-        {
-          path: 'without-top-bar',
-          component: generateComponent('This page does not have a top bar'),
-        },
-      ]),
-    ],
+export const WithTopBar = {
+  render: () => ({
+    template: withTopBarTemplate,
   }),
-  moduleMetadata({
-    imports: [WattNavListComponent, WattNavListItemComponent],
-    providers: [
-      {
-        provide: APP_BASE_HREF,
-        useValue: '/iframe.html/',
+
+  name: 'With top bar',
+
+  decorators: [
+    applicationConfig({
+      providers: [
+        provideRouter([
+          { path: '', redirectTo: 'with-top-bar', pathMatch: 'full' },
+          {
+            path: 'with-top-bar',
+            component: generateComponent(
+              '<watt-top-bar>Top Bar</watt-top-bar> This page has a top bar'
+            ),
+          },
+          {
+            path: 'without-top-bar',
+            component: generateComponent('This page does not have a top bar'),
+          },
+        ]),
+      ],
+    }),
+    moduleMetadata({
+      imports: [WattNavListComponent, WattNavListItemComponent],
+      providers: [
+        {
+          provide: APP_BASE_HREF,
+          useValue: '/iframe.html/',
+        },
+        // Perform the initial navigation. Without it the redirect in the route definition will not happen
+        {
+          provide: APP_INITIALIZER,
+          useFactory: (router: Router) => () => router.initialNavigation(),
+          deps: [Router],
+          multi: true,
+        },
+      ],
+    }),
+  ],
+
+  parameters: {
+    docs: {
+      source: {
+        code: `
+          <!-- Add inside the watt-shell component -->
+          <watt-top-bar-outlet></watt-top-bar-outlet>
+
+          <!-- Import the WattTopBarComponent inside the "page" component -->
+          import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
+
+          <!-- Add the WattTopBarComponent to the "page" component or module metadata -->
+          imports: [WattTopBarComponent]
+
+          <!-- Add inside the "page" component (remember to import the topbar component ) -->
+          <watt-top-bar>Some awesome top bar content</watt-top-bar>
+        `,
       },
-      // Perform the initial navigation. Without it the redirect in the route definition will not happen
-      {
-        provide: APP_INITIALIZER,
-        useFactory: (router: Router) => () => router.initialNavigation(),
-        deps: [Router],
-        multi: true,
-      },
-    ],
-  }),
-];
-WithTopBar.parameters = {
-  docs: {
-    source: {
-      code: `
-        <!-- Add inside the watt-shell component -->
-        <watt-top-bar-outlet></watt-top-bar-outlet>
-
-        <!-- Import the WattTopBarComponent inside the "page" component -->
-        import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
-
-        <!-- Add the WattTopBarComponent to the "page" component or module metadata -->
-        imports: [WattTopBarComponent]
-
-        <!-- Add inside the "page" component (remember to import the topbar component ) -->
-        <watt-top-bar>Some awesome top bar content</watt-top-bar>
-      `,
     },
   },
 };

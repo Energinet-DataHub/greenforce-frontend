@@ -45,34 +45,37 @@ const Template: StoryFn<WattIconComponent> = (args) => ({
   template: `<storybook-icon-overview></storybook-icon-overview>`,
 });
 
-//👇 Each story then reuses that template
-export const Icons = Template.bind({});
-Icons.parameters = {
-  controls: { hideNoControlsWarning: true },
-  docs: {
-    source: {
-      code: `1. Import WattIconModule in a module
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+export const Icons = {
+  render: Template,
 
-2. Use <watt-icon name="<name>" label="<description>" size="<size>"><watt-icon> in the component's HTML template`,
+  parameters: {
+    controls: { hideNoControlsWarning: true },
+    docs: {
+      source: {
+        code: `1. Import WattIconModule in a module
+  import { WattIconModule } from '@energinet-datahub/watt/icon';
+
+  2. Use <watt-icon name="<name>" label="<description>" size="<size>"><watt-icon> in the component's HTML template`,
+      },
     },
   },
-};
-Icons.argTypes = {
-  label: {
-    description: 'Description of the icon used for `aria-label`',
-    control: false,
-  },
-  name: {
-    description: 'Name of the icon',
-    control: false,
-  },
-  size: {
-    description: 'Size of the icon `WattIconSize`',
-    defaultValue: defaultIconSize,
-    table: {
-      type: { summary: 'string' },
-      defaultValue: { summary: defaultIconSize },
+
+  argTypes: {
+    label: {
+      description: 'Description of the icon used for `aria-label`',
+      control: false,
+    },
+    name: {
+      description: 'Name of the icon',
+      control: false,
+    },
+    size: {
+      description: 'Size of the icon `WattIconSize`',
+      defaultValue: defaultIconSize,
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: defaultIconSize },
+      },
     },
   },
 };
