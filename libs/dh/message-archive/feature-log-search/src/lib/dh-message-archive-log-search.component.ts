@@ -162,13 +162,13 @@ export class DhMessageArchiveLogSearchComponent {
 
     const {
       dateRange,
-      includeRelated,
-      messageId,
-      rsmNames,
-      receiverId,
-      senderId,
+      // includeRelated,
+      // messageId,
+      // rsmNames,
+      // receiverId,
+      // senderId,
       timeRange,
-      processTypes,
+      // processTypes,
     } = this.searchForm.value;
 
     const dateTimeFrom = zonedTimeToUtc(dateRange?.start, danishTimeZoneIdentifier);

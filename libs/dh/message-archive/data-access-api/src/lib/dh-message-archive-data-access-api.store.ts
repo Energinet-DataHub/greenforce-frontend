@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import { ComponentStore/*, tapResponse */} from '@ngrx/component-store';
+import { filter, map, Observable/*, switchMap*/, tap } from 'rxjs';
 import {
   MessageArchiveHttp,
   // MessageArchiveSearchCriteria,
@@ -58,7 +58,7 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
 
   readonly searchLogs = this.effect((searchCriteria: Observable<ArchivedMessage>) => {
     return searchCriteria.pipe(
-      tap((e) => {
+      tap((/*e*/) => {
         this.setLoading(true);
         // this.updateContinuationToken(e.continuationToken);
         this.updateSearchResult([]);

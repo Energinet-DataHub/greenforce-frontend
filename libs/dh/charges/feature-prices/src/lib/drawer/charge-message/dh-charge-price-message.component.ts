@@ -36,7 +36,7 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
-import { Subject, take, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { DhChargesPricesDrawerService } from '../dh-charges-prices-drawer.service';
 
 @Component({

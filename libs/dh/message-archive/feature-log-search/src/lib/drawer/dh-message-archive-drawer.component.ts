@@ -32,7 +32,7 @@ import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeN
 import { PushModule } from '@rx-angular/template/push';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 
-import { findLogName } from '../shared/findLogname';
+// import { findLogName } from '../shared/findLogname';
 
 @Component({
   standalone: true,
