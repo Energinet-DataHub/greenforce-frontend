@@ -7,7 +7,7 @@ Notes regarding the development of the DataHub Backend-For-Frontend (BFF).
 Before you're able to run the BFF locally you need an `appsettings.Development.json`
 file in the `apps/dh/api-dh/source/DataHub.WebApi/` folder. Either create one from
 `apps/dh/api-dh/source/DataHub.WebApi/appsettings.Development.json.sample` or if
-you are an internal DataHub employee, take a loot at the
+you are an internal DataHub employee, take a look at the
 [`dev-secrets`](https://github.com/Energinet-DataHub/dev-secrets) repository.
 
 ## Generating HttpClient and DTOs
