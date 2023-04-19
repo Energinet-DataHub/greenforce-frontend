@@ -101,16 +101,16 @@ export class StorybookInputWrapperComponent implements OnChanges {
    * @param changes
    */
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.disabled) {
-      if (changes.disabled.currentValue) {
+    if (changes['disabled']) {
+      if (changes['disabled'].currentValue) {
         this.exampleFormControl.disable();
       } else {
         this.exampleFormControl.enable();
       }
     }
 
-    if (!changes.hasError) return;
-    if (changes.hasError.currentValue) {
+    if (!changes['hasError']) return;
+    if (changes['hasError'].currentValue) {
       // Tick is needed, otherwise errors won't be applied in this context
       setTimeout(() => {
         this.exampleFormControl.setErrors({ required: true });
