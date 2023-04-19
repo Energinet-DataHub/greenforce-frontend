@@ -38,7 +38,7 @@ export function mapChangeDescriptionJson(
     case 'StatusChange':
       return parsedChangeDescriptionJson.Status as MarketParticipantUserRoleStatus;
     case 'PermissionsChange': {
-      const permissions: number[] = parsedChangeDescriptionJson.Permissions;
+      const permissions: string[] = parsedChangeDescriptionJson.Permissions;
 
       return permissions.join(', ');
     }

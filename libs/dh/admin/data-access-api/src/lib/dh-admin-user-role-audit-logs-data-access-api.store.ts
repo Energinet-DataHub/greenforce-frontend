@@ -107,11 +107,11 @@ export class DhAdminUserRoleAuditLogsDataAccessApiStore extends ComponentStore<D
       const prevPermissions =
         i > 0
           ? (JSON.parse(orderedPermissionChanges[i - 1].changeDescriptionJson)
-              .Permissions as number[])
+              .Permissions as string[])
           : [];
-      const currPermissions = JSON.parse(entry.changeDescriptionJson).Permissions as number[];
+      const currPermissions = JSON.parse(entry.changeDescriptionJson).Permissions as string[];
 
-      const permissionChanges: { type: ChangeType; perms: number[] }[] = [
+      const permissionChanges: { type: ChangeType; perms: string[] }[] = [
         { type: 'added', perms: currPermissions.filter((perm) => !prevPermissions.includes(perm)) },
         {
           type: 'removed',
