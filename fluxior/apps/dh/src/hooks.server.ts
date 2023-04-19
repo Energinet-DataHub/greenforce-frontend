@@ -54,7 +54,7 @@ export const handle = SvelteKitAuth(async (event) => {
         authorization: {
           url: env.AZURE_AD_B2C_AUTH_ENDPOINT,
           params: {
-            scope: `${env.AZURE_AD_B2C_CLIENT_ID} openid profile email`
+            scope: `https://dev002DataHubB2C.onmicrosoft.com/backend-bff/api openid profile email`
           }
         }
       }) as Provider

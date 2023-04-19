@@ -1,10 +1,8 @@
 import adapter from '@sveltejs/adapter-auto';
-import path from 'path'
 import preprocess from 'svelte-preprocess';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 const filePath = dirname(fileURLToPath(import.meta.url));
-const sassPath = `${filePath}/src/scss`;
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -13,7 +11,7 @@ const config = {
   preprocess: [
     preprocess({
       scss: {
-        prependData: `@import '${sassPath}/globals.scss';`,
+        verbose: false,
         includePaths: [join(filePath, 'node_modules')]
       },
     })

@@ -1,9 +1,9 @@
 <script lang="ts">
+  import '../scss/globals.scss';
   import logo from '../images/logo-light.svg';
   import { Navigation, Topbar } from 'ui';
 </script>
 
-&#xfeff;
 <div class="grid-container">
   <Topbar />
   <aside class="menu">
