@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  StoryObj,
-  componentWrapperDecorator,
-  moduleMetadata,
-  StoryFn,
-} from '@storybook/angular';
+import { StoryObj, componentWrapperDecorator, moduleMetadata, StoryFn } from '@storybook/angular';
 import { MatSortModule } from '@angular/material/sort';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 

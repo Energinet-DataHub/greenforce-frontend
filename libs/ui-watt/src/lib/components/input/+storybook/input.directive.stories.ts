@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  moduleMetadata,
-  StoryFn,
-  Meta,
-  applicationConfig,
-} from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { StorybookInputWrapperComponent } from './storybook-input-wrapper.component';

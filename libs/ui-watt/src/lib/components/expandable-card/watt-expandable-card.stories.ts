@@ -14,13 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  StoryObj,
-  moduleMetadata,
-  StoryFn,
-  Meta,
-  applicationConfig,
-} from '@storybook/angular';
+import { StoryObj, moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { WattBadgeComponent } from '../badge';

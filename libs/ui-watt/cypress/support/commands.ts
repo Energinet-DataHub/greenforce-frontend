@@ -13,7 +13,7 @@ import '@testing-library/cypress/add-commands';
 // ***********************************************
 
 declare global {
-// eslint-disable-next-line @typescript-eslint/no-namespace
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface Chainable<Subject> {
@@ -23,7 +23,7 @@ declare global {
   }
 }
 
-Cypress.Commands.add('mount', mount)
+Cypress.Commands.add('mount', mount);
 
 //
 // -- This is a parent command --

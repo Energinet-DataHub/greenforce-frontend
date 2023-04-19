@@ -16,12 +16,7 @@
  */
 
 import { APP_INITIALIZER, Component } from '@angular/core';
-import {
-  Meta,
-  StoryFn,
-  applicationConfig,
-  moduleMetadata,
-} from '@storybook/angular';
+import { Meta, StoryFn, applicationConfig, moduleMetadata } from '@storybook/angular';
 import { APP_BASE_HREF } from '@angular/common';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { Router, RouterModule, provideRouter } from '@angular/router';

@@ -14,13 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  StoryObj,
-  applicationConfig,
-  Meta,
-  moduleMetadata,
-  StoryFn,
-} from '@storybook/angular';
+import { StoryObj, applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { importProvidersFrom } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -35,11 +29,7 @@ const meta: Meta<StorybookEmptyStateOverviewComponent> = {
       providers: [importProvidersFrom(HttpClientModule)],
     }),
     moduleMetadata({
-      imports: [
-        StorybookEmptyStateOverviewComponent,
-        WattEmptyStateComponent,
-        WattButtonModule,
-      ],
+      imports: [StorybookEmptyStateOverviewComponent, WattEmptyStateComponent, WattButtonModule],
     }),
   ],
   component: StorybookEmptyStateOverviewComponent,
@@ -68,8 +58,7 @@ export const WithCallToAction: StoryObj<WattEmptyStateComponent> = {
   args: {
     icon: 'power',
     title: 'An unexpected error occured',
-    message:
-      'Try again or contact your system administrator if you keep getting this error.',
+    message: 'Try again or contact your system administrator if you keep getting this error.',
   },
 
   parameters: {
@@ -92,8 +81,7 @@ export const WithoutIcon: StoryObj<WattEmptyStateComponent> = {
 
   args: {
     title: 'No results for ‘test’',
-    message:
-      'Try adjusting your search or filter to find what you are looking for.',
+    message: 'Try adjusting your search or filter to find what you are looking for.',
   },
 
   parameters: {
@@ -117,8 +105,7 @@ export const Small: StoryObj<WattEmptyStateComponent> = {
   args: {
     icon: undefined,
     title: 'No results for ‘test’',
-    message:
-      'Try adjusting your search or filter to find what you are looking for.',
+    message: 'Try adjusting your search or filter to find what you are looking for.',
   },
 
   parameters: {

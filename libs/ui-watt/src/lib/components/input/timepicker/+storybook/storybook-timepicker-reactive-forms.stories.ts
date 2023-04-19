@@ -16,13 +16,7 @@
  */
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import {
-  StoryObj,
-  applicationConfig,
-  Meta,
-  moduleMetadata,
-  StoryFn,
-} from '@storybook/angular';
+import { StoryObj, applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { within, fireEvent } from '@storybook/testing-library';
 import { importProvidersFrom } from '@angular/core';
 
@@ -118,9 +112,7 @@ export const WithValidations: StoryObj<WattTimepickerComponent> = {
   render: (args) => ({
     props: {
       exampleFormControlSingle: new FormControl(null, [Validators.required]),
-      exampleFormControlRange: new FormControl(null, [
-        WattRangeValidators.required(),
-      ]),
+      exampleFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
       withValidations: true,
       ...args,
     },

@@ -15,12 +15,7 @@
  * limitations under the License.
  */
 import { HttpClientModule } from '@angular/common/http';
-import {
-  applicationConfig,
-  Meta,
-  moduleMetadata,
-  StoryFn,
-} from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattIconComponent } from '../icon.component';
 import { WattIconSize } from '../watt-icon-size';

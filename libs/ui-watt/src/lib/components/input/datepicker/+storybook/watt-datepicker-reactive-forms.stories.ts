@@ -15,17 +15,8 @@
  * limitations under the License.
  */
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  BrowserAnimationsModule,
-  provideAnimations,
-} from '@angular/platform-browser/animations';
-import {
-  StoryObj,
-  applicationConfig,
-  Meta,
-  moduleMetadata,
-  StoryFn,
-} from '@storybook/angular';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { StoryObj, applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { within, fireEvent } from '@storybook/testing-library';
 
 import { StorybookConfigurationLocalizationModule } from '../../+storybook/storybook-configuration-localization.module';
@@ -98,7 +89,7 @@ export const WithFormControl: StoryObj<WattDatepickerStoryConfig> = {
       exampleFormControlSingle: new FormControl(''),
       exampleFormControlRange: new FormControl({
         start: '',
-        end: ''
+        end: '',
       }),
       ...args,
     },
@@ -144,9 +135,7 @@ export const WithValidations: StoryObj<WattDatepickerStoryConfig> = {
   render: (args) => ({
     props: {
       exampleFormControlSingle: new FormControl(null, [Validators.required]),
-      exampleFormControlRange: new FormControl(null, [
-        WattRangeValidators.required(),
-      ]),
+      exampleFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
       withValidations: true,
       ...args,
     },

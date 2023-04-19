@@ -7,10 +7,7 @@
     "declarationMap": true,
     "inlineSources": true,
     "types": [],
-    "lib": [
-      "dom",
-      "es2018"
-    ]
+    "lib": ["dom", "es2018"]
   },
   "exclude": [
     "src/test-setup.ts",
@@ -25,7 +22,5 @@
     "**/*.cy.tsx",
     "**/*.cy.jsx"
   ],
-  "include": [
-    "**/*.ts"
-  ]
+  "include": ["**/*.ts"]
 }

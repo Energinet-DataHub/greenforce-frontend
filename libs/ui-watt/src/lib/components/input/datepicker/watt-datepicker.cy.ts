@@ -21,8 +21,8 @@ beforeEach(() => {
       CommonModule,
       WattFormFieldModule,
       WattDatepickerModule,
-    ]
-  })
+    ],
+  });
 });
 
 it('should mount', () => {

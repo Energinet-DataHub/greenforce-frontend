@@ -140,7 +140,6 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   protected initSingleInput() {
-
     const pickerInputElement = this.input.nativeElement;
     const { onChange$, inputMask } = this.inputMaskService.mask(
       this.initialValue as string | null,
@@ -312,7 +311,7 @@ export class WattDatepickerComponent extends WattPickerBase {
         // Needed for updating the datepicker in components with `ChangeDetectionStrategy.OnPush`;
         setTimeout(() => {
           this.changeParentValue({ start, end });
-          this.cdr.markForCheck()
+          this.cdr.markForCheck();
         });
       });
   }

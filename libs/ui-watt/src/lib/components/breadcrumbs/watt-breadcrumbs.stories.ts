@@ -20,10 +20,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoryObj, StoryFn, Meta, moduleMetadata } from '@storybook/angular';
 
-import {
-  WATT_BREADCRUMBS,
-  WattBreadcrumbsComponent,
-} from './watt-breadcrumbs.component';
+import { WATT_BREADCRUMBS, WattBreadcrumbsComponent } from './watt-breadcrumbs.component';
 
 function generateComponent(template: string) {
   @Component({
