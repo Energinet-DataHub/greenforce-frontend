@@ -156,7 +156,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    * @ignore
    */
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.options?.currentValue !== changes.options?.previousValue) {
+    if (changes['options']?.currentValue !== changes['options']?.previousValue) {
       this.filteredOptions$.next(this.options.slice());
     }
   }

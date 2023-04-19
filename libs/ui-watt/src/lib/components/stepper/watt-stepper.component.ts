@@ -70,7 +70,7 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
   onFirstStep$!: Observable<boolean>;
   onLastStep$!: Observable<boolean>;
 
-  ngAfterViewInit(): void {
+  override ngAfterViewInit(): void {
     this.selectedIndexChanged$ = from(this.stepper.selectionChange);
     this.onLastStep$ = this.selectedIndexChanged$.pipe(
       withLatestFrom(of(this.steps)),
