@@ -38,13 +38,13 @@ limitations under the License.
 
         <span class="sender-receiver-label">{{ t("sender") }}</span>
         <span class="sender-receiver-value"
-          >{{ message?.senderGln | actorName: actors | dhEmDashFallback }} ({{
+          >{{ message?.senderGln | actorName : actors | dhEmDashFallback }} ({{
             message?.senderGln
           }})</span
         >
         <span class="sender-receiver-label">{{ t("receiver") }}</span>
         <span class="sender-receiver-value">
-          {{ message?.receiverGln | actorName: actors | dhEmDashFallback }} ({{
+          {{ message?.receiverGln | actorName : actors | dhEmDashFallback }} ({{
             message?.receiverGln
           }})</span
         >

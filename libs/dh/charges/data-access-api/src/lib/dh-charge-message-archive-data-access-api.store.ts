@@ -69,10 +69,7 @@ export class DhChargeMessageArchiveDataAccessStore extends ComponentStore<Search
   // });
 
   private updateSearchResult = this.updater(
-    (
-      state: SearchResultState,
-      searchResult: Array<ArchivedMessage>
-    ): SearchResultState => {
+    (state: SearchResultState, searchResult: Array<ArchivedMessage>): SearchResultState => {
       return {
         ...state,
         searchResult: searchResult[0],
