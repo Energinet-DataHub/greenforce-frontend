@@ -463,3 +463,5 @@ backend/*
 localhost.pem
 
 style-dirctionay-tokens
+
+/dev-secrets
