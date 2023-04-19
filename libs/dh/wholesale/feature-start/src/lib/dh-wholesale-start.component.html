@@ -22,6 +22,14 @@ limitations under the License.
       (ngSubmit)="createBatch()"
       novalidate
     >
+      <!-- Execution type -->
+      <label>{{ transloco("startBatch.executionTypeLabel") }}</label>
+      <watt-chips
+        [options]="executionTypes"
+        [selection]="selectedExecutionType"
+        (selectionChange)="onExecutionTypeSelected($event)"
+      ></watt-chips>
+
       <!-- Process type -->
       <watt-form-field>
         <watt-label>{{ transloco("startBatch.processTypeDropDownLabel") }}</watt-label>
@@ -67,6 +75,9 @@ limitations under the License.
           [showResetOption]="false"
           [multiple]="true"
         ></watt-dropdown>
+        <watt-hint *transloco="let transloco; read: 'shared'">{{
+          transloco("selectedValues", { count: createBatchForm.controls.gridAreas.value?.length })
+        }}</watt-hint>
         <watt-error *ngIf="createBatchForm.controls.gridAreas.errors?.required">
           {{ transloco("startBatch.gridAreaRequired") }}
         </watt-error>
