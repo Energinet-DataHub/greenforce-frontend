@@ -27,9 +27,7 @@ limitations under the License.
     <WarningsAsErrors />
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>false</IsPackable>
-    <MarketingParticipantProjectReference>../../../../../backend/geh-market-participant/source/Energinet.DataHub.MarketParticipant.Client/source/Energinet.DataHub.MarketParticipant.Client/Energinet.DataHub.MarketParticipant.Client.csproj</MarketingParticipantProjectReference>
-    <MessageArchiveClientAbstractionsProjectReference>../../../../../backend/geh-message-archive/source/Energinet.DataHub.MessageArchive.Client.Abstractions/Energinet.DataHub.MessageArchive.Client.Abstractions.csproj</MessageArchiveClientAbstractionsProjectReference>
-    <MessageArchiveClientProjectReference>../../../../../backend/geh-message-archive/source/Energinet.DataHub.MessageArchive.Client/Energinet.DataHub.MessageArchive.Client.csproj</MessageArchiveClientProjectReference>
+    <MarketingParticipantProjectReference>../../../../../backend/geh-market-participant/source/marketparticipant/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi/Energinet.DataHub.MarketParticipant.Client.csproj</MarketingParticipantProjectReference>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -56,7 +54,9 @@ limitations under the License.
     <PackageReference Include="Energinet.DataHub.Charges.Clients.Registration" Version="6.1.0" />
     <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="7.4.1" />
     <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="7.4.1" />
-    <PackageReference Condition="!Exists('$(MarketingParticipantProjectReference)')" Include="Energinet.DataHub.MarketParticipant.Client" Version="2.29.6" />
+    <PackageReference Condition="!Exists('$(MarketingParticipantProjectReference)')" Include="Energinet.DataHub.MarketParticipant.Client" Version="2.30.0" />
+    <PackageReference Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
+    <PackageReference Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="3.0.1" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client.Abstractions" Version="3.0.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
@@ -80,7 +80,5 @@ limitations under the License.
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Condition="Exists('$(MarketingParticipantProjectReference)')" Include="$(MarketingParticipantProjectReference)" />
-    <ProjectReference Condition="Exists('$(MessageArchiveClientAbstractionsProjectReference)')" Include="$(MessageArchiveClientAbstractionsProjectReference)" />
-    <ProjectReference Condition="Exists('$(MessageArchiveClientProjectReference)')" Include="$(MessageArchiveClientProjectReference)" />
   </ItemGroup>
 </Project>
