@@ -25,6 +25,17 @@ watt-chips {
     background-color: var(--watt-color-neutral-grey-100);
     cursor: pointer;
     user-select: none;
+
+    &.mat-chip-disabled {
+      opacity: 1;
+    }
+
+    &[disabled] {
+      pointer-events: none;
+      cursor: not-allowed;
+      color: rgba(0, 0, 0, 0.38);
+      border: 1px solid rgba(33, 33, 33, 0.08);
+    }
   }
 
   .mat-standard-chip:hover,
@@ -43,5 +54,9 @@ watt-chips {
 
   .mat-standard-chip::after {
     display: none;
+  }
+
+  watt-icon {
+    margin-right: var(--watt-space-s);
   }
 }

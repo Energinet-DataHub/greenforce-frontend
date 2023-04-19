@@ -26,7 +26,8 @@
       "ariaLabel": "Select page"
     },
     "download": "Download",
-    "search": "Search"
+    "search": "Search",
+    "selectedValues": "{{count}} selected"
   },
   "clipboard": {
     "success": "Copied to clipboard",
@@ -742,6 +743,7 @@
       "invalidPeriod": "Invalid period",
       "dateRangeLabel": "Period",
       "processTypeDropDownLabel": "Process Type",
+      "executionTypeLabel": "Execution Type",
       "gridAreaDropDownLabel": "Grid Areas",
       "creatingBatch": "Starting batch...",
       "creatingBatchSuccess": "The batch has been started.",
@@ -749,6 +751,10 @@
       "processTypes": {
         "BALANCE_FIXING": "Balance Fixing",
         "AGGREGATION": "Aggregation"
+      },
+      "executionTypes": {
+        "ACTUAL": "Actual",
+        "SIMULATION": "Simulation"
       },
       "processTypeError": "Process type is required"
     },
