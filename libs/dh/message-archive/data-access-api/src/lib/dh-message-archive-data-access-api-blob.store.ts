@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ComponentStore/*, tapResponse */} from '@ngrx/component-store';
+import { ComponentStore /*, tapResponse */ } from '@ngrx/component-store';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { MessageArchiveHttp, Stream } from '@energinet-datahub/dh/shared/domain';
 import { LoadingState, ErrorState } from '@energinet-datahub/dh/shared/data-access-api';
-import { filter, map, Observable/*, switchMap*/, tap } from 'rxjs';
+import { filter, map, Observable /*, switchMap*/, tap } from 'rxjs';
 
 interface DownloadBlobResultState {
   readonly blobContent?: Stream | null;

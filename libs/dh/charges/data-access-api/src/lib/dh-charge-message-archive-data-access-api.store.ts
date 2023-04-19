@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ComponentStore/*, tapResponse */} from '@ngrx/component-store';
+import { ComponentStore /*, tapResponse */ } from '@ngrx/component-store';
 // import { Observable, switchMap, tap } from 'rxjs';
 import {
   MessageArchiveHttp,
