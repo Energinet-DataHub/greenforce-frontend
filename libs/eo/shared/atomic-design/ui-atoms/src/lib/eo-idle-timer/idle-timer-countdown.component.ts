@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
@@ -23,7 +23,7 @@ import { map, take, tap, timer } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [WattButtonModule, WattModalModule, CommonModule],
+  imports: [WattButtonModule, WattModalModule, AsyncPipe, DatePipe],
   selector: 'eo-idle-timer-modal',
   standalone: true,
   styles: [
@@ -68,7 +68,7 @@ import { map, take, tap, timer } from 'rxjs';
     <watt-button variant="icon" icon="close" class="modal-close" (click)="close()"></watt-button>
     <div class="content">
       <p>You will be logged out in:</p>
-      <span class="watt-headline-1">{{ countDownTimer$ | async | date: 'mm:ss' }}</span>
+      <span class="watt-headline-1">{{ countDownTimer$ | async | date : 'mm:ss' }}</span>
       <br />
       <p>We are logging you out for security reasons.</p>
     </div>

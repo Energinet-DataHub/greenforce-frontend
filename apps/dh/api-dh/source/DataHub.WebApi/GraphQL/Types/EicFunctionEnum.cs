@@ -17,7 +17,7 @@ using GraphQL.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-  public class EicFunctionEnum : EnumerationGraphType<EicFunction>
-  {
-  }
+    public class EicFunctionEnum : AsIsCaseEnumerationGraphType<EicFunction>
+    {
+    }
 }

@@ -18,6 +18,7 @@ export interface MarketParticipantPermissionAuditLogViewDto {
     changedByUserName: string;
     permissionAuditLogType: MarketParticipantPermissionAuditLogType;
     timestamp: string;
+    value: string;
 }
 export namespace MarketParticipantPermissionAuditLogViewDto {
 }

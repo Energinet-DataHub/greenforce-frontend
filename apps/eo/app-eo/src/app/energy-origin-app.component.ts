@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { EoAuthService } from '@energinet-datahub/eo/shared/services';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,4 +35,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   ],
   template: `<router-outlet></router-outlet>`,
 })
-export class EnergyOriginAppComponent {}
+export class EnergyOriginAppComponent {
+  constructor(private authService: EoAuthService) {
+    this.authService.checkForExistingToken();
+  }
+}

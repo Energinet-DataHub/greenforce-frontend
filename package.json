@@ -1,13 +1,13 @@
 {
   "name": "energinet-datahub",
-  "private": "true",
   "version": "0.0.0",
   "license": "MIT",
+  "private": true,
   "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file.",
   "engines": {
-    "node": "16.18.0",
+    "node": "18.12.0",
     "npm": "Please use Yarn v1 instead of npm to install dependencies.",
-    "yarn": "1.22.19"
+    "yarn": "3.5.0"
   },
   "scripts": {
     "postinstall": "npm run postinstall:nx && npm run postinstall:ngcc && npm run postinstall:husky",
@@ -70,8 +70,9 @@
     "@apollo/client": "3.7.11",
     "@azure/msal-angular": "2.5.5",
     "@azure/msal-browser": "2.35.0",
-    "@microsoft/applicationinsights-angularplugin-js": "3.0.1",
-    "@microsoft/applicationinsights-web": "2.8.11",
+    "@babel/core": "^7.0.0-0",
+    "@microsoft/applicationinsights-angularplugin-js": "3.0.2",
+    "@microsoft/applicationinsights-web": "2.8.12",
     "@ngneat/transloco": "4.2.6",
     "@ngrx/component-store": "15.4.0",
     "@popperjs/core": "2.11.7",
@@ -86,6 +87,7 @@
     "graphql": "^16.6.0",
     "include-media": "2.0.0",
     "inputmask": "5.0.7",
+    "jwt-decode": "^3.1.2",
     "ng2-charts": "3.0.11",
     "ngx-mat-select-search": "6.0.0",
     "rxjs": "7.5.7",
@@ -94,6 +96,7 @@
   },
   "devDependencies": {
     "@actions/core": "1.10.0",
+    "@angular-devkit/architect": "^0.1502.6",
     "@angular-devkit/build-angular": "15.2.5",
     "@angular-devkit/core": "15.2.5",
     "@angular-devkit/schematics": "15.2.5",
@@ -103,6 +106,7 @@
     "@angular/cli": "15.2.5",
     "@angular/compiler-cli": "15.2.6",
     "@angular/language-service": "15.2.6",
+    "@babel/runtime": "^7.21.0",
     "@badeball/cypress-cucumber-preprocessor": "13.1.0",
     "@compodoc/compodoc": "1.1.19",
     "@cypress/webpack-dev-server": "^2.0.0",
@@ -189,11 +193,12 @@
   },
   "volta": {
     "//node-comment": "Keep this in sync with 'engines' config at the top of the current file",
-    "node": "16.18.0",
+    "node": "18.12.0",
     "//yarn-comment": "Keep this in sync with GitHub actions pipelines",
-    "yarn": "1.22.19"
+    "yarn": "3.5.0"
   },
   "msw": {
     "workerDirectory": "libs\\dh\\shared\\data-access-msw\\src\\assets"
-  }
+  },
+  "packageManager": "yarn@3.5.0"
 }

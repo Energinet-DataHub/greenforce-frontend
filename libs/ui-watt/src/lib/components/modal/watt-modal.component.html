@@ -33,4 +33,8 @@ limitations under the License.
     <ng-content></ng-content>
   </div>
   <ng-content select="watt-modal-actions"></ng-content>
+
+  <div *ngIf="loading" class="watt-modal__spinner">
+    <watt-spinner></watt-spinner>
+  </div>
 </ng-template>

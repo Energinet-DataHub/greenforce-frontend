@@ -879,6 +879,7 @@
         "email": "Email",
         "phoneNumber": "Telefonnr.",
         "phoneNumberError": "Telefonnr. format +45 12345678",
+        "noUserRolesError": "Mindst én brugerrolle skal vælges.",
         "successMessage": "{{ email }} blev inviteret",
         "columns": {
           "eicFunction": "Markedsrolle",
@@ -964,7 +965,7 @@
             "permissionsDetails": {
               "auditLogType": {
                 "CREATED": "<b>{{ changedByUserName }}</b> tilføjede rettigheden til systemet",
-                "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede beskrivelsen på rettigheden"
+                "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede beskrivelsen på rettigheden til <b>{{ value }}</b>"
               }
             },
             "auditLogType": {

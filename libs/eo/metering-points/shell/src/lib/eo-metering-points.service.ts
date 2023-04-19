@@ -52,9 +52,7 @@ export class EoMeteringPointsService {
   #apiBase: string;
 
   getMeteringPoints() {
-    return this.http.get<MeteringPointsResponse>(`${this.#apiBase}/meteringpoints`, {
-      withCredentials: true,
-    });
+    return this.http.get<MeteringPointsResponse>(`${this.#apiBase}/meteringpoints`);
   }
 
   constructor(
