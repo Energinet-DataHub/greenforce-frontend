@@ -24,8 +24,8 @@ import {
 import { DhMessageArchiveDataAccessBlobApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
 import {
   ChargeMarketParticipantV1Dto,
-  MessageArchiveSearchCriteria,
-  MessageArchiveSearchResultItemDto,
+  // MessageArchiveSearchCriteria,
+  ArchivedMessage,
 } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -73,7 +73,7 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   private regexLogNameIsSingleGuid = new RegExp(/[\da-zA-Z]{8}-([\da-zA-Z]{4}-){3}[\da-zA-Z]{12}$/);
 
   private destroy$ = new Subject<void>();
-  message?: MessageArchiveSearchResultItemDto;
+  message?: ArchivedMessage;
   senderMarketParticipant?: ChargeMarketParticipantV1Dto;
 
   messageHasGeneralError$ = this.chargeMessageArchiveStore.hasGeneralError$;
@@ -86,28 +86,28 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   today = new Date();
   tomorrow = new Date(this.today.setDate(this.today.getDate() + 1));
 
-  searchCriteria: MessageArchiveSearchCriteria = {
-    continuationToken: null,
-    // Need to split because message archive wants a specific format.
-    dateTimeFrom: new Date(2000, 1, 1).toISOString().split('.')[0] + 'Z',
-    dateTimeTo: this.tomorrow.toISOString().split('.')[0] + 'Z',
-    functionName: null,
-    includeRelated: false,
-    includeResultsWithoutContent: false,
-    invocationId: null,
-    maxItemCount: 1,
-    processTypes: [],
-    rsmNames: [],
-    traceId: null,
-  };
+  // searchCriteria: MessageArchiveSearchCriteria = {
+  //   continuationToken: null,
+  //   // Need to split because message archive wants a specific format.
+  //   dateTimeFrom: new Date(2000, 1, 1).toISOString().split('.')[0] + 'Z',
+  //   dateTimeTo: this.tomorrow.toISOString().split('.')[0] + 'Z',
+  //   functionName: null,
+  //   includeRelated: false,
+  //   includeResultsWithoutContent: false,
+  //   invocationId: null,
+  //   maxItemCount: 1,
+  //   processTypes: [],
+  //   rsmNames: [],
+  //   traceId: null,
+  // };
 
   ngOnInit(): void {
     this.dhChargesPricesDrawerService.message
       .pipe(takeUntil(this.destroy$))
       .subscribe((message) => {
         if (message) {
-          this.searchCriteria.messageId = message.messageId;
-          this.chargeMessageArchiveStore.searchLogs(this.searchCriteria);
+          // this.searchCriteria.messageId = message.messageId;
+          // this.chargeMessageArchiveStore.searchLogs(this.searchCriteria);
         } else {
           this.message = undefined;
         }
@@ -120,16 +120,16 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
           if (result) {
             this.message = result;
 
-            this.marketParticipantStore.all$.pipe(take(1)).subscribe((marketParticipants) => {
-              this.senderMarketParticipant = marketParticipants?.find(
-                (mp) =>
-                  mp.marketParticipantId == result.senderGln &&
-                  mp.businessProcessRole == result.senderGlnMarketRoleType
-              );
-            });
+            // this.marketParticipantStore.all$.pipe(take(1)).subscribe((marketParticipants) => {
+            //   this.senderMarketParticipant = marketParticipants?.find(
+            //     (mp) =>
+            //       mp.marketParticipantId == result.senderGln &&
+            //       mp.businessProcessRole == result.senderGlnMarketRoleType
+            //   );
+            // });
 
-            const logName = this.findLogName(result.blobContentUri);
-            this.blobStore.downloadLog(logName);
+            // const logName = this.findLogName(result.blobContentUri);
+            // this.blobStore.downloadLog(logName);
           }
         }, 0);
       });
@@ -146,8 +146,8 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
 
   downloadLog() {
     if (this.message == undefined) return;
-    const logName = this.findLogName(this.message.blobContentUri);
-    this.blobStore.downloadLogFile(logName);
+    // const logName = this.findLogName(this.message.blobContentUri);
+    // this.blobStore.downloadLogFile(logName);
   }
 
   findLogName(logUrl: string): string {

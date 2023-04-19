@@ -16,7 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
-import { MessageArchiveSearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
+import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
@@ -58,13 +58,13 @@ export class DhMessageArchiveDrawerComponent {
   @ViewChild('drawer') drawer!: WattDrawerComponent;
   @Input() actors: WattDropdownOptions | null = null;
 
-  message: MessageArchiveSearchResultItemDto | null = null;
+  message: ArchivedMessage | null = null;
   messageLog$ = this.blobStore.blobContent$;
 
   constructor(private blobStore: DhMessageArchiveDataAccessBlobApiStore) {}
 
-  open(message: MessageArchiveSearchResultItemDto) {
-    this.blobStore.downloadLog(findLogName(message.blobContentUri));
+  open(message: ArchivedMessage) {
+    // this.blobStore.downloadLog(findLogName(message.blobContentUri));
     this.message = message;
     this.drawer.open();
   }
@@ -74,6 +74,6 @@ export class DhMessageArchiveDrawerComponent {
   }
 
   downloadLogFile() {
-    this.blobStore.downloadLogFile(findLogName(this.message?.blobContentUri ?? ''));
+    // this.blobStore.downloadLogFile(findLogName(this.message?.blobContentUri ?? ''));
   }
 }
