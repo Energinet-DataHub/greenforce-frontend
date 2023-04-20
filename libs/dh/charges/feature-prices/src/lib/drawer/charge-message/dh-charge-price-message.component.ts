@@ -22,10 +22,7 @@ import {
   DhMarketParticipantDataAccessApiStore,
 } from '@energinet-datahub/dh/charges/data-access-api';
 import { DhMessageArchiveDataAccessBlobApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
-import {
-  ChargeMarketParticipantV1Dto,
-  ArchivedMessage,
-} from '@energinet-datahub/dh/shared/domain';
+import { ChargeMarketParticipantV1Dto, ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
