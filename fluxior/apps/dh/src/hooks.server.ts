@@ -12,18 +12,15 @@ export const handle = SvelteKitAuth(async (event) => {
     secret: env.AUTH_SECRET,
     callbacks: {
       async session({ session, token }) {
-        // session.accessToken = token.accessToken;
-        setSession(event, token);
+        setSession(event, { token });
         return session;
       },
       async jwt({ token, account }) {
         if (account) {
-          console.log(account.access_token);
           try {
-            const actorIds = await fetch(
+            const actorIdsResponse = await fetch(
               'https://localhost:5001/v1/MarketParticipantUser/GetUserActors',
               {
-                credentials: 'include',
                 headers: {
                   Accept: 'application/json',
                   Authorization: `Bearer ${account.access_token}`,
@@ -31,15 +28,32 @@ export const handle = SvelteKitAuth(async (event) => {
                 }
               }
             );
-            console.log(actorIds.statusText);
-            const test = await actorIds.text();
-            console.log(test);
-            // console.log(actorIds, account.access_token);
+            const { actorIds } = await actorIdsResponse.json();
+
+            if (actorIds === undefined || actorIds.length === 0)
+              throw new Error('No actorIds found');
+
+            const actorId = actorIds[0];
+
+            const tokenResponse = await fetch(
+              `https://localhost:5001/v1/Token?actorId=${actorId}`,
+              {
+                method: 'POST',
+                body: JSON.stringify({ token: account.access_token }),
+                headers: {
+                  Accept: 'application/json',
+                  Authorization: `Bearer ${account.access_token}`,
+                  'Content-Type': 'application/json'
+                }
+              }
+            );
+            const { token: tokenWithExtendedPermissions } = (await tokenResponse.json()) as {
+              token: string;
+            };
+            token.accessToken = tokenWithExtendedPermissions;
           } catch (e) {
             console.error(e);
           }
-
-          //token.accessToken = account.access_token;
         }
         return token;
       }
@@ -54,7 +68,7 @@ export const handle = SvelteKitAuth(async (event) => {
         authorization: {
           url: env.AZURE_AD_B2C_AUTH_ENDPOINT,
           params: {
-            scope: `https://dev002DataHubB2C.onmicrosoft.com/backend-bff/api openid profile email`
+            scope: `https://devDataHubB2C.onmicrosoft.com/backend-bff/api openid profile offline_access`
           }
         }
       }) as Provider
