@@ -39,7 +39,7 @@ export const marketParticipantUserRoleAuditLogs: MarketParticipantUserRoleAuditL
       ...baseLog,
       timestamp: '2023-01-04T12:48:38.0587304+00:00',
       userRoleChangeType: 'EicFunctionChange',
-      changeDescriptionJson: '{"EicFunction":"MarketOperator"}',
+      changeDescriptionJson: '{"EicFunction":"EnergySupplier"}',
     },
     {
       ...baseLog,
