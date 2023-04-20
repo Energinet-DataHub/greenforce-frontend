@@ -26,7 +26,7 @@ limitations under the License.
           </watt-form-field>
           <watt-form-field class="phone-field">
             <watt-label>{{ t("masterData.phone") }}</watt-label>
-            <input wattInput disabled type="text" value="{{ user?.phoneNumber }}" />
+            <input wattInput type="text" [(ngModel)]="this.updatedPhoneNumber" name="phoneNumber" />
           </watt-form-field>
         </form>
       </watt-tab>

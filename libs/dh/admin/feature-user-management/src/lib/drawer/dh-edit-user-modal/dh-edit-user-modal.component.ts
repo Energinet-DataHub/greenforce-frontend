@@ -20,7 +20,9 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -35,9 +37,11 @@ import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-r
 import {
   DhAdminUserRolesStore,
   UpdateUserRoles,
+  DhAdminUserIdentityDataAccessApiStore
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'dh-edit-user-modal',
@@ -53,6 +57,7 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
     WattFormFieldModule,
     PushModule,
     DhUserRolesComponent,
+    FormsModule,
   ],
   templateUrl: './dh-edit-user-modal.component.html',
   styles: [
@@ -73,40 +78,61 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
     `,
   ],
 })
-export class DhEditUserModalComponent implements AfterViewInit {
-  private readonly store = inject(DhAdminUserRolesStore);
+export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
+  private readonly userRolesStore = inject(DhAdminUserRolesStore);
+  private readonly identityStore = inject(DhAdminUserIdentityDataAccessApiStore);
   private _updateUserRoles: UpdateUserRoles | null = null;
+  updatedPhoneNumber: string | null = null;
+
   @ViewChild('editUserModal') editUserModal!: WattModalComponent;
   @ViewChild('userRoles') userRoles!: DhUserRolesComponent;
 
   @Output() closed = new EventEmitter<void>();
-
   @Input() user: MarketParticipantUserOverviewItemDto | null = null;
 
-  isLoading$ = this.store.isLoading$;
-  isSaving$ = this.store.isSaving$;
+  isLoading$ = this.userRolesStore.isLoading$;
+  isSaving$ = this.userRolesStore.isSaving$;
 
   ngAfterViewInit(): void {
     this.editUserModal.open();
   }
 
+  ngOnChanges(change: SimpleChanges): void {
+    if (change.user) {
+      this.updatedPhoneNumber = this.user?.phoneNumber ?? null;
+    }
+  }
+
   save() {
-    if (this.user === null || this._updateUserRoles === null) {
+    if (this.user === null) {
       this.closeModal(false);
       return;
     }
 
-    this.store.assignRoles({
+    this.identityStore.updateUserIdentity({
+      userId: this.user.id,
+      updatedUserIdentity: { phoneNumber: '+45 44444444' },
+      onSuccessFn: () => {
+        if (this.user) {
+          this.user.phoneNumber = '+45 44444444';
+        }
+        this.closeModal(true);
+      },
+      onErrorFn: () => { console.error('error'); }
+     })
+
+
+    /*this.userRolesStore.assignRoles({
       userId: this.user.id,
       updateUserRoles: this._updateUserRoles,
       onSuccess: () => {
         if (this.user?.id) {
-          this.store.getUserRolesView(this.user.id);
+          this.userRolesStore.getUserRolesView(this.user.id);
         }
         this.userRoles.resetUpdateUserRoles();
         this.closeModal(true);
       },
-    });
+    });*/
   }
 
   closeModal(status: boolean): void {
