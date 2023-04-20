@@ -34,7 +34,7 @@ export function mapChangeDescriptionJson(
     case 'DescriptionChange':
       return parsedChangeDescriptionJson.Description as string;
     case 'EicFunctionChange':
-      return parsedChangeDescriptionJson.MarketParticipantEicFunction as MarketParticipantEicFunction;
+      return parsedChangeDescriptionJson.EicFunction as MarketParticipantEicFunction;
     case 'StatusChange':
       return parsedChangeDescriptionJson.Status as MarketParticipantUserRoleStatus;
     case 'PermissionsChange': {
