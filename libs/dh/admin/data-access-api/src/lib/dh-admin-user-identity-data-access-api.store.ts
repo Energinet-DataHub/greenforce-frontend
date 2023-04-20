@@ -20,7 +20,8 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
-  MarketParticipantUserHttp, MarketParticipantUserIdentityUpdateDto,
+  MarketParticipantUserHttp,
+  MarketParticipantUserIdentityUpdateDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
@@ -33,9 +34,7 @@ const initialState: DhUserIdentityState = {
 };
 
 @Injectable({ providedIn: 'root' })
-export class DhAdminUserIdentityDataAccessApiStore
-  extends ComponentStore<DhUserIdentityState>
-{
+export class DhAdminUserIdentityDataAccessApiStore extends ComponentStore<DhUserIdentityState> {
   readonly isInit$ = this.select((state) => state.userRequestState === LoadingState.INIT);
   readonly isLoading$ = this.select((state) => state.userRequestState === LoadingState.LOADING);
   readonly hasGeneralError$ = this.select(
@@ -60,18 +59,20 @@ export class DhAdminUserIdentityDataAccessApiStore
           this.patchState({ userRequestState: LoadingState.LOADING });
         }),
         exhaustMap(({ userId, updatedUserIdentity, onSuccessFn, onErrorFn }) =>
-          this.httpClient.v1MarketParticipantUserUpdateUserIdentityPut(userId, updatedUserIdentity).pipe(
-            tapResponse(
-              () => {
-                this.patchState({ userRequestState: LoadingState.LOADED });
-                onSuccessFn();
-              },
-              (error: HttpErrorResponse) => {
-                this.handleError(error);
-                onErrorFn(error.status);
-              }
+          this.httpClient
+            .v1MarketParticipantUserUpdateUserIdentityPut(userId, updatedUserIdentity)
+            .pipe(
+              tapResponse(
+                () => {
+                  this.patchState({ userRequestState: LoadingState.LOADED });
+                  onSuccessFn();
+                },
+                (error: HttpErrorResponse) => {
+                  this.handleError(error);
+                  onErrorFn(error.status);
+                }
+              )
             )
-          )
         )
       )
   );

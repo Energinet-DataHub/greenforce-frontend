@@ -37,7 +37,7 @@ import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-r
 import {
   DhAdminUserRolesStore,
   UpdateUserRoles,
-  DhAdminUserIdentityDataAccessApiStore
+  DhAdminUserIdentityDataAccessApiStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
@@ -118,9 +118,10 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
         }
         this.closeModal(true);
       },
-      onErrorFn: () => { console.error('error'); }
-     })
-
+      onErrorFn: () => {
+        console.error('error');
+      },
+    });
 
     /*this.userRolesStore.assignRoles({
       userId: this.user.id,
