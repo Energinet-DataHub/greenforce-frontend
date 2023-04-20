@@ -32,8 +32,6 @@ import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeN
 import { PushModule } from '@rx-angular/template/push';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 
-// import { findLogName } from '../shared/findLogname';
-
 @Component({
   standalone: true,
   selector: 'dh-message-archive-drawer',
@@ -64,7 +62,6 @@ export class DhMessageArchiveDrawerComponent {
   constructor(private blobStore: DhMessageArchiveDataAccessBlobApiStore) {}
 
   open(message: ArchivedMessage) {
-    // this.blobStore.downloadLog(findLogName(message.blobContentUri));
     this.message = message;
     this.drawer.open();
   }
@@ -74,6 +71,6 @@ export class DhMessageArchiveDrawerComponent {
   }
 
   downloadLogFile() {
-    // this.blobStore.downloadLogFile(findLogName(this.message?.blobContentUri ?? ''));
+    return
   }
 }

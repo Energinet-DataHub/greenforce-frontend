@@ -24,7 +24,6 @@ import {
 import { DhMessageArchiveDataAccessBlobApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
 import {
   ChargeMarketParticipantV1Dto,
-  // MessageArchiveSearchCriteria,
   ArchivedMessage,
 } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
@@ -86,50 +85,13 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   today = new Date();
   tomorrow = new Date(this.today.setDate(this.today.getDate() + 1));
 
-  // searchCriteria: MessageArchiveSearchCriteria = {
-  //   continuationToken: null,
-  //   // Need to split because message archive wants a specific format.
-  //   dateTimeFrom: new Date(2000, 1, 1).toISOString().split('.')[0] + 'Z',
-  //   dateTimeTo: this.tomorrow.toISOString().split('.')[0] + 'Z',
-  //   functionName: null,
-  //   includeRelated: false,
-  //   includeResultsWithoutContent: false,
-  //   invocationId: null,
-  //   maxItemCount: 1,
-  //   processTypes: [],
-  //   rsmNames: [],
-  //   traceId: null,
-  // };
-
   ngOnInit(): void {
-    this.dhChargesPricesDrawerService.message
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((message) => {
-        if (message) {
-          // this.searchCriteria.messageId = message.messageId;
-          // this.chargeMessageArchiveStore.searchLogs(this.searchCriteria);
-        } else {
-          this.message = undefined;
-        }
-      });
-
     this.chargeMessageArchiveStore.searchResult$
       .pipe(takeUntil(this.destroy$))
       .subscribe((result) => {
         setTimeout(() => {
           if (result) {
             this.message = result;
-
-            // this.marketParticipantStore.all$.pipe(take(1)).subscribe((marketParticipants) => {
-            //   this.senderMarketParticipant = marketParticipants?.find(
-            //     (mp) =>
-            //       mp.marketParticipantId == result.senderGln &&
-            //       mp.businessProcessRole == result.senderGlnMarketRoleType
-            //   );
-            // });
-
-            // const logName = this.findLogName(result.blobContentUri);
-            // this.blobStore.downloadLog(logName);
           }
         }, 0);
       });
@@ -146,8 +108,6 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
 
   downloadLog() {
     if (this.message == undefined) return;
-    // const logName = this.findLogName(this.message.blobContentUri);
-    // this.blobStore.downloadLogFile(logName);
   }
 
   findLogName(logUrl: string): string {
