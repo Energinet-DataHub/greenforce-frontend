@@ -29,16 +29,16 @@ const config = {
       scss: {
         verbose: false,
         includePaths: [join(filePath, 'node_modules')]
-      },
+      }
     })
   ],
 
-	kit: {
-		adapter: adapter(),
-		alias: {
-			$houdini: './$houdini',
-		}
-	}
+  kit: {
+    adapter: adapter(),
+    alias: {
+      $houdini: './$houdini'
+    }
+  }
 };
 
 export default config;
