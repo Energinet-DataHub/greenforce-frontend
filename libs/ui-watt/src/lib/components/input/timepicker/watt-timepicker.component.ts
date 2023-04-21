@@ -179,16 +179,16 @@ export class WattTimepickerComponent extends WattPickerBase {
    * Override to automatically close the slider overlay on blur.
    * @ignore
    */
-  onFocusOut(event: FocusEvent) {
+  override onFocusOut(event: FocusEvent) {
     super.onFocusOut(event);
     if (!this.focused) this.sliderOpen = false;
   }
 
   constructor(
-    protected inputMaskService: WattInputMaskService,
-    protected rangeInputService: WattRangeInputService,
-    protected elementRef: ElementRef<HTMLElement>,
-    protected changeDetectionRef: ChangeDetectorRef,
+    protected override inputMaskService: WattInputMaskService,
+    protected override rangeInputService: WattRangeInputService,
+    protected override elementRef: ElementRef<HTMLElement>,
+    protected override changeDetectionRef: ChangeDetectorRef,
     @Optional() @Self() ngControl: NgControl
   ) {
     super(
