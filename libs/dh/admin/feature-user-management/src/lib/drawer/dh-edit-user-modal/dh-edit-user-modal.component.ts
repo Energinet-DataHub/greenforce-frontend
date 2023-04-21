@@ -110,13 +110,12 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
     }
 
     if (this.updatedPhoneNumber != this.user.phoneNumber) {
-      this.updatePhoneNumber(this.updatedPhoneNumber ?? "", this.user.id);
+      this.updatePhoneNumber(this.updatedPhoneNumber ?? '', this.user.id);
     }
 
     if (this._updateUserRoles != null) {
       this.updateUserRoles(this.user.id, this._updateUserRoles);
-    }
-    else {
+    } else {
       this.closeModal(true);
     }
   }
@@ -142,7 +141,9 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
           this.user.phoneNumber = updatePhoneNumber;
         }
       },
-      onErrorFn: () => { console.error('error'); }
+      onErrorFn: () => {
+        console.error('error');
+      },
     });
   }
 
