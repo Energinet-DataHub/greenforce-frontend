@@ -109,30 +109,41 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
       return;
     }
 
-    this.identityStore.updateUserIdentity({
-      userId: this.user.id,
-      updatedUserIdentity: { phoneNumber: '+45 44444444' },
-      onSuccessFn: () => {
-        if (this.user) {
-          this.user.phoneNumber = '+45 44444444';
-        }
-        this.closeModal(true);
-      },
-      onErrorFn: () => { console.error('error'); }
-     })
+    if (this.updatedPhoneNumber != this.user.phoneNumber) {
+      this.updatePhoneNumber(this.updatedPhoneNumber ?? "", this.user.id);
+    }
 
+    if (this._updateUserRoles != null) {
+      this.updateUserRoles(this.user.id, this._updateUserRoles);
+    }
+    else {
+      this.closeModal(true);
+    }
+  }
 
-    /*this.userRolesStore.assignRoles({
-      userId: this.user.id,
-      updateUserRoles: this._updateUserRoles,
+  private updateUserRoles(userId: string, updateUserRoles: UpdateUserRoles) {
+    this.userRolesStore.assignRoles({
+      userId: userId,
+      updateUserRoles: updateUserRoles,
       onSuccess: () => {
-        if (this.user?.id) {
-          this.userRolesStore.getUserRolesView(this.user.id);
-        }
+        this.userRolesStore.getUserRolesView(userId);
         this.userRoles.resetUpdateUserRoles();
         this.closeModal(true);
       },
-    });*/
+    });
+  }
+
+  private updatePhoneNumber(userId: string, updatePhoneNumber: string) {
+    this.identityStore.updateUserIdentity({
+      userId: userId,
+      updatedUserIdentity: { phoneNumber: updatePhoneNumber },
+      onSuccessFn: () => {
+        if (this.user) {
+          this.user.phoneNumber = updatePhoneNumber;
+        }
+      },
+      onErrorFn: () => { console.error('error'); }
+    });
   }
 
   closeModal(status: boolean): void {
