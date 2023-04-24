@@ -29,7 +29,7 @@ import { mapChangeDescriptionJson } from './util/map-change-description-json';
 
 type ChangeType = 'added' | 'removed';
 
-type UserRoleAuditLogExtended = MarketParticipantUserRoleAuditLogDto & {
+export type UserRoleAuditLogExtended = MarketParticipantUserRoleAuditLogDto & {
   changedValueTo: string;
   changeType?: ChangeType;
 };
@@ -86,8 +86,12 @@ export class DhAdminUserRoleAuditLogsDataAccessApiStore extends ComponentStore<D
   );
 
   private assignAuditLogs = (response: MarketParticipantUserRoleAuditLogsDto) => {
+    const createdEntries: DhRoleAuditLogEntry[][] = this.splitCreatedLogToEntries(response);
+
     const auditLogs: DhRoleAuditLogEntry[] = response.auditLogs
-      .filter((x) => x.userRoleChangeType !== 'PermissionsChange')
+      .filter(
+        (x) => x.userRoleChangeType !== 'PermissionsChange' && x.userRoleChangeType !== 'Created'
+      )
       .map((entry) => ({
         entry: {
           ...entry,
@@ -133,7 +137,7 @@ export class DhAdminUserRoleAuditLogsDataAccessApiStore extends ComponentStore<D
       );
     });
 
-    this.patchState({ auditLogs });
+    this.patchState({ auditLogs: [...createdEntries.flat(), ...auditLogs] });
   };
 
   private setLoading = (state: LoadingState) => {
@@ -151,5 +155,39 @@ export class DhAdminUserRoleAuditLogsDataAccessApiStore extends ComponentStore<D
     } catch (error) {
       throw new Error(`Invalid JSON: ${JSON.stringify(changeDescriptionJson)}`);
     }
+  }
+
+  private splitCreatedLogToEntries({
+    auditLogs,
+  }: MarketParticipantUserRoleAuditLogsDto): DhRoleAuditLogEntry[][] {
+    return auditLogs
+      .filter((entry) => entry.userRoleChangeType === 'Created')
+      .map((entry) => {
+        return [
+          {
+            entry: {
+              ...entry,
+              userRoleChangeType: 'PermissionsChange',
+              changedValueTo: mapChangeDescriptionJson(
+                'PermissionsChange',
+                this.parseChangeDescriptionJson(entry.changeDescriptionJson)
+              ),
+              changeType: 'added',
+            },
+            timestamp: entry.timestamp,
+          },
+          {
+            entry: {
+              ...entry,
+              userRoleChangeType: 'Created',
+              changedValueTo: mapChangeDescriptionJson(
+                'Created',
+                this.parseChangeDescriptionJson(entry.changeDescriptionJson)
+              ),
+            },
+            timestamp: entry.timestamp,
+          },
+        ];
+      });
   }
 }
