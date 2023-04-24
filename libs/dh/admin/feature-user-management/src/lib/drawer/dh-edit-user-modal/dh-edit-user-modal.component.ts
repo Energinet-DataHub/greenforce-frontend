@@ -91,7 +91,7 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   @Input() user: MarketParticipantUserOverviewItemDto | null = null;
 
   isLoading$ = this.userRolesStore.isLoading$;
-  isSaving$ = this.userRolesStore.isSaving$;
+  isSaving$ = this.userRolesStore.isSaving$ || this.identityStore.isSaving$;
 
   ngAfterViewInit(): void {
     this.editUserModal.open();
@@ -132,7 +132,7 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
     });
   }
 
-  private updatePhoneNumber(userId: string, updatePhoneNumber: string) {
+  private updatePhoneNumber(updatePhoneNumber: string, userId: string) {
     this.identityStore.updateUserIdentity({
       userId: userId,
       updatedUserIdentity: { phoneNumber: updatePhoneNumber },

@@ -18,7 +18,7 @@ import { Injectable } from '@angular/core';
 import { Observable, exhaustMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
-import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserHttp,
   MarketParticipantUserIdentityUpdateDto,
@@ -26,19 +26,19 @@ import {
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 interface DhUserIdentityState {
-  readonly userRequestState: LoadingState | ErrorState;
+  readonly savingState: SavingState | ErrorState;
 }
 
 const initialState: DhUserIdentityState = {
-  userRequestState: LoadingState.INIT,
+  savingState: SavingState.INIT,
 };
 
 @Injectable({ providedIn: 'root' })
 export class DhAdminUserIdentityDataAccessApiStore extends ComponentStore<DhUserIdentityState> {
-  readonly isInit$ = this.select((state) => state.userRequestState === LoadingState.INIT);
-  readonly isLoading$ = this.select((state) => state.userRequestState === LoadingState.LOADING);
+  readonly isInit$ = this.select((state) => state.savingState === SavingState.INIT);
+  readonly isSaving$ = this.select((state) => state.savingState === SavingState.SAVING);
   readonly hasGeneralError$ = this.select(
-    (state) => state.userRequestState === ErrorState.GENERAL_ERROR
+    (state) => state.savingState === ErrorState.GENERAL_ERROR
   );
 
   constructor(private httpClient: MarketParticipantUserHttp) {
@@ -56,7 +56,7 @@ export class DhAdminUserIdentityDataAccessApiStore extends ComponentStore<DhUser
     ) =>
       trigger$.pipe(
         tap(() => {
-          this.patchState({ userRequestState: LoadingState.LOADING });
+          this.setSaving(SavingState.SAVING);
         }),
         exhaustMap(({ userId, updatedUserIdentity, onSuccessFn, onErrorFn }) =>
           this.httpClient
@@ -64,7 +64,7 @@ export class DhAdminUserIdentityDataAccessApiStore extends ComponentStore<DhUser
             .pipe(
               tapResponse(
                 () => {
-                  this.patchState({ userRequestState: LoadingState.LOADED });
+                  this.setSaving(SavingState.SAVED);
                   onSuccessFn();
                 },
                 (error: HttpErrorResponse) => {
@@ -77,16 +77,18 @@ export class DhAdminUserIdentityDataAccessApiStore extends ComponentStore<DhUser
       )
   );
 
+  private setSaving = this.updater(
+    (state, savingState: SavingState | ErrorState): DhUserIdentityState => ({
+      ...state,
+      savingState: savingState,
+    })
+  );
+
   private handleError({ status, error }: HttpErrorResponse): void {
-    let userRequestState = ErrorState.GENERAL_ERROR;
-
-    if (
-      status === HttpStatusCode.BadRequest &&
-      error?.error?.code === ErrorState.VALIDATION_EXCEPTION
-    ) {
-      userRequestState = ErrorState.VALIDATION_EXCEPTION;
+    this.setSaving(ErrorState.GENERAL_ERROR);
+    if (status === HttpStatusCode.BadRequest && error?.error?.code === ErrorState.VALIDATION_EXCEPTION)
+    {
+      this.setSaving(ErrorState.VALIDATION_EXCEPTION);
     }
-
-    this.patchState({ userRequestState });
   }
 }
