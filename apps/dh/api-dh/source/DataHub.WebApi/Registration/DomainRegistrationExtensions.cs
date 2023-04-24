@@ -17,7 +17,6 @@ using System.Linq;
 using System.Net.Http;
 using Energinet.DataHub.Charges.Clients.Registration.Charges.ServiceCollectionExtensions;
 using Energinet.DataHub.MarketParticipant.Client.Extensions;
-using Energinet.DataHub.MessageArchive.Client.Extensions;
 using Energinet.DataHub.MeteringPoints.Client.Extensions;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Microsoft.AspNetCore.Http;
@@ -30,12 +29,14 @@ namespace Energinet.DataHub.WebApi.Registration
         public static IServiceCollection AddDomainClients(this IServiceCollection services, ApiClientSettings apiClientSettings)
         {
             services
+                .AddHttpClient()
+                .AddHttpContextAccessor()
+                .AddSingleton(provider => new AuthorizedHttpClientFactory(provider.GetRequiredService<IHttpClientFactory>(), () => AuthorizationHeaderProvider(provider)))
+                .RegisterEDIServices(apiClientSettings.MessageArchiveBaseUrl)
                 .AddChargesClient(
                     GetBaseUri(apiClientSettings.ChargesBaseUrl))
                 .AddMeteringPointClient(
                     GetBaseUri(apiClientSettings.MeteringPointBaseUrl))
-                .AddMessageArchiveClient(
-                    GetBaseUri(apiClientSettings.MessageArchiveBaseUrl))
                 .AddMarketParticipantClient(
                     GetBaseUri(apiClientSettings.MarketParticipantBaseUrl))
                 .AddWholesaleClient(
