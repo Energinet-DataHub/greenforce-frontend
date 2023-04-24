@@ -5,6 +5,22 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Debug app-dh",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "Serve app-dh",
+      "postDebugTask": "Terminate All Tasks",
+      "url": "https://localhost:4200/#",
+      "webRoot": "${workspaceFolder}",
+      "sourceMapPathOverrides": {
+        "webpack:/*": "${webRoot}/*",
+        "/./*": "${webRoot}/*",
+        "/src/*": "${webRoot}/src/*",
+        "/*": "*",
+        "/./~/*": "${workspaceFolder}/node_modules/*"
+      }
+    },
+    {
       "name": "Launch BFF",
       "type": "coreclr",
       "request": "launch",
