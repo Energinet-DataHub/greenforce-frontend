@@ -15,9 +15,9 @@ those cases the downloads are handled by the REST API instead.
 
 Before you're able to run the BFF locally you need an
 `appsettings.Development.json` file within the
-[`DataHub.WebApi`](apps/dh/api-dh/source/DataHub.WebApi/) folder.
+[`DataHub.WebApi`](../source/DataHub.WebApi/) folder.
 Either create one from
-[`appsettings.Development.json.sample`](apps/dh/api-dh/source/DataHub.WebApi/appsettings.Development.json.sample)
+[`appsettings.Development.json.sample`](../source/DataHub.WebApi/appsettings.Development.json.sample)
 or if you are an internal DataHub employee, take a look at the
 [`dev-secrets`](https://github.com/Energinet-DataHub/dev-secrets) repository.
 
