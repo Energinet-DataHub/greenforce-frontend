@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { ComponentStore } from '@ngrx/component-store';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { MessageArchiveHttp, Stream } from '@energinet-datahub/dh/shared/domain';
 import { LoadingState, ErrorState } from '@energinet-datahub/dh/shared/data-access-api';
-import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import { filter, map, Observable, tap } from 'rxjs';
 
 interface DownloadBlobResultState {
   readonly blobContent?: Stream | null;
@@ -49,51 +49,12 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
       tap(() => {
         this.resetState();
         this.setLoading(true);
-      }),
-      switchMap((logName) =>
-        this.httpClient
-          .v1MessageArchiveDownloadRequestResponseLogContentGet(logName, 'body', false, {
-            httpHeaderAccept: 'text/plain',
-          })
-          .pipe(
-            tapResponse(
-              (blobContent) => {
-                this.setLoading(false);
-                this.updateDownloadResult(blobContent);
-              },
-              (error: HttpErrorResponse) => {
-                this.setLoading(false);
-                this.handleError(error);
-              }
-            )
-          )
-      )
+      })
     );
   });
 
-  downloadLogFile(logName: string) {
-    const clientObservable = this.httpClient.v1MessageArchiveDownloadRequestResponseLogContentGet(
-      logName,
-      'body',
-      false,
-      { httpHeaderAccept: 'text/plain' }
-    );
-    clientObservable.subscribe(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (response: any) => {
-        const dataType = response.type;
-        const binaryData = [];
-        binaryData.push(response);
-        const downloadLink = document.createElement('a');
-        downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, { type: dataType }));
-        downloadLink.onclick = function (event) {
-          event.stopPropagation();
-        };
-        if (logName) downloadLink.setAttribute('download', logName);
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-      }
-    );
+  downloadLogFile() {
+    return;
   }
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
