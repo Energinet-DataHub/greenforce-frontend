@@ -86,8 +86,10 @@ export class DhAdminUserIdentityDataAccessApiStore extends ComponentStore<DhUser
 
   private handleError({ status, error }: HttpErrorResponse): void {
     this.setSaving(ErrorState.GENERAL_ERROR);
-    if (status === HttpStatusCode.BadRequest && error?.error?.code === ErrorState.VALIDATION_EXCEPTION)
-    {
+    if (
+      status === HttpStatusCode.BadRequest &&
+      error?.error?.code === ErrorState.VALIDATION_EXCEPTION
+    ) {
       this.setSaving(ErrorState.VALIDATION_EXCEPTION);
     }
   }
