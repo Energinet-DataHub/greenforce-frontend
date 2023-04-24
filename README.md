@@ -130,7 +130,7 @@ yarn nx workspace-generator dh-domain-generator
 ### Backend For Frontend (BFF)
 
 There is currenly only one BFF located in `api-dh` under `apps/dh`.
-It is for `app-dh` and is using .NET 6.x.
+It is for `app-dh` and is using .NET 7.x.
 Check the [Development notes](./apps/dh/api-dh/documents/development.md)
 for how to get started.
 
@@ -301,7 +301,7 @@ Workflows are located in `.github/workflows` which currently contains the follow
 
 - `app-dh-healthchecks.yml`: Used for running health check and E2E tests every hour against all DataHub environments.
 - `dh-backend-cd.yml`: Used by DataHub for publishing a release, dispatching a deployment request, and updating BFF code coverage.
-- `dh-backend-ci.yml`: Used by the BFF for `app-dh`.
+- `dh-backend-ci.yml`: Verifies the ASP.NET Core Web API by building and running all tests.
 - `dh-frontend-cd.yml`: Used by DataHub frontend for publishing a release and dispatching a
   deployment request.
 - `eo-cd.yml`: Used by "Energy Origin" app.
