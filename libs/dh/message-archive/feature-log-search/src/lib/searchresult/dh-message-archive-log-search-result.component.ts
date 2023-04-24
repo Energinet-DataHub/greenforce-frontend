@@ -33,7 +33,7 @@ import {
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { MessageArchiveSearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
+import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -84,31 +84,31 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
   ],
 })
 export class DhMessageArchiveLogSearchResultComponent implements AfterViewInit, OnChanges {
-  activeRow: MessageArchiveSearchResultItemDto | undefined;
+  activeRow: ArchivedMessage | undefined;
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(DhMessageArchiveDrawerComponent)
   messageDrawer!: DhMessageArchiveDrawerComponent;
-  @Input() searchResult: Array<MessageArchiveSearchResultItemDto> = [];
-  @Output() showLogDownloadPage = new EventEmitter<MessageArchiveSearchResultItemDto>();
-  @Output() downloadLogFile = new EventEmitter<MessageArchiveSearchResultItemDto>();
+  @Input() searchResult: Array<ArchivedMessage> = [];
+  @Output() showLogDownloadPage = new EventEmitter<ArchivedMessage>();
+  @Output() downloadLogFile = new EventEmitter<ArchivedMessage>();
   @Input() isSearching = false;
 
-  columns: WattTableColumnDef<MessageArchiveSearchResultItemDto>;
+  columns: WattTableColumnDef<ArchivedMessage>;
 
   @Input() hasSearchError = false;
   @Input() isInit = false;
   @Input() actors!: WattDropdownOptions;
 
-  readonly dataSource: MatTableDataSource<MessageArchiveSearchResultItemDto> =
-    new MatTableDataSource<MessageArchiveSearchResultItemDto>();
+  readonly dataSource: MatTableDataSource<ArchivedMessage> =
+    new MatTableDataSource<ArchivedMessage>();
 
   constructor() {
     this.columns = {
       messageId: {
         accessor: 'messageId',
       },
-      rsmName: {
-        accessor: 'rsmName',
+      messageType: {
+        accessor: 'messageType',
       },
       senderGln: {
         accessor: 'senderGln',
@@ -119,13 +119,10 @@ export class DhMessageArchiveLogSearchResultComponent implements AfterViewInit, 
       createdDate: {
         accessor: 'createdDate',
       },
-      httpData: {
-        accessor: 'httpData',
-      },
     };
   }
 
-  onRowClick(row: MessageArchiveSearchResultItemDto) {
+  onRowClick(row: ArchivedMessage) {
     this.activeRow = row;
     this.messageDrawer.open(row);
   }

@@ -15,18 +15,16 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, switchMap, tap } from 'rxjs';
+import { ComponentStore } from '@ngrx/component-store';
 import {
   MessageArchiveHttp,
-  MessageArchiveSearchCriteria,
-  MessageArchiveSearchResultItemDto,
+  ArchivedMessage,
 } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 interface SearchResultState {
-  readonly searchResult?: MessageArchiveSearchResultItemDto;
+  readonly searchResult?: ArchivedMessage;
   readonly searchingState: LoadingState | ErrorState;
 }
 
@@ -45,34 +43,8 @@ export class DhChargeMessageArchiveDataAccessStore extends ComponentStore<Search
   isSearching$ = this.select((state) => state.searchingState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.searchingState === ErrorState.GENERAL_ERROR);
 
-  readonly searchLogs = this.effect((searchCriteria: Observable<MessageArchiveSearchCriteria>) => {
-    return searchCriteria.pipe(
-      tap(() => {
-        this.setLoading(true);
-        this.updateSearchResult([]);
-      }),
-      switchMap((searchCriteria) =>
-        this.httpClient.v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria).pipe(
-          tapResponse(
-            (searchResult) => {
-              this.setLoading(false);
-              this.updateSearchResult(searchResult.result);
-            },
-            (error: HttpErrorResponse) => {
-              this.setLoading(false);
-              this.handleError(error);
-            }
-          )
-        )
-      )
-    );
-  });
-
   private updateSearchResult = this.updater(
-    (
-      state: SearchResultState,
-      searchResult: Array<MessageArchiveSearchResultItemDto>
-    ): SearchResultState => {
+    (state: SearchResultState, searchResult: Array<ArchivedMessage>): SearchResultState => {
       return {
         ...state,
         searchResult: searchResult[0],

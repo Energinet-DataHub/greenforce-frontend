@@ -23,7 +23,6 @@ import {
   DhMessageArchiveDataAccessBlobApiStore,
 } from '@energinet-datahub/dh/message-archive/data-access-api';
 import { DocumentTypes, ProcessTypes } from '@energinet-datahub/dh/message-archive/domain';
-import { MessageArchiveSearchCriteria } from '@energinet-datahub/dh/shared/domain';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
@@ -111,12 +110,6 @@ export class DhMessageArchiveLogSearchComponent {
 
   searching = false;
   maxItemCount = 100;
-  searchCriteria: MessageArchiveSearchCriteria = {
-    maxItemCount: this.maxItemCount,
-    includeRelated: false,
-    includeResultsWithoutContent: false,
-    processTypes: [],
-  };
 
   constructor(
     private store: DhMessageArchiveDataAccessApiStore,
@@ -162,13 +155,7 @@ export class DhMessageArchiveLogSearchComponent {
 
     const {
       dateRange,
-      includeRelated,
-      messageId,
-      rsmNames,
-      receiverId,
-      senderId,
       timeRange,
-      processTypes,
     } = this.searchForm.value;
 
     const dateTimeFrom = zonedTimeToUtc(dateRange?.start, danishTimeZoneIdentifier);
@@ -184,19 +171,6 @@ export class DhMessageArchiveLogSearchComponent {
       dateTimeTo.setHours(toHours);
       dateTimeTo.setMinutes(toMinutes);
     }
-
-    Object.assign(this.searchCriteria, {
-      dateTimeFrom: dateTimeFrom.toISOString(),
-      dateTimeTo: dateTimeTo.toISOString(),
-      includeRelated: Boolean(includeRelated),
-      messageId: messageId === '' ? null : messageId,
-      rsmNames: rsmNames.length === 0 ? null : rsmNames,
-      senderId: senderId === '' ? null : senderId,
-      receiverId: receiverId === '' ? null : receiverId,
-      processTypes: processTypes.length === 0 ? null : processTypes,
-    });
-
-    this.store.searchLogs(this.searchCriteria);
   }
 
   loadMore(continuationToken?: string | null) {

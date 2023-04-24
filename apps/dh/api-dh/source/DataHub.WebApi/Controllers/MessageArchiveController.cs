@@ -15,10 +15,9 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
+using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.MessageArchive.Client.Abstractions;
-using Energinet.DataHub.MessageArchive.Client.Abstractions.Models;
+using Energinet.DataHub.WebApi.Clients.EDI;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -27,38 +26,33 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public class MessageArchiveController : ControllerBase
     {
-        private readonly IMessageArchiveClient _messageArchiveClient;
+        private readonly ArchivedMessagesSearch _archivedMessagesSearch;
 
-        public MessageArchiveController(IMessageArchiveClient messageArchiveClient)
+        public MessageArchiveController(ArchivedMessagesSearch archivedMessagesSearch)
         {
-            _messageArchiveClient = messageArchiveClient;
+            _archivedMessagesSearch = archivedMessagesSearch ?? throw new ArgumentNullException(nameof(archivedMessagesSearch));
         }
 
         /// <summary>
         /// Get saved request and response logs.
         /// </summary>
-        /// <param name="searchCriteria">search criteria input</param>
         /// <returns>Search result.</returns>
         [HttpPost("SearchRequestResponseLogs")]
-        public async Task<ActionResult<MessageArchiveSearchResultsDto>> SearchRequestResponseLogsAsync(MessageArchiveSearchCriteria searchCriteria)
+        public async Task<ActionResult<SearchResult>> SearchRequestResponseLogsAsync(CancellationToken cancellationToken)
         {
-            var result = await _messageArchiveClient.SearchLogsAsync(searchCriteria).ConfigureAwait(false);
+            var result = await _archivedMessagesSearch.SearchAsync(cancellationToken).ConfigureAwait(false);
 
-            return result == null || !result.Result.Any() ? NoContent() : Ok(result);
+            return !result.Messages.Any() ? NoContent() : Ok(result);
         }
 
         /// <summary>
         /// Download log content as stream.
         /// </summary>
-        /// <param name="logName">log name</param>
         /// <returns>log content</returns>
         [HttpGet("DownloadRequestResponseLogContent")]
-        public async Task<ActionResult<Stream>> DownloadRequestResponseLogContentAsync(string logName)
+        public Task<ActionResult<Stream>> DownloadRequestResponseLogContentAsync()
         {
-            var decodedLogName = Uri.EscapeDataString(logName);
-            var stream = await _messageArchiveClient.GetStreamFromStorageAsync(decodedLogName).ConfigureAwait(false);
-
-            return File(stream, MediaTypeNames.Text.Plain);
+            throw new NotImplementedException();
         }
     }
 }

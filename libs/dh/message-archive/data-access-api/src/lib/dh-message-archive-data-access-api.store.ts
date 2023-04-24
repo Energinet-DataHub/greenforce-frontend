@@ -15,17 +15,16 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import { ComponentStore } from '@ngrx/component-store';
+import { filter, map, Observable, tap } from 'rxjs';
 import {
   MessageArchiveHttp,
-  MessageArchiveSearchCriteria,
-  MessageArchiveSearchResultItemDto,
+  ArchivedMessage,
 } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 interface SearchResultState {
-  readonly searchResult: Array<MessageArchiveSearchResultItemDto>;
+  readonly searchResult: Array<ArchivedMessage>;
   readonly loadingState: LoadingState | ErrorState;
   readonly continuationToken: string | null | undefined;
 }
@@ -44,11 +43,11 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
 
   isInit$ = this.select((state) => state.loadingState === LoadingState.INIT);
 
-  searchResult$: Observable<Array<MessageArchiveSearchResultItemDto>> = this.select(
+  searchResult$: Observable<Array<ArchivedMessage>> = this.select(
     (state) => state.searchResult
   ).pipe(
     filter((searchResult) => !!searchResult),
-    map((searchResult) => searchResult as Array<MessageArchiveSearchResultItemDto>)
+    map((searchResult) => searchResult as Array<ArchivedMessage>)
   );
   continuationToken$: Observable<string | null | undefined> = this.select(
     (state) => state.continuationToken
@@ -56,36 +55,17 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
   isSearching$ = this.select((state) => state.loadingState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.loadingState === ErrorState.GENERAL_ERROR);
 
-  readonly searchLogs = this.effect((searchCriteria: Observable<MessageArchiveSearchCriteria>) => {
+  readonly searchLogs = this.effect((searchCriteria: Observable<ArchivedMessage>) => {
     return searchCriteria.pipe(
-      tap((e) => {
+      tap(() => {
         this.setLoading(true);
-        this.updateContinuationToken(e.continuationToken);
         this.updateSearchResult([]);
-      }),
-      switchMap((searchCriteria) => {
-        return this.httpClient.v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria).pipe(
-          tapResponse(
-            (searchResult) => {
-              this.setLoading(false);
-              this.updateSearchResult(searchResult?.result ?? []);
-              this.updateContinuationToken(searchResult?.continuationToken);
-            },
-            (error: HttpErrorResponse) => {
-              this.setLoading(false);
-              this.handleError(error);
-            }
-          )
-        );
       })
     );
   });
 
   private updateSearchResult = this.updater(
-    (
-      state: SearchResultState,
-      searchResult: Array<MessageArchiveSearchResultItemDto> | []
-    ): SearchResultState => {
+    (state: SearchResultState, searchResult: Array<ArchivedMessage> | []): SearchResultState => {
       return {
         ...state,
         searchResult: state.continuationToken
