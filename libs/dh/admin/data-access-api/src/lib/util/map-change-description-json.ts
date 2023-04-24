@@ -38,11 +38,13 @@ export function mapChangeDescriptionJson(
     case 'StatusChange':
       return parsedChangeDescriptionJson.Status as MarketParticipantUserRoleStatus;
     case 'PermissionsChange': {
-      const permissions: string[] = parsedChangeDescriptionJson.Permissions;
-
-      return permissions.join(', ');
+      return joinPermissions(parsedChangeDescriptionJson.Permissions);
     }
     default:
       throw new Error(`Unknown 'userRoleChangeType': ${userRoleChangeType}`);
   }
+}
+
+export function joinPermissions(permissions: string[]): string {
+  return permissions.join(', ');
 }
