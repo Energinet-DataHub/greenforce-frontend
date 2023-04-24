@@ -288,7 +288,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.columns || changes.displayedColumns || changes.selectable) {
+    if (changes['columns'] || changes['displayedColumns'] || changes['selectable']) {
       const { displayedColumns } = this;
       const sizing = Object.keys(this.columns)
         .filter((key) => !displayedColumns || displayedColumns.includes(key))
@@ -306,7 +306,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
       );
     }
 
-    if (changes.selectable?.currentValue && !this.isInitialSelectionSet) {
+    if (changes['selectable']?.currentValue && !this.isInitialSelectionSet) {
       // Note: The reason for having a flag here is because we want the initial selection
       // to be set only once when `selectable` Input is `true`.
       // Without the flag, the selection will be set every time `selectable` Input is set to `true`.
