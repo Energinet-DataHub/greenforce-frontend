@@ -71,6 +71,6 @@ export class DhMessageArchiveDrawerComponent {
   }
 
   downloadLogFile() {
-    return
+    return;
   }
 }

@@ -55,7 +55,7 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
 
   downloadLogFile() {
     return;
-   }
+  }
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   private updateDownloadResult = this.updater(

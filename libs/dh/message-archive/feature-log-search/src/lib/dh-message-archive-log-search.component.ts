@@ -153,10 +153,7 @@ export class DhMessageArchiveLogSearchComponent {
   onSubmit() {
     if (this.searchForm.valid === false) return;
 
-    const {
-      dateRange,
-      timeRange,
-    } = this.searchForm.value;
+    const { dateRange, timeRange } = this.searchForm.value;
 
     const dateTimeFrom = zonedTimeToUtc(dateRange?.start, danishTimeZoneIdentifier);
     const dateTimeTo = zonedTimeToUtc(dateRange?.end, danishTimeZoneIdentifier);

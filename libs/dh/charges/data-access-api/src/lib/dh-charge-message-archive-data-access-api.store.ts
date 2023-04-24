@@ -16,10 +16,7 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import {
-  MessageArchiveHttp,
-  ArchivedMessage,
-} from '@energinet-datahub/dh/shared/domain';
+import { MessageArchiveHttp, ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 
