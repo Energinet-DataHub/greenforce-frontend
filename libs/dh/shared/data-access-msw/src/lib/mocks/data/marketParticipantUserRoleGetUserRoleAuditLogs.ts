@@ -21,7 +21,7 @@ export const marketParticipantUserRoleAuditLogs: MarketParticipantUserRoleAuditL
       timestamp: '2023-01-01T12:47:03.4871748+00:00',
       userRoleChangeType: 'Created',
       changeDescriptionJson:
-        '{"Name":"NewRole","Description":"New description","EicFunction":"BalanceResponsibleParty","Status":"Active","Permissions":["UsersManage"]}',
+        '{"Name":"NewRole","Description":"New description","EicFunction":"BalanceResponsibleParty","Status":"Active","Permissions":["UsersManage", "GridAreasManage"]}',
     },
     {
       ...baseLog,
