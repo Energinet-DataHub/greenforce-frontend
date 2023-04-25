@@ -35,7 +35,7 @@ env:
   # DH E2E
   CYPRESS_DH_E2E_USERNAME: ${{ secrets.DH_E2E_USERNAME }}
   CYPRESS_DH_E2E_PASSWORD: ${{ secrets.DH_E2E_PASSWORD }}
-  CYPRESS_DH_B2C_AUTHORITY: "https://dev002DataHubB2C.b2clogin.com"
+  CYPRESS_DH_B2C_AUTHORITY: "https://dev002DataHubB2C.b2clogin.com/dev002DataHubB2C.onmicrosoft.com/B2C_1_SignInFlow"
 
 on:
   push:
@@ -113,10 +113,6 @@ jobs:
   e2e:
     name: End-to-end test
     runs-on: ubuntu-latest
-    env:
-      CYPRESS_DH_E2E_USERNAME: ${{ secrets.DH_E2E_USERNAME }}
-      CYPRESS_DH_E2E_PASSWORD: ${{ secrets.DH_E2E_PASSWORD }}
-      CYPRESS_DH_B2C_AUTHORITY: "https://dev002DataHubB2C.b2clogin.com"
 
     steps:
       # needed for nx affected command
