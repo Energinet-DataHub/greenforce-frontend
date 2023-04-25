@@ -33,8 +33,9 @@ env:
   NX_RUN_GROUP: ${{ github.run_id }}
 
   # DH E2E
-  DH_E2E_USERNAME: ${{ secrets.DH_E2E_USERNAME }}
-  DH_E2E_PASSWORD: ${{ secrets.DH_E2E_PASSWORD }}
+  CYPRESS_DH_E2E_USERNAME: ${{ secrets.DH_E2E_USERNAME }}
+  CYPRESS_DH_E2E_PASSWORD: ${{ secrets.DH_E2E_PASSWORD }}
+  CYPRESS_DH_B2C_AUTHORITY: "https://dev002DataHubB2C.b2clogin.com"
 
 on:
   push:
@@ -112,6 +113,10 @@ jobs:
   e2e:
     name: End-to-end test
     runs-on: ubuntu-latest
+    env:
+      CYPRESS_DH_E2E_USERNAME: ${{ secrets.DH_E2E_USERNAME }}
+      CYPRESS_DH_E2E_PASSWORD: ${{ secrets.DH_E2E_PASSWORD }}
+      CYPRESS_DH_B2C_AUTHORITY: "https://dev002DataHubB2C.b2clogin.com"
 
     steps:
       # needed for nx affected command
@@ -137,8 +142,6 @@ jobs:
       - name: 📥 Monorepo install
         uses: ./.github/actions/yarn-nm-install
 
-      - name: Install Playwright
-        run: npx playwright install --with-deps
       - name: "PR: End-to-end test affected products"
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
