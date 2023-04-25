@@ -33,6 +33,8 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { MarketParticipantUserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
 
+import { DhAuditChangeCellComponent } from './dh-audit-change-cell.component';
+
 @Component({
   selector: 'dh-role-audit-logs',
   standalone: true,
@@ -65,6 +67,7 @@ import { MarketParticipantUserRoleWithPermissionsDto } from '@energinet-datahub/
     WattEmptyStateComponent,
     WATT_TABLE,
     DhSharedUiDateTimeModule,
+    DhAuditChangeCellComponent,
   ],
 })
 export class DhRoleAuditLogsComponent implements OnInit, OnChanges {
