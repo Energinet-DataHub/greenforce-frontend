@@ -21,7 +21,7 @@ describe('Application shell', () => {
   it('should display welcome message', () => {
     cy.visit('/metering-point/search');
     cy.findByRole('heading', {
-      name: new RegExp(daTranslations.meteringPoint.search.title, 'i')
+      name: new RegExp(daTranslations.meteringPoint.search.title, 'i'),
     });
   });
 });
