@@ -23,7 +23,7 @@ import marketParticipantActorQuerySelectionActors from './data/marketParticipant
 import marketParticipantUserRoleGetAll from './data/marketParticipantUserRoleGetAll.json';
 import marketParticipantUserGetUserAuditLogs from './data/marketParticipantUserGetUserAuditLogs.json';
 import marketParticipantUserRoleGetUserRoleWithPermissions from './data/marketParticipantUserRoleGetUserRoleWithPermissions.json';
-import marketParticipantUserRoleGetUserRoleAuditLogs from './data/marketParticipantUserRoleGetUserRoleAuditLogs.json';
+import { marketParticipantUserRoleAuditLogs } from './data/marketParticipantUserRoleGetUserRoleAuditLogs';
 import { adminPermissionsMock } from './data/admin-get-permissions';
 import { adminPermissionPermissionLogsMock } from './data/admin-get-permissionlogs';
 import { adminPermissionDetailsMock } from './data/admin-get-permission-details';
@@ -90,7 +90,7 @@ function getMarketParticipantUserRoleGetUserRoleAuditLogs(apiBase: string) {
   return rest.get(
     `${apiBase}/v1/MarketParticipantUserRole/GetUserRoleAuditLogs`,
     (req, res, ctx) => {
-      return res(ctx.json(marketParticipantUserRoleGetUserRoleAuditLogs));
+      return res(ctx.json(marketParticipantUserRoleAuditLogs));
     }
   );
 }
