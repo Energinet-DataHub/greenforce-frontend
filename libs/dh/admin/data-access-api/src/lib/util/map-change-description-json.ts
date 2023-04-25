@@ -34,15 +34,17 @@ export function mapChangeDescriptionJson(
     case 'DescriptionChange':
       return parsedChangeDescriptionJson.Description as string;
     case 'EicFunctionChange':
-      return parsedChangeDescriptionJson.MarketParticipantEicFunction as MarketParticipantEicFunction;
+      return parsedChangeDescriptionJson.EicFunction as MarketParticipantEicFunction;
     case 'StatusChange':
       return parsedChangeDescriptionJson.Status as MarketParticipantUserRoleStatus;
     case 'PermissionsChange': {
-      const permissions: number[] = parsedChangeDescriptionJson.Permissions;
-
-      return permissions.join(', ');
+      return joinPermissions(parsedChangeDescriptionJson.Permissions);
     }
     default:
       throw new Error(`Unknown 'userRoleChangeType': ${userRoleChangeType}`);
   }
+}
+
+export function joinPermissions(permissions: string[]): string {
+  return permissions.join(', ');
 }
