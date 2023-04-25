@@ -281,6 +281,10 @@ limitations under the License.
         background-color: #176ee9;
       }
 
+      .mitid-icon-link:active {
+        background-color: #0061e9;
+      }
+
       .mit-id-image {
         padding-top: 0.8em;
         height: 1.2em;
@@ -291,6 +295,16 @@ limitations under the License.
         color: white;
         margin-bottom: 0;
         margin-right: 1em;
+      }
+
+      #mitid-a:link {
+        color: white;
+        text-decoration: none;
+      }
+
+      #mitid-a:hover {
+        color: white;
+        text-decoration: none;
       }
 
       .hr-lines {
@@ -380,10 +394,21 @@ limitations under the License.
         forgotPasswordContainer.appendChild(forgotPasswordTemplate);
       }
 
+      function setMitIdFlowSignInFlow() {
+        var mitIdFlowSignInFlow = document.getElementsByClassName("mitidlogin");
+        var mitIdFlowSignInFlowLinks = mitIdFlowSignInFlow.querySelectorAll("a");
+        var mitIdFlowSignInFlowUrl = getB2CFlowLink("mitid_signin");
+
+        mitIdFlowSignInFlowLinks.forEach((link) => {
+          link.setAttribute("href", mitIdFlowSignInFlowUrl);
+        });
+      }
+
       waitFor("button#next", function (element) {
         element.addEventListener("click", toggleErrorClasses);
         appendSignUpTemplate();
         appendForgotPasswordTemplate();
+        setMitIdFlowSignInFlow();
       });
     </script>
   </head>
@@ -402,10 +427,12 @@ limitations under the License.
           <div class="hr-lines imprint imprint-en">or</div>
         </div>
         <div class="mitidlogin">
-          <div class="mitid-icon-link" alt="mitid-login">
-            <label class="mit-id-label">Log ind med</label>
-            <img class="mit-id-image" alt="mit-id-icon" src="../mitid-icon-white.png" />
-          </div>
+          <a href="#" id="mitid-a">
+            <div class="mitid-icon-link" alt="mitid-login">
+              <label class="mit-id-label">Log ind med</label>
+              <img class="mit-id-image" alt="mit-id-icon" src="../mitid-icon-white.png" />
+            </div>
+          </a>
         </div>
       </div>
     </div>
