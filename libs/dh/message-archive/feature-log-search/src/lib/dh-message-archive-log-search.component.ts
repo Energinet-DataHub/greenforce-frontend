@@ -37,7 +37,6 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTimepickerModule } from '@energinet-datahub/watt/timepicker';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
