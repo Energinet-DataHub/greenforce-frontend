@@ -14,16 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PlaywrightTestConfig } from '@playwright/test';
-import { config as baseConfig } from './playwright.config';
-
-const config: PlaywrightTestConfig = {
-  ...baseConfig,
-  globalSetup: undefined,
-  use: {
-    ...baseConfig.use,
-    headless: true,
-    storageState: undefined,
-  },
-};
-export default config;
+declare namespace Cypress {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface Chainable<Subject> {
+    login(email: string, password: string): void;
+  }
+}
