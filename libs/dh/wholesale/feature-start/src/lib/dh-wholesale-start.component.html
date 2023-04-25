@@ -26,6 +26,7 @@ limitations under the License.
       <watt-validation-message
         *ngIf="periodWarning && createBatchForm.controls.processType.value === 'BALANCE_FIXING'"
         type="warning"
+        icon="warning"
         message="{{ transloco('startBatch.periodWarning') }}"
       />
 

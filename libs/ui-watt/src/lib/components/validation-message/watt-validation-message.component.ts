@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { WattIcon } from '../../foundations/icon/icons';
 
 export type WattValidationMessageType = 'info' | 'warning' | 'success' | 'danger';
 
@@ -31,6 +32,7 @@ export type WattValidationMessageType = 'info' | 'warning' | 'success' | 'danger
 export class WattValidationMessageComponent {
   @Input() label = '';
   @Input() message = '';
+  @Input() icon?: WattIcon;
   @Input() type: WattValidationMessageType = 'info';
 
   /**
