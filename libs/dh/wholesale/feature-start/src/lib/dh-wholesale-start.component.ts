@@ -17,7 +17,17 @@
 import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
-import { combineLatest, first, map, Observable, startWith, Subject, takeUntil, tap } from 'rxjs';
+import {
+  combineLatest,
+  first,
+  map,
+  Observable,
+  of,
+  startWith,
+  Subject,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -32,6 +42,7 @@ import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import {
   WattChipsComponent,
   WattChipsOption,
@@ -51,7 +62,6 @@ interface CreateBatchFormValues {
 
 @Component({
   selector: 'dh-wholesale-start',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-wholesale-start.component.html',
   styleUrls: ['./dh-wholesale-start.component.scss'],
   standalone: true,
@@ -69,6 +79,7 @@ interface CreateBatchFormValues {
     WattSpinnerModule,
     WattEmptyStateComponent,
     WattChipsComponent,
+    WattValidationMessageModule,
   ],
 })
 export class DhWholesaleStartComponent implements OnInit, OnDestroy {
@@ -87,6 +98,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     gridAreas: new FormControl(null, { validators: Validators.required }),
     dateRange: new FormControl(null, {
       validators: WattRangeValidators.required(),
+      asyncValidators: () => this.validateBalanceFixing(),
     }),
   });
 
@@ -102,6 +114,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   executionTypes: WattChipsOption[] = [];
 
   selectedExecutionType = 'ACTUAL';
+  periodWarning = false;
 
   gridAreas$: Observable<WattDropdownOption[]> = combineLatest([
     this.gridAreasQuery.valueChanges.pipe(map((result) => result.data?.gridAreas ?? [])),
@@ -124,6 +137,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     this.getProcessTypes();
     this.getExecutionTypes();
     this.toggleGridAreasControl();
+    this.handlePeriodWarning();
 
     // Close toast on navigation
     this.router.events.pipe(first((event) => event instanceof NavigationEnd)).subscribe(() => {
@@ -169,6 +183,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
 
   createBatch() {
     const { processType, gridAreas, dateRange } = this.createBatchForm.getRawValue();
+
     if (
       this.createBatchForm.invalid ||
       gridAreas === null ||
@@ -268,5 +283,42 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
         invalidPeriod: true,
       });
     }
+  }
+
+  private handlePeriodWarning() {
+    const { dateRange } = this.createBatchForm.controls;
+    dateRange.statusChanges.subscribe(() => {
+      const { period, ...errors } = dateRange.errors ?? {};
+      if (period) {
+        this.periodWarning = true;
+        dateRange.setErrors(Object.keys(errors).length > 0 ? { ...errors, period: null } : null);
+      }
+    });
+  }
+
+  private validateBalanceFixing(): Observable<null> {
+    const { dateRange } = this.createBatchForm.controls;
+
+    // Hide warning initially
+    this.periodWarning = false;
+
+    // Skip validation if end and start is not set
+    if (!dateRange.value?.end || !dateRange.value?.start) return of(null);
+
+    // This observable always returns null (no error)
+    return this.apollo
+      .query({
+        query: graphql.GetBatchesDocument,
+        variables: {
+          period: {
+            end: dateRange.value.end,
+            start: dateRange.value.start,
+          },
+        },
+      })
+      .pipe(
+        tap((result) => (this.periodWarning = result.data?.batches?.length > 0)),
+        map(() => null)
+      );
   }
 }

@@ -22,6 +22,13 @@ limitations under the License.
       (ngSubmit)="createBatch()"
       novalidate
     >
+      <!-- Period Warning-->
+      <watt-validation-message
+        *ngIf="periodWarning && createBatchForm.controls.processType.value === 'BALANCE_FIXING'"
+        type="warning"
+        message="{{ transloco('startBatch.periodWarning') }}"
+      />
+
       <!-- Execution type -->
       <label>{{ transloco("startBatch.executionTypeLabel") }}</label>
       <watt-chips
