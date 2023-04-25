@@ -26,25 +26,20 @@ describe(AppSettingsStore.name, () => {
     store = TestBed.inject(AppSettingsStore);
   });
   describe('calendarDateRange$ selector', () => {
-    it('should do nothing', () => {
-      store.calendarDateRange$.subscribe(() => {
-        // expect(data).toEqual({ start: firstJan2021, end: firstJan2022 });
+    it('should return 1/1-2021 until 1/1-2022 as default state', (done) => {
+      store.calendarDateRange$.subscribe((data) => {
+        expect(data).toEqual({ start: firstJan2021, end: firstJan2022 });
+        done();
       });
     });
-    // it('should return 1/1-2021 until 1/1-2022 as default state', (done) => {
-    //   store.calendarDateRange$.subscribe((data) => {
-    //     expect(data).toEqual({ start: firstJan2021, end: firstJan2022 });
-    //     done();
-    //   });
-    // });
 
-    // it('setting a new date should store it', (done) => {
-    //   store.setCalendarDateRange({ start: 1234, end: 2345 });
+    it('setting a new date should store it', (done) => {
+      store.setCalendarDateRange({ start: 1234, end: 2345 });
 
-    //   store.calendarDateRange$.subscribe((data) => {
-    //     expect(data).toEqual({ start: 1234, end: 2345 });
-    //     done();
-    //   });
-    // });
+      store.calendarDateRange$.subscribe((data) => {
+        expect(data).toEqual({ start: 1234, end: 2345 });
+        done();
+      });
+    });
   });
 });
