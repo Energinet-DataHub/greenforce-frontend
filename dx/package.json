@@ -1,0 +1,8 @@
+{
+  "name": "dx",
+  "type": "module",
+  "bin": {
+    "assign": "./bin/create-branch-from-issue.js"
+  },
+  "packageManager": "yarn@3.5.0"
+}
