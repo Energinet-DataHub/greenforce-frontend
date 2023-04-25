@@ -24,7 +24,7 @@ function loginViaB2C(email: string, password: string) {
   // Login to B2C.
   cy.origin(
     //Cypress.env('CYPRESS_DH_B2C_AUTHORITY'),
-    "https://dev002DataHubB2C.b2clogin.com",
+    'https://dev002DataHubB2C.b2clogin.com',
     {
       args: {
         email,
