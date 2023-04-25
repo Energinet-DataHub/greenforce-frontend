@@ -14,20 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PlaywrightTestConfig } from '@playwright/test';
-import 'dotenv/config';
+// Appearantly there are some issues with `paths` so we need to use absolute paths for now.
+import { da as daTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
-// We use named export to beeing able to extend the config in other config files
-export const config: PlaywrightTestConfig = {
-  globalSetup: require.resolve('./global-setup'),
-  use: {
-    baseURL: process.env.BASE_URL,
-    headless: false,
-    ignoreHTTPSErrors: true,
-    // Tell all tests to load signed-in state from 'playwright-storage-state.json'.
-    storageState: 'apps/dh/e2e-dh/playwright-storage-state.json',
-  },
-};
-
-// Default export is needed for Playwright to load the config.
-export default config;
+describe('Application shell', () => {
+  it('should display welcome message', () => {
+    cy.visit('/metering-point/search');
+    cy.findByRole('heading', {
+      name: new RegExp(daTranslations.meteringPoint.search.title, 'i'),
+    });
+  });
+});
