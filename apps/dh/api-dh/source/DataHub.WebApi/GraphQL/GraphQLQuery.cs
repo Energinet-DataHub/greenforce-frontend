@@ -127,6 +127,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             Field<BatchType>("batch")
                 .Argument<IdGraphType>("id", "The id of the organization")
+                .Argument<DateRangeType>("period")
                 .Resolve()
                 .WithScope()
                 .WithService<IWholesaleClient_V3>()
@@ -134,15 +135,21 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<BatchType>>>>("batches")
                 .Argument<DateRangeType>("executionTime")
+                .Argument<DateRangeType>("period")
                 .Resolve()
                 .WithScope()
                 .WithService<IWholesaleClient_V3>()
                 .ResolveAsync(async (context, client) =>
                 {
-                    var interval = context.GetArgument<Interval>("executionTime");
-                    var start = interval.Start.ToDateTimeOffset();
-                    var end = interval.End.ToDateTimeOffset();
-                    return await client.SearchBatchesAsync(null, null, start, end);
+                    var executionTime = context.GetArgument<Interval?>("executionTime");
+                    var period = context.GetArgument<Interval?>("period");
+                    return await client.SearchBatchesAsync(
+                        null,
+                        null,
+                        executionTime?.Start.ToDateTimeOffset(),
+                        executionTime?.End.ToDateTimeOffset(),
+                        period?.Start.ToDateTimeOffset(),
+                        period?.End.ToDateTimeOffset());
                 });
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<SettlementReportType>>>>("settlementReports")

@@ -14,7 +14,6 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateRange: { start: string, end: string};
-  /** The `DateTimeOffset` scalar type represents a date, time and offset from UTC. `DateTimeOffset` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
   DateTimeOffset: string;
 };
 
@@ -131,11 +130,13 @@ export type GraphQlQuery = {
 
 export type GraphQlQueryBatchArgs = {
   id?: InputMaybe<Scalars['ID']>;
+  period?: InputMaybe<Scalars['DateRange']>;
 };
 
 
 export type GraphQlQueryBatchesArgs = {
   executionTime?: InputMaybe<Scalars['DateRange']>;
+  period?: InputMaybe<Scalars['DateRange']>;
 };
 
 
