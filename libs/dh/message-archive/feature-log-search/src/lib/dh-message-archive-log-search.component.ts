@@ -89,7 +89,6 @@ export class DhMessageArchiveLogSearchComponent {
         start: '',
         end: '',
       },
-      [WattRangeValidators.required()]
     ),
     timeRange: new FormControl<WattRange>({
       start: '00:00',
@@ -168,6 +167,8 @@ export class DhMessageArchiveLogSearchComponent {
       dateTimeTo.setHours(toHours);
       dateTimeTo.setMinutes(toMinutes);
     }
+
+    this.store.searchLogs();
   }
 
   loadMore(continuationToken?: string | null) {
