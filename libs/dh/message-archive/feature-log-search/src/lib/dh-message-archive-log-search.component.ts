@@ -84,12 +84,10 @@ export class DhMessageArchiveLogSearchComponent {
     senderId: new FormControl(''),
     receiverId: new FormControl(''),
     includeRelated: new FormControl<boolean>({ value: false, disabled: true }),
-    dateRange: new FormControl<WattRange>(
-      {
-        start: '',
-        end: '',
-      },
-    ),
+    dateRange: new FormControl<WattRange>({
+      start: '',
+      end: '',
+    }),
     timeRange: new FormControl<WattRange>({
       start: '00:00',
       end: '23:59',
