@@ -26,14 +26,14 @@ describe('Language selection', () => {
     // Then Danish translations are displayed
     cy.visit('/metering-point/search');
     cy.findByRole('heading', {
-      name: new RegExp(daTranslations.meteringPoint.search.title, 'i')
+      name: new RegExp(daTranslations.meteringPoint.search.title, 'i'),
     });
 
     // When English is selected
     // Then English translations are displayed
     cy.findByText('EN').click();
     cy.findByRole('heading', {
-      name: new RegExp(enTranslations.meteringPoint.search.title, 'i')
+      name: new RegExp(enTranslations.meteringPoint.search.title, 'i'),
     });
 
     // Given English is selected
@@ -41,7 +41,7 @@ describe('Language selection', () => {
     // Then Danish translations are displayed
     cy.findByText('DA').click();
     cy.findByRole('heading', {
-      name: new RegExp(daTranslations.meteringPoint.search.title, 'i')
+      name: new RegExp(daTranslations.meteringPoint.search.title, 'i'),
     });
   });
 });

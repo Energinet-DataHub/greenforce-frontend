@@ -39,7 +39,7 @@ function loginViaB2C(email: string, password: string) {
       });
       cy.get('#next').click();
     }
-  )
+  );
 
   // Ensure Microsoft has redirected us back to the sample app with our logged in user.
   cy.url().should('equals', Cypress.config('baseUrl') + '/metering-point/search');
