@@ -30,14 +30,15 @@ import {
   DhAdminUserRoleAuditLogsDataAccessApiStore,
   DhRoleAuditLogEntry,
 } from './dh-admin-user-role-audit-logs-data-access-api.store';
+import { joinPermissions } from './util/map-change-description-json';
 
 const testUserRoleId = 'ff029a48-b06f-4300-8ec0-84d121a4b83f';
 const changeDescriptionJsonMock = {
   Name: 'New name',
   Description: 'New description',
-  MarketParticipantEicFunction: MarketParticipantEicFunction.BalanceResponsibleParty,
+  EicFunction: MarketParticipantEicFunction.BalanceResponsibleParty,
   Status: MarketParticipantUserRoleStatus.Inactive,
-  Permissions: [3, 4],
+  Permissions: ['UsersManage', 'GridAreasManage'],
 };
 
 function generateUserRoleAuditLog(
@@ -69,7 +70,7 @@ function generateMockResponse(): MarketParticipantUserRoleAuditLogsDto {
       generateUserRoleAuditLog(
         'EicFunctionChange',
         JSON.stringify({
-          MarketParticipantEicFunction: changeDescriptionJsonMock.MarketParticipantEicFunction,
+          EicFunction: changeDescriptionJsonMock.EicFunction,
         })
       ),
       generateUserRoleAuditLog(
@@ -124,6 +125,15 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
         timestamp: '',
         entry: {
           ...mockResponse.auditLogs[0],
+          userRoleChangeType: MarketParticipantUserRoleChangeType.PermissionsChange,
+          changeType: 'added',
+          changedValueTo: joinPermissions(changeDescriptionJsonMock.Permissions),
+        },
+      },
+      {
+        timestamp: '',
+        entry: {
+          ...mockResponse.auditLogs[0],
           userRoleChangeType: MarketParticipantUserRoleChangeType.Created,
           changedValueTo: '',
         },
@@ -149,7 +159,7 @@ describe(DhAdminUserRoleAuditLogsDataAccessApiStore.name, () => {
         entry: {
           ...mockResponse.auditLogs[3],
           userRoleChangeType: MarketParticipantUserRoleChangeType.EicFunctionChange,
-          changedValueTo: changeDescriptionJsonMock.MarketParticipantEicFunction,
+          changedValueTo: changeDescriptionJsonMock.EicFunction,
         },
       },
       {
