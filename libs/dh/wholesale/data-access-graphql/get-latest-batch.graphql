@@ -1,5 +1,0 @@
-query GetLatestBatch($period: DateRange) {
-  batches(first: 1, period: $period) {
-    executionTimeStart
-  }
-}

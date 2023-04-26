@@ -135,6 +135,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<BatchType>>>>("batches")
                 .Argument<DateRangeType>("executionTime")
+                .Argument<BatchState>("executionState", nullable: true)
+                .Argument<ProcessType>("processType", nullable: true)
                 .Argument<DateRangeType>("period")
                 .Argument<IntGraphType>("first")
                 .Resolve()
@@ -143,6 +145,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .ResolveAsync(async (context, client) =>
                 {
                     var executionTime = context.GetArgument<Interval?>("executionTime");
+                    var executionState = context.GetArgument<BatchState?>("executionState");
+                    var processType = context.GetArgument<ProcessType?>("processType");
                     var period = context.GetArgument<Interval?>("period");
                     var first = context.GetArgument<int?>("first");
 
@@ -151,8 +155,9 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var periodStart = period?.Start.ToDateTimeOffset();
                     var periodEnd = period?.End.ToDateTimeOffset();
 
-                    var batches = (await client.SearchBatchesAsync(null, null, minExecutionTime, maxExecutionTime, periodStart, periodEnd))
-                        .OrderByDescending(x => x.ExecutionTimeStart);
+                    var batches = (await client.SearchBatchesAsync(null, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd))
+                        .OrderByDescending(x => x.ExecutionTimeStart)
+                        .Where(x => processType == null || x.ProcessType == processType);
 
                     return first is not null ? batches.Take(first.Value) : batches;
                 });

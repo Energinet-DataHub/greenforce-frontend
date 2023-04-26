@@ -321,7 +321,7 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
     // This observable always returns null (no error)
     return this.apollo
       .query({
-        query: graphql.GetLatestBatchDocument,
+        query: graphql.GetLatestBalanceFixingDocument,
         variables: {
           period: {
             end: dateRange.value.end,
