@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { exec } from 'child_process';
 import inquirer from 'inquirer';
 
@@ -26,11 +24,13 @@ exec(`git branch`, (err, stdout, stderr) => {
       },
     ])
     .then((answers) => {
-      exec(`gh pr create --head --base ${answers.branch} --web`, (err, stdout, stderr) => {
+      exec(`gh pr create --base "${answers.branch}" --web`, (err, stdout, stderr) => {
         if (err) {
           console.error(err);
           process.exit(1);
         }
+
+        console.log(stdout);
       });
     });
 });
