@@ -1082,7 +1082,8 @@
         "masterData": {
           "fullName": "Navn",
           "phone": "Telefonnr."
-        }
+        },
+        "phoneNumberError": "Telefonnr. format +45 12345678"
       },
       "editUserRole": {
         "saveSuccess": "Brugerrollen blev opdateret",
