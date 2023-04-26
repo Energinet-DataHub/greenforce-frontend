@@ -130,7 +130,6 @@ export type GraphQlQuery = {
 
 export type GraphQlQueryBatchArgs = {
   id?: InputMaybe<Scalars['ID']>;
-  period?: InputMaybe<Scalars['DateRange']>;
 };
 
 

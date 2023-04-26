@@ -115,7 +115,6 @@ type GraphQLQuery {
   batch(
     """The id of the organization"""
     id: ID
-    period: DateRange
   ): Batch
   batches(executionState: BatchState, executionTime: DateRange, first: Int, period: DateRange, processType: ProcessType): [Batch!]!
   gridAreas: [GridArea!]!

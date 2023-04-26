@@ -127,7 +127,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             Field<BatchType>("batch")
                 .Argument<IdGraphType>("id", "The id of the organization")
-                .Argument<DateRangeType>("period")
                 .Resolve()
                 .WithScope()
                 .WithService<IWholesaleClient_V3>()
