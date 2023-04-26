@@ -16,7 +16,7 @@ in those cases the downloads are handled by the REST API instead.
 Before you're able to run the BFF locally you need an
 `appsettings.Development.json` file within the [`DataHub.WebApi`] folder.
 Either create one from the [sample file] or if you are an internal
-DataHub employee, take a look at the [dev-secrets] repository.
+DataHub employee, take a look at the [dh3-dev-secrets] repository.
 
 ## GraphQL
 
@@ -93,7 +93,7 @@ desired query name and the ObjectGraphType defined previously:
                     new Book { Id = 1, Title = "The Great Gatsby", Author = "F. Scott Fitzgerald" },
                     new Book { Id = 2, Title = "To Kill a Mockingbird", Author = "Harper Lee" }
                 });
-            
+
             // ...
         }
     }
@@ -145,7 +145,7 @@ with the version (e.g. `\v1\`).
 [Startup.cs]: ../source/DataHub.WebApi/Startup.cs
 [sample file]: ../source/DataHub.WebApi/appsettings.Development.json.sample
 [localhost:5001]: https://localhost:5001
-[dev-secrets]: https://github.com/Energinet-DataHub/dev-secrets
+[dh3-dev-secrets]: https://github.com/Energinet-DataHub/dh3-dev-secrets
 [dev environment]: https://jolly-sand-03f839703.azurestaticapps.net
 [GraphQL .NET]: https://graphql-dotnet.github.io
 [Swashbuckle]: https://github.com/domaindrivendev/Swashbuckle.AspNetCore

@@ -81,6 +81,13 @@ areas:
 
 ### Getting Started
 
+Before starting the development server, you must install `localhost.crt` in your list of locally trusted roots.
+Run the following command as an administrator from the root of the repository (Windows):
+
+```sh
+certutil -addstore -f "Root" localhost.crt
+```
+
 Use the following command to serve the DataHub application locally:
 
 ```sh

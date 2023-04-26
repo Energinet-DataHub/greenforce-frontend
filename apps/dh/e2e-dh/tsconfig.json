@@ -1,21 +1,10 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "commonjs",
-    "sourceMap": true,
+    "sourceMap": false,
     "outDir": "../../../dist/out-tsc",
     "allowJs": true,
-    "types": ["node"],
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "types": ["cypress", "@testing-library/cypress", "node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.js"],
-  "angularCompilerOptions": {
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+  "include": ["src/**/*.ts", "src/**/*.js", "cypress.config.ts"]
 }
