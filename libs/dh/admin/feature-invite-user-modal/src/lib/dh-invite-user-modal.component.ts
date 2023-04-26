@@ -47,6 +47,7 @@ import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-as
 import { Subscription, tap } from 'rxjs';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -103,7 +104,7 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
         Validators.required,
         Validators.maxLength(12),
         Validators.minLength(12),
-        Validators.pattern('^\\+[0-9]+ [0-9]+$'),
+        Validators.pattern(danishPhoneNumberPattern),
       ],
     ],
   });
