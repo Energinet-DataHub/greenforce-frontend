@@ -136,6 +136,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<BatchType>>>>("batches")
                 .Argument<DateRangeType>("executionTime")
                 .Argument<DateRangeType>("period")
+                .Argument<IntGraphType>("first")
                 .Resolve()
                 .WithScope()
                 .WithService<IWholesaleClient_V3>()
@@ -143,13 +144,17 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 {
                     var executionTime = context.GetArgument<Interval?>("executionTime");
                     var period = context.GetArgument<Interval?>("period");
-                    return await client.SearchBatchesAsync(
-                        null,
-                        null,
-                        executionTime?.Start.ToDateTimeOffset(),
-                        executionTime?.End.ToDateTimeOffset(),
-                        period?.Start.ToDateTimeOffset(),
-                        period?.End.ToDateTimeOffset());
+                    var first = context.GetArgument<int?>("first");
+
+                    var minExecutionTime = executionTime?.Start.ToDateTimeOffset();
+                    var maxExecutionTime = executionTime?.End.ToDateTimeOffset();
+                    var periodStart = period?.Start.ToDateTimeOffset();
+                    var periodEnd = period?.End.ToDateTimeOffset();
+
+                    var batches = (await client.SearchBatchesAsync(null, null, minExecutionTime, maxExecutionTime, periodStart, periodEnd))
+                        .OrderByDescending(x => x.ExecutionTimeStart);
+
+                    return first is not null ? batches.Take(first.Value) : batches;
                 });
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<SettlementReportType>>>>("settlementReports")
