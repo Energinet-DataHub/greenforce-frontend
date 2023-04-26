@@ -15,28 +15,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<watt-modal #modal size="small" title="Genkør balancefiksering?">
-  <watt-validation-message
-    type="warning"
-    icon="warning"
-    message="Genkørsel af en balancefiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger."
-  />
-  <p>
-    Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte
-    balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.
-  </p>
-  <p>Er du sikker på, at du vil køre dette batch?</p>
+<watt-modal
+  *transloco="let transloco; read: 'wholesale.startBatch.modal'"
+  #modal
+  size="small"
+  [title]="transloco('title')"
+>
+  <watt-validation-message type="warning" icon="warning" [message]="transloco('warning')" />
+  <p>{{ transloco("body") }}</p>
+  <p>{{ transloco("confirmation") }}</p>
   <watt-form-field>
     <input #input wattInput [formControl]="confirmFormControl" />
-    <watt-hint>Indtast JEG VIL GENKØRE BALANCEFIKSERING for at bekræfte</watt-hint>
+    <watt-hint>{{ transloco("hint") }}</watt-hint>
   </watt-form-field>
   <watt-modal-actions>
-    <watt-button variant="secondary" (click)="modal.close(false)">Kør ikke</watt-button>
+    <watt-button variant="secondary" (click)="modal.close(false)">
+      {{ transloco("cancelButton") }}
+    </watt-button>
     <watt-button
-      [disabled]="input.value.toUpperCase() !== 'JEG VIL GENKØRE BALANCEFIKSERING'"
+      [disabled]="input.value.toUpperCase() !== transloco('confirmText')"
       (click)="modal.close(true)"
     >
-      Genkør
+      {{ transloco("confirmButton") }}
     </watt-button>
   </watt-modal-actions>
 </watt-modal>

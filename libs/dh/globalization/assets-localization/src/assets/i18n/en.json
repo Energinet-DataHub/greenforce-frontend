@@ -757,7 +757,17 @@
         "SIMULATION": "Simulation"
       },
       "processTypeError": "Process type is required",
-      "periodWarning": "There are existing balance fixations in the chosen period! Latest balance fixation was executed {{latestExecutionTime}}."
+      "periodWarning": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestExecutionTime}}.",
+      "modal": {
+        "title": "Rerun balance fixing?",
+        "warning": "Rerunning a balance fixing will result in all associated actors receiving new data for their settlements.",
+        "body": "You are about to issue new data for already settled periods. This will invalidate previous balance fixings and new data will be issued to the actors.",
+        "confirmation": "Are you sure you want to run this batch?",
+        "hint": "Enter I WANT TO RERUN BALANCE FIXING to confirm",
+        "confirmButton": "Rerun",
+        "cancelButton": "Cancel",
+        "confirmText": "I WANT TO RERUN BALANCE FIXING"
+      }
     },
     "searchBatch": {
       "topBarTitle": "Search Batch",

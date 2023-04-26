@@ -748,7 +748,17 @@
         "SIMULATION": "Simulering"
       },
       "processTypeError": "Procestype påkrævet",
-      "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestExecutionTime}}."
+      "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestExecutionTime}}.",
+      "modal": {
+        "title": "Genkør balancefiksering?",
+        "warning": "Genkørsel af en balancefiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
+        "body": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
+        "confirmation": "Er du sikker på, at du vil køre dette batch?",
+        "hint": "Indtast JEG VIL GENKØRE BALANCEFIKSERING for at bekræfte",
+        "confirmButton": "Genkør",
+        "cancelButton": "Kør ikke",
+        "confirmText": "JEG VIL GENKØRE BALANCEFIKSERING"
+      }
     },
     "searchBatch": {
       "topBarTitle": "Søg batch",
