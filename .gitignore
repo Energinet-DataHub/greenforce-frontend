@@ -461,6 +461,7 @@ localhost.pem
 style-dirctionay-tokens
 
 /dev-secrets
+/dh3-dev-secrets
 
 # Cypress
 cypress.env.json
