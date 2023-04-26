@@ -1,0 +1,10 @@
+query GetLatestBalanceFixing($period: DateRange) {
+  batches(
+    first: 1
+    period: $period
+    processType: BALANCE_FIXING
+    executionState: COMPLETED
+  ) {
+    executionTimeStart
+  }
+}

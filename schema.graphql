@@ -116,7 +116,7 @@ type GraphQLQuery {
     """The id of the organization"""
     id: ID
   ): Batch
-  batches(executionTime: DateRange): [Batch!]!
+  batches(executionState: BatchState, executionTime: DateRange, first: Int, period: DateRange, processType: ProcessType): [Batch!]!
   gridAreas: [GridArea!]!
   organization(
     """The id of the organization"""
