@@ -14,12 +14,39 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+
+<watt-modal #modal size="small" title="Genkør balancefiksering?">
+  <watt-validation-message
+    type="warning"
+    icon="warning"
+    message="Genkørsel af en balancefiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger."
+  />
+  <p>
+    Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte
+    balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.
+  </p>
+  <p>Er du sikker på, at du vil køre dette batch?</p>
+  <watt-form-field>
+    <input #input wattInput [formControl]="confirmFormControl" />
+    <watt-hint>Indtast JEG VIL GENKØRE BALANCEFIKSERING for at bekræfte</watt-hint>
+  </watt-form-field>
+  <watt-modal-actions>
+    <watt-button variant="secondary" (click)="modal.close(false)">Kør ikke</watt-button>
+    <watt-button
+      [disabled]="input.value.toUpperCase() !== 'JEG VIL GENKØRE BALANCEFIKSERING'"
+      (click)="modal.close(true)"
+    >
+      Genkør
+    </watt-button>
+  </watt-modal-actions>
+</watt-modal>
+
 <ng-container *rxLet="gridAreasQuery.valueChanges; let result">
   <ng-container *ngIf="result.data?.gridAreas">
     <form
       [formGroup]="createBatchForm"
       *transloco="let transloco; read: 'wholesale'"
-      (ngSubmit)="createBatch()"
+      (ngSubmit)="periodWarning ? modal.open() : createBatch()"
       novalidate
     >
       <!-- Period Warning-->

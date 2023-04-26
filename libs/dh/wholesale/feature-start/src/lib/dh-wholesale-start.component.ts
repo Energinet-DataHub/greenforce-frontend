@@ -14,11 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import {
   combineLatest,
+  filter,
   first,
   map,
   Observable,
@@ -39,9 +48,11 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import {
   WattChipsComponent,
@@ -76,13 +87,15 @@ interface CreateBatchFormValues {
     WattDatepickerModule,
     WattDropdownModule,
     WattFormFieldModule,
+    WattInputModule,
     WattSpinnerModule,
     WattEmptyStateComponent,
     WattChipsComponent,
     WattValidationMessageModule,
+    WattModalModule,
   ],
 })
-export class DhWholesaleStartComponent implements OnInit, OnDestroy {
+export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestroy {
   private toast = inject(WattToastService);
   private transloco = inject(TranslocoService);
   private router = inject(Router);
@@ -91,7 +104,11 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   private executionTypeChanged$ = new Subject<void>();
   private destroy$ = new Subject<void>();
 
+  @ViewChild('modal') modal!: WattModalComponent;
+
   loadingCreateBatch = false;
+
+  confirmFormControl = new FormControl(null);
 
   createBatchForm = new FormGroup<CreateBatchFormValues>({
     processType: new FormControl(null, { validators: Validators.required }),
@@ -143,6 +160,12 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     this.router.events.pipe(first((event) => event instanceof NavigationEnd)).subscribe(() => {
       this.toast.dismiss();
     });
+  }
+
+  ngAfterViewInit() {
+    this.modal.closed
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe(() => this.createBatch());
   }
 
   ngOnDestroy(): void {
