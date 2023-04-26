@@ -885,7 +885,7 @@
         "email": "Email",
         "phoneNumber": "Telefonnr.",
         "phoneNumberError": "Telefonnr. format +45 12345678",
-        "wrongEmailPattern": "Indtast kun bogstaver, numre og punktum",
+        "wrongEmailPattern": "Indtast en valid email",
         "noUserRolesError": "Mindst én brugerrolle skal vælges.",
         "successMessage": "{{ email }} blev inviteret",
         "columns": {
