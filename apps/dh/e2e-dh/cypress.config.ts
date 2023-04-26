@@ -14,14 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PlaywrightTestConfig } from '@playwright/test';
-import { config as baseConfig } from './playwright.config';
+import { defineConfig } from 'cypress';
+import { nxE2EPreset } from '@nrwl/cypress/plugins/cypress-preset';
 
-const config: PlaywrightTestConfig = {
-  ...baseConfig,
-  use: {
-    ...baseConfig.use,
-    headless: true,
-  },
-};
-export default config;
+export default defineConfig({
+  e2e: nxE2EPreset(__dirname),
+});
