@@ -46,15 +46,21 @@ limitations under the License.
     <form
       [formGroup]="createBatchForm"
       *transloco="let transloco; read: 'wholesale'"
-      (ngSubmit)="periodWarning ? modal.open() : createBatch()"
+      (ngSubmit)="latestExecutionTime ? modal.open() : createBatch()"
       novalidate
     >
       <!-- Period Warning-->
       <watt-validation-message
-        *ngIf="periodWarning && createBatchForm.controls.processType.value === 'BALANCE_FIXING'"
+        *ngIf="
+          latestExecutionTime && createBatchForm.controls.processType.value === 'BALANCE_FIXING'
+        "
         type="warning"
         icon="warning"
-        message="{{ transloco('startBatch.periodWarning') }}"
+        message="{{
+          transloco('startBatch.periodWarning', {
+            latestExecutionTime: latestExecutionTime | dhDate
+          })
+        }}"
       />
 
       <!-- Execution type -->

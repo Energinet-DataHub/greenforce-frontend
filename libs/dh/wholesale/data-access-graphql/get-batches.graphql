@@ -1,5 +1,5 @@
-query GetBatches($executionTime: DateRange, $period: DateRange) {
-  batches(executionTime: $executionTime, period: $period) {
+query GetBatches($executionTime: DateRange) {
+  batches(executionTime: $executionTime) {
     id
     executionState
     executionTimeEnd

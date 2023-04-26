@@ -757,7 +757,7 @@
         "SIMULATION": "Simulation"
       },
       "processTypeError": "Process type is required",
-      "periodWarning": "There are existing balance fixations in the chosen period!"
+      "periodWarning": "There are existing balance fixations in the chosen period! Latest balance fixation was executed {{latestExecutionTime}}."
     },
     "searchBatch": {
       "topBarTitle": "Search Batch",

@@ -748,7 +748,7 @@
         "SIMULATION": "Simulering"
       },
       "processTypeError": "Procestype påkrævet",
-      "periodWarning": "Der findes kørte balancefikseringer i den valgte periode!"
+      "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestExecutionTime}}."
     },
     "searchBatch": {
       "topBarTitle": "Søg batch",

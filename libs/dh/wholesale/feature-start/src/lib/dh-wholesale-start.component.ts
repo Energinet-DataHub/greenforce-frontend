@@ -60,6 +60,7 @@ import {
   WattChipsSelection,
 } from '@energinet-datahub/watt/chips';
 
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { DateRange } from '@energinet-datahub/dh/shared/domain';
 import { filterValidGridAreas, GridArea } from '@energinet-datahub/dh/wholesale/domain';
@@ -79,6 +80,7 @@ interface CreateBatchFormValues {
   imports: [
     CommonModule,
     DhFeatureFlagDirectiveModule,
+    DhSharedUiDateTimeModule,
     LetModule,
     PushModule,
     ReactiveFormsModule,
@@ -131,7 +133,7 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
   executionTypes: WattChipsOption[] = [];
 
   selectedExecutionType = 'ACTUAL';
-  periodWarning = false;
+  latestExecutionTime?: string | null;
 
   gridAreas$: Observable<WattDropdownOption[]> = combineLatest([
     this.gridAreasQuery.valueChanges.pipe(map((result) => result.data?.gridAreas ?? [])),
@@ -154,7 +156,6 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
     this.getProcessTypes();
     this.getExecutionTypes();
     this.toggleGridAreasControl();
-    this.handlePeriodWarning();
 
     // Close toast on navigation
     this.router.events.pipe(first((event) => event instanceof NavigationEnd)).subscribe(() => {
@@ -308,22 +309,11 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
     }
   }
 
-  private handlePeriodWarning() {
-    const { dateRange } = this.createBatchForm.controls;
-    dateRange.statusChanges.subscribe(() => {
-      const { period, ...errors } = dateRange.errors ?? {};
-      if (period) {
-        this.periodWarning = true;
-        dateRange.setErrors(Object.keys(errors).length > 0 ? { ...errors, period: null } : null);
-      }
-    });
-  }
-
   private validateBalanceFixing(): Observable<null> {
     const { dateRange } = this.createBatchForm.controls;
 
     // Hide warning initially
-    this.periodWarning = false;
+    this.latestExecutionTime = null;
 
     // Skip validation if end and start is not set
     if (!dateRange.value?.end || !dateRange.value?.start) return of(null);
@@ -331,7 +321,7 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
     // This observable always returns null (no error)
     return this.apollo
       .query({
-        query: graphql.GetBatchesDocument,
+        query: graphql.GetLatestBatchDocument,
         variables: {
           period: {
             end: dateRange.value.end,
@@ -340,7 +330,7 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
         },
       })
       .pipe(
-        tap((result) => (this.periodWarning = result.data?.batches?.length > 0)),
+        tap((result) => (this.latestExecutionTime = result.data?.batches?.[0]?.executionTimeStart)),
         map(() => null)
       );
   }
