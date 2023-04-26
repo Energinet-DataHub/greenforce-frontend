@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ComponentStore } from '@ngrx/component-store';
-import { filter, map, Observable, tap } from 'rxjs';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { filter, map, Observable, tap, switchMap } from 'rxjs';
 import { MessageArchiveHttp, ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
@@ -52,11 +52,25 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
   isSearching$ = this.select((state) => state.loadingState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.loadingState === ErrorState.GENERAL_ERROR);
 
-  readonly searchLogs = this.effect((searchCriteria: Observable<ArchivedMessage>) => {
+  readonly searchLogs = this.effect((searchCriteria: Observable<void>) => {
     return searchCriteria.pipe(
       tap(() => {
         this.setLoading(true);
         this.updateSearchResult([]);
+      }),
+      switchMap(() => {
+        return this.httpClient.v1MessageArchiveSearchRequestResponseLogsPost().pipe(
+          tapResponse(
+            (searchResult) => {
+              this.setLoading(false);
+              this.updateSearchResult(searchResult?.messages ?? []);
+            },
+            (error: HttpErrorResponse) => {
+              this.setLoading(false);
+              this.handleError(error);
+            }
+          )
+        );
       })
     );
   });
