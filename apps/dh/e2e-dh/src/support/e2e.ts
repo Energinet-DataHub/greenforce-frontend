@@ -28,11 +28,9 @@
 // You can read more here:
 // https://on.cypress.io/configuration
 // ***********************************************************
-
-// Import commands.js using ES2015 syntax:
 import './commands';
 
-beforeEach(() => {
+before(() => {
   if (!['b2c-healthchecks.cy.ts'].includes(Cypress.spec.name)) {
     cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'));
   }
