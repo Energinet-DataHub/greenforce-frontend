@@ -7,7 +7,6 @@
     "nrwl.angular-console",
     "esbenp.prettier-vscode",
     "firsttris.vscode-jest-runner",
-    "ms-playwright.playwright",
     "ms-vsliveshare.vsliveshare",
     "GraphQL.vscode-graphql",
     "ms-vscode.powershell",
