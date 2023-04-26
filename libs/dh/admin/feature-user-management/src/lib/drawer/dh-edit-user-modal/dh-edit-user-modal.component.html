@@ -18,18 +18,37 @@ limitations under the License.
   <watt-modal size="large" [title]="user?.name ?? ''" #editUserModal (closed)="closeModal($event)">
     <watt-tabs class="watt-modal-content--full-width">
       <watt-tab [label]="t('tab.masterData')">
-        <!-- This is a temporary read-only placeholder of user information. -->
-        <form class="master-data-form">
+        <form
+          [formGroup]="userInfoForm"
+          class="user-info-form"
+          id="user-info-form"
+          (ngSubmit)="save()"
+        >
           <watt-form-field class="full-name-field">
             <watt-label>{{ t("masterData.fullName") }}</watt-label>
-            <input wattInput disabled type="text" value="{{ user?.name }}" />
+            <input formControlName="name" wattInput type="text" />
           </watt-form-field>
+
           <watt-form-field class="phone-field">
             <watt-label>{{ t("masterData.phone") }}</watt-label>
-            <input wattInput type="text" [(ngModel)]="this.updatedPhoneNumber" name="phoneNumber" />
+            <input formControlName="phoneNumber" wattInput type="text" />
+
+            <watt-error *ngIf="phoneNumberControl.hasError('required')">
+              {{ "shared.fieldRequiredErrorText" | transloco }}
+            </watt-error>
+            <watt-error
+              *ngIf="
+                phoneNumberControl.hasError('pattern') ||
+                phoneNumberControl.hasError('maxlength') ||
+                phoneNumberControl.hasError('minlength')
+              "
+            >
+              {{ t("phoneNumberError") }}
+            </watt-error>
           </watt-form-field>
         </form>
       </watt-tab>
+
       <watt-tab [label]="t('tab.roles')">
         <dh-user-roles
           #userRoles
@@ -39,11 +58,12 @@ limitations under the License.
         ></dh-user-roles>
       </watt-tab>
     </watt-tabs>
+
     <watt-modal-actions>
       <watt-button variant="secondary" (click)="close()">
         {{ t("cancel") }}
       </watt-button>
-      <watt-button [loading]="isSaving$ | push" variant="primary" (click)="save()">
+      <watt-button type="submit" formId="user-info-form" [loading]="isSaving$ | push">
         {{ t("save") }}
       </watt-button>
     </watt-modal-actions>

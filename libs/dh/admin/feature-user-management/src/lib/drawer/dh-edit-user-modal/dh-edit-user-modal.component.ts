@@ -26,22 +26,25 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { PushModule } from '@rx-angular/template/push';
-import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { merge } from 'rxjs';
 
+import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import {
   DhAdminUserRolesStore,
   UpdateUserRoles,
   DhAdminUserIdentityDataAccessApiStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
+import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
-import { FormsModule } from '@angular/forms';
+
+const danishPhoneNumberPattern = /^\+45 \d{8}$/;
 
 @Component({
   selector: 'dh-edit-user-modal',
@@ -57,12 +60,12 @@ import { FormsModule } from '@angular/forms';
     WattFormFieldModule,
     PushModule,
     DhUserRolesComponent,
-    FormsModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './dh-edit-user-modal.component.html',
   styles: [
     `
-      .master-data-form {
+      .user-info-form {
         display: flex;
         flex-direction: column;
         margin: var(--watt-space-ml) var(--watt-space-ml) 0 var(--watt-space-ml);
@@ -81,8 +84,23 @@ import { FormsModule } from '@angular/forms';
 export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   private readonly userRolesStore = inject(DhAdminUserRolesStore);
   private readonly identityStore = inject(DhAdminUserIdentityDataAccessApiStore);
+  private readonly formBuilder = inject(FormBuilder);
   private _updateUserRoles: UpdateUserRoles | null = null;
+
   updatedPhoneNumber: string | null = null;
+
+  userInfoForm = this.formBuilder.nonNullable.group({
+    name: [{ value: '', disabled: true }],
+    phoneNumber: [
+      '',
+      [
+        Validators.required,
+        Validators.maxLength(12),
+        Validators.minLength(12),
+        Validators.pattern(danishPhoneNumberPattern),
+      ],
+    ],
+  });
 
   @ViewChild('editUserModal') editUserModal!: WattModalComponent;
   @ViewChild('userRoles') userRoles!: DhUserRolesComponent;
@@ -91,7 +109,11 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   @Input() user: MarketParticipantUserOverviewItemDto | null = null;
 
   isLoading$ = this.userRolesStore.isLoading$;
-  isSaving$ = this.userRolesStore.isSaving$ || this.identityStore.isSaving$;
+  isSaving$ = merge(this.userRolesStore.isSaving$ || this.identityStore.isSaving$);
+
+  get phoneNumberControl() {
+    return this.userInfoForm.controls.phoneNumber;
+  }
 
   ngAfterViewInit(): void {
     this.editUserModal.open();
@@ -99,31 +121,40 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
 
   ngOnChanges(change: SimpleChanges): void {
     if (change.user) {
-      this.updatedPhoneNumber = this.user?.phoneNumber ?? null;
+      this.userInfoForm.patchValue({
+        name: this.user?.name ?? '',
+        phoneNumber: this.user?.phoneNumber ?? '',
+      });
     }
   }
 
   save() {
-    if (this.user === null) {
-      this.closeModal(false);
+    if (this.user === null || this.userInfoForm.invalid) {
       return;
     }
 
-    if (this.updatedPhoneNumber != this.user.phoneNumber) {
-      this.updatePhoneNumber(this.updatedPhoneNumber ?? '', this.user.id);
+    if (this.userInfoForm.pristine) {
+      return this.closeModal(false);
     }
 
-    if (this._updateUserRoles != null) {
-      this.updateUserRoles(this.user.id, this._updateUserRoles);
+    if (
+      this.userInfoForm.get('phoneNumber')?.dirty &&
+      this.phoneNumberControl.value !== this.user?.phoneNumber
+    ) {
+      this.updatePhoneNumber(this.phoneNumberControl.value, this.user.id);
+    }
+
+    if (this._updateUserRoles !== null) {
+      this.updateUserRoles(this._updateUserRoles, this.user.id);
     } else {
       this.closeModal(true);
     }
   }
 
-  private updateUserRoles(userId: string, updateUserRoles: UpdateUserRoles) {
+  private updateUserRoles(updateUserRoles: UpdateUserRoles, userId: string) {
     this.userRolesStore.assignRoles({
-      userId: userId,
-      updateUserRoles: updateUserRoles,
+      userId,
+      updateUserRoles,
       onSuccess: () => {
         this.userRolesStore.getUserRolesView(userId);
         this.userRoles.resetUpdateUserRoles();
@@ -132,13 +163,13 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
     });
   }
 
-  private updatePhoneNumber(updatePhoneNumber: string, userId: string) {
+  private updatePhoneNumber(newPhoneNumber: string, userId: string) {
     this.identityStore.updateUserIdentity({
-      userId: userId,
-      updatedUserIdentity: { phoneNumber: updatePhoneNumber },
+      userId,
+      updatedUserIdentity: { phoneNumber: newPhoneNumber },
       onSuccessFn: () => {
         if (this.user) {
-          this.user.phoneNumber = updatePhoneNumber;
+          this.user.phoneNumber = newPhoneNumber;
         }
       },
       onErrorFn: () => {
