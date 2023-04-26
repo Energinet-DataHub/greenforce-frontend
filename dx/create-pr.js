@@ -26,7 +26,7 @@ exec(`git branch`, (err, stdout, stderr) => {
       },
     ])
     .then((answers) => {
-      exec(`gh pr create --web`, (err, stdout, stderr) => {
+      exec(`gh pr create --base ${answers.branch} --web`, (err, stdout, stderr) => {
         if (err) {
           console.error(err);
           process.exit(1);
