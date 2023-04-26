@@ -311,6 +311,7 @@ limitations under the License.
         margin-right: 1em;
         font-size: 14px;
         line-height: 16px;
+        cursor: pointer;
       }
 
       #mitid-a:link {
@@ -382,6 +383,11 @@ limitations under the License.
         return document.location.href.replace("signin", flowname).replace("sign_in", flowname);
       }
 
+      function getB2CFlowLinkIgnoreCase(flowname) {
+        var regEx = new RegExp("signin|sign_in", "ig");
+        return document.location.href.replace(regEx, flowname);
+      }
+
       function appendSignUpTemplate() {
         var signUpTemplate = document.getElementById("signUpTemplate");
 
@@ -412,7 +418,7 @@ limitations under the License.
 
       function setMitIdFlowSignInFlow() {
         var mitIdFlowSignInFlowLinks = document.querySelectorAll(".mitidlogin a");
-        var mitIdFlowSignInFlowUrl = getB2CFlowLink("mitid_signin");
+        var mitIdFlowSignInFlowUrl = getB2CFlowLinkIgnoreCase("mitid_signin");
 
         mitIdFlowSignInFlowLinks.forEach((link) => {
           link.setAttribute("href", mitIdFlowSignInFlowUrl);
