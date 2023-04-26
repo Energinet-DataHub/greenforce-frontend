@@ -944,7 +944,10 @@
                   "DescriptionChange": "<b>{{ changedByUserName }}</b> ændrede beskrivelse til <b>{{ changedValueTo }}</b>",
                   "EicFunctionChange": "<b>{{ changedByUserName }}</b> ændrede eic function til <b>{{ changedValueTo }}</b>",
                   "StatusChange": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ changedValueTo }}</b>",
-                  "PermissionAdded": "<b>{{ changedByUserName }}</b> tilføjede rettigheden <b>{{ changedValueTo }}</b>",
+                  "PermissionAdded": {
+                    "singular": "<b>{{ changedByUserName }}</b> tilføjede rettigheden <b>{{ changedValueTo }}</b>",
+                    "plural": "<b>{{ changedByUserName }}</b> tilføjede rettighederne <b>{{ changedValueTo }}</b>"
+                  },
                   "PermissionRemoved": "<b>{{ changedByUserName }}</b> fjernede rettigheden <b>{{ changedValueTo }}</b>"
                 }
               }

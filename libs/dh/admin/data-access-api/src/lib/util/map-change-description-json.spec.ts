@@ -20,16 +20,16 @@ import {
   MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 
-import { mapChangeDescriptionJson } from './map-change-description-json';
+import { joinPermissions, mapChangeDescriptionJson } from './map-change-description-json';
 
-describe(mapChangeDescriptionJson.prototype.name, () => {
+describe(mapChangeDescriptionJson.name, () => {
   it(`returns value when "MarketParticipantUserRoleChangeType" is ${MarketParticipantUserRoleChangeType.Created}`, () => {
     const changeDescriptionJson = {
       Name: 'New name',
       Description: 'New description',
-      MarketParticipantEicFunction: MarketParticipantEicFunction.BalanceResponsibleParty,
+      EicFunction: MarketParticipantEicFunction.BalanceResponsibleParty,
       Status: MarketParticipantUserRoleStatus.Inactive,
-      Permissions: [3, 4],
+      Permissions: ['UsersManage', 'GridAreasManage'],
     };
 
     const actual = mapChangeDescriptionJson(
@@ -64,7 +64,7 @@ describe(mapChangeDescriptionJson.prototype.name, () => {
 
   it(`returns value when "MarketParticipantUserRoleChangeType" is ${MarketParticipantUserRoleChangeType.EicFunctionChange}`, () => {
     const changeDescriptionJson = {
-      MarketParticipantEicFunction: MarketParticipantEicFunction.BalanceResponsibleParty,
+      EicFunction: MarketParticipantEicFunction.BalanceResponsibleParty,
     };
 
     const actual = mapChangeDescriptionJson(
@@ -72,7 +72,7 @@ describe(mapChangeDescriptionJson.prototype.name, () => {
       changeDescriptionJson
     );
 
-    expect(actual).toBe(changeDescriptionJson.MarketParticipantEicFunction);
+    expect(actual).toBe(changeDescriptionJson.EicFunction);
   });
 
   it(`returns value when "MarketParticipantUserRoleChangeType" is ${MarketParticipantUserRoleChangeType.StatusChange}`, () => {
@@ -87,14 +87,14 @@ describe(mapChangeDescriptionJson.prototype.name, () => {
   });
 
   it(`returns value when "MarketParticipantUserRoleChangeType" is ${MarketParticipantUserRoleChangeType.PermissionsChange}`, () => {
-    const changeDescriptionJson = { Permissions: [3, 4] };
+    const changeDescriptionJson = { Permissions: ['UsersManage', 'GridAreasManage'] };
 
     const actual = mapChangeDescriptionJson(
       MarketParticipantUserRoleChangeType.PermissionsChange,
       changeDescriptionJson
     );
 
-    expect(actual).toBe('3, 4');
+    expect(actual).toBe(joinPermissions(changeDescriptionJson.Permissions));
   });
 
   it(`throws when "MarketParticipantUserRoleChangeType" is unknown`, () => {
