@@ -21,7 +21,13 @@ limitations under the License.
   size="small"
   [title]="transloco('title')"
 >
-  <watt-validation-message type="warning" icon="warning" [message]="transloco('warning')" />
+  <watt-validation-message
+    type="warning"
+    icon="warning"
+    size="normal"
+    [label]="transloco('warningLabel')"
+    [message]="transloco('warningMessage')"
+  />
   <p>{{ transloco("body") }}</p>
   <p>{{ transloco("confirmation") }}</p>
   <watt-form-field>

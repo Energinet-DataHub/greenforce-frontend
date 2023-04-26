@@ -15,5 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-icon *ngIf="icon" [name]="icon"></watt-icon>
-<span *ngIf="label" class="watt-label">{{ label }}:</span>
-<span class="watt-text-s">{{ message }}</span>
+<div>
+  <strong>{{ label }}</strong>
+  {{ message }}
+</div>

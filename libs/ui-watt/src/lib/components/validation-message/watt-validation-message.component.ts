@@ -18,7 +18,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 import { WattIcon } from '../../foundations/icon/icons';
 
 export type WattValidationMessageType = 'info' | 'warning' | 'success' | 'danger';
-
+export type WattValidationMessageSize = 'compact' | 'normal';
 /**
  * Usage:
  * `import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';`
@@ -34,11 +34,12 @@ export class WattValidationMessageComponent {
   @Input() message = '';
   @Input() icon?: WattIcon;
   @Input() type: WattValidationMessageType = 'info';
+  @Input() size: WattValidationMessageSize = 'compact';
 
   /**
    * @ignore
    */
   @HostBinding('class') get cssClass() {
-    return `watt-validation-message--${this.type}`;
+    return `watt-validation-message-type--${this.type} watt-validation-message-size--${this.size}`;
   }
 }
