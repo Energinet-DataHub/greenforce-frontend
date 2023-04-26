@@ -411,8 +411,7 @@ limitations under the License.
       }
 
       function setMitIdFlowSignInFlow() {
-        var mitIdFlowSignInFlow = document.getElementsByClassName("mitidlogin");
-        var mitIdFlowSignInFlowLinks = mitIdFlowSignInFlow.querySelectorAll("a");
+        var mitIdFlowSignInFlowLinks = document.querySelectorAll(".mitidlogin a");
         var mitIdFlowSignInFlowUrl = getB2CFlowLink("mitid_signin");
 
         mitIdFlowSignInFlowLinks.forEach((link) => {
