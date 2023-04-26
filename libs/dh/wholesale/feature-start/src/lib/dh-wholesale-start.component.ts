@@ -314,6 +314,7 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
     return this.apollo
       .query({
         query: graphql.GetLatestBalanceFixingDocument,
+        fetchPolicy: 'network-only',
         variables: {
           period: {
             end: dateRange.value.end,
