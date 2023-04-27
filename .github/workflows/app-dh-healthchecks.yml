@@ -39,4 +39,4 @@ jobs:
         uses: ./.github/actions/yarn-nm-install
 
       - name: Run healthchecks
-        run: npx nx run dh-cypress-e2e:e2e:health
+        run: npx nx run e2e-dh:e2e:health
