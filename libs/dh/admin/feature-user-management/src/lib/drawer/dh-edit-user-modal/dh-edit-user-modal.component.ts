@@ -107,7 +107,6 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   @Output() closed = new EventEmitter<void>();
   @Input() user: MarketParticipantUserOverviewItemDto | null = null;
 
-  isLoading$ = this.userRolesStore.isLoading$;
   isSaving$ = merge(this.userRolesStore.isSaving$ || this.identityStore.isSaving$);
 
   get phoneNumberControl() {
