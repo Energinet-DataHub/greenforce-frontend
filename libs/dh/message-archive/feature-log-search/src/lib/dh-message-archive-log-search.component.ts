@@ -37,7 +37,6 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTimepickerModule } from '@energinet-datahub/watt/timepicker';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
@@ -84,13 +83,10 @@ export class DhMessageArchiveLogSearchComponent {
     senderId: new FormControl(''),
     receiverId: new FormControl(''),
     includeRelated: new FormControl<boolean>({ value: false, disabled: true }),
-    dateRange: new FormControl<WattRange>(
-      {
-        start: '',
-        end: '',
-      },
-      [WattRangeValidators.required()]
-    ),
+    dateRange: new FormControl<WattRange>({
+      start: '',
+      end: '',
+    }),
     timeRange: new FormControl<WattRange>({
       start: '00:00',
       end: '23:59',
@@ -168,6 +164,8 @@ export class DhMessageArchiveLogSearchComponent {
       dateTimeTo.setHours(toHours);
       dateTimeTo.setMinutes(toMinutes);
     }
+
+    this.store.searchLogs();
   }
 
   loadMore(continuationToken?: string | null) {
