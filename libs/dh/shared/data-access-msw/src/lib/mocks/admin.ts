@@ -41,6 +41,7 @@ export function adminMocks(apiBase: string) {
     getAdminPermissionLogs(),
     getAdminPermissionDetails(),
     putMarketParticipantPermissionsUpdate(apiBase),
+    putMarketParticipantUserUpdateUserIdentity(apiBase),
   ];
 }
 
@@ -126,5 +127,11 @@ function getAdminPermissionLogs() {
 function putMarketParticipantPermissionsUpdate(apiBase: string) {
   return rest.put(`${apiBase}/v1/MarketParticipantPermissions/Update`, (req, res, ctx) => {
     return res(ctx.status(200));
+  });
+}
+
+function putMarketParticipantUserUpdateUserIdentity(apiBase: string) {
+  return rest.put(`${apiBase}/v1/MarketParticipantUser/UpdateUserIdentity`, (req, res, ctx) => {
+    return res(ctx.delay(300), ctx.status(200));
   });
 }
