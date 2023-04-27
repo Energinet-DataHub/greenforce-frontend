@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/wholesale/feature-start"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/wholesale/feature-start"
+      ],
       "options": {
         "jestConfig": "libs/dh/wholesale/feature-start/jest.config.ts",
         "passWithNoTests": true
@@ -21,7 +23,20 @@
           "libs/dh/wholesale/feature-start/src/**/*.html"
         ]
       }
+    },
+    "component-test": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "libs/dh/wholesale/feature-start/cypress.config.ts",
+        "testingType": "component",
+        "skipServe": true,
+        "devServerTarget": "app-dh:build:mocked"
+      }
     }
   },
-  "tags": ["product:dh", "domain:wholesale", "type:feature"]
+  "tags": [
+    "product:dh",
+    "domain:wholesale",
+    "type:feature"
+  ]
 }
