@@ -34,7 +34,7 @@ const initialState: DhUserIdentityState = {
 };
 
 @Injectable({ providedIn: 'root' })
-export class DhAdminUserIdentityDataAccessApiStore extends ComponentStore<DhUserIdentityState> {
+export class DhAdminUserIdentityStore extends ComponentStore<DhUserIdentityState> {
   readonly isInit$ = this.select((state) => state.savingState === SavingState.INIT);
   readonly isSaving$ = this.select((state) => state.savingState === SavingState.SAVING);
   readonly hasGeneralError$ = this.select(

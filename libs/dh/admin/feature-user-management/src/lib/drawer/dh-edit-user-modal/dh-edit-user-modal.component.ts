@@ -36,7 +36,7 @@ import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-r
 import {
   DhAdminUserRolesStore,
   UpdateUserRoles,
-  DhAdminUserIdentityDataAccessApiStore,
+  DhAdminUserIdentityStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
@@ -82,7 +82,7 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
 })
 export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   private readonly userRolesStore = inject(DhAdminUserRolesStore);
-  private readonly identityStore = inject(DhAdminUserIdentityDataAccessApiStore);
+  private readonly identityStore = inject(DhAdminUserIdentityStore);
   private readonly formBuilder = inject(FormBuilder);
   private _updateUserRoles: UpdateUserRoles | null = null;
 
