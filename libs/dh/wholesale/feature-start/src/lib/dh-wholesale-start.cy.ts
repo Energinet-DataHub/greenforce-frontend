@@ -14,14 +14,16 @@ import { DhWholesaleStartComponent } from './dh-wholesale-start.component';
 
 beforeEach(() => {
   cy.request('/__cypress/src/assets/msw/mockServiceWorker.js').then((res) => {
-    cy.intercept('/mockServiceWorker.js', { headers: {'content-type': 'text/javascript'}, body: res.body });
+    cy.intercept('/mockServiceWorker.js', {
+      headers: { 'content-type': 'text/javascript' },
+      body: res.body,
+    });
   });
 
   cy.intercept('/assets/i18n/da.json', { hostname: 'localhost' }, (req) => {
     req.redirect('/__cypress/src/assets/i18n/da.json');
   });
 });
-
 
 it('mounts', () => {
   cy.mount(DhWholesaleStartComponent, {
@@ -34,6 +36,6 @@ it('mounts', () => {
       HttpClientModule,
       WattDanishDatetimeModule.forRoot(),
       WattToastModule.forRoot(),
-    ]
+    ],
   });
 });
