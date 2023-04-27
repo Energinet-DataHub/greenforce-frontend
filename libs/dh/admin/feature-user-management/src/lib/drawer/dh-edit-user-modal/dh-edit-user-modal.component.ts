@@ -38,13 +38,12 @@ import {
   UpdateUserRoles,
   DhAdminUserIdentityDataAccessApiStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
+import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
-
-const danishPhoneNumberPattern = /^\+45 \d{8}$/;
 
 @Component({
   selector: 'dh-edit-user-modal',
