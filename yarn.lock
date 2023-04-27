@@ -15424,6 +15424,7 @@ cors@latest:
     "@nrwl/devkit": 15.9.2
     "@nrwl/eslint-plugin-nx": 15.9.2
     "@nrwl/jest": 15.9.2
+    "@nrwl/js": 15.9.2
     "@nrwl/linter": 15.9.2
     "@nrwl/nx-cloud": 15.3.5
     "@nrwl/storybook": 15.9.2

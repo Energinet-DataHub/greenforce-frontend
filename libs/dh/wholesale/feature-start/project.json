@@ -7,9 +7,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/libs/dh/wholesale/feature-start"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/wholesale/feature-start"],
       "options": {
         "jestConfig": "libs/dh/wholesale/feature-start/jest.config.ts",
         "passWithNoTests": true
@@ -34,9 +32,5 @@
       }
     }
   },
-  "tags": [
-    "product:dh",
-    "domain:wholesale",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:wholesale", "type:feature"]
 }
