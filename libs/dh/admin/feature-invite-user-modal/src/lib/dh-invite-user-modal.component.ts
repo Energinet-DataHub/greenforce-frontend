@@ -96,7 +96,10 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
     actorId: ['', Validators.required],
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
-    email: [{ value: '', disabled: true }, Validators.required],
+    email: [
+      { value: '', disabled: true },
+      [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+')],
+    ],
     phoneNumber: [
       '',
       [
