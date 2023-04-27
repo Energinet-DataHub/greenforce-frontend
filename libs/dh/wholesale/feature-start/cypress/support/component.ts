@@ -31,3 +31,21 @@
 
 // Import commands.ts using ES2015 syntax:
 import './commands';
+
+// Intercept assets
+beforeEach(() => {
+  /**
+   * We need to intercept the mockServiceWorker.js file and serve it like this,
+   * because the script is not allowed to be behind a redirect
+   */
+  cy.request('/__cypress/src/mockServiceWorker.js').then((res) => {
+    cy.intercept('/mockServiceWorker.js', {
+      headers: { 'content-type': 'text/javascript' },
+      body: res.body,
+    });
+  });
+
+  cy.intercept('/assets/i18n/da.json', { hostname: 'localhost' }, (req) => {
+    req.redirect('/__cypress/src/assets/i18n/da.json');
+  });
+});

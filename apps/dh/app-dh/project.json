@@ -50,12 +50,7 @@
           {
             "input": "libs/dh/shared/data-access-msw/src/assets",
             "glob": "mockServiceWorker.js",
-            "output": ""
-          },
-          {
-            "input": "libs/dh/shared/data-access-msw/src/assets",
-            "glob": "mockServiceWorker.js",
-            "output": "assets/msw"
+            "output": "/"
           }
         ],
         "styles": ["apps/dh/app-dh/src/styles.scss"],
