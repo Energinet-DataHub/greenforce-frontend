@@ -1103,6 +1103,8 @@
       "editUser": {
         "cancel": "Cancel",
         "save": "Save",
+        "saveSuccess": "The user was updated",
+        "saveError": "Something went wrong. The user could not be updated. Please try again",
         "tab": {
           "masterData": "Information",
           "roles": "User roles"

@@ -1076,6 +1076,8 @@
       "editUser": {
         "cancel": "Fortryd",
         "save": "Gem",
+        "saveSuccess": "Brugeren blev opdateret",
+        "saveError": "Noget gik galt. Brugeren blev ikke opdateret. Prøv igen",
         "tab": {
           "masterData": "Information",
           "roles": "Brugerroller"
