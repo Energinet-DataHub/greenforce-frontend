@@ -30,7 +30,7 @@ const environments = [
 ];
 
 environments.forEach((env) => {
-  it(`[B2C Healthcheck] ${env.name}`, () => {
+  it(`[B2C Healthcheck] ${env.name}`, {retries: 3}, () => {
     // Should be able to reach the app
     cy.request(env.url).then((resp) => {
       expect(resp.status).to.eq(200);
@@ -38,7 +38,7 @@ environments.forEach((env) => {
 
     // Should have correct redirect_uri
     cy.visit(env.url);
-    cy.location('href').should((url) => {
+    cy.location('href', {timeout: 10000}).should((url) => {
       expect(url).to.include(`redirect_uri=${encodeURIComponent(env.url)}`);
     });
   });
