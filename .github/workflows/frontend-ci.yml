@@ -280,3 +280,40 @@ jobs:
       - name: "Merge: Test all projects"
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn test --max-parallel=$NX_MAX_PARALLEL
+
+  componentTests:
+    name: Component test
+    runs-on: ubuntu-latest
+
+    steps:
+      # needed for nx affected command
+      - name: "PR: Check out source code with current branch Git history"
+        if: ${{ env.is-pull-request == 'true' }}
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+      # needed for nx affected command
+      - name: "PR: Fetch base branch Git history"
+        if: ${{ env.is-pull-request == 'true' }}
+        run: git fetch --no-tags origin $BASE_BRANCH
+      - name: "Merge: Check out source code"
+        if: ${{ env.is-pull-request == 'false' }}
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ${{ env.node-version-file }}
+
+      - name: 📥 Monorepo install
+        uses: ./.github/actions/yarn-nm-install
+
+      - name: "PR: Test affected projects"
+        if: ${{ env.is-pull-request == 'true' }}
+        run: yarn affected -t component-test --base=origin/$BASE_BRANCH
+          --max-parallel=$NX_MAX_PARALLEL
+
+      - name: "Merge: Test all projects"
+        if: ${{ env.is-pull-request == 'false' }}
+        run: yarn nx run-many -t component-test --max-parallel=$NX_MAX_PARALLEL

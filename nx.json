@@ -7,7 +7,13 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e",
+          "component-test"
+        ],
         "accessToken": "Y2IyM2EwNDEtNjUxMy00OWFkLWI2ZTUtYjY2YzBiN2Y4YTUwfHJlYWQ=",
         "canTrackAnalytics": true,
         "maxParallel": 6,
@@ -62,6 +68,9 @@
     },
     "build-storybook": {
       "inputs": ["default", "^production"]
+    },
+    "component-test": {
+      "inputs": ["default", "^production"]
     }
   },
   "namedInputs": {
@@ -74,7 +83,10 @@
       "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/.eslintrc.json",
       "!{projectRoot}/.storybook/**/*",
-      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)"
+      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
+      "!{projectRoot}/cypress/**/*",
+      "!{projectRoot}/**/*.cy.[jt]s?(x)",
+      "!{projectRoot}/cypress.config.[jt]s"
     ]
   }
 }

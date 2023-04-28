@@ -6,7 +6,7 @@
   "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file.",
   "engines": {
     "node": "18.12.0",
-    "npm": "Please use Yarn v1 instead of npm to install dependencies.",
+    "npm": "Please use Yarn v3 instead of npm to install dependencies.",
     "yarn": "3.5.0"
   },
   "scripts": {
@@ -42,8 +42,8 @@
     "i18n:optimize:app-dh": "transloco-optimize dist/apps/dh/app-dh/assets/i18n",
     "i18n:extract": "transloco-keys-manager extract",
     "i18n:find": "transloco-keys-manager find",
-    "lint": "nx workspace-lint && nx run-many --target=lint --max-warnings=0 --all --parallel",
-    "lint:fix": "nx workspace-lint && nx run-many --target=lint --max-warnings=0 --fix --all --parallel",
+    "lint": "nx run-many --target=lint --max-warnings=0 --all --parallel",
+    "lint:fix": "nx run-many --target=lint --max-warnings=0 --fix --all --parallel",
     "ng": "nx",
     "ngcc": "ngcc --properties es2015 module browser main",
     "ngcc:dh": "npm run ngcc -- --use-program-dependencies --tsconfig apps/dh/app-dh/tsconfig.app.json",
@@ -109,6 +109,7 @@
     "@babel/runtime": "^7.21.0",
     "@badeball/cypress-cucumber-preprocessor": "13.1.0",
     "@compodoc/compodoc": "1.1.19",
+    "@cypress/webpack-dev-server": "^2.0.0",
     "@cypress/webpack-preprocessor": "5.15.4",
     "@graphql-codegen/add": "4.0.1",
     "@graphql-codegen/cli": "3.3.0",
@@ -128,6 +129,7 @@
     "@nrwl/devkit": "15.9.2",
     "@nrwl/eslint-plugin-nx": "15.9.2",
     "@nrwl/jest": "15.9.2",
+    "@nrwl/js": "15.9.2",
     "@nrwl/linter": "15.9.2",
     "@nrwl/nx-cloud": "15.3.5",
     "@nrwl/storybook": "15.9.2",
@@ -166,6 +168,7 @@
     "eslint-plugin-sonarjs": "0.19.0",
     "eslint-plugin-storybook": "^0.6.11",
     "glob": "10.0.0",
+    "html-webpack-plugin": "^5.5.0",
     "husky": "8.0.3",
     "jest": "29.4.3",
     "jest-canvas-mock": "2.5.0",
