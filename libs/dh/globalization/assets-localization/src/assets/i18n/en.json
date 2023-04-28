@@ -1103,6 +1103,8 @@
       "editUser": {
         "cancel": "Cancel",
         "save": "Save",
+        "saveSuccess": "The user was updated",
+        "saveError": "Something went wrong. The user could not be updated. Please try again",
         "tab": {
           "masterData": "Information",
           "roles": "User roles"
@@ -1110,7 +1112,8 @@
         "masterData": {
           "fullName": "Name",
           "phone": "Phone number"
-        }
+        },
+        "phoneNumberError": "Phone number format +45 12345678"
       },
       "editUserRole": {
         "saveSuccess": "The user role was updated",
