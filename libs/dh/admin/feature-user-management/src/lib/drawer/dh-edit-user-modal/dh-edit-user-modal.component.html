@@ -16,48 +16,39 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.editUser'">
   <watt-modal size="large" [title]="user?.name ?? ''" #editUserModal (closed)="closeModal($event)">
-    <watt-tabs class="watt-modal-content--full-width">
-      <watt-tab [label]="t('tab.masterData')">
-        <form
-          [formGroup]="userInfoForm"
-          class="user-info-form"
-          id="user-info-form"
-          (ngSubmit)="save()"
-        >
-          <watt-form-field class="full-name-field">
-            <watt-label>{{ t("masterData.fullName") }}</watt-label>
-            <input formControlName="name" wattInput type="text" />
-          </watt-form-field>
+    <form [formGroup]="userInfoForm" class="user-info-form" id="user-info-form" (ngSubmit)="save()">
+      <watt-tabs class="watt-modal-content--full-width">
+        <watt-tab [label]="t('tab.masterData')">
+          <div class="tab-master-data">
+            <watt-form-field class="full-name-field">
+              <watt-label>{{ t("masterData.fullName") }}</watt-label>
+              <input formControlName="name" wattInput type="text" />
+            </watt-form-field>
 
-          <watt-form-field class="phone-field">
-            <watt-label>{{ t("masterData.phone") }}</watt-label>
-            <input formControlName="phoneNumber" wattInput type="text" />
+            <watt-form-field class="phone-field">
+              <watt-label>{{ t("masterData.phone") }}</watt-label>
+              <input formControlName="phoneNumber" wattInput type="text" />
 
-            <watt-error *ngIf="phoneNumberControl.hasError('required')">
-              {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-error>
-            <watt-error
-              *ngIf="
-                phoneNumberControl.hasError('pattern') ||
-                phoneNumberControl.hasError('maxlength') ||
-                phoneNumberControl.hasError('minlength')
-              "
-            >
-              {{ t("phoneNumberError") }}
-            </watt-error>
-          </watt-form-field>
-        </form>
-      </watt-tab>
+              <watt-error *ngIf="phoneNumberControl.hasError('required')">
+                {{ "shared.fieldRequiredErrorText" | transloco }}
+              </watt-error>
+              <watt-error *ngIf="phoneNumberControl.hasError('pattern')">
+                {{ t("phoneNumberError") }}
+              </watt-error>
+            </watt-form-field>
+          </div>
+        </watt-tab>
 
-      <watt-tab [label]="t('tab.roles')">
-        <dh-user-roles
-          #userRoles
-          [user]="user"
-          [selectMode]="true"
-          (updateUserRoles)="onSelectedUserRolesChanged($event)"
-        ></dh-user-roles>
-      </watt-tab>
-    </watt-tabs>
+        <watt-tab [label]="t('tab.roles')">
+          <dh-user-roles
+            #userRoles
+            [user]="user"
+            [selectMode]="true"
+            (updateUserRoles)="onSelectedUserRolesChanged($event)"
+          ></dh-user-roles>
+        </watt-tab>
+      </watt-tabs>
+    </form>
 
     <watt-modal-actions>
       <watt-button variant="secondary" (click)="close()">
