@@ -1076,6 +1076,8 @@
       "editUser": {
         "cancel": "Fortryd",
         "save": "Gem",
+        "saveSuccess": "Brugeren blev opdateret",
+        "saveError": "Noget gik galt. Brugeren blev ikke opdateret. Prøv igen",
         "tab": {
           "masterData": "Information",
           "roles": "Brugerroller"
@@ -1083,7 +1085,8 @@
         "masterData": {
           "fullName": "Navn",
           "phone": "Telefonnr."
-        }
+        },
+        "phoneNumberError": "Telefonnr. format +45 12345678"
       },
       "editUserRole": {
         "saveSuccess": "Brugerrollen blev opdateret",
