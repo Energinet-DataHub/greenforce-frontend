@@ -55,6 +55,8 @@ limitations under the License.
     <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="7.4.1" />
     <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="7.4.1" />
     <PackageReference Condition="!Exists('$(MarketingParticipantProjectReference)')" Include="Energinet.DataHub.MarketParticipant.Client" Version="2.30.2" />
+    <PackageReference Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
+    <PackageReference Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="3.0.1" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client.Abstractions" Version="3.0.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">

@@ -128,6 +128,13 @@ namespace Energinet.DataHub.WebApi.Controllers
             });
         }
 
+        [HttpPut]
+        [Route("UpdateUserIdentity")]
+        public Task<ActionResult> UpdateUserIdentityAsync(Guid userId, UserIdentityUpdateDto userIdentityUpdateDto)
+        {
+            return HandleExceptionAsync(() => _marketParticipantClient.UpdateUserPhoneNumberAsync(userId, userIdentityUpdateDto));
+        }
+
         /// <summary>
         /// Initiates MitID signup
         /// </summary>
