@@ -49,8 +49,8 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
             ArchivedMessageSearchCriteria archivedMessageSearch,
             CancellationToken cancellationToken)
         {
-            var url = "/api/messages";
-            var response = await _httpClient.PostAsJsonAsync(url, new EdiMessageSearchCriteria(archivedMessageSearch.DateTimeFrom, archivedMessageSearch.DateTimeTo), cancellationToken)
+            var url = "/api/archivedmessages";
+            var response = await _httpClient.PostAsJsonAsync(url, new MessageSearchCriteriaDto(archivedMessageSearch.DateTimeFrom, archivedMessageSearch.DateTimeTo), cancellationToken)
                 .ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();

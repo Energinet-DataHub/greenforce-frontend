@@ -80,7 +80,7 @@ export class DhMessageArchiveLogSearchComponent {
   searchForm: FormGroup = new FormGroup({
     messageId: new FormControl(''),
     messageTypes: new FormControl([]),
-    businessSectorTypes: new FormControl([]),
+    businessReasons: new FormControl([]),
     senderId: new FormControl(''),
     receiverId: new FormControl(''),
     includeRelated: new FormControl<boolean>({ value: false, disabled: true }),
@@ -160,7 +160,7 @@ export class DhMessageArchiveLogSearchComponent {
       senderId,
       timeRange,
       messageTypes,
-      businessSectorTypes,
+      businessReasons,
     } = this.searchForm.value;
 
     const dateTimeFrom = zonedTimeToUtc(dateRange?.start, danishTimeZoneIdentifier);
@@ -184,7 +184,7 @@ export class DhMessageArchiveLogSearchComponent {
       senderId: senderId === '' ? null : senderId,
       receiverId: receiverId === '' ? null : receiverId,
       messageTypes: messageTypes.length === 0 ? null : messageTypes,
-      businessSectorTypes: businessSectorTypes.length === 0 ? null : businessSectorTypes,
+      businessReasons: businessReasons.length === 0 ? null : businessReasons,
     });
 
     this.store.searchLogs(this.searchCriteria);

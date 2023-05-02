@@ -14,5 +14,5 @@
 
 namespace Energinet.DataHub.WebApi.Clients.EDI
 {
-    internal record EdiMessageSearchCriteria(string? DateToSearchFrom, string? DateToSearchTo);
+    internal record MessageSearchCriteriaDto(string? DateToSearchFrom, string? DateToSearchTo);
 }
