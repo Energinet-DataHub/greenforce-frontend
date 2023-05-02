@@ -108,8 +108,7 @@ export class DhMessageArchiveLogSearchComponent {
   searching = false;
   maxItemCount = 100;
 
-  searchCriteria: ArchivedMessageSearchCriteria = {
-  };
+  searchCriteria: ArchivedMessageSearchCriteria = {};
 
   constructor(
     private store: DhMessageArchiveDataAccessApiStore,

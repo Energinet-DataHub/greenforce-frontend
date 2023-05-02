@@ -17,7 +17,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { MessageArchiveHttp, ArchivedMessage, ArchivedMessageSearchCriteria } from '@energinet-datahub/dh/shared/domain';
+import {
+  MessageArchiveHttp,
+  ArchivedMessage,
+  ArchivedMessageSearchCriteria,
+} from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 
