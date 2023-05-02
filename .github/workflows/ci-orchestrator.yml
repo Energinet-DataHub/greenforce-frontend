@@ -35,7 +35,7 @@ jobs:
       skip_actions_casing_validation: false
       skip_markdown_links_check: true
 
-    #
+  #
   # CodeQL Check
   #
   ci_codeql:
