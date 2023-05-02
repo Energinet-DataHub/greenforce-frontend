@@ -37,7 +37,7 @@ export class WattDateAdapter extends DateFnsAdapter {
    * This is necessary to remove the dots from the date (ordinals) for danish locale in the calendar view.
    * due to `Intl.DateTimeFormat`
    */
-  getDateNames(): string[] {
+  override getDateNames(): string[] {
     const dateNames = super.getDateNames();
     return this.locale.code === danishLocale
       ? dateNames.map((dateName) => dateName.replace(/\./g, ''))

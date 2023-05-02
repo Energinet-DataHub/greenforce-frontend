@@ -5,11 +5,28 @@
   "version": "0.2.0",
   "configurations": [
     {
+    {
       "name": "Attach by Process ID",
       "processId": "${command:PickProcess}",
       "request": "attach",
       "skipFiles": ["<node_internals>/**"],
       "type": "node"
+    },
+    {
+      "name": "Debug app-dh",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "Serve app-dh",
+      "postDebugTask": "Terminate All Tasks",
+      "url": "https://localhost:4200/#",
+      "webRoot": "${workspaceFolder}",
+      "sourceMapPathOverrides": {
+        "webpack:/*": "${webRoot}/*",
+        "/./*": "${webRoot}/*",
+        "/src/*": "${webRoot}/src/*",
+        "/*": "*",
+        "/./~/*": "${workspaceFolder}/node_modules/*"
+      }
     },
     {
       "name": "Launch BFF",

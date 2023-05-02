@@ -885,6 +885,7 @@
         "email": "Email",
         "phoneNumber": "Telefonnr.",
         "phoneNumberError": "Telefonnr. format +45 12345678",
+        "wrongEmailPattern": "Indtast en valid email",
         "noUserRolesError": "Mindst én brugerrolle skal vælges.",
         "successMessage": "{{ email }} blev inviteret",
         "columns": {
@@ -932,7 +933,10 @@
                   "DescriptionChange": "<b>{{ changedByUserName }}</b> ændrede beskrivelse til <b>{{ changedValueTo }}</b>",
                   "EicFunctionChange": "<b>{{ changedByUserName }}</b> ændrede eic function til <b>{{ changedValueTo }}</b>",
                   "StatusChange": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ changedValueTo }}</b>",
-                  "PermissionAdded": "<b>{{ changedByUserName }}</b> tilføjede rettigheden <b>{{ changedValueTo }}</b>",
+                  "PermissionAdded": {
+                    "singular": "<b>{{ changedByUserName }}</b> tilføjede rettigheden <b>{{ changedValueTo }}</b>",
+                    "plural": "<b>{{ changedByUserName }}</b> tilføjede rettighederne <b>{{ changedValueTo }}</b>"
+                  },
                   "PermissionRemoved": "<b>{{ changedByUserName }}</b> fjernede rettigheden <b>{{ changedValueTo }}</b>"
                 }
               }
@@ -1072,6 +1076,8 @@
       "editUser": {
         "cancel": "Fortryd",
         "save": "Gem",
+        "saveSuccess": "Brugeren blev opdateret",
+        "saveError": "Noget gik galt. Brugeren blev ikke opdateret. Prøv igen",
         "tab": {
           "masterData": "Information",
           "roles": "Brugerroller"
@@ -1079,7 +1085,8 @@
         "masterData": {
           "fullName": "Navn",
           "phone": "Telefonnr."
-        }
+        },
+        "phoneNumberError": "Telefonnr. format +45 12345678"
       },
       "editUserRole": {
         "saveSuccess": "Brugerrollen blev opdateret",

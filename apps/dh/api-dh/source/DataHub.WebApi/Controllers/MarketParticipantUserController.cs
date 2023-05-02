@@ -126,5 +126,12 @@ namespace Energinet.DataHub.WebApi.Controllers
                 return new UserAuditLogsDto(userAuditLogs.OrderByDescending(l => l.Timestamp));
             });
         }
+
+        [HttpPut]
+        [Route("UpdateUserIdentity")]
+        public Task<ActionResult> UpdateUserIdentityAsync(Guid userId, UserIdentityUpdateDto userIdentityUpdateDto)
+        {
+            return HandleExceptionAsync(() => _marketParticipantClient.UpdateUserPhoneNumberAsync(userId, userIdentityUpdateDto));
+        }
     }
 }
