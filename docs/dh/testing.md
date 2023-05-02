@@ -144,7 +144,7 @@ describe('AppComponent', () => {
 
 ## E2E Testing
 
-To be able to running the tests locally, you will need to rename `apps/e2e-dh/cypress.env.json.sample` to `apps/e2e-dh/cypress.env.json` and insert the required information. The `CYPRESS_DH_E2E_B2C_URL` should reflect the application B2C config `libs/dh/shared/assets/src/assets/configuration/dh-b2c-environment.json`. To run the tests use following command:
+To be able to running the tests locally, you will need to rename `apps/e2e-dh/cypress.env.json.sample` to `apps/e2e-dh/cypress.env.json` and insert the required information. The `DH_E2E_B2C_URL` should reflect the application B2C config `libs/dh/shared/assets/src/assets/configuration/dh-b2c-environment.json`. To run the tests use following command:
 
 `yarn nx e2e e2e-dh`
 
