@@ -17,7 +17,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, tap, switchMap } from 'rxjs';
-import { MessageArchiveHttp, ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
+import { MessageArchiveHttp, ArchivedMessage, ArchivedMessageSearchCriteria } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 interface SearchResultState {
@@ -52,14 +52,14 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
   isSearching$ = this.select((state) => state.loadingState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.loadingState === ErrorState.GENERAL_ERROR);
 
-  readonly searchLogs = this.effect((searchCriteria: Observable<void>) => {
+  readonly searchLogs = this.effect((searchCriteria: Observable<ArchivedMessageSearchCriteria>) => {
     return searchCriteria.pipe(
       tap(() => {
         this.setLoading(true);
         this.updateSearchResult([]);
       }),
-      switchMap(() => {
-        return this.httpClient.v1MessageArchiveSearchRequestResponseLogsPost().pipe(
+      switchMap((searchCriteria) => {
+        return this.httpClient.v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria).pipe(
           tapResponse(
             (searchResult) => {
               this.setLoading(false);

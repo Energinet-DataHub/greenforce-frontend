@@ -19,6 +19,8 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
+import { ArchivedMessageSearchCriteria } from '../model/archived-message-search-criteria';
+// @ts-ignore
 import { SearchResult } from '../model/search-result';
 // @ts-ignore
 import { Stream } from '../model/stream';
@@ -158,13 +160,14 @@ export class MessageArchiveHttp {
 
     /**
      * Get saved request and response logs.
+     * @param archivedMessageSearchCriteria 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MessageArchiveSearchRequestResponseLogsPost(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<SearchResult>;
-    public v1MessageArchiveSearchRequestResponseLogsPost(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<SearchResult>>;
-    public v1MessageArchiveSearchRequestResponseLogsPost(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<SearchResult>>;
-    public v1MessageArchiveSearchRequestResponseLogsPost(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MessageArchiveSearchRequestResponseLogsPost(archivedMessageSearchCriteria?: ArchivedMessageSearchCriteria, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<SearchResult>;
+    public v1MessageArchiveSearchRequestResponseLogsPost(archivedMessageSearchCriteria?: ArchivedMessageSearchCriteria, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<SearchResult>>;
+    public v1MessageArchiveSearchRequestResponseLogsPost(archivedMessageSearchCriteria?: ArchivedMessageSearchCriteria, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<SearchResult>>;
+    public v1MessageArchiveSearchRequestResponseLogsPost(archivedMessageSearchCriteria?: ArchivedMessageSearchCriteria, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -195,6 +198,17 @@ export class MessageArchiveHttp {
         }
 
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json',
+            'text/json',
+            'application/*+json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -210,6 +224,7 @@ export class MessageArchiveHttp {
         return this.httpClient.request<SearchResult>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: archivedMessageSearchCriteria,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

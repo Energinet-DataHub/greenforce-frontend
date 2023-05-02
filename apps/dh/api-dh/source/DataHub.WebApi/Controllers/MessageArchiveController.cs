@@ -38,9 +38,9 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// </summary>
         /// <returns>Search result.</returns>
         [HttpPost("SearchRequestResponseLogs")]
-        public async Task<ActionResult<SearchResult>> SearchRequestResponseLogsAsync(CancellationToken cancellationToken)
+        public async Task<ActionResult<SearchResult>> SearchRequestResponseLogsAsync(ArchivedMessageSearchCriteria archivedMessageSearch, CancellationToken cancellationToken)
         {
-            var result = await _archivedMessagesSearch.SearchAsync(cancellationToken).ConfigureAwait(false);
+            var result = await _archivedMessagesSearch.SearchAsync(archivedMessageSearch, cancellationToken).ConfigureAwait(false);
 
             return !result.Messages.Any() ? NoContent() : Ok(result);
         }

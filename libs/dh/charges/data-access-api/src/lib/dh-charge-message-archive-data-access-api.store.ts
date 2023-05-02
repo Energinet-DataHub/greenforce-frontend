@@ -15,8 +15,9 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ComponentStore } from '@ngrx/component-store';
-import { MessageArchiveHttp, ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
+import { Observable, switchMap, tap } from 'rxjs';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { MessageArchiveHttp, ArchivedMessage, ArchivedMessageSearchCriteria } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 
@@ -39,6 +40,29 @@ export class DhChargeMessageArchiveDataAccessStore extends ComponentStore<Search
   searchResult$ = this.select((state) => state.searchResult);
   isSearching$ = this.select((state) => state.searchingState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.searchingState === ErrorState.GENERAL_ERROR);
+
+  readonly searchLogs = this.effect((searchCriteria: Observable<ArchivedMessageSearchCriteria>) => {
+    return searchCriteria.pipe(
+      tap(() => {
+        this.setLoading(true);
+        this.updateSearchResult([]);
+      }),
+      switchMap((searchCriteria) =>
+        this.httpClient.v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria).pipe(
+          tapResponse(
+            (searchResult) => {
+              this.setLoading(false);
+              this.updateSearchResult(searchResult.messages);
+            },
+            (error: HttpErrorResponse) => {
+              this.setLoading(false);
+              this.handleError(error);
+            }
+          )
+        )
+      )
+    );
+  });
 
   private updateSearchResult = this.updater(
     (state: SearchResultState, searchResult: Array<ArchivedMessage>): SearchResultState => {
