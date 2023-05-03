@@ -78,21 +78,30 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
 })
 export class DhMessageArchiveLogSearchComponent {
   searchForm: FormGroup = new FormGroup({
-    messageId: new FormControl('', {nonNullable: true}),
-    messageTypes: new FormControl([], {nonNullable: true}),
-    businessReasons: new FormControl([], {nonNullable: true}),
-    senderId: new FormControl('', {nonNullable: true}),
-    receiverId: new FormControl('', {nonNullable: true}),
-    includeRelated: new FormControl<boolean>({ value: false, disabled: true }, {nonNullable: true}),
-    dateRange: new FormControl<WattRange>({
-      start: new Date().toISOString(),
-      end: new Date().toISOString(),
-    }, {nonNullable: true}),
-    timeRange: new FormControl<WattRange>({
-      start: '00:00',
-      end: '23:59',
-      disabled: true,
-    }, {nonNullable: true}),
+    messageId: new FormControl('', { nonNullable: true }),
+    messageTypes: new FormControl([], { nonNullable: true }),
+    businessReasons: new FormControl([], { nonNullable: true }),
+    senderId: new FormControl('', { nonNullable: true }),
+    receiverId: new FormControl('', { nonNullable: true }),
+    includeRelated: new FormControl<boolean>(
+      { value: false, disabled: true },
+      { nonNullable: true }
+    ),
+    dateRange: new FormControl<WattRange>(
+      {
+        start: new Date().toISOString(),
+        end: new Date().toISOString(),
+      },
+      { nonNullable: true }
+    ),
+    timeRange: new FormControl<WattRange>(
+      {
+        start: '00:00',
+        end: '23:59',
+        disabled: true,
+      },
+      { nonNullable: true }
+    ),
   });
 
   searchResult$ = this.store.searchResult$;
