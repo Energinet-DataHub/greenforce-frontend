@@ -23,7 +23,6 @@ env:
   NODE_VERSION_FILE: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
   YARN_VERSION: 3.5.0
-  NX_MAX_PARALLEL: 2
 
 jobs:
   #
