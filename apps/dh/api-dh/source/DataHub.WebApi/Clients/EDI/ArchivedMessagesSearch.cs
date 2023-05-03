@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -49,14 +50,13 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
             ArchivedMessageSearchCriteria archivedMessageSearch,
             CancellationToken cancellationToken)
         {
-            var url = "/api/archivedmessages";
-            var response = await _httpClient.PostAsJsonAsync(
-                    url,
-                    new ArchivedMessageSearchCriteriaDto(new CreatedDuringPeriod(
-                        archivedMessageSearch.DateTimeFrom,
-                        archivedMessageSearch.DateTimeTo)),
-                    cancellationToken)
-                .ConfigureAwait(false);
+            var url = "api/archivedmessages";
+            var content = new StringContent(JsonSerializer.Serialize(
+                new ArchivedMessageSearchCriteriaDto(new CreatedDuringPeriod(
+                archivedMessageSearch.DateTimeFrom,
+                archivedMessageSearch.DateTimeTo))));
+
+            var response = await _httpClient.PostAsync(url, content);
 
             response.EnsureSuccessStatusCode();
 
