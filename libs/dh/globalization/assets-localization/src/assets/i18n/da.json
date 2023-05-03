@@ -873,6 +873,7 @@
   },
   "admin": {
     "userManagement": {
+      "connect": "Tilknyt",
       "inviteUser": {
         "title": "Inviter bruger",
         "informations": "Information",
