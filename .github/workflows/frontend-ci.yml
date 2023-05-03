@@ -88,6 +88,7 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    needs: cache-and-install-dependencies
     steps:
       # needed for Nx affected command
       - name: "PR: Check out source code with current branch Git history"
@@ -111,8 +112,13 @@ jobs:
         with:
           node-version-file: ${{ env.node-version-file }}
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Download node_modules artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: node_modules
+
+      - name: Extract node_modules archive
+        run: tar -xzf node_modules.tar.gz
 
       - name: "PR: Production build of affected products"
         if: ${{ env.is-pull-request == 'true' }}
@@ -191,6 +197,7 @@ jobs:
     name: "PR: Format"
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    needs: cache-and-install-dependencies
 
     steps:
       # needed for Nx affected command
@@ -215,8 +222,13 @@ jobs:
         with:
           ngcc: false
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Download node_modules artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: node_modules
+
+      - name: Extract node_modules archive
+        run: tar -xzf node_modules.tar.gz
 
       - name: Revert postinstall changes
         run: git reset --hard
@@ -238,6 +250,7 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    needs: cache-and-install-dependencies
 
     steps:
       # needed for Nx affected command
@@ -268,8 +281,13 @@ jobs:
         with:
           ngcc: false
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Download node_modules artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: node_modules
+
+      - name: Extract node_modules archive
+        run: tar -xzf node_modules.tar.gz
 
       - name: Revert postinstall changes
         run: git reset --hard
@@ -294,6 +312,7 @@ jobs:
   test:
     name: Unit and integration test
     runs-on: ubuntu-latest
+    needs: cache-and-install-dependencies
 
     steps:
       # needed for Nx affected command
@@ -318,8 +337,13 @@ jobs:
         with:
           node-version-file: ${{ env.node-version-file }}
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Download node_modules artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: node_modules
+
+      - name: Extract node_modules archive
+        run: tar -xzf node_modules.tar.gz
 
       - name: "PR: Test affected projects"
         if: ${{ env.is-pull-request == 'true' }}
@@ -332,6 +356,7 @@ jobs:
   componentTests:
     name: Component test
     runs-on: ubuntu-latest
+    needs: cache-and-install-dependencies
 
     steps:
       # needed for Nx affected command
@@ -356,8 +381,13 @@ jobs:
         with:
           node-version-file: ${{ env.node-version-file }}
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Download node_modules artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: node_modules
+
+      - name: Extract node_modules archive
+        run: tar -xzf node_modules.tar.gz
 
       - name: "PR: Test affected projects"
         if: ${{ env.is-pull-request == 'true' }}
