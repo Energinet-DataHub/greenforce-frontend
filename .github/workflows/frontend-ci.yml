@@ -54,6 +54,34 @@ on:
   workflow_dispatch: {}
 
 jobs:
+  cache-and-install-dependencies:
+    name: Cache and install dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: "PR: Check out source code with current branch Git history"
+        if: ${{ env.is-pull-request == 'true' }}
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+      - name: "Merge: Check out source code"
+        if: ${{ env.is-pull-request == 'false' }}
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ${{ env.node-version-file }}
+
+      - name: 📥 Monorepo install
+        uses: ./.github/actions/yarn-nm-install
+
+      - name: Archive node_modules as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: node_modules
+          path: node_modules
+
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -115,6 +143,7 @@ jobs:
   e2e:
     name: End-to-end test
     runs-on: ubuntu-latest
+    needs: cache-and-install-dependencies
 
     steps:
       # needed for Nx affected command
@@ -139,8 +168,11 @@ jobs:
         with:
           node-version-file: ${{ env.node-version-file }}
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Download node_modules artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: node_modules
+          path: node_modules
 
       - name: "PR: End-to-end test affected products"
         if: ${{ env.is-pull-request == 'true' }}
