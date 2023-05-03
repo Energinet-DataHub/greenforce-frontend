@@ -26,11 +26,11 @@ limitations under the License.
           </watt-form-field>
           <!-- RSM -->
           <watt-form-field>
-            <watt-label>{{ transloco("rsmName") }}</watt-label>
+            <watt-label>{{ transloco("messageType") }}</watt-label>
             <watt-dropdown
-              formControlName="rsmNames"
+              formControlName="messageTypes"
               [options]="rsmFormFieldOptions"
-              name="rsmName"
+              name="messageType"
               [placeholder]="transloco('chooseDocumentType')"
               [multiple]="true"
             >
@@ -38,11 +38,11 @@ limitations under the License.
           </watt-form-field>
 
           <watt-form-field>
-            <watt-label>{{ transloco("progressType") }}</watt-label>
+            <watt-label>{{ transloco("businessReason") }}</watt-label>
             <watt-dropdown
-              formControlName="processTypes"
+              formControlName="businessReasons"
               [options]="processTypeFormFieldOptions"
-              name="processTypes"
+              name="businessReason"
               [placeholder]="transloco('chooseDocumentType')"
               [multiple]="true"
             >
