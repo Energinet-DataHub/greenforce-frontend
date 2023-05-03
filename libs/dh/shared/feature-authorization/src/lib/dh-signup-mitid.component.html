@@ -16,7 +16,9 @@ limitations under the License.
 -->
 <a (click)="click()">
   <div class="mitid-icon-link" alt="mitid-login">
-    <label class="mit-id-label">Tilknyt</label>
+    <label class="mit-id-label" *transloco="let t; read: 'admin.userManagement'">{{
+      t("connect")
+    }}</label>
     <div class="mit-id-image"></div>
   </div>
 </a>

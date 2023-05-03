@@ -15,22 +15,17 @@
  * limitations under the License.
  */
 import { Component, Inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
-import { OverlayModule } from '@angular/cdk/overlay';
 
-import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { DhB2CEnvironment, dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'dh-signup-mitid',
   styleUrls: ['./dh-signup-mitid.component.scss'],
   templateUrl: './dh-signup-mitid.component.html',
   standalone: true,
-  imports: [CommonModule, LetModule, PushModule, WattIconModule, WattSpinnerModule, OverlayModule],
+  imports: [TranslocoModule],
 })
 export class DhSignupMitIdComponent {
   constructor(@Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment) {}

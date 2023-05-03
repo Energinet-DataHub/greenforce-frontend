@@ -882,6 +882,7 @@
   },
   "admin": {
     "userManagement": {
+      "connect": "Connect",
       "inviteUser": {
         "title": "Invite user",
         "informations": "Information",
