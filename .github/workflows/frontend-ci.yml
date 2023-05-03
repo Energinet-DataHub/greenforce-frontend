@@ -76,11 +76,14 @@ jobs:
       - name: 📥 Monorepo install
         uses: ./.github/actions/yarn-nm-install
 
+      - name: Create node_modules archive
+        run: tar -czf node_modules.tar.gz node_modules
+
       - name: Archive node_modules as artifact
         uses: actions/upload-artifact@v2
         with:
           name: node_modules
-          path: node_modules
+          path: node_modules.tar.gz
 
   build:
     name: Build
@@ -172,7 +175,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: node_modules
-          path: node_modules
+
+      - name: Extract node_modules archive
+        run: tar -xzf node_modules.tar.gz
 
       - name: "PR: End-to-end test affected products"
         if: ${{ env.is-pull-request == 'true' }}
