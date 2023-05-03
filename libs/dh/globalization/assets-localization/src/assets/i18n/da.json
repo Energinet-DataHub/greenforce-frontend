@@ -454,6 +454,7 @@
     },
     "search": {
       "topBarTitle": "Fremsøg forretningsbesked",
+      "messageType": "Dokumenttype",
       "rsmName": "Dokumenttype",
       "senderGln": "Afsender",
       "messageId": "Besked Id",
