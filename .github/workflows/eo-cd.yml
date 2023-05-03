@@ -26,7 +26,6 @@ env:
   node-version-file: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
   yarn-version: 3.5.0
-  NX_MAX_PARALLEL: 2
 
   # Nx Cloud
   NX_BRANCH: ${{ github.event.number }}
