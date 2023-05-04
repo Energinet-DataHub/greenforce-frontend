@@ -759,6 +759,7 @@
         "searchButton": "Søg"
       },
       "columns": {
+        "startedBy": "Bestilt af",
         "batchId": "Batch-nummer",
         "periodFrom": "Periode fra",
         "periodTo": "Periode til",
