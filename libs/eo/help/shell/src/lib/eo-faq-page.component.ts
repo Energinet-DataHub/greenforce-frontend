@@ -71,8 +71,8 @@ import { RouterModule } from '@angular/router';
 
     <h3 id="who-can-access-the-platform">Who can access the platform?</h3>
     <p>
-      Currently, the platform only offers company login via NemID. Later on, it will be possible for
-      private individuals to login via NemID / MitID.
+      Currently, the platform only offers company login via MitID. Later on, it will be possible for
+      private individuals to login via MitID.
     </p>
 
     <h3 id="where-does-the-data-come-from">Where does the data come from?</h3>
