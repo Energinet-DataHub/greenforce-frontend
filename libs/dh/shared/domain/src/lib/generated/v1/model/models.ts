@@ -1,4 +1,5 @@
 export * from './archived-message';
+export * from './archived-message-search-criteria';
 export * from './charge-link-v1-dto';
 export * from './charge-market-participant-v1-dto';
 export * from './charge-message-sort-column-name';

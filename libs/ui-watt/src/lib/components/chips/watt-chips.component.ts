@@ -24,6 +24,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
+
 import { WattIconModule } from '../../foundations/icon/icon.module';
 
 export interface WattChipsOption {
