@@ -21,6 +21,9 @@ import type { Provider } from '@auth/core/providers';
 import { setSession } from '$houdini';
 import type { Handle } from '@sveltejs/kit';
 
+export const myFancyToken =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkRIIGZyb250ZW5kIGlzIHRoZSBiZXN0IiwiaWF0IjoxNTE2MjM5MDIyfQ.xxB4svUuCRWx_-LnFr8RByYroRv3jhFYhxXIC0iJCVI';
+
 export const handle = SvelteKitAuth(async (event) => {
   const authOptions: SvelteKitAuthConfig = {
     debug: false,
