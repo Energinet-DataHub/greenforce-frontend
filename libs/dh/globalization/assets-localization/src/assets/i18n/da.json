@@ -454,6 +454,7 @@
     },
     "search": {
       "topBarTitle": "Fremsøg forretningsbesked",
+      "messageType": "Dokumenttype",
       "rsmName": "Dokumenttype",
       "senderGln": "Afsender",
       "messageId": "Besked Id",
@@ -521,7 +522,7 @@
           "marketRole": "Markedsrolle",
           "gridArea": "Netområde",
           "meteringPointTypes": "Målepunktstyper",
-          "comment": "Kommentar",
+          "commentLabel": "Kommentar",
           "invalidConfiguration": "Markedsroller er ikke korrekt konfigureret"
         }
       }
@@ -872,6 +873,7 @@
   },
   "admin": {
     "userManagement": {
+      "connect": "Tilknyt",
       "inviteUser": {
         "title": "Inviter bruger",
         "informations": "Information",
@@ -1076,6 +1078,8 @@
       "editUser": {
         "cancel": "Fortryd",
         "save": "Gem",
+        "saveSuccess": "Brugeren blev opdateret",
+        "saveError": "Noget gik galt. Brugeren blev ikke opdateret. Prøv igen",
         "tab": {
           "masterData": "Information",
           "roles": "Brugerroller"
@@ -1083,7 +1087,8 @@
         "masterData": {
           "fullName": "Navn",
           "phone": "Telefonnr."
-        }
+        },
+        "phoneNumberError": "Telefonnr. format +45 12345678"
       },
       "editUserRole": {
         "saveSuccess": "Brugerrollen blev opdateret",

@@ -16,6 +16,8 @@ env:
   node-version-file: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
   yarn-version: 3.5.0
+  # See https://github.com/cypress-io/cypress/issues/25357
+  ELECTRON_EXTRA_LAUNCH_ARGS: --disable-gpu
 on:
   schedule:
     - cron: 0 * * * *
@@ -40,3 +42,20 @@ jobs:
 
       - name: Run healthchecks
         run: npx nx run e2e-dh:e2e:health
+
+  #
+  # Send notification to teams channel if healthchecks failed
+  #
+  dispatch_failed:
+    needs:
+      [
+        healthchecks
+      ]
+    if: |
+      always() &&
+      contains(needs.*.result, 'failure')
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v10
+    with:
+      team_name: TexasRangers
+      subject: DH UI Frontend Healthchecks - Failed
+    secrets: inherit
