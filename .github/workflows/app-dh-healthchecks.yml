@@ -55,5 +55,5 @@ jobs:
     uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v10
     with:
       team_name: TexasRangers
-      subject: "DH UI Frontend Healthchecks - Failed"
+      subject: DH UI Frontend Healthchecks - Failed
     secrets: inherit
