@@ -60,6 +60,7 @@ import { EoLandingPageLoginButtonComponent } from './eo-landing-page-login-butto
           width: 180px; // Magic UX number
         }
       }
+    `,
   ],
   template: `
     <img src="/assets/images/landing-page/landing-page-mesh-bottom.png" />
