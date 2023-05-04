@@ -27,6 +27,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field(x => x.Timestamp).Description("Time of change");
             Field(x => x.PermissionAuditLogType).Description("Permission audit log type");
             Field(x => x.ChangedByUserName).Description("Changed by user name");
+            Field(x => x.Value).Description("The new value after the change");
         }
     }
 }

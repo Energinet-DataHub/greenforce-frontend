@@ -25,8 +25,7 @@ env:
   NODE_OPTIONS: --max-old-space-size=6144
   NODE_VERSION_FILE: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  YARN_VERSION: 1.22.19
-  NX_MAX_PARALLEL: 2
+  YARN_VERSION: 3.5.0
 
 jobs:
   #
@@ -44,24 +43,20 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: ${{ env.NODE_VERSION_FILE }}
-          cache: yarn
 
       - name: Disable workspace NGCC run
         uses: ./.github/actions/setup-postinstall
         with:
           ngcc: false
 
-      - name: Set yarn version ${{ env.YARN_VERSION }}
-        run: yarn set version ${{ env.YARN_VERSION }}
-
-      - name: Install package dependencies
-        run: yarn install --frozen-lockfile --non-interactive
+      - name: 📥 Monorepo install
+        uses: ./.github/actions/yarn-nm-install
 
       - name: Angular Compatibility Compiler
         run: npm run ngcc:dh
 
       - name: Production build
-        run: yarn nx build ${{ env.APP_NAME }} --max-parallel=$${{ env.NX_MAX_PARALLEL }}
+        run: yarn nx build ${{ env.APP_NAME }}
 
       - name: Optimize i18n assets
         run: yarn i18n:optimize:${{ env.APP_NAME }}
@@ -113,13 +108,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: ${{ env.NODE_VERSION_FILE }}
-          cache: yarn
 
-      - name: Set yarn version ${{ env.YARN_VERSION }}
-        run: yarn set version ${{ env.YARN_VERSION }}
-
-      - name: Install package dependencies
-        run: yarn install --frozen-lockfile --non-interactive
+      - name: 📥 Monorepo install
+        uses: ./.github/actions/yarn-nm-install
 
       - name: Generate API client
         run: yarn nx run api-dh:build-client

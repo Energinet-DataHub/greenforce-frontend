@@ -29,6 +29,7 @@ export function wholesaleMocks(apiBase: string) {
     getProcessStepActors(),
     getSettlementReports(),
     getFilteredActors(),
+    getGridAreas(),
   ];
 }
 
@@ -54,6 +55,7 @@ export const mockedGridAreas: graphql.GridArea[] = [
     name: 'hello',
     priceAreaCode: graphql.PriceAreaCode.Dk_1,
     validFrom: '0001-01-01T00:00:00+00:00',
+    validTo: null,
   },
   {
     __typename: 'GridArea',
@@ -62,6 +64,7 @@ export const mockedGridAreas: graphql.GridArea[] = [
     name: 'hello again',
     priceAreaCode: graphql.PriceAreaCode.Dk_1,
     validFrom: '0001-01-01T00:00:00+00:00',
+    validTo: null,
   },
 ];
 
@@ -384,6 +387,12 @@ function getProcessStepActors() {
 function getSettlementReports() {
   return graphql.mockGetSettlementReportsQuery((req, res, ctx) => {
     return res(ctx.delay(300), ctx.data({ settlementReports: mockedSettlementReports }));
+  });
+}
+
+function getGridAreas() {
+  return graphql.mockGetGridAreasQuery((req, res, ctx) => {
+    return res(ctx.delay(300), ctx.data({ gridAreas: mockedGridAreas }));
   });
 }
 

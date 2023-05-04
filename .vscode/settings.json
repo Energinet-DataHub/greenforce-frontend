@@ -11,5 +11,11 @@
       "siblings_only": true
     }
   },
-  "redhat.telemetry.enabled": false
+  "redhat.telemetry.enabled": false,
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.yarn/cache/**": true,
+    "**/.angular/cache/**": true,
+    "**/node_modules/*/**": true
+  }
 }

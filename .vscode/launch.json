@@ -5,6 +5,22 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Debug app-dh",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "Serve app-dh",
+      "postDebugTask": "Terminate All Tasks",
+      "url": "https://localhost:4200/#",
+      "webRoot": "${workspaceFolder}",
+      "sourceMapPathOverrides": {
+        "webpack:/*": "${webRoot}/*",
+        "/./*": "${webRoot}/*",
+        "/src/*": "${webRoot}/src/*",
+        "/*": "*",
+        "/./~/*": "${workspaceFolder}/node_modules/*"
+      }
+    },
+    {
       "name": "Launch BFF",
       "type": "coreclr",
       "request": "launch",
@@ -25,34 +41,13 @@
       }
     },
     {
-      "name": "Launch Message Archive",
-      "type": "coreclr",
-      "request": "launch",
-      "preLaunchTask": "build message archive",
-      "program": "${workspaceFolder}/backend/geh-message-archive/source/Energinet.DataHub.MessageArchive.EntryPoint.WebApi/bin/Debug/net7.0/Energinet.DataHub.MessageArchive.EntryPoint.WebApi.dll",
-      "args": [],
-      "cwd": "${workspaceFolder}/backend/geh-message-archive/source/Energinet.DataHub.MessageArchive.EntryPoint.WebApi",
-      "stopAtEntry": false,
-      "serverReadyAction": {
-        "action": "openExternally",
-        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-      },
-      "env": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://localhost:6000"
-      },
-      "sourceFileMap": {
-        "/Views": "${workspaceFolder}/Views"
-      }
-    },
-    {
       "name": "Launch Market Participant",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build market participant",
-      "program": "${workspaceFolder}/backend/geh-market-participant/source/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi/bin/Debug/net7.0/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi.dll",
+      "program": "${workspaceFolder}/backend/geh-market-participant/source/marketparticipant/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi/bin/Debug/net7.0/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/geh-market-participant/source/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi",
+      "cwd": "${workspaceFolder}/backend/geh-market-participant/source/marketparticipant/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi",
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",

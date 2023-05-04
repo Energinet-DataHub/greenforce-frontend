@@ -51,8 +51,10 @@ import {
 })
 export class WattInputDirective extends MatInput {
   constructor(
-    protected _elementRef: ElementRef<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
-    protected _platform: Platform,
+    protected override _elementRef: ElementRef<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+    protected override _platform: Platform,
     @Optional() @Self() ngControl: NgControl,
     @Optional() _parentForm: NgForm,
     @Optional() _parentFormGroup: FormGroupDirective,

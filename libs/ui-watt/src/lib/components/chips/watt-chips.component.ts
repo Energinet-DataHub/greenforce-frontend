@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import {
   Component,
   ChangeDetectionStrategy,
@@ -22,12 +23,17 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
+import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
+
+import { WattIconModule } from '../../foundations/icon/icon.module';
 
 export interface WattChipsOption {
   /** Text to display on the chip. */
   label: string;
   /** Value to emit when selected. */
   value: string;
+  /** Disabled appearance */
+  disabled?: boolean;
 }
 
 export type WattChipsSelection = string | null;
@@ -42,6 +48,8 @@ export type WattChipsSelection = string | null;
   selector: 'watt-chips',
   styleUrls: ['./watt-chips.component.scss'],
   templateUrl: './watt-chips.component.html',
+  standalone: true,
+  imports: [CommonModule, MatChipsModule, WattIconModule],
 })
 export class WattChipsComponent {
   /** List of chip options to display. */

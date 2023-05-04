@@ -26,7 +26,8 @@
       "ariaLabel": "Select page"
     },
     "download": "Download",
-    "search": "Search"
+    "search": "Search",
+    "selectedValues": "{{count}} selected"
   },
   "clipboard": {
     "success": "Copied to clipboard",
@@ -460,6 +461,7 @@
     },
     "search": {
       "topBarTitle": "Search in request and response messages",
+      "messageType": "Document type",
       "rsmName": "Document type",
       "senderGln": "Sender",
       "messageId": "Message Id",
@@ -742,6 +744,7 @@
       "invalidPeriod": "Invalid period",
       "dateRangeLabel": "Period",
       "processTypeDropDownLabel": "Process Type",
+      "executionTypeLabel": "Execution Type",
       "gridAreaDropDownLabel": "Grid Areas",
       "creatingBatch": "Starting batch...",
       "creatingBatchSuccess": "The batch has been started.",
@@ -749,6 +752,10 @@
       "processTypes": {
         "BALANCE_FIXING": "Balance Fixing",
         "AGGREGATION": "Aggregation"
+      },
+      "executionTypes": {
+        "ACTUAL": "Actual",
+        "SIMULATION": "Simulation"
       },
       "processTypeError": "Process type is required"
     },
@@ -875,6 +882,7 @@
   },
   "admin": {
     "userManagement": {
+      "connect": "Connect",
       "inviteUser": {
         "title": "Invite user",
         "informations": "Information",
@@ -888,6 +896,7 @@
         "email": "Email",
         "phoneNumber": "Phone number",
         "phoneNumberError": "Phone number format +45 12345678",
+        "wrongEmailPattern": "Type a valid email",
         "noUserRolesError": "At least one user role must be selected.",
         "successMessage": "{{ email }} has been invited",
         "columns": {
@@ -935,8 +944,11 @@
                   "DescriptionChange": "<b>{{ changedByUserName }}</b> changed description to <b>{{ changedValueTo }}</b>",
                   "EicFunctionChange": "<b>{{ changedByUserName }}</b> changed eic function to <b>{{ changedValueTo }}</b>",
                   "StatusChange": "<b>{{ changedByUserName }}</b> changed status to <b>{{ changedValueTo }}</b>",
-                  "PermissionAdded": "<b>{{ changedByUserName }}</b> added permission <b>{{ changedValueTo }}</b>",
-                  "PermissionRemoved": "<b>{{ changedByUserName }}</b> removed permissionr<b>{{ changedValueTo }}</b>"
+                  "PermissionAdded": {
+                    "singular": "<b>{{ changedByUserName }}</b> added permission <b>{{ changedValueTo }}</b>",
+                    "plural": "<b>{{ changedByUserName }}</b> added permissions <b>{{ changedValueTo }}</b>"
+                  },
+                  "PermissionRemoved": "<b>{{ changedByUserName }}</b> removed permission <b>{{ changedValueTo }}</b>"
                 }
               },
               "generalError": {
@@ -975,10 +987,10 @@
             "entry": "Change"
           },
           "logs": {
-            "permissionDetails": {
+            "permissionsDetails": {
               "auditLogType": {
                 "CREATED": "<b>{{ changedByUserName }}</b> added the permission to the system",
-                "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> changed the description of the permission"
+                "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> changed the description of the permission to <b>{{ value }}</b>"
               }
             },
             "auditLogType": {
@@ -1093,6 +1105,8 @@
       "editUser": {
         "cancel": "Cancel",
         "save": "Save",
+        "saveSuccess": "The user was updated",
+        "saveError": "Something went wrong. The user could not be updated. Please try again",
         "tab": {
           "masterData": "Information",
           "roles": "User roles"
@@ -1100,7 +1114,8 @@
         "masterData": {
           "fullName": "Name",
           "phone": "Phone number"
-        }
+        },
+        "phoneNumberError": "Phone number format +45 12345678"
       },
       "editUserRole": {
         "saveSuccess": "The user role was updated",

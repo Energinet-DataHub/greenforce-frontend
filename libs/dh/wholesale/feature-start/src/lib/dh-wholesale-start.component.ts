@@ -17,7 +17,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
-import { combineLatest, first, map, Observable, startWith, Subject, takeUntil } from 'rxjs';
+import { combineLatest, first, map, Observable, startWith, Subject, takeUntil, tap } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -32,11 +32,15 @@ import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import {
+  WattChipsComponent,
+  WattChipsOption,
+  WattChipsSelection,
+} from '@energinet-datahub/watt/chips';
 
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { DateRange, MarketParticipantGridAreaDto } from '@energinet-datahub/dh/shared/domain';
-import { filterValidGridAreas } from '@energinet-datahub/dh/wholesale/domain';
+import { DateRange } from '@energinet-datahub/dh/shared/domain';
+import { filterValidGridAreas, GridArea } from '@energinet-datahub/dh/wholesale/domain';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 
 interface CreateBatchFormValues {
@@ -50,7 +54,6 @@ interface CreateBatchFormValues {
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-wholesale-start.component.html',
   styleUrls: ['./dh-wholesale-start.component.scss'],
-  providers: [DhWholesaleBatchDataAccessApiStore],
   standalone: true,
   imports: [
     CommonModule,
@@ -65,19 +68,19 @@ interface CreateBatchFormValues {
     WattFormFieldModule,
     WattSpinnerModule,
     WattEmptyStateComponent,
+    WattChipsComponent,
   ],
 })
 export class DhWholesaleStartComponent implements OnInit, OnDestroy {
-  private store = inject(DhWholesaleBatchDataAccessApiStore);
   private toast = inject(WattToastService);
   private transloco = inject(TranslocoService);
   private router = inject(Router);
   private apollo = inject(Apollo);
 
+  private executionTypeChanged$ = new Subject<void>();
   private destroy$ = new Subject<void>();
 
-  loadingCreatingBatch$ = this.store.loadingCreatingBatch$;
-  loadingGridAreasErrorTrigger$ = this.store.loadingGridAreasErrorTrigger$;
+  loadingCreateBatch = false;
 
   createBatchForm = new FormGroup<CreateBatchFormValues>({
     processType: new FormControl(null, { validators: Validators.required }),
@@ -87,20 +90,31 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     }),
   });
 
+  gridAreasQuery = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: graphql.GetGridAreasDocument,
+  });
+
   onDateRangeChange$ = this.createBatchForm.controls.dateRange.valueChanges.pipe(startWith(null));
 
   processTypes: WattDropdownOption[] = [];
+  executionTypes: WattChipsOption[] = [];
+
+  selectedExecutionType = 'ACTUAL';
 
   gridAreas$: Observable<WattDropdownOption[]> = combineLatest([
-    this.store.gridAreas$,
+    this.gridAreasQuery.valueChanges.pipe(map((result) => result.data?.gridAreas ?? [])),
     this.onDateRangeChange$,
+    this.executionTypeChanged$.pipe(startWith('')),
   ]).pipe(
-    map(([gridAreas, dateRange]) => filterValidGridAreas(gridAreas || [], dateRange)),
+    map(([gridAreas, dateRange]) => filterValidGridAreas(gridAreas, dateRange)),
     map((gridAreas) => {
       this.setMinDate(gridAreas);
       this.validatePeriod(gridAreas);
       return this.mapGridAreasToDropdownOptions(gridAreas);
-    })
+    }),
+    tap((gridAreas) => this.selectGridAreas(gridAreas))
   );
 
   minDate?: Date;
@@ -108,7 +122,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getProcessTypes();
-    this.store.getGridAreas();
+    this.getExecutionTypes();
     this.toggleGridAreasControl();
 
     // Close toast on navigation
@@ -120,6 +134,12 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.executionTypeChanged$.complete();
+  }
+
+  onExecutionTypeSelected(selection: WattChipsSelection) {
+    this.selectedExecutionType = selection as string;
+    this.executionTypeChanged$.next();
   }
 
   private getProcessTypes(): void {
@@ -130,6 +150,19 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
         this.processTypes = Object.values(graphql.ProcessType).map((value) => ({
           displayValue: processTypesTranslation[value],
           value,
+        }));
+      });
+  }
+
+  private getExecutionTypes(): void {
+    this.transloco
+      .selectTranslateObject('wholesale.startBatch.executionTypes')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((executionTypesTranslation) => {
+        this.executionTypes = Object.keys(executionTypesTranslation).map((key) => ({
+          label: executionTypesTranslation[key],
+          value: key,
+          disabled: key !== 'ACTUAL',
         }));
       });
   }
@@ -158,6 +191,9 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
       })
       .subscribe({
         next: (result) => {
+          // Update loading state of button
+          this.loadingCreateBatch = result.loading;
+
           if (result.loading) {
             this.toast.open({
               type: 'loading',
@@ -184,7 +220,19 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
       });
   }
 
-  private setMinDate(gridAreas: MarketParticipantGridAreaDto[]) {
+  private selectGridAreas(gridAreas: WattDropdownOption[]) {
+    if (this.selectedExecutionType === 'ACTUAL') {
+      this.createBatchForm.patchValue({
+        gridAreas: gridAreas.map((gridArea) => gridArea.value),
+      });
+    } else {
+      this.createBatchForm.patchValue({
+        gridAreas: [],
+      });
+    }
+  }
+
+  private setMinDate(gridAreas: GridArea[]) {
     if (gridAreas.length === 0) return;
     const validFromDates: number[] = gridAreas.map((gridArea) => {
       return new Date(gridArea.validFrom).getTime();
@@ -192,9 +240,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     this.minDate = new Date(Math.min(...validFromDates));
   }
 
-  private mapGridAreasToDropdownOptions(
-    gridAreas: MarketParticipantGridAreaDto[]
-  ): WattDropdownOption[] {
+  private mapGridAreasToDropdownOptions(gridAreas: GridArea[]): WattDropdownOption[] {
     return (
       gridAreas.map((gridArea) => {
         return {
@@ -215,7 +261,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     });
   }
 
-  private validatePeriod(gridAreas: MarketParticipantGridAreaDto[]) {
+  private validatePeriod(gridAreas: GridArea[]) {
     if (gridAreas.length === 0) {
       this.createBatchForm.controls.dateRange.setErrors({
         ...this.createBatchForm.controls.dateRange.errors,

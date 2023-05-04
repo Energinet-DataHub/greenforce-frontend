@@ -38,15 +38,12 @@ In this case, import `WattTopBarOutletComponent` inside the testing setup and re
 ```ts
 import { WattTopBarOutletComponent } from 'libs/ui-watt/src/lib/components/shell/top-bar';
 
-await render(
-  `<watt-top-bar-outlet></watt-top-bar-outlet><your-awesome-component></your-awesome-component>`,
-  {
-    imports: [
-      WattTopBarOutletComponent,
-      // ...
-    ],
-  }
-);
+await render(`<watt-top-bar-outlet></watt-top-bar-outlet><your-awesome-component></your-awesome-component>`, {
+  imports: [
+    WattTopBarOutletComponent,
+    // ...
+  ],
+});
 ```
 
 #### When the feature under test uses translations
@@ -147,12 +144,10 @@ describe('AppComponent', () => {
 
 ## E2E Testing
 
-Due to the limitations of Cypress authenticating against MSAL (B2C), we have chosen to use Playwright for our E2E tests. To be able to running the tests locally, you will need to rename `apps\dh\e2e-dh\.env` to `apps\dh\e2e-dh\.env.local` and insert some testing user credentials.
+To be able to running the tests locally, you will need to rename `apps/e2e-dh/cypress.env.json.sample` to `apps/e2e-dh/cypress.env.json` and insert the required information. The `DH_E2E_B2C_URL` should reflect the application B2C config `libs/dh/shared/assets/src/assets/configuration/dh-b2c-environment.json`. To run the tests use following command:
 
-To run the tests use following command:
+`yarn nx e2e e2e-dh`
 
-`yarn nx run e2e-dh:e2e`
+To debug / watch-mode E2E tests:
 
-To debug E2E tests with the Playwright inspector you can use following command (Windows PowerShell), you can find more information [here](https://playwright.dev/docs/debug):
-
-`yarn nx run e2e-dh:e2e --debug`
+`yarn nx e2e e2e-dh --watch`

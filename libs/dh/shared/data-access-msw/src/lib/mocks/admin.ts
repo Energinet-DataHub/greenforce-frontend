@@ -23,7 +23,7 @@ import marketParticipantActorQuerySelectionActors from './data/marketParticipant
 import marketParticipantUserRoleGetAll from './data/marketParticipantUserRoleGetAll.json';
 import marketParticipantUserGetUserAuditLogs from './data/marketParticipantUserGetUserAuditLogs.json';
 import marketParticipantUserRoleGetUserRoleWithPermissions from './data/marketParticipantUserRoleGetUserRoleWithPermissions.json';
-import marketParticipantUserRoleGetUserRoleAuditLogs from './data/marketParticipantUserRoleGetUserRoleAuditLogs.json';
+import { marketParticipantUserRoleAuditLogs } from './data/marketParticipantUserRoleGetUserRoleAuditLogs';
 import { adminPermissionsMock } from './data/admin-get-permissions';
 import { adminPermissionPermissionLogsMock } from './data/admin-get-permissionlogs';
 import { adminPermissionDetailsMock } from './data/admin-get-permission-details';
@@ -41,6 +41,8 @@ export function adminMocks(apiBase: string) {
     getAdminPermissionLogs(),
     getAdminPermissionDetails(),
     putMarketParticipantPermissionsUpdate(apiBase),
+    putMarketParticipantUserUpdateUserIdentity(apiBase),
+    putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase),
   ];
 }
 
@@ -90,7 +92,7 @@ function getMarketParticipantUserRoleGetUserRoleAuditLogs(apiBase: string) {
   return rest.get(
     `${apiBase}/v1/MarketParticipantUserRole/GetUserRoleAuditLogs`,
     (req, res, ctx) => {
-      return res(ctx.json(marketParticipantUserRoleGetUserRoleAuditLogs));
+      return res(ctx.json(marketParticipantUserRoleAuditLogs));
     }
   );
 }
@@ -127,4 +129,19 @@ function putMarketParticipantPermissionsUpdate(apiBase: string) {
   return rest.put(`${apiBase}/v1/MarketParticipantPermissions/Update`, (req, res, ctx) => {
     return res(ctx.status(200));
   });
+}
+
+function putMarketParticipantUserUpdateUserIdentity(apiBase: string) {
+  return rest.put(`${apiBase}/v1/MarketParticipantUser/UpdateUserIdentity`, (req, res, ctx) => {
+    return res(ctx.delay(300), ctx.status(200));
+  });
+}
+
+function putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase: string) {
+  return rest.put(
+    `${apiBase}/v1/MarketParticipantUserRoleAssignment/UpdateAssignments`,
+    (req, res, ctx) => {
+      return res(ctx.delay(300), ctx.status(200));
+    }
+  );
 }

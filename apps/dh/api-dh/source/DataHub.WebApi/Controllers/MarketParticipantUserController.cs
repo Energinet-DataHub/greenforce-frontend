@@ -109,7 +109,8 @@ namespace Energinet.DataHub.WebApi.Controllers
                         .GetAsync(auditLog.UserRoleId)
                         .ConfigureAwait(false);
 
-                    var auditLogType = auditLog.AssignmentType switch {
+                    var auditLogType = auditLog.AssignmentType switch
+                    {
                         UserRoleAssignmentTypeAuditLog.Added => UserAuditLogType.UserRoleAdded,
                         UserRoleAssignmentTypeAuditLog.Removed => UserAuditLogType.UserRoleRemoved,
                         UserRoleAssignmentTypeAuditLog.RemovedDueToDeactivation => UserAuditLogType.UserRoleRemovedDueToDeactivation,
@@ -125,6 +126,23 @@ namespace Energinet.DataHub.WebApi.Controllers
 
                 return new UserAuditLogsDto(userAuditLogs.OrderByDescending(l => l.Timestamp));
             });
+        }
+
+        [HttpPut]
+        [Route("UpdateUserIdentity")]
+        public Task<ActionResult> UpdateUserIdentityAsync(Guid userId, UserIdentityUpdateDto userIdentityUpdateDto)
+        {
+            return HandleExceptionAsync(() => _marketParticipantClient.UpdateUserPhoneNumberAsync(userId, userIdentityUpdateDto));
+        }
+
+        /// <summary>
+        /// Initiates MitID signup
+        /// </summary>
+        [HttpPost]
+        [Route("InitiateMitIdSignup")]
+        public Task InitiateMitIdSignupAsync()
+        {
+            return _marketParticipantClient.InitiateMitIdSignupAsync();
         }
     }
 }

@@ -25,8 +25,7 @@ env:
   NODE_OPTIONS: --max-old-space-size=6144
   node-version-file: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  yarn-version: 1.22.19
-  NX_MAX_PARALLEL: 2
+  yarn-version: 3.5.0
 
   # Nx Cloud
   NX_BRANCH: ${{ github.event.number }}
@@ -62,18 +61,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: ${{ env.node-version-file }}
-          cache: yarn
+
+      - name: 📥 Monorepo install
+        uses: ./.github/actions/yarn-nm-install
 
       - name: Disable workspace NGCC run
         uses: ./.github/actions/setup-postinstall
         with:
           ngcc: false
-
-      - name: Set yarn version ${{ env.yarn-version }}
-        run: yarn set version ${{ env.yarn-version }}
-
-      - name: Install package dependencies
-        run: yarn install --frozen-lockfile --non-interactive
 
       - name: Is affected?
         id: affected
@@ -95,24 +90,20 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: ${{ env.node-version-file }}
-          cache: yarn
 
       - name: Disable workspace NGCC run
         uses: ./.github/actions/setup-postinstall
         with:
           ngcc: false
 
-      - name: Set yarn version ${{ env.yarn-version }}
-        run: yarn set version ${{ env.yarn-version }}
-
-      - name: Install package dependencies
-        run: yarn install --frozen-lockfile --non-interactive
+      - name: 📥 Monorepo install
+        uses: ./.github/actions/yarn-nm-install
 
       - name: Angular Compatibility Compiler
         run: npm run ngcc:eo
 
       - name: Production build
-        run: yarn nx build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL
+        run: yarn nx build ${{ env.app-name }}
 
       - name: Upload web app build artifact
         uses: actions/upload-artifact@v3

@@ -17,6 +17,7 @@ limitations under the License.
 <watt-modal
   #inviteUserModal
   size="large"
+  [loading]="isInvitingUser$ | push"
   [title]="t('title')"
   (closed)="closeModal($event)"
   *transloco="let t; read: 'admin.userManagement.inviteUser'"
@@ -66,6 +67,9 @@ limitations under the License.
           <span wattSuffix>@{{ organizationDomain$ | push }}</span>
           <watt-error *ngIf="userInfo.controls.email.hasError('required')">
             {{ "shared.fieldRequiredErrorText" | transloco }}
+          </watt-error>
+          <watt-error *ngIf="userInfo.controls.email.hasError('pattern')">
+            {{ t("wrongEmailPattern") }}
           </watt-error>
         </watt-form-field>
         <watt-form-field class="phoneNumber">

@@ -5,39 +5,35 @@
   "projectType": "application",
   "targets": {
     "e2e": {
-      "executor": "./tools/executors/playwright:playwright",
+      "executor": "@nrwl/cypress:cypress",
       "options": {
-        "playwrightConfig": "apps/dh/e2e-dh/playwright.config.ts",
-        "tsConfig": "apps/dh/e2e-dh/tsconfig.json",
-        "devServerTarget": "app-dh:serve:development",
-        "exclude": "[B2C Healthcheck]"
+        "cypressConfig": "apps/dh/e2e-dh/cypress.config.ts",
+        "devServerTarget": "app-dh:serve:mocked",
+        "testingType": "e2e",
+        "baseUrl": "https://localhost:4200"
       },
       "configurations": {
         "ci": {
-          "playwrightConfig": "apps/dh/e2e-dh/playwright.ci.config.ts"
+          "devServerTarget": "app-dh:serve:mocked",
+          "ignoreTestFiles": "**/*-healthchecks.cy.ts",
+          "browser": "chrome"
         },
-        "ci:production": {
-          "playwrightConfig": "apps/dh/e2e-dh/playwright.ci.config.ts",
-          "devServerTarget": "app-dh:serve:production"
+        "health": {
+          "devServerTarget": "app-dh:serve:mocked",
+          "spec": "**/*-healthchecks.cy.ts",
+          "browser": "chrome"
         },
         "production": {
           "devServerTarget": "app-dh:serve:production"
         }
       }
     },
-    "health": {
-      "executor": "./tools/executors/playwright:playwright",
-      "options": {
-        "playwrightConfig": "apps/dh/e2e-dh/playwright.health.config.ts",
-        "include": "[B2C Healthcheck]"
-      }
-    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/dh/e2e-dh/**/*.{js,ts}"]
-      },
-      "outputs": ["{options.outputFile}"]
+      }
     }
   },
   "tags": ["product:dh", "type:e2e"],

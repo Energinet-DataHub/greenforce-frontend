@@ -23,7 +23,7 @@ import {
   DhMessageArchiveDataAccessBlobApiStore,
 } from '@energinet-datahub/dh/message-archive/data-access-api';
 import { DocumentTypes, ProcessTypes } from '@energinet-datahub/dh/message-archive/domain';
-import { MessageArchiveSearchCriteria } from '@energinet-datahub/dh/shared/domain';
+import { ArchivedMessageSearchCriteria } from '@energinet-datahub/dh/shared/domain';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
@@ -38,7 +38,6 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTimepickerModule } from '@energinet-datahub/watt/timepicker';
 import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
@@ -79,24 +78,30 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
 })
 export class DhMessageArchiveLogSearchComponent {
   searchForm: FormGroup = new FormGroup({
-    messageId: new FormControl(''),
-    rsmNames: new FormControl([]),
-    processTypes: new FormControl([]),
-    senderId: new FormControl(''),
-    receiverId: new FormControl(''),
-    includeRelated: new FormControl<boolean>({ value: false, disabled: true }),
+    messageId: new FormControl('', { nonNullable: true }),
+    messageTypes: new FormControl([], { nonNullable: true }),
+    businessReasons: new FormControl([], { nonNullable: true }),
+    senderId: new FormControl('', { nonNullable: true }),
+    receiverId: new FormControl('', { nonNullable: true }),
+    includeRelated: new FormControl<boolean>(
+      { value: false, disabled: true },
+      { nonNullable: true }
+    ),
     dateRange: new FormControl<WattRange>(
       {
-        start: '',
-        end: '',
+        start: new Date().toISOString(),
+        end: new Date().toISOString(),
       },
-      [WattRangeValidators.required()]
+      { nonNullable: true }
     ),
-    timeRange: new FormControl<WattRange>({
-      start: '00:00',
-      end: '23:59',
-      disabled: true,
-    }),
+    timeRange: new FormControl<WattRange>(
+      {
+        start: '00:00',
+        end: '23:59',
+        disabled: true,
+      },
+      { nonNullable: true }
+    ),
   });
 
   searchResult$ = this.store.searchResult$;
@@ -111,12 +116,8 @@ export class DhMessageArchiveLogSearchComponent {
 
   searching = false;
   maxItemCount = 100;
-  searchCriteria: MessageArchiveSearchCriteria = {
-    maxItemCount: this.maxItemCount,
-    includeRelated: false,
-    includeResultsWithoutContent: false,
-    processTypes: [],
-  };
+
+  searchCriteria: ArchivedMessageSearchCriteria = {};
 
   constructor(
     private store: DhMessageArchiveDataAccessApiStore,
@@ -160,16 +161,8 @@ export class DhMessageArchiveLogSearchComponent {
   onSubmit() {
     if (this.searchForm.valid === false) return;
 
-    const {
-      dateRange,
-      includeRelated,
-      messageId,
-      rsmNames,
-      receiverId,
-      senderId,
-      timeRange,
-      processTypes,
-    } = this.searchForm.value;
+    const { dateRange, messageId, receiverId, senderId, timeRange, messageTypes, businessReasons } =
+      this.searchForm.value;
 
     const dateTimeFrom = zonedTimeToUtc(dateRange?.start, danishTimeZoneIdentifier);
     const dateTimeTo = zonedTimeToUtc(dateRange?.end, danishTimeZoneIdentifier);
@@ -188,12 +181,11 @@ export class DhMessageArchiveLogSearchComponent {
     Object.assign(this.searchCriteria, {
       dateTimeFrom: dateTimeFrom.toISOString(),
       dateTimeTo: dateTimeTo.toISOString(),
-      includeRelated: Boolean(includeRelated),
       messageId: messageId === '' ? null : messageId,
-      rsmNames: rsmNames.length === 0 ? null : rsmNames,
       senderId: senderId === '' ? null : senderId,
       receiverId: receiverId === '' ? null : receiverId,
-      processTypes: processTypes.length === 0 ? null : processTypes,
+      messageTypes: messageTypes?.length === 0 ? null : messageTypes,
+      businessReasons: businessReasons?.length === 0 ? null : businessReasons,
     });
 
     this.store.searchLogs(this.searchCriteria);
@@ -203,9 +195,9 @@ export class DhMessageArchiveLogSearchComponent {
     console.log({ continuationToken });
   }
 
-  resetSearchCritera() {
+  resetSearchCriteria() {
     this.store.resetState();
-    //TODO: reset form not working
+
     this.searchForm.reset();
   }
 }

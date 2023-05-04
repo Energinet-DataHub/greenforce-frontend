@@ -14,24 +14,12 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "build message archive",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "build",
-        "${workspaceFolder}/backend/geh-message-archive/source/Energinet.DataHub.MessageArchive.EntryPoint.WebApi/Energinet.DataHub.MessageArchive.EntryPoint.WebApi.csproj",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
       "label": "build market participant",
       "command": "dotnet",
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/backend/geh-market-participant/source/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi.csproj",
+        "${workspaceFolder}/backend/geh-market-participant/source/marketparticipant/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -72,6 +60,51 @@
         "${workspaceFolder}/apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj"
       ],
       "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Serve app-dh",
+      "type": "shell",
+      "command": "yarn nx run app-dh:serve:mocked",
+      "isBackground": true,
+      "presentation": {
+        "focus": true,
+        "panel": "dedicated",
+        "close": true
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": {
+        "owner": "typescript",
+        "source": "ts",
+        "applyTo": "closedDocuments",
+        "fileLocation": ["relative", "${cwd}"],
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "Compiled |Failed to compile."
+          }
+        }
+      }
+    },
+    {
+      "label": "Terminate All Tasks",
+      "command": "echo ${input:terminate}",
+      "type": "shell",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "terminate",
+      "type": "command",
+      "command": "workbench.action.tasks.terminate",
+      "args": "terminateAll"
     }
   ]
 }

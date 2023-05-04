@@ -26,27 +26,28 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
-
 import { CommonModule } from '@angular/common';
+import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { PushModule } from '@rx-angular/template/push';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { Subscription, tap } from 'rxjs';
+
+import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
 import { WATT_STEPPER, WattStepperComponent } from '@energinet-datahub/watt/stepper';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import {
   DbAdminAssignableUserRolesStore,
   DhUserActorsDataAccessApiStore,
   DbAdminInviteUserStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-assignable-user-roles.component';
-import { Subscription, tap } from 'rxjs';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -96,14 +97,17 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
     actorId: ['', Validators.required],
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
-    email: [{ value: '', disabled: true }, Validators.required],
+    email: [
+      { value: '', disabled: true },
+      [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+')],
+    ],
     phoneNumber: [
       '',
       [
         Validators.required,
         Validators.maxLength(12),
         Validators.minLength(12),
-        Validators.pattern('^\\+[0-9]+ [0-9]+$'),
+        Validators.pattern(danishPhoneNumberPattern),
       ],
     ],
   });

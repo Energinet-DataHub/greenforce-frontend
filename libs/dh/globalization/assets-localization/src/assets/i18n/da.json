@@ -26,7 +26,8 @@
       "ariaLabel": "Vælg side"
     },
     "download": "Download",
-    "search": "Søg"
+    "search": "Søg",
+    "selectedValues": "{{count}} valgt(e)"
   },
   "clipboard": {
     "success": "Kopieret til udklipsholder",
@@ -453,6 +454,7 @@
     },
     "search": {
       "topBarTitle": "Fremsøg forretningsbesked",
+      "messageType": "Dokumenttype",
       "rsmName": "Dokumenttype",
       "senderGln": "Afsender",
       "messageId": "Besked Id",
@@ -734,12 +736,17 @@
       "invalidPeriod": "Ugyldig periode",
       "dateRangeLabel": "Periode",
       "processTypeDropDownLabel": "Procestype",
+      "executionTypeLabel": "Afviklingstype",
       "gridAreaDropDownLabel": "Netområder",
       "creatingBatch": "Starter batch...",
       "creatingBatchSuccess": "Dit batch er startet.",
       "processTypes": {
         "BALANCE_FIXING": "Balancefiksering",
         "AGGREGATION": "Aggregering"
+      },
+      "executionTypes": {
+        "ACTUAL": "Faktisk",
+        "SIMULATION": "Simulering"
       },
       "processTypeError": "Procestype påkrævet"
     },
@@ -866,6 +873,7 @@
   },
   "admin": {
     "userManagement": {
+      "connect": "Tilknyt",
       "inviteUser": {
         "title": "Inviter bruger",
         "informations": "Information",
@@ -879,6 +887,7 @@
         "email": "Email",
         "phoneNumber": "Telefonnr.",
         "phoneNumberError": "Telefonnr. format +45 12345678",
+        "wrongEmailPattern": "Indtast en valid email",
         "noUserRolesError": "Mindst én brugerrolle skal vælges.",
         "successMessage": "{{ email }} blev inviteret",
         "columns": {
@@ -926,7 +935,10 @@
                   "DescriptionChange": "<b>{{ changedByUserName }}</b> ændrede beskrivelse til <b>{{ changedValueTo }}</b>",
                   "EicFunctionChange": "<b>{{ changedByUserName }}</b> ændrede eic function til <b>{{ changedValueTo }}</b>",
                   "StatusChange": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ changedValueTo }}</b>",
-                  "PermissionAdded": "<b>{{ changedByUserName }}</b> tilføjede rettigheden <b>{{ changedValueTo }}</b>",
+                  "PermissionAdded": {
+                    "singular": "<b>{{ changedByUserName }}</b> tilføjede rettigheden <b>{{ changedValueTo }}</b>",
+                    "plural": "<b>{{ changedByUserName }}</b> tilføjede rettighederne <b>{{ changedValueTo }}</b>"
+                  },
                   "PermissionRemoved": "<b>{{ changedByUserName }}</b> fjernede rettigheden <b>{{ changedValueTo }}</b>"
                 }
               }
@@ -965,7 +977,7 @@
             "permissionsDetails": {
               "auditLogType": {
                 "CREATED": "<b>{{ changedByUserName }}</b> tilføjede rettigheden til systemet",
-                "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede beskrivelsen på rettigheden"
+                "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede beskrivelsen på rettigheden til <b>{{ value }}</b>"
               }
             },
             "auditLogType": {
@@ -1066,6 +1078,8 @@
       "editUser": {
         "cancel": "Fortryd",
         "save": "Gem",
+        "saveSuccess": "Brugeren blev opdateret",
+        "saveError": "Noget gik galt. Brugeren blev ikke opdateret. Prøv igen",
         "tab": {
           "masterData": "Information",
           "roles": "Brugerroller"
@@ -1073,7 +1087,8 @@
         "masterData": {
           "fullName": "Navn",
           "phone": "Telefonnr."
-        }
+        },
+        "phoneNumberError": "Telefonnr. format +45 12345678"
       },
       "editUserRole": {
         "saveSuccess": "Brugerrollen blev opdateret",

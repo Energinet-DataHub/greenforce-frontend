@@ -27,6 +27,9 @@
       "@energinet-datahub/dh/admin/data-access-graphql": [
         "libs/dh/admin/data-access-graphql/src/index.ts"
       ],
+      "@energinet-datahub/dh/admin/domain": [
+        "libs/dh/admin/domain/src/index.ts"
+      ],
       "@energinet-datahub/dh/admin/feature-create-user-role": [
         "libs/dh/admin/feature-create-user-role/src/index.ts"
       ],
@@ -224,9 +227,6 @@
       "@energinet-datahub/dh/shared/util-table": [
         "libs/dh/shared/util-table/src/index.ts"
       ],
-      "@energinet-datahub/dh/wholesale/data-access-api": [
-        "libs/dh/wholesale/data-access-api/src/index.ts"
-      ],
       "@energinet-datahub/dh/wholesale/domain": [
         "libs/dh/wholesale/domain/src/index.ts"
       ],
@@ -247,12 +247,6 @@
       ],
       "@energinet-datahub/dh/wholesale/shell": [
         "libs/dh/wholesale/shell/src/index.ts"
-      ],
-      "@energinet-datahub/eo/auth/data-access-api": [
-        "libs/eo/auth/data-access-api/src/index.ts"
-      ],
-      "@energinet-datahub/eo/auth/data-access-security": [
-        "libs/eo/auth/data-access-security/src/index.ts"
       ],
       "@energinet-datahub/eo/auth/routing-security": [
         "libs/eo/auth/routing-security/src/index.ts"

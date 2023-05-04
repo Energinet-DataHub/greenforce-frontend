@@ -50,7 +50,7 @@
           {
             "input": "libs/dh/shared/data-access-msw/src/assets",
             "glob": "mockServiceWorker.js",
-            "output": ""
+            "output": "/"
           }
         ],
         "styles": ["apps/dh/app-dh/src/styles.scss"],
@@ -65,7 +65,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1.8mb"
+              "maximumError": "1.85mb"
             },
             {
               "type": "anyComponentStyle",
@@ -149,12 +149,18 @@
         "development": {
           "browserTarget": "app-dh:build:development",
           "hmr": true,
-          "ssl": true
+          "ssl": true,
+          "sslKey": "localhost.key",
+          "sslCert": "localhost.crt",
+          "host": "127.0.0.1"
         },
         "mocked": {
           "browserTarget": "app-dh:build:mocked",
           "hmr": true,
-          "ssl": true
+          "ssl": true,
+          "sslKey": "localhost.key",
+          "sslCert": "localhost.crt",
+          "host": "127.0.0.1"
         }
       },
       "defaultConfiguration": "mocked"
