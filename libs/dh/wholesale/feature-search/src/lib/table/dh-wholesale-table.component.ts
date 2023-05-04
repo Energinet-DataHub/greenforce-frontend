@@ -28,6 +28,7 @@ import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco'
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { graphql, WholesaleBatchHttp } from '@energinet-datahub/dh/shared/domain';
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -52,6 +53,7 @@ type wholesaleTableData = WattTableDataSource<Batch>;
     WattEmptyStateComponent,
     WattPaginatorComponent,
     WattCardModule,
+    DhEmDashFallbackPipeScam,
   ],
   selector: 'dh-wholesale-table',
   templateUrl: './dh-wholesale-table.component.html',
@@ -75,6 +77,7 @@ export class DhWholesaleTableComponent {
 
   _data: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Batch> = {
+    startedBy: { accessor: null },
     periodFrom: { accessor: (batch) => batch.period?.start },
     periodTo: { accessor: (batch) => batch.period?.end },
     executionTime: { accessor: 'executionTimeStart' },
