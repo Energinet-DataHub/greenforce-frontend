@@ -69,9 +69,7 @@ import { EoLandingPageLoginButtonComponent } from './eo-landing-page-login-butto
         class="watt-space-stack-m"
         style="display: flex; flex-direction: row;align-items: center;"
       >
-        <h1 style="display: inline-flex; align-items: center;">
-          Log in with your company MitID
-        </h1>
+        <h1 style="display: inline-flex; align-items: center;">Log in with your company MitID</h1>
       </div>
       <eo-landing-page-login-button></eo-landing-page-login-button>
     </div>
