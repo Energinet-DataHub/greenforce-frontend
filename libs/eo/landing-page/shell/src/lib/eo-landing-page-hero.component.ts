@@ -84,7 +84,7 @@ import { EoLandingPageLoginButtonComponent } from './eo-landing-page-login-butto
     <img src="/assets/images/landing-page/hero-illustration.png" />
 
     <div class="call-to-action">
-      <h2 class="eo-text-primary-contrast">Log in with your company NemID</h2>
+      <h2 class="eo-text-primary-contrast">Log in with your company MitID</h2>
 
       <eo-landing-page-login-button></eo-landing-page-login-button>
       <div class="powered-by">

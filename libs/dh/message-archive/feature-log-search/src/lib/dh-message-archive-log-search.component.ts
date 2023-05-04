@@ -23,6 +23,7 @@ import {
   DhMessageArchiveDataAccessBlobApiStore,
 } from '@energinet-datahub/dh/message-archive/data-access-api';
 import { DocumentTypes, ProcessTypes } from '@energinet-datahub/dh/message-archive/domain';
+import { ArchivedMessageSearchCriteria } from '@energinet-datahub/dh/shared/domain';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
@@ -77,21 +78,30 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
 })
 export class DhMessageArchiveLogSearchComponent {
   searchForm: FormGroup = new FormGroup({
-    messageId: new FormControl(''),
-    rsmNames: new FormControl([]),
-    processTypes: new FormControl([]),
-    senderId: new FormControl(''),
-    receiverId: new FormControl(''),
-    includeRelated: new FormControl<boolean>({ value: false, disabled: true }),
-    dateRange: new FormControl<WattRange>({
-      start: '',
-      end: '',
-    }),
-    timeRange: new FormControl<WattRange>({
-      start: '00:00',
-      end: '23:59',
-      disabled: true,
-    }),
+    messageId: new FormControl('', { nonNullable: true }),
+    messageTypes: new FormControl([], { nonNullable: true }),
+    businessReasons: new FormControl([], { nonNullable: true }),
+    senderId: new FormControl('', { nonNullable: true }),
+    receiverId: new FormControl('', { nonNullable: true }),
+    includeRelated: new FormControl<boolean>(
+      { value: false, disabled: true },
+      { nonNullable: true }
+    ),
+    dateRange: new FormControl<WattRange>(
+      {
+        start: new Date().toISOString(),
+        end: new Date().toISOString(),
+      },
+      { nonNullable: true }
+    ),
+    timeRange: new FormControl<WattRange>(
+      {
+        start: '00:00',
+        end: '23:59',
+        disabled: true,
+      },
+      { nonNullable: true }
+    ),
   });
 
   searchResult$ = this.store.searchResult$;
@@ -106,6 +116,8 @@ export class DhMessageArchiveLogSearchComponent {
 
   searching = false;
   maxItemCount = 100;
+
+  searchCriteria: ArchivedMessageSearchCriteria = {};
 
   constructor(
     private store: DhMessageArchiveDataAccessApiStore,
@@ -149,7 +161,8 @@ export class DhMessageArchiveLogSearchComponent {
   onSubmit() {
     if (this.searchForm.valid === false) return;
 
-    const { dateRange, timeRange } = this.searchForm.value;
+    const { dateRange, messageId, receiverId, senderId, timeRange, messageTypes, businessReasons } =
+      this.searchForm.value;
 
     const dateTimeFrom = zonedTimeToUtc(dateRange?.start, danishTimeZoneIdentifier);
     const dateTimeTo = zonedTimeToUtc(dateRange?.end, danishTimeZoneIdentifier);
@@ -165,16 +178,26 @@ export class DhMessageArchiveLogSearchComponent {
       dateTimeTo.setMinutes(toMinutes);
     }
 
-    this.store.searchLogs();
+    Object.assign(this.searchCriteria, {
+      dateTimeFrom: dateTimeFrom.toISOString(),
+      dateTimeTo: dateTimeTo.toISOString(),
+      messageId: messageId === '' ? null : messageId,
+      senderId: senderId === '' ? null : senderId,
+      receiverId: receiverId === '' ? null : receiverId,
+      messageTypes: messageTypes?.length === 0 ? null : messageTypes,
+      businessReasons: businessReasons?.length === 0 ? null : businessReasons,
+    });
+
+    this.store.searchLogs(this.searchCriteria);
   }
 
   loadMore(continuationToken?: string | null) {
     console.log({ continuationToken });
   }
 
-  resetSearchCritera() {
+  resetSearchCriteria() {
     this.store.resetState();
-    //TODO: reset form not working
+
     this.searchForm.reset();
   }
 }

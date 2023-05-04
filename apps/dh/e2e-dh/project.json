@@ -15,11 +15,13 @@
       "configurations": {
         "ci": {
           "devServerTarget": "app-dh:serve:mocked",
-          "ignoreTestFiles": "**/*-healthchecks.cy.ts"
+          "ignoreTestFiles": "**/*-healthchecks.cy.ts",
+          "browser": "chrome"
         },
         "health": {
           "devServerTarget": "app-dh:serve:mocked",
-          "spec": "**/*-healthchecks.cy.ts"
+          "spec": "**/*-healthchecks.cy.ts",
+          "browser": "chrome"
         },
         "production": {
           "devServerTarget": "app-dh:serve:production"

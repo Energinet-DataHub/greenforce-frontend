@@ -1,4 +1,5 @@
 export * from './archived-message';
+export * from './archived-message-search-criteria';
 export * from './charge-link-v1-dto';
 export * from './charge-market-participant-v1-dto';
 export * from './charge-message-sort-column-name';
@@ -59,6 +60,7 @@ export * from './market-participant-update-user-role-dto';
 export * from './market-participant-user-audit-log-dto';
 export * from './market-participant-user-audit-log-type';
 export * from './market-participant-user-audit-logs-dto';
+export * from './market-participant-user-identity-update-dto';
 export * from './market-participant-user-invitation-dto';
 export * from './market-participant-user-overview-filter-dto';
 export * from './market-participant-user-overview-item-actor-dto';
