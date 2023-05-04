@@ -60,15 +60,6 @@ import { EoLandingPageLoginButtonComponent } from './eo-landing-page-login-butto
           width: 180px; // Magic UX number
         }
       }
-
-      .icon-link {
-        padding-left: var(--watt-space-s);
-
-        @include watt.media('<Small') {
-          padding-top: 38px; // Magic UX number
-        }
-      }
-    `,
   ],
   template: `
     <img src="/assets/images/landing-page/landing-page-mesh-bottom.png" />
@@ -78,15 +69,7 @@ import { EoLandingPageLoginButtonComponent } from './eo-landing-page-login-butto
         style="display: flex; flex-direction: row;align-items: center;"
       >
         <h1 style="display: inline-flex; align-items: center;">
-          Log in with your company NemID
-          <a
-            href="https://www.nemid.nu/dk-en/about_nemid/index.html"
-            target="_blank"
-            rel="nofollow noopener"
-            class="icon-link"
-          >
-            <watt-icon name="custom-primary-info"></watt-icon>
-          </a>
+          Log in with your company MitID
         </h1>
       </div>
       <eo-landing-page-login-button></eo-landing-page-login-button>
