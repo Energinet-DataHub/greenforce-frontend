@@ -42,7 +42,7 @@ jobs:
         run: npx nx run e2e-dh:e2e:health
 
   #
-  # Send notification to teams channel if deployment dispatch failed
+  # Send notification to teams channel if healthchecks failed
   #
   dispatch_failed:
     needs:
