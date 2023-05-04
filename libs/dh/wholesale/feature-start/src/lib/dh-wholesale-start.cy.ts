@@ -17,8 +17,8 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
-import { Type } from '@angular/core';
-import { mount, MountConfig } from 'cypress/angular';
+
+import { da as daTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
 import { WattToastModule } from '@energinet-datahub/watt/toast';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
@@ -30,9 +30,8 @@ import {
 
 import { DhWholesaleStartComponent } from './dh-wholesale-start.component';
 
-function customMount<T>(component: string | Type<T>, config?: MountConfig<T>) {
-  return mount<T>(component, {
-    ...config,
+it('mounts', () => {
+  cy.mount(DhWholesaleStartComponent, {
     imports: [
       BrowserAnimationsModule,
       DhApiModule.forRoot(),
@@ -44,19 +43,8 @@ function customMount<T>(component: string | Type<T>, config?: MountConfig<T>) {
       WattToastModule.forRoot(),
     ],
   });
-}
 
-Cypress.Commands.add('mount', customMount);
-
-it('mounts', () => {
-  cy.mount(DhWholesaleStartComponent);
-});
-
-it('shows validation message for balance fixings when date is set', () => {
-  cy.mount(DhWholesaleStartComponent);
-  cy.findByLabelText('PROCESTYPE').select('Balancefiksering');
-  cy.findByLabelText('PERIODE').type('0112202130122021');
-  cy.findByText('Der findes kørte balancefikseringer i den valgte periode', {
-    exact: false,
-  }).should('exist');
+  cy.selectOption('processType', daTranslations.wholesale.startBatch.processTypes.BALANCE_FIXING);
+  cy.typeDateRange('dateRange', '04-05-2023', '05-05-2023');
+  cy.findByRole('alert').should('exist');
 });

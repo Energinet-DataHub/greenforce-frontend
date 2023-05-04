@@ -42,4 +42,8 @@ export class WattValidationMessageComponent {
   @HostBinding('class') get cssClass() {
     return `watt-validation-message-type--${this.type} watt-validation-message-size--${this.size}`;
   }
+
+  @HostBinding('attr.role') get ariaRole() {
+    return this.type === 'warning' || this.type === 'danger' ? 'alert' : 'status';
+  }
 }

@@ -156,7 +156,7 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   ngAfterViewInit() {
-    this.modal.closed
+    this.modal?.closed
       .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe(() => this.createBatch());
   }
