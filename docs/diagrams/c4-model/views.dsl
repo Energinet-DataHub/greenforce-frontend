@@ -4,7 +4,8 @@
 #   * Include of the `model.dsl` files from each domain repository using an URL
 #
 # The `model.dsl` file must contain the actual model, and is the piece that must
-# be reusable and included in the complete model file located in the 'dh3-infrastructure' repository.
+# be reusable and included in other Structurizr files like `views.dsl` and
+# deployment diagram files.
 
 # TODO: Reset to use main before merging PR
 workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-arch-diagrams/dstenroejl/align-c4-models/docs/diagrams/c4-model/dh3-base-model.dsl {
