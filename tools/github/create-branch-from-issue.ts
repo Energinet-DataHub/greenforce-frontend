@@ -99,8 +99,6 @@ const issueTitle = issues
   .replace(/[\W_]+/g, '-')
   .substring(0, 63);
 
-console.log({ issueTitle });
-
 const createResponse = await execAsync(
   `gh issue develop ${issue} --name ${type}/${issueTitle} --issue-repo ${selectedRepo} --checkout`
 );
