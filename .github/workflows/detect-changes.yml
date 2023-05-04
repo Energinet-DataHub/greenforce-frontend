@@ -27,6 +27,8 @@ on:
         value: ${{ jobs.changes.outputs.dh_frontend }}
       watt_frontend:
         value: ${{ jobs.changes.outputs.watt_frontend }}
+      render_diagrams:
+        value: ${{ jobs.changes.outputs.render_diagrams }}
 
 jobs:
   changes:
@@ -37,6 +39,7 @@ jobs:
       dh_dotnet: ${{ steps.filter.outputs.dh_dotnet }}
       dh_frontend: ${{ steps.dh_affected.outputs.is-affected }}
       watt_frontend: ${{ steps.watt_affected.outputs.is-affected }}
+      render_diagrams: ${{ steps.filter.outputs.render_diagrams }}
     env:
       BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
       IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
@@ -58,6 +61,11 @@ jobs:
               - '.github/workflows/detect-changes.yml'
               - '.github/actions/dotnet-*/**'
               - 'apps/dh/api-dh/**'
+            render_diagrams:
+              - 'docs/diagrams/c4-model/views.dsl'
+              - 'docs/diagrams/c4-model/model.dsl'
+              - '.github/workflows/render-diagrams.yml'
+              - '.github/workflows/detect-changes.yml'
 
       # needed for nx affected command
       - name: "PR: Fetch base branch Git history"
