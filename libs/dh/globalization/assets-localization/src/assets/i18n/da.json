@@ -756,6 +756,7 @@
       "filters": {
         "executionTime": "Eksekveringstid",
         "executionTimeRequired": "Eksekveringstid påkrævet",
+        "startedBy": "Bestilt af",
         "searchButton": "Søg"
       },
       "columns": {

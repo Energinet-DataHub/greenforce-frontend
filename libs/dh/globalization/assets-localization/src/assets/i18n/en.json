@@ -765,6 +765,7 @@
       "filters": {
         "executionTime": "Execution time",
         "executionTimeRequired": "Execution time is required",
+        "startedBy": "Started by",
         "searchButton": "Search"
       },
       "columns": {
