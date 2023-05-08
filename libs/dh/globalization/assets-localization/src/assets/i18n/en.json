@@ -529,7 +529,7 @@
           "marketRole": "Market role",
           "gridArea": "Grid area",
           "meteringPointTypes": "Type of metering points",
-          "comment": "Comment",
+          "commentLabel": "Comment",
           "invalidConfiguration": "Market roles are not correctly configured"
         }
       }
@@ -768,6 +768,7 @@
         "searchButton": "Search"
       },
       "columns": {
+        "startedBy": "Started by",
         "batchId": "Batch number",
         "periodFrom": "Period from",
         "periodTo": "Period to",
