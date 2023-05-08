@@ -69,11 +69,11 @@ limitations under the License.
     </ng-container>
 
     <ng-container matColumnDef="comment">
-      <mat-header-cell *matHeaderCellDef>{{ t("comment") }}</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{ t("commentLabel") }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
         <watt-form-field>
           <input
-            [attr.aria-label]="t('comment')"
+            [attr.aria-label]="t('commentLabel')"
             [disabled]="isReadonly(element)"
             wattInput
             [(ngModel)]="element.comment"

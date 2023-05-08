@@ -522,7 +522,7 @@
           "marketRole": "Markedsrolle",
           "gridArea": "Netområde",
           "meteringPointTypes": "Målepunktstyper",
-          "comment": "Kommentar",
+          "commentLabel": "Kommentar",
           "invalidConfiguration": "Markedsroller er ikke korrekt konfigureret"
         }
       }
@@ -771,6 +771,7 @@
         "searchButton": "Søg"
       },
       "columns": {
+        "startedBy": "Bestilt af",
         "batchId": "Batch-nummer",
         "periodFrom": "Periode fra",
         "periodTo": "Periode til",
