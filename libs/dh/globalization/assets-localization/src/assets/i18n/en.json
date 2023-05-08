@@ -766,6 +766,7 @@
         "executionTime": "Execution time",
         "executionTimeRequired": "Execution time is required",
         "startedBy": "Started by",
+        "startedByPlaceholder": "Search or select",
         "searchButton": "Search"
       },
       "columns": {

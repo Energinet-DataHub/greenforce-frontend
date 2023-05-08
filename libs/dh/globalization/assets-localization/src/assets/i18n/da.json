@@ -757,6 +757,7 @@
         "executionTime": "Eksekveringstid",
         "executionTimeRequired": "Eksekveringstid påkrævet",
         "startedBy": "Bestilt af",
+        "startedByPlaceholder": "Søg eller valg",
         "searchButton": "Søg"
       },
       "columns": {

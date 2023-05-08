@@ -31,7 +31,10 @@ limitations under the License.
 
   <watt-form-field>
     <watt-label>{{ transloco("startedBy") }}</watt-label>
-    <watt-dropdown formControlName="startedBy"></watt-dropdown>
+    <watt-dropdown
+      formControlName="startedBy"
+      [placeholder]="transloco('startedByPlaceholder')"
+    ></watt-dropdown>
   </watt-form-field>
 
   <div class="form-grid__actions">
