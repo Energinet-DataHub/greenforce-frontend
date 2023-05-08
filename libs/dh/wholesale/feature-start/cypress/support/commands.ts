@@ -41,7 +41,9 @@ declare global {
 }
 
 Cypress.Commands.add('typeDateRange', (formControlName, start, end) => {
-  cy.get(`[formcontrolname="${formControlName}"] [aria-label="start-date-input"]`).type(`${start}${end}`);
+  cy.get(`[formcontrolname="${formControlName}"] [aria-label="start-date-input"]`).type(
+    `${start}${end}`
+  );
 });
 
 Cypress.Commands.add('selectOption', (formControlName, option) => {
