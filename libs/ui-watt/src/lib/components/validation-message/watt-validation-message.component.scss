@@ -32,7 +32,7 @@
       @include watt.typography-watt-label;
     }
 
-    strong::not(:empty)::after {
+    strong:not(:empty)::after {
       content: ":";
     }
 
