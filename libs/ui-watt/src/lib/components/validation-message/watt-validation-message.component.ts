@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { WattIcon } from '../../foundations/icon/icons';
 
 export type WattValidationMessageType = 'info' | 'warning' | 'success' | 'danger';
-
+export type WattValidationMessageSize = 'compact' | 'normal';
 /**
  * Usage:
  * `import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';`
@@ -31,12 +32,18 @@ export type WattValidationMessageType = 'info' | 'warning' | 'success' | 'danger
 export class WattValidationMessageComponent {
   @Input() label = '';
   @Input() message = '';
+  @Input() icon?: WattIcon;
   @Input() type: WattValidationMessageType = 'info';
+  @Input() size: WattValidationMessageSize = 'compact';
 
   /**
    * @ignore
    */
   @HostBinding('class') get cssClass() {
-    return `watt-validation-message--${this.type}`;
+    return `watt-validation-message-type--${this.type} watt-validation-message-size--${this.size}`;
+  }
+
+  @HostBinding('attr.role') get ariaRole() {
+    return this.type === 'warning' || this.type === 'danger' ? 'alert' : 'status';
   }
 }
