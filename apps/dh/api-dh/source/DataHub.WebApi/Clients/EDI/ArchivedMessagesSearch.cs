@@ -56,9 +56,10 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
                     new CreatedDuringPeriod(
                 archivedMessageSearch.DateTimeFrom,
                 archivedMessageSearch.DateTimeTo),
-                    archivedMessageSearch.MessageId)));
+                    archivedMessageSearch.MessageId,
+                    archivedMessageSearch.SenderNumber)));
 
-            var response = await _httpClient.PostAsync(url, content);
+            var response = await _httpClient.PostAsync(url, content, cancellationToken);
 
             response.EnsureSuccessStatusCode();
 
