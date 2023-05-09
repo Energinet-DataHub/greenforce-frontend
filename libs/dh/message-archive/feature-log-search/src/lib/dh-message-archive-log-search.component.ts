@@ -81,7 +81,7 @@ export class DhMessageArchiveLogSearchComponent {
     messageId: new FormControl('', { nonNullable: true }),
     messageTypes: new FormControl([], { nonNullable: true }),
     businessReasons: new FormControl([], { nonNullable: true }),
-    senderId: new FormControl('', { nonNullable: true }),
+    senderNumber: new FormControl('', { nonNullable: true }),
     receiverId: new FormControl('', { nonNullable: true }),
     includeRelated: new FormControl<boolean>(
       { value: false, disabled: true },
@@ -161,7 +161,7 @@ export class DhMessageArchiveLogSearchComponent {
   onSubmit() {
     if (this.searchForm.valid === false) return;
 
-    const { dateRange, messageId, receiverId, senderId, timeRange, messageTypes, businessReasons } =
+    const { dateRange, messageId, receiverId, senderNumber, timeRange, messageTypes, businessReasons } =
       this.searchForm.value;
 
     const dateTimeFrom = zonedTimeToUtc(dateRange?.start, danishTimeZoneIdentifier);
@@ -182,7 +182,7 @@ export class DhMessageArchiveLogSearchComponent {
       dateTimeFrom: dateTimeFrom.toISOString(),
       dateTimeTo: dateTimeTo.toISOString(),
       messageId: messageId === '' ? null : messageId,
-      senderId: senderId === '' ? null : senderId,
+      senderNumber: senderNumber === '' ? null : senderNumber,
       receiverId: receiverId === '' ? null : receiverId,
       messageTypes: messageTypes?.length === 0 ? null : messageTypes,
       businessReasons: businessReasons?.length === 0 ? null : businessReasons,
