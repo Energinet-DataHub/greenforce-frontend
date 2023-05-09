@@ -22,6 +22,10 @@
   @include watt.space-inset-l;
 }
 
+watt-validation-message {
+  margin-bottom: var(--watt-space-m);
+}
+
 watt-form-field {
   margin-bottom: var(--watt-space-l);
 }

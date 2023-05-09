@@ -15,10 +15,12 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-
 import { WattValidationMessageComponent } from './watt-validation-message.component';
+import { WattIconModule } from '../../foundations/icon/icon.module';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
+  imports: [CommonModule, WattIconModule],
   declarations: [WattValidationMessageComponent],
   exports: [WattValidationMessageComponent],
 })

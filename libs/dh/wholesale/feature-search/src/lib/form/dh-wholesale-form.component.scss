@@ -16,14 +16,21 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
-.actions {
-  display: flex;
-  justify-content: flex-end;
+:host {
+  display: block;
+}
 
-  watt-button {
-    margin-top: var(--watt-space-m);
-    margin-left: var(--watt-space-l);
-  }
+.form-grid {
+  display: grid;
+  gap: var(--watt-space-m);
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.form-grid__actions {
+  display: flex;
+  grid-column-start: 1;
+  grid-column-end: -1;
+  justify-content: flex-end;
 }
 
 form {
