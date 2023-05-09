@@ -134,15 +134,31 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<BatchType>>>>("batches")
                 .Argument<DateRangeType>("executionTime")
+                .Argument<BatchState>("executionState", nullable: true)
+                .Argument<ProcessType>("processType", nullable: true)
+                .Argument<DateRangeType>("period")
+                .Argument<IntGraphType>("first")
                 .Resolve()
                 .WithScope()
                 .WithService<IWholesaleClient_V3>()
                 .ResolveAsync(async (context, client) =>
                 {
-                    var interval = context.GetArgument<Interval>("executionTime");
-                    var start = interval.Start.ToDateTimeOffset();
-                    var end = interval.End.ToDateTimeOffset();
-                    return await client.SearchBatchesAsync(null, null, start, end);
+                    var executionTime = context.GetArgument<Interval?>("executionTime");
+                    var executionState = context.GetArgument<BatchState?>("executionState");
+                    var processType = context.GetArgument<ProcessType?>("processType");
+                    var period = context.GetArgument<Interval?>("period");
+                    var first = context.GetArgument<int?>("first");
+
+                    var minExecutionTime = executionTime?.Start.ToDateTimeOffset();
+                    var maxExecutionTime = executionTime?.End.ToDateTimeOffset();
+                    var periodStart = period?.Start.ToDateTimeOffset();
+                    var periodEnd = period?.End.ToDateTimeOffset();
+
+                    var batches = (await client.SearchBatchesAsync(null, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd))
+                        .OrderByDescending(x => x.ExecutionTimeStart)
+                        .Where(x => processType == null || x.ProcessType == processType);
+
+                    return first is not null ? batches.Take(first.Value) : batches;
                 });
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<SettlementReportType>>>>("settlementReports")
