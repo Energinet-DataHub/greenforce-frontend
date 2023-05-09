@@ -16,7 +16,6 @@
  */
 import { Route } from '@angular/router';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 import {
@@ -25,7 +24,7 @@ import {
   WHOLESALE_CALCULATION_STEPS_PATH,
   WHOLESALE_SETTLEMENT_REPORTS_PATH,
 } from '@energinet-datahub/dh/wholesale/routing';
-import { EnvironmentInjector, Inject, inject } from '@angular/core';
+import { inject } from '@angular/core';
 
 const settlementsGuard = 'settlements:manage';
 
