@@ -16,7 +16,8 @@ using System;
 
 namespace Energinet.DataHub.WebApi.Clients.EDI
 {
-    internal record ArchivedMessageSearchCriteriaDto(CreatedDuringPeriod CreatedDuringPeriod, string? MessageId);
+    internal record ArchivedMessageSearchCriteriaDto(
+        CreatedDuringPeriod CreatedDuringPeriod, string? MessageId, string? SenderNumber);
 
     internal record CreatedDuringPeriod(string? Start, string? End);
 }
