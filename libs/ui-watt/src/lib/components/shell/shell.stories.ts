@@ -24,7 +24,6 @@ import { provideLocationMocks } from '@angular/common/testing';
 
 import { WattNavListComponent, WattNavListItemComponent } from './nav-list';
 import { WattShellComponent } from './shell.component';
-import { WattTopBarComponent, WattTopBarOutletComponent } from './top-bar';
 
 const meta: Meta<WattShellComponent> = {
   title: 'Components/Shell',
@@ -34,13 +33,7 @@ const meta: Meta<WattShellComponent> = {
       providers: [provideAnimations(), provideLocationMocks()],
     }),
     moduleMetadata({
-      imports: [
-        RouterModule,
-        WattShellComponent,
-        WattTopBarOutletComponent,
-        WattNavListComponent,
-        WattNavListItemComponent,
-      ],
+      imports: [RouterModule, WattShellComponent, WattNavListComponent, WattNavListItemComponent],
     }),
   ],
 };
@@ -111,7 +104,6 @@ function generateComponent(template: string) {
   @Component({
     template,
     standalone: true,
-    imports: [WattTopBarComponent],
   })
   class StorybookPageComponent {}
 
@@ -173,8 +165,6 @@ const withTopBarTemplate = `
   <ng-container watt-shell-toolbar>
     Toolbar
   </ng-container>
-
-  <watt-top-bar-outlet></watt-top-bar-outlet>
 
   <router-outlet></router-outlet>
 </watt-shell>
