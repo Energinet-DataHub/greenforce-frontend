@@ -25,7 +25,7 @@ import {
 import { WattIcon } from '../../foundations/icon';
 
 export const WattButtonTypes = ['primary', 'secondary', 'text', 'icon'] as const;
-export type WattButtonVariant = (typeof WattButtonTypes)[number];
+export type WattButtonVariant = typeof WattButtonTypes[number];
 export type WattButtonType = 'button' | 'reset' | 'submit';
 
 @Component({
