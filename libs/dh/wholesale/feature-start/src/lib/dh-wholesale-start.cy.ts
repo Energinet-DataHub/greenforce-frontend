@@ -18,6 +18,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 
+import { da as daTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
+
 import { WattToastModule } from '@energinet-datahub/watt/toast';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { DhGraphQLModule } from '@energinet-datahub/dh/shared/data-access-graphql';
@@ -41,4 +43,8 @@ it('mounts', () => {
       WattToastModule.forRoot(),
     ],
   });
+
+  cy.selectOption('processType', daTranslations.wholesale.startBatch.processTypes.BALANCE_FIXING);
+  cy.typeDateRange('dateRange', '04-05-2023', '05-05-2023');
+  cy.findByRole('alert').should('exist');
 });
