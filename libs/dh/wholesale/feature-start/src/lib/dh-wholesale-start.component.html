@@ -52,7 +52,7 @@ limitations under the License.
     <form
       [formGroup]="createBatchForm"
       *transloco="let transloco; read: 'wholesale'"
-      (ngSubmit)="latestExecutionTime ? modal.open() : createBatch()"
+      (ngSubmit)="latestExecutionTime && createBatchForm.controls.processType.value === 'BALANCE_FIXING' ? modal.open() : createBatch()"
       novalidate
     >
       <!-- Period Warning-->

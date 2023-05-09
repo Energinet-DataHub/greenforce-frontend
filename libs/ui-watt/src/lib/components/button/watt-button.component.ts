@@ -46,7 +46,7 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
           'content-wrapper': !loading
         }"
       >
-        <watt-icon *ngIf="hasIcon()" [name]="icon"></watt-icon>
+        <watt-icon *ngIf="hasIcon()" [name]="icon" [attr.aria-label]="icon"></watt-icon>
         <ng-content *ngIf="variant !== 'icon'"></ng-content>
       </div>
     </button>
