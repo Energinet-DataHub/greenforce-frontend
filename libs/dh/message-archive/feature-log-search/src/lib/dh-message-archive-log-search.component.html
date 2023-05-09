@@ -17,97 +17,95 @@ limitations under the License.
 <ng-container *transloco="let transloco; read: 'messageArchive.search'">
   <ng-container *rxLet="searching$ as searching">
     <ng-container *rxLet="continuationToken$ as continuationToken">
-      <watt-top-bar>
-        <form class="form" [formGroup]="searchForm" name="log-search-form" (ngSubmit)="onSubmit()">
-          <!-- MessageId -->
+      <form class="form" [formGroup]="searchForm" name="log-search-form" (ngSubmit)="onSubmit()">
+        <!-- MessageId -->
+        <watt-form-field>
+          <watt-label>{{ transloco("messageId") }}</watt-label>
+          <input formControlName="messageId" wattInput type="text" name="messageId" />
+        </watt-form-field>
+        <!-- RSM -->
+        <watt-form-field>
+          <watt-label>{{ transloco("messageType") }}</watt-label>
+          <watt-dropdown
+            formControlName="messageTypes"
+            [options]="rsmFormFieldOptions"
+            name="messageType"
+            [placeholder]="transloco('chooseDocumentType')"
+            [multiple]="true"
+          >
+          </watt-dropdown>
+        </watt-form-field>
+
+        <watt-form-field>
+          <watt-label>{{ transloco("businessReason") }}</watt-label>
+          <watt-dropdown
+            formControlName="businessReasons"
+            [options]="processTypeFormFieldOptions"
+            name="businessReason"
+            [placeholder]="transloco('chooseDocumentType')"
+            [multiple]="true"
+          >
+          </watt-dropdown>
+        </watt-form-field>
+
+        <!-- Sender -->
+        <watt-form-field>
+          <watt-label>{{ transloco("senderGln") }}</watt-label>
+          <watt-dropdown
+            formControlName="senderId"
+            [options]="(getActorOptions$ | async) ?? []"
+            name="senderId"
+            [placeholder]="transloco('chooseDocumentType')"
+          >
+          </watt-dropdown>
+        </watt-form-field>
+
+        <!-- Receiver -->
+        <watt-form-field>
+          <watt-label>{{ transloco("receiverGln") }}</watt-label>
+          <watt-dropdown
+            formControlName="receiverId"
+            [options]="(getActorOptions$ | async) ?? []"
+            name="receiverId"
+            [placeholder]="transloco('chooseDocumentType')"
+          >
+          </watt-dropdown>
+        </watt-form-field>
+
+        <div class="rowContainer">
           <watt-form-field>
-            <watt-label>{{ transloco("messageId") }}</watt-label>
-            <input formControlName="messageId" wattInput type="text" name="messageId" />
+            <watt-label>{{ transloco("periode") }}</watt-label>
+            <watt-datepicker formControlName="dateRange" [range]="true"></watt-datepicker>
+            <watt-error *ngIf="searchForm.controls.dateRange.errors?.rangeRequired">
+              {{ transloco("invalidDate") }}
+            </watt-error>
           </watt-form-field>
-          <!-- RSM -->
+
           <watt-form-field>
-            <watt-label>{{ transloco("messageType") }}</watt-label>
-            <watt-dropdown
-              formControlName="messageTypes"
-              [options]="rsmFormFieldOptions"
-              name="messageType"
-              [placeholder]="transloco('chooseDocumentType')"
-              [multiple]="true"
+            <watt-label>{{ transloco("time") }}</watt-label>
+            <watt-timepicker formControlName="timeRange" [range]="true"></watt-timepicker>
+          </watt-form-field>
+
+          <!-- Reference id -->
+          <watt-checkbox formControlName="includeRelated" wattInput name="reference-id">{{
+            transloco("includeRelatedMessage")
+          }}</watt-checkbox>
+          <div class="buttons-container">
+            <watt-button (click)="resetSearchCriteria()" icon="remove" variant="secondary">{{
+              transloco("clearSearch")
+            }}</watt-button>
+            <!-- Search -->
+            <watt-button
+              *rxLet="searching$ as seaching"
+              [disabled]="seaching"
+              variant="primary"
+              type="submit"
+              icon="search"
+              >{{ transloco("startSearch") }}</watt-button
             >
-            </watt-dropdown>
-          </watt-form-field>
-
-          <watt-form-field>
-            <watt-label>{{ transloco("businessReason") }}</watt-label>
-            <watt-dropdown
-              formControlName="businessReasons"
-              [options]="processTypeFormFieldOptions"
-              name="businessReason"
-              [placeholder]="transloco('chooseDocumentType')"
-              [multiple]="true"
-            >
-            </watt-dropdown>
-          </watt-form-field>
-
-          <!-- Sender -->
-          <watt-form-field>
-            <watt-label>{{ transloco("senderGln") }}</watt-label>
-            <watt-dropdown
-              formControlName="senderId"
-              [options]="(getActorOptions$ | async) ?? []"
-              name="senderId"
-              [placeholder]="transloco('chooseDocumentType')"
-            >
-            </watt-dropdown>
-          </watt-form-field>
-
-          <!-- Receiver -->
-          <watt-form-field>
-            <watt-label>{{ transloco("receiverGln") }}</watt-label>
-            <watt-dropdown
-              formControlName="receiverId"
-              [options]="(getActorOptions$ | async) ?? []"
-              name="receiverId"
-              [placeholder]="transloco('chooseDocumentType')"
-            >
-            </watt-dropdown>
-          </watt-form-field>
-
-          <div class="rowContainer">
-            <watt-form-field>
-              <watt-label>{{ transloco("periode") }}</watt-label>
-              <watt-datepicker formControlName="dateRange" [range]="true"></watt-datepicker>
-              <watt-error *ngIf="searchForm.controls.dateRange.errors?.rangeRequired">
-                {{ transloco("invalidDate") }}
-              </watt-error>
-            </watt-form-field>
-
-            <watt-form-field>
-              <watt-label>{{ transloco("time") }}</watt-label>
-              <watt-timepicker formControlName="timeRange" [range]="true"></watt-timepicker>
-            </watt-form-field>
-
-            <!-- Reference id -->
-            <watt-checkbox formControlName="includeRelated" wattInput name="reference-id">{{
-              transloco("includeRelatedMessage")
-            }}</watt-checkbox>
-            <div class="buttons-container">
-              <watt-button (click)="resetSearchCriteria()" icon="remove" variant="secondary">{{
-                transloco("clearSearch")
-              }}</watt-button>
-              <!-- Search -->
-              <watt-button
-                *rxLet="searching$ as seaching"
-                [disabled]="seaching"
-                variant="primary"
-                type="submit"
-                icon="search"
-                >{{ transloco("startSearch") }}</watt-button
-              >
-            </div>
           </div>
-        </form>
-      </watt-top-bar>
+        </div>
+      </form>
       <dh-message-archive-log-search-result
         *rxLet="searchResult$ as searchResult"
         [searchResult]="searchResult$ | push"

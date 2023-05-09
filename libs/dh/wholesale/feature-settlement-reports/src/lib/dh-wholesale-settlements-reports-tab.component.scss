@@ -1,0 +1,5 @@
+@use "@energinet-datahub/watt/utils" as watt;
+
+.mat-tab-body-wrapper {
+  @include watt.space-inset-l;
+}

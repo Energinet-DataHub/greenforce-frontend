@@ -736,6 +736,7 @@
   "wholesale": {
     "BALANCE_FIXING": "Balance Fixing",
     "AGGREGATION": "Aggregation",
+    "WHOLESALE_FIXING": "Wholesale fixing",
     "startBatch": {
       "topBarTitle": "Start Batch",
       "startLabel": "Start",
@@ -800,6 +801,10 @@
       "topBarTitle": "Settlement Reports",
       "download": "Download",
       "downloadFailed": "Download failed",
+      "tabs": {
+        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
+        "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"
+      },
       "table": {
         "title": "Processes",
         "processType": "Process type",
