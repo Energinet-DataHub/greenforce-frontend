@@ -149,7 +149,7 @@ jobs:
       - name: Zip file
         if: failure()
         run: |
-          zip -r cypress-e2e.zip /home/runner/work/greenforce-frontend/greenforce-frontend/dist/cypress/
+          zip -r cypress-e2e.zip /dist/cypress/
 
       - name: Upload artifact
         if: failure()
