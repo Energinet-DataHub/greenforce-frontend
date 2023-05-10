@@ -146,6 +146,16 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
 
+      - name: Zip file
+        run: |
+          zip -r cypress-e2e.zip /home/runner/work/greenforce-frontend/greenforce-frontend/dist/cypress/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-e2e
+          path: cypress-e2e.zip
+
       - name: "Merge: End-to-end test all products"
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn e2e --configuration=ci
