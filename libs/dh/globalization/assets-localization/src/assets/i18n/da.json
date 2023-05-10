@@ -914,6 +914,7 @@
       "download": "Download",
       "drawer": {
         "edit": "Rediger rettighed",
+        "editRole": "Rediger rolle",
         "disable": "Deaktiver",
         "disablingUserRole": "Deaktiverer bruger rollen",
         "userroleDisabled": "Bruger rollen blev deaktiveret.",
