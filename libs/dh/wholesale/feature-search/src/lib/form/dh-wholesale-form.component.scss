@@ -36,5 +36,5 @@
 form {
   @include watt.space-inset-l;
   box-shadow: var(--watt-bottom-box-shadow);
-  background-color: --watt-color-neutral-white;
+  background-color: var(--watt-color-neutral-white);
 }
