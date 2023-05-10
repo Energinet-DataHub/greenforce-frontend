@@ -15,10 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import {
-  Actor,
-  MessageArchiveHttp,
-} from '@energinet-datahub/dh/shared/domain';
+import { Actor, MessageArchiveHttp } from '@energinet-datahub/dh/shared/domain';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { LoadingState, ErrorState } from '@energinet-datahub/dh/shared/data-access-api';
 import { map, Observable, switchMap, tap } from 'rxjs';
