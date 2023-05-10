@@ -57,12 +57,12 @@ export const WHOLESALE_SHELL: Route[] = [
     canMatch: [
       () => {
         const featureFlagsService = inject(DhFeatureFlagsService);
-        return !featureFlagsService.isEnabled('tab_layout_on_settlement_page_feature_flag');
+        return featureFlagsService.isEnabled('tab_layout_on_settlement_page_feature_flag');
       },
     ],
     loadComponent: () => {
       return import('@energinet-datahub/dh/wholesale/feature-settlement-reports').then(
-        (m) => m.DhWholesaleSettlementReportsComponent
+        (m) => m.DhWholesaleSettlementsReportsTabComponent
       );
     },
     data: {
@@ -72,15 +72,9 @@ export const WHOLESALE_SHELL: Route[] = [
   {
     path: WHOLESALE_SETTLEMENT_REPORTS_PATH,
     canActivate: [PermissionGuard([settlementsGuard])],
-    canMatch: [
-      () => {
-        const featureFlagsService = inject(DhFeatureFlagsService);
-        return featureFlagsService.isEnabled('tab_layout_on_settlement_page_feature_flag');
-      },
-    ],
     loadComponent: () => {
       return import('@energinet-datahub/dh/wholesale/feature-settlement-reports').then(
-        (m) => m.DhWholesaleSettlementsReportsTabComponent
+        (m) => m.DhWholesaleSettlementReportsComponent
       );
     },
     data: {

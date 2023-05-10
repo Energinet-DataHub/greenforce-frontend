@@ -18,14 +18,13 @@ limitations under the License.
   <div class="wrapper">
     <watt-card>
       <watt-card-title>
-        <h3>
-          <ng-container *ngIf="this.result">
-            {{ this.result.length }}
-            {{ this.result.length === 1 ? t("resultLength") : t("resultsLength") }}
-          </ng-container>
-        </h3>
-
         <div class="pagination-container">
+          <h3>
+            <ng-container *ngIf="this.result">
+              {{ this.result.length }}
+              {{ this.result.length === 1 ? t("resultLength") : t("resultsLength") }}
+            </ng-container>
+          </h3>
           <!-- Download -->
           <watt-button icon="openInNew" variant="text" (click)="downloadClicked()">
             {{ t("Download") }}

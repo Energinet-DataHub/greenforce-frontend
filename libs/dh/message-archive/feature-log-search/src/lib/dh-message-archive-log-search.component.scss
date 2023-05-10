@@ -23,9 +23,8 @@
   column-gap: var(--watt-space-m);
   row-gap: var(--watt-space-m);
   align-items: center;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
-  background-color: #ffffff;
-
+  box-shadow: var(--watt-bottom-box-shadow);
+  background-color: --watt-color-neutral-white;
   .mat-checkbox {
     .mat-checkbox-layout {
       text-transform: initial;
