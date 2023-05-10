@@ -146,17 +146,12 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
 
-      - name: Zip file
-        if: failure()
-        run: |
-          zip -r cypress-e2e.zip /dist/cypress/
-
       - name: Upload artifact
         if: failure()
         uses: actions/upload-artifact@v3
         with:
           name: cypress-e2e
-          path: cypress-e2e.zip
+          path: dist/cypress/apps/
 
       - name: "Merge: End-to-end test all products"
         if: ${{ env.is-pull-request == 'false' }}
