@@ -147,10 +147,12 @@ jobs:
         run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
 
       - name: Zip file
+        if: failure()
         run: |
           zip -r cypress-e2e.zip /home/runner/work/greenforce-frontend/greenforce-frontend/dist/cypress/
 
       - name: Upload artifact
+        if: failure()
         uses: actions/upload-artifact@v3
         with:
           name: cypress-e2e
