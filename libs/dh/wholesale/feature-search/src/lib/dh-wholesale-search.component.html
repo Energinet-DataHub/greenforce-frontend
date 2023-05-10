@@ -15,32 +15,32 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<watt-top-bar>
-  <dh-wholesale-form
-    (search)="onSearch($event)"
-    [executionTime]="executionTime"
-    [loading]="loading"
-  ></dh-wholesale-form>
-</watt-top-bar>
+<dh-wholesale-form
+  (search)="onSearch($event)"
+  [executionTime]="executionTime"
+  [loading]="loading"
+></dh-wholesale-form>
 
-<dh-wholesale-batch-details
-  #batchDetails
-  (closed)="onBatchDetailsClosed()"
-></dh-wholesale-batch-details>
+<div class="wrapper">
+  <dh-wholesale-batch-details
+    #batchDetails
+    (closed)="onBatchDetailsClosed()"
+  ></dh-wholesale-batch-details>
 
-<section class="content" *ngIf="batches">
-  <dh-wholesale-table
-    [data]="batches"
-    [selectedBatch]="selectedBatch"
-    (selectedRow)="onBatchSelected($event)"
-  ></dh-wholesale-table>
-</section>
+  <section class="content" *ngIf="batches">
+    <dh-wholesale-table
+      [data]="batches"
+      [selectedBatch]="selectedBatch"
+      (selectedRow)="onBatchSelected($event)"
+    ></dh-wholesale-table>
+  </section>
 
-<watt-spinner *ngIf="loading"></watt-spinner>
+  <watt-spinner *ngIf="loading"></watt-spinner>
 
-<watt-empty-state
-  *ngIf="error"
-  icon="custom-power"
-  [title]="'shared.error.title' | transloco"
-  [message]="'shared.error.message' | transloco"
-></watt-empty-state>
+  <watt-empty-state
+    *ngIf="error"
+    icon="custom-power"
+    [title]="'shared.error.title' | transloco"
+    [message]="'shared.error.message' | transloco"
+  ></watt-empty-state>
+</div>

@@ -16,6 +16,7 @@
  */
 import { Route } from '@angular/router';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 import {
   WHOLESALE_START_PROCESS_PATH,
@@ -23,6 +24,7 @@ import {
   WHOLESALE_CALCULATION_STEPS_PATH,
   WHOLESALE_SETTLEMENT_REPORTS_PATH,
 } from '@energinet-datahub/dh/wholesale/routing';
+import { inject } from '@angular/core';
 
 const settlementsGuard = 'settlements:manage';
 
@@ -52,10 +54,29 @@ export const WHOLESALE_SHELL: Route[] = [
   {
     path: WHOLESALE_SETTLEMENT_REPORTS_PATH,
     canActivate: [PermissionGuard([settlementsGuard])],
-    loadComponent: () =>
-      import('@energinet-datahub/dh/wholesale/feature-settlement-reports').then(
+    canMatch: [
+      () => {
+        const featureFlagsService = inject(DhFeatureFlagsService);
+        return featureFlagsService.isEnabled('tab_layout_on_settlement_page_feature_flag');
+      },
+    ],
+    loadComponent: () => {
+      return import('@energinet-datahub/dh/wholesale/feature-settlement-reports').then(
+        (m) => m.DhWholesaleSettlementsReportsTabComponent
+      );
+    },
+    data: {
+      titleTranslationKey: 'wholesale.settlementReports.topBarTitle',
+    },
+  },
+  {
+    path: WHOLESALE_SETTLEMENT_REPORTS_PATH,
+    canActivate: [PermissionGuard([settlementsGuard])],
+    loadComponent: () => {
+      return import('@energinet-datahub/dh/wholesale/feature-settlement-reports').then(
         (m) => m.DhWholesaleSettlementReportsComponent
-      ),
+      );
+    },
     data: {
       titleTranslationKey: 'wholesale.settlementReports.topBarTitle',
     },

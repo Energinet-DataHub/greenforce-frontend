@@ -17,7 +17,7 @@
 
 .container {
   display: block;
-  margin: var(--watt-space-ml);
+  margin: 5px; //width of the border on the expandable card
 }
 
 watt-table {

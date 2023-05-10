@@ -43,12 +43,21 @@ watt-tabs {
     }
   }
 
+  .mat-tab-body-wrapper {
+    @include watt.space-inset-l;
+  }
+
   .mat-tab-label-container {
     padding-left: var(--watt-space-ml);
   }
 
   .mat-tab-header-pagination-chevron {
     border-color: var(--watt-color-primary);
+  }
+
+  .mat-tab-header {
+    box-shadow: var(--watt-bottom-box-shadow);
+    background-color: --watt-color-neutral-white;
   }
 
   .mat-ink-bar {
