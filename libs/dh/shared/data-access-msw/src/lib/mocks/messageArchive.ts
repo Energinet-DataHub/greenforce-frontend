@@ -29,7 +29,7 @@ export function archivedMessageSearch(apiBase: string) {
 }
 
 export function getActors(apiBase: string) {
-  return rest.post(`${apiBase}/v1/MessageArchive/Actors`, (req, res, ctx) => {
+  return rest.get(`${apiBase}/v1/MessageArchive/Actors`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(actors));
   });
 }
