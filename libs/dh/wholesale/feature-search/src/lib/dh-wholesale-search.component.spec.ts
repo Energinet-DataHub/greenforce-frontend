@@ -22,25 +22,20 @@ import { DhGraphQLModule } from '@energinet-datahub/dh/shared/data-access-graphq
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 import { WattToastModule } from '@energinet-datahub/watt/toast';
-import { WattTopBarOutletComponent } from '@energinet-datahub/watt/shell';
 
 import { DhWholesaleSearchComponent } from './dh-wholesale-search.component';
 
 async function setup() {
-  await render(
-    `<watt-top-bar-outlet></watt-top-bar-outlet><dh-wholesale-search></dh-wholesale-search>`,
-    {
-      imports: [
-        DhGraphQLModule.forRoot(),
-        DhWholesaleSearchComponent,
-        getTranslocoTestingModule(),
-        HttpClientModule,
-        WattDanishDatetimeModule.forRoot(),
-        WattToastModule.forRoot(),
-        WattTopBarOutletComponent,
-      ],
-    }
-  );
+  await render(`<dh-wholesale-search></dh-wholesale-search>`, {
+    imports: [
+      DhGraphQLModule.forRoot(),
+      DhWholesaleSearchComponent,
+      getTranslocoTestingModule(),
+      HttpClientModule,
+      WattDanishDatetimeModule.forRoot(),
+      WattToastModule.forRoot(),
+    ],
+  });
 }
 
 describe(DhWholesaleSearchComponent.name, () => {

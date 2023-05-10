@@ -727,6 +727,7 @@
   },
   "wholesale": {
     "BALANCE_FIXING": "Balancefiksering",
+    "WHOLESALE_FIXING": "Engrosfiksering",
     "AGGREGATION": "Aggregering",
     "startBatch": {
       "topBarTitle": "Start batch",
@@ -805,6 +806,10 @@
       "topBarTitle": "Afregningsrapporter",
       "download": "Download",
       "downloadFailed": "Download fejlede",
+      "tabs": {
+        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
+        "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"
+      },
       "table": {
         "title": "Processer",
         "processType": "Procestype",

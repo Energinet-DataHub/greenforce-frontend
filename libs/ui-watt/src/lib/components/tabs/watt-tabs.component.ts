@@ -66,3 +66,5 @@ export class WattTabsComponent implements AfterViewInit {
     this.emitSelectedTabChange(this.activeTabIndex);
   }
 }
+
+export const WATT_TABS = [WattTabsComponent, WattTabComponent];
