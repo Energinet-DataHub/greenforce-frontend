@@ -41,7 +41,7 @@ limitations under the License.
     </watt-drawer-content>
   </watt-drawer>
 
-  <watt-top-bar *ngIf="gridArea && batch">
+  <ng-container *ngIf="gridArea && batch">
     <div class="header">
       <watt-breadcrumbs>
         <watt-breadcrumb (click)="navigateToSearchBatch()">
@@ -82,7 +82,7 @@ limitations under the License.
         </dd>
       </dl>
     </div>
-  </watt-top-bar>
+  </ng-container>
   <main>
     <ul class="steps" *ngIf="batch && gridArea">
       <li>

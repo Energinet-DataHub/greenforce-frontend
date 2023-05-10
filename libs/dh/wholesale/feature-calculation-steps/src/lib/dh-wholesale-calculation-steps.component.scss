@@ -14,16 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@use "@energinet-datahub/watt/utils" as watt;
+
 .header {
   watt-breadcrumbs {
     border-bottom: 1px solid var(--watt-color-neutral-grey-300);
     margin-bottom: var(--watt-space-m);
-    padding-bottom: var(--watt-space-m);
+    background-color: var(--watt-color-neutral-white);
+    box-shadow: var(--watt-bottom-box-shadow);
+    @include watt.space-inset-s;
+    padding-left: var(--watt-space-l);
   }
 
   h2,
   p {
     margin: 0;
+    padding-left: var(--watt-space-l);
   }
 }
 
@@ -42,6 +48,7 @@ ul {
   align-items: center;
   margin: 0;
   margin-top: var(--watt-space-s);
+  padding-left: var(--watt-space-l);
 
   dt:not(:first-of-type) {
     margin-left: var(--watt-space-m);
@@ -69,6 +76,7 @@ main {
   grid-template-rows: 1fr;
   gap: 0px var(--watt-space-l);
   grid-template-areas: "steps details";
+  @include watt.space-inset-l;
 }
 
 .details {

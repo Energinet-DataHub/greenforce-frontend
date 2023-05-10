@@ -14,5 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattTopBarComponent } from './watt-top-bar.component';
-export { WattTopBarOutletComponent } from './watt-top-bar-outlet.component';
+import { Component } from '@angular/core';
+import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { TranslocoModule } from '@ngneat/transloco';
+
+@Component({
+  standalone: true,
+  selector: 'dh-wholesale-settlements-reports-tab',
+  templateUrl: './dh-wholesale-settlements-reports-tab.component.html',
+  styleUrls: ['./dh-wholesale-settlements-reports-tab.component.scss'],
+  imports: [WATT_TABS, WattCardModule, TranslocoModule],
+})
+export class DhWholesaleSettlementsReportsTabComponent {}
