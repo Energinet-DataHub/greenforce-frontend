@@ -23,17 +23,13 @@ export function messageArchiveMocks(apiBase: string) {
 }
 
 export function archivedMessageSearch(apiBase: string) {
-  return [
-    rest.post(`${apiBase}/v1/MessageArchive/SearchRequestResponseLogs`, (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(archivedMessages));
-    }),
-  ];
+  return rest.post(`${apiBase}/v1/MessageArchive/SearchRequestResponseLogs`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(archivedMessages));
+  });
 }
 
 export function getActors(apiBase: string) {
-  return [
-    rest.post(`${apiBase}/v1/MessageArchive/Actors`, (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(actors));
-    }),
-  ];
+  return rest.post(`${apiBase}/v1/MessageArchive/Actors`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(actors));
+  });
 }
