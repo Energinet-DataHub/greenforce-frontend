@@ -30,7 +30,6 @@ import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 
 import { PushModule } from '@rx-angular/template/push';
 import { DhChargesPricesResultComponent } from './search-result/dh-charges-prices-result.component';
@@ -60,7 +59,6 @@ import { ChargeSearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
     DhChargesPricesResultComponent,
     WattDatepickerModule,
     PushModule,
-    WattTopBarComponent,
   ],
   selector: 'dh-charges-prices',
   changeDetection: ChangeDetectionStrategy.OnPush,

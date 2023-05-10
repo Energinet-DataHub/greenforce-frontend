@@ -31,7 +31,6 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
   styles: [
     `
       :host {
-        margin: var(--watt-space-ml);
         display: block;
       }
     `,
