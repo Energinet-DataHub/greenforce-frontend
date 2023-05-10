@@ -48,8 +48,8 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
             return actorDtos
                 .Select(actorDto => new Actor(
                     ActorId: actorDto.ActorId,
-                    ActorNumber: actorDto.ActorNumber,
-                    Name: actorDto.Name))
+                    ActorNumber: new ActorNumberDto(actorDto.ActorNumber.Value),
+                    Name: new ActorNameDto(actorDto.Name.Value)))
                 .ToList();
         }
     }

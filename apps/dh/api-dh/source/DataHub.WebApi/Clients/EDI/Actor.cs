@@ -13,9 +13,12 @@
 // limitations under the License.
 
 using System;
-using Energinet.DataHub.MarketParticipant.Client.Models;
 
 namespace Energinet.DataHub.WebApi.Clients.EDI
 {
     public sealed record Actor(Guid ActorId, ActorNumberDto ActorNumber, ActorNameDto Name);
+
+    public sealed record ActorNumberDto(string Value);
+
+    public sealed record ActorNameDto(string Value);
 }

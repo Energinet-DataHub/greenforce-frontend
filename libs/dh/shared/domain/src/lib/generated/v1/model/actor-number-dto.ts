@@ -9,14 +9,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ActorNumberDto } from './actor-number-dto';
-import { ActorNameDto } from './actor-name-dto';
 
 
-export interface Actor { 
-    actorId: string;
-    actorNumber: ActorNumberDto;
-    name: ActorNameDto;
+export interface ActorNumberDto { 
+    value: string;
 }
 
 
