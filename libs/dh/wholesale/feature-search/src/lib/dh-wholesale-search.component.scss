@@ -14,8 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+@use "@energinet-datahub/watt/utils" as watt;
+
 .content {
   display: flex;
   justify-content: center;
   width: 100%;
+}
+
+.wrapper {
+  @include watt.space-inset-l;
 }

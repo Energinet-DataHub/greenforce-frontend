@@ -41,7 +41,6 @@ import { DhAdminPermissionMarketRolesComponent } from './tabs/dh-admin-permissio
   standalone: true,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './dh-admin-permission-detail.component.html',
-  styleUrls: ['./dh-admin-permission-detail.component.scss'],
   imports: [
     CommonModule,
     WattDrawerModule,

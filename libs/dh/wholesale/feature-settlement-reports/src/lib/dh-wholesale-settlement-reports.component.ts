@@ -32,7 +32,6 @@ import {
   settlementReportsTableColumns,
 } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
-import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 import { Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import {
@@ -56,7 +55,6 @@ import { SettlementReport } from '@energinet-datahub/dh/wholesale/domain';
     TranslocoModule,
     WattEmptyStateComponent,
     WattSpinnerModule,
-    WattTopBarComponent,
     WattCardModule,
   ],
   templateUrl: './dh-wholesale-settlement-reports.component.html',
