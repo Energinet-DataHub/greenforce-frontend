@@ -18,7 +18,7 @@
 
 :host {
   display: block;
-  max-width: 319px;
+  max-width: 319px; // dummy change to trigger GH action
   @include watt.space-inset-l;
 }
 
