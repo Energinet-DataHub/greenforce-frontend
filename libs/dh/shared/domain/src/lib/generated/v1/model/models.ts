@@ -1,3 +1,4 @@
+export * from './actor';
 export * from './archived-message';
 export * from './archived-message-search-criteria';
 export * from './charge-link-v1-dto';
