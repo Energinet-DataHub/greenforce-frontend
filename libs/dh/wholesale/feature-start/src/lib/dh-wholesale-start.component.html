@@ -61,9 +61,7 @@ limitations under the License.
     >
       <!-- Period Warning-->
       <watt-validation-message
-        *ngIf="
-          latestPeriodEnd && createBatchForm.controls.processType.value === 'BALANCE_FIXING'
-        "
+        *ngIf="latestPeriodEnd && createBatchForm.controls.processType.value === 'BALANCE_FIXING'"
         type="warning"
         icon="warning"
         message="{{
