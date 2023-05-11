@@ -1,0 +1,9 @@
+@use "@energinet-datahub/watt/utils" as watt;
+
+.watt-chip-label {
+  @include watt.typography-watt-label;
+  display: inline-block;
+  background: var(--watt-color-state-info-light);
+  padding: 0 12px;
+  border-radius: 32px;
+}

@@ -17,7 +17,20 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'wholesale.settlementReports.tabs'">
   <watt-tabs>
     <watt-tab [label]="t('BALANCE_FIXING')">
-      <watt-card variant="solid">test</watt-card>
+      <watt-card>
+        <watt-card-title>
+          <h3>
+            Søgeresultater
+            <span class="watt-chip-label">54</span>
+          </h3>
+          <watt-button icon="search" variant="text">Søg</watt-button>
+        </watt-card-title>
+        <form [formGroup]="searchForm" class="form-grid" novalidate>
+          <watt-form-field class="datePicker">
+            <watt-datepicker formControlName="executionTime" [range]="true"></watt-datepicker>
+          </watt-form-field>
+        </form>
+      </watt-card>
     </watt-tab>
     <watt-tab [label]="t('WHOLESALE_FIXING')"></watt-tab>
   </watt-tabs>
