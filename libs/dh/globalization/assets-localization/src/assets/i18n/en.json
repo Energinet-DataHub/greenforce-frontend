@@ -928,6 +928,7 @@
       "download": "Download",
       "drawer": {
         "edit": "Edit",
+        "editRole": "Edit role",
         "disable": "Disable",
         "disablingUserRole": "Disabling user role",
         "userroleDisabled": "The user role was deactivated",
