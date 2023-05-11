@@ -40,3 +40,7 @@ Overview.args = {
     { label: 'Custom', value: 'c' },
   ],
 };
+
+export const ChipLabel: StoryFn = () => ({
+  template: `<span class="watt-chip-label">54</span>`,
+});
