@@ -14,11 +14,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<a (click)="click()">
+<a (click)="redirectToMitIdSignup()">
   <div class="mitid-icon-link" alt="mitid-login">
-    <label class="mit-id-label" *transloco="let t; read: 'admin.userManagement'">{{
-      t("connect")
-    }}</label>
-    <div class="mit-id-image"></div>
+    <ng-container *ngIf="!(isLoading$ | push); else waitSpinner">
+      <label class="mit-id-label" *transloco="let t; read: 'admin.userManagement'">{{
+        t("connect")
+      }}</label>
+      <div class="mit-id-image"></div>
+    </ng-container>
   </div>
 </a>
+
+<ng-template #waitSpinner>
+  <watt-spinner [diameter]="24"></watt-spinner>
+</ng-template>
