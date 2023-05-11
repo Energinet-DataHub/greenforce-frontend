@@ -759,7 +759,7 @@
         "SIMULATION": "Simulation"
       },
       "processTypeError": "Process type is required",
-      "periodWarning": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestExecutionTime}}.",
+      "periodWarning": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
       "modal": {
         "title": "Rerun balance fixing?",
         "warningLabel": "This will issue new data to the actors",

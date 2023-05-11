@@ -53,7 +53,7 @@ limitations under the License.
       [formGroup]="createBatchForm"
       *transloco="let transloco; read: 'wholesale'"
       (ngSubmit)="
-        latestExecutionTime && createBatchForm.controls.processType.value === 'BALANCE_FIXING'
+        latestPeriodEnd && createBatchForm.controls.processType.value === 'BALANCE_FIXING'
           ? modal.open()
           : createBatch()
       "
@@ -62,13 +62,13 @@ limitations under the License.
       <!-- Period Warning-->
       <watt-validation-message
         *ngIf="
-          latestExecutionTime && createBatchForm.controls.processType.value === 'BALANCE_FIXING'
+          latestPeriodEnd && createBatchForm.controls.processType.value === 'BALANCE_FIXING'
         "
         type="warning"
         icon="warning"
         message="{{
           transloco('startBatch.periodWarning', {
-            latestExecutionTime: latestExecutionTime | dhDate
+            latestPeriodEnd: latestPeriodEnd | dhDate
           })
         }}"
       />
