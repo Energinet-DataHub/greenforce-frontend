@@ -43,6 +43,13 @@ jobs:
       - name: Run healthchecks
         run: npx nx run e2e-dh:e2e:health
 
+      - name: Upload artifact
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: healthchecks
+          path: dist/cypress/apps/dh/e2e-dh/videos/b2c-healthchecks.cy.ts.mp4
+
   #
   # Send notification to teams channel if healthchecks failed
   #

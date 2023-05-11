@@ -44,7 +44,32 @@ it('mounts', () => {
     ],
   });
 
+  // Create batch with process type of balance fixing, with "invalid" period
   cy.selectOption('processType', daTranslations.wholesale.startBatch.processTypes.BALANCE_FIXING);
   cy.typeDateRange('dateRange', '04-05-2023', '05-05-2023');
+
+  // Expect the alert to be visible due to "invalid" period
   cy.findByRole('alert').should('exist');
+
+  // Submit the form
+  cy.findByRole('button', { name: daTranslations.wholesale.startBatch.startLabel }).click();
+
+  // Expect warning dialog to be visible
+  cy.findByRole('dialog').should('exist');
+
+  // Close the warning dialog
+  cy.findByRole('button', { name: 'close' }).click();
+  cy.findByRole('dialog').should('not.exist');
+
+  // Change the process type to aggregation
+  cy.selectOption('processType', daTranslations.wholesale.startBatch.processTypes.AGGREGATION);
+
+  // Expect the alert to be hidden due to aggregation is selected
+  cy.findByRole('alert').should('not.exist');
+
+  // Submit the form
+  cy.findByRole('button', { name: daTranslations.wholesale.startBatch.startLabel }).click();
+
+  // Expect the dialog not to be open due to aggregation is selected
+  cy.findByRole('dialog').should('not.exist');
 });
