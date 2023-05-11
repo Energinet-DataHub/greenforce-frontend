@@ -7,8 +7,7 @@
 # be reusable and included in other Structurizr files like `views.dsl` and
 # deployment diagram files.
 
-# TODO: Reset to use main before merging PR
-workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-arch-diagrams/dstenroejl/align-c4-models/docs/diagrams/c4-model/dh3-base-model.dsl {
+workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-arch-diagrams/main/docs/diagrams/c4-model/dh3-base-model.dsl {
 
     model {
         #
@@ -41,14 +40,12 @@ workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-ar
             include ->frontendDomain->
             exclude "relationship.tag==OAuth"
             exclude "element.tag==Intermediate Technology"
-            autolayout
         }
 
         container dh3 "FrontendDetailed" {
             title "[Container] DataHub 3.0 - Frontend (Detailed with OAuth)"
             include ->frontendDomain->
             exclude "relationship.tag==Simple View"
-            autolayout
         }
     }
 }
