@@ -21,6 +21,12 @@ import { WattChipsComponent } from './watt-chips.component';
 const meta: Meta<WattChipsComponent> = {
   title: 'Components/Chips',
   component: WattChipsComponent,
+  argTypes: {
+    selectionChange: {
+      table: { category: 'Outputs' },
+      control: false,
+    },
+  },
 };
 
 export default meta;
