@@ -11,6 +11,9 @@
  */
 
 
+/**
+ * Defines the wholesale process type
+ */
 export type WholesaleProcessType = 'BalanceFixing' | 'Aggregation';
 
 export const WholesaleProcessType = {

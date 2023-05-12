@@ -8,6 +8,7 @@ query GetBatch($id: ID!) {
     period
     statusType
     processType
+    createdByUserId
     gridAreas {
       code
       name
