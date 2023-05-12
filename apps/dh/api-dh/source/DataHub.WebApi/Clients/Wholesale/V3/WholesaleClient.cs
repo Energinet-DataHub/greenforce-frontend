@@ -970,6 +970,9 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ProcessType ProcessType { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("createdByUserId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid CreatedByUserId { get; set; }
+
     }
 
     /// <summary>

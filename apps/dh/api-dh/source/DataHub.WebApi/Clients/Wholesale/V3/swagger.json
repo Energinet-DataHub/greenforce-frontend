@@ -497,6 +497,10 @@
           },
           "processType": {
             "$ref": "#/components/schemas/ProcessType"
+          },
+          "createdByUserId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
