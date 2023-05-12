@@ -112,6 +112,7 @@ type GraphQLMutation {
 
 type GraphQLQuery {
   actors: [Actor!]!
+  actorsforsettlement: [Actor!]!
   batch(
     """The id of the organization"""
     id: ID

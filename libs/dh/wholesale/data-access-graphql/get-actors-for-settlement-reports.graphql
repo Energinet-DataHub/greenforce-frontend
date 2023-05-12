@@ -1,0 +1,7 @@
+query GetActorsForSettlementReport {
+  actorsforsettlement {
+    value: id
+    displayValue: name
+    gridAreaCodes
+  }
+}

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { WattChipsComponent } from '@energinet-datahub/watt/chips';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
@@ -23,6 +23,11 @@ import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { MarketParticipantFilteredActorDto, graphql } from '@energinet-datahub/dh/shared/domain';
+import { Subject, takeUntil } from 'rxjs';
+import { Apollo } from 'apollo-angular';
+import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
+import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
   standalone: true,
@@ -38,12 +43,37 @@ import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
     WattDatepickerModule,
     ReactiveFormsModule,
     WattFormFieldModule,
+    WattDropdownModule,
   ],
 })
-export class DhWholesaleSettlementsReportsTabComponent {
+export class DhWholesaleSettlementsReportsTabComponent implements OnInit {
   private fb: FormBuilder = inject(FormBuilder);
+  private apollo = inject(Apollo);
+  private destroy$ = new Subject<void>();
+  private selectedActor?: MarketParticipantFilteredActorDto;
+
   @Input() set executionTime(executionTime: { start: string; end: string }) {
     this.searchForm.patchValue({ executionTime });
   }
-  searchForm = this.fb.group({ executionTime: [this.executionTime] });
+  searchForm = this.fb.group({
+    executionTime: [this.executionTime],
+    actor: [{ value: '', disabled: true }],
+  });
+
+  actors!: ActorFilter;
+
+  actorsQuery = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: graphql.GetActorsForSettlementReportDocument,
+  });
+
+  ngOnInit(): void {
+    this.actorsQuery.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (result) => {
+        this.actors = result.data?.actorsforsettlement ?? [];
+        if (!result.loading) this.searchForm.controls.actor.enable();
+      },
+    });
+  }
 }

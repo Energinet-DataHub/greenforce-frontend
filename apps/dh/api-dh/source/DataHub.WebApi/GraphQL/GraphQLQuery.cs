@@ -212,35 +212,68 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Resolve(context => new { });
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<ActorDtoType>>>>("actors")
-               .Resolve()
-               .WithScope()
-               .WithService<IMarketParticipantClient>()
-               .ResolveAsync(async (context, client) =>
-               {
-                   var gridAreas = await client.GetGridAreasAsync();
-                   var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
-                   var actors = await client.GetActorsAsync();
+                .Resolve()
+                .WithScope()
+                .WithService<IMarketParticipantClient>()
+                .ResolveAsync(async (context, client) =>
+                {
+                    var gridAreas = await client.GetGridAreasAsync();
+                    var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
+                    var actors = await client.GetActorsAsync();
 
-                   var accessibleActors = actors.Select(x => new Actor(x.ActorNumber.Value)
-                   {
-                       Id = x.ActorId,
-                       Name = x.Name.Value,
-                       GridAreaCodes = x.MarketRoles
-                          .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
-                          .Distinct()
-                          .Select(gridAreaId => gridAreaLookup[gridAreaId].Code)
-                          .ToArray(),
-                   });
+                    var accessibleActors = actors.Select(x => new Actor(x.ActorNumber.Value)
+                    {
+                        Id = x.ActorId,
+                        Name = x.Name.Value,
+                        GridAreaCodes = x.MarketRoles
+                            .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
+                            .Distinct()
+                            .Select(gridAreaId => gridAreaLookup[gridAreaId].Code)
+                            .ToArray(),
+                    });
 
-                   // TODO: Is this the right place to filter this list?
-                   if (context.User!.IsFas())
-                   {
-                       return accessibleActors;
-                   }
+                    // TODO: Is this the right place to filter this list?
+                    if (context.User!.IsFas())
+                    {
+                        return accessibleActors;
+                    }
 
-                   var actorId = context.User!.GetAssociatedActor();
-                   return accessibleActors.Where(actor => actor.Id == actorId);
-               });
+                    var actorId = context.User!.GetAssociatedActor();
+                    return accessibleActors.Where(actor => actor.Id == actorId);
+                });
+
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<ActorDtoType>>>>("actorsforsettlement")
+                .Resolve()
+                .WithScope()
+                .WithService<IMarketParticipantClient>()
+                .ResolveAsync(async (context, client) =>
+                {
+                    var gridAreas = await client.GetGridAreasAsync();
+                    var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
+                    var actors = await client.GetActorsAsync();
+
+                    var accessibleActors = actors.Where(x =>
+                            x.MarketRoles.Any(y =>
+                                y.EicFunction is EicFunction.EnergySupplier or EicFunction.GridAccessProvider))
+                        .Select(x => new Actor(x.ActorNumber.Value)
+                        {
+                            Id = x.ActorId,
+                            Name = x.Name.Value,
+                            GridAreaCodes = x.MarketRoles
+                                .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
+                                .Distinct()
+                                .Select(gridAreaId => gridAreaLookup[gridAreaId].Code)
+                                .ToArray(),
+                        });
+
+                    if (context.User!.IsFas())
+                    {
+                        return accessibleActors.OrderBy(x => x.Name).ThenBy(x => x.Number);
+                    }
+
+                    var actorId = context.User!.GetAssociatedActor();
+                    return accessibleActors.Where(actor => actor.Id == actorId);
+                });
         }
     }
 }
