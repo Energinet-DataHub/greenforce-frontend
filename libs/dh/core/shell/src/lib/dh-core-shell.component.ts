@@ -61,7 +61,7 @@ export class DhCoreShellComponent {
     from(this.oidcSecurityService.getConfigurations())
       .pipe(
         map((config) => {
-          console.log("logging out", config.configId)
+          console.log('logging out', config.configId);
           // TODO: Check that it happens
           return this.oidcSecurityService.logoff(config.configId);
         }),
