@@ -39,6 +39,7 @@ Overview.args = {
     { label: 'Year', value: 'y' },
     { label: 'Custom', value: 'c' },
   ],
+  selectionChange: (value: string) => console.log(value),
 };
 
 export const ChipLabel: StoryFn = () => ({
