@@ -14,21 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@use "@energinet-datahub/watt/utils" as watt;
 
-.container {
-  display: block;
-}
-
-watt-table {
-  box-sizing: border-box;
-}
-
-watt-empty-state {
-  padding: var(--watt-space-xl);
-}
-
-watt-spinner {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--watt-space-xl);
+.watt-chip-label {
+  @include watt.typography-watt-label;
+  display: inline-block;
+  background: var(--watt-color-state-info-light);
+  padding: 0 12px;
+  border-radius: 32px;
 }

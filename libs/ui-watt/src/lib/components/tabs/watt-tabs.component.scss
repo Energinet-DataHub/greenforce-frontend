@@ -47,6 +47,12 @@ watt-tabs {
     @include watt.space-inset-l;
   }
 
+  .mat-tab-body.mat-tab-body-active,
+  .mat-tab-group.mat-tab-group-dynamic-height .mat-tab-body.mat-tab-body-active,
+  .mat-tab-group-dynamic-height .mat-tab-body-content {
+    overflow: initial;
+  }
+
   .mat-tab-label-container {
     padding-left: var(--watt-space-ml);
   }
@@ -57,7 +63,7 @@ watt-tabs {
 
   .mat-tab-header {
     box-shadow: var(--watt-bottom-box-shadow);
-    background-color: --watt-color-neutral-white;
+    background-color: var(--watt-color-neutral-white);
   }
 
   .mat-ink-bar {
