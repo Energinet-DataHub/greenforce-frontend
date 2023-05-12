@@ -232,8 +232,6 @@ export abstract class WattPickerBase
 
   constructor(
     public id: string,
-    protected inputMaskService: WattInputMaskService,
-    protected rangeInputService: WattRangeInputService,
     protected elementRef: ElementRef<HTMLElement>,
     protected changeDetectionRef: ChangeDetectorRef,
     @Optional() ngControl: NgControl
