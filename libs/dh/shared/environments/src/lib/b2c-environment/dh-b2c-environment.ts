@@ -22,9 +22,9 @@ import { environment } from '../environment';
 export interface DhB2CEnvironment {
   readonly clientId: string;
   readonly scopeUri: string;
-  readonly authority: string;
+  readonly authorityB2C: string;
+  readonly authorityMitID: string;
   readonly mitIdInviteFlowUri: string;
-  readonly knownAuthorities: string[];
 }
 
 export const dhB2CEnvironmentToken = new InjectionToken<DhB2CEnvironment>('dhB2CEnvironmentToken', {

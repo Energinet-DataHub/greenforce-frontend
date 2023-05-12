@@ -15,8 +15,6 @@
 | [@angular/platform-browser](https://github.com/angular/angular) | 15.2.6 | MIT |
 | [@angular/router](https://github.com/angular/angular) | 15.2.6 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.7.11 | MIT |
-| [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 2.5.5 | MIT |
-| [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 2.35.0 | MIT |
 | [@babel/core](https://github.com/babel/babel) | 7.21.4 | MIT |
 | [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 3.0.2 | MIT |
 | [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.12 | MIT |
@@ -26,6 +24,7 @@
 | [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 14.0.0 | MIT |
 | [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 14.0.0 | MIT |
 | [@vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
+| [angular-auth-oidc-client](https://github.com/damienbod/angular-auth-oidc-client) | 15.0.5 | MIT |
 | [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 4.2.1 | MIT |
 | [chart.js](https://github.com/chartjs/Chart.js) | 3.8.0 | MIT |
 | [chartjs-plugin-datalabels](https://github.com/chartjs/chartjs-plugin-datalabels) | 2.0.0 | MIT |

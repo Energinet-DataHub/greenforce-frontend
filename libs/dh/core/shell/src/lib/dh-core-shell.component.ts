@@ -17,7 +17,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
-import { MsalService } from '@azure/msal-angular';
 import { PushModule } from '@rx-angular/template/push';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
@@ -30,6 +29,8 @@ import {
   DhSelectedActorComponent,
   DhSignupMitIdComponent,
 } from '@energinet-datahub/dh/shared/feature-authorization';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { from, map, zipAll } from 'rxjs';
 
 @Component({
   selector: 'dh-shell',
@@ -51,9 +52,21 @@ import {
 export class DhCoreShellComponent {
   titleTranslationKey$ = this.dhTopBarStore.titleTranslationKey$;
 
-  constructor(private authService: MsalService, private dhTopBarStore: DhTopBarStore) {}
+  constructor(
+    private oidcSecurityService: OidcSecurityService,
+    private dhTopBarStore: DhTopBarStore
+  ) {}
 
   logout() {
-    this.authService.logout();
+    from(this.oidcSecurityService.getConfigurations())
+      .pipe(
+        map((config) => {
+          console.log("logging out", config.configId)
+          // TODO: Check that it happens
+          return this.oidcSecurityService.logoff(config.configId);
+        }),
+        zipAll()
+      )
+      .subscribe();
   }
 }

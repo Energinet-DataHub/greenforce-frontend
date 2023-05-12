@@ -1,15 +1,15 @@
 {
-  "name": "dh-auth-feature-msal",
+  "name": "dh-auth-feature-oidc",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/dh/auth/feature-msal/src",
+  "sourceRoot": "libs/dh/auth/feature-oidc/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/auth/feature-msal"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/auth/feature-oidc"],
       "options": {
-        "jestConfig": "libs/dh/auth/feature-msal/jest.config.ts",
+        "jestConfig": "libs/dh/auth/feature-oidc/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -17,8 +17,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/dh/auth/feature-msal/src/**/*.ts",
-          "libs/dh/auth/feature-msal/src/**/*.html"
+          "libs/dh/auth/feature-oidc/src/**/*.ts",
+          "libs/dh/auth/feature-oidc/src/**/*.html"
         ]
       }
     }

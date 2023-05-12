@@ -1,3 +1,3 @@
 {
-  "apiBase": "https://localhost:5001"
+  "apiBase": "https://app-bff-fe-u-002.azurewebsites.net"
 }

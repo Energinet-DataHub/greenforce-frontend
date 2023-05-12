@@ -14,4 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/b2c-config';
+export * from './lib/auth-config.module';
+export * from './lib/authentication.guard';
+export * from './lib/authentication.interceptor';
+export * from './lib/dh-auth-login.component';
