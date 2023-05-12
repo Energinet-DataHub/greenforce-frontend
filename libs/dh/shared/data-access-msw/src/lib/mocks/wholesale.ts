@@ -399,7 +399,10 @@ function getGridAreas() {
 
 function getLatestBalanceFixing() {
   return graphql.mockGetLatestBalanceFixingQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data({ batches: [{ executionTimeStart }] }));
+    return res(
+      ctx.delay(300),
+      ctx.data({ batches: [{ period: { start: periodStart, end: periodEnd } }] })
+    );
   });
 }
 
