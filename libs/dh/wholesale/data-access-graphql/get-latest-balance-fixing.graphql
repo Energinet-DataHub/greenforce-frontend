@@ -5,6 +5,6 @@ query GetLatestBalanceFixing($period: DateRange) {
     processType: BALANCE_FIXING
     executionState: COMPLETED
   ) {
-    executionTimeStart
+    period
   }
 }

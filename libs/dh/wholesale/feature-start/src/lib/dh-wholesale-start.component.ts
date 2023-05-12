@@ -125,7 +125,7 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
   executionTypes: WattChipsOption[] = [];
 
   selectedExecutionType = 'ACTUAL';
-  latestExecutionTime?: string | null;
+  latestPeriodEnd?: string | null;
 
   gridAreas$: Observable<WattDropdownOption[]> = combineLatest([
     this.gridAreasQuery.valueChanges.pipe(map((result) => result.data?.gridAreas ?? [])),
@@ -305,7 +305,7 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
     const { dateRange } = this.createBatchForm.controls;
 
     // Hide warning initially
-    this.latestExecutionTime = null;
+    this.latestPeriodEnd = null;
 
     // Skip validation if end and start is not set
     if (!dateRange.value?.end || !dateRange.value?.start) return of(null);
@@ -323,7 +323,7 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
         },
       })
       .pipe(
-        tap((result) => (this.latestExecutionTime = result.data?.batches?.[0]?.executionTimeStart)),
+        tap((result) => (this.latestPeriodEnd = result.data?.batches?.[0]?.period?.end)),
         map(() => null)
       );
   }
