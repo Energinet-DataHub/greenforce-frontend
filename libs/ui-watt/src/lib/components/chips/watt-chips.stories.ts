@@ -21,6 +21,12 @@ import { WattChipsComponent } from './watt-chips.component';
 const meta: Meta<WattChipsComponent> = {
   title: 'Components/Chips',
   component: WattChipsComponent,
+  argTypes: {
+    selectionChange: {
+      table: { category: 'Outputs' },
+      control: false,
+    },
+  },
 };
 
 export default meta;
@@ -39,7 +45,6 @@ Overview.args = {
     { label: 'Year', value: 'y' },
     { label: 'Custom', value: 'c' },
   ],
-  selectionChange: (value: string) => console.log(value),
 };
 
 export const ChipLabel: StoryFn = () => ({
