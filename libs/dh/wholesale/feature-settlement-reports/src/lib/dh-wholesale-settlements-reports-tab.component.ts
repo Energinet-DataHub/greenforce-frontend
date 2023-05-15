@@ -50,7 +50,6 @@ export class DhWholesaleSettlementsReportsTabComponent implements OnInit {
   private fb: FormBuilder = inject(FormBuilder);
   private apollo = inject(Apollo);
   private destroy$ = new Subject<void>();
-  private selectedActor?: MarketParticipantFilteredActorDto;
 
   @Input() set executionTime(executionTime: { start: string; end: string }) {
     this.searchForm.patchValue({ executionTime });
