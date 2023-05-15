@@ -35,6 +35,9 @@ type Address {
 }
 
 type Batch {
+  """Id of the user who started the batch."""
+  createdByUserId: ID!
+
   """The execution state."""
   executionState: BatchState!
 
