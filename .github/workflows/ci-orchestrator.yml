@@ -47,12 +47,6 @@ jobs:
   changes:
     uses: ./.github/workflows/detect-changes.yml
 
-  render_diagrams:
-    needs: changes
-    if: ${{ needs.changes.outputs.render_diagrams == 'true' }}
-    uses: ./.github/workflows/render-diagrams.yml
-    secrets: inherit
-
   #
   # DataHub UI
   #
@@ -78,6 +72,19 @@ jobs:
     secrets: inherit
 
   #
+  # C4 model
+  #
+  render_c4model_views:
+    needs: changes
+    if: ${{ needs.changes.outputs.render_c4model_views == 'true' }}
+    uses: Energinet-DataHub/.github/.github/workflows/structurizr-render-diagrams.yml@v11
+    with:
+      structurizr_workspace_filename: views
+      included_model_filename: model
+    secrets:
+      pat_token_retrigger_workflow: ${{ secrets.pat_token_repo_workflow }}
+
+  #
   # Branch policy status check
   #
   allow_merge_ci_orchestrator:
@@ -85,11 +92,11 @@ jobs:
     needs:
       [
         ci_base,
-        render_diagrams,
+        ci_codeql,
         dh_ci_frontend,
         dh_ci_dotnet,
         watt_ci_frontend,
-        ci_codeql,
+        render_c4model_views
       ]
     if: |
       always()
