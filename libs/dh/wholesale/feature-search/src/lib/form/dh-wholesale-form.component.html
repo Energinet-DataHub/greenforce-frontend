@@ -16,6 +16,7 @@ limitations under the License.
 -->
 <form
   [formGroup]="searchForm"
+  class="form-grid"
   *transloco="let transloco; read: 'wholesale.searchBatch.filters'"
   (ngSubmit)="onSubmit()"
   novalidate
@@ -28,7 +29,15 @@ limitations under the License.
     </watt-error>
   </watt-form-field>
 
-  <div class="actions">
+  <watt-form-field>
+    <watt-label>{{ transloco("startedBy") }}</watt-label>
+    <watt-dropdown
+      formControlName="startedBy"
+      [placeholder]="transloco('startedByPlaceholder')"
+    ></watt-dropdown>
+  </watt-form-field>
+
+  <div class="form-grid__actions">
     <watt-button type="submit" icon="search" [disabled]="loading">{{
       transloco("searchButton")
     }}</watt-button>

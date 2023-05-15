@@ -7,8 +7,7 @@
 # be reusable and included in other Structurizr files like `views.dsl` and
 # deployment diagram files.
 
-# TODO: Reset to use main before merging PR
-workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-arch-diagrams/dstenroejl/align-c4-models/docs/diagrams/c4-model/dh3-base-model.dsl {
+workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-arch-diagrams/main/docs/diagrams/c4-model/dh3-base-model.dsl {
 
     model {
         #
@@ -19,19 +18,19 @@ workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-ar
             # IMPORTANT:
             # The order by which models are included is important for how the domain-to-domain relationships are specified.
             # A domain-to-domain relationship should be specified in the "client" of a "client->server" dependency, and
-            # hence domains that doesn't depend on others, should be listed first. .
+            # hence domains that doesn't depend on others, should be listed first.
 
             # Include Market Participant model
-            !include https://raw.githubusercontent.com/Energinet-DataHub/geh-market-participant/dstenroejl/align-c4-models/docs/diagrams/c4-model/model.dsl
+            !include https://raw.githubusercontent.com/Energinet-DataHub/geh-market-participant/main/docs/diagrams/c4-model/model.dsl
 
             # Include EDI model
-            !include https://raw.githubusercontent.com/Energinet-DataHub/opengeh-edi/dstenroejl/align-c4-models/docs/diagrams/c4-model/model.dsl
+            !include https://raw.githubusercontent.com/Energinet-DataHub/opengeh-edi/main/docs/diagrams/c4-model/model.dsl
 
             # Include Wholesale model
-            !include https://raw.githubusercontent.com/Energinet-DataHub/opengeh-wholesale/dstenroejl/align-c4-models/docs/diagrams/c4-model/model.dsl
+            !include https://raw.githubusercontent.com/Energinet-DataHub/opengeh-wholesale/main/docs/diagrams/c4-model/model.dsl
 
             # Include Frontend model
-            !include https://raw.githubusercontent.com/Energinet-DataHub/greenforce-frontend/dstenroejl/align-c4-models/docs/diagrams/c4-model/model.dsl
+            !include model.dsl
         }
     }
 
@@ -41,14 +40,12 @@ workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-ar
             include ->frontendDomain->
             exclude "relationship.tag==OAuth"
             exclude "element.tag==Intermediate Technology"
-            autolayout
         }
 
         container dh3 "FrontendDetailed" {
             title "[Container] DataHub 3.0 - Frontend (Detailed with OAuth)"
             include ->frontendDomain->
             exclude "relationship.tag==Simple View"
-            autolayout
         }
     }
 }

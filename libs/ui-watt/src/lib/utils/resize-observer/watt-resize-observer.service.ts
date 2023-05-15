@@ -34,9 +34,15 @@ export class WattResizeObserverService {
       this.resizeObserver = new ResizeObserver((entries) => {
         // Resize callback is running outside of Angular zone
         this.ngZone.run(() => {
-          for (const entry of entries) {
-            this.entrySubject.next(entry);
-          }
+          /**
+           * Ensure that the function is executed only once per frame, and avoid:
+           * "Error: ResizeObserver loop limit exceeded"
+           */
+          requestAnimationFrame(() => {
+            for (const entry of entries) {
+              this.entrySubject.next(entry);
+            }
+          });
         });
       });
     }

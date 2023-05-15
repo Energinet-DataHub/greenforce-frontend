@@ -33,7 +33,6 @@ import { DhRoleAuditLogsComponent } from './content/dh-role-audit-logs.component
       dh-role-master-data,
       dh-role-permissions,
       dh-role-audit-logs {
-        padding: var(--watt-space-ml);
         display: block;
       }
     `,

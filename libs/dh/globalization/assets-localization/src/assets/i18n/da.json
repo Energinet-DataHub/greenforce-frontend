@@ -727,6 +727,7 @@
   },
   "wholesale": {
     "BALANCE_FIXING": "Balancefiksering",
+    "WHOLESALE_FIXING": "Engrosfiksering",
     "AGGREGATION": "Aggregering",
     "startBatch": {
       "topBarTitle": "Start batch",
@@ -748,7 +749,19 @@
         "ACTUAL": "Faktisk",
         "SIMULATION": "Simulering"
       },
-      "processTypeError": "Procestype påkrævet"
+      "processTypeError": "Procestype påkrævet",
+      "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
+      "modal": {
+        "title": "Genkør balancefiksering?",
+        "warningLabel": "Dette vil give aktørerne nye data",
+        "warningMessage": "Genkørsel af en balancefiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
+        "body": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
+        "confirmation": "Er du sikker på, at du vil køre dette batch?",
+        "hint": "Indtast JEG VIL GENKØRE BALANCEFIKSERING for at bekræfte",
+        "confirmButton": "Genkør",
+        "cancelButton": "Kør ikke",
+        "confirmText": "JEG VIL GENKØRE BALANCEFIKSERING"
+      }
     },
     "searchBatch": {
       "topBarTitle": "Søg batch",
@@ -756,6 +769,8 @@
       "filters": {
         "executionTime": "Eksekveringstid",
         "executionTimeRequired": "Eksekveringstid påkrævet",
+        "startedBy": "Bestilt af",
+        "startedByPlaceholder": "Søg eller valg",
         "searchButton": "Søg"
       },
       "columns": {
@@ -791,6 +806,10 @@
       "topBarTitle": "Afregningsrapporter",
       "download": "Download",
       "downloadFailed": "Download fejlede",
+      "tabs": {
+        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
+        "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"
+      },
       "table": {
         "title": "Processer",
         "processType": "Procestype",
@@ -899,7 +918,8 @@
       },
       "download": "Download",
       "drawer": {
-        "edit": "Rediger rettighed",
+        "edit": "Rediger",
+        "editRole": "Rediger rolle",
         "disable": "Deaktiver",
         "disablingUserRole": "Deaktiverer bruger rollen",
         "userroleDisabled": "Bruger rollen blev deaktiveret.",

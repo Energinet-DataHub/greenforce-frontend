@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/dh-wholesale-settlement-reports.component';
+export * from './lib/dh-wholesale-settlements-reports-tab.component';

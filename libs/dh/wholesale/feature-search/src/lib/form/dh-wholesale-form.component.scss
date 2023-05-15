@@ -14,12 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.actions {
-  display: flex;
-  justify-content: flex-end;
+@use "@energinet-datahub/watt/utils" as watt;
 
-  watt-button {
-    margin-top: var(--watt-space-m);
-    margin-left: var(--watt-space-l);
-  }
+:host {
+  display: block;
+}
+
+.form-grid {
+  display: grid;
+  gap: var(--watt-space-m);
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.form-grid__actions {
+  display: flex;
+  grid-column-start: 1;
+  grid-column-end: -1;
+  justify-content: flex-end;
+}
+
+form {
+  @include watt.space-inset-l;
+  box-shadow: var(--watt-bottom-box-shadow);
+  background-color: var(--watt-color-neutral-white);
 }

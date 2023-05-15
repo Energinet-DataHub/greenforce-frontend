@@ -19,20 +19,36 @@ import { Component, Inject } from '@angular/core';
 import { DhB2CEnvironment, dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
 import { TranslocoModule } from '@ngneat/transloco';
+import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { Subject } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { PushModule } from '@rx-angular/template/push';
 
 @Component({
   selector: 'dh-signup-mitid',
   styleUrls: ['./dh-signup-mitid.component.scss'],
   templateUrl: './dh-signup-mitid.component.html',
   standalone: true,
-  imports: [TranslocoModule],
+  imports: [CommonModule, PushModule, WattSpinnerModule, TranslocoModule],
 })
 export class DhSignupMitIdComponent {
-  constructor(@Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment) {}
+  constructor(
+    private marketParticipantUserHttp: MarketParticipantUserHttp,
+    @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment
+  ) {}
 
-  click = () =>
-    MSALInstanceFactory({
-      ...this.config,
-      authority: this.config.mitIdInviteFlowUri,
-    }).loginRedirect();
+  isLoading$ = new Subject<boolean>();
+
+  redirectToMitIdSignup = () => {
+    this.isLoading$.next(true);
+    this.marketParticipantUserHttp
+      .v1MarketParticipantUserInitiateMitIdSignupPost()
+      .subscribe(() => {
+        MSALInstanceFactory({
+          ...this.config,
+          authority: this.config.mitIdInviteFlowUri,
+        }).loginRedirect();
+      });
+  };
 }

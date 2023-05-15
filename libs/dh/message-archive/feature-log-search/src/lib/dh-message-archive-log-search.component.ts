@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   DhMessageArchiveActorDataAccessApiStore,
@@ -37,7 +37,6 @@ import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattTimepickerModule } from '@energinet-datahub/watt/timepicker';
-import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
@@ -55,7 +54,6 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     DhMessageArchiveDataAccessBlobApiStore,
     DhMessageArchiveActorDataAccessApiStore,
   ],
-  encapsulation: ViewEncapsulation.None,
   imports: [
     WattFormFieldModule,
     WattInputModule,
@@ -73,7 +71,6 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     WattSpinnerModule,
     ReactiveFormsModule,
     PushModule,
-    WattTopBarComponent,
   ],
 })
 export class DhMessageArchiveLogSearchComponent {
@@ -81,7 +78,7 @@ export class DhMessageArchiveLogSearchComponent {
     messageId: new FormControl('', { nonNullable: true }),
     messageTypes: new FormControl([], { nonNullable: true }),
     businessReasons: new FormControl([], { nonNullable: true }),
-    senderId: new FormControl('', { nonNullable: true }),
+    senderNumber: new FormControl('', { nonNullable: true }),
     receiverId: new FormControl('', { nonNullable: true }),
     includeRelated: new FormControl<boolean>(
       { value: false, disabled: true },
@@ -161,8 +158,15 @@ export class DhMessageArchiveLogSearchComponent {
   onSubmit() {
     if (this.searchForm.valid === false) return;
 
-    const { dateRange, messageId, receiverId, senderId, timeRange, messageTypes, businessReasons } =
-      this.searchForm.value;
+    const {
+      dateRange,
+      messageId,
+      receiverId,
+      senderNumber,
+      timeRange,
+      messageTypes,
+      businessReasons,
+    } = this.searchForm.value;
 
     const dateTimeFrom = zonedTimeToUtc(dateRange?.start, danishTimeZoneIdentifier);
     const dateTimeTo = zonedTimeToUtc(dateRange?.end, danishTimeZoneIdentifier);
@@ -182,7 +186,7 @@ export class DhMessageArchiveLogSearchComponent {
       dateTimeFrom: dateTimeFrom.toISOString(),
       dateTimeTo: dateTimeTo.toISOString(),
       messageId: messageId === '' ? null : messageId,
-      senderId: senderId === '' ? null : senderId,
+      senderNumber: senderNumber === '' ? null : senderNumber,
       receiverId: receiverId === '' ? null : receiverId,
       messageTypes: messageTypes?.length === 0 ? null : messageTypes,
       businessReasons: businessReasons?.length === 0 ? null : businessReasons,

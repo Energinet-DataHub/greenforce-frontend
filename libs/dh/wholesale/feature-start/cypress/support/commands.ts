@@ -16,6 +16,7 @@
  */
 /// <reference types="cypress" />
 import { mount } from 'cypress/angular';
+import '@testing-library/cypress/add-commands';
 
 // ***********************************************
 // This example commands.ts shows you how to
@@ -33,8 +34,21 @@ declare global {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface Chainable<Subject> {
       mount: typeof mount;
+      typeDateRange: (formControlName: string, start: string, end: string) => void;
+      selectOption: (formControlName: string, option: string) => void;
     }
   }
 }
+
+Cypress.Commands.add('typeDateRange', (formControlName, start, end) => {
+  cy.get(`[formcontrolname="${formControlName}"] [aria-label="start-date-input"]`).type(
+    `${start}${end}`
+  );
+});
+
+Cypress.Commands.add('selectOption', (formControlName, option) => {
+  cy.get(`[formcontrolname="${formControlName}"]`).click();
+  cy.findByText(option).click();
+});
 
 Cypress.Commands.add('mount', mount);
