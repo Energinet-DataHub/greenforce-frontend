@@ -750,7 +750,7 @@
         "SIMULATION": "Simulering"
       },
       "processTypeError": "Procestype påkrævet",
-      "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestExecutionTime}}.",
+      "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
       "modal": {
         "title": "Genkør balancefiksering?",
         "warningLabel": "Dette vil give aktørerne nye data",
@@ -918,7 +918,8 @@
       },
       "download": "Download",
       "drawer": {
-        "edit": "Rediger rettighed",
+        "edit": "Rediger",
+        "editRole": "Rediger rolle",
         "disable": "Deaktiver",
         "disablingUserRole": "Deaktiverer bruger rollen",
         "userroleDisabled": "Bruger rollen blev deaktiveret.",
