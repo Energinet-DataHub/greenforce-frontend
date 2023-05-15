@@ -29,7 +29,7 @@ workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-ar
             # Include Wholesale model
             !include https://raw.githubusercontent.com/Energinet-DataHub/opengeh-wholesale/main/docs/diagrams/c4-model/model.dsl
 
-            # Include Frontend model.
+            # Include Frontend model
             !include model.dsl
         }
     }
