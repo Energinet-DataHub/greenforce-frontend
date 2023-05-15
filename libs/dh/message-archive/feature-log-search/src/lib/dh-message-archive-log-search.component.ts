@@ -79,7 +79,7 @@ export class DhMessageArchiveLogSearchComponent {
     messageTypes: new FormControl([], { nonNullable: true }),
     businessReasons: new FormControl([], { nonNullable: true }),
     senderNumber: new FormControl('', { nonNullable: true }),
-    receiverId: new FormControl('', { nonNullable: true }),
+    receiverNumber: new FormControl('', { nonNullable: true }),
     includeRelated: new FormControl<boolean>(
       { value: false, disabled: true },
       { nonNullable: true }
@@ -161,7 +161,7 @@ export class DhMessageArchiveLogSearchComponent {
     const {
       dateRange,
       messageId,
-      receiverId,
+      receiverNumber,
       senderNumber,
       timeRange,
       messageTypes,
@@ -187,7 +187,7 @@ export class DhMessageArchiveLogSearchComponent {
       dateTimeTo: dateTimeTo.toISOString(),
       messageId: messageId === '' ? null : messageId,
       senderNumber: senderNumber === '' ? null : senderNumber,
-      receiverId: receiverId === '' ? null : receiverId,
+      receiverNumber: receiverNumber === '' ? null : receiverNumber,
       messageTypes: messageTypes?.length === 0 ? null : messageTypes,
       businessReasons: businessReasons?.length === 0 ? null : businessReasons,
     });
