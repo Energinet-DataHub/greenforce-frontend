@@ -23,7 +23,7 @@ import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { MarketParticipantFilteredActorDto, graphql } from '@energinet-datahub/dh/shared/domain';
+import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
