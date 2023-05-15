@@ -351,5 +351,3 @@ The domain C4 model and rendered diagrams are located in the folder hierarchy [d
 > This folder also contains `package.json` and `package-lock.json` to support the use of `npm` under this folder hierarchy. It is necessary for the rendering of diagrams handled by the workflow `structurizr-render-diagrams.yml`.
 
 Maintenance of the C4 model should be performed using VS Code and a local version of Structurizr Lite running in Docker. See [DataHub 3 base model](https://github.com/Energinet-DataHub/opengeh-arch-diagrams#datahub-3-base-model) for a description of how to do this.
-
-> In this repository the rendering of diagrams in the CI workflow sometimes fails in the `checkout` step. If this happens make a change to a file that is not relevant for the C4 model files, to trigger a new build, which should then be successful.
