@@ -31,7 +31,7 @@ export function wholesaleMocks(apiBase: string) {
     getFilteredActors(),
     getGridAreas(),
     getLatestBalanceFixing(),
-    getActorsForSettlementReportQuery()
+    getActorsForSettlementReportQuery(),
   ];
 }
 
@@ -324,7 +324,11 @@ function getFilteredActors() {
 
 function getActorsForSettlementReportQuery() {
   return graphql.mockGetActorsForSettlementReportQuery((req, res, ctx) => {
-    return res(ctx.status(200), ctx.data({ actorsforsettlement: mockedActorsForSettlementReport }), ctx.delay(300));
+    return res(
+      ctx.status(200),
+      ctx.data({ actorsforsettlement: mockedActorsForSettlementReport }),
+      ctx.delay(300)
+    );
   });
 }
 

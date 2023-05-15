@@ -31,13 +31,15 @@ limitations under the License.
           </watt-form-field>
           <watt-form-field class="actorPicker">
             <watt-dropdown
-            formControlName="actor"
-            [multiple]="true"
-            [options]="actors"
-            [placeholder]="
-            searchForm.controls.actor.disabled ? t('filters.loadingActors') : t('filters.actorPlaceholder')
-            "
-          ></watt-dropdown>
+              formControlName="actor"
+              [multiple]="true"
+              [options]="actors"
+              [placeholder]="
+                searchForm.controls.actor.disabled
+                  ? t('filters.loadingActors')
+                  : t('filters.actorPlaceholder')
+              "
+            ></watt-dropdown>
           </watt-form-field>
         </form>
       </watt-card>
