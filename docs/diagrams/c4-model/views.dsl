@@ -20,7 +20,7 @@ workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-ar
             # A domain-to-domain relationship should be specified in the "client" of a "client->server" dependency, and
             # hence domains that doesn't depend on others, should be listed first.
 
-            # Include Market Participant model.
+            # Include Market Participant model
             !include https://raw.githubusercontent.com/Energinet-DataHub/geh-market-participant/main/docs/diagrams/c4-model/model.dsl
 
             # Include EDI model
