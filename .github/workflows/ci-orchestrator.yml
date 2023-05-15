@@ -47,6 +47,12 @@ jobs:
   changes:
     uses: ./.github/workflows/detect-changes.yml
 
+  render_diagrams:
+    needs: changes
+    if: ${{ needs.changes.outputs.render_diagrams == 'true' }}
+    uses: ./.github/workflows/render-diagrams.yml
+    secrets: inherit
+
   #
   # DataHub UI
   #
@@ -76,7 +82,15 @@ jobs:
   #
   allow_merge_ci_orchestrator:
     runs-on: ubuntu-latest
-    needs: [ci_base, dh_ci_frontend, dh_ci_dotnet, watt_ci_frontend, ci_codeql]
+    needs:
+      [
+        ci_base,
+        render_diagrams,
+        dh_ci_frontend,
+        dh_ci_dotnet,
+        watt_ci_frontend,
+        ci_codeql,
+      ]
     if: |
       always()
     steps:
