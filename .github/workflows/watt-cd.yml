@@ -64,9 +64,9 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           # 👇 Chromatic projectToken, refer to the manage page to obtain it.
-          projecttoken: ${{ secrets.chromatic_project_token }}
-          exitzeroonchanges: true # 👈 Option to prevent the workflow from failing
-          buildscriptname: designsystem:build
+          projectToken: ${{ secrets.chromatic_project_token }}
+          exitZeroOnChanges: true # 👈 Option to prevent the workflow from failing
+          buildScriptName: designsystem:build
 
   #
   # Send notification to teams channel if deployment dispatch failed
