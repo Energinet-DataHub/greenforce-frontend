@@ -26,49 +26,31 @@ limitations under the License.
         <!-- RSM -->
         <watt-form-field>
           <watt-label>{{ transloco("messageType") }}</watt-label>
-          <watt-dropdown
-            formControlName="messageTypes"
-            [options]="rsmFormFieldOptions"
-            name="messageType"
-            [placeholder]="transloco('chooseDocumentType')"
-            [multiple]="true"
-          >
+          <watt-dropdown formControlName="messageTypes" [options]="rsmFormFieldOptions" name="messageType"
+            [placeholder]="transloco('chooseDocumentType')" [multiple]="true">
           </watt-dropdown>
         </watt-form-field>
 
         <watt-form-field>
           <watt-label>{{ transloco("businessReason") }}</watt-label>
-          <watt-dropdown
-            formControlName="businessReasons"
-            [options]="processTypeFormFieldOptions"
-            name="businessReason"
-            [placeholder]="transloco('chooseDocumentType')"
-            [multiple]="true"
-          >
+          <watt-dropdown formControlName="businessReasons" [options]="processTypeFormFieldOptions" name="businessReason"
+            [placeholder]="transloco('chooseDocumentType')" [multiple]="true">
           </watt-dropdown>
         </watt-form-field>
 
         <!-- Sender -->
         <watt-form-field>
           <watt-label>{{ transloco("senderGln") }}</watt-label>
-          <watt-dropdown
-            formControlName="senderNumber"
-            [options]="(getActorOptions$ | async) ?? []"
-            name="senderNumber"
-            [placeholder]="transloco('chooseDocumentType')"
-          >
+          <watt-dropdown formControlName="senderNumber" [options]="(getActorOptions$ | async) ?? []" name="senderNumber"
+            [placeholder]="transloco('chooseDocumentType')">
           </watt-dropdown>
         </watt-form-field>
 
         <!-- Receiver -->
         <watt-form-field>
           <watt-label>{{ transloco("receiverGln") }}</watt-label>
-          <watt-dropdown
-            formControlName="receiverId"
-            [options]="(getActorOptions$ | async) ?? []"
-            name="receiverId"
-            [placeholder]="transloco('chooseDocumentType')"
-          >
+          <watt-dropdown formControlName="receiverNumber" [options]="(getActorOptions$ | async) ?? []"
+            name="receiverNumber" [placeholder]="transloco('chooseDocumentType')">
           </watt-dropdown>
         </watt-form-field>
 
@@ -89,31 +71,20 @@ limitations under the License.
           <!-- Reference id -->
           <watt-checkbox formControlName="includeRelated" wattInput name="reference-id">{{
             transloco("includeRelatedMessage")
-          }}</watt-checkbox>
+            }}</watt-checkbox>
           <div class="buttons-container">
             <watt-button (click)="resetSearchCriteria()" icon="remove" variant="secondary">{{
               transloco("clearSearch")
-            }}</watt-button>
+              }}</watt-button>
             <!-- Search -->
-            <watt-button
-              *rxLet="searching$ as seaching"
-              [disabled]="seaching"
-              variant="primary"
-              type="submit"
-              icon="search"
-              >{{ transloco("startSearch") }}</watt-button
-            >
+            <watt-button *rxLet="searching$ as seaching" [disabled]="seaching" variant="primary" type="submit"
+              icon="search">{{ transloco("startSearch") }}</watt-button>
           </div>
         </div>
       </form>
-      <dh-message-archive-log-search-result
-        *rxLet="searchResult$ as searchResult"
-        [searchResult]="searchResult$ | push"
-        [hasSearchError]="hasSearchError$ | push"
-        [isInit]="isInit$ | push"
-        [isSearching]="searching"
-        [actors]="getActorOptions$ | push"
-      >
+      <dh-message-archive-log-search-result *rxLet="searchResult$ as searchResult" [searchResult]="searchResult$ | push"
+        [hasSearchError]="hasSearchError$ | push" [isInit]="isInit$ | push" [isSearching]="searching"
+        [actors]="getActorOptions$ | push">
       </dh-message-archive-log-search-result>
     </ng-container>
   </ng-container>
