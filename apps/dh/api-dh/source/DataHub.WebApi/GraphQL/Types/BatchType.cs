@@ -32,6 +32,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field(x => x.ExecutionTimeStart, nullable: true).Description("The execution start time.");
             Field(x => x.ExecutionTimeEnd, nullable: true).Description("The execution end time.");
             Field(x => x.ProcessType).Description("The process type.");
+            Field(x => x.CreatedByUserId).Description("Id of the user who started the batch.");
 
             Field<NonNullGraphType<BooleanGraphType>>("IsBasisDataDownloadAvailable")
                 .Description("Whether basis data is downloadable.")

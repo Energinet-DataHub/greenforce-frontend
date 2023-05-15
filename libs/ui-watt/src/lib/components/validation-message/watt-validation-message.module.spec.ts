@@ -38,9 +38,8 @@ describe(WattValidationMessageComponent.name, () => {
         imports: [WattValidationMessageModule],
       }
     );
-    const expectedVariable = `${label}:`;
 
-    expect(view.queryByText(expectedVariable)).not.toBeNull();
+    expect(view.queryByText(label)).not.toBeNull();
     expect(view.queryByText(message)).not.toBeNull();
   });
 });

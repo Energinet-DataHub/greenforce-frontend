@@ -146,6 +146,13 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
 
+      - name: Upload artifact
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-e2e
+          path: dist/cypress/apps/
+
       - name: "Merge: End-to-end test all products"
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn e2e --configuration=ci
@@ -325,6 +332,13 @@ jobs:
       - name: "PR: Test affected projects"
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected -t component-test --base=origin/$BASE_BRANCH
+
+      - name: Upload artifact
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-component-tests
+          path: dist/cypress/libs/
 
       - name: "Merge: Test all projects"
         if: ${{ env.is-pull-request == 'false' }}

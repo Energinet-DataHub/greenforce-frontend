@@ -12,6 +12,9 @@
 import { WholesaleProcessType } from './wholesale-process-type';
 
 
+/**
+ * An immutable request to create a batch.
+ */
 export interface WholesaleBatchRequestDto { 
     processType: WholesaleProcessType;
     gridAreaCodes?: Array<string> | null;

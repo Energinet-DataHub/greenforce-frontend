@@ -49,7 +49,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         {
             // Arrange
             MockMarketParticipantClient();
-            WholesaleClientV3Mock.Setup(x => x.CreateBatchAsync(new BatchRequestDto(), null, CancellationToken.None))
+            WholesaleClientV3Mock.Setup(x => x.CreateBatchAsync(new BatchRequestDto(), CancellationToken.None))
                 .ReturnsAsync(Guid.NewGuid);
             // Act
             var actual = await BffClient.PostAsJsonAsync(BaseUrl, requestDto);

@@ -31,7 +31,6 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 
 import { graphql } from '@energinet-datahub/dh/shared/domain';
@@ -56,7 +55,6 @@ import { DhWholesaleActorsComponent } from './actors/dh-wholesale-actors.compone
     WattDrawerModule,
     WattEmptyStateComponent,
     WattSpinnerModule,
-    WattTopBarComponent,
     DhWholesaleActorsComponent,
   ],
 })

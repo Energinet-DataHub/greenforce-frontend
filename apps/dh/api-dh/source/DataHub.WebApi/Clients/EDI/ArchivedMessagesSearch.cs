@@ -52,11 +52,14 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
         {
             var url = "api/archivedmessages";
             var content = new StringContent(JsonSerializer.Serialize(
-                new ArchivedMessageSearchCriteriaDto(new CreatedDuringPeriod(
+                new ArchivedMessageSearchCriteriaDto(
+                    new CreatedDuringPeriod(
                 archivedMessageSearch.DateTimeFrom,
-                archivedMessageSearch.DateTimeTo))));
+                archivedMessageSearch.DateTimeTo),
+                    archivedMessageSearch.MessageId,
+                    archivedMessageSearch.SenderNumber)));
 
-            var response = await _httpClient.PostAsync(url, content);
+            var response = await _httpClient.PostAsync(url, content, cancellationToken);
 
             response.EnsureSuccessStatusCode();
 
