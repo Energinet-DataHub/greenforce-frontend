@@ -326,7 +326,7 @@ function getActorsForSettlementReportQuery() {
   return graphql.mockGetActorsForSettlementReportQuery((req, res, ctx) => {
     return res(
       ctx.status(200),
-      ctx.data({ actorsforsettlement: mockedActorsForSettlementReport }),
+      ctx.data({ actors: mockedActorsForSettlementReport }),
       ctx.delay(300)
     );
   });

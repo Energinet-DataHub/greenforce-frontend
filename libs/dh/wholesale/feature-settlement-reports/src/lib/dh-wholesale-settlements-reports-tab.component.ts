@@ -28,6 +28,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
+import { EicFunction } from 'libs/dh/shared/domain/src/lib/generated/graphql';
 
 @Component({
   standalone: true,
@@ -65,12 +66,13 @@ export class DhWholesaleSettlementsReportsTabComponent implements OnInit {
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: graphql.GetActorsForSettlementReportDocument,
+    variables: { eicFunctions: [EicFunction.GridAccessProvider, EicFunction.EnergySupplier]},
   });
 
   ngOnInit(): void {
     this.actorsQuery.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (result) => {
-        this.actors = result.data?.actorsforsettlement ?? [];
+        this.actors = result.data?.actors ?? [];
         if (!result.loading) this.searchForm.controls.actor.enable();
       },
     });
