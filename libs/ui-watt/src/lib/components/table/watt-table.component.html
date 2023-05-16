@@ -18,7 +18,7 @@ limitations under the License.
   mat-table
   matSort
   role="treegrid"
-  [ngClass]="{ 'watt-table-has-selection': !this._selectionModel.isEmpty() }"
+  [ngClass]="{ 'watt-table-has-selection': !_selectionModel.isEmpty() }"
   [matSortActive]="sortBy"
   [matSortDirection]="sortDirection"
   [matSortDisableClear]="!sortClear"
@@ -38,6 +38,7 @@ limitations under the License.
       />
     </td>
   </ng-container>
+
   <ng-container *ngFor="let column of columns | keyvalue" [matColumnDef]="column.key">
     <th
       mat-header-cell
@@ -61,7 +62,7 @@ limitations under the License.
     </td>
   </ng-container>
 
-  <ng-container *ngIf="this._toolbar" matColumnDef="spacer">
+  <ng-container matColumnDef="spacer">
     <td class="watt-table-footer-spacer" mat-footer-cell *matFooterCellDef></td>
   </ng-container>
 
@@ -77,10 +78,13 @@ limitations under the License.
       'watt-table-active-row': _isActiveRow(row)
     }"
   ></tr>
-  <tr mat-footer-row *matFooterRowDef="['spacer']"></tr>
+
+  <ng-container *ngIf="_toolbar">
+    <tr mat-footer-row *matFooterRowDef="['spacer']"></tr>
+  </ng-container>
 </table>
 
-<div *ngIf="this._toolbar" class="watt-table-toolbar">
+<div *ngIf="_toolbar" class="watt-table-toolbar" role="toolbar">
   <ng-container
     *ngTemplateOutlet="_toolbar.templateRef; context: { $implicit: _selectionModel.selected }"
   />
