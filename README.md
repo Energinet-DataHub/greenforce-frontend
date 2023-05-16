@@ -307,7 +307,7 @@ The repository is using [GitHub Actions workflows](https://docs.github.com/en/ac
 for automation including CI/CD pipelines for each application.
 Workflows are located in `.github/workflows` which currently contains the following:
 
-- `ci-orchestrator.yml` - Markdown check and YAML validation, CodeQL check, detects changes to start relevant workflows and branch policy status check.
+- `ci-orchestrator.yml` - Markdown check and YAML validation, CodeQL check, renders C4 model diagrams, detects changes to start relevant workflows and branch policy status check.
 - `clean-up-cache.yml` - Cleanup GitHub workflow caches for closed branches.
 - `codeql.yml` - Performs CodeQL Analysis.
 - `create-tokens.yml` - Generates design tokens based on a JSON file exported from Figma.
