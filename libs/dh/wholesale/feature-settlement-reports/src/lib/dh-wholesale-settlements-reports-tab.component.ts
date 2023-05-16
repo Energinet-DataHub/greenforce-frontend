@@ -66,7 +66,7 @@ export class DhWholesaleSettlementsReportsTabComponent implements OnInit {
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: graphql.GetActorsForSettlementReportDocument,
-    variables: { eicFunctions: [EicFunction.GridAccessProvider, EicFunction.EnergySupplier]},
+    variables: { eicFunctions: [EicFunction.GridAccessProvider, EicFunction.EnergySupplier] },
   });
 
   ngOnInit(): void {
