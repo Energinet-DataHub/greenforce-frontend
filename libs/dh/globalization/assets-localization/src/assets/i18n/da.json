@@ -1045,7 +1045,8 @@
           "rolesHeadline": "Brugerroller",
           "filter": {
             "status": "Status",
-            "marketRole": "Markedsrolle"
+            "marketRole": "Markedsrolle",
+            "search": "Søg markedsroller"
           },
           "table": {
             "columns": {
