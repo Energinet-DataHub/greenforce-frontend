@@ -138,8 +138,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<BatchType>>>>("batches")
                 .Argument<DateRangeType>("executionTime")
-                .Argument<BatchState>("executionState", true)
-                .Argument<ProcessType>("processType", true)
+                .Argument<BatchState>("executionState", nullable: true)
+                .Argument<ProcessType>("processType", nullable: true)
                 .Argument<DateRangeType>("period")
                 .Argument<IntGraphType>("first")
                 .Resolve()
@@ -167,7 +167,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<SettlementReportType>>>>("settlementReports")
                 .Argument<ProcessTypeEnum>("processType")
-                .Argument<string[]>("gridAreaCodes", true)
+                .Argument<string[]>("gridAreaCodes", nullable: true)
                 .Argument<DateRangeType>("period")
                 .Argument<DateRangeType>("executionTime")
                 .Resolve()
