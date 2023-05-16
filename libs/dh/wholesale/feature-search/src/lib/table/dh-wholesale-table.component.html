@@ -32,7 +32,9 @@ limitations under the License.
     (rowClick)="selectedRow.emit($event)"
   >
     <!-- Started By -->
-    <ng-container *wattTableCell="columns.startedBy">{{ null | dhEmDashFallback }}</ng-container>
+    <ng-container *wattTableCell="columns.startedBy; let batch">
+      {{ batch.createdByUserName | dhEmDashFallback }}
+    </ng-container>
 
     <!-- Period From -->
     <ng-container *wattTableCell="columns.periodFrom; let batch">

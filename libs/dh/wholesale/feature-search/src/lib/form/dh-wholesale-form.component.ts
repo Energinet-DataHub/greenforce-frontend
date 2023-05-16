@@ -24,7 +24,7 @@ import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
+import { WattInputModule } from '@energinet-datahub/watt/input';
 
 @Component({
   standalone: true,
@@ -35,7 +35,7 @@ import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
     WattButtonModule,
     WattDatepickerModule,
     WattFormFieldModule,
-    WattDropdownModule,
+    WattInputModule,
   ],
   selector: 'dh-wholesale-form',
   templateUrl: './dh-wholesale-form.component.html',
@@ -47,6 +47,7 @@ export class DhWholesaleFormComponent {
   @Input() set executionTime(executionTime: { start: string; end: string }) {
     this.searchForm.patchValue({ executionTime });
   }
+
   @Output() search = new EventEmitter<graphql.GetBatchesQueryVariables>();
 
   searchForm = this.fb.group({
