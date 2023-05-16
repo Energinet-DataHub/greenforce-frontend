@@ -31,6 +31,7 @@ frontends backed by [Nx] and [Angular].
 - [Scripts](#scripts)
 - [Workflows (CI/CD)](#workflows-cicd)
 - [Visual Studio Code](#visual-studio-code)
+- [Domain C4 model](#domain-c4-model)
 
 ## General
 
@@ -333,3 +334,20 @@ been preconfigured with a list of recommended extensions stored in
 `.vscode/extensions.json`. The editor will automatically prompt for installing
 these extensions when the project is opened for the first time, but they can
 later be found by executing the `Show recommended extensions` command.
+
+## Domain C4 model
+
+In the DataHub 3 project we use the [C4 model](https://c4model.com/) to document the high-level software design.
+
+The [DataHub 3 base model](https://github.com/Energinet-DataHub/opengeh-arch-diagrams#datahub-3-base-model) describes elements like organizations, software systems and actors. In domain repositories we should `extend` on this model and add additional elements within the DataHub 3.0 Software System (`dh3`).
+
+The domain C4 model and rendered diagrams are located in the folder hierarchy [docs/diagrams/c4-model](./docs/diagrams/c4-model/) and consists of:
+
+- `model.dsl`: Structurizr DSL describing the domain C4 model.
+- `views.dsl`: Structurizr DSL extending the `dh3` software system by referencing domain C4 models using `!include`, and describing the views.
+- `views.json`: Structurizr layout information for views.
+- `/views/*.png`: A PNG file per view described in the Structurizr DSL.
+
+> This folder also contains `package.json` and `package-lock.json` to support the use of `npm` under this folder hierarchy. It is necessary for the rendering of diagrams handled by the workflow `structurizr-render-diagrams.yml`.
+
+Maintenance of the C4 model should be performed using VS Code and a local version of Structurizr Lite running in Docker. See [DataHub 3 base model](https://github.com/Energinet-DataHub/opengeh-arch-diagrams#datahub-3-base-model) for a description of how to do this.
