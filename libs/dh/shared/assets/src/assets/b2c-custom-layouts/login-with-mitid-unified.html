@@ -406,7 +406,7 @@ limitations under the License.
         var forgotPasswordTemplate = document.getElementById("forgotPasswordTemplate");
 
         var forgotPasswordLinks = forgotPasswordTemplate.querySelectorAll("a");
-        var forgotPasswordUrl = getB2CFlowLink("reset_password");
+        var forgotPasswordUrl = getB2CFlowLinkIgnoreCase("reset_password");
 
         forgotPasswordLinks.forEach((link) => {
           link.setAttribute("href", forgotPasswordUrl);
@@ -428,7 +428,6 @@ limitations under the License.
       waitFor("button#next", function (element) {
         element.addEventListener("click", toggleErrorClasses);
         appendSignUpTemplate();
-        appendForgotPasswordTemplate();
         setMitIdFlowSignInFlow();
       });
     </script>
