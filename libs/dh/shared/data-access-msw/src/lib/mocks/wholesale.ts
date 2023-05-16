@@ -48,7 +48,7 @@ const periodStart = '2021-12-01T23:00:00Z';
 const periodEnd = '2021-12-02T23:00:00Z';
 const executionTimeStart = '2021-12-01T23:00:00Z';
 const executionTimeEnd = '2021-12-02T23:00:00Z';
-const createdByUserId = '5CB2477D-EF3A-4D19-96DA-8D5CAD8C8B1D';
+const createdByUserName = '5CB2477D-EF3A-4D19-96DA-8D5CAD8C8B1D';
 
 export const mockedGridAreas: graphql.GridArea[] = [
   {
@@ -83,7 +83,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.Aggregation,
-    createdByUserId: createdByUserId,
+    createdByUserName: createdByUserName,
   },
   {
     __typename: 'Batch',
@@ -96,7 +96,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
-    createdByUserId: createdByUserId,
+    createdByUserName: createdByUserName,
   },
   {
     __typename: 'Batch',
@@ -109,7 +109,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
-    createdByUserId: createdByUserId,
+    createdByUserName: createdByUserName,
   },
   {
     __typename: 'Batch',
@@ -122,7 +122,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
-    createdByUserId: createdByUserId,
+    createdByUserName: createdByUserName,
   },
   {
     __typename: 'Batch',
@@ -135,7 +135,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
-    createdByUserId: createdByUserId,
+    createdByUserName: createdByUserName,
   },
   {
     __typename: 'Batch',
@@ -148,7 +148,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
-    createdByUserId: createdByUserId,
+    createdByUserName: createdByUserName,
   },
   {
     __typename: 'Batch',
@@ -161,7 +161,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
-    createdByUserId: createdByUserId,
+    createdByUserName: createdByUserName,
   },
   {
     __typename: 'Batch',
@@ -174,7 +174,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
-    createdByUserId: createdByUserId,
+    createdByUserName: createdByUserName,
   },
   {
     __typename: 'Batch',
@@ -187,7 +187,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
-    createdByUserId: createdByUserId,
+    createdByUserName: createdByUserName,
   },
   {
     __typename: 'Batch',
@@ -200,7 +200,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
-    createdByUserId: createdByUserId,
+    createdByUserName: createdByUserName,
   },
   {
     __typename: 'Batch',
@@ -213,7 +213,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
-    createdByUserId: createdByUserId,
+    createdByUserName: createdByUserName,
   },
   {
     __typename: 'Batch',
@@ -226,7 +226,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
-    createdByUserId: createdByUserId,
+    createdByUserName: createdByUserName,
   },
 ];
 
