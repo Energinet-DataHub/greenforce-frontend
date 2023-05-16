@@ -28,7 +28,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
-import { EicFunction } from 'libs/dh/shared/domain/src/lib/generated/graphql';
+
 
 @Component({
   standalone: true,
@@ -66,7 +66,7 @@ export class DhWholesaleSettlementsReportsTabComponent implements OnInit {
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: graphql.GetActorsForSettlementReportDocument,
-    variables: { eicFunctions: [EicFunction.GridAccessProvider, EicFunction.EnergySupplier]},
+    variables: { eicFunctions: [graphql.EicFunction.GridAccessProvider, graphql.EicFunction.EnergySupplier]},
   });
 
   ngOnInit(): void {
