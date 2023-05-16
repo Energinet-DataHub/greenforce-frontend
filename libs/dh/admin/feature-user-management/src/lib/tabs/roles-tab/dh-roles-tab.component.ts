@@ -86,6 +86,10 @@ export class DhUserRolesTabComponent {
     this.store.setFilterEicFunction(eicFunctions);
   }
 
+  updateSearchTerm(searchTerm: string | null) {
+    this.store.setSearchTerm(searchTerm);
+  }
+
   reloadRoles(): void {
     this.store.getRoles();
   }
