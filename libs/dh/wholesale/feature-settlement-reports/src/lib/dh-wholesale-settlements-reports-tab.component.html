@@ -14,9 +14,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'wholesale.settlementReports.tabs'">
+<ng-container *transloco="let t; read: 'wholesale.settlementReports'">
   <watt-tabs>
-    <watt-tab [label]="t('BALANCE_FIXING')">
+    <watt-tab [label]="t('tabs.BALANCE_FIXING')">
       <watt-card>
         <watt-card-title>
           <h3>
@@ -29,9 +29,21 @@ limitations under the License.
           <watt-form-field class="datePicker">
             <watt-datepicker formControlName="executionTime" [range]="true"></watt-datepicker>
           </watt-form-field>
+          <watt-form-field class="actorPicker">
+            <watt-dropdown
+              formControlName="actor"
+              [multiple]="true"
+              [options]="actors"
+              [placeholder]="
+                searchForm.controls.actor.disabled
+                  ? t('filters.loadingActors')
+                  : t('filters.actorPlaceholder')
+              "
+            ></watt-dropdown>
+          </watt-form-field>
         </form>
       </watt-card>
     </watt-tab>
-    <watt-tab [label]="t('WHOLESALE_FIXING')"></watt-tab>
+    <watt-tab [label]="t('tabs.WHOLESALE_FIXING')"></watt-tab>
   </watt-tabs>
 </ng-container>
