@@ -28,6 +28,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
 
 @Component({
   selector: 'dh-roles-tab-list-filter',
@@ -50,6 +51,7 @@ import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/
     WattDropdownModule,
     WattFormFieldModule,
     ReactiveFormsModule,
+    DhSharedUiSearchComponent,
   ],
 })
 export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
@@ -57,6 +59,7 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
 
   @Output() statusChanged = new EventEmitter<MarketParticipantUserRoleStatus | null>();
   @Output() eicFunctionChanged = new EventEmitter<MarketParticipantEicFunction[] | null>();
+  @Output() searchTermChanged = new EventEmitter<string | null>();
 
   statusFormControl = new FormControl<MarketParticipantUserRoleStatus | null>(null);
   eicFunctionFormControl = new FormControl<MarketParticipantEicFunction[] | null>(null);
@@ -81,6 +84,10 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
     this.statusFormControl.setValue(
       this.statusListOptions[0].value as MarketParticipantUserRoleStatus
     );
+  }
+
+  search(searchTerm: string | null): void {
+    this.searchTermChanged.emit(searchTerm);
   }
 
   ngOnDestroy(): void {

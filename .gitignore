@@ -17,6 +17,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Structurizr Lite files
+.structurizr/
+
 # Frontend configuration files
 **/configuration/**/*.json
 !**/configuration/**/*.local.json
