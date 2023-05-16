@@ -29,7 +29,6 @@ import { Apollo } from 'apollo-angular';
 import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 
-
 @Component({
   standalone: true,
   selector: 'dh-wholesale-settlements-reports-tab',
@@ -66,7 +65,9 @@ export class DhWholesaleSettlementsReportsTabComponent implements OnInit {
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: graphql.GetActorsForSettlementReportDocument,
-    variables: { eicFunctions: [graphql.EicFunction.GridAccessProvider, graphql.EicFunction.EnergySupplier]},
+    variables: {
+      eicFunctions: [graphql.EicFunction.GridAccessProvider, graphql.EicFunction.EnergySupplier],
+    },
   });
 
   ngOnInit(): void {
