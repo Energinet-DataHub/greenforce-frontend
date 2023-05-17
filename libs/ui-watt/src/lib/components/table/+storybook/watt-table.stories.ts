@@ -21,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WattStorybookTableDecoratorComponent } from './storybook-table-decorator.component';
 import { WattTableColumnDef, WATT_TABLE } from '../watt-table.component';
 import { WattTableDataSource } from '../watt-table-data-source';
+import { WattButtonModule } from '../../button';
 import { WattIconModule } from '../../../foundations/icon/icon.module';
 
 function removeDecoratorFromSource(snippet: string) {
@@ -64,6 +65,7 @@ export default {
     moduleMetadata({
       imports: [
         WATT_TABLE,
+        WattButtonModule,
         WattIconModule,
         MatSortModule,
         BrowserAnimationsModule,
@@ -91,7 +93,7 @@ export const Table: StoryFn = (args) => {
         [suppressRowHoverHighlight]="suppressRowHoverHighlight"
         [activeRow]="activeRow"
         (rowClick)="activeRow = $event"
-        >
+      >
         <ng-container *wattTableCell="table.columns.name; let element">
           <div class="watt-text-s">
             {{ element.name }}
@@ -109,6 +111,16 @@ export const Table: StoryFn = (args) => {
             ></watt-icon>
             <span class="watt-text-s">{{ element.symbol }}</span>
           </div>
+        </ng-container>
+        <ng-container *wattTableToolbar="let selection">
+          {{ selection.length }} selected rows
+          <watt-table-toolbar-spacer />
+          <watt-button type="text" icon="download">
+            Download
+          </watt-button>
+          <watt-button type="text" icon="upload">
+            Upload
+          </watt-button>
         </ng-container>
       </watt-table>
     `,
