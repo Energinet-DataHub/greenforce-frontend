@@ -607,9 +607,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo/client@npm:3.7.14":
-  version: 3.7.14
-  resolution: "@apollo/client@npm:3.7.14"
+"@apollo/client@npm:3.7.11":
+  version: 3.7.11
+  resolution: "@apollo/client@npm:3.7.11"
   dependencies:
     "@graphql-typed-document-node/core": ^3.1.1
     "@wry/context": ^0.7.0
@@ -639,7 +639,7 @@ __metadata:
       optional: true
     subscriptions-transport-ws:
       optional: true
-  checksum: eaa8af74450fee4d4761d25fb8fe752788517b27ebb46a51b6496950c5b73f48b6ba3e4f3474b6e4a4f310916dc3fcf079306c35f16d4284b96c7fdbb8539fde
+  checksum: 56fa501dc27b68b01c054ffd5642fcfedb16ee4653e819fb92d1b6cae834160f1274a961f335812f4781bbbbdf3bb6f851f07a7351f95d8945740cc79fa2d58f
   languageName: node
   linkType: hard
 
@@ -15604,7 +15604,7 @@ cors@latest:
     "@angular/platform-browser": 15.2.6
     "@angular/platform-browser-dynamic": 15.2.6
     "@angular/router": 15.2.6
-    "@apollo/client": 3.7.14
+    "@apollo/client": 3.7.11
     "@azure/msal-angular": 2.5.7
     "@azure/msal-browser": 2.37.0
     "@babel/core": ^7.0.0-0
@@ -15684,7 +15684,7 @@ cors@latest:
     eslint-plugin-sonarjs: 0.19.0
     eslint-plugin-storybook: ^0.6.11
     glob: 10.2.4
-    graphql: ^16.6.0
+    graphql: 16.6.0
     html-webpack-plugin: ^5.5.0
     husky: 8.0.3
     include-media: 2.0.0
@@ -18605,7 +18605,7 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"graphql@npm:^15.0.0 || ^16.0.0, graphql@npm:^16.6.0":
+"graphql@npm:16.6.0, graphql@npm:^15.0.0 || ^16.0.0":
   version: 16.6.0
   resolution: "graphql@npm:16.6.0"
   checksum: bf1d9e3c1938ce3c1a81e909bd3ead1ae4707c577f91cff1ca2eca474bfbc7873d5d7b942e1e9777ff5a8304421dba57a4b76d7a29eb19de8711cb70e3c2415e
