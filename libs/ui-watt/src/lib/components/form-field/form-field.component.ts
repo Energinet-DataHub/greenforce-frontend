@@ -80,7 +80,7 @@ export class FormFieldComponent implements AfterViewInit {
         this.timepickerControl ||
         this.datepickerControl;
 
-      if(this.wattDropdown) {
+      if (this.wattDropdown) {
         this.mode = this.wattDropdown.chipMode ? 'chip' : 'default';
       }
       this.matFormField._control = control;

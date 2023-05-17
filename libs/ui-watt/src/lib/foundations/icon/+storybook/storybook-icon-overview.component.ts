@@ -90,7 +90,7 @@ export class StorybookIconOverviewComponent {
         { name: 'Right', icon: 'right' },
         { name: 'Up', icon: 'up' },
         { name: 'Down', icon: 'down' },
-        { name: 'Arrow Dropdown', icon: 'arrowDropDown'}
+        { name: 'Arrow Dropdown', icon: 'arrowDropDown' },
       ],
     },
     {
