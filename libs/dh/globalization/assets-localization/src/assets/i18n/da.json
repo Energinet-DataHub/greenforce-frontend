@@ -833,6 +833,7 @@
         "executionTimeRequired": "Eksekveringstid påkrævet",
         "actor": "Aktør",
         "loadingActors": "Henter Aktører...",
+        "loadingGridAreas": "Henter netområder...",
         "actorPlaceholder": "Vælg aktør",
         "processTypePlaceholder": "Vælg procestype",
         "gridAreasPlaceholder": "Vælg netområde(r)"
