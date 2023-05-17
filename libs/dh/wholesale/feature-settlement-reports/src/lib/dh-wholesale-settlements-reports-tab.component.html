@@ -41,6 +41,18 @@ limitations under the License.
               "
             ></watt-dropdown>
           </watt-form-field>
+          <watt-form-field class="gridAreaPicker">
+            <watt-dropdown
+              formControlName="gridAreas"
+              [multiple]="true"
+              [options]="gridAreas"
+              [placeholder]="
+                searchForm.controls.gridAreas.disabled
+                  ? t('filters.loadingGridAreas')
+                  : t('filters.gridAreasPlaceholder')
+              "
+            ></watt-dropdown>
+          </watt-form-field>
         </form>
       </watt-card>
     </watt-tab>
