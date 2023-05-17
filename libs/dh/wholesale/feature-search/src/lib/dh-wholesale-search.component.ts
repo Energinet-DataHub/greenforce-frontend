@@ -56,7 +56,9 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
   private apollo = inject(Apollo);
   private destroy$ = new Subject<void>();
 
-  routerBatchId = this.route.snapshot.queryParams.batch;
+  private routerBatchId = this.route.snapshot.queryParams.batch;
+  private startedByFilter = '';
+
   selectedBatch?: Batch;
   executionTime = {
     start: sub(startOfDay(new Date()), { days: 10 }).toISOString(),
@@ -64,7 +66,6 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
   };
 
   query = this.apollo.watchQuery({
-    // pollInterval: 10000,
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: graphql.GetBatchesDocument,
@@ -79,7 +80,17 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
     this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (result) => {
         this.loading = result.loading;
-        this.batches = result.data?.batches;
+
+        if (result.data?.batches) {
+          if (this.startedByFilter) {
+            this.batches = result.data.batches.filter((batch) =>
+              batch.createdByUserName.includes(this.startedByFilter)
+            );
+          } else {
+            this.batches = result.data.batches;
+          }
+        }
+
         this.selectedBatch = this.batches?.find((batch) => batch.id === this.routerBatchId);
         this.error = !!result.errors;
       },
@@ -99,13 +110,16 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
     this.destroy$.complete();
   }
 
-  onSearch(search: graphql.GetBatchesQueryVariables) {
-    this.query.refetch({
-      executionTime: {
-        start: search.executionTime?.start as string,
-        end: search.executionTime?.end as string,
-      },
-    });
+  onSearch({
+    executionTime,
+    startedBy,
+  }: {
+    executionTime: { start: string; end: string };
+    startedBy: string;
+  }) {
+    this.startedByFilter = startedBy;
+
+    this.query.refetch({ executionTime });
   }
 
   onBatchSelected(batch: Batch) {
