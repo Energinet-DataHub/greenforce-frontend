@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { NgModule } from '@angular/core';
+import { Injectable, NgModule } from '@angular/core';
 import {
   DhApiEnvironment,
   DhB2CEnvironment,
@@ -23,30 +23,32 @@ import {
   dhB2CEnvironmentToken,
 } from '@energinet-datahub/dh/shared/environments';
 import {
+  AbstractLoggerService,
   AbstractSecurityStorage,
   AuthModule,
   DefaultLocalStorageService,
   LogLevel,
+  OpenIdConfiguration,
   StsConfigLoader,
   StsConfigStaticLoader,
 } from 'angular-auth-oidc-client';
 
 export const LoginAzureProviderConfigId = 'OidcAzureB2C';
 export const LoginMitIdProviderConfigId = 'OidcMitId';
-export const LoginProviderConfigIds = [LoginAzureProviderConfigId, LoginMitIdProviderConfigId];
 
 const authConfigFactory = (b2cEnvironment: DhB2CEnvironment, apiEnvironment: DhApiEnvironment) => {
-  const baseConfig = {
+  const baseConfig: OpenIdConfiguration = {
     redirectUrl: window.location.origin,
     postLogoutRedirectUri: window.location.origin,
     clientId: b2cEnvironment.clientId,
-    scope: 'openid profile ' + b2cEnvironment.scopeUri,
+    scope: 'openid profile offline_access ' + b2cEnvironment.scopeUri,
     secureRoutes: [apiEnvironment.apiBase],
     responseType: 'code',
+    silentRenew: true,
     useRefreshToken: true,
-    // ignoreNonceAfterRefresh? TODO Maybe?
+    ignoreNonceAfterRefresh: true,
     autoUserInfo: false,
-    logLevel: LogLevel.None,
+    logLevel: LogLevel.Debug,
   };
 
   return new StsConfigStaticLoader([
@@ -62,6 +64,19 @@ const authConfigFactory = (b2cEnvironment: DhB2CEnvironment, apiEnvironment: DhA
     },
   ]);
 };
+
+@Injectable()
+export class MyLoggerService implements AbstractLoggerService {
+  logError(message: any, ...args: any[]): void {
+    console.log(message, args);
+  }
+  logWarning(message: any, ...args: any[]): void {
+    console.log(message, args);
+  }
+  logDebug(message: any, ...args: any[]): void {
+    console.log(message, args);
+  }
+}
 
 @NgModule({
   imports: [
@@ -80,6 +95,7 @@ const authConfigFactory = (b2cEnvironment: DhB2CEnvironment, apiEnvironment: DhA
       provide: AbstractSecurityStorage,
       useClass: DefaultLocalStorageService,
     },
+    { provide: AbstractLoggerService, useClass: MyLoggerService }
   ],
 })
 export class AuthConfigModule {}

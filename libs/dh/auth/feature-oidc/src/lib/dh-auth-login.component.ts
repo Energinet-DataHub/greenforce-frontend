@@ -18,12 +18,8 @@ import { Component } from '@angular/core';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { PushModule } from '@rx-angular/template/push';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import {
-  LoginAzureProviderConfigId,
-  LoginMitIdProviderConfigId,
-  LoginProviderConfigIds,
-} from './auth-config.module';
-import { from, map, tap, zipAll } from 'rxjs';
+import { LoginAzureProviderConfigId, LoginMitIdProviderConfigId } from './auth-config.module';
+import { map, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -42,18 +38,17 @@ import { Router } from '@angular/router';
   imports: [CommonModule, PushModule, WattSpinnerModule],
 })
 export class DhAuthLoginComponent {
-  isAuthenticated$ = from(LoginProviderConfigIds).pipe(
-    map((configId) => this.oidcSecurityService.isAuthenticated(configId)),
-    zipAll(),
-    map((isAuthenticated) => isAuthenticated.includes(true)),
-    tap((isAuthenticated) => {
-      if (isAuthenticated) {
+  showLoginOptions$ = this.oidcSecurityService.isAuthenticated$.pipe(
+    map((result) =>
+      result.allConfigsAuthenticated.some((authResult) => authResult.isAuthenticated)
+    ),
+    tap((isAnyAuthenticated) => {
+      if (isAnyAuthenticated) {
         this.router.navigateByUrl('/');
       }
-    })
+    }),
+    map((isAnyAuthenticated) => !isAnyAuthenticated)
   );
-
-  showLoginOptions$ = this.isAuthenticated$.pipe(map((isAuthenticated) => !isAuthenticated));
 
   constructor(private oidcSecurityService: OidcSecurityService, private router: Router) {}
 

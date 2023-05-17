@@ -18,19 +18,19 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { from, map, zipAll } from 'rxjs';
-import { LoginProviderConfigIds } from './auth-config.module';
+import { map } from 'rxjs';
 
 export const AuthenticationGuard: CanActivateFn = () => {
   const oidcSecurityService = inject(OidcSecurityService);
   const router = inject(Router);
 
-  return from(LoginProviderConfigIds).pipe(
-    map((configId) => oidcSecurityService.isAuthenticated(configId)),
-    zipAll(),
-    map((isAuthenticated) => {
-      console.log('AuthGuard returned ', isAuthenticated);
-      return isAuthenticated.includes(true) ? true : router.parseUrl('/signin');
+  return oidcSecurityService.isAuthenticated$.pipe(
+    map((result) =>
+      result.allConfigsAuthenticated.some((authResult) => authResult.isAuthenticated)
+    ),
+    map((isAnyAuthenticated) => {
+      console.log('guard', isAnyAuthenticated);
+      return isAnyAuthenticated ? true : router.parseUrl('/signin');
     })
   );
 };
