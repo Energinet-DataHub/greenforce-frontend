@@ -307,18 +307,21 @@ The repository is using [GitHub Actions workflows](https://docs.github.com/en/ac
 for automation including CI/CD pipelines for each application.
 Workflows are located in `.github/workflows` which currently contains the following:
 
-- `app-dh-healthchecks.yml`: Used for running health check and E2E tests every hour against all DataHub environments.
-- `dh-backend-cd.yml`: Used by DataHub for publishing a release, dispatching a deployment request, and updating BFF code coverage.
-- `dh-backend-ci.yml`: Verifies the ASP.NET Core Web API by building and running all tests.
-- `dh-frontend-cd.yml`: Used by DataHub frontend for publishing a release and dispatching a
-  deployment request.
-- `eo-cd.yml`: Used by "Energy Origin" app.
-- `frontend-ci.yml`: Used to build, test, format and lint all frontend apps.
-- `license-check-ci.yml`: Used to check for license headers in files and adding them if missing.
-- `production-dependencies-license-check.yml`: Used for documenting used versions and licenses of production dependencies.
-- `watt-backend-cd.yml`: Used by Watt for publishing a release and dispatching a deployment request of infrastructure as code (IaC).
-- `watt-backend-ci.yml`: Used by Watt for creating a pre-release of IaC.
-- `watt-frontend-cd.yml`: Used by Watt for deploying to Chromatic, publishing a release, and dispatching a deployment request.
+- `ci-orchestrator.yml` - Markdown check and YAML validation, CodeQL check, renders C4 model diagrams, detects changes to start relevant workflows and branch policy status check.
+- `clean-up-cache.yml` - Cleanup GitHub workflow caches for closed branches.
+- `codeql.yml` - Performs CodeQL Analysis.
+- `create-tokens.yml` - Generates design tokens based on a JSON file exported from Figma.
+- `detect-changes.yml` - Figures out what part of the codebase is affected by a change.
+- `dh-cd.yml`: Used by DataHub for updating BFF code coverage, publishing a release, dispatching a deployment request, and dispatching a notification on failure.
+- `dh-ci-dotnet.yml` - Verifies the ASP.NET Core Web API by building and running all tests. Used in `ci-orchestrator.yml` for verifying if PR merge is allowed.
+- `dh-ci-frontend.yml` - Used by DataHub frontend for publishing a release and generating API clients. Used in `ci-orchestrator.yml` for verifying if PR merge is allowed.
+- `dh-healthchecks.yml` - Runs E2E health check tests every hour against all DataHub environments.
+- `eo-cd.yml` - Used by "Energy Origin" app.
+- `frontend-ci.yml` - Used to build, scan with SonarCloud, format and lint all frontend apps. Also used for running unit, integration, component and E2E tests.
+- `license-check-ci.yml` - Used to check for license headers in files and adding them if missing.
+- `production-dependencies-license-check.yml` - Used for documenting used versions and licenses of production dependencies.
+- `watt-cd.yml` - Used for publishing Watt to Chromatic and dispatching a notification on failure.
+- `watt-ci.yml` - Used by Watt for verifying a production build can be created. Used in `ci-orchestrator.yml` for verifying if PR merge is allowed.
 
 _Bots are used for certain trivial tasks such as adding license headers to files,
 formatting code, fixing lint errors, and generating API clients based on OpenAPI.

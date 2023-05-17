@@ -65,10 +65,10 @@ jobs:
   #
   # Watt
   #
-  watt_ci_frontend:
+  watt_ci:
     needs: changes
     if: ${{ needs.changes.outputs.watt_frontend == 'true' }}
-    uses: ./.github/workflows/watt-ci-frontend.yml
+    uses: ./.github/workflows/watt-ci.yml
     secrets: inherit
 
   #
@@ -95,7 +95,7 @@ jobs:
         ci_codeql,
         dh_ci_frontend,
         dh_ci_dotnet,
-        watt_ci_frontend,
+        watt_ci,
         render_c4model_views
       ]
     if: |
