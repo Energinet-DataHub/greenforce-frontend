@@ -22,7 +22,7 @@ import {
   DhMessageArchiveDataAccessApiStore,
   DhMessageArchiveDataAccessBlobApiStore,
 } from '@energinet-datahub/dh/message-archive/data-access-api';
-import { DocumentTypes, ProcessTypes } from '@energinet-datahub/dh/message-archive/domain';
+import { DocumentTypes, BusinessReasons } from '@energinet-datahub/dh/message-archive/domain';
 import { ArchivedMessageSearchCriteria } from '@energinet-datahub/dh/shared/domain';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
@@ -108,8 +108,8 @@ export class DhMessageArchiveLogSearchComponent {
   isInit$ = this.store.isInit$;
   getActorOptions$ = this.actorStore.actors$;
 
-  rsmFormFieldOptions: WattDropdownOptions = this.buildRsmOptions();
-  processTypeFormFieldOptions: WattDropdownOptions = this.buildProcessTypesOptions();
+  documentTypeFieldOptions: WattDropdownOptions = this.buildDocumentTypeOptions();
+  businessReasonFormFieldOptions: WattDropdownOptions = this.buildBusinessTypesOptions();
 
   searching = false;
   maxItemCount = 100;
@@ -141,17 +141,17 @@ export class DhMessageArchiveLogSearchComponent {
     }
   }
 
-  private buildRsmOptions() {
+  private buildDocumentTypeOptions() {
     return Object.entries(DocumentTypes).map((entry) => ({
       value: entry[0],
       displayValue: `${entry[1]} - ${entry[0]}`,
     }));
   }
 
-  private buildProcessTypesOptions() {
-    return Object.entries(ProcessTypes).map((entry) => ({
+  private buildBusinessTypesOptions() {
+    return Object.entries(BusinessReasons).map((entry) => ({
       value: entry[0],
-      displayValue: `${entry[0]} - ${entry[1]}`,
+      displayValue: `${entry[1]}`,
     }));
   }
 

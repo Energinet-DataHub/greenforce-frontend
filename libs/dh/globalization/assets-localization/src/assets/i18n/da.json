@@ -465,7 +465,7 @@
       "startSearch": "Søg",
       "noResultsFound": "Intet resultat",
       "progressType": "Forretningsårsag",
-      "chooseDocumentType": "Indtast eller vælg",
+      "typeOrChoose": "Indtast eller vælg",
       "includeRelatedMessage": "Inkluder relaterede beskeder (ved søgning på Besked ID)",
       "loadMore": "Indlæs flere",
       "rsm": "RSM",
