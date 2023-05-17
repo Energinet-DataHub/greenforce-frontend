@@ -19,6 +19,7 @@ import { CommonModule, KeyValue } from '@angular/common';
 import {
   AfterViewInit,
   Component,
+  ContentChild,
   ContentChildren,
   Directive,
   ElementRef,
@@ -110,6 +111,20 @@ export class WattTableCellDirective<T> {
     _directive: WattTableCellDirective<T>,
     context: unknown
   ): context is WattTableCellContext<T> {
+    return true;
+  }
+}
+
+@Directive({
+  standalone: true,
+  selector: '[wattTableToolbar]',
+})
+export class WattTableToolbarDirective<T> {
+  templateRef = inject(TemplateRef<T[]>);
+  static ngTemplateContextGuard<T>(
+    _directive: WattTableToolbarDirective<T>,
+    context: unknown
+  ): context is T[] {
     return true;
   }
 }
@@ -250,6 +265,10 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
   _cells!: QueryList<WattTableCellDirective<T>>;
 
   /** @ignore */
+  @ContentChild(WattTableToolbarDirective)
+  _toolbar?: WattTableToolbarDirective<T>;
+
+  /** @ignore */
   @ViewChild(MatSort)
   _sort!: MatSort;
 
@@ -382,4 +401,23 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
   }
 }
 
-export const WATT_TABLE = [WattTableComponent, WattTableCellDirective];
+@Component({
+  standalone: true,
+  selector: 'watt-table-toolbar-spacer',
+  template: '',
+  styles: [
+    `
+      :host {
+        width: var(--watt-space-xl);
+      }
+    `,
+  ],
+})
+export class WattTableToolbarSpacerComponent {}
+
+export const WATT_TABLE = [
+  WattTableComponent,
+  WattTableCellDirective,
+  WattTableToolbarDirective,
+  WattTableToolbarSpacerComponent,
+];
