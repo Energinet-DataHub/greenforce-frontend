@@ -28,7 +28,6 @@ import { Subject, takeUntil, } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
-import { PushModule } from '@rx-angular/template/push';
 
 @Component({
   standalone: true,
@@ -45,7 +44,6 @@ import { PushModule } from '@rx-angular/template/push';
     ReactiveFormsModule,
     WattFormFieldModule,
     WattDropdownModule,
-    PushModule
   ],
 })
 export class DhWholesaleSettlementsReportsTabComponent implements OnInit {
