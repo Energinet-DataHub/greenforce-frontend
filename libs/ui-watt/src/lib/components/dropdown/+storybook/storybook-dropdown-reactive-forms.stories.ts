@@ -31,6 +31,8 @@ const dropdownOptions: WattDropdownOption[] = [
   { value: 'joules', displayValue: 'Joules' },
 ];
 
+const placeholder = 'Select a team';
+
 const meta: Meta<WattDropdownComponent> = {
   title: 'Components/Dropdown/Reactive Forms',
   component: WattDropdownComponent,
@@ -101,6 +103,34 @@ SingleSelect.parameters = {
   },
 };
 
+export const SingleSelectChipMode: StoryFn<WattDropdownComponent> = (
+  args: Partial<WattDropdownComponent>
+) => ({
+  props: {
+    exampleFormControl: new FormControl(null),
+    options: args.options,
+    placeholder: args.placeholder,
+  },
+  template: `<watt-form-field>
+    <watt-dropdown
+      chipMode="true"
+      [formControl]="exampleFormControl"
+      [placeholder]="placeholder"
+      [options]="options"></watt-dropdown>
+  </watt-form-field>`,
+});
+SingleSelectChipMode.args = {
+  options: dropdownOptions,
+  placeholder,
+};
+SingleSelectChipMode.parameters = {
+  docs: {
+    source: {
+      code: howToUseGuideBasic,
+    },
+  },
+};
+
 export const MultiSelect: StoryFn<WattDropdownComponent> = (
   args: Partial<WattDropdownComponent>
 ) => ({
@@ -121,10 +151,42 @@ export const MultiSelect: StoryFn<WattDropdownComponent> = (
 });
 MultiSelect.args = {
   options: dropdownOptions,
-  placeholder: 'Select a team',
+  placeholder,
   noOptionsFoundLabel: 'No team found.',
 };
 MultiSelect.parameters = {
+  docs: {
+    source: {
+      code: howToUseGuideBasic,
+    },
+  },
+};
+
+export const MultiSelectChipMode: StoryFn<WattDropdownComponent> = (
+  args: Partial<WattDropdownComponent>
+) => ({
+  props: {
+    exampleFormControl: new FormControl(null),
+    options: args.options,
+    placeholder: args.placeholder,
+    noOptionsFoundLabel: args.noOptionsFoundLabel,
+  },
+  template: `<watt-form-field>
+    <watt-dropdown
+      chipMode="true"
+      [multiple]="true"
+      [formControl]="exampleFormControl"
+      [placeholder]="placeholder"
+      [noOptionsFoundLabel]="noOptionsFoundLabel"
+      [options]="options"></watt-dropdown>
+  </watt-form-field>`,
+});
+MultiSelectChipMode.args = {
+  options: dropdownOptions,
+  placeholder,
+  noOptionsFoundLabel: 'No team found.',
+};
+MultiSelectChipMode.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,

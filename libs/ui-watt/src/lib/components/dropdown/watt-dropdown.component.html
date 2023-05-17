@@ -14,6 +14,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+<watt-chips
+*ngIf="chipMode"
+[options]="[chipOption]"
+[selectable]="false"
+[selection]="selection"
+></watt-chips>
+
 <mat-select
   [formControl]="matSelectControl"
   [placeholder]="placeholder"
@@ -24,7 +31,8 @@ limitations under the License.
     'watt-dropdown-panel': true,
     'watt-dropdown-panel-single-selection': !multiple,
     'watt-dropdown-panel-multiple-selection': multiple,
-    'watt-dropdown-panel-close-to-screen-left-edge': isCloseToScreenLeftEdge
+    'watt-dropdown-panel-close-to-screen-left-edge': isCloseToScreenLeftEdge,
+    'watt-dropdown-panel-chip-mode': chipMode
   }"
   (mousedown)="onMouseDown()"
 >

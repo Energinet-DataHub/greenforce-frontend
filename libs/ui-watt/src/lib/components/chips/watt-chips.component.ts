@@ -34,6 +34,8 @@ export interface WattChipsOption {
   value: string;
   /** Disabled appearance */
   disabled?: boolean;
+  /** Text to display inside a chiplabel */
+  badge?: string;
 }
 
 export type WattChipsSelection = string | null;
@@ -55,6 +57,9 @@ export class WattChipsComponent {
   /** List of chip options to display. */
   @Input() options: WattChipsOption[] = [];
 
+  /** Whether the chips are selectedable, or managed manually */
+  @Input() selectable = true;
+
   /** Holds the currently selected chip value. */
   @Input() selection: WattChipsSelection = null;
 
@@ -67,8 +72,8 @@ export class WattChipsComponent {
    */
   onClick(selection: WattChipsSelection) {
     if (this.selection !== selection) {
-      this.selection = selection;
-      this.selectionChange.emit(this.selection);
+      if(this.selectable) this.selection = selection;
+      this.selectionChange.emit(selection);
     }
   }
 }

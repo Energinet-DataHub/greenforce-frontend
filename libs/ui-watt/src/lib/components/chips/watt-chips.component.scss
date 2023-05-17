@@ -56,7 +56,12 @@ watt-chips {
     display: none;
   }
 
-  watt-icon {
+  watt-icon:not(:last-child) {
     margin-right: var(--watt-space-s);
+  }
+
+  .watt-chip-label {
+    margin: 0 var(--watt-space-s);
+    background: var(--watt-color-neutral-white);
   }
 }

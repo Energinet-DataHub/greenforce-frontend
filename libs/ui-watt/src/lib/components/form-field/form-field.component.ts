@@ -42,10 +42,15 @@ import { WattTimepickerComponent } from '../input/timepicker';
 })
 export class FormFieldComponent implements AfterViewInit {
   @Input() size: 'normal' | 'large' = 'normal';
+  private mode: 'default' | 'chip' = 'default';
 
-  @HostBinding('class')
-  get _cssClass() {
-    return [`watt-form-field-${this.size}`];
+  @HostBinding('class') get hostClasses() {
+    const classes = [];
+    if (this.mode !== 'default') {
+      classes.push(`watt-form-field-${this.mode}`);
+    }
+    classes.push(`watt-form-field-${this.size}`);
+    return classes.join(' ');
   }
 
   beforeViewInit = true; // Used to remove placeholder control
@@ -75,6 +80,9 @@ export class FormFieldComponent implements AfterViewInit {
         this.timepickerControl ||
         this.datepickerControl;
 
+      if(this.wattDropdown) {
+        this.mode = this.wattDropdown.chipMode ? 'chip' : 'default';
+      }
       this.matFormField._control = control;
       this.matFormField.ngAfterContentInit();
       this.beforeViewInit = false;

@@ -18,9 +18,14 @@ limitations under the License.
   <mat-chip
     *ngFor="let option of options"
     [selected]="selection === option.value"
+    [selectable]="false"
     [disabled]="option.disabled"
     (click)="onClick(option.value)"
-    ><watt-icon name="checkmark" *ngIf="selection === option.value"></watt-icon>
-    {{ option.label }}</mat-chip
+    >
+    <watt-icon name="checkmark" *ngIf="selection === option.value"></watt-icon>
+    {{ option.label }}
+    <span class="watt-chip-label" *ngIf="option.badge">{{option.badge}}</span>
+    <watt-icon name="arrowDropDown" *ngIf="!selectable"></watt-icon>
+    </mat-chip
   >
 </mat-chip-list>
