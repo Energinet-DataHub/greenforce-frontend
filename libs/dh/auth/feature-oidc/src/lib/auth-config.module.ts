@@ -95,7 +95,7 @@ export class MyLoggerService implements AbstractLoggerService {
       provide: AbstractSecurityStorage,
       useClass: DefaultLocalStorageService,
     },
-    { provide: AbstractLoggerService, useClass: MyLoggerService }
+    { provide: AbstractLoggerService, useClass: MyLoggerService },
   ],
 })
 export class AuthConfigModule {}
