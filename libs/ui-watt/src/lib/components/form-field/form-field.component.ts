@@ -33,6 +33,7 @@ import { WattDatepickerComponent } from '../input/datepicker';
 import { WattDropdownComponent } from '../dropdown/watt-dropdown.component';
 import { WattInputDirective } from '../input/input.directive';
 import { WattTimepickerComponent } from '../input/timepicker';
+import { WattChipDatepickerComponent } from '../input/datepicker/watt-chip-datepicker.component';
 
 @Component({
   selector: 'watt-form-field',
@@ -62,6 +63,9 @@ export class FormFieldComponent implements AfterViewInit {
   @ContentChild(WattDatepickerComponent)
   datepickerControl?: WattDatepickerComponent;
 
+  @ContentChild(WattChipDatepickerComponent)
+  chipDatepickerControl?: WattChipDatepickerComponent;
+
   @ContentChild(WattTimepickerComponent)
   timepickerControl?: WattTimepickerComponent;
 
@@ -73,7 +77,8 @@ export class FormFieldComponent implements AfterViewInit {
         this.inputControl ||
         this.wattDropdown?.matSelect ||
         this.timepickerControl ||
-        this.datepickerControl;
+        this.datepickerControl ||
+        this.chipDatepickerControl;
 
       this.matFormField._control = control;
       this.matFormField.ngAfterContentInit();

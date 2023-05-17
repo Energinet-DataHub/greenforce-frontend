@@ -28,10 +28,8 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
 import { Subject } from 'rxjs';
 
-import { WattInputMaskService } from './watt-input-mask.service';
 import { WattPickerValue } from './watt-picker-value';
 import { WattRange } from './watt-range';
-import { WattRangeInputService } from './watt-range-input.service';
 
 @Directive()
 export abstract class WattPickerBase

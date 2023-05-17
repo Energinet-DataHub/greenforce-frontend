@@ -35,6 +35,7 @@ const materialIcons = {
   link: 'link',
   openInNew: 'open_in_new',
   monetization: 'monetization_on',
+
   payments: 'payments',
   forwardMessage: 'forward_to_inbox',
   menu: 'menu',
@@ -44,6 +45,8 @@ const materialIcons = {
   right: 'navigate_next',
   up: 'expand_less',
   down: 'expand_more',
+  arrowUp: 'arrow_drop_up',
+  arrowDown: 'arrow_drop_down',
   // Alerts
   danger: 'dangerous',
   warning: 'report_problem',
