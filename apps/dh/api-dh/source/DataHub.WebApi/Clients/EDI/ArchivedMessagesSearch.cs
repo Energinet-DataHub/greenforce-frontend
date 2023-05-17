@@ -58,7 +58,9 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
                 archivedMessageSearch.DateTimeTo),
                     archivedMessageSearch.MessageId,
                     archivedMessageSearch.SenderNumber,
-                    archivedMessageSearch.ReceiverNumber)));
+                    archivedMessageSearch.ReceiverNumber,
+                    archivedMessageSearch.DocumentTypes,
+                    archivedMessageSearch.BusinessReasons)));
 
             var response = await _httpClient.PostAsync(url, content, cancellationToken);
 

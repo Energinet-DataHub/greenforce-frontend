@@ -461,8 +461,7 @@
     },
     "search": {
       "topBarTitle": "Search in request and response messages",
-      "messageType": "Document type",
-      "rsmName": "Document type",
+      "documentType": "Document type",
       "senderGln": "Sender",
       "messageId": "Message Id",
       "traceId": "Trace Id",
