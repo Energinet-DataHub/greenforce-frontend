@@ -24,7 +24,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { Subject, takeUntil, } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
@@ -45,7 +45,7 @@ import { PushModule } from '@rx-angular/template/push';
     ReactiveFormsModule,
     WattFormFieldModule,
     WattDropdownModule,
-    PushModule
+    PushModule,
   ],
 })
 export class DhWholesaleSettlementsReportsTabComponent implements OnInit {
@@ -80,7 +80,6 @@ export class DhWholesaleSettlementsReportsTabComponent implements OnInit {
     query: graphql.GetGridAreasDocument,
   });
 
-
   ngOnInit(): void {
     this.actorsQuery.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (result) => {
@@ -91,7 +90,10 @@ export class DhWholesaleSettlementsReportsTabComponent implements OnInit {
 
     this.gridAreasQuery.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (result) => {
-        this.gridAreas = (result.data?.gridAreas ?? []).map((g) => ({displayValue: g.name, value: g.code}));
+        this.gridAreas = (result.data?.gridAreas ?? []).map((g) => ({
+          displayValue: g.name,
+          value: g.code,
+        }));
         if (!result.loading) this.searchForm.controls.gridAreas.enable();
       },
     });
