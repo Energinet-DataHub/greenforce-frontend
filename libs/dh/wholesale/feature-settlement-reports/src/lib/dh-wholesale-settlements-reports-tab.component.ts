@@ -89,7 +89,7 @@ export class DhWholesaleSettlementsReportsTabComponent implements OnInit {
     this.gridAreasQuery.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (result) => {
         this.gridAreas = (result.data?.gridAreas ?? []).map((g) => ({
-          displayValue: g.name,
+          displayValue: `${g.name} (${g.code})`,
           value: g.code,
         }));
         if (!result.loading) this.searchForm.controls.gridAreas.enable();
