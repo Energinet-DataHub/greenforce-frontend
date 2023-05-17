@@ -23,26 +23,28 @@ limitations under the License.
           <watt-label>{{ transloco("messageId") }}</watt-label>
           <input formControlName="messageId" wattInput type="text" name="messageId" />
         </watt-form-field>
-        <!-- RSM -->
+
+        <!-- Document Type -->
         <watt-form-field>
-          <watt-label>{{ transloco("messageType") }}</watt-label>
+          <watt-label>{{ transloco("documentType") }}</watt-label>
           <watt-dropdown
-            formControlName="messageTypes"
-            [options]="rsmFormFieldOptions"
-            name="messageType"
-            [placeholder]="transloco('chooseDocumentType')"
+            formControlName="documentTypes"
+            [options]="documentTypeFieldOptions"
+            name="documentType"
+            [placeholder]="transloco('typeOrChoose')"
             [multiple]="true"
           >
           </watt-dropdown>
         </watt-form-field>
 
+        <!-- Business Reason -->
         <watt-form-field>
           <watt-label>{{ transloco("businessReason") }}</watt-label>
           <watt-dropdown
             formControlName="businessReasons"
-            [options]="processTypeFormFieldOptions"
+            [options]="businessReasonFormFieldOptions"
             name="businessReason"
-            [placeholder]="transloco('chooseDocumentType')"
+            [placeholder]="transloco('typeOrChoose')"
             [multiple]="true"
           >
           </watt-dropdown>
@@ -55,7 +57,7 @@ limitations under the License.
             formControlName="senderNumber"
             [options]="(getActorOptions$ | async) ?? []"
             name="senderNumber"
-            [placeholder]="transloco('chooseDocumentType')"
+            [placeholder]="transloco('typeOrChoose')"
           >
           </watt-dropdown>
         </watt-form-field>
@@ -67,7 +69,7 @@ limitations under the License.
             formControlName="receiverNumber"
             [options]="(getActorOptions$ | async) ?? []"
             name="receiverNumber"
-            [placeholder]="transloco('chooseDocumentType')"
+            [placeholder]="transloco('typeOrChoose')"
           >
           </watt-dropdown>
         </watt-form-field>

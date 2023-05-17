@@ -461,8 +461,7 @@
     },
     "search": {
       "topBarTitle": "Search in request and response messages",
-      "messageType": "Document type",
-      "rsmName": "Document type",
+      "documentType": "Document type",
       "senderGln": "Sender",
       "messageId": "Message Id",
       "traceId": "Trace Id",
@@ -473,7 +472,7 @@
       "startSearch": "Search",
       "noResultsFound": "No result",
       "progressType": "Business reason",
-      "chooseDocumentType": "Type or choose",
+      "typeOrChoose": "Type or choose",
       "includeRelatedMessage": "Include related message (when searching Message Id)",
       "loadMore": "Load more",
       "rsm": "RSM",
