@@ -15,7 +15,12 @@
 namespace Energinet.DataHub.WebApi.Clients.EDI
 {
     internal record ArchivedMessageSearchCriteriaDto(
-        CreatedDuringPeriod CreatedDuringPeriod, string? MessageId, string? SenderNumber, string? ReceiverNumber);
+        CreatedDuringPeriod CreatedDuringPeriod,
+        string? MessageId,
+        string? SenderNumber,
+        string? ReceiverNumber,
+        string[]? DocumentTypes,
+        string[]? BusinessReasons);
 
     internal record CreatedDuringPeriod(string? Start, string? End);
 }
