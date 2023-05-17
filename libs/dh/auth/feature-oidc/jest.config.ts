@@ -16,11 +16,11 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'dh-auth-feature-msal',
+  displayName: 'dh-auth-feature-oidc',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},
-  coverageDirectory: '../../../../coverage/libs/dh/auth/feature-msal',
+  coverageDirectory: '../../../../coverage/libs/dh/auth/feature-oidc',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

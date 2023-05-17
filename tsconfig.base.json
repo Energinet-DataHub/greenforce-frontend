@@ -58,8 +58,8 @@
       "@energinet-datahub/dh/admin/ui-permissions-table": [
         "libs/dh/admin/ui-permissions-table/src/index.ts"
       ],
-      "@energinet-datahub/dh/auth/msal": [
-        "libs/dh/auth/feature-msal/src/index.ts"
+      "@energinet-datahub/dh/auth/oidc": [
+        "libs/dh/auth/feature-oidc/src/index.ts"
       ],
       "@energinet-datahub/dh/charges/data-access-api": [
         "libs/dh/charges/data-access-api/src/index.ts"

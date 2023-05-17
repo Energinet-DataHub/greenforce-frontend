@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { DhB2CEnvironment, dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
-import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { PushModule } from '@rx-angular/template/push';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { LoginMitIdProviderConfigId } from '@energinet-datahub/dh/auth/oidc';
 
 @Component({
   selector: 'dh-signup-mitid',
@@ -35,7 +35,7 @@ import { PushModule } from '@rx-angular/template/push';
 export class DhSignupMitIdComponent {
   constructor(
     private marketParticipantUserHttp: MarketParticipantUserHttp,
-    @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment
+    private oidcSecurityService: OidcSecurityService
   ) {}
 
   isLoading$ = new Subject<boolean>();
@@ -45,10 +45,8 @@ export class DhSignupMitIdComponent {
     this.marketParticipantUserHttp
       .v1MarketParticipantUserInitiateMitIdSignupPost()
       .subscribe(() => {
-        MSALInstanceFactory({
-          ...this.config,
-          authority: this.config.mitIdInviteFlowUri,
-        }).loginRedirect();
+        this.oidcSecurityService.logoffLocalMultiple();
+        this.oidcSecurityService.authorize(LoginMitIdProviderConfigId);
       });
   };
 }

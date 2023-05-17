@@ -14,11 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
 
 @Component({
   selector: 'dh-app',
   styleUrls: ['./datahub-app.component.scss'],
   templateUrl: './datahub-app.component.html',
 })
-export class DataHubAppComponent {}
+export class DataHubAppComponent implements OnInit {
+  constructor(private oidcSecurityService: OidcSecurityService) {}
+
+  ngOnInit(): void {
+    this.oidcSecurityService.checkAuthMultiple().subscribe((responses: LoginResponse[]) => {
+      console.log('login responses', responses);
+
+      for (const c of responses.filter((r) => r.isAuthenticated)) {
+        console.log(c.configId + ' is authenticated!');
+      }
+    });
+  }
+}
