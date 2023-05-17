@@ -32,13 +32,14 @@ interface DhUserRolesManagementState {
   readonly filterModel: {
     status: MarketParticipantUserRoleStatus | null;
     eicFunctions: MarketParticipantEicFunction[] | null;
+    searchTerm: string | null;
   };
 }
 
 const initialState: DhUserRolesManagementState = {
   roles: [],
   requestState: LoadingState.INIT,
-  filterModel: { status: 'Active', eicFunctions: [] },
+  filterModel: { status: 'Active', eicFunctions: [], searchTerm: null },
 };
 
 @Injectable()
@@ -56,10 +57,11 @@ export class DhAdminUserRolesManagementDataAccessApiStore
   rolesFiltered$ = this.select(this.roles$, this.filterModel$, (roles, filter) =>
     roles.filter(
       (role) =>
-        (filter.status == null || role.status == filter.status) &&
+        (!filter.status || role.status == filter.status) &&
         (!filter.eicFunctions ||
           filter.eicFunctions.length == 0 ||
-          filter.eicFunctions.includes(role.eicFunction))
+          filter.eicFunctions.includes(role.eicFunction)) &&
+        (!filter.searchTerm || role.name.toUpperCase().includes(filter.searchTerm.toUpperCase()))
     )
   );
 
@@ -106,12 +108,12 @@ export class DhAdminUserRolesManagementDataAccessApiStore
   readonly setFilterStatus = this.updater(
     (
       state: DhUserRolesManagementState,
-      statusUpdate: MarketParticipantUserRoleStatus | null
+      status: MarketParticipantUserRoleStatus | null
     ): DhUserRolesManagementState => ({
       ...state,
       filterModel: {
-        status: statusUpdate,
-        eicFunctions: state.filterModel.eicFunctions,
+        ...state.filterModel,
+        status,
       },
     })
   );
@@ -146,8 +148,18 @@ export class DhAdminUserRolesManagementDataAccessApiStore
     ): DhUserRolesManagementState => ({
       ...state,
       filterModel: {
-        status: state.filterModel.status,
-        eicFunctions: eicFunctions,
+        ...state.filterModel,
+        eicFunctions,
+      },
+    })
+  );
+
+  readonly setSearchTerm = this.updater(
+    (state: DhUserRolesManagementState, searchTerm: string | null): DhUserRolesManagementState => ({
+      ...state,
+      filterModel: {
+        ...state.filterModel,
+        searchTerm,
       },
     })
   );

@@ -833,6 +833,7 @@
         "executionTimeRequired": "Eksekveringstid påkrævet",
         "actor": "Aktør",
         "loadingActors": "Henter Aktører...",
+        "loadingGridAreas": "Henter netområder...",
         "actorPlaceholder": "Vælg aktør",
         "processTypePlaceholder": "Vælg procestype",
         "gridAreasPlaceholder": "Vælg netområde(r)"
@@ -1045,7 +1046,8 @@
           "rolesHeadline": "Brugerroller",
           "filter": {
             "status": "Status",
-            "marketRole": "Markedsrolle"
+            "marketRole": "Markedsrolle",
+            "search": "Søg markedsroller"
           },
           "table": {
             "columns": {

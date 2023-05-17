@@ -16,8 +16,12 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
+watt-table,
 watt-table .mat-table {
   position: relative;
+}
+
+watt-table .mat-table {
   display: grid;
   grid-template-columns: var(--watt-table-grid-template-columns);
   grid-auto-rows: max-content;
@@ -26,8 +30,10 @@ watt-table .mat-table {
 
   thead,
   tbody,
+  tfoot,
   tr.mat-row,
-  tr.mat-header-row {
+  tr.mat-header-row,
+  tr.mat-footer-row {
     display: contents;
   }
 
@@ -101,4 +107,38 @@ watt-table .mat-table {
   .watt-table-align-right .mat-sort-header-container {
     justify-content: right;
   }
+}
+
+.watt-table-footer-spacer {
+  display: none;
+  height: 76px; // Magic BJH number
+  border: 0;
+}
+
+.watt-table-has-selection .watt-table-footer-spacer {
+  display: block;
+}
+
+.watt-table-has-selection + .watt-table-toolbar {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s cubic-bezier(0, 0, 0.2, 1), visibility 0.5s;
+}
+
+.watt-table-toolbar {
+  position: absolute;
+  bottom: var(--watt-space-m);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--watt-space-m);
+  min-height: 44px; // Magic UX number
+  border-radius: 22px; // Magic UX number
+  color: var(--watt-color-primary-contrast);
+  background-color: var(--watt-color-primary);
+  z-index: 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: none;
 }

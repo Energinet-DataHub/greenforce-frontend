@@ -842,6 +842,7 @@
         "executionTimeRequired": "Execution time is required",
         "actor": "Actor",
         "loadingActors": "Loading actors...",
+        "loadingGridAreas": "Loading grid areas...",
         "actorPlaceholder": "Select actor",
         "processTypePlaceholder": "Select process type",
         "gridAreasPlaceholder": "Select grid area(s)"
@@ -1065,7 +1066,8 @@
           "rolesHeadline": "User roles",
           "filter": {
             "status": "Status",
-            "marketRole": "Market role"
+            "marketRole": "Market role",
+            "search": "Search market roles"
           },
           "table": {
             "columns": {

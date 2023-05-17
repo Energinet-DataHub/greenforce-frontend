@@ -64,9 +64,9 @@ limitations under the License.
         <watt-form-field>
           <watt-label>{{ transloco("receiverGln") }}</watt-label>
           <watt-dropdown
-            formControlName="receiverId"
+            formControlName="receiverNumber"
             [options]="(getActorOptions$ | async) ?? []"
-            name="receiverId"
+            name="receiverNumber"
             [placeholder]="transloco('chooseDocumentType')"
           >
           </watt-dropdown>
