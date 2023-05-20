@@ -245,7 +245,7 @@ export const WithValidation: StoryFn<WattDropdownComponent> = () => ({
   props: {
     exampleFormControl: new FormControl(null, Validators.required),
     options: dropdownOptions,
-    placeholder
+    placeholder,
   },
   template: `<watt-form-field>
     <watt-label>Label</watt-label>
@@ -270,7 +270,7 @@ WithValidation.play = async ({ canvasElement }) => {
   fireEvent.click(dropdown);
 
   const emptyOption = canvas.getByRole('option', {
-    name: '—'
+    name: '—',
   });
   fireEvent.click(emptyOption);
 };
@@ -304,7 +304,7 @@ WithValidationChipMode.play = async ({ canvasElement }) => {
   fireEvent.click(dropdown);
 
   const emptyOption = canvas.getByRole('option', {
-    name: '—'
+    name: '—',
   });
   fireEvent.click(emptyOption);
 };
