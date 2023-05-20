@@ -14,15 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+:root {
+  --watt-chips-border-color: var(--watt-on-light-low-emphasis);
+}
 
 watt-chips {
+  .mat-chip-ripple {
+    z-index: -1;
+  }
+
+  .mat-ripple-element {
+    background-color: var(--watt-color-primary-ultralight);
+  }
+
   .mat-chip-list-wrapper {
     flex-wrap: nowrap;
     overflow: auto;
   }
 
   .mat-chip.mat-standard-chip {
-    background-color: var(--watt-color-neutral-grey-100);
+    background-color: transparent;
+    border: 1px solid var(--watt-chips-border-color);
     cursor: pointer;
     user-select: none;
 
@@ -33,18 +45,27 @@ watt-chips {
     &[disabled] {
       pointer-events: none;
       cursor: not-allowed;
-      color: rgba(0, 0, 0, 0.38);
+      color: var(--watt-on-light-low-emphasis);
       border: 1px solid rgba(33, 33, 33, 0.08);
     }
   }
 
   .mat-standard-chip:hover,
   .mat-standard-chip:focus-visible {
-    background-color: var(--watt-color-secondary-light);
+    --watt-chips-border-color: var(--watt-on-light-medium-emphasis);
+  }
+
+  .mat-standard-chip:focus-visible {
+    background-color: var(--watt-color-primary-ultralight);
+  }
+
+  .mat-chip.mat-standard-chip.mat-chip-selected {
+    --watt-chips-border-color: transparent;
   }
 
   .mat-chip.mat-standard-chip.mat-chip-selected:hover,
   .mat-chip.mat-standard-chip.mat-chip-selected:focus-visible {
+    --watt-chips-border-color: transparent;
     background-color: var(--watt-color-primary-dark);
   }
 

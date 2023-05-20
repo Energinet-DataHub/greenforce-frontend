@@ -32,7 +32,6 @@ watt-form-field {
   --label-margin-bottom: 4px;
 
   &.watt-form-field-chip {
-    //--input-border-color: var(--watt-on-light-low-emphasis);
     --input-background: transparent;
     --input-border-color: transparent;
     --input-border-radius: 88px;
@@ -55,6 +54,7 @@ watt-form-field {
 
     .mat-form-field-invalid {
       --input-border-color: transparent;
+      --watt-chips-border-color: var(--watt-color-state-danger);
     }
   }
 
