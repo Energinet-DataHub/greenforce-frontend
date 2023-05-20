@@ -194,16 +194,45 @@ MultiSelectChipMode.parameters = {
   },
 };
 
-export const WithLabel: StoryFn<WattDropdownComponent> = () => ({
+export const WithLabel: StoryFn<WattDropdownComponent> = (args) => ({
   props: {
     exampleFormControl: new FormControl(null),
+    options: args.options,
+    placeholder: args.placeholder,
   },
   template: `<watt-form-field>
     <watt-label>Label</watt-label>
-    <watt-dropdown [formControl]="exampleFormControl"></watt-dropdown>
+    <watt-dropdown [formControl]="exampleFormControl" [placeholder]="placeholder" [options]="options"></watt-dropdown>
   </watt-form-field>`,
 });
+WithLabel.args = {
+  options: dropdownOptions,
+  placeholder,
+};
 WithLabel.parameters = {
+  docs: {
+    source: {
+      code: howToUseGuideBasic,
+    },
+  },
+};
+
+export const WithLabelChipMode: StoryFn<WattDropdownComponent> = (args) => ({
+  props: {
+    exampleFormControl: new FormControl(null),
+    options: args.options,
+    placeholder: args.placeholder,
+  },
+  template: `<watt-form-field>
+    <watt-label>Label</watt-label>
+    <watt-dropdown chipMode="true" [formControl]="exampleFormControl" [placeholder]="placeholder" [options]="options"></watt-dropdown>
+  </watt-form-field>`,
+});
+WithLabelChipMode.args = {
+  options: dropdownOptions,
+  placeholder,
+};
+WithLabelChipMode.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
