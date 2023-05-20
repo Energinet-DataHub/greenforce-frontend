@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-export enum ProcessTypes {
+export enum BusinessReasons {
   D02 = 'Preparation for imbalance settlement',
   D03 = 'Temporary',
   D04 = '1st settlement',
