@@ -52,6 +52,10 @@ watt-form-field {
     mat-form-field.mat-form-field-disabled {
       --input-background: var(--input-background);
     }
+
+    .mat-form-field-invalid {
+      --input-border-color: transparent;
+    }
   }
 
   .mat-form-field-label-wrapper {
@@ -178,6 +182,8 @@ watt-form-field {
 watt-form-field .mat-form-field-invalid,
 watt-form-field .mat-form-field-invalid.ng-dirty {
   --input-border-color: var(--watt-color-state-danger);
+  overflow-wrap: break-word;
+  hyphens: auto;
 
   .mat-form-field-label
     .mat-placeholder-required.mat-form-field-required-marker {

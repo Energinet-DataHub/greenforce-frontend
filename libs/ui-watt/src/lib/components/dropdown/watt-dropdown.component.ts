@@ -50,8 +50,6 @@ const MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE = 60;
   encapsulation: ViewEncapsulation.None,
 })
 export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
-  selection!: string | null;
-
   /**
    * @ignore
    */
@@ -146,7 +144,15 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    */
   @Input() noOptionsFoundLabel = '';
 
-  chipOption!: WattChipsOption;
+  /**
+   * @ignore
+   */
+  chipOption!: WattChipsOption & { value: 'select-chip' };
+
+  /**
+   * @ignore
+   */
+  chipSelection!: 'select-chip' | null;
 
   constructor(@Host() private parentControlDirective: NgControl) {
     this.parentControlDirective.valueAccessor = this;
@@ -214,7 +220,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
       label: this.placeholder,
       badge: selection.length > 0 ? `${selection.length}` : undefined,
     };
-    this.selection = selection.length > 0 ? this.chipOption.value : null;
+    this.chipSelection = selection.length > 0 ? this.chipOption.value : null;
   }
 
   /**
@@ -223,7 +229,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
   private updateChipOptionForStringOrNull(selection: string | null) {
     const displayValue = this.options.find((option) => option.value === selection)?.displayValue;
     this.chipOption = { ...this.chipOption, label: displayValue || this.placeholder };
-    this.selection = selection ? this.chipOption.value : null;
+    this.chipSelection = selection ? this.chipOption.value : null;
   }
 
   /**

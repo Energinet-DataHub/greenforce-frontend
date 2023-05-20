@@ -17,6 +17,7 @@
 import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { fireEvent, within } from '@storybook/testing-library';
 
 import { WattFormFieldModule } from '../../form-field/form-field.module';
 import { WattDropdownModule } from '../watt-dropdown.module';
@@ -244,11 +245,12 @@ export const WithValidation: StoryFn<WattDropdownComponent> = () => ({
   props: {
     exampleFormControl: new FormControl(null, Validators.required),
     options: dropdownOptions,
+    placeholder
   },
   template: `<watt-form-field>
     <watt-label>Label</watt-label>
 
-    <watt-dropdown [formControl]="exampleFormControl" [options]="options"></watt-dropdown>
+    <watt-dropdown [formControl]="exampleFormControl" [options]="options" [placeholder]="placeholder"></watt-dropdown>
 
     <watt-error *ngIf="exampleFormControl.errors?.required">
       Field is required
@@ -261,6 +263,50 @@ WithValidation.parameters = {
       code: howToUseGuideBasic,
     },
   },
+};
+WithValidation.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement.parentElement as HTMLElement);
+  const dropdown = canvas.getByRole('combobox');
+  fireEvent.click(dropdown);
+
+  const emptyOption = canvas.getByRole('option', {
+    name: '—'
+  });
+  fireEvent.click(emptyOption);
+};
+
+export const WithValidationChipMode: StoryFn<WattDropdownComponent> = () => ({
+  props: {
+    exampleFormControl: new FormControl(null, Validators.required),
+    options: dropdownOptions,
+    placeholder,
+  },
+  template: `<watt-form-field>
+    <watt-label>Label</watt-label>
+
+    <watt-dropdown chipMode="true" [formControl]="exampleFormControl" [options]="options" [placeholder]="placeholder"></watt-dropdown>
+
+    <watt-error *ngIf="exampleFormControl.errors?.required">
+      Field is required
+    </watt-error>
+  </watt-form-field>`,
+});
+WithValidationChipMode.parameters = {
+  docs: {
+    source: {
+      code: howToUseGuideBasic,
+    },
+  },
+};
+WithValidationChipMode.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement.parentElement as HTMLElement);
+  const dropdown = canvas.getByRole('combobox');
+  fireEvent.click(dropdown);
+
+  const emptyOption = canvas.getByRole('option', {
+    name: '—'
+  });
+  fireEvent.click(emptyOption);
 };
 
 export const WithFormControlDisabled: StoryFn<WattDropdownComponent> = () => ({
