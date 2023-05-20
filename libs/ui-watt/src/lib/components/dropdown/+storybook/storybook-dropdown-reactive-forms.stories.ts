@@ -252,3 +252,22 @@ WithValidation.parameters = {
     },
   },
 };
+
+export const WithFormControlDisabledChipMode: StoryFn<WattDropdownComponent> = () => ({
+  props: {
+    exampleFormControl: new FormControl({ value: null, disabled: true }),
+    options: dropdownOptions,
+    placeholder: `I'm disabled`,
+  },
+  template: `<watt-form-field>
+    <watt-label>Label</watt-label>
+    <watt-dropdown chipMode="true" [formControl]="exampleFormControl" [options]="options" [placeholder]="placeholder"></watt-dropdown>
+  </watt-form-field>`,
+});
+WithValidation.parameters = {
+  docs: {
+    source: {
+      code: howToUseGuideBasic,
+    },
+  },
+};

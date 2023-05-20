@@ -45,8 +45,12 @@ watt-form-field {
     }
 
     watt-dropdown mat-select {
-      opacity: 0 !important;
+      opacity: 0;
       position: absolute;
+    }
+
+    mat-form-field.mat-form-field-disabled {
+      --input-background: var(--input-background);
     }
   }
 
