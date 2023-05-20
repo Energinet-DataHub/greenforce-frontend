@@ -173,7 +173,11 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    */
   ngOnChanges(changes: SimpleChanges): void {
     if (this.chipMode) {
-      this.chipOption = { label: this.placeholder, value: 'select-chip', disabled: this.matSelectControl.disabled };
+      this.chipOption = {
+        label: this.placeholder,
+        value: 'select-chip',
+        disabled: this.matSelectControl.disabled,
+      };
     }
 
     if (changes['options']?.currentValue !== changes['options']?.previousValue) {
