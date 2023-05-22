@@ -27,7 +27,7 @@ limitations under the License.
     (closed)="onBatchDetailsClosed()"
   ></dh-wholesale-batch-details>
 
-  <watt-spinner *ngIf="loading"></watt-spinner>
+  <watt-spinner *ngIf="loading" />
 
   <section class="content" *ngIf="!loading && batches">
     <dh-wholesale-table
