@@ -1066,7 +1066,7 @@
           "filter": {
             "status": "Status",
             "marketRole": "Market role",
-            "search": "Search market roles"
+            "search": "Search user roles"
           },
           "table": {
             "columns": {
