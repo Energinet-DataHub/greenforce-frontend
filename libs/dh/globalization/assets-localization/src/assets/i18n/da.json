@@ -454,8 +454,7 @@
     },
     "search": {
       "topBarTitle": "Fremsøg forretningsbesked",
-      "messageType": "Dokumenttype",
-      "rsmName": "Dokumenttype",
+      "documentType": "Dokumenttype",
       "senderGln": "Afsender",
       "messageId": "Besked Id",
       "traceId": "Trace Id",
@@ -466,7 +465,7 @@
       "startSearch": "Søg",
       "noResultsFound": "Intet resultat",
       "progressType": "Forretningsårsag",
-      "chooseDocumentType": "Indtast eller vælg",
+      "typeOrChoose": "Indtast eller vælg",
       "includeRelatedMessage": "Inkluder relaterede beskeder (ved søgning på Besked ID)",
       "loadMore": "Indlæs flere",
       "rsm": "RSM",
@@ -770,7 +769,7 @@
         "executionTime": "Eksekveringstid",
         "executionTimeRequired": "Eksekveringstid påkrævet",
         "startedBy": "Bestilt af",
-        "startedByPlaceholder": "Søg eller valg",
+        "startedByPlaceholder": "Indtast email",
         "searchButton": "Søg"
       },
       "columns": {
@@ -833,6 +832,7 @@
         "executionTimeRequired": "Eksekveringstid påkrævet",
         "actor": "Aktør",
         "loadingActors": "Henter Aktører...",
+        "loadingGridAreas": "Henter netområder...",
         "actorPlaceholder": "Vælg aktør",
         "processTypePlaceholder": "Vælg procestype",
         "gridAreasPlaceholder": "Vælg netområde(r)"
@@ -1045,7 +1045,8 @@
           "rolesHeadline": "Brugerroller",
           "filter": {
             "status": "Status",
-            "marketRole": "Markedsrolle"
+            "marketRole": "Markedsrolle",
+            "search": "Søg brugerroller"
           },
           "table": {
             "columns": {

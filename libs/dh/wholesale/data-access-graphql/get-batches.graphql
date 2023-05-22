@@ -8,6 +8,7 @@ query GetBatches($executionTime: DateRange) {
     period
     statusType
     processType
+    createdByUserName
     gridAreas {
       code
       name

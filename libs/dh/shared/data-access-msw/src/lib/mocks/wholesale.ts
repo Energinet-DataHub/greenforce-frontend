@@ -31,6 +31,7 @@ export function wholesaleMocks(apiBase: string) {
     getFilteredActors(),
     getGridAreas(),
     getLatestBalanceFixing(),
+    getActorsForSettlementReportQuery(),
   ];
 }
 
@@ -47,6 +48,7 @@ const periodStart = '2021-12-01T23:00:00Z';
 const periodEnd = '2021-12-02T23:00:00Z';
 const executionTimeStart = '2021-12-01T23:00:00Z';
 const executionTimeEnd = '2021-12-02T23:00:00Z';
+const fakeUserEmail = 'email@example.com';
 
 export const mockedGridAreas: graphql.GridArea[] = [
   {
@@ -81,6 +83,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.Aggregation,
+    createdByUserName: fakeUserEmail,
   },
   {
     __typename: 'Batch',
@@ -93,6 +96,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
+    createdByUserName: '',
   },
   {
     __typename: 'Batch',
@@ -105,6 +109,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
+    createdByUserName: fakeUserEmail,
   },
   {
     __typename: 'Batch',
@@ -117,6 +122,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
+    createdByUserName: fakeUserEmail,
   },
   {
     __typename: 'Batch',
@@ -129,6 +135,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
+    createdByUserName: fakeUserEmail,
   },
   {
     __typename: 'Batch',
@@ -141,6 +148,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
+    createdByUserName: fakeUserEmail,
   },
   {
     __typename: 'Batch',
@@ -153,6 +161,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
+    createdByUserName: fakeUserEmail,
   },
   {
     __typename: 'Batch',
@@ -165,6 +174,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
+    createdByUserName: fakeUserEmail,
   },
   {
     __typename: 'Batch',
@@ -177,6 +187,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
+    createdByUserName: fakeUserEmail,
   },
   {
     __typename: 'Batch',
@@ -189,6 +200,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
+    createdByUserName: fakeUserEmail,
   },
   {
     __typename: 'Batch',
@@ -201,6 +213,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
+    createdByUserName: fakeUserEmail,
   },
   {
     __typename: 'Batch',
@@ -213,6 +226,7 @@ const mockedBatches: graphql.Batch[] = [
     isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
+    createdByUserName: fakeUserEmail,
   },
 ];
 
@@ -279,9 +293,42 @@ const mockedFilteredActors: ActorFilter = [
   },
 ];
 
+const mockedActorsForSettlementReport: ActorFilter = [
+  {
+    value: '10',
+    displayValue: 'Energy Go - EnergySupplier (805)',
+    gridAreaCodes: ['805'],
+  },
+  {
+    value: '20',
+    displayValue: 'Nordlys - GridAccessProvider (806)',
+    gridAreaCodes: ['806'],
+  },
+  {
+    value: '30',
+    displayValue: 'Mod Strøm - EnergySupplier (807, 808)',
+    gridAreaCodes: ['805', '806'],
+  },
+  {
+    value: '40',
+    displayValue: 'Stor Strøm - GridAccessProvider (807, 808)',
+    gridAreaCodes: ['805', '806'],
+  },
+];
+
 function getFilteredActors() {
   return graphql.mockGetActorFilterQuery((req, res, ctx) => {
     return res(ctx.status(200), ctx.data({ actors: mockedFilteredActors }), ctx.delay(300));
+  });
+}
+
+function getActorsForSettlementReportQuery() {
+  return graphql.mockGetActorsForSettlementReportQuery((req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.data({ actors: mockedActorsForSettlementReport }),
+      ctx.delay(300)
+    );
   });
 }
 

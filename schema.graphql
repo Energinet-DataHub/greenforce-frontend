@@ -35,6 +35,9 @@ type Address {
 }
 
 type Batch {
+  """Name of the user who started the batch."""
+  createdByUserName: String!
+
   """The execution state."""
   executionState: BatchState!
 
@@ -111,7 +114,7 @@ type GraphQLMutation {
 }
 
 type GraphQLQuery {
-  actors: [Actor!]!
+  actors(eicFunctions: [EicFunction!]): [Actor!]!
   batch(
     """The id of the organization"""
     id: ID

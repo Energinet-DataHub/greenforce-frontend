@@ -313,8 +313,10 @@ limitations under the License.
       function appendForgotPasswordTemplate() {
         var forgotPasswordTemplate = document.getElementById("forgotPasswordTemplate");
 
+        var fpElem = document.querySelector("#forgotPassword");
+        var forgotPasswordUrl = fpElem.attributes.getNamedItem("href").value;
+
         var forgotPasswordLinks = forgotPasswordTemplate.querySelectorAll("a");
-        var forgotPasswordUrl = getB2CFlowLink("reset_password");
 
         forgotPasswordLinks.forEach((link) => {
           link.setAttribute("href", forgotPasswordUrl);

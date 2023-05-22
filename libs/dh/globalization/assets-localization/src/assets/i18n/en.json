@@ -461,8 +461,7 @@
     },
     "search": {
       "topBarTitle": "Search in request and response messages",
-      "messageType": "Document type",
-      "rsmName": "Document type",
+      "documentType": "Document type",
       "senderGln": "Sender",
       "messageId": "Message Id",
       "traceId": "Trace Id",
@@ -473,7 +472,7 @@
       "startSearch": "Search",
       "noResultsFound": "No result",
       "progressType": "Business reason",
-      "chooseDocumentType": "Type or choose",
+      "typeOrChoose": "Type or choose",
       "includeRelatedMessage": "Include related message (when searching Message Id)",
       "loadMore": "Load more",
       "rsm": "RSM",
@@ -779,7 +778,7 @@
         "executionTime": "Execution time",
         "executionTimeRequired": "Execution time is required",
         "startedBy": "Started by",
-        "startedByPlaceholder": "Search or select",
+        "startedByPlaceholder": "Enter an email",
         "searchButton": "Search"
       },
       "columns": {
@@ -842,6 +841,7 @@
         "executionTimeRequired": "Execution time is required",
         "actor": "Actor",
         "loadingActors": "Loading actors...",
+        "loadingGridAreas": "Loading grid areas...",
         "actorPlaceholder": "Select actor",
         "processTypePlaceholder": "Select process type",
         "gridAreasPlaceholder": "Select grid area(s)"
@@ -1065,7 +1065,8 @@
           "rolesHeadline": "User roles",
           "filter": {
             "status": "Status",
-            "marketRole": "Market role"
+            "marketRole": "Market role",
+            "search": "Search user roles"
           },
           "table": {
             "columns": {

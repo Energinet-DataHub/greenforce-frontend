@@ -29,7 +29,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Guid> CreateBatchAsync(BatchRequestDto body, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<System.Guid> CreateBatchAsync(BatchRequestDto body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -37,7 +37,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BatchDto>> SearchBatchesAsync(System.Collections.Generic.IEnumerable<string> gridAreaCodes = null, BatchState? executionState = null, System.DateTimeOffset? minExecutionTime = null, System.DateTimeOffset? maxExecutionTime = null, System.DateTimeOffset? periodStart = null, System.DateTimeOffset? periodEnd = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BatchDto>> SearchBatchesAsync(System.Collections.Generic.IEnumerable<string> gridAreaCodes = null, BatchState? executionState = null, System.DateTimeOffset? minExecutionTime = null, System.DateTimeOffset? maxExecutionTime = null, System.DateTimeOffset? periodStart = null, System.DateTimeOffset? periodEnd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -46,7 +46,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <param name="batchId">BatchId</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<BatchDto> GetBatchAsync(System.Guid batchId, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<BatchDto> GetBatchAsync(System.Guid batchId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -88,7 +88,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <param name="batchId">BatchId</param>
         /// <param name="gridAreaCode">GridAreaCode</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> GetSettlementReportAsStreamAsync(System.Guid batchId, string gridAreaCode, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<FileResponse> GetSettlementReportAsStreamAsync(System.Guid batchId, string gridAreaCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -96,7 +96,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// </summary>
         /// <param name="batchId">BatchId</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> ZippedBasisDataStreamAsync(System.Guid batchId, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<FileResponse> ZippedBasisDataStreamAsync(System.Guid batchId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -141,18 +141,13 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Guid> CreateBatchAsync(BatchRequestDto body, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<System.Guid> CreateBatchAsync(BatchRequestDto body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v3/batches?");
-            if (api_version != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("api-version") + "=").Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v3/batches");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -223,7 +218,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BatchDto>> SearchBatchesAsync(System.Collections.Generic.IEnumerable<string> gridAreaCodes = null, BatchState? executionState = null, System.DateTimeOffset? minExecutionTime = null, System.DateTimeOffset? maxExecutionTime = null, System.DateTimeOffset? periodStart = null, System.DateTimeOffset? periodEnd = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BatchDto>> SearchBatchesAsync(System.Collections.Generic.IEnumerable<string> gridAreaCodes = null, BatchState? executionState = null, System.DateTimeOffset? minExecutionTime = null, System.DateTimeOffset? maxExecutionTime = null, System.DateTimeOffset? periodStart = null, System.DateTimeOffset? periodEnd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v3/batches?");
@@ -250,10 +245,6 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
             if (periodEnd != null)
             {
                 urlBuilder_.Append(System.Uri.EscapeDataString("periodEnd") + "=").Append(System.Uri.EscapeDataString(periodEnd.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (api_version != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("api-version") + "=").Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -323,19 +314,14 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <param name="batchId">BatchId</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<BatchDto> GetBatchAsync(System.Guid batchId, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<BatchDto> GetBatchAsync(System.Guid batchId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (batchId == null)
                 throw new System.ArgumentNullException("batchId");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v3/batches/{batchId}?");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v3/batches/{batchId}");
             urlBuilder_.Replace("{batchId}", System.Uri.EscapeDataString(ConvertToString(batchId, System.Globalization.CultureInfo.InvariantCulture)));
-            if (api_version != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("api-version") + "=").Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -685,7 +671,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// <param name="batchId">BatchId</param>
         /// <param name="gridAreaCode">GridAreaCode</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<FileResponse> GetSettlementReportAsStreamAsync(System.Guid batchId, string gridAreaCode, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<FileResponse> GetSettlementReportAsStreamAsync(System.Guid batchId, string gridAreaCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (batchId == null)
                 throw new System.ArgumentNullException("batchId");
@@ -697,10 +683,6 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v3/SettlementReport?");
             urlBuilder_.Append(System.Uri.EscapeDataString("batchId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(batchId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Append(System.Uri.EscapeDataString("gridAreaCode") + "=").Append(System.Uri.EscapeDataString(ConvertToString(gridAreaCode, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            if (api_version != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("api-version") + "=").Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
@@ -766,7 +748,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// </summary>
         /// <param name="batchId">BatchId</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<FileResponse> ZippedBasisDataStreamAsync(System.Guid batchId, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<FileResponse> ZippedBasisDataStreamAsync(System.Guid batchId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (batchId == null)
                 throw new System.ArgumentNullException("batchId");
@@ -774,10 +756,6 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v3/SettlementReport/ZippedBasisDataStream?");
             urlBuilder_.Append(System.Uri.EscapeDataString("batchId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(batchId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            if (api_version != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("api-version") + "=").Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
             urlBuilder_.Length--;
 
             var client_ = _httpClient;
@@ -948,6 +926,9 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
 
     }
 
+    /// <summary>
+    /// An immutable batch.
+    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class BatchDto
     {
@@ -989,8 +970,14 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ProcessType ProcessType { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("createdByUserId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid CreatedByUserId { get; set; }
+
     }
 
+    /// <summary>
+    /// An immutable request to create a batch.
+    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class BatchRequestDto
     {
@@ -1079,6 +1066,9 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
 
     }
 
+    /// <summary>
+    /// Defines the wholesale process type
+    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public enum ProcessType
     {

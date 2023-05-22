@@ -107,8 +107,8 @@ export class DhMessageArchiveLogSearchResultComponent implements AfterViewInit, 
       messageId: {
         accessor: 'messageId',
       },
-      rsmName: {
-        accessor: 'messageType',
+      documentType: {
+        accessor: 'documentType',
       },
       senderGln: {
         accessor: 'senderGln',

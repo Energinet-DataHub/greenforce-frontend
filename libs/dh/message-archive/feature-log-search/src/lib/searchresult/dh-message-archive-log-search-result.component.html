@@ -39,11 +39,11 @@ limitations under the License.
         <ng-container *wattTableCell="columns.messageId; let element">
           {{ element.messageId }}
         </ng-container>
-        <ng-container *wattTableCell="columns.rsmName; let element">
+        <ng-container *wattTableCell="columns.documentType; let element">
           <div>
-            {{ element.messageType | documentTypeName | dhEmDashFallback }}
+            {{ element.documentType | documentTypeName | dhEmDashFallback }}
             <br />
-            <span class="number">{{ element.messageType }}</span>
+            <span class="number">{{ element.documentType }}</span>
           </div>
         </ng-container>
         <ng-container *wattTableCell="columns.senderGln; let element">

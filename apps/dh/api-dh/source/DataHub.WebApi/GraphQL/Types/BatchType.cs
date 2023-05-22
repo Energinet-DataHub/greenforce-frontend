@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Linq;
 using Energinet.DataHub.MarketParticipant.Client;
+using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using GraphQL.DataLoader;
 using GraphQL.MicrosoftDI;
@@ -32,6 +34,22 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Field(x => x.ExecutionTimeStart, nullable: true).Description("The execution start time.");
             Field(x => x.ExecutionTimeEnd, nullable: true).Description("The execution end time.");
             Field(x => x.ProcessType).Description("The process type.");
+
+            Field<NonNullGraphType<StringGraphType>>("CreatedByUserName")
+                .Resolve()
+                .WithScope()
+                .WithService<IMarketParticipantClient>()
+                .Resolve((context, markpart) =>
+                {
+                    var loader = accessor.Context!.GetOrAddLoader("SearchUsersAsync", () => markpart.SearchUsersAsync(
+                        1,
+                        int.MaxValue,
+                        UserOverviewSortProperty.Email,
+                        SortDirection.Asc,
+                        new UserOverviewFilterDto(null, null, Enumerable.Empty<Guid>(), Enumerable.Empty<UserStatus>())));
+                    var result = loader.LoadAsync();
+                    return result.Then(users => users.Users.FirstOrDefault(u => u.Id == context.Source.CreatedByUserId)).Then(u => u?.Email ?? string.Empty);
+                });
 
             Field<NonNullGraphType<BooleanGraphType>>("IsBasisDataDownloadAvailable")
                 .Description("Whether basis data is downloadable.")

@@ -19,7 +19,6 @@ limitations under the License.
   class="form-grid"
   *transloco="let transloco; read: 'wholesale.searchBatch.filters'"
   (ngSubmit)="onSubmit()"
-  novalidate
 >
   <watt-form-field>
     <watt-label>{{ transloco("executionTime") }}</watt-label>
@@ -31,10 +30,11 @@ limitations under the License.
 
   <watt-form-field>
     <watt-label>{{ transloco("startedBy") }}</watt-label>
-    <watt-dropdown
+    <input
+      wattInput
       formControlName="startedBy"
       [placeholder]="transloco('startedByPlaceholder')"
-    ></watt-dropdown>
+    />
   </watt-form-field>
 
   <div class="form-grid__actions">

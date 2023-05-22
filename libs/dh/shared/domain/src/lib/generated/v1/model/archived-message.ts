@@ -13,7 +13,7 @@
 
 export interface ArchivedMessage { 
     messageId?: string | null;
-    messageType?: string | null;
+    documentType?: string | null;
     createdDate?: string | null;
     senderGln?: string | null;
     receiverGln?: string | null;

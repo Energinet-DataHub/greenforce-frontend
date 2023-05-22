@@ -456,4 +456,23 @@ describe(WattTableComponent.name, () => {
 
     expect(screen.getByText('Numero 1')).toBeInTheDocument();
   });
+
+  it('shows toolbar when selecting rows', async () => {
+    const dataSource = new WattTableDataSource(data);
+    const columns: WattTableColumnDef<PeriodicElement> = {
+      position: { accessor: 'position' },
+      weight: { accessor: 'weight' },
+    };
+
+    await setup(
+      { dataSource, columns, selectable: true, initialSelection: [] },
+      `<ng-container *wattTableToolbar="let selection">{{ selection.length }}</ng-container>`
+    );
+
+    // Check all rows
+    const [firstCheckbox] = screen.getAllByRole('checkbox');
+    userEvent.click(firstCheckbox);
+
+    expect(screen.queryByRole('toolbar')).toHaveTextContent('6');
+  });
 });
