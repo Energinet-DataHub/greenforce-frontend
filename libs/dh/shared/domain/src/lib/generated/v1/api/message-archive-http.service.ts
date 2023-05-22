@@ -160,14 +160,17 @@ export class MessageArchiveHttp {
     }
 
     /**
-     * Download log content as stream.
+     * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MessageArchiveDownloadRequestResponseLogContentGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Stream>;
-    public v1MessageArchiveDownloadRequestResponseLogContentGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Stream>>;
-    public v1MessageArchiveDownloadRequestResponseLogContentGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Stream>>;
-    public v1MessageArchiveDownloadRequestResponseLogContentGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MessageArchiveIdDocumentGet(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Stream>;
+    public v1MessageArchiveIdDocumentGet(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Stream>>;
+    public v1MessageArchiveIdDocumentGet(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Stream>>;
+    public v1MessageArchiveIdDocumentGet(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling v1MessageArchiveIdDocumentGet.');
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -209,7 +212,7 @@ export class MessageArchiveHttp {
             }
         }
 
-        let localVarPath = `/v1/MessageArchive/DownloadRequestResponseLogContent`;
+        let localVarPath = `/v1/MessageArchive/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/Document`;
         return this.httpClient.request<Stream>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,

@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { Component, Input, ViewChild } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { Component, Input, ViewChild, inject } from '@angular/core';
 import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
@@ -53,6 +53,7 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
   ],
 })
 export class DhMessageArchiveDrawerComponent {
+  private document = inject(DOCUMENT);
   @ViewChild('drawer') drawer!: WattDrawerComponent;
   @Input() actors: WattDropdownOptions | null = null;
 
@@ -70,7 +71,9 @@ export class DhMessageArchiveDrawerComponent {
     this.drawer.close();
   }
 
-  downloadLogFile() {
-    return;
+  downloadLogFile(id?: string | null) {
+    if(id != null)
+        this.blobStore.GetDocument(id, document);
+    //TODO: handle else, maybe?
   }
 }

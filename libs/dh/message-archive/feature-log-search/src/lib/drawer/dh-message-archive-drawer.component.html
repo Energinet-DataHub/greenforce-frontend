@@ -48,7 +48,7 @@ limitations under the License.
           }})</span
         >
 
-        <watt-button variant="text" (click)="downloadLogFile()" icon="download">{{
+        <watt-button variant="text" (click)="downloadLogFile(message?.messageId)" icon="download">{{
           t("download")
         }}</watt-button>
       </div>
