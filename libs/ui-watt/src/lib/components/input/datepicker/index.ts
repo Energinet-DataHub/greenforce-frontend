@@ -17,4 +17,4 @@
 export { WattDatepickerComponent } from './watt-datepicker.component';
 export { WattDatepickerModule } from './watt-datepicker.module';
 export { WattRange } from '../shared/watt-range';
-export { danishTimeZoneIdentifier } from './watt-datepicker.component';
+export { danishTimeZoneIdentifier } from '../shared/watt-picker-base';
