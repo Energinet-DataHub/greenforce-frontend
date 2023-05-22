@@ -40,6 +40,16 @@ watt-form-field {
     width: 100%;
   }
 
+  &.watt-form-field-chip {
+    --input-border-color: var(--watt-on-light-low-emphasis);
+    .mat-input-element::placeholder {
+      color: var(--watt-on-light-high-emphasis);
+    }
+    .mat-form-field-flex {
+      border-radius: 88px;
+    }
+  }
+
   &.watt-form-field-large {
     .mat-input-element {
       @include watt.typography-watt-text-m;

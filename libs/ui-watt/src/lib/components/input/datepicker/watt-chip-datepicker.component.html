@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *ngIf="range; else singleInputTemplate">
+  <watt-icon name="checkmark" size="sm" />
   <mat-date-range-input
     [disabled]="disabled"
     [rangePicker]="rangeDatepicker"
@@ -30,6 +31,8 @@ limitations under the License.
       [placeholder]="placeholder"
       autocomplete="off"
       spellcheck="false"
+      readonly
+      (click)="togglePicker()"
     />
     <input
       aria-label="end-date-input"
@@ -38,30 +41,49 @@ limitations under the License.
       [placeholder]="placeholder"
       autocomplete="off"
       spellcheck="false"
+      readonly
+      (click)="togglePicker()"
     />
   </mat-date-range-input>
 
   <watt-button
+    wattSuffix
+    *ngIf="!isOpen"
     variant="icon"
-    icon="date"
+    icon="arrowDown"
+    class="open-button"
     [disabled]="disabled"
-    [attr.aria-pressed]="false"
-    (click)="rangeDatepicker.open()"
+    (click)="togglePicker()"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut($event)"
+  ></watt-button>
+
+  <watt-button
+    *ngIf="isOpen"
+    wattSuffix
+    variant="icon"
+    icon="arrowUp"
+    class="close-button"
+    [disabled]="disabled"
+    (click)="togglePicker()"
     (focusin)="onFocusIn()"
     (focusout)="onFocusOut($event)"
   ></watt-button>
 
   <mat-date-range-picker
+    (closed)="closed()"
     panelClass="watt-datepicker-range__panel"
     #rangeDatepicker
   ></mat-date-range-picker>
 </ng-container>
 
 <ng-template #singleInputTemplate>
+  <watt-icon name="checkmark" size="sm" />
   <input
     matInput
     aria-label="date-input"
     #dateInput
+    readonly
     autocomplete="off"
     spellcheck="false"
     [disabled]="disabled"
@@ -69,6 +91,7 @@ limitations under the License.
     [max]="max"
     [placeholder]="_placeholder"
     [matDatepicker]="singleDatepicker"
+    (click)="togglePicker()"
     (focusin)="onFocusIn()"
     (focusout)="onFocusOut($event)"
   />

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { within, fireEvent } from '@storybook/testing-library';
 
@@ -115,13 +115,6 @@ export const WithInitialValue: StoryFn<WattDatepickerStoryConfig> = (args) => ({
     ...args,
   },
   template,
-  moduleMetadata: {
-    imports: [
-      BrowserAnimationsModule.withConfig({
-        disableAnimations: !!args.disableAnimations,
-      }),
-    ],
-  },
 });
 
 export const WithValidations: StoryFn<WattDatepickerStoryConfig> = (args) => ({

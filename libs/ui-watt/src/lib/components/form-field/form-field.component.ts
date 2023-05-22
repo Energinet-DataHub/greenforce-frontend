@@ -35,6 +35,8 @@ import { WattInputDirective } from '../input/input.directive';
 import { WattTimepickerComponent } from '../input/timepicker';
 import { WattChipDatepickerComponent } from '../input/datepicker/watt-chip-datepicker.component';
 
+const className = 'watt-form-field';
+
 @Component({
   selector: 'watt-form-field',
   styleUrls: ['form-field.component.scss'],
@@ -43,10 +45,11 @@ import { WattChipDatepickerComponent } from '../input/datepicker/watt-chip-datep
 })
 export class FormFieldComponent implements AfterViewInit {
   @Input() size: 'normal' | 'large' = 'normal';
+  @Input() variant: 'chip' | 'default' = 'default';
 
   @HostBinding('class')
-  get _cssClass() {
-    return [`watt-form-field-${this.size}`];
+  get cssClass() {
+    return `${className}-${this.size} ${className}-${this.variant}`;
   }
 
   beforeViewInit = true; // Used to remove placeholder control

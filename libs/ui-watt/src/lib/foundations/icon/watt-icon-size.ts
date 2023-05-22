@@ -15,4 +15,4 @@
  * limitations under the License.
  */
 
-export type WattIconSize = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl';
+export type WattIconSize = 'xs' | 's' | 'sm' | 'm' | 'l' | 'xl' | 'xxl';

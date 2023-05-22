@@ -14,6 +14,7 @@ import {
 import { CommonModule } from '@angular/common';
 import {
   MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
+  MatDateRangePicker,
   MatDatepicker,
   MatDatepickerInput,
   MatDatepickerModule,
@@ -23,14 +24,15 @@ import {
 import { NgControl } from '@angular/forms';
 
 import { zonedTimeToUtc } from 'date-fns-tz';
-import { combineLatest, map, takeUntil } from 'rxjs';
+import { combineLatest, filter, map, startWith, takeUntil, tap } from 'rxjs';
 import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattRange } from '../timepicker';
 import { WattButtonModule } from '../../button';
 
-import { danishTimeZoneIdentifier } from './watt-datepicker.component';
+import { danishTimeZoneIdentifier } from '../shared/watt-picker-base';
+import { WattIconModule } from '../../../foundations/icon/icon.module';
 
 @Component({
   selector: 'watt-chip-datepicker',
@@ -42,7 +44,7 @@ import { danishTimeZoneIdentifier } from './watt-datepicker.component';
     MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
   ],
   encapsulation: ViewEncapsulation.None,
-  imports: [MatDatepickerModule, MatInputModule, WattButtonModule, CommonModule],
+  imports: [MatDatepickerModule, MatInputModule, WattButtonModule, CommonModule, WattIconModule],
 })
 export class WattChipDatepickerComponent extends WattPickerBase {
   @Input() max?: Date;
@@ -53,6 +55,9 @@ export class WattChipDatepickerComponent extends WattPickerBase {
 
   @ViewChild(MatDatepicker)
   matDatepicker!: MatDatepicker<Date>;
+
+  @ViewChild(MatDateRangePicker)
+  matDateRangePicker!: MatDateRangePicker<Date>;
 
   @ViewChild(MatStartDate)
   matStartDate!: MatStartDate<Date>;
@@ -84,14 +89,33 @@ export class WattChipDatepickerComponent extends WattPickerBase {
 
   protected override initRangeInput(): void {
     const matStartDateChange$ = this.matStartDate.dateInput.pipe(
+      startWith({
+        value:
+          this.initialValue !== null
+            ? new Date(Date.parse((this.initialValue as WattRange).start))
+            : null,
+      }),
+      filter(({ value }) => value !== null),
       map(({ value }) => {
-        return value;
+        if (value === null) return '';
+
+        return this.formatDateFromViewToModel(value);
       })
     );
 
     const matEndDateChange$ = this.matEndDate.dateInput.pipe(
+      startWith({
+        value:
+          this.initialValue !== null
+            ? new Date(Date.parse((this.initialValue as WattRange).end))
+            : null,
+      }),
+      filter(({ value }) => value !== null),
       map(({ value }) => {
-        return value;
+        if (value === null) return '';
+
+        const endOfDay = this.setToEndOfDay(value);
+        return this.formatDateFromViewToModel(endOfDay);
       })
     );
 
@@ -104,8 +128,15 @@ export class WattChipDatepickerComponent extends WattPickerBase {
   }
   protected override initSingleInput(): void {
     const matDatepickerChange$ = this.matDatepickerInput.dateInput.pipe(
+      startWith({
+        value:
+          this.initialValue !== null ? new Date(Date.parse(this.initialValue as string)) : null,
+      }),
+      filter(({ value }) => value !== null),
       map(({ value }) => {
-        return value;
+        if (value === null) return '';
+
+        return this.formatDateFromViewToModel(value);
       })
     );
 
@@ -140,13 +171,15 @@ export class WattChipDatepickerComponent extends WattPickerBase {
   }
 
   togglePicker(): void {
-    if (this.isOpen === false) {
-      this.matDatepicker.open();
+    if (this.isOpen) {
+      if (this.matDatepicker) this.matDatepicker.close();
+      if (this.matDateRangePicker) this.matDateRangePicker.close();
       this.isOpen = !this.isOpen;
-    } else {
-      this.matDatepicker.close();
-      this.isOpen = !this.isOpen;
+      return;
     }
+    if (this.matDatepicker) this.matDatepicker.open();
+    if (this.matDateRangePicker) this.matDateRangePicker.open();
+    this.isOpen = !this.isOpen;
   }
 
   closed() {

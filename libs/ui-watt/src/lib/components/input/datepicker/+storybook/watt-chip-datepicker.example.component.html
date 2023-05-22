@@ -1,5 +1,4 @@
-<watt-form-field>
-  <watt-label>Single date</watt-label>
+<watt-form-field variant="chip">
   <watt-chip-datepicker [formControl]="exampleFormControlSingle"></watt-chip-datepicker>
   <watt-error *ngIf="exampleFormControlSingle?.errors?.['required']"> Date is required </watt-error>
 </watt-form-field>
@@ -13,8 +12,7 @@
 
 <br />
 
-<watt-form-field>
-  <watt-label>Date range</watt-label>
+<watt-form-field variant="chip">
   <watt-chip-datepicker
     [formControl]="exampleFormControlRange"
     [range]="true"

@@ -19,9 +19,14 @@ import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/ang
 import { ChipDatepickerExampleComponent } from './watt-chip-datepicker.example.component';
 import { importProvidersFrom } from '@angular/core';
 import { StorybookConfigurationLocalizationModule } from '../../+storybook/storybook-configuration-localization.module';
+import { FormControl, Validators } from '@angular/forms';
+import { WattRangeValidators } from '../../shared/validators';
+
+const initialValueRangeStart = '2022-09-02T22:00:00.000Z';
+const initialValueRangeEnd_StartOfDay = '2022-09-14T22:00:00.000Z';
 
 const meta: Meta<ChipDatepickerExampleComponent> = {
-  title: 'Components/Datepicker',
+  title: 'Components/Chip Datepicker',
   decorators: [
     applicationConfig({
       providers: [
@@ -38,17 +43,53 @@ const meta: Meta<ChipDatepickerExampleComponent> = {
 
 export default meta;
 
-const template = `<watt-chip-datepicker-example><watt-chip-datepicker-example>`;
+const template = `<watt-chip-datepicker-example
+  [exampleFormControlSingle]=exampleFormControlSingle
+  [exampleFormControlRange]=exampleFormControlRange />`;
 
-export const ChipDatePicker: StoryFn = (args) => ({
-  props: args,
+export const WithFormControl: StoryFn = (args) => ({
+  props: {
+    ...args,
+    exampleFormControlSingle: new FormControl(null),
+    exampleFormControlRange: new FormControl(null),
+  },
   template,
 });
 
-ChipDatePicker.parameters = {
+WithFormControl.parameters = {
   docs: {
     source: {
       code: template,
     },
   },
 };
+
+export const WithValidations: StoryFn = (args) => ({
+  props: {
+    ...args,
+    exampleFormControlSingle: new FormControl(null, Validators.required),
+    exampleFormControlRange: new FormControl(null, WattRangeValidators.required()),
+  },
+  template,
+});
+
+export const WithInitialValue: StoryFn = (args) => ({
+  props: {
+    ...args,
+    exampleFormControlSingle: new FormControl(initialValueRangeStart),
+    exampleFormControlRange: new FormControl({
+      start: initialValueRangeStart,
+      end: initialValueRangeEnd_StartOfDay,
+    }),
+  },
+  template,
+});
+
+export const WithFormControlDisabled: StoryFn = (args) => ({
+  props: {
+    ...args,
+    exampleFormControlSingle: new FormControl({ value: null, disabled: true }),
+    exampleFormControlRange: new FormControl({ value: null, disabled: true }),
+  },
+  template,
+});

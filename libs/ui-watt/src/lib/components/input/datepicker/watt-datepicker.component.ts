@@ -45,10 +45,10 @@ import { WattRangeInputService } from '../shared/watt-range-input.service';
 import { WattRange } from '../shared/watt-range';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
+import { danishTimeZoneIdentifier } from '../shared/watt-picker-base';
 
 const dateShortFormat = 'dd-MM-yyyy';
 const danishLocaleCode = 'da';
-export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
 /**
  * Usage:
@@ -391,14 +391,6 @@ export class WattDatepickerComponent extends WattPickerBase {
 
   /**
    * @ignore
-   * Formats Date to full ISO 8601 format (e.g. `2022-08-31T22:00:00.000Z`)
-   */
-  private formatDateFromViewToModel(value: Date): string {
-    return zonedTimeToUtc(value, danishTimeZoneIdentifier).toISOString();
-  }
-
-  /**
-   * @ignore
    */
   private formatDateTimeFromModelToView(value: string): string {
     return formatInTimeZone(value, danishTimeZoneIdentifier, dateShortFormat);
@@ -409,18 +401,6 @@ export class WattDatepickerComponent extends WattPickerBase {
    */
   private toDanishTimeZone(value: Date): Date {
     return utcToZonedTime(value.toISOString(), danishTimeZoneIdentifier);
-  }
-
-  /**
-   * @ignore
-   */
-  private setToEndOfDay(value: Date): Date {
-    return set(value, {
-      hours: 23,
-      minutes: 59,
-      seconds: 59,
-      milliseconds: 999,
-    });
   }
 
   /**

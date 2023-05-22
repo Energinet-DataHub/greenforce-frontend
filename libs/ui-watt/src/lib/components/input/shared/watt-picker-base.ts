@@ -30,6 +30,10 @@ import { Subject } from 'rxjs';
 
 import { WattPickerValue } from './watt-picker-value';
 import { WattRange } from './watt-range';
+import { zonedTimeToUtc } from 'date-fns-tz';
+import { set } from 'date-fns';
+
+export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
 @Directive()
 export abstract class WattPickerBase
@@ -371,4 +375,24 @@ export abstract class WattPickerBase
   protected markParentControlAsTouched = (): void => {
     // Intentionally left empty
   };
+
+  /**
+   * @ignore
+   * Formats Date to full ISO 8601 format (e.g. `2022-08-31T22:00:00.000Z`)
+   */
+  formatDateFromViewToModel(value: Date): string {
+    return zonedTimeToUtc(value, danishTimeZoneIdentifier).toISOString();
+  }
+
+  /**
+   * @ignore
+   */
+  setToEndOfDay(value: Date): Date {
+    return set(value, {
+      hours: 23,
+      minutes: 59,
+      seconds: 59,
+      milliseconds: 999,
+    });
+  }
 }

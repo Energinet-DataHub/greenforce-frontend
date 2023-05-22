@@ -18,14 +18,44 @@
 
 watt-chip-datepicker {
   @extend %datepicker;
-
-  /* white */
-
-  background: #ffffff;
-  /* on-light/low-emphasis */
-
-  border: 1px solid rgba(0, 0, 0, 0.38);
   border-radius: 88px;
+
+  input.mat-input-element,
+  input.mat-start-date {
+    color: var(--watt-typography-text-color);
+  }
+
+  .mat-date-range-input-hide-placeholders
+    input.mat-start-date:nth-child(n + 2) {
+    visibility: hidden;
+  }
+
+  input.mat-end-date,
+  .mat-date-range-input-separator {
+    visibility: hidden;
+  }
+
+  watt-icon[name="checkmark"] {
+    visibility: hidden;
+  }
+
+  &.ng-valid.ng-dirty {
+    background-color: var(--watt-color-primary);
+
+    input.mat-input-element,
+    input.mat-start-date,
+    input.mat-end-date,
+    .mat-date-range-input-separator,
+    mat-icon {
+      color: var(--watt-on-dark-high-emphasis);
+      visibility: visible;
+    }
+
+    watt-icon[name="checkmark"] {
+      visibility: visible;
+      margin-left: var(--watt-space-m);
+    }
+  }
 }
 
 .mat-calendar .mat-calendar-header {
