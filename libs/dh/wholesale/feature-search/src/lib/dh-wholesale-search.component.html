@@ -27,15 +27,15 @@ limitations under the License.
     (closed)="onBatchDetailsClosed()"
   ></dh-wholesale-batch-details>
 
-  <section class="content" *ngIf="batches">
+  <watt-spinner *ngIf="loading"></watt-spinner>
+
+  <section class="content" *ngIf="!loading && batches">
     <dh-wholesale-table
       [data]="batches"
       [selectedBatch]="selectedBatch"
       (selectedRow)="onBatchSelected($event)"
     ></dh-wholesale-table>
   </section>
-
-  <watt-spinner *ngIf="loading"></watt-spinner>
 
   <watt-empty-state
     *ngIf="error"
