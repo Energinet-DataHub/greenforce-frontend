@@ -1046,7 +1046,7 @@
           "filter": {
             "status": "Status",
             "marketRole": "Markedsrolle",
-            "search": "Søg markedsroller"
+            "search": "Søg brugerroller"
           },
           "table": {
             "columns": {
