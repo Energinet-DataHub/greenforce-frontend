@@ -769,7 +769,7 @@
         "executionTime": "Eksekveringstid",
         "executionTimeRequired": "Eksekveringstid påkrævet",
         "startedBy": "Bestilt af",
-        "startedByPlaceholder": "Søg eller valg",
+        "startedByPlaceholder": "Indtast email",
         "searchButton": "Søg"
       },
       "columns": {
