@@ -40,7 +40,7 @@ import {
 import { NgControl } from '@angular/forms';
 
 import { zonedTimeToUtc } from 'date-fns-tz';
-import { combineLatest, filter, map, startWith, takeUntil, tap } from 'rxjs';
+import { combineLatest, filter, map, startWith, takeUntil } from 'rxjs';
 import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { WattPickerBase } from '../shared/watt-picker-base';
