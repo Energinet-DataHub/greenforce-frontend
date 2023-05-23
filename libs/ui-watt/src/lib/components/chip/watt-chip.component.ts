@@ -36,17 +36,21 @@ import { WattIconModule } from '../../foundations/icon/icon.module';
   styleUrls: ['./watt-chip.component.scss'],
   templateUrl: './watt-chip.component.html',
   standalone: true,
-  imports: [CommonModule, WattIconModule]
+  imports: [CommonModule, WattIconModule],
 })
 export class WattChipComponent {
   @Input() selected = false;
   @Input() disabled = false;
   @Input() @HostBinding('attr.aria-label') ariaLabel?: string;
   @Input() @HostBinding('attr.role') role = 'checkbox';
-  @Output() clicked = new EventEmitter<void>();
+  @Output() selectionChange = new EventEmitter<void>();
 
-  @HostBinding('attr.tabindex') get tabindex() { return this.disabled ? -1 : 0; }
-  @HostBinding('attr.aria-disabled') get ariaDisabled() { return this.disabled; }
+  @HostBinding('attr.tabindex') get tabindex() {
+    return this.disabled ? -1 : 0;
+  }
+  @HostBinding('attr.aria-disabled') get ariaDisabled() {
+    return this.disabled;
+  }
   @HostBinding('attr.aria-checked') get ariaChecked() {
     return this.selected;
   }
@@ -55,8 +59,8 @@ export class WattChipComponent {
   }
 
   @HostListener('click')
-  onToggle() {
-    if(this.disabled) return;
-    this.clicked.emit();
+  onClick() {
+    if (this.disabled) return;
+    this.selectionChange.emit();
   }
 }
