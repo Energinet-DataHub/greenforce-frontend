@@ -49,7 +49,7 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
 
         public async Task<Stream> GetDocumentAsync(Guid id, CancellationToken cancellationToken)
         {
-            var url = $"api/archivedmessages/{id}/document";
+            var url = $"api/v1/archived-messages/{id}/document";
             var response = await _httpClient.GetAsync(url, cancellationToken);
 
             response.EnsureSuccessStatusCode();
@@ -61,7 +61,7 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
             ArchivedMessageSearchCriteria archivedMessageSearch,
             CancellationToken cancellationToken)
         {
-            var url = "api/archivedmessages";
+            var url = "api/v1/search-archived-messages";
             var content = new StringContent(JsonSerializer.Serialize(
                 new ArchivedMessageSearchCriteriaDto(
                     new CreatedDuringPeriod(
