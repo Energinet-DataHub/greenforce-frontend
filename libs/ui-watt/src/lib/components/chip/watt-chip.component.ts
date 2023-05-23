@@ -25,6 +25,9 @@ import {
   HostBinding,
   HostListener,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { WattIconModule } from '../../foundations/icon/icon.module';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,14 +36,17 @@ import {
   styleUrls: ['./watt-chip.component.scss'],
   templateUrl: './watt-chip.component.html',
   standalone: true,
+  imports: [CommonModule, WattIconModule]
 })
 export class WattChipComponent {
   @Input() selected = false;
+  @Input() disabled = false;
   @Input() @HostBinding('attr.aria-label') ariaLabel?: string;
   @Input() @HostBinding('attr.role') role = 'checkbox';
   @Output() toggled = new EventEmitter<void>();
 
-  @HostBinding('attr.tabindex') tabindex = 0;
+  @HostBinding('attr.tabindex') get tabindex() { return this.disabled ? -1 : 0; }
+  @HostBinding('attr.aria-disabled') get ariaDisabled() { return this.disabled; }
   @HostBinding('attr.aria-checked') get ariaChecked() {
     return this.selected;
   }
@@ -50,7 +56,7 @@ export class WattChipComponent {
 
   @HostListener('click')
   onToggle() {
-    alert('clicked');
+    if(this.disabled) return;
     this.toggled.emit();
   }
 }

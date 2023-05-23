@@ -7,7 +7,10 @@
   border: 1px solid var(--watt-on-light-low-emphasis);
   color: var(--watt-on-light-high-emphasis);
   cursor: pointer;
-  padding: 6px 12px; // Neither 6px or 12px is part of our spacings
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  user-select: none;
 
   &:hover {
     border: 1px solid var(--watt-on-light-medium-emphasis);
@@ -22,11 +25,29 @@
   &--selected {
     background: var(--watt-color-primary);
     color: var(--watt-on-dark-high-emphasis);
-    border: none;
+    border-color: transparent;
 
     &:hover, &:focus, &:focus-visible {
       background: var(--watt-color-primary-dark);
-      border: none;
+      border-color: transparent;
     }
+  }
+
+  &[aria-disabled="true"] {
+    border: 1px solid var(--watt-on-light-surface-overlay);
+    color: var(--watt-on-light-low-emphasis);
+    cursor: not-allowed;
+  }
+
+  watt-icon,
+  watt-icon .mat-icon {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+  }
+
+  watt-icon[name="checkmark"] {
+    float: left;
+    margin-right: var(--watt-space-s);
   }
 }
