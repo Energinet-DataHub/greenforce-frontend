@@ -388,20 +388,6 @@ limitations under the License.
         return document.location.href.replace(regEx, flowname);
       }
 
-      function appendSignUpTemplate() {
-        var signUpTemplate = document.getElementById("signUpTemplate");
-
-        var signUpLinks = signUpTemplate.querySelectorAll("a");
-        var signUpUrl = getB2CFlowLink("signup");
-
-        signUpLinks.forEach((link) => {
-          link.setAttribute("href", signUpUrl);
-        });
-
-        var signUpContainer = document.querySelector(".buttons");
-        signUpContainer.appendChild(signUpTemplate);
-      }
-
       function appendForgotPasswordTemplate() {
         var forgotPasswordTemplate = document.getElementById("forgotPasswordTemplate");
 
@@ -429,7 +415,6 @@ limitations under the License.
 
       waitFor("button#next", function (element) {
         element.addEventListener("click", toggleErrorClasses);
-        appendSignUpTemplate();
         appendForgotPasswordTemplate();
         setMitIdFlowSignInFlow();
       });
@@ -459,11 +444,6 @@ limitations under the License.
         </div>
       </div>
     </div>
-
-    <p id="signUpTemplate" class="template">
-      <span class="imprint imprint-da"> Har du ikke en bruger? <a href="#">Opret dig her</a> </span>
-      <span class="imprint imprint-en"> New to DataHub? <a href="#">Sign up now</a> </span>
-    </p>
 
     <p id="forgotPasswordTemplate" class="template">
       <span class="imprint imprint-da">
