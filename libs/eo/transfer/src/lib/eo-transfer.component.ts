@@ -15,12 +15,26 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfer',
+  imports: [MatCardModule],
   standalone: true,
   styles: [],
-  template: ` <p>Transfer page</p> `,
+  template: `<mat-card class="watt-space-stack-l">
+    <h3 class="watt-space-stack-m">About</h3>
+    <p class="watt-space-stack-m">
+      This page gives you an overview of all your GGO transfer agreements.
+    </p>
+    <p class="watt-space-stack-m">
+      Each agreement is automatically processed when you receive new GGOs.
+    </p>
+    <p class="watt-space-stack-m">
+      Each transfer agreement has an amount. This is the maximum amount of Wh, that will be
+      transferrer per hour.
+    </p>
+  </mat-card>`,
 })
 export class EoTransferComponent {}
