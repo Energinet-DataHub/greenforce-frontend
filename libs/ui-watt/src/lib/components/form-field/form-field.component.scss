@@ -40,27 +40,6 @@ watt-form-field {
     width: 100%;
   }
 
-  &.watt-form-field-large {
-    .mat-input-element {
-      @include watt.typography-watt-text-m;
-    }
-
-    .mat-form-field-flex {
-      min-height: 56px;
-
-      & textarea:not([rows]) {
-        min-height: 72px; // equal to three lines
-      }
-    }
-
-    [wattPrefix],
-    [wattSuffix] {
-      .watt-button--icon {
-        height: 52px;
-      }
-    }
-  }
-
   .mat-input-element,
   .mat-date-range-input-container {
     @include watt.typography-watt-text-s;
