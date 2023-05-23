@@ -14,49 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {
   ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
+  HostBinding,
   Input,
   Output,
-  EventEmitter,
-  HostBinding,
-  HostListener,
+  EventEmitter
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { WattChipComponent } from '../chip/watt-chip.component';
 import { WattIconModule } from '../../foundations/icon/icon.module';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  selector: 'watt-chip',
-  styleUrls: ['./watt-chip.component.scss'],
-  templateUrl: './watt-chip.component.html',
+  selector: 'watt-chip-menu',
+  styleUrls: ['./watt-chip-menu.component.scss'],
+  templateUrl: './watt-chip-menu.component.html',
   standalone: true,
-  imports: [CommonModule, WattIconModule]
+  imports: [CommonModule, WattChipComponent, WattIconModule],
 })
-export class WattChipComponent {
-  @Input() selected = false;
-  @Input() disabled = false;
-  @Input() @HostBinding('attr.aria-label') ariaLabel?: string;
-  @Input() @HostBinding('attr.role') role = 'checkbox';
-  @Output() clicked = new EventEmitter<void>();
+export class WattChipMenuComponent {
+  @Input() isOpened = false;
+  @Input() @HostBinding('attr.aria-haspopup') hasPopup:
+    | 'menu'
+    | 'listbox'
+    | 'tree'
+    | 'grid'
+    | 'dialog' = 'menu';
 
-  @HostBinding('attr.tabindex') get tabindex() { return this.disabled ? -1 : 0; }
-  @HostBinding('attr.aria-disabled') get ariaDisabled() { return this.disabled; }
-  @HostBinding('attr.aria-checked') get ariaChecked() {
-    return this.selected;
-  }
-  @HostBinding('class') get className() {
-    return this.selected ? 'watt-chip watt-chip--selected' : 'watt-chip';
-  }
+  @Output() toggle = new EventEmitter<void>();
 
-  @HostListener('click')
-  onToggle() {
-    if(this.disabled) return;
-    this.clicked.emit();
+  @HostBinding('attr.aria-disabled') get ariaExpanded() { return this.isOpened; }
+
+  toggleMenu() {
+    this.toggle.emit();
   }
 }

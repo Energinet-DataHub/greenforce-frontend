@@ -1,0 +1,10 @@
+
+watt-chip-menu {
+  .menu-icon {
+    transition: linear 0.2s all;
+
+    &.opened {
+      transform: rotate(180deg);
+    }
+  }
+}
