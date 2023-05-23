@@ -29,5 +29,6 @@ export const Overview: StoryFn<WattChipComponent> = (args) => ({
   props: args,
   template: `
     <watt-chip>Chip label</watt-chip>
+    <watt-chip selected="true">Chip label</watt-chip>
   `
 });

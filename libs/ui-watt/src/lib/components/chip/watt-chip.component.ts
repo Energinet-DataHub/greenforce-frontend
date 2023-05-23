@@ -23,7 +23,7 @@ import {
   Output,
   EventEmitter,
   HostBinding,
-  HostListener
+  HostListener,
 } from '@angular/core';
 
 @Component({
@@ -41,7 +41,12 @@ export class WattChipComponent {
   @Output() toggled = new EventEmitter<void>();
 
   @HostBinding('attr.tabindex') tabindex = 0;
-  @HostBinding('attr.aria-checked') get ariaChecked() { return this.selected; }
+  @HostBinding('attr.aria-checked') get ariaChecked() {
+    return this.selected;
+  }
+  @HostBinding('class') get className() {
+    return this.selected ? 'watt-chip watt-chip--selected' : 'watt-chip';
+  }
 
   @HostListener('click')
   onToggle() {
