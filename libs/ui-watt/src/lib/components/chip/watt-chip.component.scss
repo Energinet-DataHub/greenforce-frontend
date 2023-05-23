@@ -1,4 +1,4 @@
-@use '@energinet-datahub/watt/utils' as watt;
+@use "@energinet-datahub/watt/utils" as watt;
 
 .watt-chip {
   @include watt.typography-watt-text-s;
@@ -16,7 +16,8 @@
     border: 1px solid var(--watt-on-light-medium-emphasis);
   }
 
-  &:focus, &:focus-visible {
+  &:focus,
+  &:focus-visible {
     background: var(--watt-color-primary-ultralight);
     border: 1px solid var(--watt-on-light-medium-emphasis);
     outline: none;
@@ -27,7 +28,9 @@
     color: var(--watt-on-dark-high-emphasis);
     border-color: transparent;
 
-    &:hover, &:focus, &:focus-visible {
+    &:hover,
+    &:focus,
+    &:focus-visible {
       background: var(--watt-color-primary-dark);
       border-color: transparent;
     }
