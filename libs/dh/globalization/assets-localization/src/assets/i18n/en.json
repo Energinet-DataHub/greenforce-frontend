@@ -459,6 +459,9 @@
       "sender": "Sender",
       "download": "Download"
     },
+    "document":{
+      "downloadFailed": "Failed to download document"
+    },
     "search": {
       "topBarTitle": "Search in request and response messages",
       "documentType": "Document type",

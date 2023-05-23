@@ -17,9 +17,10 @@
 import { rest } from 'msw';
 import archivedMessages from './data/messageArchiveSearchResponseLogs.json';
 import actors from './data/messageArchiveActors.json';
+import { document } from './data/message-archived-document';
 
 export function messageArchiveMocks(apiBase: string) {
-  return [archivedMessageSearch(apiBase), getActors(apiBase)];
+  return [archivedMessageSearch(apiBase), getActors(apiBase), getDocument(apiBase)];
 }
 
 export function archivedMessageSearch(apiBase: string) {
@@ -31,5 +32,11 @@ export function archivedMessageSearch(apiBase: string) {
 export function getActors(apiBase: string) {
   return rest.get(`${apiBase}/v1/MessageArchive/Actors`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(actors));
+  });
+}
+
+export function getDocument(apiBase: string) {
+  return rest.get(`${apiBase}/v1/MessageArchive/:id/Document`, async (req, res, ctx) => {
+    return res(ctx.status(200), ctx.xml(document));
   });
 }
