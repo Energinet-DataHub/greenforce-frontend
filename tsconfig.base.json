@@ -254,6 +254,7 @@
       "@energinet-datahub/eo/certificates": [
         "libs/eo/certificates/src/index.ts"
       ],
+      "@energinet-datahub/eo/transfer": ["libs/eo/transfer/src/index.ts"],
       "@energinet-datahub/eo/consumption-page/shell": [
         "libs/eo/consumption-page/shell/src/index.ts"
       ],
