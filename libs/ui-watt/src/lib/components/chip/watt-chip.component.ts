@@ -43,7 +43,7 @@ export class WattChipComponent {
   @Input() disabled = false;
   @Input() @HostBinding('attr.aria-label') ariaLabel?: string;
   @Input() @HostBinding('attr.role') role = 'checkbox';
-  @Output() toggled = new EventEmitter<void>();
+  @Output() selectionChange = new EventEmitter<boolean>();
 
   @HostBinding('attr.tabindex') get tabindex() {
     return this.disabled ? -1 : 0;
@@ -59,8 +59,9 @@ export class WattChipComponent {
   }
 
   @HostListener('click')
-  onToggle() {
+  onClick() {
     if (this.disabled) return;
-    this.toggled.emit();
+    this.selected = !this.selected;
+    this.selectionChange.emit(this.selected);
   }
 }

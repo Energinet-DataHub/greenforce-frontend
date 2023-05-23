@@ -29,7 +29,6 @@ export const Overview: StoryFn<WattChipComponent> = (args) => ({
   props: args,
   template: `
   <div style="display: flex;">
-    <watt-chip (toggled)="selected = !selected" [selected]="selected">Chip label</watt-chip>
     <watt-chip selected="true">Chip label</watt-chip>
     <watt-chip [disabled]="true">Chip label</watt-chip>
   </div>
