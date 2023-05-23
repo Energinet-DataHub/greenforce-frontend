@@ -58,13 +58,6 @@
     cursor: not-allowed;
   }
 
-  watt-icon,
-  watt-icon .mat-icon {
-    font-size: 16px;
-    height: 16px;
-    width: 16px;
-  }
-
   watt-icon[name="checkmark"] {
     float: left;
     margin-right: var(--watt-space-s);
