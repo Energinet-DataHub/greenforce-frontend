@@ -4,5 +4,4 @@
   "authority": "https://devdatahubb2c.b2clogin.com/devdatahubb2c.onmicrosoft.com/b2c_1_signinflow",
   "mitIdInviteFlowUri": "https://devDataHubB2C.b2clogin.com/devDataHubB2C.onmicrosoft.com/B2C_1_MitID_InvitationFlow",
   "knownAuthorities": ["devDataHubB2C.b2clogin.com"]
-  }
-
+}

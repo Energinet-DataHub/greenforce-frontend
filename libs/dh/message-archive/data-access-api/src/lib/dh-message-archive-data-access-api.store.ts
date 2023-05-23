@@ -38,7 +38,6 @@ const initialState: SearchResultState = {
 
 @Injectable()
 export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchResultState> {
-
   constructor(private httpClient: MessageArchiveHttp) {
     super(initialState);
   }

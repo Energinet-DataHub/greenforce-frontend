@@ -54,23 +54,21 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
   });
 
   GetDocument(id: string, document: Document) {
-    return this.httpClient
-      .v1MessageArchiveIdDocumentGet(id)
-      .subscribe({
-        next: (data) => {
-          const blobPart = data as unknown as BlobPart;
-          const blob = new Blob([blobPart], { type: 'application/zip' });
-          const basisData = window.URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = basisData;
-          link.download = `${id}.zip`;
-          link.click();
-          link.remove();
-        },
-        error: (error: HttpErrorResponse) => {
-          this.handleError(error);
-        }
-      });
+    return this.httpClient.v1MessageArchiveIdDocumentGet(id).subscribe({
+      next: (data) => {
+        const blobPart = data as unknown as BlobPart;
+        const blob = new Blob([blobPart], { type: 'application/zip' });
+        const basisData = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = basisData;
+        link.download = `${id}.zip`;
+        link.click();
+        link.remove();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.handleError(error);
+      },
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
