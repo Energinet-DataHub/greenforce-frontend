@@ -459,7 +459,7 @@
       "sender": "Sender",
       "download": "Download"
     },
-    "document":{
+    "document": {
       "downloadFailed": "Failed to download document"
     },
     "search": {

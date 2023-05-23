@@ -52,9 +52,7 @@ import { provideComponentStore } from '@ngrx/component-store';
     PushModule,
     DhEmDashFallbackPipeScam,
   ],
-  providers: [
-    provideComponentStore(DhMessageArchiveDocumentApiStore),
-  ]
+  providers: [provideComponentStore(DhMessageArchiveDocumentApiStore)],
 })
 export class DhMessageArchiveDrawerComponent {
   private document = inject(DOCUMENT);
@@ -76,7 +74,7 @@ export class DhMessageArchiveDrawerComponent {
     this.drawer.close();
   }
   downloadDocument(message: ArchivedMessage | null) {
-    if(message === null) return;
+    if (message === null) return;
 
     this.apiStore.getDocument({
       id: message.messageId,
@@ -85,7 +83,7 @@ export class DhMessageArchiveDrawerComponent {
     });
   }
 
-  private readonly onSuccesFn = (id: string, data : Stream) => {
+  private readonly onSuccesFn = (id: string, data: Stream) => {
     const blobPart = data as unknown as BlobPart;
     const blob = new Blob([blobPart]);
     const basisData = window.URL.createObjectURL(blob);
@@ -97,9 +95,7 @@ export class DhMessageArchiveDrawerComponent {
   };
 
   private readonly onErrorFn = () => {
-    const message = this.transloco.translate(
-      'messageArchive.document.downloadFailed'
-    );
+    const message = this.transloco.translate('messageArchive.document.downloadFailed');
 
     this.toastService.open({ message, type: 'danger' });
   };

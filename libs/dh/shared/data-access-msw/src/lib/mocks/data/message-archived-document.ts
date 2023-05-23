@@ -110,4 +110,4 @@ export const document = `
 		<cim:start_DateAndOrTime.dateTime>2021-07-01T22:00:00Z</cim:start_DateAndOrTime.dateTime>
 	</cim:MktActivityRecord>
 </cim:RequestChangeAccountingPointCharacteristics_MarketDocument>
-    `
+    `;

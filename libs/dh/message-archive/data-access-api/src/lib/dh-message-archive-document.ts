@@ -19,7 +19,6 @@ import { Observable, exhaustMap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { MessageArchiveHttp, Stream } from '@energinet-datahub/dh/shared/domain';
 
-
 @Injectable()
 export class DhMessageArchiveDocumentApiStore extends ComponentStore<object> {
   constructor(private httpClient: MessageArchiveHttp) {
@@ -36,8 +35,7 @@ export class DhMessageArchiveDocumentApiStore extends ComponentStore<object> {
     ) => {
       return trigger$.pipe(
         exhaustMap(({ id, onSuccessFn, onErrorFn }) =>
-        this.httpClient
-        .v1MessageArchiveIdDocumentGet(id).pipe(
+          this.httpClient.v1MessageArchiveIdDocumentGet(id).pipe(
             tapResponse(
               (data) => {
                 onSuccessFn(id, data);

@@ -452,7 +452,7 @@
       "receiver": "Modtager",
       "download": "Download"
     },
-    "document":{
+    "document": {
       "downloadFailed": "Kunne ikke hente dokumentet"
     },
     "search": {
