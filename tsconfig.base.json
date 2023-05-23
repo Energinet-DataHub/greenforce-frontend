@@ -254,7 +254,6 @@
       "@energinet-datahub/eo/certificates": [
         "libs/eo/certificates/src/index.ts"
       ],
-      "@energinet-datahub/eo/transfer": ["libs/eo/transfer/src/index.ts"],
       "@energinet-datahub/eo/consumption-page/shell": [
         "libs/eo/consumption-page/shell/src/index.ts"
       ],
@@ -303,6 +302,7 @@
         "libs/eo/shared/utilities/src/index.ts"
       ],
       "@energinet-datahub/eo/terms": ["libs/eo/terms/src/index.ts"],
+      "@energinet-datahub/eo/transfer": ["libs/eo/transfer/src/index.ts"],
       "@energinet-datahub/gf/configuration-danish-locale": [
         "libs/gf/configuration-danish-locale/src/index.ts"
       ],
