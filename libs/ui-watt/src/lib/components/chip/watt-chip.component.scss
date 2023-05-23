@@ -1,10 +1,21 @@
+@use '@energinet-datahub/watt/utils' as watt;
+
 watt-chip {
-  border: 1px solid rgba(0, 0, 0, 0.38);
+  @include watt.typography-watt-text-s;
+  background: var(--watt-color-white);
   border-radius: 88px;
-  padding: 6px 12px;
+  border: 1px solid var(--watt-on-light-low-emphasis);
+  color: var(--watt-on-light-high-emphasis);
   cursor: pointer;
-  color: rgba(0, 0, 0, 0.87);
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
+  padding: 6px 12px; // Neither 6px or 12px is part of our spacings
+
+  &:hover {
+    border: 1px solid var(--watt-on-light-medium-emphasis);
+  }
+
+  &:focus-visible {
+    background: var(--watt-color-primary-ultralight);
+    border: 1px solid var(--watt-on-light-medium-emphasis);
+    outline: none;
+  }
 }
