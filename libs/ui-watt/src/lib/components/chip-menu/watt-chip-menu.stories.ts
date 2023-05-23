@@ -27,10 +27,11 @@ export default meta;
 
 export const Overview: StoryFn<WattChipMenuComponent> = (args) => ({
   props: args,
-  template: `<watt-chip-menu (toggle)="isOpened = !isOpened" [isOpened]="isOpened">Chip label</watt-chip-menu>`
+  template: `<watt-chip-menu (toggle)="opened = !opened" [opened]="opened" [selected]="selected">Chip label</watt-chip-menu>`
 });
 
 Overview.args = {
-  isOpened: false
+  opened: false,
+  selected: false
 }
 

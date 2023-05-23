@@ -38,7 +38,8 @@ import { WattIconModule } from '../../foundations/icon/icon.module';
   imports: [CommonModule, WattChipComponent, WattIconModule],
 })
 export class WattChipMenuComponent {
-  @Input() isOpened = false;
+  @Input() opened = false;
+  @Input() selected = false;
   @Input() @HostBinding('attr.aria-haspopup') hasPopup:
     | 'menu'
     | 'listbox'
@@ -48,7 +49,7 @@ export class WattChipMenuComponent {
 
   @Output() toggle = new EventEmitter<void>();
 
-  @HostBinding('attr.aria-disabled') get ariaExpanded() { return this.isOpened; }
+  @HostBinding('attr.aria-disabled') get ariaExpanded() { return this.opened; }
 
   toggleMenu() {
     this.toggle.emit();

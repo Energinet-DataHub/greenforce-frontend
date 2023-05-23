@@ -1,4 +1,4 @@
-<watt-chip (selectionChange)="toggleMenu()">
+<watt-chip (selectionChange)="toggleMenu()" [selected]="selected">
   <ng-content></ng-content>
-  <watt-icon name="arrowDropDown" class="menu-icon" [ngClass]="{'opened': isOpened}"></watt-icon>
+  <watt-icon name="arrowDropDown" class="menu-icon" [ngClass]="{'opened': opened, 'selected': selected}"></watt-icon>
 </watt-chip>
