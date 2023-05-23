@@ -37,6 +37,6 @@ export function getActors(apiBase: string) {
 
 export function getDocument(apiBase: string) {
   return rest.get(`${apiBase}/v1/MessageArchive/:id/Document`, async (req, res, ctx) => {
-    return res(ctx.status(200), ctx.xml(document));
+    return res(ctx.status(200), ctx.body(document));
   });
 }

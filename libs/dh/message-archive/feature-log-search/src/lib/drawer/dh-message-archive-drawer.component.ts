@@ -87,11 +87,11 @@ export class DhMessageArchiveDrawerComponent {
 
   private readonly onSuccesFn = (id: string, data : Stream) => {
     const blobPart = data as unknown as BlobPart;
-    const blob = new Blob([blobPart], { type: 'application/zip' });
+    const blob = new Blob([blobPart]);
     const basisData = window.URL.createObjectURL(blob);
     const link = this.document.createElement('a');
     link.href = basisData;
-    link.download = `${id}.zip`;
+    link.download = `${id}.txt`;
     link.click();
     link.remove();
   };
