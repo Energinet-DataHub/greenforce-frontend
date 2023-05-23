@@ -58,15 +58,15 @@
     cursor: not-allowed;
   }
 
-  watt-icon,
-  watt-icon .mat-icon {
-    font-size: 16px !important;
-    height: 16px !important;
-    line-height: 16px !important;
-    width: 16px !important;
+  .selected-icon {
+    margin-right: var(--watt-space-s);
   }
 
-  watt-icon[name="checkmark"] {
-    margin-right: var(--watt-space-s);
+  .selected-icon,
+  .selected-icon .mat-icon {
+    font-size: 16px;
+    height: 16px;
+    line-height: 16px;
+    width: 16px;
   }
 }
