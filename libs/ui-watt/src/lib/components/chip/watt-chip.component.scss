@@ -19,13 +19,13 @@
 .watt-chip {
   @include watt.typography-watt-text-s;
   background: var(--watt-color-white);
-  border-radius: 88px;
+  border-radius: var(--watt-space-m);
   border: 1px solid var(--watt-on-light-low-emphasis);
   color: var(--watt-on-light-high-emphasis);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  padding: 5px 12px;
+  padding: 5px 12px; // Magic UX numbers
   user-select: none;
 
   &:hover {
