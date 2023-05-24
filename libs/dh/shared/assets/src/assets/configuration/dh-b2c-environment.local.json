@@ -1,7 +1,7 @@
 {
-  "clientId": "bf76fc24-cfec-498f-8979-ab4123792472",
-  "scopeUri": "https://devDataHubB2C.onmicrosoft.com/backend-bff/api",
-  "authority": "https://devdatahubb2c.b2clogin.com/devdatahubb2c.onmicrosoft.com/b2c_1_signinflow",
+  "clientId": "4281f496-ce5b-4b04-b655-505e834c2f6e",
+  "scopeUri": "https://dev002DataHubB2C.onmicrosoft.com/backend-bff/api",
+  "authority": "https://dev002DataHubB2C.b2clogin.com/dev002DataHubB2C.onmicrosoft.com/B2C_1_SignInFlow",
   "mitIdInviteFlowUri": "https://devDataHubB2C.b2clogin.com/devDataHubB2C.onmicrosoft.com/B2C_1_MitID_InvitationFlow",
-  "knownAuthorities": ["devDataHubB2C.b2clogin.com"]
+  "knownAuthorities": ["dev002DataHubB2C.b2clogin.com"]
 }
