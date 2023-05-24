@@ -15,4 +15,3 @@
  * limitations under the License.
  */
 export * from './eo-transfer.module';
-export * from './lib/eo-transfer.service';
