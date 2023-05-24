@@ -16,25 +16,21 @@
  */
 import { StoryFn, Meta } from '@storybook/angular';
 
-import { WattChipComponent } from './watt-chip.component';
+import { WattMenuChipComponent } from '../watt-menu-chip.component';
 
-const meta: Meta<WattChipComponent> = {
-  title: 'Components/Chips/Chip',
-  component: WattChipComponent,
+const meta: Meta<WattMenuChipComponent> = {
+  title: 'Components/Chips/Menu',
+  component: WattMenuChipComponent,
 };
 
 export default meta;
 
-export const Overview: StoryFn<WattChipComponent> = (args) => ({
+export const Overview: StoryFn<WattMenuChipComponent> = (args) => ({
   props: args,
-  template: `
-  <div style="display: flex;">
-    <watt-chip (selectionChange)="selected = !selected" [selected]="selected">Chip label</watt-chip>
-    <watt-chip [disabled]="true">Chip label</watt-chip>
-  </div>
-  `,
+  template: `<watt-menu-chip (toggle)="opened = !opened" [opened]="opened" [selected]="selected">Chip label</watt-menu-chip>`,
 });
 
 Overview.args = {
-  selected: true,
+  opened: false,
+  selected: false,
 };

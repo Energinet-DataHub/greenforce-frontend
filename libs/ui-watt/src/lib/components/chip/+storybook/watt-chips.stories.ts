@@ -16,36 +16,26 @@
  */
 import { StoryFn, Meta } from '@storybook/angular';
 
-import { WattChipsComponent } from './watt-chips.component';
+import { WattChoiceChipComponent } from '../watt-choice-chip.component';
 
-const meta: Meta<WattChipsComponent> = {
-  title: 'Components/Chips',
-  component: WattChipsComponent,
-  argTypes: {
-    selectionChange: {
-      table: { category: 'Outputs' },
-      control: false,
-    },
-  },
+const meta: Meta<WattChoiceChipComponent> = {
+  title: 'Components/Chips/Choice',
+  component: WattChoiceChipComponent,
 };
 
 export default meta;
 
-export const Overview: StoryFn<WattChipsComponent> = (args) => ({
+export const Overview: StoryFn<WattChoiceChipComponent> = (args) => ({
   props: args,
+  template: `
+    <watt-choice-chip [selected]="true" name="period" value="d">Day</watt-choice-chip>
+    <watt-choice-chip name="period" value="w">Week</watt-choice-chip>
+    <watt-choice-chip name="period" value="m">Month</watt-choice-chip>
+    <watt-choice-chip name="period" value="q">Quarter</watt-choice-chip>
+    <watt-choice-chip name="period" value="y">Year</watt-choice-chip>
+    <watt-choice-chip name="period" value="c">Custom</watt-choice-chip>
+  `,
 });
-
-Overview.args = {
-  selection: 'd',
-  options: [
-    { label: 'Day', value: 'd' },
-    { label: 'Week', value: 'w' },
-    { label: 'Month', value: 'm' },
-    { label: 'Quarter', value: 'q' },
-    { label: 'Year', value: 'y' },
-    { label: 'Custom', value: 'c' },
-  ],
-};
 
 export const ChipLabel: StoryFn = () => ({
   template: `<span class="watt-chip-label">54</span>`,

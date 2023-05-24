@@ -14,44 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-  HostBinding,
-  Input,
-  Output,
-  EventEmitter
-} from '@angular/core';
+
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { WattChipComponent } from '../chip/watt-chip.component';
 import { WattIconModule } from '../../foundations/icon/icon.module';
+import { WattChipComponent } from './watt-chip.component';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector: 'watt-chip-menu',
-  styleUrls: ['./watt-chip-menu.component.scss'],
-  templateUrl: './watt-chip-menu.component.html',
   standalone: true,
   imports: [CommonModule, WattChipComponent, WattIconModule],
+  selector: 'watt-choice-chip',
+  template: `
+    <watt-chip [disabled]="disabled" [selected]="radio.checked">
+      <input
+        #radio
+        type="radio"
+        [checked]="selected"
+        [disabled]="disabled"
+        [name]="name"
+        [value]="value"
+        class="cdk-visually-hidden"
+      />
+      <ng-content />
+    </watt-chip>
+  `,
 })
-export class WattChipMenuComponent {
-  @Input() opened = false;
+export class WattChoiceChipComponent {
   @Input() selected = false;
-  @Input() @HostBinding('attr.aria-haspopup') hasPopup:
-    | 'menu'
-    | 'listbox'
-    | 'tree'
-    | 'grid'
-    | 'dialog' = 'menu';
-
-  @Output() toggle = new EventEmitter<void>();
-
-  @HostBinding('attr.aria-disabled') get ariaExpanded() { return this.opened; }
-
-  toggleMenu() {
-    this.toggle.emit();
-  }
+  @Input() disabled = false;
+  @Input() name?: string;
+  @Input() value?: string;
 }
