@@ -15,7 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.editUser'">
-  <watt-modal size="large" [title]="user?.firstName + ' ' + user?.lastName" #editUserModal (closed)="closeModal($event)">
+  <watt-modal
+    size="large"
+    [title]="user?.firstName + ' ' + user?.lastName"
+    #editUserModal
+    (closed)="closeModal($event)"
+  >
     <form [formGroup]="userInfoForm" class="user-info-form" id="user-info-form" (ngSubmit)="save()">
       <watt-tabs class="watt-modal-content--full-width">
         <watt-tab [label]="t('tab.masterData')">
