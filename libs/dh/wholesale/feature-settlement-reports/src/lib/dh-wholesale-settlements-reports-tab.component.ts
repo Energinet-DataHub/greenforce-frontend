@@ -34,5 +34,4 @@ import { DhWholesaleSettlementsReportsTabsBalanceComponent } from './tabs/dh-who
     DhWholesaleSettlementsReportsTabsBalanceComponent,
   ],
 })
-export class DhWholesaleSettlementsReportsTabComponent {
-}
+export class DhWholesaleSettlementsReportsTabComponent {}
