@@ -14,10 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-watt-chips {
-  display: flex;
+import { StoryFn, Meta } from '@storybook/angular';
 
-  watt-chip:not(:last-child) {
-    margin-right: var(--watt-space-s);
-  }
-}
+import { WattMenuChipComponent } from '../watt-menu-chip.component';
+
+const meta: Meta<WattMenuChipComponent> = {
+  title: 'Components/Chips/Menu',
+  component: WattMenuChipComponent,
+};
+
+export default meta;
+
+export const Overview: StoryFn<WattMenuChipComponent> = (args) => ({
+  props: args,
+  template: `<watt-menu-chip (toggle)="opened = !opened" [opened]="opened" [selected]="selected">Chip label</watt-menu-chip>`,
+});
+
+Overview.args = {
+  opened: false,
+  selected: false,
+};

@@ -16,7 +16,7 @@
  */
 import { StoryFn, Meta } from '@storybook/angular';
 
-import { WattChipComponent } from './watt-chip.component';
+import { WattChipComponent } from '../watt-chip.component';
 
 const meta: Meta<WattChipComponent> = {
   title: 'Components/Chips/Chip',

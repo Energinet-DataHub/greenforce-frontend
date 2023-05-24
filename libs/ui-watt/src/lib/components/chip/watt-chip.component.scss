@@ -16,7 +16,7 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
-.watt-chip {
+label {
   @include watt.typography-watt-text-s;
   background: var(--watt-color-white);
   border-radius: var(--watt-space-m);
@@ -39,7 +39,7 @@
     outline: none;
   }
 
-  &--selected {
+  &.selected {
     background: var(--watt-color-primary);
     color: var(--watt-on-dark-high-emphasis);
     border-color: transparent;
@@ -52,7 +52,7 @@
     }
   }
 
-  &[aria-disabled="true"] {
+  &.disabled {
     border: 1px solid var(--watt-on-light-surface-overlay);
     color: var(--watt-on-light-low-emphasis);
     cursor: not-allowed;
@@ -60,13 +60,5 @@
 
   .selected-icon {
     margin-right: var(--watt-space-s);
-  }
-
-  .selected-icon,
-  .selected-icon .mat-icon {
-    font-size: 16px;
-    height: 16px;
-    line-height: 16px;
-    width: 16px;
   }
 }

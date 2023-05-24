@@ -15,39 +15,33 @@
  * limitations under the License.
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  HostListener,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { WattIconModule } from '../../foundations/icon/icon.module';
+import { WattChipComponent } from './watt-chip.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, WattIconModule],
+  imports: [CommonModule, WattChipComponent, WattIconModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'watt-chip',
-  styleUrls: ['./watt-chip.component.scss'],
+  selector: 'watt-filter-chip',
   template: `
-    <label [class.selected]="selected" [class.disabled]="disabled">
-      <watt-icon class="selected-icon" name="checkmark" *ngIf="selected" size="s" />
+    <watt-chip [disabled]="disabled" [selected]="checkbox.checked">
+      <input
+        #checkbox
+        type="checkbox"
+        [disabled]="disabled"
+        [name]="name"
+        [value]="value"
+        class="cdk-visually-hidden"
+      />
       <ng-content />
-    </label>
+    </watt-chip>
   `,
 })
-export class WattChipComponent {
-  @Input() selected = false;
+export class WattFilterChipComponent {
   @Input() disabled = false;
-  @Output() selectionChange = new EventEmitter<void>();
-
-  @HostListener('click')
-  onClick() {
-    if (this.disabled) return;
-    this.selectionChange.emit();
-  }
+  @Input() name?: string;
+  @Input() value?: string;
 }
