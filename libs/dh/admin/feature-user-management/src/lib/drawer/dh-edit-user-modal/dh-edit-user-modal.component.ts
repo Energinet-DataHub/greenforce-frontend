@@ -38,7 +38,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { HttpStatusCode } from '@angular/common/http';
 
@@ -52,7 +52,7 @@ import { HttpStatusCode } from '@angular/common/http';
     TranslocoModule,
     WattTabComponent,
     WattTabsComponent,
-    WattInputModule,
+    WattInputDirective,
     WATT_FORM_FIELD,
     PushModule,
     DhUserRolesComponent,

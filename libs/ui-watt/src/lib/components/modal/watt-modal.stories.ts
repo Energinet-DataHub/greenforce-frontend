@@ -19,8 +19,8 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { WattButtonComponent } from '../button';
-import { WattInputModule } from '../input/input.module';
-import { WattFormFieldComponent } from '../form-field';
+import { WattInputDirective } from '../input';
+import { WATT_FORM_FIELD } from '../form-field';
 import { WattModalModule } from './watt-modal.module';
 import { WattModalComponent } from './watt-modal.component';
 import { WattTooltipDirective } from '../tooltip';
@@ -36,8 +36,8 @@ const meta: Meta<WattModalComponent> = {
       imports: [
         ReactiveFormsModule,
         WattButtonComponent,
-        WattFormFieldComponent,
-        WattInputModule,
+        WATT_FORM_FIELD,
+        WattInputDirective,
         WattModalModule,
         WattTooltipDirective,
       ],

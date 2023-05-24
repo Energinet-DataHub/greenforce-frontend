@@ -23,7 +23,7 @@ import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 
 @Component({
   standalone: true,
@@ -34,7 +34,7 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
     WattButtonComponent,
     WattDatepickerModule,
     WATT_FORM_FIELD,
-    WattInputModule,
+    WattInputDirective,
   ],
   selector: 'dh-wholesale-form',
   templateUrl: './dh-wholesale-form.component.html',

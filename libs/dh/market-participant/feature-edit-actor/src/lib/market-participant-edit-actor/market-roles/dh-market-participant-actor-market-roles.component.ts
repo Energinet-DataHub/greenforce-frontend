@@ -29,8 +29,8 @@ import {
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { FormsModule } from '@angular/forms';
-import { WattInputModule } from '@energinet-datahub/watt/input';
-import { WattFormFieldComponent } from '@energinet-datahub/watt/form-field';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
@@ -195,8 +195,8 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
     FormsModule,
     MatTableModule,
     WattButtonComponent,
-    WattInputModule,
-    WattFormFieldComponent,
+    WattInputDirective,
+    WATT_FORM_FIELD,
     WattDropdownComponent,
   ],
   exports: [DhMarketParticipantActorMarketRolesComponent],

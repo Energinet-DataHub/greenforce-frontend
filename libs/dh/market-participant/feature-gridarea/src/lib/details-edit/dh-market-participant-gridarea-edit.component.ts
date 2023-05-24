@@ -21,7 +21,7 @@ import {
   GridAreaChanges,
   GridAreaOverviewRow,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattModalModule, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -76,7 +76,7 @@ export class DhMarketParticipantGridAreaEditComponent {
     WattButtonComponent,
     WattModalModule,
     WATT_FORM_FIELD,
-    WattInputModule,
+    WattInputDirective,
     FormsModule,
     DhPermissionRequiredDirective,
   ],

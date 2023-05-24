@@ -35,7 +35,7 @@ import { LetModule } from '@rx-angular/template/let';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -85,7 +85,7 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
     WattTabComponent,
     WattTabsComponent,
     WATT_FORM_FIELD,
-    WattInputModule,
+    WattInputDirective,
     ReactiveFormsModule,
     WattSpinnerComponent,
     WattCardComponent,

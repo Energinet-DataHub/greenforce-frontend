@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { WattCardComponent, WattCardTitleComponent } from '@energinet-datahub/watt/card';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 import {
   FormControl,
   FormGroup,
@@ -339,7 +339,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     WattCheckboxComponent,
     WattDatepickerModule,
     WATT_FORM_FIELD,
-    WattInputModule,
+    WattInputDirective,
     WattDropdownComponent,
   ],
 })

@@ -33,7 +33,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
@@ -120,7 +120,7 @@ export class DhMeteringPointSearchFormComponent implements AfterViewInit, OnDest
 @NgModule({
   imports: [
     WATT_FORM_FIELD,
-    WattInputModule,
+    WattInputDirective,
     WattButtonComponent,
     WattIconComponent,
     TranslocoModule,

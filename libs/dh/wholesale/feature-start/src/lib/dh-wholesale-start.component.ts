@@ -40,7 +40,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -81,7 +81,7 @@ interface CreateBatchFormValues {
     WattDatepickerModule,
     WattDropdownComponent,
     WATT_FORM_FIELD,
-    WattInputModule,
+    WattInputDirective,
     WattSpinnerComponent,
     WattEmptyStateComponent,
     WattChipsComponent,

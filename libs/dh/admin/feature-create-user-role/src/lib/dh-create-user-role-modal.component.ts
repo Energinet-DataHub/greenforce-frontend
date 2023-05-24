@@ -38,7 +38,7 @@ import { provideComponentStore } from '@ngrx/component-store';
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -81,7 +81,7 @@ interface UserRoleForm {
     WattIconComponent,
     CommonModule,
     ReactiveFormsModule,
-    WattInputModule,
+    WattInputDirective,
     WATT_FORM_FIELD,
     WattDropdownComponent,
     PushModule,

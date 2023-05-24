@@ -30,14 +30,14 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
 ## How to use
 
-Import the `WattFormFieldComponent` and `WattInputModule` modules.
+Import the `WATT_FORM_FIELD` and `WattInputDirective` modules.
 
 ```typescript
-import { WattFormFieldComponent } from '@energinet-datahub/watt/form-field';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 
 @NgModule({
-  imports: [WattFormFieldComponent, WattInputModule],
+  imports: [WATT_FORM_FIELD, WattInputDirective],
 })
 class YourModule {}
 ```
