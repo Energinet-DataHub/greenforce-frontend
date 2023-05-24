@@ -356,6 +356,80 @@
         }
       }
     },
+    "/v3/SettlementReport/Download": {
+      "get": {
+        "tags": [
+          "SettlementReport"
+        ],
+        "operationId": "Download",
+        "parameters": [
+          {
+            "name": "gridAreaCodes",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "processType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ProcessType"
+            }
+          },
+          {
+            "name": "periodStart",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "periodEnd",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "energySupplier",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "csvLanguage",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": null,
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/SettlementReport": {
       "get": {
         "tags": [
@@ -624,7 +698,8 @@
         "enum": [
           "NonProfiledConsumption",
           "FlexConsumption",
-          "Production"
+          "Production",
+          "NetExchangePerGridArea"
         ]
       }
     },

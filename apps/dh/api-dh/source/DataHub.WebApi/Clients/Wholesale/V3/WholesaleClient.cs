@@ -82,6 +82,10 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         System.Threading.Tasks.Task<ProcessStepResultDto> GetProcessStepResultAsync(System.Guid batchId, string gridAreaCode, TimeSeriesType timeSeriesType, string energySupplierGln = null, string balanceResponsiblePartyGln = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<FileResponse> DownloadAsync(System.Collections.Generic.IEnumerable<string> gridAreaCodes, ProcessType processType, System.DateTimeOffset periodStart, System.DateTimeOffset periodEnd, string energySupplier = null, string csvLanguage = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns a stream containing the settlement report for batch with batchId and gridAreaCode.
         /// </summary>
@@ -665,6 +669,95 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<FileResponse> DownloadAsync(System.Collections.Generic.IEnumerable<string> gridAreaCodes, ProcessType processType, System.DateTimeOffset periodStart, System.DateTimeOffset periodEnd, string energySupplier = null, string csvLanguage = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            if (gridAreaCodes == null)
+                throw new System.ArgumentNullException("gridAreaCodes");
+
+            if (processType == null)
+                throw new System.ArgumentNullException("processType");
+
+            if (periodStart == null)
+                throw new System.ArgumentNullException("periodStart");
+
+            if (periodEnd == null)
+                throw new System.ArgumentNullException("periodEnd");
+
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/v3/SettlementReport/Download?");
+            foreach (var item_ in gridAreaCodes) { urlBuilder_.Append(System.Uri.EscapeDataString("gridAreaCodes") + "=").Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append("&"); }
+            urlBuilder_.Append(System.Uri.EscapeDataString("processType") + "=").Append(System.Uri.EscapeDataString(ConvertToString(processType, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append(System.Uri.EscapeDataString("periodStart") + "=").Append(System.Uri.EscapeDataString(periodStart.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Append(System.Uri.EscapeDataString("periodEnd") + "=").Append(System.Uri.EscapeDataString(periodEnd.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (energySupplier != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("energySupplier") + "=").Append(System.Uri.EscapeDataString(ConvertToString(energySupplier, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (csvLanguage != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("csvLanguage") + "=").Append(System.Uri.EscapeDataString(ConvertToString(csvLanguage, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200 || status_ == 206)
+                        {
+                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                            var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
+                            disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                            return fileResponse_;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Returns a stream containing the settlement report for batch with batchId and gridAreaCode.
         /// </summary>
@@ -1119,6 +1212,9 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
 
         [System.Runtime.Serialization.EnumMember(Value = @"Production")]
         Production = 2,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"NetExchangePerGridArea")]
+        NetExchangePerGridArea = 3,
 
     }
 
