@@ -31,6 +31,7 @@ import { WattChipComponent } from './watt-chip.component';
       <input
         #checkbox
         type="checkbox"
+        [checked]="selected"
         [disabled]="disabled"
         [name]="name"
         [value]="value"
@@ -41,6 +42,7 @@ import { WattChipComponent } from './watt-chip.component';
   `,
 })
 export class WattFilterChipComponent {
+  @Input() selected = false;
   @Input() disabled = false;
   @Input() name?: string;
   @Input() value?: string;
