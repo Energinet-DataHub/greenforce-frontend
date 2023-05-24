@@ -59,14 +59,12 @@ namespace Energinet.DataHub.WebApi.Controllers
             return !result.Any() ? NoContent() : Ok(result);
         }
 
-        /// <summary>
-        /// Download log content as stream.
-        /// </summary>
-        /// <returns>log content</returns>
-        [HttpGet("DownloadRequestResponseLogContent")]
-        public Task<ActionResult<Stream>> DownloadRequestResponseLogContentAsync()
+        [HttpGet("{id:Guid}/Document")]
+        [Produces("application/xml")]
+        public async Task<ActionResult<Stream>> GetDocumentAsync(Guid id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var document = await _archivedMessagesSearch.GetDocumentAsync(id, cancellationToken);
+            return Ok(document);
         }
     }
 }
