@@ -23,7 +23,7 @@ import {
   MeteringPointNetSettlementGroup,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattExpansionModule } from '@energinet-datahub/watt/expansion';
+import { WattExpansionComponent } from '@energinet-datahub/watt/expansion';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import {
   DhIsParentPipeScam,
@@ -49,7 +49,7 @@ export interface MeteringPointIdentityTranslationKeys {
   templateUrl: './dh-secondary-master-data.component.html',
   styleUrls: ['./dh-secondary-master-data.component.scss'],
   imports: [
-    WattExpansionModule,
+    WattExpansionComponent,
     CommonModule,
     TranslocoModule,
     WattIconComponent,
