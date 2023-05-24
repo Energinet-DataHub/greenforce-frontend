@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -46,11 +47,21 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
             return MapResult(searchResultResponseMessages);
         }
 
+        public async Task<Stream> GetDocumentAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var url = $"api/v1/archived-messages/{id}/document";
+            var response = await _httpClient.GetAsync(url, cancellationToken);
+
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+        }
+
         private async Task<IReadOnlyList<ArchivedMessageDto>?> GetSearchResultResponseMessagesAsync(
             ArchivedMessageSearchCriteria archivedMessageSearch,
             CancellationToken cancellationToken)
         {
-            var url = "api/archivedmessages";
+            var url = "api/v1/search-archived-messages";
             var content = new StringContent(JsonSerializer.Serialize(
                 new ArchivedMessageSearchCriteriaDto(
                     new CreatedDuringPeriod(
