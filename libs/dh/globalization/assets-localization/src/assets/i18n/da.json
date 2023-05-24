@@ -1108,7 +1108,8 @@
           "roles": "Brugerroller"
         },
         "masterData": {
-          "fullName": "Navn",
+          "firstName": "Fornavn",
+          "lastName": "Efternavn",
           "phone": "Telefonnr."
         },
         "phoneNumberError": "Telefonnr. format +45 12345678"

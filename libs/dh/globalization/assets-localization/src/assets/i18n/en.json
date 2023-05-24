@@ -1135,7 +1135,8 @@
           "roles": "User roles"
         },
         "masterData": {
-          "fullName": "Name",
+          "firstName": "First name",
+          "lastName": "Last name",
           "phone": "Phone number"
         },
         "phoneNumberError": "Phone number format +45 12345678"
