@@ -24,12 +24,12 @@ limitations under the License.
     sortDirection="asc"
     [sortClear]="false"
   >
-    <ng-container *wattTableCell="columns.name; header: t('firstName'); let element">
-      {{ element.firstName }}
+    <ng-container *wattTableCell="columns.firstName; header: t('firstName'); let element">
+      {{ element.firstName | dhEmDashFallback }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns.name; header: t('lastName'); let element">
-      {{ element.lastName }}
+    <ng-container *wattTableCell="columns.lastName; header: t('lastName'); let element">
+      {{ element.lastName | dhEmDashFallback }}
     </ng-container>
 
     <ng-container *wattTableCell="columns.email; header: t('email'); let element">
