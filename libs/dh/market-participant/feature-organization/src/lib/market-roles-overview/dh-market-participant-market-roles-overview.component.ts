@@ -21,7 +21,7 @@ import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { MarketParticipantEicFunction } from '@energinet-datahub/dh/shared/domain';
 import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
@@ -40,7 +40,7 @@ import { take } from 'rxjs';
     MatTooltipModule,
     TranslocoModule,
     WattButtonModule,
-    WattIconModule,
+    WattIconComponent,
     WattCardModule,
   ],
 })

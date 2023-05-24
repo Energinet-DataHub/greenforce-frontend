@@ -20,7 +20,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { WattFormFieldModule } from '../../form-field';
 import { WattButtonModule } from '../../button';
-import { WattIconModule } from '../../../foundations/icon/icon.module';
+import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattInputModule } from '../input.module';
 
 @Component({
@@ -32,7 +32,7 @@ import { WattInputModule } from '../input.module';
     CommonModule,
     ReactiveFormsModule,
     WattFormFieldModule,
-    WattIconModule,
+    WattIconComponent,
     WattInputModule,
     WattButtonModule,
   ],

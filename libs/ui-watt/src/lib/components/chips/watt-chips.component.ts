@@ -25,7 +25,7 @@ import {
 } from '@angular/core';
 import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
 
-import { WattIconModule } from '../../foundations/icon/icon.module';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 export interface WattChipsOption {
   /** Text to display on the chip. */
@@ -49,7 +49,7 @@ export type WattChipsSelection = string | null;
   styleUrls: ['./watt-chips.component.scss'],
   templateUrl: './watt-chips.component.html',
   standalone: true,
-  imports: [CommonModule, MatChipsModule, WattIconModule],
+  imports: [CommonModule, MatChipsModule, WattIconComponent],
 })
 export class WattChipsComponent {
   /** List of chip options to display. */

@@ -26,7 +26,7 @@ import {
 } from '@angular/core';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { WattStepperStepComponent } from './watt-stepper-step.component';
-import { WattIconModule } from '../../foundations/icon/icon.module';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { CommonModule } from '@angular/common';
 import { CdkStepper, StepperSelectionEvent, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { PushModule } from '@rx-angular/template/push';
@@ -43,7 +43,7 @@ import { WattButtonModule } from '../button';
     WattStepperStepComponent,
     MatStepperModule,
     CommonModule,
-    WattIconModule,
+    WattIconComponent,
     WattButtonModule,
     PushModule,
   ],

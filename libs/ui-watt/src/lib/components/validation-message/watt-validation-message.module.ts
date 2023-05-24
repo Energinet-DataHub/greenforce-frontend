@@ -16,11 +16,11 @@
  */
 import { NgModule } from '@angular/core';
 import { WattValidationMessageComponent } from './watt-validation-message.component';
-import { WattIconModule } from '../../foundations/icon/icon.module';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
-  imports: [CommonModule, WattIconModule],
+  imports: [CommonModule, WattIconComponent],
   declarations: [WattValidationMessageComponent],
   exports: [WattValidationMessageComponent],
 })

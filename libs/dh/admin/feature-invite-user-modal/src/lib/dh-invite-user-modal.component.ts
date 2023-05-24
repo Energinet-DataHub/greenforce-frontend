@@ -34,7 +34,7 @@ import { Subscription, tap } from 'rxjs';
 
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
@@ -61,7 +61,7 @@ import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
     WattModalModule,
     WattButtonModule,
     TranslocoModule,
-    WattIconModule,
+    WattIconComponent,
     CommonModule,
     ReactiveFormsModule,
     WattInputModule,

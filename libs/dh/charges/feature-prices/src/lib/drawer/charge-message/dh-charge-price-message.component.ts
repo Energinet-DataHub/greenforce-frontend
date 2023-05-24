@@ -27,7 +27,7 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
@@ -45,7 +45,7 @@ import { DhChargesPricesDrawerService } from '../dh-charges-prices-drawer.servic
     DhSharedUiDateTimeModule,
     TranslocoModule,
     WattButtonModule,
-    WattIconModule,
+    WattIconComponent,
     WattSpinnerModule,
     WattBadgeComponent,
     MatDividerModule,

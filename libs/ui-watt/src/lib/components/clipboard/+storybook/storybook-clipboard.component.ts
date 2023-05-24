@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 import { Component, Input } from '@angular/core';
-import { WattIconModule } from '../../../foundations/icon';
+import { WattIconComponent } from '../../../foundations/icon';
 import { WattTooltipDirective } from '../../tooltip';
 import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
 
 @Component({
   standalone: true,
-  imports: [WattTooltipDirective, WattIconModule, WattCopyToClipboardDirective],
+  imports: [WattTooltipDirective, WattIconComponent, WattCopyToClipboardDirective],
   selector: 'watt-storybook-copy-to-clipboard',
   styles: [
     `

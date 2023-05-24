@@ -22,7 +22,7 @@ import { WattStorybookTableDecoratorComponent } from './storybook-table-decorato
 import { WattTableColumnDef, WATT_TABLE } from '../watt-table.component';
 import { WattTableDataSource } from '../watt-table-data-source';
 import { WattButtonModule } from '../../button';
-import { WattIconModule } from '../../../foundations/icon/icon.module';
+import { WattIconComponent } from '../../../foundations/icon/icon.module';
 
 function removeDecoratorFromSource(snippet: string) {
   const matches = snippet.match(/^<.+?>(.+)<\/.+>$/s);
@@ -66,7 +66,7 @@ export default {
       imports: [
         WATT_TABLE,
         WattButtonModule,
-        WattIconModule,
+        WattIconComponent,
         MatSortModule,
         BrowserAnimationsModule,
         WattStorybookTableDecoratorComponent,

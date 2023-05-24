@@ -19,7 +19,7 @@ import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/co
 import { MeteringPointProcessDetail } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -48,7 +48,7 @@ export class DhProcessesDetailItemComponent {
 @NgModule({
   declarations: [DhProcessesDetailItemComponent],
   imports: [
-    WattIconModule,
+    WattIconComponent,
     CommonModule,
     DhSharedUiDateTimeModule,
     TranslocoModule,

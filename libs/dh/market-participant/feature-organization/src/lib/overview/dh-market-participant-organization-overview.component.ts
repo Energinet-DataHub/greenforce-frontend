@@ -33,7 +33,7 @@ import {
 } from '@angular/material/legacy-table';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -108,7 +108,7 @@ export class DhMarketParticipantOrganizationOverviewComponent implements AfterVi
     TranslocoModule,
     WattBadgeComponent,
     WattButtonModule,
-    WattIconModule,
+    WattIconComponent,
     WattEmptyStateComponent,
     WattSpinnerModule,
     WattValidationMessageModule,

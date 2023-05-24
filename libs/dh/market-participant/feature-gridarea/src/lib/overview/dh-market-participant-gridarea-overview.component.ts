@@ -22,7 +22,7 @@ import {
   MatLegacyTableModule as MatTableModule,
 } from '@angular/material/legacy-table';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattDrawerModule, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -95,7 +95,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
     TranslocoModule,
     WattBadgeComponent,
     WattButtonModule,
-    WattIconModule,
+    WattIconComponent,
     WattEmptyStateComponent,
     WattSpinnerModule,
     WattValidationMessageModule,

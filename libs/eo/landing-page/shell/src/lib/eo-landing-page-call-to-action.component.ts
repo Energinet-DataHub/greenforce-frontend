@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { EoLandingPageLoginButtonComponent } from './eo-landing-page-login-button.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattIconModule, EoLandingPageLoginButtonComponent],
+  imports: [WattIconComponent, EoLandingPageLoginButtonComponent],
   selector: 'eo-landing-page-call-to-action',
   styles: [
     `

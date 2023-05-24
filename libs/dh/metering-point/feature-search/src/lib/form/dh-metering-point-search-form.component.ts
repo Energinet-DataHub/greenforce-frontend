@@ -32,7 +32,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
@@ -122,7 +122,7 @@ export class DhMeteringPointSearchFormComponent implements AfterViewInit, OnDest
     WattFormFieldModule,
     WattInputModule,
     WattButtonModule,
-    WattIconModule,
+    WattIconComponent,
     TranslocoModule,
     FormsModule,
     ReactiveFormsModule,

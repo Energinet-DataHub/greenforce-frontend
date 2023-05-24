@@ -20,7 +20,7 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { WattInputModule } from '../../input';
 import { WattFormFieldModule } from '../../form-field';
 import { WattButtonModule } from '../../button';
-import { WattIconModule } from '../../../foundations/icon';
+import { WattIconComponent } from '../../../foundations/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 
@@ -44,7 +44,7 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     WattFormFieldModule,
     WattButtonModule,
-    WattIconModule,
+    WattIconComponent,
     MatButtonModule,
     CommonModule,
   ],

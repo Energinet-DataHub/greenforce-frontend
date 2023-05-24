@@ -17,7 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { WattIcon, WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIcon, WattIconComponent } from '@energinet-datahub/watt/icon';
 
 @Component({
   standalone: true,
@@ -32,7 +32,7 @@ import { WattIcon, WattIconModule } from '@energinet-datahub/watt/icon';
     </span>
 
     <span>{{ text }}</span>`,
-  imports: [CommonModule, WattIconModule],
+  imports: [CommonModule, WattIconComponent],
 })
 export class DhMeteringPointIdentityTextFieldWithIconComponent {
   @Input() iconName?: WattIcon;

@@ -19,7 +19,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatDividerModule } from '@angular/material/divider';
@@ -41,7 +41,7 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
     CommonModule,
     WattDrawerModule,
     TranslocoModule,
-    WattIconModule,
+    WattIconComponent,
     DhSharedUiDateTimeModule,
     DhMessageArchiveStatusComponent,
     MatDividerModule,

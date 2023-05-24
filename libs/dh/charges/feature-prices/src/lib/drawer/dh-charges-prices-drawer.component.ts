@@ -22,7 +22,7 @@ import { PushModule } from '@rx-angular/template/push';
 import { WattDrawerModule, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhChargeDetailsHeaderComponent } from './charge-content/details-header/dh-charge-details-header.component';
@@ -44,7 +44,7 @@ import { DhChargePriceMessageComponent } from './charge-message/dh-charge-price-
     DhChargeContentComponent,
     DhChargePriceMessageComponent,
     PushModule,
-    WattIconModule,
+    WattIconComponent,
   ],
   selector: 'dh-charges-prices-drawer',
   templateUrl: './dh-charges-prices-drawer.component.html',

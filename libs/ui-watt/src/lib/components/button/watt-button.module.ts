@@ -18,13 +18,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 
-import { WattIconModule } from './../../foundations/icon/icon.module';
+import { WattIconComponent } from './../../foundations/icon/icon.component';
 import { WattButtonComponent } from './watt-button.component';
 import { WattSpinnerModule } from '../spinner';
 
 @NgModule({
   declarations: [WattButtonComponent],
   exports: [WattButtonComponent],
-  imports: [CommonModule, WattIconModule, WattSpinnerModule, MatButtonModule],
+  imports: [CommonModule, WattIconComponent, WattSpinnerModule, MatButtonModule],
 })
 export class WattButtonModule {}

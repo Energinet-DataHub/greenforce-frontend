@@ -21,7 +21,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -43,7 +43,7 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
     CommonModule,
     TranslocoModule,
     LetModule,
-    WattIconModule,
+    WattIconComponent,
     WattButtonModule,
     WattEmptyStateComponent,
     DhFeatureFlagDirectiveModule,
