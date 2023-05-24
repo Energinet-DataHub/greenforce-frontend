@@ -61,7 +61,7 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
             ArchivedMessageSearchCriteria archivedMessageSearch,
             CancellationToken cancellationToken)
         {
-            var url = "api/v1/search-archived-messages";
+            var url = "api/v1/archived-messages/search";
             var content = new StringContent(JsonSerializer.Serialize(
                 new ArchivedMessageSearchCriteriaDto(
                     new CreatedDuringPeriod(
