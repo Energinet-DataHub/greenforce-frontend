@@ -166,20 +166,12 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
     updateUserRoles: UpdateUserRoles | undefined
   ) {
     const onSuccessFn = () => {
-      if (this.user && firstName) {
-        this.user.firstName = firstName;
-      }
+      this.updateModel(firstName, lastName, phoneNumber);
 
-      if (this.user && lastName) {
-        this.user.lastName = lastName;
-      }
-
-      if (this.user && phoneNumber) {
-        this.user.phoneNumber = phoneNumber;
-      }
-
-      const message = this.transloco.translate('admin.userManagement.editUser.saveSuccess');
-      this.toastService.open({ type: 'success', message });
+      this.toastService.open({
+        type: 'success',
+        message: this.transloco.translate('admin.userManagement.editUser.saveSuccess'),
+      });
 
       this.userRoles.resetUpdateUserRoles();
       this.closeModal(true);
@@ -187,9 +179,10 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
 
     const onErrorFn = (statusCode: HttpStatusCode) => {
       if (statusCode !== HttpStatusCode.BadRequest) {
-        const message = this.transloco.translate('admin.userManagement.editUser.saveError');
-
-        this.toastService.open({ type: 'danger', message });
+        this.toastService.open({
+          type: 'danger',
+          message: this.transloco.translate('admin.userManagement.editUser.saveError'),
+        });
       }
     };
 
@@ -203,6 +196,26 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
         onSuccessFn,
         onErrorFn,
       });
+    }
+  }
+
+  private updateModel(
+    firstName: string | undefined,
+    lastName: string | undefined,
+    phoneNumber: string | undefined
+  ) {
+    if (!this.user) return;
+
+    if (firstName) {
+      this.user.firstName = firstName;
+    }
+
+    if (lastName) {
+      this.user.lastName = lastName;
+    }
+
+    if (phoneNumber) {
+      this.user.phoneNumber = phoneNumber;
     }
   }
 
