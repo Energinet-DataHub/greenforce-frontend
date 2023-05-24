@@ -48,7 +48,8 @@ describe(DhUserAuditLogsComponent.name, () => {
       status: 'Active',
       email: 'fake@value',
       createdDate: '2023-01-10T10:12:06+00:00',
-      name: 'fake value',
+      firstName: 'fake value',
+      lastName: 'fake value',
       assignedActors: [],
     };
 
