@@ -32,6 +32,7 @@ label {
     border: 1px solid var(--watt-on-light-medium-emphasis);
   }
 
+  &:active,
   &:focus-within {
     background: var(--watt-color-primary-ultralight);
     border: 1px solid var(--watt-on-light-medium-emphasis);

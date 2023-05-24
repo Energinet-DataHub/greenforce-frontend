@@ -52,11 +52,12 @@ import { WattChipComponent } from './watt-chip.component';
         <ng-content />
       </button>
       <watt-icon
+        size="s"
         name="arrowDropDown"
         class="menu-icon"
-        size="s"
-        [ngClass]="{ opened: opened, selected: selected }"
-      ></watt-icon>
+        [class.opened]="opened"
+        [class.selected]="selected"
+      />
     </watt-chip>
   `,
 })
