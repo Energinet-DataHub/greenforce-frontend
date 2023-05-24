@@ -33,7 +33,7 @@ import {
   WattRange,
 } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTimepickerModule } from '@energinet-datahub/watt/timepicker';
@@ -55,7 +55,7 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     DhMessageArchiveActorDataAccessApiStore,
   ],
   imports: [
-    WattFormFieldModule,
+    WATT_FORM_FIELD,
     WattInputModule,
     WattButtonComponent,
     WattCheckboxComponent,

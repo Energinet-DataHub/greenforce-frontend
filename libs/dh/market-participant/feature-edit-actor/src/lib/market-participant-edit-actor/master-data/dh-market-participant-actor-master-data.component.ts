@@ -27,7 +27,7 @@ import { FormsModule } from '@angular/forms';
 import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { MarketParticipantActorStatus } from '@energinet-datahub/dh/shared/domain';
 import { WattInputModule } from '@energinet-datahub/watt/input';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
@@ -87,7 +87,7 @@ export class DhMarketParticipantActorMasterDataComponent implements OnChanges, O
     FormsModule,
     TranslocoModule,
     WattDropdownComponent,
-    WattFormFieldModule,
+    WATT_FORM_FIELD,
     WattInputModule,
   ],
   exports: [DhMarketParticipantActorMasterDataComponent],

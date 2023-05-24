@@ -22,7 +22,7 @@ import { within, fireEvent } from '@storybook/testing-library';
 import { StorybookConfigurationLocalizationModule } from '../../+storybook/storybook-configuration-localization.module';
 import { WattDatepickerComponent } from '../watt-datepicker.component';
 import { WattDatepickerModule } from '../watt-datepicker.module';
-import { WattFormFieldModule } from '../../../form-field/form-field.module';
+import { WattFormFieldComponent } from '../../../form-field';
 import { WattRangeValidators } from '../../shared/validators';
 import { importProvidersFrom } from '@angular/core';
 
@@ -45,7 +45,7 @@ export default {
       ],
     }),
     moduleMetadata({
-      imports: [ReactiveFormsModule, WattFormFieldModule, WattDatepickerModule],
+      imports: [ReactiveFormsModule, WattFormFieldComponent, WattDatepickerModule],
     }),
   ],
   component: WattDatepickerComponent,

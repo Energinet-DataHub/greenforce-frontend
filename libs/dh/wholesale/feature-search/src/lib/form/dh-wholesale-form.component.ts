@@ -19,7 +19,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Output, Input } from 
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -33,7 +33,7 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
     TranslocoModule,
     WattButtonComponent,
     WattDatepickerModule,
-    WattFormFieldModule,
+    WATT_FORM_FIELD,
     WattInputModule,
   ],
   selector: 'dh-wholesale-form',

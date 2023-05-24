@@ -20,7 +20,7 @@ import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WattFormFieldComponent } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 
 export const searchDebounceTimeMs = 250;
@@ -50,7 +50,7 @@ export const searchDebounceTimeMs = 250;
   imports: [
     TranslocoModule,
     ReactiveFormsModule,
-    WattFormFieldModule,
+    WattFormFieldComponent,
     WattInputModule,
     WattButtonComponent,
   ],

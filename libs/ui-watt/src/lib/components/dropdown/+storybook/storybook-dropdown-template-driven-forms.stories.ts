@@ -18,7 +18,7 @@ import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { WattFormFieldModule } from '../../form-field/form-field.module';
+import { WattFormFieldComponent } from '../../form-field';
 import { WattDropdownComponent } from '../watt-dropdown.component';
 import { WattDropdownOption } from '../watt-dropdown-option';
 
@@ -35,7 +35,12 @@ const meta: Meta<WattDropdownComponent> = {
   component: WattDropdownComponent,
   decorators: [
     moduleMetadata({
-      imports: [FormsModule, BrowserAnimationsModule, WattDropdownComponent, WattFormFieldModule],
+      imports: [
+        FormsModule,
+        BrowserAnimationsModule,
+        WattDropdownComponent,
+        WattFormFieldComponent,
+      ],
     }),
   ],
 };

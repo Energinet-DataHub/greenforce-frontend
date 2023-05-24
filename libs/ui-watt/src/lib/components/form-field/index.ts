@@ -14,4 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattFormFieldModule } from './form-field.module';
+export { WattErrorComponent } from './components/error.component';
+export { WattHintComponent } from './components/hint.component';
+export { WattLabelComponent } from './components/label.component';
+export {
+  FormFieldComponent as WattFormFieldComponent,
+  WATT_FORM_FIELD,
+} from './form-field.component';

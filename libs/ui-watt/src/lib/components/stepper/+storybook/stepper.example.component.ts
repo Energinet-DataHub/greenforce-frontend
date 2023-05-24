@@ -18,7 +18,7 @@ import { Component } from '@angular/core';
 import { WATT_STEPPER } from '..';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { WattInputModule } from '../../input';
-import { WattFormFieldModule } from '../../form-field';
+import { WattFormFieldComponent } from '../../form-field';
 import { WattButtonComponent } from '../../button';
 import { WattIconComponent } from '../../../foundations/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -42,7 +42,7 @@ import { CommonModule } from '@angular/common';
     WATT_STEPPER,
     WattInputModule,
     ReactiveFormsModule,
-    WattFormFieldModule,
+    WattFormFieldComponent,
     WattButtonComponent,
     WattIconComponent,
     MatButtonModule,

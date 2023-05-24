@@ -37,7 +37,7 @@ import {
   PermissionDto,
   MarketParticipantUpdatePermissionDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { DhAdminEditPermissionStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -66,7 +66,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
     WattButtonComponent,
     WattTabComponent,
     WattTabsComponent,
-    WattFormFieldModule,
+    WATT_FORM_FIELD,
     WattInputModule,
   ],
 })

@@ -20,5 +20,6 @@ import { Component } from '@angular/core';
   selector: 'watt-label',
   template: `<ng-content></ng-content>`,
   styleUrls: ['./label.component.scss'],
+  standalone: true,
 })
 export class WattLabelComponent {}

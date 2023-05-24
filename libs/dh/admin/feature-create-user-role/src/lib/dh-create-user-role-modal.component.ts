@@ -40,7 +40,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -82,7 +82,7 @@ interface UserRoleForm {
     CommonModule,
     ReactiveFormsModule,
     WattInputModule,
-    WattFormFieldModule,
+    WATT_FORM_FIELD,
     WattDropdownComponent,
     PushModule,
     LetModule,

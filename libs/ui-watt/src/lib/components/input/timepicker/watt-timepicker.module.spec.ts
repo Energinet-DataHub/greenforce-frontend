@@ -24,7 +24,7 @@ import userEvent from '@testing-library/user-event';
 import { DhConfigurationLocalizationModule } from '@energinet-datahub/dh/globalization/configuration-localization';
 
 import { WattTimepickerModule } from './watt-timepicker.module';
-import { WattFormFieldModule } from '../../form-field/form-field.module';
+import { WattFormFieldComponent } from '../../form-field';
 import { WattRange } from '../shared/watt-range';
 import { WattDanishDatetimeModule } from '../../../configuration/watt-danish-datetime.module';
 
@@ -54,7 +54,7 @@ describe(WattTimepickerModule.name, () => {
         WattTimepickerModule,
         ReactiveFormsModule,
         FormsModule,
-        WattFormFieldModule,
+        WattFormFieldComponent,
         BrowserAnimationsModule,
         DhConfigurationLocalizationModule.forRoot(),
         WattDanishDatetimeModule.forRoot(),

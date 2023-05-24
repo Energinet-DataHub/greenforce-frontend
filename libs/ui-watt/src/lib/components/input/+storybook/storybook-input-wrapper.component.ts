@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { Component, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
-import { WattFormFieldModule } from '../../form-field';
+import { WattFormFieldComponent } from '../../form-field';
 import { WattButtonComponent } from '../../button';
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattInputModule } from '../input.module';
@@ -31,7 +31,7 @@ import { WattInputModule } from '../input.module';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    WattFormFieldModule,
+    WattFormFieldComponent,
     WattIconComponent,
     WattInputModule,
     WattButtonComponent,

@@ -22,21 +22,30 @@ import {
   ViewEncapsulation,
   ChangeDetectorRef,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import {
   MatLegacyFormField as MatFormField,
   MatLegacyFormFieldControl as MatFormFieldControl,
+  MatLegacyFormFieldModule as MatFormFieldModule,
 } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 
 import { WattDatepickerComponent } from '../input/datepicker';
 import { WattDropdownComponent } from '../dropdown/watt-dropdown.component';
 import { WattInputDirective } from '../input/input.directive';
 import { WattTimepickerComponent } from '../input/timepicker';
 
+import { WattErrorComponent } from './components/error.component';
+import { WattHintComponent } from './components/hint.component';
+import { WattLabelComponent } from './components/label.component';
+
 @Component({
   selector: 'watt-form-field',
   styleUrls: ['form-field.component.scss'],
   templateUrl: './form-field.component.html',
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [CommonModule, MatFormFieldModule, MatInputModule],
 })
 export class FormFieldComponent implements AfterViewInit {
   beforeViewInit = true; // Used to remove placeholder control
@@ -73,3 +82,10 @@ export class FormFieldComponent implements AfterViewInit {
     }
   }
 }
+
+export const WATT_FORM_FIELD = [
+  FormFieldComponent,
+  WattErrorComponent,
+  WattLabelComponent,
+  WattHintComponent,
+];

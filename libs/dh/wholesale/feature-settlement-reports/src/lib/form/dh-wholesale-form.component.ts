@@ -41,7 +41,7 @@ import {
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -58,7 +58,7 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
     TranslocoModule,
     WattButtonComponent,
     WattDatepickerModule,
-    WattFormFieldModule,
+    WATT_FORM_FIELD,
     WattDropdownComponent,
     PushModule,
   ],

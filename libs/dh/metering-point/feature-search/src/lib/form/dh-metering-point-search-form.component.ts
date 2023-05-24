@@ -34,7 +34,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattInputModule } from '@energinet-datahub/watt/input';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { meteringPointIdValidator } from './dh-metering-point.validator';
@@ -119,7 +119,7 @@ export class DhMeteringPointSearchFormComponent implements AfterViewInit, OnDest
 
 @NgModule({
   imports: [
-    WattFormFieldModule,
+    WATT_FORM_FIELD,
     WattInputModule,
     WattButtonComponent,
     WattIconComponent,
