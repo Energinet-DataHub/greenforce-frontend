@@ -34,7 +34,7 @@ import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shar
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { UpdateUserRoles, DbAdminEditUserStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
@@ -48,7 +48,7 @@ import { HttpStatusCode } from '@angular/common/http';
   imports: [
     CommonModule,
     WattModalModule,
-    WattButtonModule,
+    WattButtonComponent,
     TranslocoModule,
     WattTabComponent,
     WattTabsComponent,

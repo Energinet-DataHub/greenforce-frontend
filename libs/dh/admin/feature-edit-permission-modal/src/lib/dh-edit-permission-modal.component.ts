@@ -30,7 +30,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PushModule } from '@rx-angular/template/push';
 
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import {
@@ -63,7 +63,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
     ReactiveFormsModule,
     PushModule,
     WattModalModule,
-    WattButtonModule,
+    WattButtonComponent,
     WattTabComponent,
     WattTabsComponent,
     WattFormFieldModule,

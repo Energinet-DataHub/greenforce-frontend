@@ -19,7 +19,7 @@ import { Component, HostBinding, Input, OnChanges, SimpleChanges } from '@angula
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { WattFormFieldModule } from '../../form-field';
-import { WattButtonModule } from '../../button';
+import { WattButtonComponent } from '../../button';
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattInputModule } from '../input.module';
 
@@ -34,7 +34,7 @@ import { WattInputModule } from '../input.module';
     WattFormFieldModule,
     WattIconComponent,
     WattInputModule,
-    WattButtonModule,
+    WattButtonComponent,
   ],
   template: `<watt-form-field>
     <watt-label>{{ label }}</watt-label>

@@ -33,7 +33,7 @@ import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
@@ -80,7 +80,7 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
     PushModule,
     LetModule,
     WattModalModule,
-    WattButtonModule,
+    WattButtonComponent,
     TranslocoModule,
     WattTabComponent,
     WattTabsComponent,

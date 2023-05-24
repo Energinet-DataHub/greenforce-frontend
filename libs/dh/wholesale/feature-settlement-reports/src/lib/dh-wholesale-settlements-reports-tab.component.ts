@@ -17,7 +17,7 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { WattChipsComponent } from '@energinet-datahub/watt/chips';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -38,7 +38,7 @@ import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
     WATT_TABS,
     WattCardModule,
     TranslocoModule,
-    WattButtonModule,
+    WattButtonComponent,
     WattChipsComponent,
     WattDatepickerModule,
     ReactiveFormsModule,

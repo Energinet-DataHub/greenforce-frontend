@@ -25,7 +25,7 @@ import {
 import { DocumentTypes, BusinessReasons } from '@energinet-datahub/dh/message-archive/domain';
 import { ArchivedMessageSearchCriteria } from '@energinet-datahub/dh/shared/domain';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import {
   danishTimeZoneIdentifier,
@@ -57,7 +57,7 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
   imports: [
     WattFormFieldModule,
     WattInputModule,
-    WattButtonModule,
+    WattButtonComponent,
     WattCheckboxModule,
     WattDatepickerModule,
     WattTimepickerModule,

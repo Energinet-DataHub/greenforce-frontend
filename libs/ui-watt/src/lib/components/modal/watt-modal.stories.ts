@@ -18,7 +18,7 @@ import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/ang
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
-import { WattButtonModule } from '../button';
+import { WattButtonComponent } from '../button';
 import { WattInputModule } from '../input/input.module';
 import { WattFormFieldModule } from '../form-field/form-field.module';
 import { WattModalModule } from './watt-modal.module';
@@ -35,7 +35,7 @@ const meta: Meta<WattModalComponent> = {
     moduleMetadata({
       imports: [
         ReactiveFormsModule,
-        WattButtonModule,
+        WattButtonComponent,
         WattFormFieldModule,
         WattInputModule,
         WattModalModule,

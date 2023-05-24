@@ -20,10 +20,10 @@ import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy
 import { NgModule } from '@angular/core';
 
 import { WattDatepickerComponent } from './watt-datepicker.component';
-import { WattButtonModule } from '../../button';
+import { WattButtonComponent } from '../../button';
 
 @NgModule({
-  imports: [MatDatepickerModule, MatInputModule, WattButtonModule, CommonModule],
+  imports: [MatDatepickerModule, MatInputModule, WattButtonComponent, CommonModule],
   declarations: [WattDatepickerComponent],
   exports: [WattDatepickerComponent],
 })

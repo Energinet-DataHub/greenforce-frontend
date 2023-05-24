@@ -36,7 +36,7 @@ import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
 
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
@@ -77,7 +77,7 @@ interface CreateBatchFormValues {
     PushModule,
     ReactiveFormsModule,
     TranslocoModule,
-    WattButtonModule,
+    WattButtonComponent,
     WattDatepickerModule,
     WattDropdownModule,
     WattFormFieldModule,

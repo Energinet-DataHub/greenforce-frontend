@@ -25,7 +25,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
@@ -44,7 +44,7 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
     TranslocoModule,
     LetModule,
     WattIconComponent,
-    WattButtonModule,
+    WattButtonComponent,
     WattEmptyStateComponent,
     DhFeatureFlagDirectiveModule,
     WattTooltipDirective,

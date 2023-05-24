@@ -27,7 +27,7 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -50,7 +50,7 @@ import { DhWholesaleActorsComponent } from './actors/dh-wholesale-actors.compone
     TranslocoModule,
     RouterModule,
     WattBadgeComponent,
-    WattButtonModule,
+    WattButtonComponent,
     WattCardModule,
     WattDrawerModule,
     WattEmptyStateComponent,

@@ -24,7 +24,7 @@ import { LetModule } from '@rx-angular/template/let';
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import {
@@ -51,7 +51,7 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
   imports: [
     CommonModule,
     TranslocoModule,
-    WattButtonModule,
+    WattButtonComponent,
     WattCardModule,
     WattSpinnerComponent,
     PushModule,

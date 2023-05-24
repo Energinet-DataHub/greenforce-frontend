@@ -18,7 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 import { fireEvent, within } from '@storybook/testing-library';
 
-import { WattButtonModule } from '../../button';
+import { WattButtonComponent } from '../../button';
 import { WattModalModule } from '../../modal';
 import { WattDrawerComponent } from '../watt-drawer.component';
 import { WattDrawerModule } from '../watt-drawer.module';
@@ -50,7 +50,7 @@ export default {
       imports: [
         WattDrawerModule,
         BrowserAnimationsModule,
-        WattButtonModule,
+        WattButtonComponent,
         WattModalModule,
         WattStorybookDrawerContentModule,
         WattStorybookDrawerLoadingComponent,

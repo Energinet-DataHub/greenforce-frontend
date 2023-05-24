@@ -25,7 +25,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipeScam, exportCsv } from '@energinet-datahub/dh/shared/ui-util';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 
@@ -42,7 +42,7 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
     CommonModule,
     TranslocoModule,
     DhPermissionsTableComponent,
-    WattButtonModule,
+    WattButtonComponent,
     WattSpinnerComponent,
     WattEmptyStateComponent,
     WattCardModule,

@@ -36,7 +36,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { provideComponentStore } from '@ngrx/component-store';
 
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -76,7 +76,7 @@ interface UserRoleForm {
   ],
   imports: [
     WattModalModule,
-    WattButtonModule,
+    WattButtonComponent,
     TranslocoModule,
     WattIconComponent,
     CommonModule,

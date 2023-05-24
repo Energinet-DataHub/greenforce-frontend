@@ -20,7 +20,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { MarketParticipantEicFunction } from '@energinet-datahub/dh/shared/domain';
@@ -39,7 +39,7 @@ import { take } from 'rxjs';
     DhSharedUiPaginatorComponent,
     MatTooltipModule,
     TranslocoModule,
-    WattButtonModule,
+    WattButtonComponent,
     WattIconComponent,
     WattCardModule,
   ],

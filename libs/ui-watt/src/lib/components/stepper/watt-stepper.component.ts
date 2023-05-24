@@ -31,7 +31,7 @@ import { CommonModule } from '@angular/common';
 import { CdkStepper, StepperSelectionEvent, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { PushModule } from '@rx-angular/template/push';
 import { from, map, Observable, of, startWith, withLatestFrom } from 'rxjs';
-import { WattButtonModule } from '../button';
+import { WattButtonComponent } from '../button';
 
 @Component({
   selector: 'watt-stepper',
@@ -44,7 +44,7 @@ import { WattButtonModule } from '../button';
     MatStepperModule,
     CommonModule,
     WattIconComponent,
-    WattButtonModule,
+    WattButtonComponent,
     PushModule,
   ],
   providers: [

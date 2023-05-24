@@ -22,7 +22,13 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { CommonModule } from '@angular/common';
+
 import { WattIcon } from '../../foundations/icon';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+
+import { WattIconComponent } from './../../foundations/icon/icon.component';
+import { WattSpinnerComponent } from '../spinner';
 
 export const WattButtonTypes = ['primary', 'secondary', 'text', 'icon'] as const;
 export type WattButtonVariant = (typeof WattButtonTypes)[number];
@@ -53,6 +59,8 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
   `,
   styleUrls: ['./watt-button.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [CommonModule, WattIconComponent, WattSpinnerComponent, MatButtonModule],
 })
 export class WattButtonComponent {
   @Input() icon?: WattIcon;

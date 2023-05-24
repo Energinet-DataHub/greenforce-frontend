@@ -19,7 +19,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
@@ -35,7 +35,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     CommonModule,
     TranslocoModule,
     WattDrawerModule,
-    WattButtonModule,
+    WattButtonComponent,
     DhTabsComponent,
     DhUserStatusComponent,
     DhEditUserModalComponent,

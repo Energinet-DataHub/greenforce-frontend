@@ -25,7 +25,7 @@ import {
   EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService, EoAuthStore, EoTermsService } from '@energinet-datahub/eo/shared/services';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
@@ -34,7 +34,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
   standalone: true,
   imports: [
     FormsModule,
-    WattButtonModule,
+    WattButtonComponent,
     WattCheckboxModule,
     EoFooterComponent,
     EoHeaderComponent,

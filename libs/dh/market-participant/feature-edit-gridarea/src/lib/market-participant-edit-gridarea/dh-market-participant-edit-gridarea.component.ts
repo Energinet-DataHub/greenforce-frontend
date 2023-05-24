@@ -21,7 +21,7 @@ import { LetModule } from '@rx-angular/template/let';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
 import { map } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -72,7 +72,7 @@ export class DhMarketParticipantEditGridAreaComponent {
     LetModule,
     CommonModule,
     TranslocoModule,
-    WattButtonModule,
+    WattButtonComponent,
     WattTabComponent,
     WattTabsComponent,
     WattSpinnerComponent,

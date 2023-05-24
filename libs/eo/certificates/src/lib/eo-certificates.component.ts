@@ -16,13 +16,13 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { EoCertificatesTableComponent } from './eo-certificates-table.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, WattCheckboxModule, EoCertificatesTableComponent, WattButtonModule],
+  imports: [MatCardModule, WattCheckboxModule, EoCertificatesTableComponent, WattButtonComponent],
   selector: 'eo-certificates',
   standalone: true,
   styles: [],

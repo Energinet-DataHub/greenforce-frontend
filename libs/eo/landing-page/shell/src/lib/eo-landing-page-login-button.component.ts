@@ -16,12 +16,12 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoAuthService } from '@energinet-datahub/eo/shared/services';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattButtonModule],
+  imports: [WattButtonComponent],
   selector: 'eo-landing-page-login-button',
   template: `<watt-button (click)="login()">Start</watt-button>`,
 })

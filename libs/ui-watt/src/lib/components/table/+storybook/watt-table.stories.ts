@@ -21,8 +21,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WattStorybookTableDecoratorComponent } from './storybook-table-decorator.component';
 import { WattTableColumnDef, WATT_TABLE } from '../watt-table.component';
 import { WattTableDataSource } from '../watt-table-data-source';
-import { WattButtonModule } from '../../button';
-import { WattIconComponent } from '../../../foundations/icon/icon.module';
+import { WattButtonComponent } from '../../button';
+import { WattIconComponent } from '../../../foundations/icon/icon.component';
 
 function removeDecoratorFromSource(snippet: string) {
   const matches = snippet.match(/^<.+?>(.+)<\/.+>$/s);
@@ -65,7 +65,7 @@ export default {
     moduleMetadata({
       imports: [
         WATT_TABLE,
-        WattButtonModule,
+        WattButtonComponent,
         WattIconComponent,
         MatSortModule,
         BrowserAnimationsModule,

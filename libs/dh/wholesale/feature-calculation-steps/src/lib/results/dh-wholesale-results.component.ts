@@ -21,7 +21,7 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -47,7 +47,7 @@ import { ActivatedRoute } from '@angular/router';
     DhWholesaleTimeSeriesPointsComponent,
     TranslocoModule,
     WattBadgeComponent,
-    WattButtonModule,
+    WattButtonComponent,
     WattCardModule,
     WattDrawerModule,
     WattEmptyStateComponent,

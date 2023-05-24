@@ -25,7 +25,7 @@ import { DhMessageArchiveDataAccessBlobApiStore } from '@energinet-datahub/dh/me
 import { ChargeMarketParticipantV1Dto, ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -44,7 +44,7 @@ import { DhChargesPricesDrawerService } from '../dh-charges-prices-drawer.servic
     WattEmptyStateComponent,
     DhSharedUiDateTimeModule,
     TranslocoModule,
-    WattButtonModule,
+    WattButtonComponent,
     WattIconComponent,
     WattSpinnerComponent,
     WattBadgeComponent,

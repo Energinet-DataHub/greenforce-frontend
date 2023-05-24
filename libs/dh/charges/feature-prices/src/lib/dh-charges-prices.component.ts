@@ -29,7 +29,7 @@ import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { PushModule } from '@rx-angular/template/push';
 import { DhChargesPricesResultComponent } from './search-result/dh-charges-prices-result.component';
@@ -47,7 +47,7 @@ import { ChargeSearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
     PushModule,
     TranslocoModule,
     WattBadgeComponent,
-    WattButtonModule,
+    WattButtonComponent,
     WattCheckboxModule,
     WattDatepickerModule,
     WattDropdownModule,

@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 import { WattResizeObserverDirective } from '../../utils/resize-observer';
-import { WattButtonModule } from '../button';
+import { WattButtonComponent } from '../button';
 import { WattSpinnerComponent } from '../spinner';
 import { WattModalComponent, WattModalActionsComponent } from './watt-modal.component';
 
@@ -30,7 +30,7 @@ import { WattModalComponent, WattModalActionsComponent } from './watt-modal.comp
     CommonModule,
     MatDialogModule,
     WattResizeObserverDirective,
-    WattButtonModule,
+    WattButtonComponent,
     WattSpinnerComponent,
   ],
 })

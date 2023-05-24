@@ -16,12 +16,12 @@
  */
 import { NgModule } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { WattButtonModule } from '../button/watt-button.module';
+import { WattButtonComponent } from '../button/watt-button.component';
 
 import { WattExpansionComponent } from './expansion.component';
 
 @NgModule({
-  imports: [MatExpansionModule, WattButtonModule],
+  imports: [MatExpansionModule, WattButtonComponent],
   declarations: [WattExpansionComponent],
   exports: [WattExpansionComponent],
 })

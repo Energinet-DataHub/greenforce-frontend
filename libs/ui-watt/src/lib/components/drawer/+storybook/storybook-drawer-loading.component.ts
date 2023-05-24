@@ -20,14 +20,14 @@ import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { PushModule } from '@rx-angular/template/push';
 import { delay, distinctUntilChanged, map, tap, Observable, ReplaySubject } from 'rxjs';
 
-import { WattButtonModule } from '../../button';
+import { WattButtonComponent } from '../../button';
 import { WattSpinnerComponent } from '../../spinner';
 import { WattDrawerComponent } from '../watt-drawer.component';
 import { WattDrawerModule } from '../watt-drawer.module';
 
 @Component({
   standalone: true,
-  imports: [WattButtonModule, WattDrawerModule, WattSpinnerComponent, PushModule, CommonModule],
+  imports: [WattButtonComponent, WattDrawerModule, WattSpinnerComponent, PushModule, CommonModule],
   selector: 'watt-storybook-drawer-loading',
   template: `
     <watt-drawer #drawer size="small" [loading]="loading" (closed)="onClose()">

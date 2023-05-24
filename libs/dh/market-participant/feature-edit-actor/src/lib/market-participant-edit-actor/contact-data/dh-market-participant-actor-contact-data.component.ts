@@ -34,7 +34,7 @@ import { FormsModule } from '@angular/forms';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   MarketParticipantActorContactDto,
   MarketParticipantContactCategory,
@@ -182,7 +182,7 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
     TranslocoModule,
     FormsModule,
     MatTableModule,
-    WattButtonModule,
+    WattButtonComponent,
     WattInputModule,
     WattFormFieldModule,
     WattDropdownModule,

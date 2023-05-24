@@ -20,7 +20,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { OverlayModule } from '@angular/cdk/overlay';
 
-import { WattButtonModule } from '../../button';
+import { WattButtonComponent } from '../../button';
 import { WattSliderModule } from '../../slider/watt-slider.module';
 import { WattTimepickerComponent } from './watt-timepicker.component';
 
@@ -29,7 +29,7 @@ import { WattTimepickerComponent } from './watt-timepicker.component';
   exports: [WattTimepickerComponent],
   imports: [
     MatDatepickerModule,
-    WattButtonModule,
+    WattButtonComponent,
     WattSliderModule,
     MatInputModule,
     OverlayModule,

@@ -45,7 +45,7 @@ import { PushModule } from '@rx-angular/template/push';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -59,7 +59,7 @@ import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
     CommonModule,
     DhDrawerDatepickerComponent,
     WattIconComponent,
-    WattButtonModule,
+    WattButtonComponent,
     WattEmptyStateComponent,
     WattTooltipDirective,
     WattSpinnerComponent,

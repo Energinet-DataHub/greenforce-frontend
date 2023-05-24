@@ -33,7 +33,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Subscription, tap } from 'rxjs';
 
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
@@ -59,7 +59,7 @@ import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
   standalone: true,
   imports: [
     WattModalModule,
-    WattButtonModule,
+    WattButtonComponent,
     TranslocoModule,
     WattIconComponent,
     CommonModule,

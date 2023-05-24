@@ -22,7 +22,7 @@ import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
@@ -44,7 +44,7 @@ import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/mod
     CommonModule,
     TranslocoModule,
     WattDrawerModule,
-    WattButtonModule,
+    WattButtonComponent,
     DhRoleStatusComponent,
     DhDrawerRoleTabsComponent,
     PushModule,

@@ -33,7 +33,7 @@ import {
 import { fromEvent, repeat, Subscription, takeUntil, tap, timer } from 'rxjs';
 
 import { WattIconComponent } from '../../foundations/icon';
-import { WattButtonModule } from '../button';
+import { WattButtonComponent } from '../button';
 import { WattSpinnerComponent } from '../spinner';
 
 export type WattToastType = 'success' | 'info' | 'warning' | 'danger' | 'loading';
@@ -62,7 +62,7 @@ export type WattToastRef = MatSnackBarRef<WattToastComponent>;
   imports: [
     CommonModule,
     MatSnackBarModule,
-    WattButtonModule,
+    WattButtonComponent,
     WattIconComponent,
     WattSpinnerComponent,
   ],

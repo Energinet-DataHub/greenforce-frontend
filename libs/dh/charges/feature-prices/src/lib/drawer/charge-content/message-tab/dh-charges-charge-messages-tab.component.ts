@@ -41,7 +41,7 @@ import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
@@ -57,7 +57,7 @@ import { DhChargesPricesDrawerService } from '../../dh-charges-prices-drawer.ser
     TranslocoModule,
     LetModule,
     PushModule,
-    WattButtonModule,
+    WattButtonComponent,
     WattEmptyStateComponent,
     WattTooltipDirective,
     WattSpinnerComponent,

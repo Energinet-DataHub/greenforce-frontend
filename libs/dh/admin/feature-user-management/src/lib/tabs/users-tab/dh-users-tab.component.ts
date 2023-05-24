@@ -35,7 +35,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
@@ -104,7 +104,7 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
     DhUsersTabGeneralErrorComponent,
     DhUsersTabActorFilterComponent,
     DhUsersTabUserRoleFilterComponent,
-    WattButtonModule,
+    WattButtonComponent,
     DhPermissionRequiredDirective,
     DhInviteUserModalComponent,
     DhSharedUiSearchComponent,
