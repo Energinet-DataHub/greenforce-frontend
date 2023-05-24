@@ -1030,7 +1030,8 @@
           },
           "table": {
             "columns": {
-              "name": "Navn",
+              "firstName": "Fornavn",
+              "lastName": "Efternavn",
               "email": "Email",
               "phone": "Telefon",
               "assignedActors": "Tildelte aktører",

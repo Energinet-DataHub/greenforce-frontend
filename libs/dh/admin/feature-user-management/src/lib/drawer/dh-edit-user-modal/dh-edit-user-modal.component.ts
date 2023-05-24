@@ -65,7 +65,7 @@ import { HttpStatusCode } from '@angular/common/http';
         margin: calc(var(--watt-space-ml) * 2) 0 0 var(--watt-space-ml);
       }
 
-      .full-name-field {
+      .name-field {
         max-width: 512px;
       }
 
@@ -87,7 +87,8 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   updatedPhoneNumber: string | null = null;
 
   userInfoForm = this.formBuilder.nonNullable.group({
-    name: [{ value: '', disabled: true }],
+    firstName: ['', [Validators.required]],
+    lastName: ['', [Validators.required]],
     phoneNumber: ['', [Validators.required, Validators.pattern(danishPhoneNumberPattern)]],
   });
 
@@ -110,7 +111,8 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   ngOnChanges(change: SimpleChanges): void {
     if (change.user) {
       this.userInfoForm.patchValue({
-        name: this.user?.name ?? '',
+        firstName: this.user?.firstName ?? '',
+        lastName: this.user?.lastName ?? '',
         phoneNumber: this.user?.phoneNumber ?? '',
       });
     }

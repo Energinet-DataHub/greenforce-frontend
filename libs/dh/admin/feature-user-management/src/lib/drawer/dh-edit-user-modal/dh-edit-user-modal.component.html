@@ -15,14 +15,27 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.editUser'">
-  <watt-modal size="large" [title]="user?.name ?? ''" #editUserModal (closed)="closeModal($event)">
+  <watt-modal size="large" [title]="user?.firstName + ' ' + user?.lastName" #editUserModal (closed)="closeModal($event)">
     <form [formGroup]="userInfoForm" class="user-info-form" id="user-info-form" (ngSubmit)="save()">
       <watt-tabs class="watt-modal-content--full-width">
         <watt-tab [label]="t('tab.masterData')">
           <div class="tab-master-data">
-            <watt-form-field class="full-name-field">
-              <watt-label>{{ t("masterData.fullName") }}</watt-label>
-              <input formControlName="name" wattInput type="text" />
+            <watt-form-field class="name-field">
+              <watt-label>{{ t("masterData.firstName") }}</watt-label>
+              <input formControlName="firstName" wattInput type="text" />
+
+              <watt-error *ngIf="phoneNumberControl.hasError('required')">
+                {{ "shared.fieldRequiredErrorText" | transloco }}
+              </watt-error>
+            </watt-form-field>
+
+            <watt-form-field class="name-field">
+              <watt-label>{{ t("masterData.lastName") }}</watt-label>
+              <input formControlName="lastName" wattInput type="text" />
+
+              <watt-error *ngIf="phoneNumberControl.hasError('required')">
+                {{ "shared.fieldRequiredErrorText" | transloco }}
+              </watt-error>
             </watt-form-field>
 
             <watt-form-field class="phone-field">

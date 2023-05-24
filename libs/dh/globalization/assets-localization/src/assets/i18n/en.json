@@ -1043,7 +1043,8 @@
           },
           "table": {
             "columns": {
-              "name": "Name",
+              "firstName": "First name",
+              "lastName": "Last name",
               "email": "Email",
               "phone": "Phone",
               "assignedActors": "Assigned market parties",
