@@ -15,14 +15,7 @@
  * limitations under the License.
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  HostListener,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { WattIconModule } from '../../foundations/icon/icon.module';
@@ -43,11 +36,4 @@ import { WattIconModule } from '../../foundations/icon/icon.module';
 export class WattChipComponent {
   @Input() selected = false;
   @Input() disabled = false;
-  @Output() selectionChange = new EventEmitter<void>();
-
-  @HostListener('click')
-  onClick() {
-    if (this.disabled) return;
-    this.selectionChange.emit();
-  }
 }

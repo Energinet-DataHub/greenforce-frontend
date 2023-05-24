@@ -15,14 +15,7 @@
  * limitations under the License.
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  HostBinding,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { WattIconModule } from '../../foundations/icon/icon.module';
@@ -31,7 +24,6 @@ import { WattChipComponent } from './watt-chip.component';
 @Component({
   standalone: true,
   imports: [CommonModule, WattChipComponent, WattIconModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-menu-chip',
   styles: [
     `
@@ -83,7 +75,7 @@ export class WattMenuChipComponent {
 
   @Output() toggle = new EventEmitter<void>();
 
-  @HostBinding('attr.aria-disabled') get ariaExpanded() {
+  @HostBinding('attr.aria-expanded') get ariaExpanded() {
     return this.opened;
   }
 

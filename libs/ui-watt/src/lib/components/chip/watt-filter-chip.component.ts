@@ -15,27 +15,26 @@
  * limitations under the License.
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { WattIconModule } from '../../foundations/icon/icon.module';
 import { WattChipComponent } from './watt-chip.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, WattChipComponent, WattIconModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [WattChipComponent, WattIconModule],
   selector: 'watt-filter-chip',
   template: `
     <watt-chip [disabled]="disabled" [selected]="checkbox.checked">
       <input
         #checkbox
         type="checkbox"
-        [checked]="selected"
-        [disabled]="disabled"
+        class="cdk-visually-hidden"
         [name]="name"
         [value]="value"
-        class="cdk-visually-hidden"
+        [checked]="selected"
+        [disabled]="disabled"
+        (change)="selectionChange.emit(checkbox)"
       />
       <ng-content />
     </watt-chip>
@@ -46,4 +45,5 @@ export class WattFilterChipComponent {
   @Input() disabled = false;
   @Input() name?: string;
   @Input() value?: string;
+  @Output() selectionChange = new EventEmitter<HTMLInputElement>();
 }
