@@ -58,35 +58,45 @@ export class DbAdminEditUserStore extends ComponentStore<State> {
         tap(() => {
           this.setSaving(SavingState.SAVING);
         }),
-        exhaustMap(({ userId, firstName, lastName, phoneNumber, updateUserRoles, onSuccessFn, onErrorFn }) => {
-          const requests: Observable<unknown>[] = [];
+        exhaustMap(
+          ({
+            userId,
+            firstName,
+            lastName,
+            phoneNumber,
+            updateUserRoles,
+            onSuccessFn,
+            onErrorFn,
+          }) => {
+            const requests: Observable<unknown>[] = [];
 
-          if (firstName && lastName && phoneNumber) {
-            requests.push(
-              this.marketParticipantUserHttpClient.v1MarketParticipantUserUpdateUserIdentityPut(
-                userId,
-                { firstName, lastName, phoneNumber }
+            if (firstName && lastName && phoneNumber) {
+              requests.push(
+                this.marketParticipantUserHttpClient.v1MarketParticipantUserUpdateUserIdentityPut(
+                  userId,
+                  { firstName, lastName, phoneNumber }
+                )
+              );
+            }
+
+            if (updateUserRoles) {
+              requests.push(this.userRolesStore.assignRoles(userId, updateUserRoles));
+            }
+
+            return forkJoin(requests).pipe(
+              tapResponse(
+                () => {
+                  this.setSaving(SavingState.SAVED);
+                  onSuccessFn();
+                },
+                (error: HttpErrorResponse) => {
+                  this.setSaving(ErrorState.GENERAL_ERROR);
+                  onErrorFn(error.status);
+                }
               )
             );
           }
-
-          if (updateUserRoles) {
-            requests.push(this.userRolesStore.assignRoles(userId, updateUserRoles));
-          }
-
-          return forkJoin(requests).pipe(
-            tapResponse(
-              () => {
-                this.setSaving(SavingState.SAVED);
-                onSuccessFn();
-              },
-              (error: HttpErrorResponse) => {
-                this.setSaving(ErrorState.GENERAL_ERROR);
-                onErrorFn(error.status);
-              }
-            )
-          );
-        })
+        )
       )
   );
 
