@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-watt-card-title {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+.datePicker {
+  width: 298px;
+}
 
-  h3 {
-    margin-right: auto;
-  }
+.actorPicker {
+  width: 320px;
+}
+
+.gridAreaPicker {
+  width: 260px;
 }
