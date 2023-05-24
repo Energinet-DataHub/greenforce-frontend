@@ -14,13 +14,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-chip-list>
-  <mat-chip
-    *ngFor="let option of options"
-    [selected]="selection === option.value"
-    [disabled]="option.disabled"
-    (click)="onClick(option.value)"
-    ><watt-icon name="checkmark" *ngIf="selection === option.value"></watt-icon>
-    {{ option.label }}</mat-chip
-  >
-</mat-chip-list>
+<watt-chip
+  *ngFor="let option of options"
+  [selected]="selection === option.value"
+  [disabled]="option.disabled"
+  (click)="onClick(option.value)"
+>
+  {{ option.label }}
+</watt-chip>

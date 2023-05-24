@@ -23,9 +23,7 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
-
-import { WattIconModule } from '../../foundations/icon/icon.module';
+import { WattChipComponent } from '../chip/watt-chip.component';
 
 export interface WattChipsOption {
   /** Text to display on the chip. */
@@ -49,7 +47,7 @@ export type WattChipsSelection = string | null;
   styleUrls: ['./watt-chips.component.scss'],
   templateUrl: './watt-chips.component.html',
   standalone: true,
-  imports: [CommonModule, MatChipsModule, WattIconModule],
+  imports: [CommonModule, WattChipComponent],
 })
 export class WattChipsComponent {
   /** List of chip options to display. */
@@ -69,6 +67,7 @@ export class WattChipsComponent {
     if (this.selection !== selection) {
       this.selection = selection;
       this.selectionChange.emit(this.selection);
+      console.log(this.selection);
     }
   }
 }

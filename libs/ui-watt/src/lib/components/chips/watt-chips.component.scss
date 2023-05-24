@@ -14,49 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 watt-chips {
-  .mat-chip-list-wrapper {
-    flex-wrap: nowrap;
-    overflow: auto;
-  }
+  display: flex;
 
-  .mat-chip.mat-standard-chip {
-    background-color: var(--watt-color-neutral-grey-100);
-    cursor: pointer;
-    user-select: none;
-
-    &.mat-chip-disabled {
-      opacity: 1;
-    }
-
-    &[disabled] {
-      pointer-events: none;
-      cursor: not-allowed;
-      color: rgba(0, 0, 0, 0.38);
-      border: 1px solid rgba(33, 33, 33, 0.08);
-    }
-  }
-
-  .mat-standard-chip:hover,
-  .mat-standard-chip:focus-visible {
-    background-color: var(--watt-color-secondary-light);
-  }
-
-  .mat-chip.mat-standard-chip.mat-chip-selected:hover,
-  .mat-chip.mat-standard-chip.mat-chip-selected:focus-visible {
-    background-color: var(--watt-color-primary-dark);
-  }
-
-  .mat-chip.mat-standard-chip:not(.mat-chip-disabled):active {
-    box-shadow: none;
-  }
-
-  .mat-standard-chip::after {
-    display: none;
-  }
-
-  watt-icon {
+  watt-chip:not(:last-child) {
     margin-right: var(--watt-space-s);
   }
 }
