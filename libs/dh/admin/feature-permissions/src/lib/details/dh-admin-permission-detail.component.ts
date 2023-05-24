@@ -20,7 +20,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { map, Subscription } from 'rxjs';
 
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattCardComponent } from '@energinet-datahub/watt/card';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
@@ -45,7 +45,7 @@ import { DhAdminPermissionMarketRolesComponent } from './tabs/dh-admin-permissio
     CommonModule,
     WattDrawerModule,
     TranslocoModule,
-    WattCardModule,
+    WattCardComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattTabsComponent,

@@ -14,6 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattCardModule } from './watt-card.module';
 export { WattCardComponent } from './watt-card.component';
 export { WattCardTitleComponent } from './watt-card-title.component';

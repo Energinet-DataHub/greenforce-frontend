@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 import { render, screen } from '@testing-library/angular';
-
-import { WattCardModule } from './watt-card.module';
 import { WattCardComponent } from './watt-card.component';
 
 describe(WattCardComponent.name, () => {
@@ -32,7 +30,7 @@ describe(WattCardComponent.name, () => {
       </watt-card>
     `,
       {
-        imports: [WattCardModule],
+        imports: [WattCardComponent],
       }
     );
 
@@ -47,7 +45,7 @@ describe(WattCardComponent.name, () => {
       </watt-card>
     `,
       {
-        imports: [WattCardModule],
+        imports: [WattCardComponent],
       }
     );
 

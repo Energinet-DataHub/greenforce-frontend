@@ -34,7 +34,7 @@ import {
   MarketParticipantUserStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
@@ -97,7 +97,7 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
     PushModule,
     TranslocoModule,
     WattSpinnerComponent,
-    WattCardModule,
+    WattCardComponent,
     DhUsersTabTableComponent,
     DhUsersTabStatusFilterComponent,
     DhSharedUiPaginatorComponent,

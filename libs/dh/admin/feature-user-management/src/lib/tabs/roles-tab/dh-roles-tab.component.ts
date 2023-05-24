@@ -22,7 +22,7 @@ import { take } from 'rxjs';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
@@ -52,7 +52,7 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
     CommonModule,
     TranslocoModule,
     WattButtonComponent,
-    WattCardModule,
+    WattCardComponent,
     WattSpinnerComponent,
     PushModule,
     DhRolesTabTableComponent,

@@ -30,7 +30,7 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { Subscription } from 'rxjs';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { PermissionAuditLog } from '../../permissionAuditLog';
@@ -49,7 +49,7 @@ import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
     LetModule,
     PushModule,
     TranslocoModule,
-    WattCardModule,
+    WattCardComponent,
     WattSpinnerComponent,
     WattEmptyStateComponent,
     WATT_TABLE,

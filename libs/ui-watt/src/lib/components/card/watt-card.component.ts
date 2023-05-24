@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
 /**
  * Usage:
- * `import { WattCardModule } from '@energinet-datahub/watt/card';`
+ * `import { WattCardComponent } from '@energinet-datahub/watt/card';`
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,6 +42,8 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 
     <ng-content></ng-content>
   `,
+  imports: [CommonModule],
+  standalone: true,
 })
 export class WattCardComponent {
   @Input() variant: 'solid' | 'elevation' = 'elevation';

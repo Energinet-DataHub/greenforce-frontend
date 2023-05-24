@@ -44,7 +44,7 @@ import {
   WattTableColumnDef,
   WattTableCellDirective,
 } from '@energinet-datahub/watt/table';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
@@ -75,7 +75,7 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
     WattBadgeComponent,
     DhSharedUiDateTimeModule,
     WattSpinnerComponent,
-    WattCardModule,
+    WattCardComponent,
     DhMessageArchiveDrawerComponent,
     DhMessageArchiveStatusComponent,
     ActorNamePipe,

@@ -23,7 +23,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattCardComponent } from '@energinet-datahub/watt/card';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
@@ -46,7 +46,7 @@ import { Subscription, takeUntil } from 'rxjs';
     DhWholesaleGridAreasComponent,
     TranslocoModule,
     WattBadgeComponent,
-    WattCardModule,
+    WattCardComponent,
     WattDrawerModule,
     ...WATT_BREADCRUMBS,
     WattSpinnerComponent,
