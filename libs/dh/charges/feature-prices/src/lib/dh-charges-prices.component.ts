@@ -26,7 +26,7 @@ import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
-import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -50,7 +50,7 @@ import { ChargeSearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
     WattButtonComponent,
     WattCheckboxComponent,
     WattDatepickerModule,
-    WattDropdownModule,
+    WattDropdownComponent,
     WattFormFieldModule,
     WattInputModule,
     WattSpinnerComponent,

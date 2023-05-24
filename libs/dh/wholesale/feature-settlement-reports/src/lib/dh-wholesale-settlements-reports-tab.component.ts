@@ -26,7 +26,7 @@ import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
-import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
@@ -44,7 +44,7 @@ import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
     WattDatepickerModule,
     ReactiveFormsModule,
     WattFormFieldModule,
-    WattDropdownModule,
+    WattDropdownComponent,
   ],
 })
 export class DhWholesaleSettlementsReportsTabComponent implements OnInit {

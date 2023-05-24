@@ -31,7 +31,7 @@ import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy
 import { FormsModule } from '@angular/forms';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   MarketParticipantActorMarketRoleDto,
@@ -197,7 +197,7 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
     WattButtonComponent,
     WattInputModule,
     WattFormFieldModule,
-    WattDropdownModule,
+    WattDropdownComponent,
   ],
   exports: [DhMarketParticipantActorMarketRolesComponent],
   declarations: [DhMarketParticipantActorMarketRolesComponent],

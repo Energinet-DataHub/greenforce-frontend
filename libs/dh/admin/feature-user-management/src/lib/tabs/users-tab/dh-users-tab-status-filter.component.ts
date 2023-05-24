@@ -20,7 +20,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
@@ -45,7 +45,7 @@ import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain
       }
     `,
   ],
-  imports: [TranslocoModule, ReactiveFormsModule, WattFormFieldModule, WattDropdownModule],
+  imports: [TranslocoModule, ReactiveFormsModule, WattFormFieldModule, WattDropdownComponent],
 })
 export class DhUsersTabStatusFilterComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();

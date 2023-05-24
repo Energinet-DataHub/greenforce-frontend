@@ -35,7 +35,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
 
-import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -79,7 +79,7 @@ interface CreateBatchFormValues {
     TranslocoModule,
     WattButtonComponent,
     WattDatepickerModule,
-    WattDropdownModule,
+    WattDropdownComponent,
     WattFormFieldModule,
     WattInputModule,
     WattSpinnerComponent,

@@ -19,7 +19,6 @@ import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { WattFormFieldModule } from '../../form-field/form-field.module';
-import { WattDropdownModule } from '../watt-dropdown.module';
 import { WattDropdownComponent } from '../watt-dropdown.component';
 import { WattDropdownOption } from '../watt-dropdown-option';
 
@@ -40,7 +39,7 @@ const meta: Meta<WattDropdownComponent> = {
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        WattDropdownModule,
+        WattDropdownComponent,
         WattFormFieldModule,
       ],
     }),
@@ -52,9 +51,9 @@ export default meta;
 const howToUseGuideBasic = `
  How to use
 
- 1. Import ${WattDropdownModule.name} in a module
+ 1. Import ${WattDropdownComponent.name} in a module
 
- import { ${WattDropdownModule.name} } from '@energinet-datahub/watt/dropdown';
+ import { ${WattDropdownComponent.name} } from '@energinet-datahub/watt/dropdown';
 
  2a. Create FormControl in a component and define dropdown options.
 

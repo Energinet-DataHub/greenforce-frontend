@@ -27,7 +27,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { Subject, take, takeUntil } from 'rxjs';
 import { ChargeTypes, ResolutionOptions } from '@energinet-datahub/dh/charges/domain';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -340,7 +340,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     WattDatepickerModule,
     WattFormFieldModule,
     WattInputModule,
-    WattDropdownModule,
+    WattDropdownComponent,
   ],
 })
 export class DhChargesCreatePricesScam {}

@@ -34,11 +34,18 @@ import {
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
-import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { PushModule } from '@rx-angular/template/push';
+import {
+  MatLegacySelectModule as MatSelectModule,
+  MatLegacySelect as MatSelect,
+} from '@angular/material/legacy-select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { of, ReplaySubject, Subject, distinctUntilChanged, map, takeUntil, take } from 'rxjs';
 
-import { WattDropdownOptions } from './watt-dropdown-option';
-import { WattDropdownValue } from './watt-dropdown-value';
+import type { WattDropdownOptions } from './watt-dropdown-option';
+import type { WattDropdownValue } from './watt-dropdown-value';
 
 const MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE = 60;
 
@@ -47,6 +54,14 @@ const MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE = 60;
   templateUrl: './watt-dropdown.component.html',
   styleUrls: ['./watt-dropdown.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [
+    MatSelectModule,
+    CommonModule,
+    PushModule,
+    ReactiveFormsModule,
+    NgxMatSelectSearchModule,
+  ],
 })
 export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
   /**

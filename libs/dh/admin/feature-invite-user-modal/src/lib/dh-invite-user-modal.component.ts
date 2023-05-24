@@ -37,7 +37,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattDropdownModule } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WATT_STEPPER, WattStepperComponent } from '@energinet-datahub/watt/stepper';
 import {
   DbAdminAssignableUserRolesStore,
@@ -66,7 +66,7 @@ import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
     ReactiveFormsModule,
     WattInputModule,
     WattFormFieldModule,
-    WattDropdownModule,
+    WattDropdownComponent,
     PushModule,
     DhAssignableUserRolesComponent,
     WATT_STEPPER,
