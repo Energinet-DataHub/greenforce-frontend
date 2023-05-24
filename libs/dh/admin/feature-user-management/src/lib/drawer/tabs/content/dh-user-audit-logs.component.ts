@@ -23,7 +23,7 @@ import {
   DhAdminUserManagementAuditLogsDataAccessApiStore,
   DhUserAuditLogEntry,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { provideComponentStore } from '@ngrx/component-store';
@@ -44,7 +44,7 @@ import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shar
     PushModule,
     TranslocoModule,
     WattCardModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattEmptyStateComponent,
     WATT_TABLE,
     DhSharedUiDateTimeModule,

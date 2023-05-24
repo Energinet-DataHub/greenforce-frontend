@@ -41,7 +41,7 @@ import {
 import { WattModalModule, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 import { DhMarketParticipantActorContactDataComponentScam } from './contact-data/dh-market-participant-actor-contact-data.component';
@@ -131,7 +131,7 @@ export class DhMarketParticipantEditActorComponent {
     WattButtonModule,
     WattTabComponent,
     WattTabsComponent,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattModalModule,
     PushModule,
     DhMarketParticipantActorMasterDataComponentScam,

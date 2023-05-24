@@ -24,7 +24,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -63,7 +63,7 @@ type MarketRole = ResultOf<
   imports: [
     CommonModule,
     WattCardModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WATT_TABLE,
     WattEmptyStateComponent,
     TranslocoModule,

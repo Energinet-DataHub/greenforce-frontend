@@ -37,7 +37,7 @@ import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import {
   WattTableComponent,
@@ -74,7 +74,7 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
     WattButtonModule,
     WattBadgeComponent,
     DhSharedUiDateTimeModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattCardModule,
     DhMessageArchiveDrawerComponent,
     DhMessageArchiveStatusComponent,

@@ -22,7 +22,7 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipeScam, exportCsv } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
@@ -43,7 +43,7 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
     TranslocoModule,
     DhPermissionsTableComponent,
     WattButtonModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattEmptyStateComponent,
     WattCardModule,
     DhEmDashFallbackPipeScam,

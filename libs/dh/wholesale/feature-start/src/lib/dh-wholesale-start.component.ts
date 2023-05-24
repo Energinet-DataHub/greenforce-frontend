@@ -42,7 +42,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
@@ -82,7 +82,7 @@ interface CreateBatchFormValues {
     WattDropdownModule,
     WattFormFieldModule,
     WattInputModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattEmptyStateComponent,
     WattChipsComponent,
     WattValidationMessageModule,

@@ -20,11 +20,11 @@ import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/lega
 
 import { WattIconComponent } from './../../foundations/icon/icon.component';
 import { WattButtonComponent } from './watt-button.component';
-import { WattSpinnerModule } from '../spinner';
+import { WattSpinnerComponent } from '../spinner';
 
 @NgModule({
   declarations: [WattButtonComponent],
   exports: [WattButtonComponent],
-  imports: [CommonModule, WattIconComponent, WattSpinnerModule, MatButtonModule],
+  imports: [CommonModule, WattIconComponent, WattSpinnerComponent, MatButtonModule],
 })
 export class WattButtonModule {}

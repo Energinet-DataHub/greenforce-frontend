@@ -22,7 +22,7 @@ import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domai
 import { FormsModule } from '@angular/forms';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattCardModule } from '@energinet-datahub/watt/card';
@@ -39,7 +39,7 @@ import { takeUntil } from 'rxjs';
     FormsModule,
     LetModule,
     PushModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattEmptyStateComponent,
     TranslocoModule,
     WattCardModule,

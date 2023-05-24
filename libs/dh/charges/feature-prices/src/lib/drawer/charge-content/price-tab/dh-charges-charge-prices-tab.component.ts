@@ -48,7 +48,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
 
@@ -62,7 +62,7 @@ import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
     WattButtonModule,
     WattEmptyStateComponent,
     WattTooltipDirective,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     TranslocoModule,
     DhSharedUiPaginatorComponent,
     DhSharedUiDateTimeModule,

@@ -20,7 +20,7 @@ import { DhMarketParticipantEditOrganizationDataAccessApiStore } from '@energine
 import { LetModule } from '@rx-angular/template/let';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
 import { map } from 'rxjs';
@@ -75,7 +75,7 @@ export class DhMarketParticipantEditGridAreaComponent {
     WattButtonModule,
     WattTabComponent,
     WattTabsComponent,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattValidationMessageModule,
   ],
   exports: [DhMarketParticipantEditGridAreaComponent],

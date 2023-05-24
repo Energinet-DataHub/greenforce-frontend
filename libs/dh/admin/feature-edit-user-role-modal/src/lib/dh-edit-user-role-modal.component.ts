@@ -38,7 +38,7 @@ import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import {
   DhAdminMarketRolePermissionsStore,
@@ -87,7 +87,7 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
     WattFormFieldModule,
     WattInputModule,
     ReactiveFormsModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattCardModule,
     DhPermissionsTableComponent,
   ],

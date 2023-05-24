@@ -23,7 +23,7 @@ import { LetModule } from '@rx-angular/template/let';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
@@ -48,7 +48,7 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
     WattEmptyStateComponent,
     DhFeatureFlagDirectiveModule,
     WattTooltipDirective,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     DhSharedUiDateTimeModule,
     DhSharedUiPaginatorComponent,
     DhChargesPricesDrawerComponent,

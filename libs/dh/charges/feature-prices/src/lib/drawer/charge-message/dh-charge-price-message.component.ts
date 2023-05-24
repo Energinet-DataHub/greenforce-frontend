@@ -28,7 +28,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
@@ -46,7 +46,7 @@ import { DhChargesPricesDrawerService } from '../dh-charges-prices-drawer.servic
     TranslocoModule,
     WattButtonModule,
     WattIconComponent,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattBadgeComponent,
     MatDividerModule,
   ],

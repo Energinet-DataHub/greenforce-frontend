@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { WattButtonModule } from '../button';
-import { WattSpinnerModule } from '../spinner';
+import { WattSpinnerComponent } from '../spinner';
 import { WattDrawerComponent } from './watt-drawer.component';
 import { WattDrawerTopbarComponent } from './watt-drawer-topbar.component';
 import { WattDrawerActionsComponent } from './watt-drawer-actions.component';
@@ -42,6 +42,6 @@ import { A11yModule } from '@angular/cdk/a11y';
     WattDrawerContentComponent,
     WattDrawerHeadingComponent,
   ],
-  imports: [A11yModule, MatSidenavModule, WattButtonModule, WattSpinnerModule, CommonModule],
+  imports: [A11yModule, MatSidenavModule, WattButtonModule, WattSpinnerComponent, CommonModule],
 })
 export class WattDrawerModule {}

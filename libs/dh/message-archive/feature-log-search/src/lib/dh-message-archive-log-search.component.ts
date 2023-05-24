@@ -35,7 +35,7 @@ import {
 import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTimepickerModule } from '@energinet-datahub/watt/timepicker';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
@@ -68,7 +68,7 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     DhMessageArchiveLogSearchResultComponent,
     WattBadgeComponent,
     WattDropdownModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     ReactiveFormsModule,
     PushModule,
   ],

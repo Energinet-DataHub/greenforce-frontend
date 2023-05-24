@@ -35,7 +35,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -110,7 +110,7 @@ export class DhMarketParticipantOrganizationOverviewComponent implements AfterVi
     WattButtonModule,
     WattIconComponent,
     WattEmptyStateComponent,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattValidationMessageModule,
     DhEmDashFallbackPipeScam,
     DhMarketParticipantOrganizationOverviewGridAreasScam,

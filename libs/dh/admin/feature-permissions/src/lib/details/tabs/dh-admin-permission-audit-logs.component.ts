@@ -27,7 +27,7 @@ import { CommonModule } from '@angular/common';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WattCardModule } from '@energinet-datahub/watt/card';
@@ -50,7 +50,7 @@ import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
     PushModule,
     TranslocoModule,
     WattCardModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattEmptyStateComponent,
     WATT_TABLE,
     DhSharedUiDateTimeModule,

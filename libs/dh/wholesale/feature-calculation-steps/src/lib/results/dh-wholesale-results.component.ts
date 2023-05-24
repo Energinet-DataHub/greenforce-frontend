@@ -24,7 +24,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import {
@@ -51,7 +51,7 @@ import { ActivatedRoute } from '@angular/router';
     WattCardModule,
     WattDrawerModule,
     WattEmptyStateComponent,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     ...WATT_BREADCRUMBS,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,

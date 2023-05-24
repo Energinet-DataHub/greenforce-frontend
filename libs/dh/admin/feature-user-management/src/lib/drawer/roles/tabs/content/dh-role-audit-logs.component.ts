@@ -27,7 +27,7 @@ import {
   DhAdminUserRoleAuditLogsDataAccessApiStore,
   DhRoleAuditLogEntry,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -63,7 +63,7 @@ import { DhAuditChangeCellComponent } from './dh-audit-change-cell.component';
     PushModule,
     TranslocoModule,
     WattCardModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattEmptyStateComponent,
     WATT_TABLE,
     DhSharedUiDateTimeModule,

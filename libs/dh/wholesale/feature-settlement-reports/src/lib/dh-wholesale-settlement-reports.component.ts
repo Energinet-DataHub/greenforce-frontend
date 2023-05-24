@@ -24,7 +24,7 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
 
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import {
@@ -54,7 +54,7 @@ import { SettlementReport } from '@energinet-datahub/dh/wholesale/domain';
     PushModule,
     TranslocoModule,
     WattEmptyStateComponent,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattCardModule,
   ],
   templateUrl: './dh-wholesale-settlement-reports.component.html',

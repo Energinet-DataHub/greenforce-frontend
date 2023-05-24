@@ -29,7 +29,7 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
@@ -49,7 +49,7 @@ import { Subscription, takeUntil } from 'rxjs';
     WattCardModule,
     WattDrawerModule,
     ...WATT_BREADCRUMBS,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattEmptyStateComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,

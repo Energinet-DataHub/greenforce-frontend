@@ -27,7 +27,7 @@ import {
 import { EoAuthService, EoAuthStore, EoTermsService } from '@energinet-datahub/eo/shared/services';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,7 +40,7 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
     EoHeaderComponent,
     EoPrivacyPolicyComponent,
     EoScrollViewComponent,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     NgIf,
   ],
   selector: 'eo-auth-terms',

@@ -34,7 +34,7 @@ import { fromEvent, repeat, Subscription, takeUntil, tap, timer } from 'rxjs';
 
 import { WattIconComponent } from '../../foundations/icon';
 import { WattButtonModule } from '../button';
-import { WattSpinnerModule } from '../spinner';
+import { WattSpinnerComponent } from '../spinner';
 
 export type WattToastType = 'success' | 'info' | 'warning' | 'danger' | 'loading';
 
@@ -64,7 +64,7 @@ export type WattToastRef = MatSnackBarRef<WattToastComponent>;
     MatSnackBarModule,
     WattButtonModule,
     WattIconComponent,
-    WattSpinnerModule,
+    WattSpinnerComponent,
   ],
 })
 export class WattToastComponent {

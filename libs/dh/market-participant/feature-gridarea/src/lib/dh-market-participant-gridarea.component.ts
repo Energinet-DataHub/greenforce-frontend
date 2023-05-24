@@ -24,7 +24,7 @@ import {
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { DhMarketParticipantGridAreaOverviewScam } from './overview/dh-market-participant-gridarea-overview.component';
 import { PushModule } from '@rx-angular/template/push';
@@ -67,7 +67,7 @@ export class DhMarketParticipantGridAreaComponent {
     LetModule,
     TranslocoModule,
     WattEmptyStateComponent,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattValidationMessageModule,
     DhMarketParticipantGridAreaOverviewScam,
     PushModule,

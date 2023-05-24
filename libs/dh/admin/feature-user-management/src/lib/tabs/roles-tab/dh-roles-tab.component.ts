@@ -26,7 +26,7 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import {
   MarketParticipantEicFunction,
   MarketParticipantUserRoleDto,
@@ -53,11 +53,10 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
     TranslocoModule,
     WattButtonModule,
     WattCardModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     PushModule,
     DhRolesTabTableComponent,
     DhSharedUiPaginatorComponent,
-    WattButtonModule,
     DhRolesTabListFilterComponent,
     DhTabDataGeneralErrorComponent,
     LetModule,

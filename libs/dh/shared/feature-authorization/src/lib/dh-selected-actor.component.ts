@@ -22,7 +22,7 @@ import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 
 import { DhSelectedActorStore, Actor } from './dh-selected-actor.store';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   selector: 'dh-selected-actor',
@@ -34,7 +34,7 @@ import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
     LetModule,
     PushModule,
     WattIconComponent,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     OverlayModule,
   ],
 })

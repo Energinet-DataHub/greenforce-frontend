@@ -24,7 +24,7 @@ import { ChargeTypes, ValidityOptions } from '@energinet-datahub/dh/charges/doma
 
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
@@ -53,7 +53,7 @@ import { ChargeSearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
     WattDropdownModule,
     WattFormFieldModule,
     WattInputModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     TranslocoModule,
     FormsModule,
     DhChargesPricesResultComponent,

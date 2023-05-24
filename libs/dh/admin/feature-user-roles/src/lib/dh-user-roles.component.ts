@@ -28,7 +28,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import {
   DhAdminUserRolesStore,
   UpdateUserRoles,
@@ -61,7 +61,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
     CommonModule,
     LetModule,
     PushModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattCardModule,
     WATT_TABLE,
     TranslocoModule,
