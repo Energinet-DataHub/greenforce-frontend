@@ -19,8 +19,6 @@ import {
   AfterViewInit,
   ContentChild,
   ViewChild,
-  Input,
-  HostBinding,
   ViewEncapsulation,
   ChangeDetectorRef,
 } from '@angular/core';
@@ -41,13 +39,6 @@ import { WattTimepickerComponent } from '../input/timepicker';
   encapsulation: ViewEncapsulation.None,
 })
 export class FormFieldComponent implements AfterViewInit {
-  @Input() size: 'normal' | 'large' = 'normal';
-
-  @HostBinding('class')
-  get _cssClass() {
-    return [`watt-form-field-${this.size}`];
-  }
-
   beforeViewInit = true; // Used to remove placeholder control
 
   @ViewChild(MatFormField)
