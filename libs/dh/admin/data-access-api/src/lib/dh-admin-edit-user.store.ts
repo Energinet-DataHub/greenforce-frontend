@@ -46,6 +46,8 @@ export class DbAdminEditUserStore extends ComponentStore<State> {
     (
       trigger$: Observable<{
         userId: string;
+        firstName?: string;
+        lastName?: string;
         phoneNumber?: string;
         updateUserRoles?: UpdateUserRoles;
         onSuccessFn: () => void;
@@ -56,14 +58,14 @@ export class DbAdminEditUserStore extends ComponentStore<State> {
         tap(() => {
           this.setSaving(SavingState.SAVING);
         }),
-        exhaustMap(({ userId, phoneNumber, updateUserRoles, onSuccessFn, onErrorFn }) => {
+        exhaustMap(({ userId, firstName, lastName, phoneNumber, updateUserRoles, onSuccessFn, onErrorFn }) => {
           const requests: Observable<unknown>[] = [];
 
-          if (phoneNumber) {
+          if (firstName && lastName && phoneNumber) {
             requests.push(
               this.marketParticipantUserHttpClient.v1MarketParticipantUserUpdateUserIdentityPut(
                 userId,
-                { phoneNumber }
+                { firstName, lastName, phoneNumber }
               )
             );
           }

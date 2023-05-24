@@ -100,6 +100,14 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
 
   isSaving$ = this.editUserStore.isSaving$;
 
+  get firstNameControl() {
+    return this.userInfoForm.controls.firstName;
+  }
+
+  get lastNameControl() {
+    return this.userInfoForm.controls.lastName;
+  }
+
   get phoneNumberControl() {
     return this.userInfoForm.controls.phoneNumber;
   }
@@ -127,11 +135,17 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
       return this.closeModal(false);
     }
 
+    let firstName: string | undefined;
+    let lastName: string | undefined;
     let phoneNumber: string | undefined;
     let updateUserRoles: UpdateUserRoles | undefined;
 
-    if (this.phoneNumberControl.value !== this.user.phoneNumber) {
-      phoneNumber = this.phoneNumberControl.value;
+    if (this.firstNameControl.value !== this.user.firstName) {
+      firstName = this.firstNameControl.value;
+    }
+
+    if (this.lastNameControl.value !== this.user.lastName) {
+      lastName = this.lastNameControl.value;
     }
 
     if (this._updateUserRoles !== null) {
@@ -142,14 +156,24 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
       return this.closeModal(false);
     }
 
-    this.startEditUserRequest(phoneNumber, updateUserRoles);
+    this.startEditUserRequest(firstName, lastName, phoneNumber, updateUserRoles);
   }
 
   private startEditUserRequest(
+    firstName: string | undefined,
+    lastName: string | undefined,
     phoneNumber: string | undefined,
     updateUserRoles: UpdateUserRoles | undefined
   ) {
     const onSuccessFn = () => {
+      if (this.user && firstName) {
+        this.user.firstName = firstName;
+      }
+
+      if (this.user && lastName) {
+        this.user.lastName = lastName;
+      }
+
       if (this.user && phoneNumber) {
         this.user.phoneNumber = phoneNumber;
       }
@@ -172,6 +196,8 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
     if (this.user) {
       this.editUserStore.editUser({
         userId: this.user.id,
+        firstName,
+        lastName,
         phoneNumber,
         updateUserRoles,
         onSuccessFn,
