@@ -34,7 +34,7 @@ import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-pa
 import { DhChargesPricesDrawerComponent } from '../drawer/dh-charges-prices-drawer.component';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 import formatInTimeZone from 'date-fns-tz/formatInTimeZone';
-import { WattCardComponent } from '@energinet-datahub/watt/card';
+import { WattCardComponent, WattCardTitleComponent } from '@energinet-datahub/watt/card';
 
 @Component({
   standalone: true,
@@ -53,6 +53,7 @@ import { WattCardComponent } from '@energinet-datahub/watt/card';
     DhSharedUiPaginatorComponent,
     DhChargesPricesDrawerComponent,
     WattCardComponent,
+    WattCardTitleComponent,
   ],
   selector: 'dh-charges-prices-result',
   templateUrl: './dh-charges-prices-result.component.html',

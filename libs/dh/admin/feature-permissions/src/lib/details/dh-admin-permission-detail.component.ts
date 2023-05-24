@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { map, Subscription } from 'rxjs';
 
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattCardComponent } from '@energinet-datahub/watt/card';
 import {
   WattDescriptionListComponent,
@@ -43,7 +43,7 @@ import { DhAdminPermissionMarketRolesComponent } from './tabs/dh-admin-permissio
   templateUrl: './dh-admin-permission-detail.component.html',
   imports: [
     CommonModule,
-    WattDrawerModule,
+    WATT_DRAWER,
     TranslocoModule,
     WattCardComponent,
     WattDescriptionListComponent,

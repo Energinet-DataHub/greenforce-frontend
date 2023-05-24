@@ -21,7 +21,6 @@ import { fireEvent, within } from '@storybook/testing-library';
 import { WattButtonComponent } from '../../button';
 import { WattModalModule } from '../../modal';
 import { WattDrawerComponent } from '../watt-drawer.component';
-import { WattDrawerModule } from '../watt-drawer.module';
 import { WattStorybookDrawerContentModule } from './storybook-drawer-content.component';
 import { WattStorybookDrawerLoadingComponent } from './storybook-drawer-loading.component';
 
@@ -48,7 +47,7 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        WattDrawerModule,
+        WattDrawerComponent,
         BrowserAnimationsModule,
         WattButtonComponent,
         WattModalModule,

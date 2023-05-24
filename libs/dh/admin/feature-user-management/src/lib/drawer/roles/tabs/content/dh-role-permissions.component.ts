@@ -17,7 +17,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
-import { WattCardComponent } from '@energinet-datahub/watt/card';
+import { WattCardComponent, WattCardTitleComponent } from '@energinet-datahub/watt/card';
 import {
   MarketParticipantPermissionDetailsDto,
   MarketParticipantUserRoleWithPermissionsDto,
@@ -29,7 +29,7 @@ import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-
   selector: 'dh-role-permissions',
   standalone: true,
   templateUrl: './dh-role-permissions.component.html',
-  imports: [WATT_TABLE, WattCardComponent, TranslocoModule],
+  imports: [WATT_TABLE, WattCardComponent, WattCardTitleComponent, TranslocoModule],
 })
 export class DhRolePermissionsComponent implements OnChanges {
   @Input() role: MarketParticipantUserRoleWithPermissionsDto | null = null;

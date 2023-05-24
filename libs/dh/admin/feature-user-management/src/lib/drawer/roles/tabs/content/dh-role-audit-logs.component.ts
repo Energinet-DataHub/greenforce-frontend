@@ -29,7 +29,7 @@ import {
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { WattCardComponent } from '@energinet-datahub/watt/card';
+import { WattCardComponent, WattCardTitleComponent } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { MarketParticipantUserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
 
@@ -63,6 +63,7 @@ import { DhAuditChangeCellComponent } from './dh-audit-change-cell.component';
     PushModule,
     TranslocoModule,
     WattCardComponent,
+    WattCardTitleComponent,
     WattSpinnerComponent,
     WattEmptyStateComponent,
     WATT_TABLE,

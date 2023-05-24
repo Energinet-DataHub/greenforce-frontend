@@ -25,7 +25,7 @@ import { PushModule } from '@rx-angular/template/push';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattCardComponent } from '@energinet-datahub/watt/card';
+import { WattCardComponent, WattCardTitleComponent } from '@energinet-datahub/watt/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { takeUntil } from 'rxjs';
@@ -43,6 +43,7 @@ import { takeUntil } from 'rxjs';
     WattEmptyStateComponent,
     TranslocoModule,
     WattCardComponent,
+    WattCardTitleComponent,
     WATT_TABLE,
     MatDividerModule,
   ],

@@ -22,12 +22,11 @@ import { delay, distinctUntilChanged, map, tap, Observable, ReplaySubject } from
 
 import { WattButtonComponent } from '../../button';
 import { WattSpinnerComponent } from '../../spinner';
-import { WattDrawerComponent } from '../watt-drawer.component';
-import { WattDrawerModule } from '../watt-drawer.module';
+import { WattDrawerComponent, WATT_DRAWER } from '../watt-drawer.component';
 
 @Component({
   standalone: true,
-  imports: [WattButtonComponent, WattDrawerModule, WattSpinnerComponent, PushModule, CommonModule],
+  imports: [WattButtonComponent, WattSpinnerComponent, WATT_DRAWER, PushModule, CommonModule],
   selector: 'watt-storybook-drawer-loading',
   template: `
     <watt-drawer #drawer size="small" [loading]="loading" (closed)="onClose()">

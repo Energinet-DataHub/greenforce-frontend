@@ -16,7 +16,7 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WattCardComponent } from '@energinet-datahub/watt/card';
+import { WattCardComponent, WattCardTitleComponent } from '@energinet-datahub/watt/card';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattInputModule } from '@energinet-datahub/watt/input';
@@ -335,6 +335,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     ReactiveFormsModule,
     WattButtonComponent,
     WattCardComponent,
+    WattCardTitleComponent,
     WattCheckboxComponent,
     WattDatepickerModule,
     WattFormFieldModule,

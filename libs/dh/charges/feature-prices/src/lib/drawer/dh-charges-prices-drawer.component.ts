@@ -19,7 +19,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { PushModule } from '@rx-angular/template/push';
 
-import { WattDrawerModule, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -35,7 +35,7 @@ import { DhChargePriceMessageComponent } from './charge-message/dh-charge-price-
   standalone: true,
   imports: [
     CommonModule,
-    WattDrawerModule,
+    WATT_DRAWER,
     TranslocoModule,
     WattTabComponent,
     WattTabsComponent,

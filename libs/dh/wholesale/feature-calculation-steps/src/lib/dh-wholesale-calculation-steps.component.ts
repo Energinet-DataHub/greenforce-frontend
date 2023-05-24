@@ -28,10 +28,10 @@ import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattCardComponent } from '@energinet-datahub/watt/card';
+import { WattCardComponent, WattCardTitleComponent } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
@@ -42,8 +42,9 @@ import { DhWholesaleActorsComponent } from './actors/dh-wholesale-actors.compone
   styleUrls: ['./dh-wholesale-calculation-steps.component.scss'],
   standalone: true,
   imports: [
-    ...WATT_BREADCRUMBS,
-    ...WATT_EXPANDABLE_CARD_COMPONENTS,
+    WATT_BREADCRUMBS,
+    WATT_EXPANDABLE_CARD_COMPONENTS,
+    WATT_DRAWER,
     CommonModule,
     DhSharedUiDateTimeModule,
     LetModule,
@@ -52,7 +53,7 @@ import { DhWholesaleActorsComponent } from './actors/dh-wholesale-actors.compone
     WattBadgeComponent,
     WattButtonComponent,
     WattCardComponent,
-    WattDrawerModule,
+    WattCardTitleComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
     DhWholesaleActorsComponent,
