@@ -135,34 +135,22 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
       return this.closeModal(false);
     }
 
-    let firstName: string | undefined;
-    let lastName: string | undefined;
-    let phoneNumber: string | undefined;
-    let updateUserRoles: UpdateUserRoles | undefined;
-
-    if (this.firstNameControl.value !== this.user.firstName) {
-      firstName = this.firstNameControl.value;
-    }
-
-    if (this.lastNameControl.value !== this.user.lastName) {
-      lastName = this.lastNameControl.value;
-    }
-
-    if (this._updateUserRoles !== null) {
-      updateUserRoles = this._updateUserRoles;
-    }
-
-    if (phoneNumber === undefined && updateUserRoles === undefined) {
+    if (
+      this.firstNameControl.value === this.user.firstName &&
+      this.lastNameControl.value === this.user.lastName &&
+      this.phoneNumberControl.value === this.user.phoneNumber &&
+      this._updateUserRoles === null
+    ) {
       return this.closeModal(false);
     }
 
-    this.startEditUserRequest(firstName, lastName, phoneNumber, updateUserRoles);
+    this.startEditUserRequest(this.firstNameControl.value, this.lastNameControl.value, this.phoneNumberControl.value, this._updateUserRoles ?? undefined);
   }
 
   private startEditUserRequest(
-    firstName: string | undefined,
-    lastName: string | undefined,
-    phoneNumber: string | undefined,
+    firstName: string,
+    lastName: string,
+    phoneNumber: string,
     updateUserRoles: UpdateUserRoles | undefined
   ) {
     const onSuccessFn = () => {
@@ -200,23 +188,14 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   }
 
   private updateModel(
-    firstName: string | undefined,
-    lastName: string | undefined,
-    phoneNumber: string | undefined
+    firstName: string,
+    lastName: string,
+    phoneNumber: string
   ) {
     if (!this.user) return;
-
-    if (firstName) {
-      this.user.firstName = firstName;
-    }
-
-    if (lastName) {
-      this.user.lastName = lastName;
-    }
-
-    if (phoneNumber) {
-      this.user.phoneNumber = phoneNumber;
-    }
+    this.user.firstName = firstName;
+    this.user.lastName = lastName;
+    this.user.phoneNumber = phoneNumber;
   }
 
   closeModal(status: boolean): void {

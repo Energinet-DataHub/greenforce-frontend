@@ -46,9 +46,9 @@ export class DbAdminEditUserStore extends ComponentStore<State> {
     (
       trigger$: Observable<{
         userId: string;
-        firstName?: string;
-        lastName?: string;
-        phoneNumber?: string;
+        firstName: string;
+        lastName: string;
+        phoneNumber: string;
         updateUserRoles?: UpdateUserRoles;
         onSuccessFn: () => void;
         onErrorFn: (statusCode: HttpStatusCode) => void;
@@ -70,14 +70,12 @@ export class DbAdminEditUserStore extends ComponentStore<State> {
           }) => {
             const requests: Observable<unknown>[] = [];
 
-            if (firstName && lastName && phoneNumber) {
-              requests.push(
-                this.marketParticipantUserHttpClient.v1MarketParticipantUserUpdateUserIdentityPut(
-                  userId,
-                  { firstName, lastName, phoneNumber }
-                )
-              );
-            }
+            requests.push(
+              this.marketParticipantUserHttpClient.v1MarketParticipantUserUpdateUserIdentityPut(
+                userId,
+                { firstName, lastName, phoneNumber }
+              )
+            );
 
             if (updateUserRoles) {
               requests.push(this.userRolesStore.assignRoles(userId, updateUserRoles));
