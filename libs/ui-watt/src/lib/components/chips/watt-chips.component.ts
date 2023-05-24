@@ -67,7 +67,6 @@ export class WattChipsComponent {
     if (this.selection !== selection) {
       this.selection = selection;
       this.selectionChange.emit(this.selection);
-      console.log(this.selection);
     }
   }
 }
