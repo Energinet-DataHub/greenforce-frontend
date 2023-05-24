@@ -39,7 +39,7 @@ import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { map, type Subscription } from 'rxjs';
-import { WattCheckboxModule } from '../checkbox';
+import { WattCheckboxComponent } from '../checkbox';
 
 export interface WattTableColumn<T> {
   /**
@@ -141,7 +141,7 @@ export interface WattSortableDataSource<T> extends DataSource<T> {
  */
 @Component({
   standalone: true,
-  imports: [CommonModule, FormsModule, MatSortModule, MatTableModule, WattCheckboxModule],
+  imports: [CommonModule, FormsModule, MatSortModule, MatTableModule, WattCheckboxComponent],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-table',
   styleUrls: ['./watt-table.component.scss'],

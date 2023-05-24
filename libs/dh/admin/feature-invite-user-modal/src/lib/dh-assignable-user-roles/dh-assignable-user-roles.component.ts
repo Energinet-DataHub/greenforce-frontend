@@ -16,7 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
-import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
+import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { DbAdminAssignableUserRolesStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { FormsModule } from '@angular/forms';
@@ -35,7 +35,7 @@ import { takeUntil } from 'rxjs';
   standalone: true,
   imports: [
     CommonModule,
-    WattCheckboxModule,
+    WattCheckboxComponent,
     FormsModule,
     LetModule,
     PushModule,

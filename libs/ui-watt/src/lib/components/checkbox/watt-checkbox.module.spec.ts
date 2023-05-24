@@ -19,14 +19,14 @@ import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
-import { WattCheckboxModule } from './watt-checkbox.module';
+import { WattCheckboxComponent } from './watt-checkbox.component';
 
-describe(WattCheckboxModule.name, () => {
+describe(WattCheckboxComponent.name, () => {
   it('exports shared Watt Design System checkbox', async () => {
     const labelText = 'Text';
 
     const view = await render(`<watt-checkbox>${labelText}</watt-checkbox>`, {
-      imports: [WattCheckboxModule],
+      imports: [WattCheckboxComponent],
     });
 
     expect(view.queryByLabelText(labelText)).not.toBeNull();
@@ -45,7 +45,7 @@ describe(WattCheckboxModule.name, () => {
       }
 
       const { fixture } = await render(TestComponent, {
-        imports: [WattCheckboxModule, ReactiveFormsModule],
+        imports: [WattCheckboxComponent, ReactiveFormsModule],
       });
       const checkboxLabel = screen.queryByLabelText(labelText);
 
