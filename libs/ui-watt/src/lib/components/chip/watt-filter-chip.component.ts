@@ -28,8 +28,8 @@ import { WattChipComponent } from './watt-chip.component';
     <watt-chip [disabled]="disabled" [selected]="checkbox.checked">
       <input
         #checkbox
-        type="checkbox"
         class="cdk-visually-hidden"
+        [type]="choice === undefined ? 'checkbox' : 'radio'"
         [name]="name"
         [value]="value"
         [checked]="selected"
@@ -45,5 +45,6 @@ export class WattFilterChipComponent {
   @Input() disabled = false;
   @Input() name?: string;
   @Input() value?: string;
+  @Input() choice?: string;
   @Output() selectionChange = new EventEmitter<HTMLInputElement>();
 }

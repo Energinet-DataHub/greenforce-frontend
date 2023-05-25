@@ -16,24 +16,24 @@
  */
 import { StoryFn, Meta } from '@storybook/angular';
 
-import { WattChoiceChipComponent } from '../watt-choice-chip.component';
+import { WattFilterChipComponent } from '../watt-filter-chip.component';
 
-const meta: Meta<WattChoiceChipComponent> = {
+const meta: Meta<WattFilterChipComponent> = {
   title: 'Components/Chips/Choice',
-  component: WattChoiceChipComponent,
+  component: WattFilterChipComponent,
 };
 
 export default meta;
 
-export const Overview: StoryFn<WattChoiceChipComponent> = (args) => ({
+export const Overview: StoryFn<WattFilterChipComponent> = (args) => ({
   props: args,
   template: `
-    <watt-choice-chip [selected]="true" name="period" value="d">Day</watt-choice-chip>
-    <watt-choice-chip name="period" value="w">Week</watt-choice-chip>
-    <watt-choice-chip name="period" value="m">Month</watt-choice-chip>
-    <watt-choice-chip name="period" value="q">Quarter</watt-choice-chip>
-    <watt-choice-chip name="period" value="y">Year</watt-choice-chip>
-    <watt-choice-chip name="period" value="c">Custom</watt-choice-chip>
+    <watt-filter-chip choice [selected]="true" name="period" value="d">Day</watt-filter-chip>
+    <watt-filter-chip choice name="period" value="w">Week</watt-filter-chip>
+    <watt-filter-chip choice name="period" value="m">Month</watt-filter-chip>
+    <watt-filter-chip choice name="period" value="q">Quarter</watt-filter-chip>
+    <watt-filter-chip choice name="period" value="y">Year</watt-filter-chip>
+    <watt-filter-chip choice name="period" value="c">Custom</watt-filter-chip>
   `,
 });
 
