@@ -23,6 +23,14 @@
   width: $size;
 }
 
+@mixin symbol-settings($name) {
+  font-variation-settings:
+      'FILL' 0,
+      'wght' 100,
+      'GRAD' 0,
+      'opsz' 48;
+}
+
 watt-icon {
   display: flex;
   justify-content: center;
@@ -32,6 +40,7 @@ watt-icon {
     &.icon-size-#{$name} mat-icon,
     &.icon-size-#{$name} .mat-icon {
       @include icon-size($size);
+      @include symbol-settings($name);
     }
   }
 
