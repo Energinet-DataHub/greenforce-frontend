@@ -48,12 +48,10 @@ limitations under the License.
           }})</span
         >
 
-        <watt-button variant="text" (click)="downloadLogFile()" icon="download">{{
+        <watt-button variant="text" (click)="downloadDocument(message)" icon="download">{{
           t("download")
         }}</watt-button>
       </div>
-
-      <pre>{{ messageLog$ | push }}</pre>
     </watt-drawer-content>
   </watt-drawer>
 </ng-container>
