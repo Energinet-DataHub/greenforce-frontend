@@ -36,7 +36,7 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattTimepickerModule } from '@energinet-datahub/watt/timepicker';
+import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
@@ -60,7 +60,7 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     WattButtonComponent,
     WattCheckboxComponent,
     WattDatepickerModule,
-    WattTimepickerModule,
+    WattTimepickerComponent,
     FormsModule,
     CommonModule,
     LetModule,

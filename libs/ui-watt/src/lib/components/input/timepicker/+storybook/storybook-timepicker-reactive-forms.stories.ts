@@ -24,7 +24,6 @@ import { StorybookConfigurationLocalizationModule } from '../../+storybook/story
 import { WATT_FORM_FIELD } from '../../../form-field';
 import { WattRangeValidators } from '../../shared/validators';
 import { WattTimepickerComponent } from '../watt-timepicker.component';
-import { WattTimepickerModule } from '../watt-timepicker.module';
 
 export default {
   title: 'Components/Timepicker',
@@ -36,7 +35,7 @@ export default {
       ],
     }),
     moduleMetadata({
-      imports: [ReactiveFormsModule, WATT_FORM_FIELD, WattTimepickerModule],
+      imports: [ReactiveFormsModule, WATT_FORM_FIELD, WattTimepickerComponent],
     }),
   ],
   component: WattTimepickerComponent,

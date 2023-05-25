@@ -23,7 +23,7 @@ import userEvent from '@testing-library/user-event';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { DhConfigurationLocalizationModule } from '@energinet-datahub/dh/globalization/configuration-localization';
 
-import { WattTimepickerModule } from './watt-timepicker.module';
+import { WattTimepickerComponent } from './';
 import { WATT_FORM_FIELD } from '../../form-field';
 import { WattRange } from '../shared/watt-range';
 import { WattDanishDatetimeModule } from '../../../configuration/watt-danish-datetime.module';
@@ -31,7 +31,7 @@ import { WattDanishDatetimeModule } from '../../../configuration/watt-danish-dat
 const backspace = '{backspace}';
 const ARIA_VALUENOW = 'aria-valuenow';
 
-describe(WattTimepickerModule.name, () => {
+describe(WattTimepickerComponent.name, () => {
   async function setup({
     template,
     initialState = null,
@@ -51,7 +51,7 @@ describe(WattTimepickerModule.name, () => {
 
     const { fixture } = await render(TestComponent, {
       imports: [
-        WattTimepickerModule,
+        WattTimepickerComponent,
         ReactiveFormsModule,
         FormsModule,
         WATT_FORM_FIELD,
