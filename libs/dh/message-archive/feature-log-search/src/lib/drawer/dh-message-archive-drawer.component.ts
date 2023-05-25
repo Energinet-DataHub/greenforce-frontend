@@ -62,41 +62,51 @@ export class DhMessageArchiveDrawerComponent {
   @Input() actors: WattDropdownOptions | null = null;
 
   message: ArchivedMessage | null = null;
+  documentContent: string | null = null;
 
   constructor(private apiStore: DhMessageArchiveDocumentApiStore) {}
 
   open(message: ArchivedMessage) {
     this.message = message;
     this.drawer.open();
+    if (this.message) {
+      this.getDocument(this.message?.messageId);
+    }
   }
 
   onClose() {
     this.drawer.close();
   }
-  downloadDocument(message: ArchivedMessage | null) {
-    if (message === null) return;
 
+  getDocument(messageId: string) {
     this.apiStore.getDocument({
-      id: message.messageId,
+      id: messageId,
       onSuccessFn: this.onSuccesFn,
       onErrorFn: this.onErrorFn,
     });
   }
 
-  private readonly onSuccesFn = (id: string, data: Stream) => {
-    const blobPart = data as unknown as BlobPart;
+  downloadDocument() {
+    if (this.message && this.documentContent) return;
+
+    const blobPart = this.documentContent as unknown as BlobPart;
     const blob = new Blob([blobPart]);
-    const basisData = window.URL.createObjectURL(blob);
+    const url = window.URL.createObjectURL(blob);
     const link = this.document.createElement('a');
-    link.href = basisData;
-    link.download = `${id}.txt`;
+    link.href = url;
+    link.download = `${this.message?.messageId}.txt`;
     link.click();
     link.remove();
+  }
+
+  private readonly onSuccesFn = async (id: string, data: Stream) => {
+    const blobPart = data as unknown as BlobPart;
+    const blob = new Blob([blobPart]);
+    this.documentContent = await new Response(blob).text();
   };
 
   private readonly onErrorFn = () => {
-    const message = this.transloco.translate('messageArchive.document.downloadFailed');
-
-    this.toastService.open({ message, type: 'danger' });
+    const errorText = this.transloco.translate('messageArchive.document.loadFailed');
+    this.toastService.open({ message: errorText, type: 'danger' });
   };
 }
