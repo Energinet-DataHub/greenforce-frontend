@@ -460,7 +460,7 @@
       "download": "Download"
     },
     "document": {
-      "downloadFailed": "Failed to download document"
+      "loadFailed": "Failed to load document"
     },
     "search": {
       "topBarTitle": "Search in request and response messages",

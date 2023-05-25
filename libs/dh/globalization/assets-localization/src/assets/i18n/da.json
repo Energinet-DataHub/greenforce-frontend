@@ -453,7 +453,7 @@
       "download": "Download"
     },
     "document": {
-      "downloadFailed": "Kunne ikke hente dokumentet"
+      "loadFailed": "Kunne ikke hente dokumentet"
     },
     "search": {
       "topBarTitle": "Fremsøg forretningsbesked",
