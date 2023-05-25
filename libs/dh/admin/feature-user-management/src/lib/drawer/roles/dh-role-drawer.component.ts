@@ -33,7 +33,7 @@ import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-data-general-error.component';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 @Component({
   selector: 'dh-role-drawer',
   standalone: true,
@@ -53,7 +53,7 @@ import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/mod
     DhTabDataGeneralErrorComponent,
     DhEditUserRoleModalComponent,
     DhPermissionRequiredDirective,
-    WattModalModule,
+    WATT_MODAL,
   ],
 })
 export class DhRoleDrawerComponent {

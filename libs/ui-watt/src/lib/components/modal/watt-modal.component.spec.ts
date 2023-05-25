@@ -18,7 +18,7 @@ import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import { WattButtonComponent } from '../button';
-import { WattModalModule } from './watt-modal.module';
+import { WATT_MODAL } from './';
 import { WattModalComponent } from './watt-modal.component';
 
 const template = `
@@ -45,7 +45,7 @@ interface Properties {
 function setup(componentProperties?: Properties) {
   return render(template, {
     declarations: [WattModalComponent],
-    imports: [WattButtonComponent, WattModalModule],
+    imports: [WattButtonComponent, WATT_MODAL],
     componentProperties,
   });
 }

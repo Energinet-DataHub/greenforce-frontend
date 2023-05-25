@@ -38,7 +38,7 @@ import {
   MarketParticipantActorContactDto,
   MarketParticipantActorStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { WattModalModule, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -132,7 +132,7 @@ export class DhMarketParticipantEditActorComponent {
     WattTabComponent,
     WattTabsComponent,
     WattSpinnerComponent,
-    WattModalModule,
+    WATT_MODAL,
     PushModule,
     DhMarketParticipantActorMasterDataComponentScam,
     DhMarketParticipantActorContactDataComponentScam,

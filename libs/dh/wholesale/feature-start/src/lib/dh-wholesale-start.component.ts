@@ -44,7 +44,7 @@ import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import {
   WattChipsComponent,
@@ -86,7 +86,7 @@ interface CreateBatchFormValues {
     WattEmptyStateComponent,
     WattChipsComponent,
     WattValidationMessageModule,
-    WattModalModule,
+    WATT_MODAL,
   ],
 })
 export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestroy {

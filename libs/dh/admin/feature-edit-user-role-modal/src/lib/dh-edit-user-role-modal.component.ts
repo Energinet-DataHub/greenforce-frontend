@@ -36,7 +36,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
-import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattCardComponent, WattCardTitleComponent } from '@energinet-datahub/watt/card';
@@ -79,7 +79,7 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
     CommonModule,
     PushModule,
     LetModule,
-    WattModalModule,
+    WATT_MODAL,
     WattButtonComponent,
     TranslocoModule,
     WattTabComponent,

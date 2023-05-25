@@ -35,7 +35,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
 import { provideComponentStore } from '@ngrx/component-store';
 
-import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
@@ -75,7 +75,7 @@ interface UserRoleForm {
     provideComponentStore(DhAdminMarketRolePermissionsStore),
   ],
   imports: [
-    WattModalModule,
+    WATT_MODAL,
     WattButtonComponent,
     TranslocoModule,
     WattIconComponent,

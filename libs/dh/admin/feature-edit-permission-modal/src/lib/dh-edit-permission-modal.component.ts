@@ -31,7 +31,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PushModule } from '@rx-angular/template/push';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import {
   PermissionDto,
@@ -62,7 +62,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
     TranslocoModule,
     ReactiveFormsModule,
     PushModule,
-    WattModalModule,
+    WATT_MODAL,
     WattButtonComponent,
     WattTabComponent,
     WattTabsComponent,

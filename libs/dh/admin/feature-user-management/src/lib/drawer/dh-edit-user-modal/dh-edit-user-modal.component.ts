@@ -36,7 +36,7 @@ import { UpdateUserRoles, DbAdminEditUserStore } from '@energinet-datahub/dh/adm
 import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -47,7 +47,7 @@ import { HttpStatusCode } from '@angular/common/http';
   standalone: true,
   imports: [
     CommonModule,
-    WattModalModule,
+    WATT_MODAL,
     WattButtonComponent,
     TranslocoModule,
     WattTabComponent,

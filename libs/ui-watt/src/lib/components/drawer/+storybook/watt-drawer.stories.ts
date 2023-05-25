@@ -19,7 +19,7 @@ import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 import { fireEvent, within } from '@storybook/testing-library';
 
 import { WattButtonComponent } from '../../button';
-import { WattModalModule } from '../../modal';
+import { WATT_MODAL } from '../../modal';
 import { WattDrawerComponent } from '../watt-drawer.component';
 import { WattStorybookDrawerContentModule } from './storybook-drawer-content.component';
 import { WattStorybookDrawerLoadingComponent } from './storybook-drawer-loading.component';
@@ -50,7 +50,7 @@ export default {
         WattDrawerComponent,
         BrowserAnimationsModule,
         WattButtonComponent,
-        WattModalModule,
+        WATT_MODAL,
         WattStorybookDrawerContentModule,
         WattStorybookDrawerLoadingComponent,
       ],

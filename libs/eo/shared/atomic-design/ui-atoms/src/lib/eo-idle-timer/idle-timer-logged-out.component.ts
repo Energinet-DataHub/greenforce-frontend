@@ -17,11 +17,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattModalModule } from '@energinet-datahub/watt/modal';
+import { WATT_MODAL } from '@energinet-datahub/watt/modal';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [WattButtonComponent, WattModalModule],
+  imports: [WattButtonComponent, WATT_MODAL],
   selector: 'eo-idle-timer-modal',
   standalone: true,
   styles: [

@@ -18,12 +18,12 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattModalModule } from '@energinet-datahub/watt/modal';
+import { WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { map, take, tap, timer } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [WattButtonComponent, WattModalModule, AsyncPipe, DatePipe],
+  imports: [WattButtonComponent, WATT_MODAL, AsyncPipe, DatePipe],
   selector: 'eo-idle-timer-modal',
   standalone: true,
   styles: [

@@ -21,7 +21,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { WattButtonComponent } from '../button';
 import { WattInputDirective } from '../input';
 import { WATT_FORM_FIELD } from '../form-field';
-import { WattModalModule } from './watt-modal.module';
+import { WATT_MODAL } from './';
 import { WattModalComponent } from './watt-modal.component';
 import { WattTooltipDirective } from '../tooltip';
 
@@ -38,7 +38,7 @@ const meta: Meta<WattModalComponent> = {
         WattButtonComponent,
         WATT_FORM_FIELD,
         WattInputDirective,
-        WattModalModule,
+        WATT_MODAL,
         WattTooltipDirective,
       ],
     }),
