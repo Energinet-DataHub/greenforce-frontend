@@ -34,7 +34,7 @@ import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy
 import { OverlayModule } from '@angular/cdk/overlay';
 
 import { WattButtonComponent } from '../../button';
-import { WattSliderModule } from '../../slider/watt-slider.module';
+import { WattSliderComponent } from '../../slider';
 import { BehaviorSubject, distinctUntilChanged, EMPTY, map, takeUntil } from 'rxjs';
 
 import { WattInputMaskService, WattMaskedInput } from '../shared/watt-input-mask.service';
@@ -100,7 +100,7 @@ const getTruthyAt =
   imports: [
     MatDatepickerModule,
     WattButtonComponent,
-    WattSliderModule,
+    WattSliderComponent,
     MatInputModule,
     OverlayModule,
     CommonModule,
