@@ -69,8 +69,7 @@ export class DhMessageArchiveDrawerComponent {
   open(message: ArchivedMessage) {
     this.message = message;
     this.drawer.open();
-    if(this.message)
-    {
+    if (this.message) {
       this.getDocument(this.message?.messageId);
     }
   }
@@ -88,7 +87,7 @@ export class DhMessageArchiveDrawerComponent {
   }
 
   downloadDocument() {
-    if(this.message && this.documentContent) return;
+    if (this.message && this.documentContent) return;
 
     const blobPart = this.documentContent as unknown as BlobPart;
     const blob = new Blob([blobPart]);
@@ -108,6 +107,6 @@ export class DhMessageArchiveDrawerComponent {
 
   private readonly onErrorFn = () => {
     const errorText = this.transloco.translate('messageArchive.document.loadFailed');
-    this.toastService.open({ message:errorText, type: 'danger' });
+    this.toastService.open({ message: errorText, type: 'danger' });
   };
 }
