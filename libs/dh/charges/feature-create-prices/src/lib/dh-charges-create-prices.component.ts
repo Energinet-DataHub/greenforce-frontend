@@ -32,7 +32,7 @@ import { Subject, take, takeUntil } from 'rxjs';
 import { ChargeTypes, ResolutionOptions } from '@energinet-datahub/dh/charges/domain';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import {
   DhChargesDataAccessApiStore,
   DhMarketParticipantDataAccessApiStore,
@@ -337,7 +337,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     WattCardComponent,
     WattCardTitleComponent,
     WattCheckboxComponent,
-    WattDatepickerModule,
+    WattDatepickerComponent,
     WATT_FORM_FIELD,
     WattInputDirective,
     WattDropdownComponent,

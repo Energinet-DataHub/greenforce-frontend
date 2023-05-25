@@ -43,7 +43,7 @@ import { Apollo } from 'apollo-angular';
 
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
-import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { PushModule } from '@rx-angular/template/push';
@@ -57,7 +57,7 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
     ReactiveFormsModule,
     TranslocoModule,
     WattButtonComponent,
-    WattDatepickerModule,
+    WattDatepickerComponent,
     WATT_FORM_FIELD,
     WattDropdownComponent,
     PushModule,

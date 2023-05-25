@@ -21,7 +21,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCardComponent, WattCardTitleComponent } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { Subject, takeUntil } from 'rxjs';
@@ -41,7 +41,7 @@ import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
     TranslocoModule,
     WattButtonComponent,
     WattChipsComponent,
-    WattDatepickerModule,
+    WattDatepickerComponent,
     ReactiveFormsModule,
     WATT_FORM_FIELD,
     WattDropdownComponent,

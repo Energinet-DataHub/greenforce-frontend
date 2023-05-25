@@ -21,7 +21,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
-import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
 
@@ -32,7 +32,7 @@ import { WattInputDirective } from '@energinet-datahub/watt/input';
     ReactiveFormsModule,
     TranslocoModule,
     WattButtonComponent,
-    WattDatepickerModule,
+    WattDatepickerComponent,
     WATT_FORM_FIELD,
     WattInputDirective,
   ],

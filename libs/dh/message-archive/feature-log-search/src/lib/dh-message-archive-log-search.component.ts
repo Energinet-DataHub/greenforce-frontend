@@ -29,7 +29,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import {
   danishTimeZoneIdentifier,
-  WattDatepickerModule,
+  WattDatepickerComponent,
   WattRange,
 } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -59,7 +59,7 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     WattInputDirective,
     WattButtonComponent,
     WattCheckboxComponent,
-    WattDatepickerModule,
+    WattDatepickerComponent,
     WattTimepickerComponent,
     FormsModule,
     CommonModule,
