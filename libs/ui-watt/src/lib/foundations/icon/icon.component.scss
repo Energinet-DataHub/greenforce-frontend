@@ -16,31 +16,28 @@
  */
 @use "./watt-icon-variables" as variables;
 
-@mixin icon-size($size) {
-  font-size: $size;
-  line-height: $size;
-  height: $size;
-  width: $size;
-}
-
-@mixin symbol-settings($name) {
-  font-variation-settings:
-      'FILL' 0,
-      'wght' 100,
-      'GRAD' 0,
-      'opsz' 48;
-}
-
 watt-icon {
   display: flex;
   justify-content: center;
   align-items: center;
 
-  @each $name, $size in variables.$sizes {
-    &.icon-size-#{$name} mat-icon,
-    &.icon-size-#{$name} .mat-icon {
-      @include icon-size($size);
-      @include symbol-settings($name);
+  @each $name, $settings in variables.$settings {
+    $size: map-get($settings, size);
+    $weight: map-get($settings, weight);
+    $grade: map-get($settings, grade);
+    $opticalSize: map-get($settings, optical-size);
+
+    &.icon-size-#{$name} {
+      .mat-icon {
+        font-size: $size;
+        line-height: $size;
+        width: $size;
+        height: $size;
+      }
+
+      .material-symbols-sharp {
+        font-variation-settings: 'FILL' 0, 'wght' $weight, 'GRAD' $grade, 'opsz' $opticalSize;
+      }
     }
   }
 
