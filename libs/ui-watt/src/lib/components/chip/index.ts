@@ -14,10 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-watt-chips {
-  display: flex;
-
-  watt-chip:not(:last-child) {
-    margin-right: var(--watt-space-s);
-  }
-}
+export { WattChoiceChipComponent } from './watt-choice-chip.component';
+export { WattFilterChipComponent } from './watt-filter-chip.component';
+export { WattMenuChipComponent } from './watt-menu-chip.component';

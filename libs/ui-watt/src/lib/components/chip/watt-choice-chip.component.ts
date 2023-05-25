@@ -15,25 +15,35 @@
  * limitations under the License.
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { WattIconModule } from '../../foundations/icon/icon.module';
+import { WattChipComponent } from './watt-chip.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, WattIconModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'watt-chip',
-  styleUrls: ['./watt-chip.component.scss'],
+  imports: [WattChipComponent, WattIconModule],
+  selector: 'watt-choice-chip',
   template: `
-    <label [class.selected]="selected" [class.disabled]="disabled">
-      <watt-icon class="selected-icon" name="checkmark" *ngIf="selected" size="s" />
+    <watt-chip [disabled]="disabled" [selected]="radio.checked">
+      <input
+        #radio
+        type="radio"
+        class="cdk-visually-hidden"
+        [name]="name"
+        [value]="value"
+        [checked]="selected"
+        [disabled]="disabled"
+        (change)="selectionChange.emit(radio)"
+      />
       <ng-content />
-    </label>
+    </watt-chip>
   `,
 })
-export class WattChipComponent {
+export class WattChoiceChipComponent {
   @Input() selected = false;
   @Input() disabled = false;
+  @Input() name?: string;
+  @Input() value?: string;
+  @Output() selectionChange = new EventEmitter<HTMLInputElement>();
 }

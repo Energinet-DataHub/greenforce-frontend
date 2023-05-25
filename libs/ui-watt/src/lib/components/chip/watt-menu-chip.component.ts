@@ -14,31 +14,58 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-  HostBinding,
-  Input,
-  Output,
-  EventEmitter
-} from '@angular/core';
+
+import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { WattChipComponent } from '../chip/watt-chip.component';
 import { WattIconModule } from '../../foundations/icon/icon.module';
+import { WattChipComponent } from './watt-chip.component';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector: 'watt-chip-menu',
-  styleUrls: ['./watt-chip-menu.component.scss'],
-  templateUrl: './watt-chip-menu.component.html',
   standalone: true,
   imports: [CommonModule, WattChipComponent, WattIconModule],
+  selector: 'watt-menu-chip',
+  styles: [
+    `
+      button {
+        all: unset;
+      }
+
+      .menu-icon {
+        margin-left: var(--watt-space-xs);
+        transition: linear 0.2s all;
+        color: var(--watt-color-primary);
+      }
+
+      .opened {
+        transform: rotate(180deg);
+      }
+
+      .selected {
+        color: var(--watt-color-neutral-white);
+      }
+    `,
+  ],
+  template: `
+    <watt-chip [disabled]="disabled" [selected]="selected">
+      <button (click)="toggleMenu()" [disabled]="disabled">
+        <ng-content />
+      </button>
+      <watt-icon
+        size="s"
+        name="arrowDropDown"
+        class="menu-icon"
+        [class.opened]="opened"
+        [class.selected]="selected"
+      />
+    </watt-chip>
+  `,
 })
-export class WattChipMenuComponent {
+export class WattMenuChipComponent {
   @Input() opened = false;
+  @Input() disabled = false;
+  @Input() name?: string;
+  @Input() value?: string;
   @Input() selected = false;
   @Input() @HostBinding('attr.aria-haspopup') hasPopup:
     | 'menu'
@@ -49,7 +76,9 @@ export class WattChipMenuComponent {
 
   @Output() toggle = new EventEmitter<void>();
 
-  @HostBinding('attr.aria-disabled') get ariaExpanded() { return this.opened; }
+  @HostBinding('attr.aria-expanded') get ariaExpanded() {
+    return this.opened;
+  }
 
   toggleMenu() {
     this.toggle.emit();
