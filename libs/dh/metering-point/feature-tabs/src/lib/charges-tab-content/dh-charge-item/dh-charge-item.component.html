@@ -55,7 +55,7 @@ limitations under the License.
       }}</mat-header-cell>
       <mat-cell *matCellDef="let row">
         <div class="watt-text-s">
-          <watt-icon name="date" size="s" class="primary-color"></watt-icon>
+          <watt-icon name="date" size="xs" class="primary-color"></watt-icon>
         </div>
         <div class="watt-text-s" data-testid="date-cell-from">
           {{ row.startDate | dhDate }}
@@ -63,7 +63,7 @@ limitations under the License.
         <ng-container *ngIf="row.endDate">
           <div class="watt-text-s secondary-text" *transloco="let transloco">-</div>
           <div class="watt-text-s">
-            <watt-icon name="date" size="s" class="primary-color"></watt-icon>
+            <watt-icon name="date" size="xs" class="primary-color"></watt-icon>
           </div>
           <div class="watt-text-s" data-testid="date-cell-to">
             {{ row.endDate | dhDate }}
@@ -89,7 +89,7 @@ limitations under the License.
         </div>
         <ng-container *ngIf="row.taxIndicator">
           <div class="watt-text-s" *transloco="let transloco">
-            <watt-icon name="success" size="s" class="primary-color"></watt-icon>
+            <watt-icon name="success" size="xs" class="primary-color"></watt-icon>
           </div>
           <div class="watt-text-s" *transloco="let transloco" data-testid="tax-cell">
             {{ transloco("charges.taxIndicator") }}
@@ -107,7 +107,7 @@ limitations under the License.
       <mat-cell *matCellDef="let row">
         <ng-container *ngIf="row.transparentInvoicing">
           <div class="watt-text-s">
-            <watt-icon name="success" size="s" class="primary-color"></watt-icon>
+            <watt-icon name="success" size="xs" class="primary-color"></watt-icon>
           </div>
           <div class="watt-text-s" *transloco="let transloco" data-testid="invoicing-cell">
             {{ transloco("charges.transparentInvoicing") }}
