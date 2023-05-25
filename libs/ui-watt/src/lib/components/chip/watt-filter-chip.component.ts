@@ -25,16 +25,16 @@ import { WattChipComponent } from './watt-chip.component';
   imports: [WattChipComponent, WattIconModule],
   selector: 'watt-filter-chip',
   template: `
-    <watt-chip [disabled]="disabled" [selected]="checkbox.checked">
+    <watt-chip [disabled]="disabled" [selected]="input.checked">
       <input
-        #checkbox
+        #input
         class="cdk-visually-hidden"
         [type]="choice === undefined ? 'checkbox' : 'radio'"
         [name]="name"
         [value]="value"
         [checked]="selected"
         [disabled]="disabled"
-        (change)="selectionChange.emit(checkbox)"
+        (change)="selectionChange.emit(input)"
       />
       <ng-content />
     </watt-chip>
