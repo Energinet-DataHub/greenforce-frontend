@@ -29,6 +29,7 @@ export const eoIntroductionRoutePath = 'introduction';
 export const eoSimultaneityRoutePath = 'simultaneity';
 export const eoGeographyRoutePath = 'geography';
 export const eoTermsRoutePath = 'terms';
+export const eoTransferRoutePath = 'transfer';
 
 export const eoRoutes = {
   certificates: eoCertificatesRoutePath,
@@ -46,4 +47,5 @@ export const eoRoutes = {
   simultaneity: eoSimultaneityRoutePath,
   geography: eoGeographyRoutePath,
   terms: eoTermsRoutePath,
+  transfer: eoTransferRoutePath,
 };

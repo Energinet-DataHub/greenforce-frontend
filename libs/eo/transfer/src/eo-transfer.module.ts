@@ -14,12 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-watt-card-title {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
 
-  h3 {
-    margin-right: auto;
-  }
-}
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { EoTransferComponent } from './lib/eo-transfer.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    data: { title: 'Transfer' },
+    component: EoTransferComponent,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes), EoTransferComponent],
+})
+export class EoTransferModule {}
