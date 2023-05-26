@@ -11,10 +11,11 @@
  */
 
 
-export type MarketParticipantUserOverviewSortProperty = 'Name' | 'Email' | 'PhoneNumber' | 'CreatedDate' | 'Status';
+export type MarketParticipantUserOverviewSortProperty = 'FirstName' | 'LastName' | 'Email' | 'PhoneNumber' | 'CreatedDate' | 'Status';
 
 export const MarketParticipantUserOverviewSortProperty = {
-    Name: 'Name' as MarketParticipantUserOverviewSortProperty,
+    FirstName: 'FirstName' as MarketParticipantUserOverviewSortProperty,
+    LastName: 'LastName' as MarketParticipantUserOverviewSortProperty,
     Email: 'Email' as MarketParticipantUserOverviewSortProperty,
     PhoneNumber: 'PhoneNumber' as MarketParticipantUserOverviewSortProperty,
     CreatedDate: 'CreatedDate' as MarketParticipantUserOverviewSortProperty,

@@ -20,7 +20,7 @@ limitations under the License.
       <dh-user-status *ngIf="selectedUser" [status]="selectedUser.status"></dh-user-status>
     </watt-drawer-topbar>
     <watt-drawer-heading>
-      <h2>{{ selectedUser?.name }}</h2>
+      <h2>{{ selectedUser?.firstName + " " + selectedUser?.lastName }}</h2>
     </watt-drawer-heading>
 
     <watt-drawer-actions>

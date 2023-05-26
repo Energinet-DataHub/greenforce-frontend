@@ -1033,7 +1033,8 @@
           },
           "table": {
             "columns": {
-              "name": "Navn",
+              "firstName": "Fornavn",
+              "lastName": "Efternavn",
               "email": "Email",
               "phone": "Telefon",
               "assignedActors": "Tildelte aktører",
@@ -1110,7 +1111,8 @@
           "roles": "Brugerroller"
         },
         "masterData": {
-          "fullName": "Navn",
+          "firstName": "Fornavn",
+          "lastName": "Efternavn",
           "phone": "Telefonnr."
         },
         "phoneNumberError": "Telefonnr. format +45 12345678"

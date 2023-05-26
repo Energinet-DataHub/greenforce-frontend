@@ -74,7 +74,8 @@ export class DhUsersTabTableComponent implements AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   columns: WattTableColumnDef<MarketParticipantUserOverviewItemDto> = {
-    name: { accessor: 'name' },
+    firstName: { accessor: 'firstName' },
+    lastName: { accessor: 'lastName' },
     email: { accessor: 'email' },
     phoneNumber: { accessor: 'phoneNumber' },
     assignedActors: { accessor: 'assignedActors', sort: false },
