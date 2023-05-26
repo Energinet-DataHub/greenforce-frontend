@@ -40,8 +40,8 @@ Then('The popup closes', () => {
   shared.cookieBannerIsNotVisible();
 });
 
-Then('I can see 3 start buttons', () => {
-  landingPage.startButtonsVisible(3);
+Then('I can see 1 login button', () => {
+  landingPage.loginButtonsVisible(1);
 });
 
 Then('I can see a footer with content in it', () => {
