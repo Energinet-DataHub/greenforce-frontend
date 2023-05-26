@@ -46,11 +46,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
-import {
-  WattChipsComponent,
-  WattChipsOption,
-  WattChipsSelection,
-} from '@energinet-datahub/watt/chips';
+import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
@@ -84,7 +80,7 @@ interface CreateBatchFormValues {
     WattInputDirective,
     WattSpinnerComponent,
     WattEmptyStateComponent,
-    WattChipsComponent,
+    WattFilterChipComponent,
     WattValidationMessageComponent,
     WATT_MODAL,
   ],
@@ -122,7 +118,6 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
   onDateRangeChange$ = this.createBatchForm.controls.dateRange.valueChanges.pipe(startWith(null));
 
   processTypes: WattDropdownOption[] = [];
-  executionTypes: WattChipsOption[] = [];
 
   selectedExecutionType = 'ACTUAL';
   latestPeriodEnd?: string | null;
@@ -146,7 +141,6 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
 
   ngOnInit(): void {
     this.getProcessTypes();
-    this.getExecutionTypes();
     this.toggleGridAreasControl();
 
     // Close toast on navigation
@@ -167,8 +161,8 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
     this.executionTypeChanged$.complete();
   }
 
-  onExecutionTypeSelected(selection: WattChipsSelection) {
-    this.selectedExecutionType = selection as string;
+  onExecutionTypeSelected(selection: HTMLInputElement) {
+    this.selectedExecutionType = selection.value;
     this.executionTypeChanged$.next();
   }
 
@@ -180,19 +174,6 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
         this.processTypes = Object.values(graphql.ProcessType).map((value) => ({
           displayValue: processTypesTranslation[value],
           value,
-        }));
-      });
-  }
-
-  private getExecutionTypes(): void {
-    this.transloco
-      .selectTranslateObject('wholesale.startBatch.executionTypes')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((executionTypesTranslation) => {
-        this.executionTypes = Object.keys(executionTypesTranslation).map((key) => ({
-          label: executionTypesTranslation[key],
-          value: key,
-          disabled: key !== 'ACTUAL',
         }));
       });
   }
