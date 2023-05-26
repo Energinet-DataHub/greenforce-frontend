@@ -46,7 +46,9 @@ export class DbAdminEditUserStore extends ComponentStore<State> {
     (
       trigger$: Observable<{
         userId: string;
-        phoneNumber?: string;
+        firstName: string;
+        lastName: string;
+        phoneNumber: string;
         updateUserRoles?: UpdateUserRoles;
         onSuccessFn: () => void;
         onErrorFn: (statusCode: HttpStatusCode) => void;
@@ -56,35 +58,43 @@ export class DbAdminEditUserStore extends ComponentStore<State> {
         tap(() => {
           this.setSaving(SavingState.SAVING);
         }),
-        exhaustMap(({ userId, phoneNumber, updateUserRoles, onSuccessFn, onErrorFn }) => {
-          const requests: Observable<unknown>[] = [];
+        exhaustMap(
+          ({
+            userId,
+            firstName,
+            lastName,
+            phoneNumber,
+            updateUserRoles,
+            onSuccessFn,
+            onErrorFn,
+          }) => {
+            const requests: Observable<unknown>[] = [];
 
-          if (phoneNumber) {
             requests.push(
               this.marketParticipantUserHttpClient.v1MarketParticipantUserUpdateUserIdentityPut(
                 userId,
-                { phoneNumber }
+                { firstName, lastName, phoneNumber }
+              )
+            );
+
+            if (updateUserRoles) {
+              requests.push(this.userRolesStore.assignRoles(userId, updateUserRoles));
+            }
+
+            return forkJoin(requests).pipe(
+              tapResponse(
+                () => {
+                  this.setSaving(SavingState.SAVED);
+                  onSuccessFn();
+                },
+                (error: HttpErrorResponse) => {
+                  this.setSaving(ErrorState.GENERAL_ERROR);
+                  onErrorFn(error.status);
+                }
               )
             );
           }
-
-          if (updateUserRoles) {
-            requests.push(this.userRolesStore.assignRoles(userId, updateUserRoles));
-          }
-
-          return forkJoin(requests).pipe(
-            tapResponse(
-              () => {
-                this.setSaving(SavingState.SAVED);
-                onSuccessFn();
-              },
-              (error: HttpErrorResponse) => {
-                this.setSaving(ErrorState.GENERAL_ERROR);
-                onErrorFn(error.status);
-              }
-            )
-          );
-        })
+        )
       )
   );
 

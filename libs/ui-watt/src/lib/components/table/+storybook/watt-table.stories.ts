@@ -106,7 +106,7 @@ export const Table: StoryFn = (args) => {
           <div style="display: flex">
             <watt-icon
               name="date"
-              size="s"
+              size="xs"
               class="date-icon watt-space-inline-s"
             ></watt-icon>
             <span class="watt-text-s">{{ element.symbol }}</span>

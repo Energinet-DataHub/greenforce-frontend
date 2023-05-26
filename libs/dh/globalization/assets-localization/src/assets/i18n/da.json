@@ -452,6 +452,9 @@
       "receiver": "Modtager",
       "download": "Download"
     },
+    "document": {
+      "loadFailed": "Kunne ikke hente dokumentet"
+    },
     "search": {
       "topBarTitle": "Fremsøg forretningsbesked",
       "documentType": "Dokumenttype",
@@ -1030,7 +1033,8 @@
           },
           "table": {
             "columns": {
-              "name": "Navn",
+              "firstName": "Fornavn",
+              "lastName": "Efternavn",
               "email": "Email",
               "phone": "Telefon",
               "assignedActors": "Tildelte aktører",
@@ -1107,7 +1111,8 @@
           "roles": "Brugerroller"
         },
         "masterData": {
-          "fullName": "Navn",
+          "firstName": "Fornavn",
+          "lastName": "Efternavn",
           "phone": "Telefonnr."
         },
         "phoneNumberError": "Telefonnr. format +45 12345678"
