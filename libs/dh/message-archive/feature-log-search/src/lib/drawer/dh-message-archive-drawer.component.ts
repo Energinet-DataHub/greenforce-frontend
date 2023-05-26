@@ -87,8 +87,6 @@ export class DhMessageArchiveDrawerComponent {
   }
 
   downloadDocument() {
-    if (this.message && this.documentContent) return;
-
     const blobPart = this.documentContent as unknown as BlobPart;
     const blob = new Blob([blobPart]);
     const url = window.URL.createObjectURL(blob);
