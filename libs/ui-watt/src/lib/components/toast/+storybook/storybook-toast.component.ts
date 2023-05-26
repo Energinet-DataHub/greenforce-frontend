@@ -19,7 +19,6 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  NgModule,
   QueryList,
   ViewChildren,
 } from '@angular/core';
@@ -35,6 +34,9 @@ import { WattToastComponent, WattToastConfig, WattToastType } from '../watt-toas
   selector: 'storybook-toast',
   templateUrl: './storybook-toast.html',
   styleUrls: ['./storybook-toast.scss'],
+  standalone: true,
+  imports: [WattButtonComponent, MatSnackBarModule, WattToastComponent],
+  providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: {} }],
 })
 export class StorybookToastComponent implements AfterViewInit {
   @ViewChildren(WattToastComponent) toasts!: QueryList<WattToastComponent>;
@@ -77,11 +79,3 @@ export class StorybookToastComponent implements AfterViewInit {
     }
   }
 }
-
-@NgModule({
-  imports: [WattToastComponent, WattButtonComponent, MatSnackBarModule],
-  declarations: [StorybookToastComponent],
-  providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: {} }],
-  exports: [StorybookToastComponent],
-})
-export class StorybookToastModule {}

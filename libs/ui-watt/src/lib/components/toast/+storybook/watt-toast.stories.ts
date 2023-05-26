@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
 
 import { WattToastConfig } from '../watt-toast.component';
-import { StorybookToastModule } from './storybook-toast.component';
+import { StorybookToastComponent } from './storybook-toast.component';
 import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { importProvidersFrom } from '@angular/core';
 
@@ -30,7 +30,7 @@ export default {
       providers: [importProvidersFrom(MatSnackBarModule), provideAnimations()],
     }),
     moduleMetadata({
-      imports: [StorybookToastModule],
+      imports: [StorybookToastComponent],
     }),
   ],
   parameters: {
