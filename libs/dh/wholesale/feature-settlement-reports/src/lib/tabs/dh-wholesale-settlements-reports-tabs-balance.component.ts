@@ -32,10 +32,7 @@ import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
   standalone: true,
   selector: 'dh-wholesale-settlements-reports-tabs-balance',
   templateUrl: './dh-wholesale-settlements-reports-tabs-balance.component.html',
-  styleUrls: [
-    '../dh-wholesale-settlements-reports-tab.component.scss',
-    './dh-wholesale-settlements-reports-tabs-balance.component.scss',
-  ],
+  styleUrls: ['./dh-wholesale-settlements-reports-tabs-balance.component.scss'],
   imports: [
     WATT_TABS,
     WattCardModule,
