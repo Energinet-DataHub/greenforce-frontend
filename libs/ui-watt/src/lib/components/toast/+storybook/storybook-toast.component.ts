@@ -23,7 +23,8 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+import { MAT_LEGACY_SNACK_BAR_DATA as MAT_SNACK_BAR_DATA } from '@angular/material/legacy-snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
 import { WattButtonComponent } from '../../button';
 import { WattToastService } from '../watt-toast.service';
@@ -78,7 +79,7 @@ export class StorybookToastComponent implements AfterViewInit {
 }
 
 @NgModule({
-  imports: [WattToastComponent, WattButtonComponent],
+  imports: [WattToastComponent, WattButtonComponent, MatSnackBarModule],
   declarations: [StorybookToastComponent],
   providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: {} }],
   exports: [StorybookToastComponent],

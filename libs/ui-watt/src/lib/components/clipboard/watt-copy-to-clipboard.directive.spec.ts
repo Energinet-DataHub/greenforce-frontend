@@ -17,13 +17,13 @@
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
-import { WattToastModule } from '../toast';
+import { WattToastComponent } from '../toast';
 import { WattCopyToClipboardDirective } from './watt-copy-to-clipboard.directive';
 
 describe(WattCopyToClipboardDirective.name, () => {
   it('shows toast on click', async () => {
     await render(`<span wattCopyToClipboard>Text</span>`, {
-      imports: [WattToastModule.forRoot(), WattCopyToClipboardDirective],
+      imports: [WattToastComponent, WattCopyToClipboardDirective],
     });
 
     userEvent.click(screen.getByText('Text'));
