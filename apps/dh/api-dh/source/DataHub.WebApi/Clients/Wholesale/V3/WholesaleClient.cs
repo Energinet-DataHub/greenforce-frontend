@@ -82,8 +82,17 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         System.Threading.Tasks.Task<ProcessStepResultDto> GetProcessStepResultAsync(System.Guid batchId, string gridAreaCode, TimeSeriesType timeSeriesType, string energySupplierGln = null, string balanceResponsiblePartyGln = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Downloads a compressed settlement report for the specified parameters.
+        /// </summary>
+        /// <param name="gridAreaCodes">A list of grid areas to create the settlement report for.</param>
+        /// <param name="processType">Currently expects BalanceFixing only.</param>
+        /// <param name="periodStart">The start date and time of the period covered by the settlement report.</param>
+        /// <param name="periodEnd">The end date and time of the period covered by the settlement report.</param>
+        /// <param name="energySupplier">Optional GLN/EIC identifier for an energy supplier.</param>
+        /// <param name="csvFormatLocale">Optional locale used to format the CSV file, e.g. da-DK. Defaults to en-US.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> DownloadAsync(System.Collections.Generic.IEnumerable<string> gridAreaCodes, ProcessType processType, System.DateTimeOffset periodStart, System.DateTimeOffset periodEnd, string energySupplier = null, string csvLanguage = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<FileResponse> DownloadAsync(System.Collections.Generic.IEnumerable<string> gridAreaCodes, ProcessType processType, System.DateTimeOffset periodStart, System.DateTimeOffset periodEnd, string energySupplier = null, string csvFormatLocale = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -669,8 +678,17 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Downloads a compressed settlement report for the specified parameters.
+        /// </summary>
+        /// <param name="gridAreaCodes">A list of grid areas to create the settlement report for.</param>
+        /// <param name="processType">Currently expects BalanceFixing only.</param>
+        /// <param name="periodStart">The start date and time of the period covered by the settlement report.</param>
+        /// <param name="periodEnd">The end date and time of the period covered by the settlement report.</param>
+        /// <param name="energySupplier">Optional GLN/EIC identifier for an energy supplier.</param>
+        /// <param name="csvFormatLocale">Optional locale used to format the CSV file, e.g. da-DK. Defaults to en-US.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<FileResponse> DownloadAsync(System.Collections.Generic.IEnumerable<string> gridAreaCodes, ProcessType processType, System.DateTimeOffset periodStart, System.DateTimeOffset periodEnd, string energySupplier = null, string csvLanguage = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<FileResponse> DownloadAsync(System.Collections.Generic.IEnumerable<string> gridAreaCodes, ProcessType processType, System.DateTimeOffset periodStart, System.DateTimeOffset periodEnd, string energySupplier = null, string csvFormatLocale = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (gridAreaCodes == null)
                 throw new System.ArgumentNullException("gridAreaCodes");
@@ -694,9 +712,9 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
             {
                 urlBuilder_.Append(System.Uri.EscapeDataString("energySupplier") + "=").Append(System.Uri.EscapeDataString(ConvertToString(energySupplier, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             }
-            if (csvLanguage != null)
+            if (csvFormatLocale != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("csvLanguage") + "=").Append(System.Uri.EscapeDataString(ConvertToString(csvLanguage, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(System.Uri.EscapeDataString("csvFormatLocale") + "=").Append(System.Uri.EscapeDataString(ConvertToString(csvFormatLocale, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
