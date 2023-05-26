@@ -39,6 +39,7 @@ const materialIcons = {
   forwardMessage: 'forward_to_inbox',
   menu: 'menu',
   logout: 'logout',
+  login: 'lock_open',
   // Navigation
   left: 'navigate_before',
   right: 'navigate_next',
