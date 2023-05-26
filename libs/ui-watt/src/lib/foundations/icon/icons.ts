@@ -44,6 +44,7 @@ const materialIcons = {
   right: 'navigate_next',
   up: 'expand_less',
   down: 'expand_more',
+  arrowDropDown: 'arrow_drop_down',
   // Alerts
   danger: 'dangerous',
   warning: 'report_problem',

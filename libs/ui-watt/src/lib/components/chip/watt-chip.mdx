@@ -1,0 +1,34 @@
+
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ChipStories from './watt-chip.stories.ts';
+
+<Meta of={ChipStories} />
+
+
+# Chips
+
+Chips are small, interactive elements that represent a piece of information.
+They are typically used to display tags, categories, selections, or filters in a concise and
+visually appealing manner. Chips can be used individually or grouped together to form sets.
+
+
+## Filter Chips
+
+Filter chips are designed to provide a visual representation of selected filters and enable
+users to easily add or remove filters based on their preferences.
+
+<Canvas of={ChipStories.Filter} />
+
+Alternatively, filter chips can be configured to only allow a single option to be selected
+from a list of choices, often used for filtering or categorizing content.
+
+<Canvas of={ChipStories.Choice} />
+
+
+## Menu Chips
+
+Menu chips are a versatile variant of chips with the ability to show a popup containing
+additional choices.
+
+<Canvas of={ChipStories.Menu} />

@@ -14,4 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattChipsComponent, WattChipsOption, WattChipsSelection } from './watt-chips.component';
+export { WattFilterChipComponent } from './watt-filter-chip.component';
+export { WattMenuChipComponent } from './watt-menu-chip.component';
