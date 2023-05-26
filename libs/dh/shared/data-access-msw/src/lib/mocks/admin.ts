@@ -18,7 +18,7 @@ import { rest } from 'msw';
 
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 
-import marketParticipantUserSearchUsers from './data/marketParticipantUserSearchUsers.json';
+import { marketParticipantUserSearchUsers } from './data/marketParticipantUserSearchUsers';
 import marketParticipantActorQuerySelectionActors from './data/marketParticipantActorQuerySelectionActors.json';
 import marketParticipantUserRoleGetAll from './data/marketParticipantUserRoleGetAll.json';
 import marketParticipantUserGetUserAuditLogs from './data/marketParticipantUserGetUserAuditLogs.json';
