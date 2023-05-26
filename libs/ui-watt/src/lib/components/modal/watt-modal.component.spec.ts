@@ -44,13 +44,12 @@ interface Properties {
 
 function setup(componentProperties?: Properties) {
   return render(template, {
-    declarations: [WattModalComponent],
     imports: [WattButtonComponent, WATT_MODAL],
     componentProperties,
   });
 }
 
-describe(WattModalComponent.name, () => {
+describe(WattModalComponent, () => {
   it('starts closed', async () => {
     await setup();
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
