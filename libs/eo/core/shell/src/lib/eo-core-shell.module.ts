@@ -28,6 +28,7 @@ import {
   eoOriginOfEnergyRoutePath,
   eoPrivacyPolicyRoutePath,
   eoProductionRoutePath,
+  eoTransferRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 import { EoHttpModule } from './eo-http.module';
@@ -110,6 +111,12 @@ const routes: Routes = [
           import('@energinet-datahub/eo/emissions/shell').then(
             (esModule) => esModule.EoEmissionsPageShellModule
           ),
+      },
+      {
+        path: eoTransferRoutePath,
+        data: { title: 'Transfer' },
+        loadChildren: () =>
+          import('@energinet-datahub/eo/transfer').then((esModule) => esModule.EoTransferModule),
       },
       {
         path: eoHelpRoutePath,
