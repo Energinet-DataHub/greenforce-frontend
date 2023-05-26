@@ -14,9 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnInit, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { WattChipsComponent } from '@energinet-datahub/watt/chips';
+import { Component } from '@angular/core';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCardComponent, WattCardTitleComponent } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
@@ -33,7 +31,7 @@ import { DhWholesaleSettlementsReportsTabsBalanceComponent } from './tabs/dh-who
     WattCardComponent,
     WattCardTitleComponent,
     TranslocoModule,
-    WattButtonModule,
+    WattButtonComponent,
     DhWholesaleSettlementsReportsTabsBalanceComponent,
   ],
 })

@@ -16,6 +16,7 @@
  */
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { WattIcon } from '../../foundations/icon/icons';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { CommonModule } from '@angular/common';
 
 export type WattValidationMessageType = 'info' | 'warning' | 'success' | 'danger';
@@ -30,7 +31,7 @@ export type WattValidationMessageSize = 'compact' | 'normal';
   styleUrls: ['./watt-validation-message.component.scss'],
   templateUrl: './watt-validation-message.component.html',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, WattIconComponent],
 })
 export class WattValidationMessageComponent {
   @Input() label = '';
