@@ -50,6 +50,13 @@ limitations under the License.
           "
         ></watt-dropdown>
       </watt-form-field>
+        <watt-button
+        [disabled]="!searchForm.valid"
+        *dhPermissionRequired="['settlements:manage']"
+        variant="secondary"
+        (click)="DonwloadClicked()"
+        >{{ t("download") }}</watt-button
+      >
     </form>
   </watt-card>
 </ng-container>
