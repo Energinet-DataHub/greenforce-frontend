@@ -144,7 +144,12 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
       return this.closeModal(false);
     }
 
-    this.startEditUserRequest(this.firstNameControl.value, this.lastNameControl.value, this.phoneNumberControl.value, this._updateUserRoles ?? undefined);
+    this.startEditUserRequest(
+      this.firstNameControl.value,
+      this.lastNameControl.value,
+      this.phoneNumberControl.value,
+      this._updateUserRoles ?? undefined
+    );
   }
 
   private startEditUserRequest(
@@ -187,11 +192,7 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  private updateModel(
-    firstName: string,
-    lastName: string,
-    phoneNumber: string
-  ) {
+  private updateModel(firstName: string, lastName: string, phoneNumber: string) {
     if (!this.user) return;
     this.user.firstName = firstName;
     this.user.lastName = lastName;
