@@ -29,7 +29,7 @@ limitations under the License.
               <watt-label>{{ t("masterData.firstName") }}</watt-label>
               <input formControlName="firstName" wattInput type="text" />
 
-              <watt-error *ngIf="phoneNumberControl.hasError('required')">
+              <watt-error *ngIf="firstNameControl.hasError('required')">
                 {{ "shared.fieldRequiredErrorText" | transloco }}
               </watt-error>
             </watt-form-field>
@@ -38,7 +38,7 @@ limitations under the License.
               <watt-label>{{ t("masterData.lastName") }}</watt-label>
               <input formControlName="lastName" wattInput type="text" />
 
-              <watt-error *ngIf="phoneNumberControl.hasError('required')">
+              <watt-error *ngIf="lastNameControl.hasError('required')">
                 {{ "shared.fieldRequiredErrorText" | transloco }}
               </watt-error>
             </watt-form-field>
