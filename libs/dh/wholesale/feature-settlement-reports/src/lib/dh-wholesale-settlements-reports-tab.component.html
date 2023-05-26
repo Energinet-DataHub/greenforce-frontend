@@ -17,45 +17,18 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'wholesale.settlementReports'">
   <watt-tabs>
     <watt-tab [label]="t('tabs.BALANCE_FIXING')">
+      <dh-wholesale-settlements-reports-tabs-balance></dh-wholesale-settlements-reports-tabs-balance>
+    </watt-tab>
+    <watt-tab [label]="t('tabs.WHOLESALE_FIXING')">
       <watt-card>
         <watt-card-title>
           <h3>
-            Søgeresultater
-            <span class="watt-chip-label">54</span>
+            Engro fiksering
+            <span class="watt-chip-label">12</span>
           </h3>
-          <watt-button icon="search" variant="text">Søg</watt-button>
+          <watt-button icon="search" variant="text">Søg igen</watt-button>
         </watt-card-title>
-        <form [formGroup]="searchForm" class="form-grid" novalidate>
-          <watt-form-field class="datePicker">
-            <watt-datepicker formControlName="executionTime" [range]="true"></watt-datepicker>
-          </watt-form-field>
-          <watt-form-field class="actorPicker">
-            <watt-dropdown
-              formControlName="actor"
-              [multiple]="true"
-              [options]="actors"
-              [placeholder]="
-                searchForm.controls.actor.disabled
-                  ? t('filters.loadingActors')
-                  : t('filters.actorPlaceholder')
-              "
-            ></watt-dropdown>
-          </watt-form-field>
-          <watt-form-field class="gridAreaPicker">
-            <watt-dropdown
-              formControlName="gridAreas"
-              [multiple]="true"
-              [options]="gridAreas"
-              [placeholder]="
-                searchForm.controls.gridAreas.disabled
-                  ? t('filters.loadingGridAreas')
-                  : t('filters.gridAreasPlaceholder')
-              "
-            ></watt-dropdown>
-          </watt-form-field>
-        </form>
       </watt-card>
     </watt-tab>
-    <watt-tab [label]="t('tabs.WHOLESALE_FIXING')"></watt-tab>
   </watt-tabs>
 </ng-container>
