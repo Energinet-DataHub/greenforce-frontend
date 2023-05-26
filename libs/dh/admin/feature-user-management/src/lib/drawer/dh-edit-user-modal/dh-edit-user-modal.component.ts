@@ -61,12 +61,9 @@ import { HttpStatusCode } from '@angular/common/http';
   templateUrl: './dh-edit-user-modal.component.html',
   styles: [
     `
-      .tab-master-data {
-        margin: calc(var(--watt-space-ml) * 2) 0 0 var(--watt-space-ml);
-      }
-
       .name-field {
-        max-width: 512px;
+        max-width: 384px;
+        margin-right: var(--watt-space-ml);
       }
 
       .phone-field {
