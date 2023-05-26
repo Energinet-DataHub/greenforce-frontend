@@ -23,7 +23,6 @@ import {
 } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoLandingPageAudienceComponent } from './eo-landing-page-audience.component';
-import { EoLandingPageCallToActionComponent } from './eo-landing-page-call-to-action.component';
 import { EoLandingPageCompanyComponent } from './eo-landing-page-company.component';
 import { EoLandingPageHeaderComponent } from './eo-landing-page-header.component';
 import { EoLandingPageHeroComponent } from './eo-landing-page-hero.component';
@@ -38,7 +37,6 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
   imports: [
     EoFooterComponent,
     EoLandingPageAudienceComponent,
-    EoLandingPageCallToActionComponent,
     EoLandingPageCompanyComponent,
     EoLandingPageHeaderComponent,
     EoLandingPageHeroComponent,
@@ -106,8 +104,6 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
       <eo-landing-page-audience></eo-landing-page-audience>
 
       <eo-landing-page-company></eo-landing-page-company>
-
-      <eo-landing-page-call-to-action></eo-landing-page-call-to-action>
     </div>
 
     <eo-footer></eo-footer>
