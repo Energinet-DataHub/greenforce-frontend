@@ -22,11 +22,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
-import {
-  WattChipsComponent,
-  WattChipsSelection,
-  WattChipsOption,
-} from '@energinet-datahub/watt/chips';
+import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
 import { DatePickerData, DrawerDatepickerService } from './drawer-datepicker.service';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
@@ -38,7 +34,7 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
     ReactiveFormsModule,
     WattFormFieldModule,
     WattDatepickerModule,
-    WattChipsComponent,
+    WattFilterChipComponent,
     DhFeatureFlagDirectiveModule,
   ],
   selector: 'dh-drawer-datepicker',
@@ -48,8 +44,8 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
 export class DhDrawerDatepickerComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() changed = new EventEmitter();
 
-  private readonly chipOptions: WattChipsOption[] = [
-    { label: 'day', value: 'd' },
+  private readonly chipOptions = [
+    { label: 'day', value: 'd', selected: true },
     { label: 'week', value: 'w' },
     { label: 'month', value: 'm' },
     { label: 'quarter', value: 'q' },
@@ -57,7 +53,7 @@ export class DhDrawerDatepickerComponent implements OnInit, OnDestroy, AfterView
   ];
 
   options = this.chipOptions;
-  optionSelected: WattChipsSelection = '';
+  optionSelected = '';
   data: DatePickerData = this.datepickerService.getData();
   startDate = this.data.startDate;
   endDate = this.data.endDate;

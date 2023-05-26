@@ -22,6 +22,14 @@ limitations under the License.
     </watt-form-field>
   </div>
   <div class="date-chips" *dhFeatureFlag="'charges_price_date_chips_feature_flag'">
-    <watt-chips [options]="options" [selection]="optionSelected"></watt-chips>
+    <watt-filter-chip
+      *ngFor="let option of options"
+      choice
+      name="period"
+      [value]="option.value"
+      [selected]="option.selected ?? false"
+    >
+      {{ option.label }}
+    </watt-filter-chip>
   </div>
 </ng-container>
