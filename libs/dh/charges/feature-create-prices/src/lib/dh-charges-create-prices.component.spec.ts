@@ -23,7 +23,6 @@ import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-ti
 import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { formatInTimeZone } from 'date-fns-tz';
-import { WattToastComponent } from '@energinet-datahub/watt/toast';
 import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import {
   DhChargesCreatePricesComponent,
