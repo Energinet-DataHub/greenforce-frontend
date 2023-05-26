@@ -16,18 +16,21 @@
  */
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { WattIcon } from '../../foundations/icon/icons';
+import { CommonModule } from '@angular/common';
 
 export type WattValidationMessageType = 'info' | 'warning' | 'success' | 'danger';
 export type WattValidationMessageSize = 'compact' | 'normal';
 /**
  * Usage:
- * `import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';`
+ * `import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';`
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-validation-message',
   styleUrls: ['./watt-validation-message.component.scss'],
   templateUrl: './watt-validation-message.component.html',
+  standalone: true,
+  imports: [CommonModule],
 })
 export class WattValidationMessageComponent {
   @Input() label = '';

@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { DhMarketParticipantEditOrganizationDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
-import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -76,7 +76,7 @@ export class DhMarketParticipantEditGridAreaComponent {
     WattTabComponent,
     WattTabsComponent,
     WattSpinnerComponent,
-    WattValidationMessageModule,
+    WattValidationMessageComponent,
   ],
   exports: [DhMarketParticipantEditGridAreaComponent],
   declarations: [DhMarketParticipantEditGridAreaComponent],

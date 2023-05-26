@@ -24,4 +24,4 @@ import { CommonModule } from '@angular/common';
   declarations: [WattValidationMessageComponent],
   exports: [WattValidationMessageComponent],
 })
-export class WattValidationMessageModule {}
+export class WattValidationMessageComponent {}

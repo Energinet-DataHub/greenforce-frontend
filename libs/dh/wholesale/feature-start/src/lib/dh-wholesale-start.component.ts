@@ -45,7 +45,7 @@ import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import {
   WattChipsComponent,
   WattChipsOption,
@@ -85,7 +85,7 @@ interface CreateBatchFormValues {
     WattSpinnerComponent,
     WattEmptyStateComponent,
     WattChipsComponent,
-    WattValidationMessageModule,
+    WattValidationMessageComponent,
     WATT_MODAL,
   ],
 })

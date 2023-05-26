@@ -19,7 +19,7 @@ import { Component, NgModule } from '@angular/core';
 import { DhMarketParticipantEditOrganizationDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { DhMarketParticipantOrganizationMasterDataComponentScam } from './master-data/dh-market-participant-organization-master-data.component';
-import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -79,7 +79,7 @@ export class DhMarketParticipantEditOrganizationComponent {
     WattTabsComponent,
     WattSpinnerComponent,
     DhMarketParticipantOrganizationMasterDataComponentScam,
-    WattValidationMessageModule,
+    WattValidationMessageComponent,
   ],
   exports: [DhMarketParticipantEditOrganizationComponent],
   declarations: [DhMarketParticipantEditOrganizationComponent],
