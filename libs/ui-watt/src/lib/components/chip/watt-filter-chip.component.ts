@@ -17,12 +17,12 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { WattIconModule } from '../../foundations/icon/icon.module';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { WattChipComponent } from './watt-chip.component';
 
 @Component({
   standalone: true,
-  imports: [WattChipComponent, WattIconModule],
+  imports: [WattChipComponent, WattIconComponent],
   selector: 'watt-filter-chip',
   template: `
     <watt-chip [disabled]="disabled" [selected]="input.checked">
