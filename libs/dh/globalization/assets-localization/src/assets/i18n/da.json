@@ -748,8 +748,8 @@
         "AGGREGATION": "Aggregering"
       },
       "executionTypes": {
-        "ACTUAL": "Faktisk",
-        "SIMULATION": "Simulering"
+        "actual": "Faktisk",
+        "simulation": "Simulering"
       },
       "processTypeError": "Procestype påkrævet",
       "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
@@ -1033,7 +1033,8 @@
           },
           "table": {
             "columns": {
-              "name": "Navn",
+              "firstName": "Fornavn",
+              "lastName": "Efternavn",
               "email": "Email",
               "phone": "Telefon",
               "assignedActors": "Tildelte aktører",
@@ -1110,7 +1111,8 @@
           "roles": "Brugerroller"
         },
         "masterData": {
-          "fullName": "Navn",
+          "firstName": "Fornavn",
+          "lastName": "Efternavn",
           "phone": "Telefonnr."
         },
         "phoneNumberError": "Telefonnr. format +45 12345678"

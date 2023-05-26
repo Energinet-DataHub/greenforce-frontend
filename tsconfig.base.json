@@ -336,8 +336,8 @@
       "@energinet-datahub/watt/checkbox": [
         "libs/ui-watt/src/lib/components/checkbox/index.ts"
       ],
-      "@energinet-datahub/watt/chips": [
-        "libs/ui-watt/src/lib/components/chips/index.ts"
+      "@energinet-datahub/watt/chip": [
+        "libs/ui-watt/src/lib/components/chip/index.ts"
       ],
       "@energinet-datahub/watt/clipboard": [
         "libs/ui-watt/src/lib/components/clipboard/index.ts"
