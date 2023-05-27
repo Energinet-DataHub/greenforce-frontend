@@ -16,31 +16,26 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { EoTransferTableComponent } from './eo-transfer-table.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfer',
-  imports: [MatCardModule],
+  imports: [MatCardModule, EoTransferTableComponent],
   standalone: true,
-  styles: [
-    `
-      :host {
-        display: grid;
-        grid-template-columns: 375px 360px; // Magic numbers by designer
-        grid-auto-rows: max-content;
-        grid-gap: var(--watt-space-l);
-      }
-    `,
-  ],
+  styles: [``],
   template: `
     <mat-card class="watt-space-stack-l">
-      <h3 class="watt-space-stack-m">About</h3>
+      <h3 class="watt-space-stack-m">This is the beginning</h3>
       <p class="watt-space-stack-m">
-        This page gives you an overview of all your Transfer Agreements.
+        This page is based on real data and is working towards the coming solution regarding
+        certificates. So it is not just a test, though these data cannot yet be used in a legal
+        sense. It will be communicated, when it is out of beta and can be used legally. So you can
+        try this without any consequences.
       </p>
-      <p class="watt-space-stack-m">
-        Each agreement is automatically processed when you receive new Granular Certificates.
-      </p>
+    </mat-card>
+    <mat-card class="watt-space-stack-m">
+      <eo-transfer-table></eo-transfer-table>
     </mat-card>
   `,
 })
