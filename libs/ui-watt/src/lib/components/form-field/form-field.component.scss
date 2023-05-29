@@ -25,17 +25,13 @@ watt-form-field {
     --watt-space-m
   ); // margin is added to take up space for the floating label
   --input-background: var(--watt-color-neutral-white);
-  --input-border-color: var(--watt-color-neutral-grey-400);
+  --input-border-color: var(--watt-on-light-low-emphasis);
   --input-border-radius: 4px;
   --input-color: var(--watt-typography-text-color);
   --input-placeholder-color: var(--watt-on-light-high-emphasis);
   --label-margin-bottom: 4px;
 
   &.watt-form-field-chip {
-    --input-background: transparent;
-    --input-border-color: transparent;
-    --input-border-radius: 88px;
-    --watt-dropdown-arrow-color: var(--watt-color-primary);
     width: auto;
     display: inline-block;
 
@@ -43,18 +39,9 @@ watt-form-field {
       width: auto;
     }
 
-    watt-dropdown mat-select {
-      opacity: 0;
-      position: absolute;
-    }
-
-    mat-form-field.mat-form-field-disabled {
-      --input-background: var(--input-background);
-    }
-
-    .mat-form-field-invalid {
-      --input-border-color: transparent;
-      --watt-chips-border-color: var(--watt-color-state-danger);
+    .mat-form-field-flex {
+      border: none;
+      background: none;
     }
   }
 

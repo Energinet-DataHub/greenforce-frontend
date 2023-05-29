@@ -24,6 +24,7 @@ import {
   SimpleChanges,
   ViewChild,
   ViewEncapsulation,
+  ElementRef,
 } from '@angular/core';
 import {
   AsyncValidatorFn,
@@ -39,7 +40,6 @@ import { of, ReplaySubject, Subject, distinctUntilChanged, map, takeUntil, take 
 
 import { WattDropdownOptions } from './watt-dropdown-option';
 import { WattDropdownValue } from './watt-dropdown-value';
-import { WattChipsOption } from '../chips';
 
 const MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE = 60;
 
@@ -109,6 +109,25 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
   /**
    * @ignore
    */
+  get showTriggerValue(): boolean {
+    return (this.multiple && this.matSelectControl.value?.length === 1) ||
+      (!this.multiple && this.matSelect?.triggerValue)
+      ? true
+      : false;
+  }
+
+  /**
+   * @ignore
+   */
+  get showChipLabel() {
+    return this.multiple && this.matSelectControl.value && this.matSelectControl.value.length > 1
+      ? true
+      : false;
+  }
+
+  /**
+   * @ignore
+   */
   @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
 
   /**
@@ -144,16 +163,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    */
   @Input() noOptionsFoundLabel = '';
 
-  /**
-   * @ignore
-   */
-  chipOption!: WattChipsOption & { value: 'select-chip' };
-
-  /**
-   * @ignore
-   */
-  chipSelection!: 'select-chip' | null;
-
   constructor(@Host() private parentControlDirective: NgControl) {
     this.parentControlDirective.valueAccessor = this;
   }
@@ -166,26 +175,12 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
     this.initializePropertiesFromParent();
     this.bindParentValidatorsToControl();
     this.bindControlToParent();
-
-    if (this.chipMode) {
-      this.matSelect?.selectionChange.pipe(takeUntil(this.destroy$)).subscribe((selection) => {
-        this.updateChipOption(selection.value);
-      });
-    }
   }
 
   /**
    * @ignore
    */
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.chipMode) {
-      this.chipOption = {
-        label: this.placeholder,
-        value: 'select-chip',
-        disabled: this.matSelectControl.disabled,
-      };
-    }
-
     if (changes['options']?.currentValue !== changes['options']?.previousValue) {
       this.filteredOptions$.next(this.options.slice());
     }
@@ -197,39 +192,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  /**
-   * @ignore
-   */
-  private updateChipOption(selection: string | string[] | null) {
-    if (Array.isArray(selection)) {
-      this.updateChipOptionForArray(selection);
-    } else {
-      this.updateChipOptionForStringOrNull(selection);
-    }
-  }
-
-  /**
-   * @ignore
-   */
-  private updateChipOptionForArray(selection: string[]) {
-    if (!this.chipMode) return;
-    this.chipOption = {
-      ...this.chipOption,
-      label: this.placeholder,
-      badge: selection.length > 0 ? `${selection.length}` : undefined,
-    };
-    this.chipSelection = selection.length > 0 ? this.chipOption.value : null;
-  }
-
-  /**
-   * @ignore
-   */
-  private updateChipOptionForStringOrNull(selection: string | null) {
-    const displayValue = this.options.find((option) => option.value === selection)?.displayValue;
-    this.chipOption = { ...this.chipOption, label: displayValue || this.placeholder };
-    this.chipSelection = selection ? this.chipOption.value : null;
   }
 
   /**
@@ -299,7 +261,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
       )
       .subscribe((filteredOptions: string[]) => {
         const optionsToSelect = toggleAllState ? filteredOptions : [];
-        this.updateChipOption(optionsToSelect);
         this.matSelectControl.patchValue(optionsToSelect);
       });
   }

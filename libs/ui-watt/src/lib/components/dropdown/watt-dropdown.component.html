@@ -14,12 +14,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-chips
+<watt-menu-chip
   *ngIf="chipMode"
-  [options]="[chipOption]"
-  [selectable]="false"
-  [selection]="chipSelection"
-></watt-chips>
+  [opened]="matSelect.panelOpen"
+  [selected]="!!matSelect?.triggerValue"
+  [disabled]="matSelectControl.disabled"
+>
+  {{placeholder}}<span *ngIf="showTriggerValue">: {{ matSelect?.triggerValue }}</span>
+  <span class="watt-chip-label" *ngIf="showChipLabel">{{
+    matSelectControl.value?.length
+  }}</span>
+</watt-menu-chip>
 
 <mat-select
   [formControl]="matSelectControl"

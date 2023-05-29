@@ -27,6 +27,14 @@ import { WattChipComponent } from './watt-chip.component';
   selector: 'watt-menu-chip',
   styles: [
     `
+      :host {
+        display: block;
+      }
+
+      watt-chip[ng-reflect-disabled="true"] .menu-icon {
+        color: var(--watt-on-light-low-emphasis);
+      }
+
       button {
         all: unset;
       }

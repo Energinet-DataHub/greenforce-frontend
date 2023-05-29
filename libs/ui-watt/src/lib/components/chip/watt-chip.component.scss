@@ -18,15 +18,16 @@
 
 label {
   @include watt.typography-watt-text-s;
-  background: var(--watt-color-white);
+  background: var(--input-background, --watt-color-neutral-white);
   border-radius: var(--watt-space-m);
-  border: 1px solid var(--watt-on-light-low-emphasis);
+  border: 1px solid var(--input-border-color, --watt-on-light-low-emphasis);
   color: var(--watt-on-light-high-emphasis);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   padding: 5px 12px; // Magic UX numbers
   user-select: none;
+  white-space: nowrap;
 
   &:hover {
     border: 1px solid var(--watt-on-light-medium-emphasis);

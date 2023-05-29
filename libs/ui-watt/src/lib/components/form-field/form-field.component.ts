@@ -21,6 +21,7 @@ import {
   ViewChild,
   ViewEncapsulation,
   ChangeDetectorRef,
+  HostBinding
 } from '@angular/core';
 import {
   MatLegacyFormField as MatFormField,
@@ -40,6 +41,11 @@ import { WattTimepickerComponent } from '../input/timepicker';
 })
 export class FormFieldComponent implements AfterViewInit {
   beforeViewInit = true; // Used to remove placeholder control
+  mode: 'default' | 'chip' = 'default';
+
+  @HostBinding('class') get hostClasses() {
+    return this.mode !== 'default' ? `watt-form-field-${this.mode}` : '';
+  }
 
   @ViewChild(MatFormField)
   matFormField!: MatFormField;
