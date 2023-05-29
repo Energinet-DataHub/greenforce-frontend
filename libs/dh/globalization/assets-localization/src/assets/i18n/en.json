@@ -459,6 +459,9 @@
       "sender": "Sender",
       "download": "Download"
     },
+    "document": {
+      "loadFailed": "Failed to load document"
+    },
     "search": {
       "topBarTitle": "Search in request and response messages",
       "documentType": "Document type",
@@ -754,8 +757,8 @@
         "AGGREGATION": "Aggregation"
       },
       "executionTypes": {
-        "ACTUAL": "Actual",
-        "SIMULATION": "Simulation"
+        "actual": "Actual",
+        "simulation": "Simulation"
       },
       "processTypeError": "Process type is required",
       "periodWarning": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
@@ -778,7 +781,7 @@
         "executionTime": "Execution time",
         "executionTimeRequired": "Execution time is required",
         "startedBy": "Started by",
-        "startedByPlaceholder": "Search or select",
+        "startedByPlaceholder": "Enter an email",
         "searchButton": "Search"
       },
       "columns": {
@@ -1043,7 +1046,8 @@
           },
           "table": {
             "columns": {
-              "name": "Name",
+              "firstName": "First name",
+              "lastName": "Last name",
               "email": "Email",
               "phone": "Phone",
               "assignedActors": "Assigned market parties",
@@ -1066,7 +1070,7 @@
           "filter": {
             "status": "Status",
             "marketRole": "Market role",
-            "search": "Search market roles"
+            "search": "Search user roles"
           },
           "table": {
             "columns": {
@@ -1134,7 +1138,8 @@
           "roles": "User roles"
         },
         "masterData": {
-          "fullName": "Name",
+          "firstName": "First name",
+          "lastName": "Last name",
           "phone": "Phone number"
         },
         "phoneNumberError": "Phone number format +45 12345678"

@@ -28,6 +28,7 @@ import {
   eoOriginOfEnergyRoutePath,
   eoPrivacyPolicyRoutePath,
   eoProductionRoutePath,
+  eoTransferRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 import { EoHttpModule } from './eo-http.module';
@@ -112,6 +113,12 @@ const routes: Routes = [
           ),
       },
       {
+        path: eoTransferRoutePath,
+        data: { title: 'Transfer' },
+        loadChildren: () =>
+          import('@energinet-datahub/eo/transfer').then((esModule) => esModule.EoTransferModule),
+      },
+      {
         path: eoHelpRoutePath,
         loadChildren: () =>
           import('@energinet-datahub/eo/help/shell').then((esModule) => esModule.EoHelpModule),
@@ -133,11 +140,7 @@ const routes: Routes = [
   imports: [
     GfBrowserConfigurationModule.forRoot(),
     EoHttpModule.forRoot(),
-    RouterModule.forRoot(routes, {
-      anchorScrolling: 'enabled',
-      initialNavigation: 'enabledNonBlocking',
-      scrollPositionRestoration: 'enabled',
-    }),
+    RouterModule.forRoot(routes),
     EoMaterialModule.forRoot(),
     EoShellComponent,
     MatDialogModule,

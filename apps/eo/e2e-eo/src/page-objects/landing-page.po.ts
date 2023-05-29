@@ -18,19 +18,15 @@ export class LandingPagePO {
   private path = '/';
   private loginButton = 'eo-landing-page-login-button';
   private pageHeaderText = 'Your emissions and renewables overview';
-  private privateNotAllowed =
-    'Private%20users%20are%20not%20allowed%20to%20login';
+  private privateNotAllowed = 'Private%20users%20are%20not%20allowed%20to%20login';
 
   // Visibility
-  headerIsVisible = () =>
-    cy.get('h1').should('contain.text', this.pageHeaderText);
-  startButtonsVisible = (amount: number) =>
-    cy.get('eo-landing-page-login-button').should('have.length', amount);
-  urlShowsPrivateUserNotAllowed = () =>
-    cy.url().should('contain', this.privateNotAllowed);
+  headerIsVisible = () => cy.get('h1').should('contain.text', this.pageHeaderText);
+  loginButtonsVisible = (amount: number) =>
+    cy.get('watt-button.login').should('have.length', amount);
+  urlShowsPrivateUserNotAllowed = () => cy.url().should('contain', this.privateNotAllowed);
 
   // Interaction
   navigateTo = () => cy.visit(this.path);
-  clickStartButtonByIndex = (index: number) =>
-    cy.get(this.loginButton).eq(index).click();
+  clickStartButtonByIndex = (index: number) => cy.get(this.loginButton).eq(index).click();
 }

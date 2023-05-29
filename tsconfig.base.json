@@ -302,6 +302,7 @@
         "libs/eo/shared/utilities/src/index.ts"
       ],
       "@energinet-datahub/eo/terms": ["libs/eo/terms/src/index.ts"],
+      "@energinet-datahub/eo/transfer": ["libs/eo/transfer/src/index.ts"],
       "@energinet-datahub/gf/configuration-danish-locale": [
         "libs/gf/configuration-danish-locale/src/index.ts"
       ],
@@ -332,8 +333,8 @@
       "@energinet-datahub/watt/checkbox": [
         "libs/ui-watt/src/lib/components/checkbox/index.ts"
       ],
-      "@energinet-datahub/watt/chips": [
-        "libs/ui-watt/src/lib/components/chips/index.ts"
+      "@energinet-datahub/watt/chip": [
+        "libs/ui-watt/src/lib/components/chip/index.ts"
       ],
       "@energinet-datahub/watt/clipboard": [
         "libs/ui-watt/src/lib/components/clipboard/index.ts"
