@@ -20,10 +20,8 @@ limitations under the License.
   [selected]="!!matSelect?.triggerValue"
   [disabled]="matSelectControl.disabled"
 >
-  {{placeholder}}<span *ngIf="showTriggerValue">: {{ matSelect?.triggerValue }}</span>
-  <span class="watt-chip-label" *ngIf="showChipLabel">{{
-    matSelectControl.value?.length
-  }}</span>
+  {{ placeholder }}<span *ngIf="showTriggerValue">: {{ matSelect?.triggerValue }}</span>
+  <span class="watt-chip-label" *ngIf="showChipLabel">{{ matSelectControl.value?.length }}</span>
 </watt-menu-chip>
 
 <mat-select
