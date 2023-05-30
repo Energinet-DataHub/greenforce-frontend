@@ -31,7 +31,7 @@ import { WattChipComponent } from './watt-chip.component';
         display: block;
       }
 
-      watt-chip[ng-reflect-disabled="true"] .menu-icon {
+      watt-chip[ng-reflect-disabled='true'] .menu-icon {
         color: var(--watt-on-light-low-emphasis);
       }
 

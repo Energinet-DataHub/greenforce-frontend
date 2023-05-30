@@ -21,7 +21,7 @@ import {
   ViewChild,
   ViewEncapsulation,
   ChangeDetectorRef,
-  HostBinding
+  HostBinding,
 } from '@angular/core';
 import {
   MatLegacyFormField as MatFormField,
