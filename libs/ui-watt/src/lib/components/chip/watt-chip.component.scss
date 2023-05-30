@@ -18,12 +18,14 @@
 
 label {
   @include watt.typography-watt-text-s;
+  position: relative;
   background: var(--watt-color-white);
   border-radius: var(--watt-space-m);
   border: 1px solid var(--watt-on-light-low-emphasis);
   color: var(--watt-on-light-high-emphasis);
   cursor: pointer;
   display: inline-flex;
+  gap: var(--watt-space-s);
   align-items: center;
   padding: 5px 12px; // Magic UX numbers
   user-select: none;
@@ -55,9 +57,5 @@ label {
     border: 1px solid var(--watt-on-light-surface-overlay);
     color: var(--watt-on-light-low-emphasis);
     cursor: not-allowed;
-  }
-
-  .selected-icon {
-    margin-right: var(--watt-space-s);
   }
 }

@@ -40,10 +40,10 @@ export const Filter: StoryObj<WattFilterChipComponent> = {
     props: args,
     template: `
       <div style="display: flex; gap: var(--watt-space-s)">
-        <watt-filter-chip>Pending</watt-filter-chip>
-        <watt-filter-chip>Executing</watt-filter-chip>
-        <watt-filter-chip>Completed</watt-filter-chip>
-        <watt-filter-chip>Failed</watt-filter-chip>
+        <watt-filter-chip label="Pending" />
+        <watt-filter-chip label="Executing" />
+        <watt-filter-chip label="Completed" />
+        <watt-filter-chip label="Failed" />
       </div>
     `,
   }),
@@ -55,12 +55,12 @@ export const Choice: StoryObj<WattFilterChipComponent> = {
     props: args,
     template: `
       <div style="display: flex; gap: var(--watt-space-s)">
-        <watt-filter-chip choice [selected]="true" name="period" value="d">Day</watt-filter-chip>
-        <watt-filter-chip choice name="period" value="w">Week</watt-filter-chip>
-        <watt-filter-chip choice name="period" value="m">Month</watt-filter-chip>
-        <watt-filter-chip choice name="period" value="q">Quarter</watt-filter-chip>
-        <watt-filter-chip choice name="period" value="y">Year</watt-filter-chip>
-        <watt-filter-chip choice name="period" value="c">Custom</watt-filter-chip>
+        <watt-filter-chip choice [selected]="true" label="Day" name="period" value="d" />
+        <watt-filter-chip choice label="Week" name="period" value="w" />
+        <watt-filter-chip choice label="Month" name="period" value="m" />
+        <watt-filter-chip choice label="Quarter" name="period" value="q" />
+        <watt-filter-chip choice label="Year" name="period" value="y" />
+        <watt-filter-chip choice label="Custom" name="period" value="c" />
       </div>
     `,
   }),
@@ -72,9 +72,9 @@ export const Menu: StoryObj<WattMenuChipComponent> = {
     props: args,
     template: `
       <div style="display: flex; gap: var(--watt-space-s)">
-        <watt-menu-chip>Type</watt-menu-chip>
-        <watt-menu-chip>Grid Area</watt-menu-chip>
-        <watt-menu-chip>Period</watt-menu-chip>
+        <watt-menu-chip label="Type" />
+        <watt-menu-chip label="Grid Area" />
+        <watt-menu-chip label="Period" />
       </div>
     `,
   }),
