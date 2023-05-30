@@ -59,7 +59,7 @@ watt-dropdown {
     background: var(--watt-color-neutral-white);
   }
 
-  &[ng-reflect-chip-mode="true"] mat-select {
+  .chip {
     opacity: 0;
     position: absolute;
   }
