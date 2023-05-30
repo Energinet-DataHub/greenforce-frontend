@@ -156,7 +156,7 @@ watt-form-field .mat-form-field-invalid.ng-dirty {
 }
 
 .watt-input-focused mat-form-field,
-watt-form-field:not(.watt-form-field-chip)
+watt-form-field
   mat-form-field.mat-focused:not(mat-form-field.mat-form-field-invalid) {
   --input-border-color: var(--watt-color-primary);
 }
