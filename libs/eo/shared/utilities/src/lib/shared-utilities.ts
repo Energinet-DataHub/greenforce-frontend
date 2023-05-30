@@ -14,21 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [WattButtonComponent],
-  selector: 'eo-landing-page-login-button',
-  template: `<watt-button (click)="login()">Start</watt-button>`,
-})
-export class EoLandingPageLoginButtonComponent {
-  constructor(private authService: EoAuthService) {}
-
-  login() {
-    this.authService.startLogin();
+export class SharedUtilities {
+  static scrollToAnchor(element: string): void {
+    document.getElementById(element)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+      inline: 'nearest',
+    });
   }
 }
