@@ -36,13 +36,14 @@ import { WattChipComponent } from './watt-chip.component';
         [disabled]="disabled"
         (change)="selectionChange.emit(input)"
       />
-      <ng-content />
+      {{ label }}
     </watt-chip>
   `,
 })
 export class WattFilterChipComponent {
   @Input() selected = false;
   @Input() disabled = false;
+  @Input() label?: string;
   @Input() name?: string;
   @Input() value?: string;
   @Input() choice?: string;
