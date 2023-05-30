@@ -24,7 +24,6 @@ import {
   SimpleChanges,
   ViewChild,
   ViewEncapsulation,
-  ElementRef,
 } from '@angular/core';
 import {
   AsyncValidatorFn,
