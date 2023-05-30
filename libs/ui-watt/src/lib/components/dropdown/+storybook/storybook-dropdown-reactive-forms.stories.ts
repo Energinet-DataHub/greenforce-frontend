@@ -113,7 +113,6 @@ export const SingleSelectChipMode: StoryFn<WattDropdownComponent> = (
     placeholder: args.placeholder,
   },
   template: `
-  <div style="display: flex;">
     <watt-form-field>
       <watt-dropdown
         chipMode="true"
@@ -121,13 +120,7 @@ export const SingleSelectChipMode: StoryFn<WattDropdownComponent> = (
         [placeholder]="placeholder"
         [options]="options"></watt-dropdown>
     </watt-form-field>
-    <!--<watt-form-field>
-      <watt-dropdown
-        [formControl]="exampleFormControl"
-        [placeholder]="placeholder"
-        [options]="options"></watt-dropdown>
-    </watt-form-field>-->
-  </div>`,
+    `,
 });
 SingleSelectChipMode.args = {
   options: dropdownOptions,
