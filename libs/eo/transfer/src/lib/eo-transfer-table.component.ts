@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgIf } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import {
   MatLegacyPaginator as MatPaginator,
@@ -25,13 +25,14 @@ import {
   MatLegacyTableModule as MatTableModule,
 } from '@angular/material/legacy-table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { EoTransfer } from './eo-transfer.service';
 import { EoTransferStore } from './eo-transfer.store';
 
 @Component({
   selector: 'eo-transfer-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatPaginatorModule, MatTableModule, MatSortModule, DatePipe],
+  imports: [MatPaginatorModule, MatTableModule, MatSortModule, DatePipe, WattBadgeComponent, NgIf],
   standalone: true,
   styles: [``],
   template: `
@@ -46,14 +47,18 @@ import { EoTransferStore } from './eo-transfer.store';
       <ng-container matColumnDef="period">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Agreement period </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element.dateFrom | date : 'dd-MMM-y HH:mm' }}-{{ element.dateTo | date : 'HH:mm' }}
+          {{ element.dateFrom | date : 'dd/MM/yyyy' }} - {{ element.dateTo | date : 'dd/MM/yyyy' }}
         </mat-cell>
       </ng-container>
 
       <!-- Action column -->
       <ng-container matColumnDef="status">
         <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-        <mat-cell *matCellDef="let element">status</mat-cell>
+        <mat-cell *matCellDef="let element">
+          <watt-badge *ngIf="isDateActive(element.dateTo); else notActive" type="success"
+            >Active</watt-badge
+          >
+        </mat-cell>
       </ng-container>
 
       <!-- No data to show -->
@@ -72,6 +77,8 @@ import { EoTransferStore } from './eo-transfer.store';
       [showFirstLastButtons]="true"
       aria-label="Select page"
     ></mat-paginator>
+
+    <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge> </ng-template>
   `,
 })
 export class EoTransferTableComponent implements AfterViewInit {
@@ -93,5 +100,9 @@ export class EoTransferTableComponent implements AfterViewInit {
 
   populateTable() {
     this.store.transfers$.subscribe((transfers) => (this.dataSource.data = transfers));
+  }
+
+  isDateActive(input: string): boolean {
+    return new Date(input).getTime() >= new Date().getTime();
   }
 }

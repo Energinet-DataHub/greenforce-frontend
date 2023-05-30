@@ -62,10 +62,16 @@ export class EoTransferStore extends ComponentStore<EoTransferState> {
       error: (error) => {
         const test = [
           {
-            status: 'test2',
-            dateFrom: new Date().getTime(),
+            status: 'Test1',
+            dateFrom: new Date().setDate(new Date().getDate() - 1),
+            dateTo: new Date().setDate(new Date().getDate() + 1),
+            recipient: 'Test',
+          },
+          {
+            status: 'Test2',
+            dateFrom: new Date().setDate(new Date().getDate() - 1),
             dateTo: new Date().getTime(),
-            recipient: 'test',
+            recipient: 'Test',
           },
         ];
 
