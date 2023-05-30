@@ -27,6 +27,7 @@ import {
 } from '@angular/material/legacy-table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { EoTransfer } from './eo-transfers.service';
 import { EoTransferStore } from './eo-transfers.store';
 
@@ -41,11 +42,21 @@ import { EoTransferStore } from './eo-transfers.store';
     WattBadgeComponent,
     NgIf,
     MatLegacyCardModule,
+    WattButtonModule,
   ],
   standalone: true,
   styles: [``],
   template: `
-    <h3 class="watt-space-stack-m">Transfer Agreements</h3>
+    <div
+      class="card-header watt-space-stack-m"
+      style="display:flex; justify-content: space-between; "
+    >
+      <h3>Transfer Agreements</h3>
+      <div style="gap: 16px; display:flex;">
+        <watt-button icon="fileDownload" variant="text">Download</watt-button>
+        <watt-button icon="plus" variant="secondary">New transfer agreement</watt-button>
+      </div>
+    </div>
     <mat-table matSort [dataSource]="dataSource">
       <!-- GSRN Column -->
       <ng-container matColumnDef="recipient">
@@ -65,9 +76,9 @@ import { EoTransferStore } from './eo-transfers.store';
       <ng-container matColumnDef="status">
         <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <watt-badge *ngIf="isDateActive(element.dateTo); else notActive" type="success"
-            >Active</watt-badge
-          >
+          <watt-badge *ngIf="isDateActive(element.dateTo); else notActive" type="success">
+            Active
+          </watt-badge>
         </mat-cell>
       </ng-container>
 
@@ -88,7 +99,7 @@ import { EoTransferStore } from './eo-transfers.store';
       aria-label="Select page"
     ></mat-paginator>
 
-    <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge> </ng-template>
+    <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
   `,
 })
 export class EoTransferTableComponent implements AfterViewInit {

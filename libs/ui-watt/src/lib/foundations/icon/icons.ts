@@ -55,6 +55,7 @@ const materialIcons = {
   save: 'save_alt',
   upload: 'cloud_upload',
   download: 'cloud_download',
+  fileDownload: 'download',
   print: 'print',
   preview: 'preview',
   // Other
