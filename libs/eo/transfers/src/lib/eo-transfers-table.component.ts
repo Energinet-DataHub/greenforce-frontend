@@ -16,6 +16,7 @@
  */
 import { DatePipe, NgIf } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { MatLegacyCardModule } from '@angular/material/legacy-card';
 import {
   MatLegacyPaginator as MatPaginator,
   MatLegacyPaginatorModule as MatPaginatorModule,
@@ -26,16 +27,25 @@ import {
 } from '@angular/material/legacy-table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { EoTransfer } from './eo-transfer.service';
-import { EoTransferStore } from './eo-transfer.store';
+import { EoTransfer } from './eo-transfers.service';
+import { EoTransferStore } from './eo-transfers.store';
 
 @Component({
   selector: 'eo-transfer-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatPaginatorModule, MatTableModule, MatSortModule, DatePipe, WattBadgeComponent, NgIf],
+  imports: [
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
+    DatePipe,
+    WattBadgeComponent,
+    NgIf,
+    MatLegacyCardModule,
+  ],
   standalone: true,
   styles: [``],
   template: `
+    <h3 class="watt-space-stack-m">Transfer Agreements</h3>
     <mat-table matSort [dataSource]="dataSource">
       <!-- GSRN Column -->
       <ng-container matColumnDef="recipient">

@@ -16,7 +16,7 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { EoTransferTableComponent } from './eo-transfer-table.component';
+import { EoTransferTableComponent } from './eo-transfers-table.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

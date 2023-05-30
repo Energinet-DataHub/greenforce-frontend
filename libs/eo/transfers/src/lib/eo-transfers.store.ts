@@ -17,7 +17,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { EoTransfer, EoTransferService } from './eo-transfer.service';
+import { EoTransfer, EoTransferService } from './eo-transfers.service';
 
 interface EoTransferState {
   hasLoaded: boolean;
