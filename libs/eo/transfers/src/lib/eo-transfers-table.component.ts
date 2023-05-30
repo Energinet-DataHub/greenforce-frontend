@@ -16,7 +16,6 @@
  */
 import { DatePipe, NgIf } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { MatLegacyCardModule } from '@angular/material/legacy-card';
 import {
   MatLegacyPaginator as MatPaginator,
   MatLegacyPaginatorModule as MatPaginatorModule,
@@ -41,7 +40,6 @@ import { EoTransferStore } from './eo-transfers.store';
     DatePipe,
     WattBadgeComponent,
     NgIf,
-    MatLegacyCardModule,
     WattButtonModule,
   ],
   standalone: true,
@@ -53,8 +51,10 @@ import { EoTransferStore } from './eo-transfers.store';
     >
       <h3>Transfer Agreements</h3>
       <div style="gap: 16px; display:flex;">
-        <watt-button icon="fileDownload" variant="text">Download</watt-button>
-        <watt-button icon="plus" variant="secondary">New transfer agreement</watt-button>
+        <watt-button [disabled]="true" icon="fileDownload" variant="text">Download</watt-button>
+        <watt-button [disabled]="true" icon="plus" variant="secondary">
+          New transfer agreement
+        </watt-button>
       </div>
     </div>
     <mat-table matSort [dataSource]="dataSource">
