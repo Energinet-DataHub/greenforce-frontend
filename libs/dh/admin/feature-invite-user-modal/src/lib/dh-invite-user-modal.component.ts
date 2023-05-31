@@ -166,7 +166,13 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
       onError: (e) => {
         this.toastService.open({
           type: 'danger',
-          message: e.map(x => this.translocoService.translate(`admin.userManagement.inviteUser.serverErrors.${x.code}`)).join('\n'),
+          message: e
+            .map((x) =>
+              this.translocoService.translate(
+                `admin.userManagement.inviteUser.serverErrors.${x.code}`
+              )
+            )
+            .join('\n'),
           duration: 600000,
         });
       },
