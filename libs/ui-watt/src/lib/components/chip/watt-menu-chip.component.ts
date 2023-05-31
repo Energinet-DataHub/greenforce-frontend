@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { WattIconModule } from '../../foundations/icon/icon.module';
 import { WattChipComponent } from './watt-chip.component';
+
+export type WattMenuChipRole = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
 
 @Component({
   standalone: true,
@@ -48,7 +50,12 @@ import { WattChipComponent } from './watt-chip.component';
   ],
   template: `
     <watt-chip [disabled]="disabled" [selected]="selected">
-      <button (click)="toggleMenu()" [disabled]="disabled">
+      <button
+        [attr.aria-haspopup]="role"
+        [attr.aria-expanded]="opened"
+        (click)="toggle.emit()"
+        [disabled]="disabled"
+      >
         <ng-content />
       </button>
       <watt-icon
@@ -67,20 +74,6 @@ export class WattMenuChipComponent {
   @Input() name?: string;
   @Input() value?: string;
   @Input() selected = false;
-  @Input() @HostBinding('attr.aria-haspopup') hasPopup:
-    | 'menu'
-    | 'listbox'
-    | 'tree'
-    | 'grid'
-    | 'dialog' = 'menu';
-
+  @Input() role: WattMenuChipRole = 'menu';
   @Output() toggle = new EventEmitter<void>();
-
-  @HostBinding('attr.aria-expanded') get ariaExpanded() {
-    return this.opened;
-  }
-
-  toggleMenu() {
-    this.toggle.emit();
-  }
 }
