@@ -43,21 +43,41 @@ import { EoTransferStore } from './eo-transfers.store';
     WattButtonModule,
   ],
   standalone: true,
-  styles: [``],
+  styles: [
+    `
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+
+        .actions {
+          gap: 16px;
+          display: flex;
+        }
+      }
+    `,
+  ],
   template: `
-    <div
-      class="card-header watt-space-stack-m"
-      style="display:flex; justify-content: space-between; "
-    >
+    <div class="card-header watt-space-stack-m">
       <h3>Transfer Agreements</h3>
-      <div style="gap: 16px; display:flex;">
-        <watt-button [disabled]="true" icon="fileDownload" variant="text">Download</watt-button>
-        <watt-button [disabled]="true" icon="plus" variant="secondary">
+      <div class="actions">
+        <watt-button
+          data-testid="download-button"
+          [disabled]="true"
+          icon="fileDownload"
+          variant="text"
+          >Download</watt-button
+        >
+        <watt-button
+          data-testid="new-agreement-button"
+          [disabled]="true"
+          icon="plus"
+          variant="secondary"
+        >
           New transfer agreement
         </watt-button>
       </div>
     </div>
-    <mat-table matSort [dataSource]="dataSource">
+    <mat-table matSort [dataSource]="dataSource" data-testid="transfers-table">
       <!-- GSRN Column -->
       <ng-container matColumnDef="recipient">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Recipient</mat-header-cell>
@@ -93,6 +113,7 @@ import { EoTransferStore } from './eo-transfers.store';
       <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
     </mat-table>
     <mat-paginator
+      data-testid="table-paginator"
       [pageSize]="10"
       [pageSizeOptions]="[10, 25, 50, 100, 250]"
       [showFirstLastButtons]="true"

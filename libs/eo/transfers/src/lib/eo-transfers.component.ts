@@ -14,17 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoTransferTableComponent } from './eo-transfers-table.component';
+import { EoTransferStore } from './eo-transfers.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfer',
-  imports: [MatCardModule, EoTransferTableComponent],
+  imports: [MatCardModule, EoTransferTableComponent, EoPopupMessageComponent, AsyncPipe, NgIf],
   standalone: true,
   styles: [``],
   template: `
+    <eo-popup-message *ngIf="error$ | async"></eo-popup-message>
     <mat-card class="watt-space-stack-l">
       <h3 class="watt-space-stack-m">This is the beginning</h3>
       <p class="watt-space-stack-m">
@@ -39,4 +43,7 @@ import { EoTransferTableComponent } from './eo-transfers-table.component';
     </mat-card>
   `,
 })
-export class EoTransferComponent {}
+export class EoTransferComponent {
+  error$ = this.store.error$;
+  constructor(private store: EoTransferStore) {}
+}

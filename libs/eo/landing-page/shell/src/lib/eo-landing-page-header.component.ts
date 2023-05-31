@@ -42,7 +42,9 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
   ],
   template: `
     <eo-header>
-      <watt-button class="login" icon="login" (click)="login()">Log on</watt-button>
+      <watt-button class="login" data-testid="login-button" icon="login" (click)="login()">
+        Log on
+      </watt-button>
     </eo-header>
   `,
 })
