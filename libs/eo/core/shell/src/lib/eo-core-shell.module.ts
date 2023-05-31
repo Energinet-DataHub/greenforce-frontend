@@ -140,11 +140,7 @@ const routes: Routes = [
   imports: [
     GfBrowserConfigurationModule.forRoot(),
     EoHttpModule.forRoot(),
-    RouterModule.forRoot(routes, {
-      anchorScrolling: 'enabled',
-      initialNavigation: 'enabledNonBlocking',
-      scrollPositionRestoration: 'enabled',
-    }),
+    RouterModule.forRoot(routes),
     EoMaterialModule.forRoot(),
     EoShellComponent,
     MatDialogModule,

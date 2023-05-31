@@ -16,24 +16,40 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoHeaderComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoLandingPageLoginButtonComponent } from './eo-landing-page-login-button.component';
+import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [EoHeaderComponent, EoLandingPageLoginButtonComponent],
+  imports: [EoHeaderComponent, WattButtonModule],
   selector: 'eo-landing-page-header',
   styles: [
     `
       :host {
         display: block;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      ::ng-deep .login .mat-button.watt-button--primary {
+        height: 63px;
+        border-radius: 0;
+        margin-right: -16px;
       }
     `,
   ],
   template: `
     <eo-header>
-      <eo-landing-page-login-button></eo-landing-page-login-button>
+      <watt-button class="login" icon="login" (click)="login()">Log on</watt-button>
     </eo-header>
   `,
 })
-export class EoLandingPageHeaderComponent {}
+export class EoLandingPageHeaderComponent {
+  constructor(private authService: EoAuthService) {}
+
+  login() {
+    this.authService.startLogin();
+  }
+}

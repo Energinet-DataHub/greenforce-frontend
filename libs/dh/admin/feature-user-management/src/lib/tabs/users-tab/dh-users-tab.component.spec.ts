@@ -39,7 +39,8 @@ const users: MarketParticipantUserOverviewItemDto[] = [
   {
     id: '3ec41d91-fc6d-4364-ade6-b85576a91d04',
     email: 'testuser1@test.dk',
-    name: 'Test User 1',
+    firstName: 'Test User First',
+    lastName: 'Test User Last',
     phoneNumber: '11111111',
     createdDate: '2022-01-01T23:00:00Z',
     status: 'Active',
@@ -82,8 +83,11 @@ describe(DhUsersTabComponent.name, () => {
 
     const [testUser] = users;
 
-    const name = screen.getByRole('gridcell', {
-      name: new RegExp(testUser.name, 'i'),
+    const firstName = screen.getByRole('gridcell', {
+      name: new RegExp(testUser.firstName, 'i'),
+    });
+    const lastName = screen.getByRole('gridcell', {
+      name: new RegExp(testUser.lastName, 'i'),
     });
     const email = screen.getByRole('gridcell', {
       name: new RegExp(testUser.email, 'i'),
@@ -95,7 +99,8 @@ describe(DhUsersTabComponent.name, () => {
       name: new RegExp(enTranslations.admin.userManagement.userStatus.active, 'i'),
     });
 
-    expect(name).toBeInTheDocument();
+    expect(firstName).toBeInTheDocument();
+    expect(lastName).toBeInTheDocument();
     expect(email).toBeInTheDocument();
     expect(phone).toBeInTheDocument();
     expect(status).toBeInTheDocument();

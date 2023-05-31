@@ -39,11 +39,13 @@ const materialIcons = {
   forwardMessage: 'forward_to_inbox',
   menu: 'menu',
   logout: 'logout',
+  login: 'lock_open',
   // Navigation
   left: 'navigate_before',
   right: 'navigate_next',
   up: 'expand_less',
   down: 'expand_more',
+  arrowDropDown: 'arrow_drop_down',
   // Alerts
   danger: 'dangerous',
   warning: 'report_problem',

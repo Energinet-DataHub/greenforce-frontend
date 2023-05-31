@@ -11,9 +11,9 @@ Feature: Landing Page
     When I click the 'only necessary' button
     Then The popup closes
 
-  Scenario: There are 3 'start button's available
+  Scenario: There is 1 'login' button available
     Given I am on the landing page
-    Then I can see 3 start buttons
+    Then I can see 1 login button
 
   Scenario: The page has a footer with content
     Given I am on the landing page
