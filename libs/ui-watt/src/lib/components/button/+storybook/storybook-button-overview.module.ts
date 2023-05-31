@@ -16,12 +16,12 @@
  */
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { WattButtonModule } from '../watt-button.module';
+import { WattButtonComponent } from '../watt-button.component';
 import { StorybookButtonOverviewComponent } from './storybook-button-overview.component';
 
 @NgModule({
   declarations: [StorybookButtonOverviewComponent],
   exports: [StorybookButtonOverviewComponent],
-  imports: [WattButtonModule, MatCardModule],
+  imports: [WattButtonComponent, MatCardModule],
 })
 export class StorybookButtonOverviewModule {}

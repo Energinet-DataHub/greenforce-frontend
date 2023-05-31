@@ -18,8 +18,7 @@ import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { WattFormFieldModule } from '../../form-field/form-field.module';
-import { WattDropdownModule } from '../watt-dropdown.module';
+import { WATT_FORM_FIELD } from '../../form-field';
 import { WattDropdownComponent } from '../watt-dropdown.component';
 import { WattDropdownOption } from '../watt-dropdown-option';
 
@@ -36,7 +35,7 @@ const meta: Meta<WattDropdownComponent> = {
   component: WattDropdownComponent,
   decorators: [
     moduleMetadata({
-      imports: [FormsModule, BrowserAnimationsModule, WattDropdownModule, WattFormFieldModule],
+      imports: [FormsModule, BrowserAnimationsModule, WATT_FORM_FIELD],
     }),
   ],
 };
@@ -46,9 +45,9 @@ export default meta;
 const howToUseGuideBasic = `
  How to use
 
- 1. Import ${WattDropdownModule.name} in a module
+ 1. Import ${WattDropdownComponent.name} in a module
 
- import { ${WattDropdownModule.name} } from '@energinet-datahub/watt/dropdown';
+ import { ${WattDropdownComponent.name} } from '@energinet-datahub/watt/dropdown';
 
  2a. Create model in a component for single selection
 

@@ -16,7 +16,7 @@
  */
 import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import {
   WattDescriptionListComponent,
@@ -36,7 +36,7 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
     `,
   ],
   imports: [
-    WattCardModule,
+    WattCardComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     TranslocoModule,

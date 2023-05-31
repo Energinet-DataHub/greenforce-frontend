@@ -32,9 +32,9 @@ import {
 } from '@angular/material/legacy-snack-bar';
 import { fromEvent, repeat, Subscription, takeUntil, tap, timer } from 'rxjs';
 
-import { WattIconModule } from '../../foundations/icon';
-import { WattButtonModule } from '../button';
-import { WattSpinnerModule } from '../spinner';
+import { WattIconComponent } from '../../foundations/icon';
+import { WattButtonComponent } from '../button';
+import { WattSpinnerComponent } from '../spinner';
 
 export type WattToastType = 'success' | 'info' | 'warning' | 'danger' | 'loading';
 
@@ -59,7 +59,13 @@ export type WattToastRef = MatSnackBarRef<WattToastComponent>;
   styleUrls: ['./watt-toast.component.scss'],
   templateUrl: './watt-toast.component.html',
   standalone: true,
-  imports: [CommonModule, MatSnackBarModule, WattButtonModule, WattIconModule, WattSpinnerModule],
+  imports: [
+    CommonModule,
+    MatSnackBarModule,
+    WattButtonComponent,
+    WattIconComponent,
+    WattSpinnerComponent,
+  ],
 })
 export class WattToastComponent {
   @HostBinding('class') get class() {

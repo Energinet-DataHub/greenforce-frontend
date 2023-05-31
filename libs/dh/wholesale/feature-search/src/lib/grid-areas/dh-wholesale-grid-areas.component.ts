@@ -29,7 +29,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 
@@ -42,7 +42,7 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
     TranslocoModule,
     WattEmptyStateComponent,
     WattPaginatorComponent,
-    WattCardModule,
+    WATT_CARD,
   ],
   selector: 'dh-wholesale-grid-areas',
   templateUrl: './dh-wholesale-grid-areas.component.html',

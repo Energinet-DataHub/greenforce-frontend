@@ -17,14 +17,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { Router } from '@angular/router';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EoEmissionsDataComponent } from './eo-emissions-data.component';
 import { EoEmissionsStore } from './eo-emissions.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatCardModule, WattButtonModule, EoEmissionsDataComponent],
+  imports: [MatCardModule, WattButtonComponent, EoEmissionsDataComponent],
   selector: 'eo-emissions-page-info',
   styles: [
     `

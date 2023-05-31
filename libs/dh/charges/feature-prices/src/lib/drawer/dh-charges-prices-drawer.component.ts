@@ -19,10 +19,10 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { PushModule } from '@rx-angular/template/push';
 
-import { WattDrawerModule, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhChargeDetailsHeaderComponent } from './charge-content/details-header/dh-charge-details-header.component';
@@ -35,16 +35,16 @@ import { DhChargePriceMessageComponent } from './charge-message/dh-charge-price-
   standalone: true,
   imports: [
     CommonModule,
-    WattDrawerModule,
+    WATT_DRAWER,
     TranslocoModule,
     WattTabComponent,
     WattTabsComponent,
-    WattButtonModule,
+    WattButtonComponent,
     DhChargeDetailsHeaderComponent,
     DhChargeContentComponent,
     DhChargePriceMessageComponent,
     PushModule,
-    WattIconModule,
+    WattIconComponent,
   ],
   selector: 'dh-charges-prices-drawer',
   templateUrl: './dh-charges-prices-drawer.component.html',

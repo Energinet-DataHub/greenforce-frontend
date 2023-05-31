@@ -17,13 +17,13 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { EoAuthService, EoAuthStore } from '@energinet-datahub/eo/shared/services';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { combineLatest, take } from 'rxjs';
 
 @Component({
   standalone: true,
   selector: 'eo-login',
-  imports: [WattSpinnerModule],
+  imports: [WattSpinnerComponent],
   styles: [
     `
       .spinner {

@@ -20,7 +20,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { LetModule } from '@rx-angular/template/let';
 
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { DhMeteringPointFeatureIdentityAndMasterDataModule } from '@energinet-datahub/dh/metering-point/feature-identity-and-master-data';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
@@ -44,7 +44,7 @@ import { DhMeteringPointGeneralErrorComponent } from './general-error/dh-meterin
     DhMeteringPointNotFoundComponent,
     DhMeteringPointGeneralErrorComponent,
     LetModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     DhMeteringPointFeatureTabsModule,
   ],
 })

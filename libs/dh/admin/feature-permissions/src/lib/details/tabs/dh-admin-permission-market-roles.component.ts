@@ -24,8 +24,8 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -62,8 +62,8 @@ type MarketRole = ResultOf<
   standalone: true,
   imports: [
     CommonModule,
-    WattCardModule,
-    WattSpinnerModule,
+    WATT_CARD,
+    WattSpinnerComponent,
     WATT_TABLE,
     WattEmptyStateComponent,
     TranslocoModule,
