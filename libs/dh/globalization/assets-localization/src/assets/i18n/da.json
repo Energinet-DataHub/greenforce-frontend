@@ -2,6 +2,7 @@
   "appName": "DataHub",
   "yes": "Ja",
   "no": "Nej",
+  "selectedLanguageIso": "da-dk",
   "shell": {
     "logout": "Log ud"
   },

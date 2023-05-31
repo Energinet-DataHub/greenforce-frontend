@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { Component, Input, OnInit, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, RequiredValidator, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattCardModule } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WholesaleProcessType, graphql } from '@energinet-datahub/dh/shared/domain';
@@ -29,6 +29,7 @@ import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhWholesaleSettlementReportsDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 
 @Component({
   standalone: true,
@@ -50,6 +51,7 @@ import { DhWholesaleSettlementReportsDataAccessApiStore } from '@energinet-datah
 export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit {
   private fb: FormBuilder = inject(FormBuilder);
   private apollo = inject(Apollo);
+  private transloco = inject(TranslocoService);
   private destroy$ = new Subject<void>();
   private readonly settlementReportStore = inject(DhWholesaleSettlementReportsDataAccessApiStore);
 
@@ -57,8 +59,8 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
     this.searchForm.patchValue({ executionTime });
   }
   searchForm = this.fb.group({
-    executionTime: [this.executionTime],
-    actor: [{ value: '', disabled: true }],
+    executionTime: [this.executionTime, WattRangeValidators.required()],
+    actor: [''],
     gridAreas: [[] as string[], Validators.required],
   });
 
@@ -99,7 +101,14 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
     });
   }
 
-  DonwloadClicked() {
-    this.settlementReportStore.Download(['805'], WholesaleProcessType.BalanceFixing, this.searchForm.controls.executionTime.value?.start || '', this.searchForm.controls.executionTime.value?.end || '', 'da-dk')
+  DownloadClicked() {
+    this.settlementReportStore.Download(
+      this.searchForm.controls.gridAreas?.value ?? [],
+      WholesaleProcessType.BalanceFixing,
+      this.searchForm.controls.executionTime.value?.start ?? '',
+      this.searchForm.controls.executionTime.value?.end ?? '',
+      this.searchForm.controls.actor.value ?? undefined,
+      this.transloco.translate("selectedLanguageIso")
+    );
   }
 }

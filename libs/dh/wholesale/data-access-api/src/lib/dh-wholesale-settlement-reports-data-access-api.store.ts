@@ -16,7 +16,10 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { WholesaleProcessType, WholesaleSettlementReportHttp } from '@energinet-datahub/dh/shared/domain';
+import {
+  WholesaleProcessType,
+  WholesaleSettlementReportHttp,
+} from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse } from '@angular/common/http';
 
 interface SettlementReportsState {
@@ -41,21 +44,37 @@ export class DhWholesaleSettlementReportsDataAccessApiStore extends ComponentSto
     super(initialState);
   }
 
-  Download(gridAreas: string[], processType: WholesaleProcessType, periodStart: string, periodEnd: string, locale:string) {
-    return this.httpClient.v1WholesaleSettlementReportDownloadGet(gridAreas, processType,periodStart, periodEnd, undefined, locale).subscribe({
-      next: (data) => {
-        const blobPart = data as unknown as BlobPart;
-        const blob = new Blob([blobPart], { type: 'application/zip' });
-        const basisData = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = basisData;
-        link.download = `test.zip`;
-        link.click();
-        link.remove();
-      },
-      error: (error: HttpErrorResponse) => {
-       console.log(error);
-      },
-    });
+  Download(
+    gridAreas: string[],
+    processType: WholesaleProcessType,
+    periodStart: string,
+    periodEnd: string,
+    energySupplier: string | undefined,
+    locale: string | undefined
+  ) {
+    return this.httpClient
+      .v1WholesaleSettlementReportDownloadGet(
+        gridAreas,
+        processType,
+        periodStart,
+        periodEnd,
+        energySupplier,
+        locale
+      )
+      .subscribe({
+        next: (data) => {
+          const blobPart = data as unknown as BlobPart;
+          const blob = new Blob([blobPart], { type: 'application/zip' });
+          const basisData = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = basisData;
+          link.download = `SettlementReport.zip`;
+          link.click();
+          link.remove();
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error);
+        },
+      });
   }
 }
