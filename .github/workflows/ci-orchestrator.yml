@@ -31,8 +31,6 @@ jobs:
     uses: Energinet-DataHub/.github/.github/workflows/ci-base.yml@v11
     with:
       skip_license_check: true # Handled by another workflow
-      skip_yaml_lint: false
-      skip_actions_casing_validation: false
       skip_markdown_links_check: true
 
   #
