@@ -25,9 +25,9 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { OrganizationChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { WattInputModule } from '@energinet-datahub/watt/input';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
 import { LetModule } from '@rx-angular/template/let';
@@ -98,9 +98,9 @@ export class DhMarketParticipantOrganizationMasterDataComponent implements OnCha
     LetModule,
     FormsModule,
     TranslocoModule,
-    WattDropdownModule,
-    WattFormFieldModule,
-    WattInputModule,
+    WattDropdownComponent,
+    WATT_FORM_FIELD,
+    WattInputDirective,
   ],
   exports: [DhMarketParticipantOrganizationMasterDataComponent],
   declarations: [DhMarketParticipantOrganizationMasterDataComponent],

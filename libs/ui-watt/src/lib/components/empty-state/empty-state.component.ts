@@ -16,7 +16,7 @@
  */
 import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 
-import { WattIcon, WattIconModule } from '../../foundations/icon';
+import { WattIcon, WattIconComponent } from '../../foundations/icon';
 import { WattIconSize } from '../../foundations/icon/watt-icon-size';
 import { CommonModule } from '@angular/common';
 
@@ -30,7 +30,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './empty-state.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [CommonModule, WattIconModule],
+  imports: [CommonModule, WattIconComponent],
 })
 export class WattEmptyStateComponent {
   @Input() icon?: WattIcon;

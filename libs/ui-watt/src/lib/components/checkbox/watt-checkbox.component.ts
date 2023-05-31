@@ -15,8 +15,16 @@
  * limitations under the License.
  */
 import { Component, forwardRef, ViewEncapsulation } from '@angular/core';
-import { ControlValueAccessor, UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
+import {
+  ControlValueAccessor,
+  UntypedFormControl,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import {
+  MatLegacyCheckboxChange as MatCheckboxChange,
+  MatLegacyCheckboxModule as MatCheckboxModule,
+} from '@angular/material/legacy-checkbox';
 
 const customValueAccessor = {
   multi: true,
@@ -42,6 +50,8 @@ const selector = 'watt-checkbox';
   ],
   templateUrl: './watt-checkbox.component.html',
   providers: [customValueAccessor],
+  standalone: true,
+  imports: [MatCheckboxModule, ReactiveFormsModule],
 })
 export class WattCheckboxComponent implements ControlValueAccessor {
   /**

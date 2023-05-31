@@ -28,7 +28,7 @@ import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy
 import { TranslocoModule } from '@ngneat/transloco';
 import { RouterModule } from '@angular/router';
 
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhMeteringPointStatusBadgeScam } from '@energinet-datahub/dh/metering-point/ui-status-badge';
@@ -93,7 +93,7 @@ export class DhChildMeteringPointsTabContentComponent implements AfterViewInit {
     MatTableModule,
     TranslocoModule,
     DhMeteringPointStatusBadgeScam,
-    WattIconModule,
+    WattIconComponent,
     MatSortModule,
     CommonModule,
     WattEmptyStateComponent,

@@ -28,7 +28,13 @@ import {
 import {
   MatLegacyDialog as MatDialog,
   MatLegacyDialogConfig as MatDialogConfig,
+  MatLegacyDialogModule as MatDialogModule,
 } from '@angular/material/legacy-dialog';
+import { CommonModule } from '@angular/common';
+
+import { WattResizeObserverDirective } from '../../utils/resize-observer';
+import { WattButtonComponent } from '../button';
+import { WattSpinnerComponent } from '../spinner';
 import { exhaustMap, ignoreElements, map, mergeWith, Subject, take, tap } from 'rxjs';
 
 export type WattModalSize = 'small' | 'normal' | 'large';
@@ -44,7 +50,7 @@ const sizeConfig: Record<WattModalSize, MatDialogConfig> = {
  * a modal window that appears in front of the entire content.
  *
  * Usage:
- * `import { WattModalModule } from '@energinet-datahub/watt/modal';`
+ * `import { WATT_MODAL } from '@energinet-datahub/watt/modal';`
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,6 +58,14 @@ const sizeConfig: Record<WattModalSize, MatDialogConfig> = {
   selector: 'watt-modal',
   styleUrls: ['./watt-modal.component.scss'],
   templateUrl: './watt-modal.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    WattResizeObserverDirective,
+    WattButtonComponent,
+    WattSpinnerComponent,
+  ],
 })
 export class WattModalComponent implements AfterViewInit {
   /** Title to stay fixed to top of modal. */
@@ -158,5 +172,8 @@ export class WattModalComponent implements AfterViewInit {
 @Component({
   selector: 'watt-modal-actions',
   template: '<ng-content></ng-content>',
+  standalone: true,
 })
 export class WattModalActionsComponent {}
+
+export const WATT_MODAL = [WattModalComponent, WattModalActionsComponent];

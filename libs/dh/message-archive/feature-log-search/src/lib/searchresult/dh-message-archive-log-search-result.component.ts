@@ -34,17 +34,17 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import {
   WattTableComponent,
   WattTableColumnDef,
   WattTableCellDirective,
 } from '@energinet-datahub/watt/table';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
@@ -68,14 +68,14 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
     LetModule,
     MatTableModule,
     MatSortModule,
-    WattIconModule,
+    WattIconComponent,
     WattTableComponent,
     WattEmptyStateComponent,
-    WattButtonModule,
+    WattButtonComponent,
     WattBadgeComponent,
     DhSharedUiDateTimeModule,
-    WattSpinnerModule,
-    WattCardModule,
+    WattSpinnerComponent,
+    WATT_CARD,
     DhMessageArchiveDrawerComponent,
     DhMessageArchiveStatusComponent,
     ActorNamePipe,

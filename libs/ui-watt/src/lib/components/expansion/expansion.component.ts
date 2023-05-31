@@ -15,17 +15,20 @@
  * limitations under the License.
  */
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { MatExpansionPanel } from '@angular/material/expansion';
+import { MatExpansionPanel, MatExpansionModule } from '@angular/material/expansion';
+import { WattButtonComponent } from '../button/watt-button.component';
 
 /**
  * Usage:
- * `import { WattExpansionModule } from '@energinet-datahub/watt/expansion';`
+ * `import { WattExpansionComponent } from '@energinet-datahub/watt/expansion';`
  */
 @Component({
   selector: 'watt-expansion',
   styleUrls: ['./expansion.component.scss'],
   templateUrl: './expansion.component.html',
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [MatExpansionModule, WattButtonComponent],
 })
 export class WattExpansionComponent {
   @Input() openLabel = '';

@@ -16,12 +16,12 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoInlineMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattIconModule, EoInlineMessageComponent],
+  imports: [WattIconComponent, EoInlineMessageComponent],
   selector: 'eo-landing-page-notification',
   styles: [
     `

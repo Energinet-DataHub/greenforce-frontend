@@ -15,12 +15,7 @@
  * limitations under the License.
  */
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
-import {
-  DashboardPo,
-  LandingPagePO,
-  LoginPo,
-  SharedPO,
-} from '../../page-objects';
+import { DashboardPo, LandingPagePO, LoginPo, SharedPO } from '../../page-objects';
 
 const dashboard = new DashboardPo();
 const landingPage = new LandingPagePO();
@@ -30,7 +25,7 @@ const shared = new SharedPO();
 Given('I am logged in as Charlotte CSR', () => {
   landingPage.navigateTo();
   shared.clickOnlyNecessaryButton(); // To get rid of Cookie Consent banner
-  landingPage.clickStartButtonByIndex(0);
+  landingPage.clickLoginButton();
   login.clickCharlotteLogin();
 });
 
@@ -39,23 +34,15 @@ When('I am on the dashboard page', () => {
   dashboard.headerIsVisible();
 });
 
-Then('I can see the a pie-chart component', () => {
-  dashboard.pieChartIsVisible();
-});
+Then('I can see the a pie-chart component', () => dashboard.pieChartIsVisible());
 
-Then('I can see an emissions data component', () => {
-  dashboard.emissionCardIsVisible();
-});
+Then('I can see an emissions data component', () => dashboard.emissionCardIsVisible());
 
-Then('I can see an hourly declaration component', () => {
-  dashboard.hourlyDeclarationIsVisible();
-});
+Then('I can see an hourly declaration component', () => dashboard.hourlyDeclarationIsVisible());
+
+Then('I can see a component for exporting data for CSR', () => dashboard.exportDataCardIsVisible());
 
 Then('I can see a link collection component', () => {
   dashboard.linkCollectionIsVisible();
   dashboard.linkCollectionHasAmount(4);
-});
-
-Then('I can see a component for exporting data for CSR', () => {
-  dashboard.exportDataCardIsVisible();
 });

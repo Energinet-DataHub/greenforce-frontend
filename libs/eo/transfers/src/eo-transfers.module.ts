@@ -14,24 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
-import { PushModule } from '@rx-angular/template/push';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
-import { WattDropdownComponent } from './watt-dropdown.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { EoTransferComponent } from './lib/eo-transfers.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    data: { title: 'Transfers' },
+    component: EoTransferComponent,
+  },
+];
 
 @NgModule({
-  declarations: [WattDropdownComponent],
-  exports: [WattDropdownComponent],
-  imports: [
-    MatSelectModule,
-    CommonModule,
-    PushModule,
-    ReactiveFormsModule,
-    NgxMatSelectSearchModule,
-  ],
+  imports: [RouterModule.forChild(routes), EoTransferComponent],
 })
-export class WattDropdownModule {}
+export class EoTransferModule {}

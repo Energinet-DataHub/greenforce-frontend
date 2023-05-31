@@ -1,15 +1,15 @@
 {
-  "name": "eo-transfer",
+  "name": "eo-transfers",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/eo/transfer/src",
+  "sourceRoot": "libs/eo/transfers/src",
   "prefix": "eo",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/eo/transfer"],
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/transfers"],
       "options": {
-        "jestConfig": "libs/eo/transfer/jest.config.ts",
+        "jestConfig": "libs/eo/transfers/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -17,11 +17,11 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/eo/transfer/**/*.ts",
-          "libs/eo/transfer/**/*.html"
+          "libs/eo/transfers/**/*.ts",
+          "libs/eo/transfers/**/*.html"
         ]
       }
     }
   },
-  "tags": ["product:eo", "domain:transfer", "type:feature"]
+  "tags": ["product:eo", "domain:transfers", "type:feature"]
 }

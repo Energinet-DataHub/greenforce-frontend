@@ -15,12 +15,7 @@
  * limitations under the License.
  */
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
-import {
-  DashboardPo,
-  LandingPagePO,
-  LoginPo,
-  SharedPO,
-} from '../../page-objects';
+import { DashboardPo, LandingPagePO, LoginPo, SharedPO } from '../../page-objects';
 
 const landingPage = new LandingPagePO();
 const login = new LoginPo();
@@ -33,7 +28,7 @@ Given('I am on the landing page', () => {
 });
 
 When('I click the first start button to login', () => {
-  landingPage.clickStartButtonByIndex(0);
+  landingPage.clickLoginButton();
 });
 
 When('I see Charlotte CSRs login button and click it', () => {
@@ -46,6 +41,10 @@ When("I see Thomas Tesla's login button and click it", () => {
 
 When('I see Ivan Iværksætters login button and click it', () => {
   login.clickIvanLogin();
+});
+
+When('I see Peter Producents login button and click it', () => {
+  login.clickPeterLogin();
 });
 
 Then('I can see the dashboard page', () => {

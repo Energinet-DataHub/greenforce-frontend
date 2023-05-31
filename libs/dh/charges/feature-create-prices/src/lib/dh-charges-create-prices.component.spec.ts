@@ -23,11 +23,12 @@ import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-ti
 import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { formatInTimeZone } from 'date-fns-tz';
-import { WattToastModule } from '@energinet-datahub/watt/toast';
+import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import {
   DhChargesCreatePricesComponent,
   DhChargesCreatePricesScam,
 } from './dh-charges-create-prices.component';
+import { importProvidersFrom } from '@angular/core';
 
 const dateTimeFormat = 'dd-MM-yyyy';
 const danishTimeZoneIdentifier = 'Europe/Copenhagen';
@@ -61,12 +62,12 @@ describe(DhChargesCreatePricesComponent.name, () => {
 
   async function setup() {
     const { fixture } = await render(DhChargesCreatePricesComponent, {
+      providers: [importProvidersFrom(MatLegacySnackBarModule)],
       imports: [
         getTranslocoTestingModule(),
         DhApiModule.forRoot(),
         HttpClientModule,
         WattDanishDatetimeModule.forRoot(),
-        WattToastModule.forRoot(),
         DanishLocaleModule,
         DhChargesCreatePricesScam,
       ],
