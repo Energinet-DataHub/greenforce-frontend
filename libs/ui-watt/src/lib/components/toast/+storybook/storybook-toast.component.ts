@@ -19,13 +19,12 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  NgModule,
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+import { MAT_LEGACY_SNACK_BAR_DATA as MAT_SNACK_BAR_DATA } from '@angular/material/legacy-snack-bar';
 
-import { WattButtonModule } from '../../button';
+import { WattButtonComponent } from '../../button';
 import { WattToastService } from '../watt-toast.service';
 import { WattToastComponent, WattToastConfig, WattToastType } from '../watt-toast.component';
 
@@ -34,6 +33,9 @@ import { WattToastComponent, WattToastConfig, WattToastType } from '../watt-toas
   selector: 'storybook-toast',
   templateUrl: './storybook-toast.html',
   styleUrls: ['./storybook-toast.scss'],
+  standalone: true,
+  imports: [WattButtonComponent, WattToastComponent],
+  providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: {} }],
 })
 export class StorybookToastComponent implements AfterViewInit {
   @ViewChildren(WattToastComponent) toasts!: QueryList<WattToastComponent>;
@@ -76,11 +78,3 @@ export class StorybookToastComponent implements AfterViewInit {
     }
   }
 }
-
-@NgModule({
-  imports: [WattToastComponent, WattButtonModule],
-  declarations: [StorybookToastComponent],
-  providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: {} }],
-  exports: [StorybookToastComponent],
-})
-export class StorybookToastModule {}

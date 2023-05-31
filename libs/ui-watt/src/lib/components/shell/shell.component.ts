@@ -22,14 +22,14 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter, map, Subject, switchMap, takeUntil, first } from 'rxjs';
 
 import { WattBreakpoint, WattBreakpointsObserver } from '../../foundations/breakpoints';
-import { WattButtonModule } from '../button';
+import { WattButtonComponent } from '../button';
 
 @Component({
   selector: 'watt-shell',
   styleUrls: ['./shell.component.scss'],
   templateUrl: './shell.component.html',
   standalone: true,
-  imports: [CommonModule, MatSidenavModule, MatToolbarModule, WattButtonModule],
+  imports: [CommonModule, MatSidenavModule, MatToolbarModule, WattButtonComponent],
 })
 export class WattShellComponent implements OnInit, OnDestroy {
   /**

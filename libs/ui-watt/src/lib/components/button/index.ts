@@ -15,4 +15,3 @@
  * limitations under the License.
  */
 export { WattButtonComponent } from './watt-button.component';
-export { WattButtonModule } from './watt-button.module';

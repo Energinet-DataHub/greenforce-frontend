@@ -21,24 +21,25 @@ import userEvent from '@testing-library/user-event';
 import { DhGraphQLModule } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
-import { WattToastModule } from '@energinet-datahub/watt/toast';
+import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 
 import { DhWholesaleSearchComponent } from './dh-wholesale-search.component';
+import { importProvidersFrom } from '@angular/core';
 
 async function setup() {
   await render(`<dh-wholesale-search></dh-wholesale-search>`, {
+    providers: [importProvidersFrom(MatLegacySnackBarModule)],
     imports: [
       DhGraphQLModule.forRoot(),
       DhWholesaleSearchComponent,
       getTranslocoTestingModule(),
       HttpClientModule,
       WattDanishDatetimeModule.forRoot(),
-      WattToastModule.forRoot(),
     ],
   });
 }
 
-describe(DhWholesaleSearchComponent.name, () => {
+describe(DhWholesaleSearchComponent, () => {
   it('should show period with initial value', async () => {
     await setup();
     expect(screen.getAllByText('Execution time')[0]).toBeInTheDocument();

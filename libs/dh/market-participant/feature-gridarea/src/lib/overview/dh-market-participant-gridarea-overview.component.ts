@@ -22,12 +22,12 @@ import {
   MatLegacyTableModule as MatTableModule,
 } from '@angular/material/legacy-table';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { WattDrawerModule, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
@@ -94,14 +94,14 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
     MatMenuModule,
     TranslocoModule,
     WattBadgeComponent,
-    WattButtonModule,
-    WattIconModule,
+    WattButtonComponent,
+    WattIconComponent,
     WattEmptyStateComponent,
-    WattSpinnerModule,
-    WattValidationMessageModule,
+    WattSpinnerComponent,
+    WattValidationMessageComponent,
     DhEmDashFallbackPipeScam,
     DhSharedUiDateTimeModule,
-    WattDrawerModule,
+    WATT_DRAWER,
     DhMarketParticipantGridAreaDetailsHeaderScam,
     DhMarketParticipantGridAreaEditScam,
     DhMarketParticipantGridAreaDetailsAuditLogScam,

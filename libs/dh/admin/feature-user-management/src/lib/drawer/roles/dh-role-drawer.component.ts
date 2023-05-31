@@ -21,9 +21,9 @@ import { provideComponentStore } from '@ngrx/component-store';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhEditUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-edit-user-role-modal';
@@ -33,7 +33,7 @@ import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-data-general-error.component';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 @Component({
   selector: 'dh-role-drawer',
   standalone: true,
@@ -43,17 +43,17 @@ import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/mod
   imports: [
     CommonModule,
     TranslocoModule,
-    WattDrawerModule,
-    WattButtonModule,
+    WATT_DRAWER,
+    WattButtonComponent,
     DhRoleStatusComponent,
     DhDrawerRoleTabsComponent,
     PushModule,
     LetModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     DhTabDataGeneralErrorComponent,
     DhEditUserRoleModalComponent,
     DhPermissionRequiredDirective,
-    WattModalModule,
+    WATT_MODAL,
   ],
 })
 export class DhRoleDrawerComponent {

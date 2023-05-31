@@ -17,7 +17,7 @@
 import { render, screen } from '@testing-library/angular';
 import { EoFooterComponent } from './eo-footer.component';
 
-describe(EoFooterComponent.name, () => {
+describe(EoFooterComponent, () => {
   const findEnerginetLogo = () => screen.findByRole('img', { name: 'Energinet' });
   const findPrivacyLink = () => screen.findByRole('link', { name: /privacypolicy/i });
   const findAccessibilityLink = () => screen.findByRole('link', { name: /accessibility/i });
@@ -25,9 +25,7 @@ describe(EoFooterComponent.name, () => {
   const findEmailLink = () => screen.findByRole('link', { name: /email/i });
 
   beforeEach(async () => {
-    await render(EoFooterComponent, {
-      imports: [EoFooterComponent],
-    });
+    await render(EoFooterComponent);
   });
 
   it('displays the Energinet logo', async () => {

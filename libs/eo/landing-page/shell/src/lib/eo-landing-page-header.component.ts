@@ -17,12 +17,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoHeaderComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService } from '@energinet-datahub/eo/shared/services';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [EoHeaderComponent, WattButtonModule],
+  imports: [EoHeaderComponent, WattButtonComponent],
   selector: 'eo-landing-page-header',
   styles: [
     `

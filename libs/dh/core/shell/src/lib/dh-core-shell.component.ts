@@ -21,7 +21,7 @@ import { MsalService } from '@azure/msal-angular';
 import { PushModule } from '@rx-angular/template/push';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar';
 
@@ -43,7 +43,7 @@ import {
     PushModule,
     DhPrimaryNavigationComponent,
     WattShellComponent,
-    WattButtonModule,
+    WattButtonComponent,
     DhSelectedActorComponent,
     DhSignupMitIdComponent,
   ],
