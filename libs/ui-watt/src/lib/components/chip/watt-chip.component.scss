@@ -18,6 +18,7 @@
 
 label {
   @include watt.typography-watt-text-s;
+  position: relative;
   background: var(--watt-color-white);
   border-radius: var(--watt-space-m);
   border: 1px solid var(--watt-on-light-low-emphasis);
