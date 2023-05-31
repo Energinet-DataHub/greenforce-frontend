@@ -47,6 +47,8 @@ import { of, ReplaySubject, Subject, distinctUntilChanged, map, takeUntil, take 
 import type { WattDropdownOptions } from './watt-dropdown-option';
 import type { WattDropdownValue } from './watt-dropdown-value';
 
+import { WattMenuChipComponent } from '../chip';
+
 const MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE = 60;
 
 @Component({
@@ -61,6 +63,7 @@ const MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE = 60;
     PushModule,
     ReactiveFormsModule,
     NgxMatSelectSearchModule,
+    WattMenuChipComponent,
   ],
 })
 export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
@@ -123,7 +126,31 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
   /**
    * @ignore
    */
+  get showTriggerValue(): boolean {
+    return (this.multiple && this.matSelectControl.value?.length === 1) ||
+      (!this.multiple && this.matSelect?.triggerValue)
+      ? true
+      : false;
+  }
+
+  /**
+   * @ignore
+   */
+  get showChipLabel() {
+    return this.multiple && this.matSelectControl.value && this.matSelectControl.value.length > 1
+      ? true
+      : false;
+  }
+
+  /**
+   * @ignore
+   */
   @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
+
+  /**
+   * Set the mode of the dropdown.
+   */
+  @Input() chipMode = false;
 
   /**
    *
@@ -251,7 +278,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
       )
       .subscribe((filteredOptions: string[]) => {
         const optionsToSelect = toggleAllState ? filteredOptions : [];
-
         this.matSelectControl.patchValue(optionsToSelect);
       });
   }

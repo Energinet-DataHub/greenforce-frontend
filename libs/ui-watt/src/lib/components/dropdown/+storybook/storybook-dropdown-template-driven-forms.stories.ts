@@ -35,7 +35,7 @@ const meta: Meta<WattDropdownComponent> = {
   component: WattDropdownComponent,
   decorators: [
     moduleMetadata({
-      imports: [FormsModule, BrowserAnimationsModule, WattDropdownComponent, WATT_FORM_FIELD],
+      imports: [FormsModule, BrowserAnimationsModule, WATT_FORM_FIELD],
     }),
   ],
 };

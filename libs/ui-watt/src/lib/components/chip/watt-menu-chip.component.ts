@@ -27,6 +27,10 @@ import { WattChipComponent } from './watt-chip.component';
   selector: 'watt-menu-chip',
   styles: [
     `
+      :host {
+        display: block;
+      }
+
       button {
         all: unset;
       }
@@ -35,6 +39,10 @@ import { WattChipComponent } from './watt-chip.component';
         margin-left: var(--watt-space-xs);
         transition: linear 0.2s all;
         color: var(--watt-color-primary);
+
+        &.disabled {
+          color: var(--watt-on-light-low-emphasis);
+        }
       }
 
       .opened {
@@ -57,6 +65,7 @@ import { WattChipComponent } from './watt-chip.component';
         class="menu-icon"
         [class.opened]="opened"
         [class.selected]="selected"
+        [class.disabled]="disabled"
       />
     </watt-chip>
   `,
