@@ -20,9 +20,9 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { WholesaleProcessType, graphql } from '@energinet-datahub/dh/shared/domain';
 import { Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
@@ -30,6 +30,7 @@ import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhWholesaleSettlementReportsDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   standalone: true,
@@ -52,6 +53,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
   private fb: FormBuilder = inject(FormBuilder);
   private apollo = inject(Apollo);
   private transloco = inject(TranslocoService);
+  private toastService = inject(WattToastService);
   private destroy$ = new Subject<void>();
   private readonly settlementReportStore = inject(DhWholesaleSettlementReportsDataAccessApiStore);
 
