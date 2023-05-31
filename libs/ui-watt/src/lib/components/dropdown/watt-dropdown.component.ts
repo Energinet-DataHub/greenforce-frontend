@@ -108,7 +108,31 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
   /**
    * @ignore
    */
+  get showTriggerValue(): boolean {
+    return (this.multiple && this.matSelectControl.value?.length === 1) ||
+      (!this.multiple && this.matSelect?.triggerValue)
+      ? true
+      : false;
+  }
+
+  /**
+   * @ignore
+   */
+  get showChipLabel() {
+    return this.multiple && this.matSelectControl.value && this.matSelectControl.value.length > 1
+      ? true
+      : false;
+  }
+
+  /**
+   * @ignore
+   */
   @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
+
+  /**
+   * Set the mode of the dropdown.
+   */
+  @Input() chipMode = false;
 
   /**
    *
@@ -236,7 +260,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
       )
       .subscribe((filteredOptions: string[]) => {
         const optionsToSelect = toggleAllState ? filteredOptions : [];
-
         this.matSelectControl.patchValue(optionsToSelect);
       });
   }
