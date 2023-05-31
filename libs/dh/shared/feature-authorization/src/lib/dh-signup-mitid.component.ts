@@ -20,7 +20,7 @@ import { DhB2CEnvironment, dhB2CEnvironmentToken } from '@energinet-datahub/dh/s
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { PushModule } from '@rx-angular/template/push';
@@ -30,7 +30,7 @@ import { PushModule } from '@rx-angular/template/push';
   styleUrls: ['./dh-signup-mitid.component.scss'],
   templateUrl: './dh-signup-mitid.component.html',
   standalone: true,
-  imports: [CommonModule, PushModule, WattSpinnerModule, TranslocoModule],
+  imports: [CommonModule, PushModule, WattSpinnerComponent, TranslocoModule],
 })
 export class DhSignupMitIdComponent {
   constructor(

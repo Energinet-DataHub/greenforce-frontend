@@ -19,8 +19,7 @@ import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { fireEvent, within } from '@storybook/testing-library';
 
-import { WattFormFieldModule } from '../../form-field/form-field.module';
-import { WattDropdownModule } from '../watt-dropdown.module';
+import { WATT_FORM_FIELD } from '../../form-field';
 import { WattDropdownComponent } from '../watt-dropdown.component';
 import { WattDropdownOption } from '../watt-dropdown-option';
 
@@ -29,7 +28,7 @@ const meta: Meta<WattDropdownComponent> = {
   component: WattDropdownComponent,
   decorators: [
     moduleMetadata({
-      imports: [FormsModule, ReactiveFormsModule, WattDropdownModule, WattFormFieldModule],
+      imports: [FormsModule, ReactiveFormsModule, WATT_FORM_FIELD],
     }),
     applicationConfig({
       providers: [provideAnimations()],

@@ -18,12 +18,12 @@
 import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { WattIconModule } from '../../foundations/icon/icon.module';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { WattChipComponent } from './watt-chip.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, WattChipComponent, WattIconModule],
+  imports: [CommonModule, WattChipComponent, WattIconComponent],
   selector: 'watt-menu-chip',
   styles: [
     `

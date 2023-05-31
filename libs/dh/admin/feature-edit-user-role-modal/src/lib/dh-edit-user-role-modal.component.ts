@@ -33,13 +33,13 @@ import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattInputModule } from '@energinet-datahub/watt/input';
-import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
   DhAdminMarketRolePermissionsStore,
   DhAdminUserRoleEditDataAccessApiStore,
@@ -79,16 +79,16 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
     CommonModule,
     PushModule,
     LetModule,
-    WattModalModule,
-    WattButtonModule,
+    WATT_MODAL,
+    WattButtonComponent,
     TranslocoModule,
     WattTabComponent,
     WattTabsComponent,
-    WattFormFieldModule,
-    WattInputModule,
+    WATT_FORM_FIELD,
+    WattInputDirective,
     ReactiveFormsModule,
-    WattSpinnerModule,
-    WattCardModule,
+    WattSpinnerComponent,
+    WATT_CARD,
     DhPermissionsTableComponent,
   ],
 })

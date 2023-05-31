@@ -33,9 +33,9 @@ import {
   MarketParticipantUserOverviewSortProperty,
   MarketParticipantUserStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
@@ -96,15 +96,15 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
     LetModule,
     PushModule,
     TranslocoModule,
-    WattSpinnerModule,
-    WattCardModule,
+    WattSpinnerComponent,
+    WATT_CARD,
     DhUsersTabTableComponent,
     DhUsersTabStatusFilterComponent,
     DhSharedUiPaginatorComponent,
     DhUsersTabGeneralErrorComponent,
     DhUsersTabActorFilterComponent,
     DhUsersTabUserRoleFilterComponent,
-    WattButtonModule,
+    WattButtonComponent,
     DhPermissionRequiredDirective,
     DhInviteUserModalComponent,
     DhSharedUiSearchComponent,

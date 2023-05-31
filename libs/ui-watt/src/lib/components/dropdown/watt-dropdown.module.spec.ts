@@ -23,7 +23,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatLegacySelectHarness as MatSelectHarness } from '@angular/material/legacy-select/testing';
 
 import { WattDropdownOptions } from './watt-dropdown-option';
-import { WattDropdownModule } from './watt-dropdown.module';
+import { WattDropdownComponent } from './watt-dropdown.component';
 
 const dropdownOptions: WattDropdownOptions = [
   { value: 'outlaws', displayValue: 'The Outlaws' },
@@ -35,7 +35,7 @@ const dropdownOptions: WattDropdownOptions = [
 
 const matOptionClass = '.mat-option';
 
-describe(WattDropdownModule.name, () => {
+describe(WattDropdownComponent.name, () => {
   function getFilterInput(): HTMLInputElement {
     const inputs: HTMLInputElement[] = screen.getAllByRole('textbox', {
       // We search for "hidden" input elements because as of `ngx-mat-select-search` v5.0.0
@@ -95,7 +95,7 @@ describe(WattDropdownModule.name, () => {
       }
 
       const { fixture } = await render(TestComponent, {
-        imports: [WattDropdownModule, ReactiveFormsModule],
+        imports: [WattDropdownComponent, ReactiveFormsModule],
       });
 
       const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -325,7 +325,7 @@ describe(WattDropdownModule.name, () => {
       }
 
       const { fixture } = await render(TestComponent, {
-        imports: [WattDropdownModule, FormsModule],
+        imports: [WattDropdownComponent, FormsModule],
       });
 
       const loader = TestbedHarnessEnvironment.loader(fixture);
