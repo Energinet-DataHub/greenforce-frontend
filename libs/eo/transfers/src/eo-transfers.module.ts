@@ -17,12 +17,12 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EoTransferComponent } from './lib/eo-transfer.component';
+import { EoTransferComponent } from './lib/eo-transfers.component';
 
 const routes: Routes = [
   {
     path: '',
-    data: { title: 'Transfer' },
+    data: { title: 'Transfers' },
     component: EoTransferComponent,
   },
 ];

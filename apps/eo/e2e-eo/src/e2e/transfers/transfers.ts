@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
-import { DashboardPo, LandingPagePO, LoginPo, SharedPO } from '../../page-objects';
+import { LandingPagePO, LoginPo, SharedPO } from '../../page-objects';
+import { TransfersPo } from '../../page-objects/transfers.po';
 
-const dashboard = new DashboardPo();
+const transfers = new TransfersPo();
 const landingPage = new LandingPagePO();
 const login = new LoginPo();
 const shared = new SharedPO();
@@ -29,20 +30,18 @@ Given('I am logged in as Charlotte CSR', () => {
   login.clickCharlotteLogin();
 });
 
-When('I am on the dashboard page', () => {
-  dashboard.urlIsDashboardPage();
-  dashboard.headerIsVisible();
+When('I go to the transfers page', () => {
+  shared.clickTransfersMenuItem();
+  transfers.urlIsTransfersPage();
+  transfers.headerIsVisible();
 });
 
-Then('I can see the a pie-chart component', () => dashboard.pieChartIsVisible());
+Then('I can see a header text in the table card', () => transfers.cardHeaderIsVisible());
 
-Then('I can see an emissions data component', () => dashboard.emissionCardIsVisible());
+Then('I can see a table component', () => transfers.tableIsVisible());
 
-Then('I can see an hourly declaration component', () => dashboard.hourlyDeclarationIsVisible());
+Then('I can see the table has a paginator', () => transfers.paginatorIsVisible());
 
-Then('I can see a component for exporting data for CSR', () => dashboard.exportDataCardIsVisible());
+Then('I can see a download button', () => transfers.downloadButtonIsVisible());
 
-Then('I can see a link collection component', () => {
-  dashboard.linkCollectionIsVisible();
-  dashboard.linkCollectionHasAmount(4);
-});
+Then('I can see a button to create a new agreement', () => transfers.newAgreementButtonIsVisible());
