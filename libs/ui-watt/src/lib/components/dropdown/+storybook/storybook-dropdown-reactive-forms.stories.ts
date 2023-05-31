@@ -302,8 +302,9 @@ WithValidationChipMode.parameters = {
 };
 WithValidationChipMode.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement.parentElement as HTMLElement);
-  const dropdown = canvas.getByRole('combobox');
-  fireEvent.click(dropdown);
+
+  const menuChip = canvas.getByRole('button');
+  fireEvent.click(menuChip);
 
   const emptyOption = canvas.getByRole('option', {
     name: '—',
