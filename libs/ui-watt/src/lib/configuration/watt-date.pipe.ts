@@ -25,7 +25,7 @@ export class WattDatePipe implements PipeTransform {
   /**
    * @param maybeIso8601DateTime DateTime in ISO 8601 format (e.g. 2021-12-01T23:00:00Z)
    */
-  transform(maybeIso8601DateTime?: string) {
+  transform(maybeIso8601DateTime?: string | null) {
     return !maybeIso8601DateTime
       ? null
       : formatInTimeZone(maybeIso8601DateTime, 'Europe/Copenhagen', 'dd-MM-yyyy');
