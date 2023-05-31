@@ -33,9 +33,9 @@ import {
   UntypedFormControl,
   ValidationErrors,
   ValidatorFn,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 import { PushModule } from '@rx-angular/template/push';
 import {
   MatLegacySelectModule as MatSelectModule,

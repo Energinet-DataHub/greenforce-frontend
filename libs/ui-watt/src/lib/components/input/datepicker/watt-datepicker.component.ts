@@ -34,9 +34,9 @@ import {
   MatEndDate,
   MatStartDate,
   MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
+  MatDatepickerModule,
 } from '@angular/material/datepicker';
 import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { WattButtonComponent } from '../../button';
 import { combineLatest, map, merge, startWith, takeUntil, tap } from 'rxjs';

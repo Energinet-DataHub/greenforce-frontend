@@ -15,12 +15,16 @@
  * limitations under the License.
  */
 import { Component, forwardRef, ViewEncapsulation } from '@angular/core';
-import { ControlValueAccessor, UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  UntypedFormControl,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   MatLegacyCheckboxChange as MatCheckboxChange,
   MatLegacyCheckboxModule as MatCheckboxModule,
 } from '@angular/material/legacy-checkbox';
-import { ReactiveFormsModule } from '@angular/forms';
 
 const customValueAccessor = {
   multi: true,
