@@ -16,6 +16,7 @@ limitations under the License.
 -->
 <watt-menu-chip
   *ngIf="chipMode"
+  (click)="matSelect.open()"
   [opened]="matSelect.panelOpen"
   [selected]="!!matSelect?.triggerValue"
   [disabled]="matSelectControl.disabled"
@@ -30,7 +31,7 @@ limitations under the License.
   #matSelect
   [multiple]="multiple"
   [disableOptionCentering]="true"
-  [class.chip]="chipMode"
+  [ngStyle]="{'visibility': chipMode ? 'hidden' : 'visible'}"
   [panelClass]="{
     'watt-dropdown-panel': true,
     'watt-dropdown-panel-single-selection': !multiple,
