@@ -26,7 +26,7 @@ import {
 } from '@angular/material/legacy-table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EoTransfer } from './eo-transfers.service';
 import { EoTransferStore } from './eo-transfers.store';
 
@@ -40,7 +40,7 @@ import { EoTransferStore } from './eo-transfers.store';
     DatePipe,
     WattBadgeComponent,
     NgIf,
-    WattButtonModule,
+    WattButtonComponent,
   ],
   standalone: true,
   styles: [
