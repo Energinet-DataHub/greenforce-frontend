@@ -27,13 +27,13 @@ import {
   MatLegacyRadioModule as MatRadioModule,
 } from '@angular/material/legacy-radio';
 import { CalendarDateRange } from '@energinet-datahub/eo/shared/services';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   selector: 'eo-date-picker-dialog',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [MatDatepickerModule, WattButtonModule, MatRadioModule, FormsModule],
+  imports: [MatDatepickerModule, WattButtonComponent, MatRadioModule, FormsModule],
   styles: [
     `
       .dialog-container {
@@ -93,7 +93,9 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
         background-color: var(--watt-color-primary-dark);
       }
 
-      .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+      .mat-calendar-body-today:not(.mat-calendar-body-selected):not(
+          .mat-calendar-body-comparison-identical
+        ) {
         border-color: var(--watt-color-primary-dark);
       }
 

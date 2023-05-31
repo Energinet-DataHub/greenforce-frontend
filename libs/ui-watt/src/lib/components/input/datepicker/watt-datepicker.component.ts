@@ -28,14 +28,17 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { FormatWidth, getLocaleDateFormat } from '@angular/common';
+import { FormatWidth, getLocaleDateFormat, CommonModule } from '@angular/common';
 import {
   MatDatepickerInput,
   MatEndDate,
   MatStartDate,
   MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
+  MatDatepickerModule,
 } from '@angular/material/datepicker';
 import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { WattButtonComponent } from '../../button';
 import { combineLatest, map, merge, startWith, takeUntil, tap } from 'rxjs';
 import { parse, isValid, parseISO, set } from 'date-fns';
 import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
@@ -52,7 +55,7 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
 /**
  * Usage:
- * `import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';`
+ * `import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';`
  *
  * IMPORTANT:
  * The styling is calculated based on our monospaced font.
@@ -69,6 +72,8 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatDatepickerModule, MatInputModule, WattButtonComponent, CommonModule],
 })
 export class WattDatepickerComponent extends WattPickerBase {
   @Input() max?: Date;

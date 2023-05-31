@@ -23,7 +23,7 @@ import { map } from 'rxjs';
 import { DhProcessesDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhProcessesTableScam } from './processes-table/dh-processes-table.component';
@@ -54,7 +54,7 @@ export class DhProcessesTabContentComponent {
   declarations: [DhProcessesTabContentComponent],
   imports: [
     CommonModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     LetModule,
     DhProcessesTableScam,
     WattEmptyStateComponent,

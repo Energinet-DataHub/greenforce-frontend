@@ -29,7 +29,7 @@ export const eoIntroductionRoutePath = 'introduction';
 export const eoSimultaneityRoutePath = 'simultaneity';
 export const eoGeographyRoutePath = 'geography';
 export const eoTermsRoutePath = 'terms';
-export const eoTransferRoutePath = 'transfer';
+export const eoTransferRoutePath = 'transfers';
 
 export const eoRoutes = {
   certificates: eoCertificatesRoutePath,

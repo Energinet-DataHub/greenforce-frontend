@@ -26,12 +26,12 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { WattIconModule } from '../../foundations/icon/icon.module';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
   selector: 'watt-breadcrumb',
   standalone: true,
-  imports: [CommonModule, WattIconModule],
+  imports: [CommonModule, WattIconComponent],
   encapsulation: ViewEncapsulation.None,
   template: `<ng-template #templateRef><ng-content></ng-content></ng-template>`,
 })
@@ -49,7 +49,7 @@ export class WattBreadcrumbComponent {
 @Component({
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [CommonModule, WattIconModule],
+  imports: [CommonModule, WattIconComponent],
   selector: 'watt-breadcrumbs',
   styleUrls: ['./watt-breadcrumbs.component.scss'],
   template: `

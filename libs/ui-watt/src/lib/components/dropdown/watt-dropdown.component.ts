@@ -33,12 +33,21 @@ import {
   UntypedFormControl,
   ValidationErrors,
   ValidatorFn,
+  ReactiveFormsModule,
 } from '@angular/forms';
-import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
+import { CommonModule } from '@angular/common';
+import { PushModule } from '@rx-angular/template/push';
+import {
+  MatLegacySelectModule as MatSelectModule,
+  MatLegacySelect as MatSelect,
+} from '@angular/material/legacy-select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { of, ReplaySubject, Subject, distinctUntilChanged, map, takeUntil, take } from 'rxjs';
 
-import { WattDropdownOptions } from './watt-dropdown-option';
-import { WattDropdownValue } from './watt-dropdown-value';
+import type { WattDropdownOptions } from './watt-dropdown-option';
+import type { WattDropdownValue } from './watt-dropdown-value';
+
+import { WattMenuChipComponent } from '../chip';
 
 const MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE = 60;
 
@@ -47,6 +56,15 @@ const MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE = 60;
   templateUrl: './watt-dropdown.component.html',
   styleUrls: ['./watt-dropdown.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [
+    MatSelectModule,
+    CommonModule,
+    PushModule,
+    ReactiveFormsModule,
+    NgxMatSelectSearchModule,
+    WattMenuChipComponent,
+  ],
 })
 export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
   /**
@@ -108,7 +126,31 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
   /**
    * @ignore
    */
+  get showTriggerValue(): boolean {
+    return (this.multiple && this.matSelectControl.value?.length === 1) ||
+      (!this.multiple && this.matSelect?.triggerValue)
+      ? true
+      : false;
+  }
+
+  /**
+   * @ignore
+   */
+  get showChipLabel() {
+    return this.multiple && this.matSelectControl.value && this.matSelectControl.value.length > 1
+      ? true
+      : false;
+  }
+
+  /**
+   * @ignore
+   */
   @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
+
+  /**
+   * Set the mode of the dropdown.
+   */
+  @Input() chipMode = false;
 
   /**
    *
@@ -236,7 +278,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
       )
       .subscribe((filteredOptions: string[]) => {
         const optionsToSelect = toggleAllState ? filteredOptions : [];
-
         this.matSelectControl.patchValue(optionsToSelect);
       });
   }

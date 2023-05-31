@@ -41,11 +41,11 @@ import {
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
-import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { PushModule } from '@rx-angular/template/push';
 import { ActorFilter, SettlementReportFilters } from '@energinet-datahub/dh/wholesale/domain';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
@@ -56,10 +56,10 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
     CommonModule,
     ReactiveFormsModule,
     TranslocoModule,
-    WattButtonModule,
-    WattDatepickerModule,
-    WattFormFieldModule,
-    WattDropdownModule,
+    WattButtonComponent,
+    WattDatepickerComponent,
+    WATT_FORM_FIELD,
+    WattDropdownComponent,
     PushModule,
   ],
   selector: 'dh-wholesale-form',

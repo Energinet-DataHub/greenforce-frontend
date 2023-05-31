@@ -17,7 +17,6 @@
 import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
-import { WattCheckboxModule } from '../watt-checkbox.module';
 import { WattCheckboxComponent } from '../watt-checkbox.component';
 
 const meta: Meta<WattCheckboxComponent> = {
@@ -25,7 +24,7 @@ const meta: Meta<WattCheckboxComponent> = {
   component: WattCheckboxComponent,
   decorators: [
     moduleMetadata({
-      imports: [ReactiveFormsModule, WattCheckboxModule],
+      imports: [ReactiveFormsModule, WattCheckboxComponent],
     }),
   ],
 };
@@ -35,9 +34,9 @@ export default meta;
 const howToUseGuideBasic = `
 How to use
 
-1. Import ${WattCheckboxModule.name} in a module
+1. Import ${WattCheckboxComponent.name} in a module
 
-import { ${WattCheckboxModule.name} } from '@energinet-datahub/watt/checkbox';
+import { ${WattCheckboxComponent.name} } from '@energinet-datahub/watt/checkbox';
 
 2. Create FormControl in a component
 
@@ -64,9 +63,9 @@ WithFormControl.parameters = {
 const howToUseGuideDisabled = `
 How to use
 
-1. Import ${WattCheckboxModule.name} in a module
+1. Import ${WattCheckboxComponent.name} in a module
 
-import { ${WattCheckboxModule.name} } from '@energinet-datahub/watt/checkbox';
+import { ${WattCheckboxComponent.name} } from '@energinet-datahub/watt/checkbox';
 
 2. Create FormControl in a component
 
