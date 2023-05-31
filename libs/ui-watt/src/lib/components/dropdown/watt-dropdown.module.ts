@@ -22,11 +22,13 @@ import { PushModule } from '@rx-angular/template/push';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import { WattDropdownComponent } from './watt-dropdown.component';
+import { WattMenuChipComponent } from '../chip';
 
 @NgModule({
   declarations: [WattDropdownComponent],
   exports: [WattDropdownComponent],
   imports: [
+    WattMenuChipComponent,
     MatSelectModule,
     CommonModule,
     PushModule,
