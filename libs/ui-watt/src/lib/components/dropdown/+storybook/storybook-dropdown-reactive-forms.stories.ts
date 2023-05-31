@@ -34,7 +34,7 @@ const meta: Meta<WattDropdownComponent> = {
     applicationConfig({
       providers: [provideAnimations()],
     }),
-  ]
+  ],
 };
 
 const dropdownOptions: WattDropdownOption[] = [
@@ -65,7 +65,7 @@ const DefaultTemplate: Story = {
   render: (args) => ({
     props: {
       ...args,
-      exampleFormControl: new FormControl({ value: null, disabled: false })
+      exampleFormControl: new FormControl({ value: null, disabled: false }),
     },
     template,
   }),
@@ -75,7 +75,7 @@ const DisabledTemplate: Story = {
   render: (args) => ({
     props: {
       ...args,
-      exampleFormControl: new FormControl({ value: null, disabled: true })
+      exampleFormControl: new FormControl({ value: null, disabled: true }),
     },
     template,
   }),
@@ -85,7 +85,7 @@ const ValidationTemplate: Story = {
   render: (args) => ({
     props: {
       ...args,
-      exampleFormControl: new FormControl(null, Validators.required)
+      exampleFormControl: new FormControl(null, Validators.required),
     },
     template,
   }),
@@ -107,8 +107,8 @@ export const SingleSelectChipMode: Story = {
   args: {
     ...SingleSelect.args,
     chipMode: true,
-  }
-}
+  },
+};
 
 export const MultiSelect: Story = {
   ...DefaultTemplate,
@@ -117,7 +117,7 @@ export const MultiSelect: Story = {
     placeholder,
     noOptionsFoundLabel: 'No team found.',
     multiple: true,
-  }
+  },
 };
 
 export const MultiSelectChipMode: Story = {
@@ -125,29 +125,29 @@ export const MultiSelectChipMode: Story = {
   args: {
     ...MultiSelect.args,
     chipMode: true,
-  }
+  },
 };
 
 export const WithFormControlDisabled: Story = {
   ...DisabledTemplate,
   args: {
     ...SingleSelect.args,
-  }
-}
+  },
+};
 
 export const WithFormControlDisabledChipMode: Story = {
   ...DisabledTemplate,
   args: {
     ...SingleSelectChipMode.args,
-  }
-}
+  },
+};
 
 export const WithValidation: Story = {
   ...ValidationTemplate,
   args: {
     ...SingleSelect.args,
-  }
-}
+  },
+};
 WithValidation.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement.parentElement as HTMLElement);
   const dropdown = canvas.getByRole('combobox');
@@ -163,8 +163,8 @@ export const WithValidationChipMode: Story = {
   ...ValidationTemplate,
   args: {
     ...SingleSelectChipMode.args,
-  }
-}
+  },
+};
 
 WithValidationChipMode.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement.parentElement as HTMLElement);
