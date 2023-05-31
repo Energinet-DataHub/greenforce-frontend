@@ -82,7 +82,7 @@ const getTruthyAt =
  * Usage:
  * `import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';`
  *
- * IMPORTANT:s
+ * IMPORTANT:
  * The styling is calculated based on our monospaced font.
  */
 @Component({
