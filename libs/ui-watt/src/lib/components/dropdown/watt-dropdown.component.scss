@@ -58,6 +58,11 @@ watt-dropdown {
     margin-left: var(--watt-space-s);
     background: var(--watt-color-neutral-white);
   }
+
+  .chip {
+    visibility: hidden;
+    position: absolute;
+  }
 }
 
 .watt-dropdown-panel {
