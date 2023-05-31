@@ -18,18 +18,16 @@ export class SharedPO {
   private onlyNecessaryButton = '[data-testid="button-only-necessary"]';
   private cookieBanner = 'eo-cookie-banner';
   private acceptAllButton = '[data-testid="button-accept-all"]';
+  private navListItem = 'watt-nav-list-item';
 
   // Visibility
   cookieBannerIsVisible = () => cy.get(this.cookieBanner).should('be.visible');
-  onlyNecessaryButtonIsVisible = () =>
-    cy.get(this.onlyNecessaryButton).should('be.visible');
-  acceptAllButtonIsVisible = () =>
-    cy.get(this.acceptAllButton).should('be.visible');
-  cookieBannerIsNotVisible = () =>
-    cy.get(this.cookieBanner).should('not.exist');
+  onlyNecessaryButtonIsVisible = () => cy.get(this.onlyNecessaryButton).should('be.visible');
+  acceptAllButtonIsVisible = () => cy.get(this.acceptAllButton).should('be.visible');
+  cookieBannerIsNotVisible = () => cy.get(this.cookieBanner).should('not.exist');
 
   // Interaction
   clickOnlyNecessaryButton = () => cy.get(this.onlyNecessaryButton).click();
-  clickLogoutMenuItem = () =>
-    cy.get('a.mat-list-item').contains('Log out').click();
+  clickLogoutMenuItem = () => cy.get(this.navListItem).contains('Log out').click();
+  clickTransfersMenuItem = () => cy.get(this.navListItem).contains('Transfers').click();
 }

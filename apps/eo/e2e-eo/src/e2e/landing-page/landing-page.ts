@@ -32,17 +32,11 @@ When('I can see a cookie consent popup', () => {
   shared.acceptAllButtonIsVisible();
 });
 
-When("I click the 'only necessary' button", () => {
-  shared.clickOnlyNecessaryButton();
-});
+When("I click the 'only necessary' button", () => shared.clickOnlyNecessaryButton());
 
-Then('The popup closes', () => {
-  shared.cookieBannerIsNotVisible();
-});
+Then('The popup closes', () => shared.cookieBannerIsNotVisible());
 
-Then('I can see 1 login button', () => {
-  landingPage.loginButtonsVisible(1);
-});
+Then('I can see 1 login button', () => landingPage.loginButtonsVisible(1));
 
 Then('I can see a footer with content in it', () => {
   footer.isVisible();
