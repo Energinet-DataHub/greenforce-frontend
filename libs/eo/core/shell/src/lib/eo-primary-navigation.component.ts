@@ -53,7 +53,7 @@ import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datah
         >
       </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.transfer }}"
-        >Transfer
+        >Transfers
         <span style="padding-left:8px; font-weight:bold;color:var(--watt-color-secondary-dark);"
           >BETA</span
         >
