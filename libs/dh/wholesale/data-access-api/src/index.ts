@@ -15,4 +15,3 @@
  * limitations under the License.
  */
 export * from './lib/dh-wholesale-settlement-reports-data-access-api.store';
-

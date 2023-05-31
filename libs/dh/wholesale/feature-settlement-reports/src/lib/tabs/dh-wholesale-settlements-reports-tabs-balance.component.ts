@@ -110,7 +110,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
       this.searchForm.controls.executionTime.value?.start ?? '',
       this.searchForm.controls.executionTime.value?.end ?? '',
       this.searchForm.controls.actor.value ?? undefined,
-      this.transloco.translate("selectedLanguageIso")
+      this.transloco.translate('selectedLanguageIso')
     );
   }
 }
