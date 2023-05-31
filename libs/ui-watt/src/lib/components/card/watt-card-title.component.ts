@@ -35,6 +35,7 @@ const selector = 'watt-card-title';
   ],
   template: `<ng-content></ng-content>`,
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
 })
 export class WattCardTitleComponent {
   @HostBinding('class')

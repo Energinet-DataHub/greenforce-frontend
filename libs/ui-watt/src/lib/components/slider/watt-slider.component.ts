@@ -22,7 +22,8 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import { Options } from '@angular-slider/ngx-slider';
+import { CommonModule } from '@angular/common';
+import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
 
 export interface WattSliderValue {
   min: number;
@@ -38,6 +39,8 @@ export interface WattSliderValue {
   selector: 'watt-slider',
   styleUrls: ['./watt-slider.component.scss'],
   templateUrl: './watt-slider.component.html',
+  standalone: true,
+  imports: [CommonModule, NgxSliderModule],
 })
 export class WattSliderComponent {
   /** The lowest permitted value. */

@@ -22,14 +22,14 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { ChargeTypes, ValidityOptions } from '@energinet-datahub/dh/charges/domain';
 
-import { WattInputModule } from '@energinet-datahub/watt/input';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
-import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { PushModule } from '@rx-angular/template/push';
 import { DhChargesPricesResultComponent } from './search-result/dh-charges-prices-result.component';
@@ -47,17 +47,17 @@ import { ChargeSearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
     PushModule,
     TranslocoModule,
     WattBadgeComponent,
-    WattButtonModule,
-    WattCheckboxModule,
-    WattDatepickerModule,
-    WattDropdownModule,
-    WattFormFieldModule,
-    WattInputModule,
-    WattSpinnerModule,
+    WattButtonComponent,
+    WattCheckboxComponent,
+    WattDatepickerComponent,
+    WattDropdownComponent,
+    WATT_FORM_FIELD,
+    WattInputDirective,
+    WattSpinnerComponent,
     TranslocoModule,
     FormsModule,
     DhChargesPricesResultComponent,
-    WattDatepickerModule,
+    WattDatepickerComponent,
     PushModule,
   ],
   selector: 'dh-charges-prices',
