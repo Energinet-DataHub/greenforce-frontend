@@ -31,6 +31,7 @@ export type WattMenuChipRole = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
     `
       button {
         all: unset;
+        pointer-events: none;
       }
 
       .menu-icon {
@@ -45,6 +46,10 @@ export type WattMenuChipRole = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
 
       .selected {
         color: var(--watt-color-neutral-white);
+      }
+
+      .disabled {
+        color: var(--watt-on-light-low-emphasis);
       }
     `,
   ],
@@ -64,6 +69,7 @@ export type WattMenuChipRole = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
         class="menu-icon"
         [class.opened]="opened"
         [class.selected]="selected"
+        [class.disabled]="disabled"
       />
     </watt-chip>
   `,
