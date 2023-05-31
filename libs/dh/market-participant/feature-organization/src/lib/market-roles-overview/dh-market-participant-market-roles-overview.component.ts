@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { WattCardComponent, WattCardTitleComponent } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -41,8 +41,7 @@ import { take } from 'rxjs';
     TranslocoModule,
     WattButtonComponent,
     WattIconComponent,
-    WattCardComponent,
-    WattCardTitleComponent,
+    WATT_CARD,
   ],
 })
 export class DhMarketParticipantMarketRolesOverviewComponent implements AfterViewInit {

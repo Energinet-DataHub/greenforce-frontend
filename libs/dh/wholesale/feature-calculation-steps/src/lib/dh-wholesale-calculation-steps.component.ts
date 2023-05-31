@@ -28,7 +28,7 @@ import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattCardComponent, WattCardTitleComponent } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
@@ -52,8 +52,7 @@ import { DhWholesaleActorsComponent } from './actors/dh-wholesale-actors.compone
     RouterModule,
     WattBadgeComponent,
     WattButtonComponent,
-    WattCardComponent,
-    WattCardTitleComponent,
+    WATT_CARD,
     WattEmptyStateComponent,
     WattSpinnerComponent,
     DhWholesaleActorsComponent,

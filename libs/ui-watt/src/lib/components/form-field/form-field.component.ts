@@ -47,7 +47,7 @@ import { WattLabelComponent } from './components/label.component';
   standalone: true,
   imports: [CommonModule, MatFormFieldModule, MatInputModule],
 })
-export class FormFieldComponent implements AfterViewInit {
+export class WattFormFieldComponent implements AfterViewInit {
   beforeViewInit = true; // Used to remove placeholder control
 
   @ViewChild(MatFormField)
@@ -84,7 +84,7 @@ export class FormFieldComponent implements AfterViewInit {
 }
 
 export const WATT_FORM_FIELD = [
-  FormFieldComponent,
+  WattFormFieldComponent,
   WattErrorComponent,
   WattLabelComponent,
   WattHintComponent,

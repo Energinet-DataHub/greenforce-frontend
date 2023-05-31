@@ -27,7 +27,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { provideComponentStore } from '@ngrx/component-store';
-import { WattCardComponent, WattCardTitleComponent } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { map } from 'rxjs';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
@@ -43,8 +43,7 @@ import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shar
     LetModule,
     PushModule,
     TranslocoModule,
-    WattCardComponent,
-    WattCardTitleComponent,
+    WATT_CARD,
     WattSpinnerComponent,
     WattEmptyStateComponent,
     WATT_TABLE,

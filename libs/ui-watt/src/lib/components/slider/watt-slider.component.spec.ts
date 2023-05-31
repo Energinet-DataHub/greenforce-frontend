@@ -17,12 +17,9 @@
 import { render, screen } from '@testing-library/angular';
 import { WattSliderComponent } from './watt-slider.component';
 
-describe.skip(WattSliderComponent.name, () => {
+describe.skip(WattSliderComponent, () => {
   it('renders', async () => {
-    await render(WattSliderComponent, {
-      declarations: [WattSliderComponent],
-      imports: [WattSliderComponent],
-    });
+    await render(WattSliderComponent);
 
     expect(screen.queryAllByRole('slider')).toHaveLength(2);
   });

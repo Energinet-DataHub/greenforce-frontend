@@ -16,7 +16,7 @@
  */
 import { Component } from '@angular/core';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattCardComponent, WattCardTitleComponent } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhWholesaleSettlementsReportsTabsBalanceComponent } from './tabs/dh-wholesale-settlements-reports-tabs-balance.component';
@@ -28,8 +28,7 @@ import { DhWholesaleSettlementsReportsTabsBalanceComponent } from './tabs/dh-who
   styleUrls: ['./dh-wholesale-settlements-reports-tab.component.scss'],
   imports: [
     WATT_TABS,
-    WattCardComponent,
-    WattCardTitleComponent,
+    WATT_CARD,
     TranslocoModule,
     WattButtonComponent,
     DhWholesaleSettlementsReportsTabsBalanceComponent,

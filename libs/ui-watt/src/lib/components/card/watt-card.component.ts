@@ -16,6 +16,7 @@
  */
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { WattCardTitleComponent } from './watt-card-title.component';
 /**
  * Usage:
  * `import { WattCardComponent } from '@energinet-datahub/watt/card';`
@@ -52,3 +53,5 @@ export class WattCardComponent {
     return `watt-card watt-${this.variant}`;
   }
 }
+
+export const WATT_CARD = [WattCardComponent, WattCardTitleComponent];

@@ -23,7 +23,6 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { MAT_LEGACY_SNACK_BAR_DATA as MAT_SNACK_BAR_DATA } from '@angular/material/legacy-snack-bar';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
 import { WattButtonComponent } from '../../button';
 import { WattToastService } from '../watt-toast.service';
@@ -35,7 +34,7 @@ import { WattToastComponent, WattToastConfig, WattToastType } from '../watt-toas
   templateUrl: './storybook-toast.html',
   styleUrls: ['./storybook-toast.scss'],
   standalone: true,
-  imports: [WattButtonComponent, MatSnackBarModule, WattToastComponent],
+  imports: [WattButtonComponent, WattToastComponent],
   providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: {} }],
 })
 export class StorybookToastComponent implements AfterViewInit {

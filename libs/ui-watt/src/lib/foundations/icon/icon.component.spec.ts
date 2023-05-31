@@ -25,7 +25,6 @@ describe(WattIconComponent, () => {
       componentProperties: {
         name: 'search',
       },
-      imports: [WattIconComponent],
     });
 
     const component = view.fixture.componentInstance;
@@ -39,7 +38,6 @@ describe(WattIconComponent, () => {
       componentProperties: {
         name: 'search',
       },
-      imports: [WattIconComponent],
     });
 
     const component = view.fixture.componentInstance;
@@ -55,7 +53,6 @@ describe(WattIconComponent, () => {
           componentProperties: {
             name: 'search',
           },
-          imports: [WattIconComponent],
         });
 
         const actualClasses = Object.keys(view.fixture.debugElement.classes);
@@ -69,7 +66,6 @@ describe(WattIconComponent, () => {
             name: 'search',
             size: 'l',
           },
-          imports: [WattIconComponent],
         });
 
         const actualClasses = Object.keys(view.fixture.debugElement.classes);
@@ -84,7 +80,6 @@ describe(WattIconComponent, () => {
           componentProperties: {
             name: 'search',
           },
-          imports: [WattIconComponent],
         });
 
         const actualClasses = Object.keys(view.fixture.debugElement.classes);
@@ -98,7 +93,6 @@ describe(WattIconComponent, () => {
             name: 'search',
             state: 'success',
           },
-          imports: [WattIconComponent],
         });
 
         const actualClasses = Object.keys(view.fixture.debugElement.classes);
@@ -119,7 +113,6 @@ describe(WattIconComponent, () => {
         componentProperties: {
           name: icon as WattIcon,
         },
-        imports: [WattIconComponent],
       });
 
       const component = view.fixture.componentInstance;
@@ -132,7 +125,6 @@ describe(WattIconComponent, () => {
         componentProperties: {
           name: icon as WattIcon,
         },
-        imports: [WattIconComponent],
       });
 
       const actualClasses = Object.keys(view.fixture.debugElement.classes);
@@ -146,7 +138,6 @@ describe(WattIconComponent, () => {
           name: icon as WattIcon,
           state: 'default',
         },
-        imports: [WattIconComponent],
       });
 
       const actualClasses = Object.keys(view.fixture.debugElement.classes);
