@@ -19,9 +19,9 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 
 export const searchDebounceTimeMs = 250;
 
@@ -50,9 +50,9 @@ export const searchDebounceTimeMs = 250;
   imports: [
     TranslocoModule,
     ReactiveFormsModule,
-    WattFormFieldModule,
-    WattInputModule,
-    WattButtonModule,
+    WATT_FORM_FIELD,
+    WattInputDirective,
+    WattButtonComponent,
   ],
 })
 export class DhSharedUiSearchComponent implements OnInit, OnDestroy {

@@ -17,14 +17,14 @@
 import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { EoPieChartComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { LetModule } from '@rx-angular/template/let';
 import { map } from 'rxjs';
 import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
 
 @Component({
   standalone: true,
-  imports: [EoPieChartComponent, WattSpinnerModule, LetModule, NgIf],
+  imports: [EoPieChartComponent, WattSpinnerComponent, LetModule, NgIf],
   selector: 'eo-origin-of-energy-pie-chart',
   template: `
     <ng-container *rxLet="loadingDone$ as loadingDone">

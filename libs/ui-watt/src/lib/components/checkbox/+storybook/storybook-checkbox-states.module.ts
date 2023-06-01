@@ -16,13 +16,13 @@
  */
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { WattCheckboxModule } from '../watt-checkbox.module';
+import { WattCheckboxComponent } from '../watt-checkbox.component';
 
 import { StorybookCheckboxStatesComponent } from './storybook-checkbox-states.component';
 
 @NgModule({
   declarations: [StorybookCheckboxStatesComponent],
   exports: [StorybookCheckboxStatesComponent],
-  imports: [WattCheckboxModule, ReactiveFormsModule],
+  imports: [WattCheckboxComponent, ReactiveFormsModule],
 })
 export class WattCheckboxStatesModule {}

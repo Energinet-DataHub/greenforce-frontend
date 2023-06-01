@@ -14,14 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { fireEvent, within } from '@storybook/testing-library';
 
-import { WattFormFieldModule } from '../../form-field/form-field.module';
-import { WattDropdownModule } from '../watt-dropdown.module';
+import { WATT_FORM_FIELD } from '../../form-field';
 import { WattDropdownComponent } from '../watt-dropdown.component';
 import { WattDropdownOption } from '../watt-dropdown-option';
+
+const meta: Meta<WattDropdownComponent> = {
+  title: 'Components/Dropdown/Reactive Forms',
+  component: WattDropdownComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [FormsModule, ReactiveFormsModule, WATT_FORM_FIELD],
+    }),
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
+  ],
+};
 
 const dropdownOptions: WattDropdownOption[] = [
   { value: 'outlaws', displayValue: 'The Outlaws' },
@@ -30,163 +43,136 @@ const dropdownOptions: WattDropdownOption[] = [
   { value: 'volt', displayValue: 'Volt' },
   { value: 'joules', displayValue: 'Joules' },
 ];
+const placeholder = 'Select a team';
 
-const meta: Meta<WattDropdownComponent> = {
-  title: 'Components/Dropdown/Reactive Forms',
-  component: WattDropdownComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        WattDropdownModule,
-        WattFormFieldModule,
-      ],
-    }),
-  ],
+const template = `
+<watt-form-field>
+  <watt-label>Label</watt-label>
+  <watt-dropdown
+    [chipMode]="chipMode"
+    [multiple]="multiple"
+    [formControl]="exampleFormControl"
+    [placeholder]="placeholder"
+    [options]="options"></watt-dropdown>
+    <watt-error *ngIf="exampleFormControl.errors?.required">
+    Field is required
+    </watt-error>
+</watt-form-field>
+`;
+
+const DefaultTemplate: Story = {
+  render: (args) => ({
+    props: {
+      ...args,
+      exampleFormControl: new FormControl({ value: null, disabled: false }),
+    },
+    template,
+  }),
+};
+
+const DisabledTemplate: Story = {
+  render: (args) => ({
+    props: {
+      ...args,
+      exampleFormControl: new FormControl({ value: null, disabled: true }),
+    },
+    template,
+  }),
+};
+
+const ValidationTemplate: Story = {
+  render: (args) => ({
+    props: {
+      ...args,
+      exampleFormControl: new FormControl(null, Validators.required),
+    },
+    template,
+  }),
 };
 
 export default meta;
+type Story = StoryObj<WattDropdownComponent>;
 
-const howToUseGuideBasic = `
- How to use
-
- 1. Import ${WattDropdownModule.name} in a module
-
- import { ${WattDropdownModule.name} } from '@energinet-datahub/watt/dropdown';
-
- 2a. Create FormControl in a component and define dropdown options.
-
- exampleFormControl = new FormControl(null);
-
- 2b. Define dropdown options by using the WattDropdownOption interface
-
- options: WattDropdownOption[] = [{ value: 'example', displayValue: 'Example' }]
-
- 3. Assign the FormControl and options to the dropdown component
-
- <watt-dropdown [formControl]="exampleFormControl" [options]="options"></watt-dropdown>
-
- 4. Wrap the dropdown component in a "watt-form-field"
-
- <watt-form-field>
-  <watt-dropdown [formControl]="exampleFormControl" [options]="options"></watt-dropdown>
- </watt-form-field>`;
-
-export const SingleSelect: StoryFn<WattDropdownComponent> = (
-  args: Partial<WattDropdownComponent>
-) => ({
-  props: {
-    exampleFormControl: new FormControl(null),
-    options: args.options,
-    placeholder: args.placeholder,
-  },
-  template: `<watt-form-field>
-    <watt-dropdown
-      [formControl]="exampleFormControl"
-      [placeholder]="placeholder"
-      [options]="options"></watt-dropdown>
-  </watt-form-field>`,
-});
-SingleSelect.args = {
-  options: dropdownOptions,
-  placeholder: 'Select a team',
-};
-SingleSelect.parameters = {
-  docs: {
-    source: {
-      code: howToUseGuideBasic,
-    },
-  },
-};
-
-export const MultiSelect: StoryFn<WattDropdownComponent> = (
-  args: Partial<WattDropdownComponent>
-) => ({
-  props: {
-    exampleFormControl: new FormControl(null),
-    options: args.options,
-    placeholder: args.placeholder,
-    noOptionsFoundLabel: args.noOptionsFoundLabel,
-  },
-  template: `<watt-form-field>
-    <watt-dropdown
-      [multiple]="true"
-      [formControl]="exampleFormControl"
-      [placeholder]="placeholder"
-      [noOptionsFoundLabel]="noOptionsFoundLabel"
-      [options]="options"></watt-dropdown>
-  </watt-form-field>`,
-});
-MultiSelect.args = {
-  options: dropdownOptions,
-  placeholder: 'Select a team',
-  noOptionsFoundLabel: 'No team found.',
-};
-MultiSelect.parameters = {
-  docs: {
-    source: {
-      code: howToUseGuideBasic,
-    },
-  },
-};
-
-export const WithLabel: StoryFn<WattDropdownComponent> = () => ({
-  props: {
-    exampleFormControl: new FormControl(null),
-  },
-  template: `<watt-form-field>
-    <watt-label>Label</watt-label>
-    <watt-dropdown [formControl]="exampleFormControl"></watt-dropdown>
-  </watt-form-field>`,
-});
-WithLabel.parameters = {
-  docs: {
-    source: {
-      code: howToUseGuideBasic,
-    },
-  },
-};
-
-export const WithValidation: StoryFn<WattDropdownComponent> = () => ({
-  props: {
-    exampleFormControl: new FormControl(null, Validators.required),
+export const SingleSelect: Story = {
+  ...DefaultTemplate,
+  args: {
     options: dropdownOptions,
-  },
-  template: `<watt-form-field>
-    <watt-label>Label</watt-label>
-
-    <watt-dropdown [formControl]="exampleFormControl" [options]="options"></watt-dropdown>
-
-    <watt-error *ngIf="exampleFormControl.errors?.required">
-      Field is required
-    </watt-error>
-  </watt-form-field>`,
-});
-WithValidation.parameters = {
-  docs: {
-    source: {
-      code: howToUseGuideBasic,
-    },
+    placeholder,
   },
 };
 
-export const WithFormControlDisabled: StoryFn<WattDropdownComponent> = () => ({
-  props: {
-    exampleFormControl: new FormControl({ value: null, disabled: true }),
+export const SingleSelectChipMode: Story = {
+  ...DefaultTemplate,
+  args: {
+    ...SingleSelect.args,
+    chipMode: true,
+  },
+};
+
+export const MultiSelect: Story = {
+  ...DefaultTemplate,
+  args: {
     options: dropdownOptions,
-    placeholder: `I'm disabled`,
+    placeholder,
+    noOptionsFoundLabel: 'No team found.',
+    multiple: true,
   },
-  template: `<watt-form-field>
-    <watt-label>Label</watt-label>
-    <watt-dropdown [formControl]="exampleFormControl" [options]="options" [placeholder]="placeholder"></watt-dropdown>
-  </watt-form-field>`,
-});
-WithValidation.parameters = {
-  docs: {
-    source: {
-      code: howToUseGuideBasic,
-    },
+};
+
+export const MultiSelectChipMode: Story = {
+  ...DefaultTemplate,
+  args: {
+    ...MultiSelect.args,
+    chipMode: true,
   },
+};
+
+export const WithFormControlDisabled: Story = {
+  ...DisabledTemplate,
+  args: {
+    ...SingleSelect.args,
+  },
+};
+
+export const WithFormControlDisabledChipMode: Story = {
+  ...DisabledTemplate,
+  args: {
+    ...SingleSelectChipMode.args,
+  },
+};
+
+export const WithValidation: Story = {
+  ...ValidationTemplate,
+  args: {
+    ...SingleSelect.args,
+  },
+};
+WithValidation.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement.parentElement as HTMLElement);
+  const dropdown = canvas.getByRole('combobox');
+  fireEvent.click(dropdown);
+
+  const emptyOption = canvas.getByRole('option', {
+    name: '—',
+  });
+  fireEvent.click(emptyOption);
+};
+
+export const WithValidationChipMode: Story = {
+  ...ValidationTemplate,
+  args: {
+    ...SingleSelectChipMode.args,
+  },
+};
+
+WithValidationChipMode.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement.parentElement as HTMLElement);
+
+  const menuChip = canvas.getByRole('button');
+  fireEvent.click(menuChip);
+
+  const emptyOption = canvas.getByRole('option', {
+    name: '—',
+  });
+  fireEvent.click(emptyOption);
 };

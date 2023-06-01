@@ -23,12 +23,19 @@ import {
   MatLegacyTableModule as MatTableModule,
 } from '@angular/material/legacy-table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, MatTableModule, MatSortModule, WattBadgeComponent, WattSpinnerModule],
+  imports: [
+    NgIf,
+    AsyncPipe,
+    MatTableModule,
+    MatSortModule,
+    WattBadgeComponent,
+    WattSpinnerComponent,
+  ],
   standalone: true,
   selector: 'eo-metering-points-table',
   styles: [

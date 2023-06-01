@@ -38,11 +38,11 @@ import {
   MarketParticipantActorContactDto,
   MarketParticipantActorStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { WattModalModule, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
+import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { DhMarketParticipantActorContactDataComponentScam } from './contact-data/dh-market-participant-actor-contact-data.component';
 import { DhMarketParticipantActorMasterDataComponentScam } from './master-data/dh-market-participant-actor-master-data.component';
@@ -128,16 +128,16 @@ export class DhMarketParticipantEditActorComponent {
     PushModule,
     CommonModule,
     TranslocoModule,
-    WattButtonModule,
+    WattButtonComponent,
     WattTabComponent,
     WattTabsComponent,
-    WattSpinnerModule,
-    WattModalModule,
+    WattSpinnerComponent,
+    WATT_MODAL,
     PushModule,
     DhMarketParticipantActorMasterDataComponentScam,
     DhMarketParticipantActorContactDataComponentScam,
     DhMarketParticipantActorMarketRolesComponentScam,
-    WattValidationMessageModule,
+    WattValidationMessageComponent,
   ],
   exports: [DhMarketParticipantEditActorComponent],
   declarations: [DhMarketParticipantEditActorComponent],

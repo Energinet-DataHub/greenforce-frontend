@@ -14,15 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NgxSliderModule } from '@angular-slider/ngx-slider';
-
-import { WattSliderComponent } from './watt-slider.component';
-
-@NgModule({
-  declarations: [WattSliderComponent],
-  exports: [WattSliderComponent],
-  imports: [CommonModule, NgxSliderModule],
-})
-export class WattSliderModule {}
+export * from './eo-transfers.module';

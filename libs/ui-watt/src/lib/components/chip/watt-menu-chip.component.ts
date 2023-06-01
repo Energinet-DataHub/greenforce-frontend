@@ -18,17 +18,21 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { WattIconModule } from '../../foundations/icon/icon.module';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { WattChipComponent } from './watt-chip.component';
 
 export type WattMenuChipRole = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, WattChipComponent, WattIconModule],
+  imports: [CommonModule, WattChipComponent, WattIconComponent],
   selector: 'watt-menu-chip',
   styles: [
     `
+      :host {
+        display: block;
+      }
+
       button {
         all: unset;
         pointer-events: none;
@@ -38,6 +42,10 @@ export type WattMenuChipRole = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
         margin-left: var(--watt-space-xs);
         transition: linear 0.2s all;
         color: var(--watt-color-primary);
+
+        &.disabled {
+          color: var(--watt-on-light-low-emphasis);
+        }
       }
 
       .opened {

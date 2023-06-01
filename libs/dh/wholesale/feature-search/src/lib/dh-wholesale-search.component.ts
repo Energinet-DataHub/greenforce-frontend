@@ -24,7 +24,7 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
@@ -42,7 +42,7 @@ type Batch = Omit<graphql.Batch, 'gridAreas'>;
     DhWholesaleTableComponent,
     TranslocoModule,
     WattEmptyStateComponent,
-    WattSpinnerModule,
+    WattSpinnerComponent,
   ],
   templateUrl: './dh-wholesale-search.component.html',
   styleUrls: ['./dh-wholesale-search.component.scss'],

@@ -17,13 +17,15 @@
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
-import { WattToastModule } from '../toast';
 import { WattCopyToClipboardDirective } from './watt-copy-to-clipboard.directive';
+import { importProvidersFrom } from '@angular/core';
+import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 
-describe(WattCopyToClipboardDirective.name, () => {
+describe(WattCopyToClipboardDirective, () => {
   it('shows toast on click', async () => {
     await render(`<span wattCopyToClipboard>Text</span>`, {
-      imports: [WattToastModule.forRoot(), WattCopyToClipboardDirective],
+      providers: [importProvidersFrom(MatLegacySnackBarModule)],
+      imports: [WattCopyToClipboardDirective],
     });
 
     userEvent.click(screen.getByText('Text'));

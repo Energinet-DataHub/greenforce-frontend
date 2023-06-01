@@ -32,10 +32,10 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { WattInputModule } from '@energinet-datahub/watt/input';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { meteringPointIdValidator } from './dh-metering-point.validator';
 import { Subscription } from 'rxjs';
@@ -119,10 +119,10 @@ export class DhMeteringPointSearchFormComponent implements AfterViewInit, OnDest
 
 @NgModule({
   imports: [
-    WattFormFieldModule,
-    WattInputModule,
-    WattButtonModule,
-    WattIconModule,
+    WATT_FORM_FIELD,
+    WattInputDirective,
+    WattButtonComponent,
+    WattIconComponent,
     TranslocoModule,
     FormsModule,
     ReactiveFormsModule,
