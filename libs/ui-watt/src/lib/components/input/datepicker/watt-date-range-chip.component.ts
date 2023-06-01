@@ -20,12 +20,18 @@ import { CommonModule } from '@angular/common';
 import { DateRange, MatDatepickerModule } from '@angular/material/datepicker';
 
 import { WattDatePipe } from '../../../configuration/watt-date.pipe';
-import { WattIconModule } from '../../../foundations/icon/icon.module';
+import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, MatDatepickerModule, WattMenuChipComponent, WattDatePipe, WattIconModule],
+  imports: [
+    CommonModule,
+    MatDatepickerModule,
+    WattMenuChipComponent,
+    WattDatePipe,
+    WattIconComponent,
+  ],
   selector: 'watt-date-range-chip',
   styles: [
     `
