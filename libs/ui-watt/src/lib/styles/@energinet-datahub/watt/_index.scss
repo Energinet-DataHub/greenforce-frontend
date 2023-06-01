@@ -36,3 +36,10 @@ body {
   margin: 0;
   font-family: "Open Sans", sans-serif;
 }
+
+/**
+  * Fix dropdown overlay positioning
+  */
+.cdk-overlay-pane {
+  transform: none !important;
+}
