@@ -33,6 +33,9 @@ import { WattChipComponent } from './watt-chip.component';
 
       button {
         all: unset;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex: 1 1 auto;
       }
 
       .menu-icon {
