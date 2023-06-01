@@ -74,16 +74,10 @@ watt-dropdown {
 
   &.watt-dropdown-panel-single-selection {
     margin-top: var(--watt-dropdown-panel-margin-top, -16px);
-
-    &.watt-dropdown-panel-chip-mode {
-      margin-top: 0;
-    }
   }
 
-  &.watt-dropdown-panel-multiple-selection {
-    &.watt-dropdown-panel-chip-mode {
-      margin-top: 0;
-    }
+  &.watt-dropdown-panel-chip-mode {
+    margin-top: 0;
   }
 
   &.mat-select-search-panel {
