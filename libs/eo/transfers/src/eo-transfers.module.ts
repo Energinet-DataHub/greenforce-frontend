@@ -14,15 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { WattButtonModule } from '../button/watt-button.module';
 
-import { WattExpansionComponent } from './expansion.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { EoTransferComponent } from './lib/eo-transfers.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    data: { title: 'Transfers' },
+    component: EoTransferComponent,
+  },
+];
 
 @NgModule({
-  imports: [MatExpansionModule, WattButtonModule],
-  declarations: [WattExpansionComponent],
-  exports: [WattExpansionComponent],
+  imports: [RouterModule.forChild(routes), EoTransferComponent],
 })
-export class WattExpansionModule {}
+export class EoTransferModule {}

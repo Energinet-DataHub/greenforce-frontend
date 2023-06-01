@@ -24,7 +24,7 @@ import { Apollo } from 'apollo-angular';
 import { ProcessStepActor } from '@energinet-datahub/dh/wholesale/domain';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { takeWhile } from 'rxjs';
@@ -38,7 +38,7 @@ import { takeWhile } from 'rxjs';
     WATT_TABLE,
     WattEmptyStateComponent,
     WattPaginatorComponent,
-    WattSpinnerModule,
+    WattSpinnerComponent,
   ],
   templateUrl: './dh-wholesale-actors.component.html',
   styleUrls: ['./dh-wholesale-actors.component.scss'],

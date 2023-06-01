@@ -15,13 +15,16 @@
  * limitations under the License.
  */
 import { Component, Input } from '@angular/core';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 /**
  * Usage:
- * `import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';`
+ * `import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';`
  */
 @Component({
   selector: 'watt-spinner',
+  standalone: true,
   template: `<mat-spinner [diameter]="diameter"></mat-spinner>`,
+  imports: [MatProgressSpinnerModule],
 })
 export class WattSpinnerComponent {
   @Input() diameter = 44;

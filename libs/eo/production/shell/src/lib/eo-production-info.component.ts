@@ -17,13 +17,13 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { EoProductionStore } from './eo-production.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatCardModule, WattSpinnerModule, NgIf, AsyncPipe],
+  imports: [MatCardModule, WattSpinnerComponent, NgIf, AsyncPipe],
   selector: 'eo-production-info',
   styles: [
     `

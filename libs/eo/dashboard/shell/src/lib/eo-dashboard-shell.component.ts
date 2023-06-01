@@ -16,7 +16,7 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoInlineMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { EoDashboardChartCardComponent } from './eo-dashboard-chart-card.component';
 import { EoDashboardEmissionsCardComponent } from './eo-dashboard-emissions-card.component';
 import { EoDashboardGetDataComponent } from './eo-dashboard-get-data.component';
@@ -27,7 +27,7 @@ import { EoDashboardLinksComponent } from './eo-dashboard-links.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    WattIconModule,
+    WattIconComponent,
     EoInlineMessageComponent,
     EoDashboardLinksComponent,
     EoDashboardGetDataComponent,

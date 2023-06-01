@@ -27,6 +27,7 @@ import { WattIcon } from './icons';
 import { WattIconService } from './icon.service';
 import { WattIconSize } from './watt-icon-size';
 import { WattIconState } from './watt-icon-state';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'watt-icon',
@@ -34,6 +35,8 @@ import { WattIconState } from './watt-icon-state';
   styleUrls: ['./icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [MatIconModule],
 })
 export class WattIconComponent {
   @Input() set name(value: WattIcon | undefined) {

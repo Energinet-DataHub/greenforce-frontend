@@ -16,16 +16,16 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
-import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
+import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { DbAdminAssignableUserRolesStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { FormsModule } from '@angular/forms';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { takeUntil } from 'rxjs';
@@ -35,14 +35,14 @@ import { takeUntil } from 'rxjs';
   standalone: true,
   imports: [
     CommonModule,
-    WattCheckboxModule,
+    WattCheckboxComponent,
     FormsModule,
     LetModule,
     PushModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattEmptyStateComponent,
     TranslocoModule,
-    WattCardModule,
+    WATT_CARD,
     WATT_TABLE,
     MatDividerModule,
   ],

@@ -30,15 +30,15 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PushModule } from '@rx-angular/template/push';
 
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import {
   PermissionDto,
   MarketParticipantUpdatePermissionDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { DhAdminEditPermissionStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
@@ -62,12 +62,12 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
     TranslocoModule,
     ReactiveFormsModule,
     PushModule,
-    WattModalModule,
-    WattButtonModule,
+    WATT_MODAL,
+    WattButtonComponent,
     WattTabComponent,
     WattTabsComponent,
-    WattFormFieldModule,
-    WattInputModule,
+    WATT_FORM_FIELD,
+    WattInputDirective,
   ],
 })
 export class DhEditPermissionModalComponent implements AfterViewInit, OnChanges {

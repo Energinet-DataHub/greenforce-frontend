@@ -22,12 +22,12 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipeScam, exportCsv } from '@energinet-datahub/dh/shared/ui-util';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
 import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
@@ -42,10 +42,10 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
     CommonModule,
     TranslocoModule,
     DhPermissionsTableComponent,
-    WattButtonModule,
-    WattSpinnerModule,
+    WattButtonComponent,
+    WattSpinnerComponent,
     WattEmptyStateComponent,
-    WattCardModule,
+    WATT_CARD,
     DhEmDashFallbackPipeScam,
     WATT_TABLE,
     DhAdminPermissionDetailComponent,
