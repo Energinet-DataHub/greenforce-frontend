@@ -72,10 +72,6 @@ watt-dropdown {
   margin-top: -16px;
   margin-left: -1px;
 
-  &.watt-dropdown-panel-single-selection {
-    margin-top: var(--watt-dropdown-panel-margin-top, -16px);
-  }
-
   &.watt-dropdown-panel-chip-mode {
     margin-top: 0;
   }
