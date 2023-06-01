@@ -40,8 +40,6 @@ import { of, ReplaySubject, Subject, distinctUntilChanged, map, takeUntil, take 
 import { WattDropdownOptions } from './watt-dropdown-option';
 import { WattDropdownValue } from './watt-dropdown-value';
 
-const MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE = 60;
-
 @Component({
   selector: 'watt-dropdown',
   templateUrl: './watt-dropdown.component.html',
