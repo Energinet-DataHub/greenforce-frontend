@@ -122,7 +122,9 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    * @ignore
    */
   get showTriggerValue(): boolean {
-    return (this.multiple && this.matSelectControl.value?.length === 1 && this.matSelectControl.value[0] !== '') ||
+    return (this.multiple &&
+      this.matSelectControl.value?.length === 1 &&
+      this.matSelectControl.value[0] !== '') ||
       (!this.multiple && this.matSelect?.triggerValue)
       ? true
       : false;
