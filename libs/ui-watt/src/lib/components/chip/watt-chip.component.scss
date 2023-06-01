@@ -29,6 +29,7 @@ label {
   padding: 5px 12px; // Magic UX numbers
   user-select: none;
   white-space: nowrap;
+  width: 100%;
 
   &:hover {
     border: 1px solid var(--watt-on-light-medium-emphasis);

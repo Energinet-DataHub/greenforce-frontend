@@ -36,6 +36,9 @@ export type WattMenuChipRole = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
       button {
         all: unset;
         pointer-events: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex: 1 1 auto;
       }
 
       .menu-icon {

@@ -55,6 +55,7 @@ watt-dropdown {
   }
 
   .watt-chip-label {
+    float: right;
     margin-left: var(--watt-space-s);
     background: var(--watt-color-neutral-white);
   }
@@ -69,28 +70,10 @@ watt-dropdown {
   // Add 2px because watt-form-field has 1px border on each side
   min-width: calc(100% + 2px) !important;
   margin-top: -16px;
+  margin-left: -1px;
 
-  &.watt-dropdown-panel-single-selection {
-    margin-top: var(--watt-dropdown-panel-margin-top, -16px);
-    margin-left: 15px;
-
-    &.watt-dropdown-panel-chip-mode {
-      margin-top: 0;
-    }
-  }
-
-  &.watt-dropdown-panel-multiple-selection {
-    margin-left: 39px;
-    transition: margin-left 0.15s;
-
-    &.watt-dropdown-panel-close-to-screen-left-edge {
-      margin-left: 8px;
-    }
-
-    &.watt-dropdown-panel-chip-mode {
-      margin-top: 0;
-      margin-left: 10px;
-    }
+  &.watt-dropdown-panel-chip-mode {
+    margin-top: 0;
   }
 
   &.mat-select-search-panel {

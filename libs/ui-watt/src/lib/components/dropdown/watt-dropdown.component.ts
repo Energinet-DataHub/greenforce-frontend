@@ -49,8 +49,6 @@ import type { WattDropdownValue } from './watt-dropdown-value';
 
 import { WattMenuChipComponent } from '../chip';
 
-const MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE = 60;
-
 @Component({
   selector: 'watt-dropdown',
   templateUrl: './watt-dropdown.component.html',
@@ -106,11 +104,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
   /**
    * @ignore
    */
-  isCloseToScreenLeftEdge = false;
-
-  /**
-   * @ignore
-   */
   emDash = '—';
 
   /**
@@ -127,7 +120,9 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    * @ignore
    */
   get showTriggerValue(): boolean {
-    return (this.multiple && this.matSelectControl.value?.length === 1) ||
+    return (this.multiple &&
+      this.matSelectControl.value?.length === 1 &&
+      this.matSelectControl.value[0] !== '') ||
       (!this.multiple && this.matSelect?.triggerValue)
       ? true
       : false;
@@ -240,30 +235,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
       this.matSelectControl.disable();
     } else {
       this.matSelectControl.enable();
-    }
-  }
-
-  /**
-   * If the dropdown is in "multiple" mode and close to the screen's left edge,
-   * Angular Material positions the dropdown panel slightly to the right
-   * causing alignment issues to our custom positionning.
-   *
-   * This function tries to figure out whether the dropdown is positioned bellow
-   * a specific threshold from the screen's left edge.
-   *
-   * @ignore
-   */
-  onMouseDown(): void {
-    if (this.multiple) {
-      const triggerPosition: DOMRect | undefined =
-        this.matSelect?.trigger?.nativeElement?.getBoundingClientRect();
-
-      if (triggerPosition == undefined) {
-        this.isCloseToScreenLeftEdge = false;
-        return;
-      }
-
-      this.isCloseToScreenLeftEdge = triggerPosition.left <= MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE;
     }
   }
 
