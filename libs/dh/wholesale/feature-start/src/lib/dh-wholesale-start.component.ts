@@ -35,17 +35,17 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
 
-import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
+import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
-import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
@@ -73,16 +73,16 @@ interface CreateBatchFormValues {
     PushModule,
     ReactiveFormsModule,
     TranslocoModule,
-    WattButtonModule,
-    WattDatepickerModule,
-    WattDropdownModule,
-    WattFormFieldModule,
-    WattInputModule,
-    WattSpinnerModule,
+    WattButtonComponent,
+    WattDatepickerComponent,
+    WattDropdownComponent,
+    WATT_FORM_FIELD,
+    WattInputDirective,
+    WattSpinnerComponent,
     WattEmptyStateComponent,
     WattFilterChipComponent,
-    WattValidationMessageModule,
-    WattModalModule,
+    WattValidationMessageComponent,
+    WATT_MODAL,
   ],
 })
 export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestroy {

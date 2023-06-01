@@ -16,16 +16,16 @@
  */
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
-import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
@@ -35,13 +35,13 @@ import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
   styleUrls: ['./dh-wholesale-settlements-reports-tabs-balance.component.scss'],
   imports: [
     WATT_TABS,
-    WattCardModule,
+    WATT_CARD,
     TranslocoModule,
-    WattButtonModule,
-    WattDatepickerModule,
+    WattButtonComponent,
+    WattDatepickerComponent,
     ReactiveFormsModule,
-    WattFormFieldModule,
-    WattDropdownModule,
+    WATT_FORM_FIELD,
+    WattDropdownComponent,
   ],
 })
 export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit {

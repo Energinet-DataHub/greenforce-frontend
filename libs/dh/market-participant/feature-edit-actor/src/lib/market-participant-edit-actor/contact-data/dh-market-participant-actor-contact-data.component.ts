@@ -31,10 +31,10 @@ import { ActorContactChanges } from '@energinet-datahub/dh/market-participant/da
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { FormsModule } from '@angular/forms';
-import { WattInputModule } from '@energinet-datahub/watt/input';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   MarketParticipantActorContactDto,
   MarketParticipantContactCategory,
@@ -182,10 +182,10 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
     TranslocoModule,
     FormsModule,
     MatTableModule,
-    WattButtonModule,
-    WattInputModule,
-    WattFormFieldModule,
-    WattDropdownModule,
+    WattButtonComponent,
+    WattInputDirective,
+    WATT_FORM_FIELD,
+    WattDropdownComponent,
   ],
   exports: [DhMarketParticipantActorContactDataComponent],
   declarations: [DhMarketParticipantActorContactDataComponent],

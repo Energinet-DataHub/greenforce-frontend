@@ -16,7 +16,7 @@
  */
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
-import { WattExpansionComponent, WattExpansionModule } from './../index';
+import { WattExpansionComponent } from './../index';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 const meta: Meta<WattExpansionComponent> = {
@@ -26,7 +26,7 @@ const meta: Meta<WattExpansionComponent> = {
       providers: [provideAnimations()],
     }),
     moduleMetadata({
-      imports: [WattExpansionModule],
+      imports: [WattExpansionComponent],
     }),
   ],
   component: WattExpansionComponent,

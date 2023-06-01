@@ -25,22 +25,22 @@ import {
   EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService, EoAuthStore, EoTermsService } from '@energinet-datahub/eo/shared/services';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     FormsModule,
-    WattButtonModule,
-    WattCheckboxModule,
+    WattButtonComponent,
+    WattCheckboxComponent,
     EoFooterComponent,
     EoHeaderComponent,
     EoPrivacyPolicyComponent,
     EoScrollViewComponent,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     NgIf,
   ],
   selector: 'eo-auth-terms',

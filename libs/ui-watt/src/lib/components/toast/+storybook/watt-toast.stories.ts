@@ -14,17 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
 
 import { WattToastConfig } from '../watt-toast.component';
-import { StorybookToastModule } from './storybook-toast.component';
+import { StorybookToastComponent } from './storybook-toast.component';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { importProvidersFrom } from '@angular/core';
 
 export default {
   title: 'Components/Toast',
+
   decorators: [
+    applicationConfig({
+      providers: [importProvidersFrom(MatSnackBarModule), provideAnimations()],
+    }),
     moduleMetadata({
-      imports: [StorybookToastModule],
+      imports: [StorybookToastComponent],
     }),
   ],
   parameters: {
@@ -44,13 +50,6 @@ export interface WattToastStoryConfig extends WattToastConfig {
 export const Overview: StoryFn<WattToastStoryConfig> = (args) => ({
   props: args,
   template: `<storybook-toast [config]="{type, duration, message, action, actionLabel}"></storybook-toast>`,
-  moduleMetadata: {
-    imports: [
-      BrowserAnimationsModule.withConfig({
-        disableAnimations: !!args.disableAnimations,
-      }),
-    ],
-  },
 });
 
 Overview.args = {

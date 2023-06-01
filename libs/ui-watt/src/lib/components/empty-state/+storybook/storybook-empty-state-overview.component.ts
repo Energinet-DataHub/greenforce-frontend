@@ -16,7 +16,7 @@
  */
 import { Component } from '@angular/core';
 import { WattEmptyStateComponent } from '../empty-state.component';
-import { WattButtonModule } from '../../button';
+import { WattButtonComponent } from '../../button';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -24,6 +24,6 @@ import { WattButtonModule } from '../../button';
   templateUrl: './storybook-empty-state-overview.component.html',
   styleUrls: ['./storybook-empty-state-overview.component.scss'],
   standalone: true,
-  imports: [WattEmptyStateComponent, WattButtonModule],
+  imports: [WattEmptyStateComponent, WattButtonComponent],
 })
 export class StorybookEmptyStateOverviewComponent {}

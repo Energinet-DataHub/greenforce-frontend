@@ -16,11 +16,11 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'eo-transfer',
+  displayName: 'eo-transfers',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},
-  coverageDirectory: '../../../coverage/libs/eo/transfer',
+  coverageDirectory: '../../../coverage/libs/eo/transfers',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

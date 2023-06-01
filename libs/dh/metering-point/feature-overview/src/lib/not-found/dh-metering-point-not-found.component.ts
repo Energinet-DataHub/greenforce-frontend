@@ -23,14 +23,14 @@ import {
   dhMeteringPointPath,
 } from '@energinet-datahub/dh/metering-point/routing';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-not-found',
   templateUrl: './dh-metering-point-not-found.component.html',
-  imports: [TranslocoModule, WattButtonModule, WattEmptyStateComponent],
+  imports: [TranslocoModule, WattButtonComponent, WattEmptyStateComponent],
 })
 export class DhMeteringPointNotFoundComponent {
   constructor(private router: Router) {}

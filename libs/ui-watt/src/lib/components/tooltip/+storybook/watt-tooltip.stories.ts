@@ -17,7 +17,7 @@
 import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { within, userEvent } from '@storybook/testing-library';
 
-import { WattButtonModule } from '../../button/watt-button.module';
+import { WattButtonComponent } from '../../button/watt-button.component';
 
 import { WattTooltipComponent } from '../watt-tooltip.component';
 import { WattTooltipDirective } from '../watt-tooltip.directive';
@@ -26,7 +26,7 @@ export default {
   title: 'Components/Tooltip',
   decorators: [
     moduleMetadata({
-      imports: [WattButtonModule, WattTooltipDirective, WattTooltipComponent],
+      imports: [WattButtonComponent, WattTooltipDirective, WattTooltipComponent],
     }),
   ],
 } as Meta;

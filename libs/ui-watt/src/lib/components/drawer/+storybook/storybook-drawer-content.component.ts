@@ -17,7 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { timer } from 'rxjs';
-import { WattCardModule } from '../../card';
+import { WattCardComponent } from '../../card';
 
 @Component({
   selector: 'watt-storybook-drawer-content',
@@ -81,6 +81,6 @@ export class WattStorybookDrawerContentComponent {
 @NgModule({
   declarations: [WattStorybookDrawerContentComponent],
   exports: [WattStorybookDrawerContentComponent],
-  imports: [CommonModule, WattCardModule],
+  imports: [CommonModule, WattCardComponent],
 })
 export class WattStorybookDrawerContentModule {}
