@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -55,6 +55,21 @@ import { add } from 'date-fns';
   templateUrl: './dh-charges-create-prices.component.html',
   styleUrls: ['./dh-charges-create-prices.component.scss'],
   providers: [DhMarketParticipantDataAccessApiStore, DhChargesDataAccessApiStore],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    PushModule,
+    TranslocoModule,
+    ReactiveFormsModule,
+    WattButtonComponent,
+    WATT_CARD,
+    WattCheckboxComponent,
+    WattDatepickerComponent,
+    WATT_FORM_FIELD,
+    WattInputDirective,
+    WattDropdownComponent,
+  ],
 })
 export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   chargeTypeOptions: WattDropdownOptions = [];
@@ -324,22 +339,3 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     return null;
   }
 }
-
-@NgModule({
-  declarations: [DhChargesCreatePricesComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    PushModule,
-    TranslocoModule,
-    ReactiveFormsModule,
-    WattButtonComponent,
-    WATT_CARD,
-    WattCheckboxComponent,
-    WattDatepickerComponent,
-    WATT_FORM_FIELD,
-    WattInputDirective,
-    WattDropdownComponent,
-  ],
-})
-export class DhChargesCreatePricesScam {}
