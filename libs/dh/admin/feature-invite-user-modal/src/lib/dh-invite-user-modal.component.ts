@@ -163,6 +163,19 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
         });
         this.closeModal(true);
       },
+      onError: (e) => {
+        this.toastService.open({
+          type: 'danger',
+          message: e
+            .map((x) =>
+              this.translocoService.translate(
+                `admin.userManagement.inviteUser.serverErrors.${x.code}`
+              )
+            )
+            .join('\n'),
+          duration: 600000,
+        });
+      },
     });
   }
 
