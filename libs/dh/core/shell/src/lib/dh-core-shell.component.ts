@@ -22,7 +22,7 @@ import { PushModule } from '@rx-angular/template/push';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
+import { DhLanguagePickerComponent } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar';
 
 import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
@@ -38,7 +38,7 @@ import {
   standalone: true,
   imports: [
     TranslocoModule,
-    DhLanguagePickerModule,
+    DhLanguagePickerComponent,
     RouterModule,
     PushModule,
     DhPrimaryNavigationComponent,
