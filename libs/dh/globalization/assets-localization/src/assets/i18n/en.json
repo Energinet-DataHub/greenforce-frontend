@@ -818,6 +818,7 @@
       "topBarTitle": "Settlement Reports",
       "download": "Download",
       "downloadFailed": "Download failed",
+      "downloadStart": "Starting download...",
       "tabs": {
         "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
         "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"

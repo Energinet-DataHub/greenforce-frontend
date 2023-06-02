@@ -809,6 +809,7 @@
       "topBarTitle": "Afregningsrapporter",
       "download": "Download",
       "downloadFailed": "Download fejlede",
+      "downloadStart": "Starter download...",
       "tabs": {
         "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
         "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"

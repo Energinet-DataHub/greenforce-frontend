@@ -104,13 +104,23 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
   }
 
   DownloadClicked() {
+    this.toastService.open({
+      type: 'loading',
+      message: this.transloco.translate('wholesale.settlementReports.downloadStart'),
+    });
     this.settlementReportStore.Download(
       this.searchForm.controls.gridAreas?.value ?? [],
       WholesaleProcessType.BalanceFixing,
       this.searchForm.controls.executionTime.value?.start ?? '',
       this.searchForm.controls.executionTime.value?.end ?? '',
       this.searchForm.controls.actor.value ?? undefined,
-      this.transloco.translate('selectedLanguageIso')
-    );
+      this.transloco.translate('selectedLanguageIso'),
+      () => {
+        this.toastService.open({
+          type: 'danger',
+          message: this.transloco.translate('wholesale.settlementReports.downloadFailed'),
+        });
+      });
   }
+
 }

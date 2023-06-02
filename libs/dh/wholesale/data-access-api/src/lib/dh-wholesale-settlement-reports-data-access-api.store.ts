@@ -50,7 +50,8 @@ export class DhWholesaleSettlementReportsDataAccessApiStore extends ComponentSto
     periodStart: string,
     periodEnd: string,
     energySupplier: string | undefined,
-    locale: string | undefined
+    locale: string | undefined,
+    onErrorfn: () => void
   ) {
     return this.httpClient
       .v1WholesaleSettlementReportDownloadGet(
@@ -72,8 +73,8 @@ export class DhWholesaleSettlementReportsDataAccessApiStore extends ComponentSto
           link.click();
           link.remove();
         },
-        error: (error: HttpErrorResponse) => {
-          console.log(error);
+        error: () => {
+          onErrorfn();
         },
       });
   }
