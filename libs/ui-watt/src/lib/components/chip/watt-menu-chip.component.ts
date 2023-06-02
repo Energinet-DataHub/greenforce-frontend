@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { WattChipComponent } from './watt-chip.component';
 
-export type WattMenuChipRole = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
+export type WattMenuChipHasPopup = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
 
 @Component({
   standalone: true,
@@ -67,7 +67,7 @@ export type WattMenuChipRole = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
   template: `
     <watt-chip [disabled]="disabled" [selected]="selected">
       <button
-        [attr.aria-haspopup]="role"
+        [attr.aria-haspopup]="hasPopup"
         [attr.aria-expanded]="opened"
         (click)="toggle.emit()"
         [disabled]="disabled"
@@ -77,6 +77,7 @@ export type WattMenuChipRole = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
         size="s"
         name="arrowDropDown"
         class="menu-icon"
+        [attr.aria-hidden]="true"
         [class.opened]="opened"
         [class.selected]="selected"
         [class.disabled]="disabled"
@@ -90,6 +91,6 @@ export class WattMenuChipComponent {
   @Input() name?: string;
   @Input() value?: string;
   @Input() selected = false;
-  @Input() role: WattMenuChipRole = 'menu';
+  @Input() hasPopup: WattMenuChipHasPopup = 'menu';
   @Output() toggle = new EventEmitter<void>();
 }

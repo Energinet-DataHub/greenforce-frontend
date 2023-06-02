@@ -39,14 +39,14 @@ import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
         top: 0;
         bottom: 0;
         height: auto;
-        pointer-events: none;
+        visibility: hidden;
       }
     `,
   ],
   template: `
     <mat-datepicker #picker />
     <watt-menu-chip
-      role="dialog"
+      hasPopup="dialog"
       [disabled]="disabled"
       [selected]="!!value"
       [opened]="picker.opened"
@@ -55,7 +55,7 @@ import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
       <input
         tabindex="-1"
         class="cdk-visually-hidden"
-        type="date"
+        type="text"
         [value]="value"
         [matDatepicker]="picker"
         (dateChange)="value = $event.value"

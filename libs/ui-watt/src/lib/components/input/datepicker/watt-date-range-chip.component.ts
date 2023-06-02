@@ -39,22 +39,22 @@ import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
         top: 0;
         bottom: 0;
         height: auto;
-        pointer-events: none;
+        visibility: hidden;
       }
     `,
   ],
   template: `
     <mat-date-range-picker #picker></mat-date-range-picker>
     <watt-menu-chip
-      role="dialog"
+      hasPopup="dialog"
       [disabled]="disabled"
       [selected]="value?.start && value?.end ? true : false"
       [opened]="picker.opened"
       (toggle)="picker.open()"
     >
-      <mat-date-range-input #input class="cdk-visually-hidden" [rangePicker]="picker">
+      <mat-date-range-input #input class="cdk-visually-hidden" separator="―" [rangePicker]="picker">
         <input
-          type="date"
+          type="text"
           matStartDate
           tabindex="-1"
           [value]="value?.start"
@@ -62,7 +62,7 @@ import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
           (dateChange)="selectionChange.emit(input.value ?? undefined)"
         />
         <input
-          type="date"
+          type="text"
           matEndDate
           tabindex="-1"
           [value]="value?.end"
@@ -72,7 +72,7 @@ import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
       </mat-date-range-input>
       <ng-content *ngIf="!value?.start || !value?.end; else range" />
       <ng-template #range>
-        {{ value!.start | wattDate }} - {{ value!.end | wattDate }}
+        {{ value!.start | wattDate }} ― {{ value!.end | wattDate }}
       </ng-template>
     </watt-menu-chip>
   `,
