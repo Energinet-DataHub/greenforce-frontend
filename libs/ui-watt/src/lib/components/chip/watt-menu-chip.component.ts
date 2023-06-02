@@ -71,9 +71,8 @@ export type WattMenuChipRole = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
         [attr.aria-expanded]="opened"
         (click)="toggle.emit()"
         [disabled]="disabled"
-      >
-        <ng-content />
-      </button>
+      ></button>
+      <ng-content />
       <watt-icon
         size="s"
         name="arrowDropDown"
