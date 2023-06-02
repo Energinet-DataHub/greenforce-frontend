@@ -91,7 +91,7 @@ const template = `
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlRange?.errors | json }}</code></p>
 
 <watt-date-chip [formControl]="exampleChipFormControlSingle">Single date</watt-date-chip>
-<watt-error *ngIf="exampleChipFormControlSingle?.errors?.required">
+<watt-error *ngIf="exampleChipFormControlSingle?.touched && exampleChipFormControlSingle?.errors?.required">
     Date is required
 </watt-error>
 
@@ -99,7 +99,7 @@ const template = `
 <p *ngIf="withValidations">Errors: <code>{{ exampleChipFormControlSingle?.errors | json }}</code></p>
 
 <watt-date-range-chip [formControl]="exampleChipFormControlRange">Date range</watt-date-range-chip>
-<watt-error *ngIf="exampleChipFormControlRange?.errors?.rangeRequired">
+<watt-error *ngIf="exampleChipFormControlRange?.touched && exampleChipFormControlRange?.errors?.rangeRequired">
     Date range is required
 </watt-error>
 <p>Selected range: <code data-testid="rangeValue">{{ exampleChipFormControlRange.value | json }}</code></p>

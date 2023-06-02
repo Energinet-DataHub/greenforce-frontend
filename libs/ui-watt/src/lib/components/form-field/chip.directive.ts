@@ -78,8 +78,7 @@ export class WattFormChipDirective implements ControlValueAccessor {
   }
 
   registerOnTouched(fn: () => void) {
-    // might not work
-    this.element.nativeElement.addEventListener('blur', fn);
+    this.element.nativeElement.addEventListener('focusout', fn);
   }
 
   setDisabledState(disabled: boolean) {
