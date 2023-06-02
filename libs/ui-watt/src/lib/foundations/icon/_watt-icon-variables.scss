@@ -15,11 +15,41 @@
  * limitations under the License.
  */
 // Keep in sync with ./storybook/storybook-icon-overview.component.html -> sizes
-$sizes: (
-  xs: 16px,
-  s: 20px,
-  m: 24px,
-  l: 32px,
-  xl: 64px,
-  xxl: 128px,
+$settings: (
+  xs: (
+    size: 16px,
+    weight: 300,
+    grade: 0,
+    optical-size: 20,
+  ),
+  s: (
+    size: 20px,
+    weight: 300,
+    grade: regular,
+    optical-size: 20,
+  ),
+  m: (
+    size: 24px,
+    weight: 300,
+    grade: 0,
+    optical-size: 48,
+  ),
+  l: (
+    size: 32px,
+    weight: 200,
+    grade: 0,
+    optical-size: 24,
+  ),
+  xl: (
+    size: 64px,
+    weight: 200,
+    grade: 0,
+    optical-size: 48,
+  ),
+  xxl: (
+    size: 128px,
+    weight: 100,
+    grade: 0,
+    optical-size: 48,
+  ),
 );
