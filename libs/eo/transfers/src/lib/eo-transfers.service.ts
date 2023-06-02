@@ -19,9 +19,9 @@ import { Inject, Injectable } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
 export interface EoTransfer {
+  id: string;
   dateFrom: number;
   dateTo: number;
-  status: string;
   recipient: string;
 }
 

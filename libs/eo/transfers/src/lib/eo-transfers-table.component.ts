@@ -15,20 +15,20 @@
  * limitations under the License.
  */
 import { DatePipe, NgIf } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import {
-  MatLegacyPaginator as MatPaginator,
-  MatLegacyPaginatorModule as MatPaginatorModule,
-} from '@angular/material/legacy-paginator';
-import {
-  MatLegacyTableDataSource as MatTableDataSource,
-  MatLegacyTableModule as MatTableModule,
-} from '@angular/material/legacy-table';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { EoTransfer } from './eo-transfers.service';
 import { EoTransferStore } from './eo-transfers.store';
+
+interface EoTransferTableElement extends EoTransfer {
+  period?: string;
+  status?: boolean;
+}
 
 @Component({
   selector: 'eo-transfer-table',
@@ -36,11 +36,12 @@ import { EoTransferStore } from './eo-transfers.store';
   imports: [
     MatPaginatorModule,
     MatTableModule,
-    MatSortModule,
     DatePipe,
     WattBadgeComponent,
     NgIf,
     WattButtonComponent,
+    WATT_TABLE,
+    WattPaginatorComponent,
   ],
   standalone: true,
   styles: [
@@ -77,66 +78,48 @@ import { EoTransferStore } from './eo-transfers.store';
         </watt-button>
       </div>
     </div>
-    <mat-table matSort [dataSource]="dataSource" data-testid="transfers-table">
-      <!-- GSRN Column -->
-      <ng-container matColumnDef="recipient">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Recipient</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{ element.recipient }}</mat-cell>
+    <watt-table
+      #table
+      [columns]="columns"
+      [dataSource]="dataSource"
+      sortBy="recipient"
+      sortDirection="asc"
+      [sortClear]="false"
+    >
+      <!-- Period - Custom column -->
+      <ng-container *wattTableCell="table.columns['period']; let element">
+        {{ element.dateFrom | date : 'dd/MM/yyyy' }} - {{ element.dateTo | date : 'dd/MM/yyyy' }}
       </ng-container>
 
-      <!-- Period Column -->
-      <ng-container matColumnDef="period">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Agreement period </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{ element.dateFrom | date : 'dd/MM/yyyy' }} - {{ element.dateTo | date : 'dd/MM/yyyy' }}
-        </mat-cell>
+      <!-- Status - Custom column -->
+      <ng-container *wattTableCell="table.columns['status']; let element">
+        <watt-badge *ngIf="isDateActive(element.dateTo); else notActive" type="success">
+          Active
+        </watt-badge>
       </ng-container>
+    </watt-table>
 
-      <!-- Action column -->
-      <ng-container matColumnDef="status">
-        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          <watt-badge *ngIf="isDateActive(element.dateTo); else notActive" type="success">
-            Active
-          </watt-badge>
-        </mat-cell>
-      </ng-container>
+    <!-- No Data to show -->
+    <p *ngIf="dataSource.data.length < 1" style="text-align: center;margin: 10px 0;">
+      You do not have any transfer agreements to show right now.
+    </p>
 
-      <!-- No data to show -->
-      <ng-container *matNoDataRow>
-        <p style="text-align: center;margin: 10px 0;">
-          You do not have any transfer agreements to show right now.
-        </p>
-      </ng-container>
-
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-    </mat-table>
-    <mat-paginator
-      data-testid="table-paginator"
-      [pageSize]="10"
-      [pageSizeOptions]="[10, 25, 50, 100, 250]"
-      [showFirstLastButtons]="true"
-      aria-label="Select page"
-    ></mat-paginator>
-
+    <watt-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100, 250]" [for]="dataSource">
+    </watt-paginator>
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
   `,
 })
 export class EoTransferTableComponent implements AfterViewInit {
-  transfers: EoTransfer[] = [];
-  dataSource: MatTableDataSource<EoTransfer> = new MatTableDataSource();
-  displayedColumns: string[] = ['recipient', 'period', 'status'];
-
-  @ViewChild(MatSort) matSort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  dataSource = new WattTableDataSource<EoTransferTableElement>();
+  columns = {
+    recipient: { accessor: 'recipient' },
+    period: { accessor: (transfer) => transfer.dateFrom },
+    status: { accessor: (transfer) => this.isDateActive(transfer.dateTo) },
+  } as WattTableColumnDef<EoTransferTableElement>;
 
   constructor(private store: EoTransferStore) {}
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.matSort;
-    // It's really important that data gets loaded after paginator, due to performance
     this.populateTable();
   }
 
@@ -144,7 +127,7 @@ export class EoTransferTableComponent implements AfterViewInit {
     this.store.transfers$.subscribe((transfers) => (this.dataSource.data = transfers));
   }
 
-  isDateActive(input: string): boolean {
-    return new Date(input).getTime() >= new Date().getTime();
+  isDateActive(date: number): boolean {
+    return new Date(date).getTime() >= new Date().getTime();
   }
 }
