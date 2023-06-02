@@ -16,10 +16,11 @@
  */
 import { DatePipe, NgIf } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { EoTransfer } from './eo-transfers.service';
@@ -34,14 +35,15 @@ interface EoTransferTableElement extends EoTransfer {
   selector: 'eo-transfer-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    MatPaginatorModule,
-    MatTableModule,
     DatePipe,
-    WattBadgeComponent,
     NgIf,
+    WattBadgeComponent,
     WattButtonComponent,
-    WATT_TABLE,
     WattPaginatorComponent,
+    WattDropdownComponent,
+    ReactiveFormsModule,
+    WATT_FORM_FIELD,
+    WATT_TABLE,
   ],
   standalone: true,
   styles: [
@@ -55,10 +57,26 @@ interface EoTransferTableElement extends EoTransfer {
           display: flex;
         }
       }
+
+      .search-filters {
+        watt-form-field {
+          margin-top: 0;
+        }
+
+        ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+          padding-bottom: 0;
+        }
+
+        ::ng-deep
+          .mat-form-field-type-mat-select:not(.mat-form-field-disabled)
+          .mat-form-field-flex {
+          margin-top: 0;
+        }
+      }
     `,
   ],
   template: `
-    <div class="card-header watt-space-stack-m">
+    <div class="card-header">
       <h3>Transfer Agreements</h3>
       <div class="actions">
         <watt-button
@@ -77,6 +95,21 @@ interface EoTransferTableElement extends EoTransfer {
           New transfer agreement
         </watt-button>
       </div>
+    </div>
+    <div class="search-filters watt-space-stack-s">
+      <form [formGroup]="filterForm">
+        <watt-form-field>
+          <watt-dropdown
+            [chipMode]="true"
+            placeholder="Status"
+            formControlName="statusFilter"
+            [options]="[
+              { value: 'true', displayValue: 'Active' },
+              { value: 'false', displayValue: 'Inactive' }
+            ]"
+          ></watt-dropdown>
+        </watt-form-field>
+      </form>
     </div>
     <watt-table
       #table
@@ -110,6 +143,9 @@ interface EoTransferTableElement extends EoTransfer {
   `,
 })
 export class EoTransferTableComponent implements AfterViewInit {
+  filterForm = this.fb.group({
+    statusFilter: [{ value: '' }],
+  });
   dataSource = new WattTableDataSource<EoTransferTableElement>();
   columns = {
     recipient: { accessor: 'recipient' },
@@ -117,7 +153,7 @@ export class EoTransferTableComponent implements AfterViewInit {
     status: { accessor: (transfer) => this.isDateActive(transfer.dateTo) },
   } as WattTableColumnDef<EoTransferTableElement>;
 
-  constructor(private store: EoTransferStore) {}
+  constructor(private store: EoTransferStore, private fb: FormBuilder) {}
 
   ngAfterViewInit() {
     this.populateTable();
