@@ -926,6 +926,9 @@
           "eicFunction": "Market role",
           "name": "Name",
           "description": "Description"
+        },
+        "serverErrors": {
+          "invalidPhoneNumber": "The provided phone number is formatted properly, but is an invalid phone number."
         }
       },
       "download": "Download",
