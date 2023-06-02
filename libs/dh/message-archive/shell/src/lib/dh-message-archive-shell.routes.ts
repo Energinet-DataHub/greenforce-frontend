@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
+
 import { DhMessageArchiveLogSearchComponent } from '@energinet-datahub/dh/message-archive/feature-log-search';
 
-const routes: Routes = [
+export const dhMessageArchiveShellRoutes: Routes = [
   {
     path: '',
     component: DhMessageArchiveLogSearchComponent,
@@ -27,8 +27,3 @@ const routes: Routes = [
     },
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), DhMessageArchiveLogSearchComponent],
-})
-export class DhMessageArchiveShellModule {}
