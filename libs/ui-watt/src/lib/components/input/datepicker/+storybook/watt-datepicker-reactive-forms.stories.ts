@@ -162,14 +162,7 @@ export const WithValidations: StoryFn<WattDatepickerStoryConfig> = (args) => ({
 
 WithValidations.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
-  const dateInput: HTMLInputElement = canvas.getByRole('textbox', {
-    name: /^date-input/i,
-  });
-  const startDateInput: HTMLInputElement = canvas.getByRole('textbox', {
-    name: /start-date-input/i,
-  });
-  fireEvent.focusOut(dateInput);
-  fireEvent.focusOut(startDateInput);
+  canvas.getAllByRole('button').forEach((button) => fireEvent.focusOut(button));
 };
 
 export const WithFormControlDisabled: StoryFn<WattDatepickerStoryConfig> = (args) => ({
