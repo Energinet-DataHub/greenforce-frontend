@@ -24,6 +24,7 @@ import { allIcons, customIcons, WattCustomIcon, WattIcon } from './icons';
 export class WattIconService {
   constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
     this.registerCustomIcons();
+    this.iconRegistry.setDefaultFontSetClass('material-symbols-sharp');
   }
 
   isCustomIcon(icon: WattIcon): boolean {
