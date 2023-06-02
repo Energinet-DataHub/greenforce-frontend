@@ -103,12 +103,12 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
     });
   }
 
-  DownloadClicked() {
+  downloadClicked() {
     this.toastService.open({
       type: 'loading',
       message: this.transloco.translate('wholesale.settlementReports.downloadStart'),
     });
-    this.settlementReportStore.Download(
+    this.settlementReportStore.download(
       this.searchForm.controls.gridAreas?.value ?? [],
       WholesaleProcessType.BalanceFixing,
       this.searchForm.controls.executionTime.value?.start ?? '',

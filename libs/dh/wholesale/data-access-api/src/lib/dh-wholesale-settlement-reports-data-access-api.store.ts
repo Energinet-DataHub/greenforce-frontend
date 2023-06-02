@@ -43,7 +43,7 @@ export class DhWholesaleSettlementReportsDataAccessApiStore extends ComponentSto
     super(initialState);
   }
 
-  Download(
+  download(
     gridAreas: string[],
     processType: WholesaleProcessType,
     periodStart: string,
