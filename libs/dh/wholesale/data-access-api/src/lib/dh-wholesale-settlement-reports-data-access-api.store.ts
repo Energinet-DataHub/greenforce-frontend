@@ -20,7 +20,6 @@ import {
   WholesaleProcessType,
   WholesaleSettlementReportHttp,
 } from '@energinet-datahub/dh/shared/domain';
-import { HttpErrorResponse } from '@angular/common/http';
 
 interface SettlementReportsState {
   isLoading: boolean;
