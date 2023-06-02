@@ -24,7 +24,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { DhChargeLinksDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 import { ChargeLinkV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { DhChargeItemScam } from './dh-charge-item/dh-charge-item.component';
 import { DhChargesNotFoundScam } from './dh-charges-not-found/dh-charges-not-found.component';
@@ -61,7 +61,7 @@ export class DhChargesTabContentComponent {
   declarations: [DhChargesTabContentComponent],
   imports: [
     CommonModule,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     LetModule,
     TranslocoModule,
     DhChargeItemScam,

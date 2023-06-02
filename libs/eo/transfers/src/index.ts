@@ -14,17 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { NgModule } from '@angular/core';
-
-import { WattDatepickerComponent } from './watt-datepicker.component';
-import { WattButtonModule } from '../../button';
-
-@NgModule({
-  imports: [MatDatepickerModule, MatInputModule, WattButtonModule, CommonModule],
-  declarations: [WattDatepickerComponent],
-  exports: [WattDatepickerComponent],
-})
-export class WattDatepickerModule {}
+export * from './eo-transfers.module';

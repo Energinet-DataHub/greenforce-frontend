@@ -32,8 +32,8 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -49,10 +49,10 @@ type wholesaleTableData = WattTableDataSource<Batch>;
     DhSharedUiDateTimeModule,
     TranslocoModule,
     WattBadgeComponent,
-    WattButtonModule,
+    WattButtonComponent,
     WattEmptyStateComponent,
     WattPaginatorComponent,
-    WattCardModule,
+    WATT_CARD,
     DhEmDashFallbackPipeScam,
   ],
   selector: 'dh-wholesale-table',

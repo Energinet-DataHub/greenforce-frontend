@@ -18,10 +18,10 @@ import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { DhMarketParticipantEditOrganizationDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
-import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
 import { map } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -72,11 +72,11 @@ export class DhMarketParticipantEditGridAreaComponent {
     LetModule,
     CommonModule,
     TranslocoModule,
-    WattButtonModule,
+    WattButtonComponent,
     WattTabComponent,
     WattTabsComponent,
-    WattSpinnerModule,
-    WattValidationMessageModule,
+    WattSpinnerComponent,
+    WattValidationMessageComponent,
   ],
   exports: [DhMarketParticipantEditGridAreaComponent],
   declarations: [DhMarketParticipantEditGridAreaComponent],

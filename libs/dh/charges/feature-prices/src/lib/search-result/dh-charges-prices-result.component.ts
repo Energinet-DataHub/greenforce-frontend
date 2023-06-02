@@ -21,11 +21,11 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
@@ -34,7 +34,7 @@ import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-pa
 import { DhChargesPricesDrawerComponent } from '../drawer/dh-charges-prices-drawer.component';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 import formatInTimeZone from 'date-fns-tz/formatInTimeZone';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   standalone: true,
@@ -43,16 +43,16 @@ import { WattCardModule } from '@energinet-datahub/watt/card';
     CommonModule,
     TranslocoModule,
     LetModule,
-    WattIconModule,
-    WattButtonModule,
+    WattIconComponent,
+    WattButtonComponent,
     WattEmptyStateComponent,
     DhFeatureFlagDirectiveModule,
     WattTooltipDirective,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     DhSharedUiDateTimeModule,
     DhSharedUiPaginatorComponent,
     DhChargesPricesDrawerComponent,
-    WattCardModule,
+    WATT_CARD,
   ],
   selector: 'dh-charges-prices-result',
   templateUrl: './dh-charges-prices-result.component.html',

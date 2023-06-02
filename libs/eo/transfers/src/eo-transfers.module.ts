@@ -14,15 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
 
-import { WattCheckboxComponent } from './watt-checkbox.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { EoTransferComponent } from './lib/eo-transfers.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    data: { title: 'Transfers' },
+    component: EoTransferComponent,
+  },
+];
 
 @NgModule({
-  declarations: [WattCheckboxComponent],
-  exports: [WattCheckboxComponent],
-  imports: [MatCheckboxModule, ReactiveFormsModule],
+  imports: [RouterModule.forChild(routes), EoTransferComponent],
 })
-export class WattCheckboxModule {}
+export class EoTransferModule {}

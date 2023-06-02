@@ -16,13 +16,13 @@
  */
 import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
-import { WattSpinnerComponent, WattSpinnerModule } from './../index';
+import { WattSpinnerComponent } from './../index';
 
 const meta: Meta<WattSpinnerComponent> = {
   title: 'Components/Spinner',
   decorators: [
     moduleMetadata({
-      imports: [WattSpinnerModule],
+      imports: [WattSpinnerComponent],
     }),
   ],
   component: WattSpinnerComponent,

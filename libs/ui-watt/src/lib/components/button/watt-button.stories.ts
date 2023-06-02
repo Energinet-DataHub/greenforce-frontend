@@ -17,19 +17,18 @@
 import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 import { StorybookButtonOverviewModule } from './+storybook/storybook-button-overview.module';
 import { WattButtonComponent } from './watt-button.component';
-import { WattButtonModule } from './watt-button.module';
 
 const meta: Meta<WattButtonComponent> = {
   title: 'Components/Button',
   component: WattButtonComponent,
-  decorators: [moduleMetadata({ imports: [WattButtonModule] })],
+  decorators: [moduleMetadata({ imports: [WattButtonComponent] })],
 };
 
 export default meta;
 
 const howToUseGuide = `
-1. Import ${WattButtonModule.name} in a module
-import { ${WattButtonModule.name} } from '@energinet-datahub/watt/button';
+1. Import ${WattButtonComponent.name} in a module
+import { ${WattButtonComponent.name} } from '@energinet-datahub/watt/button';
 
 2. Use <watt-button>Button</watt-button>
 `;

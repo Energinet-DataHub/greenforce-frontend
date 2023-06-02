@@ -19,10 +19,10 @@ import { Component, NgModule } from '@angular/core';
 import { DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { Router } from '@angular/router';
 import {
   dhMarketParticipantActorsCreatePath,
@@ -110,12 +110,12 @@ export class DhMarketParticipantOrganizationComponent {
     CommonModule,
     LetModule,
     TranslocoModule,
-    WattButtonModule,
+    WattButtonComponent,
     WattEmptyStateComponent,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     WattTabComponent,
     WattTabsComponent,
-    WattValidationMessageModule,
+    WattValidationMessageComponent,
     DhMarketParticipantOrganizationOverviewScam,
     DhMarketParticipantMarketRolesOverviewComponent,
     PushModule,

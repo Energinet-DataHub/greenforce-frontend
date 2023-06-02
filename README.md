@@ -176,7 +176,7 @@ To use components or other functionality from Watt, import as in the following
 example:
 
 ```ts
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 ```
 
 ## Workspace

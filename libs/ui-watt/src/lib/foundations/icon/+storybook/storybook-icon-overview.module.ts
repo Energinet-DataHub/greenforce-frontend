@@ -17,11 +17,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { WattIconModule } from '../icon.module';
+import { WattIconComponent } from '../icon.component';
 import { StorybookIconOverviewComponent } from './storybook-icon-overview.component';
 
 @NgModule({
-  imports: [CommonModule, WattIconModule],
+  imports: [CommonModule, WattIconComponent],
   declarations: [StorybookIconOverviewComponent],
   exports: [StorybookIconOverviewComponent],
 })

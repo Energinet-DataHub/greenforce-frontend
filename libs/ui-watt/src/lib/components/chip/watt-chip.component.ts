@@ -14,24 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
-import { PushModule } from '@rx-angular/template/push';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
-import { WattDropdownComponent } from './watt-dropdown.component';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 
-@NgModule({
-  declarations: [WattDropdownComponent],
-  exports: [WattDropdownComponent],
-  imports: [
-    MatSelectModule,
-    CommonModule,
-    PushModule,
-    ReactiveFormsModule,
-    NgxMatSelectSearchModule,
-  ],
+@Component({
+  standalone: true,
+  imports: [CommonModule, WattIconComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'watt-chip',
+  styleUrls: ['./watt-chip.component.scss'],
+  template: `
+    <label [class.selected]="selected" [class.disabled]="disabled">
+      <watt-icon class="selected-icon" name="checkmark" *ngIf="selected" size="s" />
+      <ng-content />
+    </label>
+  `,
 })
-export class WattDropdownModule {}
+export class WattChipComponent {
+  @Input() selected = false;
+  @Input() disabled = false;
+}
