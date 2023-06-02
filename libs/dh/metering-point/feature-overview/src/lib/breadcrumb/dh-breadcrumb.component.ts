@@ -21,7 +21,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/domain';
-import { DhIsParentPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { DhIsParentPipe } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 
 export interface MeteringPointTranslationKeys {
@@ -35,7 +35,7 @@ export interface MeteringPointTranslationKeys {
   selector: 'dh-breadcrumb',
   templateUrl: './dh-breadcrumb.component.html',
   styleUrls: ['./dh-breadcrumb.component.scss'],
-  imports: [CommonModule, RouterModule, TranslocoModule, WattIconComponent, DhIsParentPipeScam],
+  imports: [CommonModule, RouterModule, TranslocoModule, WattIconComponent, DhIsParentPipe],
 })
 export class DhBreadcrumbComponent {
   #meteringPoint: MeteringPointCimDto | undefined;

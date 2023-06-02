@@ -22,7 +22,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  NgModule,
   OnDestroy,
   Output,
   ViewChild,
@@ -31,6 +30,7 @@ import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/f
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
@@ -38,13 +38,23 @@ import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { meteringPointIdValidator } from './dh-metering-point.validator';
-import { Subscription } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-search-form',
   styleUrls: ['./dh-metering-point-search-form.component.scss'],
   templateUrl: './dh-metering-point-search-form.component.html',
+  standalone: true,
+  imports: [
+    WATT_FORM_FIELD,
+    WattInputDirective,
+    WattButtonComponent,
+    WattIconComponent,
+    TranslocoModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+  ],
 })
 export class DhMeteringPointSearchFormComponent implements AfterViewInit, OnDestroy {
   @Input() loading = false;
@@ -116,19 +126,3 @@ export class DhMeteringPointSearchFormComponent implements AfterViewInit, OnDest
     this.changeDetectorRef.detectChanges();
   }
 }
-
-@NgModule({
-  imports: [
-    WATT_FORM_FIELD,
-    WattInputDirective,
-    WattButtonComponent,
-    WattIconComponent,
-    TranslocoModule,
-    FormsModule,
-    ReactiveFormsModule,
-    CommonModule,
-  ],
-  declarations: [DhMeteringPointSearchFormComponent],
-  exports: [DhMeteringPointSearchFormComponent],
-})
-export class DhMeteringPointSearchFormScam {}

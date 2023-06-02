@@ -14,26 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
-import { DhMeteringPointFeatureOverviewModule } from '@energinet-datahub/dh/metering-point/feature-overview';
-import {
-  DhMeteringPointSearchComponent,
-  DhMeteringPointSearchScam,
-} from '@energinet-datahub/dh/metering-point/feature-search';
+import { dhMeteringPointFeatureOverviewRoutes } from '@energinet-datahub/dh/metering-point/feature-overview';
+import { DhMeteringPointSearchComponent } from '@energinet-datahub/dh/metering-point/feature-search';
 import { dhMeteringPointSearchPath } from '@energinet-datahub/dh/metering-point/routing';
 
-const routes: Routes = [
+export const dhMeteringPointShellRoutes: Routes = [
   { path: '', redirectTo: dhMeteringPointSearchPath, pathMatch: 'full' },
   {
     path: dhMeteringPointSearchPath,
     component: DhMeteringPointSearchComponent,
   },
-  { path: '', loadChildren: () => DhMeteringPointFeatureOverviewModule },
+  { path: '', loadChildren: () => dhMeteringPointFeatureOverviewRoutes },
 ];
-
-@NgModule({
-  imports: [DhMeteringPointSearchScam, RouterModule.forChild(routes)],
-})
-export class DhMeteringPointShellModule {}
