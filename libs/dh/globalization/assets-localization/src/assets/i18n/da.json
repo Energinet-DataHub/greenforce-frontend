@@ -917,6 +917,9 @@
           "eicFunction": "Markedsrolle",
           "name": "Navn",
           "description": "Beskrivelse"
+        },
+        "serverErrors": {
+          "invalidPhoneNumber": "Telefonnummeret er formatteret korrekt, men er ikke gyldigt."
         }
       },
       "download": "Download",
