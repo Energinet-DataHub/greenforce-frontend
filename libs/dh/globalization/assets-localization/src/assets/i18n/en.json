@@ -922,7 +922,7 @@
         "wrongEmailPattern": "Type a valid email",
         "noUserRolesError": "At least one user role must be selected.",
         "successMessage": "{{ email }} has been invited",
-        "inviteInformation": "The user should signin within 24 hours or it will be deleted.",
+        "inviteInformation": "The user should signin within 24 hours or it will be deactivated.",
         "columns": {
           "eicFunction": "Market role",
           "name": "Name",

@@ -913,7 +913,7 @@
         "wrongEmailPattern": "Indtast en valid email",
         "noUserRolesError": "Mindst én brugerrolle skal vælges.",
         "successMessage": "{{ email }} blev inviteret",
-        "inviteInformation": "Brugeren skal logge ind inden for 24 timer, da den ellers bliver slettet.",
+        "inviteInformation": "Brugeren skal logge ind inden for 24 timer, da den ellers bliver deaktiveret.",
         "columns": {
           "eicFunction": "Markedsrolle",
           "name": "Navn",
