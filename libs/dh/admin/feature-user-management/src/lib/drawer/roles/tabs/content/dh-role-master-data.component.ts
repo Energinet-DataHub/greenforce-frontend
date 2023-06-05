@@ -17,7 +17,7 @@
 import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { MarketParticipantUserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
 import { CommonModule } from '@angular/common';
 import {
@@ -30,7 +30,7 @@ import {
   standalone: true,
   templateUrl: './dh-role-master-data.component.html',
   imports: [
-    WattCardModule,
+    WattCardComponent,
     WattDescriptionListComponent,
     TranslocoModule,
     CommonModule,

@@ -20,7 +20,7 @@ import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-ti
 
 import { da as daTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
-import { WattToastModule } from '@energinet-datahub/watt/toast';
+import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { DhGraphQLModule } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
@@ -29,9 +29,11 @@ import {
 } from '@energinet-datahub/dh/globalization/configuration-localization';
 
 import { DhWholesaleStartComponent } from './dh-wholesale-start.component';
+import { importProvidersFrom } from '@angular/core';
 
 it('mounts', () => {
   cy.mount(DhWholesaleStartComponent, {
+    providers: [importProvidersFrom(MatLegacySnackBarModule)],
     imports: [
       BrowserAnimationsModule,
       DhApiModule.forRoot(),
@@ -40,7 +42,6 @@ it('mounts', () => {
       DhTranslocoModule.forRoot(),
       HttpClientModule,
       WattDanishDatetimeModule.forRoot(),
-      WattToastModule.forRoot(),
     ],
   });
 

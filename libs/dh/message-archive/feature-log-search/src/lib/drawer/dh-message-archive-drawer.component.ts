@@ -18,9 +18,9 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, Input, ViewChild, inject } from '@angular/core';
 import { ArchivedMessage, Stream } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { MatDividerModule } from '@angular/material/divider';
 import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
@@ -40,15 +40,15 @@ import { provideComponentStore } from '@ngrx/component-store';
   styleUrls: ['./dh-message-archive-drawer.component.scss'],
   imports: [
     CommonModule,
-    WattDrawerModule,
+    WATT_DRAWER,
     TranslocoModule,
-    WattIconModule,
+    WattIconComponent,
     DhSharedUiDateTimeModule,
     DhMessageArchiveStatusComponent,
     MatDividerModule,
     ActorNamePipe,
     DocumentTypeNamePipe,
-    WattButtonModule,
+    WattButtonComponent,
     PushModule,
     DhEmDashFallbackPipeScam,
   ],
@@ -87,8 +87,6 @@ export class DhMessageArchiveDrawerComponent {
   }
 
   downloadDocument() {
-    if (this.message && this.documentContent) return;
-
     const blobPart = this.documentContent as unknown as BlobPart;
     const blob = new Blob([blobPart]);
     const url = window.URL.createObjectURL(blob);

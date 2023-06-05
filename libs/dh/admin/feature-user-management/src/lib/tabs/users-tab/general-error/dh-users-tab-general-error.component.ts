@@ -18,7 +18,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angul
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   selector: 'dh-users-tab-general-error',
@@ -35,7 +35,7 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
       }}</watt-button>
     </watt-empty-state>
   `,
-  imports: [TranslocoModule, WattButtonModule, WattEmptyStateComponent],
+  imports: [TranslocoModule, WattButtonComponent, WattEmptyStateComponent],
 })
 export class DhUsersTabGeneralErrorComponent {
   @Output() reload = new EventEmitter<void>();

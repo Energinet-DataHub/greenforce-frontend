@@ -17,13 +17,13 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { EoEmissionsStore } from './eo-emissions.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattSpinnerModule, NgIf, AsyncPipe],
+  imports: [WattSpinnerComponent, NgIf, AsyncPipe],
   selector: 'eo-emissions-data',
   styles: [
     `

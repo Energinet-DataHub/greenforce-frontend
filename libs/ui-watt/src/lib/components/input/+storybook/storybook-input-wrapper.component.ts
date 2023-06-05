@@ -18,10 +18,10 @@ import { CommonModule } from '@angular/common';
 import { Component, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
-import { WattFormFieldModule } from '../../form-field';
-import { WattButtonModule } from '../../button';
-import { WattIconModule } from '../../../foundations/icon/icon.module';
-import { WattInputModule } from '../input.module';
+import { WATT_FORM_FIELD } from '../../form-field';
+import { WattButtonComponent } from '../../button';
+import { WattIconComponent } from '../../../foundations/icon/icon.component';
+import { WattInputDirective } from '../';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -31,10 +31,10 @@ import { WattInputModule } from '../input.module';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    WattFormFieldModule,
-    WattIconModule,
-    WattInputModule,
-    WattButtonModule,
+    WATT_FORM_FIELD,
+    WattIconComponent,
+    WattInputDirective,
+    WattButtonComponent,
   ],
   template: `<watt-form-field>
     <watt-label>{{ label }}</watt-label>

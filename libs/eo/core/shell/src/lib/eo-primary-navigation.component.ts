@@ -52,6 +52,12 @@ import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datah
           >BETA</span
         >
       </watt-nav-list-item>
+      <watt-nav-list-item link="{{ routes.transfer }}"
+        >Transfers
+        <span style="padding-left:8px; font-weight:bold;color:var(--watt-color-secondary-dark);"
+          >BETA</span
+        >
+      </watt-nav-list-item>
       <div class="menu-spacer"></div>
       <watt-nav-list-item link="{{ routes.help }}">Help</watt-nav-list-item>
       <watt-nav-list-item (click)="onLogOut()" role="link"> Log out </watt-nav-list-item>

@@ -34,11 +34,11 @@ import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shar
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { UpdateUserRoles, DbAdminEditUserStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { HttpStatusCode } from '@angular/common/http';
 
@@ -47,13 +47,13 @@ import { HttpStatusCode } from '@angular/common/http';
   standalone: true,
   imports: [
     CommonModule,
-    WattModalModule,
-    WattButtonModule,
+    WATT_MODAL,
+    WattButtonComponent,
     TranslocoModule,
     WattTabComponent,
     WattTabsComponent,
-    WattInputModule,
-    WattFormFieldModule,
+    WattInputDirective,
+    WATT_FORM_FIELD,
     PushModule,
     DhUserRolesComponent,
     ReactiveFormsModule,
@@ -61,12 +61,9 @@ import { HttpStatusCode } from '@angular/common/http';
   templateUrl: './dh-edit-user-modal.component.html',
   styles: [
     `
-      .tab-master-data {
-        margin: calc(var(--watt-space-ml) * 2) 0 0 var(--watt-space-ml);
-      }
-
-      .full-name-field {
-        max-width: 512px;
+      .name-field {
+        max-width: 384px;
+        margin-right: var(--watt-space-ml);
       }
 
       .phone-field {
@@ -87,7 +84,8 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   updatedPhoneNumber: string | null = null;
 
   userInfoForm = this.formBuilder.nonNullable.group({
-    name: [{ value: '', disabled: true }],
+    firstName: ['', [Validators.required]],
+    lastName: ['', [Validators.required]],
     phoneNumber: ['', [Validators.required, Validators.pattern(danishPhoneNumberPattern)]],
   });
 
@@ -98,6 +96,14 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   @Input() user: MarketParticipantUserOverviewItemDto | null = null;
 
   isSaving$ = this.editUserStore.isSaving$;
+
+  get firstNameControl() {
+    return this.userInfoForm.controls.firstName;
+  }
+
+  get lastNameControl() {
+    return this.userInfoForm.controls.lastName;
+  }
 
   get phoneNumberControl() {
     return this.userInfoForm.controls.phoneNumber;
@@ -110,7 +116,8 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   ngOnChanges(change: SimpleChanges): void {
     if (change.user) {
       this.userInfoForm.patchValue({
-        name: this.user?.name ?? '',
+        firstName: this.user?.firstName ?? '',
+        lastName: this.user?.lastName ?? '',
         phoneNumber: this.user?.phoneNumber ?? '',
       });
     }
@@ -125,35 +132,36 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
       return this.closeModal(false);
     }
 
-    let phoneNumber: string | undefined;
-    let updateUserRoles: UpdateUserRoles | undefined;
-
-    if (this.phoneNumberControl.value !== this.user.phoneNumber) {
-      phoneNumber = this.phoneNumberControl.value;
-    }
-
-    if (this._updateUserRoles !== null) {
-      updateUserRoles = this._updateUserRoles;
-    }
-
-    if (phoneNumber === undefined && updateUserRoles === undefined) {
+    if (
+      this.firstNameControl.value === this.user.firstName &&
+      this.lastNameControl.value === this.user.lastName &&
+      this.phoneNumberControl.value === this.user.phoneNumber &&
+      this._updateUserRoles === null
+    ) {
       return this.closeModal(false);
     }
 
-    this.startEditUserRequest(phoneNumber, updateUserRoles);
+    this.startEditUserRequest(
+      this.firstNameControl.value,
+      this.lastNameControl.value,
+      this.phoneNumberControl.value,
+      this._updateUserRoles ?? undefined
+    );
   }
 
   private startEditUserRequest(
-    phoneNumber: string | undefined,
+    firstName: string,
+    lastName: string,
+    phoneNumber: string,
     updateUserRoles: UpdateUserRoles | undefined
   ) {
     const onSuccessFn = () => {
-      if (this.user && phoneNumber) {
-        this.user.phoneNumber = phoneNumber;
-      }
+      this.updateModel(firstName, lastName, phoneNumber);
 
-      const message = this.transloco.translate('admin.userManagement.editUser.saveSuccess');
-      this.toastService.open({ type: 'success', message });
+      this.toastService.open({
+        type: 'success',
+        message: this.transloco.translate('admin.userManagement.editUser.saveSuccess'),
+      });
 
       this.userRoles.resetUpdateUserRoles();
       this.closeModal(true);
@@ -161,21 +169,31 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
 
     const onErrorFn = (statusCode: HttpStatusCode) => {
       if (statusCode !== HttpStatusCode.BadRequest) {
-        const message = this.transloco.translate('admin.userManagement.editUser.saveError');
-
-        this.toastService.open({ type: 'danger', message });
+        this.toastService.open({
+          type: 'danger',
+          message: this.transloco.translate('admin.userManagement.editUser.saveError'),
+        });
       }
     };
 
     if (this.user) {
       this.editUserStore.editUser({
         userId: this.user.id,
+        firstName,
+        lastName,
         phoneNumber,
         updateUserRoles,
         onSuccessFn,
         onErrorFn,
       });
     }
+  }
+
+  private updateModel(firstName: string, lastName: string, phoneNumber: string) {
+    if (!this.user) return;
+    this.user.firstName = firstName;
+    this.user.lastName = lastName;
+    this.user.phoneNumber = phoneNumber;
   }
 
   closeModal(status: boolean): void {

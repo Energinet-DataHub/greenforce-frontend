@@ -73,12 +73,26 @@ limitations under the License.
 
       <!-- Execution type -->
       <label>{{ transloco("startBatch.executionTypeLabel") }}</label>
-      <watt-chips
-        [options]="executionTypes"
-        [selection]="selectedExecutionType"
-        (selectionChange)="onExecutionTypeSelected($event)"
-      ></watt-chips>
-
+      <div class="execution-types">
+        <watt-filter-chip
+          choice
+          name="executionType"
+          value="ACTUAL"
+          [disabled]="true"
+          (selectionChange)="onExecutionTypeSelected($event)"
+        >
+          {{ transloco("startBatch.executionTypes.actual") }}
+        </watt-filter-chip>
+        <watt-filter-chip
+          choice
+          name="executionType"
+          value="SIMULATION"
+          [selected]="true"
+          (selectionChange)="onExecutionTypeSelected($event)"
+        >
+          {{ transloco("startBatch.executionTypes.simulation") }}
+        </watt-filter-chip>
+      </div>
       <!-- Process type -->
       <watt-form-field>
         <watt-label>{{ transloco("startBatch.processTypeDropDownLabel") }}</watt-label>

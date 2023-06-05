@@ -14,19 +14,27 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+<watt-menu-chip
+  *ngIf="chipMode"
+  [opened]="matSelect.panelOpen"
+  [selected]="!!matSelect?.triggerValue"
+  [disabled]="matSelectControl.disabled"
+>
+  {{ placeholder }}<span *ngIf="showTriggerValue">: {{ matSelect?.triggerValue }}</span>
+  <span class="watt-chip-label" *ngIf="showChipLabel">{{ matSelectControl.value?.length }}</span>
+</watt-menu-chip>
+
 <mat-select
   [formControl]="matSelectControl"
   [placeholder]="placeholder"
   #matSelect
   [multiple]="multiple"
   [disableOptionCentering]="true"
+  [ngClass]="{ chip: chipMode }"
   [panelClass]="{
     'watt-dropdown-panel': true,
-    'watt-dropdown-panel-single-selection': !multiple,
-    'watt-dropdown-panel-multiple-selection': multiple,
-    'watt-dropdown-panel-close-to-screen-left-edge': isCloseToScreenLeftEdge
+    'watt-dropdown-panel-chip-mode': chipMode
   }"
-  (mousedown)="onMouseDown()"
 >
   <mat-option
     ><ngx-mat-select-search

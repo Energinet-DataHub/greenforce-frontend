@@ -18,9 +18,11 @@ export class LoginPo {
   private thomas = '[value="Thomas Tesla"]';
   private charlotte = '[value="Charlotte CSR"]';
   private ivan = '[value="Ivan Iværksætter"]';
+  private peter = '[value="Peter Producent"]';
 
   // Interaction
   clickIvanLogin = () => cy.get(this.ivan).click();
   clickCharlotteLogin = () => cy.get(this.charlotte).click();
   clickThomasLogin = () => cy.get(this.thomas).click();
+  clickPeterLogin = () => cy.get(this.peter).click();
 }

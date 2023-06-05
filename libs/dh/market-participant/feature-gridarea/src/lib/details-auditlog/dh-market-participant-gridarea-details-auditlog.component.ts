@@ -19,7 +19,7 @@ import { Component, Input, NgModule, OnChanges } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -75,7 +75,7 @@ export class DhMarketParticipantGridAreaDetailsAuditLogComponent implements OnCh
     TranslocoModule,
     MatTableModule,
     WattEmptyStateComponent,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     DhSharedUiDateTimeModule,
     DhPermissionRequiredDirective,
   ],

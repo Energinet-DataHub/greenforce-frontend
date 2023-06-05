@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { render, screen } from '@testing-library/angular';
 
 import { EoInlineMessageComponent } from './eo-inline-message.component';
@@ -25,7 +25,7 @@ describe(`${EoInlineMessageComponent.name} component API`, () => {
     await render(
       `<eo-inline-message><watt-icon name="custom-primary-info" label="Test icon"></watt-icon></eo-inline-message>`,
       {
-        imports: [EoInlineMessageComponent, WattIconModule],
+        imports: [EoInlineMessageComponent, WattIconComponent],
       }
     );
 

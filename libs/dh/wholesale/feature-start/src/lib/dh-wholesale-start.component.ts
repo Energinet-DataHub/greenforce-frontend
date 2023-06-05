@@ -35,22 +35,18 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
 
-import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
+import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
-import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
-import {
-  WattChipsComponent,
-  WattChipsOption,
-  WattChipsSelection,
-} from '@energinet-datahub/watt/chips';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
@@ -77,16 +73,16 @@ interface CreateBatchFormValues {
     PushModule,
     ReactiveFormsModule,
     TranslocoModule,
-    WattButtonModule,
-    WattDatepickerModule,
-    WattDropdownModule,
-    WattFormFieldModule,
-    WattInputModule,
-    WattSpinnerModule,
+    WattButtonComponent,
+    WattDatepickerComponent,
+    WattDropdownComponent,
+    WATT_FORM_FIELD,
+    WattInputDirective,
+    WattSpinnerComponent,
     WattEmptyStateComponent,
-    WattChipsComponent,
-    WattValidationMessageModule,
-    WattModalModule,
+    WattFilterChipComponent,
+    WattValidationMessageComponent,
+    WATT_MODAL,
   ],
 })
 export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -122,7 +118,6 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
   onDateRangeChange$ = this.createBatchForm.controls.dateRange.valueChanges.pipe(startWith(null));
 
   processTypes: WattDropdownOption[] = [];
-  executionTypes: WattChipsOption[] = [];
 
   selectedExecutionType = 'ACTUAL';
   latestPeriodEnd?: string | null;
@@ -146,7 +141,6 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
 
   ngOnInit(): void {
     this.getProcessTypes();
-    this.getExecutionTypes();
     this.toggleGridAreasControl();
 
     // Close toast on navigation
@@ -167,8 +161,8 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
     this.executionTypeChanged$.complete();
   }
 
-  onExecutionTypeSelected(selection: WattChipsSelection) {
-    this.selectedExecutionType = selection as string;
+  onExecutionTypeSelected(selection: HTMLInputElement) {
+    this.selectedExecutionType = selection.value;
     this.executionTypeChanged$.next();
   }
 
@@ -180,19 +174,6 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
         this.processTypes = Object.values(graphql.ProcessType).map((value) => ({
           displayValue: processTypesTranslation[value],
           value,
-        }));
-      });
-  }
-
-  private getExecutionTypes(): void {
-    this.transloco
-      .selectTranslateObject('wholesale.startBatch.executionTypes')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((executionTypesTranslation) => {
-        this.executionTypes = Object.keys(executionTypesTranslation).map((key) => ({
-          label: executionTypesTranslation[key],
-          value: key,
-          disabled: key !== 'ACTUAL',
         }));
       });
   }

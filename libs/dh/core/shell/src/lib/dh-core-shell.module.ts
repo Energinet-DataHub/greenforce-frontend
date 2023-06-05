@@ -16,7 +16,7 @@
  */
 import { BrowserUtils } from '@azure/msal-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, importProvidersFrom } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
   MsalGuard,
@@ -45,7 +45,7 @@ import { dhMarketParticipantPath } from '@energinet-datahub/dh/market-participan
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 import { dhChargesPath } from '@energinet-datahub/dh/charges/routing';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
-import { WattToastModule } from '@energinet-datahub/watt/toast';
+import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
 import { WHOLESALE_BASE_PATH } from '@energinet-datahub/dh/wholesale/routing';
@@ -133,10 +133,10 @@ const routes: Routes = [
         BrowserUtils.isInIframe() && BrowserUtils.isInPopup() ? 'disabled' : 'enabledNonBlocking',
       scrollPositionRestoration: 'enabled',
     }),
-    WattToastModule.forRoot(),
     DhGlobalizationUiWattTranslationModule.forRoot(),
   ],
   providers: [
+    importProvidersFrom(MatLegacySnackBarModule),
     MsalService,
     {
       provide: HTTP_INTERCEPTORS,

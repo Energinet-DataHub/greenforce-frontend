@@ -15,6 +15,5 @@
  * limitations under the License.
  */
 export { WattDropdownComponent } from './watt-dropdown.component';
-export { WattDropdownModule } from './watt-dropdown.module';
-export { WattDropdownOption, WattDropdownOptions } from './watt-dropdown-option';
-export { WattDropdownValue } from './watt-dropdown-value';
+export { type WattDropdownOption, type WattDropdownOptions } from './watt-dropdown-option';
+export { type WattDropdownValue } from './watt-dropdown-value';

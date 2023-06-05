@@ -757,8 +757,8 @@
         "AGGREGATION": "Aggregation"
       },
       "executionTypes": {
-        "ACTUAL": "Actual",
-        "SIMULATION": "Simulation"
+        "actual": "Actual",
+        "simulation": "Simulation"
       },
       "processTypeError": "Process type is required",
       "periodWarning": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
@@ -927,6 +927,9 @@
           "eicFunction": "Market role",
           "name": "Name",
           "description": "Description"
+        },
+        "serverErrors": {
+          "invalidPhoneNumber": "The provided phone number is formatted properly, but is an invalid phone number."
         }
       },
       "download": "Download",
@@ -1047,7 +1050,8 @@
           },
           "table": {
             "columns": {
-              "name": "Name",
+              "firstName": "First name",
+              "lastName": "Last name",
               "email": "Email",
               "phone": "Phone",
               "assignedActors": "Assigned market parties",
@@ -1138,7 +1142,8 @@
           "roles": "User roles"
         },
         "masterData": {
-          "fullName": "Name",
+          "firstName": "First name",
+          "lastName": "Last name",
           "phone": "Phone number"
         },
         "phoneNumberError": "Phone number format +45 12345678"

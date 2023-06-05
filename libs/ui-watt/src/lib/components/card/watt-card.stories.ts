@@ -16,7 +16,6 @@
  */
 import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
-import { WattCardModule } from './watt-card.module';
 import { WattCardComponent } from './watt-card.component';
 
 const meta: Meta<WattCardComponent> = {
@@ -24,7 +23,7 @@ const meta: Meta<WattCardComponent> = {
   component: WattCardComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattCardModule],
+      imports: [WattCardComponent],
     }),
   ],
 };
