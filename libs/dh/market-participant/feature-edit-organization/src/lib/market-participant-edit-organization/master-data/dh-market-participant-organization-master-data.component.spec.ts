@@ -20,23 +20,17 @@ import userEvent from '@testing-library/user-event';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { OrganizationChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import {
-  DhMarketParticipantOrganizationMasterDataComponent,
-  DhMarketParticipantOrganizationMasterDataComponentScam,
-} from './dh-market-participant-organization-master-data.component';
+import { DhMarketParticipantOrganizationMasterDataComponent } from './dh-market-participant-organization-master-data.component';
 import { en } from '@energinet-datahub/dh/globalization/assets-localization';
 import { MarketParticipantOrganizationStatus } from '@energinet-datahub/dh/shared/domain';
 
-describe(DhMarketParticipantOrganizationMasterDataComponent.name, () => {
+describe(DhMarketParticipantOrganizationMasterDataComponent, () => {
   async function setup(changes: OrganizationChanges) {
     const view = await render(DhMarketParticipantOrganizationMasterDataComponent, {
       componentProperties: {
         changes: changes,
       },
-      imports: [
-        DhMarketParticipantOrganizationMasterDataComponentScam,
-        getTranslocoTestingModule(),
-      ],
+      imports: [getTranslocoTestingModule()],
     });
 
     await runOnPushChangeDetection(view.fixture);

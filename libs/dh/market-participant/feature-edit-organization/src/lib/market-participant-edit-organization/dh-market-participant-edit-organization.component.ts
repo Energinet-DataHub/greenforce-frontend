@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { DhMarketParticipantEditOrganizationDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
-import { DhMarketParticipantOrganizationMasterDataComponentScam } from './master-data/dh-market-participant-organization-master-data.component';
+import { DhMarketParticipantOrganizationMasterDataComponent } from './master-data/dh-market-participant-organization-master-data.component';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -37,6 +37,18 @@ import {
   templateUrl: './dh-market-participant-edit-organization.component.html',
   styleUrls: ['./dh-market-participant-edit-organization.component.scss'],
   providers: [DhMarketParticipantEditOrganizationDataAccessApiStore],
+  standalone: true,
+  imports: [
+    LetModule,
+    CommonModule,
+    TranslocoModule,
+    WattButtonComponent,
+    WattTabComponent,
+    WattTabsComponent,
+    WattSpinnerComponent,
+    DhMarketParticipantOrganizationMasterDataComponent,
+    WattValidationMessageComponent,
+  ],
 })
 export class DhMarketParticipantEditOrganizationComponent {
   organizationId$ = this.route.params.pipe(
@@ -68,20 +80,3 @@ export class DhMarketParticipantEditOrganizationComponent {
     this.router.navigateByUrl(`${dhMarketParticipantPath}/${dhMarketParticipantOrganizationsPath}`);
   };
 }
-
-@NgModule({
-  imports: [
-    LetModule,
-    CommonModule,
-    TranslocoModule,
-    WattButtonComponent,
-    WattTabComponent,
-    WattTabsComponent,
-    WattSpinnerComponent,
-    DhMarketParticipantOrganizationMasterDataComponentScam,
-    WattValidationMessageComponent,
-  ],
-  exports: [DhMarketParticipantEditOrganizationComponent],
-  declarations: [DhMarketParticipantEditOrganizationComponent],
-})
-export class DhMarketParticipantEditOrganizationScam {}

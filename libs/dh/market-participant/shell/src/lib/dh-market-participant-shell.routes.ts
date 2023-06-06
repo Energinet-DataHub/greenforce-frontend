@@ -14,17 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import {
-  DhMarketParticipantOrganizationComponent,
-  DhMarketParticipantOrganizationScam,
-} from '@energinet-datahub/dh/market-participant/feature-organization';
-import {
-  DhMarketParticipantEditOrganizationComponent,
-  DhMarketParticipantEditOrganizationScam,
-} from '@energinet-datahub/dh/market-participant/feature-edit-organization';
-import { DhMarketParticipantEditGridAreaScam } from '@energinet-datahub/dh/market-participant/feature-edit-gridarea';
+import { DhMarketParticipantOrganizationComponent } from '@energinet-datahub/dh/market-participant/feature-organization';
+import { DhMarketParticipantEditOrganizationComponent } from '@energinet-datahub/dh/market-participant/feature-edit-organization';
 import {
   dhMarketParticipantActorIdParam,
   dhMarketParticipantActorsCreatePath,
@@ -37,13 +28,11 @@ import {
   dhMarketParticipantGridAreasPath,
 } from '@energinet-datahub/dh/market-participant/routing';
 import { DhMarketParticipantEditActorComponent } from '@energinet-datahub/dh/market-participant/edit-actor';
-import {
-  DhMarketParticipantGridAreaScam,
-  DhMarketParticipantGridAreaComponent,
-} from '@energinet-datahub/dh/market-participant/feature-gridarea';
+import { DhMarketParticipantGridAreaComponent } from '@energinet-datahub/dh/market-participant/feature-gridarea';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+import { Routes } from '@angular/router';
 
-const routes: Routes = [
+export const marketParticipantRoutes: Routes = [
   {
     path: dhMarketParticipantOrganizationsPath,
     children: [
@@ -115,14 +104,3 @@ const routes: Routes = [
     },
   },
 ];
-
-@NgModule({
-  imports: [
-    DhMarketParticipantOrganizationScam,
-    DhMarketParticipantEditOrganizationScam,
-    DhMarketParticipantEditGridAreaScam,
-    DhMarketParticipantGridAreaScam,
-    RouterModule.forChild(routes),
-  ],
-})
-export class DhMarketParticipantShellModule {}

@@ -18,16 +18,13 @@
 import { render, screen, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
-import {
-  DhMarketParticipantActorContactDataComponent,
-  DhMarketParticipantActorContactDataComponentScam,
-} from './dh-market-participant-actor-contact-data.component';
+import { DhMarketParticipantActorContactDataComponent } from './dh-market-participant-actor-contact-data.component';
 import { MarketParticipantActorContactDto } from '@energinet-datahub/dh/shared/domain';
 import { ActorContactChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { EventEmitter } from '@angular/core';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
-describe(DhMarketParticipantActorContactDataComponent.name, () => {
+describe(DhMarketParticipantActorContactDataComponent, () => {
   async function setup(contacts: MarketParticipantActorContactDto[]) {
     const outputFn = jest.fn();
     const view = await render(DhMarketParticipantActorContactDataComponent, {
@@ -39,7 +36,7 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
           remove: MarketParticipantActorContactDto[];
         }>,
       },
-      imports: [DhMarketParticipantActorContactDataComponentScam, getTranslocoTestingModule()],
+      imports: [getTranslocoTestingModule()],
     });
 
     await runOnPushChangeDetection(view.fixture);
