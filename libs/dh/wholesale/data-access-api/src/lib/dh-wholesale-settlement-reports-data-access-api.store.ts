@@ -50,7 +50,8 @@ export class DhWholesaleSettlementReportsDataAccessApiStore extends ComponentSto
     periodEnd: string,
     energySupplier: string | undefined,
     locale: string | undefined,
-    onErrorfn: () => void
+    onErrorfn: () => void,
+    onSuccess: () => void
   ) {
     return this.httpClient
       .v1WholesaleSettlementReportDownloadGet(
@@ -71,6 +72,7 @@ export class DhWholesaleSettlementReportsDataAccessApiStore extends ComponentSto
           link.download = `SettlementReport.zip`;
           link.click();
           link.remove();
+          onSuccess();
         },
         error: () => {
           onErrorfn();

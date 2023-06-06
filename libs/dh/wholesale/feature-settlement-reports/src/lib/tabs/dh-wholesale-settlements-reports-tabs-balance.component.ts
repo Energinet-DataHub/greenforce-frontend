@@ -120,6 +120,9 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
           type: 'danger',
           message: this.transloco.translate('wholesale.settlementReports.downloadFailed'),
         });
+      },
+      () => {
+        this.toastService.dismiss();
       }
     );
   }
