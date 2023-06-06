@@ -17,6 +17,8 @@
 import { Component } from '@angular/core';
 
 import { WattIcon } from '../icons';
+import { CommonModule } from '@angular/common';
+import { WattIconComponent } from '../icon.component';
 
 interface Icon {
   name: string;
@@ -33,6 +35,8 @@ interface IconGroup {
   selector: 'storybook-icon-overview',
   templateUrl: './storybook-icon-overview.component.html',
   styleUrls: ['./storybook-icon-overview.component.scss'],
+  standalone: true,
+  imports: [CommonModule, WattIconComponent],
 })
 export class StorybookIconOverviewComponent {
   /**

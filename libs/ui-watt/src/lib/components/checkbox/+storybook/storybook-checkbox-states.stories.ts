@@ -17,15 +17,15 @@
 import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattCheckboxComponent } from '../watt-checkbox.component';
-import { WattCheckboxStatesModule } from './storybook-checkbox-states.module';
-import { WattCardComponent } from '../../card';
+import { StorybookCheckboxStatesComponent } from './storybook-checkbox-states.component';
+import { WATT_CARD } from '../../card';
 
 const meta: Meta<WattCheckboxComponent> = {
   title: 'Components/Checkbox',
   component: WattCheckboxComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattCheckboxComponent, WattCheckboxStatesModule, WattCardComponent],
+      imports: [StorybookCheckboxStatesComponent, WATT_CARD],
     }),
   ],
 };
