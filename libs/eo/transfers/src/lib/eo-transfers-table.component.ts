@@ -124,6 +124,7 @@ interface EoTransferTableElement extends EoTransfer {
       (rowClick)="onRowClick($event)"
       [activeRow]="activeRow"
       class="watt-space-stack-s"
+      data-testid="transfers-table"
     >
       <!-- Period - Custom column -->
       <ng-container *wattTableCell="table.columns['period']; let element">
