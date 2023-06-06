@@ -14,11 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule, Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
+
 import { MeteringPointType } from '@energinet-datahub/dh/shared/domain';
 
 @Pipe({
   name: 'dhIsParent',
+  standalone: true,
 })
 export class DhIsParentPipe implements PipeTransform {
   transform(value: MeteringPointType | undefined): boolean {
@@ -29,9 +31,3 @@ export class DhIsParentPipe implements PipeTransform {
     );
   }
 }
-
-@NgModule({
-  declarations: [DhIsParentPipe],
-  exports: [DhIsParentPipe],
-})
-export class DhIsParentPipeScam {}

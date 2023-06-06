@@ -14,27 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChargeLinkV1Dto, ChargeType } from '@energinet-datahub/dh/shared/domain';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { TranslocoModule } from '@ngneat/transloco';
+
+import { ChargeLinkV1Dto, ChargeType } from '@energinet-datahub/dh/shared/domain';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 @Component({
   selector: 'dh-charge-item',
   templateUrl: './dh-charge-item.component.html',
   styleUrls: ['./dh-charge-item.component.scss'],
-})
-export class DhChargeItemComponent {
-  @Input() charges: Array<ChargeLinkV1Dto> = [];
-  @Input() title = '';
-  chargeTypes = ChargeType;
-}
-
-@NgModule({
+  standalone: true,
   imports: [
     TranslocoModule,
     CommonModule,
@@ -43,7 +37,9 @@ export class DhChargeItemComponent {
     DhSharedUiDateTimeModule,
     WattIconComponent,
   ],
-  declarations: [DhChargeItemComponent],
-  exports: [DhChargeItemComponent],
 })
-export class DhChargeItemScam {}
+export class DhChargeItemComponent {
+  @Input() charges: Array<ChargeLinkV1Dto> = [];
+  @Input() title = '';
+  chargeTypes = ChargeType;
+}

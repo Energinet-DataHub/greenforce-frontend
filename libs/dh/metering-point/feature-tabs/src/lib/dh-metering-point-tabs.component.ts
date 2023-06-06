@@ -14,23 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { tap } from 'rxjs';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
-import { DhIsParentPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { DhIsParentPipe } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
-import { DhChargesTabContentScam } from './charges-tab-content/dh-charges-tab-content.component';
-import { DhChildMeteringPointsTabContentScam } from './child-metering-points-tab-content/dh-child-metering-points-tab-content.component';
-import { DhProcessesTabContentScam } from './processes-tab-content/dh-processes-tab-content.component';
+import { DhChargesTabContentComponent } from './charges-tab-content/dh-charges-tab-content.component';
+import { DhChildMeteringPointsTabContentComponent } from './child-metering-points-tab-content/dh-child-metering-points-tab-content.component';
+import { DhProcessesTabContentComponent } from './processes-tab-content/dh-processes-tab-content.component';
 
 @Component({
   selector: 'dh-metering-point-tabs',
   templateUrl: './dh-metering-point-tabs.template.html',
+  standalone: true,
+  imports: [
+    LetModule,
+    CommonModule,
+    WattTabsComponent,
+    WattTabComponent,
+    TranslocoModule,
+    DhIsParentPipe,
+    DhChargesTabContentComponent,
+    DhProcessesTabContentComponent,
+    DhChildMeteringPointsTabContentComponent,
+  ],
 })
 export class DhMeteringPointTabsComponent {
   childMeteringPointsCount = 0;
@@ -43,20 +55,3 @@ export class DhMeteringPointTabsComponent {
 
   constructor(private store: DhMeteringPointDataAccessApiStore) {}
 }
-
-@NgModule({
-  declarations: [DhMeteringPointTabsComponent],
-  exports: [DhMeteringPointTabsComponent],
-  imports: [
-    LetModule,
-    CommonModule,
-    WattTabsComponent,
-    WattTabComponent,
-    TranslocoModule,
-    DhIsParentPipeScam,
-    DhChargesTabContentScam,
-    DhProcessesTabContentScam,
-    DhChildMeteringPointsTabContentScam,
-  ],
-})
-export class DhMeteringPointTabsScam {}

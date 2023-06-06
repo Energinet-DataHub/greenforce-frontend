@@ -14,28 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LetModule } from '@rx-angular/template/let';
+
+import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
 import { DhMeteringPointIdentityComponent } from './identity/dh-metering-point-identity.component';
 import { DhMeteringPointPrimaryMasterDataComponent } from './primary-master-data/dh-metering-point-primary-master-data.component';
 import { DhSecondaryMasterDataComponent } from './secondary-master-data/dh-secondary-master-data.component';
-import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
 @Component({
   selector: 'dh-identity-and-master-data',
   templateUrl: './dh-metering-point-identity-and-master-data.template.html',
-})
-export class DhMeteringPointIdentityAndMasterDataComponent {
-  meteringPoint$ = this.store.meteringPoint$;
-
-  constructor(private store: DhMeteringPointDataAccessApiStore) {}
-}
-
-@NgModule({
-  declarations: [DhMeteringPointIdentityAndMasterDataComponent],
-  exports: [DhMeteringPointIdentityAndMasterDataComponent],
+  standalone: true,
   imports: [
     CommonModule,
     LetModule,
@@ -44,4 +36,8 @@ export class DhMeteringPointIdentityAndMasterDataComponent {
     DhSecondaryMasterDataComponent,
   ],
 })
-export class DhMeteringPointIdentityAndMasterDataScam {}
+export class DhMeteringPointIdentityAndMasterDataComponent {
+  meteringPoint$ = this.store.meteringPoint$;
+
+  constructor(private store: DhMeteringPointDataAccessApiStore) {}
+}
