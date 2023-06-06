@@ -33,7 +33,7 @@ import {
   dhMarketParticipantOrganizationsPath,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
-import { DhMarketParticipantOrganizationOverviewScam } from './overview/dh-market-participant-organization-overview.component';
+import { DhMarketParticipantOrganizationOverviewComponent } from './overview/dh-market-participant-organization-overview.component';
 import { PushModule } from '@rx-angular/template/push';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
@@ -55,7 +55,7 @@ import { DhMarketParticipantMarketRolesOverviewComponent } from './market-roles-
     WattTabComponent,
     WattTabsComponent,
     WattValidationMessageComponent,
-    DhMarketParticipantOrganizationOverviewScam,
+    DhMarketParticipantOrganizationOverviewComponent,
     DhMarketParticipantMarketRolesOverviewComponent,
     PushModule,
     DhPermissionRequiredDirective,

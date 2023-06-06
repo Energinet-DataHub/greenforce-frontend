@@ -15,14 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  NgModule,
-  OnChanges,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { MarketParticipantActorStatus } from '@energinet-datahub/dh/shared/domain';
