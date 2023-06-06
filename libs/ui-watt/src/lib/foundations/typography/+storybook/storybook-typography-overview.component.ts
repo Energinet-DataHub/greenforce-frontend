@@ -17,6 +17,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 import { typographyHtmlSnippets } from './shared/typography-html-snippets';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 
 interface Typography {
   html: string;
@@ -164,6 +166,8 @@ const typeScaleLarge: Typography[] = [
   templateUrl: './storybook-typography-overview.component.html',
   styleUrls: ['./storybook-typography-overview.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [MatCardModule, MatTableModule],
 })
 export class StorybookTypographyOverviewComponent {
   /**
