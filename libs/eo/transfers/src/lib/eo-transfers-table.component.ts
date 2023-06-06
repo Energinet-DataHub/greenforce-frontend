@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { DatePipe, NgIf } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -23,6 +23,7 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { EoTransferDrawerComponent } from './eo-transfer-drawer.component';
 import { EoTransfer } from './eo-transfers.service';
 import { EoTransferStore } from './eo-transfers.store';
 
@@ -34,6 +35,7 @@ interface EoTransferTableElement extends EoTransfer {
 @Component({
   selector: 'eo-transfer-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
   imports: [
     DatePipe,
     NgIf,
@@ -44,8 +46,8 @@ interface EoTransferTableElement extends EoTransfer {
     ReactiveFormsModule,
     WATT_FORM_FIELD,
     WATT_TABLE,
+    EoTransferDrawerComponent,
   ],
-  standalone: true,
   styles: [
     `
       .card-header {
@@ -144,10 +146,16 @@ interface EoTransferTableElement extends EoTransfer {
     <watt-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100, 250]" [for]="dataSource">
     </watt-paginator>
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
+
+    <eo-transfer-drawer></eo-transfer-drawer>
   `,
 })
 export class EoTransferTableComponent implements AfterViewInit {
+  @ViewChild(EoTransferDrawerComponent)
+  transferDrawer!: EoTransferDrawerComponent;
+
   activeRow: EoTransfer | undefined = undefined;
+
   filterForm = this.fb.group({
     statusFilter: '',
   });
@@ -193,6 +201,6 @@ export class EoTransferTableComponent implements AfterViewInit {
 
   onRowClick(row: EoTransfer): void {
     this.activeRow = row;
-    //this.permissionDetail.open(row);
+    this.transferDrawer.open(row);
   }
 }
