@@ -136,12 +136,12 @@ export const WithInitialValue: StoryFn<WattDatepickerStoryConfig> = (args) => ({
     exampleFormControlSingle: new FormControl(initialValueSingle),
     exampleFormControlRange: new FormControl({
       start: initialValueRangeStart,
-      end: initialValueRangeEnd_StartOfDay,
+      end: initialValueRangeEnd_EndOfDay,
     }),
     exampleChipFormControlSingle: new FormControl(initialValueSingle),
     exampleChipFormControlRange: new FormControl({
       start: initialValueRangeStart,
-      end: initialValueRangeEnd_StartOfDay,
+      end: initialValueRangeEnd_EndOfDay,
     }),
     ...args,
   },
