@@ -119,6 +119,8 @@ interface EoTransferTableElement extends EoTransfer {
       sortBy="recipient"
       sortDirection="asc"
       [sortClear]="false"
+      (rowClick)="onRowClick($event)"
+      [activeRow]="activeRow"
       class="watt-space-stack-s"
     >
       <!-- Period - Custom column -->
@@ -145,6 +147,7 @@ interface EoTransferTableElement extends EoTransfer {
   `,
 })
 export class EoTransferTableComponent implements AfterViewInit {
+  activeRow: EoTransfer | undefined = undefined;
   filterForm = this.fb.group({
     statusFilter: '',
   });
@@ -186,5 +189,10 @@ export class EoTransferTableComponent implements AfterViewInit {
 
   isDateActive(date: number): boolean {
     return new Date(date).getTime() >= new Date().getTime();
+  }
+
+  onRowClick(row: EoTransfer): void {
+    this.activeRow = row;
+    //this.permissionDetail.open(row);
   }
 }
