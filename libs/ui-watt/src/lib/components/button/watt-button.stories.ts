@@ -15,13 +15,12 @@
  * limitations under the License.
  */
 import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
-import { StorybookButtonOverviewModule } from './+storybook/storybook-button-overview.module';
+import { StorybookButtonOverviewComponent } from './+storybook/storybook-button-overview.component';
 import { WattButtonComponent } from './watt-button.component';
 
 const meta: Meta<WattButtonComponent> = {
   title: 'Components/Button',
   component: WattButtonComponent,
-  decorators: [moduleMetadata({ imports: [WattButtonComponent] })],
 };
 
 export default meta;
@@ -38,7 +37,7 @@ export const Overview = () => ({
 });
 Overview.decorators = [
   moduleMetadata({
-    imports: [StorybookButtonOverviewModule],
+    imports: [StorybookButtonOverviewComponent],
   }),
 ];
 Overview.parameters = {
