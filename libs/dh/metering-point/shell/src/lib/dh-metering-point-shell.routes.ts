@@ -14,21 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { DhMessageArchiveLogSearchComponent } from '@energinet-datahub/dh/message-archive/feature-log-search';
+import { Routes } from '@angular/router';
 
-const routes: Routes = [
+import { dhMeteringPointFeatureOverviewRoutes } from '@energinet-datahub/dh/metering-point/feature-overview';
+import { DhMeteringPointSearchComponent } from '@energinet-datahub/dh/metering-point/feature-search';
+import { dhMeteringPointSearchPath } from '@energinet-datahub/dh/metering-point/routing';
+
+export const dhMeteringPointShellRoutes: Routes = [
+  { path: '', redirectTo: dhMeteringPointSearchPath, pathMatch: 'full' },
   {
-    path: '',
-    component: DhMessageArchiveLogSearchComponent,
-    data: {
-      titleTranslationKey: 'messageArchive.search.topBarTitle',
-    },
+    path: dhMeteringPointSearchPath,
+    component: DhMeteringPointSearchComponent,
   },
+  { path: '', loadChildren: () => dhMeteringPointFeatureOverviewRoutes },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), DhMessageArchiveLogSearchComponent],
-})
-export class DhMessageArchiveShellModule {}

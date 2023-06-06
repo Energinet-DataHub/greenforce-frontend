@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,6 +23,8 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
 import { DisplayLanguage, displayLanguages } from '@energinet-datahub/dh/globalization/domain';
 
 @Component({
@@ -29,6 +32,8 @@ import { DisplayLanguage, displayLanguages } from '@energinet-datahub/dh/globali
   selector: 'dh-language-button',
   templateUrl: './dh-language-button.component.html',
   styleUrls: ['./dh-language-button.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MatButtonToggleModule],
   encapsulation: ViewEncapsulation.None,
 })
 export class DhLanguageButtonComponent {

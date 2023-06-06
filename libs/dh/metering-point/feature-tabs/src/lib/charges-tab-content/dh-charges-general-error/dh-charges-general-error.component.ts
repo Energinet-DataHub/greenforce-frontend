@@ -15,20 +15,16 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
+
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 @Component({
   selector: 'dh-charges-general-error',
   templateUrl: './dh-charges-general-error.component.html',
   styleUrls: ['./dh-charges-general-error.component.scss'],
+  standalone: true,
+  imports: [TranslocoModule, CommonModule, WattEmptyStateComponent],
 })
 export class DhChargesGeneralErrorComponent {}
-
-@NgModule({
-  imports: [TranslocoModule, CommonModule, WattEmptyStateComponent],
-  declarations: [DhChargesGeneralErrorComponent],
-  exports: [DhChargesGeneralErrorComponent],
-})
-export class DhChargesGeneralErrorScam {}

@@ -15,20 +15,16 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { Component } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
+
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 @Component({
   selector: 'dh-charges-not-found',
   templateUrl: './dh-charges-not-found.component.html',
   styleUrls: ['./dh-charges-not-found.component.scss'],
+  standalone: true,
+  imports: [CommonModule, TranslocoModule, WattEmptyStateComponent],
 })
 export class DhChargesNotFoundComponent {}
-
-@NgModule({
-  imports: [CommonModule, TranslocoModule, WattEmptyStateComponent],
-  declarations: [DhChargesNotFoundComponent],
-  exports: [DhChargesNotFoundComponent],
-})
-export class DhChargesNotFoundScam {}

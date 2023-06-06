@@ -20,7 +20,7 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
-import { DhChargeItemComponent, DhChargeItemScam } from './dh-charge-item.component';
+import { DhChargeItemComponent } from './dh-charge-item.component';
 
 const testData: ChargeLinkV1Dto[] = [
   {
@@ -44,7 +44,7 @@ describe(DhChargeItemComponent.name, () => {
         charges: charges,
         title: title,
       },
-      imports: [getTranslocoTestingModule(), DhChargeItemScam],
+      imports: [getTranslocoTestingModule()],
     });
 
     runOnPushChangeDetection(fixture);
