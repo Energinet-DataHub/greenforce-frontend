@@ -20,7 +20,6 @@ import {
   Component,
   Input,
   Output,
-  NgModule,
   OnChanges,
   EventEmitter,
   ChangeDetectorRef,
@@ -53,6 +52,17 @@ interface EditableActorContactRow {
   styleUrls: ['./dh-market-participant-actor-contact-data.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-market-participant-actor-contact-data.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    FormsModule,
+    MatTableModule,
+    WattButtonComponent,
+    WattInputDirective,
+    WATT_FORM_FIELD,
+    WattDropdownComponent,
+  ],
 })
 export class DhMarketParticipantActorContactDataComponent implements OnChanges {
   @Input() contacts: MarketParticipantActorContactDto[] = [];
@@ -175,19 +185,3 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
     };
   };
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    FormsModule,
-    MatTableModule,
-    WattButtonComponent,
-    WattInputDirective,
-    WATT_FORM_FIELD,
-    WattDropdownComponent,
-  ],
-  exports: [DhMarketParticipantActorContactDataComponent],
-  declarations: [DhMarketParticipantActorContactDataComponent],
-})
-export class DhMarketParticipantActorContactDataComponentScam {}

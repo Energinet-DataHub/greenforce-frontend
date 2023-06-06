@@ -26,7 +26,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { DhMarketParticipantGridAreaOverviewScam } from './overview/dh-market-participant-gridarea-overview.component';
+import { DhMarketParticipantGridAreaOverviewComponent } from './overview/dh-market-participant-gridarea-overview.component';
 import { PushModule } from '@rx-angular/template/push';
 
 @Component({
@@ -36,6 +36,17 @@ import { PushModule } from '@rx-angular/template/push';
   providers: [
     DhMarketParticipantGridAreaOverviewDataAccessApiStore,
     DhMarketParticipantGridAreaDataAccessApiStore,
+  ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    LetModule,
+    TranslocoModule,
+    WattEmptyStateComponent,
+    WattSpinnerComponent,
+    WattValidationMessageComponent,
+    DhMarketParticipantGridAreaOverviewComponent,
+    PushModule,
   ],
 })
 export class DhMarketParticipantGridAreaComponent {
@@ -60,18 +71,3 @@ export class DhMarketParticipantGridAreaComponent {
 
   getGridAreaData = (gridAreaId: string) => this.gridAreaEditStore.getAuditLog(gridAreaId);
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    LetModule,
-    TranslocoModule,
-    WattEmptyStateComponent,
-    WattSpinnerComponent,
-    WattValidationMessageComponent,
-    DhMarketParticipantGridAreaOverviewScam,
-    PushModule,
-  ],
-  declarations: [DhMarketParticipantGridAreaComponent],
-})
-export class DhMarketParticipantGridAreaScam {}

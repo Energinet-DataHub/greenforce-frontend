@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -44,6 +44,22 @@ import { DhMarketParticipantMarketRolesOverviewComponent } from './market-roles-
   styleUrls: ['./dh-market-participant-organization.component.scss'],
   templateUrl: './dh-market-participant-organization.component.html',
   providers: [DhMarketParticipantOverviewDataAccessApiStore],
+  standalone: true,
+  imports: [
+    CommonModule,
+    LetModule,
+    TranslocoModule,
+    WattButtonComponent,
+    WattEmptyStateComponent,
+    WattSpinnerComponent,
+    WattTabComponent,
+    WattTabsComponent,
+    WattValidationMessageComponent,
+    DhMarketParticipantOrganizationOverviewScam,
+    DhMarketParticipantMarketRolesOverviewComponent,
+    PushModule,
+    DhPermissionRequiredDirective,
+  ],
 })
 export class DhMarketParticipantOrganizationComponent {
   constructor(
@@ -104,23 +120,3 @@ export class DhMarketParticipantOrganizationComponent {
     this.router.navigateByUrl(url);
   };
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    LetModule,
-    TranslocoModule,
-    WattButtonComponent,
-    WattEmptyStateComponent,
-    WattSpinnerComponent,
-    WattTabComponent,
-    WattTabsComponent,
-    WattValidationMessageComponent,
-    DhMarketParticipantOrganizationOverviewScam,
-    DhMarketParticipantMarketRolesOverviewComponent,
-    PushModule,
-    DhPermissionRequiredDirective,
-  ],
-  declarations: [DhMarketParticipantOrganizationComponent],
-})
-export class DhMarketParticipantOrganizationScam {}

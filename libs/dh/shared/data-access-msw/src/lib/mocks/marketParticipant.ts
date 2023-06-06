@@ -17,6 +17,7 @@
 import { rest } from 'msw';
 
 import organizationsData from './data/marketParticipantOrganizations.json';
+import organizationWithActorsData from './data/marketParticipantOrganizationsWithActors.json';
 import gridAreaData from './data/marketParticipantGridArea.json';
 import gridAreaOverviewData from './data/marketParticipantGridAreaOverview.json';
 import actorData from './data/marketPaticipantActor.json';
@@ -27,6 +28,7 @@ import userRoleData from './data/marketParticipantUserRoleTemplates.json';
 export function marketParticipantMocks(apiBase: string) {
   return [
     getOrganizations(apiBase),
+    getAllOrganizationsWithActors(apiBase),
     getMarketParticipantGridArea(apiBase),
     getMarketParticipantGridAreaOverview(apiBase),
     getActor(apiBase),
@@ -41,6 +43,15 @@ function getOrganizations(apiBase: string) {
     `${apiBase}/v1/MarketParticipant/Organization/GetAllOrganizations`,
     (req, res, ctx) => {
       return res(ctx.json(organizationsData));
+    }
+  );
+}
+
+function getAllOrganizationsWithActors(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipant/Organization/GetAllOrganizationsWithActors`,
+    (req, res, ctx) => {
+      return res(ctx.json(organizationWithActorsData));
     }
   );
 }

@@ -44,15 +44,32 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { DhMarketParticipantActorContactDataComponentScam } from './contact-data/dh-market-participant-actor-contact-data.component';
-import { DhMarketParticipantActorMasterDataComponentScam } from './master-data/dh-market-participant-actor-master-data.component';
-import { DhMarketParticipantActorMarketRolesComponentScam } from './market-roles/dh-market-participant-actor-market-roles.component';
+import { DhMarketParticipantActorContactDataComponent } from './contact-data/dh-market-participant-actor-contact-data.component';
+import { DhMarketParticipantActorMasterDataComponent } from './master-data/dh-market-participant-actor-master-data.component';
+import { DhMarketParticipantActorMarketRolesComponent } from './market-roles/dh-market-participant-actor-market-roles.component';
 
 @Component({
   selector: 'dh-market-participant-edit-actor',
   templateUrl: './dh-market-participant-edit-actor.component.html',
   styleUrls: ['./dh-market-participant-edit-actor.component.scss'],
   providers: [DhMarketParticipantEditActorDataAccessApiStore],
+  standalone: true,
+  imports: [
+    LetModule,
+    PushModule,
+    CommonModule,
+    TranslocoModule,
+    WattButtonComponent,
+    WattTabComponent,
+    WattTabsComponent,
+    WattSpinnerComponent,
+    WATT_MODAL,
+    PushModule,
+    DhMarketParticipantActorMasterDataComponent,
+    DhMarketParticipantActorContactDataComponent,
+    DhMarketParticipantActorMarketRolesComponent,
+    WattValidationMessageComponent,
+  ],
 })
 export class DhMarketParticipantEditActorComponent {
   routeParams$ = this.route.params.pipe(
@@ -121,25 +138,3 @@ export class DhMarketParticipantEditActorComponent {
     this.router.navigateByUrl(`${dhMarketParticipantPath}/${dhMarketParticipantOrganizationsPath}`);
   };
 }
-
-@NgModule({
-  imports: [
-    LetModule,
-    PushModule,
-    CommonModule,
-    TranslocoModule,
-    WattButtonComponent,
-    WattTabComponent,
-    WattTabsComponent,
-    WattSpinnerComponent,
-    WATT_MODAL,
-    PushModule,
-    DhMarketParticipantActorMasterDataComponentScam,
-    DhMarketParticipantActorContactDataComponentScam,
-    DhMarketParticipantActorMarketRolesComponentScam,
-    WattValidationMessageComponent,
-  ],
-  exports: [DhMarketParticipantEditActorComponent],
-  declarations: [DhMarketParticipantEditActorComponent],
-})
-export class DhMarketParticipantEditActorScam {}
