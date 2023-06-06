@@ -20,7 +20,6 @@ import {
   Component,
   Input,
   Output,
-  NgModule,
   EventEmitter,
   ChangeDetectionStrategy,
   OnChanges,
@@ -58,6 +57,17 @@ export interface EditableMarketRoleRow {
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-market-participant-actor-market-roles.component.html',
   providers: [MarketRoleService, MarketRoleGroupService],
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    FormsModule,
+    MatTableModule,
+    WattButtonComponent,
+    WattInputDirective,
+    WATT_FORM_FIELD,
+    WattDropdownComponent,
+  ],
 })
 export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   @Input() actorStatus?: MarketParticipantActorStatus;
@@ -187,19 +197,3 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   readonly isReadonly = (row: EditableMarketRoleRow) =>
     row.existing && this.actorStatus !== MarketParticipantActorStatus.New;
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    FormsModule,
-    MatTableModule,
-    WattButtonComponent,
-    WattInputDirective,
-    WATT_FORM_FIELD,
-    WattDropdownComponent,
-  ],
-  exports: [DhMarketParticipantActorMarketRolesComponent],
-  declarations: [DhMarketParticipantActorMarketRolesComponent],
-})
-export class DhMarketParticipantActorMarketRolesComponentScam {}
