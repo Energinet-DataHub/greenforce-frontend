@@ -52,7 +52,8 @@ namespace Energinet.DataHub.WebApi.Controllers
         [Route("ReInviteUser")]
         public Task<ActionResult> ReInviteUserAsync(Guid userId)
         {
-            return Task.FromResult<ActionResult>(Ok());
+            return HandleExceptionAsync(() =>
+                _marketParticipantUserInvitationClient.ReInviteUserAsync(userId));
         }
 
         /// <summary>
