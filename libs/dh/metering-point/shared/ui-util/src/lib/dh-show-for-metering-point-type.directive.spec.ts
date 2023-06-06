@@ -16,10 +16,8 @@
  */
 import { render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
-import {
-  DhShowForMeteringPointTypeDirectiveScam,
-  DhShowForMeteringPointTypeDirective,
-} from './dh-show-for-metering-point-type.directive';
+
+import { DhShowForMeteringPointTypeDirective } from './dh-show-for-metering-point-type.directive';
 
 describe(DhShowForMeteringPointTypeDirective.name, () => {
   beforeEach(() => DhShowForMeteringPointTypeDirective);
@@ -31,7 +29,7 @@ describe(DhShowForMeteringPointTypeDirective.name, () => {
         test
       </div>
       `,
-      { imports: [DhShowForMeteringPointTypeDirectiveScam] }
+      { imports: [DhShowForMeteringPointTypeDirective] }
     );
     const disableQuerySuggestions: MatcherOptions = { suggest: false };
     expect(screen.getByTestId('1', disableQuerySuggestions).textContent).toContain('test');
@@ -46,7 +44,7 @@ describe(DhShowForMeteringPointTypeDirective.name, () => {
         </div>
       </div>
       `,
-      { imports: [DhShowForMeteringPointTypeDirectiveScam] }
+      { imports: [DhShowForMeteringPointTypeDirective] }
     );
     const disableQuerySuggestions: MatcherOptions = { suggest: false };
     expect(screen.getByTestId('1', disableQuerySuggestions).textContent).not.toContain('test');

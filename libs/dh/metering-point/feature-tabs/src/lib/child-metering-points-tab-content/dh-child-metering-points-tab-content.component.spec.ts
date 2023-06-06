@@ -25,10 +25,7 @@ import {
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 
-import {
-  DhChildMeteringPointsTabContentComponent,
-  DhChildMeteringPointsTabContentScam,
-} from './dh-child-metering-points-tab-content.component';
+import { DhChildMeteringPointsTabContentComponent } from './dh-child-metering-points-tab-content.component';
 
 const testData: MeteringPointSimpleCimDto[] = [
   {
@@ -61,7 +58,7 @@ describe(DhChildMeteringPointsTabContentComponent.name, () => {
         sortedData: childMeteringPoints,
         childMeteringPoints,
       },
-      imports: [getTranslocoTestingModule(), DhChildMeteringPointsTabContentScam],
+      imports: [getTranslocoTestingModule()],
     });
 
     runOnPushChangeDetection(fixture);

@@ -15,21 +15,27 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
+import { LetModule } from '@rx-angular/template/let';
+import { CommonModule } from '@angular/common';
+import { map, Observable, tap } from 'rxjs';
+
 import {
   DisplayLanguage,
   displayLanguages,
   toDisplayLanguage,
 } from '@energinet-datahub/dh/globalization/domain';
-import { TranslocoService } from '@ngneat/transloco';
-import { map, Observable, tap } from 'rxjs';
-
 import { WattLocaleService } from '@energinet-datahub/watt/locale';
+
+import { DhLanguageButtonComponent } from '../language-button/dh-language-button.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-language-picker',
   templateUrl: './dh-language-picker.component.html',
   styleUrls: ['./dh-language-picker.component.scss'],
+  standalone: true,
+  imports: [CommonModule, LetModule, DhLanguageButtonComponent],
 })
 export class DhLanguagePickerComponent {
   activeLanguage$: Observable<DisplayLanguage> = this.transloco.langChanges$.pipe(

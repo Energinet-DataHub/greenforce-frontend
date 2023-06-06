@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhMeteringPointStatusBadgeScam } from './lib/dh-metering-point-status-badge.component';
+export { DhStatusBadgeComponent } from './lib/dh-status-badge.component';

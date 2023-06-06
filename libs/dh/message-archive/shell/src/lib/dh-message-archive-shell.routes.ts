@@ -14,11 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
 
-import { DhMeteringPointIdentityAndMasterDataScam } from './dh-metering-point-identity-and-master-data.component';
+import { DhMessageArchiveLogSearchComponent } from '@energinet-datahub/dh/message-archive/feature-log-search';
 
-@NgModule({
-  exports: [DhMeteringPointIdentityAndMasterDataScam],
-})
-export class DhMeteringPointFeatureIdentityAndMasterDataModule {}
+export const dhMessageArchiveShellRoutes: Routes = [
+  {
+    path: '',
+    component: DhMessageArchiveLogSearchComponent,
+    data: {
+      titleTranslationKey: 'messageArchive.search.topBarTitle',
+    },
+  },
+];

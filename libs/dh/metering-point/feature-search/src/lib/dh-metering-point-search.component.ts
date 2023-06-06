@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { take } from 'rxjs';
 import { PushModule } from '@rx-angular/template/push';
@@ -24,13 +24,22 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
-import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-form.component';
+import { DhMeteringPointSearchFormComponent } from './form/dh-metering-point-search-form.component';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-search',
   styleUrls: ['./dh-metering-point-search.component.scss'],
   templateUrl: './dh-metering-point-search.component.html',
   providers: [DhMeteringPointDataAccessApiStore],
+  standalone: true,
+  imports: [
+    DhMeteringPointSearchFormComponent,
+    WattEmptyStateComponent,
+    TranslocoModule,
+    PushModule,
+    CommonModule,
+  ],
 })
 export class DhMeteringPointSearchComponent {
   isLoading$ = this.store.isLoading$;
@@ -56,15 +65,3 @@ export class DhMeteringPointSearchComponent {
     this.router.navigate([`../${meteringPointId}`], { relativeTo: this.route });
   }
 }
-
-@NgModule({
-  imports: [
-    DhMeteringPointSearchFormScam,
-    WattEmptyStateComponent,
-    TranslocoModule,
-    PushModule,
-    CommonModule,
-  ],
-  declarations: [DhMeteringPointSearchComponent],
-})
-export class DhMeteringPointSearchScam {}
