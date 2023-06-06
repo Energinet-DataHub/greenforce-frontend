@@ -25,12 +25,9 @@ import userEvent from '@testing-library/user-event';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-
-import {
-  DhMeteringPointSearchComponent,
-  DhMeteringPointSearchScam,
-} from './dh-metering-point-search.component';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+
+import { DhMeteringPointSearchComponent } from './dh-metering-point-search.component';
 
 @Component({
   template: `nothing to see here`,
@@ -40,12 +37,7 @@ class NoopComponent {}
 describe(DhMeteringPointSearchComponent.name, () => {
   async function setup() {
     const { fixture } = await render(DhMeteringPointSearchComponent, {
-      imports: [
-        getTranslocoTestingModule(),
-        DhApiModule.forRoot(),
-        HttpClientModule,
-        DhMeteringPointSearchScam,
-      ],
+      imports: [getTranslocoTestingModule(), DhApiModule.forRoot(), HttpClientModule],
       routes: [{ path: `:${dhMeteringPointIdParam}`, component: NoopComponent }],
     });
 

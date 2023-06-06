@@ -16,6 +16,8 @@
  */
 
 import { Component, ViewEncapsulation } from '@angular/core';
+import { WattCheckboxComponent } from '../watt-checkbox.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -23,5 +25,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
   selector: 'storybook-checkbox-states',
   styleUrls: ['./storybook-checkbox-states.component.scss'],
   templateUrl: './storybook-checkbox-states.component.html',
+  standalone: true,
+  imports: [WattCheckboxComponent, ReactiveFormsModule],
 })
 export class StorybookCheckboxStatesComponent {}

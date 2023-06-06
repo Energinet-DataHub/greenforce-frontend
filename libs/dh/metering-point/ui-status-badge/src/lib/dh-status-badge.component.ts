@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { MeteringPointConnectionState } from '@energinet-datahub/dh/shared/domain';
@@ -29,6 +29,8 @@ import { connectionStateToBadgeType } from './connection-state-to-badge-type';
   template: `<ng-container *ngIf="badgeType">
     <watt-badge *transloco="let t" [type]="badgeType">{{ t(translationKey) }}</watt-badge>
   </ng-container>`,
+  standalone: true,
+  imports: [CommonModule, TranslocoModule, WattBadgeComponent],
 })
 export class DhStatusBadgeComponent {
   translationKey = '';
@@ -44,10 +46,3 @@ export class DhStatusBadgeComponent {
     this.translationKey = `meteringPoint.physicalStatusCode.${value}`;
   }
 }
-
-@NgModule({
-  declarations: [DhStatusBadgeComponent],
-  exports: [DhStatusBadgeComponent],
-  imports: [CommonModule, TranslocoModule, WattBadgeComponent],
-})
-export class DhMeteringPointStatusBadgeScam {}

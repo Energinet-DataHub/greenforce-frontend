@@ -28,7 +28,13 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   styleUrls: ['./watt-chip.component.scss'],
   template: `
     <label [class.selected]="selected" [class.disabled]="disabled">
-      <watt-icon class="selected-icon" name="checkmark" *ngIf="selected" size="s" />
+      <watt-icon
+        *ngIf="selected"
+        class="selected-icon"
+        name="checkmark"
+        size="s"
+        [attr.aria-hidden]="true"
+      />
       <ng-content />
     </label>
   `,

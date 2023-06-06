@@ -14,15 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
+import { Routes } from '@angular/router';
 
-import { StorybookColorsOverviewComponent } from './storybook-colors-overview.component';
+import {
+  dhMeteringPointIdParam,
+  DhMeteringPointOverviewGuard,
+} from '@energinet-datahub/dh/metering-point/routing';
 
-@NgModule({
-  imports: [CommonModule, MatCardModule],
-  declarations: [StorybookColorsOverviewComponent],
-  exports: [StorybookColorsOverviewComponent],
-})
-export class StorybookColorsOverviewModule {}
+import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
+
+export const dhMeteringPointFeatureOverviewRoutes: Routes = [
+  {
+    path: `:${dhMeteringPointIdParam}`,
+    canActivate: [DhMeteringPointOverviewGuard],
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        component: DhMeteringPointOverviewComponent,
+      },
+    ],
+  },
+];

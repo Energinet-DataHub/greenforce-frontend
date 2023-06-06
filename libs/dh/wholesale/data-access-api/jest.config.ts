@@ -16,11 +16,11 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'dh-market-participant-feature-edit-gridarea',
+  displayName: 'dh-wholesale-data-access-api',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},
-  coverageDirectory: '../../../../coverage/libs/dh/market-participant/feature-edit-gridarea',
+  coverageDirectory: '../../../../coverage/libs/dh/wholesale/data-access-api',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

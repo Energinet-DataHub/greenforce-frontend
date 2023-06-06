@@ -14,16 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { LetModule } from '@rx-angular/template/let';
+import 'jest-preset-angular/setup-jest';
 
-import { DhLanguageButtonModule } from '../language-button/dh-language-button.module';
-import { DhLanguagePickerComponent } from './dh-language-picker.component';
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-@NgModule({
-  declarations: [DhLanguagePickerComponent],
-  exports: [DhLanguagePickerComponent],
-  imports: [CommonModule, LetModule, DhLanguageButtonModule],
-})
-export class DhLanguagePickerModule {}
+setUpTestbed();

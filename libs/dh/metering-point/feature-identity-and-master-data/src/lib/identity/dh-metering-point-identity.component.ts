@@ -19,10 +19,11 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/domain';
-import { DhMeteringPointIdentityTextFieldWithIconComponent } from './identity-text-field/dh-metering-point-identity-text-field-with-icon.component';
-import { DhMeteringPointStatusBadgeScam } from '@energinet-datahub/dh/metering-point/ui-status-badge';
+import { DhStatusBadgeComponent } from '@energinet-datahub/dh/metering-point/ui-status-badge';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+
+import { DhMeteringPointIdentityTextFieldWithIconComponent } from './identity-text-field/dh-metering-point-identity-text-field-with-icon.component';
 
 export interface MeteringPointIdentityTranslationKeys {
   meteringMethod: string;
@@ -41,7 +42,7 @@ export interface MeteringPointIdentityTranslationKeys {
   templateUrl: './dh-metering-point-identity.component.html',
   imports: [
     DhMeteringPointIdentityTextFieldWithIconComponent,
-    DhMeteringPointStatusBadgeScam,
+    DhStatusBadgeComponent,
     DhEmDashFallbackPipeScam,
     DhSharedUiDateTimeModule,
     CommonModule,

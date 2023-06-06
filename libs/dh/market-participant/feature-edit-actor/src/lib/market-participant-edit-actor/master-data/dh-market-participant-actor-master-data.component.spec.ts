@@ -21,18 +21,15 @@ import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util
 import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { en } from '@energinet-datahub/dh/globalization/assets-localization';
-import {
-  DhMarketParticipantActorMasterDataComponent,
-  DhMarketParticipantActorMasterDataComponentScam,
-} from './dh-market-participant-actor-master-data.component';
+import { DhMarketParticipantActorMasterDataComponent } from './dh-market-participant-actor-master-data.component';
 
-describe('DhMarketParticipantActorMasterDataComponent', () => {
+describe(DhMarketParticipantActorMasterDataComponent, () => {
   async function setup(changes: ActorChanges) {
     const view = await render(DhMarketParticipantActorMasterDataComponent, {
       componentProperties: {
         changes: changes,
       },
-      imports: [DhMarketParticipantActorMasterDataComponentScam, getTranslocoTestingModule()],
+      imports: [getTranslocoTestingModule()],
     });
 
     return { view };

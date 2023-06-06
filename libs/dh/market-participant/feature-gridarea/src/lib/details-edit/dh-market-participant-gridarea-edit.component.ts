@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   GridAreaChanges,
@@ -32,6 +32,17 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   selector: 'dh-market-participant-gridarea-edit',
   styleUrls: ['./dh-market-participant-gridarea-edit.component.scss'],
   templateUrl: './dh-market-participant-gridarea-edit.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    WattButtonComponent,
+    WATT_MODAL,
+    WATT_FORM_FIELD,
+    WattInputDirective,
+    FormsModule,
+    DhPermissionRequiredDirective,
+  ],
 })
 export class DhMarketParticipantGridAreaEditComponent {
   @Input() gridArea?: GridAreaOverviewRow;
@@ -68,19 +79,3 @@ export class DhMarketParticipantGridAreaEditComponent {
     }
   };
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    WattButtonComponent,
-    WATT_MODAL,
-    WATT_FORM_FIELD,
-    WattInputDirective,
-    FormsModule,
-    DhPermissionRequiredDirective,
-  ],
-  declarations: [DhMarketParticipantGridAreaEditComponent],
-  exports: [DhMarketParticipantGridAreaEditComponent],
-})
-export class DhMarketParticipantGridAreaEditScam {}
