@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WattDateTimePipe } from '@energinet-datahub/watt/date';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
@@ -33,6 +33,16 @@ interface AuditLogEntry {
   selector: 'dh-market-participant-gridarea-details-auditlog',
   styleUrls: ['./dh-market-participant-gridarea-details-auditlog.component.scss'],
   templateUrl: './dh-market-participant-gridarea-details-auditlog.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    MatTableModule,
+    WattEmptyStateComponent,
+    WattSpinnerComponent,
+    WattDateTimePipe,
+    DhPermissionRequiredDirective,
+  ],
 })
 export class DhMarketParticipantGridAreaDetailsAuditLogComponent implements OnChanges {
   constructor(private translocoServie: TranslocoService) {}
@@ -68,18 +78,3 @@ export class DhMarketParticipantGridAreaDetailsAuditLogComponent implements OnCh
       .sort((a, b) => b.timestamp.localeCompare(a.timestamp));
   }
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    MatTableModule,
-    WattEmptyStateComponent,
-    WattSpinnerComponent,
-    WattDateTimePipe,
-    DhPermissionRequiredDirective,
-  ],
-  declarations: [DhMarketParticipantGridAreaDetailsAuditLogComponent],
-  exports: [DhMarketParticipantGridAreaDetailsAuditLogComponent],
-})
-export class DhMarketParticipantGridAreaDetailsAuditLogScam {}
