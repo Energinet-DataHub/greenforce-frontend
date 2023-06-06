@@ -35,7 +35,6 @@ type Address {
 }
 
 type Batch {
-  """Name of the user who started the batch."""
   createdByUserName: String!
 
   """The execution state."""
@@ -301,6 +300,7 @@ type TimeSeriesPoint {
 
 enum TimeSeriesType {
   FLEX_CONSUMPTION
+  NET_EXCHANGE_PER_GRID_AREA
   NON_PROFILED_CONSUMPTION
   PRODUCTION
 }
