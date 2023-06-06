@@ -39,7 +39,7 @@ import {
 import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { combineLatest, map, merge, startWith, takeUntil, tap } from 'rxjs';
-import { parse, isValid, parseISO, set } from 'date-fns';
+import { parse, isValid, parseISO, endOfDay } from 'date-fns';
 import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
 
 import { WattButtonComponent } from '../../button';
@@ -427,12 +427,7 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   private setToEndOfDay(value: Date): Date {
-    return set(value, {
-      hours: 23,
-      minutes: 59,
-      seconds: 59,
-      milliseconds: 999,
-    });
+    return endOfDay(value);
   }
 
   /**
