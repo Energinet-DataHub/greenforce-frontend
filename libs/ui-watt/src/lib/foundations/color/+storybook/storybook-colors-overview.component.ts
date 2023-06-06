@@ -18,6 +18,8 @@ import { Component } from '@angular/core';
 
 import { WattColorHelperService } from '../color-helper.service';
 import { WattColor } from '../colors';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 
 interface ColorType {
   name: string;
@@ -38,6 +40,8 @@ interface Color {
   selector: 'storybook-colors-overview',
   templateUrl: './storybook-colors-overview.component.html',
   styleUrls: ['./storybook-colors-overview.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MatCardModule],
 })
 export class StorybookColorsOverviewComponent {
   /**

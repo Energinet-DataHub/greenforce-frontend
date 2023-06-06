@@ -15,16 +15,31 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Injectable, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DateRange, MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  DateRange,
+  DefaultMatCalendarRangeStrategy,
+  MAT_DATE_RANGE_SELECTION_STRATEGY,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
+import endOfDay from 'date-fns/endOfDay';
 
 import { WattDatePipe } from '../../../configuration/watt-date.pipe';
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
 
+@Injectable()
+export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<Date> {
+  override selectionFinished(date: Date, currentRange: DateRange<Date>): DateRange<Date> {
+    const range = super.selectionFinished(date, currentRange);
+    return range.end ? new DateRange(range.start, endOfDay(range.end)) : range;
+  }
+}
+
 @Component({
   standalone: true,
+  providers: [{ provide: MAT_DATE_RANGE_SELECTION_STRATEGY, useClass: EndOfDaySelectionStrategy }],
   imports: [
     CommonModule,
     MatDatepickerModule,
