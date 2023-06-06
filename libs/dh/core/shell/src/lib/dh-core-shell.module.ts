@@ -82,7 +82,7 @@ const routes: Routes = [
         path: dhMarketParticipantPath,
         loadChildren: () =>
           import('@energinet-datahub/dh/market-participant/shell').then(
-            (esModule) => esModule.DhMarketParticipantShellModule
+            (esModule) => esModule.marketParticipantRoutes
           ),
         canActivate: [MsalGuard],
       },

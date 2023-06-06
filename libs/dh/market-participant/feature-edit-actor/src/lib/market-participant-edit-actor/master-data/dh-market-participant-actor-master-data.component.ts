@@ -15,14 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  NgModule,
-  OnChanges,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { MarketParticipantActorStatus } from '@energinet-datahub/dh/shared/domain';
@@ -39,6 +32,16 @@ import { getValidStatusTransitionOptions } from './get-valid-status-transition-o
   styleUrls: ['./dh-market-participant-actor-master-data.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-market-participant-actor-master-data.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    LetModule,
+    FormsModule,
+    TranslocoModule,
+    WattDropdownComponent,
+    WATT_FORM_FIELD,
+    WattInputDirective,
+  ],
 })
 export class DhMarketParticipantActorMasterDataComponent implements OnChanges, OnDestroy {
   @Input() changes?: ActorChanges;
@@ -79,18 +82,3 @@ export class DhMarketParticipantActorMasterDataComponent implements OnChanges, O
     this.destroy$.unsubscribe();
   }
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    LetModule,
-    FormsModule,
-    TranslocoModule,
-    WattDropdownComponent,
-    WATT_FORM_FIELD,
-    WattInputDirective,
-  ],
-  exports: [DhMarketParticipantActorMasterDataComponent],
-  declarations: [DhMarketParticipantActorMasterDataComponent],
-})
-export class DhMarketParticipantActorMasterDataComponentScam {}
