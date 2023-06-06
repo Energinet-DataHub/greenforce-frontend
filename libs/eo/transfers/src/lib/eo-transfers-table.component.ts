@@ -144,7 +144,12 @@ interface EoTransferTableElement extends EoTransfer {
       You do not have any transfer agreements to show right now.
     </p>
 
-    <watt-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100, 250]" [for]="dataSource">
+    <watt-paginator
+      data-testid="table-paginator"
+      [pageSize]="10"
+      [pageSizeOptions]="[10, 25, 50, 100, 250]"
+      [for]="dataSource"
+    >
     </watt-paginator>
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
 
