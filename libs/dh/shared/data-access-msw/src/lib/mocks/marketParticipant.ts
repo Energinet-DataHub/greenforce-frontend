@@ -17,7 +17,7 @@
 import { rest } from 'msw';
 
 import organizationsData from './data/marketParticipantOrganizations.json';
-import organizationWithActorsData from './data/marketParticipantOrganizationsWithActors.json';
+import { marketParticipantOrganizationsWithActors } from './data/marketParticipantOrganizationsWithActors';
 import gridAreaData from './data/marketParticipantGridArea.json';
 import gridAreaOverviewData from './data/marketParticipantGridAreaOverview.json';
 import actorData from './data/marketPaticipantActor.json';
@@ -51,7 +51,7 @@ function getAllOrganizationsWithActors(apiBase: string) {
   return rest.get(
     `${apiBase}/v1/MarketParticipant/Organization/GetAllOrganizationsWithActors`,
     (req, res, ctx) => {
-      return res(ctx.json(organizationWithActorsData));
+      return res(ctx.json(marketParticipantOrganizationsWithActors));
     }
   );
 }
