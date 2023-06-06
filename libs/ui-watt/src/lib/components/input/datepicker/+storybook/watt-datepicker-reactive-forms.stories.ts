@@ -14,16 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { importProvidersFrom } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { within, fireEvent } from '@storybook/testing-library';
 
 import { StorybookConfigurationLocalizationModule } from '../../+storybook/storybook-configuration-localization.module';
 import { WattDatepickerComponent } from '../watt-datepicker.component';
+import { WattFormChipDirective } from '../../../form-field/chip.directive';
 import { WATT_FORM_FIELD } from '../../../form-field';
 import { WattRangeValidators } from '../../shared/validators';
-import { importProvidersFrom } from '@angular/core';
+
+import { WattDateChipComponent } from '../watt-date-chip.component';
+import { WattDateRangeChipComponent } from '../watt-date-range-chip.component';
 
 export const initialValueSingle = '2022-09-02T22:00:00.000Z';
 export const initialValueRangeStart = initialValueSingle;
@@ -44,7 +48,14 @@ export default {
       ],
     }),
     moduleMetadata({
-      imports: [ReactiveFormsModule, WATT_FORM_FIELD, WattDatepickerComponent],
+      imports: [
+        ReactiveFormsModule,
+        WATT_FORM_FIELD,
+        WattDatepickerComponent,
+        WattFormChipDirective,
+        WattDateChipComponent,
+        WattDateRangeChipComponent,
+      ],
     }),
   ],
   component: WattDatepickerComponent,
@@ -59,12 +70,11 @@ export default {
 const template = `
 <watt-form-field>
   <watt-label>Single date</watt-label>
-  <watt-datepicker [formControl]="exampleFormControlSingle"></watt-datepicker>
+  <watt-datepicker [formControl]="exampleFormControlSingle" />
   <watt-error *ngIf="exampleFormControlSingle?.errors?.required">
       Date is required
   </watt-error>
 </watt-form-field>
-
 <p>Value: <code>{{ exampleFormControlSingle.value | json }}</code></p>
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlSingle?.errors | json }}</code></p>
 
@@ -72,20 +82,37 @@ const template = `
 
 <watt-form-field>
   <watt-label>Date range</watt-label>
-  <watt-datepicker [formControl]="exampleFormControlRange" [range]="true"></watt-datepicker>
+  <watt-datepicker [formControl]="exampleFormControlRange" [range]="true" />
   <watt-error *ngIf="exampleFormControlRange?.errors?.rangeRequired">
       Date range is required
   </watt-error>
 </watt-form-field>
-
 <p>Selected range: <code data-testid="rangeValue">{{ exampleFormControlRange.value | json }}</code></p>
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlRange?.errors | json }}</code></p>
+
+<watt-date-chip [formControl]="exampleChipFormControlSingle">Single date</watt-date-chip>
+<watt-error *ngIf="exampleChipFormControlSingle?.touched && exampleChipFormControlSingle?.errors?.required">
+    Date is required
+</watt-error>
+
+<p>Value: <code>{{ exampleChipFormControlSingle.value | json }}</code></p>
+<p *ngIf="withValidations">Errors: <code>{{ exampleChipFormControlSingle?.errors | json }}</code></p>
+
+<watt-date-range-chip [formControl]="exampleChipFormControlRange">Date range</watt-date-range-chip>
+<watt-error *ngIf="exampleChipFormControlRange?.touched && exampleChipFormControlRange?.errors?.rangeRequired">
+    Date range is required
+</watt-error>
+<p>Selected range: <code data-testid="rangeValue">{{ exampleChipFormControlRange.value | json }}</code></p>
+<p *ngIf="withValidations">Errors: <code>{{ exampleChipFormControlRange?.errors | json }}</code></p>
+
 `;
 
 export const WithFormControl: StoryFn<WattDatepickerStoryConfig> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null),
     exampleFormControlRange: new FormControl(null),
+    exampleChipFormControlSingle: new FormControl(null),
+    exampleChipFormControlRange: new FormControl(null),
     ...args,
   },
   template,
@@ -111,22 +138,22 @@ export const WithInitialValue: StoryFn<WattDatepickerStoryConfig> = (args) => ({
       start: initialValueRangeStart,
       end: initialValueRangeEnd_StartOfDay,
     }),
+    exampleChipFormControlSingle: new FormControl(initialValueSingle),
+    exampleChipFormControlRange: new FormControl({
+      start: initialValueRangeStart,
+      end: initialValueRangeEnd_StartOfDay,
+    }),
     ...args,
   },
   template,
-  moduleMetadata: {
-    imports: [
-      BrowserAnimationsModule.withConfig({
-        disableAnimations: !!args.disableAnimations,
-      }),
-    ],
-  },
 });
 
 export const WithValidations: StoryFn<WattDatepickerStoryConfig> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null, [Validators.required]),
     exampleFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
+    exampleChipFormControlSingle: new FormControl(null, [Validators.required]),
+    exampleChipFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
     withValidations: true,
     ...args,
   },
@@ -135,20 +162,15 @@ export const WithValidations: StoryFn<WattDatepickerStoryConfig> = (args) => ({
 
 WithValidations.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
-  const dateInput: HTMLInputElement = canvas.getByRole('textbox', {
-    name: /^date-input/i,
-  });
-  const startDateInput: HTMLInputElement = canvas.getByRole('textbox', {
-    name: /start-date-input/i,
-  });
-  fireEvent.focusOut(dateInput);
-  fireEvent.focusOut(startDateInput);
+  canvas.getAllByRole('button').forEach((button) => fireEvent.focusOut(button));
 };
 
 export const WithFormControlDisabled: StoryFn<WattDatepickerStoryConfig> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl({ value: null, disabled: true }),
     exampleFormControlRange: new FormControl({ value: null, disabled: true }),
+    exampleChipFormControlSingle: new FormControl({ value: null, disabled: true }),
+    exampleChipFormControlRange: new FormControl({ value: null, disabled: true }),
     ...args,
   },
   template,
