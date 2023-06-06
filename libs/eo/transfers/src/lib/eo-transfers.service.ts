@@ -20,9 +20,10 @@ import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/s
 
 export interface EoTransfer {
   id: string;
-  dateFrom: number;
-  dateTo: number;
-  recipient: string;
+  startDate: number;
+  endDate: number;
+  receiverTin: string;
+  senderId: string;
 }
 
 interface EoTransferResponse {

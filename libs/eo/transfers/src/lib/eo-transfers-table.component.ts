@@ -103,6 +103,7 @@ interface EoTransferTableElement extends EoTransfer {
             [chipMode]="true"
             placeholder="Status"
             formControlName="statusFilter"
+            (ngModelChange)="applyFilters()"
             [options]="[
               { value: 'true', displayValue: 'Active' },
               { value: 'false', displayValue: 'Inactive' }
@@ -118,22 +119,23 @@ interface EoTransferTableElement extends EoTransfer {
       sortBy="recipient"
       sortDirection="asc"
       [sortClear]="false"
+      class="watt-space-stack-s"
     >
       <!-- Period - Custom column -->
       <ng-container *wattTableCell="table.columns['period']; let element">
-        {{ element.dateFrom | date : 'dd/MM/yyyy' }} - {{ element.dateTo | date : 'dd/MM/yyyy' }}
+        {{ element.startDate | date : 'dd/MM/yyyy' }} - {{ element.endDate | date : 'dd/MM/yyyy' }}
       </ng-container>
 
       <!-- Status - Custom column -->
       <ng-container *wattTableCell="table.columns['status']; let element">
-        <watt-badge *ngIf="isDateActive(element.dateTo); else notActive" type="success">
+        <watt-badge *ngIf="isDateActive(element.endDate); else notActive" type="success">
           Active
         </watt-badge>
       </ng-container>
     </watt-table>
 
     <!-- No Data to show -->
-    <p *ngIf="dataSource.data.length < 1" style="text-align: center;margin: 10px 0;">
+    <p *ngIf="dataSource.data.length < 1" class="watt-space-stack-s">
       You do not have any transfer agreements to show right now.
     </p>
 
@@ -144,23 +146,42 @@ interface EoTransferTableElement extends EoTransfer {
 })
 export class EoTransferTableComponent implements AfterViewInit {
   filterForm = this.fb.group({
-    statusFilter: [{ value: '' }],
+    statusFilter: '',
   });
+  transfers: EoTransfer[] = [];
   dataSource = new WattTableDataSource<EoTransferTableElement>();
   columns = {
-    recipient: { accessor: 'recipient' },
-    period: { accessor: (transfer) => transfer.dateFrom },
-    status: { accessor: (transfer) => this.isDateActive(transfer.dateTo) },
+    receiver: { accessor: 'receiverTin' },
+    period: { accessor: (transfer) => transfer.startDate },
+    status: { accessor: (transfer) => this.isDateActive(transfer.endDate) },
   } as WattTableColumnDef<EoTransferTableElement>;
 
   constructor(private store: EoTransferStore, private fb: FormBuilder) {}
 
   ngAfterViewInit() {
-    this.populateTable();
+    this.loadData();
+  }
+
+  applyFilters() {
+    this.dataSource.data = this.transfers.filter((transfer) =>
+      this.filterByStatus(transfer.endDate)
+    );
+  }
+
+  filterByStatus(endDate: number): boolean {
+    if (this.filterForm.controls['statusFilter'].value === null) return true;
+    return this.filterForm.controls['statusFilter'].value === this.isDateActive(endDate).toString();
+  }
+
+  loadData() {
+    this.store.transfers$.subscribe((transfers) => {
+      this.transfers = transfers;
+      this.populateTable();
+    });
   }
 
   populateTable() {
-    this.store.transfers$.subscribe((transfers) => (this.dataSource.data = transfers));
+    this.dataSource.data = this.transfers;
   }
 
   isDateActive(date: number): boolean {
