@@ -14,11 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
 
-import { DhMeteringPointTabsScam } from './dh-metering-point-tabs.component';
+import {
+  dhMeteringPointIdParam,
+  DhMeteringPointOverviewGuard,
+} from '@energinet-datahub/dh/metering-point/routing';
 
-@NgModule({
-  exports: [DhMeteringPointTabsScam],
-})
-export class DhMeteringPointFeatureTabsModule {}
+import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
+
+export const dhMeteringPointFeatureOverviewRoutes: Routes = [
+  {
+    path: `:${dhMeteringPointIdParam}`,
+    canActivate: [DhMeteringPointOverviewGuard],
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        component: DhMeteringPointOverviewComponent,
+      },
+    ],
+  },
+];

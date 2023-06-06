@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 import { TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { render, RenderResult, screen } from '@testing-library/angular';
 import { HttpClientModule } from '@angular/common/http';
 import userEvent from '@testing-library/user-event';
@@ -31,8 +32,8 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 
-import { DhMeteringPointFeatureOverviewModule } from './dh-metering-point-feature-overview.module';
 import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
+import { dhMeteringPointFeatureOverviewRoutes } from './dh-metering-point-feature-overview.routes';
 
 describe(DhMeteringPointOverviewComponent.name, () => {
   beforeEach(async () => {
@@ -41,6 +42,11 @@ describe(DhMeteringPointOverviewComponent.name, () => {
     })
     class TestMeteringPointComponent {}
 
+    @NgModule({
+      imports: [RouterModule.forChild(dhMeteringPointFeatureOverviewRoutes)],
+    })
+    class TestMeteringPointFeatureOverviewModule {}
+
     view = await render(SpectacularAppComponent, {
       declarations: [TestMeteringPointComponent],
       imports: [
@@ -48,7 +54,7 @@ describe(DhMeteringPointOverviewComponent.name, () => {
         DhApiModule.forRoot(),
         getTranslocoTestingModule(),
         SpectacularFeatureTestingModule.withFeature({
-          featureModule: DhMeteringPointFeatureOverviewModule,
+          featureModule: TestMeteringPointFeatureOverviewModule,
           featurePath: dhMeteringPointPath,
         }),
       ],

@@ -66,7 +66,7 @@ const routes: Routes = [
         path: dhMeteringPointPath,
         loadChildren: () =>
           import('@energinet-datahub/dh/metering-point/shell').then(
-            (esModule) => esModule.DhMeteringPointShellModule
+            (esModule) => esModule.dhMeteringPointShellRoutes
           ),
         canActivate: [MsalGuard],
       },
@@ -74,7 +74,7 @@ const routes: Routes = [
         path: 'message-archive',
         loadChildren: () =>
           import('@energinet-datahub/dh/message-archive/shell').then(
-            (esModule) => esModule.DhMessageArchiveShellModule
+            (esModule) => esModule.dhMessageArchiveShellRoutes
           ),
         canActivate: [MsalGuard],
       },
