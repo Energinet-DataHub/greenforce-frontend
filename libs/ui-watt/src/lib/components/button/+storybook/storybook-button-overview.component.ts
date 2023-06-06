@@ -15,11 +15,15 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
+import { WattButtonComponent } from '../watt-button.component';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'storybook-button-overview',
   styleUrls: ['./storybook-button-overview.component.scss'],
   templateUrl: './storybook-button-overview.component.html',
+  imports: [WattButtonComponent, MatCardModule],
+  standalone: true,
 })
 export class StorybookButtonOverviewComponent {}

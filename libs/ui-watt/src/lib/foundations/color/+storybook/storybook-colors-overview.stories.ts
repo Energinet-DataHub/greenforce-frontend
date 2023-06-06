@@ -14,19 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import { StoryFn, Meta } from '@storybook/angular';
 
 import { StorybookColorsOverviewComponent } from './storybook-colors-overview.component';
-import { StorybookColorsOverviewModule } from './storybook-colors-overview.module';
 
 const meta: Meta<StorybookColorsOverviewComponent> = {
   title: 'Foundations/Colors',
   component: StorybookColorsOverviewComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [StorybookColorsOverviewModule],
-    }),
-  ],
 };
 
 export default meta;
