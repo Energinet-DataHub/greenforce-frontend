@@ -15,18 +15,22 @@
  * limitations under the License.
  */
 import { Component, Input, OnInit, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { WholesaleProcessType, graphql } from '@energinet-datahub/dh/shared/domain';
 import { Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhWholesaleSettlementReportsDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+import { WattRangeValidators } from '@energinet-datahub/watt/validators';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   standalone: true,
@@ -42,20 +46,24 @@ import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
     ReactiveFormsModule,
     WATT_FORM_FIELD,
     WattDropdownComponent,
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit {
   private fb: FormBuilder = inject(FormBuilder);
   private apollo = inject(Apollo);
+  private transloco = inject(TranslocoService);
+  private toastService = inject(WattToastService);
   private destroy$ = new Subject<void>();
+  private readonly settlementReportStore = inject(DhWholesaleSettlementReportsDataAccessApiStore);
 
   @Input() set executionTime(executionTime: { start: string; end: string }) {
     this.searchForm.patchValue({ executionTime });
   }
   searchForm = this.fb.group({
-    executionTime: [this.executionTime],
-    actor: [{ value: '', disabled: true }],
-    gridAreas: [['']],
+    executionTime: [this.executionTime, WattRangeValidators.required()],
+    actor: [''],
+    gridAreas: [[] as string[], Validators.required],
   });
 
   actors!: ActorFilter;
@@ -93,5 +101,26 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
         if (!result.loading) this.searchForm.controls.gridAreas.enable();
       },
     });
+  }
+
+  downloadClicked() {
+    this.toastService.open({
+      type: 'loading',
+      message: this.transloco.translate('wholesale.settlementReports.downloadStart'),
+    });
+    this.settlementReportStore.download(
+      this.searchForm.controls.gridAreas?.value ?? [],
+      WholesaleProcessType.BalanceFixing,
+      this.searchForm.controls.executionTime.value?.start ?? '',
+      this.searchForm.controls.executionTime.value?.end ?? '',
+      this.searchForm.controls.actor.value ?? undefined,
+      this.transloco.translate('selectedLanguageIso'),
+      () => {
+        this.toastService.open({
+          type: 'danger',
+          message: this.transloco.translate('wholesale.settlementReports.downloadFailed'),
+        });
+      }
+    );
   }
 }
