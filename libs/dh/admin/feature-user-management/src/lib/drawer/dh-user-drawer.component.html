@@ -27,6 +27,12 @@ limitations under the License.
       <watt-button
         variant="secondary"
         *dhPermissionRequired="['users:manage']"
+        (click)="reinvite()"
+        >{{ t("reinvite") }}</watt-button
+      >
+      <watt-button
+        variant="secondary"
+        *dhPermissionRequired="['users:manage']"
         (click)="isEditUserModalVisible = true"
         >{{ t("edit") }}</watt-button
       >
@@ -41,5 +47,6 @@ limitations under the License.
     *ngIf="isEditUserModalVisible"
     [user]="selectedUser"
     (closed)="modalOnClose()"
+    [reinviteCallback]="reinvite"
   ></dh-edit-user-modal>
 </ng-container>

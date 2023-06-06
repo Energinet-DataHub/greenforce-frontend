@@ -67,6 +67,9 @@ limitations under the License.
     </form>
 
     <watt-modal-actions>
+      <watt-button class="reinvite-link" variant="text" (click)="reinvite()">
+        {{ t("reinvite") }}
+      </watt-button>
       <watt-button variant="secondary" (click)="close()">
         {{ t("cancel") }}
       </watt-button>

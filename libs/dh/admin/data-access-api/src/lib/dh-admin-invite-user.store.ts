@@ -73,6 +73,30 @@ export class DbAdminInviteUserStore extends ComponentStore<State> {
       )
   );
 
+  readonly reinviteUser = this.effect(
+    (trigger$: Observable<{ id: string; onSuccess: () => void }>) =>
+      trigger$.pipe(
+        tap(() => {
+          this.resetState();
+          this.setSaving(SavingState.SAVING);
+        }),
+        switchMap(({ id, onSuccess }) => {
+          return this.marketParticipantUserHttp.v1MarketParticipantUserReInviteUserPost(id).pipe(
+            tapResponse(
+              () => {
+                this.setSaving(SavingState.SAVED);
+                onSuccess();
+              },
+              () => {
+                this.setSaving(ErrorState.GENERAL_ERROR);
+                this.handleError();
+              }
+            )
+          );
+        })
+      )
+  );
+
   private setSaving = this.updater(
     (state, savingState: SavingState | ErrorState): State => ({
       ...state,
