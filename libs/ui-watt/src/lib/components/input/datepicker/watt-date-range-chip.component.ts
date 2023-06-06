@@ -25,7 +25,7 @@ import {
 } from '@angular/material/datepicker';
 import endOfDay from 'date-fns/endOfDay';
 
-import { WattDatePipe } from '../../../configuration/watt-date.pipe';
+import { WattDatePipe } from '../../../utils/date/watt-date.pipe';
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
 

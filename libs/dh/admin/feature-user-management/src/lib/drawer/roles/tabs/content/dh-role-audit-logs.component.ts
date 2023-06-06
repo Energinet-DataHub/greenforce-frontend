@@ -22,7 +22,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { provideComponentStore } from '@ngrx/component-store';
 import { takeUntil } from 'rxjs';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDateTimePipe } from '@energinet-datahub/watt/date';
 import {
   DhAdminUserRoleAuditLogsDataAccessApiStore,
   DhRoleAuditLogEntry,
@@ -66,7 +66,7 @@ import { DhAuditChangeCellComponent } from './dh-audit-change-cell.component';
     WattSpinnerComponent,
     WattEmptyStateComponent,
     WATT_TABLE,
-    DhSharedUiDateTimeModule,
+    WattDateTimePipe,
     DhAuditChangeCellComponent,
   ],
 })

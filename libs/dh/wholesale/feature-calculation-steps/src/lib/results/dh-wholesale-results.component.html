@@ -37,7 +37,7 @@ limitations under the License.
     ></watt-description-list-item>
     <watt-description-list-item
       [label]="t('calculationPeriod')"
-      [value]="batch?.period | dhDateRange"
+      value="{{ batch?.period?.start | wattDate }} - {{ batch?.period?.end | wattDate }}"
     >
     </watt-description-list-item>
     <watt-description-list-item [label]="t('sum')" [value]="processStepResults.sum + ' kWh'">

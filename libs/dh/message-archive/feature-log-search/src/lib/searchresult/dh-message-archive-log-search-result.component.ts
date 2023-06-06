@@ -32,7 +32,7 @@ import {
 } from '@angular/material/legacy-table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { TranslocoModule } from '@ngneat/transloco';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDateTimePipe } from '@energinet-datahub/watt/date';
 import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -73,7 +73,7 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
     WattEmptyStateComponent,
     WattButtonComponent,
     WattBadgeComponent,
-    DhSharedUiDateTimeModule,
+    WattDateTimePipe,
     WattSpinnerComponent,
     WATT_CARD,
     DhMessageArchiveDrawerComponent,

@@ -15,29 +15,19 @@
  * limitations under the License.
  */
 import { Pipe, PipeTransform } from '@angular/core';
-import {
-  dhFormatDanishDatetime,
-  TDateRangeValue,
-  dateTimeFormat,
-} from './dh-format-danish-datetime';
-
-export const pipeName = 'dhDateTimeRange';
+import { formatInTimeZone } from 'date-fns-tz';
 
 @Pipe({
-  name: pipeName,
+  name: 'wattDateTime',
+  standalone: true,
 })
-export class DhDateTimeRangePipe implements PipeTransform {
+export class WattDateTimePipe implements PipeTransform {
   /**
-   *
-   * @param range DateRange in ISO 8601 format (e.g. 2021-12-01T23:00:00Z)
-   * @returns
+   * @param maybeIso8601DateTime DateTime in ISO 8601 format (e.g. 2021-12-01T23:00:00Z)
    */
-  transform(range: TDateRangeValue): string | null {
-    if (range === undefined || range === null) return null;
-
-    return `${dhFormatDanishDatetime(range?.start, dateTimeFormat)} - ${dhFormatDanishDatetime(
-      range?.end,
-      dateTimeFormat
-    )}`;
+  transform(maybeIso8601DateTime?: string | null) {
+    return !maybeIso8601DateTime
+      ? null
+      : formatInTimeZone(maybeIso8601DateTime, 'Europe/Copenhagen', 'dd-MM-yyyy HH:mm');
   }
 }

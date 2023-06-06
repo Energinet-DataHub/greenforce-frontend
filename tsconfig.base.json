@@ -206,9 +206,6 @@
       "@energinet-datahub/dh/shared/test-util-msw": [
         "libs/dh/shared/test-util-msw/src/index.ts"
       ],
-      "@energinet-datahub/dh/shared/ui-date-time": [
-        "libs/dh/shared/ui-date-time/src/index.ts"
-      ],
       "@energinet-datahub/dh/shared/ui-paginator": [
         "libs/dh/shared/ui-paginator/src/index.ts"
       ],
@@ -347,6 +344,9 @@
       ],
       "@energinet-datahub/watt/danish-date-time": [
         "libs/ui-watt/src/lib/configuration/watt-danish-datetime.module.ts"
+      ],
+      "@energinet-datahub/watt/date": [
+        "libs/ui-watt/src/lib/utils/date/index.ts"
       ],
       "@energinet-datahub/watt/datepicker": [
         "libs/ui-watt/src/lib/components/input/datepicker/index.ts"

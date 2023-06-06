@@ -23,7 +23,7 @@ import { ApolloError } from '@apollo/client';
 import { Apollo } from 'apollo-angular';
 import { Subject, takeUntil } from 'rxjs';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe, WattDateTimePipe } from '@energinet-datahub/watt/date';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -46,7 +46,8 @@ import { DhWholesaleActorsComponent } from './actors/dh-wholesale-actors.compone
     WATT_EXPANDABLE_CARD_COMPONENTS,
     WATT_DRAWER,
     CommonModule,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
+    WattDateTimePipe,
     LetModule,
     TranslocoModule,
     RouterModule,

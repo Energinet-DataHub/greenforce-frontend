@@ -14,15 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
+import { WattDateTimePipe } from './watt-datetime.pipe';
 
-import { DhDatePipe } from './dh-date.pipe';
-import { DhDateTimePipe } from './dh-datetime.pipe';
-import { DhDateRangePipe } from './dh-date-range.pipe';
-import { DhDateTimeRangePipe } from './dh-datetime-range.pipe';
+describe(WattDateTimePipe, () => {
+  const pipe = new WattDateTimePipe();
 
-@NgModule({
-  declarations: [DhDatePipe, DhDateTimePipe, DhDateRangePipe, DhDateTimeRangePipe],
-  exports: [DhDatePipe, DhDateTimePipe, DhDateRangePipe, DhDateTimeRangePipe],
-})
-export class DhSharedUiDateTimeModule {}
+  it('transforms "2015-01-24T03:14:15Z" to "24-01-2015 04:14"', () => {
+    expect(pipe.transform('2015-01-24T03:14:15Z')).toBe('24-01-2015 04:14');
+  });
+
+  it('transforms "2015-09-21T03:14:15Z" to "21-09-2015 05:14"', () => {
+    expect(pipe.transform('2015-09-21T03:14:15Z')).toBe('21-09-2015 05:14');
+  });
+});

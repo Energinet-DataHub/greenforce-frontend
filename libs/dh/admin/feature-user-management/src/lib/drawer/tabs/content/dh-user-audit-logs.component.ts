@@ -18,7 +18,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDateTimePipe } from '@energinet-datahub/watt/date';
 import {
   DhAdminUserManagementAuditLogsDataAccessApiStore,
   DhUserAuditLogEntry,
@@ -47,7 +47,7 @@ import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shar
     WattSpinnerComponent,
     WattEmptyStateComponent,
     WATT_TABLE,
-    DhSharedUiDateTimeModule,
+    WattDateTimePipe,
   ],
 })
 export class DhUserAuditLogsComponent implements OnChanges {

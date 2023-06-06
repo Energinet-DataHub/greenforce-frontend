@@ -22,7 +22,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { RouterModule } from '@angular/router';
 
 import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe, WattDateTimePipe } from '@energinet-datahub/watt/date';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { DhProcessesDetailItemComponent } from '../processes-detail-item/dh-processes-detail-item.component';
@@ -42,7 +42,8 @@ import { compareSortValues, getRowHeight, getRowToExpand, wrapInTableRow } from 
     MatSortModule,
     CommonModule,
     RouterModule,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
+    WattDateTimePipe,
     DhProcessesDetailItemComponent,
   ],
 })

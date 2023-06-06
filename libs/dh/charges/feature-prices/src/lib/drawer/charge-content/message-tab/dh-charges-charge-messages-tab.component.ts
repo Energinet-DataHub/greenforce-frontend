@@ -42,7 +42,7 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDateTimePipe } from '@energinet-datahub/watt/date';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 import { DhDrawerDatepickerComponent } from '../drawer-datepicker/dh-drawer-datepicker.component';
@@ -59,11 +59,10 @@ import { DhChargesPricesDrawerService } from '../../dh-charges-prices-drawer.ser
     PushModule,
     WattButtonComponent,
     WattEmptyStateComponent,
+    WattDateTimePipe,
     WattTooltipDirective,
     WattSpinnerComponent,
-    DhSharedUiDateTimeModule,
     DhSharedUiPaginatorComponent,
-    DhSharedUiDateTimeModule,
     DhDrawerDatepickerComponent,
   ],
   selector: 'dh-charges-charge-messages-tab',

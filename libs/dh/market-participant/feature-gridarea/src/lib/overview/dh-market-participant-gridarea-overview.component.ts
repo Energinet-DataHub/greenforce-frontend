@@ -35,7 +35,7 @@ import {
   GridAreaChanges,
   GridAreaOverviewRow,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhMarketParticipantGridAreaDetailsHeaderScam } from '../details-header/dh-market-participant-gridarea-details-header.component';
 import { DhMarketParticipantGridAreaEditScam } from '../details-edit/dh-market-participant-gridarea-edit.component';
 import { DhMarketParticipantGridAreaDetailsAuditLogScam } from '../details-auditlog/dh-market-participant-gridarea-details-auditlog.component';
@@ -100,7 +100,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
     WattSpinnerComponent,
     WattValidationMessageComponent,
     DhEmDashFallbackPipeScam,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     WATT_DRAWER,
     DhMarketParticipantGridAreaDetailsHeaderScam,
     DhMarketParticipantGridAreaEditScam,
