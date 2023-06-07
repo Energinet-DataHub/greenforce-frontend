@@ -18,7 +18,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -56,7 +55,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
     DhPermissionRequiredDirective,
   ],
 })
-export class DhUserDrawerComponent implements OnInit {
+export class DhUserDrawerComponent {
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
   private inviteUserStore = inject(DbAdminInviteUserStore);
@@ -69,15 +68,6 @@ export class DhUserDrawerComponent implements OnInit {
   @Output() closed = new EventEmitter<void>();
 
   isEditUserModalVisible = false;
-
-  ngOnInit(): void {
-    this.inviteUserStore.hasGeneralError$.subscribe(() =>
-      this.toastService.open({
-        message: this.transloco.translate('admin.userManagement.drawer.reinviteError'),
-        type: 'danger',
-      })
-    );
-  }
 
   onClose(): void {
     this.drawer.close();
@@ -101,6 +91,11 @@ export class DhUserDrawerComponent implements OnInit {
         this.toastService.open({
           message: this.transloco.translate('admin.userManagement.drawer.reinviteSuccess'),
           type: 'success',
+        }),
+      onError: () =>
+        this.toastService.open({
+          message: this.transloco.translate('admin.userManagement.drawer.reinviteError'),
+          type: 'danger',
         }),
     });
 }

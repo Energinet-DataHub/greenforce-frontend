@@ -87,13 +87,13 @@ export class DbAdminInviteUserStore extends ComponentStore<State> {
   );
 
   readonly reinviteUser = this.effect(
-    (trigger$: Observable<{ id: string; onSuccess: () => void }>) =>
+    (trigger$: Observable<{ id: string; onSuccess: () => void, onError: () => void }>) =>
       trigger$.pipe(
         tap(() => {
           this.resetState();
           this.setSaving(SavingState.SAVING);
         }),
-        switchMap(({ id, onSuccess }) => {
+        switchMap(({ id, onSuccess, onError }) => {
           return this.marketParticipantUserHttp.v1MarketParticipantUserReInviteUserPost(id).pipe(
             tapResponse(
               () => {
@@ -102,7 +102,7 @@ export class DbAdminInviteUserStore extends ComponentStore<State> {
               },
               () => {
                 this.setSaving(ErrorState.GENERAL_ERROR);
-                this.handleError();
+                onError();
               }
             )
           );
