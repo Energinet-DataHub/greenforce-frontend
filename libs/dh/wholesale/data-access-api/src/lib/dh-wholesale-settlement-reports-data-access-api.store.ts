@@ -31,12 +31,12 @@ interface SettlementReportsState {
 }
 
 interface DownloadRequest {
-  gridAreas: string[],
-    processType: WholesaleProcessType,
-    periodStart: string,
-    periodEnd: string,
-    energySupplier: string | undefined,
-    locale: string | undefined
+  gridAreas: string[];
+  processType: WholesaleProcessType;
+  periodStart: string;
+  periodEnd: string;
+  energySupplier: string | undefined;
+  locale: string | undefined;
 }
 
 const initialState: SettlementReportsState = {
@@ -52,11 +52,7 @@ export class DhWholesaleSettlementReportsDataAccessApiStore extends ComponentSto
     super(initialState);
   }
 
-  download(
-    downloadRequest: DownloadRequest,
-    onErrorfn: () => void,
-    onSuccess: () => void
-  ) {
+  download(downloadRequest: DownloadRequest, onErrorfn: () => void, onSuccess: () => void) {
     return this.httpClient
       .v1WholesaleSettlementReportDownloadGet(
         downloadRequest.gridAreas,
