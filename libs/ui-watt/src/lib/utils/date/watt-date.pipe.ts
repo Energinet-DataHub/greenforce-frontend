@@ -17,17 +17,31 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { formatInTimeZone } from 'date-fns-tz';
 
+export interface WattDateRange<T> {
+  start: T | null;
+  end: T | null;
+}
+
+const formatStrings = {
+  short: 'dd-MM-yyyy',
+  long: 'dd-MM-yyyy HH:mm',
+};
+
 @Pipe({
   name: 'wattDate',
   standalone: true,
 })
-export class WattDatePipe implements PipeTransform {
+export class WattDatePipe<T extends Date | string> implements PipeTransform {
   /**
-   * @param maybeIso8601DateTime DateTime in ISO 8601 format (e.g. 2021-12-01T23:00:00Z)
+   * @param input WattDateRange or string in ISO 8601 format
    */
-  transform(maybeIso8601DateTime?: string | null) {
-    return !maybeIso8601DateTime
-      ? null
-      : formatInTimeZone(maybeIso8601DateTime, 'Europe/Copenhagen', 'dd-MM-yyyy');
+  transform(
+    input?: WattDateRange<T> | T | null,
+    format: keyof typeof formatStrings = 'short'
+  ): string | null {
+    if (!input) return null;
+    return input instanceof Date || typeof input === 'string'
+      ? formatInTimeZone(input, 'Europe/Copenhagen', formatStrings[format])
+      : `${this.transform(input.start, format)} ― ${this.transform(input.end, format)}`;
   }
 }

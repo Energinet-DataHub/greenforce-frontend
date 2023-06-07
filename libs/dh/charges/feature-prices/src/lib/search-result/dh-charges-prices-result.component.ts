@@ -29,7 +29,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { DhChargesPricesDrawerComponent } from '../drawer/dh-charges-prices-drawer.component';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
@@ -49,7 +49,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
     DhFeatureFlagDirectiveModule,
     WattTooltipDirective,
     WattSpinnerComponent,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     DhSharedUiPaginatorComponent,
     DhChargesPricesDrawerComponent,
     WATT_CARD,

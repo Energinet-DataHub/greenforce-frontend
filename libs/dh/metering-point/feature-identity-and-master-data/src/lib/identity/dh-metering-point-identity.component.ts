@@ -20,7 +20,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/domain';
 import { DhStatusBadgeComponent } from '@energinet-datahub/dh/metering-point/ui-status-badge';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMeteringPointIdentityTextFieldWithIconComponent } from './identity-text-field/dh-metering-point-identity-text-field-with-icon.component';
@@ -44,7 +44,7 @@ export interface MeteringPointIdentityTranslationKeys {
     DhMeteringPointIdentityTextFieldWithIconComponent,
     DhStatusBadgeComponent,
     DhEmDashFallbackPipeScam,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     CommonModule,
     TranslocoModule,
   ],
