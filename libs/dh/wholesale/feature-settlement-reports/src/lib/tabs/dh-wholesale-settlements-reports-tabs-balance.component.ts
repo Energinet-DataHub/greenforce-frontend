@@ -109,17 +109,22 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
       message: this.transloco.translate('wholesale.settlementReports.downloadStart'),
     });
     this.settlementReportStore.download(
-      this.searchForm.controls.gridAreas?.value ?? [],
-      WholesaleProcessType.BalanceFixing,
-      this.searchForm.controls.executionTime.value?.start ?? '',
-      this.searchForm.controls.executionTime.value?.end ?? '',
-      this.searchForm.controls.actor.value ?? undefined,
-      this.transloco.translate('selectedLanguageIso'),
+      {
+        gridAreas: this.searchForm.controls.gridAreas?.value ?? [],
+        processType: WholesaleProcessType.BalanceFixing,
+        periodStart: this.searchForm.controls.executionTime.value?.start ?? '',
+        periodEnd: this.searchForm.controls.executionTime.value?.end ?? '',
+        energySupplier: this.searchForm.controls.actor.value ?? undefined,
+        locale: this.transloco.translate('selectedLanguageIso'),
+      },
       () => {
         this.toastService.open({
           type: 'danger',
           message: this.transloco.translate('wholesale.settlementReports.downloadFailed'),
         });
+      },
+      () => {
+        this.toastService.dismiss();
       }
     );
   }
