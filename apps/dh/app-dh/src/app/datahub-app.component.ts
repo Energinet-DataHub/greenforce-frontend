@@ -15,10 +15,13 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'dh-app',
   styleUrls: ['./datahub-app.component.scss'],
   templateUrl: './datahub-app.component.html',
+  standalone: true,
+  imports: [RouterModule],
 })
 export class DataHubAppComponent {}

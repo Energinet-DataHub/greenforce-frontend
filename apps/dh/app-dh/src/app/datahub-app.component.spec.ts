@@ -21,12 +21,10 @@ import { render } from '@testing-library/angular';
 import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
 
 import { DataHubAppComponent } from './datahub-app.component';
-import { DataHubAppModule } from './datahub-app.module';
 
-describe(DataHubAppComponent.name, () => {
+describe(DataHubAppComponent, () => {
   it('has a router outlet', async () => {
     const view = await render(DataHubAppComponent, {
-      imports: [DataHubAppModule],
       providers: [MsalServiceFake],
     });
 
