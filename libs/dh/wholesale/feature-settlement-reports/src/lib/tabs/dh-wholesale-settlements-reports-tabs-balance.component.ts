@@ -74,7 +74,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
   private toastService = inject(WattToastService);
   private readonly settlementReportStore = inject(DhWholesaleSettlementReportsDataAccessApiStore);
   private subscriptionGridAreas?: Subscription;
-  private subscriptionGridAreasForSelected?: Subscription;
+  private subscriptionGridAreasForFilter?: Subscription;
   private subscriptionActors?: Subscription;
   private subscriptionGridAreaSelected?: Subscription;
 
@@ -113,6 +113,12 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
     query: graphql.GetGridAreasDocument,
   });
 
+  gridAreasForFilterQuery = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: graphql.GetGridAreasDocument,
+  });
+
   ngOnInit(): void {
     this.subscriptionActors = this.actorsQuery.valueChanges.subscribe({
       next: (result) => {
@@ -142,14 +148,25 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
               validtTo: g.validTo,
               download: true,
             })) ?? [];
+      },
+      error: (error) => {
+        this.error = error;
+      },
+    });
+
+    this.subscriptionGridAreasForFilter = this.gridAreasForFilterQuery.valueChanges.subscribe({
+      next: (result) => {
         this.gridAreas = (result.data?.gridAreas ?? []).map((g) => ({
           displayValue: `${g.name} (${g.code})`,
           value: g.code,
         }));
         if (!result.loading) this.searchForm.controls.gridAreas.enable();
       },
-      error: (error) => {
-        this.error = error;
+      error: () => {
+        this.toastService.open({
+          type: 'danger',
+          message: this.transloco.translate('wholesale.settlementReports.gridAreasLoadFailed'),
+        });
       },
     });
 
@@ -157,6 +174,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
     this.subscriptionGridAreaSelected = this.searchForm.controls.gridAreas.valueChanges.subscribe(
       (value) => {
         this.selectedGridAreas = value ?? [];
+        this.gridAreasQuery.refetch();
       }
     );
   }
@@ -164,6 +182,8 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
   ngOnDestroy(): void {
     this.subscriptionGridAreas?.unsubscribe();
     this.subscriptionActors?.unsubscribe();
+    this.subscriptionGridAreaSelected?.unsubscribe();
+    this.subscriptionGridAreasForFilter?.unsubscribe();
   }
 
   downloadClicked(gridArea: settlementReportsTableColumns) {
@@ -190,10 +210,6 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
         this.toastService.dismiss();
       }
     );
-  }
-
-  onGridAreaChange(selected: string[]) {
-    this.selectedGridAreas = selected;
   }
 
   translateHeader = (key: string) =>

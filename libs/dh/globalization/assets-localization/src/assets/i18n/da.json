@@ -811,6 +811,7 @@
       "SelectPeriod": "For at downloade skal du vælge en periode først",
       "downloadFailed": "Download fejlede",
       "downloadStart": "Starter download...",
+      "gridAreasLoadFailed": "kunne ikke hente net områder",
       "noEntries": "Ingen resultater",
       "tabs": {
         "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",

@@ -820,6 +820,7 @@
       "SelectPeriod": "To download select a period first",
       "downloadFailed": "Download failed",
       "downloadStart": "Starting download...",
+      "gridAreasLoadFailed": "Could not load grid areas",
       "noEntries": "No results",
       "tabs": {
         "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
