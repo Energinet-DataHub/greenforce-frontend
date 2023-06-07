@@ -48,7 +48,7 @@ import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { DateRange } from '@energinet-datahub/dh/shared/domain';
 import { filterValidGridAreas, GridArea } from '@energinet-datahub/dh/wholesale/domain';
@@ -68,7 +68,7 @@ interface CreateBatchFormValues {
   imports: [
     CommonModule,
     DhFeatureFlagDirectiveModule,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     LetModule,
     PushModule,
     ReactiveFormsModule,

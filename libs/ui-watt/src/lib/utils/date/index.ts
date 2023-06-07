@@ -14,21 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Pipe, PipeTransform } from '@angular/core';
-import { dhFormatDanishDatetime, TStringValue, dateTimeFormat } from './dh-format-danish-datetime';
-
-export const pipeName = 'dhDateTime';
-
-@Pipe({
-  name: pipeName,
-})
-export class DhDateTimePipe implements PipeTransform {
-  /**
-   *
-   * @param maybeIso8601DateTime Date time in ISO 8601 format (e.g. 2021-12-01T23:00:00Z)
-   * @returns
-   */
-  transform(maybeIso8601DateTime: TStringValue): string | null {
-    return dhFormatDanishDatetime(maybeIso8601DateTime, dateTimeFormat);
-  }
-}
+export { WattDatePipe } from './watt-date.pipe';
+export { WattDateTimePipe } from './watt-datetime.pipe';

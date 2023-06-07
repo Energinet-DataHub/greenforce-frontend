@@ -19,7 +19,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { MeteringPointProcessDetail } from '@energinet-datahub/dh/shared/domain';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe, WattDateTimePipe } from '@energinet-datahub/watt/date';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
@@ -32,7 +32,8 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
   imports: [
     WattIconComponent,
     CommonModule,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
+    WattDateTimePipe,
     TranslocoModule,
     WattValidationMessageComponent,
   ],

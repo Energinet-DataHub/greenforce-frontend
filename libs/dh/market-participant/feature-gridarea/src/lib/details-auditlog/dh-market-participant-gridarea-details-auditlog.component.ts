@@ -17,7 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDateTimePipe } from '@energinet-datahub/watt/date';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -40,7 +40,7 @@ interface AuditLogEntry {
     MatTableModule,
     WattEmptyStateComponent,
     WattSpinnerComponent,
-    DhSharedUiDateTimeModule,
+    WattDateTimePipe,
     DhPermissionRequiredDirective,
   ],
 })

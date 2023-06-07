@@ -41,7 +41,7 @@ limitations under the License.
           *ngIf="!hasGeneralError"
         >
           <ng-container *wattTableCell="columns['timestamp']; let element">
-            {{ element.timestamp | dhDateTime }}
+            {{ element.timestamp | wattDateTime }}
           </ng-container>
 
           <ng-container *wattTableCell="columns['entry']; let element">

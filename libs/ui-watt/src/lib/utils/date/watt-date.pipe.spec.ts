@@ -14,8 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'jest-preset-angular/setup-jest';
+import { WattDatePipe } from './watt-date.pipe';
 
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+describe(WattDatePipe, () => {
+  const pipe = new WattDatePipe();
 
-setUpTestbed();
+  it('transforms "2021-12-31T23:00:00Z" to "01-01-2022"', () => {
+    expect(pipe.transform('2021-12-31T23:00:00Z')).toBe('01-01-2022');
+  });
+
+  it('transforms "2021-06-30T22:00:00Z" to "01-07-2021"', () => {
+    expect(pipe.transform('2021-06-30T22:00:00Z')).toBe('01-07-2021');
+  });
+});

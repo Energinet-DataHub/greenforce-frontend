@@ -59,7 +59,7 @@ limitations under the License.
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <watt-icon name="date" size="xs" class="date-icon"></watt-icon>
-        <span class="watt-text-s">{{ row.data.createdDate | dhDateTime }} </span>
+        <span class="watt-text-s">{{ row.data.createdDate | wattDateTime }} </span>
       </mat-cell>
     </ng-container>
 
@@ -74,7 +74,7 @@ limitations under the License.
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <watt-icon name="date" size="xs" class="date-icon"></watt-icon>
-        <span class="watt-text-s">{{ row.data.effectiveDate | dhDate }} </span>
+        <span class="watt-text-s">{{ row.data.effectiveDate | wattDate }} </span>
       </mat-cell>
     </ng-container>
 

@@ -149,14 +149,14 @@ limitations under the License.
             {{ t("batchDetails.calculationPeriod") }}
           </dt>
           <dd>
-            {{ batch.period?.start | dhDate }} -
-            {{ batch.period?.end | dhDate }}
+            {{ batch.period?.start | wattDate }} -
+            {{ batch.period?.end | wattDate }}
           </dd>
 
           <dt class="watt-label">
             {{ t("batchDetails.executionTime") }}
           </dt>
-          <dd>{{ batch.executionTimeStart | dhDateTime }}</dd>
+          <dd>{{ batch.executionTimeStart | wattDateTime }}</dd>
 
           <dt class="watt-label">
             {{ t("batchDetails.executionType") }}

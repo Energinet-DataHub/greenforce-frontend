@@ -26,7 +26,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDateTimePipe } from '@energinet-datahub/watt/date';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -53,7 +53,7 @@ import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
     WattSpinnerComponent,
     WattEmptyStateComponent,
     WATT_TABLE,
-    DhSharedUiDateTimeModule,
+    WattDateTimePipe,
   ],
 })
 export class DhPermissionAuditLogsComponent implements OnInit, OnChanges, OnDestroy {

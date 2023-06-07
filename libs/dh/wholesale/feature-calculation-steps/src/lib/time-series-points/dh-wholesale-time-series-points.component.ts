@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDateTimePipe } from '@energinet-datahub/watt/date';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
@@ -33,7 +33,7 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
     TranslocoModule,
     WattEmptyStateComponent,
     WATT_CARD,
-    DhSharedUiDateTimeModule,
+    WattDateTimePipe,
     WattPaginatorComponent,
   ],
   selector: 'dh-wholesale-time-series-points',

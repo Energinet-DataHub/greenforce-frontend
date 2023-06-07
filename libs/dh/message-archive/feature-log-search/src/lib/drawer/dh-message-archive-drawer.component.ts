@@ -17,7 +17,7 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, Input, ViewChild, inject } from '@angular/core';
 import { ArchivedMessage, Stream } from '@energinet-datahub/dh/shared/domain';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDateTimePipe } from '@energinet-datahub/watt/date';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -43,7 +43,7 @@ import { provideComponentStore } from '@ngrx/component-store';
     WATT_DRAWER,
     TranslocoModule,
     WattIconComponent,
-    DhSharedUiDateTimeModule,
+    WattDateTimePipe,
     DhMessageArchiveStatusComponent,
     MatDividerModule,
     ActorNamePipe,

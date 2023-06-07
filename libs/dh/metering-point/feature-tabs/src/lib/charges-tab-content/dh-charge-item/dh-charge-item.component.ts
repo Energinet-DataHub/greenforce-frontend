@@ -22,7 +22,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ChargeLinkV1Dto, ChargeType } from '@energinet-datahub/dh/shared/domain';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 @Component({
   selector: 'dh-charge-item',
@@ -34,7 +34,7 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
     CommonModule,
     WattEmptyStateComponent,
     MatTableModule,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     WattIconComponent,
   ],
 })
