@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-metering-point-feature-identity-and-master-data.module';
+export * from './lib/dh-metering-point-identity-and-master-data.component';

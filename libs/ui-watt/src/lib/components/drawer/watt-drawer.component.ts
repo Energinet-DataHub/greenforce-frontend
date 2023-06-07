@@ -14,8 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CdkTrapFocus } from '@angular/cdk/a11y';
+import { CdkTrapFocus, A11yModule } from '@angular/cdk/a11y';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -30,7 +32,13 @@ import {
   ViewChild,
 } from '@angular/core';
 
+import { WattButtonComponent } from '../button';
+import { WattSpinnerComponent } from '../spinner';
+
 import { WattDrawerTopbarComponent } from './watt-drawer-topbar.component';
+import { WattDrawerActionsComponent } from './watt-drawer-actions.component';
+import { WattDrawerContentComponent } from './watt-drawer-content.component';
+import { WattDrawerHeadingComponent } from './watt-drawer-heading.component';
 
 export type WattDrawerSize = 'small' | 'normal' | 'large';
 
@@ -39,6 +47,8 @@ export type WattDrawerSize = 'small' | 'normal' | 'large';
   selector: 'watt-drawer',
   styleUrls: ['./watt-drawer.component.scss'],
   templateUrl: './watt-drawer.component.html',
+  standalone: true,
+  imports: [A11yModule, MatSidenavModule, WattButtonComponent, WattSpinnerComponent, CommonModule],
 })
 export class WattDrawerComponent implements OnDestroy {
   private static currentDrawer?: WattDrawerComponent;
@@ -137,3 +147,11 @@ export class WattDrawerComponent implements OnDestroy {
     }
   }
 }
+
+export const WATT_DRAWER = [
+  WattDrawerComponent,
+  WattDrawerTopbarComponent,
+  WattDrawerActionsComponent,
+  WattDrawerContentComponent,
+  WattDrawerHeadingComponent,
+];

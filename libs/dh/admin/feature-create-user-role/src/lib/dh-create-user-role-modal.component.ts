@@ -35,13 +35,13 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
 import { provideComponentStore } from '@ngrx/component-store';
 
-import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import {
@@ -75,15 +75,15 @@ interface UserRoleForm {
     provideComponentStore(DhAdminMarketRolePermissionsStore),
   ],
   imports: [
-    WattModalModule,
-    WattButtonModule,
+    WATT_MODAL,
+    WattButtonComponent,
     TranslocoModule,
-    WattIconModule,
+    WattIconComponent,
     CommonModule,
     ReactiveFormsModule,
-    WattInputModule,
-    WattFormFieldModule,
-    WattDropdownModule,
+    WattInputDirective,
+    WATT_FORM_FIELD,
+    WattDropdownComponent,
     PushModule,
     LetModule,
     WATT_STEPPER,

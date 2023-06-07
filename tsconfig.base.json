@@ -104,9 +104,6 @@
       "@energinet-datahub/dh/market-participant/edit-actor": [
         "libs/dh/market-participant/feature-edit-actor/src/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/feature-edit-gridarea": [
-        "libs/dh/market-participant/feature-edit-gridarea/src/index.ts"
-      ],
       "@energinet-datahub/dh/market-participant/feature-edit-organization": [
         "libs/dh/market-participant/feature-edit-organization/src/index.ts"
       ],
@@ -227,6 +224,9 @@
       "@energinet-datahub/dh/shared/util-table": [
         "libs/dh/shared/util-table/src/index.ts"
       ],
+      "@energinet-datahub/dh/wholesale/data-access-api": [
+        "libs/dh/wholesale/data-access-api/src/index.ts"
+      ],
       "@energinet-datahub/dh/wholesale/domain": [
         "libs/dh/wholesale/domain/src/index.ts"
       ],
@@ -302,7 +302,7 @@
         "libs/eo/shared/utilities/src/index.ts"
       ],
       "@energinet-datahub/eo/terms": ["libs/eo/terms/src/index.ts"],
-      "@energinet-datahub/eo/transfer": ["libs/eo/transfer/src/index.ts"],
+      "@energinet-datahub/eo/transfers": ["libs/eo/transfers/src/index.ts"],
       "@energinet-datahub/gf/configuration-danish-locale": [
         "libs/gf/configuration-danish-locale/src/index.ts"
       ],

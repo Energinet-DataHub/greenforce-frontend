@@ -15,19 +15,27 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
+
 import { MeteringPointProcessDetail } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-
-import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
-import { TranslocoModule } from '@ngneat/transloco';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-processes-detail-item',
   templateUrl: './dh-processes-detail-item.component.html',
   styleUrls: ['./dh-processes-detail-item.component.scss'],
+  standalone: true,
+  imports: [
+    WattIconComponent,
+    CommonModule,
+    DhSharedUiDateTimeModule,
+    TranslocoModule,
+    WattValidationMessageComponent,
+  ],
 })
 export class DhProcessesDetailItemComponent {
   private _detail!: MeteringPointProcessDetail;
@@ -44,16 +52,3 @@ export class DhProcessesDetailItemComponent {
     return this._detail;
   }
 }
-
-@NgModule({
-  declarations: [DhProcessesDetailItemComponent],
-  imports: [
-    WattIconModule,
-    CommonModule,
-    DhSharedUiDateTimeModule,
-    TranslocoModule,
-    WattValidationMessageModule,
-  ],
-  exports: [DhProcessesDetailItemComponent],
-})
-export class DhProcessesDetailItemScam {}

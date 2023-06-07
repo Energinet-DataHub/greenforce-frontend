@@ -17,14 +17,13 @@
 import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
 import { WattSliderComponent } from './watt-slider.component';
-import { WattSliderModule } from './watt-slider.module';
 
 const meta: Meta<WattSliderComponent> = {
   title: 'Components/Slider',
   component: WattSliderComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattSliderModule],
+      imports: [WattSliderComponent],
     }),
   ],
 };

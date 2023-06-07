@@ -18,17 +18,23 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { WattIconModule } from '../../foundations/icon/icon.module';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, WattIconModule],
+  imports: [CommonModule, WattIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-chip',
   styleUrls: ['./watt-chip.component.scss'],
   template: `
     <label [class.selected]="selected" [class.disabled]="disabled">
-      <watt-icon class="selected-icon" name="checkmark" *ngIf="selected" size="s" />
+      <watt-icon
+        *ngIf="selected"
+        class="selected-icon"
+        name="checkmark"
+        size="s"
+        [attr.aria-hidden]="true"
+      />
       <ng-content />
     </label>
   `,

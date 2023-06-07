@@ -28,6 +28,13 @@ import {
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
+import { CommonModule } from '@angular/common';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { OverlayModule } from '@angular/cdk/overlay';
+
+import { WattButtonComponent } from '../../button';
+import { WattSliderComponent } from '../../slider';
 import { BehaviorSubject, distinctUntilChanged, EMPTY, map, takeUntil } from 'rxjs';
 
 import { WattInputMaskService, WattMaskedInput } from '../shared/watt-input-mask.service';
@@ -73,7 +80,7 @@ const getTruthyAt =
 
 /**
  * Usage:
- * `import { WattTimepickerModule } from '@energinet-datahub/watt/timepicker';`
+ * `import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';`
  *
  * IMPORTANT:
  * The styling is calculated based on our monospaced font.
@@ -89,6 +96,15 @@ const getTruthyAt =
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatDatepickerModule,
+    WattButtonComponent,
+    WattSliderComponent,
+    MatInputModule,
+    OverlayModule,
+    CommonModule,
+  ],
 })
 export class WattTimepickerComponent extends WattPickerBase {
   /**

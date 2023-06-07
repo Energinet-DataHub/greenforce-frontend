@@ -239,6 +239,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     {
                         Id = x.ActorId,
                         Name = x.Name.Value,
+                        Number = x.ActorNumber.ToString(),
                         GridAreaCodes = x.MarketRoles
                             .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
                             .Distinct()

@@ -20,11 +20,11 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { LetModule } from '@rx-angular/template/let';
 
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
-import { DhMeteringPointFeatureIdentityAndMasterDataModule } from '@energinet-datahub/dh/metering-point/feature-identity-and-master-data';
+import { DhMeteringPointIdentityAndMasterDataComponent } from '@energinet-datahub/dh/metering-point/feature-identity-and-master-data';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
-import { DhMeteringPointFeatureTabsModule } from '@energinet-datahub/dh/metering-point/feature-tabs';
+import { DhMeteringPointTabsComponent } from '@energinet-datahub/dh/metering-point/feature-tabs';
 
 import { DhBreadcrumbComponent } from './breadcrumb/dh-breadcrumb.component';
 import { DhMeteringPointNotFoundComponent } from './not-found/dh-metering-point-not-found.component';
@@ -40,12 +40,12 @@ import { DhMeteringPointGeneralErrorComponent } from './general-error/dh-meterin
   imports: [
     CommonModule,
     DhBreadcrumbComponent,
-    DhMeteringPointFeatureIdentityAndMasterDataModule,
+    DhMeteringPointIdentityAndMasterDataComponent,
     DhMeteringPointNotFoundComponent,
     DhMeteringPointGeneralErrorComponent,
     LetModule,
-    WattSpinnerModule,
-    DhMeteringPointFeatureTabsModule,
+    WattSpinnerComponent,
+    DhMeteringPointTabsComponent,
   ],
 })
 export class DhMeteringPointOverviewComponent {

@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { timer } from 'rxjs';
-import { WattCardModule } from '../../card';
+import { WATT_CARD } from '../../card';
 
 @Component({
   selector: 'watt-storybook-drawer-content',
@@ -73,14 +73,9 @@ import { WattCardModule } from '../../card';
       </p>
     </watt-card>
   `,
+  standalone: true,
+  imports: [CommonModule, WATT_CARD],
 })
 export class WattStorybookDrawerContentComponent {
   timer$ = timer(0, 1000);
 }
-
-@NgModule({
-  declarations: [WattStorybookDrawerContentComponent],
-  exports: [WattStorybookDrawerContentComponent],
-  imports: [CommonModule, WattCardModule],
-})
-export class WattStorybookDrawerContentModule {}

@@ -15,23 +15,16 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  Input,
-  NgModule,
-  ViewChild,
-  AfterViewInit,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, Input, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort, MatSortable, MatSortModule, Sort } from '@angular/material/sort';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { TranslocoModule } from '@ngneat/transloco';
 import { RouterModule } from '@angular/router';
 
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { DhMeteringPointStatusBadgeScam } from '@energinet-datahub/dh/metering-point/ui-status-badge';
+import { DhStatusBadgeComponent } from '@energinet-datahub/dh/metering-point/ui-status-badge';
 import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
@@ -39,6 +32,18 @@ import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/domain';
   selector: 'dh-child-metering-points-tab-content',
   templateUrl: './dh-child-metering-points-tab-content.component.html',
   styleUrls: ['./dh-child-metering-points-tab-content.component.scss'],
+  standalone: true,
+  imports: [
+    MatTableModule,
+    TranslocoModule,
+    DhStatusBadgeComponent,
+    WattIconComponent,
+    MatSortModule,
+    CommonModule,
+    WattEmptyStateComponent,
+    RouterModule,
+    DhSharedUiDateTimeModule,
+  ],
 })
 export class DhChildMeteringPointsTabContentComponent implements AfterViewInit {
   displayedColumns: string[] = ['childMeteringPoint', 'effectivePeriod', 'status'];
@@ -86,20 +91,3 @@ export class DhChildMeteringPointsTabContentComponent implements AfterViewInit {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 }
-
-@NgModule({
-  declarations: [DhChildMeteringPointsTabContentComponent],
-  imports: [
-    MatTableModule,
-    TranslocoModule,
-    DhMeteringPointStatusBadgeScam,
-    WattIconModule,
-    MatSortModule,
-    CommonModule,
-    WattEmptyStateComponent,
-    RouterModule,
-    DhSharedUiDateTimeModule,
-  ],
-  exports: [DhChildMeteringPointsTabContentComponent],
-})
-export class DhChildMeteringPointsTabContentScam {}

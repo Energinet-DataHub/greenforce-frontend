@@ -14,5 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-market-participant-feature-edit-organization.module';
-export * from './lib/market-participant-edit-organization/dh-market-participant-edit-organization.component';
+export { DhMarketParticipantEditOrganizationComponent } from './lib/market-participant-edit-organization/dh-market-participant-edit-organization.component';

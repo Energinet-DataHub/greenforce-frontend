@@ -26,11 +26,6 @@ env:
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
   yarn-version: 3.5.0
 
-  # Nx Cloud
-  NX_BRANCH: ${{ github.event.number }}
-  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-  NX_RUN_GROUP: ${{ github.run_id }}
-
   # DH E2E
   # Note: Cypress automatically removes the "CYPRESS_" prefix in CI
   CYPRESS_DH_E2E_USERNAME: ${{ secrets.DH_E2E_USERNAME }}

@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { LetModule } from '@rx-angular/template/let';
 import {
   MatLegacyTableDataSource as MatTableDataSource,
   MatLegacyTableModule as MatTableModule,
 } from '@angular/material/legacy-table';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { WattDrawerModule, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
@@ -36,15 +36,35 @@ import {
   GridAreaOverviewRow,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { DhMarketParticipantGridAreaDetailsHeaderScam } from '../details-header/dh-market-participant-gridarea-details-header.component';
-import { DhMarketParticipantGridAreaEditScam } from '../details-edit/dh-market-participant-gridarea-edit.component';
-import { DhMarketParticipantGridAreaDetailsAuditLogScam } from '../details-auditlog/dh-market-participant-gridarea-details-auditlog.component';
+import { DhMarketParticipantGridAreaDetailsHeaderComponent } from '../details-header/dh-market-participant-gridarea-details-header.component';
+import { DhMarketParticipantGridAreaEditComponent } from '../details-edit/dh-market-participant-gridarea-edit.component';
+import { DhMarketParticipantGridAreaDetailsAuditLogComponent } from '../details-auditlog/dh-market-participant-gridarea-details-auditlog.component';
 import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-market-participant-gridarea-overview',
   styleUrls: ['./dh-market-participant-gridarea-overview.component.scss'],
   templateUrl: './dh-market-participant-gridarea-overview.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    LetModule,
+    MatTableModule,
+    MatMenuModule,
+    TranslocoModule,
+    WattBadgeComponent,
+    WattButtonComponent,
+    WattIconComponent,
+    WattEmptyStateComponent,
+    WattSpinnerComponent,
+    WattValidationMessageComponent,
+    DhEmDashFallbackPipeScam,
+    DhSharedUiDateTimeModule,
+    WATT_DRAWER,
+    DhMarketParticipantGridAreaDetailsHeaderComponent,
+    DhMarketParticipantGridAreaEditComponent,
+    DhMarketParticipantGridAreaDetailsAuditLogComponent,
+  ],
 })
 export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
   @ViewChild('drawer') drawer!: WattDrawerComponent;
@@ -85,28 +105,3 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
     return this.activeRow?.id === row.id;
   }
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    LetModule,
-    MatTableModule,
-    MatMenuModule,
-    TranslocoModule,
-    WattBadgeComponent,
-    WattButtonModule,
-    WattIconModule,
-    WattEmptyStateComponent,
-    WattSpinnerModule,
-    WattValidationMessageModule,
-    DhEmDashFallbackPipeScam,
-    DhSharedUiDateTimeModule,
-    WattDrawerModule,
-    DhMarketParticipantGridAreaDetailsHeaderScam,
-    DhMarketParticipantGridAreaEditScam,
-    DhMarketParticipantGridAreaDetailsAuditLogScam,
-  ],
-  declarations: [DhMarketParticipantGridAreaOverviewComponent],
-  exports: [DhMarketParticipantGridAreaOverviewComponent],
-})
-export class DhMarketParticipantGridAreaOverviewScam {}

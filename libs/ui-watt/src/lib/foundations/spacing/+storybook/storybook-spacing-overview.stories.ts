@@ -14,19 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import { StoryFn, Meta } from '@storybook/angular';
 
 import { StorybookSpacingOverviewComponent } from './storybook-spacing-overview.component';
-import { StorybookSpacingOverviewModule } from './storybook-spacing-overview.module';
 
 const meta: Meta<StorybookSpacingOverviewComponent> = {
   title: 'Foundations/Spacing',
   component: StorybookSpacingOverviewComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [StorybookSpacingOverviewModule],
-    }),
-  ],
 };
 
 export default meta;

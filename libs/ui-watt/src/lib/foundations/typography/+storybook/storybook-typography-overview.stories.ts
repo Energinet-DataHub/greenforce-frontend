@@ -14,20 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { Meta, StoryFn } from '@storybook/angular';
 
 import { typographyHtmlSnippets } from './shared/typography-html-snippets';
 import { StorybookTypographyOverviewComponent } from './storybook-typography-overview.component';
-import { StorybookTypographyOverviewModule } from './storybook-typography-overview.module';
 
 const meta: Meta<StorybookTypographyOverviewComponent> = {
   title: 'Foundations/Typography',
   component: StorybookTypographyOverviewComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [StorybookTypographyOverviewModule],
-    }),
-  ],
 };
 
 export default meta;

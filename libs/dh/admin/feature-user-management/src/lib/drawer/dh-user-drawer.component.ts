@@ -27,8 +27,8 @@ import {
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
@@ -48,8 +48,8 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   imports: [
     CommonModule,
     TranslocoModule,
-    WattDrawerModule,
-    WattButtonModule,
+    WATT_DRAWER,
+    WattButtonComponent,
     DhTabsComponent,
     DhUserStatusComponent,
     DhEditUserModalComponent,

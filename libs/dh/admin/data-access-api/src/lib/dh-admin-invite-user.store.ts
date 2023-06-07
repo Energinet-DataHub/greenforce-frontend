@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, Subject, switchMap, tap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
@@ -23,6 +23,14 @@ import {
   MarketParticipantUserHttp,
   MarketParticipantUserInvitationDto,
 } from '@energinet-datahub/dh/shared/domain';
+import { HttpErrorResponse } from '@angular/common/http';
+
+export interface ErrorDescriptor {
+  code: string;
+  message: string;
+  target?: string;
+  details?: ErrorDescriptor[];
+}
 
 interface State {
   readonly requestState: SavingState | ErrorState;
@@ -36,7 +44,6 @@ const initialState: State = {
 export class DbAdminInviteUserStore extends ComponentStore<State> {
   isInit$ = this.select((state) => state.requestState === SavingState.INIT);
   isSaving$ = this.select((state) => state.requestState === SavingState.SAVING);
-  hasGeneralError$ = new Subject<void>();
 
   constructor(private marketParticipantUserHttp: MarketParticipantUserHttp) {
     super(initialState);
@@ -47,6 +54,7 @@ export class DbAdminInviteUserStore extends ComponentStore<State> {
       trigger$: Observable<{
         invitation: MarketParticipantUserInvitationDto;
         onSuccess: () => void;
+        onError: (error: ErrorDescriptor[]) => void;
       }>
     ) =>
       trigger$.pipe(
@@ -54,7 +62,7 @@ export class DbAdminInviteUserStore extends ComponentStore<State> {
           this.resetState();
           this.setSaving(SavingState.SAVING);
         }),
-        switchMap(({ invitation, onSuccess }) => {
+        switchMap(({ invitation, onSuccess, onError }) => {
           return this.marketParticipantUserHttp
             .v1MarketParticipantUserInviteUserPost(invitation)
             .pipe(
@@ -63,9 +71,14 @@ export class DbAdminInviteUserStore extends ComponentStore<State> {
                   this.setSaving(SavingState.SAVED);
                   onSuccess();
                 },
-                () => {
+                (e: HttpErrorResponse) => {
                   this.setSaving(ErrorState.GENERAL_ERROR);
-                  this.handleError();
+
+                  const serverErrors = e.error?.error?.details as ErrorDescriptor[] | undefined;
+
+                  if (serverErrors) {
+                    onError(serverErrors);
+                  }
                 }
               )
             );
@@ -103,10 +116,6 @@ export class DbAdminInviteUserStore extends ComponentStore<State> {
       requestState: savingState,
     })
   );
-
-  private handleError = () => {
-    this.hasGeneralError$.next();
-  };
 
   private resetState = () => this.setState(initialState);
 }

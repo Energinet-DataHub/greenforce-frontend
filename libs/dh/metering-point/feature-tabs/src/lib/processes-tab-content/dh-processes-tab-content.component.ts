@@ -15,24 +15,33 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LetModule } from '@rx-angular/template/let';
 import { map } from 'rxjs';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhProcessesDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
-
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { TranslocoModule } from '@ngneat/transloco';
-import { DhProcessesTableScam } from './processes-table/dh-processes-table.component';
+
+import { DhProcessesTableComponent } from './processes-table/dh-processes-table.component';
 
 @Component({
   selector: 'dh-processes-tab-content',
   templateUrl: './dh-processes-tab-content.component.html',
   styleUrls: ['./dh-processes-tab-content.component.scss'],
   providers: [DhProcessesDataAccessApiStore],
+  standalone: true,
+  imports: [
+    CommonModule,
+    WattSpinnerComponent,
+    LetModule,
+    DhProcessesTableComponent,
+    WattEmptyStateComponent,
+    TranslocoModule,
+  ],
 })
 export class DhProcessesTabContentComponent {
   meteringPointId$ = this.route.params.pipe(
@@ -49,17 +58,3 @@ export class DhProcessesTabContentComponent {
     this.store.loadProcessData(this.meteringPointId$);
   }
 }
-
-@NgModule({
-  declarations: [DhProcessesTabContentComponent],
-  imports: [
-    CommonModule,
-    WattSpinnerModule,
-    LetModule,
-    DhProcessesTableScam,
-    WattEmptyStateComponent,
-    TranslocoModule,
-  ],
-  exports: [DhProcessesTabContentComponent],
-})
-export class DhProcessesTabContentScam {}

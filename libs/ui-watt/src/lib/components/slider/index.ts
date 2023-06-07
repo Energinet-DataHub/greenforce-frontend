@@ -14,5 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattSliderModule } from './watt-slider.module';
 export { WattSliderComponent } from './watt-slider.component';

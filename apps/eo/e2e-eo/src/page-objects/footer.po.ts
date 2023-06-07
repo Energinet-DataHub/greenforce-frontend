@@ -25,10 +25,8 @@ export class FooterPO {
   // Visibility
   isVisible = () => this.footer().should('be.visible');
   hasLogo = () => this.footer().get(this.logo).should('be.visible');
-  hasPrivacyPolicyLink = () =>
-    this.footer().get(this.privacyPolicy).should('be.visible');
-  hasAccessibilityLink = () =>
-    this.footer().get(this.accessibility).should('be.visible');
+  hasPrivacyPolicyLink = () => this.footer().get(this.privacyPolicy).should('be.visible');
+  hasAccessibilityLink = () => this.footer().get(this.accessibility).should('be.visible');
   hasPhoneLink = () => this.footer().get(this.phone).should('be.visible');
   hasEmailLink = () => this.footer().get(this.email).should('be.visible');
 }

@@ -26,13 +26,10 @@ import {
 import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { EventEmitter } from '@angular/core';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import {
-  DhMarketParticipantActorMarketRolesComponent,
-  DhMarketParticipantActorMarketRolesComponentScam,
-} from './dh-market-participant-actor-market-roles.component';
+import { DhMarketParticipantActorMarketRolesComponent } from './dh-market-participant-actor-market-roles.component';
 import { en } from '@energinet-datahub/dh/globalization/assets-localization';
 
-describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
+describe(DhMarketParticipantActorMarketRolesComponent, () => {
   async function setup(
     actorStatus: MarketParticipantActorStatus,
     gridAreas: MarketParticipantGridAreaDto[],
@@ -48,7 +45,7 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
           emit: outputFn,
         } as unknown as EventEmitter<MarketRoleChanges>,
       },
-      imports: [DhMarketParticipantActorMarketRolesComponentScam, getTranslocoTestingModule()],
+      imports: [getTranslocoTestingModule()],
     });
 
     await runOnPushChangeDetection(view.fixture);

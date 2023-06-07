@@ -15,26 +15,40 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { WattIconModule } from '../../foundations/icon/icon.module';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { WattChipComponent } from './watt-chip.component';
+
+export type WattMenuChipHasPopup = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, WattChipComponent, WattIconModule],
+  imports: [CommonModule, WattChipComponent, WattIconComponent],
   selector: 'watt-menu-chip',
   styles: [
     `
+      :host {
+        display: block;
+      }
+
       button {
         all: unset;
+        pointer-events: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex: 1 1 auto;
       }
 
       .menu-icon {
         margin-left: var(--watt-space-xs);
         transition: linear 0.2s all;
         color: var(--watt-color-primary);
+
+        &.disabled {
+          color: var(--watt-on-light-low-emphasis);
+        }
       }
 
       .opened {
@@ -44,19 +58,29 @@ import { WattChipComponent } from './watt-chip.component';
       .selected {
         color: var(--watt-color-neutral-white);
       }
+
+      .disabled {
+        color: var(--watt-on-light-low-emphasis);
+      }
     `,
   ],
   template: `
     <watt-chip [disabled]="disabled" [selected]="selected">
-      <button (click)="toggleMenu()" [disabled]="disabled">
-        <ng-content />
-      </button>
+      <button
+        [attr.aria-haspopup]="hasPopup"
+        [attr.aria-expanded]="opened"
+        (click)="toggle.emit()"
+        [disabled]="disabled"
+      ></button>
+      <ng-content />
       <watt-icon
         size="s"
         name="arrowDropDown"
         class="menu-icon"
+        [attr.aria-hidden]="true"
         [class.opened]="opened"
         [class.selected]="selected"
+        [class.disabled]="disabled"
       />
     </watt-chip>
   `,
@@ -67,20 +91,6 @@ export class WattMenuChipComponent {
   @Input() name?: string;
   @Input() value?: string;
   @Input() selected = false;
-  @Input() @HostBinding('attr.aria-haspopup') hasPopup:
-    | 'menu'
-    | 'listbox'
-    | 'tree'
-    | 'grid'
-    | 'dialog' = 'menu';
-
+  @Input() hasPopup: WattMenuChipHasPopup = 'menu';
   @Output() toggle = new EventEmitter<void>();
-
-  @HostBinding('attr.aria-expanded') get ariaExpanded() {
-    return this.opened;
-  }
-
-  toggleMenu() {
-    this.toggle.emit();
-  }
 }

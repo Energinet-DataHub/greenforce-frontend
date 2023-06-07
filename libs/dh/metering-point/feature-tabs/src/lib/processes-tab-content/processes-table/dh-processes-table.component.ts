@@ -15,23 +15,17 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  NgModule,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
 import { MatSort, MatSortable, MatSortModule, Sort } from '@angular/material/sort';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { TranslocoModule } from '@ngneat/transloco';
 import { RouterModule } from '@angular/router';
+
 import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
-import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { TranslocoModule } from '@ngneat/transloco';
-import { DhProcessesDetailItemScam } from '../processes-detail-item/dh-processes-detail-item.component';
+import { DhProcessesDetailItemComponent } from '../processes-detail-item/dh-processes-detail-item.component';
 import { DhTableRow } from './dh-table-row';
 import { compareSortValues, getRowHeight, getRowToExpand, wrapInTableRow } from './dh-table-util';
 
@@ -40,6 +34,17 @@ import { compareSortValues, getRowHeight, getRowToExpand, wrapInTableRow } from 
   selector: 'dh-processes-table',
   templateUrl: './dh-processes-table.component.html',
   styleUrls: ['./dh-processes-table.component.scss'],
+  standalone: true,
+  imports: [
+    MatTableModule,
+    TranslocoModule,
+    WattIconComponent,
+    MatSortModule,
+    CommonModule,
+    RouterModule,
+    DhSharedUiDateTimeModule,
+    DhProcessesDetailItemComponent,
+  ],
 })
 export class DhProcessesTableComponent implements AfterViewInit {
   displayedColumns: string[] = [
@@ -120,19 +125,3 @@ export class DhProcessesTableComponent implements AfterViewInit {
     this.matSort.sort(sortable);
   }
 }
-
-@NgModule({
-  declarations: [DhProcessesTableComponent],
-  imports: [
-    MatTableModule,
-    TranslocoModule,
-    WattIconModule,
-    MatSortModule,
-    CommonModule,
-    RouterModule,
-    DhSharedUiDateTimeModule,
-    DhProcessesDetailItemScam,
-  ],
-  exports: [DhProcessesTableComponent],
-})
-export class DhProcessesTableScam {}

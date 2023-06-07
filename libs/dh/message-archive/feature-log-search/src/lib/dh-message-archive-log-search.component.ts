@@ -25,18 +25,18 @@ import {
 import { DocumentTypes, BusinessReasons } from '@energinet-datahub/dh/message-archive/domain';
 import { ArchivedMessageSearchCriteria } from '@energinet-datahub/dh/shared/domain';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import {
   danishTimeZoneIdentifier,
-  WattDatepickerModule,
+  WattDatepickerComponent,
   WattRange,
 } from '@energinet-datahub/watt/datepicker';
-import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattInputModule } from '@energinet-datahub/watt/input';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattTimepickerModule } from '@energinet-datahub/watt/timepicker';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
@@ -55,20 +55,20 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     DhMessageArchiveActorDataAccessApiStore,
   ],
   imports: [
-    WattFormFieldModule,
-    WattInputModule,
-    WattButtonModule,
-    WattCheckboxModule,
-    WattDatepickerModule,
-    WattTimepickerModule,
+    WATT_FORM_FIELD,
+    WattInputDirective,
+    WattButtonComponent,
+    WattCheckboxComponent,
+    WattDatepickerComponent,
+    WattTimepickerComponent,
     FormsModule,
     CommonModule,
     LetModule,
     TranslocoModule,
     DhMessageArchiveLogSearchResultComponent,
     WattBadgeComponent,
-    WattDropdownModule,
-    WattSpinnerModule,
+    WattDropdownComponent,
+    WattSpinnerComponent,
     ReactiveFormsModule,
     PushModule,
   ],

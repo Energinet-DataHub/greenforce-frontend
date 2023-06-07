@@ -34,11 +34,11 @@ import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shar
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { UpdateUserRoles, DbAdminEditUserStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { WattModalComponent, WattModalModule } from '@energinet-datahub/watt/modal';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { HttpStatusCode } from '@angular/common/http';
 
@@ -47,13 +47,13 @@ import { HttpStatusCode } from '@angular/common/http';
   standalone: true,
   imports: [
     CommonModule,
-    WattModalModule,
-    WattButtonModule,
+    WATT_MODAL,
+    WattButtonComponent,
     TranslocoModule,
     WattTabComponent,
     WattTabsComponent,
-    WattInputModule,
-    WattFormFieldModule,
+    WattInputDirective,
+    WATT_FORM_FIELD,
     PushModule,
     DhUserRolesComponent,
     ReactiveFormsModule,

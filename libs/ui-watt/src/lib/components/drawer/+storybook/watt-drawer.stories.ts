@@ -18,11 +18,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 import { fireEvent, within } from '@storybook/testing-library';
 
-import { WattButtonModule } from '../../button';
-import { WattModalModule } from '../../modal';
-import { WattDrawerComponent } from '../watt-drawer.component';
-import { WattDrawerModule } from '../watt-drawer.module';
-import { WattStorybookDrawerContentModule } from './storybook-drawer-content.component';
+import { WattButtonComponent } from '../../button';
+import { WATT_MODAL } from '../../modal';
+import { WATT_DRAWER, WattDrawerComponent } from '../watt-drawer.component';
+import { WattStorybookDrawerContentComponent } from './storybook-drawer-content.component';
 import { WattStorybookDrawerLoadingComponent } from './storybook-drawer-loading.component';
 
 export default {
@@ -48,11 +47,11 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        WattDrawerModule,
+        WATT_DRAWER,
         BrowserAnimationsModule,
-        WattButtonModule,
-        WattModalModule,
-        WattStorybookDrawerContentModule,
+        WattButtonComponent,
+        WATT_MODAL,
+        WattStorybookDrawerContentComponent,
         WattStorybookDrawerLoadingComponent,
       ],
     }),

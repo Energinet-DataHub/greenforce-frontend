@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhWholesaleSettlementsReportsTabsBalanceComponent } from './tabs/dh-wholesale-settlements-reports-tabs-balance.component';
@@ -28,9 +28,9 @@ import { DhWholesaleSettlementsReportsTabsBalanceComponent } from './tabs/dh-who
   styleUrls: ['./dh-wholesale-settlements-reports-tab.component.scss'],
   imports: [
     WATT_TABS,
-    WattCardModule,
+    WATT_CARD,
     TranslocoModule,
-    WattButtonModule,
+    WattButtonComponent,
     DhWholesaleSettlementsReportsTabsBalanceComponent,
   ],
 })

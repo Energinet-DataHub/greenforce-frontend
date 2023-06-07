@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { LetModule } from '@rx-angular/template/let';
@@ -24,17 +24,27 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { DhChargeLinksDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 import { ChargeLinkV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
-import { DhChargeItemScam } from './dh-charge-item/dh-charge-item.component';
-import { DhChargesNotFoundScam } from './dh-charges-not-found/dh-charges-not-found.component';
-import { DhChargesGeneralErrorScam } from './dh-charges-general-error/dh-charges-general-error.component';
+import { DhChargeItemComponent } from './dh-charge-item/dh-charge-item.component';
+import { DhChargesNotFoundComponent } from './dh-charges-not-found/dh-charges-not-found.component';
+import { DhChargesGeneralErrorComponent } from './dh-charges-general-error/dh-charges-general-error.component';
 
 @Component({
   selector: 'dh-charges-tab-content',
   templateUrl: './dh-charges-tab-content.component.html',
   styleUrls: ['./dh-charges-tab-content.component.scss'],
   providers: [DhChargeLinksDataAccessApiStore],
+  standalone: true,
+  imports: [
+    CommonModule,
+    WattSpinnerComponent,
+    LetModule,
+    TranslocoModule,
+    DhChargeItemComponent,
+    DhChargesNotFoundComponent,
+    DhChargesGeneralErrorComponent,
+  ],
 })
 export class DhChargesTabContentComponent {
   meteringPointId$ = this.route.params.pipe(
@@ -56,18 +66,3 @@ export class DhChargesTabContentComponent {
     this.store.loadChargeLinksData(this.meteringPointId$);
   }
 }
-
-@NgModule({
-  declarations: [DhChargesTabContentComponent],
-  imports: [
-    CommonModule,
-    WattSpinnerModule,
-    LetModule,
-    TranslocoModule,
-    DhChargeItemScam,
-    DhChargesNotFoundScam,
-    DhChargesGeneralErrorScam,
-  ],
-  exports: [DhChargesTabContentComponent],
-})
-export class DhChargesTabContentScam {}

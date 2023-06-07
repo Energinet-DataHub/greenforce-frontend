@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -33,6 +33,16 @@ interface AuditLogEntry {
   selector: 'dh-market-participant-gridarea-details-auditlog',
   styleUrls: ['./dh-market-participant-gridarea-details-auditlog.component.scss'],
   templateUrl: './dh-market-participant-gridarea-details-auditlog.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    MatTableModule,
+    WattEmptyStateComponent,
+    WattSpinnerComponent,
+    DhSharedUiDateTimeModule,
+    DhPermissionRequiredDirective,
+  ],
 })
 export class DhMarketParticipantGridAreaDetailsAuditLogComponent implements OnChanges {
   constructor(private translocoServie: TranslocoService) {}
@@ -68,18 +78,3 @@ export class DhMarketParticipantGridAreaDetailsAuditLogComponent implements OnCh
       .sort((a, b) => b.timestamp.localeCompare(a.timestamp));
   }
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    MatTableModule,
-    WattEmptyStateComponent,
-    WattSpinnerModule,
-    DhSharedUiDateTimeModule,
-    DhPermissionRequiredDirective,
-  ],
-  declarations: [DhMarketParticipantGridAreaDetailsAuditLogComponent],
-  exports: [DhMarketParticipantGridAreaDetailsAuditLogComponent],
-})
-export class DhMarketParticipantGridAreaDetailsAuditLogScam {}

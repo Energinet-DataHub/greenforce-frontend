@@ -15,19 +15,12 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  NgModule,
-  OnChanges,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { OrganizationChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { WattInputModule } from '@energinet-datahub/watt/input';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
 import { LetModule } from '@rx-angular/template/let';
@@ -39,6 +32,16 @@ import { getValidOrganizationStatusTransitionOptions } from './get-valid-organiz
   styleUrls: ['./dh-market-participant-organization-master-data.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-market-participant-organization-master-data.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    LetModule,
+    FormsModule,
+    TranslocoModule,
+    WattDropdownComponent,
+    WATT_FORM_FIELD,
+    WattInputDirective,
+  ],
 })
 export class DhMarketParticipantOrganizationMasterDataComponent implements OnChanges, OnDestroy {
   @Input() changes!: OrganizationChanges;
@@ -91,18 +94,3 @@ export class DhMarketParticipantOrganizationMasterDataComponent implements OnCha
     this.destroy$.unsubscribe();
   }
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    LetModule,
-    FormsModule,
-    TranslocoModule,
-    WattDropdownModule,
-    WattFormFieldModule,
-    WattInputModule,
-  ],
-  exports: [DhMarketParticipantOrganizationMasterDataComponent],
-  declarations: [DhMarketParticipantOrganizationMasterDataComponent],
-})
-export class DhMarketParticipantOrganizationMasterDataComponentScam {}

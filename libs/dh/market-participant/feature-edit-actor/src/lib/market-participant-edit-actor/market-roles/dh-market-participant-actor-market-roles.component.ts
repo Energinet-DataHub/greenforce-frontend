@@ -20,7 +20,6 @@ import {
   Component,
   Input,
   Output,
-  NgModule,
   EventEmitter,
   ChangeDetectionStrategy,
   OnChanges,
@@ -29,10 +28,10 @@ import {
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { FormsModule } from '@angular/forms';
-import { WattInputModule } from '@energinet-datahub/watt/input';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   MarketParticipantActorMarketRoleDto,
   MarketParticipantActorStatus,
@@ -58,6 +57,17 @@ export interface EditableMarketRoleRow {
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-market-participant-actor-market-roles.component.html',
   providers: [MarketRoleService, MarketRoleGroupService],
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    FormsModule,
+    MatTableModule,
+    WattButtonComponent,
+    WattInputDirective,
+    WATT_FORM_FIELD,
+    WattDropdownComponent,
+  ],
 })
 export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   @Input() actorStatus?: MarketParticipantActorStatus;
@@ -187,19 +197,3 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   readonly isReadonly = (row: EditableMarketRoleRow) =>
     row.existing && this.actorStatus !== MarketParticipantActorStatus.New;
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    FormsModule,
-    MatTableModule,
-    WattButtonModule,
-    WattInputModule,
-    WattFormFieldModule,
-    WattDropdownModule,
-  ],
-  exports: [DhMarketParticipantActorMarketRolesComponent],
-  declarations: [DhMarketParticipantActorMarketRolesComponent],
-})
-export class DhMarketParticipantActorMarketRolesComponentScam {}

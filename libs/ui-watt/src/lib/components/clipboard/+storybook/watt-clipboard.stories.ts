@@ -19,14 +19,14 @@ import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/ang
 import { importProvidersFrom } from '@angular/core';
 
 import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
-import { WattToastModule } from '../../toast/watt-toast.module';
 import { WattStorybookClipboardComponent } from './storybook-clipboard.component';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
 const meta: Meta<WattCopyToClipboardDirective> = {
   title: 'Components/Clipboard',
   decorators: [
     applicationConfig({
-      providers: [importProvidersFrom(WattToastModule.forRoot()), provideAnimations()],
+      providers: [importProvidersFrom(MatSnackBarModule), provideAnimations()],
     }),
     moduleMetadata({
       imports: [WattStorybookClipboardComponent],

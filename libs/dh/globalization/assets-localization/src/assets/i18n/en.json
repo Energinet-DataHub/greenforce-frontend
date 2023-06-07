@@ -2,6 +2,7 @@
   "appName": "DataHub",
   "yes": "Yes",
   "no": "No",
+  "selectedLanguageIso": "en-gb",
   "shell": {
     "logout": "Sign out"
   },
@@ -817,6 +818,7 @@
       "topBarTitle": "Settlement Reports",
       "download": "Download",
       "downloadFailed": "Download failed",
+      "downloadStart": "Starting download...",
       "tabs": {
         "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
         "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"
@@ -926,6 +928,9 @@
           "eicFunction": "Market role",
           "name": "Name",
           "description": "Description"
+        },
+        "serverErrors": {
+          "invalidPhoneNumber": "The provided phone number is formatted properly, but is an invalid phone number."
         }
       },
       "download": "Download",
