@@ -78,7 +78,7 @@ limitations under the License.
           choice
           name="executionType"
           value="ACTUAL"
-          [disabled]="true"
+          [selected]="true"
           (selectionChange)="onExecutionTypeSelected($event)"
         >
           {{ transloco("startBatch.executionTypes.actual") }}
@@ -87,7 +87,7 @@ limitations under the License.
           choice
           name="executionType"
           value="SIMULATION"
-          [selected]="true"
+          [disabled]="true"
           (selectionChange)="onExecutionTypeSelected($event)"
         >
           {{ transloco("startBatch.executionTypes.simulation") }}
