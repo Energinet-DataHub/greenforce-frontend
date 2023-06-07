@@ -26,7 +26,7 @@ import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
@@ -56,7 +56,7 @@ import { ActivatedRoute } from '@angular/router';
     WATT_DRAWER,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
   ],
 })
 export class DhWholesaleResultsComponent implements OnInit, OnDestroy {

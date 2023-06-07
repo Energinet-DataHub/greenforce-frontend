@@ -35,7 +35,7 @@ import {
   GridAreaChanges,
   GridAreaOverviewRow,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhMarketParticipantGridAreaDetailsHeaderComponent } from '../details-header/dh-market-participant-gridarea-details-header.component';
 import { DhMarketParticipantGridAreaEditComponent } from '../details-edit/dh-market-participant-gridarea-edit.component';
 import { DhMarketParticipantGridAreaDetailsAuditLogComponent } from '../details-auditlog/dh-market-participant-gridarea-details-auditlog.component';
@@ -59,7 +59,7 @@ import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh
     WattSpinnerComponent,
     WattValidationMessageComponent,
     DhEmDashFallbackPipeScam,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     WATT_DRAWER,
     DhMarketParticipantGridAreaDetailsHeaderComponent,
     DhMarketParticipantGridAreaEditComponent,
