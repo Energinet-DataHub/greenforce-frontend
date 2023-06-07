@@ -21,7 +21,6 @@ limitations under the License.
         Søgeresultater
         <span class="watt-chip-label">54</span>
       </h3>
-      <watt-button icon="search" variant="text">Søg</watt-button>
     </watt-card-title>
     <form [formGroup]="searchForm" class="form-grid" novalidate>
       <watt-form-field class="datePicker">
@@ -45,6 +44,7 @@ limitations under the License.
           formControlName="actor"
           [chipMode]="true"
           [options]="actors"
+          []
           [placeholder]="
             searchForm.controls.actor.disabled
               ? t('filters.loadingActors')
@@ -52,13 +52,44 @@ limitations under the License.
           "
         ></watt-dropdown>
       </watt-form-field>
-      <watt-button
-        [disabled]="!searchForm.valid"
-        *dhPermissionRequired="['settlements:manage']"
-        variant="secondary"
-        (click)="downloadClicked()"
-        >{{ t("download") }}</watt-button
-      >
     </form>
+    <watt-table
+      [dataSource]="dataSource"
+      [columns]="columns"
+      [resolveHeader]="translateHeader"
+      description="batches"
+      sortBy="executionTime"
+      sortDirection="desc"
+    >
+      <!-- Grid Area Name -->
+      <ng-container *wattTableCell="columns.gridAreaName; let gridArea">
+        {{ gridArea.name }} ({{ gridArea.code }})
+      </ng-container>
+
+      <!-- Download -->
+      <ng-container *wattTableCell="columns.download; let gridArea">
+        <watt-button
+          variant="icon"
+          title="{{ t('download') }}"
+          icon="download"
+          [disabled]="!searchForm.valid"
+          (click)="downloadClicked(gridArea)"
+        >
+        </watt-button>
+      </ng-container>
+    </watt-table>
+
+    <watt-empty-state
+      *ngIf="error"
+      icon="custom-power"
+      [title]="'shared.error.title' | transloco"
+      [message]="'shared.error.message' | transloco"
+    ></watt-empty-state>
+
+    <ng-container>
+      <h4 *ngIf="gridAreas.length === 0" class="no-results-text">
+        {{ t("noEntries") }}
+      </h4>
+    </ng-container>
   </watt-card>
 </ng-container>

@@ -817,8 +817,10 @@
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
       "download": "Download",
+      "SelectPeriod": "To download select a period first",
       "downloadFailed": "Download failed",
       "downloadStart": "Starting download...",
+      "noEntries": "No results",
       "tabs": {
         "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
         "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"
@@ -827,6 +829,7 @@
         "title": "Processes",
         "processType": "Process type",
         "gridAreaName": "Grid area",
+        "gridAreaCode": "Grid Area Code",
         "periodStart": "Period from",
         "periodEnd": "Period to",
         "executionTime": "Execution time",

@@ -808,8 +808,10 @@
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
       "download": "Download",
+      "SelectPeriod": "For at downloade skal du vælge en periode først",
       "downloadFailed": "Download fejlede",
       "downloadStart": "Starter download...",
+      "noEntries": "Ingen resultater",
       "tabs": {
         "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
         "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"
@@ -818,6 +820,7 @@
         "title": "Processer",
         "processType": "Procestype",
         "gridAreaName": "Netområde",
+        "gridAreaCode": "Netområde ID",
         "periodStart": "Periode fra",
         "periodEnd": "Periode til",
         "executionTime": "Kørsel tid",
