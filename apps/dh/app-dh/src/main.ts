@@ -16,7 +16,12 @@
  */
 import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
+import {
+  provideRouter,
+  withDisabledInitialNavigation,
+  withEnabledBlockingInitialNavigation,
+  withInMemoryScrolling,
+} from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient } from '@angular/common/http';
 import {
@@ -33,6 +38,7 @@ import { loadDhB2CEnvironment } from './configuration/load-dh-b2c-environment';
 import { loadDhAppEnvironment } from './configuration/load-dh-app-environment';
 
 import { DataHubAppComponent } from './app/datahub-app.component';
+import { BrowserUtils } from '@azure/msal-browser';
 
 if (environment.production) {
   enableProdMode();
@@ -45,7 +51,16 @@ Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhAppEnvironmen
         { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },
         { provide: dhB2CEnvironmentToken, useValue: dhB2CEnvironment },
         { provide: dhAppEnvironmentToken, useValue: dhAppEnvironment },
-        provideRouter(dhCoreShellRoutes),
+        provideRouter(
+          dhCoreShellRoutes,
+          withInMemoryScrolling({
+            anchorScrolling: 'enabled',
+            scrollPositionRestoration: 'enabled',
+          }),
+          BrowserUtils.isInIframe() && BrowserUtils.isInPopup()
+            ? withDisabledInitialNavigation()
+            : withEnabledBlockingInitialNavigation()
+        ),
         provideAnimations(),
         provideHttpClient(),
         ...dhCoreShellProviders,
