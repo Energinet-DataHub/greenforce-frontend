@@ -15,5 +15,5 @@
  * limitations under the License.
  */
 export { DhCoreShellComponent } from './lib/dh-core-shell.component';
-export { DhCoreShellRoutes } from './lib/dh-core-shell.routes';
-export { DhCoreShellProviders } from './lib/dh-core-shell.providers';
+export { dhCoreShellRoutes as DhCoreShellRoutes } from './lib/dh-core-shell.routes';
+export { dhCoreShellProviders as DhCoreShellProviders } from './lib/dh-core-shell.providers';

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 
 import {
@@ -44,13 +44,12 @@ import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 
-export const DhCoreShellProviders = [
+export const dhCoreShellProviders = [
   importProvidersFrom([
     MatLegacySnackBarModule,
     DhApiModule.forRoot(),
     DhGraphQLModule.forRoot(),
     DhTranslocoModule.forRoot(),
-    HttpClientModule,
     MsalModule,
     DhConfigurationLocalizationModule.forRoot(),
     WattDanishDatetimeModule.forRoot(),

@@ -17,6 +17,8 @@
 import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideHttpClient } from '@angular/common/http';
 import {
   dhApiEnvironmentToken,
   dhB2CEnvironmentToken,
@@ -24,12 +26,13 @@ import {
   environment,
 } from '@energinet-datahub/dh/shared/environments';
 
-import { DataHubAppComponent } from './app/datahub-app.component';
 import { DhCoreShellProviders, DhCoreShellRoutes } from '@energinet-datahub/dh/core/shell';
+
 import { loadDhApiEnvironment } from './configuration/load-dh-api-environment';
 import { loadDhB2CEnvironment } from './configuration/load-dh-b2c-environment';
 import { loadDhAppEnvironment } from './configuration/load-dh-app-environment';
-import { provideAnimations } from '@angular/platform-browser/animations';
+
+import { DataHubAppComponent } from './app/datahub-app.component';
 
 if (environment.production) {
   enableProdMode();
@@ -44,6 +47,7 @@ Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhAppEnvironmen
         { provide: dhAppEnvironmentToken, useValue: dhAppEnvironment },
         provideRouter(DhCoreShellRoutes),
         provideAnimations(),
+        provideHttpClient(),
         ...DhCoreShellProviders,
       ],
     });
