@@ -87,7 +87,7 @@ export class DbAdminInviteUserStore extends ComponentStore<State> {
   );
 
   readonly reinviteUser = this.effect(
-    (trigger$: Observable<{ id: string; onSuccess: () => void, onError: () => void }>) =>
+    (trigger$: Observable<{ id: string; onSuccess: () => void; onError: () => void }>) =>
       trigger$.pipe(
         tap(() => {
           this.resetState();
