@@ -32,15 +32,12 @@ import {
 } from '@energinet-datahub/dh/metering-point/routing';
 
 import { DhMeteringPointSearchComponent } from '../dh-metering-point-search.component';
-import {
-  DhMeteringPointSearchFormComponent,
-  DhMeteringPointSearchFormScam,
-} from './dh-metering-point-search-form.component';
+import { DhMeteringPointSearchFormComponent } from './dh-metering-point-search-form.component';
 
 describe(DhMeteringPointSearchFormComponent.name, () => {
   async function setup() {
     const { fixture, navigate } = await render(DhMeteringPointSearchFormComponent, {
-      imports: [NoopAnimationsModule, getTranslocoTestingModule(), DhMeteringPointSearchFormScam],
+      imports: [NoopAnimationsModule, getTranslocoTestingModule()],
       routes: [
         {
           path: `${dhMeteringPointPath}/${dhMeteringPointSearchPath}`,

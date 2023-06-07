@@ -17,7 +17,6 @@
 import {
   Directive,
   Input,
-  NgModule,
   OnChanges,
   SimpleChanges,
   TemplateRef,
@@ -33,6 +32,7 @@ import {
 
 @Directive({
   selector: '[dhShowForMeteringPointType]',
+  standalone: true,
 })
 export class DhShowForMeteringPointTypeDirective implements OnChanges {
   constructor(private templateRef: TemplateRef<unknown>, private viewContainer: ViewContainerRef) {}
@@ -63,9 +63,3 @@ export class DhShowForMeteringPointTypeDirective implements OnChanges {
     }
   }
 }
-
-@NgModule({
-  declarations: [DhShowForMeteringPointTypeDirective],
-  exports: [DhShowForMeteringPointTypeDirective],
-})
-export class DhShowForMeteringPointTypeDirectiveScam {}

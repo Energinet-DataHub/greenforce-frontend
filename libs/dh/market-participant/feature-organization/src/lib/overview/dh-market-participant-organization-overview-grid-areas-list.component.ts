@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { MarketParticipantGridAreaDto } from '@energinet-datahub/dh/shared/domain';
 
@@ -24,6 +24,8 @@ import { MarketParticipantGridAreaDto } from '@energinet-datahub/dh/shared/domai
   styleUrls: ['dh-market-participant-organization-overview-grid-areas-list.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-market-participant-organization-overview-grid-areas-list.component.html',
+  standalone: true,
+  imports: [CommonModule, MatTooltipModule],
 })
 export class DhMarketParticipantOrganizationOverviewGridAreasListComponent {
   @Input() gridAreas: MarketParticipantGridAreaDto[] = [];
@@ -37,10 +39,3 @@ export class DhMarketParticipantOrganizationOverviewGridAreasListComponent {
   readonly getTooltip = () =>
     this.marketRoleGridAreas.map((gridArea) => this.getGridAreaInfo(gridArea.id)).join('\n');
 }
-
-@NgModule({
-  imports: [CommonModule, MatTooltipModule],
-  declarations: [DhMarketParticipantOrganizationOverviewGridAreasListComponent],
-  exports: [DhMarketParticipantOrganizationOverviewGridAreasListComponent],
-})
-export class DhMarketParticipantOrganizationOverviewGridAreasScam {}

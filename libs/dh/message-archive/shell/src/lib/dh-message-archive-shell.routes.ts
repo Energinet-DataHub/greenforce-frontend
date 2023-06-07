@@ -14,15 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
+import { Routes } from '@angular/router';
 
-import { StorybookColorsOverviewComponent } from './storybook-colors-overview.component';
+import { DhMessageArchiveLogSearchComponent } from '@energinet-datahub/dh/message-archive/feature-log-search';
 
-@NgModule({
-  imports: [CommonModule, MatCardModule],
-  declarations: [StorybookColorsOverviewComponent],
-  exports: [StorybookColorsOverviewComponent],
-})
-export class StorybookColorsOverviewModule {}
+export const dhMessageArchiveShellRoutes: Routes = [
+  {
+    path: '',
+    component: DhMessageArchiveLogSearchComponent,
+    data: {
+      titleTranslationKey: 'messageArchive.search.topBarTitle',
+    },
+  },
+];
