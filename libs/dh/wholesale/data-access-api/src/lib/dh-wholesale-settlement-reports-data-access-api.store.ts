@@ -30,6 +30,15 @@ interface SettlementReportsState {
   };
 }
 
+interface DownloadRequest {
+  gridAreas: string[],
+    processType: WholesaleProcessType,
+    periodStart: string,
+    periodEnd: string,
+    energySupplier: string | undefined,
+    locale: string | undefined
+}
+
 const initialState: SettlementReportsState = {
   isLoading: true,
 };
@@ -44,23 +53,18 @@ export class DhWholesaleSettlementReportsDataAccessApiStore extends ComponentSto
   }
 
   download(
-    gridAreas: string[],
-    processType: WholesaleProcessType,
-    periodStart: string,
-    periodEnd: string,
-    energySupplier: string | undefined,
-    locale: string | undefined,
+    downloadRequest: DownloadRequest,
     onErrorfn: () => void,
     onSuccess: () => void
   ) {
     return this.httpClient
       .v1WholesaleSettlementReportDownloadGet(
-        gridAreas,
-        processType,
-        periodStart,
-        periodEnd,
-        energySupplier,
-        locale
+        downloadRequest.gridAreas,
+        downloadRequest.processType,
+        downloadRequest.periodStart,
+        downloadRequest.periodEnd,
+        downloadRequest.energySupplier,
+        downloadRequest.locale
       )
       .subscribe({
         next: (data) => {
