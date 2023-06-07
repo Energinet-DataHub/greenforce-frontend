@@ -65,7 +65,7 @@ describe(DhUsersTabComponent.name, () => {
     const toastServiceMock = MockProvider(
       WattToastService,
       {
-        open: jest.fn()
+        open: jest.fn(),
       },
       'useValue'
     );
