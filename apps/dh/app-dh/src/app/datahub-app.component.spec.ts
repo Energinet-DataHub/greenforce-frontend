@@ -23,7 +23,7 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
-import { DhCoreShellProviders, DhCoreShellRoutes } from '@energinet-datahub/dh/core/shell';
+import { dhCoreShellProviders, dhCoreShellRoutes } from '@energinet-datahub/dh/core/shell';
 import { provideHttpClient } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 
@@ -41,10 +41,10 @@ describe(DataHubAppComponent, () => {
   it('navigation works', async () => {
     const { navigate } = await render(DataHubAppComponent, {
       providers: [
-        provideRouter(DhCoreShellRoutes),
+        provideRouter(dhCoreShellRoutes),
         provideNoopAnimations(),
         provideHttpClient(),
-        ...DhCoreShellProviders,
+        ...dhCoreShellProviders,
         MsalServiceFake,
         importProvidersFrom(getTranslocoTestingModule()),
       ],

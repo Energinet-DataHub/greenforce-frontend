@@ -26,7 +26,7 @@ import {
   environment,
 } from '@energinet-datahub/dh/shared/environments';
 
-import { DhCoreShellProviders, DhCoreShellRoutes } from '@energinet-datahub/dh/core/shell';
+import { dhCoreShellProviders, dhCoreShellRoutes } from '@energinet-datahub/dh/core/shell';
 
 import { loadDhApiEnvironment } from './configuration/load-dh-api-environment';
 import { loadDhB2CEnvironment } from './configuration/load-dh-b2c-environment';
@@ -45,10 +45,10 @@ Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhAppEnvironmen
         { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },
         { provide: dhB2CEnvironmentToken, useValue: dhB2CEnvironment },
         { provide: dhAppEnvironmentToken, useValue: dhAppEnvironment },
-        provideRouter(DhCoreShellRoutes),
+        provideRouter(dhCoreShellRoutes),
         provideAnimations(),
         provideHttpClient(),
-        ...DhCoreShellProviders,
+        ...dhCoreShellProviders,
       ],
     });
   })
