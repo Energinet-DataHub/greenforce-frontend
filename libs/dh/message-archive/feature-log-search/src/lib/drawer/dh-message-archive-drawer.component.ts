@@ -16,22 +16,24 @@
  */
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, Input, ViewChild, inject } from '@angular/core';
+import { provideComponentStore } from '@ngrx/component-store';
+import { MatDividerModule } from '@angular/material/divider';
+import { PushModule } from '@rx-angular/template/push';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+
 import { ArchivedMessage, Stream } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { MatDividerModule } from '@angular/material/divider';
-import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { DhMessageArchiveDocumentApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
-import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
-import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeName.pipe';
-import { PushModule } from '@rx-angular/template/push';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { provideComponentStore } from '@ngrx/component-store';
+
+import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
+import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
+import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeName.pipe';
 
 @Component({
   standalone: true,
