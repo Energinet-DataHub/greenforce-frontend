@@ -37,7 +37,7 @@ import {
   MSALInterceptorConfigFactory,
 } from '@energinet-datahub/dh/auth/msal';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
-import { DhGraphQLModule } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { dhB2CEnvironmentToken, environment } from '@energinet-datahub/dh/shared/environments';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
@@ -48,7 +48,6 @@ export const DhCoreShellProviders = [
   importProvidersFrom([
     MatLegacySnackBarModule,
     DhApiModule.forRoot(),
-    DhGraphQLModule.forRoot(),
     DhTranslocoModule.forRoot(),
     HttpClientModule,
     MsalModule,
@@ -57,6 +56,7 @@ export const DhCoreShellProviders = [
     environment.production ? DhSharedUtilApplicationInsightsModule.forRoot() : [],
     DhGlobalizationUiWattTranslationModule.forRoot(),
   ]),
+  ...graphQLProviders,
   MsalService,
   {
     provide: HTTP_INTERCEPTORS,

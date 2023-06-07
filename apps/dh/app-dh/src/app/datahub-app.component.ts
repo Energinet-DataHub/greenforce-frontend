@@ -16,12 +16,13 @@
  */
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ApolloModule } from 'apollo-angular';
 
 @Component({
   selector: 'dh-app',
   styleUrls: ['./datahub-app.component.scss'],
   templateUrl: './datahub-app.component.html',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, ApolloModule],
 })
 export class DataHubAppComponent {}
