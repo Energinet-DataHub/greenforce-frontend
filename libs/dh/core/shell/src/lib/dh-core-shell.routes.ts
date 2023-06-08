@@ -70,7 +70,7 @@ export const DhCoreShellRoutes: Routes = [
         path: dhChargesPath,
         loadChildren: () =>
           import('@energinet-datahub/dh/charges/shell').then(
-            (esModule) => esModule.DhChargesShellModule
+            (esModule) => esModule.dhChargesShellRoutes
           ),
         canActivate: [MsalGuard],
       },
