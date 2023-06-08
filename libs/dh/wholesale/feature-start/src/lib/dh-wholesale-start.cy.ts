@@ -30,11 +30,13 @@ import {
 
 import { DhWholesaleStartComponent } from './dh-wholesale-start.component';
 import { importProvidersFrom } from '@angular/core';
+import { ApolloModule } from 'apollo-angular';
 
 it('mounts', () => {
   cy.mount(DhWholesaleStartComponent, {
     providers: [importProvidersFrom(MatLegacySnackBarModule), ...graphQLProviders],
     imports: [
+      ApolloModule,
       BrowserAnimationsModule,
       DhApiModule.forRoot(),
       DhConfigurationLocalizationModule.forRoot(),
