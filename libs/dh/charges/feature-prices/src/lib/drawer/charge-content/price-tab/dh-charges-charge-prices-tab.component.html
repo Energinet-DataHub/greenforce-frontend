@@ -60,7 +60,7 @@ limitations under the License.
       >
         <!-- From date time column -->
         <ng-container *wattTableCell="table.columns.fromDateTime; let element">
-          {{ element.fromDateTime | dhDate }}
+          {{ element.fromDateTime | wattDate }}
         </ng-container>
 
         <!-- Time column -->
@@ -71,12 +71,12 @@ limitations under the License.
 
         <!-- To date time column -->
         <ng-container *wattTableCell="table.columns.toDateTime; let element">
-          {{ element.toDateTime | dhDate }}
+          {{ element.toDateTime | wattDate }}
         </ng-container>
 
         <!-- Price column -->
         <ng-container *wattTableCell="table.columns.price; let element">
-          {{ element.price | currency: "DKK":"":"1.6-6" }}
+          {{ element.price | currency : "DKK" : "" : "1.6-6" }}
         </ng-container>
       </watt-table>
 

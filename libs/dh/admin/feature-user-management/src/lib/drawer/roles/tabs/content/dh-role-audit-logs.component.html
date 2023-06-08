@@ -47,7 +47,7 @@ limitations under the License.
             <ng-container
               *wattTableCell="columns.timestamp; header: t('table.columns.timestamp'); let element"
             >
-              {{ element.timestamp | dhDateTime }}
+              {{ element.timestamp | wattDate : "long" }}
             </ng-container>
 
             <ng-container

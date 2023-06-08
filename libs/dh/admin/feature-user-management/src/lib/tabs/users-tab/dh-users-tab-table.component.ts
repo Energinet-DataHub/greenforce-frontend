@@ -39,7 +39,6 @@ import {
 
 import { DhUserStatusComponent } from '../../shared/dh-user-status.component';
 import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -64,7 +63,6 @@ import { Subject, takeUntil } from 'rxjs';
     WATT_TABLE,
     CommonModule,
     TranslocoModule,
-    DhSharedUiDateTimeModule,
     DhEmDashFallbackPipeScam,
     DhUserStatusComponent,
     DhUserDrawerComponent,
