@@ -40,12 +40,14 @@ import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-ti
 import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
+import { TranslocoModule } from '@ngneat/transloco';
 
 export const dhCoreShellProviders = [
   importProvidersFrom([
     MatLegacySnackBarModule,
     DhApiModule.forRoot(),
     MsalModule,
+    TranslocoModule,
     WattDanishDatetimeModule.forRoot(),
     environment.production ? DhSharedUtilApplicationInsightsModule.forRoot() : [],
     DhGlobalizationUiWattTranslationModule.forRoot(),
