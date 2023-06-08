@@ -29,6 +29,38 @@ limitations under the License.
 
   <watt-spinner *ngIf="loading" />
 
+  <ng-container *transloco="let t; read: 'wholesale.searchBatch'">
+    <watt-date-range-chip (selectionChange)="query.refetch({ period: $event })">
+      Period
+    </watt-date-range-chip>
+    <watt-date-range-chip
+      [value]="executionTime"
+      (selectionChange)="query.refetch({ executionTime: $event })"
+    >
+      Execution Time
+    </watt-date-range-chip>
+    <watt-form-field>
+      <watt-dropdown
+        [(ngModel)]="processTypes"
+        (ngModelChange)="query.refetch({ processTypes })"
+        [chipMode]="true"
+        [multiple]="true"
+        [options]="processTypeOptions | push"
+        [placeholder]="t('filters.processType')"
+      />
+    </watt-form-field>
+    <watt-form-field>
+      <watt-dropdown
+        [(ngModel)]="gridAreaCodes"
+        (ngModelChange)="query.refetch({ gridAreaCodes })"
+        [chipMode]="true"
+        [multiple]="true"
+        [options]="gridAreaOptions | push"
+        [placeholder]="t('filters.gridAreas')"
+      />
+    </watt-form-field>
+  </ng-container>
+
   <section class="content" *ngIf="!loading && batches">
     <dh-wholesale-table
       [data]="batches"

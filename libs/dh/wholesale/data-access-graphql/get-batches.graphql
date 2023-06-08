@@ -1,5 +1,15 @@
-query GetBatches($executionTime: DateRange) {
-  batches(executionTime: $executionTime) {
+query GetBatches(
+  $executionTime: DateRange
+  $period: DateRange
+  $processTypes: [ProcessType!]
+  $gridAreaCodes: [String!]
+) {
+  batches(
+    executionTime: $executionTime
+    period: $period
+    processTypes: $processTypes
+    gridAreaCodes: $gridAreaCodes
+  ) {
     id
     executionState
     executionTimeEnd

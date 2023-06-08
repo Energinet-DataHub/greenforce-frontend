@@ -16,19 +16,25 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 import { sub, startOfDay, endOfDay } from 'date-fns';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, map, takeUntil } from 'rxjs';
 
 import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-batch-details.component';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { PushModule } from '@rx-angular/template/push';
 
 type Batch = Omit<graphql.Batch, 'gridAreas'>;
 
@@ -40,9 +46,14 @@ type Batch = Omit<graphql.Batch, 'gridAreas'>;
     DhWholesaleBatchDetailsComponent,
     DhWholesaleFormComponent,
     DhWholesaleTableComponent,
+    FormsModule,
     TranslocoModule,
+    WATT_FORM_FIELD,
+    WattDateRangeChipComponent,
+    WattDropdownComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
+    PushModule,
   ],
   templateUrl: './dh-wholesale-search.component.html',
   styleUrls: ['./dh-wholesale-search.component.scss'],
@@ -75,6 +86,32 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
   error = false;
   loading = false;
   batches?: Batch[];
+
+  private transloco = inject(TranslocoService);
+  processTypes: graphql.ProcessType[] = [];
+  processTypeOptions = this.transloco.selectTranslateObject('wholesale').pipe(
+    map(
+      (t) =>
+        [
+          { displayValue: t.BALANCE_FIXING, value: graphql.ProcessType.BalanceFixing },
+          { displayValue: t.AGGREGATION, value: graphql.ProcessType.Aggregation },
+        ] satisfies WattDropdownOptions
+    )
+  );
+
+  gridAreaCodes: string[] = [];
+  gridAreaOptions = this.apollo
+    .watchQuery({ query: graphql.GetGridAreasDocument })
+    .valueChanges.pipe(
+      map((result) => result.data?.gridAreas),
+      exists(),
+      map((gridAreas) =>
+        gridAreas.map((gridArea) => ({
+          value: gridArea.code,
+          displayValue: `${gridArea.name} (${gridArea.code})`,
+        }))
+      )
+    );
 
   ngOnInit() {
     this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
@@ -118,7 +155,6 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
     startedBy: string;
   }) {
     this.startedByFilter = startedBy;
-
     this.query.refetch({ executionTime });
   }
 

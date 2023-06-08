@@ -783,7 +783,9 @@
         "executionTimeRequired": "Execution time is required",
         "startedBy": "Started by",
         "startedByPlaceholder": "Enter an email",
-        "searchButton": "Search"
+        "searchButton": "Search",
+        "processType": "Process type",
+        "gridAreas": "Grid areas"
       },
       "columns": {
         "startedBy": "Started by",

@@ -75,8 +75,8 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
           matEndDate
           tabindex="-1"
           [value]="value?.end"
-          (dateChange)="value = input.value ?? undefined"
-          (dateChange)="selectionChange.emit(input.value ?? undefined)"
+          (dateChange)="value = $event.value ? input.value! : undefined"
+          (dateChange)="selectionChange.emit($event.value ? input.value! : null)"
         />
       </mat-date-range-input>
       <ng-content />
@@ -88,5 +88,5 @@ export class WattDateRangeChipComponent {
   @Input() disabled = false;
   @Input() label?: string;
   @Input() value?: WattDateRange;
-  @Output() selectionChange = new EventEmitter<WattDateRange>();
+  @Output() selectionChange = new EventEmitter<WattDateRange | null>();
 }

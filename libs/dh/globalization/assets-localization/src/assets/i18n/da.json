@@ -774,7 +774,9 @@
         "executionTimeRequired": "Eksekveringstid påkrævet",
         "startedBy": "Bestilt af",
         "startedByPlaceholder": "Indtast email",
-        "searchButton": "Søg"
+        "searchButton": "Søg",
+        "processType": "Procestype",
+        "gridAreas": "Netområder"
       },
       "columns": {
         "startedBy": "Bestilt af",
