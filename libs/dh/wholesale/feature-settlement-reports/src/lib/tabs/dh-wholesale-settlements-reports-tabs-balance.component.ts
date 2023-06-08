@@ -170,7 +170,6 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
       },
     });
 
-
     this.subscriptionGridAreaSelected = this.searchForm.controls.gridAreas.valueChanges.subscribe(
       (value) => {
         this.selectedGridAreas = value ?? [];
