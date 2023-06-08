@@ -72,7 +72,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
   private apollo = inject(Apollo);
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
-  private readonly settlementReportStore = inject(DhWholesaleSettlementReportsDataAccessApiStore);
+  private settlementReportStore = inject(DhWholesaleSettlementReportsDataAccessApiStore);
   private subscriptionGridAreas?: Subscription;
   private subscriptionGridAreasForFilter?: Subscription;
   private subscriptionActors?: Subscription;
