@@ -32,7 +32,7 @@ import { DhMarketParticipantGridAreaComponent } from '@energinet-datahub/dh/mark
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { Routes } from '@angular/router';
 
-export const marketParticipantRoutes: Routes = [
+export const dhMarketParticipantShellRoutes: Routes = [
   {
     path: dhMarketParticipantOrganizationsPath,
     children: [
