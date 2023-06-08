@@ -23,7 +23,7 @@ import {
   withInMemoryScrolling,
 } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {
   dhApiEnvironmentToken,
   dhB2CEnvironmentToken,
@@ -51,6 +51,9 @@ Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhAppEnvironmen
         { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },
         { provide: dhB2CEnvironmentToken, useValue: dhB2CEnvironment },
         { provide: dhAppEnvironmentToken, useValue: dhAppEnvironment },
+        provideAnimations(),
+        provideHttpClient(withInterceptorsFromDi()),
+        ...dhCoreShellProviders,
         provideRouter(
           dhCoreShellRoutes,
           withInMemoryScrolling({
@@ -61,9 +64,6 @@ Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhAppEnvironmen
             ? withDisabledInitialNavigation()
             : withEnabledBlockingInitialNavigation()
         ),
-        provideAnimations(),
-        provideHttpClient(),
-        ...dhCoreShellProviders,
       ],
     });
   })
