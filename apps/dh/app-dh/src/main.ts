@@ -16,7 +16,14 @@
  */
 import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
+import {
+  provideRouter,
+  withDisabledInitialNavigation,
+  withEnabledBlockingInitialNavigation,
+  withInMemoryScrolling,
+} from '@angular/router';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideHttpClient } from '@angular/common/http';
 import {
   dhApiEnvironmentToken,
   dhB2CEnvironmentToken,
@@ -24,12 +31,14 @@ import {
   environment,
 } from '@energinet-datahub/dh/shared/environments';
 
-import { DataHubAppComponent } from './app/datahub-app.component';
-import { DhCoreShellProviders, DhCoreShellRoutes } from '@energinet-datahub/dh/core/shell';
+import { dhCoreShellProviders, dhCoreShellRoutes } from '@energinet-datahub/dh/core/shell';
+
 import { loadDhApiEnvironment } from './configuration/load-dh-api-environment';
 import { loadDhB2CEnvironment } from './configuration/load-dh-b2c-environment';
 import { loadDhAppEnvironment } from './configuration/load-dh-app-environment';
-import { provideAnimations } from '@angular/platform-browser/animations';
+
+import { DataHubAppComponent } from './app/datahub-app.component';
+import { BrowserUtils } from '@azure/msal-browser';
 
 if (environment.production) {
   enableProdMode();
@@ -42,9 +51,19 @@ Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhAppEnvironmen
         { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },
         { provide: dhB2CEnvironmentToken, useValue: dhB2CEnvironment },
         { provide: dhAppEnvironmentToken, useValue: dhAppEnvironment },
-        provideRouter(DhCoreShellRoutes),
+        provideRouter(
+          dhCoreShellRoutes,
+          withInMemoryScrolling({
+            anchorScrolling: 'enabled',
+            scrollPositionRestoration: 'enabled',
+          }),
+          BrowserUtils.isInIframe() && BrowserUtils.isInPopup()
+            ? withDisabledInitialNavigation()
+            : withEnabledBlockingInitialNavigation()
+        ),
         provideAnimations(),
-        ...DhCoreShellProviders,
+        provideHttpClient(),
+        ...dhCoreShellProviders,
       ],
     });
   })

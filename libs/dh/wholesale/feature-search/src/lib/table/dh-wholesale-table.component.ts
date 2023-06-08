@@ -26,7 +26,7 @@ import {
 import { take } from 'rxjs';
 import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { graphql, WholesaleBatchHttp } from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -46,7 +46,7 @@ type wholesaleTableData = WattTableDataSource<Batch>;
   imports: [
     WATT_TABLE,
     CommonModule,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     TranslocoModule,
     WattBadgeComponent,
     WattButtonComponent,

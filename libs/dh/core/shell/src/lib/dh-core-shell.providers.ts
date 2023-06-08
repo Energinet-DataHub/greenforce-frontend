@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 
 import {
@@ -40,21 +40,18 @@ import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-ti
 import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
-import { TranslocoModule } from '@ngneat/transloco';
 
-export const DhCoreShellProviders = [
+export const dhCoreShellProviders = [
   importProvidersFrom([
     MatLegacySnackBarModule,
     DhApiModule.forRoot(),
-    HttpClientModule,
-    TranslocoModule,
     MsalModule,
     WattDanishDatetimeModule.forRoot(),
     environment.production ? DhSharedUtilApplicationInsightsModule.forRoot() : [],
     DhGlobalizationUiWattTranslationModule.forRoot(),
   ]),
-  graphQLProviders,
   translocoProviders,
+  graphQLProviders,
   MsalService,
   {
     provide: HTTP_INTERCEPTORS,

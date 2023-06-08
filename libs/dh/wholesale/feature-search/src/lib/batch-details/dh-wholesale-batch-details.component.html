@@ -32,11 +32,11 @@ limitations under the License.
       <watt-description-list>
         <watt-description-list-item
           [label]="transloco('batchDetails.calculationPeriod')"
-          [value]="batch?.period | dhDateTimeRange | dhEmDashFallback"
+          [value]="batch?.period | wattDate : 'long' | dhEmDashFallback"
         ></watt-description-list-item>
         <watt-description-list-item
           [label]="transloco('batchDetails.executionTime')"
-          [value]="batch?.executionTimeStart | dhDateTime | dhEmDashFallback"
+          [value]="batch?.executionTimeStart | wattDate : 'long' | dhEmDashFallback"
         ></watt-description-list-item>
       </watt-description-list>
 

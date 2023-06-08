@@ -16,33 +16,38 @@
  */
 import { DatePipe, NgIf } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import {
-  MatLegacyPaginator as MatPaginator,
-  MatLegacyPaginatorModule as MatPaginatorModule,
-} from '@angular/material/legacy-paginator';
-import {
-  MatLegacyTableDataSource as MatTableDataSource,
-  MatLegacyTableModule as MatTableModule,
-} from '@angular/material/legacy-table';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { EoTransferDrawerComponent } from './eo-transfer-drawer.component';
 import { EoTransfer } from './eo-transfers.service';
 import { EoTransferStore } from './eo-transfers.store';
+
+interface EoTransferTableElement extends EoTransfer {
+  period?: string;
+  status?: boolean;
+}
 
 @Component({
   selector: 'eo-transfer-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    MatPaginatorModule,
-    MatTableModule,
-    MatSortModule,
-    DatePipe,
-    WattBadgeComponent,
-    NgIf,
-    WattButtonComponent,
-  ],
   standalone: true,
+  imports: [
+    DatePipe,
+    NgIf,
+    WattBadgeComponent,
+    WattButtonComponent,
+    WattPaginatorComponent,
+    WattDropdownComponent,
+    ReactiveFormsModule,
+    WATT_FORM_FIELD,
+    WATT_TABLE,
+    EoTransferDrawerComponent,
+  ],
   styles: [
     `
       .card-header {
@@ -54,10 +59,26 @@ import { EoTransferStore } from './eo-transfers.store';
           display: flex;
         }
       }
+
+      .search-filters {
+        watt-form-field {
+          margin-top: 0;
+        }
+
+        ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+          padding-bottom: 0;
+        }
+
+        ::ng-deep
+          .mat-form-field-type-mat-select:not(.mat-form-field-disabled)
+          .mat-form-field-flex {
+          margin-top: 0;
+        }
+      }
     `,
   ],
   template: `
-    <div class="card-header watt-space-stack-m">
+    <div class="card-header">
       <h3>Transfer Agreements</h3>
       <div class="actions">
         <watt-button
@@ -77,74 +98,115 @@ import { EoTransferStore } from './eo-transfers.store';
         </watt-button>
       </div>
     </div>
-    <mat-table matSort [dataSource]="dataSource" data-testid="transfers-table">
-      <!-- GSRN Column -->
-      <ng-container matColumnDef="recipient">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Recipient</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{ element.recipient }}</mat-cell>
+    <div class="search-filters watt-space-stack-s">
+      <form [formGroup]="filterForm">
+        <watt-form-field>
+          <watt-dropdown
+            [chipMode]="true"
+            placeholder="Status"
+            formControlName="statusFilter"
+            (ngModelChange)="applyFilters()"
+            [options]="[
+              { value: 'true', displayValue: 'Active' },
+              { value: 'false', displayValue: 'Inactive' }
+            ]"
+          ></watt-dropdown>
+        </watt-form-field>
+      </form>
+    </div>
+    <watt-table
+      #table
+      [columns]="columns"
+      [dataSource]="dataSource"
+      sortBy="recipient"
+      sortDirection="asc"
+      [sortClear]="false"
+      (rowClick)="onRowClick($event)"
+      [activeRow]="activeRow"
+      class="watt-space-stack-s"
+      data-testid="transfers-table"
+    >
+      <!-- Period - Custom column -->
+      <ng-container *wattTableCell="table.columns['period']; let element">
+        {{ element.startDate | date : 'dd/MM/yyyy' }} - {{ element.endDate | date : 'dd/MM/yyyy' }}
       </ng-container>
 
-      <!-- Period Column -->
-      <ng-container matColumnDef="period">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Agreement period </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{ element.dateFrom | date : 'dd/MM/yyyy' }} - {{ element.dateTo | date : 'dd/MM/yyyy' }}
-        </mat-cell>
+      <!-- Status - Custom column -->
+      <ng-container *wattTableCell="table.columns['status']; let element">
+        <watt-badge *ngIf="isDateActive(element.endDate); else notActive" type="success">
+          Active
+        </watt-badge>
       </ng-container>
+    </watt-table>
 
-      <!-- Action column -->
-      <ng-container matColumnDef="status">
-        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          <watt-badge *ngIf="isDateActive(element.dateTo); else notActive" type="success">
-            Active
-          </watt-badge>
-        </mat-cell>
-      </ng-container>
+    <!-- No Data to show -->
+    <p *ngIf="dataSource.data.length < 1" class="watt-space-stack-s">
+      You do not have any transfer agreements to show right now.
+    </p>
 
-      <!-- No data to show -->
-      <ng-container *matNoDataRow>
-        <p style="text-align: center;margin: 10px 0;">
-          You do not have any transfer agreements to show right now.
-        </p>
-      </ng-container>
-
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-    </mat-table>
-    <mat-paginator
+    <watt-paginator
       data-testid="table-paginator"
       [pageSize]="10"
       [pageSizeOptions]="[10, 25, 50, 100, 250]"
-      [showFirstLastButtons]="true"
-      aria-label="Select page"
-    ></mat-paginator>
-
+      [for]="dataSource"
+    >
+    </watt-paginator>
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
+
+    <eo-transfer-drawer></eo-transfer-drawer>
   `,
 })
 export class EoTransferTableComponent implements AfterViewInit {
+  @ViewChild(EoTransferDrawerComponent)
+  transferDrawer!: EoTransferDrawerComponent;
+
+  activeRow: EoTransfer | undefined = undefined;
+
+  filterForm = this.fb.group({
+    statusFilter: '',
+  });
   transfers: EoTransfer[] = [];
-  dataSource: MatTableDataSource<EoTransfer> = new MatTableDataSource();
-  displayedColumns: string[] = ['recipient', 'period', 'status'];
+  dataSource = new WattTableDataSource<EoTransferTableElement>();
+  columns = {
+    receiver: { accessor: 'receiverTin' },
+    period: { accessor: (transfer) => transfer.startDate },
+    status: { accessor: (transfer) => this.isDateActive(transfer.endDate) },
+  } as WattTableColumnDef<EoTransferTableElement>;
 
-  @ViewChild(MatSort) matSort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  constructor(private store: EoTransferStore) {}
+  constructor(private store: EoTransferStore, private fb: FormBuilder) {}
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.matSort;
-    // It's really important that data gets loaded after paginator, due to performance
-    this.populateTable();
+    this.loadData();
+  }
+
+  applyFilters() {
+    this.dataSource.data = this.transfers.filter((transfer) =>
+      this.filterByStatus(transfer.endDate)
+    );
+  }
+
+  filterByStatus(endDate: number): boolean {
+    if (this.filterForm.controls['statusFilter'].value === null) return true;
+    return this.filterForm.controls['statusFilter'].value === this.isDateActive(endDate).toString();
+  }
+
+  loadData() {
+    this.store.transfers$.subscribe((transfers) => {
+      this.transfers = transfers;
+      this.populateTable();
+    });
   }
 
   populateTable() {
-    this.store.transfers$.subscribe((transfers) => (this.dataSource.data = transfers));
+    this.dataSource.data = this.transfers;
   }
 
-  isDateActive(input: string): boolean {
-    return new Date(input).getTime() >= new Date().getTime();
+  isDateActive(date: number): boolean {
+    return new Date(date).getTime() >= new Date().getTime();
+  }
+
+  onRowClick(row: EoTransfer): void {
+    this.activeRow = row;
+    this.transferDrawer.open(row);
   }
 }

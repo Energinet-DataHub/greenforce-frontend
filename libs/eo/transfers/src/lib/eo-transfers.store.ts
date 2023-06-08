@@ -18,6 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { EoTransfer, EoTransferService } from './eo-transfers.service';
+import { testData } from './test-data';
 
 interface EoTransferState {
   hasLoaded: boolean;
@@ -30,19 +31,15 @@ interface EoTransferState {
 })
 export class EoTransferStore extends ComponentStore<EoTransferState> {
   readonly hasLoaded$ = this.select((state) => state.hasLoaded);
-  readonly setHasLoaded = this.updater(
-    (state, hasLoaded: boolean): EoTransferState => ({
-      ...state,
-      hasLoaded: hasLoaded,
-    })
-  );
-
   readonly transfers$ = this.select((state) => state.transfers);
+  readonly error$ = this.select((state) => state.error);
+
+  readonly setHasLoaded = this.updater(
+    (state, hasLoaded: boolean): EoTransferState => ({ ...state, hasLoaded: hasLoaded })
+  );
   readonly setTransfers = this.updater(
     (state, transfers: EoTransfer[]): EoTransferState => ({ ...state, transfers })
   );
-
-  readonly error$ = this.select((state) => state.error);
   readonly setError = this.updater(
     (state, error: HttpErrorResponse | null): EoTransferState => ({ ...state, error })
   );
@@ -60,22 +57,7 @@ export class EoTransferStore extends ComponentStore<EoTransferState> {
         this.setHasLoaded(true);
       },
       error: (error) => {
-        const test = [
-          {
-            status: 'Test1',
-            dateFrom: new Date().setDate(new Date().getDate() - 1),
-            dateTo: new Date().setDate(new Date().getDate() + 1),
-            recipient: 'Test',
-          },
-          {
-            status: 'Test2',
-            dateFrom: new Date().setDate(new Date().getDate() - 1),
-            dateTo: new Date().getTime(),
-            recipient: 'Test',
-          },
-        ];
-
-        this.setTransfers(test);
+        this.setTransfers(testData);
         this.setError(error);
         this.setHasLoaded(true);
       },
