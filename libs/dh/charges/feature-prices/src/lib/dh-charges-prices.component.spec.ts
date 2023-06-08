@@ -24,15 +24,16 @@ import { DhChargesPricesComponent } from './dh-charges-prices.component';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 import { DrawerDatepickerService } from './drawer/charge-content/drawer-datepicker/drawer-datepicker.service';
+import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 
 const wattDrawerName = 'watt-drawer';
 const dateTimeFormat = 'dd-MM-yyyy';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
-import { TranslocoModule } from '@ngneat/transloco';
 
-describe(DhChargesPricesComponent.name, () => {
+describe(DhChargesPricesComponent, () => {
   async function setup() {
     const { fixture } = await render(`<dh-charges-prices></dh-charges-prices>`, {
+      providers: [danishLocalProviders],
       componentProviders: [
         {
           provide: DrawerDatepickerService,
@@ -45,7 +46,6 @@ describe(DhChargesPricesComponent.name, () => {
         HttpClientModule,
         DhChargesPricesComponent,
         WattDanishDatetimeModule.forRoot(),
-        TranslocoModule,
       ],
     });
 

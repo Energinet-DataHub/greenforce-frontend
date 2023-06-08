@@ -19,7 +19,6 @@ import { createPipeHarness } from '@ngworker/spectacular';
 import { formatInTimeZone } from 'date-fns-tz';
 
 import { spaceToNonBreakingSpace } from './space-to-non-breaking-space';
-import { TranslocoModule } from '@ngneat/transloco';
 import { danishLocaleProvider } from './danish-locale.provider';
 import { danishLocaleInitializer } from './danish-locale.initializer';
 
@@ -39,7 +38,6 @@ class DummyPipe implements PipeTransform {
 describe('Danish locale', () => {
   it('configures the DecimalPipe', () => {
     const harness = createPipeHarness({
-      imports: [TranslocoModule],
       pipe: DummyPipe,
       pipeName: dummyPipeName,
       template: "{{ value | number: '1.1' }}",
@@ -57,7 +55,6 @@ describe('Danish locale', () => {
      * Since Angular 9, a `DEFAULT_CURRENCY_CODE` dependency injection token is available.
      */
     const harness = createPipeHarness({
-      imports: [TranslocoModule],
       pipe: DummyPipe,
       pipeName: dummyPipeName,
       template: "{{ value | currency: undefined: 'code' }}",
@@ -70,7 +67,6 @@ describe('Danish locale', () => {
 
   it('configures the PercentPipe', () => {
     const harness = createPipeHarness({
-      imports: [TranslocoModule],
       pipe: DummyPipe,
       pipeName: dummyPipeName,
       template: "{{ value | percent:'4.3-5' }}",
@@ -85,7 +81,6 @@ describe('Danish locale', () => {
     const testDate = new Date('2020-05-24T08:00:00Z');
 
     const harness = createPipeHarness({
-      imports: [TranslocoModule],
       pipe: DummyPipe,
       pipeName: dummyPipeName,
       template: "{{ value | date: 'medium' }}",

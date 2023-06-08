@@ -17,10 +17,12 @@
 import { NgModule, Optional, SkipSelf, ModuleWithProviders } from '@angular/core';
 
 import { WattDanishDatetimeModule } from '../../../configuration/watt-danish-datetime.module';
-import { TranslocoModule } from '@ngneat/transloco';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 
 @NgModule({
-  imports: [TranslocoModule, WattDanishDatetimeModule.forRoot()],
+  providers: [danishLocalProviders],
+  imports: [WattDanishDatetimeModule.forRoot()],
 })
 export class StorybookConfigurationLocalizationRootModule {
   constructor(
