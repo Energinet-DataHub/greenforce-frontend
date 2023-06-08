@@ -60,7 +60,9 @@ export class DhMessageArchiveDrawerComponent {
   private document = inject(DOCUMENT);
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
+
   @ViewChild('drawer') drawer!: WattDrawerComponent;
+
   @Input() actors: WattDropdownOptions | null = null;
 
   message: ArchivedMessage | null = null;
@@ -71,6 +73,7 @@ export class DhMessageArchiveDrawerComponent {
   open(message: ArchivedMessage) {
     this.message = message;
     this.drawer.open();
+
     if (this.message) {
       this.getDocument(this.message?.messageId);
     }
