@@ -28,7 +28,7 @@ import { inject } from '@angular/core';
 
 const settlementsGuard = 'settlements:manage';
 
-export const WHOLESALE_SHELL: Route[] = [
+export const dhWholesaleShellRoutes: Route[] = [
   {
     path: WHOLESALE_START_PROCESS_PATH,
     canActivate: [PermissionGuard([settlementsGuard])],
