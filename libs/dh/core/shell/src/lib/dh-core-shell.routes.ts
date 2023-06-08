@@ -24,7 +24,7 @@ import { WHOLESALE_BASE_PATH } from '@energinet-datahub/dh/wholesale/routing';
 import { dhAdminPath } from '@energinet-datahub/dh/admin/routing';
 import { Routes } from '@angular/router';
 
-export const DhCoreShellRoutes: Routes = [
+export const dhCoreShellRoutes: Routes = [
   {
     path: '',
     component: DhCoreShellComponent,
