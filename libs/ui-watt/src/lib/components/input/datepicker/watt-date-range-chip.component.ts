@@ -86,7 +86,7 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
         />
       </mat-date-range-input>
       <ng-content />
-      <ng-container *ngIf="value?.end">: {{ value | wattDate : 'long' }}</ng-container>
+      <ng-container *ngIf="value?.start && value?.end">: {{ value | wattDate }}</ng-container>
     </watt-menu-chip>
   `,
 })
