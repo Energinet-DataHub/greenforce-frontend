@@ -22,7 +22,7 @@ import { da as daTranslations } from '@energinet-datahub/dh/globalization/assets
 
 import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
-import { DhGraphQLModule } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
   DhConfigurationLocalizationModule,
   DhTranslocoModule,
@@ -33,12 +33,11 @@ import { importProvidersFrom } from '@angular/core';
 
 it('mounts', () => {
   cy.mount(DhWholesaleStartComponent, {
-    providers: [importProvidersFrom(MatLegacySnackBarModule)],
+    providers: [importProvidersFrom(MatLegacySnackBarModule), ...graphQLProviders],
     imports: [
       BrowserAnimationsModule,
       DhApiModule.forRoot(),
       DhConfigurationLocalizationModule.forRoot(),
-      DhGraphQLModule.forRoot(),
       DhTranslocoModule.forRoot(),
       HttpClientModule,
       WattDanishDatetimeModule.forRoot(),
