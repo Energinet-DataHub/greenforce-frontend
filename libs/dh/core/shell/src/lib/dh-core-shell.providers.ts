@@ -26,10 +26,7 @@ import {
   MSAL_INTERCEPTOR_CONFIG,
 } from '@azure/msal-angular';
 
-import {
-  DhConfigurationLocalizationModule,
-  DhTranslocoModule,
-} from '@energinet-datahub/dh/globalization/configuration-localization';
+import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { DhGlobalizationUiWattTranslationModule } from '@energinet-datahub/dh/globalization/ui-watt-translation';
 import {
   MSALGuardConfigFactory,
@@ -43,20 +40,21 @@ import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-ti
 import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
+import { TranslocoModule } from '@ngneat/transloco';
 
 export const DhCoreShellProviders = [
   importProvidersFrom([
     MatLegacySnackBarModule,
     DhApiModule.forRoot(),
-    DhTranslocoModule.forRoot(),
     HttpClientModule,
+    TranslocoModule,
     MsalModule,
-    DhConfigurationLocalizationModule.forRoot(),
     WattDanishDatetimeModule.forRoot(),
     environment.production ? DhSharedUtilApplicationInsightsModule.forRoot() : [],
     DhGlobalizationUiWattTranslationModule.forRoot(),
   ]),
-  ...graphQLProviders,
+  graphQLProviders,
+  translocoProviders,
   MsalService,
   {
     provide: HTTP_INTERCEPTORS,
