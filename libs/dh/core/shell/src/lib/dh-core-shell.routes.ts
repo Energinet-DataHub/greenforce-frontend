@@ -54,7 +54,7 @@ export const dhCoreShellRoutes: Routes = [
         path: dhMarketParticipantPath,
         loadChildren: () =>
           import('@energinet-datahub/dh/market-participant/shell').then(
-            (esModule) => esModule.marketParticipantRoutes
+            (esModule) => esModule.dhMarketParticipantShellRoutes
           ),
         canActivate: [MsalGuard],
       },
@@ -62,7 +62,7 @@ export const dhCoreShellRoutes: Routes = [
         path: WHOLESALE_BASE_PATH,
         loadChildren: () =>
           import('@energinet-datahub/dh/wholesale/shell').then(
-            (esModule) => esModule.WHOLESALE_SHELL
+            (esModule) => esModule.dhWholesaleShellRoutes
           ),
         canActivate: [MsalGuard],
       },
@@ -70,14 +70,16 @@ export const dhCoreShellRoutes: Routes = [
         path: dhChargesPath,
         loadChildren: () =>
           import('@energinet-datahub/dh/charges/shell').then(
-            (esModule) => esModule.DhChargesShellModule
+            (esModule) => esModule.dhChargesShellRoutes
           ),
         canActivate: [MsalGuard],
       },
       {
         path: dhAdminPath,
         loadChildren: () =>
-          import('@energinet-datahub/dh/admin/shell').then((esModule) => esModule.routes),
+          import('@energinet-datahub/dh/admin/shell').then(
+            (esModule) => esModule.dhAdminShellRoutes
+          ),
         canActivate: [MsalGuard],
       },
     ],

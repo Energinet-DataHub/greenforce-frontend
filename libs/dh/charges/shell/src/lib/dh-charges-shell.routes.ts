@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { DhChargesPricesComponent } from '@energinet-datahub/dh/charges/feature-prices';
 import {
@@ -24,7 +23,7 @@ import {
 } from '@energinet-datahub/dh/charges/routing';
 import { DhChargesCreatePricesComponent } from '@energinet-datahub/dh/charges/feature-create-prices';
 
-const routes: Routes = [
+export const dhChargesShellRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
@@ -46,8 +45,3 @@ const routes: Routes = [
     },
   },
 ];
-
-@NgModule({
-  imports: [DhChargesPricesComponent, RouterModule.forChild(routes)],
-})
-export class DhChargesShellModule {}
