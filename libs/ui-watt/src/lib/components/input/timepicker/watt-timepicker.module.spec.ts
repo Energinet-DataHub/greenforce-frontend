@@ -25,7 +25,7 @@ import { DhConfigurationLocalizationModule } from '@energinet-datahub/dh/globali
 
 import { WattTimepickerComponent } from './';
 import { WATT_FORM_FIELD } from '../../form-field';
-import { WattRange } from '../shared/watt-range';
+import { WattDateRange } from '../../../utils/date';
 import { WattDanishDatetimeModule } from '../../../configuration/watt-danish-datetime.module';
 
 const backspace = '{backspace}';
@@ -38,7 +38,7 @@ describe(WattTimepickerComponent.name, () => {
     disabled = false,
   }: {
     template: string;
-    initialState?: WattRange | null;
+    initialState?: WattDateRange | null;
     disabled?: boolean;
   }) {
     @Component({
@@ -91,7 +91,7 @@ describe(WattTimepickerComponent.name, () => {
       userEvent.type(startTimeInput, '0123');
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
-      const expectedTimeRange: WattRange = { start: '01:23', end: '' };
+      const expectedTimeRange: WattDateRange = { start: '01:23', end: '' };
 
       expect(actualTimeRange).toEqual(expectedTimeRange);
     });
@@ -105,7 +105,7 @@ describe(WattTimepickerComponent.name, () => {
       userEvent.type(endTimeInput, '1234');
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
-      const expectedTimeRange: WattRange = { start: '', end: '12:34' };
+      const expectedTimeRange: WattDateRange = { start: '', end: '12:34' };
 
       expect(actualTimeRange).toEqual(expectedTimeRange);
     });
@@ -122,13 +122,13 @@ describe(WattTimepickerComponent.name, () => {
       userEvent.type(endTimeInput, '1234');
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
-      const expectedTimeRange: WattRange = { start: '01:23', end: '12:34' };
+      const expectedTimeRange: WattDateRange = { start: '01:23', end: '12:34' };
 
       expect(actualTimeRange).toEqual(expectedTimeRange);
     });
 
     it('clears the value when an input with incomplete time loses focus', async () => {
-      const timeRange: WattRange = { start: '01:23', end: '12:34' };
+      const timeRange: WattDateRange = { start: '01:23', end: '12:34' };
 
       const { fixture, startTimeInput, endTimeInput } = await setup({
         template,
@@ -142,7 +142,7 @@ describe(WattTimepickerComponent.name, () => {
       startTimeInput.blur();
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
-      const expectedTimeRange: WattRange = { start: '', end: '' };
+      const expectedTimeRange: WattDateRange = { start: '', end: '' };
 
       expect(actualTimeRange).toEqual(expectedTimeRange);
     });
@@ -235,7 +235,7 @@ describe(WattTimepickerComponent.name, () => {
       userEvent.keyboard('[ArrowLeft]');
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
-      const expectedTimeRange: WattRange = { start: '00:15', end: '23:45' };
+      const expectedTimeRange: WattDateRange = { start: '00:15', end: '23:45' };
       expect(actualTimeRange).toEqual(expectedTimeRange);
     });
 
@@ -277,7 +277,7 @@ describe(WattTimepickerComponent.name, () => {
     });
 
     it('can set an initial state', async () => {
-      const timeRange: WattRange = { start: '01:23', end: '12:34' };
+      const timeRange: WattDateRange = { start: '01:23', end: '12:34' };
 
       const { startTimeInput, endTimeInput } = await setup({
         template,

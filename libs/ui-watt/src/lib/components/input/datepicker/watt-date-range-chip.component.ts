@@ -28,6 +28,7 @@ import endOfDay from 'date-fns/endOfDay';
 import { WattDatePipe } from '../../../utils/date';
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
+import { WattDateRange } from '../../../utils/date';
 
 @Injectable()
 export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<Date> {
@@ -68,14 +69,7 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
       (toggle)="picker.open()"
     >
       <mat-date-range-input #input class="cdk-visually-hidden" separator="―" [rangePicker]="picker">
-        <input
-          type="text"
-          matStartDate
-          tabindex="-1"
-          [value]="value?.start"
-          (dateChange)="value = input.value ?? undefined"
-          (dateChange)="selectionChange.emit(input.value ?? undefined)"
-        />
+        <input type="text" matStartDate tabindex="-1" [value]="value?.start" />
         <input
           type="text"
           matEndDate
@@ -93,6 +87,6 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
 export class WattDateRangeChipComponent {
   @Input() disabled = false;
   @Input() label?: string;
-  @Input() value?: DateRange<string>;
-  @Output() selectionChange = new EventEmitter<DateRange<string>>();
+  @Input() value?: WattDateRange;
+  @Output() selectionChange = new EventEmitter<WattDateRange>();
 }
