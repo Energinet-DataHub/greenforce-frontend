@@ -21,7 +21,7 @@ import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { DhConfigurationLocalizationModule } from '@energinet-datahub/dh/globalization/configuration-localization';
+import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
 
 import { WattTimepickerComponent } from './';
 import { WATT_FORM_FIELD } from '../../form-field';
@@ -50,13 +50,13 @@ describe(WattTimepickerComponent.name, () => {
     }
 
     const { fixture } = await render(TestComponent, {
+      providers: [translocoProviders],
       imports: [
         WattTimepickerComponent,
         ReactiveFormsModule,
         FormsModule,
         WATT_FORM_FIELD,
         BrowserAnimationsModule,
-        DhConfigurationLocalizationModule.forRoot(),
         WattDanishDatetimeModule.forRoot(),
       ],
     });

@@ -28,13 +28,13 @@ import {
 import userEvent from '@testing-library/user-event';
 import { DhMarketParticipantDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
-import { DanishLocaleModule } from '@energinet-datahub/gf/configuration-danish-locale';
 import { add } from 'date-fns';
 import { TestBed } from '@angular/core/testing';
 import { DhChargeContentComponent } from './dh-charge-content.component';
 import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
+import { TranslocoModule } from '@ngneat/transloco';
 
 const dateTimeFormat = 'dd-MM-yyyy';
 
@@ -80,7 +80,7 @@ describe(DhChargeContentComponent.name, () => {
         DhChargeContentComponent,
         getTranslocoTestingModule(),
         WattDanishDatetimeModule.forRoot(),
-        DanishLocaleModule,
+        TranslocoModule,
         HttpClientModule,
         DhApiModule.forRoot(),
       ],
