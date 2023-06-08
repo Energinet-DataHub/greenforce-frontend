@@ -28,13 +28,15 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 
 import { DhChargesCreatePricesComponent } from './dh-charges-create-prices.component';
 import { TranslocoModule } from '@ngneat/transloco';
+import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
+import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 
 const dateTimeFormat = 'dd-MM-yyyy';
 const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 const chargeTypeDropdownName = 'charge type';
 const resolutionDropdownName = 'resolution';
 
-describe(DhChargesCreatePricesComponent.name, () => {
+describe(DhChargesCreatePricesComponent, () => {
   function findInputElement(selector: string) {
     const element: HTMLInputElement = screen.getByRole('textbox', {
       name: new RegExp(`${selector}`, 'i'),
@@ -61,7 +63,11 @@ describe(DhChargesCreatePricesComponent.name, () => {
 
   async function setup() {
     const { fixture } = await render(DhChargesCreatePricesComponent, {
-      providers: [importProvidersFrom(MatLegacySnackBarModule)],
+      providers: [
+        importProvidersFrom(MatLegacySnackBarModule),
+        translocoProviders,
+        danishLocalProviders,
+      ],
       imports: [
         getTranslocoTestingModule(),
         DhApiModule.forRoot(),

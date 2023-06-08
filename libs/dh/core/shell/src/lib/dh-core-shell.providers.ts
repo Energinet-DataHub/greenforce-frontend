@@ -41,6 +41,7 @@ import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 import { TranslocoModule } from '@ngneat/transloco';
+import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 
 export const dhCoreShellProviders = [
   importProvidersFrom([
@@ -52,6 +53,7 @@ export const dhCoreShellProviders = [
     environment.production ? DhSharedUtilApplicationInsightsModule.forRoot() : [],
     DhGlobalizationUiWattTranslationModule.forRoot(),
   ]),
+  danishLocalProviders,
   translocoProviders,
   graphQLProviders,
   MsalService,
