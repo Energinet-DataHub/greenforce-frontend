@@ -15,14 +15,19 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { ApolloModule } from 'apollo-angular';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'dh-app',
-  styleUrls: ['./datahub-app.component.scss'],
-  templateUrl: './datahub-app.component.html',
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
+  template: `<router-outlet></router-outlet>`,
   standalone: true,
-  imports: [RouterModule, ApolloModule],
+  imports: [RouterOutlet],
 })
 export class DataHubAppComponent {}

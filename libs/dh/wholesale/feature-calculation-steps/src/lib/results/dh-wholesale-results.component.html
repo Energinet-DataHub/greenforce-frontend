@@ -35,10 +35,7 @@ limitations under the License.
       [label]="t('meteringPointType')"
       [value]="t('timeSeriesType.' + processStepResults.timeSeriesType)"
     ></watt-description-list-item>
-    <watt-description-list-item
-      [label]="t('calculationPeriod')"
-      [value]="batch?.period | dhDateRange"
-    >
+    <watt-description-list-item [label]="t('calculationPeriod')" [value]="batch?.period | wattDate">
     </watt-description-list-item>
     <watt-description-list-item [label]="t('sum')" [value]="processStepResults.sum + ' kWh'">
     </watt-description-list-item>

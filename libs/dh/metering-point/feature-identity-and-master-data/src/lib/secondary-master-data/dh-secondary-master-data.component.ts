@@ -24,7 +24,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattExpansionComponent } from '@energinet-datahub/watt/expansion';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import {
   DhIsParentPipe,
   DhShowForMeteringPointTypeDirective,
@@ -54,7 +54,7 @@ export interface MeteringPointIdentityTranslationKeys {
     TranslocoModule,
     WattIconComponent,
     DhYesNoPipeScam,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     DhShowForMeteringPointTypeDirective,
     DhIsParentPipe,
     DhEmDashFallbackPipeScam,

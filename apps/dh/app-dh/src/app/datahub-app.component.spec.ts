@@ -15,23 +15,43 @@
  * limitations under the License.
  */
 import { By } from '@angular/platform-browser';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, provideRouter } from '@angular/router';
 import { render } from '@testing-library/angular';
 
-import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
-
 import { DataHubAppComponent } from './datahub-app.component';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+
+import { dhCoreShellProviders, dhCoreShellRoutes } from '@energinet-datahub/dh/core/shell';
+import { provideHttpClient } from '@angular/common/http';
+import { importProvidersFrom } from '@angular/core';
 
 describe(DataHubAppComponent, () => {
   it('has a router outlet', async () => {
-    const view = await render(DataHubAppComponent, {
-      providers: [MsalServiceFake],
-    });
+    const view = await render(DataHubAppComponent);
 
     const routerOutlet = view.fixture.debugElement
       .query(By.directive(RouterOutlet))
       ?.injector.get(RouterOutlet);
 
     expect(routerOutlet).toBeInstanceOf(RouterOutlet);
+  });
+
+  it('navigation works', async () => {
+    const { navigate } = await render(DataHubAppComponent, {
+      providers: [
+        provideRouter(dhCoreShellRoutes),
+        provideNoopAnimations(),
+        provideHttpClient(),
+        ...dhCoreShellProviders,
+        MsalServiceFake,
+        importProvidersFrom(getTranslocoTestingModule()),
+      ],
+    });
+
+    const didNavigationSucceed = await navigate('/');
+
+    await expect(didNavigationSucceed).toBe(true);
   });
 });

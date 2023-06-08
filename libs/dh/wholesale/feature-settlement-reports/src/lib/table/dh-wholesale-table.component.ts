@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -38,7 +38,7 @@ type settlementReportsTableData = WattTableDataSource<settlementReportsTableColu
     WATT_TABLE,
     CommonModule,
     PushModule,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     TranslocoModule,
     WattBadgeComponent,
     WattButtonComponent,
