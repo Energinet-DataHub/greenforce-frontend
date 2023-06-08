@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 
 import {
@@ -49,7 +49,6 @@ export const dhCoreShellProviders = [
     MatLegacySnackBarModule,
     DhApiModule.forRoot(),
     DhTranslocoModule.forRoot(),
-    HttpClientModule,
     MsalModule,
     DhConfigurationLocalizationModule.forRoot(),
     WattDanishDatetimeModule.forRoot(),
