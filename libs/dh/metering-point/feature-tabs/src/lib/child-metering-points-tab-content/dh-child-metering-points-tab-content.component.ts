@@ -23,7 +23,7 @@ import { RouterModule } from '@angular/router';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhStatusBadgeComponent } from '@energinet-datahub/dh/metering-point/ui-status-badge';
 import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/domain';
 
@@ -42,7 +42,7 @@ import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/domain';
     CommonModule,
     WattEmptyStateComponent,
     RouterModule,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
   ],
 })
 export class DhChildMeteringPointsTabContentComponent implements AfterViewInit {

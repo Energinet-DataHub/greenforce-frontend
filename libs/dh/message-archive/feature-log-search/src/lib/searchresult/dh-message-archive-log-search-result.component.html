@@ -62,7 +62,7 @@ limitations under the License.
         </ng-container>
         <ng-container *wattTableCell="columns.createdDate; let element">
           <div style="white-space: nowrap">
-            {{ element.createdDate | dhDateTime | dhEmDashFallback }}
+            {{ element.createdDate | wattDate : "long" | dhEmDashFallback }}
           </div>
         </ng-container>
       </watt-table>

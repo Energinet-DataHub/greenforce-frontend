@@ -28,7 +28,7 @@ import {
 import { DhDrawerDatepickerComponent } from '../drawer-datepicker/dh-drawer-datepicker.component';
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
@@ -65,7 +65,7 @@ import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
     WattSpinnerComponent,
     TranslocoModule,
     DhSharedUiPaginatorComponent,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     PushModule,
     DhFeatureFlagDirectiveModule,
   ],
