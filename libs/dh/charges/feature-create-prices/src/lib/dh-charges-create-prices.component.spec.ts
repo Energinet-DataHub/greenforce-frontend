@@ -27,8 +27,6 @@ import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
 import { DhChargesCreatePricesComponent } from './dh-charges-create-prices.component';
-import { TranslocoModule } from '@ngneat/transloco';
-import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 
 const dateTimeFormat = 'dd-MM-yyyy';
@@ -63,17 +61,12 @@ describe(DhChargesCreatePricesComponent, () => {
 
   async function setup() {
     const { fixture } = await render(DhChargesCreatePricesComponent, {
-      providers: [
-        importProvidersFrom(MatLegacySnackBarModule),
-        translocoProviders,
-        danishLocalProviders,
-      ],
+      providers: [importProvidersFrom(MatLegacySnackBarModule), danishLocalProviders],
       imports: [
         getTranslocoTestingModule(),
         DhApiModule.forRoot(),
         HttpClientModule,
         WattDanishDatetimeModule.forRoot(),
-        TranslocoModule,
       ],
     });
 
