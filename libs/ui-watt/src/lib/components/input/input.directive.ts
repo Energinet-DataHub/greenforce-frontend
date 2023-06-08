@@ -28,7 +28,6 @@ import {
 
 @Directive({
   selector: '[wattInput]',
-  exportAs: 'wattInput',
   host: {
     class: 'mat-input-element',
     '[class.mat-input-server]': '_isServer',
@@ -48,6 +47,7 @@ import {
     '[attr.aria-required]': 'required',
   },
   providers: [{ provide: MatFormFieldControl, useExisting: MatInput }],
+  standalone: true,
 })
 export class WattInputDirective extends MatInput {
   constructor(

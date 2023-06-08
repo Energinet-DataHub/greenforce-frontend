@@ -18,7 +18,6 @@ import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import { WattButtonComponent, WattButtonTypes } from './watt-button.component';
-import { WattButtonModule } from './watt-button.module';
 
 type WattButtonOptions = Partial<
   Pick<WattButtonComponent, 'icon' | 'variant' | 'type' | 'formId' | 'disabled' | 'loading'>
@@ -40,14 +39,14 @@ describe(WattButtonComponent.name, () => {
         componentProperties: {
           ...options,
         },
-        imports: [WattButtonModule],
+        imports: [WattButtonComponent],
       }
     );
   };
 
   it('renders default options', async () => {
     await render('<watt-button>Default button</watt-button>', {
-      imports: [WattButtonModule],
+      imports: [WattButtonComponent],
     });
 
     expect(screen.getByRole('button')).toHaveTextContent('Default button');

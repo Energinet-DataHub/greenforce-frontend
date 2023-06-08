@@ -41,7 +41,7 @@ limitations under the License.
     </watt-drawer-content>
   </watt-drawer>
 
-  <watt-top-bar *ngIf="gridArea && batch">
+  <ng-container *ngIf="gridArea && batch">
     <div class="header">
       <watt-breadcrumbs>
         <watt-breadcrumb (click)="navigateToSearchBatch()">
@@ -82,7 +82,7 @@ limitations under the License.
         </dd>
       </dl>
     </div>
-  </watt-top-bar>
+  </ng-container>
   <main>
     <ul class="steps" *ngIf="batch && gridArea">
       <li>
@@ -149,14 +149,14 @@ limitations under the License.
             {{ t("batchDetails.calculationPeriod") }}
           </dt>
           <dd>
-            {{ batch.period?.start | dhDate }} -
-            {{ batch.period?.end | dhDate }}
+            {{ batch.period?.start | wattDate }} -
+            {{ batch.period?.end | wattDate }}
           </dd>
 
           <dt class="watt-label">
             {{ t("batchDetails.executionTime") }}
           </dt>
-          <dd>{{ batch.executionTimeStart | dhDateTime }}</dd>
+          <dd>{{ batch.executionTimeStart | wattDate : "long" }}</dd>
 
           <dt class="watt-label">
             {{ t("batchDetails.executionType") }}

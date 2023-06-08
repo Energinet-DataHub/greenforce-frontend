@@ -19,7 +19,7 @@ import { importProvidersFrom } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 import { WattEmptyStateComponent } from '../empty-state.component';
-import { WattButtonModule } from '../../button';
+import { WattButtonComponent } from '../../button';
 import { StorybookEmptyStateOverviewComponent } from './storybook-empty-state-overview.component';
 
 const meta: Meta<StorybookEmptyStateOverviewComponent> = {
@@ -29,7 +29,7 @@ const meta: Meta<StorybookEmptyStateOverviewComponent> = {
       providers: [importProvidersFrom(HttpClientModule)],
     }),
     moduleMetadata({
-      imports: [StorybookEmptyStateOverviewComponent, WattEmptyStateComponent, WattButtonModule],
+      imports: [StorybookEmptyStateOverviewComponent, WattEmptyStateComponent, WattButtonComponent],
     }),
   ],
   component: StorybookEmptyStateOverviewComponent,

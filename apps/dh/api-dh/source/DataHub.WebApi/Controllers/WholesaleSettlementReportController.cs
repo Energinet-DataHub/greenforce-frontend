@@ -14,6 +14,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
@@ -40,6 +41,31 @@ namespace Energinet.DataHub.WebApi.Controllers
             return File(
                 fileResponse.Stream,
                 MediaTypeNames.Application.Zip);
+        }
+
+        [HttpGet("Download")]
+        [Produces("application/zip")]
+        public async Task<ActionResult<Stream>> DownloadAsync(
+            [FromQuery] string[] gridAreaCodes,
+            [FromQuery] ProcessType processType,
+            [FromQuery] DateTimeOffset periodStart,
+            [FromQuery] DateTimeOffset periodEnd,
+            [FromQuery] string? energySupplier,
+            [FromQuery] string? csvLanguage)
+        {
+            var fileResponse = await _client
+                .DownloadAsync(gridAreaCodes, processType, periodStart, periodEnd, energySupplier, csvLanguage)
+                .ConfigureAwait(false);
+
+            var fileName = "SettlementReport.zip";
+
+            if (fileResponse.Headers.TryGetValue("Content-Disposition", out var values))
+            {
+                var contentDisposition = new ContentDisposition(values.First());
+                fileName = contentDisposition.FileName ?? fileName;
+            }
+
+            return File(fileResponse.Stream, MediaTypeNames.Application.Zip, fileName);
         }
     }
 }

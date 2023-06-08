@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 import { AfterViewInit, Component, ContentChild } from '@angular/core';
-import { WattCardModule } from '../../card';
+import { WattCardComponent } from '../../card';
 import { WattPaginatorComponent } from '../../paginator';
 import { WattTableDataSource } from '../watt-table-data-source';
 import { WattTableComponent } from '../watt-table.component';
 
 @Component({
   standalone: true,
-  imports: [WattCardModule, WattPaginatorComponent],
+  imports: [WattCardComponent, WattPaginatorComponent],
   selector: 'watt-storybook-table-decorator',
   styles: [
     `

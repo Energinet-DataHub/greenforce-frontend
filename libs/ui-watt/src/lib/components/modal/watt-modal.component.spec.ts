@@ -17,8 +17,8 @@
 import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
-import { WattButtonModule } from '../button';
-import { WattModalModule } from './watt-modal.module';
+import { WattButtonComponent } from '../button';
+import { WATT_MODAL } from './';
 import { WattModalComponent } from './watt-modal.component';
 
 const template = `
@@ -44,13 +44,12 @@ interface Properties {
 
 function setup(componentProperties?: Properties) {
   return render(template, {
-    declarations: [WattModalComponent],
-    imports: [WattButtonModule, WattModalModule],
+    imports: [WattButtonComponent, WATT_MODAL],
     componentProperties,
   });
 }
 
-describe(WattModalComponent.name, () => {
+describe(WattModalComponent, () => {
   it('starts closed', async () => {
     await setup();
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();

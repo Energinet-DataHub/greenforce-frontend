@@ -33,6 +33,12 @@ import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datah
       .menu-spacer {
         height: var(--watt-space-xl);
       }
+
+      .beta {
+        padding-left: 8px;
+        font-weight: bold;
+        color: var(--watt-color-secondary-dark);
+      }
     `,
   ],
   template: `
@@ -46,11 +52,13 @@ import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datah
       <watt-nav-list-item link="{{ routes.meteringpoints }}" onFeatureFlag="meters">
         Metering Points
       </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.certificates }}" onFeatureFlag="certificates"
-        >Certificates
-        <span style="padding-left:8px; font-weight:bold;color:var(--watt-color-secondary-dark);"
-          >BETA</span
-        >
+      <watt-nav-list-item link="{{ routes.certificates }}" onFeatureFlag="certificates">
+        Certificates
+        <span class="beta">BETA</span>
+      </watt-nav-list-item>
+      <watt-nav-list-item link="{{ routes.transfer }}">
+        Transfers
+        <span class="beta">BETA</span>
       </watt-nav-list-item>
       <div class="menu-spacer"></div>
       <watt-nav-list-item link="{{ routes.help }}">Help</watt-nav-list-item>

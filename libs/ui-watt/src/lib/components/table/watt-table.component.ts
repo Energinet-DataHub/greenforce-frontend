@@ -19,6 +19,7 @@ import { CommonModule, KeyValue } from '@angular/common';
 import {
   AfterViewInit,
   Component,
+  ContentChild,
   ContentChildren,
   Directive,
   ElementRef,
@@ -38,7 +39,7 @@ import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { map, type Subscription } from 'rxjs';
-import { WattCheckboxModule } from '../checkbox';
+import { WattCheckboxComponent } from '../checkbox';
 
 export interface WattTableColumn<T> {
   /**
@@ -114,6 +115,20 @@ export class WattTableCellDirective<T> {
   }
 }
 
+@Directive({
+  standalone: true,
+  selector: '[wattTableToolbar]',
+})
+export class WattTableToolbarDirective<T> {
+  templateRef = inject(TemplateRef<T[]>);
+  static ngTemplateContextGuard<T>(
+    _directive: WattTableToolbarDirective<T>,
+    context: unknown
+  ): context is T[] {
+    return true;
+  }
+}
+
 export interface WattSortableDataSource<T> extends DataSource<T> {
   filteredData: T[];
   sort?: MatSort | null;
@@ -126,7 +141,7 @@ export interface WattSortableDataSource<T> extends DataSource<T> {
  */
 @Component({
   standalone: true,
-  imports: [CommonModule, FormsModule, MatSortModule, MatTableModule, WattCheckboxModule],
+  imports: [CommonModule, FormsModule, MatSortModule, MatTableModule, WattCheckboxComponent],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-table',
   styleUrls: ['./watt-table.component.scss'],
@@ -248,6 +263,10 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
   /** @ignore */
   @ContentChildren(WattTableCellDirective)
   _cells!: QueryList<WattTableCellDirective<T>>;
+
+  /** @ignore */
+  @ContentChild(WattTableToolbarDirective)
+  _toolbar?: WattTableToolbarDirective<T>;
 
   /** @ignore */
   @ViewChild(MatSort)
@@ -382,4 +401,23 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
   }
 }
 
-export const WATT_TABLE = [WattTableComponent, WattTableCellDirective];
+@Component({
+  standalone: true,
+  selector: 'watt-table-toolbar-spacer',
+  template: '',
+  styles: [
+    `
+      :host {
+        width: var(--watt-space-xl);
+      }
+    `,
+  ],
+})
+export class WattTableToolbarSpacerComponent {}
+
+export const WATT_TABLE = [
+  WattTableComponent,
+  WattTableCellDirective,
+  WattTableToolbarDirective,
+  WattTableToolbarSpacerComponent,
+];

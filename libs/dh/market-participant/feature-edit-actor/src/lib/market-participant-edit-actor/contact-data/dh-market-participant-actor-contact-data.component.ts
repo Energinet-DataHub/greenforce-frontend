@@ -20,7 +20,6 @@ import {
   Component,
   Input,
   Output,
-  NgModule,
   OnChanges,
   EventEmitter,
   ChangeDetectorRef,
@@ -31,10 +30,10 @@ import { ActorContactChanges } from '@energinet-datahub/dh/market-participant/da
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { FormsModule } from '@angular/forms';
-import { WattInputModule } from '@energinet-datahub/watt/input';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   MarketParticipantActorContactDto,
   MarketParticipantContactCategory,
@@ -53,6 +52,17 @@ interface EditableActorContactRow {
   styleUrls: ['./dh-market-participant-actor-contact-data.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-market-participant-actor-contact-data.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    FormsModule,
+    MatTableModule,
+    WattButtonComponent,
+    WattInputDirective,
+    WATT_FORM_FIELD,
+    WattDropdownComponent,
+  ],
 })
 export class DhMarketParticipantActorContactDataComponent implements OnChanges {
   @Input() contacts: MarketParticipantActorContactDto[] = [];
@@ -175,19 +185,3 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
     };
   };
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    FormsModule,
-    MatTableModule,
-    WattButtonModule,
-    WattInputModule,
-    WattFormFieldModule,
-    WattDropdownModule,
-  ],
-  exports: [DhMarketParticipantActorContactDataComponent],
-  declarations: [DhMarketParticipantActorContactDataComponent],
-})
-export class DhMarketParticipantActorContactDataComponentScam {}

@@ -17,14 +17,13 @@
 import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattValidationMessageComponent } from './watt-validation-message.component';
-import { WattValidationMessageModule } from './watt-validation-message.module';
 
 const meta: Meta<WattValidationMessageComponent> = {
   title: 'Components/Validation Message',
   component: WattValidationMessageComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattValidationMessageModule],
+      imports: [WattValidationMessageComponent],
     }),
   ],
 };
@@ -34,26 +33,49 @@ export default meta;
 const howToUseGuideBasic = `
 How to use
 
-1. Import ${WattValidationMessageModule.name} in a module
+1. Import ${WattValidationMessageComponent.name} in a module
 
-import { ${WattValidationMessageModule.name} } from '@energinet-datahub/watt/validation-message';
+import { ${WattValidationMessageComponent.name} } from '@energinet-datahub/watt/validation-message';
 
 2. Use the component
 
-<watt-validation-message label="Label" message="Message" type="danger"></watt-validation-message>`;
+<watt-validation-message label="Label" message="Message" icon="info" type="danger" size="compact"></watt-validation-message>`;
 
-export const ValidationMessage: StoryFn<WattValidationMessageComponent> = (args) => ({
+export const Compact: StoryFn<WattValidationMessageComponent> = (args) => ({
   props: args,
 });
-ValidationMessage.parameters = {
+
+Compact.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
     },
   },
 };
-ValidationMessage.args = {
+
+Compact.args = {
   label: 'Info',
   message: 'The metering point is not active',
   type: 'info',
+  size: 'compact',
+};
+
+export const Normal: StoryFn<WattValidationMessageComponent> = (args) => ({
+  props: args,
+});
+
+Normal.parameters = {
+  docs: {
+    source: {
+      code: howToUseGuideBasic,
+    },
+  },
+};
+
+Normal.args = {
+  label: 'Warning',
+  message: 'The metering point is not active',
+  type: 'warning',
+  icon: 'warning',
+  size: 'normal',
 };

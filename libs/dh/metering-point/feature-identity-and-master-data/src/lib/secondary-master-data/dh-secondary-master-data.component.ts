@@ -22,12 +22,12 @@ import {
   MeteringPointCimDto,
   MeteringPointNetSettlementGroup,
 } from '@energinet-datahub/dh/shared/domain';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { WattExpansionModule } from '@energinet-datahub/watt/expansion';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattExpansionComponent } from '@energinet-datahub/watt/expansion';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import {
-  DhIsParentPipeScam,
-  DhShowForMeteringPointTypeDirectiveScam,
+  DhIsParentPipe,
+  DhShowForMeteringPointTypeDirective,
   DhYesNoPipeScam,
 } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
@@ -49,14 +49,14 @@ export interface MeteringPointIdentityTranslationKeys {
   templateUrl: './dh-secondary-master-data.component.html',
   styleUrls: ['./dh-secondary-master-data.component.scss'],
   imports: [
-    WattExpansionModule,
+    WattExpansionComponent,
     CommonModule,
     TranslocoModule,
-    WattIconModule,
+    WattIconComponent,
     DhYesNoPipeScam,
-    DhSharedUiDateTimeModule,
-    DhShowForMeteringPointTypeDirectiveScam,
-    DhIsParentPipeScam,
+    WattDatePipe,
+    DhShowForMeteringPointTypeDirective,
+    DhIsParentPipe,
     DhEmDashFallbackPipeScam,
   ],
 })

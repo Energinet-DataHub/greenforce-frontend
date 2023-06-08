@@ -25,19 +25,14 @@ env:
   node-version-file: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
   yarn-version: 3.5.0
-  NX_MAX_PARALLEL: 2
-
-  # Nx Cloud
-  NX_BRANCH: ${{ github.event.number }}
-  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-  NX_RUN_GROUP: ${{ github.run_id }}
 
   # DH E2E
   # Note: Cypress automatically removes the "CYPRESS_" prefix in CI
   CYPRESS_DH_E2E_USERNAME: ${{ secrets.DH_E2E_USERNAME }}
   CYPRESS_DH_E2E_PASSWORD: ${{ secrets.DH_E2E_PASSWORD }}
   CYPRESS_DH_E2E_B2C_URL: https://dev002DataHubB2C.b2clogin.com
-
+  # See https://github.com/cypress-io/cypress/issues/25357
+  ELECTRON_EXTRA_LAUNCH_ARGS: --disable-gpu
 on:
   push:
     branches:
@@ -85,11 +80,11 @@ jobs:
 
       - name: "PR: Production build of affected products"
         if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:build --base=origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL
+        run: yarn affected:build --base=origin/$BASE_BRANCH
 
       - name: "Merge: Production build of all products"
         if: ${{ env.is-pull-request == 'false' }}
-        run: yarn build --max-parallel=$NX_MAX_PARALLEL
+        run: yarn build
 
   sonarcloud:
     name: SonarCloud
@@ -106,7 +101,7 @@ jobs:
             -Dsonar.projectKey=geh-frontend-app
             -Dsonar.organization=energinet-datahub
             -Dsonar.sources=apps/dh/app-dh,libs/dh,libs/ui-watt,libs/gf
-            -Dsonar.exclusions=**/*.spec.ts,libs/dh/shared/domain/src/lib/generated/**/*,libs/dh/shared/data-access-msw/src/assets/mockServiceWorker.js
+            -Dsonar.exclusions=**/*.spec.ts,libs/dh/shared/domain/src/lib/generated/**/*,libs/dh/shared/data-access-msw/src/assets/mockServiceWorker.js,libs/dh/shared/data-access-msw/src/lib/mocks/**/*
             -Dsonar.coverage.exclusions=libs/ui-watt/**/+storybook/*,libs/ui-watt/**/*.stories.ts,
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
@@ -144,11 +139,18 @@ jobs:
 
       - name: "PR: End-to-end test affected products"
         if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL
+        run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
+
+      - name: Upload artifact
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-e2e
+          path: dist/cypress/apps/
 
       - name: "Merge: End-to-end test all products"
         if: ${{ env.is-pull-request == 'false' }}
-        run: yarn e2e --configuration=ci --max-parallel=$NX_MAX_PARALLEL
+        run: yarn e2e --configuration=ci
 
   format:
     name: "PR: Format"
@@ -239,7 +241,7 @@ jobs:
 
       - name: "PR: Fix affected projects using lint rules"
         if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:lint:fix --base=origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL
+        run: yarn affected:lint:fix --base=origin/$BASE_BRANCH
 
       - name: "PR: Commit fixed files"
         if: ${{ env.is-pull-request == 'true' }}
@@ -252,7 +254,7 @@ jobs:
 
       - name: "Merge: Lint workspace and all projects"
         if: ${{ env.is-pull-request == 'false' }}
-        run: yarn lint --max-parallel=$NX_MAX_PARALLEL
+        run: yarn lint
 
   test:
     name: Unit and integration test
@@ -286,11 +288,11 @@ jobs:
 
       - name: "PR: Test affected projects"
         if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:test --base=origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL
+        run: yarn affected:test --base=origin/$BASE_BRANCH
 
       - name: "Merge: Test all projects"
         if: ${{ env.is-pull-request == 'false' }}
-        run: yarn test --max-parallel=$NX_MAX_PARALLEL
+        run: yarn test
 
   componentTests:
     name: Component test
@@ -324,8 +326,15 @@ jobs:
 
       - name: "PR: Test affected projects"
         if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected -t component-test --base=origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL
+        run: yarn affected -t component-test --base=origin/$BASE_BRANCH
+
+      - name: Upload artifact
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-component-tests
+          path: dist/cypress/libs/
 
       - name: "Merge: Test all projects"
         if: ${{ env.is-pull-request == 'false' }}
-        run: yarn nx run-many -t component-test --max-parallel=$NX_MAX_PARALLEL
+        run: yarn nx run-many -t component-test

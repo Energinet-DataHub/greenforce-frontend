@@ -20,17 +20,17 @@ import { Component, ViewChild, inject, Output, EventEmitter } from '@angular/cor
 import { Apollo } from 'apollo-angular';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattCardComponent } from '@energinet-datahub/watt/card';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
@@ -41,15 +41,15 @@ import { Subscription, takeUntil } from 'rxjs';
 @Component({
   standalone: true,
   imports: [
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     CommonModule,
     DhWholesaleGridAreasComponent,
     TranslocoModule,
     WattBadgeComponent,
-    WattCardModule,
-    WattDrawerModule,
-    ...WATT_BREADCRUMBS,
-    WattSpinnerModule,
+    WattCardComponent,
+    WATT_DRAWER,
+    WATT_BREADCRUMBS,
+    WattSpinnerComponent,
     WattEmptyStateComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,

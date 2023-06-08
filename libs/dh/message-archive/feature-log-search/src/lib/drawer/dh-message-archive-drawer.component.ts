@@ -14,23 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { Component, Input, ViewChild } from '@angular/core';
-import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { TranslocoModule } from '@ngneat/transloco';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { Component, Input, ViewChild, inject } from '@angular/core';
+import { ArchivedMessage, Stream } from '@energinet-datahub/dh/shared/domain';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { MatDividerModule } from '@angular/material/divider';
 import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { DhMessageArchiveDataAccessBlobApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
-
+import { DhMessageArchiveDocumentApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
 import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
 import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeName.pipe';
 import { PushModule } from '@rx-angular/template/push';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { provideComponentStore } from '@ngrx/component-store';
 
 @Component({
   standalone: true,
@@ -39,38 +40,71 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
   styleUrls: ['./dh-message-archive-drawer.component.scss'],
   imports: [
     CommonModule,
-    WattDrawerModule,
+    WATT_DRAWER,
     TranslocoModule,
-    WattIconModule,
-    DhSharedUiDateTimeModule,
+    WattIconComponent,
+    WattDatePipe,
     DhMessageArchiveStatusComponent,
     MatDividerModule,
     ActorNamePipe,
     DocumentTypeNamePipe,
-    WattButtonModule,
+    WattButtonComponent,
     PushModule,
     DhEmDashFallbackPipeScam,
   ],
+  providers: [provideComponentStore(DhMessageArchiveDocumentApiStore)],
 })
 export class DhMessageArchiveDrawerComponent {
+  private document = inject(DOCUMENT);
+  private transloco = inject(TranslocoService);
+  private toastService = inject(WattToastService);
   @ViewChild('drawer') drawer!: WattDrawerComponent;
   @Input() actors: WattDropdownOptions | null = null;
 
   message: ArchivedMessage | null = null;
-  messageLog$ = this.blobStore.blobContent$;
+  documentContent: string | null = null;
 
-  constructor(private blobStore: DhMessageArchiveDataAccessBlobApiStore) {}
+  constructor(private apiStore: DhMessageArchiveDocumentApiStore) {}
 
   open(message: ArchivedMessage) {
     this.message = message;
     this.drawer.open();
+    if (this.message) {
+      this.getDocument(this.message?.messageId);
+    }
   }
 
   onClose() {
     this.drawer.close();
   }
 
-  downloadLogFile() {
-    return;
+  getDocument(messageId: string) {
+    this.apiStore.getDocument({
+      id: messageId,
+      onSuccessFn: this.onSuccesFn,
+      onErrorFn: this.onErrorFn,
+    });
   }
+
+  downloadDocument() {
+    const blobPart = this.documentContent as unknown as BlobPart;
+    const blob = new Blob([blobPart]);
+    const url = window.URL.createObjectURL(blob);
+    const link = this.document.createElement('a');
+    link.href = url;
+    link.download = `${this.message?.messageId}.txt`;
+    link.click();
+    link.remove();
+  }
+
+  private readonly onSuccesFn = async (id: string, data: Stream) => {
+    const blobPart = data as unknown as BlobPart;
+    const blob = new Blob([blobPart]);
+    this.documentContent = await new Response(blob).text();
+  };
+
+  private readonly onErrorFn = () => {
+    const errorText = this.transloco.translate('messageArchive.document.loadFailed');
+    this.toastService.open({ message: errorText, type: 'danger' });
+  };
 }

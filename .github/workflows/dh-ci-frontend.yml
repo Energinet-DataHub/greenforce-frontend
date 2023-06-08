@@ -26,7 +26,6 @@ env:
   NODE_VERSION_FILE: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
   YARN_VERSION: 3.5.0
-  NX_MAX_PARALLEL: 2
 
 jobs:
   #
@@ -57,7 +56,7 @@ jobs:
         run: npm run ngcc:dh
 
       - name: Production build
-        run: yarn nx build ${{ env.APP_NAME }} --max-parallel=$${{ env.NX_MAX_PARALLEL }}
+        run: yarn nx build ${{ env.APP_NAME }}
 
       - name: Optimize i18n assets
         run: yarn i18n:optimize:${{ env.APP_NAME }}
@@ -73,8 +72,8 @@ jobs:
           filename: ${{ env.RELEASE_VERSION }}.zip
           directory: ${{ env.RELEASE_FOLDER_PATH }}
 
-      - name: Create prelease
-        uses: marvinpinto/action-automatic-releases@v1.2.1
+      - name: Create prerelease
+        uses: marvinpinto/action-automatic-releases@6273874b61ebc8c71f1a61b2d98e234cf389b303
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: ${{ env.RELEASE_VERSION }}

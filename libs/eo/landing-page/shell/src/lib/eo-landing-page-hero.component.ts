@@ -15,12 +15,10 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { EoLandingPageLoginButtonComponent } from './eo-landing-page-login-button.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [EoLandingPageLoginButtonComponent],
   selector: 'eo-landing-page-hero',
   styles: [
     `
@@ -84,9 +82,6 @@ import { EoLandingPageLoginButtonComponent } from './eo-landing-page-login-butto
     <img src="/assets/images/landing-page/hero-illustration.png" />
 
     <div class="call-to-action">
-      <h2 class="eo-text-primary-contrast">Log in with your company NemID</h2>
-
-      <eo-landing-page-login-button></eo-landing-page-login-button>
       <div class="powered-by">
         <img src="/assets/images/landing-page/powered-by.png" />
       </div>

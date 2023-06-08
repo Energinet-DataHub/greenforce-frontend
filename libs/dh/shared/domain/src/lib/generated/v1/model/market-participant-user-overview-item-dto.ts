@@ -16,7 +16,8 @@ import { MarketParticipantUserStatus } from './market-participant-user-status';
 export interface MarketParticipantUserOverviewItemDto { 
     id: string;
     status: MarketParticipantUserStatus;
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     phoneNumber?: string | null;
     createdDate: string;

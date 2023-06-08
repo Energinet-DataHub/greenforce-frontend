@@ -25,6 +25,8 @@
   --watt-color-primary-dark-contrast: var(--watt-color-neutral-white);
   --watt-color-primary-ultralight: #ebf5f5;
   --watt-color-primary-ultralight-contrast: var(--watt-color-neutral-black);
+  --mitid-color: #0061e9;
+  --mitid-color-hover: #176ee9;
   // Secondary
   --watt-color-secondary: #f8ad3c;
   --watt-color-secondary-dark: #ee9331;
@@ -85,9 +87,14 @@
   --watt-typography-link-color: var(--watt-color-primary-dark);
   // Text Color Emphasis
   --watt-on-light-high-emphasis: rgba(0, 0, 0, 0.87);
-  --watt-on-light-medium-emphasis: rgba(0, 0, 0, 0.74);
+  --watt-on-light-medium-emphasis: rgba(0, 0, 0, 0.62);
   --watt-on-light-low-emphasis: rgba(0, 0, 0, 0.38);
-  --watt-on-dark-high-emphasis: rgba(255, 255, 255, 0.87);
+  --watt-on-dark-high-emphasis: rgba(255, 255, 255, 1);
   --watt-on-dark-medium-emphasis: rgba(255, 255, 255, 0.62);
   --watt-on-dark-low-emphasis: rgba(255, 255, 255, 0.38);
+  // Surface overlays
+  --watt-on-light-surface-overlay: rgba(33, 33, 33, 0.08);
+
+  // shadows
+  --watt-bottom-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
 }

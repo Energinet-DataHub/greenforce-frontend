@@ -26,6 +26,7 @@
 @use "../../../foundations/table";
 @use "../../../foundations/tooltip";
 @use "../../../foundations/elevation";
+@use "../../../foundations/chips";
 
 html,
 body {
@@ -34,4 +35,14 @@ body {
 body {
   margin: 0;
   font-family: "Open Sans", sans-serif;
+}
+
+/**
+  * Fix dropdown overlay positioning
+  * We use the attribute selector to make sure we only target the dropdowns
+  * ex. time- and datepicker has other classes appended to the '.cdk-overlay-pane' element
+  * and therefore won't be hitted by this selector.
+  */
+.cdk-overlay-pane[class="cdk-overlay-pane"] {
+  transform: none !important;
 }

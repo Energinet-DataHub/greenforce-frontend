@@ -15,28 +15,28 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   DhMessageArchiveActorDataAccessApiStore,
   DhMessageArchiveDataAccessApiStore,
   DhMessageArchiveDataAccessBlobApiStore,
 } from '@energinet-datahub/dh/message-archive/data-access-api';
-import { DocumentTypes, ProcessTypes } from '@energinet-datahub/dh/message-archive/domain';
+import { DocumentTypes, BusinessReasons } from '@energinet-datahub/dh/message-archive/domain';
+import { ArchivedMessageSearchCriteria } from '@energinet-datahub/dh/shared/domain';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import {
   danishTimeZoneIdentifier,
-  WattDatepickerModule,
+  WattDatepickerComponent,
   WattRange,
 } from '@energinet-datahub/watt/datepicker';
-import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattInputModule } from '@energinet-datahub/watt/input';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattTimepickerModule } from '@energinet-datahub/watt/timepicker';
-import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
@@ -54,44 +54,51 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     DhMessageArchiveDataAccessBlobApiStore,
     DhMessageArchiveActorDataAccessApiStore,
   ],
-  encapsulation: ViewEncapsulation.None,
   imports: [
-    WattFormFieldModule,
-    WattInputModule,
-    WattButtonModule,
-    WattCheckboxModule,
-    WattDatepickerModule,
-    WattTimepickerModule,
+    WATT_FORM_FIELD,
+    WattInputDirective,
+    WattButtonComponent,
+    WattCheckboxComponent,
+    WattDatepickerComponent,
+    WattTimepickerComponent,
     FormsModule,
     CommonModule,
     LetModule,
     TranslocoModule,
     DhMessageArchiveLogSearchResultComponent,
     WattBadgeComponent,
-    WattDropdownModule,
-    WattSpinnerModule,
+    WattDropdownComponent,
+    WattSpinnerComponent,
     ReactiveFormsModule,
     PushModule,
-    WattTopBarComponent,
   ],
 })
 export class DhMessageArchiveLogSearchComponent {
   searchForm: FormGroup = new FormGroup({
-    messageId: new FormControl(''),
-    rsmNames: new FormControl([]),
-    processTypes: new FormControl([]),
-    senderId: new FormControl(''),
-    receiverId: new FormControl(''),
-    includeRelated: new FormControl<boolean>({ value: false, disabled: true }),
-    dateRange: new FormControl<WattRange>({
-      start: '',
-      end: '',
-    }),
-    timeRange: new FormControl<WattRange>({
-      start: '00:00',
-      end: '23:59',
-      disabled: true,
-    }),
+    messageId: new FormControl('', { nonNullable: true }),
+    documentTypes: new FormControl([], { nonNullable: true }),
+    businessReasons: new FormControl([], { nonNullable: true }),
+    senderNumber: new FormControl('', { nonNullable: true }),
+    receiverNumber: new FormControl('', { nonNullable: true }),
+    includeRelated: new FormControl<boolean>(
+      { value: false, disabled: true },
+      { nonNullable: true }
+    ),
+    dateRange: new FormControl<WattRange>(
+      {
+        start: new Date().toISOString(),
+        end: new Date().toISOString(),
+      },
+      { nonNullable: true }
+    ),
+    timeRange: new FormControl<WattRange>(
+      {
+        start: '00:00',
+        end: '23:59',
+        disabled: true,
+      },
+      { nonNullable: true }
+    ),
   });
 
   searchResult$ = this.store.searchResult$;
@@ -101,11 +108,13 @@ export class DhMessageArchiveLogSearchComponent {
   isInit$ = this.store.isInit$;
   getActorOptions$ = this.actorStore.actors$;
 
-  rsmFormFieldOptions: WattDropdownOptions = this.buildRsmOptions();
-  processTypeFormFieldOptions: WattDropdownOptions = this.buildProcessTypesOptions();
+  documentTypeFieldOptions: WattDropdownOptions = this.buildDocumentTypeOptions();
+  businessReasonFormFieldOptions: WattDropdownOptions = this.buildBusinessTypesOptions();
 
   searching = false;
   maxItemCount = 100;
+
+  searchCriteria: ArchivedMessageSearchCriteria = {};
 
   constructor(
     private store: DhMessageArchiveDataAccessApiStore,
@@ -132,24 +141,32 @@ export class DhMessageArchiveLogSearchComponent {
     }
   }
 
-  private buildRsmOptions() {
+  private buildDocumentTypeOptions() {
     return Object.entries(DocumentTypes).map((entry) => ({
       value: entry[0],
       displayValue: `${entry[1]} - ${entry[0]}`,
     }));
   }
 
-  private buildProcessTypesOptions() {
-    return Object.entries(ProcessTypes).map((entry) => ({
+  private buildBusinessTypesOptions() {
+    return Object.entries(BusinessReasons).map((entry) => ({
       value: entry[0],
-      displayValue: `${entry[0]} - ${entry[1]}`,
+      displayValue: `${entry[1]}`,
     }));
   }
 
   onSubmit() {
     if (this.searchForm.valid === false) return;
 
-    const { dateRange, timeRange } = this.searchForm.value;
+    const {
+      dateRange,
+      messageId,
+      receiverNumber,
+      senderNumber,
+      timeRange,
+      documentTypes,
+      businessReasons,
+    } = this.searchForm.value;
 
     const dateTimeFrom = zonedTimeToUtc(dateRange?.start, danishTimeZoneIdentifier);
     const dateTimeTo = zonedTimeToUtc(dateRange?.end, danishTimeZoneIdentifier);
@@ -165,16 +182,26 @@ export class DhMessageArchiveLogSearchComponent {
       dateTimeTo.setMinutes(toMinutes);
     }
 
-    this.store.searchLogs();
+    Object.assign(this.searchCriteria, {
+      dateTimeFrom: dateTimeFrom.toISOString(),
+      dateTimeTo: dateTimeTo.toISOString(),
+      messageId: messageId === '' ? null : messageId,
+      senderNumber: senderNumber === '' ? null : senderNumber,
+      receiverNumber: receiverNumber === '' ? null : receiverNumber,
+      documentTypes: documentTypes?.length === 0 ? null : documentTypes,
+      businessReasons: businessReasons?.length === 0 ? null : businessReasons,
+    });
+
+    this.store.searchLogs(this.searchCriteria);
   }
 
   loadMore(continuationToken?: string | null) {
     console.log({ continuationToken });
   }
 
-  resetSearchCritera() {
+  resetSearchCriteria() {
     this.store.resetState();
-    //TODO: reset form not working
+
     this.searchForm.reset();
   }
 }

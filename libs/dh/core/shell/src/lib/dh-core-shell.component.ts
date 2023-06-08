@@ -21,13 +21,15 @@ import { MsalService } from '@azure/msal-angular';
 import { PushModule } from '@rx-angular/template/push';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { DhLanguagePickerComponent } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar';
 
 import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
-import { WattTopBarOutletComponent } from '@energinet-datahub/watt/top-bar';
-import { DhSelectedActorComponent } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhSelectedActorComponent,
+  DhSignupMitIdComponent,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-shell',
@@ -36,14 +38,14 @@ import { DhSelectedActorComponent } from '@energinet-datahub/dh/shared/feature-a
   standalone: true,
   imports: [
     TranslocoModule,
-    DhLanguagePickerModule,
+    DhLanguagePickerComponent,
     RouterModule,
     PushModule,
     DhPrimaryNavigationComponent,
     WattShellComponent,
-    WattButtonModule,
-    WattTopBarOutletComponent,
+    WattButtonComponent,
     DhSelectedActorComponent,
+    DhSignupMitIdComponent,
   ],
 })
 export class DhCoreShellComponent {

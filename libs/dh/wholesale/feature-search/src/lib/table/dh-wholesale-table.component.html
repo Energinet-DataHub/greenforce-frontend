@@ -31,21 +31,26 @@ limitations under the License.
     sortDirection="desc"
     (rowClick)="selectedRow.emit($event)"
   >
+    <!-- Started By -->
+    <ng-container *wattTableCell="columns.startedBy; let batch">
+      {{ batch.createdByUserName | dhEmDashFallback }}
+    </ng-container>
+
     <!-- Period From -->
     <ng-container *wattTableCell="columns.periodFrom; let batch">
-      {{ batch.period?.start | dhDate }}
+      {{ batch.period?.start | wattDate }}
     </ng-container>
 
     <!-- Period To -->
     <ng-container *wattTableCell="columns.periodTo; let batch">
-      {{ batch.period?.end | dhDate }}
+      {{ batch.period?.end | wattDate }}
     </ng-container>
 
     <!-- Execution Time -->
     <ng-container *wattTableCell="columns.executionTime; let batch">
       <div>
-        <div>{{ batch.executionTimeStart | dhDateTime }}</div>
-        <div>{{ batch.executionTimeEnd | dhDateTime }}</div>
+        <div>{{ batch.executionTimeStart | wattDate : "long" }}</div>
+        <div>{{ batch.executionTimeEnd | wattDate : "long" }}</div>
       </div>
     </ng-container>
 

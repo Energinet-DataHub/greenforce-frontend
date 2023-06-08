@@ -14,8 +14,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,20 +32,59 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
             _httpClient = httpClient;
         }
 
-        public async Task<SearchResult> SearchAsync(CancellationToken cancellationToken)
+        public async Task<SearchResult> SearchAsync(
+            ArchivedMessageSearchCriteria archivedMessageSearch,
+            CancellationToken cancellationToken)
         {
-            var url = "/api/messages";
-            var response = await _httpClient.GetAsync(url, cancellationToken);
-            response.EnsureSuccessStatusCode();
-
             var searchResultResponseMessages =
-                await response.Content.ReadFromJsonAsync<IReadOnlyList<ArchivedMessageDto>>().ConfigureAwait(false);
+                await GetSearchResultResponseMessagesAsync(archivedMessageSearch, cancellationToken);
 
             if (searchResultResponseMessages == null)
             {
                 throw new InvalidOperationException("Could not parse response content from EDI.");
             }
 
+            return MapResult(searchResultResponseMessages);
+        }
+
+        public async Task<Stream> GetDocumentAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var url = $"api/v1/archived-messages/{id}/document";
+            var response = await _httpClient.GetAsync(url, cancellationToken);
+
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+        }
+
+        private async Task<IReadOnlyList<ArchivedMessageDto>?> GetSearchResultResponseMessagesAsync(
+            ArchivedMessageSearchCriteria archivedMessageSearch,
+            CancellationToken cancellationToken)
+        {
+            var url = "api/v1/archived-messages/search";
+            var content = new StringContent(JsonSerializer.Serialize(
+                new ArchivedMessageSearchCriteriaDto(
+                    new CreatedDuringPeriod(
+                archivedMessageSearch.DateTimeFrom,
+                archivedMessageSearch.DateTimeTo),
+                    archivedMessageSearch.MessageId,
+                    archivedMessageSearch.SenderNumber,
+                    archivedMessageSearch.ReceiverNumber,
+                    archivedMessageSearch.DocumentTypes,
+                    archivedMessageSearch.BusinessReasons)));
+
+            var response = await _httpClient.PostAsync(url, content, cancellationToken);
+
+            response.EnsureSuccessStatusCode();
+
+            var searchResultResponseMessages =
+                await response.Content.ReadFromJsonAsync<IReadOnlyList<ArchivedMessageDto>>().ConfigureAwait(false);
+
+            return searchResultResponseMessages;
+        }
+
+        private static SearchResult MapResult(IReadOnlyList<ArchivedMessageDto> searchResultResponseMessages)
+        {
             var result = new List<ArchivedMessage>();
 
             foreach (var archivedMessageDto in searchResultResponseMessages)
@@ -59,20 +100,4 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
             return new SearchResult(result);
         }
     }
-
-    public sealed record SearchResult(IReadOnlyList<ArchivedMessage> Messages);
-
-    public sealed record ArchivedMessage(
-        string? MessageId,
-        string? MessageType,
-        DateTimeOffset? CreatedDate,
-        string? SenderGln,
-        string? ReceiverGln);
-
-    public sealed record ArchivedMessageDto(
-        string MessageId,
-        string DocumentType,
-        string CreatedAt,
-        string SenderNumber,
-        string ReceiverNumber);
 }

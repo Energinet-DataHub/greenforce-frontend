@@ -2,6 +2,7 @@
   "appName": "DataHub",
   "yes": "Yes",
   "no": "No",
+  "selectedLanguageIso": "en-gb",
   "shell": {
     "logout": "Sign out"
   },
@@ -459,9 +460,12 @@
       "sender": "Sender",
       "download": "Download"
     },
+    "document": {
+      "loadFailed": "Failed to load document"
+    },
     "search": {
       "topBarTitle": "Search in request and response messages",
-      "rsmName": "Document type",
+      "documentType": "Document type",
       "senderGln": "Sender",
       "messageId": "Message Id",
       "traceId": "Trace Id",
@@ -472,7 +476,7 @@
       "startSearch": "Search",
       "noResultsFound": "No result",
       "progressType": "Business reason",
-      "chooseDocumentType": "Type or choose",
+      "typeOrChoose": "Type or choose",
       "includeRelatedMessage": "Include related message (when searching Message Id)",
       "loadMore": "Load more",
       "rsm": "RSM",
@@ -528,7 +532,7 @@
           "marketRole": "Market role",
           "gridArea": "Grid area",
           "meteringPointTypes": "Type of metering points",
-          "comment": "Comment",
+          "commentLabel": "Comment",
           "invalidConfiguration": "Market roles are not correctly configured"
         }
       }
@@ -735,6 +739,7 @@
   "wholesale": {
     "BALANCE_FIXING": "Balance Fixing",
     "AGGREGATION": "Aggregation",
+    "WHOLESALE_FIXING": "Wholesale fixing",
     "startBatch": {
       "topBarTitle": "Start Batch",
       "startLabel": "Start",
@@ -753,10 +758,22 @@
         "AGGREGATION": "Aggregation"
       },
       "executionTypes": {
-        "ACTUAL": "Actual",
-        "SIMULATION": "Simulation"
+        "actual": "Actual",
+        "simulation": "Simulation"
       },
-      "processTypeError": "Process type is required"
+      "processTypeError": "Process type is required",
+      "periodWarning": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
+      "modal": {
+        "title": "Rerun balance fixing?",
+        "warningLabel": "This will issue new data to the actors",
+        "warningMessage": "Rerunning a balance fixing will result in all associated actors receiving new data for their settlements.",
+        "body": "You are about to issue new data for already settled periods. This will invalidate previous balance fixings and new data will be issued to the actors.",
+        "confirmation": "Are you sure you want to run this batch?",
+        "hint": "Enter I WANT TO RERUN BALANCE FIXING to confirm",
+        "confirmButton": "Rerun",
+        "cancelButton": "Cancel",
+        "confirmText": "I WANT TO RERUN BALANCE FIXING"
+      }
     },
     "searchBatch": {
       "topBarTitle": "Search Batch",
@@ -764,9 +781,12 @@
       "filters": {
         "executionTime": "Execution time",
         "executionTimeRequired": "Execution time is required",
+        "startedBy": "Started by",
+        "startedByPlaceholder": "Enter an email",
         "searchButton": "Search"
       },
       "columns": {
+        "startedBy": "Started by",
         "batchId": "Batch number",
         "periodFrom": "Period from",
         "periodTo": "Period to",
@@ -798,6 +818,11 @@
       "topBarTitle": "Settlement Reports",
       "download": "Download",
       "downloadFailed": "Download failed",
+      "downloadStart": "Starting download...",
+      "tabs": {
+        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
+        "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"
+      },
       "table": {
         "title": "Processes",
         "processType": "Process type",
@@ -821,6 +846,7 @@
         "executionTimeRequired": "Execution time is required",
         "actor": "Actor",
         "loadingActors": "Loading actors...",
+        "loadingGridAreas": "Loading grid areas...",
         "actorPlaceholder": "Select actor",
         "processTypePlaceholder": "Select process type",
         "gridAreasPlaceholder": "Select grid area(s)"
@@ -881,6 +907,7 @@
   },
   "admin": {
     "userManagement": {
+      "connect": "Connect",
       "inviteUser": {
         "title": "Invite user",
         "informations": "Information",
@@ -901,11 +928,15 @@
           "eicFunction": "Market role",
           "name": "Name",
           "description": "Description"
+        },
+        "serverErrors": {
+          "invalidPhoneNumber": "The provided phone number is formatted properly, but is an invalid phone number."
         }
       },
       "download": "Download",
       "drawer": {
         "edit": "Edit",
+        "editRole": "Edit role",
         "disable": "Disable",
         "disablingUserRole": "Disabling user role",
         "userroleDisabled": "The user role was deactivated",
@@ -1020,7 +1051,8 @@
           },
           "table": {
             "columns": {
-              "name": "Name",
+              "firstName": "First name",
+              "lastName": "Last name",
               "email": "Email",
               "phone": "Phone",
               "assignedActors": "Assigned market parties",
@@ -1042,7 +1074,8 @@
           "rolesHeadline": "User roles",
           "filter": {
             "status": "Status",
-            "marketRole": "Market role"
+            "marketRole": "Market role",
+            "search": "Search user roles"
           },
           "table": {
             "columns": {
@@ -1110,7 +1143,8 @@
           "roles": "User roles"
         },
         "masterData": {
-          "fullName": "Name",
+          "firstName": "First name",
+          "lastName": "Last name",
           "phone": "Phone number"
         },
         "phoneNumberError": "Phone number format +45 12345678"

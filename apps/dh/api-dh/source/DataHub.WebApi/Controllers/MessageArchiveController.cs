@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -27,10 +28,13 @@ namespace Energinet.DataHub.WebApi.Controllers
     public class MessageArchiveController : ControllerBase
     {
         private readonly ArchivedMessagesSearch _archivedMessagesSearch;
+        private readonly ActorService _actorService;
 
-        public MessageArchiveController(ArchivedMessagesSearch archivedMessagesSearch)
+        public MessageArchiveController(ArchivedMessagesSearch archivedMessagesSearch, ActorService actorService)
         {
-            _archivedMessagesSearch = archivedMessagesSearch ?? throw new ArgumentNullException(nameof(archivedMessagesSearch));
+            _archivedMessagesSearch =
+                archivedMessagesSearch ?? throw new ArgumentNullException(nameof(archivedMessagesSearch));
+            _actorService = actorService ?? throw new ArgumentNullException(nameof(actorService));
         }
 
         /// <summary>
@@ -38,21 +42,29 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// </summary>
         /// <returns>Search result.</returns>
         [HttpPost("SearchRequestResponseLogs")]
-        public async Task<ActionResult<SearchResult>> SearchRequestResponseLogsAsync(CancellationToken cancellationToken)
+        public async Task<ActionResult<SearchResult>> SearchRequestResponseLogsAsync(
+            ArchivedMessageSearchCriteria archivedMessageSearch, CancellationToken cancellationToken)
         {
-            var result = await _archivedMessagesSearch.SearchAsync(cancellationToken).ConfigureAwait(false);
+            var result = await _archivedMessagesSearch.SearchAsync(archivedMessageSearch, cancellationToken)
+                .ConfigureAwait(false);
 
             return !result.Messages.Any() ? NoContent() : Ok(result);
         }
 
-        /// <summary>
-        /// Download log content as stream.
-        /// </summary>
-        /// <returns>log content</returns>
-        [HttpGet("DownloadRequestResponseLogContent")]
-        public Task<ActionResult<Stream>> DownloadRequestResponseLogContentAsync()
+        [HttpGet("Actors")]
+        public async Task<ActionResult<IEnumerable<Actor>>> GetActorsAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var result = await _actorService.GetActorsAsync(cancellationToken);
+
+            return !result.Any() ? NoContent() : Ok(result);
+        }
+
+        [HttpGet("{id:Guid}/Document")]
+        [Produces("application/xml")]
+        public async Task<ActionResult<Stream>> GetDocumentAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var document = await _archivedMessagesSearch.GetDocumentAsync(id, cancellationToken);
+            return Ok(document);
         }
     }
 }

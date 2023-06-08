@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   DhMarketParticipantGridAreaOverviewDataAccessApiStore,
   DhMarketParticipantGridAreaDataAccessApiStore,
@@ -23,10 +23,10 @@ import {
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { DhMarketParticipantGridAreaOverviewScam } from './overview/dh-market-participant-gridarea-overview.component';
+import { DhMarketParticipantGridAreaOverviewComponent } from './overview/dh-market-participant-gridarea-overview.component';
 import { PushModule } from '@rx-angular/template/push';
 
 @Component({
@@ -36,6 +36,17 @@ import { PushModule } from '@rx-angular/template/push';
   providers: [
     DhMarketParticipantGridAreaOverviewDataAccessApiStore,
     DhMarketParticipantGridAreaDataAccessApiStore,
+  ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    LetModule,
+    TranslocoModule,
+    WattEmptyStateComponent,
+    WattSpinnerComponent,
+    WattValidationMessageComponent,
+    DhMarketParticipantGridAreaOverviewComponent,
+    PushModule,
   ],
 })
 export class DhMarketParticipantGridAreaComponent {
@@ -60,18 +71,3 @@ export class DhMarketParticipantGridAreaComponent {
 
   getGridAreaData = (gridAreaId: string) => this.gridAreaEditStore.getAuditLog(gridAreaId);
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    LetModule,
-    TranslocoModule,
-    WattEmptyStateComponent,
-    WattSpinnerModule,
-    WattValidationMessageModule,
-    DhMarketParticipantGridAreaOverviewScam,
-    PushModule,
-  ],
-  declarations: [DhMarketParticipantGridAreaComponent],
-})
-export class DhMarketParticipantGridAreaScam {}

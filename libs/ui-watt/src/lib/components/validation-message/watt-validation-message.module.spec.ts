@@ -21,7 +21,6 @@ import {
   WattValidationMessageComponent,
   WattValidationMessageType,
 } from './watt-validation-message.component';
-import { WattValidationMessageModule } from './watt-validation-message.module';
 
 describe(WattValidationMessageComponent.name, () => {
   it('exports shared Watt Design System validation message', async () => {
@@ -35,12 +34,11 @@ describe(WattValidationMessageComponent.name, () => {
       </watt-validation-message>
     `,
       {
-        imports: [WattValidationMessageModule],
+        imports: [WattValidationMessageComponent],
       }
     );
-    const expectedVariable = `${label}:`;
 
-    expect(view.queryByText(expectedVariable)).not.toBeNull();
+    expect(view.queryByText(label)).not.toBeNull();
     expect(view.queryByText(message)).not.toBeNull();
   });
 });

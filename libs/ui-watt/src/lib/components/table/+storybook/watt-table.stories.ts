@@ -21,7 +21,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WattStorybookTableDecoratorComponent } from './storybook-table-decorator.component';
 import { WattTableColumnDef, WATT_TABLE } from '../watt-table.component';
 import { WattTableDataSource } from '../watt-table-data-source';
-import { WattIconModule } from '../../../foundations/icon/icon.module';
+import { WattButtonComponent } from '../../button';
+import { WattIconComponent } from '../../../foundations/icon/icon.component';
 
 function removeDecoratorFromSource(snippet: string) {
   const matches = snippet.match(/^<.+?>(.+)<\/.+>$/s);
@@ -64,7 +65,8 @@ export default {
     moduleMetadata({
       imports: [
         WATT_TABLE,
-        WattIconModule,
+        WattButtonComponent,
+        WattIconComponent,
         MatSortModule,
         BrowserAnimationsModule,
         WattStorybookTableDecoratorComponent,
@@ -91,7 +93,7 @@ export const Table: StoryFn = (args) => {
         [suppressRowHoverHighlight]="suppressRowHoverHighlight"
         [activeRow]="activeRow"
         (rowClick)="activeRow = $event"
-        >
+      >
         <ng-container *wattTableCell="table.columns.name; let element">
           <div class="watt-text-s">
             {{ element.name }}
@@ -104,11 +106,21 @@ export const Table: StoryFn = (args) => {
           <div style="display: flex">
             <watt-icon
               name="date"
-              size="s"
+              size="xs"
               class="date-icon watt-space-inline-s"
             ></watt-icon>
             <span class="watt-text-s">{{ element.symbol }}</span>
           </div>
+        </ng-container>
+        <ng-container *wattTableToolbar="let selection">
+          {{ selection.length }} selected rows
+          <watt-table-toolbar-spacer />
+          <watt-button type="text" icon="download">
+            Download
+          </watt-button>
+          <watt-button type="text" icon="upload">
+            Upload
+          </watt-button>
         </ng-container>
       </watt-table>
     `,

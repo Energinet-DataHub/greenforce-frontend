@@ -39,7 +39,6 @@ import {
 
 import { DhUserStatusComponent } from '../../shared/dh-user-status.component';
 import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -64,7 +63,6 @@ import { Subject, takeUntil } from 'rxjs';
     WATT_TABLE,
     CommonModule,
     TranslocoModule,
-    DhSharedUiDateTimeModule,
     DhEmDashFallbackPipeScam,
     DhUserStatusComponent,
     DhUserDrawerComponent,
@@ -74,7 +72,8 @@ export class DhUsersTabTableComponent implements AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   columns: WattTableColumnDef<MarketParticipantUserOverviewItemDto> = {
-    name: { accessor: 'name' },
+    firstName: { accessor: 'firstName' },
+    lastName: { accessor: 'lastName' },
     email: { accessor: 'email' },
     phoneNumber: { accessor: 'phoneNumber' },
     assignedActors: { accessor: 'assignedActors', sort: false },

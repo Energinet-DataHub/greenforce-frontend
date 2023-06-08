@@ -15,17 +15,14 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import {
-  MarketParticipantActorDto,
-  MarketParticipantHttp,
-} from '@energinet-datahub/dh/shared/domain';
+import { Actor, MessageArchiveHttp } from '@energinet-datahub/dh/shared/domain';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { LoadingState, ErrorState } from '@energinet-datahub/dh/shared/data-access-api';
 import { map, Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 interface ActorsResultState {
-  readonly actorResult: MarketParticipantActorDto[] | null;
+  readonly actorResult: Actor[] | null;
   readonly loadingState: LoadingState | ErrorState;
 }
 
@@ -42,14 +39,14 @@ export class DhMessageArchiveActorDataAccessApiStore extends ComponentStore<Acto
 
   actors$ = this.select((state) => state.actorResult).pipe(
     map((actors) =>
-      (actors ?? []).flatMap((actor: MarketParticipantActorDto) => ({
+      (actors ?? []).flatMap((actor: Actor) => ({
         value: actor.actorNumber.value,
         displayValue: actor.name.value === '' ? actor.actorNumber.value : actor.name.value,
       }))
     )
   );
 
-  constructor(private httpClient: MarketParticipantHttp) {
+  constructor(private httpClient: MessageArchiveHttp) {
     super(initialState);
   }
 
@@ -60,10 +57,9 @@ export class DhMessageArchiveActorDataAccessApiStore extends ComponentStore<Acto
         this.setLoadState(LoadingState.LOADING);
       }),
       switchMap(() =>
-        this.httpClient.v1MarketParticipantOrganizationGetAllOrganizationsWithActorsGet().pipe(
+        this.httpClient.v1MessageArchiveActorsGet().pipe(
           tapResponse(
-            (organizations) => {
-              const actors = organizations.flatMap((organization) => organization.actors);
+            (actors) => {
               this.updateStates(actors);
             },
             (error: HttpErrorResponse) => {
@@ -84,13 +80,13 @@ export class DhMessageArchiveActorDataAccessApiStore extends ComponentStore<Acto
   );
 
   private update = this.updater(
-    (state: ActorsResultState, actors: MarketParticipantActorDto[]): ActorsResultState => ({
+    (state: ActorsResultState, actors: Actor[]): ActorsResultState => ({
       ...state,
       actorResult: actors,
     })
   );
 
-  private updateStates = (actors: MarketParticipantActorDto[]) => {
+  private updateStates = (actors: Actor[]) => {
     this.update(actors);
 
     if (actors.length == 0) {

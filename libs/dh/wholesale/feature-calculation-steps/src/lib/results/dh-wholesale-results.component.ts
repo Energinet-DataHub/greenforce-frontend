@@ -21,12 +21,12 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
@@ -47,15 +47,16 @@ import { ActivatedRoute } from '@angular/router';
     DhWholesaleTimeSeriesPointsComponent,
     TranslocoModule,
     WattBadgeComponent,
-    WattButtonModule,
-    WattCardModule,
-    WattDrawerModule,
+    WattButtonComponent,
+    WattCardComponent,
+    WattDrawerComponent,
     WattEmptyStateComponent,
-    WattSpinnerModule,
-    ...WATT_BREADCRUMBS,
+    WattSpinnerComponent,
+    WATT_BREADCRUMBS,
+    WATT_DRAWER,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
   ],
 })
 export class DhWholesaleResultsComponent implements OnInit, OnDestroy {

@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
-import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattInputDirective } from '@energinet-datahub/watt/input';
 import {
   FormControl,
   FormGroup,
@@ -27,12 +27,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { Subject, take, takeUntil } from 'rxjs';
 import { ChargeTypes, ResolutionOptions } from '@energinet-datahub/dh/charges/domain';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
-import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import {
   DhChargesDataAccessApiStore,
   DhMarketParticipantDataAccessApiStore,
@@ -55,6 +55,21 @@ import { add } from 'date-fns';
   templateUrl: './dh-charges-create-prices.component.html',
   styleUrls: ['./dh-charges-create-prices.component.scss'],
   providers: [DhMarketParticipantDataAccessApiStore, DhChargesDataAccessApiStore],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    PushModule,
+    TranslocoModule,
+    ReactiveFormsModule,
+    WattButtonComponent,
+    WATT_CARD,
+    WattCheckboxComponent,
+    WattDatepickerComponent,
+    WATT_FORM_FIELD,
+    WattInputDirective,
+    WattDropdownComponent,
+  ],
 })
 export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   chargeTypeOptions: WattDropdownOptions = [];
@@ -324,22 +339,3 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     return null;
   }
 }
-
-@NgModule({
-  declarations: [DhChargesCreatePricesComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    PushModule,
-    TranslocoModule,
-    ReactiveFormsModule,
-    WattButtonModule,
-    WattCardModule,
-    WattCheckboxModule,
-    WattDatepickerModule,
-    WattFormFieldModule,
-    WattInputModule,
-    WattDropdownModule,
-  ],
-})
-export class DhChargesCreatePricesScam {}

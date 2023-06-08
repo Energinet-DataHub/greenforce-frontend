@@ -15,12 +15,28 @@
  * limitations under the License.
  */
 import { rest } from 'msw';
-import result from './data/messageArchiveSearchResponseLogs.json';
+import archivedMessages from './data/messageArchiveSearchResponseLogs.json';
+import actors from './data/messageArchiveActors.json';
+import { document } from './data/message-archived-document';
 
 export function messageArchiveMocks(apiBase: string) {
-  return [
-    rest.post(`${apiBase}/v1/MessageArchive/SearchRequestResponseLogs`, (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(result));
-    }),
-  ];
+  return [archivedMessageSearch(apiBase), getActors(apiBase), getDocument(apiBase)];
+}
+
+export function archivedMessageSearch(apiBase: string) {
+  return rest.post(`${apiBase}/v1/MessageArchive/SearchRequestResponseLogs`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(archivedMessages));
+  });
+}
+
+export function getActors(apiBase: string) {
+  return rest.get(`${apiBase}/v1/MessageArchive/Actors`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(actors));
+  });
+}
+
+export function getDocument(apiBase: string) {
+  return rest.get(`${apiBase}/v1/MessageArchive/:id/Document`, async (req, res, ctx) => {
+    return res(ctx.status(200), ctx.body(document));
+  });
 }

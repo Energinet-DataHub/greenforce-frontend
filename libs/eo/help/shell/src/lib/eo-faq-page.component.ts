@@ -15,12 +15,11 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [RouterModule],
   selector: 'eo-faq-page',
   styles: [
     `
@@ -42,23 +41,21 @@ import { RouterModule } from '@angular/router';
   ],
   template: `
     <div class="watt-space-stack-m faq-link">
-      <a routerLink="." fragment="#what-is-energy-origin"> What is Energy Origin? </a>
+      <a (click)="scrollTo('what-is-energy-origin')">What is Energy Origin?</a>
     </div>
     <div class="watt-space-stack-m faq-link">
-      <a routerLink="." fragment="#who-can-access-the-platform"> Who can access the platform? </a>
+      <a (click)="scrollTo('who-can-access-the-platform')">Who can access the platform?</a>
     </div>
     <div class="watt-space-stack-m faq-link">
-      <a routerLink="." fragment="#where-does-the-data-come-from">
-        Where does the data come from?
-      </a>
+      <a (click)="scrollTo('where-does-the-data-come-from')">Where does the data come from?</a>
     </div>
     <div class="watt-space-stack-m faq-link">
-      <a routerLink="." fragment="#how-can-i-influence-the-development">
+      <a (click)="scrollTo('how-can-i-influence-the-development')">
         How can I influence the development?
       </a>
     </div>
     <div class="watt-space-stack-m faq-link">
-      <a routerLink="." fragment="#where-can-i-read-more"> Where can I read more? </a>
+      <a (click)="scrollTo('where-can-i-read-more')">Where can I read more?</a>
     </div>
 
     <h3 id="what-is-energy-origin">What is Energy Origin?</h3>
@@ -71,8 +68,8 @@ import { RouterModule } from '@angular/router';
 
     <h3 id="who-can-access-the-platform">Who can access the platform?</h3>
     <p>
-      Currently, the platform only offers company login via NemID. Later on, it will be possible for
-      private individuals to login via NemID / MitID.
+      Currently, the platform only offers company login via MitID. Later on, it will be possible for
+      private individuals to login via MitID.
     </p>
 
     <h3 id="where-does-the-data-come-from">Where does the data come from?</h3>
@@ -103,4 +100,6 @@ import { RouterModule } from '@angular/router';
     </p>
   `,
 })
-export class EoFaqPageComponent {}
+export class EoFaqPageComponent {
+  scrollTo = SharedUtilities.scrollToAnchor;
+}

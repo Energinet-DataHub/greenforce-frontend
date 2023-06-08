@@ -36,7 +36,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Resolve()
                 .WithScope()
                 .WithService<IMarketParticipantPermissionsClient>()
-                .ResolveAsync(async (context, client) => await client.GetPermissionAsync(context.GetArgument<int>("id")));
+                .ResolveAsync(
+                    async (context, client) => await client.GetPermissionAsync(context.GetArgument<int>("id")));
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<PermissionDtoType>>>>("permissions")
                 .Argument<StringGraphType>("searchTerm", "The search term for which to look for in name and description")
@@ -63,7 +64,9 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .ResolveAsync(async (context, permissionClient, userClient) =>
                 {
                     var permissionId = context.GetArgument<int>("id");
-                    var permission = (await permissionClient.GetPermissionsAsync()).Single(permission => permission.Id == permissionId);
+                    var permission =
+                        (await permissionClient.GetPermissionsAsync()).Single(permission =>
+                            permission.Id == permissionId);
                     var auditLogs = await permissionClient.GetAuditLogsAsync(permissionId);
                     var userLookup = new Dictionary<Guid, UserDto>();
                     var auditLogsViewDtos = new List<PermissionAuditLogViewDto>
@@ -117,7 +120,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Resolve()
                 .WithScope()
                 .WithService<IMarketParticipantClient>()
-                .ResolveAsync(async (context, client) => await client.GetOrganizationAsync(context.GetArgument<Guid>("id")));
+                .ResolveAsync(async (context, client) =>
+                    await client.GetOrganizationAsync(context.GetArgument<Guid>("id")));
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<GridAreaType>>>>("gridAreas")
                 .Resolve()
@@ -134,15 +138,31 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<BatchType>>>>("batches")
                 .Argument<DateRangeType>("executionTime")
+                .Argument<BatchState>("executionState", nullable: true)
+                .Argument<ProcessType>("processType", nullable: true)
+                .Argument<DateRangeType>("period")
+                .Argument<IntGraphType>("first")
                 .Resolve()
                 .WithScope()
                 .WithService<IWholesaleClient_V3>()
                 .ResolveAsync(async (context, client) =>
                 {
-                    var interval = context.GetArgument<Interval>("executionTime");
-                    var start = interval.Start.ToDateTimeOffset();
-                    var end = interval.End.ToDateTimeOffset();
-                    return await client.SearchBatchesAsync(null, null, start, end);
+                    var executionTime = context.GetArgument<Interval?>("executionTime");
+                    var executionState = context.GetArgument<BatchState?>("executionState");
+                    var processType = context.GetArgument<ProcessType?>("processType");
+                    var period = context.GetArgument<Interval?>("period");
+                    var first = context.GetArgument<int?>("first");
+
+                    var minExecutionTime = executionTime?.Start.ToDateTimeOffset();
+                    var maxExecutionTime = executionTime?.End.ToDateTimeOffset();
+                    var periodStart = period?.Start.ToDateTimeOffset();
+                    var periodEnd = period?.End.ToDateTimeOffset();
+
+                    var batches = (await client.SearchBatchesAsync(null, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd))
+                        .OrderByDescending(x => x.ExecutionTimeStart)
+                        .Where(x => processType == null || x.ProcessType == processType);
+
+                    return first is not null ? batches.Take(first.Value) : batches;
                 });
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<SettlementReportType>>>>("settlementReports")
@@ -161,7 +181,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var period = context.GetArgument<Interval?>("period");
                     var executionTime = context.GetArgument<Interval?>("executionTime");
 
-                    var minExecutionTime = executionTime?.HasStart == true ? executionTime?.Start.ToDateTimeOffset() : null;
+                    var minExecutionTime =
+                        executionTime?.HasStart == true ? executionTime?.Start.ToDateTimeOffset() : null;
                     var maxExecutionTime = executionTime?.HasEnd == true ? executionTime?.End.ToDateTimeOffset() : null;
                     var periodStart = period?.HasStart == true ? period?.Start.ToDateTimeOffset() : null;
                     var periodEnd = period?.HasEnd == true ? period?.End.ToDateTimeOffset() : null;
@@ -196,35 +217,45 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Resolve(context => new { });
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<ActorDtoType>>>>("actors")
-               .Resolve()
-               .WithScope()
-               .WithService<IMarketParticipantClient>()
-               .ResolveAsync(async (context, client) =>
-               {
-                   var gridAreas = await client.GetGridAreasAsync();
-                   var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
-                   var actors = await client.GetActorsAsync();
+                .Argument<EicFunction[]>("eicFunctions", true)
+                .Resolve()
+                .WithScope()
+                .WithService<IMarketParticipantClient>()
+                .ResolveAsync(async (context, client) =>
+                {
+                    var eicFunctions = context.GetArgument("eicFunctions", Array.Empty<EicFunction>());
+                    var gridAreas = await client.GetGridAreasAsync();
+                    var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
+                    var actors = await client.GetActorsAsync();
 
-                   var accessibleActors = actors.Select(x => new Actor(x.ActorNumber.Value)
-                   {
-                       Id = x.ActorId,
-                       Name = x.Name.Value,
-                       GridAreaCodes = x.MarketRoles
-                          .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
-                          .Distinct()
-                          .Select(gridAreaId => gridAreaLookup[gridAreaId].Code)
-                          .ToArray(),
-                   });
+                    if (eicFunctions is not { Length: 0 })
+                    {
+                        actors = actors.Where(x =>
+                            x.MarketRoles.Any(y =>
+                                y.EicFunction is EicFunction.EnergySupplier or EicFunction.GridAccessProvider));
+                    }
 
-                   // TODO: Is this the right place to filter this list?
-                   if (context.User!.IsFas())
-                   {
-                       return accessibleActors;
-                   }
+                    var accessibleActors = actors.Select(x => new Actor(x.ActorNumber.Value)
+                    {
+                        Id = x.ActorId,
+                        Name = x.Name.Value,
+                        Number = x.ActorNumber.ToString(),
+                        GridAreaCodes = x.MarketRoles
+                            .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
+                            .Distinct()
+                            .Select(gridAreaId => gridAreaLookup[gridAreaId].Code)
+                            .ToArray(),
+                    });
 
-                   var actorId = context.User!.GetAssociatedActor();
-                   return accessibleActors.Where(actor => actor.Id == actorId);
-               });
+                    // TODO: Is this the right place to filter this list?
+                    if (context.User!.IsFas())
+                    {
+                        return accessibleActors;
+                    }
+
+                    var actorId = context.User!.GetAssociatedActor();
+                    return accessibleActors.Where(actor => actor.Id == actorId);
+                });
         }
     }
 }

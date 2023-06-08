@@ -17,20 +17,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { MatDividerModule } from '@angular/material/divider';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
-import { WattExpansionModule } from '@energinet-datahub/watt/expansion';
+import { WattExpansionComponent } from '@energinet-datahub/watt/expansion';
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    DhSharedUiDateTimeModule,
-    MatDividerModule,
-    WattExpansionModule,
-  ],
+  imports: [CommonModule, TranslocoModule, WattDatePipe, MatDividerModule, WattExpansionComponent],
   selector: 'dh-charge-details-header',
   styleUrls: ['./dh-charge-details-header.component.scss'],
   templateUrl: './dh-charge-details-header.component.html',

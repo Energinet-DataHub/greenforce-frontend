@@ -22,9 +22,9 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import {
@@ -32,7 +32,6 @@ import {
   settlementReportsTableColumns,
 } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
-import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
 import { Subject, takeUntil } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import {
@@ -55,9 +54,8 @@ import { SettlementReport } from '@energinet-datahub/dh/wholesale/domain';
     PushModule,
     TranslocoModule,
     WattEmptyStateComponent,
-    WattSpinnerModule,
-    WattTopBarComponent,
-    WattCardModule,
+    WattSpinnerComponent,
+    WATT_CARD,
   ],
   templateUrl: './dh-wholesale-settlement-reports.component.html',
   styleUrls: ['./dh-wholesale-settlement-reports.component.scss'],

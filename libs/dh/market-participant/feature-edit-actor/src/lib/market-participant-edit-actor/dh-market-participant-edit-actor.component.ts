@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@rx-angular/template/push';
@@ -38,21 +38,38 @@ import {
   MarketParticipantActorContactDto,
   MarketParticipantActorStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { WattModalModule, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
+import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { DhMarketParticipantActorContactDataComponentScam } from './contact-data/dh-market-participant-actor-contact-data.component';
-import { DhMarketParticipantActorMasterDataComponentScam } from './master-data/dh-market-participant-actor-master-data.component';
-import { DhMarketParticipantActorMarketRolesComponentScam } from './market-roles/dh-market-participant-actor-market-roles.component';
+import { DhMarketParticipantActorContactDataComponent } from './contact-data/dh-market-participant-actor-contact-data.component';
+import { DhMarketParticipantActorMasterDataComponent } from './master-data/dh-market-participant-actor-master-data.component';
+import { DhMarketParticipantActorMarketRolesComponent } from './market-roles/dh-market-participant-actor-market-roles.component';
 
 @Component({
   selector: 'dh-market-participant-edit-actor',
   templateUrl: './dh-market-participant-edit-actor.component.html',
   styleUrls: ['./dh-market-participant-edit-actor.component.scss'],
   providers: [DhMarketParticipantEditActorDataAccessApiStore],
+  standalone: true,
+  imports: [
+    LetModule,
+    PushModule,
+    CommonModule,
+    TranslocoModule,
+    WattButtonComponent,
+    WattTabComponent,
+    WattTabsComponent,
+    WattSpinnerComponent,
+    WATT_MODAL,
+    PushModule,
+    DhMarketParticipantActorMasterDataComponent,
+    DhMarketParticipantActorContactDataComponent,
+    DhMarketParticipantActorMarketRolesComponent,
+    WattValidationMessageComponent,
+  ],
 })
 export class DhMarketParticipantEditActorComponent {
   routeParams$ = this.route.params.pipe(
@@ -121,25 +138,3 @@ export class DhMarketParticipantEditActorComponent {
     this.router.navigateByUrl(`${dhMarketParticipantPath}/${dhMarketParticipantOrganizationsPath}`);
   };
 }
-
-@NgModule({
-  imports: [
-    LetModule,
-    PushModule,
-    CommonModule,
-    TranslocoModule,
-    WattButtonModule,
-    WattTabComponent,
-    WattTabsComponent,
-    WattSpinnerModule,
-    WattModalModule,
-    PushModule,
-    DhMarketParticipantActorMasterDataComponentScam,
-    DhMarketParticipantActorContactDataComponentScam,
-    DhMarketParticipantActorMarketRolesComponentScam,
-    WattValidationMessageModule,
-  ],
-  exports: [DhMarketParticipantEditActorComponent],
-  declarations: [DhMarketParticipantEditActorComponent],
-})
-export class DhMarketParticipantEditActorScam {}

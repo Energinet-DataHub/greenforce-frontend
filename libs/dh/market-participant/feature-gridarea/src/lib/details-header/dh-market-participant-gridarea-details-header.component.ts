@@ -15,31 +15,26 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'dh-market-participant-gridarea-details-header',
   styleUrls: ['./dh-market-participant-gridarea-details-header.component.scss'],
   templateUrl: './dh-market-participant-gridarea-details-header.component.html',
-})
-export class DhMarketParticipantGridAreaDetailsHeaderComponent {
-  @Input() gridArea?: GridAreaOverviewRow;
-}
-
-@NgModule({
+  standalone: true,
   imports: [
     CommonModule,
     TranslocoModule,
     DhEmDashFallbackPipeScam,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     MatDividerModule,
   ],
-  declarations: [DhMarketParticipantGridAreaDetailsHeaderComponent],
-  exports: [DhMarketParticipantGridAreaDetailsHeaderComponent],
 })
-export class DhMarketParticipantGridAreaDetailsHeaderScam {}
+export class DhMarketParticipantGridAreaDetailsHeaderComponent {
+  @Input() gridArea?: GridAreaOverviewRow;
+}

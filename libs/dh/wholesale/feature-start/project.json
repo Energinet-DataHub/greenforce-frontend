@@ -28,7 +28,8 @@
         "cypressConfig": "libs/dh/wholesale/feature-start/cypress.config.ts",
         "testingType": "component",
         "skipServe": true,
-        "devServerTarget": "app-dh:build:mocked"
+        "devServerTarget": "app-dh:build:mocked",
+        "browser": "chrome"
       }
     }
   },

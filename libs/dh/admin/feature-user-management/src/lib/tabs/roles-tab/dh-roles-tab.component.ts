@@ -22,11 +22,11 @@ import { take } from 'rxjs';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import {
   MarketParticipantEicFunction,
   MarketParticipantUserRoleDto,
@@ -34,7 +34,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhCreateUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-create-user-role';
-import { WattModalModule } from '@energinet-datahub/watt/modal';
+import { WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
@@ -51,19 +51,18 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
   imports: [
     CommonModule,
     TranslocoModule,
-    WattButtonModule,
-    WattCardModule,
-    WattSpinnerModule,
+    WattButtonComponent,
+    WATT_CARD,
+    WattSpinnerComponent,
     PushModule,
     DhRolesTabTableComponent,
     DhSharedUiPaginatorComponent,
-    WattButtonModule,
     DhRolesTabListFilterComponent,
     DhTabDataGeneralErrorComponent,
     LetModule,
     DhPermissionRequiredDirective,
     DhCreateUserRoleModalComponent,
-    WattModalModule,
+    WATT_MODAL,
   ],
 })
 export class DhUserRolesTabComponent {
@@ -84,6 +83,10 @@ export class DhUserRolesTabComponent {
 
   updateFilterEicFunction(eicFunctions: MarketParticipantEicFunction[] | null) {
     this.store.setFilterEicFunction(eicFunctions);
+  }
+
+  updateSearchTerm(searchTerm: string | null) {
+    this.store.setSearchTerm(searchTerm);
   }
 
   reloadRoles(): void {

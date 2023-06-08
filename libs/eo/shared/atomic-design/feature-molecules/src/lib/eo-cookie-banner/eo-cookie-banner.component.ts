@@ -18,7 +18,7 @@ import { Component, EventEmitter, NgModule, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   selector: 'eo-cookie-banner',
@@ -96,6 +96,6 @@ export class EoCookieBannerComponent {
 @NgModule({
   declarations: [EoCookieBannerComponent],
   exports: [EoCookieBannerComponent],
-  imports: [WattButtonModule, MatCardModule, MatSlideToggleModule, FormsModule],
+  imports: [WattButtonComponent, MatCardModule, MatSlideToggleModule, FormsModule],
 })
 export class EoCookieBannerComponentComponent {}

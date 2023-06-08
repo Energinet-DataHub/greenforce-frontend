@@ -18,14 +18,14 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angul
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-general-error',
   templateUrl: './dh-metering-point-general-error.component.html',
-  imports: [TranslocoModule, WattButtonModule, WattEmptyStateComponent],
+  imports: [TranslocoModule, WattButtonComponent, WattEmptyStateComponent],
 })
 export class DhMeteringPointGeneralErrorComponent {
   @Output() reload = new EventEmitter<void>();

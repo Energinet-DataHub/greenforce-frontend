@@ -26,13 +26,14 @@ import {
 import { take } from 'rxjs';
 import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { graphql, WholesaleBatchHttp } from '@energinet-datahub/dh/shared/domain';
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -45,13 +46,14 @@ type wholesaleTableData = WattTableDataSource<Batch>;
   imports: [
     WATT_TABLE,
     CommonModule,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     TranslocoModule,
     WattBadgeComponent,
-    WattButtonModule,
+    WattButtonComponent,
     WattEmptyStateComponent,
     WattPaginatorComponent,
-    WattCardModule,
+    WATT_CARD,
+    DhEmDashFallbackPipeScam,
   ],
   selector: 'dh-wholesale-table',
   templateUrl: './dh-wholesale-table.component.html',
@@ -75,6 +77,7 @@ export class DhWholesaleTableComponent {
 
   _data: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Batch> = {
+    startedBy: { accessor: null },
     periodFrom: { accessor: (batch) => batch.period?.start },
     periodTo: { accessor: (batch) => batch.period?.end },
     executionTime: { accessor: 'executionTimeStart' },

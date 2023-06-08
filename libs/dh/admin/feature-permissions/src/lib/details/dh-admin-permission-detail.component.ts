@@ -19,14 +19,14 @@ import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { map, Subscription } from 'rxjs';
 
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WattCardComponent } from '@energinet-datahub/watt/card';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhEditPermissionModalComponent } from '@energinet-datahub/dh/admin/feature-edit-permission-modal';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
@@ -41,17 +41,16 @@ import { DhAdminPermissionMarketRolesComponent } from './tabs/dh-admin-permissio
   standalone: true,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './dh-admin-permission-detail.component.html',
-  styleUrls: ['./dh-admin-permission-detail.component.scss'],
   imports: [
     CommonModule,
-    WattDrawerModule,
+    WATT_DRAWER,
     TranslocoModule,
-    WattCardModule,
+    WattCardComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattTabsComponent,
     WattTabComponent,
-    WattButtonModule,
+    WattButtonComponent,
     DhPermissionRequiredDirective,
     DhEditPermissionModalComponent,
     DhPermissionAuditLogsComponent,

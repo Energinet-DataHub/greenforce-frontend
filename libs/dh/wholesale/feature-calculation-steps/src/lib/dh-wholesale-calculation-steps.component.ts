@@ -23,16 +23,15 @@ import { ApolloError } from '@apollo/client';
 import { Apollo } from 'apollo-angular';
 import { Subject, takeUntil } from 'rxjs';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattTopBarComponent } from '@energinet-datahub/watt/top-bar';
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { navigateToWholesaleSearchBatch } from '@energinet-datahub/dh/wholesale/routing';
@@ -43,20 +42,19 @@ import { DhWholesaleActorsComponent } from './actors/dh-wholesale-actors.compone
   styleUrls: ['./dh-wholesale-calculation-steps.component.scss'],
   standalone: true,
   imports: [
-    ...WATT_BREADCRUMBS,
-    ...WATT_EXPANDABLE_CARD_COMPONENTS,
+    WATT_BREADCRUMBS,
+    WATT_EXPANDABLE_CARD_COMPONENTS,
+    WATT_DRAWER,
     CommonModule,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     LetModule,
     TranslocoModule,
     RouterModule,
     WattBadgeComponent,
-    WattButtonModule,
-    WattCardModule,
-    WattDrawerModule,
+    WattButtonComponent,
+    WATT_CARD,
     WattEmptyStateComponent,
-    WattSpinnerModule,
-    WattTopBarComponent,
+    WattSpinnerComponent,
     DhWholesaleActorsComponent,
   ],
 })

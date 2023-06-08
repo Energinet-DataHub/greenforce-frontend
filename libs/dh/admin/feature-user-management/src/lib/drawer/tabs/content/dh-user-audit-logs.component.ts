@@ -18,16 +18,16 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import {
   DhAdminUserManagementAuditLogsDataAccessApiStore,
   DhUserAuditLogEntry,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { provideComponentStore } from '@ngrx/component-store';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { map } from 'rxjs';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
@@ -43,11 +43,11 @@ import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shar
     LetModule,
     PushModule,
     TranslocoModule,
-    WattCardModule,
-    WattSpinnerModule,
+    WATT_CARD,
+    WattSpinnerComponent,
     WattEmptyStateComponent,
     WATT_TABLE,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
   ],
 })
 export class DhUserAuditLogsComponent implements OnChanges {

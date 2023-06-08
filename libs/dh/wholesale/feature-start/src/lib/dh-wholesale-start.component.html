@@ -14,22 +14,85 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+
+<watt-modal
+  *transloco="let transloco; read: 'wholesale.startBatch.modal'"
+  #modal
+  size="small"
+  [title]="transloco('title')"
+>
+  <watt-validation-message
+    type="warning"
+    icon="warning"
+    size="normal"
+    [label]="transloco('warningLabel')"
+    [message]="transloco('warningMessage')"
+  />
+  <p>{{ transloco("body") }}</p>
+  <p>{{ transloco("confirmation") }}</p>
+  <watt-form-field>
+    <input #input wattInput [formControl]="confirmFormControl" />
+    <watt-hint>{{ transloco("hint") }}</watt-hint>
+  </watt-form-field>
+  <watt-modal-actions>
+    <watt-button variant="secondary" (click)="modal.close(false)">
+      {{ transloco("cancelButton") }}
+    </watt-button>
+    <watt-button
+      [disabled]="input.value.toUpperCase() !== transloco('confirmText')"
+      (click)="modal.close(true)"
+    >
+      {{ transloco("confirmButton") }}
+    </watt-button>
+  </watt-modal-actions>
+</watt-modal>
+
 <ng-container *rxLet="gridAreasQuery.valueChanges; let result">
   <ng-container *ngIf="result.data?.gridAreas">
     <form
       [formGroup]="createBatchForm"
       *transloco="let transloco; read: 'wholesale'"
-      (ngSubmit)="createBatch()"
+      (ngSubmit)="
+        latestPeriodEnd && createBatchForm.controls.processType.value === 'BALANCE_FIXING'
+          ? modal.open()
+          : createBatch()
+      "
       novalidate
     >
+      <!-- Period Warning-->
+      <watt-validation-message
+        *ngIf="latestPeriodEnd && createBatchForm.controls.processType.value === 'BALANCE_FIXING'"
+        type="warning"
+        icon="warning"
+        message="{{
+          transloco('startBatch.periodWarning', {
+            latestPeriodEnd: latestPeriodEnd | wattDate
+          })
+        }}"
+      />
+
       <!-- Execution type -->
       <label>{{ transloco("startBatch.executionTypeLabel") }}</label>
-      <watt-chips
-        [options]="executionTypes"
-        [selection]="selectedExecutionType"
-        (selectionChange)="onExecutionTypeSelected($event)"
-      ></watt-chips>
-
+      <div class="execution-types">
+        <watt-filter-chip
+          choice
+          name="executionType"
+          value="ACTUAL"
+          [selected]="true"
+          (selectionChange)="onExecutionTypeSelected($event)"
+        >
+          {{ transloco("startBatch.executionTypes.actual") }}
+        </watt-filter-chip>
+        <watt-filter-chip
+          choice
+          name="executionType"
+          value="SIMULATION"
+          [disabled]="true"
+          (selectionChange)="onExecutionTypeSelected($event)"
+        >
+          {{ transloco("startBatch.executionTypes.simulation") }}
+        </watt-filter-chip>
+      </div>
       <!-- Process type -->
       <watt-form-field>
         <watt-label>{{ transloco("startBatch.processTypeDropDownLabel") }}</watt-label>
@@ -83,7 +146,7 @@ limitations under the License.
         </watt-error>
       </watt-form-field>
 
-      <watt-button type="submit" [disabled]="createBatchForm.invalid || loadingCreateBatch"
+      <watt-button type="submit" [disabled]="!createBatchForm.valid || loadingCreateBatch"
         >{{ transloco("startBatch.startLabel") }}
       </watt-button>
     </form>

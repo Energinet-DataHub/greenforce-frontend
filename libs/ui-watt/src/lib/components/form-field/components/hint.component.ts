@@ -20,6 +20,7 @@ import { Component, Input } from '@angular/core';
   selector: 'watt-hint',
   template: `<ng-content></ng-content>`,
   styleUrls: ['./hint.component.scss'],
+  standalone: true,
 })
 export class WattHintComponent {
   @Input() align: 'start' | 'end' = 'start';

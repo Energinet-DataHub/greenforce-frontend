@@ -1,0 +1,68 @@
+# Copyright 2020 Energinet DataHub A/S
+#
+# Licensed under the Apache License, Version 2.0 (the "License2");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+name: DH UI Frontend Healthchecks
+env:
+  node-version-file: .nvmrc
+  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
+  yarn-version: 3.5.0
+  # See https://github.com/cypress-io/cypress/issues/25357
+  ELECTRON_EXTRA_LAUNCH_ARGS: --disable-gpu
+on:
+  schedule:
+    - cron: 0 * * * *
+
+jobs:
+  healthchecks:
+    name: Healthchecks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source code with current branch Git history
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ${{ env.node-version-file }}
+
+      - name: 📥 Monorepo install
+        uses: ./.github/actions/yarn-nm-install
+
+      - name: Run healthchecks
+        run: npx nx run e2e-dh:e2e:health
+
+      - name: Upload artifact
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: healthchecks
+          path: dist/cypress/apps/dh/e2e-dh/videos/b2c-healthchecks.cy.ts.mp4
+
+  #
+  # Send notification to teams channel if healthchecks failed
+  #
+  dispatch_failed:
+    needs:
+      [
+        healthchecks
+      ]
+    if: |
+      always() &&
+      contains(needs.*.result, 'failure')
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v11
+    with:
+      team_name: TexasRangers
+      subject: DH UI Frontend Healthchecks - Failed
+    secrets: inherit

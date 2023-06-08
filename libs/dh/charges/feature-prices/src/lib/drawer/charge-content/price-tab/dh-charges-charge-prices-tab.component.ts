@@ -28,7 +28,7 @@ import {
 import { DhDrawerDatepickerComponent } from '../drawer-datepicker/dh-drawer-datepicker.component';
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
@@ -44,11 +44,11 @@ import { Subject, takeUntil } from 'rxjs';
 import { PushModule } from '@rx-angular/template/push';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
 
@@ -58,14 +58,14 @@ import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
     WATT_TABLE,
     CommonModule,
     DhDrawerDatepickerComponent,
-    WattIconModule,
-    WattButtonModule,
+    WattIconComponent,
+    WattButtonComponent,
     WattEmptyStateComponent,
     WattTooltipDirective,
-    WattSpinnerModule,
+    WattSpinnerComponent,
     TranslocoModule,
     DhSharedUiPaginatorComponent,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     PushModule,
     DhFeatureFlagDirectiveModule,
   ],

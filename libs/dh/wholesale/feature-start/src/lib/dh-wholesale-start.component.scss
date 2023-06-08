@@ -14,17 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@use "@energinet-datahub/watt/utils" as watt;
+
 :host {
   display: block;
-  max-width: 300px;
+  max-width: 319px;
+  @include watt.space-inset-l;
+}
+
+watt-validation-message {
+  margin-bottom: var(--watt-space-m);
 }
 
 watt-form-field {
   margin-bottom: var(--watt-space-l);
 }
 
-watt-chips {
-  display: block;
+.execution-types {
+  display: flex;
+  gap: var(--watt-space-s);
   padding-bottom: 1.25em;
   margin-top: 4px;
   margin-bottom: var(--watt-space-l);

@@ -23,12 +23,12 @@ import {
 } from '@energinet-datahub/dh/charges/data-access-api';
 import { DhMessageArchiveDataAccessBlobApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
 import { ChargeMarketParticipantV1Dto, ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { PushModule } from '@rx-angular/template/push';
@@ -42,11 +42,11 @@ import { DhChargesPricesDrawerService } from '../dh-charges-prices-drawer.servic
     PushModule,
     LetModule,
     WattEmptyStateComponent,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     TranslocoModule,
-    WattButtonModule,
-    WattIconModule,
-    WattSpinnerModule,
+    WattButtonComponent,
+    WattIconComponent,
+    WattSpinnerComponent,
     WattBadgeComponent,
     MatDividerModule,
   ],

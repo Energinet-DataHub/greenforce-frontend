@@ -12,6 +12,8 @@
 
 
 export interface MarketParticipantUserIdentityUpdateDto { 
+    firstName: string;
+    lastName: string;
     phoneNumber: string;
 }
 

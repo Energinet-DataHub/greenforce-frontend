@@ -15,26 +15,23 @@
  * limitations under the License.
  */
 import { HttpClientModule } from '@angular/common/http';
-import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { applicationConfig, Meta, StoryFn } from '@storybook/angular';
 
 import { WattIconComponent } from '../icon.component';
 import { WattIconSize } from '../watt-icon-size';
-import { StorybookIconOverviewModule } from './storybook-icon-overview.module';
 import { importProvidersFrom } from '@angular/core';
+import { StorybookIconOverviewComponent } from './storybook-icon-overview.component';
 
 const defaultIconSize: WattIconSize = 'm';
 
-const meta: Meta<WattIconComponent> = {
+const meta: Meta<StorybookIconOverviewComponent> = {
   title: 'Foundations/Icons',
   decorators: [
     applicationConfig({
       providers: [importProvidersFrom(HttpClientModule)],
     }),
-    moduleMetadata({
-      imports: [StorybookIconOverviewModule, HttpClientModule],
-    }),
   ],
-  component: WattIconComponent,
+  component: StorybookIconOverviewComponent,
 };
 
 export default meta;
@@ -51,8 +48,8 @@ Icons.parameters = {
   controls: { hideNoControlsWarning: true },
   docs: {
     source: {
-      code: `1. Import WattIconModule in a module
-import { WattIconModule } from '@energinet-datahub/watt/icon';
+      code: `1. Import WattIconComponent in a component
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 2. Use <watt-icon name="<name>" label="<description>" size="<size>"><watt-icon> in the component's HTML template`,
     },

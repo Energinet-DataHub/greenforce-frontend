@@ -2,6 +2,7 @@
   "appName": "DataHub",
   "yes": "Ja",
   "no": "Nej",
+  "selectedLanguageIso": "da-dk",
   "shell": {
     "logout": "Log ud"
   },
@@ -452,9 +453,12 @@
       "receiver": "Modtager",
       "download": "Download"
     },
+    "document": {
+      "loadFailed": "Kunne ikke hente dokumentet"
+    },
     "search": {
       "topBarTitle": "Fremsøg forretningsbesked",
-      "rsmName": "Dokumenttype",
+      "documentType": "Dokumenttype",
       "senderGln": "Afsender",
       "messageId": "Besked Id",
       "traceId": "Trace Id",
@@ -465,7 +469,7 @@
       "startSearch": "Søg",
       "noResultsFound": "Intet resultat",
       "progressType": "Forretningsårsag",
-      "chooseDocumentType": "Indtast eller vælg",
+      "typeOrChoose": "Indtast eller vælg",
       "includeRelatedMessage": "Inkluder relaterede beskeder (ved søgning på Besked ID)",
       "loadMore": "Indlæs flere",
       "rsm": "RSM",
@@ -521,7 +525,7 @@
           "marketRole": "Markedsrolle",
           "gridArea": "Netområde",
           "meteringPointTypes": "Målepunktstyper",
-          "comment": "Kommentar",
+          "commentLabel": "Kommentar",
           "invalidConfiguration": "Markedsroller er ikke korrekt konfigureret"
         }
       }
@@ -726,6 +730,7 @@
   },
   "wholesale": {
     "BALANCE_FIXING": "Balancefiksering",
+    "WHOLESALE_FIXING": "Engrosfiksering",
     "AGGREGATION": "Aggregering",
     "startBatch": {
       "topBarTitle": "Start batch",
@@ -744,10 +749,22 @@
         "AGGREGATION": "Aggregering"
       },
       "executionTypes": {
-        "ACTUAL": "Faktisk",
-        "SIMULATION": "Simulering"
+        "actual": "Faktisk",
+        "simulation": "Simulering"
       },
-      "processTypeError": "Procestype påkrævet"
+      "processTypeError": "Procestype påkrævet",
+      "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
+      "modal": {
+        "title": "Genkør balancefiksering?",
+        "warningLabel": "Dette vil give aktørerne nye data",
+        "warningMessage": "Genkørsel af en balancefiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
+        "body": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
+        "confirmation": "Er du sikker på, at du vil køre dette batch?",
+        "hint": "Indtast JEG VIL GENKØRE BALANCEFIKSERING for at bekræfte",
+        "confirmButton": "Genkør",
+        "cancelButton": "Kør ikke",
+        "confirmText": "JEG VIL GENKØRE BALANCEFIKSERING"
+      }
     },
     "searchBatch": {
       "topBarTitle": "Søg batch",
@@ -755,9 +772,12 @@
       "filters": {
         "executionTime": "Eksekveringstid",
         "executionTimeRequired": "Eksekveringstid påkrævet",
+        "startedBy": "Bestilt af",
+        "startedByPlaceholder": "Indtast email",
         "searchButton": "Søg"
       },
       "columns": {
+        "startedBy": "Bestilt af",
         "batchId": "Batch-nummer",
         "periodFrom": "Periode fra",
         "periodTo": "Periode til",
@@ -789,6 +809,11 @@
       "topBarTitle": "Afregningsrapporter",
       "download": "Download",
       "downloadFailed": "Download fejlede",
+      "downloadStart": "Starter download...",
+      "tabs": {
+        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
+        "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"
+      },
       "table": {
         "title": "Processer",
         "processType": "Procestype",
@@ -812,6 +837,7 @@
         "executionTimeRequired": "Eksekveringstid påkrævet",
         "actor": "Aktør",
         "loadingActors": "Henter Aktører...",
+        "loadingGridAreas": "Henter netområder...",
         "actorPlaceholder": "Vælg aktør",
         "processTypePlaceholder": "Vælg procestype",
         "gridAreasPlaceholder": "Vælg netområde(r)"
@@ -872,6 +898,7 @@
   },
   "admin": {
     "userManagement": {
+      "connect": "Tilknyt",
       "inviteUser": {
         "title": "Inviter bruger",
         "informations": "Information",
@@ -892,11 +919,15 @@
           "eicFunction": "Markedsrolle",
           "name": "Navn",
           "description": "Beskrivelse"
+        },
+        "serverErrors": {
+          "invalidPhoneNumber": "Telefonnummeret er formatteret korrekt, men er ikke gyldigt."
         }
       },
       "download": "Download",
       "drawer": {
-        "edit": "Rediger rettighed",
+        "edit": "Rediger",
+        "editRole": "Rediger rolle",
         "disable": "Deaktiver",
         "disablingUserRole": "Deaktiverer bruger rollen",
         "userroleDisabled": "Bruger rollen blev deaktiveret.",
@@ -1007,7 +1038,8 @@
           },
           "table": {
             "columns": {
-              "name": "Navn",
+              "firstName": "Fornavn",
+              "lastName": "Efternavn",
               "email": "Email",
               "phone": "Telefon",
               "assignedActors": "Tildelte aktører",
@@ -1022,7 +1054,8 @@
           "rolesHeadline": "Brugerroller",
           "filter": {
             "status": "Status",
-            "marketRole": "Markedsrolle"
+            "marketRole": "Markedsrolle",
+            "search": "Søg brugerroller"
           },
           "table": {
             "columns": {
@@ -1083,7 +1116,8 @@
           "roles": "Brugerroller"
         },
         "masterData": {
-          "fullName": "Navn",
+          "firstName": "Fornavn",
+          "lastName": "Efternavn",
           "phone": "Telefonnr."
         },
         "phoneNumberError": "Telefonnr. format +45 12345678"

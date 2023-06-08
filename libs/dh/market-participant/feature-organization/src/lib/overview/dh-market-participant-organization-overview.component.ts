@@ -19,7 +19,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  NgModule,
   OnChanges,
   Output,
   ViewChild,
@@ -33,14 +32,14 @@ import {
 } from '@angular/material/legacy-table';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattIconModule } from '@energinet-datahub/watt/icon';
-import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
-import { DhMarketParticipantOrganizationOverviewGridAreasScam } from './dh-market-participant-organization-overview-grid-areas-list.component';
+import { DhMarketParticipantOrganizationOverviewGridAreasListComponent } from './dh-market-participant-organization-overview-grid-areas-list.component';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { MarketParticipantGridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { OrganizationWithActorRow } from '@energinet-datahub/dh/market-participant/data-access-api';
@@ -50,6 +49,24 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   selector: 'dh-market-participant-organization-overview',
   styleUrls: ['./dh-market-participant-organization-overview.component.scss'],
   templateUrl: './dh-market-participant-organization-overview.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    LetModule,
+    MatTableModule,
+    MatMenuModule,
+    TranslocoModule,
+    WattBadgeComponent,
+    WattButtonComponent,
+    WattIconComponent,
+    WattEmptyStateComponent,
+    WattSpinnerComponent,
+    WattValidationMessageComponent,
+    DhEmDashFallbackPipeScam,
+    DhMarketParticipantOrganizationOverviewGridAreasListComponent,
+    DhSharedUiPaginatorComponent,
+    DhPermissionRequiredDirective,
+  ],
 })
 export class DhMarketParticipantOrganizationOverviewComponent implements AfterViewInit, OnChanges {
   @ViewChild(DhSharedUiPaginatorComponent)
@@ -98,26 +115,3 @@ export class DhMarketParticipantOrganizationOverviewComponent implements AfterVi
   readonly onEditActor = (organizationId: string, actorId: string) =>
     this.editActor.emit({ organizationId, actorId });
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    LetModule,
-    MatTableModule,
-    MatMenuModule,
-    TranslocoModule,
-    WattBadgeComponent,
-    WattButtonModule,
-    WattIconModule,
-    WattEmptyStateComponent,
-    WattSpinnerModule,
-    WattValidationMessageModule,
-    DhEmDashFallbackPipeScam,
-    DhMarketParticipantOrganizationOverviewGridAreasScam,
-    DhSharedUiPaginatorComponent,
-    DhPermissionRequiredDirective,
-  ],
-  declarations: [DhMarketParticipantOrganizationOverviewComponent],
-  exports: [DhMarketParticipantOrganizationOverviewComponent],
-})
-export class DhMarketParticipantOrganizationOverviewScam {}

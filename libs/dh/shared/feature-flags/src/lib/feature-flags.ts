@@ -37,7 +37,7 @@ const makeFeatureFlags = satisfies<FeatureFlagConfig>();
  * },
  */
 
-const created = '01-04-2023';
+const created = '06-06-2023';
 
 export const dhFeatureFlagsConfig = makeFeatureFlags({
   start_wholesale_process_feature_flag: {
@@ -55,6 +55,10 @@ export const dhFeatureFlagsConfig = makeFeatureFlags({
   create_charge_prices_page_feature_flag: {
     created,
     disabledEnvironments: [],
+  },
+  tab_layout_on_settlement_page_feature_flag: {
+    created: '08-05-2023',
+    disabledEnvironments: [DhAppEnvironment.test],
   },
 });
 

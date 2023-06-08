@@ -26,11 +26,11 @@ import {
 import { CommonModule } from '@angular/common';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { Subscription } from 'rxjs';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { PermissionAuditLog } from '../../permissionAuditLog';
@@ -49,11 +49,11 @@ import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
     LetModule,
     PushModule,
     TranslocoModule,
-    WattCardModule,
-    WattSpinnerModule,
+    WATT_CARD,
+    WattSpinnerComponent,
     WattEmptyStateComponent,
     WATT_TABLE,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
   ],
 })
 export class DhPermissionAuditLogsComponent implements OnInit, OnChanges, OnDestroy {

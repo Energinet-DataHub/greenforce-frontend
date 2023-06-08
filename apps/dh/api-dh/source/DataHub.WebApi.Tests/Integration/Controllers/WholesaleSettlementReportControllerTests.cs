@@ -43,7 +43,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             var batchId = Guid.NewGuid();
             const string gridAreaCode = "123";
 
-            WholesaleClientV3Mock.Setup(x => x.GetSettlementReportAsStreamAsync(batchId, gridAreaCode, null, CancellationToken.None))
+            WholesaleClientV3Mock.Setup(x => x.GetSettlementReportAsStreamAsync(batchId, gridAreaCode, CancellationToken.None))
                 .ReturnsAsync(new FileResponse(0, null, new MemoryStream(), null, null));
 
             // act
