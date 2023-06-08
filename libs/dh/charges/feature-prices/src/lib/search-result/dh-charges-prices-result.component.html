@@ -75,12 +75,12 @@ limitations under the License.
 
         <!-- valid from date column -->
         <ng-container *wattTableCell="table.columns.validFromDateTime; let element">
-          {{ element.validFromDateTime | dhDate }}
+          {{ element.validFromDateTime | wattDate }}
         </ng-container>
 
         <!-- valid to date column -->
         <ng-container *wattTableCell="table.columns.validToDateTime; let element">
-          {{ element.validToDateTime | dhDate }}
+          {{ element.validToDateTime | wattDate }}
         </ng-container>
       </watt-table>
 
