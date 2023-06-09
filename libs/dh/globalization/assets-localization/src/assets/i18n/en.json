@@ -996,7 +996,7 @@
         "active": "Active",
         "inactive": "Inactive",
         "invited": "Invited",
-        "inviteexpired": "Invitation expired"
+        "inviteExpired": "Invitation expired"
       },
       "roleStatus": {
         "active": "Active",
