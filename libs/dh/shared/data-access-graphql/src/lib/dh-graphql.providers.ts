@@ -22,8 +22,9 @@ import { DhApiEnvironment, dhApiEnvironmentToken } from '@energinet-datahub/dh/s
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { errorHandler } from './error-handler';
+import { makeEnvironmentProviders } from '@angular/core';
 
-export const graphQLProviders = [
+export const graphQLProviders = makeEnvironmentProviders([
   {
     provide: APOLLO_OPTIONS,
     useFactory(
@@ -58,4 +59,4 @@ export const graphQLProviders = [
     },
     deps: [HttpLink, dhApiEnvironmentToken, DhApplicationInsights],
   },
-];
+]);
