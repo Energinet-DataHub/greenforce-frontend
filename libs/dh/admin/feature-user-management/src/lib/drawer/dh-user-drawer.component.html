@@ -24,12 +24,16 @@ limitations under the License.
     </watt-drawer-heading>
 
     <watt-drawer-actions>
-      <watt-button
-        variant="secondary"
-        *dhPermissionRequired="['users:manage']"
-        (click)="reinvite()"
-        >{{ t("reinvite") }}</watt-button
+      <ng-container
+        *ngIf="selectedUser?.status === 'Invited' || selectedUser?.status === 'InviteExpired'"
       >
+        <watt-button
+          variant="secondary"
+          *dhPermissionRequired="['users:manage']"
+          (click)="reinvite()"
+          >{{ t("reinvite") }}</watt-button
+        >
+      </ng-container>
       <watt-button
         variant="secondary"
         *dhPermissionRequired="['users:manage']"
