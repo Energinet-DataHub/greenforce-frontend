@@ -67,7 +67,12 @@ limitations under the License.
     </form>
 
     <watt-modal-actions>
-      <watt-button *ngIf="user?.status === 'Invited' || user?.status === 'InviteExpired'" class="reinvite-link" variant="text" (click)="reinvite()">
+      <watt-button
+        *ngIf="user?.status === 'Invited' || user?.status === 'InviteExpired'"
+        class="reinvite-link"
+        variant="text"
+        (click)="reinvite()"
+      >
         {{ t("reinvite") }}
       </watt-button>
       <watt-button variant="secondary" (click)="close()">
