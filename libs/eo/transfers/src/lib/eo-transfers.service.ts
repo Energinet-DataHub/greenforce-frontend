@@ -54,7 +54,7 @@ export class EoTransfersService {
     return this.http.get<EoListedTransfer[]>(`${this.#apiBase}/transfer-agreements`);
   }
 
-  createAgreement(transfer: any) {
+  createAgreement(transfer: { startDate: number; endDate: number; receiverTin: string }) {
     return this.http.post<EoCreateTransferResponse>(
       `${this.#apiBase}/transfer-agreements`,
       transfer
