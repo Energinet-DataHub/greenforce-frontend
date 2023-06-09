@@ -22,4 +22,8 @@ export class SharedUtilities {
       inline: 'nearest',
     });
   }
+
+  static isDateActive(date: string): boolean {
+    return new Date(date).getTime() >= new Date().getTime();
+  }
 }

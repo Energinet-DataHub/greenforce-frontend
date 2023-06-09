@@ -16,6 +16,7 @@
  */
 import { DatePipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCardComponent } from '@energinet-datahub/watt/card';
@@ -95,6 +96,7 @@ import { EoListedTransfer } from './eo-transfers.service';
 export class EoTransfersDrawerComponent {
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
+  isDateActive = SharedUtilities.isDateActive;
   transfer: EoListedTransfer | undefined;
 
   open(transfer: EoListedTransfer): void {
@@ -104,9 +106,5 @@ export class EoTransfersDrawerComponent {
 
   onClose() {
     this.drawer.close();
-  }
-
-  isDateActive(date: string): boolean {
-    return new Date(date).getTime() >= new Date().getTime();
   }
 }
