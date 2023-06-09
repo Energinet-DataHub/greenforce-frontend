@@ -27,7 +27,7 @@ import {
 } from '@azure/msal-angular';
 
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
-import { DhGlobalizationUiWattTranslationModule } from '@energinet-datahub/dh/globalization/ui-watt-translation';
+import { uiWattTranslationsProviders } from '@energinet-datahub/dh/globalization/ui-watt-translation';
 import {
   MSALGuardConfigFactory,
   MSALInstanceFactory,
@@ -51,8 +51,8 @@ export const dhCoreShellProviders = [
     TranslocoModule,
     WattDanishDatetimeModule.forRoot(),
     environment.production ? DhSharedUtilApplicationInsightsModule.forRoot() : [],
-    DhGlobalizationUiWattTranslationModule.forRoot(),
   ]),
+  uiWattTranslationsProviders,
   danishLocalProviders,
   translocoProviders,
   graphQLProviders,
