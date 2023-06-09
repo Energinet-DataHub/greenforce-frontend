@@ -17,36 +17,28 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { TRANSLOCO_CONFIG, TRANSLOCO_LOADER } from '@ngneat/transloco';
+import { translocoProviders } from './dh-transloco.providers';
 
-import { DhTranslocoModule, DhTranslocoRootModule } from './dh-transloco.module';
-
-describe(DhTranslocoModule.name, () => {
+describe('translocoProviders', () => {
   it('TRANSLOCO_CONFIG is provided', () => {
     TestBed.configureTestingModule({
-      imports: [DhTranslocoModule.forRoot()],
+      providers: [translocoProviders],
     });
 
-    const config = TestBed.inject(TRANSLOCO_CONFIG, null);
+    const config = TestBed.inject(TRANSLOCO_CONFIG);
 
-    expect(config).not.toBeNull();
+    expect(config?.availableLangs).not.toBeUndefined();
   });
 
   it(`Given HttpClient is provided
     Then TRANSLOCO_LOADER is provided`, () => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, DhTranslocoModule.forRoot()],
+      imports: [HttpClientTestingModule],
+      providers: [translocoProviders],
     });
 
-    const config = TestBed.inject(TRANSLOCO_LOADER, null);
+    const config = TestBed.inject(TRANSLOCO_LOADER);
 
     expect(config).not.toBeNull();
-  });
-
-  it('guards against direct import', () => {
-    expect(DhTranslocoModule).toGuardAgainstDirectImport();
-  });
-
-  it('guards against being registered in multiple injectors', () => {
-    expect(DhTranslocoRootModule).toGuardAgainstMultipleInjectorRegistration();
   });
 });

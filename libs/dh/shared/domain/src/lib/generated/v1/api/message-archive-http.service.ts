@@ -210,7 +210,7 @@ export class MessageArchiveHttp {
             }
         }
 
-        let localVarPath = `/v1/MessageArchive/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/Document`;
+        let localVarPath = `/v1/MessageArchive/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/Document`;
         return this.httpClient.request<Stream>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
