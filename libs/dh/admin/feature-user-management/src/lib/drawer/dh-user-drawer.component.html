@@ -23,23 +23,16 @@ limitations under the License.
       <h2>{{ selectedUser?.firstName + " " + selectedUser?.lastName }}</h2>
     </watt-drawer-heading>
 
-    <watt-drawer-actions>
-      <ng-container
-        *ngIf="selectedUser?.status === 'Invited' || selectedUser?.status === 'InviteExpired'"
-      >
+    <watt-drawer-actions *dhPermissionRequired="['users:manage']">
         <watt-button
+          *ngIf="selectedUser?.status === 'Invited' || selectedUser?.status === 'InviteExpired'"
           variant="secondary"
-          *dhPermissionRequired="['users:manage']"
           (click)="reinvite()"
           >{{ t("reinvite") }}</watt-button
         >
-      </ng-container>
-      <watt-button
-        variant="secondary"
-        *dhPermissionRequired="['users:manage']"
-        (click)="isEditUserModalVisible = true"
-        >{{ t("edit") }}</watt-button
-      >
+      <watt-button variant="secondary" (click)="isEditUserModalVisible = true">{{
+        t("edit")
+      }}</watt-button>
     </watt-drawer-actions>
 
     <watt-drawer-content *ngIf="drawer.isOpen">
