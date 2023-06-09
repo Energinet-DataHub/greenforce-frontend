@@ -18,13 +18,13 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { EoTransferTableComponent } from './eo-transfers-table.component';
-import { EoTransferStore } from './eo-transfers.store';
+import { EoTransfersTableComponent } from './eo-transfers-table.component';
+import { EoTransfersStore } from './eo-transfers.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-transfer',
-  imports: [MatCardModule, EoTransferTableComponent, EoPopupMessageComponent, AsyncPipe, NgIf],
+  selector: 'eo-transfers',
+  imports: [MatCardModule, EoTransfersTableComponent, EoPopupMessageComponent, AsyncPipe, NgIf],
   standalone: true,
   styles: [``],
   template: `
@@ -39,11 +39,11 @@ import { EoTransferStore } from './eo-transfers.store';
       </p>
     </mat-card>
     <mat-card class="watt-space-stack-m">
-      <eo-transfer-table></eo-transfer-table>
+      <eo-transfers-table></eo-transfers-table>
     </mat-card>
   `,
 })
-export class EoTransferComponent {
+export class EoTransfersComponent {
   error$ = this.store.error$;
-  constructor(private store: EoTransferStore) {}
+  constructor(private store: EoTransfersStore) {}
 }

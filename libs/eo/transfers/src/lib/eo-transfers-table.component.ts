@@ -23,17 +23,18 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { EoTransferDrawerComponent } from './eo-transfer-drawer.component';
-import { EoTransfer } from './eo-transfers.service';
-import { EoTransferStore } from './eo-transfers.store';
+import { EoTransfersDrawerComponent } from './eo-transfers-drawer.component';
+import { EoTransfersModalComponent } from './eo-transfers-modal.component';
+import { EoListedTransfer } from './eo-transfers.service';
+import { EoTransfersStore } from './eo-transfers.store';
 
-interface EoTransferTableElement extends EoTransfer {
+interface EoTransferTableElement extends EoListedTransfer {
   period?: string;
   status?: boolean;
 }
 
 @Component({
-  selector: 'eo-transfer-table',
+  selector: 'eo-transfers-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
@@ -46,7 +47,8 @@ interface EoTransferTableElement extends EoTransfer {
     ReactiveFormsModule,
     WATT_FORM_FIELD,
     WATT_TABLE,
-    EoTransferDrawerComponent,
+    EoTransfersDrawerComponent,
+    EoTransfersModalComponent,
   ],
   styles: [
     `
@@ -79,7 +81,7 @@ interface EoTransferTableElement extends EoTransfer {
   ],
   template: `
     <div class="card-header">
-      <h3>Transfer Agreements</h3>
+      <h3>Transfer agreements</h3>
       <div class="actions">
         <watt-button
           data-testid="download-button"
@@ -90,9 +92,9 @@ interface EoTransferTableElement extends EoTransfer {
         >
         <watt-button
           data-testid="new-agreement-button"
-          [disabled]="true"
           icon="plus"
           variant="secondary"
+          (click)="transfersModal.open()"
         >
           New transfer agreement
         </watt-button>
@@ -153,19 +155,17 @@ interface EoTransferTableElement extends EoTransfer {
     </watt-paginator>
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
 
-    <eo-transfer-drawer></eo-transfer-drawer>
+    <eo-transfers-modal title="New Transfer Agreement"></eo-transfers-modal>
+    <eo-transfers-drawer></eo-transfers-drawer>
   `,
 })
-export class EoTransferTableComponent implements AfterViewInit {
-  @ViewChild(EoTransferDrawerComponent)
-  transferDrawer!: EoTransferDrawerComponent;
+export class EoTransfersTableComponent implements AfterViewInit {
+  @ViewChild(EoTransfersDrawerComponent) transfersDrawer!: EoTransfersDrawerComponent;
+  @ViewChild(EoTransfersModalComponent) transfersModal!: EoTransfersModalComponent;
 
-  activeRow: EoTransfer | undefined = undefined;
-
-  filterForm = this.fb.group({
-    statusFilter: '',
-  });
-  transfers: EoTransfer[] = [];
+  filterForm = this.fb.group({ statusFilter: '' });
+  transfers: EoListedTransfer[] = [];
+  activeRow: EoListedTransfer | undefined = undefined;
   dataSource = new WattTableDataSource<EoTransferTableElement>();
   columns = {
     receiver: { accessor: 'receiverTin' },
@@ -173,7 +173,7 @@ export class EoTransferTableComponent implements AfterViewInit {
     status: { accessor: (transfer) => this.isDateActive(transfer.endDate) },
   } as WattTableColumnDef<EoTransferTableElement>;
 
-  constructor(private store: EoTransferStore, private fb: FormBuilder) {}
+  constructor(private store: EoTransfersStore, private fb: FormBuilder) {}
 
   ngAfterViewInit() {
     this.loadData();
@@ -185,7 +185,7 @@ export class EoTransferTableComponent implements AfterViewInit {
     );
   }
 
-  filterByStatus(endDate: number): boolean {
+  filterByStatus(endDate: string): boolean {
     if (this.filterForm.controls['statusFilter'].value === null) return true;
     return this.filterForm.controls['statusFilter'].value === this.isDateActive(endDate).toString();
   }
@@ -201,12 +201,12 @@ export class EoTransferTableComponent implements AfterViewInit {
     this.dataSource.data = this.transfers;
   }
 
-  isDateActive(date: number): boolean {
+  isDateActive(date: string): boolean {
     return new Date(date).getTime() >= new Date().getTime();
   }
 
-  onRowClick(row: EoTransfer): void {
+  onRowClick(row: EoListedTransfer): void {
     this.activeRow = row;
-    this.transferDrawer.open(row);
+    this.transfersDrawer.open(row);
   }
 }

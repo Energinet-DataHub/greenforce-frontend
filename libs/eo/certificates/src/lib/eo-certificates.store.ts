@@ -30,27 +30,17 @@ interface EoCertificatesState {
 })
 export class EoCertificatesStore extends ComponentStore<EoCertificatesState> {
   readonly hasLoaded$ = this.select((state) => state.hasLoaded);
-  readonly setHasLoaded = this.updater(
-    (state, hasLoaded: boolean): EoCertificatesState => ({
-      ...state,
-      hasLoaded: hasLoaded,
-    })
-  );
-
   readonly certificates$ = this.select((state) => state.certificates);
-  readonly setCertificates = this.updater(
-    (state, certificates: EoCertificate[]): EoCertificatesState => ({
-      ...state,
-      certificates,
-    })
-  );
-
   readonly error$ = this.select((state) => state.error);
+
+  readonly setHasLoaded = this.updater(
+    (state, hasLoaded: boolean): EoCertificatesState => ({ ...state, hasLoaded })
+  );
+  readonly setCertificates = this.updater(
+    (state, certificates: EoCertificate[]): EoCertificatesState => ({ ...state, certificates })
+  );
   readonly setError = this.updater(
-    (state, error: HttpErrorResponse | null): EoCertificatesState => ({
-      ...state,
-      error,
-    })
+    (state, error: HttpErrorResponse | null): EoCertificatesState => ({ ...state, error })
   );
 
   constructor(private service: EoCertificatesService) {

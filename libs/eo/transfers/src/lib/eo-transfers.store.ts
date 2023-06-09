@@ -17,42 +17,52 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { EoTransfer, EoTransferService } from './eo-transfers.service';
+import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
 import { testData } from './test-data';
 
-interface EoTransferState {
+interface EoTransfersState {
   hasLoaded: boolean;
-  transfers: EoTransfer[];
+  transfers: EoListedTransfer[];
   error: HttpErrorResponse | null;
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class EoTransferStore extends ComponentStore<EoTransferState> {
+export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   readonly hasLoaded$ = this.select((state) => state.hasLoaded);
   readonly transfers$ = this.select((state) => state.transfers);
   readonly error$ = this.select((state) => state.error);
 
-  readonly setHasLoaded = this.updater(
-    (state, hasLoaded: boolean): EoTransferState => ({ ...state, hasLoaded: hasLoaded })
+  private readonly setHasLoaded = this.updater(
+    (state, hasLoaded: boolean): EoTransfersState => ({ ...state, hasLoaded: hasLoaded })
   );
-  readonly setTransfers = this.updater(
-    (state, transfers: EoTransfer[]): EoTransferState => ({ ...state, transfers })
+  private readonly setTransfers = this.updater(
+    (state, transfers: EoListedTransfer[]): EoTransfersState => ({ ...state, transfers })
+  );
+  private readonly addSingleTransfer = this.updater(
+    (state, transfer: EoListedTransfer): EoTransfersState => ({
+      ...state,
+      transfers: [transfer].concat(state.transfers),
+    })
   );
   readonly setError = this.updater(
-    (state, error: HttpErrorResponse | null): EoTransferState => ({ ...state, error })
+    (state, error: HttpErrorResponse | null): EoTransfersState => ({ ...state, error })
   );
 
-  constructor(private service: EoTransferService) {
+  constructor(private service: EoTransfersService) {
     super({ hasLoaded: false, transfers: [], error: null });
     this.loadData();
+  }
+
+  addTransfer(transfer: EoListedTransfer) {
+    this.addSingleTransfer(transfer);
   }
 
   loadData() {
     this.service.getTransfers().subscribe({
       next: (response) => {
-        this.setTransfers(response.result);
+        this.setTransfers(response);
         this.setError(null);
         this.setHasLoaded(true);
       },

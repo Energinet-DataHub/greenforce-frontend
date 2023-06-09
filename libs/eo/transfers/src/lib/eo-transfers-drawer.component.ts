@@ -25,11 +25,11 @@ import {
 } from '@energinet-datahub/watt/description-list';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { EoTransfer } from './eo-transfers.service';
+import { EoListedTransfer } from './eo-transfers.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-transfer-drawer',
+  selector: 'eo-transfers-drawer',
   imports: [
     WATT_DRAWER,
     WattButtonComponent,
@@ -92,13 +92,12 @@ import { EoTransfer } from './eo-transfers.service';
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
   `,
 })
-export class EoTransferDrawerComponent {
-  @ViewChild(WattDrawerComponent)
-  drawer!: WattDrawerComponent;
+export class EoTransfersDrawerComponent {
+  @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
-  transfer: EoTransfer | undefined;
+  transfer: EoListedTransfer | undefined;
 
-  open(transfer: EoTransfer): void {
+  open(transfer: EoListedTransfer): void {
     this.transfer = transfer;
     this.drawer.open();
   }
@@ -107,7 +106,7 @@ export class EoTransferDrawerComponent {
     this.drawer.close();
   }
 
-  isDateActive(date: number): boolean {
+  isDateActive(date: string): boolean {
     return new Date(date).getTime() >= new Date().getTime();
   }
 }
