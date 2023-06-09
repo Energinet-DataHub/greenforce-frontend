@@ -59,9 +59,9 @@ namespace Energinet.DataHub.WebApi.Controllers
             return !result.Any() ? NoContent() : Ok(result);
         }
 
-        [HttpGet("{id:Guid}/Document")]
+        [HttpGet("{id}/Document")]
         [Produces("application/xml")]
-        public async Task<ActionResult<Stream>> GetDocumentAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<ActionResult<Stream>> GetDocumentAsync(string id, CancellationToken cancellationToken)
         {
             var document = await _archivedMessagesSearch.GetDocumentAsync(id, cancellationToken);
             return Ok(document);
