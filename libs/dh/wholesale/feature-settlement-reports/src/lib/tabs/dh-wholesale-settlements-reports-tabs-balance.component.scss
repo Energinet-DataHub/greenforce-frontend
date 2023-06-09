@@ -24,16 +24,23 @@ watt-card-title {
   }
 }
 
-.datePicker {
+.form-grid {
+  display: grid;
+  gap: var(--watt-space-m);
+  grid-template-columns: repeat(3, 1fr 0fr 0fr);
+}
+
+.datePicker1 {
   max-width: 298px;
 }
 
-.actorPicker {
+.actorPicker1 {
   max-width: 320px;
 }
 
-.gridAreaPicker {
+.gridAreaPicker1 {
   max-width: 260px;
+  padding-right: 10px;
 }
 
 watt-button[icon="download"] {
