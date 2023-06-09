@@ -25,7 +25,7 @@ import {
 } from '@angular/material/datepicker';
 import endOfDay from 'date-fns/endOfDay';
 
-import { WattDatePipe } from '../../../configuration/watt-date.pipe';
+import { WattDatePipe } from '../../../utils/date';
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
 
@@ -85,10 +85,8 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
           (dateChange)="selectionChange.emit(input.value ?? undefined)"
         />
       </mat-date-range-input>
-      <ng-content *ngIf="!value?.start || !value?.end; else range" />
-      <ng-template #range>
-        {{ value!.start | wattDate }} ― {{ value!.end | wattDate }}
-      </ng-template>
+      <ng-content />
+      <ng-container *ngIf="value?.start && value?.end">: {{ value | wattDate }}</ng-container>
     </watt-menu-chip>
   `,
 })

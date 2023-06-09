@@ -28,7 +28,7 @@ limitations under the License.
       <ng-container matColumnDef="timestamp">
         <th mat-header-cell *matHeaderCellDef>{{ t("time") }}</th>
         <td class="auditlog-column-timestamp" mat-cell *matCellDef="let element">
-          {{ element.timestamp | dhDateTime }}
+          {{ element.timestamp | wattDate : "long" }}
         </td>
       </ng-container>
 

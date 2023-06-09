@@ -19,7 +19,7 @@ import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
@@ -31,7 +31,7 @@ import { MatDividerModule } from '@angular/material/divider';
     CommonModule,
     TranslocoModule,
     DhEmDashFallbackPipeScam,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     MatDividerModule,
   ],
 })

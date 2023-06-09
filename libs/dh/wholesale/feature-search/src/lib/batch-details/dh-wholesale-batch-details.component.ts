@@ -20,7 +20,7 @@ import { Component, ViewChild, inject, Output, EventEmitter } from '@angular/cor
 import { Apollo } from 'apollo-angular';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattCardComponent } from '@energinet-datahub/watt/card';
@@ -41,7 +41,7 @@ import { Subscription, takeUntil } from 'rxjs';
 @Component({
   standalone: true,
   imports: [
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     CommonModule,
     DhWholesaleGridAreasComponent,
     TranslocoModule,
