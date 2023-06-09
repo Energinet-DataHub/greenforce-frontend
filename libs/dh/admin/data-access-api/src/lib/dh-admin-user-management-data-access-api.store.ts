@@ -63,7 +63,7 @@ const initialState: DhUserManagementState = {
   sortProperty: 'Email',
   direction: 'Asc',
   searchText: undefined,
-  statusFilter: ['Active'],
+  statusFilter: ['Active', 'Invited', 'InviteExpired'],
   actorIdFilter: undefined,
   userRoleFilter: [],
 };
