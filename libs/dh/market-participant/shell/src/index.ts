@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { marketParticipantRoutes } from './lib/dh-market-participant-shell.routes';
+export { dhMarketParticipantShellRoutes } from './lib/dh-market-participant-shell.routes';

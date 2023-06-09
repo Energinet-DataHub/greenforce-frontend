@@ -14,4 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/danish-locale.module';
+import { danishLocaleProvider } from './lib/danish-locale.provider';
+import { danishLocaleInitializer } from './lib/danish-locale.initializer';
+import { makeEnvironmentProviders } from '@angular/core';
+
+export const danishLocalProviders = makeEnvironmentProviders([
+  danishLocaleProvider,
+  danishLocaleInitializer,
+]);

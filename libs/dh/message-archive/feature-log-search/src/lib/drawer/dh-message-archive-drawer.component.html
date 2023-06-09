@@ -25,7 +25,9 @@ limitations under the License.
 
     <watt-drawer-heading>
       <div class="headline-container">
-        <span class="dateTime">{{ message?.createdDate | dhDateTime | dhEmDashFallback }}</span>
+        <span class="dateTime">{{
+          message?.createdDate | wattDate : "long" | dhEmDashFallback
+        }}</span>
         <h1 class="headline">{{ message?.messageId }}</h1>
         <span class="documenttype">{{ message?.documentType | dhEmDashFallback }}</span>
       </div>

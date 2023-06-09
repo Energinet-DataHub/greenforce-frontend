@@ -22,19 +22,19 @@ import userEvent from '@testing-library/user-event';
 import { formatInTimeZone } from 'date-fns-tz';
 
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
-import { DanishLocaleModule } from '@energinet-datahub/gf/configuration-danish-locale';
 import { ChargeTypes } from '@energinet-datahub/dh/charges/domain';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
 import { DhChargesCreatePricesComponent } from './dh-charges-create-prices.component';
+import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 
 const dateTimeFormat = 'dd-MM-yyyy';
 const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 const chargeTypeDropdownName = 'charge type';
 const resolutionDropdownName = 'resolution';
 
-describe(DhChargesCreatePricesComponent.name, () => {
+describe(DhChargesCreatePricesComponent, () => {
   function findInputElement(selector: string) {
     const element: HTMLInputElement = screen.getByRole('textbox', {
       name: new RegExp(`${selector}`, 'i'),
@@ -61,13 +61,12 @@ describe(DhChargesCreatePricesComponent.name, () => {
 
   async function setup() {
     const { fixture } = await render(DhChargesCreatePricesComponent, {
-      providers: [importProvidersFrom(MatLegacySnackBarModule)],
+      providers: [importProvidersFrom(MatLegacySnackBarModule), danishLocalProviders],
       imports: [
         getTranslocoTestingModule(),
         DhApiModule.forRoot(),
         HttpClientModule,
         WattDanishDatetimeModule.forRoot(),
-        DanishLocaleModule,
       ],
     });
 

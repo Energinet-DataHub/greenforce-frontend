@@ -22,7 +22,7 @@ import { PushModule } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { ArchivedMessage, Stream } from '@energinet-datahub/dh/shared/domain';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -45,7 +45,7 @@ import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeN
     WATT_DRAWER,
     TranslocoModule,
     WattIconComponent,
-    DhSharedUiDateTimeModule,
+    WattDatePipe,
     DhMessageArchiveStatusComponent,
     MatDividerModule,
     ActorNamePipe,
