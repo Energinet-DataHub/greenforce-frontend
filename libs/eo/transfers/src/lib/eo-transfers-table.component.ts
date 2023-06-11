@@ -131,7 +131,8 @@ interface EoTransferTableElement extends EoListedTransfer {
     >
       <!-- Period - Custom column -->
       <ng-container *wattTableCell="table.columns['period']; let element">
-        {{ element.startDate | date : 'dd/MM/yyyy' }} - {{ element.endDate | date : 'dd/MM/yyyy' }}
+        {{ element.startDate | date : 'dd/MM/yyyy' }} -
+        {{ compensateForEndOfDay(element.endDate) | date : 'dd/MM/yyyy' }}
       </ng-container>
 
       <!-- Status - Custom column -->
@@ -201,6 +202,11 @@ export class EoTransfersTableComponent implements AfterViewInit {
 
   populateTable() {
     this.dataSource.data = this.transfers;
+  }
+
+  compensateForEndOfDay(inputDate: string): number {
+    const date = new Date(inputDate);
+    return date.setDate(date.getDate() - 1);
   }
 
   onRowClick(row: EoListedTransfer): void {

@@ -135,7 +135,7 @@ export class EoTransfersModalComponent {
 
     const transfer = {
       startDate: Math.round(new Date(this.form.controls['dateRange'].value.start).getTime() / 1000),
-      endDate: Math.round(new Date(this.form.controls['dateRange'].value.end).getTime() / 1000 - 1), // -1 to offset that endDate is next day at 00:00, when we need chosen day at 23:59:59
+      endDate: Math.round(new Date(this.form.controls['dateRange'].value.end).getTime() / 1000),
       receiverTin: this.form.controls['tin'].value as string,
     };
 
@@ -146,11 +146,17 @@ export class EoTransfersModalComponent {
         this.requestLoading = false;
         this.cd.detectChanges();
         this.modal.close(true);
+        this.resetFormValues();
       },
       error: () => {
         this.requestLoading = false;
         this.cd.detectChanges();
       },
     });
+  }
+
+  resetFormValues() {
+    this.form.patchValue({ tin: '', dateRange: { start: '', end: '' } });
+    this.form.markAsUntouched();
   }
 }

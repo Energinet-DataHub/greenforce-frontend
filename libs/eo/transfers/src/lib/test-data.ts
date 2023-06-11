@@ -18,7 +18,7 @@ export const testData = [
   {
     id: '99f96d44-494b-439f-83fd-8846b13d22ad',
     startDate: '2023-06-08T22:00:00+00:00',
-    endDate: '2023-06-08T23:00:00+00:00',
+    endDate: '2023-06-09T22:00:00+00:00',
     receiverTin: '12345678',
     senderId: '11111111',
   },
