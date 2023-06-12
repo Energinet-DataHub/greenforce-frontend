@@ -47,7 +47,7 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
             return MapResult(searchResultResponseMessages);
         }
 
-        public async Task<Stream> GetDocumentAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<Stream> GetDocumentAsync(string id, CancellationToken cancellationToken)
         {
             var url = $"api/v1/archived-messages/{id}/document";
             var response = await _httpClient.GetAsync(url, cancellationToken);

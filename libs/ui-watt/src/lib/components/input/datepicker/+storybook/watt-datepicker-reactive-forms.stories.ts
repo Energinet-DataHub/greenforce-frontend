@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { importProvidersFrom } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { within, fireEvent } from '@storybook/testing-library';
 
-import { StorybookConfigurationLocalizationModule } from '../../+storybook/storybook-configuration-localization.module';
+import { localizationProviders } from '../../+storybook/storybook-configuration-localization.providers';
 import { WattDatepickerComponent } from '../watt-datepicker.component';
 import { WattFormChipDirective } from '../../../form-field/chip.directive';
 import { WATT_FORM_FIELD } from '../../../form-field';
@@ -42,10 +41,7 @@ export default {
   title: 'Components/Datepicker',
   decorators: [
     applicationConfig({
-      providers: [
-        provideAnimations(),
-        importProvidersFrom(StorybookConfigurationLocalizationModule.forRoot()),
-      ],
+      providers: [provideAnimations(), localizationProviders],
     }),
     moduleMetadata({
       imports: [
