@@ -56,6 +56,7 @@ limitations under the License.
       [dataSource]="dataSource"
       [columns]="columns"
       [resolveHeader]="translateHeader"
+      [selectable]="true"
       description="batches"
       sortBy="executionTime"
       sortDirection="desc"
@@ -75,6 +76,13 @@ limitations under the License.
           (click)="downloadClicked(gridArea)"
         >
         </watt-button>
+      </ng-container>
+      <ng-container *wattTableToolbar="let selection">
+        {{ selection.length }} selected rows
+        {{ selection | json }}
+        <watt-table-toolbar-spacer />
+        <watt-button icon="download">Download</watt-button>
+        <watt-button icon="upload">Upload</watt-button>
       </ng-container>
     </watt-table>
 
