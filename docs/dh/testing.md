@@ -88,10 +88,10 @@ async function setup() {
 
 #### When the feature under test uses WattDatepicker or WattTimepicker components
 
-In this case import `danishLocalProviders` in the test setup. This will add the necessary providers needed for the datepicker/timepicker to work. For example:
+In this case import `danishDatetimeProviders` in the test setup. This will add the necessary providers needed for the datepicker/timepicker to work. For example:
 
 ```ts
-import { danishLocalProviders } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 
 async function setup() {
   await render(MyComponent.name, {
