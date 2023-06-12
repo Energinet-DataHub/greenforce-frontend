@@ -25,7 +25,7 @@ import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish
 import { WattTimepickerComponent } from './';
 import { WATT_FORM_FIELD } from '../../form-field';
 import { WattRange } from '../shared/watt-range';
-import { WattDanishDatetimeModule } from '../../../configuration/watt-danish-datetime.module';
+import { danishDatetimeProviders } from '../../../configuration/watt-danish-datetime.providers';
 
 const backspace = '{backspace}';
 const ARIA_VALUENOW = 'aria-valuenow';
@@ -49,14 +49,13 @@ describe(WattTimepickerComponent, () => {
     }
 
     const { fixture } = await render(TestComponent, {
-      providers: [danishLocalProviders],
+      providers: [danishLocalProviders, danishDatetimeProviders],
       imports: [
         WattTimepickerComponent,
         ReactiveFormsModule,
         FormsModule,
         WATT_FORM_FIELD,
         BrowserAnimationsModule,
-        WattDanishDatetimeModule.forRoot(),
       ],
     });
 

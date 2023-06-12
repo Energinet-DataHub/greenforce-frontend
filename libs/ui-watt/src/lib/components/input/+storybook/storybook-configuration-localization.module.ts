@@ -16,13 +16,12 @@
  */
 import { NgModule, Optional, SkipSelf, ModuleWithProviders } from '@angular/core';
 
-import { WattDanishDatetimeModule } from '../../../configuration/watt-danish-datetime.module';
+import { danishDatetimeProviders } from '../../../configuration/watt-danish-datetime.providers';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 
 @NgModule({
-  providers: [danishLocalProviders],
-  imports: [WattDanishDatetimeModule.forRoot()],
+  providers: [danishLocalProviders, danishDatetimeProviders],
 })
 export class StorybookConfigurationLocalizationRootModule {
   constructor(

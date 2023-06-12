@@ -18,22 +18,18 @@ import { By } from '@angular/platform-browser';
 import { render, RenderResult } from '@testing-library/angular';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
 
-describe(DhCoreShellComponent.name, () => {
+describe(DhCoreShellComponent, () => {
   beforeEach(async () => {
     view = await render(DhCoreShellComponent, {
-      imports: [
-        getTranslocoTestingModule(),
-        WattDanishDatetimeModule.forRoot(),
-        HttpClientTestingModule,
-      ],
-      providers: [MsalServiceFake],
+      imports: [getTranslocoTestingModule(), HttpClientTestingModule],
+      providers: [MsalServiceFake, danishDatetimeProviders],
     });
   });
 

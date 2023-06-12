@@ -16,7 +16,7 @@
  */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 
 import { da as daTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
@@ -31,14 +31,13 @@ import { ApolloModule } from 'apollo-angular';
 
 it('mounts', () => {
   cy.mount(DhWholesaleStartComponent, {
-    providers: [importProvidersFrom(MatLegacySnackBarModule), graphQLProviders, translocoProviders],
-    imports: [
-      ApolloModule,
-      BrowserAnimationsModule,
-      DhApiModule.forRoot(),
-      HttpClientModule,
-      WattDanishDatetimeModule.forRoot(),
+    providers: [
+      importProvidersFrom(MatLegacySnackBarModule),
+      graphQLProviders,
+      translocoProviders,
+      danishDatetimeProviders,
     ],
+    imports: [ApolloModule, BrowserAnimationsModule, DhApiModule.forRoot(), HttpClientModule],
   });
 
   // Create batch with process type of balance fixing, with "invalid" period

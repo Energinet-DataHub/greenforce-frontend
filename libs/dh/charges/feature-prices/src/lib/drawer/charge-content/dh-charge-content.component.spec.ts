@@ -27,7 +27,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import userEvent from '@testing-library/user-event';
 import { DhMarketParticipantDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
-import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { add } from 'date-fns';
 import { TestBed } from '@angular/core/testing';
 import { DhChargeContentComponent } from './dh-charge-content.component';
@@ -69,7 +69,11 @@ describe(DhChargeContentComponent, () => {
 
   async function setup() {
     const { fixture } = await render(DhChargeContentComponent, {
-      providers: [DhMarketParticipantDataAccessApiStore, danishLocalProviders],
+      providers: [
+        DhMarketParticipantDataAccessApiStore,
+        danishLocalProviders,
+        danishDatetimeProviders,
+      ],
       componentProviders: [
         {
           provide: DrawerDatepickerService,
@@ -79,7 +83,6 @@ describe(DhChargeContentComponent, () => {
       imports: [
         DhChargeContentComponent,
         getTranslocoTestingModule(),
-        WattDanishDatetimeModule.forRoot(),
         HttpClientModule,
         DhApiModule.forRoot(),
       ],

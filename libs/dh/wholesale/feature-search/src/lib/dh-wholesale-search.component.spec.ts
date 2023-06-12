@@ -20,7 +20,7 @@ import userEvent from '@testing-library/user-event';
 
 import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 
 import { DhWholesaleSearchComponent } from './dh-wholesale-search.component';
@@ -29,13 +29,16 @@ import { ApolloModule } from 'apollo-angular';
 
 async function setup() {
   await render(`<dh-wholesale-search></dh-wholesale-search>`, {
-    providers: [importProvidersFrom(MatLegacySnackBarModule), graphQLProviders],
+    providers: [
+      importProvidersFrom(MatLegacySnackBarModule),
+      graphQLProviders,
+      danishDatetimeProviders,
+    ],
     imports: [
       ApolloModule,
       DhWholesaleSearchComponent,
       getTranslocoTestingModule(),
       HttpClientModule,
-      WattDanishDatetimeModule.forRoot(),
     ],
   });
 }
