@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Directive, Input, NgModule, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 
 import { DhFeatureFlags } from './feature-flags';
 import { DhFeatureFlagsService } from './feature-flags.service';
 
-@Directive({ selector: '[dhFeatureFlag]' })
+@Directive({ selector: '[dhFeatureFlag]', standalone: true })
 export class DhFeatureFlagDirective implements OnInit {
   constructor(
     private templateRef: TemplateRef<unknown>,
@@ -37,9 +37,3 @@ export class DhFeatureFlagDirective implements OnInit {
     }
   }
 }
-
-@NgModule({
-  declarations: [DhFeatureFlagDirective],
-  exports: [DhFeatureFlagDirective],
-})
-export class DhFeatureFlagDirectiveModule {}
