@@ -931,6 +931,9 @@
       "download": "Download",
       "drawer": {
         "edit": "Rediger",
+        "reinvite": "Send invitation igen",
+        "reinviteError": "Noget gik galt. Brugeren blev ikke inviteret. Prøv igen",
+        "reinviteSuccess": "Brugeren blev inviteret",
         "editRole": "Rediger rolle",
         "disable": "Deaktiver",
         "disablingUserRole": "Deaktiverer bruger rollen",
@@ -982,7 +985,9 @@
       "topBarTitle": "Brugeradministration",
       "userStatus": {
         "active": "Aktiv",
-        "inactive": "Inaktiv"
+        "inactive": "Inaktiv",
+        "invited": "Inviteret",
+        "inviteExpired": "Invitation udløbet"
       },
       "roleStatus": {
         "active": "Aktiv",
@@ -1113,6 +1118,7 @@
       "editUser": {
         "cancel": "Fortryd",
         "save": "Gem",
+        "reinvite": "Send invitation igen",
         "saveSuccess": "Brugeren blev opdateret",
         "saveError": "Noget gik galt. Brugeren blev ikke opdateret. Prøv igen",
         "tab": {

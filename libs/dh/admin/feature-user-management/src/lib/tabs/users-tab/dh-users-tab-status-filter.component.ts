@@ -83,7 +83,7 @@ export class DhUsersTabStatusFilterComponent implements OnInit, OnDestroy {
           this.userStatusOptions = Object.keys(MarketParticipantUserStatus).map((entry) => {
             return {
               value: entry,
-              displayValue: keys[entry.toLowerCase()],
+              displayValue: keys[entry[0].toLowerCase() + entry.slice(1)],
             };
           });
         },
