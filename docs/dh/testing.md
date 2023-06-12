@@ -97,7 +97,7 @@ import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 async function setup() {
   await render(MyComponent, {
     providers: [
-        danishDatetimeProviders, 
+        danishDatetimeProviders,
         importProvidersFrom(MatDateFnsModule),
           // ...
       ]
