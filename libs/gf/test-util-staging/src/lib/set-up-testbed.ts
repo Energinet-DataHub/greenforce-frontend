@@ -24,9 +24,9 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
+import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
 
 import { GfAngularMaterialTestingModule } from './angular-material/gf-angular-material-testing.module';
-import { GfBrowserTestingModule } from './angular/gf-browser-testing.module';
 import { GfRxAngularTestingModule } from './rx-angular/gf-rx-angular-testing.module';
 
 /*
@@ -34,6 +34,8 @@ import { GfRxAngularTestingModule } from './rx-angular/gf-rx-angular-testing.mod
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
  */
 import 'zone.js/plugins/zone-error';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
 function patchTestbed(): void {
   const isUnpatched = testbed.configureTestingModule === realConfigureTestingModule;
@@ -43,15 +45,17 @@ function patchTestbed(): void {
       realConfigureTestingModule.call(testbed, {
         ...moduleDef,
         imports: [
-          GfBrowserTestingModule,
           GfAngularMaterialTestingModule,
           GfRxAngularTestingModule,
+          NoopAnimationsModule,
+          RouterTestingModule,
           ...(moduleDef.imports ?? []),
         ],
         providers: [
           // Use automatic change detection in tests
           { provide: ComponentFixtureAutoDetect, useValue: true },
           ...(moduleDef.providers ?? []),
+          browserConfigurationProviders
         ],
       });
       return testbed;

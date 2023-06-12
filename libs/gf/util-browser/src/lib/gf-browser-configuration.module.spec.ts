@@ -18,30 +18,24 @@ import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 
 import {
-  GfBrowserConfigurationModule,
-  GfBrowserConfigurationRootModule,
+ browserConfigurationProviders
 } from './gf-browser-configuration.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
-describe(GfBrowserConfigurationModule.name, () => {
+describe('browserConfigurationProviders', () => {
   it('APP_BASE_HREF is not provided when the Angular module is not imported', () => {
-    const actualAppBaseHref = TestBed.inject(APP_BASE_HREF, null);
+    const actualAppBaseHref = TestBed.inject(APP_BASE_HREF, null, {});
     expect(actualAppBaseHref).toBeNull();
   });
 
   it('APP_BASE_HREF is provided when the Angular module is imported', () => {
     TestBed.configureTestingModule({
-      imports: [GfBrowserConfigurationModule.forRoot()],
+      imports: [NoopAnimationsModule, RouterTestingModule],
+      providers: [browserConfigurationProviders]
     });
 
-    const actualAppBaseHref = TestBed.inject(APP_BASE_HREF, null);
+    const actualAppBaseHref = TestBed.inject(APP_BASE_HREF);
     expect(actualAppBaseHref).not.toBeNull();
-  });
-
-  it('guards against direct import', () => {
-    expect(GfBrowserConfigurationModule).toGuardAgainstDirectImport();
-  });
-
-  it('guards against being registered in multiple injectors', () => {
-    expect(GfBrowserConfigurationRootModule).toGuardAgainstMultipleInjectorRegistration();
   });
 });
