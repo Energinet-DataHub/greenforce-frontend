@@ -11,10 +11,12 @@
  */
 
 
-export type MarketParticipantUserStatus = 'Active' | 'Inactive';
+export type MarketParticipantUserStatus = 'Active' | 'Inactive' | 'Invited' | 'InviteExpired';
 
 export const MarketParticipantUserStatus = {
     Active: 'Active' as MarketParticipantUserStatus,
-    Inactive: 'Inactive' as MarketParticipantUserStatus
+    Inactive: 'Inactive' as MarketParticipantUserStatus,
+    Invited: 'Invited' as MarketParticipantUserStatus,
+    InviteExpired: 'InviteExpired' as MarketParticipantUserStatus
 };
 

@@ -69,6 +69,10 @@ import { HttpStatusCode } from '@angular/common/http';
       .phone-field {
         max-width: 256px;
       }
+
+      .reinvite-link {
+        margin-right: auto;
+      }
     `,
   ],
   providers: [DbAdminEditUserStore],
@@ -94,6 +98,7 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
 
   @Output() closed = new EventEmitter<void>();
   @Input() user: MarketParticipantUserOverviewItemDto | null = null;
+  @Input() reinviteCallback!: () => void;
 
   isSaving$ = this.editUserStore.isSaving$;
 
@@ -204,6 +209,10 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
 
   close(): void {
     this.closeModal(false);
+  }
+
+  reinvite(): void {
+    this.reinviteCallback();
   }
 
   onSelectedUserRolesChanged(updateUserRoles: UpdateUserRoles): void {

@@ -64,7 +64,7 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
       actorId: undefined,
       userRoleIds: [],
       searchText: undefined,
-      userStatus: ['Active'],
+      userStatus: ['Active', 'Invited', 'InviteExpired'],
     };
 
     const actualParams = {
@@ -97,7 +97,7 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
       actorId: undefined,
       userRoleIds: [],
       searchText: undefined,
-      userStatus: ['Active'],
+      userStatus: ['Active', 'Invited', 'InviteExpired'],
     };
 
     const actualParams = {
@@ -125,7 +125,7 @@ describe(DhAdminUserManagementDataAccessApiStore.name, () => {
       actorId: undefined,
       userRoleIds: [],
       searchText: 'john',
-      userStatus: ['Active'],
+      userStatus: ['Active', 'Invited', 'InviteExpired'],
     };
 
     const actualParams = {

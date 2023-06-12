@@ -34,6 +34,7 @@ import {
 
 import { DhUsersTabComponent } from './dh-users-tab.component';
 import { searchDebounceTimeMs } from '@energinet-datahub/dh/shared/ui-search';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 const users: MarketParticipantUserOverviewItemDto[] = [
   {
@@ -61,9 +62,17 @@ describe(DhUsersTabComponent.name, () => {
       'useValue'
     );
 
+    const toastServiceMock = MockProvider(
+      WattToastService,
+      {
+        open: jest.fn(),
+      },
+      'useValue'
+    );
+
     const { fixture } = await render(DhUsersTabComponent, {
       imports: [getTranslocoTestingModule(), HttpClientModule, DhApiModule.forRoot()],
-      componentProviders: [storeMock],
+      componentProviders: [storeMock, toastServiceMock],
     });
 
     const store = TestBed.inject(DhAdminUserManagementDataAccessApiStore);
