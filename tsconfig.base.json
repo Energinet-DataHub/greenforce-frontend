@@ -340,7 +340,7 @@
         "libs/ui-watt/src/lib/foundations/color/index.ts"
       ],
       "@energinet-datahub/watt/danish-date-time": [
-        "libs/ui-watt/src/lib/configuration/watt-danish-datetime.module.ts"
+        "libs/ui-watt/src/lib/configuration/watt-danish-datetime.providers.ts"
       ],
       "@energinet-datahub/watt/date": [
         "libs/ui-watt/src/lib/utils/date/index.ts"

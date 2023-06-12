@@ -43,7 +43,7 @@ Use the feature flags within templates with the feature flag structural directiv
 <ng-container *dhFeatureFlag="my-awesome-feature-flag"> SOME CONTENT </ng-container>
 ```
 
-**Notice:** Using feature flags with the structural directive, you will need to import the `DhFeatureFlagDirectiveModule`.
+**Notice:** Using feature flags with the structural directive, you will need to import the `DhFeatureFlagDirective`.
 
 ### From TypeScript (Controllers, Guards, etc.)
 

@@ -24,7 +24,7 @@ import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
 import { DatePickerData, DrawerDatepickerService } from './drawer-datepicker.service';
-import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   standalone: true,
@@ -35,7 +35,7 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
     WATT_FORM_FIELD,
     WattDatepickerComponent,
     WattFilterChipComponent,
-    DhFeatureFlagDirectiveModule,
+    DhFeatureFlagDirective,
   ],
   selector: 'dh-drawer-datepicker',
   templateUrl: './dh-drawer-datepicker.component.html',

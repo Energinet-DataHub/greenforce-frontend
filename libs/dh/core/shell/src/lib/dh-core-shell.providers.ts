@@ -27,7 +27,7 @@ import {
 } from '@azure/msal-angular';
 
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
-import { DhGlobalizationUiWattTranslationModule } from '@energinet-datahub/dh/globalization/ui-watt-translation';
+import { uiWattTranslationsProviders } from '@energinet-datahub/dh/globalization/ui-watt-translation';
 import {
   MSALGuardConfigFactory,
   MSALInstanceFactory,
@@ -36,7 +36,7 @@ import {
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { dhB2CEnvironmentToken, environment } from '@energinet-datahub/dh/shared/environments';
-import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -49,13 +49,13 @@ export const dhCoreShellProviders = [
     DhApiModule.forRoot(),
     MsalModule,
     TranslocoModule,
-    WattDanishDatetimeModule.forRoot(),
     environment.production ? DhSharedUtilApplicationInsightsModule.forRoot() : [],
-    DhGlobalizationUiWattTranslationModule.forRoot(),
   ]),
+  uiWattTranslationsProviders,
   danishLocalProviders,
   translocoProviders,
   graphQLProviders,
+  danishDatetimeProviders,
   MsalService,
   {
     provide: HTTP_INTERCEPTORS,
