@@ -48,6 +48,14 @@ namespace Energinet.DataHub.WebApi.Controllers
                 _marketParticipantUserInvitationClient.InviteUserAsync(invite));
         }
 
+        [HttpPost]
+        [Route("ReInviteUser")]
+        public Task<ActionResult> ReInviteUserAsync(Guid userId)
+        {
+            return HandleExceptionAsync(() =>
+                _marketParticipantUserInvitationClient.ReInviteUserAsync(userId));
+        }
+
         /// <summary>
         ///     Retrieves actors associated with the users external actor token.
         /// </summary>
