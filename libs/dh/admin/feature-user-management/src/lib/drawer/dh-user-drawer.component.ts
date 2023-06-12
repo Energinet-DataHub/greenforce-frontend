@@ -14,8 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Output,
+  ViewChild,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
@@ -26,8 +34,13 @@ import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
 import { DhUserStatusComponent } from '../shared/dh-user-status.component';
 import { DhEditUserModalComponent } from './dh-edit-user-modal/dh-edit-user-modal.component';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DbAdminInviteUserStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DbAdminInviteUserStore],
   selector: 'dh-user-drawer',
   standalone: true,
   templateUrl: './dh-user-drawer.component.html',
@@ -43,6 +56,10 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   ],
 })
 export class DhUserDrawerComponent {
+  private transloco = inject(TranslocoService);
+  private toastService = inject(WattToastService);
+  private inviteUserStore = inject(DbAdminInviteUserStore);
+
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
 
@@ -66,4 +83,19 @@ export class DhUserDrawerComponent {
   modalOnClose(): void {
     this.isEditUserModalVisible = false;
   }
+
+  reinvite = () =>
+    this.inviteUserStore.reinviteUser({
+      id: this.selectedUser?.id ?? '',
+      onSuccess: () =>
+        this.toastService.open({
+          message: this.transloco.translate('admin.userManagement.drawer.reinviteSuccess'),
+          type: 'success',
+        }),
+      onError: () =>
+        this.toastService.open({
+          message: this.transloco.translate('admin.userManagement.drawer.reinviteError'),
+          type: 'danger',
+        }),
+    });
 }
