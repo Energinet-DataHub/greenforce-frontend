@@ -28,6 +28,7 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 
 import { DhChargesCreatePricesComponent } from './dh-charges-create-prices.component';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 
 const dateTimeFormat = 'dd-MM-yyyy';
 const danishTimeZoneIdentifier = 'Europe/Copenhagen';
@@ -62,7 +63,7 @@ describe(DhChargesCreatePricesComponent, () => {
   async function setup() {
     const { fixture } = await render(DhChargesCreatePricesComponent, {
       providers: [
-        importProvidersFrom(MatLegacySnackBarModule),
+        importProvidersFrom(MatLegacySnackBarModule, MatDateFnsModule),
         danishLocalProviders,
         danishDatetimeProviders,
       ],

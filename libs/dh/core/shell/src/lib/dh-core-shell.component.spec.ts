@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 import { By } from '@angular/platform-browser';
+import { importProvidersFrom } from '@angular/core';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 import { render, RenderResult } from '@testing-library/angular';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -29,7 +31,7 @@ describe(DhCoreShellComponent, () => {
   beforeEach(async () => {
     view = await render(DhCoreShellComponent, {
       imports: [getTranslocoTestingModule(), HttpClientTestingModule],
-      providers: [MsalServiceFake, danishDatetimeProviders],
+      providers: [MsalServiceFake, danishDatetimeProviders, importProvidersFrom(MatDateFnsModule)],
     });
   });
 

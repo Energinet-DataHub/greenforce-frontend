@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, importProvidersFrom } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { render, screen } from '@testing-library/angular';
@@ -26,6 +26,7 @@ import { WattTimepickerComponent } from './';
 import { WATT_FORM_FIELD } from '../../form-field';
 import { WattRange } from '../shared/watt-range';
 import { danishDatetimeProviders } from '../../../configuration/watt-danish-datetime.providers';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 
 const backspace = '{backspace}';
 const ARIA_VALUENOW = 'aria-valuenow';
@@ -49,7 +50,11 @@ describe(WattTimepickerComponent, () => {
     }
 
     const { fixture } = await render(TestComponent, {
-      providers: [danishLocalProviders, danishDatetimeProviders],
+      providers: [
+        danishLocalProviders,
+        danishDatetimeProviders,
+        importProvidersFrom(MatDateFnsModule),
+      ],
       imports: [
         WattTimepickerComponent,
         ReactiveFormsModule,
