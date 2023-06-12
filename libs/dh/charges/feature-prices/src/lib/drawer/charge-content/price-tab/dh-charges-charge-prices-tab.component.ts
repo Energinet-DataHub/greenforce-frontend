@@ -42,7 +42,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { Subject, takeUntil } from 'rxjs';
 import { PushModule } from '@rx-angular/template/push';
-import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -67,7 +67,7 @@ import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
     DhSharedUiPaginatorComponent,
     WattDatePipe,
     PushModule,
-    DhFeatureFlagDirectiveModule,
+    DhFeatureFlagDirective,
   ],
   selector: 'dh-charges-charge-prices-tab',
   templateUrl: './dh-charges-charge-prices-tab.component.html',

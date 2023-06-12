@@ -18,9 +18,8 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { within, fireEvent } from '@storybook/testing-library';
-import { importProvidersFrom } from '@angular/core';
 
-import { StorybookConfigurationLocalizationModule } from '../../+storybook/storybook-configuration-localization.module';
+import { localizationProviders } from '../../+storybook/storybook-configuration-localization.providers';
 import { WATT_FORM_FIELD } from '../../../form-field';
 import { WattRangeValidators } from '../../shared/validators';
 import { WattTimepickerComponent } from '../watt-timepicker.component';
@@ -29,10 +28,7 @@ export default {
   title: 'Components/Timepicker',
   decorators: [
     applicationConfig({
-      providers: [
-        provideAnimations(),
-        importProvidersFrom(StorybookConfigurationLocalizationModule.forRoot()),
-      ],
+      providers: [provideAnimations(), localizationProviders],
     }),
     moduleMetadata({
       imports: [ReactiveFormsModule, WATT_FORM_FIELD, WattTimepickerComponent],

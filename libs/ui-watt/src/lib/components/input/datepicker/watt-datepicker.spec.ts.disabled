@@ -31,7 +31,7 @@ import Meta, {
   WattDatepickerStoryConfig,
 } from './+storybook/watt-datepicker-reactive-forms.stories';
 import { danishTimeZoneIdentifier } from './watt-datepicker.component';
-import { StorybookConfigurationLocalizationModule } from '../+storybook/storybook-configuration-localization.module';
+import { localizationProviders } from '../+storybook/storybook-configuration-localization.module';
 import { importProvidersFrom } from '@angular/core';
 
 // TODO: Remove this when we have a better solution
@@ -64,7 +64,7 @@ describe('Datepicker', () => {
     );
     const { fixture } = await render(component, {
       imports: [ngModule],
-      providers: [importProvidersFrom(StorybookConfigurationLocalizationModule.forRoot())],
+      providers: [localizationProviders],
     });
 
     const dateInput: HTMLInputElement = screen.getByRole('textbox', {
