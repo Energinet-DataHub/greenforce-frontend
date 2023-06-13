@@ -17,5 +17,6 @@
     "**/.yarn/cache/**": true,
     "**/.angular/cache/**": true,
     "**/node_modules/*/**": true
-  }
+  },
+  "prettier.prettierPath": "./node_modules/prettier"
 }
