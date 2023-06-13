@@ -48,7 +48,6 @@ import {
 import { ApolloError } from '@apollo/client/errors';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { CommonModule } from '@angular/common';
-import { LetModule } from '@rx-angular/template/let';
 
 export type settlementReportsTableColumns = graphql.GridArea & { download: boolean };
 @Component({
@@ -69,7 +68,6 @@ export type settlementReportsTableColumns = graphql.GridArea & { download: boole
     DhPermissionRequiredDirective,
     WattEmptyStateComponent,
     CommonModule,
-    LetModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -97,9 +95,9 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
   });
 
   columns: WattTableColumnDef<settlementReportsTableColumns> = {
-    gridAreaName: { accessor: (row) => row.name },
-    gridAreaCode: { accessor: (row) => row.code },
-    download: { accessor: 'download' },
+    gridAreaName: { accessor: "name" },
+    gridAreaCode: { accessor: "code" },
+    download: { accessor: null },
   };
 
   actorsQuery = this.apollo.watchQuery({
@@ -221,7 +219,4 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
       }
     );
   }
-
-  translateHeader = (key: string) =>
-    this.transloco.translate(`wholesale.settlementReports.table.${key}`);
 }

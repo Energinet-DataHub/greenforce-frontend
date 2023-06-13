@@ -31,22 +31,5 @@ watt-card-title {
 .form-grid {
   display: grid;
   gap: var(--watt-space-m);
-  grid-template-columns: repeat(3, 1fr 0fr 0fr);
-}
-
-.datePicker1 {
-  max-width: 298px;
-}
-
-.actorPicker1 {
-  max-width: 320px;
-}
-
-.gridAreaPicker1 {
-  max-width: 260px;
-  padding-right: 10px;
-}
-
-watt-button[icon="download"] {
-  margin-left: -15px;
+  grid-template-columns: 300px min-content min-content;
 }

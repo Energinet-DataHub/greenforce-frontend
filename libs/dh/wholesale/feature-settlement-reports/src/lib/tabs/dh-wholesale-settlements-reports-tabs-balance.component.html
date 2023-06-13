@@ -55,19 +55,23 @@ limitations under the License.
     <watt-table
       [dataSource]="dataSource"
       [columns]="columns"
-      [resolveHeader]="translateHeader"
       [selectable]="true"
       description="batches"
       sortBy="executionTime"
       sortDirection="desc"
     >
       <!-- Grid Area Name -->
-      <ng-container *wattTableCell="columns.gridAreaName; let gridArea">
+      <ng-container *wattTableCell="columns.gridAreaName; header: t('table.gridAreaName'); let gridArea">
         {{ gridArea.name }} ({{ gridArea.code }})
       </ng-container>
 
+        <!-- Grid Area Code -->
+      <ng-container *wattTableCell="columns.gridAreaCode; header: t('table.gridAreaCode'); let gridArea">
+       {{ gridArea.code }}
+      </ng-container>
+
       <!-- Download -->
-      <ng-container *wattTableCell="columns.download; let gridArea">
+      <ng-container *wattTableCell="columns.download; header: ''; let gridArea">
         <watt-button
           variant="icon"
           title="{{ t('download') }}"
