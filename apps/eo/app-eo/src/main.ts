@@ -14,20 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { enableProdMode } from '@angular/core';
 import { environment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { loadEoApiEnvironment } from './configuration/load-eo-api-environment';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { EnergyOriginAppComponent } from './app/energy-origin-app.component';
-import { eoShellRoutes } from '@energinet-datahub/eo/core/shell';
+import { eoCoreShellProviders, eoShellRoutes } from '@energinet-datahub/eo/core/shell';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient } from '@angular/common/http';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { eoAuthorizationInterceptorProvider } from '@energinet-datahub/eo/shared/services';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 if (environment.production) {
   enableProdMode();
@@ -37,9 +32,7 @@ loadEoApiEnvironment()
   .then((eoApiEnvironment) =>
     bootstrapApplication(EnergyOriginAppComponent, {
       providers: [
-        importProvidersFrom(MatDialogModule),
-        eoAuthorizationInterceptorProvider,
-        browserConfigurationProviders,
+        ...eoCoreShellProviders,
         { provide: eoApiEnvironmentToken, useValue: eoApiEnvironment },
         provideRouter(eoShellRoutes),
         provideAnimations(),
