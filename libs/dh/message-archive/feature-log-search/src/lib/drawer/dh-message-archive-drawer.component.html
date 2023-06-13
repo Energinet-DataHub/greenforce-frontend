@@ -18,46 +18,50 @@ limitations under the License.
   <!-- drawer -->
   <watt-drawer #drawer size="large" (closed)="onClose()">
     <watt-drawer-topbar>
-      <span class="message-label">{{ t("message") }}</span>
+      <span class="breadcrumb-label">{{ t("message") }}</span>
       <watt-icon name="right"></watt-icon>
       <span>{{ message?.messageId }}</span>
     </watt-drawer-topbar>
 
     <watt-drawer-heading>
-      <div class="headline-container">
-        <span class="dateTime">{{
-          message?.createdDate | wattDate : "long" | dhEmDashFallback
-        }}</span>
-        <h1 class="headline">{{ message?.messageId }}</h1>
-        <span class="documenttype">{{ message?.documentType | dhEmDashFallback }}</span>
-      </div>
+      <span>{{ message?.createdDate | wattDate : "long" | dhEmDashFallback }}</span>
+      <h1 class="heading-message-id">{{ message?.messageId }}</h1>
+      <span>{{ message?.documentType | dhEmDashFallback }}</span>
     </watt-drawer-heading>
 
     <watt-drawer-content>
-      <div class="container">
-        <span class="sender-receiver-label">{{ t("sender") }}</span>
-        <span class="sender-receiver-value"
-          >{{ message?.senderGln | actorName : actors | dhEmDashFallback }} ({{
-            message?.senderGln
-          }})</span
-        >
-        <span class="sender-receiver-label">{{ t("receiver") }}</span>
-        <span class="sender-receiver-value">
-          {{ message?.receiverGln | actorName : actors | dhEmDashFallback }} ({{
-            message?.receiverGln
-          }})</span
-        >
+      <div class="message-metadata message-metadata-grid">
+        <div class="message-sender">
+          <span class="watt-label message-sender__label">{{ t("sender") }}</span>
+
+          <span class="message-sender__value"
+            >{{ message?.senderGln | actorName : actors | dhEmDashFallback }} ({{
+              message?.senderGln | dhEmDashFallback
+            }})</span
+          >
+        </div>
+
+        <div class="message-receiver">
+          <span class="watt-label message-receiver__label">{{ t("receiver") }}</span>
+
+          <span class="message-receiver__value"
+            >{{ message?.receiverGln | actorName : actors | dhEmDashFallback }} ({{
+              message?.receiverGln | dhEmDashFallback
+            }})</span
+          >
+        </div>
 
         <watt-button
           variant="text"
           (click)="downloadDocument()"
+          class="message-download-button"
           icon="download"
           [disabled]="!(message && documentContent)"
           >{{ t("download") }}</watt-button
         >
+      </div>
 
-        <mat-divider></mat-divider>
-
+      <div class="message-content">
         <pre>{{ documentContent }}</pre>
       </div>
     </watt-drawer-content>
