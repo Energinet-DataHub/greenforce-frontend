@@ -808,6 +808,11 @@
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
       "download": "Download",
+      "downloadNoBasisData": "Download (Uden basis data)",
+      "selectedRows": {
+        "singular": "{{ selectedCount }} valgt række",
+        "plural": "{{ selectedCount }} valgte rækker"
+      },
       "SelectPeriod": "For at downloade skal du vælge en periode først",
       "downloadFailed": "Download fejlede",
       "downloadStart": "Starter download...",

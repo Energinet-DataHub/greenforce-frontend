@@ -817,6 +817,11 @@
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
       "download": "Download",
+      "downloadNoBasisData": "Download (No basis data)",
+      "selectedRows": {
+        "singular": "{{ selectedCount }} selected row",
+        "plural": "{{ selectedCount }} selected rows"
+      },
       "SelectPeriod": "To download select a period first",
       "downloadFailed": "Download failed",
       "downloadStart": "Starting download...",

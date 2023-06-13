@@ -20,6 +20,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  ViewChild,
   inject,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -38,7 +39,12 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { DhWholesaleSettlementReportsDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import {
+  WATT_TABLE,
+  WattTableColumnDef,
+  WattTableComponent,
+  WattTableDataSource,
+} from '@energinet-datahub/watt/table';
 import { ApolloError } from '@apollo/client/errors';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { CommonModule } from '@angular/common';
@@ -81,17 +87,15 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
   @Input() set executionTime(executionTime: { start: string; end: string }) {
     this.searchForm.patchValue({ executionTime });
   }
+  @ViewChild(WattTableComponent)
+  resultTable!: WattTableComponent<settlementReportsTableColumns>;
+
   searchForm = this.fb.group({
     executionTime: [this.executionTime, WattRangeValidators.required()],
     actor: [''],
     gridAreas: [[] as string[]],
   });
 
-  actors!: ActorFilter;
-  gridAreas: WattDropdownOption[] = [];
-  selectedGridAreas?: string[];
-  error?: ApolloError;
-  dataSource = new WattTableDataSource<settlementReportsTableColumns>();
   columns: WattTableColumnDef<settlementReportsTableColumns> = {
     gridAreaName: { accessor: (row) => row.name },
     gridAreaCode: { accessor: (row) => row.code },
@@ -118,6 +122,12 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
     notifyOnNetworkStatusChange: true,
     query: graphql.GetGridAreasDocument,
   });
+
+  actors!: ActorFilter;
+  gridAreas: WattDropdownOption[] = [];
+  selectedGridAreas?: string[];
+  error?: ApolloError;
+  dataSource = new WattTableDataSource<settlementReportsTableColumns>();
 
   ngOnInit(): void {
     this.subscriptionActors = this.actorsQuery.valueChanges.subscribe({
@@ -173,6 +183,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
     this.subscriptionGridAreaSelected = this.searchForm.controls.gridAreas.valueChanges.subscribe(
       (value) => {
         this.selectedGridAreas = value ?? [];
+        this.resultTable.clearSelection();
         this.gridAreasQuery.refetch();
       }
     );
@@ -185,14 +196,14 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
     this.subscriptionGridAreasForFilter?.unsubscribe();
   }
 
-  downloadClicked(gridArea: settlementReportsTableColumns) {
+  downloadClicked(gridAreas: settlementReportsTableColumns[]) {
     this.toastService.open({
       type: 'loading',
       message: this.transloco.translate('wholesale.settlementReports.downloadStart'),
     });
     this.settlementReportStore.download(
       {
-        gridAreas: [gridArea.id],
+        gridAreas: gridAreas.map((g) => g.id),
         processType: WholesaleProcessType.BalanceFixing,
         periodStart: this.searchForm.controls.executionTime.value?.start ?? '',
         periodEnd: this.searchForm.controls.executionTime.value?.end ?? '',

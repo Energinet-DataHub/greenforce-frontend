@@ -73,16 +73,24 @@ limitations under the License.
           title="{{ t('download') }}"
           icon="download"
           [disabled]="!searchForm.valid"
-          (click)="downloadClicked(gridArea)"
+          (click)="downloadClicked([gridArea])"
         >
         </watt-button>
       </ng-container>
       <ng-container *wattTableToolbar="let selection">
-        {{ selection.length }} selected rows
-        {{ selection | json }}
+        <ng-container *ngIf="selection.length === 1">
+          {{ t("selectedRows.singular", { selectedCount: selection.length }) }}
+        </ng-container>
+        <ng-container *ngIf="selection.length !== 1">
+          {{ t("selectedRows.plural", { selectedCount: selection.length }) }}
+        </ng-container>
         <watt-table-toolbar-spacer />
-        <watt-button icon="download">Download</watt-button>
-        <watt-button icon="upload">Upload</watt-button>
+        <watt-button
+          icon="download"
+          (click)="downloadClicked(selection)"
+          [disabled]="!searchForm.valid"
+          >{{ t("downloadNoBasisData") }}
+        </watt-button>
       </ng-container>
     </watt-table>
 
