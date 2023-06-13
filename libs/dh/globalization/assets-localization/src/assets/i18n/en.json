@@ -827,6 +827,7 @@
       "downloadStart": "Starting download...",
       "gridAreasLoadFailed": "Could not load grid areas",
       "noEntries": "No results",
+      "results": "Search results",
       "tabs": {
         "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
         "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"

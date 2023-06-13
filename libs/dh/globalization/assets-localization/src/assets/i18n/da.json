@@ -818,6 +818,7 @@
       "downloadStart": "Starter download...",
       "gridAreasLoadFailed": "kunne ikke hente net områder",
       "noEntries": "Ingen resultater",
+      "results": "Søgeresultater",
       "tabs": {
         "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
         "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"
