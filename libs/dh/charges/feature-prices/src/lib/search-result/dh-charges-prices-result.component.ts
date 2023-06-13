@@ -20,7 +20,7 @@ import { Component, AfterViewInit, OnChanges, ViewChild, Input } from '@angular/
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 
-import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -46,7 +46,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
     WattIconComponent,
     WattButtonComponent,
     WattEmptyStateComponent,
-    DhFeatureFlagDirectiveModule,
+    DhFeatureFlagDirective,
     WattTooltipDirective,
     WattSpinnerComponent,
     WattDatePipe,

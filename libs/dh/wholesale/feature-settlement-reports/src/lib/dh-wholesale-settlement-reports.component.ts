@@ -20,7 +20,7 @@ import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -47,7 +47,7 @@ import { SettlementReport } from '@energinet-datahub/dh/wholesale/domain';
   standalone: true,
   imports: [
     CommonModule,
-    DhFeatureFlagDirectiveModule,
+    DhFeatureFlagDirective,
     DhWholesaleFormComponent,
     DhWholesaleTableComponent,
     LetModule,

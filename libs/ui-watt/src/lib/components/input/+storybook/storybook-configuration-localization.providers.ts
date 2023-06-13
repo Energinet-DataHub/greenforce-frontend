@@ -14,4 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { uiWattTranslationsProviders } from './lib/dh-globalization-ui-watt-translation.providers';
+import { makeEnvironmentProviders } from '@angular/core';
+import { danishDatetimeProviders } from '../../../configuration/watt-danish-datetime.providers';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
+
+export const localizationProviders = makeEnvironmentProviders([
+  danishLocalProviders,
+  danishDatetimeProviders,
+]);

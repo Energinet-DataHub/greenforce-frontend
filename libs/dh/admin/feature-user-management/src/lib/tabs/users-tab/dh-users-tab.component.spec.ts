@@ -49,7 +49,7 @@ const users: MarketParticipantUserOverviewItemDto[] = [
   },
 ];
 
-describe(DhUsersTabComponent.name, () => {
+describe(DhUsersTabComponent, () => {
   async function setup(mockUsers: MarketParticipantUserOverviewItemDto[] = []) {
     const storeMock = MockProvider(
       DhAdminUserManagementDataAccessApiStore,
