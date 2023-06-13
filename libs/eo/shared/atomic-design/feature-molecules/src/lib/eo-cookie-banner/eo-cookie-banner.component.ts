@@ -68,6 +68,8 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       </div>
     </mat-card>
   `,
+  standalone: true,
+  imports: [WattButtonComponent, MatCardModule, MatSlideToggleModule, FormsModule],
 })
 export class EoCookieBannerComponent {
   cookies = {
@@ -92,10 +94,3 @@ export class EoCookieBannerComponent {
     this.accepted.emit(true);
   }
 }
-
-@NgModule({
-  declarations: [EoCookieBannerComponent],
-  exports: [EoCookieBannerComponent],
-  imports: [WattButtonComponent, MatCardModule, MatSlideToggleModule, FormsModule],
-})
-export class EoCookieBannerComponentComponent {}

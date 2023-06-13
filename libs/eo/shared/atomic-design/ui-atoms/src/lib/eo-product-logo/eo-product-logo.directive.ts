@@ -21,6 +21,7 @@ const selector = 'eoProductLogo';
 @Directive({
   exportAs: selector,
   selector: 'img[' + selector + ']',
+  standalone: true,
 })
 export class EoProductLogoDirective {
   @HostBinding('attr.alt')
@@ -32,9 +33,3 @@ export class EoProductLogoDirective {
     return '/assets/images/energy-origin-logo.svg';
   }
 }
-
-@NgModule({
-  declarations: [EoProductLogoDirective],
-  exports: [EoProductLogoDirective],
-})
-export class EoProductLogoComponent {}

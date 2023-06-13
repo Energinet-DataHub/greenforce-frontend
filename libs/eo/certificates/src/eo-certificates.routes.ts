@@ -15,14 +15,19 @@
  * limitations under the License.
  */
 
-import { RouterModule, Routes } from '@angular/router';
-import { EoLandingPageShellComponent } from './eo-landing-page-shell.component';
+import { Routes } from '@angular/router';
+import { EoCertificateDetailsComponent } from './lib/certificate-details/eo-certificate-details.component';
+import { EoCertificatesComponent } from './lib/eo-certificates.component';
 
-import { NgModule } from '@angular/core';
-
-const routes: Routes = [{ path: '', component: EoLandingPageShellComponent }];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoLandingPageShellComponent],
-})
-export class EoLandingPageShellModule {}
+export const eoCertificatesRoutes: Routes = [
+  {
+    path: '',
+    data: { title: 'Certificates' },
+    component: EoCertificatesComponent,
+  },
+  {
+    path: ':id',
+    data: { title: 'Certificate Details - Production' },
+    component: EoCertificateDetailsComponent,
+  },
+];

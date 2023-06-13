@@ -16,4 +16,4 @@
  */
 
 export * from './lib/eo-origin-of-energy-pie-chart.component';
-export * from './lib/eo-origin-of-energy-shell.module';
+export * from './lib/eo-origin-of-energy-shell.routes';

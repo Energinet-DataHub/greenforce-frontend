@@ -18,7 +18,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   EoInfoBoxComponent,
-  EoMediaModule,
+  EO_MEDIA,
   EoStackComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
@@ -26,7 +26,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [EoStackComponent, EoMediaModule, RouterModule, EoInfoBoxComponent],
+  imports: [EoStackComponent, EO_MEDIA, RouterModule, EoInfoBoxComponent],
   selector: 'eo-introduction-page',
   styles: [
     `

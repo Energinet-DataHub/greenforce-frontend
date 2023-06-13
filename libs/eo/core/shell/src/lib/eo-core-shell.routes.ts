@@ -37,7 +37,7 @@ export const eoShellRoutes: Routes = [
     pathMatch: 'full',
     loadChildren: () =>
       import('@energinet-datahub/eo/landing-page/shell').then(
-        (esModule) => esModule.EoLandingPageShellModule
+        (esModule) => esModule.eoLandingPageRoutes
       ),
   },
   { path: 'login', component: EoLoginComponent },
@@ -45,7 +45,7 @@ export const eoShellRoutes: Routes = [
     path: 'terms',
     data: { title: 'Terms' },
     loadChildren: () =>
-      import('@energinet-datahub/eo/terms').then((esModule) => esModule.EoTermsModule),
+      import('@energinet-datahub/eo/terms').then((esModule) => esModule.eoTermsRoutes),
   },
   {
     path: '',
@@ -56,7 +56,7 @@ export const eoShellRoutes: Routes = [
         path: eoCertificatesRoutePath,
         loadChildren: () =>
           import('@energinet-datahub/eo/certificates').then(
-            (esModule) => esModule.EoCertificatesModule
+            (esModule) => esModule.eoCertificatesRoutes
           ),
       },
       {
@@ -64,7 +64,7 @@ export const eoShellRoutes: Routes = [
         data: { title: 'Dashboard' },
         loadChildren: () =>
           import('@energinet-datahub/eo/dashboard/shell').then(
-            (esModule) => esModule.EoDashboardShellModule
+            (esModule) => esModule.eoDashboardRoutes
           ),
       },
       {
@@ -72,7 +72,7 @@ export const eoShellRoutes: Routes = [
         data: { title: 'Renewable Share' },
         loadChildren: () =>
           import('@energinet-datahub/eo/origin-of-energy/shell').then(
-            (esModule) => esModule.EoOriginOfEnergyShellModule
+            (esModule) => esModule.eoOriginOfEnergyRoutes
           ),
       },
       {
@@ -80,7 +80,7 @@ export const eoShellRoutes: Routes = [
         data: { title: 'Consumption' },
         loadChildren: () =>
           import('@energinet-datahub/eo/consumption-page/shell').then(
-            (esModule) => esModule.EoConsumptionPageShellModule
+            (esModule) => esModule.eoConsumptionPageRoutes
           ),
       },
       {
@@ -88,7 +88,7 @@ export const eoShellRoutes: Routes = [
         data: { title: 'Production' },
         loadChildren: () =>
           import('@energinet-datahub/eo/production/shell').then(
-            (esModule) => esModule.EoProductionShellModule
+            (esModule) => esModule.eoProductionRoutes
           ),
       },
       {
@@ -96,7 +96,7 @@ export const eoShellRoutes: Routes = [
         data: { title: 'Metering points' },
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
-            (esModule) => esModule.EoMeteringPointsShellModule
+            (esModule) => esModule.eoMeteringPointsRoutes
           ),
       },
       {
@@ -104,26 +104,26 @@ export const eoShellRoutes: Routes = [
         data: { title: 'Emissions' },
         loadChildren: () =>
           import('@energinet-datahub/eo/emissions/shell').then(
-            (esModule) => esModule.EoEmissionsPageShellModule
+            (esModule) => esModule.eoEmissionsRoutes
           ),
       },
       {
         path: eoTransferRoutePath,
         data: { title: 'Transfers' },
         loadChildren: () =>
-          import('@energinet-datahub/eo/transfers').then((esModule) => esModule.EoTransferModule),
+          import('@energinet-datahub/eo/transfers').then((esModule) => esModule.eoTransfersRoutes),
       },
       {
         path: eoHelpRoutePath,
         loadChildren: () =>
-          import('@energinet-datahub/eo/help/shell').then((esModule) => esModule.EoHelpModule),
+          import('@energinet-datahub/eo/help/shell').then((esModule) => esModule.eoHelpRoutes),
       },
       {
         path: eoPrivacyPolicyRoutePath,
         data: { title: 'Privacy Policy' },
         loadChildren: () =>
           import('@energinet-datahub/eo/privacy-policy/shell').then(
-            (esModule) => esModule.EoPrivacyPolicyShellModule
+            (esModule) => esModule.eoPrivacyPolicyRoutes
           ),
       },
     ],

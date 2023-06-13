@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { EoFaqPageComponent } from './lib/eo-faq-page.component';
 import { EoGeographyPageComponent } from './lib/eo-geography-page.component';
@@ -23,7 +22,7 @@ import { EoHelpPageComponent } from './lib/eo-help-page.component';
 import { EoIntroductionPageComponent } from './lib/eo-introduction-page.component';
 import { EoSimultaneityPageComponent } from './lib/eo-simultaneity-page.component';
 
-const routes: Routes = [
+export const eoHelpRoutes: Routes = [
   { path: '', component: EoHelpPageComponent, data: { title: 'Help' } },
   { path: eoRoutes.faq, component: EoFaqPageComponent, data: { title: 'FAQ' } },
   {
@@ -43,8 +42,3 @@ const routes: Routes = [
   },
   { path: '**', redirectTo: '' },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-})
-export class EoHelpModule {}

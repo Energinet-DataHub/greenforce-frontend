@@ -18,6 +18,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 import { PushModule } from '@rx-angular/template/push';
 
 import { EoMediaPresenter } from './eo-media.presenter';
+import { EoMediaImageDirective } from './eo-media-image.directive';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -109,3 +110,5 @@ export class EoMediaComponent {
 
   constructor(public presenter: EoMediaPresenter) {}
 }
+
+export const EO_MEDIA = [EoMediaComponent, EoMediaImageDirective];

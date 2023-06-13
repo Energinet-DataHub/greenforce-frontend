@@ -16,12 +16,12 @@
  */
 import { render, screen } from '@testing-library/angular';
 
-import { EoProductLogoComponent, EoProductLogoDirective } from './eo-product-logo.directive';
+import { EoProductLogoDirective } from './eo-product-logo.directive';
 
-describe(EoProductLogoDirective.name, () => {
+describe(EoProductLogoDirective, () => {
   beforeEach(async () => {
     await render('<img eoProductLogo>', {
-      imports: [EoProductLogoComponent],
+      imports: [EoProductLogoDirective],
     });
 
     hostElement = screen.getByRole('img');

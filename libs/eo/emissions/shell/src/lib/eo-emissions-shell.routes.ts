@@ -15,18 +15,12 @@
  * limitations under the License.
  */
 
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { EoEmissionsPageShellComponent } from './eo-emissions-page-shell.component';
 
-const routes: Routes = [
+export const eoEmissionsRoutes: Routes = [
   {
     path: '',
     component: EoEmissionsPageShellComponent,
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoEmissionsPageShellComponent],
-})
-export class EoEmissionsPageShellModule {}

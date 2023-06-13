@@ -14,18 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EoDashboardShellComponent } from './eo-dashboard-shell.component';
 
-const routes: Routes = [
+import { Routes } from '@angular/router';
+import { EoTransferComponent } from './lib/eo-transfers.component';
+
+export const eoTransfersRoutes: Routes = [
   {
     path: '',
-    component: EoDashboardShellComponent,
+    data: { title: 'Transfers' },
+    component: EoTransferComponent,
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoDashboardShellComponent],
-})
-export class EoDashboardShellModule {}
