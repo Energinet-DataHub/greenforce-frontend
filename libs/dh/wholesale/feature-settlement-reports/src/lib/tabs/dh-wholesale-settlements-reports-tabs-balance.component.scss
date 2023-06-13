@@ -14,6 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+watt-card {
+  display: grid;
+}
+
 watt-card-title {
   display: flex;
   align-items: center;
@@ -24,14 +28,8 @@ watt-card-title {
   }
 }
 
-.datePicker {
-  max-width: 298px;
-}
-
-.actorPicker {
-  max-width: 320px;
-}
-
-.gridAreaPicker {
-  max-width: 260px;
+.form-grid {
+  display: grid;
+  gap: var(--watt-space-m);
+  grid-template-columns: 300px min-content min-content;
 }
