@@ -32,8 +32,8 @@ const disableThemeCheck: SanityChecks = {
  * Fake the icon registry to enable verification of SVG icons.
  */
 export const gfAngularMaterialTestingProviders = makeEnvironmentProviders([
-    {
-      provide: MATERIAL_SANITY_CHECKS,
-      useValue: disableThemeCheck,
-    },
-  ]);
+  {
+    provide: MATERIAL_SANITY_CHECKS,
+    useValue: disableThemeCheck,
+  },
+]);

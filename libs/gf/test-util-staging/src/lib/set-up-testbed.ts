@@ -57,7 +57,7 @@ function patchTestbed(): void {
           ...(moduleDef.providers ?? []),
           browserConfigurationProviders,
           gfRxAngularTestingProviders,
-          gfAngularMaterialTestingProviders
+          gfAngularMaterialTestingProviders,
         ],
       });
       return testbed;
