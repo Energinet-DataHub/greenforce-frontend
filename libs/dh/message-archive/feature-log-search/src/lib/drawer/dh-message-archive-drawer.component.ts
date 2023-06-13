@@ -29,7 +29,7 @@ import { DhMessageArchiveDocumentApiStore } from '@energinet-datahub/dh/message-
 import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
 import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeName.pipe';
 import { PushModule } from '@rx-angular/template/push';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { provideComponentStore } from '@ngrx/component-store';
 
@@ -50,7 +50,7 @@ import { provideComponentStore } from '@ngrx/component-store';
     DocumentTypeNamePipe,
     WattButtonComponent,
     PushModule,
-    DhEmDashFallbackPipeScam,
+    DhEmDashFallbackPipe,
   ],
   providers: [provideComponentStore(DhMessageArchiveDocumentApiStore)],
 })

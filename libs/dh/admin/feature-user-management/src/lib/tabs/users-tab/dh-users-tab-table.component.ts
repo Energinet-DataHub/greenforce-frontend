@@ -24,7 +24,7 @@ import {
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import {
   MarketParticipantSortDirection,
   MarketParticipantUserOverviewItemDto,
@@ -63,7 +63,7 @@ import { Subject, takeUntil } from 'rxjs';
     WATT_TABLE,
     CommonModule,
     TranslocoModule,
-    DhEmDashFallbackPipeScam,
+    DhEmDashFallbackPipe,
     DhUserStatusComponent,
     DhUserDrawerComponent,
   ],

@@ -30,7 +30,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import {
   GridAreaChanges,
   GridAreaOverviewRow,
@@ -58,7 +58,7 @@ import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh
     WattEmptyStateComponent,
     WattSpinnerComponent,
     WattValidationMessageComponent,
-    DhEmDashFallbackPipeScam,
+    DhEmDashFallbackPipe,
     WattDatePipe,
     WATT_DRAWER,
     DhMarketParticipantGridAreaDetailsHeaderComponent,
