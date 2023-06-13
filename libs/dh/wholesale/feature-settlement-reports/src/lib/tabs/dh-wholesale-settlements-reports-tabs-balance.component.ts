@@ -95,8 +95,8 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
   });
 
   columns: WattTableColumnDef<settlementReportsTableColumns> = {
-    gridAreaName: { accessor: "name" },
-    gridAreaCode: { accessor: "code" },
+    gridAreaName: { accessor: 'name' },
+    gridAreaCode: { accessor: 'code' },
     download: { accessor: null },
   };
 
