@@ -49,7 +49,7 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DateRange } from '@energinet-datahub/dh/shared/domain';
 import { filterValidGridAreas, GridArea } from '@energinet-datahub/dh/wholesale/domain';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
@@ -67,7 +67,7 @@ interface CreateBatchFormValues {
   standalone: true,
   imports: [
     CommonModule,
-    DhFeatureFlagDirectiveModule,
+    DhFeatureFlagDirective,
     WattDatePipe,
     LetModule,
     PushModule,

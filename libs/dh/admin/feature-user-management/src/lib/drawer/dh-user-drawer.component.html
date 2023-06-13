@@ -23,13 +23,16 @@ limitations under the License.
       <h2>{{ selectedUser?.firstName + " " + selectedUser?.lastName }}</h2>
     </watt-drawer-heading>
 
-    <watt-drawer-actions>
+    <watt-drawer-actions *dhPermissionRequired="['users:manage']">
       <watt-button
+        *ngIf="selectedUser?.status === 'Invited' || selectedUser?.status === 'InviteExpired'"
         variant="secondary"
-        *dhPermissionRequired="['users:manage']"
-        (click)="isEditUserModalVisible = true"
-        >{{ t("edit") }}</watt-button
+        (click)="reinvite()"
+        >{{ t("reinvite") }}</watt-button
       >
+      <watt-button variant="secondary" (click)="isEditUserModalVisible = true">{{
+        t("edit")
+      }}</watt-button>
     </watt-drawer-actions>
 
     <watt-drawer-content *ngIf="drawer.isOpen">
@@ -41,5 +44,6 @@ limitations under the License.
     *ngIf="isEditUserModalVisible"
     [user]="selectedUser"
     (closed)="modalOnClose()"
+    [reinviteCallback]="reinvite"
   ></dh-edit-user-modal>
 </ng-container>

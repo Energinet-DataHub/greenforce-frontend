@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { Injectable, makeEnvironmentProviders } from '@angular/core';
 import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
 import { WattPaginatorIntlService } from '@energinet-datahub/watt/paginator';
 import { TranslocoService } from '@ngneat/transloco';
@@ -48,36 +48,13 @@ export class DhPaginatorIntlService extends WattPaginatorIntlService {
   }
 }
 
-/**
- * Do not import directly. Use `DhGlobalizationUiWattTranslationModule.forRoot`.
- */
-@NgModule()
-export class DhGlobalizationUiWattTranslationModule {
-  static forRoot(): ModuleWithProviders<DhGlobalizationUiWattTranslationModule> {
-    return {
-      ngModule: DhGlobalizationUiWattTranslationModule,
-      providers: [
-        {
-          provide: WattClipboardIntlService,
-          useClass: DhClipboardIntlService,
-        },
-        {
-          provide: WattPaginatorIntlService,
-          useClass: DhPaginatorIntlService,
-        },
-      ],
-    };
-  }
-
-  constructor(
-    @Optional()
-    @SkipSelf()
-    parentModule?: DhGlobalizationUiWattTranslationModule
-  ) {
-    if (parentModule) {
-      throw new Error(
-        'DhGlobalizationUiWattTranslationModule is already loaded. Import it in the AppModule only'
-      );
-    }
-  }
-}
+export const uiWattTranslationsProviders = makeEnvironmentProviders([
+  {
+    provide: WattClipboardIntlService,
+    useClass: DhClipboardIntlService,
+  },
+  {
+    provide: WattPaginatorIntlService,
+    useClass: DhPaginatorIntlService,
+  },
+]);

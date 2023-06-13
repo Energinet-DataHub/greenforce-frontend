@@ -14,4 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { uiWattTranslationsProviders } from './lib/dh-globalization-ui-watt-translation.providers';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_DATE_FNS_FORMATS } from '@angular/material-date-fns-adapter';
+import * as daLocale from 'date-fns/locale/da/index.js';
+
+import { WattDateAdapter } from './watt-date-adapter';
+import { makeEnvironmentProviders } from '@angular/core';
+
+export const danishDatetimeProviders = makeEnvironmentProviders([
+  { provide: MAT_DATE_LOCALE, useValue: daLocale },
+  {
+    provide: DateAdapter,
+    useClass: WattDateAdapter,
+    deps: [MAT_DATE_LOCALE],
+  },
+  { provide: MAT_DATE_FORMATS, useValue: MAT_DATE_FNS_FORMATS },
+]);
