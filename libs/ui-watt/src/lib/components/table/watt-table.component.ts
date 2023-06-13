@@ -98,6 +98,10 @@ interface WattTableCellContext<T> {
   $implicit: T;
 }
 
+interface WattTableToolbarContext<T> {
+  $implicit: T;
+}
+
 @Directive({
   standalone: true,
   selector: '[wattTableCell]',
@@ -120,11 +124,11 @@ export class WattTableCellDirective<T> {
   selector: '[wattTableToolbar]',
 })
 export class WattTableToolbarDirective<T> {
-  templateRef = inject(TemplateRef<T[]>);
+  templateRef = inject(TemplateRef<WattTableToolbarContext<T[]>>);
   static ngTemplateContextGuard<T>(
     _directive: WattTableToolbarDirective<T>,
     context: unknown
-  ): context is T[] {
+  ): context is WattTableToolbarContext<T[]> {
     return true;
   }
 }
