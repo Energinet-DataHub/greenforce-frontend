@@ -61,13 +61,17 @@ limitations under the License.
       sortDirection="desc"
     >
       <!-- Grid Area Name -->
-      <ng-container *wattTableCell="columns.gridAreaName; header: t('table.gridAreaName'); let gridArea">
+      <ng-container
+        *wattTableCell="columns.gridAreaName; header: t('table.gridAreaName'); let gridArea"
+      >
         {{ gridArea.name }} ({{ gridArea.code }})
       </ng-container>
 
-        <!-- Grid Area Code -->
-      <ng-container *wattTableCell="columns.gridAreaCode; header: t('table.gridAreaCode'); let gridArea">
-       {{ gridArea.code }}
+      <!-- Grid Area Code -->
+      <ng-container
+        *wattTableCell="columns.gridAreaCode; header: t('table.gridAreaCode'); let gridArea"
+      >
+        {{ gridArea.code }}
       </ng-container>
 
       <!-- Download -->
