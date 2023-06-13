@@ -14,14 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import {
-  environment,
-  eoApiEnvironmentToken,
-} from '@energinet-datahub/eo/shared/environments';
-import { EnergyOriginAppModule } from './app/energy-origin-app.module';
+import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { environment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { loadEoApiEnvironment } from './configuration/load-eo-api-environment';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { EnergyOriginAppComponent } from './app/energy-origin-app.component';
+import { eoShellRoutes } from '@energinet-datahub/eo/core/shell';
+import { provideRouter } from '@angular/router';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideHttpClient } from '@angular/common/http';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { eoAuthorizationInterceptorProvider } from '@energinet-datahub/eo/shared/services';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 if (environment.production) {
   enableProdMode();
@@ -29,11 +35,18 @@ if (environment.production) {
 
 loadEoApiEnvironment()
   .then((eoApiEnvironment) =>
-    platformBrowserDynamic([
-      { provide: eoApiEnvironmentToken, useValue: eoApiEnvironment },
-    ]).bootstrapModule(EnergyOriginAppModule, {
-      ngZoneEventCoalescing: true,
-      ngZoneRunCoalescing: true,
+    bootstrapApplication(EnergyOriginAppComponent, {
+      providers: [
+        importProvidersFrom(MatDialogModule),
+        eoAuthorizationInterceptorProvider,
+        browserConfigurationProviders,
+        { provide: eoApiEnvironmentToken, useValue: eoApiEnvironment },
+        provideRouter(eoShellRoutes),
+        provideAnimations(),
+        provideHttpClient(),
+        // this api is first available in Angular 16
+        // provideZoneChangeDetection({ eventCoalescing: true, runCoalescing: true }),
+      ],
     })
   )
   .catch((error: unknown) => console.error(error));

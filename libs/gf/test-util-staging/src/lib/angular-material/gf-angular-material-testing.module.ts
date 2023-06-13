@@ -14,9 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
+import { makeEnvironmentProviders } from '@angular/core';
 import { MATERIAL_SANITY_CHECKS, SanityChecks } from '@angular/material/core';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 const disableThemeCheck: SanityChecks = {
   doctype: true,
@@ -32,13 +31,9 @@ const disableThemeCheck: SanityChecks = {
  *
  * Fake the icon registry to enable verification of SVG icons.
  */
-@NgModule({
-  imports: [MatIconTestingModule],
-  providers: [
+export const gfAngularMaterialTestingProviders = makeEnvironmentProviders([
     {
       provide: MATERIAL_SANITY_CHECKS,
       useValue: disableThemeCheck,
     },
-  ],
-})
-export class GfAngularMaterialTestingModule {}
+  ]);

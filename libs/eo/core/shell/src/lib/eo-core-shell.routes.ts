@@ -14,9 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
   eoCertificatesRoutePath,
@@ -30,13 +28,10 @@ import {
   eoProductionRoutePath,
   eoTransferRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
-import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
-import { EoHttpModule } from './eo-http.module';
 import { EoLoginComponent } from './eo-login.component';
-import { EoMaterialModule } from './eo-material.module';
 import { EoShellComponent } from './eo-shell.component';
 
-const routes: Routes = [
+export const eoShellRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
@@ -135,15 +130,3 @@ const routes: Routes = [
   },
   { path: '**', redirectTo: '' }, // Catch-all that can be used for 404 redirects in the future
 ];
-
-@NgModule({
-  imports: [
-    GfBrowserConfigurationModule.forRoot(),
-    EoHttpModule.forRoot(),
-    RouterModule.forRoot(routes),
-    EoMaterialModule.forRoot(),
-    EoShellComponent,
-    MatDialogModule,
-  ],
-})
-export class EoCoreShellModule {}

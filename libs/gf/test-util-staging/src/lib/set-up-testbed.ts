@@ -26,8 +26,8 @@ import {
 } from '@angular/platform-browser-dynamic/testing';
 import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
 
-import { GfAngularMaterialTestingModule } from './angular-material/gf-angular-material-testing.module';
-import { GfRxAngularTestingModule } from './rx-angular/gf-rx-angular-testing.module';
+import { gfAngularMaterialTestingProviders } from './angular-material/gf-angular-material-testing.module';
+import { gfRxAngularTestingProviders } from './rx-angular/gf-rx-angular-testing.providers';
 
 /*
  * For easier debugging in development mode, you can import the following file
@@ -36,6 +36,7 @@ import { GfRxAngularTestingModule } from './rx-angular/gf-rx-angular-testing.mod
 import 'zone.js/plugins/zone-error';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 function patchTestbed(): void {
   const isUnpatched = testbed.configureTestingModule === realConfigureTestingModule;
@@ -45,8 +46,7 @@ function patchTestbed(): void {
       realConfigureTestingModule.call(testbed, {
         ...moduleDef,
         imports: [
-          GfAngularMaterialTestingModule,
-          GfRxAngularTestingModule,
+          MatIconTestingModule,
           NoopAnimationsModule,
           RouterTestingModule,
           ...(moduleDef.imports ?? []),
@@ -55,7 +55,9 @@ function patchTestbed(): void {
           // Use automatic change detection in tests
           { provide: ComponentFixtureAutoDetect, useValue: true },
           ...(moduleDef.providers ?? []),
-          browserConfigurationProviders
+          browserConfigurationProviders,
+          gfRxAngularTestingProviders,
+          gfAngularMaterialTestingProviders
         ],
       });
       return testbed;
