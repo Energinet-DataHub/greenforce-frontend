@@ -16,20 +16,20 @@
  */
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { EoTransferTableComponent } from './eo-transfers-table.component';
-import { EoTransferStore } from './eo-transfers.store';
+import { WattCardComponent } from '@energinet-datahub/watt/card';
+import { EoTransfersTableComponent } from './eo-transfers-table.component';
+import { EoTransfersStore } from './eo-transfers.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-transfer',
-  imports: [MatCardModule, EoTransferTableComponent, EoPopupMessageComponent, AsyncPipe, NgIf],
+  selector: 'eo-transfers',
+  imports: [WattCardComponent, EoTransfersTableComponent, EoPopupMessageComponent, AsyncPipe, NgIf],
   standalone: true,
   styles: [``],
   template: `
     <eo-popup-message *ngIf="error$ | async"></eo-popup-message>
-    <mat-card class="watt-space-stack-l">
+    <watt-card class="watt-space-stack-l">
       <h3 class="watt-space-stack-m">This is the beginning</h3>
       <p class="watt-space-stack-m">
         This page is based on real data and is working towards the coming solution regarding
@@ -37,13 +37,13 @@ import { EoTransferStore } from './eo-transfers.store';
         sense. It will be communicated, when it is out of beta and can be used legally. So you can
         try this without any consequences.
       </p>
-    </mat-card>
-    <mat-card class="watt-space-stack-m">
-      <eo-transfer-table></eo-transfer-table>
-    </mat-card>
+    </watt-card>
+    <watt-card class="watt-space-stack-m">
+      <eo-transfers-table></eo-transfers-table>
+    </watt-card>
   `,
 })
-export class EoTransferComponent {
+export class EoTransfersComponent {
   error$ = this.store.error$;
-  constructor(private store: EoTransferStore) {}
+  constructor(private store: EoTransfersStore) {}
 }

@@ -17,17 +17,17 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EoTransferComponent } from './lib/eo-transfers.component';
+import { EoTransfersComponent } from './lib/eo-transfers.component';
 
 const routes: Routes = [
   {
     path: '',
     data: { title: 'Transfers' },
-    component: EoTransferComponent,
+    component: EoTransfersComponent,
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), EoTransferComponent],
+  imports: [RouterModule.forChild(routes), EoTransfersComponent],
 })
-export class EoTransferModule {}
+export class EoTransfersModule {}
