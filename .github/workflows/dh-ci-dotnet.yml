@@ -39,7 +39,7 @@ jobs:
       download_attempt_limit: 12
       environment: AzureAuth
     secrets:
-      azure_tenant_id: ${{ secrets.azure_tenant_id }}
+      azure_tenant_id: ${{ vars.azure_tenant_id }}
       azure_subscription_id: ${{ vars.azure_subscription_id }}
       azure_spn_id: ${{ vars.azure_spn_id_oidc }}
       azure_keyvault_url: ${{ vars.azure_keyvault_url }}
