@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MsalService } from '@azure/msal-angular';
 import { PushModule } from '@rx-angular/template/push';
@@ -30,6 +30,8 @@ import {
   DhSelectedActorComponent,
   DhSignupMitIdComponent,
 } from '@energinet-datahub/dh/shared/feature-authorization';
+import { ApolloModule } from 'apollo-angular';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 
 @Component({
   selector: 'dh-shell',
@@ -37,9 +39,11 @@ import {
   templateUrl: './dh-core-shell.component.html',
   standalone: true,
   imports: [
+    MatDateFnsModule,
     TranslocoModule,
+    ApolloModule,
     DhLanguagePickerComponent,
-    RouterModule,
+    RouterOutlet,
     PushModule,
     DhPrimaryNavigationComponent,
     WattShellComponent,

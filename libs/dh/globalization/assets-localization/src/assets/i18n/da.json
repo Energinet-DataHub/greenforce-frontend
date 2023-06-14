@@ -810,8 +810,17 @@
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
       "download": "Download",
+      "downloadNoBasisData": "Download (Uden basis data)",
+      "selectedRows": {
+        "singular": "{{ selectedCount }} valgt række",
+        "plural": "{{ selectedCount }} valgte rækker"
+      },
+      "SelectPeriod": "For at downloade skal du vælge en periode først",
       "downloadFailed": "Download fejlede",
       "downloadStart": "Starter download...",
+      "gridAreasLoadFailed": "kunne ikke hente net områder",
+      "noEntries": "Ingen resultater",
+      "results": "Søgeresultater",
       "tabs": {
         "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
         "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"
@@ -820,6 +829,7 @@
         "title": "Processer",
         "processType": "Procestype",
         "gridAreaName": "Netområde",
+        "gridAreaCode": "Netområde ID",
         "periodStart": "Periode fra",
         "periodEnd": "Periode til",
         "executionTime": "Kørsel tid",
@@ -929,6 +939,9 @@
       "download": "Download",
       "drawer": {
         "edit": "Rediger",
+        "reinvite": "Send invitation igen",
+        "reinviteError": "Noget gik galt. Brugeren blev ikke inviteret. Prøv igen",
+        "reinviteSuccess": "Brugeren blev inviteret",
         "editRole": "Rediger rolle",
         "disable": "Deaktiver",
         "disablingUserRole": "Deaktiverer bruger rollen",
@@ -980,7 +993,9 @@
       "topBarTitle": "Brugeradministration",
       "userStatus": {
         "active": "Aktiv",
-        "inactive": "Inaktiv"
+        "inactive": "Inaktiv",
+        "invited": "Inviteret",
+        "inviteExpired": "Invitation udløbet"
       },
       "roleStatus": {
         "active": "Aktiv",
@@ -1111,6 +1126,7 @@
       "editUser": {
         "cancel": "Fortryd",
         "save": "Gem",
+        "reinvite": "Send invitation igen",
         "saveSuccess": "Brugeren blev opdateret",
         "saveError": "Noget gik galt. Brugeren blev ikke opdateret. Prøv igen",
         "tab": {

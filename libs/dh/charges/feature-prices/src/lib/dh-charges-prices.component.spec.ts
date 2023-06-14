@@ -14,25 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import userEvent from '@testing-library/user-event';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { HttpClientModule } from '@angular/common/http';
 import { formatInTimeZone } from 'date-fns-tz';
 import { fireEvent, render, screen, waitFor } from '@testing-library/angular';
-import userEvent from '@testing-library/user-event';
-import { DhChargesPricesComponent } from './dh-charges-prices.component';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
-import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
-import { DanishLocaleModule } from '@energinet-datahub/gf/configuration-danish-locale';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { DrawerDatepickerService } from './drawer/charge-content/drawer-datepicker/drawer-datepicker.service';
+import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
+import { importProvidersFrom } from '@angular/core';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
+
+import { DhChargesPricesComponent } from './dh-charges-prices.component';
 
 const wattDrawerName = 'watt-drawer';
 const dateTimeFormat = 'dd-MM-yyyy';
-import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
-describe(DhChargesPricesComponent.name, () => {
+describe(DhChargesPricesComponent, () => {
   async function setup() {
     const { fixture } = await render(`<dh-charges-prices></dh-charges-prices>`, {
+      providers: [
+        danishLocalProviders,
+        danishDatetimeProviders,
+        importProvidersFrom(MatDateFnsModule),
+      ],
       componentProviders: [
         {
           provide: DrawerDatepickerService,
@@ -44,8 +52,6 @@ describe(DhChargesPricesComponent.name, () => {
         DhApiModule.forRoot(),
         HttpClientModule,
         DhChargesPricesComponent,
-        WattDanishDatetimeModule.forRoot(),
-        DanishLocaleModule,
       ],
     });
 

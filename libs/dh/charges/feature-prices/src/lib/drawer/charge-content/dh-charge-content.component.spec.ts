@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import userEvent from '@testing-library/user-event';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { fireEvent, render, screen, waitFor } from '@testing-library/angular';
 import { HttpClientModule } from '@angular/common/http';
+import { add } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import {
@@ -25,16 +27,16 @@ import {
   ChargeResolution,
   ChargeVatClassification,
 } from '@energinet-datahub/dh/shared/domain';
-import userEvent from '@testing-library/user-event';
 import { DhMarketParticipantDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
-import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
-import { DanishLocaleModule } from '@energinet-datahub/gf/configuration-danish-locale';
-import { add } from 'date-fns';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { TestBed } from '@angular/core/testing';
-import { DhChargeContentComponent } from './dh-charge-content.component';
-import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
+import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
+import { importProvidersFrom } from '@angular/core';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
+import { DhChargeContentComponent } from './dh-charge-content.component';
+import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
 
 const dateTimeFormat = 'dd-MM-yyyy';
 
@@ -58,7 +60,7 @@ const charge: ChargeV1Dto = {
 const startDateInputSelector = 'start-date-input';
 const endDateInputSelector = 'end-date-input';
 
-describe(DhChargeContentComponent.name, () => {
+describe(DhChargeContentComponent, () => {
   function findInputElement(selector: string) {
     const element: HTMLInputElement = screen.getByRole('textbox', {
       name: new RegExp(`${selector}`, 'i'),
@@ -69,7 +71,12 @@ describe(DhChargeContentComponent.name, () => {
 
   async function setup() {
     const { fixture } = await render(DhChargeContentComponent, {
-      providers: [DhMarketParticipantDataAccessApiStore],
+      providers: [
+        DhMarketParticipantDataAccessApiStore,
+        danishLocalProviders,
+        danishDatetimeProviders,
+        importProvidersFrom(MatDateFnsModule),
+      ],
       componentProviders: [
         {
           provide: DrawerDatepickerService,
@@ -79,8 +86,6 @@ describe(DhChargeContentComponent.name, () => {
       imports: [
         DhChargeContentComponent,
         getTranslocoTestingModule(),
-        WattDanishDatetimeModule.forRoot(),
-        DanishLocaleModule,
         HttpClientModule,
         DhApiModule.forRoot(),
       ],

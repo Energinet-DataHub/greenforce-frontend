@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
+import { makeEnvironmentProviders } from '@angular/core';
+import { danishDatetimeProviders } from '../../../configuration/watt-danish-datetime.providers';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 
-import { danishLocaleInitializer } from './danish-locale.initializer';
-import { danishLocaleProvider } from './danish-locale.provider';
-
-@NgModule({
-  providers: [danishLocaleProvider, danishLocaleInitializer],
-})
-export class DanishLocaleModule {}
+export const localizationProviders = makeEnvironmentProviders([
+  danishLocalProviders,
+  danishDatetimeProviders,
+]);

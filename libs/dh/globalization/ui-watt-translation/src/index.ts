@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-globalization-ui-watt-translation.module';
+export { uiWattTranslationsProviders } from './lib/dh-globalization-ui-watt-translation.providers';

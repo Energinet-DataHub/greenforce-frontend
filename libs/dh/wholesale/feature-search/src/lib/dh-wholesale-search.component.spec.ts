@@ -14,27 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import userEvent from '@testing-library/user-event';
 import { HttpClientModule } from '@angular/common/http';
 import { render, screen, waitFor } from '@testing-library/angular';
-import userEvent from '@testing-library/user-event';
-
-import { DhGraphQLModule } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
-
-import { DhWholesaleSearchComponent } from './dh-wholesale-search.component';
 import { importProvidersFrom } from '@angular/core';
+import { ApolloModule } from 'apollo-angular';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
+import { DhWholesaleSearchComponent } from './dh-wholesale-search.component';
 
 async function setup() {
   await render(`<dh-wholesale-search></dh-wholesale-search>`, {
-    providers: [importProvidersFrom(MatLegacySnackBarModule)],
+    providers: [
+      importProvidersFrom(MatLegacySnackBarModule, MatDateFnsModule),
+      graphQLProviders,
+      danishDatetimeProviders,
+    ],
     imports: [
-      DhGraphQLModule.forRoot(),
+      ApolloModule,
       DhWholesaleSearchComponent,
       getTranslocoTestingModule(),
       HttpClientModule,
-      WattDanishDatetimeModule.forRoot(),
     ],
   });
 }

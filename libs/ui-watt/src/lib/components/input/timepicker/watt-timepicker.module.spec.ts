@@ -14,24 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, importProvidersFrom } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { DhConfigurationLocalizationModule } from '@energinet-datahub/dh/globalization/configuration-localization';
-
+import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 import { WattTimepickerComponent } from './';
 import { WATT_FORM_FIELD } from '../../form-field';
 import { WattDateRange } from '../../../utils/date';
-import { WattDanishDatetimeModule } from '../../../configuration/watt-danish-datetime.module';
+import { danishDatetimeProviders } from '../../../configuration/watt-danish-datetime.providers';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 
 const backspace = '{backspace}';
 const ARIA_VALUENOW = 'aria-valuenow';
 
-describe(WattTimepickerComponent.name, () => {
+describe(WattTimepickerComponent, () => {
   async function setup({
     template,
     initialState = null,
@@ -50,14 +50,17 @@ describe(WattTimepickerComponent.name, () => {
     }
 
     const { fixture } = await render(TestComponent, {
+      providers: [
+        danishLocalProviders,
+        danishDatetimeProviders,
+        importProvidersFrom(MatDateFnsModule),
+      ],
       imports: [
         WattTimepickerComponent,
         ReactiveFormsModule,
         FormsModule,
         WATT_FORM_FIELD,
         BrowserAnimationsModule,
-        DhConfigurationLocalizationModule.forRoot(),
-        WattDanishDatetimeModule.forRoot(),
       ],
     });
 

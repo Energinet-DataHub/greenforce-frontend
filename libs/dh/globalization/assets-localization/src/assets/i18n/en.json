@@ -819,8 +819,17 @@
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
       "download": "Download",
+      "downloadNoBasisData": "Download (No basis data)",
+      "selectedRows": {
+        "singular": "{{ selectedCount }} selected row",
+        "plural": "{{ selectedCount }} selected rows"
+      },
+      "SelectPeriod": "To download select a period first",
       "downloadFailed": "Download failed",
       "downloadStart": "Starting download...",
+      "gridAreasLoadFailed": "Could not load grid areas",
+      "noEntries": "No results",
+      "results": "Search results",
       "tabs": {
         "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
         "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"
@@ -829,6 +838,7 @@
         "title": "Processes",
         "processType": "Process type",
         "gridAreaName": "Grid area",
+        "gridAreaCode": "Grid Area Code",
         "periodStart": "Period from",
         "periodEnd": "Period to",
         "executionTime": "Execution time",
@@ -938,6 +948,9 @@
       "download": "Download",
       "drawer": {
         "edit": "Edit",
+        "reinvite": "Send invitation again",
+        "reinviteError": "Something went wrong. The user could not be invited. Please try again",
+        "reinviteSuccess": "The user has been invited",
         "editRole": "Edit role",
         "disable": "Disable",
         "disablingUserRole": "Disabling user role",
@@ -993,7 +1006,9 @@
       "topBarTitle": "User management",
       "userStatus": {
         "active": "Active",
-        "inactive": "Inactive"
+        "inactive": "Inactive",
+        "invited": "Invited",
+        "inviteExpired": "Invitation expired"
       },
       "roleStatus": {
         "active": "Active",
@@ -1138,6 +1153,7 @@
       "editUser": {
         "cancel": "Cancel",
         "save": "Save",
+        "reinvite": "Send invitation again",
         "saveSuccess": "The user was updated",
         "saveError": "Something went wrong. The user could not be updated. Please try again",
         "tab": {
