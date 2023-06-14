@@ -44,18 +44,20 @@ export class DhAdminUserStatusStore extends ComponentStore<State> {
           this.setSaving(SavingState.SAVING);
         }),
         switchMap(({ id, onSuccess, onError }) => {
-          return this.marketParticipantUserHttpClient.v1MarketParticipantUserDeactivateUserPut(id).pipe(
-            tapResponse(
-              () => {
-                this.setSaving(SavingState.SAVED);
-                onSuccess();
-              },
-              () => {
-                this.setSaving(ErrorState.GENERAL_ERROR);
-                onError();
-              }
-            )
-          );
+          return this.marketParticipantUserHttpClient
+            .v1MarketParticipantUserDeactivateUserPut(id)
+            .pipe(
+              tapResponse(
+                () => {
+                  this.setSaving(SavingState.SAVED);
+                  onSuccess();
+                },
+                () => {
+                  this.setSaving(ErrorState.GENERAL_ERROR);
+                  onError();
+                }
+              )
+            );
         })
       )
   );
