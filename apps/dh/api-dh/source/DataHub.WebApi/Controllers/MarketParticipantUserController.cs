@@ -132,6 +132,27 @@ namespace Energinet.DataHub.WebApi.Controllers
                         auditLog.Timestamp));
                 }
 
+                foreach (var auditLog in auditLogs.IdentityAuditLogs)
+                {
+                    var changedByUserDto = await _marketParticipantClient
+                        .GetUserAsync(auditLog.ChangedByUserId)
+                        .ConfigureAwait(false);
+
+                    var auditLogType = auditLog.Field switch
+                    {
+                        UserIdentityAuditLogField.FirstName => UserAuditLogType.UserFirstNameChanged,
+                        UserIdentityAuditLogField.LastName => UserAuditLogType.UserLastNameChanged,
+                        UserIdentityAuditLogField.PhoneNumber => UserAuditLogType.UserPhoneNumberChanged,
+                        _ => throw new ArgumentOutOfRangeException(),
+                    };
+
+                    userAuditLogs.Add(new UserAuditLogDto(
+                        auditLog.NewValue,
+                        changedByUserDto.Name,
+                        auditLogType,
+                        auditLog.Timestamp));
+                }
+
                 return new UserAuditLogsDto(userAuditLogs.OrderByDescending(l => l.Timestamp));
             });
         }
