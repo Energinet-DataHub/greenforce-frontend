@@ -42,7 +42,7 @@ jobs:
     secrets:
       azure_tenant_id: ${{ secrets.azure_tenant_id }}
       azure_subscription_id: ${{ secrets.azure_subscription_id }}
-      azure_spn_id: ${{ secrets.azure_spn_id_oidc }}
+      azure_spn_id: ${{ vars.azure_spn_id_oidc }}
       azure_keyvault_url: ${{ vars.azure_keyvault_url }}
       azure_b2csecrets_keyvault_url: ${{ vars.azure_b2csecrets_keyvault_url }}
 
