@@ -40,17 +40,17 @@ interface EoTransferTableElement extends EoListedTransfer {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    NgIf,
-    WattDatePipe,
+    WATT_FORM_FIELD,
+    WATT_TABLE,
     WattBadgeComponent,
     WattButtonComponent,
     WattPaginatorComponent,
     WattDropdownComponent,
     ReactiveFormsModule,
-    WATT_FORM_FIELD,
-    WATT_TABLE,
     EoTransfersDrawerComponent,
     EoTransfersModalComponent,
+    WattDatePipe,
+    NgIf,
   ],
   styles: [
     `

@@ -44,11 +44,11 @@ import { EoTransfersStore } from './eo-transfers.store';
   imports: [
     WATT_MODAL,
     WATT_FORM_FIELD,
-    FormsModule,
     WattButtonComponent,
     ReactiveFormsModule,
     WattInputDirective,
     WattDatepickerComponent,
+    FormsModule,
     NgIf,
   ],
   standalone: true,
