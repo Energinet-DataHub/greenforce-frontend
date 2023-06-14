@@ -21,13 +21,14 @@ import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { formatInTimeZone } from 'date-fns-tz';
 
-import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { ChargeTypes } from '@energinet-datahub/dh/charges/domain';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
 import { DhChargesCreatePricesComponent } from './dh-charges-create-prices.component';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 
 const dateTimeFormat = 'dd-MM-yyyy';
 const danishTimeZoneIdentifier = 'Europe/Copenhagen';
@@ -61,13 +62,12 @@ describe(DhChargesCreatePricesComponent, () => {
 
   async function setup() {
     const { fixture } = await render(DhChargesCreatePricesComponent, {
-      providers: [importProvidersFrom(MatLegacySnackBarModule), danishLocalProviders],
-      imports: [
-        getTranslocoTestingModule(),
-        DhApiModule.forRoot(),
-        HttpClientModule,
-        WattDanishDatetimeModule.forRoot(),
+      providers: [
+        importProvidersFrom(MatLegacySnackBarModule, MatDateFnsModule),
+        danishLocalProviders,
+        danishDatetimeProviders,
       ],
+      imports: [getTranslocoTestingModule(), DhApiModule.forRoot(), HttpClientModule],
     });
 
     return {

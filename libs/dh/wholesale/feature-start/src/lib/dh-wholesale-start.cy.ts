@@ -16,29 +16,26 @@
  */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
-
+import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { da as daTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
-
 import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
-
-import { DhWholesaleStartComponent } from './dh-wholesale-start.component';
 import { importProvidersFrom } from '@angular/core';
 import { ApolloModule } from 'apollo-angular';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
+import { DhWholesaleStartComponent } from './dh-wholesale-start.component';
 
 it('mounts', () => {
   cy.mount(DhWholesaleStartComponent, {
-    providers: [importProvidersFrom(MatLegacySnackBarModule), graphQLProviders, translocoProviders],
-    imports: [
-      ApolloModule,
-      BrowserAnimationsModule,
-      DhApiModule.forRoot(),
-      HttpClientModule,
-      WattDanishDatetimeModule.forRoot(),
+    providers: [
+      importProvidersFrom(MatLegacySnackBarModule, MatDateFnsModule),
+      graphQLProviders,
+      translocoProviders,
+      danishDatetimeProviders,
     ],
+    imports: [ApolloModule, BrowserAnimationsModule, DhApiModule.forRoot(), HttpClientModule],
   });
 
   // Create batch with process type of balance fixing, with "invalid" period

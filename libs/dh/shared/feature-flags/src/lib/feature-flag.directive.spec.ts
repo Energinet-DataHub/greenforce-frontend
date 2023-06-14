@@ -17,11 +17,11 @@
 import { render, screen } from '@testing-library/angular';
 
 import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
-import { DhFeatureFlagDirective, DhFeatureFlagDirectiveModule } from './feature-flag.directive';
+import { DhFeatureFlagDirective } from './feature-flag.directive';
 import { FeatureFlagConfig } from './feature-flags';
 import { dhFeatureFlagsToken } from './feature-flags.service';
 
-describe(DhFeatureFlagDirective.name, () => {
+describe(DhFeatureFlagDirective, () => {
   const featureFlagsConfigMock: FeatureFlagConfig = {
     'enabled-flag': {
       created: '01-01-2022',
@@ -34,7 +34,7 @@ describe(DhFeatureFlagDirective.name, () => {
   };
   const setup = async (featureFlagName = '') => {
     await render(`<div *dhFeatureFlag="'${featureFlagName}'">SOME CONTENT</div>`, {
-      imports: [DhFeatureFlagDirectiveModule],
+      imports: [DhFeatureFlagDirective],
       providers: [
         {
           provide: dhAppEnvironmentToken,

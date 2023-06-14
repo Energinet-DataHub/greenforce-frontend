@@ -14,22 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-watt-card {
-  display: grid;
-}
+import { makeEnvironmentProviders } from '@angular/core';
+import { danishDatetimeProviders } from '../../../configuration/watt-danish-datetime.providers';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 
-watt-card-title {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-
-  h3 {
-    margin-right: auto;
-  }
-}
-
-.form-grid {
-  display: grid;
-  gap: var(--watt-space-m);
-  grid-template-columns: 300px min-content min-content;
-}
+export const localizationProviders = makeEnvironmentProviders([
+  danishLocalProviders,
+  danishDatetimeProviders,
+]);
