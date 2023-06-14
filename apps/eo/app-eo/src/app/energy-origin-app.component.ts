@@ -15,8 +15,13 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { RouterOutlet } from '@angular/router';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,6 +39,14 @@ import { EoAuthService } from '@energinet-datahub/eo/shared/services';
     `,
   ],
   template: `<router-outlet></router-outlet>`,
+  standalone: true,
+  imports: [
+    MatDatepickerModule,
+    RouterOutlet,
+    MatNativeDateModule,
+    MatDialogModule,
+    MatSnackBarModule,
+  ],
 })
 export class EnergyOriginAppComponent {
   constructor(private authService: EoAuthService) {
