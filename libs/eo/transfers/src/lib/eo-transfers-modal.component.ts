@@ -44,8 +44,8 @@ import { EoTransfersStore } from './eo-transfers.store';
   imports: [
     WATT_MODAL,
     WATT_FORM_FIELD,
-    WattButtonComponent,
     FormsModule,
+    WattButtonComponent,
     ReactiveFormsModule,
     WattInputDirective,
     WattDatepickerComponent,
@@ -144,9 +144,9 @@ export class EoTransfersModalComponent {
       next: (transfer) => {
         this.store.addTransfer(transfer);
         this.requestLoading = false;
+        this.resetFormValues();
         this.cd.detectChanges();
         this.modal.close(true);
-        this.resetFormValues();
       },
       error: () => {
         this.requestLoading = false;
@@ -155,7 +155,7 @@ export class EoTransfersModalComponent {
     });
   }
 
-  resetFormValues() {
+  private resetFormValues() {
     this.form.patchValue({ tin: '', dateRange: { start: '', end: '' } });
     this.form.markAsUntouched();
   }

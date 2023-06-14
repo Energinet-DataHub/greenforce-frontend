@@ -18,7 +18,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
-import { testData } from './test-data';
 
 interface EoTransfersState {
   hasLoaded: boolean;
@@ -67,7 +66,6 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
         this.setHasLoaded(true);
       },
       error: (error) => {
-        this.setTransfers(testData);
         this.setError(error);
         this.setHasLoaded(true);
       },

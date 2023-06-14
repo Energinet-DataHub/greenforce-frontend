@@ -14,8 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import { Injectable } from '@angular/core';
+
+@Injectable({ providedIn: 'root' })
 export class SharedUtilities {
-  static scrollToAnchor(element: string): void {
+  scrollToAnchor(element: string): void {
     document.getElementById(element)?.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
@@ -23,7 +27,16 @@ export class SharedUtilities {
     });
   }
 
-  static isDateActive(date: string): boolean {
+  isDateActive(date: string | undefined): boolean {
+    if (!date) return false;
+
     return new Date(date).getTime() >= new Date().getTime();
+  }
+
+  checkForMidnightInLocalTime(inputDate: string | undefined): number {
+    if (!inputDate) return 0;
+
+    const date = new Date(inputDate);
+    return date.getHours() === 0 ? date.setDate(date.getDate() - 1) : date.getTime();
   }
 }

@@ -50,7 +50,7 @@ import { EoListedTransfer } from './eo-transfers.service';
       <watt-drawer-topbar>
         <watt-badge
           type="success"
-          *ngIf="transfer && isDateActive(transfer.endDate); else notActive"
+          *ngIf="transfer && utils.isDateActive(transfer.endDate); else notActive"
         >
           Active
         </watt-badge>
@@ -96,8 +96,9 @@ import { EoListedTransfer } from './eo-transfers.service';
 export class EoTransfersDrawerComponent {
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
-  isDateActive = SharedUtilities.isDateActive;
   transfer: EoListedTransfer | undefined;
+
+  constructor(public utils: SharedUtilities) {}
 
   open(transfer: EoListedTransfer): void {
     this.transfer = transfer;

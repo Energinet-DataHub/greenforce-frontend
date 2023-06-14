@@ -15,25 +15,14 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { EoCoreShellModule } from '@energinet-datahub/eo/core/shell';
 import { EnergyOriginAppComponent } from './energy-origin-app.component';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 
 @NgModule({
   bootstrap: [EnergyOriginAppComponent],
   declarations: [EnergyOriginAppComponent],
-  providers: [danishLocalProviders],
-  imports: [
-    RouterModule,
-    BrowserAnimationsModule,
-    EoCoreShellModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-  ],
+  imports: [RouterModule, BrowserAnimationsModule, EoCoreShellModule],
 })
 export class EnergyOriginAppModule {}

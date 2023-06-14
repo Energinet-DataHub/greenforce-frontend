@@ -78,6 +78,11 @@ interface EoTransferTableElement extends EoListedTransfer {
           margin-top: 0;
         }
       }
+
+      .no-data {
+        text-align: center;
+        padding: var(--watt-space-m);
+      }
     `,
   ],
   template: `
@@ -132,19 +137,19 @@ interface EoTransferTableElement extends EoListedTransfer {
       <!-- Period - Custom column -->
       <ng-container *wattTableCell="table.columns['period']; let element">
         {{ element.startDate | date : 'dd/MM/yyyy' }} -
-        {{ compensateForEndOfDay(element.endDate) | date : 'dd/MM/yyyy' }}
+        {{ utils.checkForMidnightInLocalTime(element.endDate) | date : 'dd/MM/yyyy' }}
       </ng-container>
 
       <!-- Status - Custom column -->
       <ng-container *wattTableCell="table.columns['status']; let element">
-        <watt-badge *ngIf="isDateActive(element.endDate); else notActive" type="success">
+        <watt-badge *ngIf="utils.isDateActive(element.endDate); else notActive" type="success">
           Active
         </watt-badge>
       </ng-container>
     </watt-table>
 
     <!-- No Data to show -->
-    <p *ngIf="dataSource.data.length < 1" class="watt-space-stack-s">
+    <p *ngIf="dataSource.data.length < 1" class="watt-space-stack-s no-data">
       You do not have any transfer agreements to show right now.
     </p>
 
@@ -165,7 +170,6 @@ export class EoTransfersTableComponent implements AfterViewInit {
   @ViewChild(EoTransfersDrawerComponent) transfersDrawer!: EoTransfersDrawerComponent;
   @ViewChild(EoTransfersModalComponent) transfersModal!: EoTransfersModalComponent;
 
-  isDateActive = SharedUtilities.isDateActive;
   filterForm = this.fb.group({ statusFilter: '' });
   transfers: EoListedTransfer[] = [];
   activeRow: EoListedTransfer | undefined = undefined;
@@ -173,10 +177,14 @@ export class EoTransfersTableComponent implements AfterViewInit {
   columns = {
     receiver: { accessor: 'receiverTin' },
     period: { accessor: (transfer) => transfer.startDate },
-    status: { accessor: (transfer) => this.isDateActive(transfer.endDate) },
+    status: { accessor: (transfer) => this.utils.isDateActive(transfer.endDate) },
   } as WattTableColumnDef<EoTransferTableElement>;
 
-  constructor(private store: EoTransfersStore, private fb: FormBuilder) {}
+  constructor(
+    private store: EoTransfersStore,
+    private fb: FormBuilder,
+    public utils: SharedUtilities
+  ) {}
 
   ngAfterViewInit() {
     this.loadData();
@@ -190,7 +198,9 @@ export class EoTransfersTableComponent implements AfterViewInit {
 
   filterByStatus(endDate: string): boolean {
     if (this.filterForm.controls['statusFilter'].value === null) return true;
-    return this.filterForm.controls['statusFilter'].value === this.isDateActive(endDate).toString();
+    return (
+      this.filterForm.controls['statusFilter'].value === this.utils.isDateActive(endDate).toString()
+    );
   }
 
   loadData() {
@@ -202,11 +212,6 @@ export class EoTransfersTableComponent implements AfterViewInit {
 
   populateTable() {
     this.dataSource.data = this.transfers;
-  }
-
-  compensateForEndOfDay(inputDate: string): number {
-    const date = new Date(inputDate);
-    return date.setDate(date.getDate() - 1);
   }
 
   onRowClick(row: EoListedTransfer): void {
