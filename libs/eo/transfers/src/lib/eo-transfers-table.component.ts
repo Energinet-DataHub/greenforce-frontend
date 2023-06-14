@@ -197,7 +197,7 @@ export class EoTransfersTableComponent implements AfterViewInit {
     );
   }
 
-  filterByStatus(endDate: string): boolean {
+  filterByStatus(endDate: number): boolean {
     if (this.filterForm.controls['statusFilter'].value === null) return true;
     return (
       this.filterForm.controls['statusFilter'].value === this.utils.isDateActive(endDate).toString()

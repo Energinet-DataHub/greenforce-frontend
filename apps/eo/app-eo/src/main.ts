@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { enableProdMode } from '@angular/core';
-import { environment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { loadEoApiEnvironment } from './configuration/load-eo-api-environment';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { EnergyOriginAppComponent } from './app/energy-origin-app.component';
-import { eoCoreShellProviders, eoShellRoutes } from '@energinet-datahub/eo/core/shell';
-import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
+import { eoCoreShellProviders, eoShellRoutes } from '@energinet-datahub/eo/core/shell';
+import { environment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { EnergyOriginAppComponent } from './app/energy-origin-app.component';
+import { loadEoApiEnvironment } from './configuration/load-eo-api-environment';
 
 if (environment.production) {
   enableProdMode();
@@ -32,11 +32,11 @@ loadEoApiEnvironment()
   .then((eoApiEnvironment) =>
     bootstrapApplication(EnergyOriginAppComponent, {
       providers: [
-        ...eoCoreShellProviders,
         { provide: eoApiEnvironmentToken, useValue: eoApiEnvironment },
-        provideRouter(eoShellRoutes),
         provideAnimations(),
-        provideHttpClient(),
+        provideHttpClient(withInterceptorsFromDi()),
+        ...eoCoreShellProviders,
+        provideRouter(eoShellRoutes),
         // this api is first available in Angular 16
         // provideZoneChangeDetection({ eventCoalescing: true, runCoalescing: true }),
       ],
