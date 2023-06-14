@@ -16,7 +16,7 @@
  */
 import { TestBed } from '@angular/core/testing';
 import { Component, NgModule } from '@angular/core';
-import { RouterModule, provideRouter } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { render, RenderResult, screen } from '@testing-library/angular';
 import { HttpClientModule } from '@angular/common/http';
 import userEvent from '@testing-library/user-event';
@@ -49,7 +49,6 @@ describe(DhMeteringPointOverviewComponent.name, () => {
 
     view = await render(SpectacularAppComponent, {
       declarations: [TestMeteringPointComponent],
-      providers: [provideRouter(dhMeteringPointFeatureOverviewRoutes)],
       imports: [
         HttpClientModule,
         DhApiModule.forRoot(),
