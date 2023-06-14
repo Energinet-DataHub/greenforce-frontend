@@ -150,7 +150,17 @@ namespace Energinet.DataHub.WebApi.Controllers
         [Route("InitiateMitIdSignup")]
         public Task InitiateMitIdSignupAsync()
         {
-            return _marketParticipantClient.InitiateMitIdSignupAsync();
+            return HandleExceptionAsync(() => _marketParticipantClient.InitiateMitIdSignupAsync());
+        }
+
+        /// <summary>
+        /// Deactivates the specified user.
+        /// </summary>
+        [HttpPut]
+        [Route("DeactivateUser")]
+        public Task<ActionResult> DeactivateUserAsync(Guid userId)
+        {
+            return HandleExceptionAsync(() => _marketParticipantClient.DeactivateUserAsync(userId));
         }
     }
 }
