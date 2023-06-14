@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { Pipe, PipeTransform } from '@angular/core';
+
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 @Pipe({ name: 'actorName', standalone: true })
@@ -24,7 +25,9 @@ export class ActorNamePipe implements PipeTransform {
     actors: WattDropdownOptions | null
   ): string | undefined {
     if (!actorId) return undefined;
+
     const actor = actors?.find((x) => x.value === actorId);
+
     return actor?.displayValue === actor?.value ? undefined : actor?.displayValue;
   }
 }
