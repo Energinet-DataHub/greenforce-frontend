@@ -940,7 +940,7 @@
         "reinvite": "Send invitation igen",
         "reinviteError": "Noget gik galt. Brugeren blev ikke inviteret. Prøv igen",
         "reinviteSuccess": "Brugeren blev inviteret",
-        "deactivate": "Deactivate user",
+        "deactivate": "Deaktiver bruger",
         "deactivateError": "Noget gik galt. Brugeren blev ikke deaktiveret. Prøv igen",
         "deactivateSuccess": "Brugeren blev deaktiveret",
         "editRole": "Rediger rolle",
@@ -1127,7 +1127,6 @@
       "editUser": {
         "cancel": "Fortryd",
         "save": "Gem",
-        "deactivate": "Deaktiver bruger",
         "saveSuccess": "Brugeren blev opdateret",
         "saveError": "Noget gik galt. Brugeren blev ikke opdateret. Prøv igen",
         "tab": {

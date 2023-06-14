@@ -949,7 +949,7 @@
         "reinvite": "Send invitation again",
         "reinviteError": "Something went wrong. The user could not be invited. Please try again",
         "reinviteSuccess": "The user has been invited",
-        "deactivate": "Deaktivér bruger",
+        "deactivate": "Deactivate user",
         "deactivateError": "Something went wrong. The user could not be deactivated. Please try again",
         "deactivateSuccess": "The user has been deactivated",
         "editRole": "Edit role",
