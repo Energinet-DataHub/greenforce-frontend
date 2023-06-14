@@ -1041,10 +1041,10 @@
               }
             },
             "auditLogType": {
-              "UserRoleAdded": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
-              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>",
+              "UserRoleAdded": "<b>{{ changedByUserName }}</b> added user role <b>{{ toValue }}</b>",
+              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> removed user role <b>{{ toValue }}</b>",
               "UserInvite": "<b>{{ changedByUserName }}</b> added user to <b>{{ toValue }}</b> market party",
-              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b> due to the role being deactivated",
+              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> removed user role <b>{{ toValue }}</b> due to the role being deactivated",
               "UserFirstNameChanged": "<b>{{ changedByUserName }}</b> changed first name to <b>{{ toValue }}</b>",
               "UserLastNameChanged": "<b>{{ changedByUserName }}</b> changed last name to <b>{{ toValue }}</b>",
               "UserPhoneNumberChanged": "<b>{{ changedByUserName }}</b> changed phone number to <b>{{ toValue }}</b>"
