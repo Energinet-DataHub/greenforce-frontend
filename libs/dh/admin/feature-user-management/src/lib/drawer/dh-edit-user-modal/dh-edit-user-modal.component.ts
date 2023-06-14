@@ -32,7 +32,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
-import { UpdateUserRoles, DbAdminEditUserStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { UpdateUserRoles, DhAdminEditUserStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
@@ -75,10 +75,10 @@ import { HttpStatusCode } from '@angular/common/http';
       }
     `,
   ],
-  providers: [DbAdminEditUserStore],
+  providers: [DhAdminEditUserStore],
 })
 export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
-  private readonly editUserStore = inject(DbAdminEditUserStore);
+  private readonly editUserStore = inject(DhAdminEditUserStore);
   private readonly formBuilder = inject(FormBuilder);
   private readonly transloco = inject(TranslocoService);
   private readonly toastService = inject(WattToastService);
@@ -98,7 +98,6 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
 
   @Output() closed = new EventEmitter<void>();
   @Input() user: MarketParticipantUserOverviewItemDto | null = null;
-  @Input() reinviteCallback!: () => void;
 
   isSaving$ = this.editUserStore.isSaving$;
 
@@ -209,10 +208,6 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
 
   close(): void {
     this.closeModal(false);
-  }
-
-  reinvite(): void {
-    this.reinviteCallback();
   }
 
   onSelectedUserRolesChanged(updateUserRoles: UpdateUserRoles): void {

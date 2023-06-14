@@ -41,7 +41,7 @@ const initialState: State = {
 };
 
 @Injectable()
-export class DbAdminInviteUserStore extends ComponentStore<State> {
+export class DhAdminInviteUserStore extends ComponentStore<State> {
   isInit$ = this.select((state) => state.requestState === SavingState.INIT);
   isSaving$ = this.select((state) => state.requestState === SavingState.SAVING);
 
