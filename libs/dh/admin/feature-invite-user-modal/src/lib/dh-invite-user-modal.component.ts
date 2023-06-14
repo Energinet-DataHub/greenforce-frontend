@@ -40,9 +40,9 @@ import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WATT_STEPPER, WattStepperComponent } from '@energinet-datahub/watt/stepper';
 import {
-  DbAdminAssignableUserRolesStore,
+  DhAdminAssignableUserRolesStore,
   DhUserActorsDataAccessApiStore,
-  DbAdminInviteUserStore,
+  DhAdminInviteUserStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-assignable-user-roles.component';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
@@ -52,7 +52,7 @@ import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DbAdminAssignableUserRolesStore, DbAdminInviteUserStore],
+  providers: [DhAdminAssignableUserRolesStore, DhAdminInviteUserStore],
   selector: 'dh-invite-user-modal',
   templateUrl: './dh-invite-user-modal.component.html',
   styleUrls: ['./dh-invite-user-modal.component.scss'],
@@ -74,8 +74,8 @@ import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
 })
 export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   private readonly actorStore = inject(DhUserActorsDataAccessApiStore);
-  private readonly assignableUserRolesStore = inject(DbAdminAssignableUserRolesStore);
-  private readonly inviteUserStore = inject(DbAdminInviteUserStore);
+  private readonly assignableUserRolesStore = inject(DhAdminAssignableUserRolesStore);
+  private readonly inviteUserStore = inject(DhAdminInviteUserStore);
   private readonly formBuilder = inject(FormBuilder);
   private readonly toastService = inject(WattToastService);
   private readonly translocoService = inject(TranslocoService);

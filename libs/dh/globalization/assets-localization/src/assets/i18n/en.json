@@ -949,6 +949,9 @@
         "reinvite": "Send invitation again",
         "reinviteError": "Something went wrong. The user could not be invited. Please try again",
         "reinviteSuccess": "The user has been invited",
+        "deactivate": "Deaktivér bruger",
+        "deactivateError": "Something went wrong. The user could not be deactivated. Please try again",
+        "deactivateSuccess": "The user has been deactivated",
         "editRole": "Edit role",
         "disable": "Disable",
         "disablingUserRole": "Disabling user role",
@@ -1151,7 +1154,6 @@
       "editUser": {
         "cancel": "Cancel",
         "save": "Save",
-        "reinvite": "Send invitation again",
         "saveSuccess": "The user was updated",
         "saveError": "Something went wrong. The user could not be updated. Please try again",
         "tab": {

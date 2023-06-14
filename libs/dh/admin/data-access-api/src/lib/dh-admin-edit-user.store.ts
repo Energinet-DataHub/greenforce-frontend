@@ -33,7 +33,7 @@ const initialState: State = {
 };
 
 @Injectable()
-export class DbAdminEditUserStore extends ComponentStore<State> {
+export class DhAdminEditUserStore extends ComponentStore<State> {
   private readonly userRolesStore = inject(DhAdminUserRolesStore);
 
   isSaving$ = this.select((state) => state.requestState === SavingState.SAVING);

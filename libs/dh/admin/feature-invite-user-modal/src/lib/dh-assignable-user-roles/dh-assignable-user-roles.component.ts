@@ -17,7 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { DbAdminAssignableUserRolesStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhAdminAssignableUserRolesStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { FormsModule } from '@angular/forms';
 import { LetModule } from '@rx-angular/template/let';
@@ -50,7 +50,7 @@ import { takeUntil } from 'rxjs';
   templateUrl: './dh-assignable-user-roles.component.html',
 })
 export class DhAssignableUserRolesComponent implements OnInit {
-  private readonly assignableUserRolesStore = inject(DbAdminAssignableUserRolesStore);
+  private readonly assignableUserRolesStore = inject(DhAdminAssignableUserRolesStore);
 
   readonly assignableUserRoles$ = this.assignableUserRolesStore.assignableUserRoles$;
   readonly hasGeneralError$ = this.assignableUserRolesStore.hasGeneralError$;

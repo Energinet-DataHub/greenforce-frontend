@@ -18,19 +18,8 @@ import { Injectable } from '@angular/core';
 import { Observable, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
+import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
 import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
-import {
-  MarketParticipantUserHttp,
-  MarketParticipantUserInvitationDto,
-} from '@energinet-datahub/dh/shared/domain';
-import { HttpErrorResponse } from '@angular/common/http';
-
-export interface ErrorDescriptor {
-  code: string;
-  message: string;
-  target?: string;
-  details?: ErrorDescriptor[];
-}
 
 interface State {
   readonly requestState: SavingState | ErrorState;
@@ -41,60 +30,21 @@ const initialState: State = {
 };
 
 @Injectable()
-export class DhAdminInviteUserStore extends ComponentStore<State> {
-  isInit$ = this.select((state) => state.requestState === SavingState.INIT);
+export class DhAdminUserStatusStore extends ComponentStore<State> {
   isSaving$ = this.select((state) => state.requestState === SavingState.SAVING);
 
-  constructor(private marketParticipantUserHttp: MarketParticipantUserHttp) {
+  constructor(private marketParticipantUserHttpClient: MarketParticipantUserHttp) {
     super(initialState);
   }
 
-  readonly inviteUser = this.effect(
-    (
-      trigger$: Observable<{
-        invitation: MarketParticipantUserInvitationDto;
-        onSuccess: () => void;
-        onError: (error: ErrorDescriptor[]) => void;
-      }>
-    ) =>
-      trigger$.pipe(
-        tap(() => {
-          this.resetState();
-          this.setSaving(SavingState.SAVING);
-        }),
-        switchMap(({ invitation, onSuccess, onError }) => {
-          return this.marketParticipantUserHttp
-            .v1MarketParticipantUserInviteUserPost(invitation)
-            .pipe(
-              tapResponse(
-                () => {
-                  this.setSaving(SavingState.SAVED);
-                  onSuccess();
-                },
-                (e: HttpErrorResponse) => {
-                  this.setSaving(ErrorState.GENERAL_ERROR);
-
-                  const serverErrors = e.error?.error?.details as ErrorDescriptor[] | undefined;
-
-                  if (serverErrors) {
-                    onError(serverErrors);
-                  }
-                }
-              )
-            );
-        })
-      )
-  );
-
-  readonly reinviteUser = this.effect(
+  readonly deactivateUser = this.effect(
     (trigger$: Observable<{ id: string; onSuccess: () => void; onError: () => void }>) =>
       trigger$.pipe(
         tap(() => {
-          this.resetState();
           this.setSaving(SavingState.SAVING);
         }),
         switchMap(({ id, onSuccess, onError }) => {
-          return this.marketParticipantUserHttp.v1MarketParticipantUserReInviteUserPost(id).pipe(
+          return this.marketParticipantUserHttpClient.v1MarketParticipantUserDeactivateUserPut(id).pipe(
             tapResponse(
               () => {
                 this.setSaving(SavingState.SAVED);
@@ -116,6 +66,4 @@ export class DhAdminInviteUserStore extends ComponentStore<State> {
       requestState: savingState,
     })
   );
-
-  private resetState = () => this.setState(initialState);
 }
