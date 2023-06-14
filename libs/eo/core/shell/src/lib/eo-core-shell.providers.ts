@@ -14,13 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
-import { eoAuthorizationInterceptorProvider } from '@energinet-datahub/eo/shared/services';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { importProvidersFrom } from '@angular/core';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { eoAuthorizationInterceptorProvider } from '@energinet-datahub/eo/shared/services';
+import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
+import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 
 export const eoCoreShellProviders = [
   importProvidersFrom(MatDialogModule),
   browserConfigurationProviders,
   eoAuthorizationInterceptorProvider,
+  danishLocalProviders,
+  danishDatetimeProviders,
+  importProvidersFrom(MatDateFnsModule),
 ];

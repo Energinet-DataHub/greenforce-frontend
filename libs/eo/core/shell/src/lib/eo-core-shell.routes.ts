@@ -111,7 +111,7 @@ export const eoShellRoutes: Routes = [
         path: eoTransferRoutePath,
         data: { title: 'Transfers' },
         loadChildren: () =>
-          import('@energinet-datahub/eo/transfers').then((esModule) => esModule.EoTransferModule),
+          import('@energinet-datahub/eo/transfers').then((esModule) => esModule.EoTransfersModule),
       },
       {
         path: eoHelpRoutePath,
