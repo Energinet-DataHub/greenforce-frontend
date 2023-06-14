@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { JsonPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -50,7 +50,6 @@ import { EoTransfersStore } from './eo-transfers.store';
     WattInputDirective,
     WattDatepickerComponent,
     NgIf,
-    JsonPipe,
   ],
   standalone: true,
   styles: [

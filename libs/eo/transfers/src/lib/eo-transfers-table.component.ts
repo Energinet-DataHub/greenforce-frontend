@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DatePipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -39,8 +40,8 @@ interface EoTransferTableElement extends EoListedTransfer {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    DatePipe,
     NgIf,
+    WattDatePipe,
     WattBadgeComponent,
     WattButtonComponent,
     WattPaginatorComponent,
@@ -136,8 +137,8 @@ interface EoTransferTableElement extends EoListedTransfer {
     >
       <!-- Period - Custom column -->
       <ng-container *wattTableCell="table.columns['period']; let element">
-        {{ element.startDate | date : 'dd/MM/yyyy' }} -
-        {{ utils.checkForMidnightInLocalTime(element.endDate) | date : 'dd/MM/yyyy' }}
+        {{ element.startDate | wattDate }} -
+        {{ utils.checkForMidnightInLocalTime(element.endDate) | wattDate }}
       </ng-container>
 
       <!-- Status - Custom column -->
