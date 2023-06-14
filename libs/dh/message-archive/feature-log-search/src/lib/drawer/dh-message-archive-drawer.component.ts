@@ -71,6 +71,7 @@ export class DhMessageArchiveDrawerComponent {
   constructor(private apiStore: DhMessageArchiveDocumentApiStore) {}
 
   open(message: ArchivedMessage) {
+    this.message = null;
     this.message = message;
     this.drawer.open();
 
