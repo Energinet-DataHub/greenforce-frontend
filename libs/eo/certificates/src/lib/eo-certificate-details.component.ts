@@ -14,19 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DatePipe, UpperCasePipe } from '@angular/common';
+import { UpperCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { LetModule } from '@rx-angular/template/let';
 import { map, tap } from 'rxjs';
-import { EoCertificatesStore } from '../eo-certificates.store';
+import { EoCertificatesStore } from './eo-certificates.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, EoStackComponent, RouterModule, LetModule, UpperCasePipe, DatePipe],
+  imports: [MatCardModule, EoStackComponent, RouterModule, LetModule, UpperCasePipe, WattDatePipe],
   selector: 'eo-certificates',
   standalone: true,
   styles: [
@@ -75,13 +76,9 @@ import { EoCertificatesStore } from '../eo-certificates.store';
               <b>Energy</b>
               <div>{{ cert?.quantity?.toLocaleString() }} Wh</div>
               <b>Start time</b>
-              <div>
-                {{ cert?.dateFrom | date : 'HH:mm dd-MMM-y z' | uppercase }}
-              </div>
+              <div>{{ cert?.dateFrom | wattDate : 'longAbbr' }}</div>
               <b>Start time</b>
-              <div>
-                {{ cert?.dateTo | date : 'HH:mm dd-MMM-y z' | uppercase }}
-              </div>
+              <div>{{ cert?.dateTo | wattDate : 'longAbbr' }}</div>
               <b>GSRN</b>
               <div>{{ cert?.gsrn }}</div>
               <b>Certificate ID</b>

@@ -14,26 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DatePipe } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import {
   MatLegacyPaginator as MatPaginator,
   MatLegacyPaginatorModule as MatPaginatorModule,
 } from '@angular/material/legacy-paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
 import {
   MatLegacyTableDataSource as MatTableDataSource,
   MatLegacyTableModule as MatTableModule,
 } from '@angular/material/legacy-table';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { RouterModule } from '@angular/router';
 import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { EoCertificate } from './eo-certificates.service';
 import { EoCertificatesStore } from './eo-certificates.store';
 
 @Component({
   selector: 'eo-certificates-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatPaginatorModule, MatTableModule, MatSortModule, RouterModule, DatePipe],
+  imports: [MatPaginatorModule, MatTableModule, MatSortModule, RouterModule, WattDatePipe],
   standalone: true,
   styles: [
     `
@@ -54,7 +54,7 @@ import { EoCertificatesStore } from './eo-certificates.store';
       <ng-container matColumnDef="dateFrom">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Time </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element.dateFrom | date : 'dd-MMM-y HH:mm' }}-{{ element.dateTo | date : 'HH:mm' }}
+          {{ element.dateFrom | wattDate : 'longAbbr' }}-{{ element.dateTo | wattDate : 'time' }}
         </mat-cell>
       </ng-container>
 
