@@ -82,6 +82,7 @@ export class DhMessageArchiveDrawerComponent {
 
   onClose() {
     this.drawer.close();
+    this.message = null;
   }
 
   getDocument(messageId: string) {
