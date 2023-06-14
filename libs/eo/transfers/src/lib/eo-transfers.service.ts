@@ -19,8 +19,8 @@ import { Inject, Injectable } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
 export interface EoTransfer {
-  startDate: string;
-  endDate: string;
+  startDate: number;
+  endDate: number;
   receiverTin: string;
 }
 
@@ -29,12 +29,8 @@ export interface EoListedTransfer extends EoTransfer {
   senderId: string;
 }
 
-interface EoCreateTransferResponse {
-  startDate: string;
-  endDate: string;
-  receiverTin: string;
-  id: string;
-  senderId: string;
+interface EoListedTransferResponse {
+  result: EoListedTransfer[];
 }
 
 @Injectable({
@@ -51,13 +47,10 @@ export class EoTransfersService {
   }
 
   getTransfers() {
-    return this.http.get<EoListedTransfer[]>(`${this.#apiBase}/transfer-agreements`);
+    return this.http.get<EoListedTransferResponse>(`${this.#apiBase}/transfer-agreements`);
   }
 
   createAgreement(transfer: { startDate: number; endDate: number; receiverTin: string }) {
-    return this.http.post<EoCreateTransferResponse>(
-      `${this.#apiBase}/transfer-agreements`,
-      transfer
-    );
+    return this.http.post<EoListedTransfer>(`${this.#apiBase}/transfer-agreements`, transfer);
   }
 }
