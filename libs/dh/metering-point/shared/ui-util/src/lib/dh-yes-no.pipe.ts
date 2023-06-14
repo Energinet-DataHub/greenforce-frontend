@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule, Pipe, PipeTransform } from '@angular/core';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { Pipe, PipeTransform, inject } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
 
 export type TValue = string | boolean | undefined | null;
 export const pipeName = 'dhYesNo';
@@ -23,11 +23,14 @@ export const pipeName = 'dhYesNo';
 @Pipe({
   name: pipeName,
   pure: false,
+  standalone: true,
 })
 export class DhYesNoPipe implements PipeTransform {
+  private transloco: TranslocoService = inject(TranslocoService);
+
   transform(value: TValue) {
-    if (value == null) {
-      return;
+    if (value == null || undefined) {
+      return '';
     }
 
     if (this.isFalsy(value)) {
@@ -37,8 +40,6 @@ export class DhYesNoPipe implements PipeTransform {
     return this.transloco.translate('yes');
   }
 
-  constructor(private transloco: TranslocoService) {}
-
   private isFalsy(value: TValue): boolean {
     if (typeof value === 'string') {
       return value.trim() === '';
@@ -47,10 +48,3 @@ export class DhYesNoPipe implements PipeTransform {
     return value === false;
   }
 }
-
-@NgModule({
-  declarations: [DhYesNoPipe],
-  imports: [TranslocoModule],
-  exports: [DhYesNoPipe],
-})
-export class DhYesNoPipeScam {}
