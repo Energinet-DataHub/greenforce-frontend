@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DatePipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCardComponent } from '@energinet-datahub/watt/card';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
@@ -40,7 +41,7 @@ import { EoListedTransfer } from './eo-transfers.service';
     WattDescriptionListItemComponent,
     WattTabsComponent,
     WattTabComponent,
-    DatePipe,
+    WattDatePipe,
     NgIf,
   ],
   standalone: true,
@@ -67,18 +68,20 @@ import { EoListedTransfer } from './eo-transfers.service';
       <watt-drawer-content *ngIf="drawer.isOpen">
         <watt-tabs>
           <watt-tab label="Information">
-            <watt-card variant="solid"
-              ><watt-description-list variant="stack">
+            <watt-card variant="solid">
+              <watt-description-list variant="stack">
                 <watt-description-list-item
                   label="Period"
-                  value="{{ transfer?.startDate | date : 'dd/MM/yyyy' }} - {{
-                    transfer?.endDate | date : 'dd/MM/yyyy'
-                  }}"
+                  [value]="
+                    (transfer?.startDate | wattDate) +
+                    ' - ' +
+                    (utils.checkForMidnightInLocalTime(transfer?.endDate) | wattDate)
+                  "
                 >
                 </watt-description-list-item>
                 <watt-description-list-item
                   label="Receiver TIN/CVR"
-                  value="{{ transfer?.receiverTin }}"
+                  [value]="transfer?.receiverTin"
                 >
                 </watt-description-list-item>
                 <watt-description-list-item label="ID" value="{{ transfer?.id }}">
@@ -98,10 +101,11 @@ export class EoTransfersDrawerComponent {
 
   transfer: EoListedTransfer | undefined;
 
-  constructor(public utils: SharedUtilities) {}
+  constructor(public utils: SharedUtilities, private cd: ChangeDetectorRef) {}
 
-  open(transfer: EoListedTransfer): void {
+  open(transfer: EoListedTransfer) {
     this.transfer = transfer;
+    this.cd.detectChanges();
     this.drawer.open();
   }
 
