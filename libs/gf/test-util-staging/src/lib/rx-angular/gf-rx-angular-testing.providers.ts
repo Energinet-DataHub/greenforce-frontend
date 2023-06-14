@@ -14,15 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
-import { EoCoreShellModule } from '@energinet-datahub/eo/core/shell';
-import { EnergyOriginAppComponent } from './energy-origin-app.component';
+import { makeEnvironmentProviders } from '@angular/core';
+import {
+  RX_RENDER_STRATEGIES_CONFIG,
+  RxRenderStrategiesConfig,
+} from '@rx-angular/cdk/render-strategies';
 
-@NgModule({
-  bootstrap: [EnergyOriginAppComponent],
-  declarations: [EnergyOriginAppComponent],
-  imports: [RouterModule, BrowserAnimationsModule, EoCoreShellModule],
-})
-export class EnergyOriginAppModule {}
+/**
+ * Enable RxAngular Template to render in Jest tests.
+ */
+export const gfRxAngularTestingProviders = makeEnvironmentProviders([
+  {
+    provide: RX_RENDER_STRATEGIES_CONFIG,
+    useValue: {
+      primaryStrategy: 'native',
+    } as RxRenderStrategiesConfig<string>,
+  },
+]);
