@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
+import { NgModule, importProvidersFrom } from '@angular/core';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { RouterModule, Routes } from '@angular/router';
 import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
@@ -30,7 +31,9 @@ import {
   eoProductionRoutePath,
   eoTransferRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
+import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { EoHttpModule } from './eo-http.module';
 import { EoLoginComponent } from './eo-login.component';
 import { EoMaterialModule } from './eo-material.module';
@@ -116,7 +119,7 @@ const routes: Routes = [
         path: eoTransferRoutePath,
         data: { title: 'Transfers' },
         loadChildren: () =>
-          import('@energinet-datahub/eo/transfers').then((esModule) => esModule.EoTransferModule),
+          import('@energinet-datahub/eo/transfers').then((esModule) => esModule.EoTransfersModule),
       },
       {
         path: eoHelpRoutePath,
@@ -137,6 +140,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
+  providers: [danishLocalProviders, danishDatetimeProviders, importProvidersFrom(MatDateFnsModule)],
   imports: [
     GfBrowserConfigurationModule.forRoot(),
     EoHttpModule.forRoot(),
