@@ -1047,7 +1047,8 @@
               "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> removed user role <b>{{ toValue }}</b> due to the role being deactivated",
               "UserFirstNameChanged": "<b>{{ changedByUserName }}</b> changed first name to <b>{{ toValue }}</b>",
               "UserLastNameChanged": "<b>{{ changedByUserName }}</b> changed last name to <b>{{ toValue }}</b>",
-              "UserPhoneNumberChanged": "<b>{{ changedByUserName }}</b> changed phone number to <b>{{ toValue }}</b>"
+              "UserPhoneNumberChanged": "<b>{{ changedByUserName }}</b> changed phone number to <b>{{ toValue }}</b>",
+              "UserStatusChanged": "<b>{{ changedByUserName }}</b> changed status to <b>{{ toValue }}</b>"
             }
           },
           "generalError": {
