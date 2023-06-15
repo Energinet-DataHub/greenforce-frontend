@@ -132,6 +132,27 @@ namespace Energinet.DataHub.WebApi.Controllers
                         auditLog.Timestamp));
                 }
 
+                foreach (var auditLog in auditLogs.IdentityAuditLogs)
+                {
+                    var changedByUserDto = await _marketParticipantClient
+                        .GetUserAsync(auditLog.ChangedByUserId)
+                        .ConfigureAwait(false);
+
+                    var auditLogType = auditLog.Field switch
+                    {
+                        UserIdentityAuditLogField.FirstName => UserAuditLogType.UserFirstNameChanged,
+                        UserIdentityAuditLogField.LastName => UserAuditLogType.UserLastNameChanged,
+                        UserIdentityAuditLogField.PhoneNumber => UserAuditLogType.UserPhoneNumberChanged,
+                        _ => throw new ArgumentOutOfRangeException(),
+                    };
+
+                    userAuditLogs.Add(new UserAuditLogDto(
+                        auditLog.NewValue,
+                        changedByUserDto.Name,
+                        auditLogType,
+                        auditLog.Timestamp));
+                }
+
                 return new UserAuditLogsDto(userAuditLogs.OrderByDescending(l => l.Timestamp));
             });
         }
@@ -150,7 +171,17 @@ namespace Energinet.DataHub.WebApi.Controllers
         [Route("InitiateMitIdSignup")]
         public Task InitiateMitIdSignupAsync()
         {
-            return _marketParticipantClient.InitiateMitIdSignupAsync();
+            return HandleExceptionAsync(() => _marketParticipantClient.InitiateMitIdSignupAsync());
+        }
+
+        /// <summary>
+        /// Deactivates the specified user.
+        /// </summary>
+        [HttpPut]
+        [Route("DeactivateUser")]
+        public Task<ActionResult> DeactivateUserAsync(Guid userId)
+        {
+            return HandleExceptionAsync(() => _marketParticipantClient.DeactivateUserAsync(userId));
         }
     }
 }

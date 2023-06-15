@@ -14,39 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DatePipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { EoTransferDrawerComponent } from './eo-transfer-drawer.component';
-import { EoTransfer } from './eo-transfers.service';
-import { EoTransferStore } from './eo-transfers.store';
+import { EoTransfersDrawerComponent } from './eo-transfers-drawer.component';
+import { EoTransfersModalComponent } from './eo-transfers-modal.component';
+import { EoListedTransfer } from './eo-transfers.service';
+import { EoTransfersStore } from './eo-transfers.store';
 
-interface EoTransferTableElement extends EoTransfer {
+interface EoTransferTableElement extends EoListedTransfer {
   period?: string;
   status?: boolean;
 }
 
 @Component({
-  selector: 'eo-transfer-table',
+  selector: 'eo-transfers-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    DatePipe,
-    NgIf,
+    WATT_FORM_FIELD,
+    WATT_TABLE,
     WattBadgeComponent,
     WattButtonComponent,
     WattPaginatorComponent,
     WattDropdownComponent,
     ReactiveFormsModule,
-    WATT_FORM_FIELD,
-    WATT_TABLE,
-    EoTransferDrawerComponent,
+    EoTransfersDrawerComponent,
+    EoTransfersModalComponent,
+    WattDatePipe,
+    NgIf,
   ],
   styles: [
     `
@@ -75,11 +79,16 @@ interface EoTransferTableElement extends EoTransfer {
           margin-top: 0;
         }
       }
+
+      .no-data {
+        text-align: center;
+        padding: var(--watt-space-m);
+      }
     `,
   ],
   template: `
     <div class="card-header">
-      <h3>Transfer Agreements</h3>
+      <h3>Transfer agreements</h3>
       <div class="actions">
         <watt-button
           data-testid="download-button"
@@ -90,9 +99,9 @@ interface EoTransferTableElement extends EoTransfer {
         >
         <watt-button
           data-testid="new-agreement-button"
-          [disabled]="true"
           icon="plus"
           variant="secondary"
+          (click)="transfersModal.open()"
         >
           New transfer agreement
         </watt-button>
@@ -128,19 +137,20 @@ interface EoTransferTableElement extends EoTransfer {
     >
       <!-- Period - Custom column -->
       <ng-container *wattTableCell="table.columns['period']; let element">
-        {{ element.startDate | date : 'dd/MM/yyyy' }} - {{ element.endDate | date : 'dd/MM/yyyy' }}
+        {{ element.startDate | wattDate }} -
+        {{ utils.checkForMidnightInLocalTime(element.endDate) | wattDate }}
       </ng-container>
 
       <!-- Status - Custom column -->
       <ng-container *wattTableCell="table.columns['status']; let element">
-        <watt-badge *ngIf="isDateActive(element.endDate); else notActive" type="success">
+        <watt-badge *ngIf="utils.isDateActive(element.endDate); else notActive" type="success">
           Active
         </watt-badge>
       </ng-container>
     </watt-table>
 
     <!-- No Data to show -->
-    <p *ngIf="dataSource.data.length < 1" class="watt-space-stack-s">
+    <p *ngIf="dataSource.data.length < 1" class="watt-space-stack-s no-data">
       You do not have any transfer agreements to show right now.
     </p>
 
@@ -153,27 +163,29 @@ interface EoTransferTableElement extends EoTransfer {
     </watt-paginator>
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
 
-    <eo-transfer-drawer></eo-transfer-drawer>
+    <eo-transfers-modal title="New transfer agreement"></eo-transfers-modal>
+    <eo-transfers-drawer></eo-transfers-drawer>
   `,
 })
-export class EoTransferTableComponent implements AfterViewInit {
-  @ViewChild(EoTransferDrawerComponent)
-  transferDrawer!: EoTransferDrawerComponent;
+export class EoTransfersTableComponent implements AfterViewInit {
+  @ViewChild(EoTransfersDrawerComponent) transfersDrawer!: EoTransfersDrawerComponent;
+  @ViewChild(EoTransfersModalComponent) transfersModal!: EoTransfersModalComponent;
 
-  activeRow: EoTransfer | undefined = undefined;
-
-  filterForm = this.fb.group({
-    statusFilter: '',
-  });
-  transfers: EoTransfer[] = [];
+  filterForm = this.fb.group({ statusFilter: '' });
+  transfers: EoListedTransfer[] = [];
+  activeRow: EoListedTransfer | undefined = undefined;
   dataSource = new WattTableDataSource<EoTransferTableElement>();
   columns = {
     receiver: { accessor: 'receiverTin' },
     period: { accessor: (transfer) => transfer.startDate },
-    status: { accessor: (transfer) => this.isDateActive(transfer.endDate) },
+    status: { accessor: (transfer) => this.utils.isDateActive(transfer.endDate) },
   } as WattTableColumnDef<EoTransferTableElement>;
 
-  constructor(private store: EoTransferStore, private fb: FormBuilder) {}
+  constructor(
+    private store: EoTransfersStore,
+    private fb: FormBuilder,
+    public utils: SharedUtilities
+  ) {}
 
   ngAfterViewInit() {
     this.loadData();
@@ -187,7 +199,9 @@ export class EoTransferTableComponent implements AfterViewInit {
 
   filterByStatus(endDate: number): boolean {
     if (this.filterForm.controls['statusFilter'].value === null) return true;
-    return this.filterForm.controls['statusFilter'].value === this.isDateActive(endDate).toString();
+    return (
+      this.filterForm.controls['statusFilter'].value === this.utils.isDateActive(endDate).toString()
+    );
   }
 
   loadData() {
@@ -201,12 +215,8 @@ export class EoTransferTableComponent implements AfterViewInit {
     this.dataSource.data = this.transfers;
   }
 
-  isDateActive(date: number): boolean {
-    return new Date(date).getTime() >= new Date().getTime();
-  }
-
-  onRowClick(row: EoTransfer): void {
+  onRowClick(row: EoListedTransfer): void {
     this.activeRow = row;
-    this.transferDrawer.open(row);
+    this.transfersDrawer.open(row);
   }
 }
