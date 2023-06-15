@@ -28,9 +28,9 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import {
   DhIsParentPipe,
   DhShowForMeteringPointTypeDirective,
-  DhYesNoPipeScam,
+  DhYesNoPipe,
 } from '@energinet-datahub/dh/metering-point/shared/ui-util';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 export interface MeteringPointIdentityTranslationKeys {
   unit: string;
@@ -53,11 +53,11 @@ export interface MeteringPointIdentityTranslationKeys {
     CommonModule,
     TranslocoModule,
     WattIconComponent,
-    DhYesNoPipeScam,
+    DhYesNoPipe,
     WattDatePipe,
     DhShowForMeteringPointTypeDirective,
     DhIsParentPipe,
-    DhEmDashFallbackPipeScam,
+    DhEmDashFallbackPipe,
   ],
 })
 export class DhSecondaryMasterDataComponent {

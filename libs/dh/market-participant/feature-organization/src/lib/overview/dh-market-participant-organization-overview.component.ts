@@ -38,7 +38,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhMarketParticipantOrganizationOverviewGridAreasListComponent } from './dh-market-participant-organization-overview-grid-areas-list.component';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { MarketParticipantGridAreaDto } from '@energinet-datahub/dh/shared/domain';
@@ -62,7 +62,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     WattEmptyStateComponent,
     WattSpinnerComponent,
     WattValidationMessageComponent,
-    DhEmDashFallbackPipeScam,
+    DhEmDashFallbackPipe,
     DhMarketParticipantOrganizationOverviewGridAreasListComponent,
     DhSharedUiPaginatorComponent,
     DhPermissionRequiredDirective,

@@ -28,7 +28,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { DhMessageArchiveDocumentApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
@@ -52,7 +52,7 @@ import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeN
     DocumentTypeNamePipe,
     WattButtonComponent,
     PushModule,
-    DhEmDashFallbackPipeScam,
+    DhEmDashFallbackPipe,
   ],
   providers: [provideComponentStore(DhMessageArchiveDocumentApiStore)],
 })

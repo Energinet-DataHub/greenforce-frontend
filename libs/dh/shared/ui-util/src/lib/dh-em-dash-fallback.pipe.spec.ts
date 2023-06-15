@@ -14,49 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { createPipeHarness, SpectacularPipeHarness } from '@ngworker/spectacular';
-
-import { DhEmDashFallbackPipe, pipeName, TValue } from './dh-em-dash-fallback.pipe';
+import { DhEmDashFallbackPipe } from './dh-em-dash-fallback.pipe';
 import { emDash } from './em-dash';
 
-describe(DhEmDashFallbackPipe.name, () => {
-  beforeEach(() => {
-    harness = createPipeHarness({
-      pipe: DhEmDashFallbackPipe,
-      pipeName,
-      value: undefined,
-    });
-  });
-
-  let harness: SpectacularPipeHarness<TValue>;
+describe(DhEmDashFallbackPipe, () => {
+  const dashFallbackPipe = new DhEmDashFallbackPipe();
 
   it(`displays ${emDash} when value is \`undefined\``, () => {
-    harness.value = undefined;
-
-    expect(harness.text).toBe(emDash);
+    expect(dashFallbackPipe.transform(undefined)).toBe(emDash);
   });
 
   it(`displays ${emDash} when value is \`null\``, () => {
-    harness.value = null;
-
-    expect(harness.text).toBe(emDash);
+    expect(dashFallbackPipe.transform(null)).toBe(emDash);
   });
 
   it(`displays ${emDash} when value is an empty string`, () => {
-    harness.value = '';
-
-    expect(harness.text).toBe(emDash);
+    expect(dashFallbackPipe.transform('')).toBe(emDash);
   });
 
   it(`displays value when value is a string`, () => {
-    harness.value = 'TEST';
-
-    expect(harness.text).toBe('TEST');
+    expect(dashFallbackPipe.transform('TEST')).toBe('TEST');
   });
 
   it(`displays value when value is a number`, () => {
-    harness.value = 4;
-
-    expect(harness.text).toBe('4');
+    expect(dashFallbackPipe.transform(4)).toBe(4);
   });
 });
