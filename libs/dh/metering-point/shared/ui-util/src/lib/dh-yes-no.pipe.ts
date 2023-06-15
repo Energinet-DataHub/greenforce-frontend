@@ -17,19 +17,18 @@
 import { Pipe, PipeTransform, inject } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 
-export type TValue = string | boolean | undefined | null;
-export const pipeName = 'dhYesNo';
+type TValue = string | boolean | undefined | null;
 
 @Pipe({
-  name: pipeName,
+  name: 'dhYesNo',
   pure: false,
   standalone: true,
 })
 export class DhYesNoPipe implements PipeTransform {
-  private transloco: TranslocoService = inject(TranslocoService);
+  private transloco = inject(TranslocoService);
 
   transform(value: TValue) {
-    if (value == null || undefined) {
+    if (value == null) {
       return '';
     }
 

@@ -18,11 +18,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 import { emDash } from './em-dash';
 
-export type TValue = string | number | undefined | null;
-export const pipeName = 'dhEmDashFallback';
+type TValue = string | number | undefined | null;
 
 @Pipe({
-  name: pipeName,
+  name: 'dhEmDashFallback',
   standalone: true,
 })
 export class DhEmDashFallbackPipe implements PipeTransform {
