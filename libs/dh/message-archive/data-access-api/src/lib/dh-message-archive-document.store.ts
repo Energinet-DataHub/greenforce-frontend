@@ -51,8 +51,6 @@ export class DhMessageArchiveDocumentStore extends ComponentStore<MessageArchive
           this.httpClient.v1MessageArchiveIdDocumentGet(id).pipe(
             tapResponse(
               (data) => {
-                console.log('data', data);
-
                 onSuccessFn(id, data);
                 this.patchState({ loadingState: LoadingState.LOADED });
               },
