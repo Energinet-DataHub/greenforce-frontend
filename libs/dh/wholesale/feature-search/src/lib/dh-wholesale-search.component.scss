@@ -26,3 +26,18 @@
 .wrapper {
   @include watt.space-inset-l;
 }
+
+watt-card {
+  width: 100%;
+}
+
+watt-card-title {
+  display: flex;
+  gap: var(--watt-space-m);
+  align-items: center;
+}
+
+dh-wholesale-form {
+  display: block;
+  margin-bottom: var(--watt-space-m);
+}

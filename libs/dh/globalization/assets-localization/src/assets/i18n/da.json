@@ -775,9 +775,11 @@
         "startedBy": "Bestilt af",
         "startedByPlaceholder": "Indtast email",
         "searchButton": "Søg",
-        "processType": "Procestype",
+        "processType": "Beregningstype",
         "gridAreas": "Netområder",
-        "executionStates": "Status"
+        "executionStates": "Status",
+        "period": "Periode",
+        "clear": "Ryd filtre"
       },
       "columns": {
         "startedBy": "Bestilt af",

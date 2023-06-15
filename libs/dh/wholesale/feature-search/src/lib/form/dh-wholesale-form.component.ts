@@ -73,12 +73,17 @@ const makeFormControl = <T>(value: T = null as T) =>
         gap: 1rem;
         align-items: center;
       }
+
+      watt-button {
+        margin-left: auto;
+      }
     `,
   ],
   template: `
     <form [formGroup]="_formGroup" *transloco="let t; read: 'wholesale.searchBatch'">
-      <watt-date-range-chip formControlName="period">Period</watt-date-range-chip>
-      <watt-date-range-chip formControlName="executionTime">Execution Time</watt-date-range-chip>
+      <watt-date-range-chip formControlName="period">
+        {{ t('filters.period') }}
+      </watt-date-range-chip>
       <watt-form-field>
         <watt-dropdown
           formControlName="processTypes"
@@ -97,6 +102,9 @@ const makeFormControl = <T>(value: T = null as T) =>
           [placeholder]="t('filters.gridAreas')"
         />
       </watt-form-field>
+      <watt-date-range-chip formControlName="executionTime">
+        {{ t('filters.executionTime') }}
+      </watt-date-range-chip>
       <watt-form-field>
         <watt-dropdown
           formControlName="executionStates"
@@ -106,7 +114,9 @@ const makeFormControl = <T>(value: T = null as T) =>
           [placeholder]="t('filters.executionStates')"
         />
       </watt-form-field>
-      <watt-button variant="text" icon="remove" type="reset">Reset</watt-button>
+      <watt-button variant="text" icon="remove" type="reset">
+        {{ t('filters.clear') }}
+      </watt-button>
     </form>
   `,
 })

@@ -31,6 +31,7 @@ import type { Batch } from '@energinet-datahub/dh/wholesale/domain';
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-batch-details.component';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -42,6 +43,7 @@ import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-b
     DhWholesaleTableComponent,
     PushModule,
     TranslocoModule,
+    WATT_CARD,
     WattEmptyStateComponent,
     WattSpinnerComponent,
   ],
@@ -77,7 +79,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
 
   error = false;
   loading = false;
-  batches?: Batch[];
+  batches: Batch[] = [];
 
   ngOnInit() {
     this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({

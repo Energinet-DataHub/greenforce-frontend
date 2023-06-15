@@ -14,16 +14,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<dh-wholesale-form [initial]="query.variables" (filter)="query.refetch($event)" />
-<div class="wrapper">
+<div class="wrapper" *transloco="let transloco; read: 'wholesale.searchBatch'">
   <dh-wholesale-batch-details #batchDetails (closed)="onBatchDetailsClosed()" />
-  <watt-spinner *ngIf="loading" />
-  <section class="content" *ngIf="!loading && batches">
-    <dh-wholesale-table
-      [data]="batches"
-      [selectedBatch]="selectedBatch"
-      (selectedRow)="onBatchSelected($event)"
-    />
+  <section class="content">
+    <watt-card>
+      <watt-card-title>
+        <h3 class="watt-on-light--high-emphasis">{{ transloco("headline") }}</h3>
+        <watt-spinner *ngIf="loading" [diameter]="22" />
+      </watt-card-title>
+      <dh-wholesale-form [initial]="query.variables" (filter)="query.refetch($event)" />
+      <dh-wholesale-table
+        [data]="batches"
+        [selectedBatch]="selectedBatch"
+        (selectedRow)="onBatchSelected($event)"
+      />
+    </watt-card>
   </section>
   <watt-empty-state
     *ngIf="error"

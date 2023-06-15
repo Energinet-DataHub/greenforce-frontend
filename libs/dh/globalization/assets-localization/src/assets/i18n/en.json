@@ -784,9 +784,11 @@
         "startedBy": "Started by",
         "startedByPlaceholder": "Enter an email",
         "searchButton": "Search",
-        "processType": "Process type",
+        "processType": "Calculation type",
         "gridAreas": "Grid areas",
-        "executionStates": "Status"
+        "executionStates": "Status",
+        "period": "Period",
+        "clear": "Clear filters"
       },
       "columns": {
         "startedBy": "Started by",
