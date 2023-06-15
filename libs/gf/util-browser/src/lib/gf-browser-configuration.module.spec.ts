@@ -17,8 +17,6 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { browserConfigurationProviders } from './gf-browser-configuration.module';
-
-import { browserConfigurationProviders } from './gf-browser-configuration.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
