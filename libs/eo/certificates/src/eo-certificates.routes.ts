@@ -16,7 +16,7 @@
  */
 
 import { Routes } from '@angular/router';
-import { EoCertificateDetailsComponent } from './lib/certificate-details/eo-certificate-details.component';
+import { EoCertificateDetailsComponent } from './lib/eo-certificate-details.component';
 import { EoCertificatesComponent } from './lib/eo-certificates.component';
 
 export const eoCertificatesRoutes: Routes = [
