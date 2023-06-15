@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Directive, HostBinding, NgModule } from '@angular/core';
+import { Directive, HostBinding } from '@angular/core';
 
 const selector = 'eoProductLogo';
 

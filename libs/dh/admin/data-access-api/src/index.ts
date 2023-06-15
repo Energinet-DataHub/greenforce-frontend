@@ -28,3 +28,4 @@ export * from './lib/dh-admin-market-role-permissions.store';
 export * from './lib/dh-admin-invite-user.store';
 export * from './lib/dh-admin-edit-permission.store';
 export * from './lib/dh-admin-edit-user.store';
+export * from './lib/dh-admin-user-status.store';

@@ -808,8 +808,17 @@
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
       "download": "Download",
+      "downloadNoBasisData": "Download (Uden basis data)",
+      "selectedRows": {
+        "singular": "{{ selectedCount }} valgt række",
+        "plural": "{{ selectedCount }} valgte rækker"
+      },
+      "SelectPeriod": "For at downloade skal du vælge en periode først",
       "downloadFailed": "Download fejlede",
       "downloadStart": "Starter download...",
+      "gridAreasLoadFailed": "kunne ikke hente net områder",
+      "noEntries": "Ingen resultater",
+      "results": "Søgeresultater",
       "tabs": {
         "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
         "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"
@@ -818,6 +827,7 @@
         "title": "Processer",
         "processType": "Procestype",
         "gridAreaName": "Netområde",
+        "gridAreaCode": "Netområde ID",
         "periodStart": "Periode fra",
         "periodEnd": "Periode til",
         "executionTime": "Kørsel tid",
@@ -930,6 +940,9 @@
         "reinvite": "Send invitation igen",
         "reinviteError": "Noget gik galt. Brugeren blev ikke inviteret. Prøv igen",
         "reinviteSuccess": "Brugeren blev inviteret",
+        "deactivate": "Deaktiver bruger",
+        "deactivateError": "Noget gik galt. Brugeren blev ikke deaktiveret. Prøv igen",
+        "deactivateSuccess": "Brugeren blev deaktiveret",
         "editRole": "Rediger rolle",
         "disable": "Deaktiver",
         "disablingUserRole": "Deaktiverer bruger rollen",
@@ -1018,7 +1031,10 @@
               "UserRoleAdded": "<b>{{ changedByUserName }}</b> tilføjede brugerrollen <b>{{ toValue }}</b>",
               "UserRoleRemoved": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b>",
               "UserInvite": "<b>{{ changedByUserName }}</b> tilføjede brugeren til aktør <b>{{ toValue }}</b>",
-              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b> fordi rollen blev deaktiveret"
+              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b> fordi rollen blev deaktiveret",
+              "UserFirstNameChanged": "<b>{{ changedByUserName }}</b> ændrede fornavn til <b>{{ toValue }}</b>",
+              "UserLastNameChanged": "<b>{{ changedByUserName }}</b> ændrede efternavn til <b>{{ toValue }}</b>",
+              "UserPhoneNumberChanged": "<b>{{ changedByUserName }}</b> ændrede telefonnummer til <b>{{ toValue }}</b>"
             }
           },
           "generalError": {
@@ -1114,7 +1130,6 @@
       "editUser": {
         "cancel": "Fortryd",
         "save": "Gem",
-        "reinvite": "Send invitation igen",
         "saveSuccess": "Brugeren blev opdateret",
         "saveError": "Noget gik galt. Brugeren blev ikke opdateret. Prøv igen",
         "tab": {

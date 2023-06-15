@@ -34,18 +34,23 @@ import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
 import { DhUserStatusComponent } from '../shared/dh-user-status.component';
 import { DhEditUserModalComponent } from './dh-edit-user-modal/dh-edit-user-modal.component';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DbAdminInviteUserStore } from '@energinet-datahub/dh/admin/data-access-api';
+import {
+  DhAdminInviteUserStore,
+  DhAdminUserStatusStore,
+} from '@energinet-datahub/dh/admin/data-access-api';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { PushModule } from '@rx-angular/template/push';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DbAdminInviteUserStore],
+  providers: [DhAdminInviteUserStore, DhAdminUserStatusStore],
   selector: 'dh-user-drawer',
   standalone: true,
   templateUrl: './dh-user-drawer.component.html',
   imports: [
     CommonModule,
+    PushModule,
     TranslocoModule,
     WATT_DRAWER,
     WattButtonComponent,
@@ -58,7 +63,8 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 export class DhUserDrawerComponent {
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
-  private inviteUserStore = inject(DbAdminInviteUserStore);
+  private inviteUserStore = inject(DhAdminInviteUserStore);
+  private userStatusStore = inject(DhAdminUserStatusStore);
 
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
@@ -68,6 +74,9 @@ export class DhUserDrawerComponent {
   @Output() closed = new EventEmitter<void>();
 
   isEditUserModalVisible = false;
+
+  isReinviting$ = this.inviteUserStore.isSaving$;
+  isDeactivating$ = this.userStatusStore.isSaving$;
 
   onClose(): void {
     this.drawer.close();
@@ -95,6 +104,21 @@ export class DhUserDrawerComponent {
       onError: () =>
         this.toastService.open({
           message: this.transloco.translate('admin.userManagement.drawer.reinviteError'),
+          type: 'danger',
+        }),
+    });
+
+  deactivate = () =>
+    this.userStatusStore.deactivateUser({
+      id: this.selectedUser?.id ?? '',
+      onSuccess: () =>
+        this.toastService.open({
+          message: this.transloco.translate('admin.userManagement.drawer.deactivateSuccess'),
+          type: 'success',
+        }),
+      onError: () =>
+        this.toastService.open({
+          message: this.transloco.translate('admin.userManagement.drawer.deactivateError'),
           type: 'danger',
         }),
     });

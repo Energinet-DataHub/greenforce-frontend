@@ -16,12 +16,12 @@
  */
 
 import { Routes } from '@angular/router';
-import { EoTransferComponent } from './lib/eo-transfers.component';
+import { EoTransfersComponent } from './lib/eo-transfers.component';
 
 export const eoTransfersRoutes: Routes = [
   {
     path: '',
     data: { title: 'Transfers' },
-    component: EoTransferComponent,
+    component: EoTransfersComponent,
   },
 ];

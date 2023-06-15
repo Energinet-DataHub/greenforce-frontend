@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { Component, HostBinding, Input } from '@angular/core';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 
 /**
  * Component primarily used for displaying errors

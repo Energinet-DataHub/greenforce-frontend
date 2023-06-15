@@ -35,7 +35,7 @@ const initialState: State = {
 };
 
 @Injectable()
-export class DbAdminAssignableUserRolesStore extends ComponentStore<State> {
+export class DhAdminAssignableUserRolesStore extends ComponentStore<State> {
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasGeneralError$ = new Subject<void>();

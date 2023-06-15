@@ -17,6 +17,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
+  EO_MEDIA,
   EoInfoBoxComponent,
   EO_MEDIA,
   EoStackComponent,

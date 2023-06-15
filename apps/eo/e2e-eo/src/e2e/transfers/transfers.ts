@@ -36,6 +36,22 @@ When('I go to the transfers page', () => {
   transfers.headerIsVisible();
 });
 
+When('I click on the new transfer agreement button', () => {
+  transfers.clickNewAgreementButton();
+});
+
+When('I enter details for a transfer agreement', () => {
+  transfers.enterDetailsForNewAgreement();
+});
+
+When('I click create transfer agreement', () => {
+  transfers.clickCreateAgreementButton();
+});
+
+When('I can see a modal to create a new agreement', () => {
+  transfers.newAgreementModalIsVisible();
+});
+
 Then('I can see a header text in the table card', () => transfers.cardHeaderIsVisible());
 
 Then('I can see a table component', () => transfers.tableIsVisible());
@@ -45,3 +61,15 @@ Then('I can see the table has a paginator', () => transfers.paginatorIsVisible()
 Then('I can see a download button', () => transfers.downloadButtonIsVisible());
 
 Then('I can see a button to create a new agreement', () => transfers.newAgreementButtonIsVisible());
+
+Then('I can see the new agreement in the table on the transfers page', () =>
+  transfers.newlyCreatedAgreementIsVisible()
+);
+
+Then('I can see the modal to create a new agreement has closed', () =>
+  transfers.newAgreementModalIsNotOnScreen()
+);
+
+Then('I can close the new agreement modal', () => {
+  transfers.clickCloseNewAgreementModalButton();
+});
