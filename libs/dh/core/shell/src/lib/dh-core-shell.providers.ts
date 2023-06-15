@@ -38,7 +38,7 @@ import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graph
 import { dhB2CEnvironmentToken, environment } from '@energinet-datahub/dh/shared/environments';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
-import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
+import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 import { TranslocoModule } from '@ngneat/transloco';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
@@ -49,8 +49,8 @@ export const dhCoreShellProviders = [
     DhApiModule.forRoot(),
     MsalModule,
     TranslocoModule,
-    environment.production ? DhSharedUtilApplicationInsightsModule.forRoot() : [],
   ]),
+  environment.production ? applicationInsightsProviders : [],
   uiWattTranslationsProviders,
   danishLocalProviders,
   translocoProviders,

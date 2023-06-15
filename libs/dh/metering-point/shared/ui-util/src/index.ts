@@ -14,6 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhYesNoPipeScam } from './lib/dh-yes-no.pipe';
+export { DhYesNoPipe } from './lib/dh-yes-no.pipe';
 export { DhIsParentPipe } from './lib/dh-is-parent.pipe';
 export { DhShowForMeteringPointTypeDirective } from './lib/dh-show-for-metering-point-type.directive';

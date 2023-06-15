@@ -22,7 +22,7 @@ import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-user-master-data',
@@ -40,7 +40,7 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     TranslocoModule,
-    DhEmDashFallbackPipeScam,
+    DhEmDashFallbackPipe,
   ],
 })
 export class DhUserMasterDataComponent {

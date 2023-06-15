@@ -14,52 +14,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { createPipeHarness, SpectacularPipeHarness } from '@ngworker/spectacular';
-
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
-import { pipeName, DhYesNoPipe, TValue } from './dh-yes-no.pipe';
+import { DhYesNoPipe } from './dh-yes-no.pipe';
+import { TestBed } from '@angular/core/testing';
 
-describe(DhYesNoPipe.name, () => {
+describe(DhYesNoPipe, () => {
   beforeEach(() => {
-    harness = createPipeHarness({
-      pipe: DhYesNoPipe,
-      pipeName,
-      value: undefined,
+    TestBed.configureTestingModule({
       imports: [getTranslocoTestingModule()],
     });
   });
 
-  let harness: SpectacularPipeHarness<TValue>;
-
   it('displays an empty string when value is `undefined`', () => {
-    harness.value = undefined;
-
-    expect(harness.text).toBe('');
+    TestBed.runInInjectionContext(() => {
+      expect(new DhYesNoPipe().transform(undefined)).toBe('');
+    });
   });
 
   it('displays an empty string when value is `null`', () => {
-    harness.value = null;
-
-    expect(harness.text).toBe('');
+    TestBed.runInInjectionContext(() => {
+      expect(new DhYesNoPipe().transform(null)).toBe('');
+    });
   });
 
   it('displays "No" when value is `false`', () => {
-    harness.value = false;
-
-    expect(harness.text).toBe(enTranslations.no);
+    TestBed.runInInjectionContext(() => {
+      expect(new DhYesNoPipe().transform(false)).toBe(enTranslations.no);
+    });
   });
 
   it('displays "No" when value is an empty string', () => {
-    harness.value = '';
-
-    expect(harness.text).toBe(enTranslations.no);
+    TestBed.runInInjectionContext(() => {
+      expect(new DhYesNoPipe().transform('')).toBe(enTranslations.no);
+    });
   });
 
   it('displays "Yes" when value is `true`', () => {
-    harness.value = true;
-
-    expect(harness.text).toBe(enTranslations.yes);
+    TestBed.runInInjectionContext(() => {
+      expect(new DhYesNoPipe().transform(true)).toBe(enTranslations.yes);
+    });
   });
 });
