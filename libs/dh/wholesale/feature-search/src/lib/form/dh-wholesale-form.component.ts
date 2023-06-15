@@ -28,7 +28,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PushModule } from '@rx-angular/template/push';
 import { Apollo } from 'apollo-angular';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { map } from 'rxjs';
+import { debounceTime, map } from 'rxjs';
 
 import { WATT_FORM_FIELD, WattFormChipDirective } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -158,6 +158,8 @@ export class DhWholesaleFormComponent implements OnInit {
       executionStates: makeFormControl(this.initial?.executionStates),
     });
 
-    this._formGroup.valueChanges.subscribe((value) => this.filter.emit(value));
+    this._formGroup.valueChanges
+      .pipe(debounceTime(500))
+      .subscribe((value) => this.filter.emit(value));
   }
 }
