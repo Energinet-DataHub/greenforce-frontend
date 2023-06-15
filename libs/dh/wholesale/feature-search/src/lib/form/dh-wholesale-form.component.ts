@@ -69,9 +69,10 @@ const makeFormControl = <T>(value: T = null as T) =>
     `
       form {
         display: flex;
-        flex-wrap: wrap;
         gap: 1rem;
         align-items: center;
+        overflow: auto;
+        overflow-y: hidden;
       }
 
       watt-button {
