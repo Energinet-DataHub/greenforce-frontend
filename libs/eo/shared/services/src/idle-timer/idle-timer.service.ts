@@ -24,7 +24,7 @@ import {
   EoIdleTimerCountdownModalComponent,
   EoIdleTimerLoggedOutModalComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { fromEvent, merge, startWith, Subscription, switchMap, timer } from 'rxjs';
+import { Subscription, fromEvent, merge, startWith, switchMap, timer } from 'rxjs';
 import { EoAuthService } from '../auth/auth.service';
 
 @Injectable({

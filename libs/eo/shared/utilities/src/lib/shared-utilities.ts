@@ -27,13 +27,13 @@ export class SharedUtilities {
     });
   }
 
-  isDateActive(date: string | undefined): boolean {
+  isDateActive(date: number | undefined): boolean {
     if (!date) return false;
 
     return new Date(date).getTime() >= new Date().getTime();
   }
 
-  checkForMidnightInLocalTime(inputDate: string | undefined): number {
+  checkForMidnightInLocalTime(inputDate: number | undefined): number {
     if (!inputDate) return 0;
 
     const date = new Date(inputDate);

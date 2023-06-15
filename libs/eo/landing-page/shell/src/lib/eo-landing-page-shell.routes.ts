@@ -15,18 +15,7 @@
  * limitations under the License.
  */
 
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EoConsumptionPageShellComponent } from './eo-consumption-page-shell.component';
+import { Routes } from '@angular/router';
+import { EoLandingPageShellComponent } from './eo-landing-page-shell.component';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: EoConsumptionPageShellComponent,
-  },
-];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoConsumptionPageShellComponent],
-})
-export class EoConsumptionPageShellModule {}
+export const eoLandingPageRoutes: Routes = [{ path: '', component: EoLandingPageShellComponent }];

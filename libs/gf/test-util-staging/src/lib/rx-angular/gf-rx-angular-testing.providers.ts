@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
+import { makeEnvironmentProviders } from '@angular/core';
 import {
   RX_RENDER_STRATEGIES_CONFIG,
   RxRenderStrategiesConfig,
@@ -23,14 +23,11 @@ import {
 /**
  * Enable RxAngular Template to render in Jest tests.
  */
-@NgModule({
-  providers: [
-    {
-      provide: RX_RENDER_STRATEGIES_CONFIG,
-      useValue: {
-        primaryStrategy: 'native',
-      } as RxRenderStrategiesConfig<string>,
-    },
-  ],
-})
-export class GfRxAngularTestingModule {}
+export const gfRxAngularTestingProviders = makeEnvironmentProviders([
+  {
+    provide: RX_RENDER_STRATEGIES_CONFIG,
+    useValue: {
+      primaryStrategy: 'native',
+    } as RxRenderStrategiesConfig<string>,
+  },
+]);

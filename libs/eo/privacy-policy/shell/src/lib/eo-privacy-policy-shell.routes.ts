@@ -14,20 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Routes } from '@angular/router';
+import { EoPrivacyPolicyShellComponent } from './eo-privacy-policy-shell.component';
 
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EoTransfersComponent } from './lib/eo-transfers.component';
-
-const routes: Routes = [
+export const eoPrivacyPolicyRoutes: Routes = [
   {
     path: '',
-    data: { title: 'Transfers' },
-    component: EoTransfersComponent,
+    component: EoPrivacyPolicyShellComponent,
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoTransfersComponent],
-})
-export class EoTransfersModule {}

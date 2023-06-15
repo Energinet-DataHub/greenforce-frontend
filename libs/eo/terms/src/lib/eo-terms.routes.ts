@@ -14,15 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
-import { EoCoreShellModule } from '@energinet-datahub/eo/core/shell';
-import { EnergyOriginAppComponent } from './energy-origin-app.component';
+import { Routes } from '@angular/router';
+import { EoTermsComponent } from './eo-terms.component';
 
-@NgModule({
-  bootstrap: [EnergyOriginAppComponent],
-  declarations: [EnergyOriginAppComponent],
-  imports: [RouterModule, BrowserAnimationsModule, EoCoreShellModule],
-})
-export class EnergyOriginAppModule {}
+export const eoTermsRoutes: Routes = [{ path: '', component: EoTermsComponent }];

@@ -14,18 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EoDashboardShellComponent } from './eo-dashboard-shell.component';
+import { Routes } from '@angular/router';
+import { EoMeteringPointsShellComponent } from './eo-metering-points-shell.component';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: EoDashboardShellComponent,
-  },
+export const eoMeteringPointsRoutes: Routes = [
+  { path: '', component: EoMeteringPointsShellComponent },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoDashboardShellComponent],
-})
-export class EoDashboardShellModule {}

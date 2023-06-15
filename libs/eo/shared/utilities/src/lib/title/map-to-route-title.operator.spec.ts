@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ActivatedRouteSnapshot, ActivationEnd, Event } from '@angular/router';
-import { from, lastValueFrom, Observable } from 'rxjs';
+import { Observable, from, lastValueFrom } from 'rxjs';
 
 import { mapToRouteTitle } from './map-to-route-title.operator';
 

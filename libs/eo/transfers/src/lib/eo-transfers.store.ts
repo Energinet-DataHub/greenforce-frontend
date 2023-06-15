@@ -55,13 +55,13 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   }
 
   addTransfer(transfer: EoListedTransfer) {
-    this.addSingleTransfer(transfer);
+    this.addSingleTransfer(this.datesToMilliseconds(transfer));
   }
 
   loadData() {
     this.service.getTransfers().subscribe({
       next: (response) => {
-        this.setTransfers(response);
+        this.setTransfers(response?.result?.map((transfer) => this.datesToMilliseconds(transfer)));
         this.setError(null);
         this.setHasLoaded(true);
       },
@@ -70,5 +70,9 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
         this.setHasLoaded(true);
       },
     });
+  }
+
+  datesToMilliseconds(transfer: EoListedTransfer): EoListedTransfer {
+    return { ...transfer, startDate: transfer.startDate * 1000, endDate: transfer.endDate * 1000 };
   }
 }

@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EoTermsComponent } from './eo-terms.component';
+import { Routes } from '@angular/router';
+import { EoOriginOfEnergyShellComponent } from './eo-origin-of-energy-shell.component';
 
-const routes: Routes = [{ path: '', component: EoTermsComponent }];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoTermsComponent],
-})
-export class EoTermsModule {}
+export const eoOriginOfEnergyRoutes: Routes = [
+  {
+    path: '',
+    component: EoOriginOfEnergyShellComponent,
+  },
+];
