@@ -37,6 +37,6 @@ describe(DhEmDashFallbackPipe, () => {
   });
 
   it(`displays value when value is a number`, () => {
-    expect(dashFallbackPipe.transform('4')).toBe('4');
+    expect(dashFallbackPipe.transform(4)).toBe(4);
   });
 });
