@@ -17,6 +17,7 @@
 import { formatInTimeZone } from 'date-fns-tz';
 import { spaceToNonBreakingSpace } from './space-to-non-breaking-space';
 import { danishLocaleProvider } from './danish-locale.provider';
+import { danishCurrencyProvider } from './danish-currency.provider';
 import { danishLocaleInitializer } from './danish-locale.initializer';
 import { TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
@@ -25,7 +26,7 @@ import { CurrencyPipe, DatePipe, DecimalPipe, PercentPipe } from '@angular/commo
 describe('Danish locale', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [danishLocaleProvider, danishLocaleInitializer],
+      providers: [danishLocaleProvider, danishLocaleInitializer, danishCurrencyProvider],
     });
   });
 
@@ -67,7 +68,7 @@ describe('Danish locale', () => {
     hostFixture.autoDetectChanges(true);
     const hostElement = hostFixture.nativeElement;
 
-    expect(hostElement.textContent).toEqual(spaceToNonBreakingSpace(`1.234,56 USD`));
+    expect(hostElement.textContent).toEqual(spaceToNonBreakingSpace(`1.234,56 DKK`));
   });
 
   it('configures the PercentPipe', () => {

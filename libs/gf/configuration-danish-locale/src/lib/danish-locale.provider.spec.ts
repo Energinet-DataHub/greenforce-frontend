@@ -18,7 +18,7 @@ import { LOCALE_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { danishLocaleCode } from './danish-locale-code';
 
-import { danishLocaleProvider } from './danish-locale.provider';
+import { danishLocaleProvider } from './danish-currency.provider';
 
 describe('danishLocaleProvider', () => {
   it('when not provided, default application locale is used', () => {

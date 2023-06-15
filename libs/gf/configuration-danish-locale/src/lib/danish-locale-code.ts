@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export const danishLocaleCode = 'da';
+export const danishCurrencyCode = 'DKK';
