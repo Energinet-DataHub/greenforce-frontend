@@ -30,7 +30,7 @@ const initialState: MessageArchiveDocumentState = {
 };
 
 @Injectable()
-export class DhMessageArchiveDocumentApiStore extends ComponentStore<MessageArchiveDocumentState> {
+export class DhMessageArchiveDocumentStore extends ComponentStore<MessageArchiveDocumentState> {
   isLoading$ = this.select((state) => state.loadingState === LoadingState.LOADING);
 
   constructor(private httpClient: MessageArchiveHttp) {

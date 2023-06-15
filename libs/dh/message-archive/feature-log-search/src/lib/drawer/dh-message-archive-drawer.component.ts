@@ -28,7 +28,7 @@ import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { DhMessageArchiveDocumentApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
+import { DhMessageArchiveDocumentStore } from '@energinet-datahub/dh/message-archive/data-access-api';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -58,13 +58,13 @@ import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeN
     WattSpinnerComponent,
     LetModule,
   ],
-  providers: [provideComponentStore(DhMessageArchiveDocumentApiStore)],
+  providers: [provideComponentStore(DhMessageArchiveDocumentStore)],
 })
 export class DhMessageArchiveDrawerComponent {
   private document = inject(DOCUMENT);
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
-  private apiStore = inject(DhMessageArchiveDocumentApiStore);
+  private apiStore = inject(DhMessageArchiveDocumentStore);
 
   @ViewChild('drawer') drawer!: WattDrawerComponent;
 
