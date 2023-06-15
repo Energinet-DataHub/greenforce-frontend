@@ -143,6 +143,7 @@ namespace Energinet.DataHub.WebApi.Controllers
                         UserIdentityAuditLogField.FirstName => UserAuditLogType.UserFirstNameChanged,
                         UserIdentityAuditLogField.LastName => UserAuditLogType.UserLastNameChanged,
                         UserIdentityAuditLogField.PhoneNumber => UserAuditLogType.UserPhoneNumberChanged,
+                        UserIdentityAuditLogField.Status => UserAuditLogType.UserStatusChanged,
                         _ => throw new ArgumentOutOfRangeException(),
                     };
 
