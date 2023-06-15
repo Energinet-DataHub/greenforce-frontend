@@ -45,6 +45,11 @@
 .message-content {
   padding: var(--watt-space-ml);
 
+  &--loading {
+    display: flex;
+    justify-content: center;
+  }
+
   pre {
     margin-top: 0;
     overflow: auto;
