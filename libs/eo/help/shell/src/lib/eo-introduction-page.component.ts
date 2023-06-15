@@ -19,7 +19,6 @@ import { RouterModule } from '@angular/router';
 import {
   EO_MEDIA,
   EoInfoBoxComponent,
-  EO_MEDIA,
   EoStackComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
