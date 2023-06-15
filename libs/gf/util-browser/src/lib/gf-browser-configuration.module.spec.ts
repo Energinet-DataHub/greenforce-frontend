@@ -17,8 +17,6 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { browserConfigurationProviders } from './gf-browser-configuration.module';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
 
 describe('browserConfigurationProviders', () => {
   it('APP_BASE_HREF is not provided when the Angular module is not imported', () => {
@@ -28,7 +26,6 @@ describe('browserConfigurationProviders', () => {
 
   it('APP_BASE_HREF is provided', () => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, RouterTestingModule],
       providers: [browserConfigurationProviders],
     });
 
