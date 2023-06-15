@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/domain';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 export type PrimaryMasterData = Pick<
   MeteringPointCimDto,
@@ -44,7 +44,7 @@ export type PrimaryMasterData = Pick<
   selector: 'dh-metering-point-primary-master-data',
   styleUrls: ['./dh-metering-point-primary-master-data.component.scss'],
   templateUrl: './dh-metering-point-primary-master-data.component.html',
-  imports: [CommonModule, TranslocoModule, DhEmDashFallbackPipeScam],
+  imports: [CommonModule, TranslocoModule, DhEmDashFallbackPipe],
 })
 export class DhMeteringPointPrimaryMasterDataComponent {
   @Input() primaryMasterData?: PrimaryMasterData;

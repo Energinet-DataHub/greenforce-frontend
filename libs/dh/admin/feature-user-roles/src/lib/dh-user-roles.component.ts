@@ -36,7 +36,7 @@ import {
 import { MatDividerModule } from '@angular/material/divider';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { FormsModule } from '@angular/forms';
 import {
   FilterUserRolesPipe,
@@ -69,7 +69,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
     WattEmptyStateComponent,
     WattCheckboxComponent,
     MatExpansionModule,
-    DhEmDashFallbackPipeScam,
+    DhEmDashFallbackPipe,
     FormsModule,
     FilterUserRolesPipe,
     UserRolesIntoTablePipe,

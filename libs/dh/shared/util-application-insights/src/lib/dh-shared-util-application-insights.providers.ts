@@ -14,30 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Pipe, PipeTransform } from '@angular/core';
+import { ErrorHandler, makeEnvironmentProviders } from '@angular/core';
+import { ApplicationinsightsAngularpluginErrorService } from '@microsoft/applicationinsights-angularplugin-js';
+import { applicationInsightsInitializer } from './dh-application-insights.initializer';
 
-import { emDash } from './em-dash';
-
-type TValue = string | number | undefined | null;
-
-@Pipe({
-  name: 'dhEmDashFallback',
-  standalone: true,
-})
-export class DhEmDashFallbackPipe implements PipeTransform {
-  transform(value: TValue): string | number {
-    if (this.isFalsy(value)) {
-      return emDash;
-    }
-
-    return value as string | number;
-  }
-
-  private isFalsy(value: TValue): boolean {
-    if (typeof value === 'string') {
-      return value.trim() === '';
-    }
-
-    return value == null;
-  }
-}
+export const applicationInsightsProviders = makeEnvironmentProviders([
+  applicationInsightsInitializer,
+  {
+    provide: ErrorHandler,
+    useClass: ApplicationinsightsAngularpluginErrorService,
+  },
+]);

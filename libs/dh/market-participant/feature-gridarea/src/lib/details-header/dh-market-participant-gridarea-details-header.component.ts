@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { MatDividerModule } from '@angular/material/divider';
 
@@ -27,13 +27,7 @@ import { MatDividerModule } from '@angular/material/divider';
   styleUrls: ['./dh-market-participant-gridarea-details-header.component.scss'],
   templateUrl: './dh-market-participant-gridarea-details-header.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    DhEmDashFallbackPipeScam,
-    WattDatePipe,
-    MatDividerModule,
-  ],
+  imports: [CommonModule, TranslocoModule, DhEmDashFallbackPipe, WattDatePipe, MatDividerModule],
 })
 export class DhMarketParticipantGridAreaDetailsHeaderComponent {
   @Input() gridArea?: GridAreaOverviewRow;
