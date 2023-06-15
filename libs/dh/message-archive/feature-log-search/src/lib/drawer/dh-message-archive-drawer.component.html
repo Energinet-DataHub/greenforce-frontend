@@ -55,9 +55,15 @@ limitations under the License.
         >
       </div>
 
-      <div class="message-content">
-        <pre>{{ documentContent }}</pre>
-      </div>
+      <ng-container *rxLet="isLoading$ as isLoading">
+        <div class="message-content" [ngClass]="{ 'message-content--loading': isLoading }">
+          <watt-spinner *ngIf="isLoading; else documentContentTmpl" />
+
+          <ng-template #documentContentTmpl>
+            <pre>{{ documentContent }}</pre>
+          </ng-template>
+        </div>
+      </ng-container>
     </watt-drawer-content>
   </watt-drawer>
 </ng-container>
