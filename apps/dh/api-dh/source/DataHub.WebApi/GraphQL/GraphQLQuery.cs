@@ -138,7 +138,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<BatchType>>>>("batches")
                 .Argument<DateRangeType>("executionTime")
-                .Argument<BatchState>("executionState", nullable: true)
+                .Argument<BatchState[]>("executionStates", nullable: true)
                 .Argument<ProcessType[]>("processTypes", nullable: true)
                 .Argument<string[]>("gridAreaCodes", nullable: true)
                 .Argument<DateRangeType>("period")
@@ -149,8 +149,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .ResolveAsync(async (context, client) =>
                 {
                     var executionTime = context.GetArgument<Interval?>("executionTime");
-                    var executionState = context.GetArgument<BatchState?>("executionState");
-                    var processTypes = context.GetArgument<ProcessType[]?>("processTypes");
+                    var executionStates = context.GetArgument("executionStates", Array.Empty<BatchState>());
+                    var processTypes = context.GetArgument("processTypes", Array.Empty<ProcessType>());
                     var gridAreaCodes = context.GetArgument("gridAreaCodes", Array.Empty<string>());
                     var period = context.GetArgument<Interval?>("period");
                     var first = context.GetArgument<int?>("first");
@@ -160,9 +160,13 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var periodStart = period?.Start.ToDateTimeOffset();
                     var periodEnd = period?.End.ToDateTimeOffset();
 
+                    // The SearchBatches API only allows for a single execution state to be specified
+                    BatchState? executionState = executionStates.Length == 1 ? executionStates[0] : null;
+
                     var batches = (await client.SearchBatchesAsync(gridAreaCodes, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd))
                         .OrderByDescending(x => x.ExecutionTimeStart)
-                        .Where(x => processTypes == null || processTypes.Contains(x.ProcessType));
+                        .Where(x => executionStates.Length <= 1 || executionStates.Contains(x.ExecutionState))
+                        .Where(x => processTypes.Length == 0 || processTypes.Contains(x.ProcessType));
 
                     return first is not null ? batches.Take(first.Value) : batches;
                 });

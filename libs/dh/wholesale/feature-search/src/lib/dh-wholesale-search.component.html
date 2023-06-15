@@ -14,65 +14,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
-<dh-wholesale-form
-  (search)="onSearch($event)"
-  [executionTime]="executionTime"
-  [loading]="loading"
-></dh-wholesale-form>
-
+<dh-wholesale-form [initial]="query.variables" (filter)="query.refetch($event)" />
 <div class="wrapper">
-  <dh-wholesale-batch-details
-    #batchDetails
-    (closed)="onBatchDetailsClosed()"
-  ></dh-wholesale-batch-details>
-
+  <dh-wholesale-batch-details #batchDetails (closed)="onBatchDetailsClosed()" />
   <watt-spinner *ngIf="loading" />
-
-  <ng-container *transloco="let t; read: 'wholesale.searchBatch'">
-    <watt-date-range-chip (selectionChange)="query.refetch({ period: $event })">
-      Period
-    </watt-date-range-chip>
-    <watt-date-range-chip
-      [value]="executionTime"
-      (selectionChange)="query.refetch({ executionTime: $event })"
-    >
-      Execution Time
-    </watt-date-range-chip>
-    <watt-form-field>
-      <watt-dropdown
-        [(ngModel)]="processTypes"
-        (ngModelChange)="query.refetch({ processTypes })"
-        [chipMode]="true"
-        [multiple]="true"
-        [options]="processTypeOptions | push"
-        [placeholder]="t('filters.processType')"
-      />
-    </watt-form-field>
-    <watt-form-field>
-      <watt-dropdown
-        [(ngModel)]="gridAreaCodes"
-        (ngModelChange)="query.refetch({ gridAreaCodes })"
-        [chipMode]="true"
-        [multiple]="true"
-        [options]="gridAreaOptions | push"
-        [placeholder]="t('filters.gridAreas')"
-      />
-    </watt-form-field>
-  </ng-container>
-
   <section class="content" *ngIf="!loading && batches">
     <dh-wholesale-table
       [data]="batches"
       [selectedBatch]="selectedBatch"
       (selectedRow)="onBatchSelected($event)"
-    ></dh-wholesale-table>
+    />
   </section>
-
   <watt-empty-state
     *ngIf="error"
     icon="custom-power"
     [title]="'shared.error.title' | transloco"
     [message]="'shared.error.message' | transloco"
-  ></watt-empty-state>
+  />
 </div>

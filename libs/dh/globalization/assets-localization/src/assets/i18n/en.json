@@ -785,7 +785,8 @@
         "startedByPlaceholder": "Enter an email",
         "searchButton": "Search",
         "processType": "Process type",
-        "gridAreas": "Grid areas"
+        "gridAreas": "Grid areas",
+        "executionStates": "Status"
       },
       "columns": {
         "startedBy": "Started by",

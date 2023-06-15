@@ -3,12 +3,14 @@ query GetBatches(
   $period: DateRange
   $processTypes: [ProcessType!]
   $gridAreaCodes: [String!]
+  $executionStates: [BatchState!]
 ) {
   batches(
     executionTime: $executionTime
     period: $period
     processTypes: $processTypes
     gridAreaCodes: $gridAreaCodes
+    executionStates: $executionStates
   ) {
     id
     executionState
