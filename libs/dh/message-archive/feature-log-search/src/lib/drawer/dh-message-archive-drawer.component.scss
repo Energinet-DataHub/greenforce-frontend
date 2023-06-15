@@ -21,7 +21,7 @@
 
 .message-metadata {
   border-bottom: solid 1px var(--watt-color-neutral-grey-300);
-  padding: var(--watt-space-ml);
+  padding: var(--watt-space-m) var(--watt-space-ml);
 }
 
 .message-metadata-grid {
@@ -44,6 +44,11 @@
 
 .message-content {
   padding: var(--watt-space-ml);
+
+  &--loading {
+    display: flex;
+    justify-content: center;
+  }
 
   pre {
     margin-top: 0;

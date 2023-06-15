@@ -19,6 +19,7 @@ import { Component, Input, ViewChild, inject } from '@angular/core';
 import { provideComponentStore } from '@ngrx/component-store';
 import { MatDividerModule } from '@angular/material/divider';
 import { PushModule } from '@rx-angular/template/push';
+import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { ArchivedMessage, Stream } from '@energinet-datahub/dh/shared/domain';
@@ -27,9 +28,10 @@ import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { DhMessageArchiveDocumentApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
+import { DhMessageArchiveDocumentStore } from '@energinet-datahub/dh/message-archive/data-access-api';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
 import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
@@ -53,13 +55,16 @@ import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeN
     WattButtonComponent,
     PushModule,
     DhEmDashFallbackPipe,
+    WattSpinnerComponent,
+    LetModule,
   ],
-  providers: [provideComponentStore(DhMessageArchiveDocumentApiStore)],
+  providers: [provideComponentStore(DhMessageArchiveDocumentStore)],
 })
 export class DhMessageArchiveDrawerComponent {
   private document = inject(DOCUMENT);
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
+  private apiStore = inject(DhMessageArchiveDocumentStore);
 
   @ViewChild('drawer') drawer!: WattDrawerComponent;
 
@@ -68,9 +73,10 @@ export class DhMessageArchiveDrawerComponent {
   message: ArchivedMessage | null = null;
   documentContent: string | null = null;
 
-  constructor(private apiStore: DhMessageArchiveDocumentApiStore) {}
+  isLoading$ = this.apiStore.isLoading$;
 
   open(message: ArchivedMessage) {
+    this.message = null;
     this.message = message;
     this.drawer.open();
 
@@ -81,6 +87,7 @@ export class DhMessageArchiveDrawerComponent {
 
   onClose() {
     this.drawer.close();
+    this.message = null;
   }
 
   getDocument(messageId: string) {

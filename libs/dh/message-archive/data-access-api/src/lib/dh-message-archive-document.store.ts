@@ -15,14 +15,26 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, exhaustMap } from 'rxjs';
+import { Observable, exhaustMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
+
 import { MessageArchiveHttp, Stream } from '@energinet-datahub/dh/shared/domain';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
+
+interface MessageArchiveDocumentState {
+  readonly loadingState: LoadingState | ErrorState;
+}
+
+const initialState: MessageArchiveDocumentState = {
+  loadingState: LoadingState.INIT,
+};
 
 @Injectable()
-export class DhMessageArchiveDocumentApiStore extends ComponentStore<object> {
+export class DhMessageArchiveDocumentStore extends ComponentStore<MessageArchiveDocumentState> {
+  isLoading$ = this.select((state) => state.loadingState === LoadingState.LOADING);
+
   constructor(private httpClient: MessageArchiveHttp) {
-    super();
+    super(initialState);
   }
 
   readonly getDocument = this.effect(
@@ -34,14 +46,17 @@ export class DhMessageArchiveDocumentApiStore extends ComponentStore<object> {
       }>
     ) => {
       return trigger$.pipe(
+        tap(() => this.patchState({ loadingState: LoadingState.LOADING })),
         exhaustMap(({ id, onSuccessFn, onErrorFn }) =>
           this.httpClient.v1MessageArchiveIdDocumentGet(id).pipe(
             tapResponse(
               (data) => {
                 onSuccessFn(id, data);
+                this.patchState({ loadingState: LoadingState.LOADED });
               },
               () => {
                 onErrorFn();
+                this.patchState({ loadingState: LoadingState.LOADED });
               }
             )
           )
