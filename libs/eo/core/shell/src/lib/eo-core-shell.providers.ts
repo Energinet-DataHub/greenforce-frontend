@@ -15,18 +15,17 @@
  * limitations under the License.
  */
 import { importProvidersFrom } from '@angular/core';
-import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatLegacyDialogModule } from '@angular/material/legacy-dialog';
+import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import { eoAuthorizationInterceptorProvider } from '@energinet-datahub/eo/shared/services';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 
 export const eoCoreShellProviders = [
-  importProvidersFrom(MatDialogModule, MatSnackBarModule, MatDateFnsModule),
   browserConfigurationProviders,
   danishLocalProviders,
   danishDatetimeProviders,
+  importProvidersFrom(MatLegacyDialogModule, MatLegacySnackBarModule),
   eoAuthorizationInterceptorProvider,
 ];

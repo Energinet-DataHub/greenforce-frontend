@@ -16,6 +16,7 @@
  */
 import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 import { RouterModule } from '@angular/router';
 import { EoCookieBannerComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
@@ -33,6 +34,7 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
   imports: [
     RouterModule,
     WattShellComponent,
+    MatDateFnsModule,
     EoPrimaryNavigationComponent,
     EoCookieBannerComponent,
     EoProductLogoDirective,
