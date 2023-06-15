@@ -30,6 +30,7 @@ label {
   user-select: none;
   white-space: nowrap;
   max-width: 100%;
+  line-height: 1;
 
   &:hover {
     border: 1px solid var(--watt-on-light-medium-emphasis);
