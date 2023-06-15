@@ -95,8 +95,9 @@ interface EoTransferTableElement extends EoListedTransfer {
           [disabled]="true"
           icon="fileDownload"
           variant="text"
-          >Download</watt-button
         >
+          Download
+        </watt-button>
         <watt-button
           data-testid="new-agreement-button"
           icon="plus"
