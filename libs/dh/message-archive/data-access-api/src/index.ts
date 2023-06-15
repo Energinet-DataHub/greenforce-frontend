@@ -17,4 +17,4 @@
 export * from './lib/dh-message-archive-data-access-api.store';
 export * from './lib/dh-message-archive-data-access-api-blob.store';
 export * from './lib/dh-message-archive-actor-data-access-api';
-export * from './lib/dh-message-archive-document';
+export * from './lib/dh-message-archive-document.store';
