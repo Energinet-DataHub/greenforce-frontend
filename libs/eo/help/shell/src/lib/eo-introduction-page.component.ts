@@ -17,8 +17,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  EoInfoBoxComponent,
   EO_MEDIA,
+  EoInfoBoxComponent,
   EoStackComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
