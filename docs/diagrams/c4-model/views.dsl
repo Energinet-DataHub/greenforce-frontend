@@ -7,7 +7,7 @@
 # be reusable and included in other Structurizr files like `views.dsl` and
 # deployment diagram files.
 
-workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-arch-diagrams/main/docs/diagrams/c4-model/dh3-base-model.dsl {
+workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-arch-diagrams/main/docs/diagrams/c4-model/dh-base-model.dsl {
 
     model {
         #
@@ -21,7 +21,7 @@ workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-ar
             # hence domains that doesn't depend on others, should be listed first.
 
             # Include Market Participant model
-            !include https://raw.githubusercontent.com/Energinet-DataHub/geh-market-participant/main/docs/diagrams/c4-model/model.dsl
+            !include https://raw.githubusercontent.com/Energinet-DataHub/geh-market-participant/krmoos-update-base-model/docs/diagrams/c4-model/model.dsl
 
             # Include EDI model
             !include https://raw.githubusercontent.com/Energinet-DataHub/opengeh-edi/main/docs/diagrams/c4-model/model.dsl
