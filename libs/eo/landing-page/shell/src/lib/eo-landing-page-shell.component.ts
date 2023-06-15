@@ -18,7 +18,7 @@ import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  EoCookieBannerComponentComponent,
+  EoCookieBannerComponent,
   EoPopupMessageComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
@@ -43,7 +43,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
     EoLandingPageIntroductionComponent,
     EoLandingPageNotificationComponent,
     EoLandingPageOriginOfEnergyComponent,
-    EoCookieBannerComponentComponent,
+    EoCookieBannerComponent,
     EoPopupMessageComponent,
     NgIf,
   ],

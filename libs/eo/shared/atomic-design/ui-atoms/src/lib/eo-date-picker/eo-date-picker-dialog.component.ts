@@ -19,8 +19,8 @@ import { Component, Inject, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DateRange, MatCalendar, MatDatepickerModule } from '@angular/material/datepicker';
 import {
-  MatLegacyDialogRef as MatDialogRef,
   MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
 } from '@angular/material/legacy-dialog';
 import {
   MatLegacyRadioChange as MatRadioChange,

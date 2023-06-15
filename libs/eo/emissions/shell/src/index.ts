@@ -16,4 +16,4 @@
  */
 
 export * from './lib/eo-emissions-data.component';
-export * from './lib/eo-emissions-shell.module';
+export * from './lib/eo-emissions-shell.routes';

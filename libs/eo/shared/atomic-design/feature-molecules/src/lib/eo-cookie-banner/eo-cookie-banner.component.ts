@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, NgModule, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
@@ -68,6 +68,8 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       </div>
     </mat-card>
   `,
+  standalone: true,
+  imports: [WattButtonComponent, MatCardModule, MatSlideToggleModule, FormsModule],
 })
 export class EoCookieBannerComponent {
   cookies = {
@@ -92,10 +94,3 @@ export class EoCookieBannerComponent {
     this.accepted.emit(true);
   }
 }
-
-@NgModule({
-  declarations: [EoCookieBannerComponent],
-  exports: [EoCookieBannerComponent],
-  imports: [WattButtonComponent, MatCardModule, MatSlideToggleModule, FormsModule],
-})
-export class EoCookieBannerComponentComponent {}

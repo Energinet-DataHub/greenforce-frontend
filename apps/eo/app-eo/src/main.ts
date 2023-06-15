@@ -16,13 +16,13 @@
  */
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { enableProdMode } from '@angular/core';
-import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideRouter } from '@angular/router';
-import { eoCoreShellProviders, eoShellRoutes } from '@energinet-datahub/eo/core/shell';
 import { environment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { EnergyOriginAppComponent } from './app/energy-origin-app.component';
 import { loadEoApiEnvironment } from './configuration/load-eo-api-environment';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { EnergyOriginAppComponent } from './app/energy-origin-app.component';
+import { eoCoreShellProviders, eoShellRoutes } from '@energinet-datahub/eo/core/shell';
+import { provideRouter } from '@angular/router';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 if (environment.production) {
   enableProdMode();

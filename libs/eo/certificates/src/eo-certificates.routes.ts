@@ -15,12 +15,11 @@
  * limitations under the License.
  */
 
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { EoCertificateDetailsComponent } from './lib/eo-certificate-details.component';
 import { EoCertificatesComponent } from './lib/eo-certificates.component';
 
-const routes: Routes = [
+export const eoCertificatesRoutes: Routes = [
   {
     path: '',
     data: { title: 'Certificates' },
@@ -32,8 +31,3 @@ const routes: Routes = [
     component: EoCertificateDetailsComponent,
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoCertificatesComponent],
-})
-export class EoCertificatesModule {}
