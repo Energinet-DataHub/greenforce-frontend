@@ -124,7 +124,6 @@
     "@ngneat/transloco-keys-manager": "3.7.0",
     "@ngneat/transloco-optimize": "3.0.2",
     "@ngrx/eslint-plugin": "15.4.0",
-    "@ngworker/spectacular": "0.5.0",
     "@nrwl/angular": "15.9.2",
     "@nrwl/cli": "15.9.2",
     "@nrwl/cypress": "15.9.2",
