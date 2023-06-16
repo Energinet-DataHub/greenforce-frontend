@@ -14,38 +14,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Pipe, PipeTransform } from '@angular/core';
-import { createPipeHarness } from '@ngworker/spectacular';
 import { formatInTimeZone } from 'date-fns-tz';
-
 import { spaceToNonBreakingSpace } from './space-to-non-breaking-space';
 import { danishLocaleProvider } from './danish-locale.provider';
+import { danishCurrencyProvider } from './danish-currency.provider';
 import { danishLocaleInitializer } from './danish-locale.initializer';
-
-const dummyPipeName = 'testDummy';
-
-const providers = [danishLocaleProvider, danishLocaleInitializer];
-
-@Pipe({
-  name: dummyPipeName,
-})
-class DummyPipe implements PipeTransform {
-  transform<TValue>(value: TValue) {
-    return value;
-  }
-}
+import { TestBed } from '@angular/core/testing';
+import { Component, Input } from '@angular/core';
+import { CurrencyPipe, DatePipe, DecimalPipe, PercentPipe } from '@angular/common';
 
 describe('Danish locale', () => {
-  it('configures the DecimalPipe', () => {
-    const harness = createPipeHarness({
-      pipe: DummyPipe,
-      pipeName: dummyPipeName,
-      template: "{{ value | number: '1.1' }}",
-      value: 123456789,
-      providers,
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [danishLocaleProvider, danishLocaleInitializer, danishCurrencyProvider],
     });
+  });
 
-    expect(harness.text).toBe('123.456.789,0');
+  it('configures the DecimalPipe', () => {
+    @Component({
+      template: "{{ value | number: '1.1' }}",
+      standalone: true,
+      imports: [DecimalPipe],
+    })
+    class TestHostComponent {
+      @Input()
+      value = 123456789;
+    }
+
+    const hostFixture = TestBed.createComponent(TestHostComponent);
+    hostFixture.autoDetectChanges(true);
+    const hostElement = hostFixture.nativeElement;
+
+    expect(hostElement.textContent).toBe('123.456.789,0');
   });
 
   it('does NOT configure the CurrencyPipe', () => {
@@ -54,46 +54,64 @@ describe('Danish locale', () => {
      *
      * Since Angular 9, a `DEFAULT_CURRENCY_CODE` dependency injection token is available.
      */
-    const harness = createPipeHarness({
-      pipe: DummyPipe,
-      pipeName: dummyPipeName,
+    @Component({
       template: "{{ value | currency: undefined: 'code' }}",
-      value: 1234.56,
-      providers,
-    });
+      standalone: true,
+      imports: [CurrencyPipe],
+    })
+    class TestHostComponent {
+      @Input()
+      value = 1234.56;
+    }
 
-    expect(harness.text).toEqual(spaceToNonBreakingSpace(`1.234,56 USD`));
+    const hostFixture = TestBed.createComponent(TestHostComponent);
+    hostFixture.autoDetectChanges(true);
+    const hostElement = hostFixture.nativeElement;
+
+    expect(hostElement.textContent).toEqual(spaceToNonBreakingSpace(`1.234,56 DKK`));
   });
 
   it('configures the PercentPipe', () => {
-    const harness = createPipeHarness({
-      pipe: DummyPipe,
-      pipeName: dummyPipeName,
+    @Component({
       template: "{{ value | percent:'4.3-5' }}",
-      value: 1.3495,
-      providers,
-    });
+      standalone: true,
+      imports: [PercentPipe],
+    })
+    class TestHostComponent {
+      @Input()
+      value = 1.3495;
+    }
 
-    expect(harness.text).toBe(spaceToNonBreakingSpace(`0.134,950 %`));
+    const hostFixture = TestBed.createComponent(TestHostComponent);
+    hostFixture.autoDetectChanges(true);
+    const hostElement = hostFixture.nativeElement;
+
+    expect(hostElement.textContent).toBe(spaceToNonBreakingSpace(`0.134,950 %`));
   });
 
   it('configures the DatePipe', () => {
     const testDate = new Date('2020-05-24T08:00:00Z');
 
-    const harness = createPipeHarness({
-      pipe: DummyPipe,
-      pipeName: dummyPipeName,
+    @Component({
       template: "{{ value | date: 'medium' }}",
-      value: testDate,
-      providers,
-    });
+      standalone: true,
+      imports: [DatePipe],
+    })
+    class TestHostComponent {
+      @Input()
+      value = testDate;
+    }
+
+    const hostFixture = TestBed.createComponent(TestHostComponent);
+    hostFixture.autoDetectChanges(true);
+    const hostElement = hostFixture.nativeElement;
 
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     const hourAndMinutesInCurrentTimeZone = formatInTimeZone(testDate, timeZone, 'HH.mm');
     const dayInCurrentTimeZone = formatInTimeZone(testDate, timeZone, 'd');
 
-    expect(harness.text).toBe(
+    expect(hostElement.textContent).toBe(
       `${dayInCurrentTimeZone}. maj 2020 ${hourAndMinutesInCurrentTimeZone}.00`
     );
   });

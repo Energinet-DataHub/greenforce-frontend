@@ -6012,22 +6012,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ngworker/spectacular@npm:0.5.0":
-  version: 0.5.0
-  resolution: "@ngworker/spectacular@npm:0.5.0"
-  dependencies:
-    tslib: ^2.1.0
-  peerDependencies:
-    "@angular/common": ^12.0.5
-    "@angular/core": ^12.0.5
-    "@angular/forms": 12.2.0
-    "@angular/platform-browser": ^12.0.5
-    "@angular/router": ^12.0.5
-    rxjs: ^6.5.5 || ^7.0.1
-  checksum: 9278ec72439bfb20b4714e40b3c4deef8a6de77aba11d48ef5d0295422adb7f25839c0f1afcb9760f7a846f44ce59f1fb620df9f965306e31631b347d54f10a8
-  languageName: node
-  linkType: hard
-
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -15628,7 +15612,6 @@ cors@latest:
     "@ngneat/transloco-optimize": 3.0.2
     "@ngrx/component-store": 15.4.0
     "@ngrx/eslint-plugin": 15.4.0
-    "@ngworker/spectacular": 0.5.0
     "@nrwl/angular": 15.9.2
     "@nrwl/cli": 15.9.2
     "@nrwl/cypress": 15.9.2
