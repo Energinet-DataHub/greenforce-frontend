@@ -21,6 +21,8 @@ import { WattDateRange } from './watt-date-range';
 const formatStrings = {
   short: 'dd-MM-yyyy',
   long: 'dd-MM-yyyy HH:mm',
+  longAbbr: 'dd-MMM-yyy HH:mm',
+  time: 'HH:mm',
 };
 
 @Pipe({
@@ -29,15 +31,18 @@ const formatStrings = {
 })
 export class WattDatePipe implements PipeTransform {
   /**
-   * @param input WattDateRange, Date or string in ISO 8601 format
+   * @param input WattDateRange or string in ISO 8601 format or unix timestamp number
    */
   transform(
-    input?: WattDateRange | Date | string | null,
+    input?: WattDateRange | Date | string | number | null,
     format: keyof typeof formatStrings = 'short'
   ): string | null {
     if (!input) return null;
+
     return input instanceof Date || typeof input === 'string'
       ? formatInTimeZone(input, 'Europe/Copenhagen', formatStrings[format])
+      : typeof input === 'number'
+      ? formatInTimeZone(new Date(input), 'Europe/Copenhagen', formatStrings[format])
       : `${this.transform(input.start, format)} ― ${this.transform(input.end, format)}`;
   }
 }

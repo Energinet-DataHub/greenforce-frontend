@@ -14,9 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
   eoCertificatesRoutePath,
@@ -30,19 +28,16 @@ import {
   eoProductionRoutePath,
   eoTransferRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
-import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
-import { EoHttpModule } from './eo-http.module';
 import { EoLoginComponent } from './eo-login.component';
-import { EoMaterialModule } from './eo-material.module';
 import { EoShellComponent } from './eo-shell.component';
 
-const routes: Routes = [
+export const eoShellRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
     loadChildren: () =>
       import('@energinet-datahub/eo/landing-page/shell').then(
-        (esModule) => esModule.EoLandingPageShellModule
+        (esModule) => esModule.eoLandingPageRoutes
       ),
   },
   { path: 'login', component: EoLoginComponent },
@@ -50,7 +45,7 @@ const routes: Routes = [
     path: 'terms',
     data: { title: 'Terms' },
     loadChildren: () =>
-      import('@energinet-datahub/eo/terms').then((esModule) => esModule.EoTermsModule),
+      import('@energinet-datahub/eo/terms').then((esModule) => esModule.eoTermsRoutes),
   },
   {
     path: '',
@@ -61,7 +56,7 @@ const routes: Routes = [
         path: eoCertificatesRoutePath,
         loadChildren: () =>
           import('@energinet-datahub/eo/certificates').then(
-            (esModule) => esModule.EoCertificatesModule
+            (esModule) => esModule.eoCertificatesRoutes
           ),
       },
       {
@@ -69,7 +64,7 @@ const routes: Routes = [
         data: { title: 'Dashboard' },
         loadChildren: () =>
           import('@energinet-datahub/eo/dashboard/shell').then(
-            (esModule) => esModule.EoDashboardShellModule
+            (esModule) => esModule.eoDashboardRoutes
           ),
       },
       {
@@ -77,7 +72,7 @@ const routes: Routes = [
         data: { title: 'Renewable Share' },
         loadChildren: () =>
           import('@energinet-datahub/eo/origin-of-energy/shell').then(
-            (esModule) => esModule.EoOriginOfEnergyShellModule
+            (esModule) => esModule.eoOriginOfEnergyRoutes
           ),
       },
       {
@@ -85,7 +80,7 @@ const routes: Routes = [
         data: { title: 'Consumption' },
         loadChildren: () =>
           import('@energinet-datahub/eo/consumption-page/shell').then(
-            (esModule) => esModule.EoConsumptionPageShellModule
+            (esModule) => esModule.eoConsumptionPageRoutes
           ),
       },
       {
@@ -93,7 +88,7 @@ const routes: Routes = [
         data: { title: 'Production' },
         loadChildren: () =>
           import('@energinet-datahub/eo/production/shell').then(
-            (esModule) => esModule.EoProductionShellModule
+            (esModule) => esModule.eoProductionRoutes
           ),
       },
       {
@@ -101,7 +96,7 @@ const routes: Routes = [
         data: { title: 'Metering points' },
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
-            (esModule) => esModule.EoMeteringPointsShellModule
+            (esModule) => esModule.eoMeteringPointsRoutes
           ),
       },
       {
@@ -109,41 +104,29 @@ const routes: Routes = [
         data: { title: 'Emissions' },
         loadChildren: () =>
           import('@energinet-datahub/eo/emissions/shell').then(
-            (esModule) => esModule.EoEmissionsPageShellModule
+            (esModule) => esModule.eoEmissionsRoutes
           ),
       },
       {
         path: eoTransferRoutePath,
         data: { title: 'Transfers' },
         loadChildren: () =>
-          import('@energinet-datahub/eo/transfers').then((esModule) => esModule.EoTransferModule),
+          import('@energinet-datahub/eo/transfers').then((esModule) => esModule.eoTransfersRoutes),
       },
       {
         path: eoHelpRoutePath,
         loadChildren: () =>
-          import('@energinet-datahub/eo/help/shell').then((esModule) => esModule.EoHelpModule),
+          import('@energinet-datahub/eo/help/shell').then((esModule) => esModule.eoHelpRoutes),
       },
       {
         path: eoPrivacyPolicyRoutePath,
         data: { title: 'Privacy Policy' },
         loadChildren: () =>
           import('@energinet-datahub/eo/privacy-policy/shell').then(
-            (esModule) => esModule.EoPrivacyPolicyShellModule
+            (esModule) => esModule.eoPrivacyPolicyRoutes
           ),
       },
     ],
   },
   { path: '**', redirectTo: '' }, // Catch-all that can be used for 404 redirects in the future
 ];
-
-@NgModule({
-  imports: [
-    GfBrowserConfigurationModule.forRoot(),
-    EoHttpModule.forRoot(),
-    RouterModule.forRoot(routes),
-    EoMaterialModule.forRoot(),
-    EoShellComponent,
-    MatDialogModule,
-  ],
-})
-export class EoCoreShellModule {}

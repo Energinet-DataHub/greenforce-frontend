@@ -16,12 +16,12 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { EoProductLogoComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatToolbarModule, EoProductLogoComponent],
+  imports: [MatToolbarModule, EoProductLogoDirective],
   selector: 'eo-header',
   styles: [
     `

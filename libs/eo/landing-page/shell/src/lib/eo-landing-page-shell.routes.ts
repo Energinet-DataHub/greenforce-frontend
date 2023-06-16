@@ -14,23 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import {
-  RX_RENDER_STRATEGIES_CONFIG,
-  RxRenderStrategiesConfig,
-} from '@rx-angular/cdk/render-strategies';
 
-/**
- * Enable RxAngular Template to render in Jest tests.
- */
-@NgModule({
-  providers: [
-    {
-      provide: RX_RENDER_STRATEGIES_CONFIG,
-      useValue: {
-        primaryStrategy: 'native',
-      } as RxRenderStrategiesConfig<string>,
-    },
-  ],
-})
-export class GfRxAngularTestingModule {}
+import { Routes } from '@angular/router';
+import { EoLandingPageShellComponent } from './eo-landing-page-shell.component';
+
+export const eoLandingPageRoutes: Routes = [{ path: '', component: EoLandingPageShellComponent }];

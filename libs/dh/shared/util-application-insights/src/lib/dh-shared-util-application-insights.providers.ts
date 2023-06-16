@@ -14,20 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { ErrorHandler, makeEnvironmentProviders } from '@angular/core';
+import { ApplicationinsightsAngularpluginErrorService } from '@microsoft/applicationinsights-angularplugin-js';
+import { applicationInsightsInitializer } from './dh-application-insights.initializer';
 
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EoTransferComponent } from './lib/eo-transfers.component';
-
-const routes: Routes = [
+export const applicationInsightsProviders = makeEnvironmentProviders([
+  applicationInsightsInitializer,
   {
-    path: '',
-    data: { title: 'Transfers' },
-    component: EoTransferComponent,
+    provide: ErrorHandler,
+    useClass: ApplicationinsightsAngularpluginErrorService,
   },
-];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoTransferComponent],
-})
-export class EoTransferModule {}
+]);

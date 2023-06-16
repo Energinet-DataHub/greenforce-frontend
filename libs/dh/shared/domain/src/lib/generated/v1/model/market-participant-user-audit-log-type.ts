@@ -11,12 +11,16 @@
  */
 
 
-export type MarketParticipantUserAuditLogType = 'UserInvite' | 'UserRoleAdded' | 'UserRoleRemoved' | 'UserRoleRemovedDueToDeactivation';
+export type MarketParticipantUserAuditLogType = 'UserInvite' | 'UserRoleAdded' | 'UserRoleRemoved' | 'UserRoleRemovedDueToDeactivation' | 'UserFirstNameChanged' | 'UserLastNameChanged' | 'UserPhoneNumberChanged' | 'UserStatusChanged';
 
 export const MarketParticipantUserAuditLogType = {
     UserInvite: 'UserInvite' as MarketParticipantUserAuditLogType,
     UserRoleAdded: 'UserRoleAdded' as MarketParticipantUserAuditLogType,
     UserRoleRemoved: 'UserRoleRemoved' as MarketParticipantUserAuditLogType,
-    UserRoleRemovedDueToDeactivation: 'UserRoleRemovedDueToDeactivation' as MarketParticipantUserAuditLogType
+    UserRoleRemovedDueToDeactivation: 'UserRoleRemovedDueToDeactivation' as MarketParticipantUserAuditLogType,
+    UserFirstNameChanged: 'UserFirstNameChanged' as MarketParticipantUserAuditLogType,
+    UserLastNameChanged: 'UserLastNameChanged' as MarketParticipantUserAuditLogType,
+    UserPhoneNumberChanged: 'UserPhoneNumberChanged' as MarketParticipantUserAuditLogType,
+    UserStatusChanged: 'UserStatusChanged' as MarketParticipantUserAuditLogType
 };
 

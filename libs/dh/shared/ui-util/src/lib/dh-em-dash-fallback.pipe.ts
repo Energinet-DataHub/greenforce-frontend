@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule, Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 import { emDash } from './em-dash';
 
-export type TValue = string | number | undefined | null;
-export const pipeName = 'dhEmDashFallback';
+type TValue = string | number | undefined | null;
 
 @Pipe({
-  name: pipeName,
+  name: 'dhEmDashFallback',
+  standalone: true,
 })
 export class DhEmDashFallbackPipe implements PipeTransform {
   transform(value: TValue): string | number {
@@ -41,9 +41,3 @@ export class DhEmDashFallbackPipe implements PipeTransform {
     return value == null;
   }
 }
-
-@NgModule({
-  declarations: [DhEmDashFallbackPipe],
-  exports: [DhEmDashFallbackPipe],
-})
-export class DhEmDashFallbackPipeScam {}

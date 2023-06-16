@@ -29,7 +29,7 @@ frontendDomain = group "Frontend" {
         tags "Web Browser"
 
         # Base model relationships
-        extUser -> this "Uses"
+        dh3User -> this "Uses"
         dhSystemAdmin -> this "Views and manages data across all actors"
 
         # Domain relationships
@@ -49,7 +49,7 @@ frontendDomain = group "Frontend" {
         tags "Intermediate Technology" "Microsoft Azure - Static Apps"
 
         # Base model relationships
-        extUser -> this "Visits DH3 url" "https"
+        dh3User -> this "Visits DH3 url" "https"
         dhSystemAdmin -> this "Visits DH3 url" "https"
 
         # Domain relationships

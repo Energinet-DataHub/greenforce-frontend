@@ -17,10 +17,10 @@
 import { TestBed } from '@angular/core/testing';
 import { AppSettingsStore } from './app-settings.store';
 
-describe(AppSettingsStore.name, () => {
+describe(AppSettingsStore, () => {
   let store: AppSettingsStore;
-  const firstJan2021 = new Date(2021, 0, 1).getTime();
-  const firstJan2022 = new Date(2022, 0, 1).getTime();
+  const firstJan2021 = new Date('2021-01-01T00:00:00Z').getTime();
+  const firstJan2022 = new Date('2022-01-01T00:00:00Z').getTime();
 
   beforeEach(() => {
     store = TestBed.inject(AppSettingsStore);

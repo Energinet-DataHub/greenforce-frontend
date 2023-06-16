@@ -16,7 +16,7 @@
  */
 import { render, screen } from '@testing-library/angular';
 
-import { EoMediaModule } from './eo-media.module';
+import { EO_MEDIA } from './eo-media.component';
 
 describe('Energy Origin Media atom', () => {
   const findMedia = () => screen.findByTestId('media');
@@ -46,7 +46,7 @@ describe('Energy Origin Media atom', () => {
       </eo-media>
     `,
       {
-        imports: [EoMediaModule],
+        imports: [EO_MEDIA],
       }
     );
 
@@ -79,7 +79,7 @@ describe('Energy Origin Media atom', () => {
         </eo-media>
       `,
         {
-          imports: [EoMediaModule],
+          imports: [EO_MEDIA],
         }
       );
 
@@ -111,7 +111,7 @@ describe('Energy Origin Media atom', () => {
         </eo-media>
       `,
         {
-          imports: [EoMediaModule],
+          imports: [EO_MEDIA],
         }
       );
 
@@ -141,7 +141,7 @@ describe('Energy Origin Media atom', () => {
       </eo-media>
     `,
       {
-        imports: [EoMediaModule],
+        imports: [EO_MEDIA],
       }
     );
 
@@ -170,7 +170,7 @@ describe('Energy Origin Media atom', () => {
       </eo-media>
     `,
       {
-        imports: [EoMediaModule],
+        imports: [EO_MEDIA],
       }
     );
 
@@ -199,7 +199,7 @@ describe('Energy Origin Media atom', () => {
       </eo-media>
     `,
       {
-        imports: [EoMediaModule],
+        imports: [EO_MEDIA],
       }
     );
 

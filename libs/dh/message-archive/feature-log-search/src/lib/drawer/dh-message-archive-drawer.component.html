@@ -17,53 +17,53 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'messageArchive.drawer'">
   <!-- drawer -->
   <watt-drawer #drawer size="large" (closed)="onClose()">
-    <watt-drawer-topbar>
-      <span class="message-label">{{ t("message") }}</span>
-      <watt-icon name="right"></watt-icon>
-      <span>{{ message?.messageId }}</span>
-    </watt-drawer-topbar>
+    <watt-drawer-heading>
+      <span>{{ message?.createdDate | wattDate : "long" | dhEmDashFallback }}</span>
+      <h1 class="heading-message-id">{{ message?.messageId }}</h1>
+      <span>{{ message?.documentType | dhEmDashFallback }}</span>
+    </watt-drawer-heading>
 
     <watt-drawer-content>
-      <div class="container">
-        <span class="dateTime">{{
-          message?.createdDate | wattDate : "long" | dhEmDashFallback
-        }}</span>
-        <h1>{{ message?.messageId }}</h1>
-        <span>|</span>
-        <span class="documenttype">
-          {{ message?.documentType }} |
-          {{ message?.documentType | documentTypeName | dhEmDashFallback }}</span
-        >
+      <div class="message-metadata message-metadata-grid">
+        <div class="message-sender">
+          <span class="watt-label message-sender__label">{{ t("sender") }}</span>
 
-        <mat-divider></mat-divider>
+          <span class="message-sender__value"
+            >{{ message?.senderGln | actorName : actors | dhEmDashFallback }} ({{
+              message?.senderGln | dhEmDashFallback
+            }})</span
+          >
+        </div>
 
-        <span class="sender-receiver-label">{{ t("sender") }}</span>
-        <span class="sender-receiver-value"
-          >{{ message?.senderGln | actorName : actors | dhEmDashFallback }} ({{
-            message?.senderGln
-          }})</span
-        >
-        <span class="sender-receiver-label">{{ t("receiver") }}</span>
-        <span class="sender-receiver-value">
-          {{ message?.receiverGln | actorName : actors | dhEmDashFallback }} ({{
-            message?.receiverGln
-          }})</span
-        >
+        <div class="message-receiver">
+          <span class="watt-label message-receiver__label">{{ t("receiver") }}</span>
+
+          <span class="message-receiver__value"
+            >{{ message?.receiverGln | actorName : actors | dhEmDashFallback }} ({{
+              message?.receiverGln | dhEmDashFallback
+            }})</span
+          >
+        </div>
 
         <watt-button
           variant="text"
           (click)="downloadDocument()"
+          class="message-download-button"
           icon="download"
           [disabled]="!(message && documentContent)"
           >{{ t("download") }}</watt-button
         >
-
-        <mat-divider></mat-divider>
-
-        <span>
-          {{ documentContent }}
-        </span>
       </div>
+
+      <ng-container *rxLet="isLoading$ as isLoading">
+        <div class="message-content" [ngClass]="{ 'message-content--loading': isLoading }">
+          <watt-spinner *ngIf="isLoading; else documentContentTmpl" />
+
+          <ng-template #documentContentTmpl>
+            <pre>{{ documentContent }}</pre>
+          </ng-template>
+        </div>
+      </ng-container>
     </watt-drawer-content>
   </watt-drawer>
 </ng-container>

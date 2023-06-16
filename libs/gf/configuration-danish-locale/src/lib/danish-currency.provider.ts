@@ -14,15 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { DEFAULT_CURRENCY_CODE, StaticProvider } from '@angular/core';
 
-import { RouterModule, Routes } from '@angular/router';
-import { EoLandingPageShellComponent } from './eo-landing-page-shell.component';
+import { danishCurrencyCode } from './danish-locale-code';
 
-import { NgModule } from '@angular/core';
-
-const routes: Routes = [{ path: '', component: EoLandingPageShellComponent }];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoLandingPageShellComponent],
-})
-export class EoLandingPageShellModule {}
+export const danishCurrencyProvider: StaticProvider = {
+  provide: DEFAULT_CURRENCY_CODE,
+  useValue: danishCurrencyCode,
+};

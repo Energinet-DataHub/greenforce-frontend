@@ -7,7 +7,7 @@
 # be reusable and included in other Structurizr files like `views.dsl` and
 # deployment diagram files.
 
-workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-arch-diagrams/main/docs/diagrams/c4-model/dh3-base-model.dsl {
+workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-arch-diagrams/main/docs/diagrams/c4-model/dh-base-model.dsl {
 
     model {
         #

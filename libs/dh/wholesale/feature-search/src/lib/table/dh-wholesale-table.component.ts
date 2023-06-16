@@ -28,7 +28,7 @@ import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco'
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WholesaleBatchHttp } from '@energinet-datahub/dh/shared/domain';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { Batch } from '@energinet-datahub/dh/wholesale/domain';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
@@ -51,7 +51,7 @@ type wholesaleTableData = WattTableDataSource<Batch>;
     WattButtonComponent,
     WattEmptyStateComponent,
     WattPaginatorComponent,
-    DhEmDashFallbackPipeScam,
+    DhEmDashFallbackPipe,
   ],
   selector: 'dh-wholesale-table',
   templateUrl: './dh-wholesale-table.component.html',

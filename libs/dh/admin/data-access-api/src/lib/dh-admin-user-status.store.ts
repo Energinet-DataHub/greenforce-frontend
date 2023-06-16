@@ -14,15 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable, inject } from '@angular/core';
-import { Observable, exhaustMap, forkJoin, tap } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
 import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
-
-import { DhAdminUserRolesStore, UpdateUserRoles } from './dh-admin-user-roles.store';
 
 interface State {
   readonly requestState: SavingState | ErrorState;
@@ -33,68 +30,35 @@ const initialState: State = {
 };
 
 @Injectable()
-export class DhAdminEditUserStore extends ComponentStore<State> {
-  private readonly userRolesStore = inject(DhAdminUserRolesStore);
-
+export class DhAdminUserStatusStore extends ComponentStore<State> {
   isSaving$ = this.select((state) => state.requestState === SavingState.SAVING);
 
   constructor(private marketParticipantUserHttpClient: MarketParticipantUserHttp) {
     super(initialState);
   }
 
-  readonly editUser = this.effect(
-    (
-      trigger$: Observable<{
-        userId: string;
-        firstName: string;
-        lastName: string;
-        phoneNumber: string;
-        updateUserRoles?: UpdateUserRoles;
-        onSuccessFn: () => void;
-        onErrorFn: (statusCode: HttpStatusCode) => void;
-      }>
-    ) =>
+  readonly deactivateUser = this.effect(
+    (trigger$: Observable<{ id: string; onSuccess: () => void; onError: () => void }>) =>
       trigger$.pipe(
         tap(() => {
           this.setSaving(SavingState.SAVING);
         }),
-        exhaustMap(
-          ({
-            userId,
-            firstName,
-            lastName,
-            phoneNumber,
-            updateUserRoles,
-            onSuccessFn,
-            onErrorFn,
-          }) => {
-            const requests: Observable<unknown>[] = [];
-
-            requests.push(
-              this.marketParticipantUserHttpClient.v1MarketParticipantUserUpdateUserIdentityPut(
-                userId,
-                { firstName, lastName, phoneNumber }
-              )
-            );
-
-            if (updateUserRoles) {
-              requests.push(this.userRolesStore.assignRoles(userId, updateUserRoles));
-            }
-
-            return forkJoin(requests).pipe(
+        switchMap(({ id, onSuccess, onError }) => {
+          return this.marketParticipantUserHttpClient
+            .v1MarketParticipantUserDeactivateUserPut(id)
+            .pipe(
               tapResponse(
                 () => {
                   this.setSaving(SavingState.SAVED);
-                  onSuccessFn();
+                  onSuccess();
                 },
-                (error: HttpErrorResponse) => {
+                () => {
                   this.setSaving(ErrorState.GENERAL_ERROR);
-                  onErrorFn(error.status);
+                  onError();
                 }
               )
             );
-          }
-        )
+        })
       )
   );
 

@@ -17,11 +17,11 @@
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { MatSort, MatSortModule } from '@angular/material/sort';
 import {
   MatLegacyTableDataSource as MatTableDataSource,
   MatLegacyTableModule as MatTableModule,
 } from '@angular/material/legacy-table';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.store';

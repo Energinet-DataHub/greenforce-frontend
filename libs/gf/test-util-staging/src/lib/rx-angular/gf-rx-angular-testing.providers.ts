@@ -14,18 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EoDashboardShellComponent } from './eo-dashboard-shell.component';
+import { makeEnvironmentProviders } from '@angular/core';
+import {
+  RX_RENDER_STRATEGIES_CONFIG,
+  RxRenderStrategiesConfig,
+} from '@rx-angular/cdk/render-strategies';
 
-const routes: Routes = [
+/**
+ * Enable RxAngular Template to render in Jest tests.
+ */
+export const gfRxAngularTestingProviders = makeEnvironmentProviders([
   {
-    path: '',
-    component: EoDashboardShellComponent,
+    provide: RX_RENDER_STRATEGIES_CONFIG,
+    useValue: {
+      primaryStrategy: 'native',
+    } as RxRenderStrategiesConfig<string>,
   },
-];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoDashboardShellComponent],
-})
-export class EoDashboardShellModule {}
+]);

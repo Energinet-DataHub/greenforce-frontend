@@ -14,26 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Routes } from '@angular/router';
+import { EoPrivacyPolicyShellComponent } from './eo-privacy-policy-shell.component';
 
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EoCertificateDetailsComponent } from './lib/certificate-details/eo-certificate-details.component';
-import { EoCertificatesComponent } from './lib/eo-certificates.component';
-
-const routes: Routes = [
+export const eoPrivacyPolicyRoutes: Routes = [
   {
     path: '',
-    data: { title: 'Certificates' },
-    component: EoCertificatesComponent,
-  },
-  {
-    path: ':id',
-    data: { title: 'Certificate Details - Production' },
-    component: EoCertificateDetailsComponent,
+    component: EoPrivacyPolicyShellComponent,
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoCertificatesComponent],
-})
-export class EoCertificatesModule {}

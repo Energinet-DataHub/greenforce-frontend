@@ -41,21 +41,25 @@ import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
   ],
   template: `
     <div class="watt-space-stack-m faq-link">
-      <a (click)="scrollTo('what-is-energy-origin')">What is Energy Origin?</a>
+      <a (click)="utils.scrollToAnchor('what-is-energy-origin')">What is Energy Origin?</a>
     </div>
     <div class="watt-space-stack-m faq-link">
-      <a (click)="scrollTo('who-can-access-the-platform')">Who can access the platform?</a>
+      <a (click)="utils.scrollToAnchor('who-can-access-the-platform')"
+        >Who can access the platform?</a
+      >
     </div>
     <div class="watt-space-stack-m faq-link">
-      <a (click)="scrollTo('where-does-the-data-come-from')">Where does the data come from?</a>
+      <a (click)="utils.scrollToAnchor('where-does-the-data-come-from')"
+        >Where does the data come from?</a
+      >
     </div>
     <div class="watt-space-stack-m faq-link">
-      <a (click)="scrollTo('how-can-i-influence-the-development')">
+      <a (click)="utils.scrollToAnchor('how-can-i-influence-the-development')">
         How can I influence the development?
       </a>
     </div>
     <div class="watt-space-stack-m faq-link">
-      <a (click)="scrollTo('where-can-i-read-more')">Where can I read more?</a>
+      <a (click)="utils.scrollToAnchor('where-can-i-read-more')">Where can I read more?</a>
     </div>
 
     <h3 id="what-is-energy-origin">What is Energy Origin?</h3>
@@ -101,5 +105,5 @@ import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
   `,
 })
 export class EoFaqPageComponent {
-  scrollTo = SharedUtilities.scrollToAnchor;
+  constructor(public utils: SharedUtilities) {}
 }

@@ -18,7 +18,6 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { SpectacularAppComponent } from '@ngworker/spectacular';
 import { render, RenderResult } from '@testing-library/angular';
 
 import {
@@ -31,7 +30,11 @@ import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
 import { dhMeteringPointPath } from './dh-metering-point-path';
 import { dhMeteringPointSearchPath } from './dh-metering-point-search-path';
 
-describe(DhMeteringPointOverviewGuard.name, () => {
+describe(DhMeteringPointOverviewGuard, () => {
+  @Component({
+    template: '<router-outlet></router-outlet>',
+  })
+  class TestAppComponent {}
   @Component({
     template: '',
   })
@@ -43,7 +46,7 @@ describe(DhMeteringPointOverviewGuard.name, () => {
   class TestMeteringPointSearchComponent {}
 
   beforeEach(async () => {
-    view = await render(SpectacularAppComponent, {
+    view = await render(TestAppComponent, {
       declarations: [TestGuardedComponent, TestMeteringPointSearchComponent],
       routes: [
         {
@@ -68,7 +71,7 @@ describe(DhMeteringPointOverviewGuard.name, () => {
 
   let angularLocation: Location;
   let router: Router;
-  let view: RenderResult<SpectacularAppComponent>;
+  let view: RenderResult<TestAppComponent>;
 
   describe('When metering point id is valid', () => {
     it('Then navigation is allowed', async () => {

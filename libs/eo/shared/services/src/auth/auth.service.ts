@@ -121,7 +121,7 @@ export class EoAuthService {
     const timeLeftThreshold = totalTime * 0.2;
     const remainingTime = exp - Date.now() / 1000;
     if (remainingTime <= timeLeftThreshold) {
-      this.refreshToken();
+      this.refreshToken().pipe(take(1)).subscribe();
     }
   }
 }

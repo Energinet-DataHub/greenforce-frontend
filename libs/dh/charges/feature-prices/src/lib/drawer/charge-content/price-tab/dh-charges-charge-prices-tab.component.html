@@ -76,7 +76,7 @@ limitations under the License.
 
         <!-- Price column -->
         <ng-container *wattTableCell="table.columns.price; let element">
-          {{ element.price | currency : "DKK" : "" : "1.6-6" }}
+          {{ element.price | currency }}
         </ng-container>
       </watt-table>
 

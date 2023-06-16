@@ -946,6 +946,9 @@
         "reinvite": "Send invitation igen",
         "reinviteError": "Noget gik galt. Brugeren blev ikke inviteret. Prøv igen",
         "reinviteSuccess": "Brugeren blev inviteret",
+        "deactivate": "Deaktiver bruger",
+        "deactivateError": "Noget gik galt. Brugeren blev ikke deaktiveret. Prøv igen",
+        "deactivateSuccess": "Brugeren blev deaktiveret",
         "editRole": "Rediger rolle",
         "disable": "Deaktiver",
         "disablingUserRole": "Deaktiverer bruger rollen",
@@ -1034,7 +1037,11 @@
               "UserRoleAdded": "<b>{{ changedByUserName }}</b> tilføjede brugerrollen <b>{{ toValue }}</b>",
               "UserRoleRemoved": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b>",
               "UserInvite": "<b>{{ changedByUserName }}</b> tilføjede brugeren til aktør <b>{{ toValue }}</b>",
-              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b> fordi rollen blev deaktiveret"
+              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b> fordi rollen blev deaktiveret",
+              "UserFirstNameChanged": "<b>{{ changedByUserName }}</b> ændrede fornavn til <b>{{ toValue }}</b>",
+              "UserLastNameChanged": "<b>{{ changedByUserName }}</b> ændrede efternavn til <b>{{ toValue }}</b>",
+              "UserPhoneNumberChanged": "<b>{{ changedByUserName }}</b> ændrede telefonnummer til <b>{{ toValue }}</b>",
+              "UserStatusChanged": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ toValue }}</b>"
             }
           },
           "generalError": {
@@ -1130,7 +1137,6 @@
       "editUser": {
         "cancel": "Fortryd",
         "save": "Gem",
-        "reinvite": "Send invitation igen",
         "saveSuccess": "Brugeren blev opdateret",
         "saveError": "Noget gik galt. Brugeren blev ikke opdateret. Prøv igen",
         "tab": {

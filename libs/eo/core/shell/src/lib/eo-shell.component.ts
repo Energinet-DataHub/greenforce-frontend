@@ -16,9 +16,10 @@
  */
 import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 import { RouterModule } from '@angular/router';
-import { EoCookieBannerComponentComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { EoProductLogoComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoCookieBannerComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { IdleTimerService } from '@energinet-datahub/eo/shared/services';
 import { EoTitleStore } from '@energinet-datahub/eo/shared/utilities';
@@ -33,9 +34,10 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
   imports: [
     RouterModule,
     WattShellComponent,
+    MatDateFnsModule,
     EoPrimaryNavigationComponent,
-    EoCookieBannerComponentComponent,
-    EoProductLogoComponent,
+    EoCookieBannerComponent,
+    EoProductLogoDirective,
     EoFooterComponent,
     PushModule,
     NgIf,

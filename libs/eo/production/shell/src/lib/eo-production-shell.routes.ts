@@ -14,19 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { RouterModule, Routes } from '@angular/router';
-import { EoPrivacyPolicyShellComponent } from './eo-privacy-policy-shell.component';
 
-import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
+import { EoProductionShellComponent } from './eo-production-shell.component';
 
-const routes: Routes = [
+export const eoProductionRoutes: Routes = [
   {
     path: '',
-    component: EoPrivacyPolicyShellComponent,
+    component: EoProductionShellComponent,
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoPrivacyPolicyShellComponent],
-})
-export class EoPrivacyPolicyShellModule {}

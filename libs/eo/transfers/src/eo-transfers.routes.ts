@@ -14,16 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
-import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 
-/**
- * Disable animations, provide `APP_BASE_HREF` at runtime, and isolate routing
- * from the DOM.
- */
-@NgModule({
-  imports: [NoopAnimationsModule, RouterTestingModule, GfBrowserConfigurationModule.forRoot()],
-})
-export class GfBrowserTestingModule {}
+import { Routes } from '@angular/router';
+import { EoTransfersComponent } from './lib/eo-transfers.component';
+
+export const eoTransfersRoutes: Routes = [
+  {
+    path: '',
+    data: { title: 'Transfers' },
+    component: EoTransfersComponent,
+  },
+];
