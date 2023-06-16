@@ -30,7 +30,7 @@ export const Overview: StoryObj<WattSearchComponent> = {
     props: args,
     template: `
       <div style="display: flex; justify-content: end">
-        <watt-search />
+        <watt-search label="Search" />
       </div>
     `,
   }),

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
@@ -8,14 +8,17 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   styleUrls: ['./watt-search.component.scss'],
   template: `
     <label>
-      <input type="text" placeholder="Søg" />
+      <input #input type="text" [placeholder]="label" (input)="search.emit(input.value)" />
       <span class="wrapper">
         <span class="button">
           <watt-icon name="search" size="s" />
-          <span class="text">Søg</span>
+          <span class="text">{{ label }}</span>
         </span>
       </span>
     </label>
   `,
 })
-export class WattSearchComponent {}
+export class WattSearchComponent {
+  @Input() label?: string;
+  @Output() search = new EventEmitter<string>();
+}
