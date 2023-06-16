@@ -49,7 +49,7 @@ describe('Danish locale', () => {
     expect(hostElement.textContent).toBe('123.456.789,0');
   });
 
-  it('does NOT configure the CurrencyPipe', () => {
+  it('configures the CurrencyPipe', () => {
     /**
      * In Angular, the US Dollar is the default currency in the CurrencyPipe.
      *
