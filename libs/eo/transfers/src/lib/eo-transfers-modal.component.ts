@@ -60,54 +60,61 @@ import { EoTransfersStore } from './eo-transfers.store';
       }
     `,
   ],
-  template: `<watt-modal
-    #modal
-    [title]="title"
-    size="small"
-    closeLabel="Close modal"
-    [loading]="requestLoading"
-  >
-    <form [formGroup]="form">
-      <watt-form-field>
-        <watt-label>Receiver</watt-label>
-        <input
-          wattInput
-          required="true"
-          type="text"
-          formControlName="tin"
-          [maxlength]="8"
-          data-testid="new-agreement-receiver-input"
-        />
-        <watt-error *ngIf="form.controls.tin.errors"
-          >An 8-digit TIN/CVR number is required</watt-error
+  template: `
+    <watt-modal
+      #modal
+      [title]="title"
+      size="small"
+      closeLabel="Close modal"
+      [loading]="requestLoading"
+      (closed)="whenClosed()"
+    >
+      <form [formGroup]="form">
+        <watt-form-field>
+          <watt-label>Receiver</watt-label>
+          <input
+            wattInput
+            required="true"
+            type="text"
+            formControlName="tin"
+            [maxlength]="8"
+            data-testid="new-agreement-receiver-input"
+          />
+          <watt-error *ngIf="form.controls.tin.errors">
+            An 8-digit TIN/CVR number is required
+          </watt-error>
+        </watt-form-field>
+        <watt-form-field>
+          <watt-label>Period</watt-label>
+          <watt-datepicker
+            required="true"
+            formControlName="dateRange"
+            [range]="true"
+            data-testid="new-agreement-daterange-input"
+          />
+          <watt-error *ngIf="form.controls.dateRange.errors">
+            A start and end date is required
+          </watt-error>
+        </watt-form-field>
+      </form>
+      <watt-modal-actions>
+        <watt-button
+          variant="secondary"
+          data-testid="close-new-agreement-button"
+          (click)="modal.close(false)"
         >
-      </watt-form-field>
-      <watt-form-field>
-        <watt-label>Period</watt-label>
-        <watt-datepicker
-          required="true"
-          formControlName="dateRange"
-          [range]="true"
-          data-testid="new-agreement-daterange-input"
-        />
-        <watt-error *ngIf="form.controls.dateRange.errors"> A date range is required </watt-error>
-      </watt-form-field>
-    </form>
-    <watt-modal-actions>
-      <watt-button
-        variant="secondary"
-        data-testid="close-new-agreement-button"
-        (click)="modal.close(false)"
-        >Close</watt-button
-      >
-      <watt-button
-        data-testid="create-new-agreement-button"
-        [disabled]="!form.valid"
-        (click)="createAgreement()"
-        >Create transfer agreement</watt-button
-      >
-    </watt-modal-actions>
-  </watt-modal>`,
+          Cancel
+        </watt-button>
+        <watt-button
+          data-testid="create-new-agreement-button"
+          [disabled]="!form.valid"
+          (click)="createAgreement()"
+        >
+          Create transfer agreement
+        </watt-button>
+      </watt-modal-actions>
+    </watt-modal>
+  `,
 })
 export class EoTransfersModalComponent {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
@@ -124,6 +131,10 @@ export class EoTransfersModalComponent {
     private store: EoTransfersStore,
     private cd: ChangeDetectorRef
   ) {}
+
+  whenClosed() {
+    this.resetFormValues();
+  }
 
   open() {
     this.modal.open();
@@ -143,7 +154,6 @@ export class EoTransfersModalComponent {
       next: (transfer) => {
         this.store.addTransfer(transfer);
         this.requestLoading = false;
-        this.resetFormValues();
         this.cd.detectChanges();
         this.modal.close(true);
       },
