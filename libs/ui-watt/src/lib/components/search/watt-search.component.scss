@@ -16,13 +16,9 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
-:host,
 label {
   display: inline-block;
   width: 100%;
-}
-
-label {
   position: relative;
   text-transform: none;
   overflow: hidden;
