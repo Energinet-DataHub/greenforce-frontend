@@ -14,19 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { TestBed } from '@angular/core/testing';
-import { Component, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { render, RenderResult, screen } from '@testing-library/angular';
-import { HttpClientModule } from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, importProvidersFrom } from '@angular/core';
+import { Location } from '@angular/common';
+import { Router, provideRouter } from '@angular/router';
+import { screen } from '@testing-library/angular';
+import { provideHttpClient } from '@angular/common/http';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
-import {
-  SpectacularAppComponent,
-  SpectacularFeatureTestingModule,
-  SpectacularFeatureRouter,
-  SpectacularFeatureLocation,
-} from '@ngworker/spectacular';
 
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
@@ -35,68 +30,55 @@ import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routin
 import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
 import { dhMeteringPointFeatureOverviewRoutes } from './dh-metering-point-feature-overview.routes';
 
-describe(DhMeteringPointOverviewComponent.name, () => {
+@Component({
+  selector: 'dh-test-app',
+  template: '<router-outlet><router-outlet>',
+})
+class TestAppComponent {}
+
+describe(DhMeteringPointOverviewComponent, () => {
   beforeEach(async () => {
-    @Component({
-      template: '<h2>Default route</h2>',
-    })
-    class TestMeteringPointComponent {}
-
-    @NgModule({
-      imports: [RouterModule.forChild(dhMeteringPointFeatureOverviewRoutes)],
-    })
-    class TestMeteringPointFeatureOverviewModule {}
-
-    view = await render(SpectacularAppComponent, {
-      declarations: [TestMeteringPointComponent],
-      imports: [
-        HttpClientModule,
-        DhApiModule.forRoot(),
-        getTranslocoTestingModule(),
-        SpectacularFeatureTestingModule.withFeature({
-          featureModule: TestMeteringPointFeatureOverviewModule,
-          featurePath: dhMeteringPointPath,
-        }),
-      ],
-      routes: [
-        {
-          path: dhMeteringPointPath,
-          children: [
-            {
-              component: TestMeteringPointComponent,
-              path: '',
-              pathMatch: 'full',
-            },
-          ],
-        },
+    TestBed.configureTestingModule({
+      declarations: [TestAppComponent],
+      imports: [getTranslocoTestingModule()],
+      providers: [
+        provideRouter([
+          {
+            path: dhMeteringPointPath,
+            children: dhMeteringPointFeatureOverviewRoutes,
+          },
+        ]),
+        provideHttpClient(),
+        importProvidersFrom(DhApiModule.forRoot()),
       ],
     });
 
-    featureRouter = TestBed.inject(SpectacularFeatureRouter);
-    featureLocation = TestBed.inject(SpectacularFeatureLocation);
+    rootFixture = TestBed.createComponent(TestAppComponent);
+    location = TestBed.inject(Location);
+    router = TestBed.inject(Router);
   });
 
-  let view: RenderResult<SpectacularAppComponent>;
+  let location: Location;
+  let rootFixture: ComponentFixture<TestAppComponent>;
+  let router: Router;
   const meteringPointId = '571313180400014602';
-  let featureRouter: SpectacularFeatureRouter;
-  let featureLocation: SpectacularFeatureLocation;
 
   it('displays a link to the Metering point URL', async () => {
-    await featureRouter.navigateByUrl(`~/${meteringPointId}`);
+    await rootFixture.ngZone?.run(() => router.navigate([dhMeteringPointPath, meteringPointId]));
 
-    await view.fixture.whenStable();
+    await rootFixture.whenStable();
 
     const [topLevelLink]: HTMLAnchorElement[] = await screen.findAllByRole('link');
     userEvent.click(topLevelLink);
 
-    await view.fixture.whenStable();
+    await rootFixture.whenStable();
 
-    expect(featureLocation.path()).toBe(`~/`);
+    expect(location.path()).toBe(`/metering-point`);
   });
 
   describe('When a metering point exists', () => {
     it('Then the metering point id is displayed in a heading', async () => {
-      await featureRouter.navigateByUrl(`~/${meteringPointId}`);
+      await rootFixture.ngZone?.run(() => router.navigate([dhMeteringPointPath, meteringPointId]));
       await waitFor(() => {
         const heading = screen.getByRole('heading', {
           level: 1,
@@ -110,9 +92,11 @@ describe(DhMeteringPointOverviewComponent.name, () => {
     const nullMeteringPointId = '000000000000000000';
 
     it('Then an error message is displayed in a heading', async () => {
-      await featureRouter.navigateByUrl(`~/${nullMeteringPointId}`);
+      await rootFixture.ngZone?.run(() =>
+        router.navigate([dhMeteringPointPath, nullMeteringPointId])
+      );
 
-      await view.fixture.whenStable();
+      await rootFixture.whenStable();
 
       expect(
         await screen.findByRole('heading', {
