@@ -14,14 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { TestBed } from '@angular/core/testing';
+import { Component, Input } from '@angular/core';
+import { CurrencyPipe, DatePipe, DecimalPipe, PercentPipe } from '@angular/common';
 import { formatInTimeZone } from 'date-fns-tz';
+
 import { spaceToNonBreakingSpace } from './space-to-non-breaking-space';
 import { danishLocaleProvider } from './danish-locale.provider';
 import { danishCurrencyProvider } from './danish-currency.provider';
 import { danishLocaleInitializer } from './danish-locale.initializer';
-import { TestBed } from '@angular/core/testing';
-import { Component, Input } from '@angular/core';
-import { CurrencyPipe, DatePipe, DecimalPipe, PercentPipe } from '@angular/common';
 
 describe('Danish locale', () => {
   beforeEach(() => {
