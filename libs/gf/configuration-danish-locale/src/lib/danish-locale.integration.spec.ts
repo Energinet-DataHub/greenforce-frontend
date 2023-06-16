@@ -50,11 +50,6 @@ describe('Danish locale', () => {
   });
 
   it('configures the CurrencyPipe', () => {
-    /**
-     * In Angular, the US Dollar is the default currency in the CurrencyPipe.
-     *
-     * Since Angular 9, a `DEFAULT_CURRENCY_CODE` dependency injection token is available.
-     */
     @Component({
       template: "{{ value | currency: undefined: 'code' }}",
       standalone: true,
