@@ -769,6 +769,7 @@
     "searchBatch": {
       "topBarTitle": "Søg batch",
       "headline": "Batch overblik",
+      "search": "Søg",
       "filters": {
         "executionTime": "Eksekveringstid",
         "executionTimeRequired": "Eksekveringstid påkrævet",

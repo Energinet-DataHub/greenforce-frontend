@@ -778,6 +778,7 @@
     "searchBatch": {
       "topBarTitle": "Search Batch",
       "headline": "Batch overview",
+      "search": "Search",
       "filters": {
         "executionTime": "Execution time",
         "executionTimeRequired": "Execution time is required",

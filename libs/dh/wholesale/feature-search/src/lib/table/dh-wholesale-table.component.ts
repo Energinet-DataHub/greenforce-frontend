@@ -68,7 +68,12 @@ export class DhWholesaleTableComponent {
   selectedBatch?: Batch;
 
   @Input() set data(batches: Batch[]) {
-    this._data = new WattTableDataSource(batches);
+    this._data.data = batches;
+  }
+
+  @Input()
+  set filter(value: string) {
+    this._data.filter = value;
   }
 
   @Output() selectedRow: EventEmitter<Batch> = new EventEmitter();

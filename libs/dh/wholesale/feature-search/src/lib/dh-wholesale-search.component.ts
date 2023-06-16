@@ -25,13 +25,14 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { GetBatchesDocument, BatchState } from '@energinet-datahub/dh/shared/domain/graphql';
 import type { Batch } from '@energinet-datahub/dh/wholesale/domain';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-batch-details.component';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -45,6 +46,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
     TranslocoModule,
     WATT_CARD,
     WattEmptyStateComponent,
+    WattSearchComponent,
     WattSpinnerComponent,
   ],
   templateUrl: './dh-wholesale-search.component.html',
@@ -79,6 +81,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
 
   error = false;
   loading = false;
+  search = '';
   batches: Batch[] = [];
 
   ngOnInit() {
@@ -87,13 +90,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
         this.loading = result.loading;
 
         if (result.data?.batches) {
-          if (this.startedByFilter) {
-            this.batches = result.data.batches.filter((batch) =>
-              batch.createdByUserName.includes(this.startedByFilter)
-            );
-          } else {
-            this.batches = result.data.batches;
-          }
+          this.batches = result.data.batches;
         }
 
         this.selectedBatch = this.batches?.find((batch) => batch.id === this.routerBatchId);
@@ -115,15 +112,8 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
     this.destroy$.complete();
   }
 
-  onSearch({
-    executionTime,
-    startedBy,
-  }: {
-    executionTime: { start: string; end: string };
-    startedBy: string;
-  }) {
-    this.startedByFilter = startedBy;
-    this.query.refetch({ executionTime });
+  onSearch(text: string) {
+    this.search = text;
   }
 
   onBatchSelected(batch: Batch) {
