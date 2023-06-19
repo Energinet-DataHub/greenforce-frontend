@@ -17,18 +17,8 @@
 
 @use "@energinet-datahub/watt/utils" as watt;
 
-.content {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
 .wrapper {
   @include watt.space-inset-l;
-}
-
-watt-card {
-  width: 100%;
 }
 
 watt-card-title {
