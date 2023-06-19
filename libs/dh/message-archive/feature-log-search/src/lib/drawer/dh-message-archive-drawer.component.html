@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'messageArchive.drawer'">
   <!-- drawer -->
-  <watt-drawer #drawer size="large" (closed)="onClose()">
+  <watt-drawer #drawer [size]="drawerSize" (closed)="onClose()">
     <watt-drawer-heading>
       <span>{{ message?.createdDate | wattDate : "long" | dhEmDashFallback }}</span>
       <h1 class="heading-message-id">{{ message?.messageId }}</h1>
