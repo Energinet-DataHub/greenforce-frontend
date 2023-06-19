@@ -44,7 +44,7 @@ import { EoTransfersModalComponent } from './eo-transfers-modal.component';
     WattTabComponent,
     WattDatePipe,
     NgIf,
-    EoTransfersModalComponent
+    EoTransfersModalComponent,
   ],
   standalone: true,
   styles: [``],

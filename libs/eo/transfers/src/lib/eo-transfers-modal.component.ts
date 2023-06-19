@@ -39,7 +39,6 @@ import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { EoTransfersService } from './eo-transfers.service';
 import { EoTransfersStore } from './eo-transfers.store';
 
-
 type EoTransfersModalModes = 'create' | 'edit';
 
 @Component({
@@ -116,7 +115,7 @@ type EoTransfersModalModes = 'create' | 'edit';
           [disabled]="!form.valid"
           (click)="createAgreement()"
         >
-          {{mode === 'create' ? 'Create' : 'Save'}}
+          {{ mode === 'create' ? 'Create' : 'Save' }}
         </watt-button>
       </watt-modal-actions>
     </watt-modal>
