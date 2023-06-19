@@ -24,7 +24,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   styleUrls: ['./watt-search.component.scss'],
   template: `
     <label>
-      <input #input type="text" [placeholder]="label" (input)="search.emit(input.value)" />
+      <input #input type="search" [placeholder]="label" (input)="search.emit(input.value)" />
       <span class="wrapper">
         <span class="button">
           <watt-icon name="search" size="s" />
