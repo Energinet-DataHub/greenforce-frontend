@@ -16,7 +16,8 @@
  */
 import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
-import { browserConfigurationProviders } from './gf-browser-configuration.module';
+
+import { browserConfigurationProviders } from './gf-browser-configuration.provider';
 
 describe('browserConfigurationProviders', () => {
   it('APP_BASE_HREF is not provided when the BrowserConfigurationProviders are missing', () => {
