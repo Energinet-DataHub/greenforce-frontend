@@ -80,6 +80,7 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
           tabindex="-1"
           role="none"
           [value]="value?.end"
+          (dateChange)="value = input.value!"
           (dateChange)="selectionChange.emit($event.value ? input.value! : null)"
         />
       </mat-date-range-input>
