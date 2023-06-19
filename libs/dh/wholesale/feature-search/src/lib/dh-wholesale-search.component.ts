@@ -62,7 +62,6 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
   private destroy$ = new Subject<void>();
 
   private routerBatchId = this.route.snapshot.queryParams.batch;
-  private startedByFilter = '';
 
   selectedBatch?: Batch;
 
