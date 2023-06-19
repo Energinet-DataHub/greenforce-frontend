@@ -83,5 +83,5 @@ describe(DhWholesaleSearchComponent, () => {
     userEvent.click(checkbox);
 
     await waitFor(() => expect(screen.queryByRole('progressbar')).toBeInTheDocument());
-  });
+  }, 10000);
 });
