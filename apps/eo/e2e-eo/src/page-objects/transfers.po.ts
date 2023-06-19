@@ -20,7 +20,7 @@ export class TransfersPo {
   private transfersTable = '[data-testid="transfers-table"]';
   private newAgreementButton = '[data-testid="new-agreement-button"]';
   private closeNewAgreementButton = '[data-testid="close-new-agreement-button"]';
-  private createNewAgreementButton = '[data-testid="submit-new-agreement-button"]';
+  private createNewAgreementButton = '[data-testid="create-new-agreement-button"]';
   private newAgreementModal = '.watt-modal-panel';
   private newAgreementDateRangeEndInput = '.mat-end-date';
   private newAgreementDateRangeStartInput = '.mat-start-date';

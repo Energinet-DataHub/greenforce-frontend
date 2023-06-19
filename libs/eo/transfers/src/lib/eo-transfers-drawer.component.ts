@@ -28,7 +28,6 @@ import {
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { EoListedTransfer } from './eo-transfers.service';
-import { EoTransfersModalComponent } from './eo-transfers-modal.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,7 +43,6 @@ import { EoTransfersModalComponent } from './eo-transfers-modal.component';
     WattTabComponent,
     WattDatePipe,
     NgIf,
-    EoTransfersModalComponent
   ],
   standalone: true,
   styles: [``],
@@ -64,7 +62,7 @@ import { EoTransfersModalComponent } from './eo-transfers-modal.component';
       </watt-drawer-heading>
 
       <watt-drawer-actions>
-        <watt-button variant="secondary" (click)="transfersModal.open()">Edit</watt-button>
+        <watt-button variant="secondary" [disabled]="true">Edit</watt-button>
       </watt-drawer-actions>
 
       <watt-drawer-content *ngIf="drawer.isOpen">
@@ -96,12 +94,10 @@ import { EoTransfersModalComponent } from './eo-transfers-modal.component';
     </watt-drawer>
 
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
-    <eo-transfers-modal title="Edit transfer agreement" mode="edit"></eo-transfers-modal>
   `,
 })
 export class EoTransfersDrawerComponent {
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
-  @ViewChild(EoTransfersModalComponent) transfersModal!: EoTransfersModalComponent;
 
   transfer: EoListedTransfer | undefined;
 
