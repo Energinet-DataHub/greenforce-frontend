@@ -26,7 +26,7 @@ import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { EoTransfersDrawerComponent } from './eo-transfers-drawer.component';
-import { EoTransfersModalComponent } from './eo-transfers-modal.component';
+import { EoTransfersCreateModalComponent } from './eo-transfers-create-modal.component';
 import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersStore } from './eo-transfers.store';
 
@@ -48,7 +48,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     WattDropdownComponent,
     ReactiveFormsModule,
     EoTransfersDrawerComponent,
-    EoTransfersModalComponent,
+    EoTransfersCreateModalComponent,
     WattDatePipe,
     NgIf,
   ],
@@ -56,11 +56,13 @@ interface EoTransferTableElement extends EoListedTransfer {
     `
       .card-header {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
 
         .actions {
           gap: 16px;
           display: flex;
+          flex-wrap: wrap;
         }
       }
 
@@ -164,13 +166,13 @@ interface EoTransferTableElement extends EoListedTransfer {
     </watt-paginator>
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
 
-    <eo-transfers-modal title="New transfer agreement"></eo-transfers-modal>
+    <eo-transfers-create-modal title="New transfer agreement"></eo-transfers-create-modal>
     <eo-transfers-drawer></eo-transfers-drawer>
   `,
 })
 export class EoTransfersTableComponent implements AfterViewInit {
   @ViewChild(EoTransfersDrawerComponent) transfersDrawer!: EoTransfersDrawerComponent;
-  @ViewChild(EoTransfersModalComponent) transfersModal!: EoTransfersModalComponent;
+  @ViewChild(EoTransfersCreateModalComponent) transfersModal!: EoTransfersCreateModalComponent;
 
   filterForm = this.fb.group({ statusFilter: '' });
   transfers: EoListedTransfer[] = [];

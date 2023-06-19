@@ -22,33 +22,26 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDatepickerComponent, WattRange } from '@energinet-datahub/watt/datepicker';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { subDays } from 'date-fns';
+
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
-import { EoTransfersService } from './eo-transfers.service';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+
+import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
 import { EoTransfersStore } from './eo-transfers.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-transfers-modal',
+  selector: 'eo-transfers-edit-modal',
   imports: [
     WATT_MODAL,
     WATT_FORM_FIELD,
+    WattDatepickerComponent,
     WattButtonComponent,
     ReactiveFormsModule,
-    WattInputDirective,
-    WattDatepickerComponent,
-    FormsModule,
     NgIf,
   ],
   standalone: true,
@@ -71,58 +64,46 @@ import { EoTransfersStore } from './eo-transfers.store';
     >
       <form [formGroup]="form">
         <watt-form-field>
-          <watt-label>Receiver</watt-label>
-          <input
-            wattInput
-            required="true"
-            type="text"
-            formControlName="tin"
-            [maxlength]="8"
-            data-testid="new-agreement-receiver-input"
-          />
-          <watt-error *ngIf="form.controls.tin.errors">
-            An 8-digit TIN/CVR number is required
-          </watt-error>
-        </watt-form-field>
-        <watt-form-field>
-          <watt-label>Period</watt-label>
+          <watt-label>End date of the period</watt-label>
           <watt-datepicker
             required="true"
-            formControlName="dateRange"
-            [range]="true"
-            data-testid="new-agreement-daterange-input"
+            formControlName="endDate"
+            [min]="minDate"
+            data-testid="transfer-agreement-end-date-input"
           />
-          <watt-error *ngIf="form.controls.dateRange.errors">
-            A start and end date is required
-          </watt-error>
+          <watt-error *ngIf="form.controls.endDate.errors"> An end date is required </watt-error>
         </watt-form-field>
       </form>
       <watt-modal-actions>
         <watt-button
           variant="secondary"
-          data-testid="close-new-agreement-button"
+          data-testid="close-edit-transfer-agreement-button"
           (click)="modal.close(false)"
         >
           Cancel
         </watt-button>
         <watt-button
-          data-testid="create-new-agreement-button"
+          data-testid="save-transfer-agreement-button"
           [disabled]="!form.valid"
-          (click)="createAgreement()"
+          (click)="saveTransferAgreement()"
         >
-          Create transfer agreement
+          Save
         </watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
 })
-export class EoTransfersModalComponent {
+export class EoTransfersEditModalComponent {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
   @Input() title = '';
+  @Input() transfer?: EoListedTransfer;
 
+  minDate = new Date();
   form = new FormGroup({
-    tin: new FormControl('', [Validators.minLength(8), Validators.pattern('^[0-9]*$')]),
-    dateRange: new FormControl<WattRange>({ start: '', end: '' }, [WattRangeValidators.required()]),
+    endDate: new FormControl(
+      this.transfer?.endDate ? new Date(this.transfer?.endDate).toISOString() : '',
+      [Validators.required]
+    ),
   });
   requestLoading = false;
 
@@ -137,10 +118,16 @@ export class EoTransfersModalComponent {
   }
 
   open() {
+    const { endDate } = this.transfer || {};
+    if (endDate) {
+      this.form.controls['endDate'].setValue(subDays(endDate, 1).toISOString());
+    }
     this.modal.open();
   }
 
-  createAgreement() {
+  saveTransferAgreement() {
+    alert('Form submitted');
+    /*
     if (!this.form.valid || !this.form.controls['dateRange'].value) return;
 
     const transfer = {
@@ -162,10 +149,11 @@ export class EoTransfersModalComponent {
         this.cd.detectChanges();
       },
     });
+    */
   }
 
   private resetFormValues() {
-    this.form.patchValue({ tin: '', dateRange: { start: '', end: '' } });
+    this.form.reset();
     this.form.markAsUntouched();
   }
 }
