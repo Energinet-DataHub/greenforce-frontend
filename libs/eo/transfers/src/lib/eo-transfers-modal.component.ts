@@ -21,6 +21,7 @@ import {
   Component,
   Input,
   ViewChild,
+  OnInit,
 } from '@angular/core';
 import {
   FormControl,
@@ -30,13 +31,16 @@ import {
   Validators,
 } from '@angular/forms';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDatepickerComponent, WattRange } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { EoTransfersService } from './eo-transfers.service';
 import { EoTransfersStore } from './eo-transfers.store';
+
+
+type EoTransfersModalModes = 'create' | 'edit';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -70,7 +74,8 @@ import { EoTransfersStore } from './eo-transfers.store';
       (closed)="whenClosed()"
     >
       <form [formGroup]="form">
-        <watt-form-field>
+        <!-- Tin control is only shown when creating a new agreement -->
+        <watt-form-field *ngIf="form.contains('tin')">
           <watt-label>Receiver</watt-label>
           <input
             wattInput
@@ -80,7 +85,8 @@ import { EoTransfersStore } from './eo-transfers.store';
             [maxlength]="8"
             data-testid="new-agreement-receiver-input"
           />
-          <watt-error *ngIf="form.controls.tin.errors">
+
+          <watt-error *ngIf="form.controls['tin'].errors">
             An 8-digit TIN/CVR number is required
           </watt-error>
         </watt-form-field>
@@ -92,7 +98,7 @@ import { EoTransfersStore } from './eo-transfers.store';
             [range]="true"
             data-testid="new-agreement-daterange-input"
           />
-          <watt-error *ngIf="form.controls.dateRange.errors">
+          <watt-error *ngIf="form.controls['dateRange'].errors">
             A start and end date is required
           </watt-error>
         </watt-form-field>
@@ -106,31 +112,54 @@ import { EoTransfersStore } from './eo-transfers.store';
           Cancel
         </watt-button>
         <watt-button
-          data-testid="create-new-agreement-button"
+          data-testid="submit-agreement-button"
           [disabled]="!form.valid"
           (click)="createAgreement()"
         >
-          Create transfer agreement
+          {{mode === 'create' ? 'Create' : 'Save'}}
         </watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
 })
-export class EoTransfersModalComponent {
+export class EoTransfersModalComponent implements OnInit {
+  form!: FormGroup;
+  requestLoading = false;
+  private _mode: EoTransfersModalModes = 'create';
+
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
   @Input() title = '';
+  @Input() get mode(): EoTransfersModalModes {
+    return this._mode;
+  }
 
-  form = new FormGroup({
-    tin: new FormControl('', [Validators.minLength(8), Validators.pattern('^[0-9]*$')]),
-    dateRange: new FormControl<WattRange>({ start: '', end: '' }, [WattRangeValidators.required()]),
-  });
-  requestLoading = false;
+  set mode(mode: EoTransfersModalModes) {
+    this._mode = mode;
+    if (this._mode === 'create') {
+      this.form.addControl(
+        'tin',
+        new FormControl('', [Validators.minLength(8), Validators.pattern('^[0-9]*$')])
+      );
+    } else {
+      if (this.form.contains('tin')) {
+        this.form.removeControl('tin');
+      }
+    }
+  }
 
   constructor(
     private service: EoTransfersService,
     private store: EoTransfersStore,
     private cd: ChangeDetectorRef
-  ) {}
+  ) {
+    this.form = new FormGroup({
+      dateRange: new FormControl({ start: '', end: '' }, [WattRangeValidators.required()]),
+    });
+  }
+
+  ngOnInit() {
+    this.mode = this._mode;
+  }
 
   whenClosed() {
     this.resetFormValues();
@@ -162,6 +191,10 @@ export class EoTransfersModalComponent {
         this.cd.detectChanges();
       },
     });
+  }
+
+  editAgreement() {
+    alert('success');
   }
 
   private resetFormValues() {
