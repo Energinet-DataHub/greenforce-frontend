@@ -73,13 +73,12 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
       (toggle)="picker.open()"
     >
       <mat-date-range-input #input class="cdk-visually-hidden" separator="" [rangePicker]="picker">
-        <input type="text" matStartDate tabindex="-1" role="none" [value]="value?.start" />
+        <input matStartDate type="text" tabindex="-1" role="none" />
         <input
-          type="text"
           matEndDate
+          type="text"
           tabindex="-1"
           role="none"
-          [value]="value?.end"
           (dateChange)="value = $event.value ? input.value! : undefined"
           (dateChange)="selectionChange.emit($event.value ? input.value! : null)"
         />
