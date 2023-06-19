@@ -67,6 +67,10 @@ const makeFormControl = <T>(value: T = null as T) =>
   selector: 'dh-wholesale-form',
   styles: [
     `
+      :host {
+        display: block;
+      }
+
       form {
         display: flex;
         gap: 1rem;
