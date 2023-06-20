@@ -30,6 +30,7 @@ watt-card-title {
 
 .form-grid {
   display: grid;
+  align-items: center;
   gap: var(--watt-space-m);
   grid-template-columns: 300px min-content min-content;
 }
