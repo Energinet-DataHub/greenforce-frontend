@@ -16,7 +16,9 @@
  */
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
-
+import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
+import { TranslocoModule } from '@ngneat/transloco';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 import {
   MsalInterceptor,
   MsalModule,
@@ -37,12 +39,9 @@ import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { dhB2CEnvironmentToken, environment } from '@energinet-datahub/dh/shared/environments';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
-import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
-import { TranslocoModule } from '@ngneat/transloco';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
-import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 
 export const dhCoreShellProviders = [
   importProvidersFrom([
