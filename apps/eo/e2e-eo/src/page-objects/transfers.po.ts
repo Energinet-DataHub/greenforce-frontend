@@ -1,6 +1,3 @@
-import { add, format } from "date-fns";
-
-
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -31,11 +28,8 @@ export class TransfersPo {
   private downloadButton = '[data-testid="download-button"]';
   private paginator = '[data-testid="table-paginator"]';
   private testReceiverId = '11111111';
-
-  private inFutureStart = add(new Date(), { years: 15 });
-  private inFutureEnd = add(this.inFutureStart, { days: 1 });
-  private testStartDate = format(this.inFutureStart, 'ddMMyyyy');
-  private testEndDate = format(this.inFutureEnd, 'ddMMyyyy');
+  private testStartDate = '12052023';
+  private testEndDate = '14052023';
 
   // Visibility
   headerIsVisible = () => cy.get('h2').should('contain.text', this.pageHeaderText);
@@ -62,6 +56,12 @@ export class TransfersPo {
   }
 
   clickCreateAgreementButton() {
+    cy.intercept('POST', 'https://demo.energioprindelse.dk/api/transfer-agreements', {
+      statusCode: 200,
+      body: {
+        "result": []
+      },
+    });
     cy.get(this.createNewAgreementButton).click();
   }
 
