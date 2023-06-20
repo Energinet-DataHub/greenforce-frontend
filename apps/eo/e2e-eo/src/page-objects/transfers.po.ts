@@ -59,7 +59,7 @@ export class TransfersPo {
     cy.intercept('POST', 'https://demo.energioprindelse.dk/api/transfer-agreements', {
       statusCode: 200,
       body: {
-        "result": []
+        result: [],
       },
     });
     cy.get(this.createNewAgreementButton).click();
