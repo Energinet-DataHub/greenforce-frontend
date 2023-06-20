@@ -42,6 +42,7 @@ import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 import { TranslocoModule } from '@ngneat/transloco';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 
 export const dhCoreShellProviders = [
   importProvidersFrom([
@@ -49,6 +50,7 @@ export const dhCoreShellProviders = [
     DhApiModule.forRoot(),
     MsalModule,
     TranslocoModule,
+    MatDateFnsModule,
   ]),
   environment.production ? applicationInsightsProviders : [],
   uiWattTranslationsProviders,
