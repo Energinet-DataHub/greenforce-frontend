@@ -43,28 +43,26 @@ async function setup() {
 }
 
 describe(DhWholesaleSearchComponent, () => {
-  it('should show period with initial value', async () => {
+  it('should show filter chips with initial values', async () => {
     await setup();
-    expect(screen.getAllByText('Execution time')[0]).toBeInTheDocument();
+    ['Period', 'Calculation type', 'Grid areas', 'Execution time', 'Status']
+      .map((filter) =>
+        screen.getByRole('button', {
+          name: new RegExp(filter),
+          pressed: ['Execution time', 'Status'].includes(filter),
+        })
+      )
+      .forEach((element) => expect(element).toBeInTheDocument());
   });
 
-  it('should set initial value of period', async () => {
+  it('should show clear button', async () => {
     await setup();
-
-    const startDateInput: HTMLInputElement = screen.getByRole('textbox', {
-      name: /start-date-input/i,
-    });
-    const endDateInput: HTMLInputElement = screen.getByRole('textbox', {
-      name: /end-date-input/i,
-    });
-
-    expect(startDateInput.value).not.toBe('');
-    expect(endDateInput.value).not.toBe('');
+    expect(screen.getByRole('button', { name: /Clear filters/ })).toBeInTheDocument();
   });
 
   it('should show search button', async () => {
     await setup();
-    expect(screen.getByText('Search')).toBeInTheDocument();
+    expect(screen.getByRole('searchbox')).toBeInTheDocument();
   });
 
   it('should search batches on init', async () => {
@@ -72,13 +70,18 @@ describe(DhWholesaleSearchComponent, () => {
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
   });
 
-  it('should show loading indicator when starting a new search of batches', async () => {
+  it('should show loading indicator when changing filters', async () => {
     await setup();
 
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
     await waitFor(() => expect(screen.queryByRole('progressbar')).not.toBeInTheDocument());
 
-    userEvent.click(screen.getByText('Search'));
+    const button = screen.getByRole('button', { name: /Calculation type/, pressed: false });
+    userEvent.click(button);
+
+    const checkbox = screen.getByRole('option', { name: /Aggregation/i });
+    userEvent.click(checkbox);
+
     await waitFor(() => expect(screen.queryByRole('progressbar')).toBeInTheDocument());
-  });
+  }, 10000);
 });

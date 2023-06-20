@@ -69,6 +69,7 @@ export type WattMenuChipHasPopup = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialo
       <button
         [attr.aria-haspopup]="hasPopup"
         [attr.aria-expanded]="opened"
+        [attr.aria-pressed]="selected"
         (click)="toggle.emit()"
         [disabled]="disabled"
       ></button>

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface WattRange {
-  start: string;
-  end: string;
-}
+import type { ResultOf } from '@graphql-typed-document-node/core';
+import { GetBatchesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type Batch = ResultOf<typeof GetBatchesDocument>['batches'][0];

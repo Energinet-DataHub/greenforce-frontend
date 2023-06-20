@@ -55,6 +55,7 @@ export class StorybookIconOverviewComponent {
       icons: [
         { name: 'Edit', icon: 'edit' },
         { name: 'Remove', icon: 'remove' },
+        { name: 'Remove forever', icon: 'removeForever' },
         { name: 'Menu', icon: 'menu' },
         { name: 'Log out', icon: 'logout' },
       ],
