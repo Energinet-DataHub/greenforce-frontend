@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
@@ -29,6 +29,8 @@ import { EoTransfersDrawerComponent } from './eo-transfers-drawer.component';
 import { EoTransfersCreateModalComponent } from './eo-transfers-create-modal.component';
 import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersStore } from './eo-transfers.store';
+import { Observable } from 'rxjs';
+import { PushModule } from '@rx-angular/template/push';
 
 interface EoTransferTableElement extends EoListedTransfer {
   period?: string;
@@ -50,7 +52,9 @@ interface EoTransferTableElement extends EoListedTransfer {
     EoTransfersDrawerComponent,
     EoTransfersCreateModalComponent,
     WattDatePipe,
-    NgIf,
+    //NgIf,
+    CommonModule,
+    PushModule
   ],
   styles: [
     `
@@ -89,6 +93,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     `,
   ],
   template: `
+    selected: {{ (selectedTransfer$ | push) | json }}
     <div class="card-header">
       <h3>Transfer agreements</h3>
       <div class="actions">
@@ -134,7 +139,7 @@ interface EoTransferTableElement extends EoListedTransfer {
       sortDirection="asc"
       [sortClear]="false"
       (rowClick)="onRowClick($event)"
-      [activeRow]="activeRow"
+      [activeRow]="selectedTransfer$ | push"
       class="watt-space-stack-s"
       data-testid="transfers-table"
     >
@@ -167,7 +172,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
 
     <eo-transfers-create-modal title="New transfer agreement"></eo-transfers-create-modal>
-    <eo-transfers-drawer></eo-transfers-drawer>
+    <eo-transfers-drawer [transfer]="selectedTransfer$ | push" (closed)="store.setSelectedTransfer(undefined)"></eo-transfers-drawer>
   `,
 })
 export class EoTransfersTableComponent implements AfterViewInit {
@@ -176,7 +181,7 @@ export class EoTransfersTableComponent implements AfterViewInit {
 
   filterForm = this.fb.group({ statusFilter: '' });
   transfers: EoListedTransfer[] = [];
-  activeRow: EoListedTransfer | undefined = undefined;
+  selectedTransfer$ = this.store.selectedTransfer$;
   dataSource = new WattTableDataSource<EoTransferTableElement>();
   columns = {
     receiver: { accessor: 'receiverTin' },
@@ -185,7 +190,7 @@ export class EoTransfersTableComponent implements AfterViewInit {
   } as WattTableColumnDef<EoTransferTableElement>;
 
   constructor(
-    private store: EoTransfersStore,
+    protected store: EoTransfersStore,
     private fb: FormBuilder,
     public utils: SharedUtilities
   ) {}
@@ -219,7 +224,7 @@ export class EoTransfersTableComponent implements AfterViewInit {
   }
 
   onRowClick(row: EoListedTransfer): void {
-    this.activeRow = row;
-    this.transfersDrawer.open(row);
+    this.store.setSelectedTransfer(row);
+    this.transfersDrawer.open();
   }
 }

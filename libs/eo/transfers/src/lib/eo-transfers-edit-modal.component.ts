@@ -23,7 +23,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { subDays } from 'date-fns';
+import { add, subDays } from 'date-fns';
 
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
@@ -126,30 +126,24 @@ export class EoTransfersEditModalComponent {
   }
 
   saveTransferAgreement() {
-    alert('Form submitted');
-    /*
-    if (!this.form.valid || !this.form.controls['dateRange'].value) return;
-
-    const transfer = {
-      startDate: Math.round(new Date(this.form.controls['dateRange'].value.start).getTime() / 1000),
-      endDate: Math.round(new Date(this.form.controls['dateRange'].value.end).getTime() / 1000),
-      receiverTin: this.form.controls['tin'].value as string,
-    };
+    const endDate = this.form.controls['endDate'].value;
+    if (!this.form.valid || !endDate || !this.transfer) return;
+    const nextDay = add(new Date(endDate), { days: 1 });
+    const formattedEndDate = Math.round(nextDay.getTime() / 1000);
 
     this.requestLoading = true;
-    this.service.createAgreement(transfer).subscribe({
-      next: (transfer) => {
-        this.store.addTransfer(transfer);
-        this.requestLoading = false;
-        this.cd.detectChanges();
+    this.service.updateAgreement(this.transfer?.id, formattedEndDate).subscribe({
+      next: (transfer: any) => {
+        this.store.setTransfer(transfer);
         this.modal.close(true);
+        this.requestLoading = false;
       },
       error: () => {
+        alert('An error occurred while updating the transfer agreement.');
         this.requestLoading = false;
         this.cd.detectChanges();
       },
     });
-    */
   }
 
   private resetFormValues() {

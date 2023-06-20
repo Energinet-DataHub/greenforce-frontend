@@ -53,4 +53,10 @@ export class EoTransfersService {
   createAgreement(transfer: EoTransfer) {
     return this.http.post<EoListedTransfer>(`${this.#apiBase}/transfer-agreements`, transfer);
   }
+
+  updateAgreement(transferId: string, endDate: number) {
+    return this.http.patch(`${this.#apiBase}/transfer-agreements/${transferId}`, {
+      endDate,
+    });
+  }
 }

@@ -22,6 +22,7 @@ import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
 interface EoTransfersState {
   hasLoaded: boolean;
   transfers: EoListedTransfer[];
+  selectedTransfer?: EoListedTransfer;
   error: HttpErrorResponse | null;
 }
 
@@ -31,6 +32,7 @@ interface EoTransfersState {
 export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   readonly hasLoaded$ = this.select((state) => state.hasLoaded);
   readonly transfers$ = this.select((state) => state.transfers);
+  readonly selectedTransfer$ = this.select((state) => state.selectedTransfer);
   readonly error$ = this.select((state) => state.error);
 
   private readonly setHasLoaded = this.updater(
@@ -39,6 +41,23 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   private readonly setTransfers = this.updater(
     (state, transfers: EoListedTransfer[]): EoTransfersState => ({ ...state, transfers })
   );
+
+  readonly setSelectedTransfer = this.updater(
+    (state, selectedTransfer: EoListedTransfer | undefined): EoTransfersState => ({ ...state, selectedTransfer })
+  );
+
+  readonly setTransfer = this.updater(
+    (state, updatedTransfer: EoListedTransfer): EoTransfersState => ({
+      ...state,
+      transfers: state.transfers.map((transfer) => {
+        return transfer.id === updatedTransfer.id
+          ? this.datesToMilliseconds(updatedTransfer)
+          : transfer;
+      }),
+      selectedTransfer: this.datesToMilliseconds(updatedTransfer)
+    })
+  );
+
   private readonly addSingleTransfer = this.updater(
     (state, transfer: EoListedTransfer): EoTransfersState => ({
       ...state,

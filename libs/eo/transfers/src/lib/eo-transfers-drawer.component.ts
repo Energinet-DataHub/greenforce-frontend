@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { isFuture } from 'date-fns';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -109,22 +109,32 @@ export class EoTransfersDrawerComponent {
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
   @ViewChild(EoTransfersEditModalComponent) transfersEditModal!: EoTransfersEditModalComponent;
 
-  transfer: EoListedTransfer | undefined;
   isActive!: boolean;
   isFuture!: boolean;
 
-  constructor(public utils: SharedUtilities, private cd: ChangeDetectorRef) {}
+  private _transfer?: EoListedTransfer;
 
-  open(transfer: EoListedTransfer) {
-    this.transfer = transfer;
-    this.isActive = transfer && this.utils.isDateActive(this.transfer?.endDate);
-    this.isFuture = isFuture(new Date(this.transfer?.startDate));
+  @Input() set transfer(transfer: EoListedTransfer | undefined) {
+    this._transfer = transfer;
 
-    this.cd.detectChanges();
+    if(!this._transfer) return;
+    this.isActive = this._transfer && this.utils.isDateActive(this._transfer?.endDate);
+    this.isFuture = isFuture(new Date(this._transfer.startDate));
+  };
+  get transfer() {
+    return this._transfer;
+  }
+
+  @Output() closed = new EventEmitter<void>();
+
+  constructor(public utils: SharedUtilities) {}
+
+  open() {
     this.drawer.open();
   }
 
   onClose() {
     this.drawer.close();
+    this.closed.emit();
   }
 }
