@@ -18,7 +18,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import { TranslocoModule } from '@ngneat/transloco';
-import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 import {
   MsalInterceptor,
   MsalModule,
@@ -49,7 +48,6 @@ export const dhCoreShellProviders = [
     DhApiModule.forRoot(),
     MsalModule,
     TranslocoModule,
-    MatDateFnsModule,
   ]),
   environment.production ? applicationInsightsProviders : [],
   uiWattTranslationsProviders,
