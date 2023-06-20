@@ -769,12 +769,18 @@
     "searchBatch": {
       "topBarTitle": "Søg batch",
       "headline": "Batch overblik",
+      "search": "Søg",
       "filters": {
         "executionTime": "Eksekveringstid",
         "executionTimeRequired": "Eksekveringstid påkrævet",
         "startedBy": "Bestilt af",
         "startedByPlaceholder": "Indtast email",
-        "searchButton": "Søg"
+        "searchButton": "Søg",
+        "processType": "Beregningstype",
+        "gridAreas": "Netområder",
+        "executionStates": "Status",
+        "period": "Periode",
+        "clear": "Ryd filtre"
       },
       "columns": {
         "startedBy": "Bestilt af",

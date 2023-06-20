@@ -30,12 +30,12 @@ import { Subject } from 'rxjs';
 
 import { WattInputMaskService } from './watt-input-mask.service';
 import { WattPickerValue } from './watt-picker-value';
-import { WattRange } from './watt-range';
+import { WattDateRange } from '../../../utils/date';
 import { WattRangeInputService } from './watt-range-input.service';
 
 @Directive()
 export abstract class WattPickerBase
-  implements AfterViewInit, OnDestroy, ControlValueAccessor, MatFormFieldControl<WattRange>
+  implements AfterViewInit, OnDestroy, ControlValueAccessor, MatFormFieldControl<WattDateRange>
 {
   /**
    * @ignore
@@ -109,7 +109,7 @@ export abstract class WattPickerBase
    * @ignore
    */
   @Input()
-  get value(): WattRange | null {
+  get value(): WattDateRange | null {
     if (this.ngControl?.valid) {
       const {
         value: { start, end },
@@ -134,12 +134,15 @@ export abstract class WattPickerBase
 
     if (this.range) {
       this.setRangeValue(
-        value as WattRange,
+        value as WattDateRange,
         this.startInput.nativeElement,
         this.endInput.nativeElement
       );
     } else {
-      this.setSingleValue(value as Exclude<WattPickerValue, WattRange>, this.input.nativeElement);
+      this.setSingleValue(
+        value as Exclude<WattPickerValue, WattDateRange>,
+        this.input.nativeElement
+      );
     }
 
     this.stateChanges.next();
@@ -280,7 +283,7 @@ export abstract class WattPickerBase
    * @ignore
    */
   protected abstract setSingleValue(
-    value: Exclude<WattPickerValue, WattRange>,
+    value: Exclude<WattPickerValue, WattDateRange>,
     input: HTMLInputElement
   ): void;
 
@@ -288,7 +291,7 @@ export abstract class WattPickerBase
    * @ignore
    */
   protected abstract setRangeValue(
-    value: WattRange,
+    value: WattDateRange,
     startInput: HTMLInputElement,
     endInput: HTMLInputElement
   ): void;
@@ -317,7 +320,7 @@ export abstract class WattPickerBase
   /**
    * @ignore
    */
-  registerOnChange(onChangeFn: (value: string | WattRange) => void): void {
+  registerOnChange(onChangeFn: (value: string | WattDateRange) => void): void {
     this.changeParentValue = onChangeFn;
   }
 
@@ -365,7 +368,7 @@ export abstract class WattPickerBase
    * @ignore
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected changeParentValue = (value: string | WattRange): void => {
+  protected changeParentValue = (value: string | WattDateRange): void => {
     // Intentionally left empty
   };
 
