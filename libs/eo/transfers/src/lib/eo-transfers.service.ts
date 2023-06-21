@@ -55,7 +55,7 @@ export class EoTransfersService {
   }
 
   updateAgreement(transferId: string, endDate: number) {
-    return this.http.patch(`${this.#apiBase}/transfer-agreements/${transferId}`, {
+    return this.http.patch<EoListedTransfer>(`${this.#apiBase}/transfer-agreements/${transferId}`, {
       endDate,
     });
   }

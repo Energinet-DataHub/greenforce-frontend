@@ -16,11 +16,16 @@
  */
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ComponentStore } from '@ngrx/component-store';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { Observable, switchMap, throwError, withLatestFrom } from 'rxjs';
+import { add } from 'date-fns';
+
 import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
 
 interface EoTransfersState {
   hasLoaded: boolean;
+  patchingTransfer: boolean;
+  patchingTransferError: HttpErrorResponse | null;
   transfers: EoListedTransfer[];
   selectedTransfer?: EoListedTransfer;
   error: HttpErrorResponse | null;
@@ -34,16 +39,14 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   readonly transfers$ = this.select((state) => state.transfers);
   readonly selectedTransfer$ = this.select((state) => state.selectedTransfer);
   readonly error$ = this.select((state) => state.error);
-
-  private readonly setHasLoaded = this.updater(
-    (state, hasLoaded: boolean): EoTransfersState => ({ ...state, hasLoaded: hasLoaded })
-  );
-  private readonly setTransfers = this.updater(
-    (state, transfers: EoListedTransfer[]): EoTransfersState => ({ ...state, transfers })
-  );
+  readonly patchingTransfer$ = this.select((state) => state.patchingTransfer);
+  readonly patchingTransferError$ = this.select((state) => state.patchingTransferError);
 
   readonly setSelectedTransfer = this.updater(
-    (state, selectedTransfer: EoListedTransfer | undefined): EoTransfersState => ({ ...state, selectedTransfer })
+    (state, selectedTransfer: EoListedTransfer | undefined): EoTransfersState => ({
+      ...state,
+      selectedTransfer,
+    })
   );
 
   readonly setTransfer = this.updater(
@@ -54,7 +57,64 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
           ? this.datesToMilliseconds(updatedTransfer)
           : transfer;
       }),
-      selectedTransfer: this.datesToMilliseconds(updatedTransfer)
+      selectedTransfer: this.datesToMilliseconds(updatedTransfer),
+      patchingTransfer: false,
+      patchingTransferError: null,
+    })
+  );
+
+  readonly getTransfers = this.effect(() => {
+    return this.service.getTransfers().pipe(
+      tapResponse(
+        (response) => {
+          this.setTransfers(
+            response?.result?.map((transfer) => this.datesToMilliseconds(transfer))
+          );
+        },
+        (error: HttpErrorResponse) => {
+          this.setError(error);
+        }
+      )
+    );
+  });
+
+  readonly patchSelectedTransfer = this.effect(
+    (options$: Observable<{ endDate: string; onSuccess: () => void; onError: () => void }>) => {
+      return options$.pipe(
+        withLatestFrom(this.selectedTransfer$),
+        switchMap(([options, selectedTransfer]) => {
+          if (!selectedTransfer) {
+            return throwError(() => new Error('No selected transfer'));
+          }
+
+          this.patchState({ patchingTransfer: true });
+
+          const nextDay = add(new Date(options.endDate), { days: 1 });
+          return this.service
+            .updateAgreement(selectedTransfer.id, Math.round(nextDay.getTime() / 1000))
+            .pipe(
+              tapResponse(
+                (response) => {
+                  this.setTransfer(response);
+                  options.onSuccess();
+                },
+                (error: HttpErrorResponse) => {
+                  this.setPatchingTransferError(error);
+                  options.onError();
+                }
+              )
+            );
+        })
+      );
+    }
+  );
+
+  private readonly setTransfers = this.updater(
+    (state, transfers: EoListedTransfer[]): EoTransfersState => ({
+      ...state,
+      transfers,
+      hasLoaded: true,
+      error: null,
     })
   );
 
@@ -64,34 +124,38 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
       transfers: [transfer].concat(state.transfers),
     })
   );
-  readonly setError = this.updater(
-    (state, error: HttpErrorResponse | null): EoTransfersState => ({ ...state, error })
+
+  private readonly setError = this.updater(
+    (state, error: HttpErrorResponse | null): EoTransfersState => ({
+      ...state,
+      error,
+      hasLoaded: true,
+    })
+  );
+
+  private readonly setPatchingTransferError = this.updater(
+    (state, error: HttpErrorResponse | null): EoTransfersState => ({
+      ...state,
+      patchingTransferError: error,
+      patchingTransfer: false,
+    })
   );
 
   constructor(private service: EoTransfersService) {
-    super({ hasLoaded: false, transfers: [], error: null });
-    this.loadData();
+    super({
+      hasLoaded: false,
+      transfers: [],
+      error: null,
+      patchingTransfer: false,
+      patchingTransferError: null,
+    });
   }
 
   addTransfer(transfer: EoListedTransfer) {
     this.addSingleTransfer(this.datesToMilliseconds(transfer));
   }
 
-  loadData() {
-    this.service.getTransfers().subscribe({
-      next: (response) => {
-        this.setTransfers(response?.result?.map((transfer) => this.datesToMilliseconds(transfer)));
-        this.setError(null);
-        this.setHasLoaded(true);
-      },
-      error: (error) => {
-        this.setError(error);
-        this.setHasLoaded(true);
-      },
-    });
-  }
-
-  datesToMilliseconds(transfer: EoListedTransfer): EoListedTransfer {
+  private datesToMilliseconds(transfer: EoListedTransfer): EoListedTransfer {
     return { ...transfer, startDate: transfer.startDate * 1000, endDate: transfer.endDate * 1000 };
   }
 }
