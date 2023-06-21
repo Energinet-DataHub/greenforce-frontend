@@ -15,7 +15,15 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { isFuture } from 'date-fns';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -117,10 +125,10 @@ export class EoTransfersDrawerComponent {
   @Input() set transfer(transfer: EoListedTransfer | undefined) {
     this._transfer = transfer;
 
-    if(!this._transfer) return;
+    if (!this._transfer) return;
     this.isActive = this._transfer && this.utils.isDateActive(this._transfer?.endDate);
     this.isFuture = isFuture(new Date(this._transfer.startDate));
-  };
+  }
   get transfer() {
     return this._transfer;
   }
