@@ -80,6 +80,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
     switchMap(
       (variables) =>
         this.apollo.watchQuery({
+          pollInterval: 10000,
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'network-only',
