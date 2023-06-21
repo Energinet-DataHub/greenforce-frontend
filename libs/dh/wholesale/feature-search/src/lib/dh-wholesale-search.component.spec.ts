@@ -48,7 +48,7 @@ describe(DhWholesaleSearchComponent, () => {
       .map((filter) =>
         screen.getByRole('button', {
           name: new RegExp(filter),
-          pressed: ['Execution time', 'Status'].includes(filter),
+          pressed: filter === 'Execution time',
         })
       )
       .forEach((element) => expect(element).toBeInTheDocument());
@@ -56,7 +56,7 @@ describe(DhWholesaleSearchComponent, () => {
 
   it('should show clear button', async () => {
     await setup();
-    expect(screen.getByRole('button', { name: /Clear filters/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Reset/ })).toBeInTheDocument();
   });
 
   it('should show search button', async () => {

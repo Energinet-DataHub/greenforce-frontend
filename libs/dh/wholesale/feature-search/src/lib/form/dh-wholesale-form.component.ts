@@ -119,8 +119,8 @@ const makeFormControl = <T>(value: T = null as T) =>
           [placeholder]="t('filters.executionStates')"
         />
       </watt-form-field>
-      <watt-button variant="text" icon="removeForever" type="reset">
-        {{ t('filters.clear') }}
+      <watt-button variant="text" icon="undo" type="reset">
+        {{ t('filters.reset') }}
       </watt-button>
     </form>
   `,

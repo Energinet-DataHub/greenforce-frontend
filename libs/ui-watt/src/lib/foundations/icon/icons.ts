@@ -22,6 +22,7 @@ const materialIcons = {
   minus: 'remove',
   edit: 'edit',
   redo: 'redo',
+  undo: 'undo',
   remove: 'delete',
   removeForever: 'delete_forever',
   close: 'close',
