@@ -33,8 +33,6 @@ import { TestBed } from '@angular/core/testing';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
-import { importProvidersFrom } from '@angular/core';
-import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 import { DhChargeContentComponent } from './dh-charge-content.component';
 import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
 
@@ -75,7 +73,6 @@ describe(DhChargeContentComponent, () => {
         DhMarketParticipantDataAccessApiStore,
         danishLocalProviders,
         danishDatetimeProviders,
-        importProvidersFrom(MatDateFnsModule),
       ],
       componentProviders: [
         {
