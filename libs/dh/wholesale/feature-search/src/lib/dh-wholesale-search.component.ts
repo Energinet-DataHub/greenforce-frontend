@@ -21,13 +21,17 @@ import { Apollo } from 'apollo-angular';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@rx-angular/template/push';
 import { sub, startOfDay, endOfDay } from 'date-fns';
-import { Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, switchMap, takeUntil } from 'rxjs';
 
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { GetBatchesDocument, BatchState } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetBatchesDocument,
+  BatchState,
+  GetBatchesQueryVariables,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import type { Batch } from '@energinet-datahub/dh/wholesale/domain';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
@@ -65,18 +69,25 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
 
   selectedBatch?: Batch;
 
-  query = this.apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
-    query: GetBatchesDocument,
-    variables: {
-      executionStates: [BatchState.Executing, BatchState.Failed, BatchState.Completed],
-      executionTime: {
-        start: sub(startOfDay(new Date()), { days: 10 }).toISOString(),
-        end: endOfDay(new Date()).toISOString(),
-      },
+  filter$ = new BehaviorSubject<GetBatchesQueryVariables>({
+    executionTime: {
+      start: sub(startOfDay(new Date()), { days: 10 }).toISOString(),
+      end: endOfDay(new Date()).toISOString(),
     },
   });
+
+  batches$ = this.filter$.pipe(
+    takeUntil(this.destroy$),
+    switchMap(
+      (variables) =>
+        this.apollo.watchQuery({
+          useInitialLoading: true,
+          notifyOnNetworkStatusChange: true,
+          query: GetBatchesDocument,
+          variables: variables,
+        }).valueChanges
+    )
+  );
 
   error = false;
   loading = false;
@@ -84,7 +95,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
   batches: Batch[] = [];
 
   ngOnInit() {
-    this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
+    this.batches$.subscribe({
       next: (result) => {
         this.loading = result.loading;
 
