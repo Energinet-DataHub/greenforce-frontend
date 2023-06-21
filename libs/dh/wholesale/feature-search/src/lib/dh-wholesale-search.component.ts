@@ -123,10 +123,6 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
     this.destroy$.complete();
   }
 
-  onSearch(text: string) {
-    this.search = text;
-  }
-
   onBatchSelected(batch: Batch) {
     this.selectedBatch = batch;
     this.router.navigate([], {
