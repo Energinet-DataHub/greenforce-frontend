@@ -328,13 +328,13 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected -t component-test --base=origin/$BASE_BRANCH
 
+      - name: "Merge: Test all projects"
+        if: ${{ env.is-pull-request == 'false' }}
+        run: yarn nx run-many -t component-test
+
       - name: Upload artifact
         if: failure()
         uses: actions/upload-artifact@v3
         with:
           name: cypress-component-tests
           path: dist/cypress/libs/
-
-      - name: "Merge: Test all projects"
-        if: ${{ env.is-pull-request == 'false' }}
-        run: yarn nx run-many -t component-test
