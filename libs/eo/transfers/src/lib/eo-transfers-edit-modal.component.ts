@@ -22,6 +22,7 @@ import {
   ViewChild,
   ChangeDetectorRef,
   ElementRef,
+  inject
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { subDays } from 'date-fns';
@@ -67,7 +68,7 @@ import { EoTransfersStore } from './eo-transfers.store';
     >
       <form [formGroup]="form">
         <watt-form-field>
-          <watt-label>End date of the period!!</watt-label>
+          <watt-label>End date of the period</watt-label>
           <watt-datepicker
             #endDateRef
             required="true"
@@ -109,6 +110,9 @@ export class EoTransfersEditModalComponent {
   @Input() title = '';
   @Input() transfer?: EoListedTransfer;
 
+  private store = inject(EoTransfersStore);
+  private cd = inject(ChangeDetectorRef);
+
   initialValue!: string;
   minDate = new Date();
   form = new FormGroup({
@@ -120,8 +124,6 @@ export class EoTransfersEditModalComponent {
 
   patchingTransfer$ = this.store.patchingTransfer$;
   patchingTransferError$ = this.store.patchingTransferError$;
-
-  constructor(private store: EoTransfersStore, private cd: ChangeDetectorRef) {}
 
   whenClosed() {
     this.resetFormValues();

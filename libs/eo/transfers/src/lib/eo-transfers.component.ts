@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { PushModule } from '@rx-angular/template/push';
 
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
@@ -56,11 +56,11 @@ import { WattCardComponent } from '@energinet-datahub/watt/card';
   `,
 })
 export class EoTransfersComponent implements OnInit {
+  protected store = inject(EoTransfersStore);
+
   error$ = this.store.error$;
   transfers$ = this.store.transfers$;
   selectedTransfer$ = this.store.selectedTransfer$;
-
-  constructor(protected store: EoTransfersStore) {}
 
   ngOnInit(): void {
     this.store.getTransfers();
