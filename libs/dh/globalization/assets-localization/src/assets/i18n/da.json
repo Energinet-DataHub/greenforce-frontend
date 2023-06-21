@@ -780,7 +780,7 @@
         "gridAreas": "Netområder",
         "executionStates": "Status",
         "period": "Periode",
-        "clear": "Ryd filtre"
+        "reset": "Nulstil"
       },
       "columns": {
         "startedBy": "Bestilt af",
