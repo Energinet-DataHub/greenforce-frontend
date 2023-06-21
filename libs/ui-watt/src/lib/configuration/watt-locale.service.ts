@@ -16,6 +16,7 @@
  */
 import { Injectable } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
+
 import { WattDateAdapter, WattSupportedLocales } from './watt-date-adapter';
 
 @Injectable({
