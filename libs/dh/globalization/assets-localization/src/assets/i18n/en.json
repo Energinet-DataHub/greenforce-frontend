@@ -789,7 +789,7 @@
         "gridAreas": "Grid areas",
         "executionStates": "Status",
         "period": "Period",
-        "clear": "Clear filters"
+        "reset": "Reset"
       },
       "columns": {
         "startedBy": "Started by",
