@@ -76,7 +76,6 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
   });
 
   batches$ = this.filter$.pipe(
-    takeUntil(this.destroy$),
     switchMap(
       (variables) =>
         this.apollo.watchQuery({
@@ -87,7 +86,8 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
           query: GetBatchesDocument,
           variables: variables,
         }).valueChanges
-    )
+    ),
+    takeUntil(this.destroy$)
   );
 
   error = false;
