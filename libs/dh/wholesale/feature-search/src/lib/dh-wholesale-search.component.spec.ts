@@ -48,7 +48,7 @@ describe(DhWholesaleSearchComponent, () => {
       .map((filter) =>
         screen.getByRole('button', {
           name: new RegExp(filter),
-          pressed: ['Execution time', 'Status'].includes(filter),
+          pressed: filter === 'Execution time',
         })
       )
       .forEach((element) => expect(element).toBeInTheDocument());
