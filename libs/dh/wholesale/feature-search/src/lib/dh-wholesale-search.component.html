@@ -21,9 +21,9 @@ limitations under the License.
     <watt-card-title>
       <h3 class="watt-on-light--high-emphasis">{{ transloco("headline") }}</h3>
       <watt-spinner *ngIf="loading" [diameter]="22" />
-      <watt-search [label]="transloco('search')" (search)="onSearch($event)" />
+      <watt-search [label]="transloco('search')" (search)="search = $event" />
     </watt-card-title>
-    <dh-wholesale-form [initial]="query.variables" (filter)="query.refetch($event)" />
+    <dh-wholesale-form [initial]="filter$.value" (filter)="filter$.next($event)" />
     <dh-wholesale-table
       [data]="batches"
       [filter]="search"
