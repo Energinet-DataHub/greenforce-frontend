@@ -22,7 +22,7 @@ import {
   ViewChild,
   ChangeDetectorRef,
   ElementRef,
-  inject
+  inject,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { subDays } from 'date-fns';
