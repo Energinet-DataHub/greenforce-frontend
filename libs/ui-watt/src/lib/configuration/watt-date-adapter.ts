@@ -39,6 +39,7 @@ export class WattDateAdapter extends DateFnsAdapter {
    */
   override getDateNames(): string[] {
     const dateNames = super.getDateNames();
+
     return this.locale.code === danishLocale
       ? dateNames.map((dateName) => dateName.replace(/\./g, ''))
       : dateNames;

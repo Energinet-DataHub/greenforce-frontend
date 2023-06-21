@@ -23,13 +23,12 @@ import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-tim
 import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import { importProvidersFrom } from '@angular/core';
 import { ApolloModule } from 'apollo-angular';
-import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 import { DhWholesaleSearchComponent } from './dh-wholesale-search.component';
 
 async function setup() {
   await render(`<dh-wholesale-search></dh-wholesale-search>`, {
     providers: [
-      importProvidersFrom(MatLegacySnackBarModule, MatDateFnsModule),
+      importProvidersFrom(MatLegacySnackBarModule),
       graphQLProviders,
       danishDatetimeProviders,
     ],
