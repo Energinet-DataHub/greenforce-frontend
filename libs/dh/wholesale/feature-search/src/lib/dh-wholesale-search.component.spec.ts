@@ -56,7 +56,7 @@ describe(DhWholesaleSearchComponent, () => {
 
   it('should show clear button', async () => {
     await setup();
-    expect(screen.getByRole('button', { name: /Clear filters/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Reset/ })).toBeInTheDocument();
   });
 
   it('should show search button', async () => {
