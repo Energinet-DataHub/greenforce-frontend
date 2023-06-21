@@ -27,7 +27,16 @@ export const marketParticipantUserSearchUsers: MarketParticipantUserOverviewResu
       phoneNumber: '+45 12345678',
       createdDate: '2022-01-01T23:00:00Z',
       status: 'Active',
-      assignedActors: [],
+      assignedActors: [
+        {
+          actor: {
+            actorNumber: '5790001330583',
+            name: 'Energinet DataHub A/S (DataHub systemadministrator)',
+            organizationName: 'Energinet DataHub A/S',
+          },
+          userRoleNames: ['Basis adgang'],
+        },
+      ],
     },
     {
       id: 'f73d05cd-cb00-4be3-89b2-115c8425b837',
@@ -46,7 +55,7 @@ export const marketParticipantUserSearchUsers: MarketParticipantUserOverviewResu
       lastName: 'User 3',
       phoneNumber: '+45 87654321',
       createdDate: '2022-07-01T22:00:00Z',
-      status: 'Active',
+      status: 'Invited',
       assignedActors: [],
     },
     {
@@ -56,7 +65,7 @@ export const marketParticipantUserSearchUsers: MarketParticipantUserOverviewResu
       lastName: 'User 4',
       phoneNumber: null,
       createdDate: '2022-12-01T23:00:00Z',
-      status: 'Inactive',
+      status: 'InviteExpired',
       assignedActors: [],
     },
   ],
