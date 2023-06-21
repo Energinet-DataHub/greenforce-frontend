@@ -29,7 +29,6 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import {
   GetBatchesDocument,
-  BatchState,
   GetBatchesQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import type { Batch } from '@energinet-datahub/dh/wholesale/domain';
@@ -83,6 +82,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
         this.apollo.watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
+          fetchPolicy: 'network-only',
           query: GetBatchesDocument,
           variables: variables,
         }).valueChanges
