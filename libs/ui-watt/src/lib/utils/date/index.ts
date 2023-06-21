@@ -14,4 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { type WattDateRange, WattDatePipe } from './watt-date.pipe';
+export { type WattDateRange } from './watt-date-range';
+export { WattDatePipe } from './watt-date.pipe';

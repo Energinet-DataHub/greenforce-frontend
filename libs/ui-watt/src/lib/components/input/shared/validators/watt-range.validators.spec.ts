@@ -16,11 +16,11 @@
  */
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 
-import { WattRange } from '../watt-range';
+import { WattDateRange } from '../../../../utils/date';
 import { WattRangeValidators } from './watt-range.validators';
 
 interface RangeValue {
-  value: WattRange;
+  value: WattDateRange;
 }
 
 describe('Range validators', () => {
