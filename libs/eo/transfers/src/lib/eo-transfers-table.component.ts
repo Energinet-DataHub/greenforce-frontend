@@ -24,7 +24,7 @@ import {
   ViewChild,
   OnChanges,
   SimpleChanges,
-  inject
+  inject,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 

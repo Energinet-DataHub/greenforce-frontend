@@ -21,7 +21,7 @@ import {
   Input,
   ViewChild,
   ChangeDetectorRef,
-  ElementRef
+  ElementRef,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { subDays } from 'date-fns';
@@ -75,7 +75,9 @@ import { EoTransfersStore } from './eo-transfers.store';
             [min]="minDate"
             data-testid="transfer-agreement-end-date-input"
           />
-          <watt-error *ngIf="form.controls.endDate.hasError('required')">An end date is required</watt-error>
+          <watt-error *ngIf="form.controls.endDate.hasError('required')"
+            >An end date is required</watt-error
+          >
           <watt-error *ngIf="form.controls.endDate.hasError('apiErrors')">
             {{ (patchingTransferError$ | push)?.error }}
           </watt-error>
