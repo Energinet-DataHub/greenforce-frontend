@@ -15,8 +15,16 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { isFuture } from 'date-fns';
+
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCardComponent } from '@energinet-datahub/watt/card';
@@ -27,7 +35,10 @@ import {
 } from '@energinet-datahub/watt/description-list';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
+import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
+
 import { EoListedTransfer } from './eo-transfers.service';
+import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,18 +54,14 @@ import { EoListedTransfer } from './eo-transfers.service';
     WattTabComponent,
     WattDatePipe,
     NgIf,
+    EoTransfersEditModalComponent,
   ],
   standalone: true,
   styles: [``],
   template: `
     <watt-drawer #drawer (closed)="onClose()">
       <watt-drawer-topbar>
-        <watt-badge
-          type="success"
-          *ngIf="transfer && utils.isDateActive(transfer.endDate); else notActive"
-        >
-          Active
-        </watt-badge>
+        <watt-badge type="success" *ngIf="isActive; else notActive"> Active </watt-badge>
       </watt-drawer-topbar>
 
       <watt-drawer-heading>
@@ -62,7 +69,12 @@ import { EoListedTransfer } from './eo-transfers.service';
       </watt-drawer-heading>
 
       <watt-drawer-actions>
-        <watt-button variant="secondary" [disabled]="true">Edit</watt-button>
+        <watt-button
+          variant="secondary"
+          [disabled]="!isActive || isFuture"
+          (click)="transfersEditModal.open()"
+          >Edit</watt-button
+        >
       </watt-drawer-actions>
 
       <watt-drawer-content *ngIf="drawer.isOpen">
@@ -93,23 +105,43 @@ import { EoListedTransfer } from './eo-transfers.service';
       </watt-drawer-content>
     </watt-drawer>
 
+    <eo-transfers-edit-modal
+      title="Edit transfer agreement"
+      [transfer]="transfer"
+    ></eo-transfers-edit-modal>
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
   `,
 })
 export class EoTransfersDrawerComponent {
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
+  @ViewChild(EoTransfersEditModalComponent) transfersEditModal!: EoTransfersEditModalComponent;
 
-  transfer: EoListedTransfer | undefined;
+  isActive!: boolean;
+  isFuture!: boolean;
 
-  constructor(public utils: SharedUtilities, private cd: ChangeDetectorRef) {}
+  private _transfer?: EoListedTransfer;
 
-  open(transfer: EoListedTransfer) {
-    this.transfer = transfer;
-    this.cd.detectChanges();
+  @Input() set transfer(transfer: EoListedTransfer | undefined) {
+    this._transfer = transfer;
+
+    if (!this._transfer) return;
+    this.isActive = this._transfer && this.utils.isDateActive(this._transfer?.endDate);
+    this.isFuture = isFuture(new Date(this._transfer.startDate));
+  }
+  get transfer() {
+    return this._transfer;
+  }
+
+  @Output() closed = new EventEmitter<void>();
+
+  constructor(public utils: SharedUtilities) {}
+
+  open() {
     this.drawer.open();
   }
 
   onClose() {
     this.drawer.close();
+    this.closed.emit();
   }
 }
