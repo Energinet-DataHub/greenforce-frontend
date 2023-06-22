@@ -27,6 +27,7 @@ import { marketParticipantUserRoleAuditLogs } from './data/marketParticipantUser
 import { adminPermissionsMock } from './data/admin-get-permissions';
 import { adminPermissionPermissionLogsMock } from './data/admin-get-permissionlogs';
 import { adminPermissionDetailsMock } from './data/admin-get-permission-details';
+import { marketParticipantOrganizationGetFilteredActors } from './data/marketParticipantOrganizationGetFilteredActors';
 
 export function adminMocks(apiBase: string) {
   return [
@@ -37,6 +38,7 @@ export function adminMocks(apiBase: string) {
     getMarketParticipantUserRoleGetUserRoleWithPermissions(apiBase),
     getMarketParticipantUserRoleGetUserRoleAuditLogs(apiBase),
     putMarketParticipantUserRoleUpdate(apiBase),
+    getMarketParticipantOrganizationGetFilteredActors(apiBase),
     getAdminPermissions(),
     getAdminPermissionLogs(),
     getAdminPermissionDetails(),
@@ -101,6 +103,15 @@ function putMarketParticipantUserRoleUpdate(apiBase: string) {
   return rest.put(`${apiBase}/v1/MarketParticipantUserRole/Update`, (req, res, ctx) => {
     return res(ctx.status(200));
   });
+}
+
+function getMarketParticipantOrganizationGetFilteredActors(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipant/Organization/GetFilteredActors`,
+    (req, res, ctx) => {
+      return res(ctx.json(marketParticipantOrganizationGetFilteredActors));
+    }
+  );
 }
 
 function getAdminPermissions() {
