@@ -15,16 +15,14 @@
  * limitations under the License.
  */
 import { Route } from '@angular/router';
-import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
+import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   WHOLESALE_START_PROCESS_PATH,
   WHOLESALE_SEARCH_BATCH_PATH,
   WHOLESALE_CALCULATION_STEPS_PATH,
   WHOLESALE_SETTLEMENT_REPORTS_PATH,
 } from '@energinet-datahub/dh/wholesale/routing';
-import { inject } from '@angular/core';
 
 const settlementsGuard = 'settlements:manage';
 
@@ -49,24 +47,6 @@ export const dhWholesaleShellRoutes: Route[] = [
       ),
     data: {
       titleTranslationKey: 'wholesale.searchBatch.topBarTitle',
-    },
-  },
-  {
-    path: WHOLESALE_SETTLEMENT_REPORTS_PATH,
-    canActivate: [PermissionGuard([settlementsGuard])],
-    canMatch: [
-      () => {
-        const featureFlagsService = inject(DhFeatureFlagsService);
-        return featureFlagsService.isEnabled('tab_layout_on_settlement_page_feature_flag');
-      },
-    ],
-    loadComponent: () => {
-      return import('@energinet-datahub/dh/wholesale/feature-settlement-reports').then(
-        (m) => m.DhWholesaleSettlementsReportsTabComponent
-      );
-    },
-    data: {
-      titleTranslationKey: 'wholesale.settlementReports.topBarTitle',
     },
   },
   {
