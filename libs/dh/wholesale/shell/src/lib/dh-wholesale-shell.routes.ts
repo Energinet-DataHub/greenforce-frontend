@@ -54,7 +54,7 @@ export const dhWholesaleShellRoutes: Route[] = [
     canActivate: [PermissionGuard([settlementsGuard])],
     loadComponent: () => {
       return import('@energinet-datahub/dh/wholesale/feature-settlement-reports').then(
-        (m) => m.DhWholesaleSettlementReportsComponent
+        (m) => m.DhWholesaleSettlementsReportsTabComponent
       );
     },
     data: {
