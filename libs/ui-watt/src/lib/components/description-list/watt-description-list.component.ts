@@ -17,7 +17,6 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChildren,
@@ -39,7 +38,6 @@ import { WattDescriptionListItemComponent } from './watt-description-list-item.c
   styleUrls: ['./watt-description-list.component.scss'],
   templateUrl: './watt-description-list.component.html',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
 })
 class WattDescriptionListComponent<T> implements AfterViewInit {

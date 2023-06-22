@@ -52,6 +52,7 @@
 
   &--small {
     width: 460px;
+    max-width: 100vw;
 
     .watt-drawer__actions {
       margin-bottom: var(--watt-space-m);
@@ -60,10 +61,12 @@
 
   &--normal {
     width: 888px;
+    max-width: 100vw;
   }
 
   &--large {
     width: 1174px;
+    max-width: 100vw;
   }
 
   &__content {
