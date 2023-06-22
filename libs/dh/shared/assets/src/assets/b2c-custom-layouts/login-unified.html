@@ -58,183 +58,8 @@ limitations under the License.
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" />
     <!-- End of Open Sans -->
 
-    <style>
-      .login {
-        width: 50%;
-        padding: 16px;
-        display: flex;
-        flex-grow: 1;
-        justify-content: center;
-        align-items: center;
-      }
-
-      #forgotPassword,
-      .intro {
-        display: none;
-      }
-
-      h2 {
-        font-family: "Open Sans", sans-serif;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 36px;
-        line-height: 54px;
-        text-transform: uppercase;
-        color: #02525e;
-        margin-bottom: 2rem;
-      }
-
-      /** Form **/
-      form {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .login-form {
-        width: 100%;
-        max-width: 390px;
-      }
-
-      .entry-item {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .error {
-        font-style: normal;
-        font-weight: normal;
-        font-size: 12px;
-        line-height: 18px;
-        color: #d12923;
-        order: 2;
-        margin-top: -1rem;
-      }
-
-      .entry-item-error label {
-        color: #d12923 !important;
-      }
-
-      .error.itemLevel {
-        min-height: 18px;
-      }
-
-      .error.pageLevel {
-        margin-top: 0.5rem;
-      }
-
-      .highlightError {
-        outline: 1px solid #d12923 !important;
-        border: none;
-      }
-
-      label {
-        font-family: "Open Sans", sans-serif;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 12px;
-        line-height: 14px;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        color: #02525e;
-        margin-bottom: 0.5rem;
-      }
-
-      input {
-        font-family: "Open Sans", sans-serif;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 21px;
-        height: 44px;
-        outline: 1px solid #bdbdbd;
-        border: none;
-        color: #02525e;
-        border-radius: 3px;
-        margin-bottom: 1rem;
-        padding: 0 12px;
-      }
-
-      input:focus-visible {
-        outline: 1px solid #00847c;
-      }
-
-      button {
-        width: 100%;
-        height: 40px;
-        background: #00847c;
-        border-radius: 4px;
-        padding: 8px 16px;
-        border: none;
-        font-family: "Open Sans", sans-serif;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 14px;
-        color: #ffffff;
-        line-height: 16px;
-        letter-spacing: 1.25px;
-        text-transform: uppercase;
-        cursor: pointer;
-        outline: none;
-      }
-
-      button:focus,
-      button:focus-visible,
-      button:hover {
-        background-color: rgb(2, 82, 94);
-      }
-
-      button#next {
-        margin-bottom: 0.5rem;
-      }
-
-      #api .template {
-        display: block;
-      }
-
-      .template {
-        display: none;
-        font-size: 14px;
-        margin-top: 8px;
-      }
-
-      .template a {
-        color: #00847c;
-        text-decoration: none;
-      }
-
-      .template a:hover,
-      .template a:visited,
-      .template a:active {
-        color: #02525e;
-      }
-    </style>
+    <script src="main.js"></script>
     <script>
-      function waitFor(selector, callback) {
-        var elm = document.querySelector(selector);
-
-        if (elm) {
-          callback(elm);
-        } else {
-          setTimeout(function () {
-            waitFor(selector, callback);
-          }, 100);
-        }
-      }
-
-      function toggleErrorClasses() {
-        document.querySelectorAll("input").forEach((inputElement) => {
-          var parent = inputElement.parentElement;
-          var hasError = inputElement.classList.contains("highlightError");
-          if (!parent) return;
-
-          if (hasError) {
-            parent.classList.add("entry-item-error");
-          } else {
-            parent.classList.remove("entry-item-error");
-          }
-        });
-      }
-
       function getB2CFlowLink(flowname) {
         return document.location.href.replace("signin", flowname).replace("sign_in", flowname);
       }
@@ -255,8 +80,8 @@ limitations under the License.
         forgotPasswordContainer.appendChild(forgotPasswordTemplate);
       }
 
-      waitFor("button#next", function (element) {
-        element.addEventListener("click", toggleErrorClasses);
+      Utils.waitFor("button#next", function (element) {
+        element.addEventListener("click", Utils.toggleErrorClasses);
         appendForgotPasswordTemplate();
       });
     </script>
@@ -267,7 +92,108 @@ limitations under the License.
       <div class="login-form">
         <h2 aria-level="1" class="imprint imprint-da">LOG IND</h2>
         <h2 aria-level="1" class="imprint imprint-en">SIGN IN</h2>
-        <div id="api"></div>
+        <!-- <div id="api"></div> -->
+        <!-- #region delete -->
+        <div id="api" data-name="Unified">
+          <div
+            class="claims-provider-list-buttons social"
+            aria-label="Log på med din sociale konto"
+            role="form"
+          >
+            <div class="intro">
+              <h2 aria-level="1">Log på med din sociale konto</h2>
+            </div>
+            <div class="options">
+              <div>
+                <button
+                  class="accountButton firstButton claims-provider-selection"
+                  id="MitIDv1"
+                  role="link"
+                  autofocus=""
+                >
+                  MitIDv1
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider">
+            <h2>ELLER</h2>
+          </div>
+          <form
+            id="localAccountForm"
+            action="JavaScript:void(0);"
+            class="localAccount"
+            aria-label="Log på med din mailadresse"
+          >
+            <div class="intro">
+              <h2 aria-level="1">Log på med din mailadresse</h2>
+            </div>
+            <div class="error pageLevel" aria-hidden="true" role="alert" style="display: none">
+              <p></p>
+            </div>
+            <div class="entry">
+              <div class="entry-item">
+                <label for="email"> Mailadresse </label>
+                <div class="error itemLevel" aria-hidden="true" role="alert" style="display: none">
+                  <p></p>
+                </div>
+                <input
+                  type="email"
+                  id="email"
+                  name="Mailadresse"
+                  title="Angiv en gyldig Mailadresse"
+                  pattern="^[a-zA-Z0-9!#$%&amp;'+^_`{}~-]+(?:\.[a-zA-Z0-9!#$%&amp;'+^_`{}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
+                  autofocus=""
+                  placeholder="Mailadresse"
+                  aria-label="Mailadresse"
+                />
+              </div>
+              <div class="entry-item">
+                <div class="password-label">
+                  <label for="password">Adgangskode</label>
+                  <a
+                    id="forgotPassword"
+                    href="/devDataHubB2C.onmicrosoft.com/B2C_1_SignInFlow/api/CombinedSigninAndSignup/unified?claimsexchange=ForgotPassword&amp;csrf_token=eHB4VTJRVGRFRGZwYWd0NVZQeUtqK2tHT3NsK21NMmpnbFdtZmFoNElSRGRla0tsbmJmKzV2RlNaUUpXZ3pkWjhCaTk5WHNoalc5elNkZXNIRGZKc1E9PTsyMDIzLTA2LTIxVDEwOjQ4OjEwLjQ2MjI2MjFaO3dGVDZIenNmcHRSY3d3Y2RNSW5Ka3c9PTt7Ik9yY2hlc3RyYXRpb25TdGVwIjoxfQ==&amp;tx=StateProperties=eyJUSUQiOiI3MTgyMTE2NC0zMWYzLTRiMjYtYWQ4OS00NGNlNTQyYzY2NTMifQ&amp;p=B2C_1_SignInFlow"
+                    >Har du glemt din adgangskode?</a
+                  >
+                </div>
+                <div class="error itemLevel" aria-hidden="true" style="display: none">
+                  <p role="alert"></p>
+                </div>
+                <input
+                  type="password"
+                  id="password"
+                  name="Adgangskode"
+                  placeholder="Adgangskode"
+                  aria-label="Adgangskode"
+                  autocomplete="current-password"
+                  aria-required="true"
+                />
+              </div>
+              <div class="working"></div>
+
+              <div class="buttons">
+                <button id="next" type="submit" form="localAccountForm">Log på</button>
+                <p id="forgotPasswordTemplate" class="template">
+                  <span class="imprint imprint-da">
+                    <a
+                      href="/devDataHubB2C.onmicrosoft.com/B2C_1_SignInFlow/api/CombinedSigninAndSignup/unified?claimsexchange=ForgotPassword&amp;csrf_token=eHB4VTJRVGRFRGZwYWd0NVZQeUtqK2tHT3NsK21NMmpnbFdtZmFoNElSRGRla0tsbmJmKzV2RlNaUUpXZ3pkWjhCaTk5WHNoalc5elNkZXNIRGZKc1E9PTsyMDIzLTA2LTIxVDEwOjQ4OjEwLjQ2MjI2MjFaO3dGVDZIenNmcHRSY3d3Y2RNSW5Ka3c9PTt7Ik9yY2hlc3RyYXRpb25TdGVwIjoxfQ==&amp;tx=StateProperties=eyJUSUQiOiI3MTgyMTE2NC0zMWYzLTRiMjYtYWQ4OS00NGNlNTQyYzY2NTMifQ&amp;p=B2C_1_SignInFlow"
+                      >Nulstil kodeord</a
+                    >
+                  </span>
+                  <span class="imprint imprint-en">
+                    <a
+                      href="/devDataHubB2C.onmicrosoft.com/B2C_1_SignInFlow/api/CombinedSigninAndSignup/unified?claimsexchange=ForgotPassword&amp;csrf_token=eHB4VTJRVGRFRGZwYWd0NVZQeUtqK2tHT3NsK21NMmpnbFdtZmFoNElSRGRla0tsbmJmKzV2RlNaUUpXZ3pkWjhCaTk5WHNoalc5elNkZXNIRGZKc1E9PTsyMDIzLTA2LTIxVDEwOjQ4OjEwLjQ2MjI2MjFaO3dGVDZIenNmcHRSY3d3Y2RNSW5Ka3c9PTt7Ik9yY2hlc3RyYXRpb25TdGVwIjoxfQ==&amp;tx=StateProperties=eyJUSUQiOiI3MTgyMTE2NC0zMWYzLTRiMjYtYWQ4OS00NGNlNTQyYzY2NTMifQ&amp;p=B2C_1_SignInFlow"
+                      >Reset password</a
+                    >
+                  </span>
+                </p>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- #endregion -->
       </div>
     </main>
 

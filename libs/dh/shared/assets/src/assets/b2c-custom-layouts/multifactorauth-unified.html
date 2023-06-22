@@ -58,32 +58,9 @@ limitations under the License.
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" />
     <!-- End of Open Sans -->
 
+    <script src="main.js"></script>
+
     <style>
-      .multi-auth {
-        width: 50%;
-        padding: 16px;
-        display: flex;
-        flex-grow: 1;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .intro {
-        display: none;
-      }
-
-      h2 {
-        font-family: "Open Sans", sans-serif;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 35px;
-        line-height: 54px;
-        color: #02525e;
-        margin-bottom: 2rem;
-      }
-
-      /* Remove and change azure elements */
-
       .buttons > button {
         margin-bottom: 10px;
       }
@@ -96,170 +73,13 @@ limitations under the License.
         margin-bottom: 10px;
       }
 
-      .heading {
-        display: none;
-      }
-
       .actionLabel {
         display: inline-block;
         margin-bottom: 30px;
       }
-
-      /* Remove and change azure elements */
-
-      /** Form **/
-      form {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .multi-auth-form {
-        width: 100%;
-        max-width: 390px;
-      }
-
-      .entry-item {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .error {
-        font-style: normal;
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 18px;
-        color: #d12923;
-        order: 2;
-        margin-top: -1rem;
-      }
-
-      .entry-item-error label {
-        color: #d12923 !important;
-        font-size: 14px;
-      }
-
-      .error.itemLevel {
-        min-height: 18px;
-      }
-
-      .error.pageLevel {
-        margin-top: 0.5rem;
-      }
-
-      .highlightError {
-        outline: 1px solid #d12923 !important;
-        border: none;
-      }
-
-      label {
-        font-family: "Open Sans", sans-serif;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 14px;
-        line-height: 14px;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        color: #02525e;
-        margin-bottom: 0.5rem;
-      }
-
-      input {
-        font-family: "Open Sans", sans-serif;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 21px;
-        height: 44px;
-        outline: 1px solid #bdbdbd;
-        border: none;
-        color: #02525e;
-        border-radius: 3px;
-        margin-bottom: 1rem;
-        padding: 0 12px;
-      }
-
-      input:focus-visible {
-        outline: 1px solid #00847c;
-      }
-
-      button {
-        width: 100%;
-        height: 40px;
-        background: #00847c;
-        border-radius: 4px;
-        padding: 8px 16px;
-        border: none;
-        font-family: "Open Sans", sans-serif;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 14px;
-        color: #ffffff;
-        line-height: 16px;
-        letter-spacing: 1.25px;
-        text-transform: uppercase;
-        cursor: pointer;
-        outline: none;
-      }
-
-      button:focus,
-      button:focus-visible,
-      button:hover {
-        background-color: rgb(2, 82, 94);
-      }
-
-      button#next {
-        margin-bottom: 0.5rem;
-      }
-
-      #api .template {
-        display: block;
-      }
-
-      .template {
-        display: none;
-        font-size: 14px;
-        margin-top: 8px;
-      }
-
-      .template a {
-        color: #00847c;
-        text-decoration: none;
-      }
-
-      .template a:hover,
-      .template a:visited,
-      .template a:active {
-        color: rgb(2, 82, 94);
-      }
     </style>
     <script>
-      function waitFor(selector, callback) {
-        var elm = document.querySelector(selector);
-
-        if (elm) {
-          callback(elm);
-        } else {
-          setTimeout(function () {
-            waitFor(selector, callback);
-          }, 100);
-        }
-      }
-
-      function toggleErrorClasses() {
-        document.querySelectorAll("input").forEach((inputElement) => {
-          var parent = inputElement.parentElement;
-          var hasError = inputElement.classList.contains("highlightError");
-          if (!parent) return;
-
-          if (hasError) {
-            parent.classList.add("entry-item-error");
-          } else {
-            parent.classList.remove("entry-item-error");
-          }
-        });
-      }
-
-      waitFor("button#next", function (element) {
+      Utils.waitFor("button#next", function (element) {
         element.addEventListener("click", toggleErrorClasses);
       });
     </script>
@@ -270,7 +90,198 @@ limitations under the License.
       <div class="multi-auth-form">
         <h2 aria-level="1" class="imprint imprint-da">To-faktor godkendelse</h2>
         <h2 aria-level="1" class="imprint imprint-en">Two factor authentication</h2>
-        <div id="api"></div>
+        <!-- <div id="api"></div> -->
+        <!-- #region delete -->
+        <div id="api" data-name="SelfAsserted">
+          <div class="heading">
+            <h1 role="heading">Brugeroplysninger</h1>
+          </div>
+          <div class="buttons"></div>
+          <div class="intro">
+            <p>Angiv følgende oplysninger.</p>
+          </div>
+          <form id="attributeVerification" action="JavaScript:void(0);">
+            <div
+              id="requiredFieldMissing"
+              class="error pageLevel"
+              style="display: none"
+              aria-hidden="true"
+            >
+              Et obligatorisk felt er ikke udfyldt. Udfuld alle obligatoriske felter, og prøv igen.
+            </div>
+            <div
+              id="fieldIncorrect"
+              class="error pageLevel"
+              style="display: none"
+              aria-hidden="true"
+            >
+              Ét eller flere felter er udfyldt forkert. Kontrollér oplysningerne, og prøv igen.
+            </div>
+            <div
+              id="claimVerificationServerError"
+              class="error pageLevel"
+              style="display: none"
+              aria-hidden="true"
+            ></div>
+            <div id="attributeList" class="attr">
+              <ul>
+                <li class="VerificationControl emailVerificationControl_li">
+                  <div class="attrEntry">
+                    <label
+                      id="emailVerificationControl_label"
+                      for="emailVerificationControl"
+                    ></label>
+                    <div class="error itemLevel" role="alert"></div>
+                    <div class="verificationControlContent" id="emailVerificationControl">
+                      <div class="verificationInfoText">
+                        <div
+                          id="emailVerificationControl_info_message"
+                          aria-hidden="true"
+                          role="alert"
+                          aria-label="Godkendelse kræves. Klik på knappen Send."
+                          style="display: none"
+                        >
+                          Godkendelse kræves. Klik på knappen Send.
+                        </div>
+                      </div>
+                      <div class="verificationSuccessText">
+                        <div
+                          id="emailVerificationControl_success_message"
+                          aria-hidden="true"
+                          role="alert"
+                          aria-label=""
+                          style="display: none"
+                        ></div>
+                      </div>
+                      <div class="verificationErrorText error">
+                        <div
+                          id="emailVerificationControl_error_message"
+                          aria-hidden="true"
+                          role="alert"
+                          aria-label=""
+                          style="display: none"
+                        ></div>
+                      </div>
+                      <ul>
+                        <li
+                          class="EmailBox email_li email"
+                          aria-hidden="false"
+                          style="display: inline"
+                        >
+                          <div class="attrEntry">
+                            <label id="email_label" for="email">EMAIL*</label>
+                            <div class="error itemLevel" role="alert"></div>
+                            <input
+                              id="email"
+                              class="textInput"
+                              type="email"
+                              placeholder="EMAIL"
+                              pattern="^[a-zA-Z0-9!#$%&amp;'+^_`{}~-]+(?:\.[a-zA-Z0-9!#$%&amp;'+^_`{}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
+                              title="Mailadresse, der kan bruges til at kontakte dig."
+                              aria-required="true"
+                              autofocus="autofocus"
+                            /><a
+                              class="helpLink tiny"
+                              href="javascript:void(0)"
+                              data-help="Mailadresse, der kan bruges til at kontakte dig."
+                              >Hvad er dette?</a
+                            >
+                          </div>
+                        </li>
+                        <li
+                          class="TextBox emailVerificationCode_li VerificationCode"
+                          aria-hidden="true"
+                          style="display: none"
+                        >
+                          <div class="attrEntry">
+                            <label id="emailVerificationCode_label" for="emailVerificationCode"
+                              >Bekræftelseskode*</label
+                            >
+                            <div class="error itemLevel" role="alert"></div>
+                            <input
+                              id="emailVerificationCode"
+                              class="textInput"
+                              type="text"
+                              placeholder="Bekræftelseskode"
+                              title="Bekræftelseskode, der er modtaget i mailen."
+                              aria-required="true"
+                              autocomplete="off"
+                              disabled=""
+                            /><a
+                              class="helpLink tiny"
+                              href="javascript:void(0)"
+                              data-help="Bekræftelseskode, der er modtaget i mailen."
+                              >Hvad er dette?</a
+                            >
+                          </div>
+                        </li>
+                      </ul>
+                      <div class="working" style="display: none" aria-hidden="true"></div>
+                      <div class="buttons">
+                        <button
+                          class="sendCode"
+                          id="emailVerificationControl_but_send_code"
+                          type="button"
+                          aria-label="Send bekræftelseskode"
+                          aria-hidden="false"
+                          style="display: inline"
+                        >
+                          Send bekræftelseskode</button
+                        ><button
+                          class="verifyCode"
+                          id="emailVerificationControl_but_verify_code"
+                          type="button"
+                          aria-label="Bekræft kode"
+                          aria-hidden="true"
+                          style="display: none"
+                        >
+                          Bekræft kode</button
+                        ><button
+                          class="sendNewCode"
+                          id="emailVerificationControl_but_send_new_code"
+                          type="button"
+                          aria-label="Send ny kode"
+                          aria-hidden="true"
+                          style="display: none"
+                        >
+                          Send ny kode</button
+                        ><button
+                          class="changeClaims"
+                          id="emailVerificationControl_but_change_claims"
+                          type="button"
+                          aria-label="Skift e-mail EMAIL"
+                          aria-hidden="true"
+                          style="display: none"
+                        >
+                          Skift e-mail
+                        </button>
+                      </div>
+                    </div>
+                    <a class="helpLink tiny" href="javascript:void(0)">Hvad er dette?</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="buttons">
+              <button
+                id="continue"
+                type="submit"
+                form="attributeVerification"
+                aria-disabled="true"
+                aria-label="Fortsæt"
+                tabindex="-1"
+                class="hideButton"
+              >
+                Fortsæt</button
+              ><button id="cancel" aria-label="Annuller" formnovalidate="">Annuller</button>
+            </div>
+
+            <div class="verifying-modal">
+              <div id="verifying_blurb"></div>
+            </div>
+          </form>
+        </div>
+        <!-- #endregion -->
       </div>
     </main>
   </body>
