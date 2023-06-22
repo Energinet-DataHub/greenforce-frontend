@@ -41,7 +41,7 @@ import { EoTransfersStore } from './eo-transfers.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-transfers-modal',
+  selector: 'eo-transfers-create-modal',
   imports: [
     WATT_MODAL,
     WATT_FORM_FIELD,
@@ -117,7 +117,7 @@ import { EoTransfersStore } from './eo-transfers.store';
     </watt-modal>
   `,
 })
-export class EoTransfersModalComponent {
+export class EoTransfersCreateModalComponent {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
   @Input() title = '';
 

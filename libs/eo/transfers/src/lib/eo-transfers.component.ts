@@ -14,21 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { PushModule } from '@rx-angular/template/push';
+
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { WattCardComponent } from '@energinet-datahub/watt/card';
-import { EoTransfersTableComponent } from './eo-transfers-table.component';
 import { EoTransfersStore } from './eo-transfers.store';
+import { EoTransfersTableComponent } from './eo-transfers-table.component';
+import { WattCardComponent } from '@energinet-datahub/watt/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers',
-  imports: [WattCardComponent, EoTransfersTableComponent, EoPopupMessageComponent, AsyncPipe, NgIf],
+  imports: [
+    WattCardComponent,
+    EoTransfersTableComponent,
+    EoPopupMessageComponent,
+    NgIf,
+    PushModule,
+  ],
   standalone: true,
   styles: [``],
   template: `
-    <eo-popup-message *ngIf="error$ | async"></eo-popup-message>
+    <eo-popup-message *ngIf="error$ | push"></eo-popup-message>
     <watt-card class="watt-space-stack-l">
       <h3 class="watt-space-stack-m">This is the beginning</h3>
       <p class="watt-space-stack-m">
@@ -39,11 +47,22 @@ import { EoTransfersStore } from './eo-transfers.store';
       </p>
     </watt-card>
     <watt-card class="watt-space-stack-m">
-      <eo-transfers-table></eo-transfers-table>
+      <eo-transfers-table
+        [transfers]="transfers$ | push"
+        [selectedTransfer]="selectedTransfer$ | push"
+        (transferSelected)="store.setSelectedTransfer($event)"
+      ></eo-transfers-table>
     </watt-card>
   `,
 })
-export class EoTransfersComponent {
+export class EoTransfersComponent implements OnInit {
   error$ = this.store.error$;
-  constructor(private store: EoTransfersStore) {}
+  transfers$ = this.store.transfers$;
+  selectedTransfer$ = this.store.selectedTransfer$;
+
+  constructor(protected store: EoTransfersStore) {}
+
+  ngOnInit(): void {
+    this.store.getTransfers();
+  }
 }
