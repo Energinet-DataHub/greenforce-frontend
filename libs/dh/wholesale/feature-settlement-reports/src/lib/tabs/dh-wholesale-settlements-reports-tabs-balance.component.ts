@@ -24,16 +24,19 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { ApolloError } from '@apollo/client/errors';
+import { Subscription } from 'rxjs';
+import { Apollo } from 'apollo-angular';
+
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WholesaleProcessType, graphql } from '@energinet-datahub/dh/shared/domain';
-import { Subscription } from 'rxjs';
-import { Apollo } from 'apollo-angular';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { Actor, ActorFilter, GridArea } from '@energinet-datahub/dh/wholesale/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -46,11 +49,10 @@ import {
   WattTableComponent,
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
-import { ApolloError } from '@apollo/client/errors';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { CommonModule } from '@angular/common';
 
 export type settlementReportsTableColumns = graphql.GridArea & { download: boolean };
+
 @Component({
   standalone: true,
   selector: 'dh-wholesale-settlements-reports-tabs-balance',
