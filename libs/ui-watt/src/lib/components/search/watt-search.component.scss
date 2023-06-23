@@ -66,6 +66,28 @@ input {
   transition-property: opacity;
 }
 
+.clear {
+  position: absolute;
+  top: 50%;
+  right: var(--watt-space-s);
+  padding: var(--watt-space-xs);
+  border: none;
+  border-radius: 4px;
+  background: none;
+  color: var(--watt-color-primary);
+  transform: translateY(-50%);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.clear:focus-visible {
+  outline: 2px solid var(--watt-color-primary);
+}
+
+input:placeholder-shown ~ .clear {
+  display: none;
+}
+
 input,
 .wrapper,
 .button,
@@ -79,7 +101,7 @@ input:focus {
 }
 
 input:not(:placeholder-shown),
-input:focus {
+label:focus-within input {
   pointer-events: auto;
   opacity: 1;
 
