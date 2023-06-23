@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './actor';
-export * from './process-step';
-export * from './grid-areas';
-export * from './settlement-report-process';
-export * from './batch';
+import { ResultOf } from 'apollo-angular';
+
+import { GetActorsForSettlementReportDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type Actor = ResultOf<typeof GetActorsForSettlementReportDocument>['actors'][0];
