@@ -18,6 +18,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  LOCALE_ID,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -34,7 +35,7 @@ import { WholesaleProcessType, graphql } from '@energinet-datahub/dh/shared/doma
 import { Subscription } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { ActorFilter, GridArea } from '@energinet-datahub/dh/wholesale/domain';
+import { Actor, ActorFilter, GridArea } from '@energinet-datahub/dh/wholesale/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhWholesaleSettlementReportsDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
@@ -77,6 +78,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
   private settlementReportStore = inject(DhWholesaleSettlementReportsDataAccessApiStore);
+  private localeId = inject(LOCALE_ID);
 
   private subscriptionGridAreas?: Subscription;
   private subscriptionGridAreasForFilter?: Subscription;
@@ -131,7 +133,11 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
   ngOnInit(): void {
     this.subscriptionActors = this.actorsQuery.valueChanges.subscribe({
       next: (result) => {
-        this.actors = result.data?.actors ?? [];
+        const actorsClone = structuredClone(result.data?.actors ?? []);
+        this.actors = actorsClone.sort((a: Actor, b: Actor) =>
+          a.displayValue.localeCompare(b.displayValue, this.localeId)
+        );
+
         if (!result.loading) this.searchForm.controls.actor.enable();
       },
       error: (error) => {
