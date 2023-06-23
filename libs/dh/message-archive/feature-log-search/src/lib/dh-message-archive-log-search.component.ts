@@ -30,8 +30,8 @@ import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import {
   danishTimeZoneIdentifier,
   WattDatepickerComponent,
-  WattRange,
 } from '@energinet-datahub/watt/datepicker';
+import { WattDateRange } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
@@ -84,14 +84,14 @@ export class DhMessageArchiveLogSearchComponent {
       { value: false, disabled: true },
       { nonNullable: true }
     ),
-    dateRange: new FormControl<WattRange>(
+    dateRange: new FormControl<WattDateRange>(
       {
         start: new Date().toISOString(),
         end: new Date().toISOString(),
       },
       { nonNullable: true }
     ),
-    timeRange: new FormControl<WattRange>(
+    timeRange: new FormControl<WattDateRange>(
       {
         start: '00:00',
         end: '23:59',

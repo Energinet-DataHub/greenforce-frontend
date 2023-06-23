@@ -18,3 +18,4 @@ export { WattErrorComponent } from './components/error.component';
 export { WattHintComponent } from './components/hint.component';
 export { WattLabelComponent } from './components/label.component';
 export { WattFormFieldComponent, WATT_FORM_FIELD } from './form-field.component';
+export { WattFormChipDirective } from './chip.directive';

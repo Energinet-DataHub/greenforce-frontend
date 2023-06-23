@@ -39,7 +39,7 @@ import { BehaviorSubject, distinctUntilChanged, EMPTY, map, takeUntil } from 'rx
 
 import { WattInputMaskService, WattMaskedInput } from '../shared/watt-input-mask.service';
 import { WattPickerBase } from '../shared/watt-picker-base';
-import { WattRange } from '../shared/watt-range';
+import { WattDateRange } from '../../../utils/date';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
 import { WattSliderValue } from '../../slider/watt-slider.component';
 import { WattPickerValue } from '../shared/watt-picker-value';
@@ -239,12 +239,12 @@ export class WattTimepickerComponent extends WattPickerBase {
     // Setup and subscribe for input changes
     const startInput = this.maskInput(
       this.startInput.nativeElement,
-      (this.initialValue as WattRange | null)?.start
+      (this.initialValue as WattDateRange | null)?.start
     );
 
     const endInput = this.maskInput(
       this.endInput.nativeElement,
-      (this.initialValue as WattRange | null)?.end
+      (this.initialValue as WattDateRange | null)?.end
     );
 
     this.rangeInputService.init({ startInput, endInput });
@@ -281,7 +281,10 @@ export class WattTimepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  protected setSingleValue(value: Exclude<WattPickerValue, WattRange>, input: HTMLInputElement) {
+  protected setSingleValue(
+    value: Exclude<WattPickerValue, WattDateRange>,
+    input: HTMLInputElement
+  ) {
     input.value = value ? value : '';
   }
 
@@ -289,7 +292,7 @@ export class WattTimepickerComponent extends WattPickerBase {
    * @ignore
    */
   protected setRangeValue(
-    value: WattRange,
+    value: WattDateRange,
     startInput: HTMLInputElement,
     endInput: HTMLInputElement
   ) {

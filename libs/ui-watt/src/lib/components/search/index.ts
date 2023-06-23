@@ -14,27 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "@energinet-datahub/watt/utils" as watt;
-
-:host {
-  display: block;
-}
-
-.form-grid {
-  display: grid;
-  gap: var(--watt-space-m);
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.form-grid__actions {
-  display: flex;
-  grid-column-start: 1;
-  grid-column-end: -1;
-  justify-content: flex-end;
-}
-
-form {
-  @include watt.space-inset-l;
-  box-shadow: var(--watt-bottom-box-shadow);
-  background-color: var(--watt-color-neutral-white);
-}
+export { WattSearchComponent } from './watt-search.component';

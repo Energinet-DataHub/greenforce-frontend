@@ -778,12 +778,18 @@
     "searchBatch": {
       "topBarTitle": "Search Batch",
       "headline": "Batch overview",
+      "search": "Search",
       "filters": {
         "executionTime": "Execution time",
         "executionTimeRequired": "Execution time is required",
         "startedBy": "Started by",
         "startedByPlaceholder": "Enter an email",
-        "searchButton": "Search"
+        "searchButton": "Search",
+        "processType": "Calculation type",
+        "gridAreas": "Grid areas",
+        "executionStates": "Status",
+        "period": "Period",
+        "reset": "Reset"
       },
       "columns": {
         "startedBy": "Started by",
@@ -817,7 +823,7 @@
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
       "download": "Download",
-      "downloadNoBasisData": "Download (No basis data)",
+      "downloadNoBasisData": "Download (no basis data)",
       "selectedRows": {
         "singular": "{{ selectedCount }} selected row",
         "plural": "{{ selectedCount }} selected rows"

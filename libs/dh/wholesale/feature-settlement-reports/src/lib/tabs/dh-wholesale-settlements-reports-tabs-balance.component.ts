@@ -34,7 +34,7 @@ import { WholesaleProcessType, graphql } from '@energinet-datahub/dh/shared/doma
 import { Subscription } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
+import { ActorFilter, GridArea } from '@energinet-datahub/dh/wholesale/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhWholesaleSettlementReportsDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
@@ -77,6 +77,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
   private settlementReportStore = inject(DhWholesaleSettlementReportsDataAccessApiStore);
+
   private subscriptionGridAreas?: Subscription;
   private subscriptionGridAreasForFilter?: Subscription;
   private subscriptionActors?: Subscription;
@@ -164,10 +165,14 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
 
     this.subscriptionGridAreasForFilter = this.gridAreasForFilterQuery.valueChanges.subscribe({
       next: (result) => {
-        this.gridAreas = (result.data?.gridAreas ?? []).map((g) => ({
+        const gridAreasClone = structuredClone(result.data?.gridAreas ?? []);
+        gridAreasClone.sort((a: GridArea, b: GridArea) => Number(a.code) - Number(b.code));
+
+        this.gridAreas = gridAreasClone.map((g: GridArea) => ({
           displayValue: `${g.name} (${g.code})`,
           value: g.code,
         }));
+
         if (!result.loading) this.searchForm.controls.gridAreas.enable();
       },
       error: () => {

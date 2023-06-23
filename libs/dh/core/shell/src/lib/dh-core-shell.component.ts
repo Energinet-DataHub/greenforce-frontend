@@ -31,7 +31,6 @@ import {
   DhSignupMitIdComponent,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import { ApolloModule } from 'apollo-angular';
-import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 
 @Component({
   selector: 'dh-shell',
@@ -39,7 +38,6 @@ import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
   templateUrl: './dh-core-shell.component.html',
   standalone: true,
   imports: [
-    MatDateFnsModule,
     TranslocoModule,
     ApolloModule,
     DhLanguagePickerComponent,

@@ -17,20 +17,25 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoModule } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
+import { TranslocoModule } from '@ngneat/transloco';
+import { PushModule } from '@rx-angular/template/push';
 import { sub, startOfDay, endOfDay } from 'date-fns';
-import { Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, switchMap, takeUntil } from 'rxjs';
 
-import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import {
+  GetBatchesDocument,
+  GetBatchesQueryVariables,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import type { Batch } from '@energinet-datahub/dh/wholesale/domain';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-batch-details.component';
-
-type Batch = Omit<graphql.Batch, 'gridAreas'>;
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -40,8 +45,11 @@ type Batch = Omit<graphql.Batch, 'gridAreas'>;
     DhWholesaleBatchDetailsComponent,
     DhWholesaleFormComponent,
     DhWholesaleTableComponent,
+    PushModule,
     TranslocoModule,
+    WATT_CARD,
     WattEmptyStateComponent,
+    WattSearchComponent,
     WattSpinnerComponent,
   ],
   templateUrl: './dh-wholesale-search.component.html',
@@ -57,38 +65,43 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
   private destroy$ = new Subject<void>();
 
   private routerBatchId = this.route.snapshot.queryParams.batch;
-  private startedByFilter = '';
 
   selectedBatch?: Batch;
-  executionTime = {
-    start: sub(startOfDay(new Date()), { days: 10 }).toISOString(),
-    end: endOfDay(new Date()).toISOString(),
-  };
 
-  query = this.apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
-    query: graphql.GetBatchesDocument,
-    variables: { executionTime: this.executionTime },
+  filter$ = new BehaviorSubject<GetBatchesQueryVariables>({
+    executionTime: {
+      start: sub(startOfDay(new Date()), { days: 10 }).toISOString(),
+      end: endOfDay(new Date()).toISOString(),
+    },
   });
+
+  batches$ = this.filter$.pipe(
+    switchMap(
+      (variables) =>
+        this.apollo.watchQuery({
+          pollInterval: 10000,
+          useInitialLoading: true,
+          notifyOnNetworkStatusChange: true,
+          fetchPolicy: 'network-only',
+          query: GetBatchesDocument,
+          variables: variables,
+        }).valueChanges
+    ),
+    takeUntil(this.destroy$)
+  );
 
   error = false;
   loading = false;
-  batches?: Batch[];
+  search = '';
+  batches: Batch[] = [];
 
   ngOnInit() {
-    this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
+    this.batches$.subscribe({
       next: (result) => {
         this.loading = result.loading;
 
         if (result.data?.batches) {
-          if (this.startedByFilter) {
-            this.batches = result.data.batches.filter((batch) =>
-              batch.createdByUserName.includes(this.startedByFilter)
-            );
-          } else {
-            this.batches = result.data.batches;
-          }
+          this.batches = result.data.batches;
         }
 
         this.selectedBatch = this.batches?.find((batch) => batch.id === this.routerBatchId);
@@ -108,18 +121,6 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  onSearch({
-    executionTime,
-    startedBy,
-  }: {
-    executionTime: { start: string; end: string };
-    startedBy: string;
-  }) {
-    this.startedByFilter = startedBy;
-
-    this.query.refetch({ executionTime });
   }
 
   onBatchSelected(batch: Batch) {

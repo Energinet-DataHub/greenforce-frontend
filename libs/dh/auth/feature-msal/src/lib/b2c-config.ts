@@ -47,6 +47,7 @@ export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientAppl
         logLevel: LogLevel.Error,
         piiLoggingEnabled: false,
       },
+      allowNativeBroker: false,
     },
   });
 }

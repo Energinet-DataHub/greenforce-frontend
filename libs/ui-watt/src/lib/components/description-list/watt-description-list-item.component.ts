@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
   imports: [CommonModule],
   selector: 'watt-description-list-item',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-template #templateRef
     ><div [ngClass]="{ 'force-new-row': forceNewRow }">
       <dt class="watt-label watt-on-light--high-emphasis">{{ label }}</dt>
