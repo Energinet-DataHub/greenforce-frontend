@@ -1,6 +1,6 @@
 const Utils = {
   waitFor: function (selector, callback) {
-    var elm = document.querySelector(selector);
+    const elm = document.querySelector(selector);
 
     if (elm) {
       callback(elm);
@@ -12,9 +12,9 @@ const Utils = {
   },
   toggleErrorClasses: function () {
     document.querySelectorAll('input').forEach((inputElement) => {
-      var parent = inputElement.parentElement;
-      var errorElement = inputElement.previousElementSibling;
-      var hasError =
+      const parent = inputElement.parentElement;
+      const errorElement = inputElement.previousElementSibling;
+      const hasError =
         inputElement.classList.contains('highlightError') ||
         errorElement.classList.contains('show');
       if (!parent) return;
