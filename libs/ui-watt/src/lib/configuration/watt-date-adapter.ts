@@ -17,8 +17,7 @@
 import { Inject, Optional } from '@angular/core';
 import { DateFnsAdapter } from '@angular/material-date-fns-adapter';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
-import * as daLocale from 'date-fns/locale/da/index.js';
-import * as enLocale from 'date-fns/locale/en-GB/index.js';
+import { da as daLocale, enGB as enGBLocale } from 'date-fns/locale';
 
 export type WattSupportedLocales = 'da' | 'en';
 const danishLocale = 'da';
@@ -30,7 +29,7 @@ export class WattDateAdapter extends DateFnsAdapter {
   }
 
   setActiveLocale(language: WattSupportedLocales): void {
-    this.setLocale((language === danishLocale ? daLocale : enLocale) as Locale);
+    this.setLocale(language === danishLocale ? daLocale : enGBLocale);
   }
 
   /**
