@@ -14,19 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { makeEnvironmentProviders } from '@angular/core';
-import { MAT_DATE_FNS_FORMATS } from '@angular/material-date-fns-adapter';
-import { da as daLocale } from 'date-fns/locale';
+import { ResultOf } from 'apollo-angular';
 
-import { WattDateAdapter } from './watt-date-adapter';
+import { GetActorsForSettlementReportDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const danishDatetimeProviders = makeEnvironmentProviders([
-  { provide: MAT_DATE_LOCALE, useValue: daLocale },
-  {
-    provide: DateAdapter,
-    useClass: WattDateAdapter,
-    deps: [MAT_DATE_LOCALE],
-  },
-  { provide: MAT_DATE_FORMATS, useValue: MAT_DATE_FNS_FORMATS },
-]);
+export type Actor = ResultOf<typeof GetActorsForSettlementReportDocument>['actors'][0];
