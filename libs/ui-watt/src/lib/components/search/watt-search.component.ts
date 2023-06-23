@@ -24,13 +24,22 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   styleUrls: ['./watt-search.component.scss'],
   template: `
     <label>
-      <input #input type="search" [placeholder]="label" (input)="search.emit(input.value)" />
+      <input
+        #input
+        type="text"
+        role="searchbox"
+        [placeholder]="label"
+        (input)="search.emit(input.value)"
+      />
       <span class="wrapper">
         <span class="button">
-          <watt-icon name="search" size="s" />
+          <watt-icon name="search" size="s" aria-hidden="true" />
           <span class="text">{{ label }}</span>
         </span>
       </span>
+      <button class="clear" (click)="input.value = ''">
+        <watt-icon name="close" size="s" />
+      </button>
     </label>
   `,
 })
