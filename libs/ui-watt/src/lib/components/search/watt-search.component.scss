@@ -101,7 +101,7 @@ input:focus {
 }
 
 input:not(:placeholder-shown),
-label:focus-within input {
+input:focus {
   pointer-events: auto;
   opacity: 1;
 
