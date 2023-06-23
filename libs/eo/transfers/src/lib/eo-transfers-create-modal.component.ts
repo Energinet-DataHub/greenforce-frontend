@@ -30,7 +30,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDatepickerComponent, WattRange } from '@energinet-datahub/watt/datepicker';
+import { WattDateRange } from '@energinet-datahub/watt/date';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
@@ -40,7 +41,7 @@ import { EoTransfersStore } from './eo-transfers.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-transfers-modal',
+  selector: 'eo-transfers-create-modal',
   imports: [
     WATT_MODAL,
     WATT_FORM_FIELD,
@@ -116,13 +117,15 @@ import { EoTransfersStore } from './eo-transfers.store';
     </watt-modal>
   `,
 })
-export class EoTransfersModalComponent {
+export class EoTransfersCreateModalComponent {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
   @Input() title = '';
 
   form = new FormGroup({
     tin: new FormControl('', [Validators.minLength(8), Validators.pattern('^[0-9]*$')]),
-    dateRange: new FormControl<WattRange>({ start: '', end: '' }, [WattRangeValidators.required()]),
+    dateRange: new FormControl<WattDateRange>({ start: '', end: '' }, [
+      WattRangeValidators.required(),
+    ]),
   });
   requestLoading = false;
 

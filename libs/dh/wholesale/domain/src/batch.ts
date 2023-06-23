@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { makeEnvironmentProviders } from '@angular/core';
-import { detectBaseHrefProvider } from './detect-base-href.provider';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+import { GetBatchesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const browserConfigurationProviders = makeEnvironmentProviders([detectBaseHrefProvider]);
+export type Batch = ResultOf<typeof GetBatchesDocument>['batches'][0];

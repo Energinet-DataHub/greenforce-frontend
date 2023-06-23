@@ -181,6 +181,9 @@
       "@energinet-datahub/dh/shared/domain/configuration": [
         "libs/dh/shared/domain/src/lib/generated/v1/configuration.ts"
       ],
+      "@energinet-datahub/dh/shared/domain/graphql": [
+        "libs/dh/shared/domain/src/lib/generated/graphql.ts"
+      ],
       "@energinet-datahub/dh/shared/environments": [
         "libs/dh/shared/environments/src/index.ts"
       ],
@@ -388,6 +391,9 @@
       ],
       "@energinet-datahub/watt/resize-observer": [
         "libs/ui-watt/src/lib/utils/resize-observer/index.ts"
+      ],
+      "@energinet-datahub/watt/search": [
+        "libs/ui-watt/src/lib/components/search/index.ts"
       ],
       "@energinet-datahub/watt/shell": [
         "libs/ui-watt/src/lib/components/shell/index.ts"

@@ -25,7 +25,7 @@ import {
 } from '@angular/material/datepicker';
 import endOfDay from 'date-fns/endOfDay';
 
-import { WattDatePipe } from '../../../utils/date';
+import { WattDatePipe, WattDateRange } from '../../../utils/date';
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
 
@@ -56,6 +56,10 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
         height: auto;
         visibility: hidden;
       }
+
+      .value::before {
+        content: ':';
+      }
     `,
   ],
   template: `
@@ -67,32 +71,28 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
       [opened]="picker.opened"
       (toggle)="picker.open()"
     >
-      <mat-date-range-input #input class="cdk-visually-hidden" separator="―" [rangePicker]="picker">
-        <input
-          type="text"
-          matStartDate
-          tabindex="-1"
-          [value]="value?.start"
-          (dateChange)="value = input.value ?? undefined"
-          (dateChange)="selectionChange.emit(input.value ?? undefined)"
-        />
+      <mat-date-range-input #input class="cdk-visually-hidden" separator="" [rangePicker]="picker">
+        <input type="text" matStartDate tabindex="-1" role="none" [value]="value?.start" />
         <input
           type="text"
           matEndDate
           tabindex="-1"
+          role="none"
           [value]="value?.end"
-          (dateChange)="value = input.value ?? undefined"
-          (dateChange)="selectionChange.emit(input.value ?? undefined)"
+          (dateChange)="value = input.value!"
+          (dateChange)="selectionChange.emit($event.value ? input.value! : null)"
         />
       </mat-date-range-input>
       <ng-content />
-      <ng-container *ngIf="value?.start && value?.end">: {{ value | wattDate }}</ng-container>
+      <span class="value" *ngIf="value?.start && value?.end">
+        {{ value | wattDate }}
+      </span>
     </watt-menu-chip>
   `,
 })
 export class WattDateRangeChipComponent {
   @Input() disabled = false;
   @Input() label?: string;
-  @Input() value?: DateRange<string>;
-  @Output() selectionChange = new EventEmitter<DateRange<string>>();
+  @Input() value?: WattDateRange;
+  @Output() selectionChange = new EventEmitter<WattDateRange | null>();
 }
