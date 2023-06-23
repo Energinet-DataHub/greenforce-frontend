@@ -789,11 +789,11 @@
         "periodTo": "Periode til",
         "executionTime": "Eksekveringstid",
         "status": "Status",
-        "basisData": "Basis data",
+        "basisData": "Basisdata",
         "processType": "Procestype"
       },
       "download": "Download",
-      "downloadFailed": "Download af basis data fejlede",
+      "downloadFailed": "Download af basisdata fejlede",
       "PENDING": "Afventer",
       "EXECUTING": "Kører",
       "COMPLETED": "Afsluttet",
@@ -814,7 +814,7 @@
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
       "download": "Download",
-      "downloadNoBasisData": "Download (Uden basis data)",
+      "downloadNoBasisData": "Download (uden basisdata)",
       "selectedRows": {
         "singular": "{{ selectedCount }} valgt række",
         "plural": "{{ selectedCount }} valgte rækker"

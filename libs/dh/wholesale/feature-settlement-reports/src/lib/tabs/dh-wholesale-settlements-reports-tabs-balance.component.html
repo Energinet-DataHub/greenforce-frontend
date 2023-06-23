@@ -22,10 +22,12 @@ limitations under the License.
         <span class="watt-chip-label">{{ dataSource.data.length }}</span>
       </h3>
     </watt-card-title>
+
     <form [formGroup]="searchForm" class="form-grid" novalidate>
       <watt-form-field class="datePicker">
         <watt-datepicker formControlName="executionTime" [range]="true"></watt-datepicker>
       </watt-form-field>
+
       <watt-form-field class="gridAreaPicker">
         <watt-dropdown
           formControlName="gridAreas"
@@ -39,6 +41,7 @@ limitations under the License.
           "
         ></watt-dropdown>
       </watt-form-field>
+
       <watt-form-field class="actorPicker">
         <watt-dropdown
           formControlName="actor"
@@ -52,13 +55,14 @@ limitations under the License.
         ></watt-dropdown>
       </watt-form-field>
     </form>
+
     <watt-table
       [dataSource]="dataSource"
       [columns]="columns"
       [selectable]="true"
       description="batches"
-      sortBy="executionTime"
-      sortDirection="desc"
+      sortBy="gridAreaCode"
+      sortDirection="asc"
     >
       <!-- Grid Area Name -->
       <ng-container

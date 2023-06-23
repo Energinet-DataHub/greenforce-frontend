@@ -823,7 +823,7 @@
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
       "download": "Download",
-      "downloadNoBasisData": "Download (No basis data)",
+      "downloadNoBasisData": "Download (no basis data)",
       "selectedRows": {
         "singular": "{{ selectedCount }} selected row",
         "plural": "{{ selectedCount }} selected rows"
