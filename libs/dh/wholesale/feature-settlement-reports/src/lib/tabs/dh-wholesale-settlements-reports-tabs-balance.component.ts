@@ -34,8 +34,8 @@ import { Apollo } from 'apollo-angular';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
+import { WATT_FORM_FIELD, WattFormChipDirective } from '@energinet-datahub/watt/form-field';
 import { WholesaleProcessType, graphql } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { Actor, ActorFilter, GridArea } from '@energinet-datahub/dh/wholesale/domain';
@@ -63,7 +63,8 @@ export type settlementReportsTableColumns = graphql.GridArea & { download: boole
     WATT_TABLE,
     TranslocoModule,
     WattButtonComponent,
-    WattDatepickerComponent,
+    WattDateRangeChipComponent,
+    WattFormChipDirective,
     ReactiveFormsModule,
     WATT_FORM_FIELD,
     WattDropdownComponent,
@@ -91,7 +92,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
   resultTable!: WattTableComponent<settlementReportsTableColumns>;
 
   searchForm = this.fb.group({
-    period: [this.executionTime, WattRangeValidators.required()],
+    period: [{ start: '', end: '' }, WattRangeValidators.required()],
     actor: [''],
     gridAreas: [[] as string[]],
   });

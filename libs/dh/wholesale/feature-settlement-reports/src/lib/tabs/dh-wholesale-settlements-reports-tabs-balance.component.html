@@ -24,9 +24,9 @@ limitations under the License.
     </watt-card-title>
 
     <form [formGroup]="searchForm" class="form-grid">
-      <watt-form-field class="date-picker">
-        <watt-datepicker formControlName="period" [range]="true"></watt-datepicker>
-      </watt-form-field>
+      <watt-date-range-chip formControlName="period">{{
+        "shared.form.filters.period" | transloco
+      }}</watt-date-range-chip>
 
       <watt-form-field class="grid-area-picker">
         <watt-dropdown
