@@ -39,7 +39,6 @@ import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WholesaleProcessType, graphql } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { Actor, ActorFilter, GridArea } from '@energinet-datahub/dh/wholesale/domain';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhWholesaleSettlementReportsDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -68,7 +67,6 @@ export type settlementReportsTableColumns = graphql.GridArea & { download: boole
     ReactiveFormsModule,
     WATT_FORM_FIELD,
     WattDropdownComponent,
-    DhPermissionRequiredDirective,
     WattEmptyStateComponent,
     CommonModule,
   ],
