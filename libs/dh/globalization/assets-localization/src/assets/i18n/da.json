@@ -26,6 +26,9 @@
       "previous": "Forrige side",
       "ariaLabel": "Vælg side"
     },
+    "form": {
+      "reset": "Nulstil"
+    },
     "download": "Download",
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)"
@@ -779,8 +782,7 @@
         "processType": "Beregningstype",
         "gridAreas": "Netområder",
         "executionStates": "Status",
-        "period": "Periode",
-        "reset": "Nulstil"
+        "period": "Periode"
       },
       "columns": {
         "startedBy": "Bestilt af",

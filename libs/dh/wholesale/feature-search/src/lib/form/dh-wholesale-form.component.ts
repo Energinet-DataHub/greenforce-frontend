@@ -125,7 +125,7 @@ const makeFormControl = <T>(value: T = null as T) =>
       </watt-form-field>
 
       <watt-button variant="text" icon="undo" type="reset">
-        {{ t('filters.reset') }}
+        {{ 'shared.form.reset' | transloco }}
       </watt-button>
     </form>
   `,

@@ -26,6 +26,9 @@
       "previous": "Previous page",
       "ariaLabel": "Select page"
     },
+    "form": {
+      "reset": "Reset"
+    },
     "download": "Download",
     "search": "Search",
     "selectedValues": "{{count}} selected"
@@ -788,8 +791,7 @@
         "processType": "Calculation type",
         "gridAreas": "Grid areas",
         "executionStates": "Status",
-        "period": "Period",
-        "reset": "Reset"
+        "period": "Period"
       },
       "columns": {
         "startedBy": "Started by",
