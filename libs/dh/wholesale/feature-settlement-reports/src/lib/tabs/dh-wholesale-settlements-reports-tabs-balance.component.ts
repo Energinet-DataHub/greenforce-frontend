@@ -17,7 +17,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   LOCALE_ID,
   OnDestroy,
   OnInit,
@@ -90,9 +89,6 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
   private subscriptionActors?: Subscription;
   private subscriptionGridAreaSelected?: Subscription;
 
-  @Input() set executionTime(executionTime: { start: string; end: string }) {
-    this.searchForm.patchValue({ executionTime });
-  }
   @ViewChild(WattTableComponent)
   resultTable!: WattTableComponent<settlementReportsTableColumns>;
 
