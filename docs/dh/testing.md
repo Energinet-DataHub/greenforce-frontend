@@ -92,15 +92,13 @@ In this case import `danishDatetimeProviders` in the test setup. This will add t
 
 ```ts
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
-import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 
 async function setup() {
   await render(MyComponent, {
     providers: [
-        danishDatetimeProviders,
-        importProvidersFrom(MatDateFnsModule),
-          // ...
-      ]
+      danishDatetimeProviders,
+      // ...
+    ]
   }
 };
 ```

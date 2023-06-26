@@ -32,6 +32,12 @@ watt-form-field {
   &.watt-form-field-chip {
     width: auto;
     display: inline-block;
+    margin-top: 0;
+    --label-margin-bottom: 0;
+
+    .mat-form-field-prefix {
+      display: none;
+    }
 
     .mat-form-field-infix {
       width: auto;
@@ -40,6 +46,12 @@ watt-form-field {
     .mat-form-field-flex {
       border: none;
       background: none;
+      align-items: unset;
+      min-height: auto;
+    }
+
+    .mat-form-field-wrapper {
+      padding-bottom: 0;
     }
   }
 

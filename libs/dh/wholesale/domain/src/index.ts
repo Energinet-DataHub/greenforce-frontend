@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export * from './actor';
 export * from './process-step';
 export * from './grid-areas';
 export * from './settlement-report-process';
+export * from './batch';

@@ -778,12 +778,18 @@
     "searchBatch": {
       "topBarTitle": "Search Batch",
       "headline": "Batch overview",
+      "search": "Search",
       "filters": {
         "executionTime": "Execution time",
         "executionTimeRequired": "Execution time is required",
         "startedBy": "Started by",
         "startedByPlaceholder": "Enter an email",
-        "searchButton": "Search"
+        "searchButton": "Search",
+        "processType": "Calculation type",
+        "gridAreas": "Grid areas",
+        "executionStates": "Status",
+        "period": "Period",
+        "reset": "Reset"
       },
       "columns": {
         "startedBy": "Started by",
@@ -817,7 +823,7 @@
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
       "download": "Download",
-      "downloadNoBasisData": "Download (No basis data)",
+      "downloadNoBasisData": "Download (no basis data)",
       "selectedRows": {
         "singular": "{{ selectedCount }} selected row",
         "plural": "{{ selectedCount }} selected rows"
@@ -949,6 +955,9 @@
         "reinvite": "Send invitation again",
         "reinviteError": "Something went wrong. The user could not be invited. Please try again",
         "reinviteSuccess": "The user has been invited",
+        "deactivate": "Deactivate user",
+        "deactivateError": "Something went wrong. The user could not be deactivated. Please try again",
+        "deactivateSuccess": "The user has been deactivated",
         "editRole": "Edit role",
         "disable": "Disable",
         "disablingUserRole": "Disabling user role",
@@ -1038,10 +1047,14 @@
               }
             },
             "auditLogType": {
-              "UserRoleAdded": "<b>{{ changedByUserName }}</b> added user role <b>{{ userRoleName }}</b>",
-              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b>",
+              "UserRoleAdded": "<b>{{ changedByUserName }}</b> added user role <b>{{ toValue }}</b>",
+              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> removed user role <b>{{ toValue }}</b>",
               "UserInvite": "<b>{{ changedByUserName }}</b> added user to <b>{{ toValue }}</b> market party",
-              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> removed user role <b>{{ userRoleName }}</b> due to the role being deactivated"
+              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> removed user role <b>{{ toValue }}</b> due to the role being deactivated",
+              "UserFirstNameChanged": "<b>{{ changedByUserName }}</b> changed first name to <b>{{ toValue }}</b>",
+              "UserLastNameChanged": "<b>{{ changedByUserName }}</b> changed last name to <b>{{ toValue }}</b>",
+              "UserPhoneNumberChanged": "<b>{{ changedByUserName }}</b> changed phone number to <b>{{ toValue }}</b>",
+              "UserStatusChanged": "<b>{{ changedByUserName }}</b> changed status to <b>{{ toValue }}</b>"
             }
           },
           "generalError": {
@@ -1151,7 +1164,6 @@
       "editUser": {
         "cancel": "Cancel",
         "save": "Save",
-        "reinvite": "Send invitation again",
         "saveSuccess": "The user was updated",
         "saveError": "Something went wrong. The user could not be updated. Please try again",
         "tab": {

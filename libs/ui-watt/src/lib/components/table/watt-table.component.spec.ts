@@ -458,6 +458,7 @@ describe(WattTableComponent.name, () => {
   });
 
   it('shows toolbar when selecting rows', async () => {
+    const selectionChange = jest.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
@@ -465,7 +466,7 @@ describe(WattTableComponent.name, () => {
     };
 
     await setup(
-      { dataSource, columns, selectable: true, initialSelection: [] },
+      { dataSource, columns, selectable: true, initialSelection: [], selectionChange },
       `<ng-container *wattTableToolbar="let selection">{{ selection.length }}</ng-container>`
     );
 

@@ -20,5 +20,9 @@ namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
         UserRoleAdded,
         UserRoleRemoved,
         UserRoleRemovedDueToDeactivation,
+        UserFirstNameChanged,
+        UserLastNameChanged,
+        UserPhoneNumberChanged,
+        UserStatusChanged,
     }
 }

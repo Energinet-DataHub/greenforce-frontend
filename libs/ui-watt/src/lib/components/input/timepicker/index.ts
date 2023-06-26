@@ -15,4 +15,3 @@
  * limitations under the License.
  */
 export { WattTimepickerComponent } from './watt-timepicker.component';
-export { WattRange } from '../shared/watt-range';

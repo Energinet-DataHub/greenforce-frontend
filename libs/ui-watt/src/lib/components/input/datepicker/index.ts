@@ -15,5 +15,5 @@
  * limitations under the License.
  */
 export { WattDatepickerComponent } from './watt-datepicker.component';
-export { WattRange } from '../shared/watt-range';
+export { WattDateRangeChipComponent } from './watt-date-range-chip.component';
 export { danishTimeZoneIdentifier } from './watt-datepicker.component';

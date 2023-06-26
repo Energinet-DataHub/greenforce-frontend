@@ -699,31 +699,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/msal-angular@npm:2.5.7":
-  version: 2.5.7
-  resolution: "@azure/msal-angular@npm:2.5.7"
+"@azure/msal-angular@npm:3.0.0-beta.0":
+  version: 3.0.0-beta.0
+  resolution: "@azure/msal-angular@npm:3.0.0-beta.0"
   dependencies:
-    tslib: ^2.0.0
+    tslib: ^2.3.0
   peerDependencies:
-    "@azure/msal-browser": ^2.37.0
-    rxjs: ^6.0.0 || ^7.0.0
-  checksum: fe235e3ea5035ea981df236dcf2cc3dcfd1bc3e4c94a2212910f9ec5fd4d2bbe056b3566a9e2ac620d687d14ac8ce335820bed56335be1f1fffdd6fc42a57022
+    "@azure/msal-browser": ^3.0.0-beta.0
+    rxjs: ^7.0.0
+  checksum: 1160a2bd88f1607a086aaa23a6bda150f0a6c178a15f3443878a6fbe05d64858b2b5aa626dfdcc982353989d940091ba5026f266c9c2ad6a14776e5354fd285b
   languageName: node
   linkType: hard
 
-"@azure/msal-browser@npm:2.37.0":
-  version: 2.37.0
-  resolution: "@azure/msal-browser@npm:2.37.0"
+"@azure/msal-browser@npm:3.0.0-beta.0":
+  version: 3.0.0-beta.0
+  resolution: "@azure/msal-browser@npm:3.0.0-beta.0"
   dependencies:
-    "@azure/msal-common": 13.0.0
-  checksum: e57d04517d51db4b608da6ca127c89e5c134b42743b00e95d8f1aae011d1cc6d5c02fb4f72cd0f96636e500a3eeee7c4884cd537ac8796bbd50f0ff9ac983b4e
+    "@azure/msal-common": 14.0.0-beta.0
+  checksum: ab68672508f393730556184583faef3ca2d7cd2eb867180cac51c70c317369aa6ebf4add9666076d6d1dc2f19d8bbfb87df18d382afddf4690dc24416a13c68b
   languageName: node
   linkType: hard
 
-"@azure/msal-common@npm:13.0.0":
-  version: 13.0.0
-  resolution: "@azure/msal-common@npm:13.0.0"
-  checksum: 89f56f9fbf0edffa6023d46c6970dd37a9ad571b7d2952fdef41950ec2f3b4b3fd22d9841e2caaf52619ad97ab415ed22c30797cdb896f459eb665d3d97f778a
+"@azure/msal-common@npm:14.0.0-beta.0":
+  version: 14.0.0-beta.0
+  resolution: "@azure/msal-common@npm:14.0.0-beta.0"
+  checksum: c131ca8053a56de772522662b6c18ee1f8e4f225188d0ba81374a5adce8071b608329d1906e2d58cb4a47a66c4992cccc70508a95c39493af2e6591bbd49173e
   languageName: node
   linkType: hard
 
@@ -6009,22 +6009,6 @@ __metadata:
     typescript: ">=4.8.2 <5.0"
     webpack: ^5.54.0
   checksum: 22eed6294eb12b4e3e02123ececf84310ca5f30c0465d3bce92b60cad13179bf80846c3cac59b011f0fa01ad46935d8e78e66295dded7ad23e7ba696a5496cd5
-  languageName: node
-  linkType: hard
-
-"@ngworker/spectacular@npm:0.5.0":
-  version: 0.5.0
-  resolution: "@ngworker/spectacular@npm:0.5.0"
-  dependencies:
-    tslib: ^2.1.0
-  peerDependencies:
-    "@angular/common": ^12.0.5
-    "@angular/core": ^12.0.5
-    "@angular/forms": 12.2.0
-    "@angular/platform-browser": ^12.0.5
-    "@angular/router": ^12.0.5
-    rxjs: ^6.5.5 || ^7.0.1
-  checksum: 9278ec72439bfb20b4714e40b3c4deef8a6de77aba11d48ef5d0295422adb7f25839c0f1afcb9760f7a846f44ce59f1fb620df9f965306e31631b347d54f10a8
   languageName: node
   linkType: hard
 
@@ -15605,8 +15589,8 @@ cors@latest:
     "@angular/platform-browser-dynamic": 15.2.6
     "@angular/router": 15.2.6
     "@apollo/client": 3.7.11
-    "@azure/msal-angular": 2.5.7
-    "@azure/msal-browser": 2.37.0
+    "@azure/msal-angular": 3.0.0-beta.0
+    "@azure/msal-browser": 3.0.0-beta.0
     "@babel/core": ^7.0.0-0
     "@babel/runtime": ^7.21.0
     "@badeball/cypress-cucumber-preprocessor": 13.1.0
@@ -15628,7 +15612,6 @@ cors@latest:
     "@ngneat/transloco-optimize": 3.0.2
     "@ngrx/component-store": 15.4.0
     "@ngrx/eslint-plugin": 15.4.0
-    "@ngworker/spectacular": 0.5.0
     "@nrwl/angular": 15.9.2
     "@nrwl/cli": 15.9.2
     "@nrwl/cypress": 15.9.2

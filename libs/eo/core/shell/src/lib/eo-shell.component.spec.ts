@@ -21,7 +21,7 @@ import { By } from '@angular/platform-browser';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { EoShellComponent } from './eo-shell.component';
 
-describe(EoShellComponent.name, () => {
+describe(EoShellComponent, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [

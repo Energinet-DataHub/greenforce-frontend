@@ -769,12 +769,18 @@
     "searchBatch": {
       "topBarTitle": "Søg batch",
       "headline": "Batch overblik",
+      "search": "Søg",
       "filters": {
         "executionTime": "Eksekveringstid",
         "executionTimeRequired": "Eksekveringstid påkrævet",
         "startedBy": "Bestilt af",
         "startedByPlaceholder": "Indtast email",
-        "searchButton": "Søg"
+        "searchButton": "Søg",
+        "processType": "Beregningstype",
+        "gridAreas": "Netområder",
+        "executionStates": "Status",
+        "period": "Periode",
+        "reset": "Nulstil"
       },
       "columns": {
         "startedBy": "Bestilt af",
@@ -783,11 +789,11 @@
         "periodTo": "Periode til",
         "executionTime": "Eksekveringstid",
         "status": "Status",
-        "basisData": "Basis data",
+        "basisData": "Basisdata",
         "processType": "Procestype"
       },
       "download": "Download",
-      "downloadFailed": "Download af basis data fejlede",
+      "downloadFailed": "Download af basisdata fejlede",
       "PENDING": "Afventer",
       "EXECUTING": "Kører",
       "COMPLETED": "Afsluttet",
@@ -808,7 +814,7 @@
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
       "download": "Download",
-      "downloadNoBasisData": "Download (Uden basis data)",
+      "downloadNoBasisData": "Download (uden basisdata)",
       "selectedRows": {
         "singular": "{{ selectedCount }} valgt række",
         "plural": "{{ selectedCount }} valgte rækker"
@@ -940,6 +946,9 @@
         "reinvite": "Send invitation igen",
         "reinviteError": "Noget gik galt. Brugeren blev ikke inviteret. Prøv igen",
         "reinviteSuccess": "Brugeren blev inviteret",
+        "deactivate": "Deaktiver bruger",
+        "deactivateError": "Noget gik galt. Brugeren blev ikke deaktiveret. Prøv igen",
+        "deactivateSuccess": "Brugeren blev deaktiveret",
         "editRole": "Rediger rolle",
         "disable": "Deaktiver",
         "disablingUserRole": "Deaktiverer bruger rollen",
@@ -1028,7 +1037,11 @@
               "UserRoleAdded": "<b>{{ changedByUserName }}</b> tilføjede brugerrollen <b>{{ toValue }}</b>",
               "UserRoleRemoved": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b>",
               "UserInvite": "<b>{{ changedByUserName }}</b> tilføjede brugeren til aktør <b>{{ toValue }}</b>",
-              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b> fordi rollen blev deaktiveret"
+              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b> fordi rollen blev deaktiveret",
+              "UserFirstNameChanged": "<b>{{ changedByUserName }}</b> ændrede fornavn til <b>{{ toValue }}</b>",
+              "UserLastNameChanged": "<b>{{ changedByUserName }}</b> ændrede efternavn til <b>{{ toValue }}</b>",
+              "UserPhoneNumberChanged": "<b>{{ changedByUserName }}</b> ændrede telefonnummer til <b>{{ toValue }}</b>",
+              "UserStatusChanged": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ toValue }}</b>"
             }
           },
           "generalError": {
@@ -1124,7 +1137,6 @@
       "editUser": {
         "cancel": "Fortryd",
         "save": "Gem",
-        "reinvite": "Send invitation igen",
         "saveSuccess": "Brugeren blev opdateret",
         "saveError": "Noget gik galt. Brugeren blev ikke opdateret. Prøv igen",
         "tab": {

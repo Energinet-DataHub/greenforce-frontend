@@ -24,13 +24,12 @@ import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graph
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { importProvidersFrom } from '@angular/core';
 import { ApolloModule } from 'apollo-angular';
-import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 import { DhWholesaleStartComponent } from './dh-wholesale-start.component';
 
 it('mounts', () => {
   cy.mount(DhWholesaleStartComponent, {
     providers: [
-      importProvidersFrom(MatLegacySnackBarModule, MatDateFnsModule),
+      importProvidersFrom(MatLegacySnackBarModule),
       graphQLProviders,
       translocoProviders,
       danishDatetimeProviders,
