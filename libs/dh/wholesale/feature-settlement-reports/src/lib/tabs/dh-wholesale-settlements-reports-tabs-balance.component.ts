@@ -91,7 +91,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
   resultTable!: WattTableComponent<settlementReportsTableColumns>;
 
   searchForm = this.fb.group({
-    executionTime: [this.executionTime, WattRangeValidators.required()],
+    period: [this.executionTime, WattRangeValidators.required()],
     actor: [''],
     gridAreas: [[] as string[]],
   });
@@ -215,8 +215,8 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
       {
         gridAreas: gridAreas.map((g) => g.id),
         processType: WholesaleProcessType.BalanceFixing,
-        periodStart: this.searchForm.controls.executionTime.value?.start ?? '',
-        periodEnd: this.searchForm.controls.executionTime.value?.end ?? '',
+        periodStart: this.searchForm.controls.period.value?.start ?? '',
+        periodEnd: this.searchForm.controls.period.value?.end ?? '',
         energySupplier: this.searchForm.controls.actor.value ?? undefined,
         locale: this.transloco.translate('selectedLanguageIso'),
       },
