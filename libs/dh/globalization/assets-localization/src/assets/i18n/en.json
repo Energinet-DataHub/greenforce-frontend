@@ -27,7 +27,10 @@
       "ariaLabel": "Select page"
     },
     "form": {
-      "reset": "Reset"
+      "reset": "Reset",
+      "filters": {
+        "period": "Period"
+      }
     },
     "download": "Download",
     "search": "Search",

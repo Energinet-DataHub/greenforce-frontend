@@ -86,9 +86,9 @@ const makeFormControl = <T>(value: T = null as T) =>
   ],
   template: `
     <form [formGroup]="_formGroup" *transloco="let t; read: 'wholesale.searchBatch'">
-      <watt-date-range-chip formControlName="period">
-        {{ t('filters.period') }}
-      </watt-date-range-chip>
+      <watt-date-range-chip formControlName="period">{{
+        'shared.form.filters.period' | transloco
+      }}</watt-date-range-chip>
 
       <watt-form-field>
         <watt-dropdown

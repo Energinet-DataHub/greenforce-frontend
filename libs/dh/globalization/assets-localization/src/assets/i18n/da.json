@@ -27,7 +27,10 @@
       "ariaLabel": "Vælg side"
     },
     "form": {
-      "reset": "Nulstil"
+      "reset": "Nulstil",
+      "filters": {
+        "period": "Periode"
+      }
     },
     "download": "Download",
     "search": "Søg",
@@ -781,8 +784,7 @@
         "searchButton": "Søg",
         "processType": "Beregningstype",
         "gridAreas": "Netområder",
-        "executionStates": "Status",
-        "period": "Periode"
+        "executionStates": "Status"
       },
       "columns": {
         "startedBy": "Bestilt af",
