@@ -32,6 +32,10 @@ watt-card-title {
   display: flex;
   align-items: center;
   gap: var(--watt-space-m);
+
+  watt-button {
+    margin-left: auto;
+  }
 }
 
 .date-picker {
