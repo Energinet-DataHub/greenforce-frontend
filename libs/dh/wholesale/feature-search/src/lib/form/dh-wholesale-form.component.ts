@@ -89,6 +89,7 @@ const makeFormControl = <T>(value: T = null as T) =>
       <watt-date-range-chip formControlName="period">
         {{ t('filters.period') }}
       </watt-date-range-chip>
+
       <watt-form-field>
         <watt-dropdown
           formControlName="processTypes"
@@ -98,6 +99,7 @@ const makeFormControl = <T>(value: T = null as T) =>
           [placeholder]="t('filters.processType')"
         />
       </watt-form-field>
+
       <watt-form-field>
         <watt-dropdown
           formControlName="gridAreaCodes"
@@ -107,9 +109,11 @@ const makeFormControl = <T>(value: T = null as T) =>
           [placeholder]="t('filters.gridAreas')"
         />
       </watt-form-field>
+
       <watt-date-range-chip formControlName="executionTime">
         {{ t('filters.executionTime') }}
       </watt-date-range-chip>
+
       <watt-form-field>
         <watt-dropdown
           formControlName="executionStates"
@@ -119,6 +123,7 @@ const makeFormControl = <T>(value: T = null as T) =>
           [placeholder]="t('filters.executionStates')"
         />
       </watt-form-field>
+
       <watt-button variant="text" icon="undo" type="reset">
         {{ t('filters.reset') }}
       </watt-button>
