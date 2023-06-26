@@ -793,8 +793,7 @@
         "searchButton": "Search",
         "processType": "Calculation type",
         "gridAreas": "Grid areas",
-        "executionStates": "Status",
-        "period": "Period"
+        "executionStates": "Status"
       },
       "columns": {
         "startedBy": "Started by",
