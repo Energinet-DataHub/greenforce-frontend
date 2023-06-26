@@ -21,6 +21,7 @@ import {
   LOCALE_ID,
   OnDestroy,
   OnInit,
+  AfterViewInit,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -74,7 +75,9 @@ export type settlementReportsTableColumns = graphql.GridArea & { download: boole
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit, OnDestroy {
+export class DhWholesaleSettlementsReportsTabsBalanceComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private fb: FormBuilder = inject(FormBuilder);
   private apollo = inject(Apollo);
   private transloco = inject(TranslocoService);
@@ -190,7 +193,9 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
         });
       },
     });
+  }
 
+  ngAfterViewInit(): void {
     this.subscriptionGridAreaSelected = this.searchForm.controls.gridAreas.valueChanges.subscribe(
       (value) => {
         this.selectedGridAreas = value ?? [];
