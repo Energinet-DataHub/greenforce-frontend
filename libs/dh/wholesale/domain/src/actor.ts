@@ -14,17 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-  margin: var(--watt-space-l) 0;
-}
+import { ResultOf } from 'apollo-angular';
 
-form {
-  display: flex;
-  width: 100%;
-  gap: var(--watt-space-m);
-}
+import { GetActorsForSettlementReportDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-.date-range {
-  min-width: 249px;
-}
+export type Actor = ResultOf<typeof GetActorsForSettlementReportDocument>['actors'][0];

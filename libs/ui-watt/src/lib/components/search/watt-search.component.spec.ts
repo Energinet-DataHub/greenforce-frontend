@@ -14,7 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-watt-spinner {
-  display: flex;
-  justify-content: center;
-}
+import { render, screen } from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
+
+import { WattSearchComponent } from './watt-search.component';
+
+describe(WattSearchComponent, () => {
+  it('clears input', async () => {
+    await render(WattSearchComponent);
+
+    const search = screen.getByRole('searchbox');
+    const button = screen.getByRole('button');
+
+    userEvent.type(search, 'test');
+    expect(search).toHaveValue('test');
+
+    userEvent.click(button);
+    expect(search).toHaveValue('');
+  });
+});
