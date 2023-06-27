@@ -14,7 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  inject,
+} from '@angular/core';
 import { WattIcon } from '../../foundations/icon/icons';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { CommonModule } from '@angular/common';
@@ -33,12 +42,13 @@ export type WattValidationMessageSize = 'compact' | 'normal';
   standalone: true,
   imports: [CommonModule, WattIconComponent],
 })
-export class WattValidationMessageComponent {
+export class WattValidationMessageComponent implements AfterViewInit {
   @Input() label = '';
   @Input() message = '';
   @Input() icon?: WattIcon;
   @Input() type: WattValidationMessageType = 'info';
   @Input() size: WattValidationMessageSize = 'compact';
+  @Input() autoScrollIntoView = true;
 
   /**
    * @ignore
@@ -49,5 +59,16 @@ export class WattValidationMessageComponent {
 
   @HostBinding('attr.role') get ariaRole() {
     return this.type === 'warning' || this.type === 'danger' ? 'alert' : 'status';
+  }
+
+  private elementRef = inject(ElementRef);
+
+  ngAfterViewInit() {
+    if (this.autoScrollIntoView) {
+      // Try to win over other auto scrolling behavior such as auto focus
+      setTimeout(() => {
+        this.elementRef.nativeElement.scrollIntoView();
+      }, 100);
+    }
   }
 }
