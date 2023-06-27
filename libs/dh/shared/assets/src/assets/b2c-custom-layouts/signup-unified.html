@@ -107,16 +107,20 @@ limitations under the License.
       }
     </script>
     <script>
+      const path = location.href
+        .replace(location.search, "")
+        .replace(location.pathname.split("/").splice(3), "");
+
       var head = document.getElementsByTagName("head")[0];
       var link = document.createElement("link");
       link.rel = "stylesheet";
       link.type = "text/css";
-      link.href = location.origin + "/main.css";
+      link.href = path + "main.css";
       head.appendChild(link);
 
       var script = document.createElement("script");
       script.type = "text/javascript";
-      script.src = location.origin + "/main.js";
+      script.src = path + "main.js";
       script.onload = init;
       head.appendChild(script);
     </script>
