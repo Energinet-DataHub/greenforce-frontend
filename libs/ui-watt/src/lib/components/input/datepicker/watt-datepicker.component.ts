@@ -332,11 +332,11 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   protected setRangeValue(
-    value: WattDateRange,
+    value: WattDateRange | null,
     startInput: HTMLInputElement,
     endInput: HTMLInputElement
   ) {
-    const { start, end } = value;
+    const { start, end } = value ?? {};
 
     this.setValueToInput(start, startInput, this.matStartDate);
     this.setValueToInput(end, endInput, this.matEndDate);
