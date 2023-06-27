@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   inject,
@@ -27,7 +26,6 @@ import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import {
   combineLatest,
-  filter,
   first,
   map,
   Observable,
