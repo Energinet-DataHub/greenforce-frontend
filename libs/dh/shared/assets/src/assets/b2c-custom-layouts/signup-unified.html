@@ -107,9 +107,7 @@ limitations under the License.
       }
     </script>
     <script>
-      const path = location.href
-        .replace(location.search, "")
-        .replace(location.pathname.split("/").splice(3), "");
+      const path = SETTINGS.remoteResource.replace(SETTINGS.remoteResource.split("/").pop(), "");
 
       var head = document.getElementsByTagName("head")[0];
       var link = document.createElement("link");
