@@ -88,7 +88,7 @@ watt-dropdown {
     color: var(--watt-color-primary);
   }
 
-  .mat-option.mat-option {
+  .mat-option {
     color: var(--watt-color-neutral-black);
 
     &.mat-active,
@@ -101,6 +101,11 @@ watt-dropdown {
     .mat-select-search-no-entries-found {
       text-align: center;
       padding: 0;
+    }
+
+    &.mat-option-disabled {
+      color: var(--watt-color-neutral-grey-400);
+      cursor: not-allowed;
     }
   }
 

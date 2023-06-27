@@ -21,6 +21,9 @@ import {
   Component,
   Input,
   ViewChild,
+  ViewEncapsulation,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import {
   FormControl,
@@ -30,17 +33,19 @@ import {
   Validators,
 } from '@angular/forms';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDateRange } from '@energinet-datahub/watt/date';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { EoTransfersService } from './eo-transfers.service';
 import { EoTransfersStore } from './eo-transfers.store';
+import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
+import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   selector: 'eo-transfers-create-modal',
   imports: [
     WATT_MODAL,
@@ -49,8 +54,10 @@ import { EoTransfersStore } from './eo-transfers.store';
     ReactiveFormsModule,
     WattInputDirective,
     WattDatepickerComponent,
+    WattTimepickerComponent,
     FormsModule,
     NgIf,
+    EoTransfersTimepickerComponent,
   ],
   standalone: true,
   styles: [
@@ -59,16 +66,25 @@ import { EoTransfersStore } from './eo-transfers.store';
         margin-top: var(--watt-space-l);
         margin-bottom: var(--watt-space-m);
       }
+
+      .datetime {
+        display: flex;
+        gap: var(--watt-space-m);
+      }
+
+      /** TODO: should be done in Watt */
+      .datetime .mat-form-field-type-mat-date-range-input .mat-form-field-infix {
+        width: auto !important;
+      }
     `,
   ],
   template: `
     <watt-modal
       #modal
       [title]="title"
-      size="small"
       closeLabel="Close modal"
       [loading]="requestLoading"
-      (closed)="whenClosed()"
+      (closed)="form.reset()"
     >
       <form [formGroup]="form">
         <watt-form-field>
@@ -85,18 +101,50 @@ import { EoTransfersStore } from './eo-transfers.store';
             An 8-digit TIN/CVR number is required
           </watt-error>
         </watt-form-field>
-        <watt-form-field>
-          <watt-label>Period</watt-label>
-          <watt-datepicker
-            required="true"
-            formControlName="dateRange"
-            [range]="true"
-            data-testid="new-agreement-daterange-input"
-          />
-          <watt-error *ngIf="form.controls.dateRange.errors">
-            A start and end date is required
-          </watt-error>
-        </watt-form-field>
+        <fieldset>
+          <div class="datetime">
+            <watt-form-field class="datepicker">
+              <watt-label>Start of period</watt-label>
+              <watt-datepicker
+                required="true"
+                formControlName="startDate"
+                [min]="minStartDate"
+                [max]="maxStartDate"
+                data-testid="new-agreement-daterange-input"
+              />
+              <watt-error *ngIf="form.controls.startDate.errors">
+                A start date is required
+              </watt-error>
+            </watt-form-field>
+            <eo-transfers-timepicker
+              formControlName="startDateTime"
+              [selectedDate]="form.controls.startDate.value"
+            ></eo-transfers-timepicker>
+          </div>
+
+          <div class="datetime">
+            <watt-form-field class="datepicker">
+              <watt-label>End of period</watt-label>
+              <watt-datepicker
+                required="true"
+                formControlName="endDate"
+                data-testid="new-agreement-daterange-input"
+                [min]="minEndDate"
+              />
+              <watt-error *ngIf="form.controls.endDate.errors">
+                An end date is required
+              </watt-error>
+            </watt-form-field>
+            <eo-transfers-timepicker
+              formControlName="endDateTime"
+              [selectedDate]="form.controls.endDate.value"
+              [disabledHours]="
+                form.controls.startDateTime.value ? [form.controls.startDateTime.value] : []
+              "
+            >
+            </eo-transfers-timepicker>
+          </div>
+        </fieldset>
       </form>
       <watt-modal-actions>
         <watt-button
@@ -111,23 +159,30 @@ import { EoTransfersStore } from './eo-transfers.store';
           [disabled]="!form.valid"
           (click)="createAgreement()"
         >
-          Create transfer agreement
+          Create
         </watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
 })
-export class EoTransfersCreateModalComponent {
+export class EoTransfersCreateModalComponent implements OnInit, OnDestroy {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
   @Input() title = '';
 
   form = new FormGroup({
     tin: new FormControl('', [Validators.minLength(8), Validators.pattern('^[0-9]*$')]),
-    dateRange: new FormControl<WattDateRange>({ start: '', end: '' }, [
-      WattRangeValidators.required(),
-    ]),
+    startDate: new FormControl('', [Validators.required]),
+    startDateTime: new FormControl(''),
+    endDate: new FormControl('', [Validators.required]),
+    endDateTime: new FormControl(''),
   });
   requestLoading = false;
+
+  protected minStartDate: Date = new Date();
+  protected maxStartDate?: Date;
+  protected minEndDate: Date = new Date();
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private service: EoTransfersService,
@@ -135,8 +190,21 @@ export class EoTransfersCreateModalComponent {
     private cd: ChangeDetectorRef
   ) {}
 
-  whenClosed() {
-    this.resetFormValues();
+  ngOnInit() {
+    this.form.controls.startDate.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((startDate) => {
+        this.minEndDate = startDate ? new Date(startDate) : new Date();
+      });
+
+    this.form.controls.endDate.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((endDate) => {
+      this.maxStartDate = endDate ? new Date(endDate) : undefined;
+    });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   open() {
@@ -144,11 +212,13 @@ export class EoTransfersCreateModalComponent {
   }
 
   createAgreement() {
-    if (!this.form.valid || !this.form.controls['dateRange'].value) return;
+    console.log(this.form.valid);
+    if (!this.form.valid) return;
 
+    /*
     const transfer = {
-      startDate: Math.round(new Date(this.form.controls['dateRange'].value.start).getTime() / 1000),
-      endDate: Math.round(new Date(this.form.controls['dateRange'].value.end).getTime() / 1000),
+      startDate: getUnixTime(zonedTimeToUtc(this.form.controls['dateRange'].value.start, 'utc')),
+      endDate: getUnixTime(zonedTimeToUtc(this.form.controls['dateRange'].value.end, 'utc')),
       receiverTin: this.form.controls['tin'].value as string,
     };
 
@@ -164,11 +234,6 @@ export class EoTransfersCreateModalComponent {
         this.requestLoading = false;
         this.cd.detectChanges();
       },
-    });
-  }
-
-  private resetFormValues() {
-    this.form.patchValue({ tin: '', dateRange: { start: '', end: '' } });
-    this.form.markAsUntouched();
+    });*/
   }
 }

@@ -149,10 +149,12 @@ interface EoTransferTableElement extends EoListedTransfer {
       class="watt-space-stack-s"
       data-testid="transfers-table"
     >
-      <!-- Period - Custom column -->
-      <ng-container *wattTableCell="table.columns['period']; let element">
-        {{ element.startDate | wattDate }} -
-        {{ utils.checkForMidnightInLocalTime(element.endDate) | wattDate }}
+      <ng-container *wattTableCell="table.columns['startDate']; let element">
+        {{ element.startDate | wattDate: 'long' }}
+      </ng-container>
+
+      <ng-container *wattTableCell="table.columns['endDate']; let element">
+        {{ element.endDate | wattDate: 'long' }}
       </ng-container>
 
       <!-- Status - Custom column -->
@@ -200,7 +202,8 @@ export class EoTransfersTableComponent implements OnChanges {
   dataSource = new WattTableDataSource<EoTransferTableElement>();
   columns = {
     receiver: { accessor: 'receiverTin' },
-    period: { accessor: (transfer) => transfer.startDate },
+    startDate: { accessor: 'startDate' },
+    endDate: { accessor: 'endDate' },
     status: { accessor: (transfer) => this.utils.isDateActive(transfer.endDate) },
   } as WattTableColumnDef<EoTransferTableElement>;
 
