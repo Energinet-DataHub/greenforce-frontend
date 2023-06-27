@@ -463,8 +463,10 @@
     "drawer": {
       "message": "Message",
       "receiver": "Receiver",
+      "created": "Sent",
       "sender": "Sender",
-      "download": "Download"
+      "download": "Download",
+      "documentType": "Document type"
     },
     "document": {
       "loadFailed": "Failed to load document"
