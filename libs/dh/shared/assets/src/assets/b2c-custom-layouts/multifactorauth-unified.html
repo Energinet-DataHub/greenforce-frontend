@@ -50,15 +50,11 @@ limitations under the License.
     <meta name="theme-color" content="#ffffff" />
     <!--- End Favicon -->
 
-    <link rel="stylesheet" href="main.css" />
-
     <!-- Open Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" />
     <!-- End of Open Sans -->
-
-    <script src="main.js"></script>
 
     <style>
       .phoneNumber .type {
@@ -87,9 +83,25 @@ limitations under the License.
       }
     </style>
     <script>
-      Utils.waitFor("button#next", function (element) {
-        element.addEventListener("click", toggleErrorClasses);
-      });
+      function init() {
+        Utils.waitFor("button#next", function (element) {
+          element.addEventListener("click", toggleErrorClasses);
+        });
+      }
+    </script>
+    <script>
+      var head = document.getElementsByTagName("head")[0];
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = location.origin + "/main.css";
+      head.appendChild(link);
+
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = location.origin + "/main.js";
+      script.onload = init;
+      head.appendChild(script);
     </script>
   </head>
   <body>
