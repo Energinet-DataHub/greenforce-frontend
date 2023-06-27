@@ -68,10 +68,7 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
       </watt-drawer-heading>
 
       <watt-drawer-actions>
-        <watt-button
-          variant="secondary"
-          *ngIf="isActive"
-          (click)="transfersEditModal.open()"
+        <watt-button variant="secondary" *ngIf="isActive" (click)="transfersEditModal.open()"
           >Edit</watt-button
         >
       </watt-drawer-actions>
