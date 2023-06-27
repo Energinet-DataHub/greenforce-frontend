@@ -456,8 +456,10 @@
     "drawer": {
       "message": "Besked",
       "sender": "Afsender",
+      "created": "Afsendt",
       "receiver": "Modtager",
-      "download": "Download"
+      "download": "Download",
+      "documentType": "Dokumenttype"
     },
     "document": {
       "loadFailed": "Kunne ikke hente dokumentet"
