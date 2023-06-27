@@ -23,7 +23,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { isFuture } from 'date-fns';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -71,7 +70,7 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
       <watt-drawer-actions>
         <watt-button
           variant="secondary"
-          [disabled]="!isActive || isFuture"
+          *ngIf="isActive"
           (click)="transfersEditModal.open()"
           >Edit</watt-button
         >
@@ -117,7 +116,6 @@ export class EoTransfersDrawerComponent {
   @ViewChild(EoTransfersEditModalComponent) transfersEditModal!: EoTransfersEditModalComponent;
 
   isActive!: boolean;
-  isFuture!: boolean;
 
   private _transfer?: EoListedTransfer;
 
@@ -126,7 +124,6 @@ export class EoTransfersDrawerComponent {
 
     if (!this._transfer) return;
     this.isActive = this._transfer && this.utils.isDateActive(this._transfer?.endDate);
-    this.isFuture = isFuture(new Date(this._transfer.startDate));
   }
   get transfer() {
     return this._transfer;
