@@ -1,0 +1,207 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<watt-modal
+  #modal
+  size="normal"
+  *transloco="let t; read: 'wholesale'"
+  [title]="t('startBatch.modal.title')"
+  (closed)="onClose($event)"
+>
+  <ng-container *ngIf="!showPeriodWarning">
+    <ng-container *rxLet="gridAreasQuery.valueChanges; let result">
+      <ng-container *ngIf="result.data?.gridAreas">
+        <form
+          #form
+          id="create-batch"
+          class="grid"
+          novalidate
+          [formGroup]="createBatchForm"
+          (ngSubmit)="
+            latestPeriodEnd && createBatchForm.controls.processType.value === 'BALANCE_FIXING'
+              ? (showPeriodWarning = true)
+              : modal.close(true)
+          "
+        >
+          <!-- Period Warning-->
+          <watt-validation-message
+            *ngIf="
+              latestPeriodEnd && createBatchForm.controls.processType.value === 'BALANCE_FIXING'
+            "
+            size="normal"
+            type="warning"
+            icon="warning"
+            message="{{
+              t('startBatch.periodWarning', { latestPeriodEnd: latestPeriodEnd | wattDate })
+            }}"
+          />
+
+          <!-- Execution type -->
+          <div class="chips">
+            <label>{{ t("startBatch.executionTypeLabel") }}</label>
+            <watt-filter-chip
+              choice
+              name="executionType"
+              value="ACTUAL"
+              [selected]="true"
+              (selectionChange)="onExecutionTypeSelected($event)"
+            >
+              {{ t("startBatch.executionTypes.actual") }}
+            </watt-filter-chip>
+            <watt-filter-chip
+              choice
+              name="executionType"
+              value="SIMULATION"
+              [disabled]="true"
+              (selectionChange)="onExecutionTypeSelected($event)"
+            >
+              {{ t("startBatch.executionTypes.simulation") }}
+            </watt-filter-chip>
+          </div>
+
+          <!-- Schedule -->
+          <div class="chips">
+            <label>Kørsel</label>
+            <watt-filter-chip choice name="schedule" value="NOW" [selected]="true">
+              Kør nu
+            </watt-filter-chip>
+            <watt-filter-chip choice name="executionType" value="SCHEDULED" [disabled]="true">
+              Planlæg
+            </watt-filter-chip>
+          </div>
+
+          <!-- Process type -->
+          <watt-form-field>
+            <watt-label>{{ t("startBatch.processTypeDropDownLabel") }}</watt-label>
+            <watt-dropdown
+              formControlName="processType"
+              [options]="processTypes"
+              [showResetOption]="false"
+              [multiple]="false"
+            ></watt-dropdown>
+            <watt-error *ngIf="createBatchForm.controls.processType.errors?.required">
+              {{ t("startBatch.processTypeError") }}
+            </watt-error>
+          </watt-form-field>
+
+          <!-- Monthly summation -->
+          <div class="chips">
+            <label>Månedlige summer</label>
+            <watt-filter-chip choice name="summation" value="yes" [disabled]="true">
+              Ja
+            </watt-filter-chip>
+            <watt-filter-chip choice name="summation" value="no" [disabled]="true">
+              Nej
+            </watt-filter-chip>
+          </div>
+
+          <!-- Date range -->
+          <watt-form-field>
+            <watt-label>{{ t("startBatch.dateRangeLabel") }}</watt-label>
+            <watt-datepicker
+              formControlName="dateRange"
+              [range]="true"
+              [min]="minDate"
+              [max]="maxDate"
+            ></watt-datepicker>
+            <watt-error *ngIf="createBatchForm.controls.dateRange.errors?.rangeRequired">
+              {{ t("startBatch.dateRangeRequired") }}
+            </watt-error>
+            <watt-error
+              *ngIf="
+                createBatchForm.controls.dateRange.errors?.invalidPeriod &&
+                !createBatchForm.controls.dateRange.errors?.rangeRequired
+              "
+            >
+              {{ t("startBatch.invalidPeriod") }}
+            </watt-error>
+          </watt-form-field>
+
+          <!-- Grid areas -->
+          <watt-form-field>
+            <watt-label>{{ t("startBatch.gridAreaDropDownLabel") }}</watt-label>
+            <watt-dropdown
+              formControlName="gridAreas"
+              [options]="gridAreas$ | push"
+              [showResetOption]="false"
+              [multiple]="true"
+            ></watt-dropdown>
+            <watt-hint *transloco="let transloco; read: 'shared'">{{
+              transloco("selectedValues", {
+                count: createBatchForm.controls.gridAreas.value?.length
+              })
+            }}</watt-hint>
+            <watt-error *ngIf="createBatchForm.controls.gridAreas.errors?.required">
+              {{ t("startBatch.gridAreaRequired") }}
+            </watt-error>
+          </watt-form-field>
+        </form>
+      </ng-container>
+
+      <div *ngIf="result.loading" class="center">
+        <watt-spinner></watt-spinner>
+      </div>
+
+      <div *ngIf="result.error" class="center">
+        <watt-empty-state
+          icon="custom-power"
+          [title]="'shared.error.title' | transloco"
+          [message]="'shared.error.message' | transloco"
+        >
+        </watt-empty-state>
+      </div>
+    </ng-container>
+
+    <watt-modal-actions>
+      <watt-button variant="secondary" (click)="modal.close(false)">Fortryd</watt-button>
+      <watt-button
+        type="submit"
+        formId="create-batch"
+        [disabled]="!createBatchForm.valid || loadingCreateBatch"
+      >
+        {{ t("startBatch.startLabel") }}
+      </watt-button>
+    </watt-modal-actions>
+  </ng-container>
+  <ng-container *ngIf="showPeriodWarning">
+    <ng-container *transloco="let t; read: 'wholesale.startBatch.modal'">
+      <watt-validation-message
+        type="warning"
+        icon="warning"
+        size="normal"
+        [label]="t('warningLabel')"
+        [message]="t('warningMessage')"
+      />
+      <p>{{ t("body") }}</p>
+      <p>{{ t("confirmation") }}</p>
+      <watt-form-field>
+        <input #input wattInput [formControl]="confirmFormControl" value="" autocomplete="off" />
+        <watt-hint>{{ t("hint") }}</watt-hint>
+      </watt-form-field>
+      <watt-modal-actions>
+        <watt-button variant="secondary" (click)="modal.close(false)">
+          {{ t("cancelButton") }}
+        </watt-button>
+        <watt-button
+          [disabled]="input.value.toUpperCase() !== t('confirmText')"
+          (click)="modal.close(true)"
+        >
+          {{ t("confirmButton") }}
+        </watt-button>
+      </watt-modal-actions>
+    </ng-container>
+  </ng-container>
+</watt-modal>
