@@ -16,7 +16,7 @@ watt-radio label {
   }
 }
 
-watt-radio input[type='radio'] {
+watt-radio input[type="radio"] {
   width: 24px;
   height: 24px;
   appearance: none;
@@ -28,7 +28,7 @@ watt-radio input[type='radio'] {
   place-content: center;
 
   &::before {
-    content: '';
+    content: "";
     width: 10px;
     height: 10px;
     border-radius: 50%;
