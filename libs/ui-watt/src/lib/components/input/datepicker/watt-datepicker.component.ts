@@ -273,19 +273,24 @@ export class WattDatepickerComponent extends WattPickerBase {
     /*
      * Initial is used to prevent marking the control as touched on initial values.
      */
-    let initial = true;
+    let initialDateChange = true;
 
     // Subscribe for changes from date-range picker
     combineLatest([matStartDateChange$, matEndDateChange$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([start, end]) => {
-        if (initial) {
-          initial = false;
+        if (initialDateChange) {
+          initialDateChange = false;
           return;
         }
         this.markParentControlAsTouched();
         this.changeParentValue({ start, end });
       });
+
+    /*
+     * Initial is used to prevent marking the control as touched on initial values.
+     */
+    let initialInputChange = true;
 
     // Subscribe for input changes
     this.rangeInputService.onInputChanges$
@@ -295,6 +300,10 @@ export class WattDatepickerComponent extends WattPickerBase {
       // 2. A `dd-MM-yyyy` format (keep in sync with `dateShortFormat`) (usually when date is manually typed)
       // 3. Full ISO 8601 format (usually when initial value is set)
       .subscribe(([start, end]) => {
+        if (initialInputChange) {
+          initialInputChange = false;
+          return;
+        }
         const parsedStartDate = this.parseDateShortFormat(start);
 
         if (isValid(parsedStartDate)) {

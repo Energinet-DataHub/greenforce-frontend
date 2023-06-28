@@ -102,7 +102,10 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
 
   createBatchForm = new FormGroup<CreateBatchFormValues>({
     processType: new FormControl(null, { validators: Validators.required }),
-    gridAreas: new FormControl(null, { validators: Validators.required }),
+    gridAreas: new FormControl(
+      { value: null, disabled: true },
+      { validators: Validators.required }
+    ),
     dateRange: new FormControl(null, {
       validators: WattRangeValidators.required(),
       asyncValidators: () => this.validateBalanceFixing(),
@@ -277,7 +280,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     this.onDateRangeChange$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       const gridAreasControl = this.createBatchForm.controls.gridAreas;
       const disableGridAreas = this.createBatchForm.controls.dateRange.invalid;
-
+      if (disableGridAreas == gridAreasControl.disabled) return; // prevent ng0100
       disableGridAreas ? gridAreasControl.disable() : gridAreasControl.enable();
     });
   }
