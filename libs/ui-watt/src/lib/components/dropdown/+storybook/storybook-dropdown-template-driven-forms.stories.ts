@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { FormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { WATT_FORM_FIELD } from '../../form-field';
 import { WattDropdownComponent } from '../watt-dropdown.component';
@@ -34,8 +34,11 @@ const meta: Meta<WattDropdownComponent> = {
   title: 'Components/Dropdown/Template-driven Forms',
   component: WattDropdownComponent,
   decorators: [
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
     moduleMetadata({
-      imports: [FormsModule, BrowserAnimationsModule, WATT_FORM_FIELD],
+      imports: [FormsModule, WATT_FORM_FIELD],
     }),
   ],
 };

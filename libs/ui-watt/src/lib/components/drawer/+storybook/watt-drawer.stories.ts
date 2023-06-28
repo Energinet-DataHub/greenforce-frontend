@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
 import { fireEvent, within } from '@storybook/testing-library';
 
 import { WattButtonComponent } from '../../button';
@@ -45,10 +45,12 @@ export default {
     },
   },
   decorators: [
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
     moduleMetadata({
       imports: [
         WATT_DRAWER,
-        BrowserAnimationsModule,
         WattButtonComponent,
         WATT_MODAL,
         WattStorybookDrawerContentComponent,
