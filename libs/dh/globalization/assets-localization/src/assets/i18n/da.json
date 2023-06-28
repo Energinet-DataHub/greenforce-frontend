@@ -752,9 +752,24 @@
         "actual": "Faktisk",
         "simulation": "Simulering"
       },
+      "scheduling": {
+        "label": "Kørsel",
+        "now": "Kør nu",
+        "scheduled": "Planlæg"
+      },
+      "summation": {
+        "label": "Månedlige summer",
+        "yes": "Ja",
+        "no": "Nej"
+      },
       "processTypeError": "Procestype påkrævet",
       "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
       "modal": {
+        "title": "Ny beregning",
+        "confirmButton": "Opret",
+        "cancelButton": "Fortryd"
+      },
+      "modalWarning": {
         "title": "Genkør balancefiksering?",
         "warningLabel": "Dette vil give aktørerne nye data",
         "warningMessage": "Genkørsel af en balancefiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
@@ -770,6 +785,7 @@
       "topBarTitle": "Søg batch",
       "headline": "Batch overblik",
       "search": "Søg",
+      "new": "Ny beregning",
       "filters": {
         "executionTime": "Eksekveringstid",
         "executionTimeRequired": "Eksekveringstid påkrævet",

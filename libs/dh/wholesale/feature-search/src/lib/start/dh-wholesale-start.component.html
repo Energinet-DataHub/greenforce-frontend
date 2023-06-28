@@ -18,7 +18,7 @@ limitations under the License.
   #modal
   size="normal"
   *transloco="let t; read: 'wholesale'"
-  [title]="t('startBatch.modal.title')"
+  [title]="showPeriodWarning ? t('startBatch.modalWarning.title') : t('startBatch.modal.title')"
   (closed)="onClose($event)"
 >
   <ng-container *ngIf="!showPeriodWarning">
@@ -72,14 +72,14 @@ limitations under the License.
             </watt-filter-chip>
           </div>
 
-          <!-- Schedule -->
+          <!-- scheduling -->
           <div class="chips">
-            <label>Kørsel</label>
+            <label>{{ t("startBatch.scheduling.label") }}</label>
             <watt-filter-chip choice name="schedule" value="NOW" [selected]="true">
-              Kør nu
+              {{ t("startBatch.scheduling.now") }}
             </watt-filter-chip>
-            <watt-filter-chip choice name="executionType" value="SCHEDULED" [disabled]="true">
-              Planlæg
+            <watt-filter-chip choice name="schedule" value="SCHEDULED" [disabled]="true">
+              {{ t("startBatch.scheduling.scheduled") }}
             </watt-filter-chip>
           </div>
 
@@ -88,7 +88,7 @@ limitations under the License.
             <watt-label>{{ t("startBatch.processTypeDropDownLabel") }}</watt-label>
             <watt-dropdown
               formControlName="processType"
-              [options]="processTypes"
+              [options]="processTypes | push"
               [showResetOption]="false"
               [multiple]="false"
             ></watt-dropdown>
@@ -99,12 +99,12 @@ limitations under the License.
 
           <!-- Monthly summation -->
           <div class="chips">
-            <label>Månedlige summer</label>
+            <label>{{ t("startBatch.summation.label") }}</label>
             <watt-filter-chip choice name="summation" value="yes" [disabled]="true">
-              Ja
+              {{ t("startBatch.summation.yes") }}
             </watt-filter-chip>
             <watt-filter-chip choice name="summation" value="no" [disabled]="true">
-              Nej
+              {{ t("startBatch.summation.no") }}
             </watt-filter-chip>
           </div>
 
@@ -166,18 +166,20 @@ limitations under the License.
     </ng-container>
 
     <watt-modal-actions>
-      <watt-button variant="secondary" (click)="modal.close(false)">Fortryd</watt-button>
+      <watt-button variant="secondary" (click)="modal.close(false)">
+        {{ t("startBatch.modal.cancelButton") }}
+      </watt-button>
       <watt-button
         type="submit"
         formId="create-batch"
         [disabled]="!createBatchForm.valid || loadingCreateBatch"
       >
-        {{ t("startBatch.startLabel") }}
+        {{ t("startBatch.modal.confirmButton") }}
       </watt-button>
     </watt-modal-actions>
   </ng-container>
   <ng-container *ngIf="showPeriodWarning">
-    <ng-container *transloco="let t; read: 'wholesale.startBatch.modal'">
+    <ng-container *transloco="let t; read: 'wholesale.startBatch.modalWarning'">
       <watt-validation-message
         type="warning"
         icon="warning"

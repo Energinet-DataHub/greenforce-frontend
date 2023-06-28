@@ -14,14 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import {
@@ -67,7 +60,6 @@ interface CreateBatchFormValues {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-wholesale-start',
   templateUrl: './dh-wholesale-start.component.html',
   styleUrls: ['./dh-wholesale-start.component.scss'],
@@ -125,7 +117,16 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
 
   onDateRangeChange$ = this.createBatchForm.controls.dateRange.valueChanges.pipe(startWith(null));
 
-  processTypes: WattDropdownOption[] = [];
+  processTypes: Observable<WattDropdownOption[]> = this.transloco
+    .selectTranslateObject('wholesale.startBatch.processTypes')
+    .pipe(
+      map((processTypesTranslation) =>
+        Object.values(graphql.ProcessType).map((value) => ({
+          displayValue: processTypesTranslation[value],
+          value,
+        }))
+      )
+    );
 
   selectedExecutionType = 'ACTUAL';
   latestPeriodEnd?: string | null;
@@ -149,7 +150,6 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   maxDate = new Date();
 
   ngOnInit(): void {
-    this.getProcessTypes();
     this.toggleGridAreasControl();
 
     // Close toast on navigation
@@ -167,18 +167,6 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   onExecutionTypeSelected(selection: HTMLInputElement) {
     this.selectedExecutionType = selection.value;
     this.executionTypeChanged$.next();
-  }
-
-  private getProcessTypes(): void {
-    this.transloco
-      .selectTranslateObject('wholesale.startBatch.processTypes')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((processTypesTranslation) => {
-        this.processTypes = Object.values(graphql.ProcessType).map((value) => ({
-          displayValue: processTypesTranslation[value],
-          value,
-        }));
-      });
   }
 
   open() {
@@ -237,16 +225,16 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
           });
         },
       });
-
-    this.reset();
   }
 
   onClose(accepted: boolean) {
     if (accepted) this.createBatch();
-    this.showPeriodWarning = false;
+    if (accepted || this.showPeriodWarning) this.reset();
   }
 
   reset() {
+    this.latestPeriodEnd = null;
+    this.showPeriodWarning = false;
     this.createBatchForm.reset();
 
     // This is apparently neccessary to reset the dropdown validity state

@@ -21,6 +21,16 @@
           "libs/dh/wholesale/feature-search/src/**/*.html"
         ]
       }
+    },
+    "component-test": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "libs/dh/wholesale/feature-start/cypress.config.ts",
+        "testingType": "component",
+        "skipServe": true,
+        "devServerTarget": "app-dh:build:mocked",
+        "browser": "chrome"
+      }
     }
   },
   "tags": ["product:dh", "domain:wholesale", "type:feature"]

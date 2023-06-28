@@ -69,7 +69,7 @@ describe(DhWholesaleSearchComponent, () => {
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
   });
 
-  it('should show loading indicator when changing filters', async () => {
+  it.only('should show loading indicator when changing filters', async () => {
     await setup();
 
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();

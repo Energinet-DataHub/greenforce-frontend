@@ -761,9 +761,24 @@
         "actual": "Actual",
         "simulation": "Simulation"
       },
+      "scheduling": {
+        "label": "Execution",
+        "now": "Run now",
+        "scheduled": "Schedule"
+      },
+      "summation": {
+        "label": "Monthly summation",
+        "yes": "Yes",
+        "no": "No"
+      },
       "processTypeError": "Process type is required",
       "periodWarning": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
       "modal": {
+        "title": "New calculation",
+        "confirmButton": "Create",
+        "cancelButton": "Cancel"
+      },
+      "modalWarning": {
         "title": "Rerun balance fixing?",
         "warningLabel": "This will issue new data to the actors",
         "warningMessage": "Rerunning a balance fixing will result in all associated actors receiving new data for their settlements.",
@@ -779,6 +794,7 @@
       "topBarTitle": "Search Batch",
       "headline": "Batch overview",
       "search": "Search",
+      "new": "New calculation",
       "filters": {
         "executionTime": "Execution time",
         "executionTimeRequired": "Execution time is required",
