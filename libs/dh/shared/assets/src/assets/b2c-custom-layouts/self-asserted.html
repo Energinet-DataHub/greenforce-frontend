@@ -124,7 +124,9 @@ limitations under the License.
       }
     </script>
     <script>
-      const path = SETTINGS.remoteResource.replace(SETTINGS.remoteResource.split("/").pop(), "");
+      const path = window.SETTINGS
+        ? SETTINGS.remoteResource.replace(SETTINGS.remoteResource.split("/").pop(), "")
+        : "";
 
       var head = document.getElementsByTagName("head")[0];
       var link = document.createElement("link");

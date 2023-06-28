@@ -138,6 +138,11 @@ form {
   border: none;
 }
 
+.emailVerificationControl,
+ul {
+  margin-top: 10px;
+}
+
 .verificationInfoText > div,
 .error > div,
 .verificationSuccessText > div,
@@ -148,7 +153,6 @@ form {
   font-weight: normal;
   font-size: 14px;
   line-height: 20px;
-  padding: 0 0 10px 10px;
 }
 
 .error-border {
