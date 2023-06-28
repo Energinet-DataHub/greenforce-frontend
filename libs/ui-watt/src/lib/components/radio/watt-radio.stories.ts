@@ -36,7 +36,7 @@ const template = `<div style="display: flex; gap: var(--watt-space-m); flex-dire
   <watt-radio group="fav_framework" [formControl]="exampleFormControl" value="angular">Angular</watt-radio>
   <watt-radio group="fav_framework" [formControl]="exampleFormControl" value="react">React</watt-radio>
   <watt-radio group="fav_framework" [formControl]="exampleFormControl" value="svelte">Svelte</watt-radio>
-</div>`;
+</div><p>Value: {{exampleFormControl.value}}</p>`;
 
 const howToUseGuideBasic = `
 How to use
