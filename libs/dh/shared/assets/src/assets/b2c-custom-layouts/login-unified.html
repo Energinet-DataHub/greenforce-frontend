@@ -126,15 +126,6 @@ limitations under the License.
       }
     </style>
     <script>
-      function getB2CFlowLink(flowname) {
-        return document.location.href.replace("signin", flowname).replace("sign_in", flowname);
-      }
-
-      function getB2CFlowLinkIgnoreCase(flowname) {
-        var regEx = new RegExp("signin|sign_in", "ig");
-        return document.location.href.replace(regEx, flowname);
-      }
-
       function appendForgotPasswordTemplate() {
         var forgotPasswordTemplate = document.getElementById("forgotPasswordTemplate");
 
@@ -151,20 +142,10 @@ limitations under the License.
         forgotPasswordContainer.appendChild(forgotPasswordTemplate);
       }
 
-      function setMitIdFlowSignInFlow() {
-        var mitIdFlowSignInFlowLinks = document.querySelectorAll(".mitidlogin a");
-        var mitIdFlowSignInFlowUrl = getB2CFlowLinkIgnoreCase("mitid_signin");
-
-        mitIdFlowSignInFlowLinks.forEach((link) => {
-          link.setAttribute("href", mitIdFlowSignInFlowUrl);
-        });
-      }
-
       function init() {
         Utils.waitFor("button#next", function (element) {
-          element.addEventListener("click", Utils.appendChild);
+          element.addEventListener("click", Utils.toggleErrorClasses);
           appendForgotPasswordTemplate();
-          setMitIdFlowSignInFlow();
         });
       }
     </script>
