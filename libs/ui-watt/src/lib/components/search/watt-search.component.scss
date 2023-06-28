@@ -97,7 +97,7 @@ input,
 }
 
 input {
-  transition-timing-function: cubic-bezier(0, 1, 0, 1);
+  transition-timing-function: cubic-bezier(0, 0.5, 0, 1);
 }
 
 input:focus {
@@ -108,7 +108,7 @@ input:not(:placeholder-shown),
 input:focus {
   pointer-events: auto;
   opacity: 1;
-  transition-timing-function: cubic-bezier(1, 0, 1, 0);
+  transition-timing-function: cubic-bezier(1, 0, 0.5, 0);
 
   & + .wrapper {
     transform: translateX(-100%);

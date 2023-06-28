@@ -37,7 +37,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
           <span class="text">{{ label }}</span>
         </span>
       </span>
-      <button class="clear" (click)="input.value = ''">
+      <button class="clear" (click)="input.value = ''; search.emit(input.value)">
         <watt-icon name="close" size="s" />
       </button>
     </label>

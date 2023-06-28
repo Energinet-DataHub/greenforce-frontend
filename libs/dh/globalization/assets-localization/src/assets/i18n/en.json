@@ -26,6 +26,12 @@
       "previous": "Previous page",
       "ariaLabel": "Select page"
     },
+    "form": {
+      "reset": "Reset",
+      "filters": {
+        "period": "Period"
+      }
+    },
     "download": "Download",
     "search": "Search",
     "selectedValues": "{{count}} selected"
@@ -457,8 +463,10 @@
     "drawer": {
       "message": "Message",
       "receiver": "Receiver",
+      "created": "Sent",
       "sender": "Sender",
-      "download": "Download"
+      "download": "Download",
+      "documentType": "Document type"
     },
     "document": {
       "loadFailed": "Failed to load document"
@@ -803,9 +811,7 @@
         "searchButton": "Search",
         "processType": "Calculation type",
         "gridAreas": "Grid areas",
-        "executionStates": "Status",
-        "period": "Period",
-        "reset": "Reset"
+        "executionStates": "Status"
       },
       "columns": {
         "startedBy": "Started by",

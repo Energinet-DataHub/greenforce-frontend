@@ -17,10 +17,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   LOCALE_ID,
   OnDestroy,
   OnInit,
+  AfterViewInit,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -34,12 +34,11 @@ import { Apollo } from 'apollo-angular';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
+import { WATT_FORM_FIELD, WattFormChipDirective } from '@energinet-datahub/watt/form-field';
 import { WholesaleProcessType, graphql } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { Actor, ActorFilter, GridArea } from '@energinet-datahub/dh/wholesale/domain';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhWholesaleSettlementReportsDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -64,17 +63,19 @@ export type settlementReportsTableColumns = graphql.GridArea & { download: boole
     WATT_TABLE,
     TranslocoModule,
     WattButtonComponent,
-    WattDatepickerComponent,
+    WattDateRangeChipComponent,
+    WattFormChipDirective,
     ReactiveFormsModule,
     WATT_FORM_FIELD,
     WattDropdownComponent,
-    DhPermissionRequiredDirective,
     WattEmptyStateComponent,
     CommonModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit, OnDestroy {
+export class DhWholesaleSettlementsReportsTabsBalanceComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private fb: FormBuilder = inject(FormBuilder);
   private apollo = inject(Apollo);
   private transloco = inject(TranslocoService);
@@ -87,14 +88,11 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
   private subscriptionActors?: Subscription;
   private subscriptionGridAreaSelected?: Subscription;
 
-  @Input() set executionTime(executionTime: { start: string; end: string }) {
-    this.searchForm.patchValue({ executionTime });
-  }
   @ViewChild(WattTableComponent)
   resultTable!: WattTableComponent<settlementReportsTableColumns>;
 
   searchForm = this.fb.group({
-    executionTime: [this.executionTime, WattRangeValidators.required()],
+    period: [{ start: '', end: '' }, WattRangeValidators.required()],
     actor: [''],
     gridAreas: [[] as string[]],
   });
@@ -190,7 +188,9 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
         });
       },
     });
+  }
 
+  ngAfterViewInit(): void {
     this.subscriptionGridAreaSelected = this.searchForm.controls.gridAreas.valueChanges.subscribe(
       (value) => {
         this.selectedGridAreas = value ?? [];
@@ -216,8 +216,8 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent implements OnInit
       {
         gridAreas: gridAreas.map((g) => g.id),
         processType: WholesaleProcessType.BalanceFixing,
-        periodStart: this.searchForm.controls.executionTime.value?.start ?? '',
-        periodEnd: this.searchForm.controls.executionTime.value?.end ?? '',
+        periodStart: this.searchForm.controls.period.value?.start ?? '',
+        periodEnd: this.searchForm.controls.period.value?.end ?? '',
         energySupplier: this.searchForm.controls.actor.value ?? undefined,
         locale: this.transloco.translate('selectedLanguageIso'),
       },
