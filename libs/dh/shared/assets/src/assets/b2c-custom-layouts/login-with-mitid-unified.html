@@ -57,7 +57,10 @@ limitations under the License.
     <!-- End of Open Sans -->
 
     <style>
-      /** Form **/
+      .claims-provider-list-buttons,
+      .divider {
+        display: none;
+      }
       .mitid-icon-link {
         display: flex;
         align-items: center;
@@ -189,8 +192,9 @@ limitations under the License.
     </script>
 
     <script>
-      const path = SETTINGS.remoteResource.replace(SETTINGS.remoteResource.split("/").pop(), "");
-
+      const path = window.SETTINGS
+        ? SETTINGS.remoteResource.replace(SETTINGS.remoteResource.split("/").pop(), "")
+        : "";
       var head = document.getElementsByTagName("head")[0];
       var link = document.createElement("link");
       link.rel = "stylesheet";
@@ -211,7 +215,108 @@ limitations under the License.
       <div class="login-form">
         <h2 aria-level="1" class="imprint imprint-da">LOG IND</h2>
         <h2 aria-level="1" class="imprint imprint-en">SIGN IN</h2>
-        <div id="api"></div>
+        <div id="api" data-name="Unified">
+          <div class="heading">
+            <h1 role="heading">Sign in</h1>
+          </div>
+          <div
+            class="claims-provider-list-buttons social"
+            aria-label="Sign in with your social account"
+            role="form"
+          >
+            <div class="intro">
+              <h2>Sign in with your social account</h2>
+            </div>
+            <div class="options">
+              <div>
+                <button
+                  class="accountButton firstButton claims-provider-selection"
+                  id="MitIDv1"
+                  role="link"
+                  autofocus=""
+                >
+                  MitIDv1
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider">
+            <h2>OR</h2>
+          </div>
+          <form
+            id="localAccountForm"
+            action="JavaScript:void(0);"
+            class="localAccount"
+            aria-label="Sign in with your email address"
+          >
+            <div class="intro">
+              <h2>Sign in with your email address</h2>
+            </div>
+            <div class="error pageLevel" aria-hidden="true" role="alert" style="display: none">
+              <p></p>
+            </div>
+            <div class="entry">
+              <div class="entry-item">
+                <label for="email"> Email Address </label>
+                <div class="error itemLevel" aria-hidden="true" role="alert" style="display: none">
+                  <p></p>
+                </div>
+                <input
+                  type="text"
+                  id="email"
+                  name="Email Address"
+                  title="Please enter a valid email address"
+                  pattern="^[a-zA-Z0-9!#$%&amp;'+^_`{}~-]+(?:\.[a-zA-Z0-9!#$%&amp;'+^_`{}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
+                  autofocus=""
+                  placeholder="Email Address"
+                  aria-label="Email Address"
+                />
+              </div>
+              <div class="entry-item">
+                <div class="password-label">
+                  <label for="password">Password</label>
+                  <a
+                    id="forgotPassword"
+                    href="/devdatahubb2c.onmicrosoft.com/B2C_1_SignInFlow/api/CombinedSigninAndSignup/unified?claimsexchange=ForgotPassword&amp;csrf_token=WXpOK3RBVUdiSERSNlBwTjVDVVA3WjZUUEhpaFhYVFFlbkwzSUJRNVhVQVlwejBJdEFpSUE5WU1wNElpbGlNbFU0NlhTNnlRK28rVllZWHpHSTkrMWc9PTsyMDIzLTA2LTI4VDEwOjEzOjAyLjExMzUxNzRaO2IzcXhqTnZWQTV2ZldQRUgrWUJaZWc9PTt7Ik9yY2hlc3RyYXRpb25TdGVwIjoxfQ==&amp;tx=StateProperties=eyJUSUQiOiJmNDJmZWJmNi1mMGFhLTQ0ZDMtODE0My04NmNjYTdmM2MwMTYifQ&amp;p=B2C_1_SignInFlow"
+                    >Forgot your password?</a
+                  >
+                </div>
+                <div class="error itemLevel" aria-hidden="true" style="display: none">
+                  <p role="alert"></p>
+                </div>
+                <input
+                  type="password"
+                  id="password"
+                  name="Password"
+                  placeholder="Password"
+                  aria-label="Password"
+                  autocomplete="current-password"
+                  aria-required="true"
+                />
+              </div>
+              <div class="working"></div>
+
+              <div class="buttons">
+                <button id="next" type="submit" form="localAccountForm">Sign in</button>
+                <p id="forgotPasswordTemplate" class="template">
+                  <span class="imprint imprint-da">
+                    <a
+                      href="/devdatahubb2c.onmicrosoft.com/B2C_1_SignInFlow/api/CombinedSigninAndSignup/unified?claimsexchange=ForgotPassword&amp;csrf_token=WXpOK3RBVUdiSERSNlBwTjVDVVA3WjZUUEhpaFhYVFFlbkwzSUJRNVhVQVlwejBJdEFpSUE5WU1wNElpbGlNbFU0NlhTNnlRK28rVllZWHpHSTkrMWc9PTsyMDIzLTA2LTI4VDEwOjEzOjAyLjExMzUxNzRaO2IzcXhqTnZWQTV2ZldQRUgrWUJaZWc9PTt7Ik9yY2hlc3RyYXRpb25TdGVwIjoxfQ==&amp;tx=StateProperties=eyJUSUQiOiJmNDJmZWJmNi1mMGFhLTQ0ZDMtODE0My04NmNjYTdmM2MwMTYifQ&amp;p=B2C_1_SignInFlow"
+                      >Nulstil kodeord</a
+                    >
+                  </span>
+                  <span class="imprint imprint-en">
+                    <a
+                      href="/devdatahubb2c.onmicrosoft.com/B2C_1_SignInFlow/api/CombinedSigninAndSignup/unified?claimsexchange=ForgotPassword&amp;csrf_token=WXpOK3RBVUdiSERSNlBwTjVDVVA3WjZUUEhpaFhYVFFlbkwzSUJRNVhVQVlwejBJdEFpSUE5WU1wNElpbGlNbFU0NlhTNnlRK28rVllZWHpHSTkrMWc9PTsyMDIzLTA2LTI4VDEwOjEzOjAyLjExMzUxNzRaO2IzcXhqTnZWQTV2ZldQRUgrWUJaZWc9PTt7Ik9yY2hlc3RyYXRpb25TdGVwIjoxfQ==&amp;tx=StateProperties=eyJUSUQiOiJmNDJmZWJmNi1mMGFhLTQ0ZDMtODE0My04NmNjYTdmM2MwMTYifQ&amp;p=B2C_1_SignInFlow"
+                      >Reset password</a
+                    >
+                  </span>
+                </p>
+              </div>
+            </div>
+          </form>
+        </div>
         <div>
           <div class="hr-lines imprint imprint-da">eller</div>
           <div class="hr-lines imprint imprint-en">or</div>
