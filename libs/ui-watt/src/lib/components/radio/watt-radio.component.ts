@@ -47,7 +47,7 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
   // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
     '[class.disabled]': 'isDisabled',
-  }
+  },
 })
 export class WattRadioComponent implements ControlValueAccessor {
   @Input() group!: string;
@@ -60,10 +60,14 @@ export class WattRadioComponent implements ControlValueAccessor {
   isDisabled = false;
 
   /* @ignore */
-  onChange: (value: string) => void = () => { /* left blank intentionally */ };
+  onChange: (value: string) => void = () => {
+    /* left blank intentionally */
+  };
 
   /* @ignore */
-  onTouched: () => void = () => { /* left blank intentionally */ };
+  onTouched: () => void = () => {
+    /* left blank intentionally */
+  };
 
   /* @ignore */
   writeValue(value: string): void {
