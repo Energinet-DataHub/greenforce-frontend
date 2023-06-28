@@ -39,6 +39,7 @@ import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 
 import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.component';
+import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -55,6 +56,7 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
     WattDatePipe,
     NgIf,
     EoTransfersEditModalComponent,
+    EoTransfersHistoryComponent,
   ],
   standalone: true,
   styles: [``],
@@ -78,7 +80,7 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
       </watt-drawer-actions>
 
       <watt-drawer-content *ngIf="drawer.isOpen">
-        <watt-tabs>
+        <watt-tabs #tabs>
           <watt-tab label="Information">
             <watt-card variant="solid">
               <watt-description-list variant="stack">
@@ -99,6 +101,11 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
                 <watt-description-list-item label="ID" value="{{ transfer?.id }}">
                 </watt-description-list-item>
               </watt-description-list>
+            </watt-card>
+          </watt-tab>
+          <watt-tab label="History">
+            <watt-card variant="solid">
+              <eo-transfers-history *ngIf="tabs.activeTabIndex === 1"></eo-transfers-history>
             </watt-card>
           </watt-tab>
         </watt-tabs>
