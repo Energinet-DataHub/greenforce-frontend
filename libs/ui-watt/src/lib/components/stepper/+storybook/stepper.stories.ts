@@ -14,15 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { applicationConfig, Meta, StoryFn } from '@storybook/angular';
+
 import { StepperExampleComponent } from './stepper.example.component';
 
 const meta: Meta<StepperExampleComponent> = {
   title: 'Components/Stepper',
   decorators: [
-    moduleMetadata({
-      imports: [BrowserAnimationsModule],
+    applicationConfig({
+      providers: [provideAnimations()],
     }),
   ],
   component: StepperExampleComponent,

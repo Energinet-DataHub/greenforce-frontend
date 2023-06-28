@@ -40,11 +40,11 @@ jobs:
       solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
       environment: AzureAuth
     secrets:
-      azure_tenant_id: ${{ secrets.azure_tenant_id }}
-      azure_subscription_id: ${{ secrets.azure_subscription_id }}
-      azure_spn_id: ${{ secrets.azure_spn_id_oidc }}
-      azure_keyvault_url: ${{ secrets.azure_keyvault_url }}
-      azure_b2csecrets_keyvault_url: ${{ secrets.azure_b2csecrets_keyvault_url }}
+      azure_tenant_id: ${{ vars.azure_tenant_id }}
+      azure_subscription_id: ${{ vars.azure_subscription_id }}
+      azure_spn_id: ${{ vars.azure_spn_id_oidc }}
+      azure_keyvault_url: ${{ vars.azure_keyvault_url }}
+      azure_b2csecrets_keyvault_url: ${{ vars.azure_b2csecrets_keyvault_url }}
 
   dotnet_promote_prerelease:
     needs: changes

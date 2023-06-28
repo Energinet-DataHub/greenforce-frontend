@@ -26,6 +26,12 @@
       "previous": "Forrige side",
       "ariaLabel": "Vælg side"
     },
+    "form": {
+      "reset": "Nulstil",
+      "filters": {
+        "period": "Periode"
+      }
+    },
     "download": "Download",
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)"
@@ -450,8 +456,10 @@
     "drawer": {
       "message": "Besked",
       "sender": "Afsender",
+      "created": "Afsendt",
       "receiver": "Modtager",
-      "download": "Download"
+      "download": "Download",
+      "documentType": "Dokumenttype"
     },
     "document": {
       "loadFailed": "Kunne ikke hente dokumentet"
@@ -778,9 +786,7 @@
         "searchButton": "Søg",
         "processType": "Beregningstype",
         "gridAreas": "Netområder",
-        "executionStates": "Status",
-        "period": "Periode",
-        "reset": "Nulstil"
+        "executionStates": "Status"
       },
       "columns": {
         "startedBy": "Bestilt af",
