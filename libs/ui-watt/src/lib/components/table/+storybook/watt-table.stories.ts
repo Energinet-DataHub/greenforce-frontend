@@ -14,9 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { componentWrapperDecorator, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  componentWrapperDecorator,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 import { MatSortModule } from '@angular/material/sort';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { WattStorybookTableDecoratorComponent } from './storybook-table-decorator.component';
 import { WattTableColumnDef, WATT_TABLE } from '../watt-table.component';
@@ -62,13 +67,15 @@ const periodicElements: PeriodicElement[] = [
 export default {
   title: 'Components/Table',
   decorators: [
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
     moduleMetadata({
       imports: [
         WATT_TABLE,
         WattButtonComponent,
         WattIconComponent,
         MatSortModule,
-        BrowserAnimationsModule,
         WattStorybookTableDecoratorComponent,
       ],
     }),
