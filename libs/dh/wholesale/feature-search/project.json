@@ -25,7 +25,7 @@
     "component-test": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "libs/dh/wholesale/feature-start/cypress.config.ts",
+        "cypressConfig": "libs/dh/wholesale/feature-search/cypress.config.ts",
         "testingType": "component",
         "skipServe": true,
         "devServerTarget": "app-dh:build:mocked",
