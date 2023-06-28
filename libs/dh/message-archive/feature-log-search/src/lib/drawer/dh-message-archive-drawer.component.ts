@@ -34,6 +34,10 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattBreakpoint, WattBreakpointsObserver } from '@energinet-datahub/watt/breakpoints';
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListItemComponent,
+} from '@energinet-datahub/watt/description-list';
 
 import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
 import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
@@ -59,6 +63,8 @@ import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeN
     DhEmDashFallbackPipe,
     WattSpinnerComponent,
     LetModule,
+    WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
   ],
   providers: [provideComponentStore(DhMessageArchiveDocumentStore)],
 })
