@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# DataHub UI Frontend and BFF
+# DataHub UI Frontend and BFF.
 name: DH CD
 
 on:
