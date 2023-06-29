@@ -14,19 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'jest-preset-angular/setup-jest';
-
-import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
-import {
-  setUpNgMocks,
-  setUpTestbed,
-  setUpAngularTestingLibrary,
-} from '@energinet-datahub/gf/test-util-staging';
-
-import { setupMSW } from '@energinet-datahub/dh/shared/test-util-msw';
-
-setupMSW();
-addDomMatchers();
-setUpTestbed();
-setUpAngularTestingLibrary();
-setUpNgMocks();
+export function useIsFirstRender() {
+  let isFirstRender = true;
+  return () => {
+    if (!isFirstRender) return false;
+    isFirstRender = false;
+    return true;
+  };
+}
