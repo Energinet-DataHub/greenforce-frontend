@@ -18,7 +18,6 @@ import { Route } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
-  WHOLESALE_START_PROCESS_PATH,
   WHOLESALE_SEARCH_BATCH_PATH,
   WHOLESALE_CALCULATION_STEPS_PATH,
   WHOLESALE_SETTLEMENT_REPORTS_PATH,
@@ -27,17 +26,6 @@ import {
 const settlementsGuard = 'settlements:manage';
 
 export const dhWholesaleShellRoutes: Route[] = [
-  {
-    path: WHOLESALE_START_PROCESS_PATH,
-    canActivate: [PermissionGuard([settlementsGuard])],
-    loadComponent: () =>
-      import('@energinet-datahub/dh/wholesale/feature-start').then(
-        (m) => m.DhWholesaleStartComponent
-      ),
-    data: {
-      titleTranslationKey: 'wholesale.startBatch.topBarTitle',
-    },
-  },
   {
     path: WHOLESALE_SEARCH_BATCH_PATH,
     canActivate: [PermissionGuard([settlementsGuard])],
@@ -52,11 +40,10 @@ export const dhWholesaleShellRoutes: Route[] = [
   {
     path: WHOLESALE_SETTLEMENT_REPORTS_PATH,
     canActivate: [PermissionGuard([settlementsGuard])],
-    loadComponent: () => {
-      return import('@energinet-datahub/dh/wholesale/feature-settlement-reports').then(
+    loadComponent: () =>
+      import('@energinet-datahub/dh/wholesale/feature-settlement-reports').then(
         (m) => m.DhWholesaleSettlementsReportsTabComponent
-      );
-    },
+      ),
     data: {
       titleTranslationKey: 'wholesale.settlementReports.topBarTitle',
     },

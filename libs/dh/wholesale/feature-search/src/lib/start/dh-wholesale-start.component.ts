@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AfterViewInit, Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import {
   combineLatest,
-  filter,
   first,
   map,
   Observable,
@@ -85,7 +84,7 @@ interface CreateBatchFormValues {
     WATT_MODAL,
   ],
 })
-export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   private toast = inject(WattToastService);
   private transloco = inject(TranslocoService);
   private router = inject(Router);
@@ -94,7 +93,7 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
   private executionTypeChanged$ = new Subject<void>();
   private destroy$ = new Subject<void>();
 
-  @ViewChild('modal') modal!: WattModalComponent;
+  @ViewChild('modal') modal?: WattModalComponent;
 
   loadingCreateBatch = false;
 
@@ -102,7 +101,10 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
 
   createBatchForm = new FormGroup<CreateBatchFormValues>({
     processType: new FormControl(null, { validators: Validators.required }),
-    gridAreas: new FormControl(null, { validators: Validators.required }),
+    gridAreas: new FormControl(
+      { value: null, disabled: true },
+      { validators: Validators.required }
+    ),
     dateRange: new FormControl(null, {
       validators: WattRangeValidators.required(),
       asyncValidators: () => this.validateBalanceFixing(),
@@ -117,10 +119,20 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
 
   onDateRangeChange$ = this.createBatchForm.controls.dateRange.valueChanges.pipe(startWith(null));
 
-  processTypes: WattDropdownOption[] = [];
+  processTypes: Observable<WattDropdownOption[]> = this.transloco
+    .selectTranslateObject('wholesale.startBatch.processTypes')
+    .pipe(
+      map((processTypesTranslation) =>
+        Object.values(graphql.ProcessType).map((value) => ({
+          displayValue: processTypesTranslation[value],
+          value,
+        }))
+      )
+    );
 
   selectedExecutionType = 'ACTUAL';
   latestPeriodEnd?: string | null;
+  showPeriodWarning = false;
 
   gridAreas$: Observable<WattDropdownOption[]> = combineLatest([
     this.gridAreasQuery.valueChanges.pipe(map((result) => result.data?.gridAreas ?? [])),
@@ -140,19 +152,12 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
   maxDate = new Date();
 
   ngOnInit(): void {
-    this.getProcessTypes();
     this.toggleGridAreasControl();
 
     // Close toast on navigation
     this.router.events.pipe(first((event) => event instanceof NavigationEnd)).subscribe(() => {
       this.toast.dismiss();
     });
-  }
-
-  ngAfterViewInit() {
-    this.modal?.closed
-      .pipe(filter(Boolean), takeUntil(this.destroy$))
-      .subscribe(() => this.createBatch());
   }
 
   ngOnDestroy(): void {
@@ -166,16 +171,8 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
     this.executionTypeChanged$.next();
   }
 
-  private getProcessTypes(): void {
-    this.transloco
-      .selectTranslateObject('wholesale.startBatch.processTypes')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((processTypesTranslation) => {
-        this.processTypes = Object.values(graphql.ProcessType).map((value) => ({
-          displayValue: processTypesTranslation[value],
-          value,
-        }));
-      });
+  open() {
+    this.modal?.open();
   }
 
   createBatch() {
@@ -232,6 +229,20 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
       });
   }
 
+  onClose(accepted: boolean) {
+    if (accepted) this.createBatch();
+    if (accepted || this.showPeriodWarning) this.reset();
+  }
+
+  reset() {
+    this.latestPeriodEnd = null;
+    this.showPeriodWarning = false;
+    this.createBatchForm.reset();
+
+    // This is apparently neccessary to reset the dropdown validity state
+    this.createBatchForm.controls.processType.setErrors(null);
+  }
+
   private selectGridAreas(gridAreas: WattDropdownOption[]) {
     if (this.selectedExecutionType === 'ACTUAL') {
       this.createBatchForm.patchValue({
@@ -268,7 +279,7 @@ export class DhWholesaleStartComponent implements OnInit, AfterViewInit, OnDestr
     this.onDateRangeChange$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       const gridAreasControl = this.createBatchForm.controls.gridAreas;
       const disableGridAreas = this.createBatchForm.controls.dateRange.invalid;
-
+      if (disableGridAreas == gridAreasControl.disabled) return; // prevent ng0100
       disableGridAreas ? gridAreasControl.disable() : gridAreasControl.enable();
     });
   }
