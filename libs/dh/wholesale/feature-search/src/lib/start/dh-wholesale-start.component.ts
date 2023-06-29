@@ -94,7 +94,6 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   @ViewChild('modal') modal?: WattModalComponent;
-  @ViewChild('form') form?: NgForm;
 
   loadingCreateBatch = false;
 

@@ -25,7 +25,6 @@ limitations under the License.
     <ng-container *rxLet="gridAreasQuery.valueChanges; let result">
       <ng-container *ngIf="result.data?.gridAreas">
         <form
-          #form
           id="create-batch"
           class="grid"
           novalidate
