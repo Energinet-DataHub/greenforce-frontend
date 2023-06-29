@@ -18,5 +18,6 @@
     "**/.angular/cache/**": true,
     "**/node_modules/*/**": true
   },
-  "prettier.prettierPath": "./node_modules/prettier"
+  "prettier.prettierPath": "./node_modules/prettier",
+  "dotnet.defaultSolution": "apps/dh/api-dh/DataHub.WebApi.sln"
 }
