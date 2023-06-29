@@ -26,6 +26,12 @@
       "previous": "Forrige side",
       "ariaLabel": "Vælg side"
     },
+    "form": {
+      "reset": "Nulstil",
+      "filters": {
+        "period": "Periode"
+      }
+    },
     "download": "Download",
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)"
@@ -450,8 +456,10 @@
     "drawer": {
       "message": "Besked",
       "sender": "Afsender",
+      "created": "Afsendt",
       "receiver": "Modtager",
-      "download": "Download"
+      "download": "Download",
+      "documentType": "Dokumenttype"
     },
     "document": {
       "loadFailed": "Kunne ikke hente dokumentet"
@@ -778,9 +786,7 @@
         "searchButton": "Søg",
         "processType": "Beregningstype",
         "gridAreas": "Netområder",
-        "executionStates": "Status",
-        "period": "Periode",
-        "reset": "Nulstil"
+        "executionStates": "Status"
       },
       "columns": {
         "startedBy": "Bestilt af",
@@ -789,11 +795,11 @@
         "periodTo": "Periode til",
         "executionTime": "Eksekveringstid",
         "status": "Status",
-        "basisData": "Basis data",
+        "basisData": "Basisdata",
         "processType": "Procestype"
       },
       "download": "Download",
-      "downloadFailed": "Download af basis data fejlede",
+      "downloadFailed": "Download af basisdata fejlede",
       "PENDING": "Afventer",
       "EXECUTING": "Kører",
       "COMPLETED": "Afsluttet",
@@ -814,7 +820,7 @@
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
       "download": "Download",
-      "downloadNoBasisData": "Download (Uden basis data)",
+      "downloadNoBasisData": "Download (uden basisdata)",
       "selectedRows": {
         "singular": "{{ selectedCount }} valgt række",
         "plural": "{{ selectedCount }} valgte rækker"

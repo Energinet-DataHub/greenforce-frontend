@@ -79,6 +79,6 @@ jobs:
       contains(needs.*.result, 'failure')
     uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v11
     with:
-      team_name: TexasRangers
+      team_name: TeamFrontend
       subject: "Deployment dispatch failed: Watt + UI"
     secrets: inherit

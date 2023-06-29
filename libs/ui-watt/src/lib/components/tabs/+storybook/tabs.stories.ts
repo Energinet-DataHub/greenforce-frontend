@@ -14,16 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattTabsComponent, WattTabComponent } from './../index';
 
 const meta: Meta<WattTabsComponent> = {
   title: 'Components/Tabs',
   decorators: [
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
     moduleMetadata({
-      imports: [BrowserAnimationsModule, WattTabComponent],
+      imports: [WattTabComponent],
     }),
   ],
   component: WattTabsComponent,

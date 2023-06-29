@@ -22,11 +22,13 @@ limitations under the License.
         <span class="watt-chip-label">{{ dataSource.data.length }}</span>
       </h3>
     </watt-card-title>
-    <form [formGroup]="searchForm" class="form-grid" novalidate>
-      <watt-form-field class="datePicker">
-        <watt-datepicker formControlName="executionTime" [range]="true"></watt-datepicker>
-      </watt-form-field>
-      <watt-form-field class="gridAreaPicker">
+
+    <form [formGroup]="searchForm" class="form-grid watt-space-stack-m">
+      <watt-date-range-chip formControlName="period">{{
+        "shared.form.filters.period" | transloco
+      }}</watt-date-range-chip>
+
+      <watt-form-field class="grid-area-picker">
         <watt-dropdown
           formControlName="gridAreas"
           [chipMode]="true"
@@ -39,7 +41,8 @@ limitations under the License.
           "
         ></watt-dropdown>
       </watt-form-field>
-      <watt-form-field class="actorPicker">
+
+      <watt-form-field class="actor-picker">
         <watt-dropdown
           formControlName="actor"
           [chipMode]="true"
@@ -51,14 +54,19 @@ limitations under the License.
           "
         ></watt-dropdown>
       </watt-form-field>
+
+      <watt-button variant="text" icon="undo" type="reset">
+        {{ "shared.form.reset" | transloco }}
+      </watt-button>
     </form>
+
     <watt-table
       [dataSource]="dataSource"
       [columns]="columns"
       [selectable]="true"
       description="batches"
-      sortBy="executionTime"
-      sortDirection="desc"
+      sortBy="gridAreaCode"
+      sortDirection="asc"
     >
       <!-- Grid Area Name -->
       <ng-container
