@@ -24,18 +24,30 @@ import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graph
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { importProvidersFrom } from '@angular/core';
 import { ApolloModule } from 'apollo-angular';
-import { DhWholesaleStartComponent } from './dh-wholesale-start.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { DhWholesaleSearchComponent } from './dh-wholesale-search.component';
 
 it('mounts', () => {
-  cy.mount(DhWholesaleStartComponent, {
+  cy.mount(DhWholesaleSearchComponent, {
     providers: [
       importProvidersFrom(MatLegacySnackBarModule),
       graphQLProviders,
       translocoProviders,
       danishDatetimeProviders,
     ],
-    imports: [ApolloModule, BrowserAnimationsModule, DhApiModule.forRoot(), HttpClientModule],
+    imports: [
+      ApolloModule,
+      BrowserAnimationsModule,
+      DhApiModule.forRoot(),
+      HttpClientModule,
+      RouterTestingModule,
+    ],
   });
+
+  // Click on "Ny beregning" button
+  cy.findByRole('button', { name: new RegExp(daTranslations.wholesale.searchBatch.new) }).click();
+
+  cy.findByRole('dialog').should('exist');
 
   // Create batch with process type of balance fixing, with "invalid" period
   cy.selectOption('processType', daTranslations.wholesale.startBatch.processTypes.BALANCE_FIXING);
@@ -45,23 +57,34 @@ it('mounts', () => {
   cy.findByRole('alert').should('exist');
 
   // Submit the form
-  cy.findByRole('button', { name: daTranslations.wholesale.startBatch.startLabel }).click();
+  cy.findByRole('button', {
+    name: daTranslations.wholesale.startBatch.modal.confirmButton,
+  }).click();
 
-  // Expect warning dialog to be visible
-  cy.findByRole('dialog').should('exist');
+  // Expect alert to be visible
+  cy.findByRole('alert').should('exist');
 
   // Close the warning dialog
-  cy.findByRole('button', { name: 'close' }).click();
+  cy.findByRole('button', {
+    name: daTranslations.wholesale.startBatch.modalWarning.cancelButton,
+  }).click();
+
   cy.findByRole('dialog').should('not.exist');
+
+  // Click on "Ny beregning" button
+  cy.findByRole('button', { name: new RegExp(daTranslations.wholesale.searchBatch.new) }).click();
 
   // Change the process type to aggregation
   cy.selectOption('processType', daTranslations.wholesale.startBatch.processTypes.AGGREGATION);
+  cy.typeDateRange('dateRange', '04-05-2023', '05-05-2023');
 
   // Expect the alert to be hidden due to aggregation is selected
   cy.findByRole('alert').should('not.exist');
 
   // Submit the form
-  cy.findByRole('button', { name: daTranslations.wholesale.startBatch.startLabel }).click();
+  cy.findByRole('button', {
+    name: daTranslations.wholesale.startBatch.modal.confirmButton,
+  }).click();
 
   // Expect the dialog not to be open due to aggregation is selected
   cy.findByRole('dialog').should('not.exist');

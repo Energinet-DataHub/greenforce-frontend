@@ -14,6 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+<dh-wholesale-start #modal />
 <div class="wrapper" *transloco="let transloco; read: 'wholesale.searchBatch'">
   <dh-wholesale-batch-details #batchDetails (closed)="onBatchDetailsClosed()" />
 
@@ -22,6 +23,9 @@ limitations under the License.
       <h3 class="watt-on-light--high-emphasis">{{ transloco("headline") }}</h3>
       <watt-spinner *ngIf="loading" [diameter]="22" />
       <watt-search [label]="transloco('search')" (search)="search = $event" />
+      <watt-button variant="secondary" icon="plus" (click)="modal.open()">
+        {{ transloco("new") }}
+      </watt-button>
     </watt-card-title>
     <dh-wholesale-form [initial]="filter$.value" (filter)="filter$.next($event)" />
     <dh-wholesale-table
