@@ -16,6 +16,6 @@ limitations under the License.
 -->
 <watt-icon *ngIf="icon" [name]="icon"></watt-icon>
 <div>
-  <strong>{{ label }}</strong>
+  <strong *ngIf="label">{{ label }}</strong>
   {{ message }}
 </div>
