@@ -389,6 +389,9 @@
       "@energinet-datahub/watt/paginator": [
         "libs/ui-watt/src/lib/components/paginator/index.ts"
       ],
+      "@energinet-datahub/watt/radio": [
+        "libs/ui-watt/src/lib/components/radio/index.ts"
+      ],
       "@energinet-datahub/watt/resize-observer": [
         "libs/ui-watt/src/lib/utils/resize-observer/index.ts"
       ],
