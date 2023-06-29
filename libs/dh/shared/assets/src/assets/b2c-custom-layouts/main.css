@@ -241,6 +241,10 @@ button#next {
   flex-direction: column;
 }
 
+.buttons button {
+  margin-bottom: 0.5rem;
+}
+
 #api .template {
   display: block;
 }
