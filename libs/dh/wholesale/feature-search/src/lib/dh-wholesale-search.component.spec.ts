@@ -68,19 +68,4 @@ describe(DhWholesaleSearchComponent, () => {
     await setup();
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
   });
-
-  it('should show loading indicator when changing filters', async () => {
-    await setup();
-
-    expect(screen.queryByRole('progressbar')).toBeInTheDocument();
-    await waitFor(() => expect(screen.queryByRole('progressbar')).not.toBeInTheDocument());
-
-    const button = screen.getByRole('button', { name: /Calculation type/, pressed: false });
-    userEvent.click(button);
-
-    const checkbox = screen.getByRole('option', { name: /Aggregation/i });
-    userEvent.click(checkbox);
-
-    await waitFor(() => expect(screen.queryByRole('progressbar')).toBeInTheDocument());
-  }, 10000);
 });

@@ -4,7 +4,6 @@ query GetBatch($id: ID!) {
     executionState
     executionTimeEnd
     executionTimeStart
-    isBasisDataDownloadAvailable
     period
     statusType
     processType
