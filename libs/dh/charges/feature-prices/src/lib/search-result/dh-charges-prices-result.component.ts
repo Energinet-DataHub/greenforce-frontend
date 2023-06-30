@@ -33,7 +33,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { DhChargesPricesDrawerComponent } from '../drawer/dh-charges-prices-drawer.component';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
-import formatInTimeZone from 'date-fns-tz/formatInTimeZone';
+import { formatInTimeZone } from 'date-fns-tz';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({

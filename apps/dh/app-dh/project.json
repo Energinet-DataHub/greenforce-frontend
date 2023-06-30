@@ -15,12 +15,7 @@
         "polyfills": "zone.js",
         "tsConfig": "apps/dh/app-dh/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "allowedCommonJsDependencies": [
-          "date-fns",
-          "date-fns-tz",
-          "inputmask",
-          "flat"
-        ],
+        "allowedCommonJsDependencies": ["date-fns", "inputmask", "flat", "msw"],
         "assets": [
           {
             "glob": "**/*",
@@ -105,12 +100,7 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true,
-          "allowedCommonJsDependencies": [
-            "date-fns",
-            "date-fns-tz",
-            "inputmask",
-            "flat"
-          ]
+          "allowedCommonJsDependencies": ["date-fns", "inputmask", "flat"]
         },
         "mocked": {
           "buildOptimizer": false,
@@ -127,7 +117,6 @@
           ],
           "allowedCommonJsDependencies": [
             "date-fns",
-            "date-fns-tz",
             "@mswjs/cookies",
             "@mswjs/interceptors",
             "msw",

@@ -29,7 +29,7 @@
 | [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 5.0.0 | MIT |
 | [chart.js](https://github.com/chartjs/Chart.js) | 3.8.0 | MIT |
 | [chartjs-plugin-datalabels](https://github.com/chartjs/chartjs-plugin-datalabels) | 2.0.0 | MIT |
-| [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 1.3.7 | MIT |
+| [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.6.0 | MIT |
 | [include-media](https://github.com/eduardoboucas/include-media) | 2.0.0 | MIT |
