@@ -57,8 +57,64 @@ limitations under the License.
     <!-- End of Open Sans -->
 
     <style>
-      #cancel {
+      #cancel,
+      #totpQrCodeControl-title,
+      .qrCodeInfo {
         display: none;
+      }
+
+      #authenticatorInfoControl_label:empty {
+        display: none;
+      }
+
+      .qrCodeControlContent img {
+        width: 200px;
+        margin: auto;
+      }
+
+      .authenticatorIconControlContent {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .authenticatorIconControlContent a {
+        flex-basis: 50%;
+      }
+
+      #authenticatorAppIconControl-instruction {
+        margin-top: 30px;
+      }
+
+      .authenticatorIconControlContent img {
+        float: none !important;
+      }
+
+      #totpQrCodeControl-picture {
+        margin: 20px;
+      }
+
+      .authenticatorInfoCollapse,
+      .qrCodeControlContent a {
+        color: var(--primary, #00847c);
+        font-size: 16px;
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        text-decoration-line: underline;
+      }
+
+      .authenticatorIconControlContent label {
+        font-size: 16px;
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: initial;
+        text-transform: initial;
+        color: var(--typography-text-color);
+        margin-bottom: 0;
+        display: block;
       }
     </style>
     <script>
@@ -86,6 +142,8 @@ limitations under the License.
   <body>
     <main>
       <div class="logo"></div>
+      <h3 aria-level="1" class="imprint imprint-da">Hent Authenticator app</h3>
+      <h3 aria-level="1" class="imprint imprint-en">Download Authenticator app</h3>
       <div class="totp-form">
         <div id="api"></div>
       </div>
