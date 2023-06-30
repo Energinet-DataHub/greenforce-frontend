@@ -19,7 +19,6 @@ import { Route } from '@angular/router';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   WHOLESALE_SEARCH_BATCH_PATH,
-  WHOLESALE_CALCULATION_STEPS_PATH,
   WHOLESALE_SETTLEMENT_REPORTS_PATH,
 } from '@energinet-datahub/dh/wholesale/routing';
 
@@ -47,18 +46,5 @@ export const dhWholesaleShellRoutes: Route[] = [
     data: {
       titleTranslationKey: 'wholesale.settlementReports.topBarTitle',
     },
-  },
-  {
-    path: `${WHOLESALE_CALCULATION_STEPS_PATH}/:batchId/:gridAreaCode`,
-    data: { titleTranslationKey: 'wholesale.calculationSteps.topBarTitle' },
-    canActivate: [PermissionGuard([settlementsGuard])],
-    loadComponent: () =>
-      import('@energinet-datahub/dh/wholesale/feature-calculation-steps').then(
-        (m) => m.DhWholesaleCalculationStepsComponent
-      ),
-    loadChildren: () =>
-      import('@energinet-datahub/dh/wholesale/feature-calculation-steps').then(
-        (m) => m.DhWholesaleCalculationStepsRoutes
-      ),
   },
 ];
