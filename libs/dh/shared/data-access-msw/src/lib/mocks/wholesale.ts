@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { ActorFilter, ProcessStepActor } from '@energinet-datahub/dh/wholesale/domain';
+import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 import { rest } from 'msw';
 
 export function wholesaleMocks(apiBase: string) {
@@ -23,10 +23,7 @@ export function wholesaleMocks(apiBase: string) {
     createBatch(),
     getWholesaleSearchBatch(),
     getWholesaleSearchBatches(),
-    downloadBasisData(apiBase),
     downloadSettlementReportData(apiBase),
-    getProcessStepResult(),
-    getProcessStepActors(),
     getSettlementReports(),
     getFilteredActors(),
     getGridAreas(),
@@ -80,7 +77,6 @@ const mockedBatches: graphql.Batch[] = [
     executionTimeEnd: null,
     executionState: graphql.BatchState.Pending,
     statusType: graphql.StatusType.Warning,
-    isBasisDataDownloadAvailable: false,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.Aggregation,
     createdByUserName: fakeUserEmail,
@@ -93,7 +89,6 @@ const mockedBatches: graphql.Batch[] = [
     executionTimeEnd: null,
     executionState: graphql.BatchState.Executing,
     statusType: graphql.StatusType.Info,
-    isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: '',
@@ -106,7 +101,6 @@ const mockedBatches: graphql.Batch[] = [
     executionTimeEnd,
     executionState: graphql.BatchState.Completed,
     statusType: graphql.StatusType.Success,
-    isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
@@ -119,7 +113,6 @@ const mockedBatches: graphql.Batch[] = [
     executionTimeEnd,
     executionState: graphql.BatchState.Failed,
     statusType: graphql.StatusType.Danger,
-    isBasisDataDownloadAvailable: false,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
@@ -132,7 +125,6 @@ const mockedBatches: graphql.Batch[] = [
     executionTimeEnd: null,
     executionState: graphql.BatchState.Pending,
     statusType: graphql.StatusType.Warning,
-    isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
@@ -145,7 +137,6 @@ const mockedBatches: graphql.Batch[] = [
     executionTimeEnd: null,
     executionState: graphql.BatchState.Executing,
     statusType: graphql.StatusType.Info,
-    isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
@@ -158,7 +149,6 @@ const mockedBatches: graphql.Batch[] = [
     executionTimeEnd,
     executionState: graphql.BatchState.Completed,
     statusType: graphql.StatusType.Success,
-    isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
@@ -171,7 +161,6 @@ const mockedBatches: graphql.Batch[] = [
     executionTimeEnd,
     executionState: graphql.BatchState.Failed,
     statusType: graphql.StatusType.Danger,
-    isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
@@ -184,7 +173,6 @@ const mockedBatches: graphql.Batch[] = [
     executionTimeEnd: null,
     executionState: graphql.BatchState.Pending,
     statusType: graphql.StatusType.Warning,
-    isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
@@ -197,7 +185,6 @@ const mockedBatches: graphql.Batch[] = [
     executionTimeEnd: null,
     executionState: graphql.BatchState.Executing,
     statusType: graphql.StatusType.Info,
-    isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
@@ -210,7 +197,6 @@ const mockedBatches: graphql.Batch[] = [
     executionTimeEnd,
     executionState: graphql.BatchState.Completed,
     statusType: graphql.StatusType.Success,
-    isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
@@ -223,20 +209,10 @@ const mockedBatches: graphql.Batch[] = [
     executionTimeEnd,
     executionState: graphql.BatchState.Failed,
     statusType: graphql.StatusType.Danger,
-    isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
   },
-];
-
-const mockedActors: ProcessStepActor[] = [
-  { __typename: 'Actor', number: '5790000000001' },
-  { __typename: 'Actor', number: '5790000000002' },
-  { __typename: 'Actor', number: '5790000000003' },
-  { __typename: 'Actor', number: '5790000000004' },
-  { __typename: 'Actor', number: '5790000000005' },
-  { __typename: 'Actor', number: '5790000000006' },
 ];
 
 const mockedSettlementReports: graphql.SettlementReport[] = [
@@ -340,25 +316,6 @@ function getWholesaleSearchBatch() {
   });
 }
 
-function downloadBasisData(apiBase: string) {
-  return rest.get(`${apiBase}/v1/WholesaleBatch/ZippedBasisDataStream`, async (req, res, ctx) => {
-    return res(ctx.status(500));
-
-    /*
-      // Convert "base64" image to "ArrayBuffer".
-      const imageBuffer = await fetch('assets/logo-light.svg').then((res) =>
-        res.arrayBuffer()
-      );
-      return res(
-        ctx.set('Content-Length', imageBuffer.byteLength.toString()),
-        ctx.set('Content-Type', 'image/png'),
-        // Respond with the "ArrayBuffer".
-        ctx.body(imageBuffer)
-      );
-    */
-  });
-}
-
 function downloadSettlementReportData(apiBase: string) {
   return rest.get(`${apiBase}/v1/WholesaleSettlementReport`, async (req, res, ctx) => {
     return res(ctx.status(500));
@@ -386,52 +343,6 @@ function getWholesaleSearchBatches() {
   });
 }
 
-function getProcessStepResult() {
-  return graphql.mockGetProcessStepResultQuery((req, res, ctx) => {
-    return res(
-      ctx.delay(300),
-      ctx.data({
-        processStep: {
-          result: {
-            timeSeriesType: graphql.TimeSeriesType.Production,
-            sum: 102234.245654,
-            min: 0.0,
-            max: 114.415789,
-            timeSeriesPoints: [
-              {
-                time: periodStart,
-                quantity: parseFloat(`${_randomIntFromInterval(0, 15)}.518`),
-                quality: '',
-              },
-              {
-                time: periodEnd,
-                quantity: parseFloat(`${_randomIntFromInterval(0, 15)}.518`),
-                quality: '',
-              },
-              {
-                time: periodStart,
-                quantity: parseFloat(`${_randomIntFromInterval(0, 15)}.518`),
-                quality: '',
-              },
-              {
-                time: periodEnd,
-                quantity: parseFloat(`${_randomIntFromInterval(0, 15)}.518`),
-                quality: '',
-              },
-            ],
-          },
-        },
-      })
-    );
-  });
-}
-
-function getProcessStepActors() {
-  return graphql.mockGetProcessStepActorsQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data({ processStep: { actors: mockedActors } }));
-  });
-}
-
 function getSettlementReports() {
   return graphql.mockGetSettlementReportsQuery((req, res, ctx) => {
     return res(ctx.delay(300), ctx.data({ settlementReports: mockedSettlementReports }));
@@ -451,9 +362,4 @@ function getLatestBalanceFixing() {
       ctx.data({ batches: [{ period: { start: periodStart, end: periodEnd } }] })
     );
   });
-}
-
-function _randomIntFromInterval(min: number, max: number) {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
 }
