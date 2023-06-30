@@ -48,7 +48,7 @@ Cypress.Commands.add('typeDateRange', (formControlName, start, end) => {
 
 Cypress.Commands.add('selectOption', (formControlName, option) => {
   cy.get(`[formcontrolname="${formControlName}"]`).click();
-  cy.findByText(option).click();
+  cy.findByRole('option', { name: option }).click();
 });
 
 Cypress.Commands.add('mount', mount);

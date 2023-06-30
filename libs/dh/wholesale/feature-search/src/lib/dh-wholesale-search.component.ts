@@ -23,6 +23,7 @@ import { PushModule } from '@rx-angular/template/push';
 import { sub, startOfDay, endOfDay } from 'date-fns';
 import { BehaviorSubject, Subject, switchMap, takeUntil } from 'rxjs';
 
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -35,7 +36,9 @@ import type { Batch } from '@energinet-datahub/dh/wholesale/domain';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
+import { DhWholesaleStartComponent } from './start/dh-wholesale-start.component';
 import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-batch-details.component';
+import { WattModalComponent } from '@energinet-datahub/watt/modal';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -44,11 +47,14 @@ import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-b
     CommonModule,
     DhWholesaleBatchDetailsComponent,
     DhWholesaleFormComponent,
+    DhWholesaleStartComponent,
     DhWholesaleTableComponent,
     PushModule,
     TranslocoModule,
     WATT_CARD,
+    WattButtonComponent,
     WattEmptyStateComponent,
+    WattModalComponent,
     WattSearchComponent,
     WattSpinnerComponent,
   ],
@@ -82,7 +88,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
           pollInterval: 10000,
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
-          fetchPolicy: 'network-only',
+          fetchPolicy: 'cache-and-network',
           query: GetBatchesDocument,
           variables: variables,
         }).valueChanges
