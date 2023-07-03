@@ -45,7 +45,7 @@ import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
 import { WattButtonComponent } from '../../button';
 import { WattInputMaskService } from '../shared/watt-input-mask.service';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
-import { WattRange } from '../shared/watt-range';
+import { WattDateRange } from '../../../utils/date';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
 
@@ -199,7 +199,7 @@ export class WattDatepickerComponent extends WattPickerBase {
   protected initRangeInput() {
     const startDateInputElement = this.startInput.nativeElement;
     const maskedStartDate = this.inputMaskService.mask(
-      (this.initialValue as WattRange | null)?.start,
+      (this.initialValue as WattDateRange | null)?.start,
       this.getInputFormat(),
       this.placeholder,
       startDateInputElement,
@@ -208,7 +208,7 @@ export class WattDatepickerComponent extends WattPickerBase {
 
     const endDateInputElement = this.endInput.nativeElement;
     const maskedEndDate = this.inputMaskService.mask(
-      (this.initialValue as WattRange | null)?.end,
+      (this.initialValue as WattDateRange | null)?.end,
       this.getInputFormat(),
       this.placeholder,
       endDateInputElement,
@@ -237,7 +237,7 @@ export class WattDatepickerComponent extends WattPickerBase {
     };
 
     const matStartDateChange$ = this.matStartDate.dateInput.pipe(
-      startWith(getInitialValue((this.initialValue as WattRange)?.start)),
+      startWith(getInitialValue((this.initialValue as WattDateRange)?.start)),
       tap(() => {
         this.inputMaskService.setInputColor(startDateInputElement, maskedStartDate.inputMask);
       }),
@@ -253,7 +253,7 @@ export class WattDatepickerComponent extends WattPickerBase {
     );
 
     const matEndDateChange$ = this.matEndDate.dateInput.pipe(
-      startWith(getInitialValue((this.initialValue as WattRange)?.end)),
+      startWith(getInitialValue((this.initialValue as WattDateRange)?.end)),
       tap(() => {
         this.inputMaskService.setInputColor(endDateInputElement, maskedEndDate.inputMask);
       }),
@@ -273,19 +273,24 @@ export class WattDatepickerComponent extends WattPickerBase {
     /*
      * Initial is used to prevent marking the control as touched on initial values.
      */
-    let initial = true;
+    let initialDateChange = true;
 
     // Subscribe for changes from date-range picker
     combineLatest([matStartDateChange$, matEndDateChange$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([start, end]) => {
-        if (initial) {
-          initial = false;
+        if (initialDateChange) {
+          initialDateChange = false;
           return;
         }
         this.markParentControlAsTouched();
         this.changeParentValue({ start, end });
       });
+
+    /*
+     * Initial is used to prevent marking the control as touched on initial values.
+     */
+    let initialInputChange = true;
 
     // Subscribe for input changes
     this.rangeInputService.onInputChanges$
@@ -295,6 +300,10 @@ export class WattDatepickerComponent extends WattPickerBase {
       // 2. A `dd-MM-yyyy` format (keep in sync with `dateShortFormat`) (usually when date is manually typed)
       // 3. Full ISO 8601 format (usually when initial value is set)
       .subscribe(([start, end]) => {
+        if (initialInputChange) {
+          initialInputChange = false;
+          return;
+        }
         const parsedStartDate = this.parseDateShortFormat(start);
 
         if (isValid(parsedStartDate)) {
@@ -321,7 +330,10 @@ export class WattDatepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  protected setSingleValue(value: Exclude<WattPickerValue, WattRange>, input: HTMLInputElement) {
+  protected setSingleValue(
+    value: Exclude<WattPickerValue, WattDateRange>,
+    input: HTMLInputElement
+  ) {
     this.setValueToInput(value, input, this.matDatepickerInput);
   }
 
@@ -329,11 +341,11 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   protected setRangeValue(
-    value: WattRange,
+    value: WattDateRange | null,
     startInput: HTMLInputElement,
     endInput: HTMLInputElement
   ) {
-    const { start, end } = value;
+    const { start, end } = value ?? {};
 
     this.setValueToInput(start, startInput, this.matStartDate);
     this.setValueToInput(end, endInput, this.matEndDate);

@@ -14,31 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule, DOCUMENT } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  inject,
-} from '@angular/core';
-import { take } from 'rxjs';
-import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { graphql, WholesaleBatchHttp } from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { Batch } from '@energinet-datahub/dh/wholesale/domain';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
-type Batch = Omit<graphql.Batch, 'gridAreas'>;
 type wholesaleTableData = WattTableDataSource<Batch>;
 
 @Component({
@@ -49,10 +37,8 @@ type wholesaleTableData = WattTableDataSource<Batch>;
     WattDatePipe,
     TranslocoModule,
     WattBadgeComponent,
-    WattButtonComponent,
     WattEmptyStateComponent,
     WattPaginatorComponent,
-    WATT_CARD,
     DhEmDashFallbackPipe,
   ],
   selector: 'dh-wholesale-table',
@@ -61,16 +47,15 @@ type wholesaleTableData = WattTableDataSource<Batch>;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleTableComponent {
-  private document = inject(DOCUMENT);
-  private httpClient = inject(WholesaleBatchHttp);
-  private toastService = inject(WattToastService);
-  private translations = inject(TranslocoService);
-
-  @Input()
-  selectedBatch?: Batch;
+  @Input() selectedBatch?: Batch;
 
   @Input() set data(batches: Batch[]) {
-    this._data = new WattTableDataSource(batches);
+    this._data.data = batches;
+  }
+
+  @Input()
+  set filter(value: string) {
+    this._data.filter = value;
   }
 
   @Output() selectedRow: EventEmitter<Batch> = new EventEmitter();
@@ -83,33 +68,7 @@ export class DhWholesaleTableComponent {
     executionTime: { accessor: 'executionTimeStart' },
     processType: { accessor: 'processType' },
     status: { accessor: 'executionState' },
-    basisData: { accessor: 'isBasisDataDownloadAvailable' },
   };
 
   translateHeader = (key: string) => translate(`wholesale.searchBatch.columns.${key}`);
-
-  onDownload(event: Event, batch: Batch) {
-    event.stopPropagation();
-    this.httpClient
-      .v1WholesaleBatchZippedBasisDataStreamGet(batch.id)
-      .pipe(take(1))
-      .subscribe({
-        next: (data) => {
-          const blobPart = data as unknown as BlobPart;
-          const blob = new Blob([blobPart], { type: 'application/zip' });
-          const basisData = window.URL.createObjectURL(blob);
-          const link = this.document.createElement('a');
-          link.href = basisData;
-          link.download = `${batch.id}.zip`;
-          link.click();
-          link.remove();
-        },
-        error: () => {
-          this.toastService.open({
-            type: 'danger',
-            message: this.translations.translate('wholesale.searchBatch.downloadFailed'),
-          });
-        },
-      });
-  }
 }

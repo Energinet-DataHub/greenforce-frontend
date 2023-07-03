@@ -14,22 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import userEvent from '@testing-library/user-event';
 import { HttpClientModule } from '@angular/common/http';
-import { render, screen, waitFor } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
 import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import { importProvidersFrom } from '@angular/core';
 import { ApolloModule } from 'apollo-angular';
-import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 import { DhWholesaleSearchComponent } from './dh-wholesale-search.component';
 
 async function setup() {
   await render(`<dh-wholesale-search></dh-wholesale-search>`, {
     providers: [
-      importProvidersFrom(MatLegacySnackBarModule, MatDateFnsModule),
+      importProvidersFrom(MatLegacySnackBarModule),
       graphQLProviders,
       danishDatetimeProviders,
     ],
@@ -43,42 +41,30 @@ async function setup() {
 }
 
 describe(DhWholesaleSearchComponent, () => {
-  it('should show period with initial value', async () => {
+  it('should show filter chips with initial values', async () => {
     await setup();
-    expect(screen.getAllByText('Execution time')[0]).toBeInTheDocument();
+    ['Period', 'Calculation type', 'Grid areas', 'Execution time', 'Status']
+      .map((filter) =>
+        screen.getByRole('button', {
+          name: new RegExp(filter),
+          pressed: filter === 'Execution time',
+        })
+      )
+      .forEach((element) => expect(element).toBeInTheDocument());
   });
 
-  it('should set initial value of period', async () => {
+  it('should show clear button', async () => {
     await setup();
-
-    const startDateInput: HTMLInputElement = screen.getByRole('textbox', {
-      name: /start-date-input/i,
-    });
-    const endDateInput: HTMLInputElement = screen.getByRole('textbox', {
-      name: /end-date-input/i,
-    });
-
-    expect(startDateInput.value).not.toBe('');
-    expect(endDateInput.value).not.toBe('');
+    expect(screen.getByRole('button', { name: /Reset/ })).toBeInTheDocument();
   });
 
   it('should show search button', async () => {
     await setup();
-    expect(screen.getByText('Search')).toBeInTheDocument();
+    expect(screen.getByRole('searchbox')).toBeInTheDocument();
   });
 
   it('should search batches on init', async () => {
     await setup();
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
-  });
-
-  it('should show loading indicator when starting a new search of batches', async () => {
-    await setup();
-
-    expect(screen.queryByRole('progressbar')).toBeInTheDocument();
-    await waitFor(() => expect(screen.queryByRole('progressbar')).not.toBeInTheDocument());
-
-    userEvent.click(screen.getByText('Search'));
-    await waitFor(() => expect(screen.queryByRole('progressbar')).toBeInTheDocument());
   });
 });

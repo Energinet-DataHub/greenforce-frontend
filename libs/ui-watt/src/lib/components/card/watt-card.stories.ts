@@ -16,14 +16,14 @@
  */
 import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
-import { WattCardComponent } from './watt-card.component';
+import { WATT_CARD, WattCardComponent } from './watt-card.component';
 
 const meta: Meta<WattCardComponent> = {
   title: 'Components/Card',
   component: WattCardComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattCardComponent],
+      imports: [WATT_CARD],
     }),
   ],
 };

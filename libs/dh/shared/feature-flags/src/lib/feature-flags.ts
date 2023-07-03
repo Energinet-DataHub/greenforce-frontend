@@ -56,10 +56,6 @@ export const dhFeatureFlagsConfig = makeFeatureFlags({
     created,
     disabledEnvironments: [],
   },
-  tab_layout_on_settlement_page_feature_flag: {
-    created: '08-05-2023',
-    disabledEnvironments: [DhAppEnvironment.test],
-  },
 });
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;

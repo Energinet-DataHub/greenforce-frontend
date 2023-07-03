@@ -25,8 +25,6 @@ import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-tim
 import { DrawerDatepickerService } from './drawer/charge-content/drawer-datepicker/drawer-datepicker.service';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
-import { importProvidersFrom } from '@angular/core';
-import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 
 import { DhChargesPricesComponent } from './dh-charges-prices.component';
 
@@ -36,11 +34,7 @@ const dateTimeFormat = 'dd-MM-yyyy';
 describe(DhChargesPricesComponent, () => {
   async function setup() {
     const { fixture } = await render(`<dh-charges-prices></dh-charges-prices>`, {
-      providers: [
-        danishLocalProviders,
-        danishDatetimeProviders,
-        importProvidersFrom(MatDateFnsModule),
-      ],
+      providers: [danishLocalProviders, danishDatetimeProviders],
       componentProviders: [
         {
           provide: DrawerDatepickerService,

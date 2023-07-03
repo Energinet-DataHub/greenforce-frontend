@@ -43,6 +43,9 @@ interface WattChip {
     watt-filter-chip[formControl],
     watt-date-chip[formControl],
     watt-date-range-chip[formControl],
+    watt-filter-chip[formControlName],
+    watt-date-chip[formControlName],
+    watt-date-range-chip[formControlName],
   `,
 })
 export class WattFormChipDirective implements ControlValueAccessor {

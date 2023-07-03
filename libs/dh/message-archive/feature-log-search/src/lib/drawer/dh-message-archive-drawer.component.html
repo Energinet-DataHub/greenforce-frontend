@@ -16,43 +16,47 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'messageArchive.drawer'">
   <!-- drawer -->
-  <watt-drawer #drawer size="large" (closed)="onClose()">
+  <watt-drawer #drawer [size]="drawerSize" (closed)="onClose()">
     <watt-drawer-heading>
-      <span>{{ message?.createdDate | wattDate : "long" | dhEmDashFallback }}</span>
       <h1 class="heading-message-id">{{ message?.messageId }}</h1>
-      <span>{{ message?.documentType | dhEmDashFallback }}</span>
+
+      <div class="message-created">
+        <span class="watt-label message-created__label">{{ t("created") }}</span>
+        <span class="message-created__value">{{
+          message?.createdDate | wattDate : "long" | dhEmDashFallback
+        }}</span>
+      </div>
     </watt-drawer-heading>
 
+    <watt-drawer-actions>
+      <watt-button
+        (click)="downloadDocument()"
+        icon="download"
+        [disabled]="!(message && documentContent)"
+        >{{ t("download") }}</watt-button
+      >
+    </watt-drawer-actions>
+
     <watt-drawer-content>
-      <div class="message-metadata message-metadata-grid">
-        <div class="message-sender">
-          <span class="watt-label message-sender__label">{{ t("sender") }}</span>
-
-          <span class="message-sender__value"
-            >{{ message?.senderGln | actorName : actors | dhEmDashFallback }} ({{
+      <div class="message-metadata">
+        <watt-description-list>
+          <watt-description-list-item
+            [label]="t('documentType')"
+            [value]="message?.documentType | dhEmDashFallback"
+          ></watt-description-list-item>
+          <watt-description-list-item
+            [label]="t('sender')"
+            value="{{ message?.senderGln | actorName : actors | dhEmDashFallback }} ({{
               message?.senderGln | dhEmDashFallback
-            }})</span
-          >
-        </div>
-
-        <div class="message-receiver">
-          <span class="watt-label message-receiver__label">{{ t("receiver") }}</span>
-
-          <span class="message-receiver__value"
-            >{{ message?.receiverGln | actorName : actors | dhEmDashFallback }} ({{
+            }})"
+          ></watt-description-list-item>
+          <watt-description-list-item
+            [label]="t('receiver')"
+            value="{{ message?.receiverGln | actorName : actors | dhEmDashFallback }} ({{
               message?.receiverGln | dhEmDashFallback
-            }})</span
-          >
-        </div>
-
-        <watt-button
-          variant="text"
-          (click)="downloadDocument()"
-          class="message-download-button"
-          icon="download"
-          [disabled]="!(message && documentContent)"
-          >{{ t("download") }}</watt-button
-        >
+            }})"
+          ></watt-description-list-item>
+        </watt-description-list>
       </div>
 
       <ng-container *rxLet="isLoading$ as isLoading">

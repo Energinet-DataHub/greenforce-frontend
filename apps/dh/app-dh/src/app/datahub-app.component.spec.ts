@@ -52,6 +52,6 @@ describe(DataHubAppComponent, () => {
 
     const didNavigationSucceed = await navigate('/');
 
-    await expect(didNavigationSucceed).toBe(true);
+    expect(didNavigationSucceed).toBe(true);
   });
 });

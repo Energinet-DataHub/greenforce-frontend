@@ -40,11 +40,11 @@ jobs:
       solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
       environment: AzureAuth
     secrets:
-      azure_tenant_id: ${{ secrets.azure_tenant_id }}
-      azure_subscription_id: ${{ secrets.azure_subscription_id }}
-      azure_spn_id: ${{ secrets.azure_spn_id_oidc }}
-      azure_keyvault_url: ${{ secrets.azure_keyvault_url }}
-      azure_b2csecrets_keyvault_url: ${{ secrets.azure_b2csecrets_keyvault_url }}
+      azure_tenant_id: ${{ vars.azure_tenant_id }}
+      azure_subscription_id: ${{ vars.azure_subscription_id }}
+      azure_spn_id: ${{ vars.azure_spn_id_oidc }}
+      azure_keyvault_url: ${{ vars.azure_keyvault_url }}
+      azure_b2csecrets_keyvault_url: ${{ vars.azure_b2csecrets_keyvault_url }}
 
   dotnet_promote_prerelease:
     needs: changes
@@ -90,7 +90,7 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.pat_token }}
-          repository: ${{ secrets.environment_repository_path }}
+          repository: ${{ vars.environment_repository_path }}
           event-type: ui-deployment-request-domain
           # yamllint disable-line rule:quoted-strings
           client-payload: '{"domain_pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet_deploy": "${{ needs.changes.outputs.dh_dotnet }}", "frontend_deploy": "${{ needs.changes.outputs.dh_frontend }}"}'
@@ -111,6 +111,6 @@ jobs:
       contains(needs.*.result, 'failure')
     uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v11
     with:
-      team_name: TexasRangers
+      team_name: TeamFrontend
       subject: "Deployment dispatch failed: UI + BFF"
     secrets: inherit

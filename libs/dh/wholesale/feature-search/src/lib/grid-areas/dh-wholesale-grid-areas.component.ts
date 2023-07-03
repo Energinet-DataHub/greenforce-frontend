@@ -15,14 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -31,7 +24,7 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { BatchGridArea } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
   standalone: true,
@@ -52,20 +45,18 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
 export class DhWholesaleGridAreasComponent {
   @ViewChild(MatSort) sort!: MatSort;
 
-  @Input() set data(gridAreas: graphql.GridArea[]) {
+  @Input() set data(gridAreas: BatchGridArea[]) {
     this._data = new WattTableDataSource(gridAreas);
   }
 
   @Input() disabled = false;
 
-  @Output() selected = new EventEmitter<graphql.GridArea>();
-
-  _data: WattTableDataSource<graphql.GridArea> = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<graphql.GridArea> = {
+  _data: WattTableDataSource<BatchGridArea> = new WattTableDataSource(undefined);
+  columns: WattTableColumnDef<BatchGridArea> = {
     gridAreaCode: { accessor: 'code' },
     name: {
       accessor: 'name',
-      cell: (row: graphql.GridArea) => row.name ?? '—',
+      cell: (row: BatchGridArea) => row.name ?? '—',
     },
   };
 }

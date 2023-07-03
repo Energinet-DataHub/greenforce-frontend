@@ -16,7 +16,7 @@
  */
 import { AuthenticationResult, IPublicClientApplication, Logger } from '@azure/msal-browser';
 import { MockProvider } from 'ng-mocks';
-import { Observable, of } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { MsalService } from '@azure/msal-angular';
 
 const accountMock = {
@@ -79,4 +79,5 @@ export const MsalServiceFake = MockProvider(MsalService, {
     getAllAccounts: () => [accountMock],
     getActiveAccount: () => accountMock,
   } as IPublicClientApplication,
+  initialize: () => from(Promise.resolve()),
 });

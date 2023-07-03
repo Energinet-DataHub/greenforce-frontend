@@ -29,7 +29,15 @@ watt-card-title {
 }
 
 .form-grid {
-  display: grid;
+  display: flex;
+  align-items: center;
   gap: var(--watt-space-m);
-  grid-template-columns: 300px min-content min-content;
+
+  watt-button {
+    margin-left: auto;
+  }
+}
+
+.date-picker {
+  width: 300px;
 }

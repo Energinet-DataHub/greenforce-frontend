@@ -27,7 +27,7 @@ const selector = 'watt-card-title';
         display: block;
       }
 
-      ${selector} h4, h3 {
+      ${selector} h4, ${selector} h3 {
         color: var(--watt-typography-text-color);
         margin: 0;
       }

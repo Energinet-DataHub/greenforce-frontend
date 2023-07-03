@@ -138,8 +138,9 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<BatchType>>>>("batches")
                 .Argument<DateRangeType>("executionTime")
-                .Argument<BatchState>("executionState", nullable: true)
-                .Argument<ProcessType>("processType", nullable: true)
+                .Argument<BatchState[]>("executionStates", nullable: true)
+                .Argument<ProcessType[]>("processTypes", nullable: true)
+                .Argument<string[]>("gridAreaCodes", nullable: true)
                 .Argument<DateRangeType>("period")
                 .Argument<IntGraphType>("first")
                 .Resolve()
@@ -148,8 +149,9 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .ResolveAsync(async (context, client) =>
                 {
                     var executionTime = context.GetArgument<Interval?>("executionTime");
-                    var executionState = context.GetArgument<BatchState?>("executionState");
-                    var processType = context.GetArgument<ProcessType?>("processType");
+                    var executionStates = context.GetArgument("executionStates", Array.Empty<BatchState>());
+                    var processTypes = context.GetArgument("processTypes", Array.Empty<ProcessType>());
+                    var gridAreaCodes = context.GetArgument("gridAreaCodes", Array.Empty<string>());
                     var period = context.GetArgument<Interval?>("period");
                     var first = context.GetArgument<int?>("first");
 
@@ -158,9 +160,13 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var periodStart = period?.Start.ToDateTimeOffset();
                     var periodEnd = period?.End.ToDateTimeOffset();
 
-                    var batches = (await client.SearchBatchesAsync(null, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd))
+                    // The SearchBatches API only allows for a single execution state to be specified
+                    BatchState? executionState = executionStates.Length == 1 ? executionStates[0] : null;
+
+                    var batches = (await client.SearchBatchesAsync(gridAreaCodes, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd))
                         .OrderByDescending(x => x.ExecutionTimeStart)
-                        .Where(x => processType == null || x.ProcessType == processType);
+                        .Where(x => executionStates.Length <= 1 || executionStates.Contains(x.ExecutionState))
+                        .Where(x => processTypes.Length == 0 || processTypes.Contains(x.ProcessType));
 
                     return first is not null ? batches.Take(first.Value) : batches;
                 });
@@ -210,12 +216,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     });
                 });
 
-            Field<ProcessStepType>("processStep")
-                .Argument<NonNullGraphType<IntGraphType>>("step", "The process step number.")
-                .Argument<NonNullGraphType<IdGraphType>>("batchId", "The batch id the process belongs to.")
-                .Argument<NonNullGraphType<StringGraphType>>("gridArea", "The grid area code for the process.")
-                .Resolve(context => new { });
-
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<ActorDtoType>>>>("actors")
                 .Argument<EicFunction[]>("eicFunctions", true)
                 .Resolve()
@@ -239,7 +239,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     {
                         Id = x.ActorId,
                         Name = x.Name.Value,
-                        Number = x.ActorNumber.ToString(),
+                        Number = x.ActorNumber.Value,
                         GridAreaCodes = x.MarketRoles
                             .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
                             .Distinct()

@@ -15,16 +15,17 @@
  * limitations under the License.
  */
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { Component, Input, ViewChild, inject } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { provideComponentStore } from '@ngrx/component-store';
 import { MatDividerModule } from '@angular/material/divider';
 import { PushModule } from '@rx-angular/template/push';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { Subject, takeUntil } from 'rxjs';
 
 import { ArchivedMessage, Stream } from '@energinet-datahub/dh/shared/domain';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WattDrawerComponent, WATT_DRAWER, WattDrawerSize } from '@energinet-datahub/watt/drawer';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -32,6 +33,11 @@ import { DhMessageArchiveDocumentStore } from '@energinet-datahub/dh/message-arc
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattBreakpoint, WattBreakpointsObserver } from '@energinet-datahub/watt/breakpoints';
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListItemComponent,
+} from '@energinet-datahub/watt/description-list';
 
 import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
 import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
@@ -57,16 +63,22 @@ import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeN
     DhEmDashFallbackPipe,
     WattSpinnerComponent,
     LetModule,
+    WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
   ],
   providers: [provideComponentStore(DhMessageArchiveDocumentStore)],
 })
-export class DhMessageArchiveDrawerComponent {
+export class DhMessageArchiveDrawerComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+
   private document = inject(DOCUMENT);
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
   private apiStore = inject(DhMessageArchiveDocumentStore);
+  private breakpointsObserver = inject(WattBreakpointsObserver);
 
   @ViewChild('drawer') drawer!: WattDrawerComponent;
+  drawerSize: WattDrawerSize = 'normal';
 
   @Input() actors: WattDropdownOptions | null = null;
 
@@ -74,6 +86,15 @@ export class DhMessageArchiveDrawerComponent {
   documentContent: string | null = null;
 
   isLoading$ = this.apiStore.isLoading$;
+
+  ngOnInit(): void {
+    this.setDrawerSize();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   open(message: ArchivedMessage) {
     this.message = null;
@@ -119,4 +140,13 @@ export class DhMessageArchiveDrawerComponent {
     const errorText = this.transloco.translate('messageArchive.document.loadFailed');
     this.toastService.open({ message: errorText, type: 'danger' });
   };
+
+  private setDrawerSize(): void {
+    this.breakpointsObserver
+      .observe([WattBreakpoint.XLarge])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result) => {
+        this.drawerSize = result.matches ? 'large' : 'normal';
+      });
+  }
 }

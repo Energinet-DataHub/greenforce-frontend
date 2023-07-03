@@ -14,12 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
-<watt-card *transloco="let transloco; read: 'wholesale.searchBatch'">
-  <watt-card-title>
-    <h3 class="watt-on-light--high-emphasis">{{ transloco("headline") }}</h3>
-  </watt-card-title>
-
+<ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
   <!-- Table -->
   <watt-table
     [dataSource]="_data"
@@ -65,18 +60,6 @@ limitations under the License.
         {{ transloco(batch.executionState) }}
       </watt-badge>
     </ng-container>
-
-    <!-- Download basis data -->
-    <ng-container *wattTableCell="columns.basisData; let batch">
-      <watt-button
-        variant="icon"
-        title="{{ transloco('download') }}"
-        icon="download"
-        (click)="onDownload($event, batch)"
-        [disabled]="!batch.isBasisDataDownloadAvailable"
-      >
-      </watt-button>
-    </ng-container>
   </watt-table>
 
   <watt-paginator [for]="_data"></watt-paginator>
@@ -90,4 +73,4 @@ limitations under the License.
     [message]="transloco('noBatchesHelperText')"
   >
   </watt-empty-state>
-</watt-card>
+</ng-container>

@@ -15,8 +15,8 @@
 | [@angular/platform-browser](https://github.com/angular/angular) | 15.2.6 | MIT |
 | [@angular/router](https://github.com/angular/angular) | 15.2.6 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.7.11 | MIT |
-| [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 2.5.7 | MIT |
-| [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 2.37.0 | MIT |
+| [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.0-beta.0 | MIT |
+| [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.0-beta.0 | MIT |
 | [@babel/core](https://github.com/babel/babel) | 7.21.4 | MIT |
 | [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 3.0.2 | MIT |
 | [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.12 | MIT |
@@ -29,7 +29,7 @@
 | [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 5.0.0 | MIT |
 | [chart.js](https://github.com/chartjs/Chart.js) | 3.8.0 | MIT |
 | [chartjs-plugin-datalabels](https://github.com/chartjs/chartjs-plugin-datalabels) | 2.0.0 | MIT |
-| [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 1.3.7 | MIT |
+| [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.6.0 | MIT |
 | [include-media](https://github.com/eduardoboucas/include-media) | 2.0.0 | MIT |

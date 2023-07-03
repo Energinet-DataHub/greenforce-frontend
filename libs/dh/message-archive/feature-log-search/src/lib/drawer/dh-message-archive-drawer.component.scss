@@ -17,29 +17,16 @@
 
 .heading-message-id {
   margin: 0;
+  margin-bottom: var(--watt-space-s);
+}
+
+.message-created__label {
+  margin-right: var(--watt-space-s);
 }
 
 .message-metadata {
   border-bottom: solid 1px var(--watt-color-neutral-grey-300);
-  padding: var(--watt-space-m) var(--watt-space-ml);
-}
-
-.message-metadata-grid {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--watt-space-m);
-
-  .message-download-button {
-    margin-left: auto;
-  }
-}
-
-.message-sender,
-.message-receiver {
-  &__label {
-    margin-right: var(--watt-space-s);
-  }
+  padding: 0 var(--watt-space-ml);
 }
 
 .message-content {
