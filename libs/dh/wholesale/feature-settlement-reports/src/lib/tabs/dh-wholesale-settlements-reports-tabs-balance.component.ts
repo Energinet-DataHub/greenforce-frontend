@@ -28,7 +28,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { ApolloError } from '@apollo/client/errors';
-import { Subscription } from 'rxjs';
+import { Subscription, switchMap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -36,10 +36,13 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WATT_FORM_FIELD, WattFormChipDirective } from '@energinet-datahub/watt/form-field';
-import { WholesaleProcessType, graphql } from '@energinet-datahub/dh/shared/domain';
+import {
+  WholesaleProcessType,
+  WholesaleSettlementReportHttp,
+  graphql,
+} from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { Actor, ActorFilter, GridArea } from '@energinet-datahub/dh/wholesale/domain';
-import { DhWholesaleSettlementReportsDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+import { Actor, ActorFilter, GridArea, streamToFile } from '@energinet-datahub/dh/wholesale/domain';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import {
@@ -80,7 +83,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
   private apollo = inject(Apollo);
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
-  private settlementReportStore = inject(DhWholesaleSettlementReportsDataAccessApiStore);
+  private httpClient = inject(WholesaleSettlementReportHttp);
   private localeId = inject(LOCALE_ID);
 
   private subscriptionGridAreas?: Subscription;
@@ -208,28 +211,30 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
   }
 
   downloadClicked(gridAreas: settlementReportsTableColumns[]) {
+    const fileOptions = { name: 'SettlementReport.zip', type: 'application/zip' };
+
     this.toastService.open({
       type: 'loading',
       message: this.transloco.translate('wholesale.settlementReports.downloadStart'),
     });
-    this.settlementReportStore.download(
-      {
-        gridAreas: gridAreas.map((g) => g.id),
-        processType: WholesaleProcessType.BalanceFixing,
-        periodStart: this.searchForm.controls.period.value?.start ?? '',
-        periodEnd: this.searchForm.controls.period.value?.end ?? '',
-        energySupplier: this.searchForm.controls.actor.value ?? undefined,
-        locale: this.transloco.translate('selectedLanguageIso'),
-      },
-      () => {
-        this.toastService.open({
-          type: 'danger',
-          message: this.transloco.translate('wholesale.settlementReports.downloadFailed'),
-        });
-      },
-      () => {
-        this.toastService.dismiss();
-      }
-    );
+
+    this.httpClient
+      .v1WholesaleSettlementReportDownloadGet(
+        gridAreas.map((g) => g.id),
+        WholesaleProcessType.BalanceFixing,
+        this.searchForm.controls.period.value?.start ?? '',
+        this.searchForm.controls.period.value?.end ?? '',
+        this.searchForm.controls.actor.value ?? undefined,
+        this.transloco.translate('selectedLanguageIso')
+      )
+      .pipe(switchMap(streamToFile(fileOptions)))
+      .subscribe({
+        complete: () => this.toastService.dismiss(),
+        error: () =>
+          this.toastService.open({
+            type: 'danger',
+            message: this.transloco.translate('wholesale.settlementReports.downloadFailed'),
+          }),
+      });
   }
 }
