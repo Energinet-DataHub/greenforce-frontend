@@ -53,8 +53,8 @@
       },
       "wholesale": {
         "menuGroupLabel": "Afregninger",
-        "startBatch": "Start batch",
-        "searchBatch": "Søg batch",
+        "startBatch": "Ny beregning",
+        "searchBatch": "Beregninger",
         "overview": "Oversigt",
         "settlementReports": "Afregningsrapporter"
       },
@@ -741,7 +741,7 @@
     "WHOLESALE_FIXING": "Engrosfiksering",
     "AGGREGATION": "Aggregering",
     "startBatch": {
-      "topBarTitle": "Start batch",
+      "topBarTitle": "Ny beregning",
       "startLabel": "Start",
       "dateRangeRequired": "Dato-periode påkrævet",
       "gridAreaRequired": "Netområde påkrævet",
@@ -750,8 +750,8 @@
       "processTypeDropDownLabel": "Procestype",
       "executionTypeLabel": "Afviklingstype",
       "gridAreaDropDownLabel": "Netområder",
-      "creatingBatch": "Starter batch...",
-      "creatingBatchSuccess": "Dit batch er startet.",
+      "creatingBatch": "Starter beregning...",
+      "creatingBatchSuccess": "Din beregning er startet.",
       "processTypes": {
         "BALANCE_FIXING": "Balancefiksering",
         "AGGREGATION": "Aggregering"
@@ -782,7 +782,7 @@
         "warningLabel": "Dette vil give aktørerne nye data",
         "warningMessage": "Genkørsel af en balancefiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
         "body": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
-        "confirmation": "Er du sikker på, at du vil køre dette batch?",
+        "confirmation": "Er du sikker på, at du vil køre denne beregning?",
         "hint": "Indtast JEG VIL GENKØRE BALANCEFIKSERING for at bekræfte",
         "confirmButton": "Genkør",
         "cancelButton": "Kør ikke",
@@ -790,8 +790,8 @@
       }
     },
     "searchBatch": {
-      "topBarTitle": "Søg batch",
-      "headline": "Batch overblik",
+      "topBarTitle": "Beregninger",
+      "headline": "Resultater",
       "search": "Søg",
       "new": "Ny beregning",
       "filters": {
@@ -806,7 +806,7 @@
       },
       "columns": {
         "startedBy": "Bestilt af",
-        "batchId": "Batch-nummer",
+        "batchId": "ID",
         "periodFrom": "Periode fra",
         "periodTo": "Periode til",
         "executionTime": "Eksekveringstid",
@@ -820,10 +820,10 @@
       "EXECUTING": "Kører",
       "COMPLETED": "Afsluttet",
       "FAILED": "Fejl",
-      "noBatchesFound": "Ingen batches fundet",
+      "noBatchesFound": "Ingen beregninger fundet",
       "noBatchesHelperText": "Prøv at ændre dine søgeindstillinger",
       "paginator": {
-        "itemsPerPageLabel": "Batches pr. side",
+        "itemsPerPageLabel": "Resultater pr. side",
         "nextPageLabel": "Næste side",
         "perviouspageLabel": "Forrige side",
         "firstPageLabel": "Første side",
@@ -921,7 +921,7 @@
       "quantity": "værdi"
     },
     "batchDetails": {
-      "headline": "Batch: {{batchId}}",
+      "headline": "Beregning: {{batchId}}",
       "calculationPeriod": "Beregningsperiode",
       "executionTime": "Eksekveringstidspunkt",
       "executionType": "Eksekveringstype",
