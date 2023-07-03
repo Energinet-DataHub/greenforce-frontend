@@ -60,18 +60,6 @@ limitations under the License.
         {{ transloco(batch.executionState) }}
       </watt-badge>
     </ng-container>
-
-    <!-- Download basis data -->
-    <ng-container *wattTableCell="columns.basisData; let batch">
-      <watt-button
-        variant="icon"
-        title="{{ transloco('download') }}"
-        icon="download"
-        (click)="onDownload($event, batch)"
-        [disabled]="!batch.isBasisDataDownloadAvailable"
-      >
-      </watt-button>
-    </ng-container>
   </watt-table>
 
   <watt-paginator [for]="_data"></watt-paginator>

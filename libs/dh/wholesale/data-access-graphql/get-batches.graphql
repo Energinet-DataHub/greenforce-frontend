@@ -16,7 +16,6 @@ query GetBatches(
     executionState
     executionTimeEnd
     executionTimeStart
-    isBasisDataDownloadAvailable
     period
     statusType
     processType

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild, inject, Output, EventEmitter } from '@angular/core';
 import { Apollo } from 'apollo-angular';
@@ -32,10 +31,10 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { GetBatchDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { Batch } from '@energinet-datahub/dh/wholesale/domain';
 import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
 
-import { navigateToWholesaleCalculationSteps } from '@energinet-datahub/dh/wholesale/routing';
 import { Subscription, takeUntil } from 'rxjs';
 
 @Component({
@@ -64,12 +63,11 @@ export class DhWholesaleBatchDetailsComponent {
 
   @Output() closed = new EventEmitter<void>();
 
-  private router = inject(Router);
   private apollo = inject(Apollo);
   private subscription?: Subscription;
 
   batchId?: string;
-  batch?: graphql.Batch;
+  batch?: Batch;
   error = false;
   loading = false;
 
@@ -83,7 +81,7 @@ export class DhWholesaleBatchDetailsComponent {
         returnPartialData: true,
         useInitialLoading: true,
         notifyOnNetworkStatusChange: true,
-        query: graphql.GetBatchDocument,
+        query: GetBatchDocument,
         variables: { id },
       })
       .valueChanges.pipe(takeUntil(this.closed))
@@ -98,9 +96,5 @@ export class DhWholesaleBatchDetailsComponent {
           this.loading = false;
         },
       });
-  }
-
-  onGridAreaSelected(batch: graphql.Batch, gridArea: graphql.GridArea): void {
-    navigateToWholesaleCalculationSteps(this.router, batch, gridArea);
   }
 }

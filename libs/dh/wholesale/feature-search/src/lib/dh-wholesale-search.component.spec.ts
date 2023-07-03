@@ -14,9 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import userEvent from '@testing-library/user-event';
 import { HttpClientModule } from '@angular/common/http';
-import { render, screen, waitFor } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
 import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
@@ -68,19 +67,4 @@ describe(DhWholesaleSearchComponent, () => {
     await setup();
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
   });
-
-  it('should show loading indicator when changing filters', async () => {
-    await setup();
-
-    expect(screen.queryByRole('progressbar')).toBeInTheDocument();
-    await waitFor(() => expect(screen.queryByRole('progressbar')).not.toBeInTheDocument());
-
-    const button = screen.getByRole('button', { name: /Calculation type/, pressed: false });
-    userEvent.click(button);
-
-    const checkbox = screen.getByRole('option', { name: /Aggregation/i });
-    userEvent.click(checkbox);
-
-    await waitFor(() => expect(screen.queryByRole('progressbar')).toBeInTheDocument());
-  }, 10000);
 });

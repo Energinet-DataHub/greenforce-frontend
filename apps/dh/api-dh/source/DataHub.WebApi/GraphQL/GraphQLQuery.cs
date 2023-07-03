@@ -216,12 +216,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     });
                 });
 
-            Field<ProcessStepType>("processStep")
-                .Argument<NonNullGraphType<IntGraphType>>("step", "The process step number.")
-                .Argument<NonNullGraphType<IdGraphType>>("batchId", "The batch id the process belongs to.")
-                .Argument<NonNullGraphType<StringGraphType>>("gridArea", "The grid area code for the process.")
-                .Resolve(context => new { });
-
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<ActorDtoType>>>>("actors")
                 .Argument<EicFunction[]>("eicFunctions", true)
                 .Resolve()

@@ -49,9 +49,6 @@ type Batch {
 
   """The id of the batch."""
   id: ID!
-
-  """Whether basis data is downloadable."""
-  isBasisDataDownloadAvailable: Boolean!
   period: DateRange
 
   """The process type."""
@@ -137,16 +134,6 @@ type GraphQLQuery {
     """The search term for which to look for in name and description"""
     searchTerm: String
   ): [Permission!]!
-  processStep(
-    """The batch id the process belongs to."""
-    batchId: ID!
-
-    """The grid area code for the process."""
-    gridArea: String!
-
-    """The process step number."""
-    step: Int!
-  ): ProcessStep
   settlementReports(executionTime: DateRange, gridAreaCodes: [String], period: DateRange, processType: ProcessType): [SettlementReport!]!
   userrole(
     """The id of the user role"""
@@ -250,20 +237,6 @@ enum PriceAreaCode {
   DK_2
 }
 
-type ProcessStep {
-  actors: [Actor!]!
-  result(gln: String): ProcessStepResult
-}
-
-type ProcessStepResult {
-  breadcrumb: String
-  max: Float!
-  min: Float!
-  sum: Float!
-  timeSeriesPoints: [TimeSeriesPoint!]!
-  timeSeriesType: TimeSeriesType!
-}
-
 enum ProcessType {
   AGGREGATION
   BALANCE_FIXING
@@ -290,19 +263,6 @@ enum StatusType {
   info
   success
   warning
-}
-
-type TimeSeriesPoint {
-  quality: String!
-  quantity: Float!
-  time: DateTimeOffset!
-}
-
-enum TimeSeriesType {
-  FLEX_CONSUMPTION
-  NET_EXCHANGE_PER_GRID_AREA
-  NON_PROFILED_CONSUMPTION
-  PRODUCTION
 }
 
 input UpdatePermissionInput {
