@@ -24,6 +24,7 @@ import {
   ViewEncapsulation,
   OnInit,
   OnDestroy,
+  ElementRef,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -31,7 +32,6 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -48,7 +48,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { add, getUnixTime } from 'date-fns';
 
-function startAndEndMustNotBeIdenticalValidator(): ValidatorFn {
+function endDateMustBeLaterThanStartDate() {
   return (control: AbstractControl): { [key: string]: unknown } | null => {
     const formGroup = control as FormGroup;
     const startDate = formGroup.controls['startDate'];
@@ -56,23 +56,18 @@ function startAndEndMustNotBeIdenticalValidator(): ValidatorFn {
     const endDate = formGroup.controls['endDate'];
     const endDateTime = formGroup.controls['endDateTime'];
 
-    if (!startDate.value || !startDateTime.value || !endDate.value || !endDateTime.value)
+    if (!startDate.value || !startDateTime.value || !endDate.value || !endDateTime.value) {
+      endDateTime.setErrors(null);
       return null;
+    }
 
-    if(startDate.errors && !startDate.errors['startAndEndMustNotBeIdentical']) return null;
+    const startTimestamp = new Date(startDate.value).setHours(startDateTime.value, 0, 0);
+    const endTimestamp = new Date(endDate.value).setHours(endDateTime.value, 0, 0);
 
-    if (startDate.value === endDate.value && startDateTime.value === endDateTime.value) {
-      startDate.setErrors({ startAndEndMustNotBeIdentical: true });
-      startDateTime.setErrors({ startAndEndMustNotBeIdentical: true });
-
-      endDate.setErrors({ startAndEndMustNotBeIdentical: true });
-      endDateTime.setErrors({ startAndEndMustNotBeIdentical: true });
-      endDate.markAsTouched();
-      endDateTime.markAsTouched();
+    if (endTimestamp <= startTimestamp) {
+      endDate.setErrors({ endDateMustBeLaterThanStartDate: true });
+      endDateTime.setErrors({ endDateMustBeLaterThanStartDate: true });
     } else {
-      startDate.setErrors(null);
-      startDateTime.setErrors(null);
-
       endDate.setErrors(null);
       endDateTime.setErrors(null);
     }
@@ -103,14 +98,13 @@ function startAndEndMustNotBeIdenticalValidator(): ValidatorFn {
   standalone: true,
   styles: [
     `
-      watt-form-field {
-        margin-bottom: var(--watt-space-m);
-      }
-
       fieldset {
         display: flex;
-
         flex-wrap: wrap;
+      }
+
+      watt-form-field {
+        margin-bottom: var(--watt-space-m);
       }
 
       .receiver {
@@ -139,6 +133,15 @@ function startAndEndMustNotBeIdenticalValidator(): ValidatorFn {
       .datetime .mat-form-field-type-mat-date-range-input .mat-form-field-infix {
         width: auto !important;
       }
+
+      .asterisk {
+        color: var(--watt-color-primary);
+      }
+
+      .has-error,
+      .has-error .asterisk {
+        color: var(--watt-color-state-danger);
+      }
     `,
   ],
   template: `
@@ -150,14 +153,14 @@ function startAndEndMustNotBeIdenticalValidator(): ValidatorFn {
       [loading]="requestLoading"
       (closed)="form.reset()"
     >
-    <watt-validation-message
-    *ngIf="form.controls.startDate.errors?.['startAndEndMustNotBeIdentical']"
-  label="Oops!"
-  message="Start and end of the period must not be identical."
-  icon="danger"
-  type="danger"
-  size="compact"
-></watt-validation-message>
+      <watt-validation-message
+        *ngIf="creatingTransferAgreementFailed"
+        label="Oops!"
+        message="Something went wrong. Please try again."
+        icon="danger"
+        type="danger"
+        size="compact"
+      ></watt-validation-message>
 
       <form [formGroup]="form">
         <watt-form-field class="receiver">
@@ -191,12 +194,15 @@ function startAndEndMustNotBeIdenticalValidator(): ValidatorFn {
           <eo-transfers-timepicker
             formControlName="startDateTime"
             [selectedDate]="form.controls.startDate.value"
-            [errors]="form.controls.startDateTime.errors"
           ></eo-transfers-timepicker>
         </fieldset>
         <fieldset class="endDate">
-          <p class="watt-label" style="width: 100%; margin-bottom: var(--watt-space-s);">
-            End of period <span style="color: var(--watt-color-primary)">*</span>
+          <p
+            class="watt-label"
+            style="width: 100%; margin-bottom: var(--watt-space-s);"
+            [ngClass]="{ 'has-error': form.controls.endDate.errors }"
+          >
+            End of period <span class="asterisk">*</span>
           </p>
 
           <div
@@ -210,16 +216,17 @@ function startAndEndMustNotBeIdenticalValidator(): ValidatorFn {
             >
           </div>
 
-          <div *ngIf="form.value.hasEndDate" style="display: flex; margin-top: 26px;">
+          <div
+            *ngIf="form.value.hasEndDate"
+            style="display: flex; flex-wrap: wrap; margin-top: 26px; max-width: 60%;"
+          >
             <watt-form-field class="datepicker">
               <watt-datepicker
+                #endDatePicker
                 formControlName="endDate"
                 data-testid="new-agreement-daterange-input"
                 [min]="minEndDate"
               />
-              <watt-error *ngIf="form.controls.endDate.errors?.['required']">
-                An end date is required
-              </watt-error>
             </watt-form-field>
             <eo-transfers-timepicker
               formControlName="endDateTime"
@@ -230,6 +237,20 @@ function startAndEndMustNotBeIdenticalValidator(): ValidatorFn {
               "
             >
             </eo-transfers-timepicker>
+            <watt-error
+              *ngIf="form.controls.endDate.errors?.['required']"
+              class="watt-text-s"
+              style="margin-top: -32px;"
+            >
+              An end date is required
+            </watt-error>
+            <watt-error
+              *ngIf="form.controls.endDate.errors?.['endDateMustBeLaterThanStartDate']"
+              class="watt-text-s"
+              style="margin-top: -32px;"
+            >
+              The end of the period must be later than the start of the period
+            </watt-error>
           </div>
         </fieldset>
       </form>
@@ -254,6 +275,7 @@ function startAndEndMustNotBeIdenticalValidator(): ValidatorFn {
 })
 export class EoTransfersCreateModalComponent implements OnInit, OnDestroy {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
+  @ViewChild('endDatePicker', { read: ElementRef }) endDatePicker!: ElementRef;
   @Input() title = '';
 
   form = new FormGroup(
@@ -265,13 +287,14 @@ export class EoTransfersCreateModalComponent implements OnInit, OnDestroy {
       endDate: new FormControl(''),
       endDateTime: new FormControl(''),
     },
-    { validators: startAndEndMustNotBeIdenticalValidator() }
+    { validators: endDateMustBeLaterThanStartDate() }
   );
-  requestLoading = false;
 
   protected minStartDate: Date = new Date();
   protected maxStartDate?: Date;
   protected minEndDate: Date = new Date();
+  protected requestLoading = false;
+  protected creatingTransferAgreementFailed = false;
 
   private destroy$ = new Subject<void>();
 
@@ -318,13 +341,14 @@ export class EoTransfersCreateModalComponent implements OnInit, OnDestroy {
   }
 
   open() {
+    this.creatingTransferAgreementFailed = false;
+    this.requestLoading = false;
+
     this.form.controls.startDate.setValue(new Date().toISOString());
     this.form.controls.hasEndDate.setValue(false);
 
     const nextHour = new Date().getHours() + 1;
-    this.form.controls.startDateTime.setValue(
-      nextHour.toString().padStart(2, '0')
-    );
+    this.form.controls.startDateTime.setValue(nextHour.toString().padStart(2, '0'));
 
     this.modal.open();
   }
@@ -332,8 +356,6 @@ export class EoTransfersCreateModalComponent implements OnInit, OnDestroy {
   createAgreement() {
     const { receiverTin, startDate, startDateTime, endDate, endDateTime } = this.form.value;
     if (!receiverTin || !startDate || !startDateTime) return;
-
-    console.log(startDateTime);
 
     const transfer = {
       startDate: getUnixTime(new Date(startDate).setHours(parseInt(startDateTime), 0, 0, 0)),
@@ -349,11 +371,13 @@ export class EoTransfersCreateModalComponent implements OnInit, OnDestroy {
       next: (transfer) => {
         this.store.addTransfer(transfer);
         this.requestLoading = false;
+        this.creatingTransferAgreementFailed = false;
         this.cd.detectChanges();
         this.modal.close(true);
       },
       error: () => {
         this.requestLoading = false;
+        this.creatingTransferAgreementFailed = true;
         this.cd.detectChanges();
       },
     });
