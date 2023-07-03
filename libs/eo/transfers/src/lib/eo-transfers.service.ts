@@ -20,7 +20,7 @@ import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/s
 
 export interface EoTransfer {
   startDate: number;
-  endDate: number;
+  endDate: number | null;
   receiverTin: string;
 }
 
@@ -54,7 +54,7 @@ export class EoTransfersService {
     return this.http.post<EoListedTransfer>(`${this.#apiBase}/transfer-agreements`, transfer);
   }
 
-  updateAgreement(transferId: string, endDate: number) {
+  updateAgreement(transferId: string, endDate: number | null) {
     return this.http.patch<EoListedTransfer>(`${this.#apiBase}/transfer-agreements/${transferId}`, {
       endDate,
     });

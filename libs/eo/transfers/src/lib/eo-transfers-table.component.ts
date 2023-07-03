@@ -104,14 +104,6 @@ interface EoTransferTableElement extends EoListedTransfer {
       <h3>Transfer agreements</h3>
       <div class="actions">
         <watt-button
-          data-testid="download-button"
-          [disabled]="true"
-          icon="fileDownload"
-          variant="text"
-        >
-          Download
-        </watt-button>
-        <watt-button
           data-testid="new-agreement-button"
           icon="plus"
           variant="secondary"
@@ -159,7 +151,7 @@ interface EoTransferTableElement extends EoListedTransfer {
 
       <!-- Status - Custom column -->
       <ng-container *wattTableCell="table.columns['status']; let element">
-        <watt-badge *ngIf="utils.isDateActive(element.endDate); else notActive" type="success">
+        <watt-badge *ngIf="element.endDate ? utils.isDateActive(element.endDate) : true; else notActive" type="success">
           Active
         </watt-badge>
       </ng-container>
@@ -202,9 +194,9 @@ export class EoTransfersTableComponent implements OnChanges {
   dataSource = new WattTableDataSource<EoTransferTableElement>();
   columns = {
     receiver: { accessor: 'receiverTin' },
-    startDate: { accessor: 'startDate' },
-    endDate: { accessor: 'endDate' },
-    status: { accessor: (transfer) => this.utils.isDateActive(transfer.endDate) },
+    startDate: { accessor: () => 'startDate', header: 'Start Date' },
+    endDate: { accessor: 'endDate', header: 'End Date' },
+    status: { accessor: (transfer) => transfer.endDate ? this.utils.isDateActive(transfer.endDate) : true },
   } as WattTableColumnDef<EoTransferTableElement>;
 
   ngOnChanges(changes: SimpleChanges) {
@@ -227,8 +219,9 @@ export class EoTransfersTableComponent implements OnChanges {
     );
   }
 
-  filterByStatus(endDate: number): boolean {
-    if (this.filterForm.controls['statusFilter'].value === null) return true;
+  filterByStatus(endDate: number | null): boolean {
+    if (this.filterForm.controls['statusFilter'].value === null || !endDate) return true;
+
     return (
       this.filterForm.controls['statusFilter'].value === this.utils.isDateActive(endDate).toString()
     );

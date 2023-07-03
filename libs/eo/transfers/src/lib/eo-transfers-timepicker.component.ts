@@ -1,5 +1,5 @@
-import { Component, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy, forwardRef } from '@angular/core';
-import { FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule, ControlValueAccessor } from '@angular/forms';
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy, forwardRef, ViewChild } from '@angular/core';
+import { FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule, ControlValueAccessor, ValidationErrors } from '@angular/forms';
 
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
@@ -13,6 +13,7 @@ import { isToday } from 'date-fns';
   template: `
     <watt-form-field>
       <watt-dropdown
+        #dropdown
         [formControl]="control"
         [options]="options"
         [showResetOption]="false"
@@ -31,70 +32,65 @@ import { isToday } from 'date-fns';
 export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnChanges {
   @Input() selectedDate: string | null = null;
   @Input() disabledHours: string[] = [];
+  @Input() defaultSelection = '24';
+  @Input() errors: ValidationErrors | null = null;
 
-  selectedTime: string | null = this.getDefaultSelectedTime();
+  @ViewChild('dropdown') dropdown: WattDropdownComponent | undefined;
+
   options: WattDropdownOption[] = this.generateOptions();
-  control = new FormControl({ value: this.selectedTime, disabled: !this.selectedTime });
+  control = new FormControl();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedDate']) {
-      this.control.setValue(this.getDefaultSelectedTime());
       this.options = this.generateOptions();
-    }
-
-    if (!this.selectedDate) {
-      this.control.disable();
-    } else {
-      this.control.enable();
     }
 
     // If disabled hours change, generate new options
     if (changes['disabledHours']) {
       this.options = this.generateOptions();
     }
+
+    if(changes['errors']) {
+      this.control.setErrors(this.errors);
+      // We need to mark the control as touched to show the error
+      this.dropdown?.matSelect?.ngControl?.control?.markAsTouched();
+    }
   }
 
   writeValue(value: never): void {
-    this.control.setValue(value);
+    this.control.setValue(value, { emitEvent: false });
   }
 
   registerOnChange(fn: never): void {
-    this.control.valueChanges.subscribe(fn);
+    this.onChange = fn;
+    this.control.valueChanges.subscribe(val => this.onChange(val));
   }
 
   registerOnTouched(fn: never): void {
     this.onTouched = fn;
   }
 
-  onTouched: unknown = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onTouched: any = () => {
     // Intentionally left empty
   };
 
-  private getDefaultSelectedTime(): string | null {
-    if(!this.selectedDate) return null;
-
-    const isTodaySelected = isToday(new Date(this.selectedDate));
-    if(!isTodaySelected) return '00:00';
-
-    const nextHour = new Date().getHours() + 1;
-    const nextHourString = nextHour.toString().padStart(2, '0') + ':00';
-
-    if(!this.disabledHours.includes(nextHourString)) return nextHourString;
-
-    return '23:00';
-  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onChange: any = () => {
+    // Intentionally left empty
+  };
 
   private generateOptions(): WattDropdownOption[] {
     const disabledHours = this.getDisabledHours();
 
-    return Array.from({ length: 24 }, (_, i) => {
+    return Array.from({ length: 25 }, (_, i) => {
       const hour = i.toString().padStart(2, '0');
       return {
         displayValue: `${hour}:00`,
-        value: `${hour}:00`,
+        value: `${hour}`,
         disabled: disabledHours.includes(`${hour}:00`),
       };
-    });
+    }).filter((option) => !option.disabled);
   }
 
   private getDisabledHours(): string[] {
