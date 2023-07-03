@@ -7,7 +7,7 @@ frontendDomain = group "Frontend" {
         tags "Microsoft Azure - App Services"
 
         # Domain-to-domain relationships
-        this -> wholesaleApi "uses" "json/https"
+        this -> wholesaleApi "Uses" "json/https"
         this -> markpartApi "Uses" "json/https"
     }
     bffApi = container "BFF API" {
@@ -33,7 +33,7 @@ frontendDomain = group "Frontend" {
         dhSystemAdmin -> this "Views and manages data across all actors"
 
         # Domain relationships
-        this -> bffApi "Uses" "json/https"
+        this -> bffApi "Uses GraphQL and RESTful services" "json/https"
         this -> bffApp "Uses" "json/https" {
             tags "Simple View"
         }
