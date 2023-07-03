@@ -14,14 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  forwardRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, forwardRef, ViewChild } from '@angular/core';
 import {
   FormControl,
   NG_VALUE_ACCESSOR,
@@ -73,7 +66,7 @@ export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnC
       this.options = this.generateOptions();
 
       const isValidOption = this.options.find((option) => option.value === this.control.value);
-      if(!isValidOption) {
+      if (!isValidOption) {
         this.control.setValue(this.options[0].value);
       }
     }

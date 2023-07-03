@@ -81,10 +81,7 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
                 <!-- TODO: SHOW END DATE WHEN AVAILABLE -->
                 <watt-description-list-item
                   label="Period"
-                  [value]="
-                    (transfer?.startDate | wattDate) +
-                    ' - '
-                  "
+                  [value]="(transfer?.startDate | wattDate) + ' - '"
                 >
                 </watt-description-list-item>
                 <watt-description-list-item
@@ -120,7 +117,9 @@ export class EoTransfersDrawerComponent {
     this._transfer = transfer;
 
     if (!this._transfer) return;
-    this.isActive = this._transfer && (this._transfer?.endDate ? this.utils.isDateActive(this._transfer?.endDate) : true);
+    this.isActive =
+      this._transfer &&
+      (this._transfer?.endDate ? this.utils.isDateActive(this._transfer?.endDate) : true);
   }
   get transfer() {
     return this._transfer;
