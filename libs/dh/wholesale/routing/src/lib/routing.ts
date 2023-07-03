@@ -17,7 +17,7 @@
 import { Router } from '@angular/router';
 
 export const WHOLESALE_BASE_PATH = 'wholesale';
-export const WHOLESALE_SEARCH_BATCH_PATH = 'search-batch';
+export const WHOLESALE_SEARCH_BATCH_PATH = 'calculations';
 export const WHOLESALE_SETTLEMENT_REPORTS_PATH = `settlement-reports`;
 
 export function navigateToWholesaleSearchBatch(router: Router, batchId?: string) {
