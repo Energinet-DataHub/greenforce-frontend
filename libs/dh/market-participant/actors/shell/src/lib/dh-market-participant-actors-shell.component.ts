@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-market-participant-path';
-export * from './lib/dh-market-participant-actors-path';
-export * from './lib/dh-market-participant-organizations-path';
-export * from './lib/dh-market-participant-gridarea-path';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'dh-market-participant-actors-shell',
+  standalone: true,
+  template: `DhMarketParticipantActorsShellComponent`,
+  imports: [CommonModule],
+})
+export class DhMarketParticipantActorsShellComponent {}
