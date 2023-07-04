@@ -507,6 +507,9 @@
     }
   },
   "marketParticipant": {
+    "actors": {
+      "topBarTitle": "Actors"
+    },
     "actor": {
       "create": {
         "editHeader": "Edit market party",

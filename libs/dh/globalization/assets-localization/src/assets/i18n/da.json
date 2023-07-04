@@ -500,6 +500,9 @@
     }
   },
   "marketParticipant": {
+    "actors": {
+      "topBarTitle": "Aktører"
+    },
     "actor": {
       "create": {
         "editHeader": "Redigér aktør",

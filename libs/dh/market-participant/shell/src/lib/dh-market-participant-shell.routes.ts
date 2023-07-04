@@ -14,11 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Routes } from '@angular/router';
+import { Router, Routes } from '@angular/router';
+import { inject } from '@angular/core';
 
 import { DhMarketParticipantOrganizationComponent } from '@energinet-datahub/dh/market-participant/feature-organization';
 import { DhMarketParticipantEditOrganizationComponent } from '@energinet-datahub/dh/market-participant/feature-edit-organization';
 import {
+  dhMarketParticipantPath,
   dhMarketParticipantActorIdParam,
   dhMarketParticipantActorsCreatePath,
   dhMarketParticipantActorsEditPath,
@@ -32,12 +34,39 @@ import {
 import { DhMarketParticipantEditActorComponent } from '@energinet-datahub/dh/market-participant/edit-actor';
 import { DhMarketParticipantGridAreaComponent } from '@energinet-datahub/dh/market-participant/feature-gridarea';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 export const dhMarketParticipantShellRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
     redirectTo: dhMarketParticipantOrganizationsPath,
+  },
+  {
+    path: dhMarketParticipantActorsPath,
+    canMatch: [
+      () => {
+        const router = inject(Router);
+        const featureFlagsService = inject(DhFeatureFlagsService);
+
+        if (featureFlagsService.isEnabled('market_participant_actors_feature_flag')) {
+          return true;
+        }
+
+        return router.createUrlTree([
+          '/',
+          dhMarketParticipantPath,
+          dhMarketParticipantOrganizationsPath,
+        ]);
+      },
+    ],
+    loadComponent: () =>
+      import('@energinet-datahub/dh/market-participant/actors/shell').then(
+        (esModule) => esModule.DhMarketParticipantActorsShellComponent
+      ),
+    data: {
+      titleTranslationKey: 'marketParticipant.actors.topBarTitle',
+    },
   },
   {
     path: dhMarketParticipantOrganizationsPath,
