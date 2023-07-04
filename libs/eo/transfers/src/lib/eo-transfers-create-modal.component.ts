@@ -61,8 +61,8 @@ function endDateMustBeLaterThanStartDate() {
       return null;
     }
 
-    const startTimestamp = new Date(startDate.value).setHours(startDateTime.value, 0, 0);
-    const endTimestamp = new Date(endDate.value).setHours(endDateTime.value, 0, 0);
+    const startTimestamp = new Date(startDate.value).setHours(startDateTime.value, 0, 0, 0);
+    const endTimestamp = new Date(endDate.value).setHours(endDateTime.value, 0, 0, 0);
 
     if (endTimestamp <= startTimestamp) {
       endDate.setErrors({ endDateMustBeLaterThanStartDate: true });
@@ -70,6 +70,36 @@ function endDateMustBeLaterThanStartDate() {
     } else {
       endDate.setErrors(null);
       endDateTime.setErrors(null);
+    }
+
+    return null;
+  };
+}
+
+function nextHourOrLaterValidator() {
+  return (control: AbstractControl): { [key: string]: unknown } | null => {
+    const formGroup = control as FormGroup;
+    const startDate = formGroup.controls['startDate'];
+    const startDateTime = formGroup.controls['startDateTime'];
+    const nextHour = new Date().getHours() + 1;
+    const validTimestamp = new Date().setHours(nextHour, 0, 0, 0);
+
+    if (startDate.errors) return null;
+
+    if (!startDate.value || !startDateTime.value) {
+      startDate.setErrors(null);
+      startDateTime.setErrors(null);
+      return null;
+    } else {
+      const startTimestamp = new Date(startDate.value).setHours(startDateTime.value, 0, 0, 0);
+      if (startTimestamp < validTimestamp) {
+        console.log(startTimestamp, validTimestamp);
+        startDate.setErrors({ nextHourOrLater: true });
+        startDateTime.setErrors({ nextHourOrLater: true });
+      } else {
+        startDate.setErrors(null);
+        startDateTime.setErrors(null);
+      }
     }
 
     return null;
@@ -177,7 +207,10 @@ function endDateMustBeLaterThanStartDate() {
             An 8-digit TIN/CVR number is required
           </watt-error>
         </watt-form-field>
-        <fieldset class="startDate">
+        <fieldset
+          class="startDate"
+          style="margin-bottom: var(--watt-space-xs); position: relative; padding-bottom: var(--watt-space-s);"
+        >
           <watt-form-field class="datepicker">
             <watt-label>Start of period</watt-label>
             <watt-datepicker
@@ -194,7 +227,15 @@ function endDateMustBeLaterThanStartDate() {
           <eo-transfers-timepicker
             formControlName="startDateTime"
             [selectedDate]="form.controls.startDate.value"
+            [errors]="form.controls.startDateTime.errors"
           ></eo-transfers-timepicker>
+          <watt-error
+            *ngIf="form.controls.startDate.errors?.['nextHourOrLater']"
+            class="watt-text-s"
+            style="position: absolute; bottom: 0;"
+          >
+            The start of the period must be at least the next hour from now
+          </watt-error>
         </fieldset>
         <fieldset class="endDate">
           <p
@@ -287,7 +328,7 @@ export class EoTransfersCreateModalComponent implements OnInit, OnDestroy {
       endDate: new FormControl(''),
       endDateTime: new FormControl(''),
     },
-    { validators: endDateMustBeLaterThanStartDate() }
+    { validators: [endDateMustBeLaterThanStartDate(), nextHourOrLaterValidator()] }
   );
 
   protected minStartDate: Date = new Date();
