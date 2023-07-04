@@ -152,7 +152,10 @@ interface EoTransferTableElement extends EoListedTransfer {
       <!-- Status - Custom column -->
       <ng-container *wattTableCell="table.columns['status']; let element">
         <watt-badge
-          *ngIf="element.endDate ? utils.isDateActive(element.startDate, element.endDate) : true; else notActive"
+          *ngIf="
+            element.endDate ? utils.isDateActive(element.startDate, element.endDate) : true;
+            else notActive
+          "
           type="success"
         >
           Active
@@ -200,7 +203,8 @@ export class EoTransfersTableComponent implements OnChanges {
     startDate: { accessor: () => 'startDate', header: 'Start Date' },
     endDate: { accessor: 'endDate', header: 'End Date' },
     status: {
-      accessor: (transfer) => (transfer.endDate ? this.utils.isDateActive(transfer.startDate, transfer.endDate) : true),
+      accessor: (transfer) =>
+        transfer.endDate ? this.utils.isDateActive(transfer.startDate, transfer.endDate) : true,
     },
   } as WattTableColumnDef<EoTransferTableElement>;
 
