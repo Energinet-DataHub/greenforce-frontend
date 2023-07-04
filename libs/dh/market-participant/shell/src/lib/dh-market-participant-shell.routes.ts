@@ -40,7 +40,7 @@ export const dhMarketParticipantShellRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: dhMarketParticipantOrganizationsPath,
+    redirectTo: dhMarketParticipantActorsPath,
   },
   {
     path: dhMarketParticipantActorsPath,
