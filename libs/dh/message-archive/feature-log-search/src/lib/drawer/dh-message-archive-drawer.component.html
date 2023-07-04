@@ -64,7 +64,7 @@ limitations under the License.
           <watt-spinner *ngIf="isLoading; else documentContentTmpl" />
 
           <ng-template #documentContentTmpl>
-            <pre>{{ documentContent }}</pre>
+            <pre><code>{{documentContent}}</code></pre>
           </ng-template>
         </div>
       </ng-container>

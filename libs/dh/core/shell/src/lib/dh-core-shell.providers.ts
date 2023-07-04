@@ -41,6 +41,7 @@ import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-tim
 import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
+import { HIGHLIGHT_OPTIONS, HighlightOptions } from 'ngx-highlightjs';
 
 export const dhCoreShellProviders = [
   importProvidersFrom([
@@ -77,5 +78,16 @@ export const dhCoreShellProviders = [
     provide: MSAL_INTERCEPTOR_CONFIG,
     useFactory: MSALInterceptorConfigFactory,
     deps: [dhB2CEnvironmentToken],
+  },
+  {
+    provide: HIGHLIGHT_OPTIONS,
+    useValue: <HighlightOptions>{
+      coreLibraryLoader: () => import('highlight.js/lib/core'),
+      lineNumbersLoader: () => import('highlightjs-line-numbers.js'),
+      languages: {
+        xml: () => import('highlight.js/lib/languages/xml'),
+      },
+      //themePath: 'path-to-theme.css' // Optional, and useful if you want to change the theme dynamically
+    },
   },
 ];
