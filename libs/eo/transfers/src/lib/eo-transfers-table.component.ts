@@ -142,16 +142,19 @@ interface EoTransferTableElement extends EoListedTransfer {
       data-testid="transfers-table"
     >
       <ng-container *wattTableCell="table.columns['startDate']; let element">
-        {{ element.startDate | wattDate: 'long' }}
+        {{ element.startDate | wattDate : 'long' }}
       </ng-container>
 
       <ng-container *wattTableCell="table.columns['endDate']; let element">
-        {{ element.endDate | wattDate: 'long' }}
+        {{ element.endDate | wattDate : 'long' }}
       </ng-container>
 
       <!-- Status - Custom column -->
       <ng-container *wattTableCell="table.columns['status']; let element">
-        <watt-badge *ngIf="element.endDate ? utils.isDateActive(element.endDate) : true; else notActive" type="success">
+        <watt-badge
+          *ngIf="element.endDate ? utils.isDateActive(element.endDate) : true; else notActive"
+          type="success"
+        >
           Active
         </watt-badge>
       </ng-container>
@@ -196,7 +199,9 @@ export class EoTransfersTableComponent implements OnChanges {
     receiver: { accessor: 'receiverTin' },
     startDate: { accessor: () => 'startDate', header: 'Start Date' },
     endDate: { accessor: 'endDate', header: 'End Date' },
-    status: { accessor: (transfer) => transfer.endDate ? this.utils.isDateActive(transfer.endDate) : true },
+    status: {
+      accessor: (transfer) => (transfer.endDate ? this.utils.isDateActive(transfer.endDate) : true),
+    },
   } as WattTableColumnDef<EoTransferTableElement>;
 
   ngOnChanges(changes: SimpleChanges) {

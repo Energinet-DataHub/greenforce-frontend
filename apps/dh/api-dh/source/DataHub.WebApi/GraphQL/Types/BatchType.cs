@@ -51,10 +51,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     return result.Then(users => users.Users.FirstOrDefault(u => u.Id == context.Source.CreatedByUserId)).Then(u => u?.Email ?? string.Empty);
                 });
 
-            Field<NonNullGraphType<BooleanGraphType>>("IsBasisDataDownloadAvailable")
-                .Description("Whether basis data is downloadable.")
-                .Resolve(context => context.Source.ExecutionState == BatchState.Completed);
-
             // TODO: Can this be optimized in case only the grid area code is queried?
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<GridAreaType>>>>("gridAreas")
                .Resolve()

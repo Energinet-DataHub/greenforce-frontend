@@ -41,12 +41,7 @@ limitations under the License.
       </watt-description-list>
 
       <ng-container *ngIf="batch">
-        <dh-wholesale-grid-areas
-          *ngIf="batch.gridAreas"
-          [data]="batch.gridAreas"
-          [disabled]="batch.executionState === 'FAILED'"
-          (selected)="onGridAreaSelected(batch, $event)"
-        ></dh-wholesale-grid-areas>
+        <dh-wholesale-grid-areas *ngIf="batch.gridAreas" [data]="batch.gridAreas" />
       </ng-container>
 
       <div class="center" *ngIf="loading && !batch?.gridAreas">

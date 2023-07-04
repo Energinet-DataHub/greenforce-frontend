@@ -53,8 +53,8 @@
       },
       "wholesale": {
         "menuGroupLabel": "Settlements",
-        "startBatch": "Start Batch",
-        "searchBatch": "Search Batch",
+        "startBatch": "New calculation",
+        "searchBatch": "Calculations",
         "overview": "Overview",
         "settlementReports": "Settlement Reports"
       },
@@ -749,7 +749,7 @@
     "AGGREGATION": "Aggregation",
     "WHOLESALE_FIXING": "Wholesale fixing",
     "startBatch": {
-      "topBarTitle": "Start Batch",
+      "topBarTitle": "New calculation",
       "startLabel": "Start",
       "dateRangeRequired": "Date range is required",
       "gridAreaRequired": "Grid area is required",
@@ -758,8 +758,8 @@
       "processTypeDropDownLabel": "Process Type",
       "executionTypeLabel": "Execution Type",
       "gridAreaDropDownLabel": "Grid Areas",
-      "creatingBatch": "Starting batch...",
-      "creatingBatchSuccess": "The batch has been started.",
+      "creatingBatch": "Starting calculation...",
+      "creatingBatchSuccess": "The calculation has been started.",
       "creatingBatchError": "Oops! There was an error.",
       "processTypes": {
         "BALANCE_FIXING": "Balance Fixing",
@@ -769,14 +769,29 @@
         "actual": "Actual",
         "simulation": "Simulation"
       },
+      "scheduling": {
+        "label": "Execution",
+        "now": "Run now",
+        "scheduled": "Schedule"
+      },
+      "summation": {
+        "label": "Monthly summation",
+        "yes": "Yes",
+        "no": "No"
+      },
       "processTypeError": "Process type is required",
       "periodWarning": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
       "modal": {
+        "title": "New calculation",
+        "confirmButton": "Create",
+        "cancelButton": "Cancel"
+      },
+      "modalWarning": {
         "title": "Rerun balance fixing?",
         "warningLabel": "This will issue new data to the actors",
         "warningMessage": "Rerunning a balance fixing will result in all associated actors receiving new data for their settlements.",
         "body": "You are about to issue new data for already settled periods. This will invalidate previous balance fixings and new data will be issued to the actors.",
-        "confirmation": "Are you sure you want to run this batch?",
+        "confirmation": "Are you sure you want to run this calculation?",
         "hint": "Enter I WANT TO RERUN BALANCE FIXING to confirm",
         "confirmButton": "Rerun",
         "cancelButton": "Cancel",
@@ -784,9 +799,10 @@
       }
     },
     "searchBatch": {
-      "topBarTitle": "Search Batch",
-      "headline": "Batch overview",
+      "topBarTitle": "Calculations",
+      "headline": "Results",
       "search": "Search",
+      "new": "New calculation",
       "filters": {
         "executionTime": "Execution time",
         "executionTimeRequired": "Execution time is required",
@@ -799,7 +815,7 @@
       },
       "columns": {
         "startedBy": "Started by",
-        "batchId": "Batch number",
+        "batchId": "ID",
         "periodFrom": "Period from",
         "periodTo": "Period to",
         "executionTime": "Execution time",
@@ -813,10 +829,10 @@
       "EXECUTING": "Running",
       "COMPLETED": "Finished",
       "FAILED": "Failed",
-      "noBatchesFound": "No batches found",
+      "noBatchesFound": "No calculations found",
       "noBatchesHelperText": "Try changing the search criteria",
       "paginator": {
-        "itemsPerPageLabel": "Batches per page",
+        "itemsPerPageLabel": "Results per page",
         "nextPageLabel": "Next page",
         "perviouspageLabel": "Previous page",
         "firstPageLabel": "first page",
@@ -914,7 +930,7 @@
       "quantity": "quantity"
     },
     "batchDetails": {
-      "headline": "Batch: {{batchId}}",
+      "headline": "Calculation: {{batchId}}",
       "calculationPeriod": "Calculation period",
       "executionTime": "Execution time",
       "executionType": "Execution type",

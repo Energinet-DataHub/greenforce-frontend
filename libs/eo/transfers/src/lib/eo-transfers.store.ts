@@ -53,9 +53,7 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
     (state, updatedTransfer: EoListedTransfer): EoTransfersState => ({
       ...state,
       transfers: state.transfers.map((transfer) => {
-        return transfer.id === updatedTransfer.id
-          ? updatedTransfer
-          : transfer;
+        return transfer.id === updatedTransfer.id ? updatedTransfer : transfer;
       }),
       selectedTransfer: updatedTransfer,
       patchingTransfer: false,
@@ -73,7 +71,7 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
                 ...transfer,
                 startDate: fromUnixTime(transfer.startDate).getTime(),
                 endDate: transfer.endDate ? fromUnixTime(transfer.endDate).getTime() : null,
-              }
+              };
             })
           );
         },
@@ -127,11 +125,13 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   private readonly addSingleTransfer = this.updater(
     (state, transfer: EoListedTransfer): EoTransfersState => ({
       ...state,
-      transfers: [{
-        ...transfer,
-        startDate: fromUnixTime(transfer.startDate).getTime(),
-        endDate: transfer.endDate ? fromUnixTime(transfer.endDate).getTime() : null,
-      }].concat(state.transfers),
+      transfers: [
+        {
+          ...transfer,
+          startDate: fromUnixTime(transfer.startDate).getTime(),
+          endDate: transfer.endDate ? fromUnixTime(transfer.endDate).getTime() : null,
+        },
+      ].concat(state.transfers),
     })
   );
 
