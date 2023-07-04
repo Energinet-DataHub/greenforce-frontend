@@ -27,10 +27,11 @@ export class SharedUtilities {
     });
   }
 
-  isDateActive(date: number | undefined): boolean {
-    if (!date) return false;
+  isDateActive(startDate: number | undefined, endDate: number | undefined = new Date().getTime()): boolean {
+    if (!startDate) return false;
 
-    return new Date(date).getTime() >= new Date().getTime();
+    const now = new Date().getTime();
+    return startDate >= now && endDate <= now;
   }
 
   checkForMidnightInLocalTime(inputDate: number | undefined): number {
