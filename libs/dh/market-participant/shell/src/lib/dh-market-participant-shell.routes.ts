@@ -35,6 +35,11 @@ import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorizat
 
 export const dhMarketParticipantShellRoutes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: dhMarketParticipantOrganizationsPath,
+  },
+  {
     path: dhMarketParticipantOrganizationsPath,
     children: [
       {
