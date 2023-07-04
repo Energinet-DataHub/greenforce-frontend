@@ -44,6 +44,7 @@
     "navigation": {
       "meteringPoints": "Metering points",
       "messageArchive": "Request/Response messages",
+      "marketParticipantActors": "Actors",
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid areas",
       "chargePrices": {

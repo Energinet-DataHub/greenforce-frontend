@@ -24,6 +24,12 @@ limitations under the License.
       transloco("messageArchive")
     }}</watt-nav-list-item>
 
+    <ng-container *dhFeatureFlag="'market_participant_actors_feature_flag'">
+      <watt-nav-list-item link="/market-participant/actors">{{
+        transloco("marketParticipantActors")
+      }}</watt-nav-list-item>
+    </ng-container>
+
     <watt-nav-list-item link="/market-participant/organizations">{{
       transloco("marketParticipantOrganizations")
     }}</watt-nav-list-item>
