@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Routes } from '@angular/router';
+
 import { DhMarketParticipantOrganizationComponent } from '@energinet-datahub/dh/market-participant/feature-organization';
 import { DhMarketParticipantEditOrganizationComponent } from '@energinet-datahub/dh/market-participant/feature-edit-organization';
 import {
@@ -30,7 +32,6 @@ import {
 import { DhMarketParticipantEditActorComponent } from '@energinet-datahub/dh/market-participant/edit-actor';
 import { DhMarketParticipantGridAreaComponent } from '@energinet-datahub/dh/market-participant/feature-gridarea';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { Routes } from '@angular/router';
 
 export const dhMarketParticipantShellRoutes: Routes = [
   {
