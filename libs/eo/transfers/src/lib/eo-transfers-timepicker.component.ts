@@ -53,7 +53,6 @@ import { isToday } from 'date-fns';
 export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnChanges {
   @Input() selectedDate: string | null = null;
   @Input() disabledHours: string[] = [];
-  @Input() defaultSelection = '24';
   @Input() errors: ValidationErrors | null = null;
 
   @ViewChild('dropdown') dropdown: WattDropdownComponent | undefined;

@@ -93,7 +93,6 @@ function nextHourOrLaterValidator() {
     } else {
       const startTimestamp = new Date(startDate.value).setHours(startDateTime.value, 0, 0, 0);
       if (startTimestamp < validTimestamp) {
-        console.log(startTimestamp, validTimestamp);
         startDate.setErrors({ nextHourOrLater: true });
         startDateTime.setErrors({ nextHourOrLater: true });
       } else {
@@ -323,7 +322,7 @@ export class EoTransfersCreateModalComponent implements OnInit, OnDestroy {
     {
       receiverTin: new FormControl('', [Validators.minLength(8), Validators.pattern('^[0-9]*$')]),
       startDate: new FormControl('', [Validators.required]),
-      startDateTime: new FormControl(''),
+      startDateTime: new FormControl(),
       hasEndDate: new FormControl(false, [Validators.required]),
       endDate: new FormControl(''),
       endDateTime: new FormControl(''),
@@ -390,6 +389,7 @@ export class EoTransfersCreateModalComponent implements OnInit, OnDestroy {
 
     const nextHour = new Date().getHours() + 1;
     this.form.controls.startDateTime.setValue(nextHour.toString().padStart(2, '0'));
+    this.form.controls.startDate.updateValueAndValidity();
 
     this.modal.open();
   }
