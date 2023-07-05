@@ -502,7 +502,18 @@
   },
   "marketParticipant": {
     "actors": {
-      "topBarTitle": "Aktører"
+      "topBarTitle": "Aktører",
+      "tabs": {
+        "actors": {
+          "tabLabel": "{{ marketParticipant.actors.topBarTitle }}"
+        },
+        "organizations": {
+          "tabLabel": "Organisationer"
+        },
+        "marketRoles": {
+          "tabLabel": "Markedsroller"
+        }
+      }
     },
     "actor": {
       "create": {
