@@ -14,7 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnChanges, SimpleChanges, forwardRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  forwardRef,
+  ViewChild,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import {
   FormControl,
   NG_VALUE_ACCESSOR,
@@ -54,6 +63,7 @@ export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnC
   @Input() selectedDate: string | null = null;
   @Input() disabledHours: string[] = [];
   @Input() errors: ValidationErrors | null = null;
+  @Output() invalidOptionReset = new EventEmitter<void>();
 
   @ViewChild('dropdown') dropdown: WattDropdownComponent | undefined;
 
@@ -67,6 +77,7 @@ export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnC
       const isValidOption = this.options.find((option) => option.value === this.control.value);
       if (!isValidOption) {
         this.control.setValue(this.options[0].value);
+        this.invalidOptionReset.emit();
       }
     }
 

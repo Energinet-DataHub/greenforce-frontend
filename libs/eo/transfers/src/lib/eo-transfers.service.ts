@@ -26,7 +26,7 @@ export interface EoTransfer {
 
 export interface EoListedTransfer extends EoTransfer {
   id: string;
-  senderId: string;
+  senderTin: string;
 }
 
 export interface EoListedTransferResponse {

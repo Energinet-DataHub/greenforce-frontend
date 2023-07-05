@@ -85,20 +85,19 @@ function nextHourOrLaterValidator() {
     const validTimestamp = new Date().setHours(nextHour, 0, 0, 0);
 
     if (startDate.errors) return null;
+    if(!startDate.value) {
+      startDate.setErrors({ nextHourOrLater: true });
+      startDateTime.setErrors({ nextHourOrLater: true });
+      return null;
+    }
 
-    if (!startDate.value || !startDateTime.value) {
+    const startTimestamp = new Date(startDate.value).setHours(startDateTime.value, 0, 0, 0);
+    if (startTimestamp < validTimestamp) {
+      startDate.setErrors({ nextHourOrLater: true });
+      startDateTime.setErrors({ nextHourOrLater: true });
+    } else {
       startDate.setErrors(null);
       startDateTime.setErrors(null);
-      return null;
-    } else {
-      const startTimestamp = new Date(startDate.value).setHours(startDateTime.value, 0, 0, 0);
-      if (startTimestamp < validTimestamp) {
-        startDate.setErrors({ nextHourOrLater: true });
-        startDateTime.setErrors({ nextHourOrLater: true });
-      } else {
-        startDate.setErrors(null);
-        startDateTime.setErrors(null);
-      }
     }
 
     return null;
@@ -213,20 +212,17 @@ function nextHourOrLaterValidator() {
           <watt-form-field class="datepicker">
             <watt-label>Start of period</watt-label>
             <watt-datepicker
-              required="true"
               formControlName="startDate"
               [min]="minStartDate"
               [max]="maxStartDate"
               data-testid="new-agreement-daterange-input"
             />
-            <watt-error *ngIf="form.controls.startDate.errors?.['required']">
-              A start date is required
-            </watt-error>
           </watt-form-field>
           <eo-transfers-timepicker
             formControlName="startDateTime"
             [selectedDate]="form.controls.startDate.value"
             [errors]="form.controls.startDateTime.errors"
+            (invalidOptionReset)="form.controls.startDate.updateValueAndValidity()"
           ></eo-transfers-timepicker>
           <watt-error
             *ngIf="form.controls.startDate.errors?.['nextHourOrLater']"
@@ -275,6 +271,7 @@ function nextHourOrLaterValidator() {
               [disabledHours]="
                 form.controls.startDateTime.value ? [form.controls.startDateTime.value] : []
               "
+              (invalidOptionReset)="form.controls.endDate.updateValueAndValidity()"
             >
             </eo-transfers-timepicker>
             <watt-error
@@ -321,7 +318,7 @@ export class EoTransfersCreateModalComponent implements OnInit, OnDestroy {
   form = new FormGroup(
     {
       receiverTin: new FormControl('', [Validators.minLength(8), Validators.pattern('^[0-9]*$')]),
-      startDate: new FormControl('', [Validators.required]),
+      startDate: new FormControl(''),
       startDateTime: new FormControl(),
       hasEndDate: new FormControl(false, [Validators.required]),
       endDate: new FormControl(''),
