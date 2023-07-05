@@ -47,7 +47,7 @@ it('mounts', () => {
   });
 
   // Click on "Ny beregning" button
-  cy.findByRole('button', { name: new RegExp(calculations.create.button) }).click();
+  cy.findByRole('button', { name: new RegExp(calculations.new) }).click();
 
   // Expect dialog to be visible
   cy.findByRole('dialog').should('exist');
@@ -60,19 +60,19 @@ it('mounts', () => {
   cy.findByRole('alert').should('exist');
 
   // Submit the form
-  cy.findByRole('button', { name: calculations.create.modal.confirm }).click();
+  cy.findByRole('button', { name: calculations.create.confirm }).click();
 
   // Expect alert to be visible
   cy.findByRole('alert').should('exist');
 
   // Close the warning dialog
-  cy.findByRole('button', { name: calculations.create.modal.warning.cancel }).click();
+  cy.findByRole('button', { name: calculations.create.warning.cancel }).click();
 
   // Expect the dialog to be hidden
   cy.findByRole('dialog').should('not.exist');
 
   // Click on "Ny beregning" button
-  cy.findByRole('button', { name: new RegExp(calculations.create.button) }).click();
+  cy.findByRole('button', { name: new RegExp(calculations.new) }).click();
 
   // Change the process type to aggregation
   cy.selectOption('processType', calculations.processTypes.AGGREGATION);
@@ -82,7 +82,7 @@ it('mounts', () => {
   cy.findByRole('alert').should('not.exist');
 
   // Submit the form
-  cy.findByRole('button', { name: calculations.create.modal.confirm }).click();
+  cy.findByRole('button', { name: calculations.create.confirm }).click();
 
   // Expect the dialog not to be open due to aggregation is selected
   cy.findByRole('dialog').should('not.exist');
