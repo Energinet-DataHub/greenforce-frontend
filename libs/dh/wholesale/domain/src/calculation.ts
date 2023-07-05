@@ -21,11 +21,11 @@ import {
   ProcessType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export type Calculation = ResultOf<typeof GetCalculationsDocument>['batches'][0];
+export type Calculation = ResultOf<typeof GetCalculationsDocument>['calculations'][0];
 
 export type CalculationGridArea = ResultOf<
   typeof GetCalculationsDocument
->['batches'][0]['gridAreas'][0];
+>['calculations'][0]['gridAreas'][0];
 
 export const processTypes = Object.values(ProcessType);
 export const executionStates = Object.values(BatchState);

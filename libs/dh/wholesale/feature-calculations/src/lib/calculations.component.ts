@@ -103,8 +103,8 @@ export class DhCalculationsComponent implements AfterViewInit, OnInit, OnDestroy
       next: (result) => {
         this.loading = result.loading;
 
-        if (result.data?.batches) {
-          this.calculations = result.data.batches;
+        if (result.data?.calculations) {
+          this.calculations = result.data.calculations;
         }
 
         this.selected = this.calculations?.find((calculation) => calculation.id === this.routerId);

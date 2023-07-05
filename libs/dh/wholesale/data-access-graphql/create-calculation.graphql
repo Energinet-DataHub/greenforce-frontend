@@ -1,5 +1,5 @@
-mutation CreateCalculation($input: CreateBatchInput!) {
-  createBatch(input: $input) {
+mutation CreateCalculation($input: CreateCalculationInput!) {
+  createCalculation(input: $input) {
     id
   }
 }

@@ -16,16 +16,16 @@ using GraphQL.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class CreateBatchInputType : InputObjectGraphType<CreateBatchInput>
+    public class CreateCalculationInputType : InputObjectGraphType<CreateCalculationInput>
     {
-        public CreateBatchInputType()
+        public CreateCalculationInputType()
         {
-            Name = "CreateBatchInput";
-            Field(x => x.Period).Description("The period for the batch.");
-            Field(x => x.ProcessType).Description("The process type for the batch.");
+            Name = "CreateCalculationInput";
+            Field(x => x.Period).Description("The period for the calculation.");
+            Field(x => x.ProcessType).Description("The process type for the calculation.");
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<StringGraphType>>>>("gridAreaCodes")
                 .Resolve(x => x.Source.GridAreaCodes)
-                .Description("The grid areas to be included in the batch.");
+                .Description("The grid areas to be included in the calculation.");
         }
     }
 }

@@ -18,7 +18,7 @@ using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class CreateBatchInput
+    public class CreateCalculationInput
     {
         public Interval Period { get; set; }
 

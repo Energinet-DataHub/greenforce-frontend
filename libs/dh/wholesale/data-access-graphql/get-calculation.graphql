@@ -1,5 +1,5 @@
 query GetCalculation($id: ID!) {
-  batch(id: $id) {
+  calculation(id: $id) {
     id
     executionState
     executionTimeEnd

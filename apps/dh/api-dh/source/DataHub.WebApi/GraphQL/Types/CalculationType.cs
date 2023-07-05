@@ -24,18 +24,18 @@ using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class BatchType : ObjectGraphType<BatchDto>
+    public class CalculationType : ObjectGraphType<BatchDto>
     {
-        public BatchType(IDataLoaderContextAccessor accessor)
+        public CalculationType(IDataLoaderContextAccessor accessor)
         {
-            Name = "Batch";
-            Field(x => x.BatchId).Name("id").Description("The id of the batch.");
+            Name = "Calculation";
+            Field(x => x.BatchId).Name("id").Description("The id of the calculation.");
             Field(x => x.ExecutionState).Description("The execution state.");
             Field(x => x.ExecutionTimeStart, nullable: true).Description("The execution start time.");
             Field(x => x.ExecutionTimeEnd, nullable: true).Description("The execution end time.");
             Field(x => x.ProcessType).Description("The process type.");
 
-            Field<NonNullGraphType<StringGraphType>>("CreatedByUserName")
+            Field<NonNullGraphType<StringGraphType>>("createdByUserName")
                 .Resolve()
                 .WithScope()
                 .WithService<IMarketParticipantClient>()

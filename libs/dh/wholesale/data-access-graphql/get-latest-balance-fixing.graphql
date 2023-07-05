@@ -1,5 +1,5 @@
 query GetLatestBalanceFixing($period: DateRange) {
-  batches(
+  calculations(
     first: 1
     period: $period
     processTypes: BALANCE_FIXING

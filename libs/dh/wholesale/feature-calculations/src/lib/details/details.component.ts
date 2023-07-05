@@ -83,7 +83,7 @@ export class DhCalculationsDetailsComponent {
       .valueChanges.pipe(takeUntil(this.closed))
       .subscribe({
         next: (result) => {
-          this.calculation = result.data?.batch ?? undefined;
+          this.calculation = result.data?.calculation ?? undefined;
           this.loading = result.loading;
           this.error = !!result.errors;
         },

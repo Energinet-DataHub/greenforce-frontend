@@ -5,7 +5,7 @@ query GetCalculations(
   $gridAreaCodes: [String!]
   $executionStates: [BatchState!]
 ) {
-  batches(
+  calculations(
     executionTime: $executionTime
     period: $period
     processTypes: $processTypes

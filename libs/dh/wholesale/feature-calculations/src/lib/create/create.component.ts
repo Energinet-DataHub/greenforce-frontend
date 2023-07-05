@@ -174,7 +174,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
     this.modal?.open();
   }
 
-  createBatch() {
+  createCalculation() {
     const { processType, gridAreas, dateRange } = this.formGroup.getRawValue();
 
     if (this.formGroup.invalid || gridAreas === null || dateRange === null || processType === null)
@@ -224,7 +224,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   }
 
   onClose(accepted: boolean) {
-    if (accepted) this.createBatch();
+    if (accepted) this.createCalculation();
     if (accepted || this.showPeriodWarning) this.reset();
   }
 
@@ -309,7 +309,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
         },
       })
       .pipe(
-        tap((result) => (this.latestPeriodEnd = result.data?.batches?.[0]?.period?.end)),
+        tap((result) => (this.latestPeriodEnd = result.data?.calculations?.[0]?.period?.end)),
         map(() => null)
       );
   }
