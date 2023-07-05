@@ -14,17 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { take } from 'rxjs';
 
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { MarketParticipantEicFunction } from '@energinet-datahub/dh/shared/domain';
 import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -34,16 +30,7 @@ import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-market-roles-overview.component.html',
   standalone: true,
-  imports: [
-    WATT_TABLE,
-    CommonModule,
-    DhSharedUiPaginatorComponent,
-    MatTooltipModule,
-    TranslocoModule,
-    WattButtonComponent,
-    WattIconComponent,
-    WATT_CARD,
-  ],
+  imports: [TranslocoModule, WattButtonComponent, WATT_TABLE, WATT_CARD],
 })
 export class DhMarketRolesOverviewComponent implements AfterViewInit {
   private transloco = inject(TranslocoService);
@@ -61,8 +48,9 @@ export class DhMarketRolesOverviewComponent implements AfterViewInit {
         ? translate('marketParticipant.marketRoles.' + data)
         : translate('marketParticipant.marketRoleDescriptions.' + data);
 
-    if (this.dataSource.sort)
+    if (this.dataSource.sort) {
       this.dataSource.data = this.dataSource.sortData(this.dataSource.data, this.dataSource.sort);
+    }
   }
 
   download() {
