@@ -30,9 +30,9 @@ import { DhMarketParticipantGridAreaOverviewComponent } from './overview/dh-mark
 import { PushModule } from '@rx-angular/template/push';
 
 @Component({
-  selector: 'dh-market-participant-gridarea',
-  styleUrls: ['./dh-market-participant-gridarea.component.scss'],
-  templateUrl: './dh-market-participant-gridarea.component.html',
+  selector: 'dh-grid-areas-shell',
+  styleUrls: ['./dh-grid-areas-shell.component.scss'],
+  templateUrl: './dh-grid-areas-shell.component.html',
   providers: [
     DhMarketParticipantGridAreaOverviewDataAccessApiStore,
     DhMarketParticipantGridAreaDataAccessApiStore,
@@ -49,7 +49,7 @@ import { PushModule } from '@rx-angular/template/push';
     PushModule,
   ],
 })
-export class DhMarketParticipantGridAreaComponent {
+export class DhGridAreasShellComponent {
   constructor(
     private store: DhMarketParticipantGridAreaOverviewDataAccessApiStore,
     private gridAreaEditStore: DhMarketParticipantGridAreaDataAccessApiStore

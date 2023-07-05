@@ -1,1 +1,1 @@
-export * from './lib/dh-market-participant-gridarea.component';
+export * from './lib/dh-grid-areas-shell.component';
