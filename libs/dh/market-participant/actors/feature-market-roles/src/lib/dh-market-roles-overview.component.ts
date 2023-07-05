@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AfterViewInit, ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { take } from 'rxjs';
 
@@ -27,7 +27,6 @@ import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
 @Component({
   selector: 'dh-market-roles-overview',
   styleUrls: ['dh-market-roles-overview.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-market-roles-overview.component.html',
   standalone: true,
   imports: [TranslocoModule, WattButtonComponent, WATT_TABLE, WATT_CARD],
